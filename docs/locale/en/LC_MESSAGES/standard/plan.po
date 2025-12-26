@@ -1,0 +1,453 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-26 06:11+0200\n"
+"PO-Revision-Date: 2019-12-02 11:48+0200\n"
+"Last-Translator: \n"
+"Language: en\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Plan"
+msgstr ""
+
+msgid "planID"
+msgstr ""
+
+msgid "рядок, генерується автоматично, лише для читання"
+msgstr "string, auto-generated, read-only"
+
+msgid "Ідентифікатор плану для позначення плану в \"паперовій\" документації."
+msgstr "The plan identifier to refer plan to in \"paper\" documentation."
+
+msgid "|ocdsDescription| Ідентифікатор тендера `TenderID` повинен завжди співпадати з OCID. Його включають, щоб зробити структуру даних більш зручною."
+msgstr "|ocdsDescription| planID should always be the same as the OCID. It is included to make the flattened data structure more convenient."
+
+msgid "procuringEntity"
+msgstr ""
+
+msgid ":ref:`PlanOrganization`, обов’язково"
+msgstr ":ref:`PlanOrganization`, required"
+
+msgid "Замовник (організація, що проводить закупівлю)."
+msgstr "Organization conducting the tender."
+
+msgid "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи."
+msgstr "|ocdsDescription| The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured."
+
+msgid "status"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення:"
+msgstr "Possible values:"
+
+msgid "draft"
+msgstr ""
+
+msgid "scheduled"
+msgstr ""
+
+msgid "cancelled"
+msgstr ""
+
+msgid "complete"
+msgstr ""
+
+msgid "Статус плану."
+msgstr "Status of the Plan."
+
+msgid "buyers"
+msgstr ""
+
+msgid "Cписок об’єктів :ref:`PlanOrganization`, обов’язково 1 об’єкт"
+msgstr "List of :ref:`PlanOrganization` objects, required at least 1 object"
+
+msgid "Cуб’єкт(и) в інтересах якого(их) проводиться закупівля"
+msgstr "Identifications of the subjects in whose interests the purchase is made"
+
+msgid "Validation depends on:"
+msgstr ""
+
+msgid ":ref:`PLAN_BUYERS_REQUIRED_FROM` constant"
+msgstr ""
+
+msgid "milestones"
+msgstr ""
+
+msgid "Список об’єктів :ref:`PlanMilestone`"
+msgstr "List of :ref:`PlanMilestone` objects"
+
+msgid "Майлстоуни типу “затвердження” використовуються для того, щоб надати центральній організації закупівель функцію затвердження"
+msgstr "Milestones of type `approval` used to provide Central procurement organization approve feature"
+
+msgid ":ref:`MILESTONES_VALIDATION_FROM` constant"
+msgstr ""
+
+msgid "tender"
+msgstr ""
+
+msgid ":ref:`PlanTender`, обов’язково"
+msgstr ":ref:`PlanTender`, required"
+
+msgid "Дані щодо тендерного процесу."
+msgstr "Data regarding tender process."
+
+msgid "budget"
+msgstr ""
+
+msgid ":ref:`Budget`, обов’язково (за вийнятком `tender.procurementMethodType` має значення `\"esco\"`)"
+msgstr ":ref:`Budget`, required (except `tender.procurementMethodType` is `\"esco\"`)."
+
+msgid "Повний доступний бюджет закупівлі."
+msgstr "Total available tender budget."
+
+msgid "|ocdsDescription| Загальна кошторисна вартість закупівлі."
+msgstr "|ocdsDescription| The total estimated value of the procurement."
+
+msgid "project"
+msgstr ""
+
+msgid ":ref:`Project`"
+msgstr ""
+
+msgid "|ocdsDescription| Об’єкт проекту, який описує інфраструктуру або проект державно-приватного партнерства, з яким пов’язаний процес планування."
+msgstr "|ocdsDescription| The project object which describes the infrastructure or public-private partnership (PPP) project to which the planning process is related."
+
+msgid "classification"
+msgstr ""
+
+msgid ":ref:`Classification`, обов’язково"
+msgstr ":ref:`Classification`, required"
+
+msgid "|ocdsDescription| Початкова класифікація елемента. Дивіться у itemClassificationScheme, щоб визначити бажані списки класифікації, включно з CPV та GSIN."
+msgstr "|ocdsDescription| The primary classification for the item. See the itemClassificationScheme to identify preferred classification lists, including CPV and GSIN."
+
+msgid "Класифікація `classification.scheme` обов’язково повинна бути `CPV` або `ДК021`. `classification.id` повинно бути дійсним CPV або ДК021 кодом."
+msgstr "It is mandatory for `classification.scheme` to be `CPV` or `ДК021`. The `classification.id` should be valid CPV or ДК021 code."
+
+msgid "additionalClassifications"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Classification`"
+msgstr "List of :ref:`Classification` objects"
+
+msgid "|ocdsDescription| Масив додаткових класифікацій для елемента. Дивіться у список кодів itemClassificationScheme, щоб використати поширені варіанти в OCDS. Також можна використовувати для представлення кодів з внутрішньої схеми класифікації."
+msgstr "|ocdsDescription| An array of additional classifications for the item. See the itemClassificationScheme codelist for common options to use in OCDS. This may also be used to present codes from an internal classification scheme."
+
+msgid "Елемент, у якому classification.id починається з 336 і містить додаткові об’єкти класифікації, повинен містити не більше однієї додаткової класифікації зі схемою INN."
+msgstr "Item which classification.id starts with 336 and contains additionalClassification objects have to contain no more than one additionalClassifications with scheme=INN."
+
+msgid "Елемент з classification.id = 33600000-6 повинен містити рівно одну додаткову класифікацію зі схемою = INN."
+msgstr "Item with classification.id=33600000-6 have to contain exactly one additionalClassifications with scheme=INN."
+
+msgid "Обов’язково мати принаймні один елемент з `ДКПП` як `scheme`."
+msgstr "It is mandatory to have at least one item with `ДКПП` as `scheme`."
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`document`"
+msgstr "List of :ref:`document` objects"
+
+msgid "|ocdsDescription| Всі документи та додатки пов’язані із закупівлею."
+msgstr "|ocdsDescription| All documents and attachments related to the tender."
+
+msgid "tender_id"
+msgstr ""
+
+msgid "``id`` пов’язаного тендер об’єкта. Див :ref:`tender-from-plan`"
+msgstr "``id`` of the linked tender object. See :ref:`tender-from-plan`"
+
+msgid "items"
+msgstr ""
+
+msgid "список об’єктів :ref:`item`, обов’язково"
+msgstr "list of :ref:`item` objects, required"
+
+msgid "Список, який містить елемент, що закуповується."
+msgstr "List that contains single item being procured."
+
+msgid "|ocdsDescription| Товари та послуги, що будуть закуплені, поділені на спискові елементи, де це можливо. Елементи не повинні дублюватись, замість цього вкажіть кількість 2."
+msgstr "|ocdsDescription| The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead."
+
+msgid "cancellation"
+msgstr ""
+
+msgid ":ref:`PlanCancellation`"
+msgstr ":ref:`PlanCancellation`"
+
+msgid "dateModified"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "datePublished"
+msgstr ""
+
+msgid "owner"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "revisions"
+msgstr ""
+
+msgid "Список об’єктів :ref:`revision`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`revision` objects, auto-generated"
+
+msgid "Зміни властивостей об’єктів Закупівлі."
+msgstr "Historical changes to Tender object properties."
+
+msgid "PlanTender"
+msgstr ""
+
+msgid "procurementMethod"
+msgstr ""
+
+msgid "'open'"
+msgstr ""
+
+msgid "'limited'"
+msgstr ""
+
+msgid "Метод закупівлі тендеру."
+msgstr "Procurement Method of the Tender."
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "можливі значення для `procurementMethod` == `''`:"
+msgstr "string Possible values for `procurementMethod` == `''`:"
+
+msgid "'' - Без використання електронної системи"
+msgstr "'' - Without using an electronic system"
+
+msgid "'centralizedProcurement' - Закупівля через Централізовану закупівельну організацію"
+msgstr "'centralizedProcurement' - Procurement via Central Purchasing Body"
+
+msgid "Можливі значення для `procurementMethod` == `’open’`:"
+msgstr "Possible values for `procurementMethod` == `'open'`:"
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "Можливі значення для `procurementMethod` == `’limited’`:"
+msgstr "Possible values for `procurementMethod` == `'limited'`:"
+
+msgid "reporting"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "tenderPeriod"
+msgstr ""
+
+msgid ":ref:`period`, обов’язково"
+msgstr ":ref:`period`, required"
+
+msgid "Період, коли подаються пропозиції. Повинна бути вказана хоча б `endDate` дата."
+msgstr "Period when bids can be submitted. At least `endDate` has to be provided."
+
+msgid "|ocdsDescription| Період, коли закупівля відкрита для подачі пропозицій. Кінцева дата - це дата, коли перестають прийматись пропозиції."
+msgstr "|ocdsDescription| The period when the tender is open for submissions. The end date is the closing date for tender submissions."
+
+msgid "Project"
+msgstr ""
+
+msgid "id"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "uri"
+msgstr ""
+
+msgid "Budget"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий"
+msgstr "string, multilingual, required"
+
+msgid "amount"
+msgstr ""
+
+msgid "float, обов’язково"
+msgstr "float, required"
+
+msgid "amountNet"
+msgstr ""
+
+msgid "currency"
+msgstr ""
+
+msgid "рядок, обов’язковий, довжина = 3"
+msgstr "string, required, length = 3"
+
+msgid ":ref:`BudgetProject`"
+msgstr ""
+
+msgid "period"
+msgstr ""
+
+msgid ":ref:`BudgetPeriod`"
+msgstr ""
+
+msgid ":ref:`BUDGET_PERIOD_FROM` constant"
+msgstr ""
+
+msgid "year"
+msgstr ""
+
+msgid "integer, >=2000, deprecated in favor of `period`_"
+msgstr ""
+
+msgid "notes"
+msgstr ""
+
+msgid "breakdown"
+msgstr ""
+
+msgid "Список об’єктів :ref:`BudgetBreakdown`, обов’язковий (за вийнятком `tender.procurementMethodType` має значення `\"belowThreshold\"`, `\"reporting\"`, `\"esco\"`, `\"\"`)"
+msgstr "List of :ref:`BudgetBreakdown`, required (except `tender.procurementMethodType` is `\"belowThreshold\"`, `\"reporting\"`, `\"esco\"`, `\"\"`)"
+
+msgid "BudgetProject:"
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "name_en"
+msgstr ""
+
+msgid "BudgetPeriod"
+msgstr ""
+
+msgid "startDate"
+msgstr ""
+
+msgid "рядок, обов’язковий, :ref:`date`"
+msgstr "string, required, :ref:`date`"
+
+msgid "|ocdsDescription| Початкова дата періоду."
+msgstr "|ocdsDescription| The start date for the period."
+
+msgid "endDate"
+msgstr ""
+
+msgid "|ocdsDescription| Кінцева дата періоду."
+msgstr "|ocdsDescription| The end date for the period."
+
+msgid "Значення `startDate` завжди повинно йти перед `endDate`."
+msgstr "`startDate` should always precede `endDate`."
+
+msgid "BudgetBreakdown"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "`state`"
+msgstr ""
+
+msgid "`crimea`"
+msgstr ""
+
+msgid "`local`"
+msgstr ""
+
+msgid "`own`"
+msgstr ""
+
+msgid "`fund`"
+msgstr ""
+
+msgid "`loan`"
+msgstr ""
+
+msgid "`other`"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий за умови title == `other`"
+msgstr "string, multilingual, required if title == `other`"
+
+msgid "Детальний опис джерел фінансування закупівлі."
+msgstr "Detailed description of budget breakdown."
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`BasicValue`"
+msgstr ""
+
+msgid "Cума, яка виділена для окремого джерела фінансування"
+msgstr "Budget breakdown value"
+
+msgid "Валюта для всіх breakdown value та budget повинна бути однаковою"
+msgstr "Currency should be identical for all budget breakdown values and budget"
+
+msgid "Загальна вартість всіх breakdown value amount не може бути більшим за budget amount (за вийнятком `tender.procurementMethodType` має значення `\"esco\"`)"
+msgstr "Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `\"esco\"`)"
+
+msgid "address"
+msgstr ""
+
+msgid ":ref:`Address`"
+msgstr ""
+
+msgid "Об'єкт з деталями адреси джерела фінансуванння `budget.breakdown`."
+msgstr "Object of address details for `budget.breakdown`."
+
+msgid "Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор КАТОТТГ має зазначатись обовʼязково."
+msgstr "If plan has `budget.breakdown.title` is `state` it is required to have at least one KATOTTG classificator in `address.addressDetails`."
+
+msgid "Класифікатор для бюджету в залежності від джерела фінансуванння `budget.breakdown`."
+msgstr "Classification for the `budget.breakdown`."
+
+msgid "Якщо джерело фінансування `budget.breakdown.title` вказано одне зі значень `local`, `crimea`, класифікатор ТПКВКМБ має зазначатись обовʼязково."
+msgstr "If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have TPKVKMB classificator."
+
+msgid "Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор КПК має зазначатись обовʼязково."
+msgstr "If plan has `budget.breakdown.title` is `state` it is required to have KPK classificator."

@@ -1,11 +1,11 @@
 .. _config:
 
-Configuration
-=============
+Конфігурація
+============
 
-You can configure tender with config block of POST request.
+Ви можете налаштувати тендер за допомогою блоку конфігурації у POST запиті.
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

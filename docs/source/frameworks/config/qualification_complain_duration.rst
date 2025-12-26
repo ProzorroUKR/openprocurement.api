@@ -3,9 +3,9 @@
 qualificationComplaintDuration
 ==============================
 
-Field `qualificationComplaintDuration` is the integer field that sets the number of days for the customer to provide explanations for the request.
+Полe `qualificationComplaintDuration` - це числове поле, яке встановлює кількість днів для надання відповіді замовником на звернення
 
-Possible values for `qualificationComplainDuration` field depends on `frameworkType` field:
+Можливі значення для `qualificationComplainDuration` в залежності від поля `frameworkType`:
 
 .. csv-table::
    :file: csv/qualification-complain-duration-values.csv
@@ -14,4 +14,4 @@ Possible values for `qualificationComplainDuration` field depends on `frameworkT
 
 Examples
 --------
-Complaints has not fully implemented yet. Examples will be added in the future.
+Скарги ще не повністю імплементовані. Приклади будуть додані у майбутньому.

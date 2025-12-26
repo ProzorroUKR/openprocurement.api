@@ -1,9 +1,9 @@
 .. _tendering-basic-actions:
 
-Basic Actions
-=============
+Основні Дії
+===========
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

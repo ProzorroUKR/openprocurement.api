@@ -1,0 +1,76 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Transaction"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "рядок, обов'язково"
+msgstr "string, required"
+
+msgid "Унікальний ідентифікатор транзакції"
+msgstr "A unique identifier for this transaction."
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об'єктів :ref:`Document`"
+msgstr "List of :ref:`Document` objects"
+
+msgid "Використовується для вказівки або на відповідний пакет Fiscal Data Package, або на файл IATI, або на машинне чи людське джерело"
+msgstr "Used to point either to a corresponding Fiscal Data Package, IATI file, or machine or human-readable source"
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`date`, обов'язково"
+msgstr "string, :ref:`date`, required"
+
+msgid "Дата транзакції"
+msgstr "The date of the transaction."
+
+msgid "value"
+msgstr ""
+
+msgid "рядок, :ref:`BasicValue`, обов'язково"
+msgstr "string, :ref:`BasicValue`, required"
+
+msgid "Значення транзакції"
+msgstr "The value of the transaction."
+
+msgid "payer"
+msgstr ""
+
+msgid ":ref:`OrganizationReference`, обов'язково"
+msgstr ":ref:`OrganizationReference`, required"
+
+msgid "Довідка організації про організацію, з якої походять кошти в цій транзакції."
+msgstr "An organization reference for the organization from which the funds in this transaction originate."
+
+msgid "payee"
+msgstr ""
+
+msgid "Довідка організації про організацію, яка отримує кошти за цією транзакцією."
+msgstr "An organization reference for the organization which receives the funds in this transaction."
+
+msgid "status"
+msgstr ""
+
+msgid "Поточний стан транзакції."
+msgstr "The current status of transaction."
+

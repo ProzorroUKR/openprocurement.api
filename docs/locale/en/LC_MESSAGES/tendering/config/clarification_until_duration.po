@@ -1,0 +1,139 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "Поле `clarificationUntilDuration` є цифровим полем, яке встановлює кількість днів для надання відповіді замовником на звернення."
+msgstr "Field `clarificationUntilDuration` is an integer field that sets the number of days for the customer to respond to the request."
+
+msgid "Можливі значення для поля `clarificationUntilDuration` в залежності від поля `procurementMethodType`:"
+msgstr "Possible values for `clarificationUntilDuration` field depends on `procurementMethodType` field:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "calendar"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "0 / 3"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "competitiveOrdering.long"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "working"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "1"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "Cтворимо тендер з `clarificationUntilDuration`, що становить один робочий день:"
+msgstr "Let's create a tender with `clarificationUntilDuration` one work day:"
+
+msgid "Тендер успішно створено з очікуваним значенням clarificationUntil, яке закінчується через один робочий день після створення enquiryPeriod startDate."
+msgstr "Tender created successfully with expected clarificationUntil value, which ends one working day after the enquiryPeriod startDate is created."
+
+msgid "Створимо тендер з `clarificationUntilDuration`, що становить три календарні дні:"
+msgstr "Let's create a tender with `clarificationUntilDuration` three calendar days:"
+
+msgid "Тендер успішно створено з очікуваним значенням clarificationUntil, яке закінчується через три календарні дні після створення enquiryPeriod startDate."
+msgstr "Tender created successfully with expected clarificationUntil value, which ends three calendar days after the enquiryPeriod startDate is created."
+
+msgid "Створимо тендер з `clarificationUntilDuration`, що становить три робочих дні:"
+msgstr "Let's create a tender with `clarificationUntilDuration` three working days:"
+
+msgid "Тендер успішно створено з очікуваним значенням clarificationUntil, яке закінчується через три робочих дні після створення enquiryPeriod startDate."
+msgstr "Tender created successfully with expected clarificationUntil value, which ends three working days after the enquiryPeriod startDate is created."
+

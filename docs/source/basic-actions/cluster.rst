@@ -1,48 +1,45 @@
 .. _cluster:
 
-API in cluster mode
-===================
+Робота з API в режимі кластеру
+==============================
 
-There is a cluster of several servers that synchronize data between each other. Client should always work with the same server to ensure consistency between separate requests to the CDB. That is why cookie is required while sending POST/PUT/PATCH/DELETE requests. Cookies provide server stickiness. You can get such cookie via GET request and then use it for POST/PUT/PATCH/DELETE.
+Дані синхронізуються на кластері з декількох серверів. Для узгодження між окремими запитами до ЦБД важливо, щоб клієнт працював завжди з одним сервером. Тому обов’язково використовувати реп’яшок (сookie) при подачі POST/PUT/PATCH/DELETE запитів. Реп’яшки (сookies) забезпечують прив’язку до сервера. Такий реп’яшок можна отримати через GET запит, а тоді використовувати його в POST/PUT/PATCH/DELETE.
 
 
-If during operations the server requested by cookie went down or is unavailable, client will receive :ref:`status code 412 <errors>` of request and new cookie to use. Request should be repeated with new cookie.
+Якщо під час операцій сервер запитаний реп’яшком недоступний або впав, клієнт отримає :ref:`412 код стану <errors>` запиту і новий реп’яшок. Запит потрібно повторити з використанням нового реп’яшка.
 
 
 .. warning::
-    Since we moved to MongoDB cluster with primary & secondaries,
-    SERVER_ID cookie is no longer required.
+    Оскільки ми перейшли на кластер MongoDB з primary & secondary нодами, файл cookie SERVER_ID більше не потрібен.
 
-    Please read the new instructions below
+    Прочитайте нові інструкції нижче
 
 
-Causal consistency sessions
----------------------------
+Сессії з “сausal consistency”
+-----------------------------
 
-MongoDB clients with causal consistency sessions can achieve the following guarantees:
+В MongoDB клієнт застосунки, що використовують causal consistency, отримують наступні гарантії:
     * Read own writes
     * Monotonic reads
     * Monotonic writes
     * Writes follow reads
 
-Since our clients work with database through API,
-they will need to store their session state.
-So that API is able to apply their parameters and provide the guaranties to every user.
+Оскільки наші клієнти працюють з базою даних через API, їм потрібно буде зберігати стан свого сеансу. Таким чином API може застосовувати параметри сессії та надавати гарантії кожному користувачеві.
 
 .. figure:: diagrams/mongodb.png
   :scale: 50 %
 
-  Fig. 1. Database connection configuration overview diagram
+  Рис. 1. Оглядова схема конфігурації підключення до бази даних
 
 .. figure:: diagrams/session.png
   :scale: 50 %
 
-  Fig. 2. Consistent database session mechanism sequence diagram
+  Рис. 2. Діаграма послідовності механізма консистентного сеансу з базою даних
 
-Here is an example
-~~~~~~~~~~~~~~~~~~
+Приклад
+~~~~~~~
 
-Every request returns a session cookie, that is continuously updated
+Кожен запит повертає куку з даними сесії, які постійно оновлюються
 
 .. sourcecode:: http
 
@@ -68,7 +65,7 @@ Every request returns a session cookie, that is continuously updated
   }
 
 
-Then the following request should use that cookies
+Тож наступний запит має використовувати цю куку
 
 .. sourcecode:: http
 

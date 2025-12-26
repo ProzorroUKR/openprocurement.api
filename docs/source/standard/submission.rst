@@ -11,57 +11,56 @@ Schema
 ------
 
 :tenderers:
-   List of :ref:`BusinessOrganization` objects
+   Список об'єктів :ref:`BusinessOrganization`
 
 :frameworkID:
-   string
+   рядок
 
-   The framework identifier.
+   Ідентифікатор кваліфікації.
 
 :qualificationID:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   The qualification identifier.
+   Ідентифікатор рішення по заявці.
 
 :submissionType:
-    string, auto-generated from framework model with id frameworkID
+    рядок, генерується автоматично з моделі кваліфікації з ідантифікатором frameworkID
 
     :`electronicCatalogue`:
-        Submission for electronic catalog process
+        Заявка для процесу відбору до електронного каталогу
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :documents:
-   List of :ref:`document` objects
+   Список об'єктів :ref:`document`
 
-   |ocdsDescription|
-   All documents and attachments related to the submission.
+   |ocdsDescription| Всі документи та додатки пов’язані з заявкою.
 
 :datePublished:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :dateModified:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :owner:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :status:
-   string
+   рядок
 
    :`draft`:
-      If :code:`submissionType` is :code:`electronicCatalogue`, then in this status any fields of submission can be changed(besides :code:`qualificationID`).
+      Якщо :code:`submissionType` має значення :code:`electronicCatalogue`, тоді в цьому статусі можуть бути змінене будь-яке поле(окрім :code:`qualificationID`).
    :`active`:
-      If :code:`submissionType` is :code:`electronicCatalogue`, in this status creates qualification object and set :code:`qualificationID`.
+      Якщо :code:`submissionType` має значення :code:`electronicCatalogue`, цьому статусі сторюється рішення по кваліфікації і встановлюється поле :code:`qualificationID`.
    :`deleted`:
-      Terminal status.
+      Термінальний статус.
    :`complete`:
-      Complete submission.
+      Завершення заявки.
 
-   Status of the Submission.
+   Статус заявки.
 
 :revisions:
-   List of :ref:`revision` objects, auto-generated
+   Список об'єктів :ref:`revision`, генерується автоматично
 
-   Historical changes to Submission object properties.
+   Зміни властивостей об’єктів заявки.

@@ -3,9 +3,9 @@
 clarificationUntilDuration
 ==========================
 
-Field `clarificationUntilDuration` is an integer field that sets the number of days for the customer to respond to the request.
+Поле `clarificationUntilDuration` є цифровим полем, яке встановлює кількість днів для надання відповіді замовником на звернення.
 
-Possible values for `clarificationUntilDuration` field depends on `procurementMethodType` field:
+Можливі значення для поля `clarificationUntilDuration` в залежності від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/clarification-until-duration-values.csv
@@ -15,23 +15,23 @@ Possible values for `clarificationUntilDuration` field depends on `procurementMe
 Examples
 --------
 
-Let's create a tender with `clarificationUntilDuration` one work day:
+Cтворимо тендер з `clarificationUntilDuration`, що становить один робочий день:
 
 .. http:example:: http/clarification-until-duration-1-working-day.http
    :code:
 
-Tender created successfully with expected clarificationUntil value, which ends one working day after the enquiryPeriod startDate is created.
+Тендер успішно створено з очікуваним значенням clarificationUntil, яке закінчується через один робочий день після створення enquiryPeriod startDate.
 
-Let's create a tender with `clarificationUntilDuration` three calendar days:
+Створимо тендер з `clarificationUntilDuration`, що становить три календарні дні:
 
 .. http:example:: http/clarification-until-duration-3-calendar-days.http
    :code:
 
-Tender created successfully with expected clarificationUntil value, which ends three calendar days after the enquiryPeriod startDate is created.
+Тендер успішно створено з очікуваним значенням clarificationUntil, яке закінчується через три календарні дні після створення enquiryPeriod startDate.
 
-Let's create a tender with `clarificationUntilDuration` three working days:
+Створимо тендер з `clarificationUntilDuration`, що становить три робочих дні:
 
 .. http:example:: http/clarification-until-duration-3-working-days.http
    :code:
 
-Tender created successfully with expected clarificationUntil value, which ends three working days after the enquiryPeriod startDate is created.
+Тендер успішно створено з очікуваним значенням clarificationUntil, яке закінчується через три робочих дні після створення enquiryPeriod startDate.

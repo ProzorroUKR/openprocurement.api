@@ -1,0 +1,325 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-25 16:20+0200\n"
+"PO-Revision-Date: 2018-08-17 15:13+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Contract"
+msgstr "Contract"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "|ocdsDescription| Ідентифікатор цього договору."
+msgstr "|ocdsDescription| The identifier for this contract."
+
+msgid "awardID"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "|ocdsDescription| `Award.id` вказує на рішення, згідно якого видається договір."
+msgstr "|ocdsDescription| The `Award.id` against which this contract is being issued."
+
+msgid "contractID"
+msgstr ""
+
+msgid "рядок, генерується автоматично, лише для читання"
+msgstr "string, auto-generated, read-only"
+
+msgid "contractNumber"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "title"
+msgstr ""
+
+msgid "|ocdsDescription| Назва договору"
+msgstr "|ocdsDescription| Contract title"
+
+msgid "description"
+msgstr ""
+
+msgid "|ocdsDescription| Опис договору"
+msgstr "|ocdsDescription| Contract description"
+
+msgid "status"
+msgstr ""
+
+msgid "|ocdsDescription| Поточний статус договору."
+msgstr "|ocdsDescription| The current status of the contract."
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`pending` - цей договір запропоновано, але він ще не діє. Можливо очікується його підписання."
+msgstr "`pending` - this contract has been proposed, but is not yet in force. It may be awaiting signature."
+
+msgid "`active` - цей договір підписаний всіма учасниками, і зараз діє на законних підставах."
+msgstr "`active` - this contract has been signed by all the parties, and is now legally in force."
+
+msgid "`cancelled` - цей договір було скасовано до підписання."
+msgstr "`cancelled` - this contract has been cancelled prior to being signed."
+
+msgid "Можливі значення для :ref:`base-contracting`:"
+msgstr "Possible values for :ref:`base-contracting`:"
+
+msgid "`terminated` - договір був підписаний та діяв, але вже завершився. Це може бути пов'язано з виконанням договору, або з достроковим припиненням через якусь незавершеність."
+msgstr "`terminated` - this contract was signed and in force, and has now come to a close.  This may be due to a successful completion of the contract, or may be early termination due to some non-completion issue."
+
+msgid "period"
+msgstr ""
+
+msgid ":ref:`Period`"
+msgstr ":ref:`Period`"
+
+msgid "|ocdsDescription| Дата початку та завершення договору."
+msgstr "|ocdsDescription| The start and end date for the contract."
+
+msgid "items"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`Item` objects, auto-generated, read-only"
+
+msgid "|ocdsDescription| Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця `award`, то його не потрібно повторювати."
+msgstr "|ocdsDescription| The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat."
+
+msgid "suppliers"
+msgstr ""
+
+msgid "Список об’єктів :ref:`BusinessOrganization`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`BusinessOrganization` objects, auto-generated, read-only"
+
+msgid "value"
+msgstr ""
+
+msgid "Об’єкт :ref:`ContractValue`, генерується автоматично, лише для читання"
+msgstr ":ref:`ContractValue` object, auto-generated"
+
+msgid "|ocdsDescription| Загальна вартість договору."
+msgstr "|ocdsDescription| The total value of this contract."
+
+msgid "Check \":ref:`SettingContractValue`\" tutorial section for more info"
+msgstr ""
+
+msgid "dateSigned"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "|ocdsDescription| Дата підписання договору. Якщо було декілька підписань, то береться дата останнього підписання."
+msgstr "|ocdsDescription| The date when the contract was signed. In the case of multiple signatures, the date of the last signature."
+
+msgid "Differences in :ref:`defense`, :ref:`openua` and :ref:`openeu`:"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "Діапазон значень для поля `dateSigned`:"
+msgstr "Time frame for `dateSigned`in :ref:`defense`:"
+
+msgid "для процедури звітування про укладений договір:"
+msgstr "reporting procedure:"
+
+msgid "[24 години назад - тепер]"
+msgstr "[24 hours ago - now]"
+
+msgid "для переговорної процедури / переговорної процедури за нагальною потребою:"
+msgstr "negotiation/negotiation.quick procedure:"
+
+msgid "[закінчення періоду оскаржень - тепер]"
+msgstr "[complaint period end - now]"
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`ConfidentialDocument`"
+msgstr "List of :ref:`ConfidentialDocument` objects"
+
+msgid "|ocdsDescription| Усі документи та додатки пов’язані з договором, включно з будь-якими повідомленнями."
+msgstr "|ocdsDescription| All documents and attachments related to the contract, including any notices."
+
+msgid "date"
+msgstr ""
+
+msgid "Дата, коли договір був змінений або активований."
+msgstr "The date when the contract was changed or activated."
+
+msgid "Поля немає в :ref:`base-contracting`"
+msgstr "This field is not in :ref:`base-contracting`"
+
+msgid "Додаткові поля для: :ref:`base-contracting`:"
+msgstr "Additional fields for :ref:`base-contracting`:"
+
+msgid "procuringEntity"
+msgstr ""
+
+msgid ":ref:`ProcuringEntity`"
+msgstr ":ref:`ProcuringEntity`"
+
+msgid "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи."
+msgstr "|ocdsDescription| The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured."
+
+msgid "changes"
+msgstr ""
+
+msgid "Список пов’язаних об’єктів :ref:`Change`."
+msgstr "List of :ref:`Change` objects."
+
+msgid "amountPaid"
+msgstr ""
+
+msgid "amount"
+msgstr ""
+
+msgid "число з рухомою комою, обов’язкове"
+msgstr "float, required"
+
+msgid "currency"
+msgstr ""
+
+msgid "рядок, обов’язковий, генерується автоматично"
+msgstr "string, required, auto-generated"
+
+msgid "valueAddedTaxIncluded"
+msgstr ""
+
+msgid "логічний (булевий) тип даних, обов’язковий, генерується автоматично"
+msgstr "bool, required , auto-generated"
+
+msgid "Дійсно оплачена сума."
+msgstr "Amount of money actually paid."
+
+msgid "implementation"
+msgstr ""
+
+msgid ":ref:`Implementation`"
+msgstr ""
+
+msgid "terminationDetails"
+msgstr ""
+
+msgid "рядок, обов’язковий для неуспішних договорів"
+msgstr "string, required for unsuccessful contract"
+
+msgid "Причина припинення договору. Наявність цього поля вказує, що договір є неуспішним."
+msgstr "Reasons for contract termination. Presence of this field indicates that contract is unsuccessful."
+
+msgid "contractChangeRationaleTypes"
+msgstr ""
+
+msgid "object"
+msgstr ""
+
+msgid "Лише для читання, генерується автоматично."
+msgstr "Read-only, autogenerated."
+
+msgid "Довідник з можливими причинами внесення змін до договору."
+msgstr "The dictionary of possible rationaleTypes for contract."
+
+msgid "Можливі значення:"
+msgstr "Could be one of:"
+
+msgid "`rationaleTypes для LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_"
+msgstr "`rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_"
+
+msgid "`rationaleTypes для DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_"
+msgstr "`rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_"
+
+msgid "`rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (діє до дати CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)"
+msgstr "`rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (deprecated after date CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)"
+
+msgid "Робочий процес в :ref:`base-contracting`"
+msgstr "Workflow in :ref:`base-contracting`"
+
+msgid "\\* позначає початковий стан"
+msgstr "\\* marks initial state"
+
+msgid "Contract workflow in :ref:`limited`"
+msgstr ""
+
+msgid "Робочий процес в :ref:`openeu`"
+msgstr "Workflow in :ref:`openeu`"
+
+msgid "Contract in :ref:`cfaua`"
+msgstr ""
+
+msgid "uid, генерується автоматично, лише для читання"
+msgstr "uid, auto-generated, read-only"
+
+msgid "parameters"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Parameter` генерується автоматично, лише для читання"
+msgstr "List of :ref:`Parameter` objects, auto-generated, read-only"
+
+msgid "`active` - participant signed the agreement"
+msgstr ""
+
+msgid "`unsuccessful` - participant refused to sign the agreement"
+msgstr ""
+
+msgid "bidID"
+msgstr ""
+
+msgid "Contract related :ref:`Bid`"
+msgstr ""
+
+msgid "unitPrices"
+msgstr ""
+
+msgid "List of :ref:`UnitPrice`"
+msgstr ""
+
+msgid "Contract prices per :ref:`Item`"
+msgstr ""
+
+msgid "Робочий процес в :ref:`cfaua`"
+msgstr "Workflow in :ref:`cfaua`"
+
+msgid "Contract в :ref:`frameworks_electroniccatalogue`"
+msgstr "Contract in :ref:`frameworks_electroniccatalogue`"
+
+msgid "qualificationID"
+msgstr ""
+
+msgid "ідентифікатор рішення по заявці."
+msgstr "The qualification identifier."
+
+msgid "`active`"
+msgstr ""
+
+msgid "`banned`"
+msgstr ""
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "`terminated`"
+msgstr ""
+
+msgid "milestones"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Milestone`."
+msgstr "List of :ref:`Milestone` objects"
+

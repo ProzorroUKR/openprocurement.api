@@ -3,9 +3,9 @@
 minTenderingDuration
 ====================
 
-Field `minTenderingDuration` is an integer field that sets the minimum duration of the tendering period.
+Поле `minEnquiriesDuration` є цифровим полем, яке встановлює мінімальну тривалість періоду подаці пропозицій.
 
-Possible values for `minTenderingDuration` field depends on `procurementMethodType` field:
+Можливі значення для поля `minTenderingDuration` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/min-tendering-duration-values.csv

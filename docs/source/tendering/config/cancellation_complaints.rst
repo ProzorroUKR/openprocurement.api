@@ -3,23 +3,23 @@
 hasCancellationComplaints
 =========================
 
-Field `hasCancellationComplaints` is a boolean field that indicates the presence or absence of a complaint about the cancellation in the procurement.
+Поле `hasCancellationComplaints` є булевим полем, яке визначає наявність або відсутність у закупівлі оскарження (звернення до АМКУ за допомогою скарги) після скасування процедури.
 
-Possible values for `hasCancellationComplaints` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasCancellationComplaints` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/hasCancellationComplaints-values.csv
    :header-rows: 1
 
 hasCancellationComplaints is `false`
--------------------------------------
+------------------------------------
 
-Example tutorials:
+Приклад використання:
     * :ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`
 
 
 hasCancellationComplaints is `true`
-------------------------------------
+-----------------------------------
 
-Example tutorials:
+Приклад використання:
     * :ref:`open` → :ref:`open_tutorial`

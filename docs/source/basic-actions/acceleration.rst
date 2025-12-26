@@ -1,30 +1,30 @@
 .. _acceleration:
 
-Acceleration mode for sandbox
+Режим прискорення в пісочниці
 =============================
 
-Acceleration mode was developed to enable procedures' testing in the sandbox and to reduce time frames of these procedures. 
+Для зменшення термінів і забезпечення можливості тестування процедур закупівель на пісочниці доступний режим прискорення. 
 
-**This mode will work only in the sandbox**.
+**Даний механізм діє лише на пісочниці**.
 
-To enable acceleration mode you will need to:
+Щоб увімкнути режим прискорення вам потрібно:
 
-    * add additional parameter `mode` with a value ``test``;
-    * set ``quick, accelerator=1440`` as text value for `procurementMethodDetails`. This parameter will accelerate auction periods. The number 1440 shows that restrictions and time frames will be reduced in 1440 times.
-    * set ``quick`` as a value for `submissionMethodDetails`. This parameter works only with ``mode = "test"`` and will speed up auction start date.
+    * додати додатковий параметр `mode` зі значенням ``test``;
+    * встановити текстове значення  ``quick, accelerator=1440`` параметру `procurementMethodDetails`. Цей параметр пришвидшить проходження періодів закупівлі. Число 1440 показує, що часові обмеження та терміни скорочуються в 1440 раз.
+    * встановити значення ``quick`` для параметра `submissionMethodDetails`. Цей параметр працює тільки з `mode` зі значенням ``test`` і пришвидшує дату початку аукціону.
 
 
-Additional options
-------------------
+Додаткові опції
+---------------
 
-**no-auction option**
+**Опція no-auction**
 
-To enable this option: set ``quick(mode:no-auction)`` as a value for `submissionMethodDetails`.
+Встановлення цієї опції: встановити значення ``quick(mode:no-auction)`` для параметра `submissionMethodDetails`.
 
-``no-auction`` option allows conducting tender excluding auction stage. This means that `active.auction` stage will be completed based on the primary bid proposals; `auctionURL` will not be created, so auction can not be viewed.
+Опція ``no-auction`` дозволяє провести закупівлю, \"вилучивши\" етап аукціону. Це означає, що етап `active.auction` буде завершений по результатах вхідних пропозицій; аукціон взагалі проводитись не буде, тобто по посиланню `auctionURL` побачити аукціон буде неможливо.
 
-**fast-forward option**
+**Опція fast-forward**
 
-To enable this option: set ``quick(mode:fast-forward)`` as a value for `submissionMethodDetails`.
+Встановлення цієї опції: встановити значення ``quick(mode:fast-forward)`` для параметра `submissionMethodDetails`.
 
-``fast-forward`` option allows skipping auction stage. This means that `active.auction` stage will be completed based on the primary bid proposals; although `auctionURL` will be created and auction can be viewed.
+Опція ``fast-forward`` дозволяє провести закупівлю, \"пропустивши\" етап  аукціону. Це означає, що етап `active.auction` буде завершений по результатах вхідних пропозицій; хоча посилання `auctionURL` буде створено і буде можливість переглянути по ньому аукціон.

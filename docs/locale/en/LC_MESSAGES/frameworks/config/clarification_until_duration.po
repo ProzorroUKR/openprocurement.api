@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-27 17:16+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "Поле `clarificationUntilDuration` -  це числове поле, яке встановлює кількість днів для надання відповіді замовником на звернення."
+msgstr "Field `clarificationUntilDuration` is the integer field that sets the number of days for the customer to respond to the inquiry."
+
+msgid "Можливі значення для `clarificationUntilDuration` в залежності від поля `frameworkType`:"
+msgstr "Possible values for `clarificationUntilDuration` field depends on `frameworkType` field:"
+
+msgid "frameworkType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "dynamicPurchasingSystem"
+msgstr ""
+
+msgid "3"
+msgstr ""
+
+msgid "electronicCatalogue"
+msgstr ""
+
+msgid "internationalFinancialInstitutions"
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "`clarificationsUntil` розраховується під час створення рамочної угоди. Для типу `dynamicPurchasingSystem` це 3 робочих дні, як ви можете побачити нижче в `enquiryPeriod`:"
+msgstr "`clarificationsUntil` field calculates during framework creation. For `dynamicPurchasingSystem` type it's 3 working days, as you can see below in `enquiryPeriod`:"
+
+msgid "Як ви можете побачити, поле `clarificationsUntil` випереджає поле `endDate` на 3 робочих дні."
+msgstr "As you can see, `clarificationsUntil` field is ahead of `endDate` field by 3 working days."
+

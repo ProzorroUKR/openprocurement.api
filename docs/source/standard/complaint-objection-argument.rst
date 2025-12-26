@@ -6,20 +6,20 @@
 .. _complaint-objection-argument:
 
 ComplaintObjectionArgument
-============================
+==========================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-    Id of the argument
+    Унікальний ідентифікатор обгрунтування
 
 :description:
-    string, required
+    рядок, обов’язковий
 
-    Description of the argument
+    Опис обгрунтування
 
 :evidences:
-    List of :ref:`complaint-objection-argument-evidence` objects
+    Список об’єктів :ref:`complaint-objection-argument-evidence`

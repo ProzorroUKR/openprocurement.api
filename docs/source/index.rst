@@ -1,10 +1,10 @@
 .. title:: OpenProcurement API
 
-Welcome to openprocurement.api's documentation!
-===============================================
+Вітаємо на сайті документації по openprocurement.api!
+=====================================================
 
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 3
@@ -24,7 +24,7 @@ Contents:
    developers/index
 
 
-Indices and tables
+Індекси та таблиці
 ==================
 
 * :ref:`genindex`

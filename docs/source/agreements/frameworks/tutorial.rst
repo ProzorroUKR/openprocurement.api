@@ -1,58 +1,56 @@
 
 .. _agreement_framework_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Exploring basic rules
----------------------
+Базові правила
+--------------
 
-Let's try exploring the `/agreements` endpoint:
+Подивимось як працює точка входу `/agreements`:
 
 .. http:example:: http/agreements-listing-0.http
    :code:
 
-Just invoking it reveals an empty set.
+При виклику видає пустий набір.
 
-Agreement is transferred from the tender system by an automated process.
+Угода автоматично переноситься з модуля тендера.
 
 
 .. index:: Agreements
 
-Creating agreement
-------------------
-
-Let's say that we have conducted framework, submission and qualification and it has ``active`` status. When the framework is active and you change qualification status to active, system **automatically** created agreement(from framework) with contract(from qualification).
-
-Getting agreement
+Створення реєстру
 -----------------
 
-Let's see our created framework:
+Припустимо, що є кваліфікація, заявка та рішення по заявці в статусах ``active``. Коли заявка в стаусі `active` і ви оновлюєте рішення по заявці до `active` статусу система **автоматично** створює реєстр(з кваліфікації) з контрактом(з рішення по заявці).
+
+Отримання реєстру
+-----------------
+
+Перевіримо нашу кваліфікацію:
 
 .. http:example:: http/example-framework.http
    :code:
 
-In our framework you can see the `agreementID` field where stores id of related agreement.
-When we know id of our agreement we can get it:
+В нашій кваліфікації ви можете знайти поле `agreementID` в якому зберегіється ідентифікатор пов'язоного реєстру. Тепер ми можемо отримати на реєстр:
 
 .. http:example:: http/agreement-view.http
    :code:
 
 
-Modifying agreement
--------------------
+Зміна реєстру
+-------------
 
-All operation with agreement can make `framework_owner`.
-Only one thing that can make `framework_owner` is create/modify contract milestones.
+Всі операцї над реєстром може виконувати лише `framework_owner`. Лише одна річ, яку може робити `framework_owner` це додавати/змінювати майлстони до контракту.
 
-Contract - object that stores information about participant
+Контракт - об'єкт що зберігає інформацію про учасника.
 
-Milestone - that's contract history.
+Майлстон - це історія контраку.
 
-Contract ban
-~~~~~~~~~~~~
+Бан контракту
+~~~~~~~~~~~~~
 
-For ban contract, you just need to add milestone to contract with type `ban`:
+Для того щоб забанити контракт, потрібно лише створити майлстон зі статусом `ban`:
 
 .. http:example:: http/milestone-ban-post.http
    :code:
@@ -72,8 +70,7 @@ Contract disqualify
 
 You can see that contract was automatically created with `activation` milestone.
 
-Field `dueDate` was automatically set with `period.endDate` date.
-On that date milestone will be automatically set to `met` status, and contract will switched status to `terminated`.
+Field `dueDate` was automatically set with `period.endDate` date. On that date milestone will be automatically set to `met` status, and contract will switched status to `terminated`.
 
 When you want to manually disqualify contract, you need to manually set `activation` milestone status to `met`:
 

@@ -1,9 +1,9 @@
 .. _frameworks_electroniccatalogue:
 
-Electronic Catalogue framework
-=====================================================
+Кваліфікація відбору до електронного каталогу.
+==============================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

@@ -4,11 +4,11 @@
 UnitPrice in :ref:`cfaua`
 =========================
 
-Schema
-------
+Схема
+-----
 
 :relatedItem:
-    string
+    рядок
 
 :value:
     :ref:`Value`

@@ -1,40 +1,36 @@
 
 .. _criteria_operation:
 
-Criteria Basic Operation
-------------------------
+Базові операції над критеріями
+------------------------------
 
-Criteria data :ref:`schema<criterion>`
+Схема даних :ref:`критеріїв<criterion>`
 
-Criteria is part of tender documentation, so all operation with criteria make tender owner.
+Критерії - це частина тендерної документації, тому всі дії над критеріями може виконувати лише власник тендеру.
 
-Create Tender Criteria
-""""""""""""""""""""""
+Створення критеріїв закупівлі
+"""""""""""""""""""""""""""""
 
-Criteria exist in procedures: belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering,
-competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2,
-competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA
+Критерії існують в наступних процедурах:  belowThreshold, aboveThreshold, aboveThresholdUA, aboveThresholdEU, competitiveOrdering, competitiveDialogueUA, competitiveDialogueEU, competitiveDialogueUA.stage2, competitiveDialogueEU.stage2, esco, closeFrameworkAgreementUA, closeFrameworkAgreementSelectionUA.
 
-Criteria can be related to tenderer, lot, item and tender.
-You cannot cancel lot or item if there is at least one related criterion with requirement in `active` status.
-To cancel lot or set item quantity to 0 you should set `cancelled` status to all active requirements in related criterion or delete criterion (only in `draft` tender).
+Критерії можуть бути пов'язані з tenderer, lot, item та tender. Ви не можете відмінити item, якщо існує хоча б один пов'язаний критерій з вимогою в статусі `active`. Щоб вказати кількість item рівною 0, необхідно перевести у статус `cancelled` всі активні вимоги пов'язаного критерію або видалити критерій (дозволено тільки для закупівель в статусі чернетка).
 
-You can create few criteria in one request with complete set of data.
+Можна створити одразу декілька критеріїв за один запит з повним набором даних.
 
 
 .. http:example:: http/criteria/bulk-create-criteria.http
    :code:
 
 
-Update Tender Criteria
-""""""""""""""""""""""
+Оновлення критерію закупівлі
+""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/patch-criteria.http
    :code:
 
 
-Get Tender Criteria
-"""""""""""""""""""
+Отримання інформації по критерію закупівлі
+""""""""""""""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/criteria-list.http
    :code:
@@ -43,49 +39,46 @@ Get Tender Criteria
    :code:
 
 
-Delete Tender Criteria
-"""""""""""""""""""""""
+Видалення критеріїв закупівлі
+"""""""""""""""""""""""""""""
 
-When tender is in `draft` status it is allowed to delete criterion by id using DELETE endpoint:
+Поки закупівля в статусі чернетка дозволено видаляти критерій по `id`, використовуючи DELETE ендпоінт:
 
 .. http:example:: http/criteria/delete-criteria.http
    :code:
 
-Let's try to delete criterion when tender doesn't have `draft` status:
+Спробуємо видалити критерій, коли закупівля не в статусі `draft`, і отримаємо помилку:
 
 .. http:example:: http/criteria/delete-criteria-invalid.http
    :code:
 
 
-Requirement Group basic operation
+Базові операції над групами вимог
 ---------------------------------
 
-Requirement group :ref:`schema<RequirementGroup>`
+Схема даних :ref:`групи вимог<RequirementGroup>`
 
-Requirement group that's object that contain requirements,
-and sets the rules for how to respond to requirements.
+Група вимог - це об'єкт який містить вимоги та встановлює правила: як та на які вимоги надавати відповідь.
 
-Inside requirement groups you must gave response to all requirements(that's mean gave response to requirement group).
-If criterion have more than one requirement groups you must gave response only to one requirement group.
-If you try to gave responses to few requirement groups system will be returned error.
+В рамках групи вимог потрібно надати відповідь на всі вимоги(це означає відповісти на групу вимог). Якщо критеріон має більше однієї групи вимог, потрібно надати відповідь лише на одну групу. Якщо відповідь буде надана більше ніж на одну групу система поверне помилку.
 
-:ref:`There you can see how it works on practice. <bid_activation_with_requirement_responses>`
+:ref:`Тут ви можете побачити як це працює. <bid_activation_with_requirement_responses>`
 
-Create Criteria Requirement Group
-"""""""""""""""""""""""""""""""""
+Створення групи вимог
+"""""""""""""""""""""
 
 .. http:example:: http/criteria/add-criteria-requirement-group.http
    :code:
 
 
-Update Criteria Requirement Group
-"""""""""""""""""""""""""""""""""
+Оновлення групи вимог
+"""""""""""""""""""""
 
 .. http:example:: http/criteria/patch-criteria-requirement-group.http
    :code:
 
-Get Criteria Requirement Group
-""""""""""""""""""""""""""""""
+Отримання інформації по групам вимог
+""""""""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/criteria-requirement-group-list.http
    :code:
@@ -94,28 +87,26 @@ Get Criteria Requirement Group
    :code:
 
 
-Requirement basic operation
----------------------------
+Базові операції над вимогами
+----------------------------
 
-Requirement model :ref:`schema<requirement>`
+Схема даних :ref:`вимог<requirement>`
 
-Create Requirement
-""""""""""""""""""
+Створення вимоги
+""""""""""""""""
 
 .. http:example:: http/criteria/add-criteria-requirement.http
    :code:
 
 
-Update Requirement
-""""""""""""""""""
-You can use PATCH method to update requirements for tenders in draft statuses.
+Оновлення вимоги
+""""""""""""""""
+Ви можете використати PATCH метод для оновлення вимоги для тендеру в статусі чернетки.
 
 .. http:example:: http/criteria/patch-criteria-requirement.http
    :code:
 
-To update requirement in non-draft status of tender you should use PUT method.
-New version with status `active` will be created.
-Status of old version of requirement will be changed to `cancelled`.
+Для оновлення вимоги у `active.enquiries` та `active.tendering` статусах тендера необхідно використовувати метод PUT. Нова версія вимоги зі статусом `active` буде створена. Статус старої версії вимоги автоматично зміниться на `cancelled`.
 
 .. http:example:: http/criteria/put-exclusion-criteria-requirement.http
    :code:
@@ -123,15 +114,15 @@ Status of old version of requirement will be changed to `cancelled`.
 .. http:example:: http/criteria/criteria-requirement-list.http
    :code:
 
-Delete Requirement
-""""""""""""""""""
-To delete requirement from requirement group you can set status `cancelled` to this requirement.
+Видалення вимоги
+""""""""""""""""
+Щоби видалити вимогу з групи вимог, необхідно змінити статус вимоги на `cancelled`
 
 .. http:example:: http/criteria/criteria-requirement-cancellation.http
    :code:
 
-Get Requirement
-"""""""""""""""
+Отримання інформації по вимогам
+"""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/criteria-requirement-list.http
    :code:
@@ -139,52 +130,48 @@ Get Requirement
 .. http:example:: http/criteria/criteria-requirement.http
    :code:
 
-Eligible Evidence basic operation
----------------------------------
+Базові операції над прийнятними доказами
+----------------------------------------
 
-Eligible Evidence model :ref:`schema<EligibleEvidence>`
+Схема даних :ref:`прийнятних доказів<EligibleEvidence>`
 
-Create Eligible Evidence
-""""""""""""""""""""""""
-You can use POST method to add evidence for tenders in draft statuses.
+Створення прийнятного доказу
+""""""""""""""""""""""""""""
+Щоби додати прийнятний доказ до тендеру у статусі чернетки, можна скористатись методом POST.
 
 .. http:example:: http/criteria/add-requirement-evidence.http
    :code:
 
-To add evidence(s) in non-draft status of tender you should use PUT method on Requirement level with extended eligibleEvidences array.
-New version or Requirement with status `active` and with extended eligibleEvidences array will be created.
+Щоби додати прийнятний доказ(и) до тендеру у статусі `active.enquiries` або `active.tendering`, необхідно використати метод PUT на рівні вимоги з вказанням розширеного списку eligibleEvidences. Нову версію вимоги зі статусом `active` та розширеним списком eligibleEvidences буде створено.
 
 .. http:example:: http/criteria/requirement-put-add-evidence.http
    :code:
 
-Update Eligible Evidence
-""""""""""""""""""""""""
-You can use PATCH method to update evidence for tenders in draft statuses.
+Оновлення інформації прийнятного доказу
+"""""""""""""""""""""""""""""""""""""""
+Щоби оновити прийнятний доказ до тендеру у статусі чернетки, можна скористатись методом PATCH.
 
 .. http:example:: http/criteria/patch-requirement-evidence.http
    :code:
 
-To update evidence(s) in non-draft status of tender you should use PUT method on Requirement level with updated evidence(s) in eligibleEvidences array.
-New version or Requirement with status `active` and with changed eligibleEvidences array will be created.
+Щоб оновити прийнятний доказ(и) до тендеру у статусі `active.enquiries` або `active.tendering`, необхідно використати метод PUT на рівні вимоги з вказанням змінених вимог у списку eligibleEvidences. Нову версію вимоги зі статусом `active` та оновленими вимогами у списку eligibleEvidences буде створено.
 
 .. http:example:: http/criteria/requirement-put-update-evidence.http
    :code:
 
-Delete Eligible Evidence
-""""""""""""""""""""""""
-You can use DELETE method to delete evidence for tenders in draft statuses.
+Видалення прийнятного доказу
+""""""""""""""""""""""""""""
+Ви можете використати DELETE метод, щоб видалити доказ для тендера у статусі чернетки.
 
 .. http:example:: http/criteria/delete-requirement-evidence.http
    :code:
 
-For tenders in non-draft statuses evidence(s) can be deleted from Requirement only by using PUT method on Requirement level.
-Use eligibleEvidences array without some evidence(s) to delete them from Requirement.
-To delete all evidences from Requirement use empty array for eligibleEvidences field.
+Для видалення доказу в тендері у статусі `active.enquiries` або `active.tendering` необхідно використати метод PUT на рівні вимоги. Використовуйте список eligibleEvidences без деяких доказів, щоб видалити їх з вимоги. Щоб видалити всі прийнятні докази з вимоги використовуйте пустий список для поля eligibleEvidences.
 
 .. http:example:: http/criteria/requirement-put-delete-evidence.http
    :code:
 
-For tenders in draft statuses there is possibility to create, update and delete eligibleEvidences, make PATCH request to requirement and send new list of `eligibleEvidences`:
+Для тендерів у статусі чернетки існує інша можливість для створення, оновлення та видалення доказів через PATCH запит на вимогу, де потрібно передати новий список `eligibleEvidences`:
 
 .. http:example:: http/criteria/bulk-update-requirement-evidence.http
    :code:
@@ -192,8 +179,8 @@ For tenders in draft statuses there is possibility to create, update and delete 
 .. http:example:: http/criteria/bulk-delete-requirement-evidence.http
    :code:
 
-Retrieve Eligible Evidence
-""""""""""""""""""""""""""
+Отримання інформації по прийнятних доказах
+""""""""""""""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/requirement-evidences-list.http
    :code:
@@ -202,25 +189,24 @@ Retrieve Eligible Evidence
    :code:
 
 
-Exclusion criteria
-------------------
+Виключні критерії
+-----------------
 
-Exclusion criteria are required for the following procedures: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveOrdering`, `competitiveDialogueUA`,
-`competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`, `simple.defense`.
+Виключні критерії обов'язкові в наступних процедурах: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveOrdering`, `competitiveDialogueUA`, `competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`, `simple.defense`.
 
-`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__
+`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_17.json>`__
 
-You can't update tender to status `active.tendering` without 11 EXCLUSION and OTHER required criteria:
+Неможливо перевести тендер у статус `active.tendering` без 11-ти вийняткових критеріїв та обов'язкових OTHER критеріїв:
 
 .. http:example:: http/criteria/update-tender-status-without-exclusion-criteria-general.http
    :code:
 
-For `aboveThreshold`, `aboveThresholdEU` you can't update tender to status `active.tendering` without 10 EXCLUSION and OTHER required criteria:
+Для закупівель `aboveThreshold`, `aboveThresholdEU` неможливо перевести тендер у статус `active.tendering` без 10-ти вийняткових та обов'язкових OTHER критеріїв:
 
 .. http:example:: http/criteria/update-tender-status-without-exclusion-criteria-open.http
    :code:
 
-EXCLUSION criteria and all criteria objects are unchangeable:
+Вийняткові критерії та всі дочірні об'єкти є незмінними:
 
 .. http:example:: http/criteria/patch-exclusion-criteria.http
    :code:
@@ -231,65 +217,60 @@ EXCLUSION criteria and all criteria objects are unchangeable:
 .. http:example:: http/criteria/patch-exclusion-criteria-requirement-group.http
    :code:
 
-For tenders іn draft statuses you can post exclusion requirement:
+Для тендерів в статусі чернетки є можливість додавати вимоги вийняткових критеріїв:
 
 .. http:example:: http/criteria/add-exclusion-criteria-requirement.http
    :code:
 
-For tenders in draft statuses you can use PATCH method to update requirements for exclusion criteria:
+Для тендерів в статусі чернетки є можливість використати PATCH метод для оновлення вимоги вийняткових критеріїв:
 
 .. http:example:: http/criteria/patch-exclusion-criteria-requirement.http
    :code:
 
-For tenders in non-draft statuses you can PUT exclusion requirement, but you can change only `status` and `eligibleEvidences`
+Для статусів `active.enquiries` та `active.tendering` вимоги вийняткових критеріїв можливо редагувати методом PUT, але змінювати можна лише поля `status` та `eligibleEvidences`
 
 .. http:example:: http/criteria/put-exclusion-criteria-requirement.http
    :code:
 
-Language criterion workflow
-"""""""""""""""""""""""""""
+Схема роботи мовних критеріїв
+"""""""""""""""""""""""""""""
 
-Language criterion creates as other and could be presented in bulk request with other criteria. Language should be specified in `title`
+Мовний критерій створюється так само як і інші та може бути включений до запиту на створення з іншими критеріями. Мова має бути вказана в `title`
 
 .. http:example:: http-handwritten/criteria/create-language-criterion.http
    :code:
 
-But field `eligibleEvidences` is forbidden
+Але поле `eligibleEvidences` заборонено для цього критерію
 
 .. http:example:: http-handwritten/criteria/update-language-criterion-with-evidence.http
    :code:
 
-`expectedValue` must be only true
+`expectedValue` може бути лише true
 
 .. http:example:: http-handwritten/criteria/update-language-criterion-with-not-listed-lang.http
    :code:
 
-Guarantee criteria workflow
-----------------------------
+Схема роботи критеріїв гарантії
+-------------------------------
 
-Bid guarantee criterion available for tenders: `belowThreshold`, `competitiveOrdering`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueUA.stage2`,
-`competitiveDialogueEU.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `requestForProposal`, `simple.defense`.
+Гарантійне забезпечення пропозиції доступно для процедур: `belowThreshold`, `competitiveOrdering`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueUA.stage2`, `competitiveDialogueEU.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `requestForProposal`, `simple.defense`.
 
-If specified, should be also specified `guarantee` for tender if criterion
-`relatesTo` = `'tender'` or `guarantee` for lot if `relatesTo` = `'lot'`
+Якщо вказаний даний критерій, тоді обов'язково мають бути вказані `guarantee` на рівні тендера, якщо критерій стосується тендера або `guarantee` на рівні лоту до якого застосовано критерій
 
 .. http:example:: http-handwritten/criteria/create-bid-guarantee-criterion.http
    :code:
 
-Contract guarantee criterion available for tenders: `belowThreshold`, `competitiveOrdering`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`,
-`competitiveDialogueUA`, `competitiveDialogueEU`, `competitiveDialogueUA.stage2`, `competitiveDialogueEU.stage2`, `priceQuotation`,
-`closeFrameworkAgreementSelectionUA`, `requestForProposal`, `simple.defense`.
+Гаратнійне забезпечення виконання умов договору доступно для процедур: `belowThreshold`, `competitiveOrdering`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueUA`, `competitiveDialogueEU`, `competitiveDialogueUA.stage2`, `competitiveDialogueEU.stage2, `priceQuotation`, `closeFrameworkAgreementSelectionUA`, `requestForProposal`, `simple.defense`.
 
-For current criterion could be set only `source` = `'winner'`.
-`eligibleEvidences` could be added according to :ref:`bidding`
+Для даного критерія `source` може бути лише `winner`. Докази `eligibleEvidences` можуть бути додані згідно :ref:`bidding`
 
 .. http:example:: http-handwritten/criteria/create-contract-guarantee-criterion.http
    :code:
 
 .. _criteria_workflow:
 
-Exclusion criteria workflow
-"""""""""""""""""""""""""""
+Схема роботи вийняткових критеріїв
+""""""""""""""""""""""""""""""""""
 
 .. graphviz::
 
@@ -348,7 +329,7 @@ Exclusion criteria workflow
             width = 2
         ]
         create_criteria_object [
-            label = "Create Criteria\n(11 Exclusion criteria \nare required for \nsome procedures)"
+            label = "Create Criteria\n(11 Виключні критерії \nare required for \nsome procedures)"
             shape = rect
             style = filled
             fillcolor = lightsalmon
@@ -415,41 +396,40 @@ Exclusion criteria workflow
         }
     }
 
-Article 16 criteria
---------------------
+Критерії статті 16
+------------------
 
-Article 16 criteria are required for the following procedures: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveDialogueUA`,
-`competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`.
+Критерії статті обов'язкові в наступних процедурах: `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `competitiveDialogueUA`, `competitiveDialogueEU`, `esco`, `closeFrameworkAgreementUA`.
 
-`Standard data, you could get here <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__
+`Стандарт можна отримати тут <https://github.com/ProzorroUKR/standards/blob/master/criteria/article_16.json>`__
 
-You can't update tender to status `active.tendering` without at least one of ARTICLE_16 criterion:
+Неможливо перевести тендер у статус `active.tendering` без хоча би одного критерію статті 16:
 
 .. http:example:: http/criteria/update-tender-status-without-article-16-criteria.http
    :code:
 
 
-LCC criteria
--------------
+Критерії оцінки вартості життєвого циклу
+----------------------------------------
 
-Life cycle cost criteria could be added only for procedures which have `awardCriteria` field set to `lifeCycleCost`.
+Критерій `Оцінка вартості життєвого циклу` доступний для процедур, в яких встановлено поле `awardCriteria` зі значенням `lifeCycleCost`.
 
-Let's create procedure with another `awardCriteria`:
+Створимо процедуру з іншим значенням в полі `awardCriteria`:
 
 .. http:example:: http/criteria/post-tender-award-criteria-lowest-cost.http
    :code:
 
-Then let's try to add criteria LCC, we see an error:
+Спробуємо додати критерій LCC і побачимо помилку:
 
 .. http:example:: http/criteria/lcc-with-invalid-award-criteria.http
    :code:
 
-Let's create procedure with `awardCriteria` set to `lifeCycleCost`:
+Створимо процедуру зі значенням в полі `awardCriteria` встановленим `lifeCycleCost`:
 
 .. http:example:: http/criteria/post-tender-award-criteria-lcc.http
    :code:
 
-Successfully adding criteria LCC:
+Успішне додавання критерію LCC:
 
 .. http:example:: http/criteria/lcc-with-valid-award-criteria.http
    :code:

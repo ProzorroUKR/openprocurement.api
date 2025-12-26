@@ -8,110 +8,102 @@
 ConfidentialDocument
 ====================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :documentType:
-    string
+    рядок
 
-    Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
-
-
-    Possible values for :ref:`award`: `award document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_
+    Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
 
 
-    Possible values for :ref:`contract`: `contract document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_
+    Можливі значення :ref:`award`: `типи документів для авардів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_
 
 
-    Possible values for :ref:`bid`: `bid document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_
+    Можливі значення :ref:`contract`: `типи документів для контрактів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_
+
+
+    Можливі значення :ref:`bid`: `типи документів для пропозиції. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_
 
 
 :title:
-    string, multilingual
-    
-    |ocdsDescription|
-    The document title. 
+    рядок, багатомовний
+                   
+    |ocdsDescription| Назва документа. 
     
 :description:
-    string, multilingual
-    
-    |ocdsDescription|
-    A short description of the document. In the event the document is not accessible online, the description field can be used to describe arrangements for obtaining a copy of the document.
-    
+    рядок, багатомовний
+                   
+    |ocdsDescription| Короткий опис документа. Якщо документ не буде доступний онлайн, то поле опису можна використати для вказання способу отримання копії документа.
+                                                                                                                                                                  
 :format:
-    string
-    
-    |ocdsDescription|
-    The format of the document taken from the `IANA Media Types code list <http://www.iana.org/assignments/media-types/>`_, with the addition of one extra value for 'offline/print', used when this document entry is being used to describe the offline publication of a document. 
+    рядок
+     
+    |ocdsDescription| Формат документа зі `списку кодів IANA Media Types <http://www.iana.org/assignments/media-types/>`_, з одним додатковим значенням 'offline/print', що буде використовуватись, коли запис цього документа використовується для опису офлайнової публікації документа. 
     
 :url:
-    string, auto-generated
-    
-    |ocdsDescription|
-    Direct link to the document or attachment. 
+    рядок, генерується автоматично
+                              
+    |ocdsDescription| Пряме посилання на документ або додаток. 
 
 :confidentiality:
-    string
-    
-    Possible values are:
+    рядок
+     
+    Можливі значення:
 
-    * `public`
-    * `buyerOnly`
+    * `public` - публічний документ
+    * `buyerOnly` - приватний документ
 
 :confidentialityRationale:
-    string
-        
-    Reasons for confidentiality of documents.
-    
+    рядок
+     
+    Причина для конфіденційності документів.
+                                        
 :datePublished:
-    string, :ref:`date`
-    
-    |ocdsDescription|
-    The date on which the document was first published. 
+    рядок, :ref:`date`
+                  
+    |ocdsDescription| Дата, коли документ був опублікований вперше. 
     
 :dateModified:
-    string, :ref:`date`
-    
-    |ocdsDescription|
-    Date that the document was last modified
-    
+    рядок, :ref:`date`
+                  
+    |ocdsDescription| Дата, коли документ був змінений востаннє
+                                                           
 :language:
-    string, default = `uk`
+    рядок, значення за замовчуванням - `uk`
 
-    Possible values are:
+    Можливі значення:
 
     * `uk`
     * `en`
     * `ru`
     
-    |ocdsDescription|
-    Specifies the language of the linked document using either two-digit `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_. 
+    |ocdsDescription| Вказує мову документа, використовуючи або двоцифровий код `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, або розширений `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_. 
 
 :documentOf:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
     * `tender`
     * `item`
     * `lot`
 
-    For :ref:`Complaint` it is also allowed to choose:
+    Для :ref:`Complaint` також можливе значеня:
 
     * `post`
 
 :relatedItem:
-    string
+    рядок
 
-    ID of related :ref:`lot` or :ref:`item`.
+    Ідентифікатор пов'язаних об'єктів :ref:`lot` або :ref:`item`.
 
 Additionally in :ref:`competitivedialogue` (first stage):
 
 :isDescriptionDecision:
     bool
 
-    |ocdsDescription|
-    Make document "Description of the decision to purchase".
+    |ocdsDescription| Make document "Description of the decision to purchase".

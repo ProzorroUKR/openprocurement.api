@@ -3,23 +3,23 @@
 hasPreSelectionAgreement
 ========================
 
-Field `hasPreSelectionAgreement` is a boolean field that indicates whether the tender has pre-selection procedure and has to be connected to agreement.
+Поле `hasPreSelectionAgreement` є булевим полем, яке вказує, чи закупівля має процедуру попереднього відбору та має бути зв'язана з угодою.
 
-Possible values for `hasPreSelectionAgreement` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasPreSelectionAgreement` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/has-pre-selection-agreement-values.csv
    :header-rows: 1
 
-hasPreSelectionAgreement is `true`
-----------------------------------
+hasPreSelectionAgreement встановлено у `true`
+---------------------------------------------
 
-If `hasPreSelectionAgreement` is `true`, then the tender will be connected to an agreement. It means that the tender will be created with `agreements` field with `id` field inside:
+Якщо `hasPreSelectionAgreement` встановлено у `true`, то закупівля буде зв'язана з угодою. Це означає, що закупівля буде створена з полем `agreements`, яке має поле `id` всередині:
 
 .. http:example:: http/has-pre-selection-agreement-true-tender-post.http
    :code:
 
-System will validate if tender with specified `procurementMethodType` is allowed to be connected to an agreement with specific `agreementType`. Here is the diagram of allowed relations between `procurementMethodType` and `agreementType`:
+Система перевіряє, чи дозволено закупівлю з вказаним `procurementMethodType` пов'язувати з угодою з певним `agreementType`. Поглянемо на діаграму дозволених зв'язків між `procurementMethodType` та `agreementType`:
 
 .. image:: diagrams/tender_agreement_relations.png
    :alt: Tender Agreement Relations
@@ -27,59 +27,59 @@ System will validate if tender with specified `procurementMethodType` is allowed
    :align: center
 
 
-On attempt to create a tender with `procurementMethodType` that is not allowed to be connected to an agreement with specific `agreementType`, the system will return an error:
+При спробі створити закупівлю з вказаним `procurementMethodType`що не може бути пов'язано з угодою з вказаним `agreementType`, система поверне помилку:
 
 .. http:example:: http/has-pre-selection-agreement-true-tender-post-invalid-type.http
    :code:
 
-Standard rules
-^^^^^^^^^^^^^^
+Стандартні правила
+^^^^^^^^^^^^^^^^^^
 
-For tender that is linked to an agreement, the following validations are applied on tender creation:
+Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час створення:
 
-* if agreement has items, then tender items should be subset of agreement items
+* Якщо угода має номенклатуру, то номенклатура закупівлі повинна бути підмножиною номенклатури угоди
 
-For tender that is linked to an agreement, the following validations are applied on tender activation:
+Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час активації:
 
-* agreement should be active
+* угода повинна бути активна
 
 
 dynamicPurchasingSystem -> competitiveOrdering
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For tender that is linked to an agreement, the following validations are applied on tender creation:
+Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час створення:
 
-* agreement should not have items
-* procuringEntity.identifier.id and procuringEntity.identifier.scheme should match in agreement and tender
+* угода не повинна мати номенклатур
+* ідентифікатор та схема ідентифікатора постачальника повинні співпадати в угоді та закупівлі
 
-For tender that is linked to an agreement, the following validations are applied on tender activation:
+Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час активації:
 
-* agreement should have at least 3 active contracts
+* угода повинна мати принаймні 3 активні контракти
 
 :ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`
 
 electronicCatalogue -> priceQuotation
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For tender that is linked to an agreement, the following validations are applied on tender activation:
+Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час активації:
 
-* agreement should have at least 1 active contract
-* each item profile should belong to the same agreement as the tender
+* угода повинна мати принаймні 1 активний контракт
+* профіль кожної номенклатури повинен належати тій же угоді, що і закупівля
 
 :ref:`pricequotation` → :ref:`pricequotation_tutorial`
 
 internationalFinancialInstitutions -> requestForProposal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-For tender that is linked to an agreement, the following validations are applied on tender activation:
+Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час активації:
 
-* agreement should have at least 3 active contracts
-* procuringEntity.identifier.id and procuringEntity.identifier.scheme should match in agreement and tender
+* угода повинна мати принаймні 3 активні контракти
+* ідентифікатор та схема ідентифікатора постачальника повинні співпадати в угоді та закупівлі
 
 :ref:`requestforproposal` → :ref:`requestforproposal_tutorial`
 
 
-Specific rules
-^^^^^^^^^^^^^^
+Особливі правила
+^^^^^^^^^^^^^^^^
 
-Some procedures have specific distinctions in the rules of connection to an agreement.
+Деякі процедури мають особливості у правилах зв'язку з угодою.
 
 
 closeFrameworkAgreementUA -> closeFrameworkAgreementSelectionUA

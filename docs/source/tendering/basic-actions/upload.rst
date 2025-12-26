@@ -1,31 +1,31 @@
 .. _upload:
 
-Documents Uploading
-===================
+Завантаження документів
+=======================
 
-All of the document uploading API endpoints follow the same set of rules.
+Всі точки входу API завантаження документів використовують той самий набір правил.
 
-Upload document with registration
----------------------------------
+Завантажити документ з реєстрацією
+----------------------------------
 
-#. :ref:`Register document upload in document service <documentservice:register-document-upload>`.
+#. :ref:`Зареєструвати завантаження документа в Document Service <documentservice:register-document-upload>`.
 
-#. Add document in API:
-
-    .. http:example:: ../belowthreshold/http/tutorial/upload-tender-notice.http
-        :code:
-
-#. :ref:`Upload document in document service <documentservice:upload-document>`.
-
-Upload document w/o registration
---------------------------------
-
-#. :ref:`Register document upload in document service <documentservice:upload-document-w-o-registration>`.
-
-#. Add document in API:
+#. Додати документ в API:
 
     .. http:example:: ../belowthreshold/http/tutorial/upload-tender-notice.http
         :code:
 
+#. :ref:`Завантажити документ в document service <documentservice:upload-document>`.
 
-:ref:`Follow the link to see more document request examples <bt-documents-tutorial>`.
+Завантажити документ без реєстрації
+-----------------------------------
+
+#. :ref:`Зареєструвати завантаження документа в Document Service <documentservice:upload-document-w-o-registration>`.
+
+#. Додати документ в API:
+
+    .. http:example:: ../belowthreshold/http/tutorial/upload-tender-notice.http
+        :code:
+
+
+:ref:`Перейдіть за посиланням, щоб переглянути більше прикладів запитів по документам <bt-documents-tutorial>`.

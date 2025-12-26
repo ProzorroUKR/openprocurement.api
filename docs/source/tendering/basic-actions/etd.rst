@@ -8,13 +8,13 @@
    :local:
 
 
-Electronic Tender Documentation
-===============================
+Електронна Тендерна Документація
+================================
 
-Criteria workflow
------------------
+Схема роботи критеріїв
+----------------------
 
-Tutorial
+Туторіал
 ~~~~~~~~
 
 .. toctree::
@@ -23,30 +23,30 @@ Tutorial
     criteria
 
 
-Requirement Response workflow
------------------------------
+Схема роботи відповідей на вимоги
+---------------------------------
 
-Tutorials
+Туторіали
 ~~~~~~~~~
 
-Bid Requirement Responses
-"""""""""""""""""""""""""
+Відповідь на вимогу в пропозиції
+""""""""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     bid-requirement-response
 
-Award Requirement Responses
-"""""""""""""""""""""""""""
+Відповідь на вимогу в кваліфікації
+""""""""""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     award-requirement-response
 
-Qualification Requirement Responses
-"""""""""""""""""""""""""""""""""""
+Відповідь на вимогу в пре-кваліфікації
+""""""""""""""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1

@@ -1,28 +1,28 @@
 .. _cfaua_questions:
 
-Asking Questions
-================
+Звернення до замовнику
+======================
 
-Submitting Questions
---------------------
+Як подати звернення
+-------------------
 
-Anybody (who provides their identity) can ask questions:
+Будь-хто (але не анонімно) може подати звернення:
 
 .. http:example:: tutorial/ask-question.http
    :code:
 
-Retrieving Questions
---------------------
+Як прочитати звернення
+----------------------
 
-Author of question will be hashed with his `identifier.id` plus `access token` of the procedure:
+Інформація про автора звернення буде захешована, використовуючи його ЕДРПОУ та `access token` тендеру:
 
 .. http:example:: tutorial/list-question.http
    :code:
 
-Submitting Answers
-------------------
+Як надати відповідь
+-------------------
 
-Tender creator can answer questions:
+Замовник закупівлі може відповісти на звернення:
  
 .. http:example:: tutorial/answer-question.http
    :code:

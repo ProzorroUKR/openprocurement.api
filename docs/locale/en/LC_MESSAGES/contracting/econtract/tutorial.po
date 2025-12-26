@@ -1,0 +1,510 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-09 13:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Туторіал"
+msgstr "Tutorial"
+
+msgid "Загальна картина"
+msgstr ""
+
+msgid "Процес визначення переможця відбувається на майданчиках 1-4 рівнів акредитації."
+msgstr ""
+
+msgid "Процес електронного контракту відбувається на майданчиках 6 рівня акредитації."
+msgstr ""
+
+msgid "Передумови"
+msgstr ""
+
+msgid "Вимоги до тендеру"
+msgstr ""
+
+msgid "Для електронних контрактів тендер має відповідати наступним вимогам"
+msgstr ""
+
+msgid "має бути обрано шаблон договору за допомогою поля `contractTemplateName` в тендері"
+msgstr ""
+
+msgid "має бути обраним майданчик 6 рівня акредитації для замовників та постачальників"
+msgstr ""
+
+msgid "Розглянемо детальніше вимоги щодо тендеру."
+msgstr ""
+
+msgid "Шаблон договору"
+msgstr ""
+
+msgid "Поле `contractTemplateName` має бути обов'язково обрано на етапі створення тендеру (більше тут :ref:`contract-template-name`)"
+msgstr ""
+
+msgid "Це поле визначає шаблон договору, який буде використано для створення PDF документу договору."
+msgstr ""
+
+msgid "Майданчик 6 рівня акредитації"
+msgstr ""
+
+msgid "При створенні контракту замовнику (buyer) та постачальнику (supplier) має бути надано можливість вказати майданчик на якому буде проходити контрактінг."
+msgstr ""
+
+msgid "Назва майданчика має бути вказана"
+msgstr ""
+
+msgid "в полі `contract_owner` в `procuringEntity` (або `buyers` для закупівель ЦЗО) для замовників"
+msgstr ""
+
+msgid "в полі `contract_owner` в `tenderers` пропозиції для постачальників"
+msgstr ""
+
+msgid "Поле `contract_owner` може мати лише назву майданчика, який пройшов акредитацію 6 рівня."
+msgstr ""
+
+msgid "Для замовника майданчик має вказати поле `contract_owner` в `procuringEntity` (або `buyers` для закупівель ЦЗО)."
+msgstr ""
+
+msgid "Отримати перелік майданчиків можна за допомогою API запиту:"
+msgstr ""
+
+msgid "Якщо спробувати створити тендер з майданчиком не 6го рівня, то отримаємо помилку:"
+msgstr ""
+
+msgid "Відфільтруємо майданчики 6го рівня:"
+msgstr ""
+
+msgid "Створимо тендер з майданчиком 6го рівня:"
+msgstr ""
+
+msgid "Тендер створено успішно."
+msgstr ""
+
+msgid "Для постачальника майданчик має вказати поле `contract_owner` в полі `tenderers` пропозиції."
+msgstr ""
+
+msgid "Переглянемо як виглядає пропозиція для постачальника:"
+msgstr ""
+
+msgid "Як бачимо, майданчик вказано правильно."
+msgstr ""
+
+msgid "Створення договору"
+msgstr "Creating contract"
+
+msgid "Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``."
+msgstr "Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status."
+
+msgid "Договір створюється з додатковими полями:"
+msgstr "A contract is created with additional fields:"
+
+msgid "`contractTemplateName` - копіюється з закупівлі, якщо вона встановлена (більше про це в :ref:`contract-template-name`)"
+msgstr "`contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)"
+
+msgid "`period` - `startDate` дорівнює `dateCreated` контракту + 5 календарних днів, `endDate` дорівнює кінець року, що вказаний у `startDate`"
+msgstr "`period` - `startDate` equals `dateCreated` + 5 calendar days, `endDate` is the end of the year of `startDate`"
+
+msgid "Договір PQ створюється з додатковими полями:"
+msgstr "A PQ contract is created with additional fields:"
+
+msgid "`attributes` - формується з вимог та відповідей на вимоги у закупівлі"
+msgstr "`attributes` - formed from requirements and responses in tender"
+
+msgid "Також, PDF документ створюється на основі шаблону (`contractTemplateName`) та автоматично прикріплюється до договору з documentType `contractNotice`."
+msgstr "Also, PDF document is created based on the template (`contractTemplateName`) and automatically attached to the contract with documentType `contractNotice`."
+
+msgid "Цей документ буде потрібен для підписання як постачальником, так і замовником пізніше, щоб активувати договір."
+msgstr "This document will be required for signing for both supplier and buyer later to activate the contract."
+
+msgid "Отримання договору"
+msgstr "Getting contract"
+
+msgid "Договір в системі закупівель"
+msgstr "Contract in the tender system"
+
+msgid "*Ідентифікатор `id` договору однаковий в системах закупівель та договорів.*"
+msgstr "*Contract id is the same in both tender and contract system.*"
+
+msgid "Let’s see what listing of contracts in contracting module reveals us:"
+msgstr ""
+
+msgid "Спробуємо отримати створений об’єкт по URL:"
+msgstr "Let's access the URL of the created object:"
+
+msgid "Отримання доступу"
+msgstr "Getting access"
+
+msgid "Для отримання доступу для замовника або постачальника використовується ендпоінт `contracts/{contract_id}/access` після ствворення контракту."
+msgstr "For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created."
+
+msgid "Алгоритм отримання доступу:"
+msgstr "Algorith of getting access:"
+
+msgid "POST `/access` з індентифікатором клієнта - повертає токен для клієнта"
+msgstr "POST `/access` with identifier of client - returns token for client"
+
+msgid "Треба зробити POST `/access` - запит з індентифікатором клієнта, по якому визначається чи це buyer чи supplier. Якщо ідентифікатор не відповідає жодній із сутностей, то видається помилка:"
+msgstr "Main action is POST `/access` - a query with a client identifier determines whether it is a buyer or supplier. If the identifier does not match any of the entities, an error is issued:"
+
+msgid "Якщо індентифікатор знайшло, після цього відбувається валідація чи підходить майданчик, з якого робиться запит для цієї ролі:"
+msgstr "If identifier is found, then we validate whether authenticated user is an owner for this role:"
+
+msgid "Якщо індентифікатор знайшло і `owner` підходить, то сетапиться токен відповідно до сутності для постачальника або замовника:"
+msgstr "If identifier is found and owner matches, then the token is set according to the entity for supplier or buyer:"
+
+msgid "Якщо замовник запитує доступ, то у відповіді також буде згенерований новий `transfer` токен."
+msgstr "If buyer get access, we will see in response new `transfer` token too."
+
+msgid "Після генерації токену все ще дозволено перегенерувати токен, тому можна робити нові POST запити з цим ідентифікатором:"
+msgstr "After token generation, it is allowed to regenerate token, make new POST request with this identifier:"
+
+msgid "**NOTE:** Тепер користувачу дозволено редагувати контракт як замовник тільки використовуючи останній згенерований токен."
+msgstr "**NOTE:** Then user can modify contract as buyer only using the last generated token."
+
+msgid "Після того, як токен був перегенерований, попередній токен при редагуванні контракту вже не можна буде використати:"
+msgstr "After token was regenerated, previous token can not be used for updating contract:"
+
+msgid "Такий самий алгоритм і для отримання доступу постачальником."
+msgstr "The same algorithm will be for supplier access."
+
+msgid "Запросимо доступ для постачальника:"
+msgstr "Let's require access for supplier:"
+
+msgid "**WARNING:** Отримання доступів дозволено тільки під час `pending` контракту."
+msgstr "**WARNING:** It is allowed to get access only during contract is `pending`."
+
+msgid "Реєстрація договору"
+msgstr "Activating contract"
+
+msgid "Якщо контракт був створений за правилами електронного контрактингу за новим флоу зі встановленними майданчиками для постачальника та замовника ще під час закупівлі, то для активації такого контракту обов'язковими є заповнення інформації підписантів та додавання підписів всіх учасників."
+msgstr "If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required."
+
+msgid "Для того, щоб активувати контракт, потрібно замовнику та постачальнику додати в якості документів електронні підписи."
+msgstr "To activate contract it is required to add contract signature document type from each participant (supplier and buyer)."
+
+msgid "Вимоги до підпису:"
+msgstr "Requirements for signing:"
+
+msgid "Має бути підписаний документ договору з `documentType` `contractNotice`"
+msgstr "Contract document with documentType `contractNotice` should be signed"
+
+msgid "Файл підпису має бути прикріплений до договору з `documentType` `contractSignature`"
+msgstr "Signature file should be attached to the contract with documentType `contractSignature`"
+
+msgid "Підпис повинен мати наступні параметри:"
+msgstr "Signature must have following parameters:"
+
+msgid "Формат підпису: CAdES-X Long"
+msgstr "Format: CAdES-X Long"
+
+msgid "Алгоритм підпису: ДСТУ 4145"
+msgstr "Algorithm: DSTU 4145"
+
+msgid "Тип підпису: Підпис та дані в окремих файлах (detached)"
+msgstr "Type: Separate data and signature files (detached)"
+
+msgid "Діаграма процесу підписання:"
+msgstr "Here is a diagram of the signing process:"
+
+msgid "Після того, як будуть накладені два підписи на поточну весрію контракту, контракт стає `active`."
+msgstr "If both sides signed the current version of contract, than contract becomes `active`."
+
+msgid "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:"
+msgstr "Supplier adds signature document using his token (`supplier_token`) which he got during access query:"
+
+msgid "Замовник додає документ підпису використовуючи свій токен (`buyer_token`), який він отримав при запиті доступу:"
+msgstr "Buyer adds signature document using his token (`buyer_token`) which he got during access query:"
+
+msgid "Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:"
+msgstr "If all required signatures are completed, the contract will automatically transition to the `active` status:"
+
+msgid "Нові версії договору"
+msgstr "New versions of contract"
+
+msgid "Якщо одна зі сторін договору не погоджується підписувати поточну версію контракту, існує можливість створити нову версію контракту, змінивши деякі поля."
+msgstr "If one of sides doesn't agree to sign current version of contract, there is an opportunity to create a new version of contract."
+
+msgid "Етапи:"
+msgstr "Flow:"
+
+msgid "скасування попереднього контракту"
+msgstr "create a cancellation of current version of contract"
+
+msgid "створення нової версії зі змінами (POST)"
+msgstr "POST new version o contract with updates"
+
+msgid "підписання нової версії і очікування поки друга сторона погодиться підписати дану версію (або створення нової версії контракту вже іншою стороною)"
+msgstr "sign new version and wait till another side agrees to sign (or create new version by his side)"
+
+msgid "Скасування"
+msgstr "Cancellations"
+
+msgid "Інсує можливість скасування поточної версії контракту та створення нової тільки поки контракт знаходиться в статусі `pending`."
+msgstr "It is allowed to cancel current version of contract and create new one during contract is `pending`."
+
+msgid "Для того, щоб скасувати контракт, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування `requiresChanges`:"
+msgstr "To cancel current version of contract, participant of contract should create a cancellation with reason `requiresChanges`:"
+
+msgid "Подивимося на договір:"
+msgstr "Let's look at contract:"
+
+msgid "Заборонено додавати більше ніж один `cancellation`:"
+msgstr "It is forbidden to add more than one cancellation:"
+
+msgid "Після того, як додано `cancellation`, підписувати цю версію контракту вже заборонено:"
+msgstr "After cancellation created, there is forbidden to sign contract:"
+
+msgid "Створення нової версії договору"
+msgstr "Create new contract version"
+
+msgid "Після скасування будь-який учасник має створити нову версію контракту, використовуючи свій токен."
+msgstr "Then any of the participant should create a new version of contract using his token."
+
+msgid "Сторона, яка створює нову версію може змінити наступні поля:"
+msgstr "Allowed fields for updating:"
+
+msgid "period"
+msgstr ""
+
+msgid "contractNumber"
+msgstr ""
+
+msgid "items.unit"
+msgstr ""
+
+msgid "items.quantity"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid "title"
+msgstr ""
+
+msgid "title_en"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "description_en"
+msgstr ""
+
+msgid "dateSigned"
+msgstr ""
+
+msgid "signerInfo (інформацію про підписанта своєї сторони)"
+msgstr "signerInfo (for supplier or buyer depends on who cancelled contract)"
+
+msgid "milestones"
+msgstr ""
+
+msgid "Якщо учасник намагається змінити якесь інше поле, то він побачить помилку:"
+msgstr "If participant tried to update another field, he will see an error:"
+
+msgid "Змінемо наступні поля `period` та `signerInfo.name`, використовуючи токен замовника:"
+msgstr "Let's update fields `period` and `signerInfo.name` using token for supplier:"
+
+msgid "Успіх! Подивимося на попередню версію контракту, в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:"
+msgstr "Success! Let's look at previous version of contract, it became `cancelled` and cancellation now is `active`:"
+
+msgid "Подивимося на всі контракти в закупівлі:"
+msgstr "Let's look at all contracts in tender:"
+
+msgid "Після цього починається новий етап підписання."
+msgstr "After that new round of signatures begins."
+
+msgid "Замовник та постачальник можуть підписати нову версію договору, якщо їх влаштовують зміни або створити нову версію, якщо треба ще щось змінити."
+msgstr "Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed."
+
+msgid "Скасування електронного договору"
+msgstr "Cancellations of Econtract"
+
+msgid "Договір можна скасувати, поки він в статусі `pending`."
+msgstr "It is allowed to cancel contract while it is on `pending` status."
+
+msgid "При створенні скасування договору можна обрати одну з двох причини скасування:"
+msgstr "There are two `reasonTypes` for creating cancellation of contract:"
+
+msgid "`requiresChanges`"
+msgstr ""
+
+msgid "`signingRefusal`"
+msgstr ""
+
+msgid "Причина скасування `requiresChanges` використовується, якщо одна зі сторін договору не погоджується підписувати поточну версію контракту і є необхідність створити нову версію контракту, змінивши деякі поля. Детально описано в :ref:`contract_versions`."
+msgstr "Reason `requiresChanges` means that one of the sides doesn't agree to sign current version of contract, and they want to create a new version of contract. Described in :ref:`contract_versions`."
+
+msgid "Причина скасування `signingRefusal` використовується, якщо переможець процедури закупівлі відмовився від підписання договору про закупівлю відповідно до вимог тендерної документації або укладення договору про закупівлю. В цьому випадку авард переможця має бути скасований."
+msgstr "Reason `signingRefusal` means that the winner of tender is refused to sign aa contract, that's why his award should be cancelled by buyer."
+
+msgid "Підписант (замовник/постачальник) може створити `cancellation` з причиною `reasonType = signingRefusal`:"
+msgstr "Participant of contract can create a cancellation with reason `signingRefusal`:"
+
+msgid "Після цього замовник скасовує переможця - `award` змінює статус на `cancelled`:"
+msgstr "After that buyer should cancel the winner via award:"
+
+msgid "Подивимося на контракт ще раз і побачимо, що в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:"
+msgstr "Let's look at contract one more time and we will see that contract became `cancelled`, cancellation became `active`:"
+
+msgid "Подивимося на закупівлю, переможець скасований і підтвердження кваліфікації продовужється (статус закупівлі знову `active.qualification`):"
+msgstr "Let's look at tender, the winner is cancelled an awarding is continuing:"
+
+msgid "Додаткові угоди (зміни) в EContract"
+msgstr "Changes for active contract"
+
+msgid "Зміни в умови контрактів можуть бути внесені підписантами через подання і підписання додаткових угод. В системі використовується термінологія «змін» / «changes»."
+msgstr "Changes to the terms of the contracts can be made by the signatories through the submission and signing of an additional agreement. The system uses the terminology \"changes\"."
+
+msgid "Ініціатором внесення змін може бути обидва замовник і постачальник."
+msgstr "The initiator of the change can be both the buyer and the supplier."
+
+msgid "Ініціатор заповнює три обов’язкових поля:"
+msgstr "The initiator fills in three mandatory fields:"
+
+msgid "rationale"
+msgstr ""
+
+msgid "string, причина змін"
+msgstr "string, reason of changes"
+
+msgid "rationaleTypes"
+msgstr ""
+
+msgid "list, типи причин"
+msgstr "list, reason type of changes"
+
+msgid "Можливі значення для поля `rationaleTypes` валідуються зі списку причин, вказаних в  `contractChangeRationaleTypes`."
+msgstr "Possible values for field `rationaleTypes` are validated from list of keys in `contractChangeRationaleTypes`."
+
+msgid "modifications"
+msgstr ""
+
+msgid "object, нові значення в електронних полях"
+msgstr "object, new values in fields"
+
+msgid "`modifications` це структура, що відображає зміни в електроних поля, які буде внесено:"
+msgstr "`modifications` is a structure that reflects the changes in the contract field that will be made:"
+
+msgid "string"
+msgstr ""
+
+msgid ":ref:`Period`"
+msgstr ""
+
+msgid "Дата початку та кінця договору."
+msgstr "The start and end date for the contract."
+
+msgid "items"
+msgstr ""
+
+msgid "Список об'єктів :ref:`Item`"
+msgstr "List of :ref:`Item` objects"
+
+msgid ":ref:`ContractValue` object"
+msgstr ""
+
+msgid "List of :ref:`ContractMilestone` objects"
+msgstr ""
+
+msgid "Зміни можна вносити тільки в підписані контракти:"
+msgstr "Changes can be made only to signed contracts:"
+
+msgid "Створення додаткових угод"
+msgstr "Creating changes"
+
+msgid "Якщо буде вказана причина, якої немає в  `contractChangeRationaleTypes`, ми побачимо помилку:"
+msgstr "If we set `rationaleTypes` not from `contractChangeRationaleTypes` we will see an error:"
+
+msgid "Запит створення пропозиції змін:"
+msgstr "Request to create a change:"
+
+msgid "Для деяких полів договору існують валідації (такі самі як і були при PATCH для активного договору),"
+msgstr "There are validations for some fields during changes."
+
+msgid "Наприклад, якщо замовник вирішив змінити валюту в `value` договору:"
+msgstr "For example, if the buyer decided to change currency in contract value:"
+
+msgid "Наприклад, якщо постачальник вирішив змінити період договору на неправильну дату:"
+msgstr "For example, if the supplier decided to change period endDate in contract to incorrect date:"
+
+msgid "Підписання змін"
+msgstr "Change activation"
+
+msgid "Для того, щоб активувати зміни, потрібно замовнику та постачальнику додати в якості документів електронні підписи."
+msgstr "To activate change it is required to add contract signature document type from each participant (supplier and buyer)."
+
+msgid "Після того, як будуть накладені два підписи на зміни, зміни стають `active`."
+msgstr "If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes."
+
+msgid "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`):"
+msgstr "Supplier adds signature document using his token (`supplier_token`):"
+
+msgid "Замовник додає документ підпису використовуючи свій токен (`buyer_token`):"
+msgstr "Buyer adds signature document using his token (`buyer_token`):"
+
+msgid "Коли обидва підписа є у системі, то система підтверджує, що зміни підписано і активує їх:"
+msgstr "If all required signatures are completed, the change will automatically transition to the `active` status:"
+
+msgid "Сторони можуть скасовувати дод. угоди, якщо вони неактуальні, надавши коментар."
+msgstr "It is allowed to cancel change of contract if it is not actual anymore."
+
+msgid "Створимо ще одну додаткову угоду:"
+msgstr "Create one more change:"
+
+msgid "Для того, щоб скасувати угоду, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування:"
+msgstr "To cancel change, participant of contract should create a cancellation with reason:"
+
+msgid "Подивимося на додаткову угоду:"
+msgstr "Let's look at change:"
+
+msgid "Після того, як додано `cancellation`, підписувати цю додаткову угоду вже заборонено:"
+msgstr "After cancellation created, there is forbidden to sign change:"
+
+msgid "Підписання додаткових угод не змінює електронні поля самого контракту. Тобто якщо, наприклад, вартість контракту було змінено додатковою угодою, то в changes буде актуальне значення, а в контракті - актуальне на момент підписання контракту."
+msgstr "Signing additional changes does not change the electronic fields of the contract itself. That is, if, for example, the value of the contract was changed by an additional change, then changes will contain the current value, and the contract will contain the value current at the time of signing the contract:"
+
+msgid "Оновлення специфікації Договору"
+msgstr "Items length change"
+
+msgid "Існує можливість змінювати і додавати новий масив items в активному статусі контракту через `changes`."
+msgstr "There is an opportunity to change length of items during contract is `active` using `changes`."
+
+msgid "Дозволяється додавати новий item, але при цьому основні поля мають відповідати попереднім значенням в масиві `items`."
+msgstr "It is allowed to add new items, but the main fields should be the same as in one of previous item in contact."
+
+msgid "Поля, які не можна змінювати:"
+msgstr "Fields that can not be changed:"
+
+msgid "`classification`"
+msgstr ""
+
+msgid "`relatedLot`"
+msgstr ""
+
+msgid "`relatedBuyer`"
+msgstr ""
+
+msgid "`additionalClassifications`"
+msgstr ""
+
+msgid "Спробуємо додати новий `item` з новим полем `classification` і побачимо помилку:"
+msgstr "Let's try to add new item with new `classification` and we will see an error:"
+
+msgid "Наприклад, розділимо перший `item` на дві номенклатури з такими самими основними полями."
+msgstr "For example, we can split first item into two new items."
+
+msgid "Але при цьому все ще існує валідація на суму цін за одиницю для всіх `items`:"
+msgstr "But there is still a validation for unit prices of all items:"
+
+msgid "Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:"
+msgstr "Let's update quantity in first item and add new item with correct `unit.value`:"
+

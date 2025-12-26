@@ -1,67 +1,67 @@
 .. _2pc:
 
-2 Phase Commit
-==============
+Двофазний коміт
+===============
 
 .. _tender-2pc:
 
-Mechanism of the 2-phase commit
---------------------------------
+Механізм створення двофазного коміта
+------------------------------------
 
-The 2-phase commit provides a mechanism for CDB to publish only the tenders that clients are able to control and duplicates of which they have rights to cancel.
+Двофазний коміт пропонує механізм, завдяки якому в ЦБД будуть опубліковані тільки ті закупівлі, над якими майданчик має контроль і змогу самостійно скасувати їх дублікати.
  
-The reason for duplicated tenders can be cases when the requester did not receive a response from the server about tender creation and, therefore, repeated the request. Removing such tenders requires administrative intervention.
+Причиною виникнення дублікатів закупівель є ситуації, коли автор запиту на створення закупівлі не отримував відповіді від сервера про її створення, і, відповідно, повторював спробу, що призводило до дублювання закупівлі. Видалення таких закупівель вимагало адміністративного втручання.
 
-Creating tender with single-phase commit
-----------------------------------------
+Створення закупівлі за допомогою однофазного коміта
+---------------------------------------------------
 
-Sending a single-phase request for a tender creation (POST /tenders) according to the "old" mechanism, that creates a tender already in the ``active.enquiries`` status:
+Відсилання однофазного запиту на створення закупівлі (`POST /tenders`), за “старим” механізмом, після якого закупівля створюється одразу в статусі ``active.enquiries``:
 
 .. http:example:: ../belowthreshold/http/tutorial/tender-post-attempt-json-data.http
    :code:
 
-Creating tender with 2-phase commit
------------------------------------
+Створення закупівлі за допомогою двофазного коміта
+--------------------------------------------------
 
-Tender becomes available after the successful completion of the following requests:
+Закупівля стає доступною після успішного та послідовного виконання двох наступних запитів:
 
-1. Creation of the tender in the ``draft`` status.
-2. Transfer of the tender to ``active.enquiries`` status through a separate request (publication).
+1. Створення закупівлі у статусі ``draft``.
+2. Переведення закупівлі в статус ``active.enquiries`` окремим запитом (публікація).
 
 
-Creation of a tender
-~~~~~~~~~~~~~~~~~~~~
+Створення закупівлі
+~~~~~~~~~~~~~~~~~~~
 
-A request `POST /tenders` creates a tender in status ``draft``. As a result, an ``acc_token`` is passed for the further tender management. 
+При запиті `POST /tenders` передається закупівля зі статусом ``draft``. В результаті виконання запиту віддається ``acc_token`` для подальшого управління закупівлею. 
 
 .. http:example:: ../belowthreshold/http/tutorial/tender-post-2pc.http
    :code:
 
-Tender with the ``draft`` status is "invisible" in the `GET /tenders` list. Chronograph does not "see" it, therefore, does not switch statuses.
+Закупівля зі статусом ``draft`` "невидима" в переліку `GET /tenders`. Її, зокрема, не помічає хронограф і не перемикає статуси.
 
 
-Publication of a tender
-~~~~~~~~~~~~~~~~~~~~~~~
+Публікування закупівлі
+~~~~~~~~~~~~~~~~~~~~~~
 
-The request `PATCH /tenders/{id}?acc_token=...`  ``{“data”:{“status”:”active.enquiries”}}`` changes status of tender (according to the request), therefore, publishes it ("visualizes" it in the `GET /tenders list`).
+Запит `PATCH /tenders/{id}?acc_token=...`    ``{“data”:{“status”:”active.enquiries”}}`` змінює статус закупівлі (згідно із запитом) і, відповідно, цим публікує її (“візуалізує” її в переліку `GET /tenders`).
 
 .. http:example:: ../belowthreshold/http/tutorial/tender-patch-2pc.http
    :code:
    
-All tenders created in the CDB but not yet published will not be displayed on the web platform and, therefore, will not lead to their announcement.
+Всі закупівлі, які були створені в ЦБД, але не опубліковані, не будуть відображатись на майданчику і, відповідно, не будуть призводити до їх оголошення.
 
-Repeating of the request for publication in case of problem with receiving a response from the server will not cause errors.
+Повторення запиту на публікацію, у випадку проблем з отриманням відповіді від сервера, не буде спричиняти помилок.
 
-The new mechanism is available along with the "old" one. The "old" is likely to be turned off in one of the later releases.
+Новий механізм доступний паралельно зі “старим”. “Старий”, імовірно, буде вимкнено в одному з наступних release-ів.
 
-Work with errors
-----------------
+Робота з помилками
+------------------
 
-In case of unsuccessful request and/or 5xx errors you should check modified object data (tender, bid, award, etc.), since 5xx error response does not necessarily guarantee that request has not been performed. You should repeat this request with some interval until successful result. 
+У випадку неуспішності запиту та/або 5xx помилки, перевірте модифікований об'єкт (закупівлю, пропозицію, контракт і т.п.), оскільки 5xx помилка не обов'язково означає, що запит не відбувся. Варто повторювати запит з певним інтервалом, доки він не пройде успішно. 
 
-You can view more detailed error description :ref:`here <errors>`.
+Детальніший опис помилок та рекомендацій щодо дій при їх виникненні описаний у розділі :ref:`Коди стану <errors>`.
 
-Here is an example of incorrectly formed request. This error indicates that the data is not found in the body of JSON.
+Ось приклад помилки неправильно сформованого запиту. Ця помилка вказує, що `data` не знайдено у тілі JSON.
 
 .. http:example:: ../belowthreshold/http/tutorial/tender-post-attempt-json.http
    :code:

@@ -7,122 +7,117 @@
 Cancellation
 ============
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :reason:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    The reason, why Tender is being cancelled.
+    Причина, з якої скасовується закупівля.
 
 :status:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
      :`draft`:
-       Default. Cancellation in a state of formation.
+       За замовчуванням. Скасування у стані формування.
      :`pending`:
-       The request is being prepared.
+       Запит оформлюється.
      :`active`:
-       Cancellation activated.
+       Скасування активоване.
      :`unsuccessful`:
-       Cancellation was unsuccessful.
+       Невдале скасування
 
 :documents:
-    List of :ref:`ConfidentialDocument` objects
+    Список об’єктів :ref:`ConfidentialDocument`
 
-    Documents accompanying the Cancellation: Protocol of Tender Committee
-    with decision to cancel the Tender.
+    Супровідна документація скасування: Протокол рішення Тендерного комітету Замовника про скасування закупівлі.
 
 :date:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    Cancellation date.
+    Дата скасування
 
 :cancellationOf:
-    string, required, default `tender`
+    string, обов’язковий, за замовчуванням `tender`
 
-    Possible values are:
+    Можливі значення:
 
-    * `tender`
-    * `lot`
+    * `tender` - закупівля
+    * `lot` - лот
 
-    Possible values in :ref:`limited`:
-    * `tender`
+    Можливі значення у :ref:`limited`: * `tender`
 
 :relatedLot:
-    string
+    рядок
 
-    Id of related :ref:`lot`.
+    ID пов’язаного :ref:`lot`.
 
 :reasonType:
-    string
+    рядок
 
-    There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`,
-    `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`,
-    `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering`, `priceQuotation`
-    procedures set by procuring entity:
+    Існує чотири можливi причини скасування для процедур `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering`, `priceQuotation`:
 
      :`noDemand`:
-       No need in procurement of goods, works and services.
+       Відсутність подальшої потреби в закупівлі товарів, робіт і послуг.
 
      :`unFixable`:
-       Can not fix revealed violations of the law in the scope of public procurement.
+       Неможливість усунення виявлених порушень законодавства у сфері публічних закупівель.
 
      :`forceMajeure`:
-       Can not do a procurement due to force majeure conditions.
+       Неможливість здійснення закупівлі унаслідок непереборної сили.
 
      :`expensesCut`:
-       Cut down the expenses of procurement of goods, works and services.
+       Скорочення видатків на здійснення закупівлі товарів, робіт і послуг.
 
 
-    There is one more possible type for `aboveThreshold` and `competitiveOrdering`:
+    Ще одна можлива причина скасування для процедур `aboveThreshold` і `competitiveOrdering`:
 
      :`noOffer`:
-       Less than two bids were submitted.
+       Подано менше 2 тендерних пропозицій.
 
-    Possible types for `negotiation` and `negotiation.quick`:
+    Можливі причини скасування для `negotiation` та `negotiation.quick`:
 
      :`noDemand`:
-       No need in procurement of goods, works and services.
+       Відсутність подальшої потреби в закупівлі товарів, робіт і послуг.
 
      :`unFixable`:
-       Can not fix revealed violations of the law in the scope of public procurement.
+       Неможливість усунення виявлених порушень законодавства у сфері публічних закупівель.
 
      :`noObjectiveness`:
-       Can not do a procurement due to force majeure conditions.
+       Неможливість здійснення закупівлі унаслідок непереборної сили.
 
      :`expensesCut`:
-       Cut down the expenses of procurement of goods, works and services.
+       Скорочення видатків на здійснення закупівлі товарів, робіт і послуг.
 
      :`dateViolation`:
-       Cut down the expenses of procurement of goods, works and services.
+       Скорочення видатків на здійснення закупівлі товарів, робіт і послуг.
 
-    Possible types for `belowThreshold` and `aboveThresholdUA.defense`:
+    Моживі причини скасування для `aboveThresholdUA.defense` та `aboveThresholdUA.defense`:
 
      :`noDemand`:
-       No need in procurement of goods, works and services.
+       Відсутність подальшої потреби в закупівлі товарів, робіт і послуг.
 
      :`unFixable`:
-       Can not fix revealed violations of the law in the scope of public procurement.
+       Неможливість усунення виявлених порушень законодавства у сфері публічних закупівель.
 
      :`expensesCut`:
-       Cut down the expenses of procurement of goods, works and services.
+       Скорочення видатків на здійснення закупівлі товарів, робіт і послуг.
 
 :complaintPeriod:
     :ref:`period`
 
-    The timeframe when complaints can be submitted.
+    Період, під час якого можна подавати скарги.
 
 :complaints:
-    List of :ref:`complaint` objects
+    Список об’єктів :ref:`complaint`
 
 
-Cancellation workflow in :ref:`limited` and :ref:`openeu`
----------------------------------------------------------
+Робочий процес у :ref:`limited` and :ref:`openeu`
+-------------------------------------------------
 
 .. graphviz::
 
@@ -135,6 +130,6 @@ Cancellation workflow in :ref:`limited` and :ref:`openeu`
         B -> {C,D};
     }
 
-\* marks initial state
+\* позначає початковий стан
 
 

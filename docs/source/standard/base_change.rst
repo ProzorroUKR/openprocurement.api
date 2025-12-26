@@ -1,31 +1,31 @@
 ⠀
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-     The identifier for this Change.
+     Ідентифікатор для об'єкта Change
 
 :rationale:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-     Reason for agreement change
+     Причина для зміни угоди
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :dateSigned:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
 :agreementNumber:
     string
 
 :status:
-    string, required
+    рядок, обов’язковий
 
-     The current status of the change.
+     Поточний стан зміни.
 
-     Possible values are:
+     Можливі значення:
 
-     * `pending` - this change has been added.
-     * `active` - this change has been confirmed.
-     * `cancelled` - this change has been cancelled.
+     * `очікування` - ця зміна була додана.
+     * `активний` - ця зміна підтверджена.
+     * `cancelled` - ця зміна скасована.

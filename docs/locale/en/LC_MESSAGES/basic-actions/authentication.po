@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-10-03 00:48+0300\n"
+"PO-Revision-Date: 2016-09-21 16:15+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Аутентифікація"
+msgstr "Authentication"
+
+msgid "Деякі запити API (особливо GET запити лише для читання) не потребують аутентифікації. Інші, ті, які модифікують дані у базі даних, потребують аутентифікації брокера через ключ API. Додатково видаються токени власника, щоб забезпечити кілька ролей дійових осіб при створенні об’єкта."
+msgstr "Some of the API requests (especially the ones that are read-only GET requests) do not require any authentication.  The other ones, that modify data into the database, require broker authentication via API key.  Additionally, owner tokens are issued to facilitate multiple actor roles upon object creation."
+
+msgid "Ключі API"
+msgstr "API keys"
+
+msgid "Basic Authenication"
+msgstr ""
+
+msgid "Ключ API - це ім’я користувача, що буде використовуватись зі схемою базової аутентифікації (див. :rfc:`2617#section-2`)."
+msgstr "API key is username to use with Basic Authentication scheme (see :rfc:`2617#section-2`)."
+
+msgid "Bearer Authenication"
+msgstr ""
+
+msgid "Ключ API - це токен, що буде використовуватись для аутентифікації."
+msgstr "API key is token to use with Bearer Authentication scheme"
+
+msgid "Токени власника"
+msgstr "Owner tokens"
+
+msgid "Отримання токена"
+msgstr "Getting token"
+
+msgid "Токен видається, коли об'єкт створюється в базі даних:"
+msgstr "The token is issued when object is created in the database:"
+
+msgid "У відповіді є `access` разом з `token`. Це значення можна використати для модифікації об’єктів у \"ролі Власника\"."
+msgstr "You can see the `access` with `token` in response.  Its value can be used to modify objects further under \"Owner role\"."
+
+msgid "Використання токена"
+msgstr "Using token"
+
+msgid "Ви можете передати токен доступу такими способами:"
+msgstr "You can pass access token in the following ways:"
+
+msgid "параметр рядка URL запиту `acc_token`"
+msgstr "`acc_token` URL query string parameter"
+
+msgid "заголовок HTTP запиту `X-Access-Token`"
+msgstr "`X-Access-Token` HTTP request header"
+
+msgid "`access.token` в тілі запитів POST/PUT/PATCH"
+msgstr "`access.token` in the body of POST/PUT/PATCH request"
+
+msgid "Ось приклад, де токен передається як рядок URL запиту:"
+msgstr "See the example of the action with token passed as URL query string:"
+

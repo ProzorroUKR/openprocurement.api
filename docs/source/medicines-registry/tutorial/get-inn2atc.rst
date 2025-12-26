@@ -1,7 +1,7 @@
-INN and ATC
------------
+МНН і АТХ
+---------
 
-Matching between INN and ATC classifications
+Відповідність між класифікаціями МНН та АТХ
 
 .. http:example:: http/inn2atc-get.http
     :code:

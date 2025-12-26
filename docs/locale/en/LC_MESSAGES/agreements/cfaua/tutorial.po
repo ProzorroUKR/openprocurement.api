@@ -1,0 +1,190 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-07 14:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+msgid "Туторіал"
+msgstr "Tutorial"
+
+msgid "Базові правила"
+msgstr "Exploring basic rules"
+
+msgid "Подивимось як працює точка входу `/agreements`:"
+msgstr "Let's try exploring the `/agreements` endpoint:"
+
+msgid "При виклику видає пустий набір."
+msgstr "Just invoking it reveals an empty set."
+
+msgid "Угода автоматично переноситься з модуля тендера."
+msgstr "Agreement is transferred from the tender system by an automated process."
+
+msgid "Створення угоди"
+msgstr "Creating agreement"
+
+msgid "Припустимо, що ми провели тендер, який зараз є в статусі ``complete``. Після завершення тендера, угода, яка була створена в модулі тендера, переноситься у модуль угод **автоматично**."
+msgstr "Let's say that we have conducted tender and it has ``complete`` status. When the tender is completed, agreement (that has been created in the tender system) is transferred to the agreement system **automatically**."
+
+msgid "*Майданчики (eMalls) не можуть створити угоди в модулі угод.*"
+msgstr "*Brokers (eMalls) can't create agreements in the agreement system.*"
+
+msgid "Отримання угоди"
+msgstr "Getting agreement"
+
+msgid "Угода в модулі тендера"
+msgstr "Agreement in the tender system"
+
+msgid "*Ідентифікатор угоди є тим самим і в модулі тендера, і в модулі угод.*"
+msgstr "*Agreement id is the same in both tender and agreement system.*"
+
+msgid "Звернемося до URL-адреси створеного об'єкта в модулі угод:"
+msgstr "Let's access the URL of the created object inside agreement system:"
+
+msgid "Отримання доступу"
+msgstr "Getting access"
+
+msgid "Для того, щоб отримати права для редагування угоди в майбутньому, вам потрібно виконати ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}`` з ключами майданчика до API, яким був згенерований тендер."
+msgstr "In order to get rights for future agreement editing, you need to use this view ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated."
+
+msgid "У ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:"
+msgstr "In the ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:"
+
+msgid "``id`` - ідентифікатор угоди,"
+msgstr "``id`` stands for agreement id,"
+
+msgid "``tender_token`` - це токен тендера (використовується для генерації токена угоди)."
+msgstr "``tender_token`` is tender's token (is used for agreement token generation)."
+
+msgid "Відповідь міститиме ``access.token`` для угоди, який можна використовувати для майбутнього редагування угоди."
+msgstr "Response will contain ``access.token`` for the agreement that can be used for further agreement modification."
+
+msgid "Подивимось на угоди."
+msgstr "Let's view agreements."
+
+msgid "Бачимо внутрішні `id` угоди, який може бути використаний для побудови повної URL-адреси за допомогою додавання `http://api-sandbox.openprocurement.org/api/0/agreements/`, а також дату `dateModified`."
+msgstr "We do see the internal `id` of a agreement (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/agreements/`) and its `dateModified` datestamp."
+
+msgid "Редагування угоди"
+msgstr "Modifying agreement"
+
+msgid "**Основні умови договору** можуть бути модифіковані поданням нових об'єктів `change` у контейнер `Agreement.changes`. `Change` може бути таких типів: :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` або :ref:`ChangeThirdParty`"
+msgstr "**Essential agreement terms** can be modified by the submission of a new `change` object to the `Agreement.changes` container. `Change` can be one of this types :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty`"
+
+msgid "Усі об'єкти `changes` обробляються точкою входу `/agreement/{id}/changes`."
+msgstr "All `changes` are processed by the endpoint `/agreement/{id}/changes`."
+
+msgid "Подання зміни"
+msgstr "Submitting a change"
+
+msgid "Додамо новий `change` до угоди:"
+msgstr "Let's add new `change` to the agreement:"
+
+msgid "Візьміть до уваги, потрібно заповнити обов'язкове поле ``rationaleType``."
+msgstr "Note that you should provide value in ``rationaleType`` field. This field is required."
+
+msgid "Подивимось на `change`:"
+msgstr "You can view the `change`:"
+
+msgid "`Change` може бути модифікований, поки об'єкт в статусі ``pending``:"
+msgstr "`Change` can be modified while it is in the ``pending`` status:"
+
+msgid "Завантаження документів до змін"
+msgstr "Uploading change document"
+
+msgid "Документ може бути доданий тільки тоді, коли `change` в статусі ``pending``."
+msgstr "Document can be added only while `change` is in the ``pending`` status."
+
+msgid "Документи додаються в два етапи:"
+msgstr "Document has to be added in two stages:"
+
+msgid "завантажте документ"
+msgstr "you should upload document"
+
+msgid "налаштуйте властивості документу ``\"documentOf\": \"change\"`` і ``\"relatedItem\": \"{change.id}\"`` для того, щоб підв'язати заватажений документ до об'єкту `change`:"
+msgstr "you should set document properties ``\"documentOf\": \"change\"`` and ``\"relatedItem\": \"{change.id}\"`` in order to bind the uploaded document to the `change`:"
+
+msgid "Оновлення властивостей угоди"
+msgstr "Updating agreement properties"
+
+msgid "Тепер можете оновити властивості угоди, які належать зміні."
+msgstr "Now you can update agreement properties which belong to the change."
+
+msgid "Є можливість змінювати кожен `factor` в `modifications` у випадку декількох :ref:`Item`."
+msgstr "In case of multiple :ref:`Item` you are allowed to change in `modifications` each `factor`."
+
+msgid "Попередній перегляд угоди"
+msgstr "Agreement preview"
+
+msgid "Також, поки `change` в статусі ``pending``, можна бачити угоду, оскільки зміни будуть застосовані. Необхідно використати ``GET: /agreements/{id}/preview?acc_token={agreement_token}``."
+msgstr "Also, while `change` is in the ``pending`` status, you can see agreement as `change` would be applied. You need to use this view ``GET: /agreements/{id}/preview?acc_token={agreement_token}``."
+
+msgid "Як бачимо, `value.amount` на `unitPrices` об'єкту `contracts` змінюється після прийняття змін. Тож, якщо ці `зміни` - це те, що вам потрібно, то ви можете подати об'єкт `change`."
+msgstr "As you can see, `value.amount` on `contracts` `unitPrices` are changed due `modification` is applied. So if this `modification` is what you need, you can apply `change`."
+
+msgid "Застосування зміни"
+msgstr "Applying the change"
+
+msgid "`Change` може бути застосована після переходу в статус ``active``."
+msgstr "`Change` can be applied by switching to the ``active`` status."
+
+msgid "Для того, щоб застосувати статус ``active``, має бути налаштоване поле `dateSigned`."
+msgstr "In order to apply ``active`` status `dateSigned` field must be set."
+
+msgid "Після цього `change` не можна більше модифікувати."
+msgstr "After this `change` can't be modified anymore."
+
+msgid "Валідація поля `dateSigned`:"
+msgstr "`dateSigned` field validation:"
+
+msgid "для першої `change` в угоді, дата повинна бути після `agreement.dateSigned`;"
+msgstr "for the first agreement `change` date should be after `agreement.dateSigned`;"
+
+msgid "для всіх наступних об'єктів `change`, дата повинна бути після попередньої `change.dateSigned`."
+msgstr "for all next `change` objects date should be after the previous `change.dateSigned`."
+
+msgid "Подивимось на всі зміни:"
+msgstr "You can view all changes:"
+
+msgid "Всі зміни також перераховані у view угоди."
+msgstr "All changes are also listed on the agreement view."
+
+msgid "Завантаження документів"
+msgstr "Uploading documentation"
+
+msgid "Замовник може завантажити PDF-файли в створену угоду. Завантаження повинне слідувати правилам завантаження."
+msgstr "Procuring entity can upload PDF files into the created agreement. Uploading should follow the `upload` rules."
+
+msgid "Код відповіді 201 Created та заголовок Location підтверджують, що документ було додано. Додатково можна запитати точку входу API колекції `documents` для підтвердження дії:"
+msgstr "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
+
+msgid "І знову можна підтвердити, що два документи завантажені."
+msgstr "And again we can confirm that there are two documents uploaded."
+
+msgid "У випадку помилки, можна заново завантажити документ поверх старої версії:"
+msgstr "In case we made an error, we can reupload the document over the older version:"
+
+msgid "І можна побачити, що цей документ переважає оригінальну версію:"
+msgstr "And we can see that it is overriding the original version:"
+
+msgid "Завершення угоди"
+msgstr "Completing agreement"
+
+msgid "Угода може бути завершена переходом в статус ``terminated``. Давайте виконаємо ці дії одним запитом:"
+msgstr "Agreement can be completed by switching to ``terminated`` status. Let's perform these actions in single request:"
+
+msgid "Якщо угода неуспішна, причини припинення угоди повинні бути вказані в полі ``terminationDetails``."
+msgstr "If agreement is unsuccessful reasons for termination ``terminationDetails`` should be specified."
+
+msgid "Будь-які майбутні зміни в угоді не дозволяються."
+msgstr "Any future modification to the agreement are not allowed."
+
+msgid "Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного тестування для III рівня акредитації <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ і `Сценарії ручного тестування для IV рівня акредитації <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
+msgstr "It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and `Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
+

@@ -1,7 +1,7 @@
 .. _competitiveordering:
 
 Competitive Ordering procedure - ``competitiveOrdering``
-========================================================================================
+========================================================
 
 Contents:
 

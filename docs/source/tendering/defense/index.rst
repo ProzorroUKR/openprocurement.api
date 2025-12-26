@@ -1,9 +1,9 @@
 .. _defense:
 
-Defense procedure - ``aboveThresholdUA.defense``
-================================================
+Переговорна процедура для потреб оборони - ``aboveThresholdUA.defense``
+=======================================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

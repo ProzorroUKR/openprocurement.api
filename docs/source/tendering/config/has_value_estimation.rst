@@ -3,79 +3,79 @@
 hasValueEstimation
 ==================
 
-Field `hasValueEstimation` is a boolean field that determines the presence or absence of the expected cost in the procurement.
+Поле `hasValueEstimation` є булевим полем, яке вказує на наявність або відсутнісь у закупівлі очікуваної вартості.
 
-Possible values for `hasValueEstimation` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasValueEstimation` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/has-value-estimation-values.csv
    :header-rows: 1
 
-hasValueEstimation is `true`
-----------------------------
+hasValueEstimation встановлено у `true`
+---------------------------------------
 
-`hasValueEstimation:true` means that procurement has the expected cost.
+`hasValueEstimation:true` означає, що закупівля має очікувану вартість.
 
-Let's create a tender with `hasValueEstimation` set to `true`:
+Створимо тендер з `hasValueEstimation` встановленим в `true`
 
 .. http:example:: http/has-value-estimation-true-tender-lots-post.http
    :code:
 
-Tender created successfully with expected cost of the procurement.
+Тендер з очікуваною вартістю успішно створено.
 
-And add lot to it:
-
-.. http:example:: http/has-value-estimation-true-tender-lots-add-post.http
-   :code:
-
-Lot added successfully with expected lot value.
-
-Let's look at the tender:
+І додамо в нього лоти:
 
 .. http:example:: http/has-value-estimation-true-tender-lots-add-post.http
    :code:
 
-hasValueEstimation is `false`
--------------------------------
+Лот з очікуваною вартістю успішно додано.
 
-`hasValueEstimation:false` means that procurement does not have the expected cost. System will reject tender expected cost, if it will be passed.
+Подивимося на тендер:
 
-Let's create a tender with `hasValueEstimation` set to `false` and expected cost:
+.. http:example:: http/has-value-estimation-true-tender-lots-add-post.http
+   :code:
+
+hasValueEstimation встановлено у `false`
+----------------------------------------
+
+`hasValueEstimation:false` означає, що закупівля не має очікуваної вартості. Система буде відхиляти очікувану вартість тендера, якщо вона буде передана.
+
+Створимо тендер з `hasValueEstimation` встановленим в `false` і вказаною очікуваною вартістю:
 
 .. http:example:: http/has-value-estimation-false-tender-lots-post-invalid.http
    :code:
 
-In that case we will have error, tender with expected cost value is forbidden.
+В цьому випадку ми побачимо помилку, що створення тендеру з очікуваною вартістю заборонено.
 
-Let's create a tender with `hasValueEstimation` set to `false` without expected cost:
+Створимо тендер з `hasValueEstimation` встановленим в `false` без очікуваної вартості:
 
 .. http:example:: http/has-value-estimation-false-tender-lots-post.http
    :code:
 
-The same rule for lots. System will reject lots with expected cost.
+Таке ж правило для лотів. Система буде відхиляти очікувану вартість лота, якщо вона буде вказана.
 
-Let's add a lot with expected cost:
+Додамо лот з очікуваною вартістю:
 
 .. http:example:: http/has-value-estimation-false-tender-lots-add-post-invalid.http
    :code:
 
-In that case we will have error, lots with expected cost value is forbidden.
+В цьому випадку ми побачимо помилку, що створення лоту з очікуваною вартістю заборонено.
 
-Let's add a lot without expected cost:
+Додамо лот без очікуваної вартості:
 
 .. http:example:: http/has-value-estimation-false-tender-lots-add-post.http
    :code:
 
-And finally look at the tender:
+Подивимося на тендер:
 
 .. http:example:: http/has-value-estimation-false-tender-complete.http
    :code:
 
-Difference
-----------
+Різниця
+-------
 
-Differences for tender with `hasValueEstimation` set to `false` comparing to `true` are:
+Різниця для тендерів з `hasValueEstimation` встановленим у `false` порівняно з `true` є
 
-* tenders have no ``value:amount``, it's forbidden
+* тендери не мають поля ``value:amount``, передавати його заборонено
 
-* lots have no ``value:amount``, it's also forbidden
+* лоти не мають поля ``value:amount``, передавати його заборонено

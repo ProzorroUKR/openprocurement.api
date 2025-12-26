@@ -6,70 +6,67 @@
 Qualification
 =============
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :title:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    Qualification title.
+    |ocdsDescription| Назва кваліфікації.
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    Qualification description.
+    |ocdsDescription| Опис кваліфікації.
 
 :eligible:
     bool
 
-    Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
+    Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації.
 
 :qualified:
     bool
 
-    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
+    Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України "Про державні закупівлі".
 
 :bidID:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    Bid that this Qualification protocol relates to.
+    Пропозиція, з якою пов’язаний протокол кваліфікації.
 
 :lotID:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    In Multilot tenders, lot that this Qualification protocol relates to.
+    В багатолотових закупівлях це лот, з яким пов’язаний протокол кваліфікації.
 
 :date:
-    string, :ref:`Date`, auto-generated, read-only
+    рядок, :ref:`Date`, генерується автоматично
 
-    The date of the qualification.
+    Дата кваліфікації.
 
 :documents:
-    List of :ref:`ConfidentialDocument` objects
+    Список об’єктів :ref:`ConfidentialDocument`
 
-    Container for Qualification documentation, protocols, reasons for
-    qualification or disqualification. Uploaded by tender committee.
+    Контейнер для кваліфікаційних документів, протоколів, причин для кваліфікації чи дискваліфікації. Завантажується закупівельним комітетом.
 
 :complaints:
-    List of :ref:`Complaint` and :ref:`Claim` objects.
+    Список об’єктів :ref:`Complaint` та :ref:`Claim`.
 
 :status:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
-    * `pending` - waiting for qualification
-    * `active` - qualification has been confirmed
-    * `unsuccessful` - participant didn't pass qualification
-    * `cancelled`- qualification decision has been cancelled
+    * `pending` - очікує на кваліфікацію
+    * `active` - кваліфікацію підтверджено
+    * `unsuccessful` - учасник не пройшов кваліфікації
+    * `cancelled`- відміна рішення по кваліфікації
 
-Workflow
---------
+Схема роботи
+------------
 
 .. graphviz::
 
@@ -85,6 +82,6 @@ Workflow
          B -> C;
     }
 
-\* marks initial state
+\* позначає початковий стан
 
 .. index:: Date, Document

@@ -1,138 +1,137 @@
 .. _contract-template-name:
 
 
-Providing contract template
-===========================
+Надання проекту договору
+========================
 
-For further contracting it is possible provide contract template. There are two ways to do this:
+Для подальшого укладання договору можна надати проект договору. Існує два способи зробити це:
 
-1. Upload ``contractProforma`` document.
-2. Set ``contractTemplateName`` field.
+1. Завантажити документ `contractProforma`.
+2. Встановити поле `contractTemplateName`.
 
-If contract template is required it should be provided in `draft` status (before tender activation).
+Якщо проект договору є обов'язковим, його слід надати у статусі `draft` (до активації тендеру).
 
-Next table shows which procurementMethodType requires contract template or for which it is optional:
+Наступна таблиця показує, які procurementMethodType вимагають шаблон договору або для яких він є необов'язковим:
 
 
-+------------------------------------+------------------+
-| procurementMethodType              | Support          |
-+====================================+==================+
-| belowThreshold                     | **Required**     |
-+------------------------------------+------------------+
-| aboveThresholdUA                   | **Required**     |
-+------------------------------------+------------------+
-| aboveThresholdEU                   | **Required**     |
-+------------------------------------+------------------+
-| aboveThreshold                     | **Required**     |
-+------------------------------------+------------------+
-| competitiveDialogueUA              | Optional         |
-+------------------------------------+------------------+
-| competitiveDialogueEU              | Optional         |
-+------------------------------------+------------------+
-| competitiveDialogueUA.stage2       | Automatically    |
-+------------------------------------+------------------+
-| competitiveDialogueEU.stage2       | Automatically    |
-+------------------------------------+------------------+
-| esco                               | Optional         |
-+------------------------------------+------------------+
-| priceQuatation                     | **Required**     |
-+------------------------------------+------------------+
-| closeFrameworkAgreementUA          | Optional         |
-+------------------------------------+------------------+
-| competitiveOrdering                | **Required**     |
-+------------------------------------+------------------+
-| negotiation                        | Optional         |
-+------------------------------------+------------------+
-| negotiation.quick                  | Optional         |
-+------------------------------------+------------------+
-| reporting                          | Not available    |
-+------------------------------------+------------------+
-| simple.defence                     | **Required**     |
-+------------------------------------+------------------+
-| closeFrameworkAgreementSelectionUA | Optional         |
-+------------------------------------+------------------+
-| requestForProposal                 | **Required**     |
-+------------------------------------+------------------+
++------------------------------------+-----------------+
+| procurementMethodType              | Підтримка       |
++====================================+=================+
+| belowThreshold                     | **Обов'язково** |
++------------------------------------+-----------------+
+| aboveThresholdUA                   | **Обов'язково** |
++------------------------------------+-----------------+
+| aboveThresholdEU                   | **Обов'язково** |
++------------------------------------+-----------------+
+| aboveThreshold                     | **Обов'язково** |
++------------------------------------+-----------------+
+| competitiveDialogueUA              | Необов'язково   |
++------------------------------------+-----------------+
+| competitiveDialogueEU              | Необов'язково   |
++------------------------------------+-----------------+
+| competitiveDialogueUA.stage2       | Автоматично     |
++------------------------------------+-----------------+
+| competitiveDialogueEU.stage2       | Автоматично     |
++------------------------------------+-----------------+
+| esco                               | Необов'язково   |
++------------------------------------+-----------------+
+| priceQuatation                     | **Обов'язково** |
++------------------------------------+-----------------+
+| closeFrameworkAgreementUA          | Необов'язково   |
++------------------------------------+-----------------+
+| competitiveOrdering                | **Обов'язково** |
++------------------------------------+-----------------+
+| negotiation                        | Необов'язково   |
++------------------------------------+-----------------+
+| negotiation.quick                  | Необов'язково   |
++------------------------------------+-----------------+
+| reporting                          | Недоступно      |
++------------------------------------+-----------------+
+| simple.defence                     | **Обов'язково** |
++------------------------------------+-----------------+
+| closeFrameworkAgreementSelectionUA | Необов'язково   |
++------------------------------------+-----------------+
+| requestForProposal                 | **Обов'язково** |
++------------------------------------+-----------------+
 
-Uploading `contractProforma`
-============================
+Завантаження `contractProforma`
+===============================
 
-Let's upload `contractProforma` document:
+Давайте завантажимо документ `contractProforma`:
 
 .. http:example:: ./http/contract-template-name/add-contract-proforma.http
    :code:
 
-Setting `contractTemplateName`
-==============================
+Встановлення `contractTemplateName`
+===================================
 
-Next table shows which statuses for each procurementMethodType allow to set/update `contractTemplateName`:
+Наступна таблиця показує, які статуси для кожного procurementMethodType дозволяють встановити/оновити `contractTemplateName`:
 
-+------------------------------------+------------------------------------------+
-| procurementMethodType              | Statuses                                 |
-+====================================+==========================================+
-| belowThreshold                     | draft/active.enquiries                   |
-+------------------------------------+------------------------------------------+
-| aboveThresholdUA                   | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| aboveThresholdEU                   | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| aboveThreshold                     | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| competitiveDialogueUA              | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| competitiveDialogueEU              | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| competitiveDialogueUA.stage2       |                                          |
-+------------------------------------+------------------------------------------+
-| competitiveDialogueEU.stage2       |                                          |
-+------------------------------------+------------------------------------------+
-| esco                               | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| priceQuatation                     | draft                                    |
-+------------------------------------+------------------------------------------+
-| closeFrameworkAgreementUA          | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| competitiveOrdering                | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| negotiation                        | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| negotiation.quick                  | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| reporting                          |                                          |
-+------------------------------------+------------------------------------------+
-| simple.defence                     | draft/active.tendering                   |
-+------------------------------------+------------------------------------------+
-| closeFrameworkAgreementSelectionUA | draft                                    |
-+------------------------------------+------------------------------------------+
-| requestForProposal                 | draft/active.enquiries/active.tendering  |
-+------------------------------------+------------------------------------------+
++------------------------------------+-----------------------------------------+
+| procurementMethodType              | Статуси                                 |
++====================================+=========================================+
+| belowThreshold                     | draft/active.enquiries                  |
++------------------------------------+-----------------------------------------+
+| aboveThresholdUA                   | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| aboveThresholdEU                   | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| aboveThreshold                     | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| competitiveDialogueUA              | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| competitiveDialogueEU              | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| competitiveDialogueUA.stage2       |                                         |
++------------------------------------+-----------------------------------------+
+| competitiveDialogueEU.stage2       |                                         |
++------------------------------------+-----------------------------------------+
+| esco                               | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| priceQuatation                     | draft                                   |
++------------------------------------+-----------------------------------------+
+| closeFrameworkAgreementUA          | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| competitiveOrdering                | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| negotiation                        | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| negotiation.quick                  | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| reporting                          |                                         |
++------------------------------------+-----------------------------------------+
+| simple.defence                     | draft/active.tendering                  |
++------------------------------------+-----------------------------------------+
+| closeFrameworkAgreementSelectionUA | draft                                   |
++------------------------------------+-----------------------------------------+
+| requestForProposal                 | draft/active.enquiries/active.tendering |
++------------------------------------+-----------------------------------------+
 
-The correctness of the `contractTemplateName` is determined by items classification id.
+Правильність шаблону визначається ідентифікатором класифікації предмету закупівлі.
 
-All available templates and their selection rules can be found in the `standards
-<https://github.com/ProzorroUKR/standards/blob/master/templates/contract_templates.json>`_.
+Усі доступні шаблони та правила їх відбору можна знайти у `стандартах <https://github.com/ProzorroUKR/standards/blob/master/templates/contract_templates.json>`_.
 
-If you try to set value out from standards or invalid for current classification, you'll get error:
+Якщо ви спробуєте встановити значення поза межами стандартів або некоректне для поточної класифікації, ви отримаєте помилку:
 
 .. http:example:: ./http/contract-template-name/set-contract-template-name-invalid.http
    :code:
 
-Let's try to set correct value for `contractTemplateName` field:
+Давайте спробуємо встановити правильне значення для поля `contractTemplateName`:
 
 .. http:example:: ./http/contract-template-name/set-contract-template-name-success.http
    :code:
 
-Also `contractTemplateName` can't be set together with uploaded `contractProforma` document:
+Також шаблон контракту не може бути встановлений разом із документом `contractProforma`:
 
 .. http:example:: ./http/contract-template-name/invalid-with-contract-proforma.http
    :code:
 
-If you try to set or change value in invalid tender status you'll get error:
+Якщо ви спробуєте встановити або змінити значення у некоректному статусі тендеру, ви отримаєте помилку:
 
 .. http:example:: ./http/contract-template-name/set-contract-template-in-incorrect-statuese.http
    :code:
 
-You can delete contract template while in `draft` tender status:
+Ви можете видалити шаблон контракту у `draft` статусі тендера:
 
 .. http:example:: ./http/contract-template-name/delete-contract-template-name.http
    :code:

@@ -1,23 +1,13 @@
 .. _meat:
 
-Most economically advantageous tenders (MEAT)
-=============================================
+Закупівлі за принципом найбільш економічно вигідної пропозиції
+==============================================================
 
-Besides simple price-only tenders it is possible to announce the tender
-where other factors are valuable.  Such tenders define features that
-procuring entity is interested in and how much different options influence
-the decision about the winner.  Features can describe properties of
-tenderer, lot or item(s) being procured. Each option offered has numerical
-value that defines level of its importance compared to price.  Bidders are
-doing self evaluation and provide the Parameters of their proposal (the
-actual value of each feature) along with financial part of a bid.
+Крім звичайних закупівель, що базуються на ціні, є можливість оголосити закупівлю, що бере до уваги і інші фактори. Такі закупівлі визначають показники, в яких зацікавлений замовник, та наскільки різні критерії впливають на вибір переможця. Критерії можуть описувати властивості учасників, лота чи товарів/послуг, що закуповуються. Кожен критерій має числове значення, що визначає його важливість в порівнянні з ціною. Учасники проводять власну оцінку та надають Параметри своїх пропозицій (дійсне значення кожного критерію) разом із фінансовою частиною своєї пропозиції.
 
-For more information read `Non-price criteria <http://openprocurement.org/en/nonprice-criteria.html>`_.
+Більш детальну інформацію шукайте на сторінці `Нецінові показники <http://openprocurement.org/ua/nonprice-criteria.html>`_.
 
-The :ref:`Feature` is a data structure, part of the :ref:`Tender`. Tender can
-have multiple features associated. Feature can be associated with tenderer,
-lot or individual Item being procured. Features are identified with code,
-which are unique within the tender.
+:ref:`Feature` (критерій) - структура даних, частина :ref:`Tender`. Закупівля Tender може мати багато критеріїв Feature, пов’язаних з нею. Критерій може бути пов’язаний з учасником, лотом чи окремим товаром/послугою, що закуповується. Критерії ідентифікуються за допомогою кодів, що є унікальними в межах тендера.
 
 .. sourcecode:: json
 
@@ -69,8 +59,7 @@ which are unique within the tender.
         }
   ]
 
-:ref:`Parameters <parameter>` provided by :ref:`bidders <Bid>` should correspond to a set
-of required features.  Parameters are linked to features using their codes.
+:ref:`Параметри <parameter>`, що надаються :ref:`учасниками <Bid>`, повинні відповідати набору необхідних критеріїв. Параметри поєднуються з критеріями за допомогою їхніх кодів.
 
 
 .. sourcecode:: json
@@ -86,11 +75,10 @@ of required features.  Parameters are linked to features using their codes.
             }
    ]
 
-Announcing MEAT
----------------
+Оголошення закупівлі з неціновими критеріями
+--------------------------------------------
 
-Features can be set in :ref:`Tender` pretty the :ref:`same way <procuring>` as Items are - with
-POST request.
+Features (критерії) можуть бути встановлені для :ref:`Tender` майже :ref:`тим самим способом <procuring>`, що і Items - за допомогою POST запиту.
 
 .. sourcecode:: http
 
@@ -107,11 +95,10 @@ POST request.
   HTTP/1.1 201 Created
   Location: /tenders/64e93250be76435397e8c992ed4214d1
 
-Changing Features
-~~~~~~~~~~~~~~~~~
+Зміна критеріїв
+~~~~~~~~~~~~~~~
 
-In the case that Features should be changed one can send PATCH that replaces
-Tender.features with new set:
+Якщо є необхідність змінити критерій, можна надіслати PATCH запит, що замінить Tender.features новим набором:
 
 .. sourcecode:: http
 
@@ -125,10 +112,10 @@ Tender.features with new set:
 
   HTTP/1.1 200 OK
 
-Removing Features
-~~~~~~~~~~~~~~~~~
+Видалення критеріїв
+~~~~~~~~~~~~~~~~~~~
 
-In case no Features are needed, they can be removed altogether with following request:
+Якщо не потрібно жодних критеріїв, їх можна видалити таким запитом:
 
 .. sourcecode:: http
 
@@ -142,11 +129,10 @@ In case no Features are needed, they can be removed altogether with following re
 
   HTTP/1.1 200 OK
 
-Bidding in MEAT
----------------
+Подання пропозицій до закупівлі з неціновими критеріями
+-------------------------------------------------------
 
-The same applies to :ref:`Bid` - Parameters of a Bid can be set initially with POST
-request and modified later with PATCH requests (see more at :ref:`bidding`).
+Те саме стосується і цінових пропозицій :ref:`Bid` - Параметри пропозиції можуть бути створені POST запитом, а потім модифіковані PATCH запитами (більше в :ref:`bidding`).
 
 .. sourcecode:: http
 
@@ -164,10 +150,7 @@ request and modified later with PATCH requests (see more at :ref:`bidding`).
   Location: /tenders/64e93250be76435397e8c992ed4214d1/bid/4879d3f8ee2443169b5fbbc9f89fa607
  
 
-Qualification in MEAT
----------------------
+Кваліфікація у закупівлі з неціновими критеріями
+------------------------------------------------
 
-During auction Bidder can bid with his/her bid price and see normalized price of
-his/her bid against normalized bids of other bidders.  Ranking in auction is
-performed with normalized price where both price value and other
-`Bid.parameters` are taken into consideration.
+Під час аукціону учасник може подавати свою цінову пропозицію і бачити приведену ціну своєї пропозиції проти приведених цін пропозицій інших учасників.  Рангування в аукціоні відбувається за приведеними цінами, в яких береться до уваги і цінова пропозиція, і інші нецінові критерії (`Bid.parameters`).

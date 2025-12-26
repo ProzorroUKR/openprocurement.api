@@ -1,0 +1,97 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-09 17:36+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Технічні характеристики"
+msgstr "Technical Features"
+
+msgid "Процедури з технічними характеристиками"
+msgstr "Procedures with technical features"
+
+msgid "Процедури які підтримують технічні характеристики:"
+msgstr "Technical features available in these procedures:"
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "Створення закупівлі з технічними характеристами"
+msgstr "Creating tender for technical features"
+
+msgid "Ви можете встановити індетифікатор обʼєкту з сервісу каталогів у поля `profile` чи `category` до передмету закупівлі."
+msgstr "You can set id of catalogue object in field `profile` or `category` to item."
+
+msgid "Якщо вказанаий профіль чи категорія не існує в сервісі каталогів, ви отримаєте помилку:"
+msgstr "If such profile or category doesn't exist in catalogue service, you will get an error:"
+
+msgid "Також обʼєкт з каталогів повинен статус `active`:"
+msgstr "Also catalogue item should be in `active` status:"
+
+msgid "Для :ref:`pricequotation` поле `profile` обов'язкове, якщо:"
+msgstr "For :ref:`pricequotation` `profile` is required if:"
+
+msgid "відбір з каталогу"
+msgstr "framework electronic catalogue"
+
+msgid "tender.value.amount >= 500000 UAH"
+msgstr ""
+
+msgid "tender.procuringEntity.kind != special/defense/other"
+msgstr ""
+
+msgid "Тож якщо ви встановите індертифікатор корректного профілю/категорію, ви зможете створити закупівлю:"
+msgstr "So if you set `id` of correct profile/category, you can create tender:"
+
+msgid "Створення критерія технічних характеристик"
+msgstr "Create technical feature criteria"
+
+msgid "Якщо ви хочете створити критерій технічних характеристик, потрібно встановити `CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES` у `criterion.classification.id` та `relatedItem` до предмету з повʼязаним профілем/категорією."
+msgstr "If you want create technical feature criteria, you should set `CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES` to `criterion.classification.id` and `relatedItem` to item with relates to profile/category ."
+
+msgid "Якщо ви спробуєте створити критерій без `relatesTo`: `item` ви отримаєте помилку:"
+msgstr "If you try to create technical feature criteria without relatesTo to item, you'll get error:"
+
+msgid "Також якщо ви спробуєте створити критерій без `relatedItem` до предмету без полей `profile`/`category`, ви отримаєте помилку:"
+msgstr "Also if you try to create criteria with relatedItem without profile/category you'll get error:"
+
+msgid "Тож якщо всі правила дотримані ви можете створити критерій технічних характеристик:"
+msgstr "So if all rules are met, you can create technical feature criteria:"
+

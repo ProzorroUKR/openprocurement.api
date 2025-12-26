@@ -12,40 +12,34 @@ Schema
 ------
 
 :name:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    signer fullname.
+    |ocdsDescription| Повне імʼя підписанта.
 
 :email:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    The e-mail address of the signer.
+    |ocdsDescription| Адреса електронної пошти підписанта
 
 :telephone:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    The telephone number of the signer. This should include the international dialling code.
+    |ocdsDescription| Номер телефону підписанта. Повинен включати міжнародний телефонний код.
 
 
 :iban:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    The bank account number of the signatory.
+    |ocdsDescription| Номер банкінвського рахунку підписанта.
 
 
 :authorizedBy:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    name of the document on the basis of which the signatory acts
+    |ocdsDescription| назва доокументу, на сонові якого діє підписант
 
 
 :position:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    position of the signer in the organisation.
+    |ocdsDescription| посада підписанта.

@@ -1,191 +1,187 @@
 .. _agreement_cfaua_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Exploring basic rules
----------------------
+Базові правила
+--------------
 
-Let's try exploring the `/agreements` endpoint:
+Подивимось як працює точка входу `/agreements`:
 
 .. http:example:: http/agreements-listing-0.http
    :code:
 
-Just invoking it reveals an empty set.
+При виклику видає пустий набір.
 
-Agreement is transferred from the tender system by an automated process.
+Угода автоматично переноситься з модуля тендера.
 
 
 .. index:: Agreements
 
-Creating agreement
-------------------
+Створення угоди
+---------------
 
-Let's say that we have conducted tender and it has ``complete`` status. When the tender is completed, agreement (that has been created in the tender system) is transferred to the agreement system **automatically**.
+Припустимо, що ми провели тендер, який зараз є в статусі ``complete``. Після завершення тендера, угода, яка була створена в модулі тендера, переноситься у модуль угод **автоматично**.
 
-*Brokers (eMalls) can't create agreements in the agreement system.*
+*Майданчики (eMalls) не можуть створити угоди в модулі угод.*
 
-Getting agreement
------------------
+Отримання угоди
+---------------
 
-Agreement in the tender system
+Угода в модулі тендера
 
 .. http:example:: http/example_agreement.http
    :code:
 
-*Agreement id is the same in both tender and agreement system.*
+*Ідентифікатор угоди є тим самим і в модулі тендера, і в модулі угод.*
 
-Let's access the URL of the created object inside agreement system:
+Звернемося до URL-адреси створеного об'єкта в модулі угод:
 
 .. http:example:: http/agreement-view.http
    :code:
 
-Getting access
---------------
+Отримання доступу
+-----------------
 
-In order to get rights for future agreement editing, you need to use this view ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated.
+Для того, щоб отримати права для редагування угоди в майбутньому, вам потрібно виконати ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}`` з ключами майданчика до API, яким був згенерований тендер.
 
-In the ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:
+У ``PATCH: /agreements/{id}/credentials?acc_token={tender_token}``:
 
-* ``id`` stands for agreement id,
+* ``id`` - ідентифікатор угоди,
 
-* ``tender_token`` is tender's token (is used for agreement token generation).
+* ``tender_token`` - це токен тендера (використовується для генерації токена угоди).
 
-Response will contain ``access.token`` for the agreement that can be used for further agreement modification.
+Відповідь міститиме ``access.token`` для угоди, який можна використовувати для майбутнього редагування угоди.
 
 .. http:example:: http/agreement-credentials.http
    :code:
 
-Let's view agreements.
+Подивимось на угоди.
 
 .. http:example:: http/agreements-listing-1.http
    :code:
 
 
-We do see the internal `id` of a agreement (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/agreements/`) and its `dateModified` datestamp.
+Бачимо внутрішні `id` угоди, який може бути використаний для побудови повної URL-адреси за допомогою додавання `http://api-sandbox.openprocurement.org/api/0/agreements/`, а також дату `dateModified`.
 
 
-Modifying agreement
--------------------
+Редагування угоди
+-----------------
 
 
-**Essential agreement terms** can be modified by the submission of a new `change` object to the `Agreement.changes` container. `Change` can be one of this types :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty`
+**Основні умови договору** можуть бути модифіковані поданням нових об'єктів `change` у контейнер `Agreement.changes`. `Change` може бути таких типів: :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` або :ref:`ChangeThirdParty`
 
-All `changes` are processed by the endpoint `/agreement/{id}/changes`.
+Усі об'єкти `changes` обробляються точкою входу `/agreement/{id}/changes`.
 
-Submitting a change
-~~~~~~~~~~~~~~~~~~~
+Подання зміни
+~~~~~~~~~~~~~
 
-Let's add new `change` to the agreement:
+Додамо новий `change` до угоди:
 
 .. http:example:: http/add-agreement-change.http
    :code:
 
-Note that you should provide value in ``rationaleType`` field. This field is required.
+Візьміть до уваги, потрібно заповнити обов'язкове поле ``rationaleType``.
 
-You can view the `change`:
+Подивимось на `change`:
 
 .. http:example:: http/view-agreement-change.http
    :code:
 
-`Change` can be modified while it is in the ``pending`` status:
+`Change` може бути модифікований, поки об'єкт в статусі ``pending``:
 
 .. http:example:: http/patch-agreement-change.http
    :code:
 
-Uploading change document
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Завантаження документів до змін
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Document can be added only while `change` is in the ``pending`` status.
+Документ може бути доданий тільки тоді, коли `change` в статусі ``pending``.
 
-Document has to be added in two stages:
+Документи додаються в два етапи:
 
-* you should upload document
+* завантажте документ
 
 .. http:example:: http/add-agreement-change-document.http
    :code:
 
-* you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
+* налаштуйте властивості документу ``"documentOf": "change"`` і ``"relatedItem": "{change.id}"`` для того, щоб підв'язати заватажений документ до об'єкту `change`:
 
 .. http:example:: http/set-document-of-change.http
    :code:
 
-Updating agreement properties
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Оновлення властивостей угоди
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now you can update agreement properties which belong to the change.
+Тепер можете оновити властивості угоди, які належать зміні.
 
 .. http:example:: http/add-agreement-change-modification.http
    :code:
 
-In case of multiple :ref:`Item` you are allowed to change in `modifications` each `factor`.
+Є можливість змінювати кожен `factor` в `modifications` у випадку декількох :ref:`Item`.
 
-Agreement preview
-~~~~~~~~~~~~~~~~~
+Попередній перегляд угоди
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Also, while `change` is in the ``pending`` status, you can see agreement as `change` would be applied.
-You need to use this view ``GET: /agreements/{id}/preview?acc_token={agreement_token}``.
+Також, поки `change` в статусі ``pending``, можна бачити угоду, оскільки зміни будуть застосовані. Необхідно використати ``GET: /agreements/{id}/preview?acc_token={agreement_token}``.
 
 .. http:example:: http/agreement_preview.http
    :code:
 
-As you can see, `value.amount` on `contracts` `unitPrices` are changed due `modification` is applied. So if this `modification` is what you need, you can apply `change`.
+Як бачимо, `value.amount` на `unitPrices` об'єкту `contracts` змінюється після прийняття змін. Тож, якщо ці `зміни` - це те, що вам потрібно, то ви можете подати об'єкт `change`.
 
-Applying the change
-~~~~~~~~~~~~~~~~~~~
+Застосування зміни
+~~~~~~~~~~~~~~~~~~
 
-`Change` can be applied by switching to the ``active`` status.
+`Change` може бути застосована після переходу в статус ``active``.
 
-In order to apply ``active`` status `dateSigned` field must be set.
+Для того, щоб застосувати статус ``active``, має бути налаштоване поле `dateSigned`.
 
-After this `change` can't be modified anymore.
+Після цього `change` не можна більше модифікувати.
 
 .. http:example:: http/apply-agreement-change.http
    :code:
 
-`dateSigned` field validation:
+Валідація поля `dateSigned`:
 
-* for the first agreement `change` date should be after `agreement.dateSigned`;
+* для першої `change` в угоді, дата повинна бути після `agreement.dateSigned`;
 
-* for all next `change` objects date should be after the previous `change.dateSigned`.
+* для всіх наступних об'єктів `change`, дата повинна бути після попередньої `change.dateSigned`.
 
-You can view all changes:
+Подивимось на всі зміни:
 
 .. http:example:: http/view-all-agreement-changes.http
    :code:
 
-All changes are also listed on the agreement view.
+Всі зміни також перераховані у view угоди.
 
 .. http:example:: http/view-agreement.http
    :code:
 
-Uploading documentation
+Завантаження документів
 -----------------------
 
-Procuring entity can upload PDF files into the created agreement. Uploading should
-follow the `upload` rules.
+Замовник може завантажити PDF-файли в створену угоду. Завантаження повинне слідувати правилам завантаження.
 
 .. http:example:: http/upload-agreement-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation.
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
+Код відповіді 201 Created та заголовок Location підтверджують, що документ було додано. Додатково можна запитати точку входу API колекції `documents` для підтвердження дії:
 
 .. http:example:: http/agreement-documents.http
    :code:
 
-And again we can confirm that there are two documents uploaded.
+І знову можна підтвердити, що два документи завантажені.
 
 .. http:example:: http/upload-agreement-document-2.http
    :code:
 
-In case we made an error, we can reupload the document over the older version:
+У випадку помилки, можна заново завантажити документ поверх старої версії:
 
 .. http:example:: http/upload-agreement-document-3.http
    :code:
 
-And we can see that it is overriding the original version:
+І можна побачити, що цей документ переважає оригінальну версію:
 
 .. http:example:: http/get-agreement-document-3.http
    :code:
@@ -194,19 +190,17 @@ And we can see that it is overriding the original version:
 .. index:: Enquiries, Question, Answer
 
 
-Completing agreement
---------------------
+Завершення угоди
+----------------
 
-Agreement can be completed by switching to ``terminated`` status.
-Let's perform these actions in single request:
+Угода може бути завершена переходом в статус ``terminated``. Давайте виконаємо ці дії одним запитом:
 
 .. http:example:: http/agreement-termination.http
    :code:
 
-If agreement is unsuccessful reasons for termination ``terminationDetails`` should be specified.
+Якщо угода неуспішна, причини припинення угоди повинні бути вказані в полі ``terminationDetails``.
 
-Any future modification to the agreement are not allowed.
+Будь-які майбутні зміни в угоді не дозволяються.
 
 
-It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and
-`Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_.
+Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного тестування для III рівня акредитації <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ і `Сценарії ручного тестування для IV рівня акредитації <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_.

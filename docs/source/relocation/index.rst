@@ -1,9 +1,9 @@
 .. _relocation:
 
-Relocation API
-==============
+Relocation API для зміни майданчика
+===================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

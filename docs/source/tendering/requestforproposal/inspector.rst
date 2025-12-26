@@ -1,100 +1,99 @@
 .. _requestforproposal_inspector_tutorial:
 
 
-Tender Inspector Tutorial
-=========================
+Туторіал Закупівля з контролером
+================================
 
 
 .. index:: Inspector
 
-Creating tender with inspector
-------------------------------
+Створення закупівлі з контролером
+---------------------------------
 
-To create tender with inspector you should set field `inspector` on creation
-(or you can in set it later by patching tender in `draft` or `active.enquiries` statuses)
+Для створення закупівлі з контролером потрібно передати поле `inspector` при створені або можете встановити пізніше пропатчивши закупівлю в статусі `draft` або `active.enquiries`
 
-Inspector field can be set only together with `funders` .
+Поле `inspector` дозволено передавати лише разом з `funders` (в закупівлях з донором):
 
-that's what will happen if you try to create tender with inspector without funders:
+Ось, що станеться якщо ви спробуєте створити закупівлю з контролером без `funders`
 
 .. http:example:: http/tutorial/tender-with-inspector-post-without-funders.http
    :code:
 
-We got error 422, now let's create tender with `inspector` together with `funders`:
+Ми отримали помилку 422, тепер давайте спробуємо створити закупівлю разом з полями `inspector` та `funders`:
 
 .. http:example:: http/tutorial/tender-with-inspector-post-success.http
    :code:
 
 
-Patch inspector
----------------
+Зміна контролера
+----------------
 
-Field inspector can be patched only in statuses `draft` or `active.enquiries`:
+Поле `inspector` може бути змінене лише в статусах `draft` та `active.enquiries`:
 
 .. http:example:: http/tutorial/patch-tender-inspector-success.http
    :code:
 
 
-Create review request
----------------------
+Створення запиту на перевірку
+-----------------------------
 
-Review request can create tender owner for tender with inspector and only in `active.enquiries`, `active.qualification` (if procedure with multiple lots)/ `active.awarded` (if procedure with one or without lots).
+Запит на перевірку може створити замовник лише в закупівлі з контролером і лише в статусах `active.enquiries`, `active.qualification` (якщо закупівля мультилотова)/ `active.awarded` (якщо закупівля безлотова або з одним лотом).
 
 .. http:example:: http/tutorial/post-tender-review-request-success.http
    :code:
 
-Depends on status from the moment of creation to the moment of providing the result prohibited:
-    - `active.enquiries` - PATCH tender(except `tenderPeriod`)
-    - `active.qualification`/`active.awarded` - PATCH awards, activate contracts
+В залежності від статусу від моменту створення і до моменту відповіді на запит забороняється:
+    - `active.enquiries` - змінювати закупівлю(окрім `tenderPeriod`)
+    - `active.qualification`/`active.awarded`` - змінювати аварди, активувати контракти
 
 
-Let's try to patch tender description:
+Cпробуємо змінити опис закупівлі:
 
 .. http:example:: http/tutorial/patch-tender-with-unanswered-review-request.http
    :code:
 
-Now let's patch tenderPeriod:
+Тепер спробуєм змінити період подання пропозиції:
 
 .. http:example:: http/tutorial/patch-tender-period-with-review-request.http
    :code:
 
-New review request can't be created if already exists unanswered review request:
+Новий запит на перевірку не може бути створений поки існує інший запит без відповіді
 
 .. http:example:: http/tutorial/post-tender-review-request-already-exist.http
    :code:
 
 
-Create review request on qualification stage
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Створення запиту на перевірку на етапі кваліфікації
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If procedure has lots, review request should be created with lotID:
+Якщо закупівля лотова, то при створенні запиту на перевірку потрібно вказати `lotID`:
 
 .. http:example:: http/tutorial/post-review-request-without-lot-id.http
    :code:
 
-Review request on qualification stage(`active.qualification`/`active.awarded`) can be created only if exists active award.
+Запит на перевірку на етапі кваліфікації може бути створений лише при наявності переможця.
 
 .. http:example:: http/tutorial/post-review-request-without-active-award.http
    :code:
 
 
 
-Inspector providing review result
----------------------------------
+Відповідь контролера
+--------------------
 
-Provide result on review request can only user with `inspector` role using PATCH method:
+Надавати відповідь на запит перевірки може лише користувач з роллю `inspector` в системі використовуючи PATCH метод на запит:
 
 .. http:example:: http/tutorial/patch-tender-review-request-false.http
    :code:
 
-Inspector can't provide review result on the same review request twice:
+Контролер не може надати відповідь на один і той самий запит двічі:
 
 .. http:example:: http/tutorial/second-patch-tender-review-request-false.http
    :code:
 
-The procedure cannot go further through the statuses until the controller gives a positive response to review request.
+Закупівля не може рухатись далі по статусам поки не буде надане погодження на запит перевірки.
 
-So buyer should make changes, create new review request and after that inspector can provide new result:
+Тож замовнику потрібно внести зміни, створити новий запит перевірки і після цього контролер може надати повторне рішення:
 
 .. http:example:: http/tutorial/patch-tender-review-request-true.http
    :code:

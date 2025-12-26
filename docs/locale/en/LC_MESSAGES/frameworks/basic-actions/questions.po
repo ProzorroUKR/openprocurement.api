@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-05 11:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+msgid "Звернення"
+msgstr "Questions"
+
+msgid "Framework"
+msgstr ""
+
+msgid "Візьмемо активований фреймворк:"
+msgstr "Let's take a look at activated framework:"
+
+msgid "Звернення"
+msgstr "Enquiries"
+
+msgid "У учасника є можливість звернутися до адміністратора (ЦЗО) через електронну систему закупівель щодо перегляду вимог до учасника, зазначених в оголошенні про проведення кваліфікації до електронного каталогу, протягом десяти робочих днів з дня його оприлюднення."
+msgstr "The participant has the opportunity to contact the administrator through the electronic procurement system regarding the review of the requirements for the participant, specified in the announcement of qualification for the electronic catalog within ten working days from the day of its publication."
+
+msgid "Під час `enquiryPeriod` зацікавлені сторони можуть дозапитувати інформацію у замовника:"
+msgstr "During enquiry period, interested parties can ask questions:"
+
+msgid "Усі звернення за роз’ясненнями та звернення щодо усунення порушення автоматично оприлюднюються в електронній системі закупівель без ідентифікації особи, яка звернулася до замовника."
+msgstr "All appeals for clarifications and appeals for the elimination of violations are automatically published in the electronic procurement system without identification of the person who addressed the customer."
+
+msgid "Інформація про автора звернення буде захешована, використовуючи його ЕДРПОУ та `access token` фреймворку. Це робиться для того, щоб можна було визначити, що на рівні фреймворку певна кількість питань надходить від одного й того ж автора."
+msgstr "Author of question will be hashed with his `identifier.id` plus `access token` of the framework. This gives us a possibility to determine that at the framework level a certain number of questions came from the same author."
+
+msgid "Подивимося, як виглядає звернення:"
+msgstr "Let's look at asked question:"
+
+msgid "Замовник може на них відповісти:"
+msgstr "Procuring entity can answer them:"
+
+msgid "Надавати замовникам відповіді на questions дозволено протягом всього `enquiryPeriod`, а також до `enquiryPeriod.clarificationsUntil`. У випадку, якщо замовник надасть відповідь після закінчення `enquiryPeriod.clarificationUntil`, буде помилка:"
+msgstr "It is allowed to answer the question during the whole `enquiryPeriod` and between `enquiryPeriod.endDate` and `enquiryPeriod.clarificationUntil`. In case procuring entity is answering question after `enquiryPeriod.clarificationUntil`, the error will be raised:"
+
+msgid "Тільки замовник має право відповідати на звернення:"
+msgstr "Only procuring entity has permission to answer the questions:"
+
+msgid "Можна отримати список запитань:"
+msgstr "To retrieve the questions list:"
+
+msgid "та окрему відповідь:"
+msgstr "To retrieve the individual answer:"
+
+msgid "Наявність звернення не блокує перехід оголошення про кваліфікацію у наступний статус."
+msgstr "The presence of a question does not block the transition of the qualification announcement to the next status."
+
+msgid "Наявність або відсутність відповіді на звернення не блокує перехід оголошення про кваліфікацію у наступний статус."
+msgstr "The presence or absence of an answer to the question does not block the transition of the qualification announcement to the next status."
+
+msgid "Період, протягом якого Учасник може звернутися до адміністратора (ЦЗО) через електронну систему закупівель щодо перегляду вимог до учасника: дата оприлюднення оголошення + 10 робочих днів."
+msgstr "The period during which the participant can apply to the administrator through the electronic procurement system to review the requirements for the participant: the date of publication of the announcement + 10 working days."
+
+msgid "Не можна створювати або редагувати звернення за межами `enquiryPeriod`:"
+msgstr "It is forbidden to ask or answer question outside the enquiry period:"
+

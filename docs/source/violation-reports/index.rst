@@ -1,9 +1,9 @@
 .. _violation_reports:
 
-Violation Reports API
-=====================
+Violation Reports API для звітів про порушення
+==============================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

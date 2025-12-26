@@ -1,163 +1,162 @@
 restrictedDerivatives
 =====================
 
-Create Framework with restricted access
----------------------------------------
+Створення фреймворку з обмеженим доступом
+-----------------------------------------
 
-First create framework with restricted access by `Broker`.
-To do this, we need to set ``restricted_derivatives`` field to ``true`` in ``config`` section of framework creation request.
+Спочатку створимо фреймворк з обмеженим доступом з токеном майданчика. Для цього нам потрібно встановити ``restricted_derivatives`` поле в ``true`` в ``config`` розділі запиту на створення фреймворку.
 
 .. http:example:: http/restricted/framework-create-broker.http
    :code:
 
-This framework by itself is visible to everyone in public API.
+Цей фреймворк видно всім в публічному API.
 
 .. note::
-    For `ProcuringEntity` with `defense` kind ``restricted_derivatives`` field will be set to ``true`` automatically.
+    Для `ProcuringEntity` з kind `defense` поле ``restricted_derivatives`` буде встановлено в ``true`` автоматично.
 
-The second step is moving the framework to `active` status:
+Другий крок - перехід фреймворку в статус `active`:
 
 .. http:example:: http/restricted/framework-activate-broker.http
    :code:
 
-Create and activate Submissions with restricted access
+Створення та активація пропозицій з обмеженим доступом
 ------------------------------------------------------
 
-After activating framework, users can register their submissions in period from `framework.period.startDate` to `framework.period.endDate`.
+Після активації фреймворку користувачі можуть зареєструвати свої пропозиції в період від `framework.period.startDate` до framework.period.endDate`.
 
-Let's register submission:
+Зареєструємо пропозицію:
 
 .. http:example:: http/restricted/submission-register-broker.http
    :code:
 
-You can see that ``restricted`` field was set to ``true`` in ``config`` section of submission creation response.
+Ви можете побачити, що поле ``restricted`` було встановлено в ``true`` в розділі ``config`` відповіді на створення пропозиції.
 
-Next activate submission:
+Далі активуємо пропозицію:
 
 .. http:example:: http/restricted/submission-activate-broker.http
    :code:
 
-Request submissions with restricted access
-------------------------------------------
+Запит пропозицій з обмеженим доступом
+-------------------------------------
 
-Let's check submissions:
+Перевіримо пропозиції всіх учасників:
 
-Anonymous
-*********
+Анонімно
+********
 
-Let's get submission with anonymous request:
+Створимо пропозицію використовуючи анонімний запит:
 
 .. http:example:: http/restricted/submission-get-anonymous.http
    :code:
 
-We can see that some of it's fields are masked.
+Бачимо що деякі її поля приховані.
 
-Let's check submission feed with anonymous request:
+Перевіримо фід пропозицій з анонімним запитом:
 
 .. http:example:: http/restricted/submission-feed-anonymous.http
    :code:
 
-Broker
-******
+Майданчик
+*********
 
-But if we will make a request with `broker` token, we will see that corresponding fields are not longer masked:
+Але якщо ми зробимо запит з `broker` токеном майданчика , ми побачимо, що відповідні поля більше не приховані:
 
 .. http:example:: http/restricted/submission-get-broker.http
    :code:
 
-Let's check submission feed for broker:
+Перевіримо фід пропозицій для майданчика:
 
 .. http:example:: http/restricted/submission-feed-broker.http
    :code:
 
-Request Qualifications with restricted access
----------------------------------------------
+Запит кваліфікацій з обмеженим доступом
+---------------------------------------
 
-Let's check qualification:
+Перевіримо кваліфікацію:
 
-Anonymous
-*********
+Анонімно
+********
 
-Let's qualification with anonymous request:
+Переглнемо кваліфікацію з анонімним запитом:
 
 .. http:example:: http/restricted/qualification-get-anonymous.http
    :code:
 
-We can see that some of it's fields are masked.
+Бачимо що деякі її поля приховані.
 
-Let's check qualification feed with anonymous request:
+Перевіримо фід кваліфікацій з анонімним запитом:
 
 .. http:example:: http/restricted/qualification-feed-anonymous.http
    :code:
 
-Broker
-******
+Майданчик
+*********
 
-But if we will make a request with `broker` token, we will see that corresponding fields are not longer masked:
+Але якщо ми зробимо запит з `broker` токеном майданчика , ми побачимо, що відповідні поля більше не приховані:
 
 .. http:example:: http/restricted/qualification-get-broker.http
    :code:
 
-Let's check qualification feed for broker:
+Перевіримо фід кваліфікацій для майданчика:
 
 .. http:example:: http/restricted/submission-feed-broker.http
    :code:
 
-Activate Qualifications with restricted access
-----------------------------------------------
+Активуція кваліфікації з обмеженим доступом
+-------------------------------------------
 
-Let's check current framework
+Перевіримо поточний фреймворк
 
 .. http:example:: http/restricted/framework-with-agreement.http
    :code:
 
-Let's activate qualification:
+Активуємо кваліфікацію:
 
 .. http:example:: http/restricted/qualification-activate-broker.http
    :code:
 
-You can see that `agreementID` appeared in current framework, so let's check that agreement.
+Ви можете побачити, що `agreementID` з'явився в поточному фреймворку, тому перевіримо цю угоду.
 
-Request Agreement with restricted access
----------------------------------------------
+Запит угоди з обмеженим доступом
+--------------------------------
 
-Let's check agreement:
+Переглянемо угоду:
 
-Anonymous
-*********
+Анонімно
+********
 
-Let's get agreement with anonymous request:
+Переглянемо угоду використовуючи анонімний запит:
 
 .. http:example:: http/restricted/agreement-get-anonymous.http
    :code:
 
-We can see that some of it's fields are masked.
+Бачимо що деякі її поля приховані.
 
-Let's check agreement feed with anonymous request:
+Перевіримо фід угод використовуючи анонімний запит:
 
 .. http:example:: http/restricted/agreement-feed-anonymous.http
    :code:
 
-Broker
-******
+Майданчик
+*********
 
-But if we will make a request with `broker` token, we will see that corresponding fields are not longer masked:
+Але якщо ми зробимо запит з `broker` токеном майданчика , ми побачимо, що відповідні поля більше не приховані:
 
 .. http:example:: http/restricted/agreement-get-broker.http
    :code:
 
-Let's check agreement feed for broker:
+Перевіримо фід угод для майданчика:
 
 .. http:example:: http/restricted/agreement-feed-broker.http
    :code:
 
-Masking rules
--------------
+Правила маскування
+------------------
 
 .. note::
-    Rules are made of JSONPath expressions. For more info read `JSONPath specification <https://goessner.net/articles/JsonPath/>`_.
+    Правила складаються з JSONPath виразів. Для отримання додаткової інформації читайте `JSONPath specification <https://goessner.net/articles/JsonPath/>`_.
 
-Rules for submission masking:
+Правила маскування пропозицій:
 
 .. csv-table::
    :file: csv/restricted/submission-mask-mapping.csv
@@ -169,7 +168,7 @@ Rules for qualification masking:
    :file: csv/restricted/qualification-mask-mapping.csv
    :header-rows: 1
 
-Rules for agreement masking:
+Правила маскування угод:
 
 .. csv-table::
    :file: csv/restricted/agreement-mask-mapping.csv

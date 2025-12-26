@@ -1,149 +1,149 @@
 .. _limited_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Configuration
--------------
+Конфігурація
+------------
 
-The set of possible configuration values for `reporting`:
+Набір можливих значень конфігурації для `reporting`:
 
 .. csv-table::
    :file: csv/config-reporting.csv
    :header-rows: 1
 
-The set of possible configuration values for `negotiation`:
+Набір можливих значень конфігурації для `negotiation`:
 
 .. csv-table::
    :file: csv/config-negotiation.csv
    :header-rows: 1
 
-The set of possible configuration values for `negotiation.quick`:
+Набір можливих значень конфігурації для `negotiation.quick`:
 
 .. csv-table::
    :file: csv/config-negotiation-quick.csv
    :header-rows: 1
 
-You can look for more details in :ref:`config` section.
+Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-The set of possible `procuringEntity.kind` values for `reporting`
------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `reporting`
+-------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-reporting.csv
    :header-rows: 1
 
-The set of possible `procuringEntity.kind` values for `negotiation`
--------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `negotiation`
+---------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-negotiation.csv
    :header-rows: 1
 
-The set of possible `procuringEntity.kind` values for `negotiation.quick`
--------------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `negotiation.quick`
+---------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-negotiation-quick.csv
    :header-rows: 1
 
-Tender creation
----------------
+Створення закупівлі
+-------------------
 
-You can create three procedures: 
- * ``reporting`` - reporting with no stand-still period 
- * ``negotiation`` - negotiation procedure with 10 day stand-still before contract registration
- * ``negotiation.quick`` - quick negotiation procedure with 5 day stand-still before contract registration
+Можна створити три процедури: 
+ * ``reporting`` - процедура звітування про укладений договір (без періоду очікування скарг) 
+ * ``negotiation`` - переговорна процедура з десятиденним періодом очікування скарг перед реєстрацією угоди
+ * ``negotiation.quick`` - переговорна процедура за нагальною потребою з п’ятиденним періодом очікування скарг перед реєстрацією угоди
 
 
-Creating tender for reporting procedure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Створення закупівлі для процедури звітування про укладений договір
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``.
+Щоб створити закупівлю за процедурою **звітування про укладений договір**, потрібно встановити значення ``reporting`` для ``procurementMethodType``.
 
-For **reporting** procedure there is required field `causeDetails`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
+Для процедури **звітування про укладений договір** додавання поля `causeDetails` до тендеру є обов’язковим, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:
 
-    * 100 000 for goods,
-    * 200 000 for services,
-    * 1 500 000 for works.
+    * 100 000 для товарів,
+    * 200 000 для послуг,
+    * 1 500 000 для робіт.
 
-Let's try to create tender with value amount bigger than threshold and without `procurementMethodRationale`:
+Спробуємо створити тендер з очікуваною вартістю більше ніж поріг та без поля `procurementMethodRationale`:
 
 .. http:example:: http/tutorial/create-tender-reporting-invalid.http
    :code:
 
-Field `code` is required, that's why it is forbidden to add only `causeDetails.description`:
+Поле `code` обов'язкове для заповнення, тому заборонено передавати тільки `causeDetails.description`:
 
 .. http:example:: http/tutorial/create-tender-reporting-invalid-cause-details.http
    :code:
 
-Vice versa field `description` is required, if `causeDetails.code` is set:
+І навпаки поле `description` обов'язкове для заповнення, якщо вказане `causeDetails.code`:
 
 .. http:example:: http/tutorial/create-tender-reporting-cause-details-description-required.http
    :code:
 
-Let's add `causeDetails` and then create a tender:
+Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю:
 
 .. http:example:: http/tutorial/create-tender-reporting-procuringEntity.http
    :code:
 
-We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties.
+Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - дату, що показує час, коли закупівля востаннє модифікувалась.
 
-Let's check what tender registry contains:
+Перевіримо, що містить реєстр закупівель:
 
 .. http:example:: http/tutorial/tender-listing-after-procuringEntity.http
    :code:
 
-We don't see internal `id` of tender, because tender appears in the listing from `active` status.
+Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу `active`.
 
 
-Creating tender for negotiation procedure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Створення закупівлі для переговорної процедури
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create tender for **negotiation** procedure you should set ``negotiation`` value for ``procurementMethodType``.
+Щоб створити закупівлю за **переговорною** процедурою, потрібно встановити значення ``negotiation`` для ``procurementMethodType``.
 
 .. http:example:: http/tutorial/create-tender-negotiation-procuringEntity.http
    :code:
 
 
-Creating tender for negotiation.quick procedure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Створення закупівлі для переговорної процедури за нагальною потребою
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To create tender for **negotiation.quick** procedure you should set ``negotiation.quick`` value for ``procurementMethodType``.
+Щоб створити закупівлю для **переговорної процедури за нагальною потребою**, потрібно встановити значення ``negotiation.quick`` для ``procurementMethodType``.
 
 .. http:example:: http/tutorial/create-tender-negotiation-quick-procuringEntity.http
    :code:
 
 
-Tender activating
-~~~~~~~~~~~~~~~~~
+Активація закупівлі
+~~~~~~~~~~~~~~~~~~~
 
-For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active``:
+Для активації закупівель **reporting**, **negotiation**, **negotiation.quick** їх потрібно перевести до статусу ``active``:
 
 .. http:example:: http/tutorial/tender-activating.http
    :code:
 
-Let's see what listing of tenders reveals us:
+Подивимось, що показує список закупівель:
 
 .. http:example:: http/tutorial/active-tender-listing-after-procuringEntity.http
    :code:
 
-We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+Відображається  `id` - внутрішній ідентифікатор (який можна використовувати, щоб побудувати повну URL-адресу, додаючи `http://api-sandbox.openprocurement.org/api/0/tenders/` на початку) та мітка часу `dateModified`.
 
 
-Modifying tender
-~~~~~~~~~~~~~~~~
+Модифікація закупівлі
+~~~~~~~~~~~~~~~~~~~~~
 
-Let's update tender by supplementing it with all other essential properties:
+Оновимо закупівлю шляхом надання їй усіх інших важливих властивостей:
 
 .. http:example:: http/tutorial/patch-items-value-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість dateModified, щоб відображати останню дату модифікації.
 
-Checking the listing again reflects the new modification date:
+Ще одна перевірка списку відображає нову дату модифікації:
 
 .. http:example:: http/tutorial/tender-listing-after-patch.http
    :code:
@@ -151,172 +151,169 @@ Checking the listing again reflects the new modification date:
 
 .. index:: Document
 
-Uploading documentation
------------------------
+Завантаження документації
+-------------------------
 
-Procuring entity can upload documents and files into the created tender. Uploading should
-follow the :ref:`upload` rules.
+Замовник може завантажити документи у створену закупівлю. Завантаження повинно відбуватись згідно правил :ref:`upload`.
 
 .. http:example:: http/tutorial/upload-tender-notice.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation. 
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. 
 
-In case we made an error, we can reupload the document over the older version:
+Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:
 
 .. http:example:: http/tutorial/update-tender-notice.http
    :code:
 
-Awarding
---------
+Визначення переможця
+--------------------
 
-Adding supplier information
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Додаємо інформацію про постачальника
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Addition of supplier information is the same for all procedures.
+Спосіб додавання інформації про постачальника однаковий для всіх процедур.
 
-Procuring entity registers supplier information for **reporting** procedure:
+Замовник реєструє інформацію про постачальника для процедури **звітування про укладений договір**:
 
 .. http:example:: http/tutorial/tender-award.http
    :code:
 
-Procuring entity registers supplier information for **negotiation** procedure:
+Замовник реєструє інформацію про постачальника для **переговорної** процедури:
 
 .. http:example:: http/tutorial/tender-negotiation-award.http
    :code:
 
-You can notice that there is ``complaintPeriod`` record with ``startDate`` value generated.
+Ви можете побачити, що згенеровано запис ``complaintPeriod`` із полем ``startDate``.
 
-Procuring entity registers supplier information for **negotiation.quick** procedure:
+Замовник реєструє інформацію про постачальника для переговорної процедури за нагальною потребою:
 
 .. http:example:: http/tutorial/tender-negotiation-quick-award.http
    :code:
 
-Award for **negotiation.quick** procedure also has ``complaintPeriod`` record with ``startDate`` value.
+Визначення переможця для **переговорної процедури за нагальною потребою** також має запис ``complaintPeriod`` із полем ``startDate``.
 
 
-Uploading award documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Завантаження документів щодо визначення переможця
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can upload award documents only before awarding decision is confirmed. Let's add award document:
+Завантажувати документи щодо визначення переможця можна лише до того, як рішення про визначення переможця буде підтверджено. Спробуємо додати такий документ:
 
 .. http:example:: http/tutorial/tender-award-upload-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm that document has been added.
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ додано.
 
-Let's see the list of award documents:
+Переглянемо документи пов’язані із визначенням переможця:
 
 .. http:example:: http/tutorial/tender-award-get-documents.http
    :code:
 
-We can add another award document:
+Тепер спробуємо додати ще один документ щодо визначення переможця:
 
 .. http:example:: http/tutorial/tender-award-upload-second-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm second document has been added.
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще один документ було додано.
 
-Let's see the list of all uploaded award documents:
+Тепер переглянемо знову усі документи пов’язані із визначенням переможця:
 
 .. http:example:: http/tutorial/tender-award-get-documents-again.http
    :code:
 
 
-Award confirmation
-------------------
+Підтвердження переможця процедури
+---------------------------------
 
-Qualification comission can set award to `active` or `unsuccessful` status.
+Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус.
 
-There are validations before registering qualification decision:
+Валідація значення полів відповідно до рішення під час винесення рішення:
 
-* `qualified: True` - for setting award from `pending` to `active`
+* `qualified: True` - при переході award з `pending` в `active`
 
-* `qualified: False` - for setting award from `pending` to `unsuccessful`
+* `qualified: False` - при переході award з `pending` в `unsuccessful`
 
-Let's try to set `unsuccessful` status for `qualified` award and we will see an error:
+Спробуємо відхилити авард для `qualified` учасника:
 
 .. http:example:: http/tutorial/unsuccessful-qualified-award.http
    :code:
 
-Let's try to set `active` status for `non-qualified` award and we will see an error:
+Спробуємо винести рішення по переможцю по аварду для `non-qualified` учасника:
 
 .. http:example:: http/tutorial/activate-non-qualified-award.http
    :code:
 
-For **reporting** procedure sign for award isn't required.
+Для **reporting** процедур файл підпису авардів не вимагається.
 
-Procuring entity can confirm awarding decision:
+Замовник повинен підтвердити своє рішення про визначення переможця:
 
 .. http:example:: http/tutorial/tender-award-approve.http
    :code:
 
-Award confirmation for **negotiation** procedure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Підтвердження визначення переможця для **переговорної** процедури
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Before making decision it is required to add sign document to award.
-If there is no sign document during activation, we will see an error:
+Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:
 
 .. http:example:: http/tutorial/award-notice-document-required.http
    :code:
 
-The same logic for `unsuccessful` status:
+Така сама логіка при відхилені аварду:
 
 .. http:example:: http/tutorial/award-unsuccessful-notice-document-required.http
    :code:
 
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+Файл підпису має тип документу `documentType: notice` та розширення `title: *.p7s`. Додамо файл підпису:
 
 .. http:example:: http/tutorial/award-add-notice-document.http
    :code:
 
-Let's confirm **negotiation** procedure:
+Тепер замовник повинен підтвердити своє рішення про визначення переможця:
 
 .. http:example:: http/tutorial/tender-negotiation-award-approve.http
    :code:
 
-The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days.
+Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 10 днів.
 
-Award confirmation for **negotiation.quick** procedure:
+Підтвердження визначення переможця для **переговорної процедури за нагальною потребою** процедури:
 
 .. http:example:: http/tutorial/tender-negotiation-quick-award-approve.http
    :code:
 
-The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation.quick** is 5 days.
+Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної процедури за нагальною потребою** становить 5 днів.
 
-.. index:: Setting Contract
+.. index:: Налаштування угоди
 
-Setting Contract
-----------------
+Налаштування угоди
+------------------
 
-All operations with contract moved to :ref:`base-contracting`
+Усі операції над угодою перенесені до :ref:`base-contracting`
 
 
-Contract registration
-~~~~~~~~~~~~~~~~~~~~~~
+Реєстрація угоди
+~~~~~~~~~~~~~~~~
 
-**Reporting** tender contract can be registered immediately after award confirmation:
+Угода про закупівлю за процедурою **звітування про укладений договір** може бути зареєстрована одразу після підтвердження визначення переможця:
 
 .. http:example:: http/tutorial/tender-contract-sign.http
    :code:
 
-**Negotiation** tender contract can be registered only after the stand-still (10 day period after the award confirmation):
+Угода про закупівлю за **переговорною** процедурою може бути зареєстрована одразу після `періоду очікування скарг` (десятиденний період після підтвердження визначення переможця):
 
 .. http:example:: http/tutorial/tender-negotiation-contract-sign.http
    :code:
 
-**Negotiation.quick** tender contract can be registered after the stand-still (5 day period after the award confirmation):
+Угода про закупівлю для **переговорної процедури за нагальною потребою** може бути зареєстрована одразу після `періоду очікування скарг` (п’ятиденний період після підтвердження визначення переможця):
 
 .. http:example:: http/tutorial/tender-negotiation-quick-contract-sign.http
    :code:
 
-Confidential documents for contract
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Конфіденційні файли у контракті
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When creating a tender, the customer selects one of the items (`causeDetails.code` for particular `procurementMethodType`) from the drop-down list of reasons for applying the purchase contract report.
-If one of the particular reasons is used, the files (documents) that the customer uploads to the contract and changes to the contract (`"documentOf": "contract"` and `"documentOf": "change"`) must be hidden in such reporting procedure.
+Під час створення тендеру замовник з випадаючого списку підстав застосування звіту про договір про закупівлю у формі обирає один з пунктів (`causeDetails.code` в залежності від `procurementMethodType`). У випадку застосування однієї з наведених підстав, в такому звіті мають бути приховані файли (documents), які замовник завантажує до контракту та змін до договору (`"documentOf": "contract"` та `"documentOf": "change"`).
 
-Documents should be confidential if reporting has one ot the `causeDetails.code`:
+Документи мають бути конфіденційними якщо звіт має одну з перерахованих підстав (`causeDetails.code`):
 
     * criticalInfrastructure
     * civilProtection
@@ -325,129 +322,125 @@ Documents should be confidential if reporting has one ot the `causeDetails.code`
     * UZ
     * defencePurchase
 
-and has one of document types:
+і має один з перерахованих типів документів:
 
-    * contractSigned - Signed contract
-    * contractAnnexe - Annexes to the contract
+    * contractSigned - Підписаний договір
+    * contractAnnexe - Додатки до договору
 
-Confidentiality should be applied for documents, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`.
+Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`.
 
-Let's add documents to contract and set `confidentiality` as public, we will see an error:
+Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:
 
 .. http:example:: http/tutorial/tender-reporting-contract-conf-docs-as-public.http
    :code:
 
-Change `confidentiality` as `buyerOnly` and look what we've got:
+Змінимо `confidentiality` на `buyerOnly` і подивимося, що ми маємо:
 
 .. http:example:: http/tutorial/tender-reporting-contract-conf-docs-wo-rationale.http
    :code:
 
-Let's add `confidentialityRationale`:
+Додамо поле обґрунтування `confidentialityRational`:
 
 .. http:example:: http/tutorial/tender-reporting-contract-conf-docs.http
    :code:
 
-The customer see these kind of documents and can download:
+Власник звіту бачить такі документи і може завантажиити їх:
 
 .. http:example:: http/tutorial/get-tender-reporting-contract-conf-docs-by-owner.http
    :code:
 
-All others can't read the document:
+Всі інші користувачі не можуть переглянути документ:
 
 .. http:example:: http/tutorial/get-tender-reporting-contract-conf-docs-by-public.http
    :code:
 
-Nobody but the owner can download the confidential document:
+Ніхто окрім власника звіту не може викачати документ:
 
 .. http:example:: http/tutorial/upload-tender-reporting-contract-conf-doc-by-public.http
    :code:
 
-Cancelling tender
------------------
+Скасування закупівлі
+--------------------
 
-Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`).
+Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`).
 
-The following steps should be applied:
+Для цього потрібно виконати наступні кроки:
 
-1. Prepare cancellation request
-2. Fill it with the protocol describing the cancellation reasons
-3. 3. Passing complaint period(10 days),only for `negotiation` and `negotiation.quick`
-4. Cancel the tender with the reasons prepared.
+1. Приготуйте запит на скасування
+2. Заповніть його протоколом про причини скасування
+3. 3. Проходження періоду оскарження(триває 10 днів), тільки для `negotiation` та `negotiation.quick`
+4. Скасуйте закупівлю через подані причини.
 
-Only the request that has been activated (4th step above) has power to
-cancel tender. I.e. you have to not only prepare cancellation request but
-to activate it as well.
+Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її.
 
-For cancelled cancellation you need to update cancellation status to `unsuccessful`
-from `draft` or `pending`.
+Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`.
 
-See :ref:`cancellation` data structure for details.
+Див. структуру запиту :ref:`cancellation` для більш детальної інформації.
 
-Preparing the cancellation request for `reporting` procedure
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Формування запиту на скасування для `reporting` процедури
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You should pass `reason` and `reasonType`, `status` defaults to `draft`.
+Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`.
 
-There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`.
+При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`.
 
-`id` is autogenerated and passed in the `Location` header of response.
+`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`.
 
 .. http:example:: http/tutorial/prepare-cancellation.http
    :code:
 
-You can change ``reasonType`` value to any of the above.
+Ви можете виправити тип на будь-який що вказаний вище.
 
 .. http:example:: http/tutorial/update-cancellation-reasonType.http
    :code:
 
-Preparing the cancellation request for `negotiation` and `negotiation.quick` procedures
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Формування запиту на скасування для `negotiation` та `negotiation.quick` процедури
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There are five possible types of cancellation reason - tender was `noObjectiveness`,  `unFixable`, `noDemand`, `expensesCut`, `dateViolation`.
+При скасуванні, замовник має визначити один з п'яти типів reasonType: `noObjectiveness`,  `unFixable`, `noDemand`, `expensesCut` та `dateViolation`.
 
 .. http:example:: http/tutorial/negotiation-prepare-cancellation.http
    :code:
 
-You can change ``reasonType`` value to any of the above.
+Ви можете виправити тип на будь-який що вказаний вище.
 
 .. http:example:: http/tutorial/negotiation-update-cancellation-reasonType.http
    :code:
 
 
-Filling cancellation with protocol and supplementary documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Наповнення протоколом та іншою супровідною документацією
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This step is required. Without documents you can't update tender status.
+Цей крок обов'язковий. Без документів ви не можете оновити статус скарги.
 
-Upload the file contents
+Завантажте зміст файлу
 
 .. http:example:: http/tutorial/upload-cancellation-doc.http
    :code:
 
-Change the document description and other properties
+Якщо потрібно, змініть опис документа та інші властивості
 
 
 .. http:example:: http/tutorial/patch-cancellation.http
    :code:
 
-Upload new version of the document
+Завантажте нову версію документа
 
 
 .. http:example:: http/tutorial/update-cancellation-doc.http
    :code:
 
-Passing Complaint Period(only for `negotiation` and `negotiation.quick`)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Проходження періоду оскарження(тільки для `negotiation` та `negotiation.quick`)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For activate complaint period, you need to update cancellation from `draft` to `pending`.
+Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`.
 
 .. http:example:: http/tutorial/pending-cancellation.http
    :code:
 
-When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.
+Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі.
 
-Activating the request and cancelling tender
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Активація запиту та скасування закупівлі
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if the complaint period(duration 10 days) is over and there were no complaints or
-all complaints are canceled, then cancellation will automatically update status to `active`.
+Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`.

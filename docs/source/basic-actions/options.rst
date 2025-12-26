@@ -1,51 +1,36 @@
 .. _options:
 
-Options
-=========
+Опції
+=====
 
-In addition to providing fields and their values in a request, you may also
-specify options to control how your request is interpreted and how the
-response is generated.  For GET requests, options are specified as URL
-parameters prefixed with `opt_`.  For POST or PUT requests, options are
-specified in the body, inside the top-level options object (a sibling of the
-data object).  The option specified in the body overrides the `opt_` one
-from URL parameter.
+Крім надання полів та їхніх значень у запиті ви можете ще вказати опції для контролю над тим, як буде оброблятись запит і як буде генеруватись відповідь. Для GET запитів, опції вказуються як URL параметри з префіксом `opt_`. Для POST чи PUT запитів опції вказуються в тілі, всередині об’єктів опцій вищого рівня (схожих на обє’кт даних). Опція вказана в тілі перевизначає `opt_` опцію з URL параметра.
 
-These options can be used in different combinations in a single request, though some of
-them may conflict in their impact on the response.
+Ці опції можна комбінувати в одному запиті, хоча деякі з них можуть викликати конфлікт у відповіді.
 
 :pretty:
   `?opt_pretty`
 
   `options: { pretty: true }` 
 
-  | Provides the response in "pretty" output.  In case of JSON this means
-    doing proper line breaking and indentation to make it readable.  This will
-    take extra time and increase the response size so it is advisable to use
-    this only during debugging.
+  | Надає відповідь у форматі "pretty". У випадку з JSON це означає правильне розбиття рядків і відступи для зручності читання. Це займе додатковий час і збільшить розмір відповіді, тому краще буде використовувати цю опцію тільки під час налагоджування (debugging).
   |
 
 :jsonp:
   `?opt_jsonp=myCallback`
 
-  | Returns the output in JSON-P format instead of plain JSON. This allows
-    requests to come from within browsers and work around the "same origin
-    policy." The function named as the value of the `opt_jsonp` parameter will
-    be called with a single argument, a JavaScript object representing the
-    response.
+  | Повертає відповідь у форматі JSON-P замість простого JSON, щоб дозволити запитам приходити з браузерів і працювати навколо "однакової політики походження (same origin policy)." Функція названа так само як значення параметра `opt_jsonp` буде викликана з одним аргументом - JavaScript об’єктом, що представляє відповідь.
   |
 
 :fields:
   `?opt_fields=comma,separated,field,list`
 
-  | List of extra fields to include in response.
+  | Список додаткових полів, що міститимуться у відповіді.
   |
 
 :schema:
   `?opt_schema=ocds`
 
-  Returns the output as an `OCDS 1.1 schema <https://standard.open-contracting.org/schema/1__1__5/release-package-schema.json>`_ compatible structure
-  See `their official site <https://standard.open-contracting.org/latest/en/schema/release_package/>`_.
+  Повертає вихідні дані,  як структуру сумісну зі `схемою OCDS 1.1 <https://standard.open-contracting.org/schema/1__1__5/release-package-schema.json>`_ . Дивіться `офіційний сайт <https://standard. open-contracting.org/latest/en/schema/release_package/>`_.
 
   .. warning::
-    The response may contain less data than the default response.
+    Відповідь може містити менше даних, ніж звичайний формат.

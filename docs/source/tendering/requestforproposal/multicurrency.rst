@@ -1,79 +1,78 @@
 .. _multicurrency:
 
-Multi currency
-==============
+Мультивалютність
+================
 
-The requestForProposal procedure can be multi currency for donors.
-To create such type of procedure it is required to set config `valueCurrencyEquality:false` and add `funders` field.
+Закупівля за правилами організаторів може бути мультивалютною. Для того, щоб створити таку процедуру, обов'язково треба встановити конфігурацію `valueCurrencyEquality:false` та заповнити поле `funders`.
 
-In this way, it will be possible to add a price list of items to the procedure in different currency. The price list will help to visually show which parts make up the total price of the participant for each item separately.
+Таким чином в учасників буде можливість додати прайс-ліст на кожну номенклатуру в різних валютах. Прайс-ліст допоможе наочно показати з яких частин формується загальна ціна учасника по кожній номенклатурі окремо.
 
-Let's create tender with configuration `valueCurrencyEquality:false` and `funders` field, add lots for it and activate it:
+Створимо закупівлю з конфігурацією `valueCurrencyEquality:false` і полем `funders`, додамо лоти і активуємо її:
 
 .. http:example:: http/multi-currency/tender.http
    :code:
 
-Now the participant can register bid.
+Тепер учасник може зареєструвати пропозицію.
 
-It is required to add `items` for tender with field `funders`. If there are no `items` in bid, we will see an error:
+Для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `items` в біді. Якщо `items` в біді нема, буде згенерована помилка:
 
 .. http:example:: http/multi-currency/post-bid-without-items.http
    :code:
 
-Also it is required to add `value` in `items.unit` for tender with field `funders`. If there are no `value` in `bid.items.unit`, we will see an error:
+Також для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `value` в `items.unit` в біді. Якщо `value` в `items.unit` в біді нема, буде згенерована помилка:
 
 .. http:example:: http/multi-currency/post-bid-without-values-in-unit-items.http
    :code:
 
-Quantity of items in bid should be equal to quantity of tender items related to lot set in `lotValues`:
+Кількість `items` в пропозиції має співпадати з кількістю `items` в тендері на рівні лоту, вказаному в `lotValues`:
 
 .. http:example:: http/multi-currency/post-bid-with-items-less-than-in-tender.http
    :code:
 
-Items ids in bid should correspond to items ids in tender and belong to the same `relatedLot` as set in bid:
+Ідентифікатори `items` в пропозиції мають відповідати ідентифікаторам `items` в тендері та належати до того самого `relatedLot`, який вказано в пропозиції:
 
 .. http:example:: http/multi-currency/post-bid-with-items-related-to-another-lot.http
    :code:
 
-For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:
+До кожної номенклатури (items) учасник вказує ціну за одиницю. Він може вказувати різні валюти:
 
 .. http:example:: http/multi-currency/post-add-valid-bid.http
    :code:
 
-The requirements for bid registration:
+Вимоги до реєстрації пропозицій:
 
-* The `currency` value for each unit price: may be different, the value may NOT match the Currency value for the overall quote and may NOT be the same at the lot level; the value may NOT correspond to the value of the Currency specified by the customer in the tender in the expected purchase price
+* Значення Валюта для кожної ціни за одиницю: може бути різним, значення може НЕ співпадати зі значенням Валюта для загальної цінової пропозиції та може НЕ бути однаковим на рівні лоту; значення може НЕ відповідати значенням Валюта, яке вказав замовник в тендері у очікуваній вартості закупівлі
 
-* The total cost of Lot-level Unit Prices may NOT equal the total bid price
+* Загальна вартість цін за одиницю на рівні лоту може НЕ дорівнювати загальній ціні пропозиції
 
-* The value of VAT must correspond to the value specified by the customer in the tender
+* Значення ПДВ повинно відповідати значенню, вказаному замовником у тендері
 
-* If the participant plans to give the customer a so-called discount, he can specify the value 0 for certain items in the Price per unit value
+* Якщо учасник планує зробити замовнику так звану знижку, він може для певних номенклатур у значенні ціна за одиницю вказати значення 0
 
-Let's try to change VAT value in `bid.items.unit` to different than False and we will see the error:
+Спробуємо змінити значення ПДВ в `bid.items.unit` яке буде відрізнятися від False і побачимо наступну помилку:
 
 .. http:example:: http/multi-currency/patch-invalid-bid-unit.http
    :code:
 
-An auction is not provided for such purchases.
+Аукціон в таких закупівлях не передбачено.
 
-Let's choose the winner and look at the contract. As we can see all unit prices are transferred to the contract:
+Оберемо переможця під час кваліфікації і подивимося на сформований контракт. Як ми можемо побачити всі ціни за одиницю переносяться у контракт:
 
 .. http:example:: http/multi-currency/contract.http
    :code:
 
-The total offer price and the price per unit are adjusted both upwards and downwards.
+Загальна ціна пропозиції та ціна за одиницю коригуються як у бік збільшення так і у бік зменшення.
 
-At the same time, the total cost of the price per unit can be not equal to the total price of the offer.
+При цьому загальна вартість цін за одиницю може не дорівнювати загальній ціні пропозиції.
 
-VAT can be changed at the contract level (must be changed in both contract.value and contract.items.unit.value at the same time).
+ПДВ можна змінювати на рівні контракту (повинна бути змінена як у contract.value так і у contract.items.unit.value одночасно).
 
-Let's patch contract values:
+Відредагуємо ціни в контракті:
 
 .. http:example:: http/multi-currency/contract-patch.http
    :code:
 
-Then let's activate contract to check whether it is possible to change general sum of unit values greater than we have in contract value:
+Далі активуємо контракт, щоб перевірити, чи можна змінити загальну суму цін за одиницю більше, ніж ми маємо в контрактній вартості:
 
 .. http:example:: http/multi-currency/contract-activated.http
    :code:

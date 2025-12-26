@@ -7,11 +7,10 @@ So called "Біржові торги".
 
 
 
-Creating tender
----------------
+Створення закупівлі
+-------------------
 
-`awardingByItemUnitValue` configuration can enable this type of procedure.
-There is a requirement that can be only one item per lot.
+`awardingByItemUnitValue` configuration can enable this type of procedure. There is a requirement that can be only one item per lot.
 
 .. sourcecode:: http
 
@@ -261,9 +260,7 @@ During the auction process bidders can decrease their ``items.unit.value`` amoun
 .. image:: img/collective_quantity_tender/item_price_auction.png
 
 
-After the announcement stage if the bidder decreased the price,
-``initialValue`` will be added to ``items.unit``
-which shows the value before the auction.
+After the announcement stage if the bidder decreased the price, ``initialValue`` will be added to ``items.unit`` which shows the value before the auction.
 
 
 .. sourcecode:: http

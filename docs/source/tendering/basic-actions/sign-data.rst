@@ -2,53 +2,52 @@
 .. _sign-data:
 
 
-Additional sign data
-=====================
+Відображення інформації для підписів
+====================================
 
-In the context of creating e-protocols, there was a need to impose a signature not only an object (an award or bid), but to have many general fields from the tender in the signature for the correct display of information.
+В розрізі задачі по створенню е-протоколів, з'явилась необходність накладати підпис не тільки на об'єкт, який підписується (авард або бід), а мати в підписі загальні поля з тендеру для коректного відображення інформації.
 
-For these purposes, it is agreed to proceed by adding boolean query parameter `opt_context` for endpoints for each necessary option (award, bid, cancellation, etc).
+Для цього було узгоджено йти шляхом додаввання булевого query-параметру `opt_context` під кожний необхідний варіант (award, bid, cancellation, і т.д.).
 
-Parameter `opt_fields` can have such options:
+Параметр `opt_context` може мати такі значення:
 
-* `true`, `1`, `True` - show additional context
+* `true`, `1`, `True` - відображає додаткові поля
 
-* another values or missing parameter - don't show context
+* інші значення або якщо не передати параметр - не відображає додаткові поля
 
 Award
-------
+-----
 
-Use `opt_context=true` as parameter for getting additional information for signing award:
+Необхідно вказати параметр `opt_context=true` для того, щоб отримати додаткову інформацію з тендера для підписання аварда:
 
 .. http:example:: ./http/sign-data/sign-award-data.http
    :code:
 
-As we can see there is additional field `context`, which has information from `tender` inside.
+Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру.
 
 
 Qualification
---------------
+-------------
 
-Use `opt_context=true` as parameter for getting additional information for signing qualification:
+Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання пре-кваліфікації:
 
 .. http:example:: ./http/sign-data/sign-qualification-data.http
    :code:
 
-As we can see there is additional field `context`, which has information from `tender` inside.
+Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру.
 
 
 Bid
 ---
 
-Use `opt_context=true` as parameter for getting additional information for signing bid:
+Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання пропозиції:
 
 .. http:example:: ./http/sign-data/sign-bid-data.http
    :code:
 
-As we can see there is additional field `context`, which has information from `tender` inside.
+Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру.
 
-If tender now in `active.tendering` status, only bidder can see this information.
-If someone else wants to see sign data for bid, he will see an error:
+Якщо тендер знаходиться в статусі `active.tendering`, тільки постачальник може бачити цю інформацію. Якщо хтось інший намагатиметься подивитися додаткову інформацію до пропозиції, він побачить помилку:
 
 .. http:example:: ./http/sign-data/sign-bid-data-forbidden.http
    :code:
@@ -56,10 +55,10 @@ If someone else wants to see sign data for bid, he will see an error:
 Cancellation
 ------------
 
-Use `opt_context=true` as parameter for getting additional information for signing cancellation:
+Необхідно вказати параметр `opt_context=true` для того, щоб отримати  додаткову інформацію з тендера для підписання відміни:
 
 .. http:example:: ./http/sign-data/sign-cancellation-data.http
    :code:
 
-As we can see there is additional field `context`, which has information from `tender` inside.
+Як ми можемо побачити, з'явилося додаткове поле `context`, в якому наявна інформація з тендеру.
 

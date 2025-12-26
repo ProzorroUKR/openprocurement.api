@@ -6,27 +6,27 @@
 .. _complaint-objection-argument-evidence:
 
 ComplaintObjectionArgumentEvidence
-===================================
+==================================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-    Id of the evidence
+    Унікальний ідентифікатор доказу
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Title of the evidence
+    Назва доказу
 
 :description:
     string
 
-    Description of the evidence
+    Опис доказу
 
 :relatedDocument:
-    string, required
+    рядок, обов’язковий
 
-    The reference for complaint document
+    Посилання на id документу в скарзі

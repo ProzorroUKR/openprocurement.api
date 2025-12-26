@@ -1,9 +1,9 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement closeFrameworkAgreementSelectionUA procedure is plugin to Open Procurement API software.
+Open Procurement closeFrameworkAgreementSelectionUA - це плагін до `Open Procurement API <http://api-docs.openprocurement.org/en/latest/>`_
 
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`tutorial`.
+Наступні кроки
+--------------
+Можливо вам буде цікаво прочитати :ref:`tutorial`.

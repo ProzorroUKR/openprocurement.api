@@ -1,6 +1,6 @@
 .. _constants:
 
-Constants
+Константи
 =========
 
 .. http:example:: ../tendering/basic-actions/http/constants/constants.http

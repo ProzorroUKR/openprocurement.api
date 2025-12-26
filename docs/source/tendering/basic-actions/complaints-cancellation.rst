@@ -1,154 +1,151 @@
 
 
-Complaint Retrieval
-===================
+Отримання інформації про скарги
+===============================
 
-Tender Cancellation Complaint Retrieval
----------------------------------------
+Отримання інформації про скарги на скасування закупівлі
+-------------------------------------------------------
 
-You can list all Tender Cancellation Complaints:'
+Ви можете отримати список всіх скарг на скасування закупівлі:
 
 .. http:example:: http/complaints/cancellation-complaints-list.http
    :code:
 
-And check individual complaint:
+Або перевірити окрему скаргу:
 
 .. http:example:: http/complaints/cancellation-complaint.http
    :code:
 
 
-Complaint Submission
-====================
+Подання скарги
+==============
 
-If tender cancellation are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Cancellation Complaint if tender in `active.tendering` status or participants if tender in any other status.
+Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач можеподати скаргу на умови закупівлі, якщо скарга в статусі `active.tendering` чи тільки учасники закупівлі, якщо скарга у будь-яком іншому статусі.
 
-Tender Cancellation Complaint Submission (with documents)
----------------------------------------------------------
+Подання скарги на скасування закупівлі (з документами)
+------------------------------------------------------
 
-Create complaint for cancellation can anyone if tender has satatus `active.auction` or only bidders in other statuses.
+Створити скаргру на відміну закупівлі може будь-хто, якщо тендер в статусі `active.auction` або тільки учасники закупівлі в іншому статусі
 
-At first create a draft:
+Створіть чернетку скарги ``draft``:
 
 .. http:example:: http/complaints/cancellation-complaint-submission.http
    :code:
 
-When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint.
-Objections can be added or edited while complaint is in the status `draft`.
-For more details, see :ref:`tender complaint objections <complaint-objections>`.
+При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections). Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`. Детальніше дивитися: :ref:`Заперечення до скарг <complaint-objections>`
 
-Then upload necessary documents:
+Потім завантажте документи:
 
 .. http:example:: http/complaints/cancellation-complaint-submission-upload.http
    :code:
 
-Submit tender cancellation complaint:
+Подайте скаргу на скасування зікупівлі
 
 .. http:example:: http/complaints/cancellation-complaint-complaint.http
    :code:
 
-Tender Cancellation Complaint Submission (without documents)
-------------------------------------------------------------
+Подання скарги на скасування закупівлі (без документів)
+-------------------------------------------------------
 
-You can submit complaint that does not need additional documents:
+Ви можете подати скаргу, що не потребує додаткових документів:
 
 .. http:example:: http-outdated/complaints/cancellation-complaint-submission-complaint.http
    :code:
 
-Complaint Appeals
-==================
+Iнформація про оскарження скарги в суді
+=======================================
 
-Once complaint is in `invalid`, `satisfied`, `declined` or `resolved` status tender owner or complaint author can submit an appeal for complaint.
+Для скарги у статусах `invalid`, `satisfied`, `declined` та `resolved` власник тендеру або автор скарги мають можливість додати інформацію про оскарження скарги в суді.
 
-For more details, see :ref:`tender complaint appeals <complaint-appeals>`.
+Детальніше дивитися: :ref:`Iнформація про оскарження скарги в суді <complaint-appeals>`
 
-Complaint Explanations
-======================
+Пояснення до скарги
+===================
 
-An explanation of a complaint is a certain textual information and, if necessary, an attached file/files related to a certain complaint and can be used by the AMCU commission during its consideration.
-Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them.
+Пояснення до скарги - це певна текстова інформація та за потреби прикріплений файл/файли, що відносяться до певної скарги та можуть бути використані комісією АМКУ при її розгляді. Пояснення до скарги подаються суб'єктами з власної ініціативи, без запиту АМКУ. АМКУ не буде відповідати на такі пояснення, а лише розглядатиме їх.
 
-Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation.
+Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги.
 
-Explanations can be added no later than 3 working days before the date of review of the complaint (3 days before reviewDate)
+Пояснення можна додавати не пізніше ніж за 3 робочі дні до дати розгляду скарги (3 рд до reviewDate)
 
-Each explanation must be related to one of the objections of the complaint  (`complaints:objections`).
+Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`).
 
-Complaint owner or tender owner can submit an explanation via `posts`:
+Скаржник, що подав скаргу, або замовник закупівлі можуть додати пояснення до скарги за допомогою функціоналу `posts`:
 
 .. http:example:: http/complaints/cancellation-complaint-post-explanation.http
    :code:
 
-The field `recipient` is forbidden for explanation post:
+Поле `recipient` заборонено для пояснень:
 
 .. http:example:: http/complaints/cancellation-complaint-post-explanation-invalid.http
    :code:
 
-It is forbidden to answer an explanation can submit by setting explanation's post `id` as `relatedPost`:
+Заборонено надавати відповідь до пояснення, передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/cancellation-complaint-post-explanation-answer-forbidden.http
    :code:
 
 
-Complaint Resolution
-====================
+Вирішення скарги
+================
 
-Rejecting Tender Cancellation Complaint
---------------------------------------------------
+Відхилення скарги на умови закупівлі
+------------------------------------
 
 .. http:example:: http/complaints/cancellation-complaint-reject.http
    :code:
 
 
-Accepting Tender Cancellation Complaint
---------------------------------------------------
+Прийняття скарги на скасування закупівлі
+----------------------------------------
 
 .. http:example:: http/complaints/cancellation-complaint-accept.http
    :code:
 
 
-Submitting Tender Cancellation Complaint Resolution
----------------------------------------------------
+Подання рішення по скарзі на скасування закупівлі
+-------------------------------------------------
 
-The Complaint Review Body uploads the resolution document:
+Орган, що розглядає скарги, завантажує документ з рішенням:
 
 .. http:example:: http/complaints/cancellation-complaint-resolution-upload.http
    :code:
 
-And either resolves complaint:
+Який або вирішує скаргу:
 
 .. http:example:: http/complaints/cancellation-complaint-resolve.http
    :code:
 
-Or declines it:
+Або відхиляє:
 
 .. http:example:: http/complaints/cancellation-complaint-decline.http
    :code:
 
-Submitting Resolution Confirmation
-----------------------------------
+Подання підтведження вирішення скарги
+-------------------------------------
 
-For submit resolution confirmation, cancellation must be in `unsuccessful` status.
+Для подання підтвердження вирішення скарги, скасування на скасування закупівлі повинно перебевати у статусі `unsuccessful`.
 
 .. http:example:: http/complaints/cancellation-complaint-resolved.http
    :code:
 
-When the status of cancellation changes to `resolved`, then all terms regarding the tender are recalculated according to the formula:
+Коли скарга на скасування закупівлі змінює статус на `resolved` вібувається перерахунок усіх періодів, що стосуються закупівлі за формулою:
 
 .. code-block:: python
 
    period.endDate += complaint.tendererActionDate - cancellation.complaintPeriod.startDate
 
-Cancelling Tender Cancellation Complaint
-========================================
+Відміна скарги на скасування закупівлі
+======================================
 
-Cancelling not accepted complaint
----------------------------------
+Відміна не прийнятої скарги
+---------------------------
 
 .. http:example:: http/complaints/cancellation-complaint-reject.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Відміна прийнятої скарги рецензентом
+------------------------------------
 
 .. http:example:: http/complaints/cancellation-complaint-accepted-stopped.http
    :code:

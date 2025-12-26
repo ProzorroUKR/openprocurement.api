@@ -5,115 +5,109 @@
 .. _EContractChange:
 
 EContractChange
-================
+===============
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-    The identifier for this Change.
+    Ідентифікатор для об'єкта Change
 
 :rationale:
-    string, multilingual, required
+    рядок, багатомовний, обов'язковий
 
-    Reason for contract change
+    Причина для зміни договору
 
 :rationaleTypes:
-    List of strings, required
+    Список рядків, обов’язковий
 
-    Type of the rationale behind contract change
+    Тип причини додання змін до договору
 
-    Possible string values are from the field `contractChangeRationaleTypes`. Could be one of:
+    Можливі значення валідуються зі списку причин, вказаних в полі `contractChangeRationaleTypes`. Можуть бути одні з:
 
-        * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
-        * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
-        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (deprecated after date CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
+        * `rationaleTypes для LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
+        * `rationaleTypes для DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
+        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (діє до дати CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :dateSigned:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    |ocdsDescription|
-    The date when the change was signed. In the case of multiple signatures, the date of the last signature.
+    |ocdsDescription| Дата підписання додаткової угоди. Якщо було декілька підписань, то береться дата останнього підписання.
 
 :status:
-    string, required
+    рядок, обов’язковий
 
-    The current status of the change.
+    Поточний стан зміни.
 
-    Possible values are:
+    Можливі значення:
 
-    * `pending` - this change has been added.
+    * `очікування` - ця зміна була додана.
 
-    * `active` - this change has been confirmed.
+    * `активний` - ця зміна підтверджена.
 
-    * `cancelled` - this change has been cancelled.
+    * `cancelled` - ця зміна скасована.
 
 :modifications:
-    List of :ref:`EContractModifications` objects
+    Список об'єктів :ref:`EContractModifications`
 
-    All fields of contract that will be modified after change is applied.
+    Поля договору, які будуть змінені, якщо ченжи будуть підписані.
 
 :documents:
-    List of :ref:`ConfidentialDocument` objects
+    Список об’єктів :ref:`ConfidentialDocument`
 
-    All documents (signatures) related to the cancellation.
+    Всі документи (підписи), які пов'язані із скасуванням.
 
 :cancellations:
-   List of :ref:`EContractCancellation` objects.
+   Список пов’язаних об’єктів :ref:`EContractCancellation`.
 
-   Contains 1 object with `active` status in case of cancelled change.
+   Містить 1 об’єкт зі статусом `active` на випадок, якщо ченж буде відмінено
 
-   The :ref:`EContractCancellation` object describes the reason of change cancellation.
+   Об’єкт :ref:`EContractCancellation` описує причину скасування ченжів.
 
 :author:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    The author of change
+    Автор ченжів
 
 .. _EContractModifications:
 
 ContractModifications
 =====================
 
-Schema
-------
+Схема
+-----
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    Contract title
+    |ocdsDescription| Назва договору
 
 :description:
-    string
+    рядок
 
-    |ocdsDescription|
-    Contract description
+    |ocdsDescription| Опис договору
 
 :period:
     :ref:`Period`
 
-    |ocdsDescription|
-    The start and end date for the contract.
+    |ocdsDescription| Дата початку та завершення договору.
 
 :value:
-    :ref:`ContractValue` object, auto-generated
+    Об’єкт :ref:`ContractValue`, генерується автоматично, лише для читання
 
-    |ocdsDescription|
-    The total value of this contract.
+    |ocdsDescription| Загальна вартість договору.
 
     Check ":ref:`SettingContractValue`" tutorial section for more info
 
 :items:
-    List of :ref:`Item` objects, auto-generated, read-only
+    Список об’єктів :ref:`Item`, генерується автоматично, лише для читання
 
-    |ocdsDescription|
-    The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat.
+    |ocdsDescription| Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця `award`, то його не потрібно повторювати.
 
 :contractNumber:
-    string
+    рядок

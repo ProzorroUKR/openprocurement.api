@@ -7,105 +7,95 @@
 Requirement
 ===========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    |ocdsDescription|
-    Requirement title.
+    |ocdsDescription| Назва вимоги.
 
 :status:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
     * `active`
     * `cancelled`
 
-    |ocdsDescription|
-    Requirement status (`active` by default).
+    Статус вимоги (`active` за замовчуванням).
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    Requirement description.
+    |ocdsDescription| Опис вимоги.
 
 :dataType:
-    string, required
+    рядок, обов'язковий
 
-    |ocdsDescription|
-    Determines the type of response.
+    |ocdsDescription| Визначає тип відповіді.
 
-    Possible values are:
+    Можливі значення:
      :`string`:
-       The requirement response must be of type string
+       Відповідь на вимогу має бути надана у строковому форматі
      :`number`:
-       The requirement response must be of type number
+       Відповідь на вимогу має бути надана у форматі числа
      :`integer`:
-       The requirement response must be of type integer
+       Відповідь на вимогу має бути надана у форматі цілого числа
      :`boolean`:
-       The requirement response must be of type boolean
+       Відповідь на вимогу має бути надана у булевуму форматі
 
 :dataSchema:
-    string
+    рядок
 
-    Determines the schema of data format in expectedValues.
-    It is allowed only for `"dataType": "string"`
+    Визначає схему формату даних для значень з довідника. Дозволено тільки для `"dataType": "string"`
 
-    Possible values are:
+    Можливі значення:
      :`ISO 639-3`:
-       Format for `language codes <https://prozorroukr.github.io/standards/classifiers/languages.json>`_
+       Формат для `кодів мови <https://prozorroukr.github.io/standards/classifiers/languages.json>`_
      :`ISO 3166-1 alpha-2`:
-       Format for `country codes <https://prozorroukr.github.io/standards/classifiers/countries.json>`_
+       Формат для `кодів країн <https://prozorroukr.github.io/standards/classifiers/countries.json>`_
 
 :minValue:
     int/float
 
-    |ocdsDescription|
-    Used to state the lower bound of the requirement when the response must be within a certain range.
+    |ocdsDescription| Використовується для визначення нижньої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні.
 
 :maxValue:
     int/float
 
-    |ocdsDescription|
-    Used to state the higher bound of the requirement when the response must be within a certain range.
+    |ocdsDescription| Використовується для визначення вищої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні.
 
 :expectedValue:
     int/float/bool
 
-    |ocdsDescription|
-    Used to state the requirement when the response must be particular value.
+    |ocdsDescription| Використовується коли відповідь на вимогу має мати визначене значення.
 
 :expectedValues:
-    string
+    рядок
 
-    Used to state the requirement when the response must be an array of particular values.
+    Використовується коли відповідь на вимогу має мати визначене значення з довідника.
 
 :period:
     :ref:`extendPeriod`
 
 :relatedFeature:
-    string
+    рядок
 
-    Id of related :ref:`Feature`.
+    Id пов'язанного :ref:`Feature`.
 
 :eligibleEvidences:
-    List of :ref:`EligibleEvidence` objects.
+    Список об'єктів :ref:`EligibleEvidence`.
 
 :datePublished:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    |ocdsDescription|
-    The date on which the requirement version was published.
+    Дата публікації вимоги
 
 :dateModified:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    |ocdsDescription|
-    Date that the requirement version was cancelled
+    Дата зміни статусу вимоги на `cancelled`.

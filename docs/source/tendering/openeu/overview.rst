@@ -1,26 +1,24 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement `Open EU` procedure is plugin to `Open Procurement API` software.
+Відкриті торги з публікацією англійською мовою (OpenEU) це плагін до `Open Procurement API <http://api-docs.openprocurement.org/>`_.
 
-REST-ful interface to plugin is in line with core software design principles. 
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення. 
 
-Main responsibilities
----------------------
-
-Open EU procedure is dedicated to Open Tender procedure for threshold procurements with publication in English. The code for that type of procedure is `aboveThresholdEU`.
-
-Project status
+Основні задачі
 --------------
 
-The project is in active development and has pilot installations.
+OpenEU процедура, що описана в цій документації, стосується процедури відкритих торгів з публікацією англійською мовою для понадпорогових закупівель. Код процедури такого типу - `aboveThresholdEU`.
 
-The source repository for this project is on GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openeu
+Стан проекту
+------------
 
-You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/ProzorroUKR/openprocurement.tender.openeu/issues>`_ (GitHub
-registration necessary).
+Цей проект активно розробляється і має пілотні встановлення.
 
-Next steps
-----------
+Репозиторій цього проекту є на GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openeu
+
+Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/ProzorroUKR/openprocurement.tender.openeu/issues>`_ (реєстрація на GitHub обов’язкова).
+
+Наступні кроки
+--------------
 You might find it helpful to look at the :ref:`tutorial` or :ref:`openeu_mulitlot_tutorial`.

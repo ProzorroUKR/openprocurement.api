@@ -3,9 +3,9 @@
 clarificationUntilDuration
 ==========================
 
-Field `clarificationUntilDuration` is the integer field that sets the number of days for the customer to respond to the inquiry.
+Поле `clarificationUntilDuration` -  це числове поле, яке встановлює кількість днів для надання відповіді замовником на звернення.
 
-Possible values for `clarificationUntilDuration` field depends on `frameworkType` field:
+Можливі значення для `clarificationUntilDuration` в залежності від поля `frameworkType`:
 
 .. csv-table::
    :file: csv/clarification-until-duration-values.csv
@@ -15,10 +15,10 @@ Possible values for `clarificationUntilDuration` field depends on `frameworkType
 Examples
 --------
 
-`clarificationsUntil` field calculates during framework creation. For `dynamicPurchasingSystem` type it's 3 working days, as you can see below in `enquiryPeriod`:
+`clarificationsUntil` розраховується під час створення рамочної угоди. Для типу `dynamicPurchasingSystem` це 3 робочих дні, як ви можете побачити нижче в `enquiryPeriod`:
 
 
 .. http:example:: http/restricted/framework-with-agreement.http
    :code:
 
-As you can see, `clarificationsUntil` field is ahead of `endDate` field by 3 working days.
+Як ви можете побачити, поле `clarificationsUntil` випереджає поле `endDate` на 3 робочих дні.

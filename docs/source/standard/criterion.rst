@@ -7,80 +7,74 @@
 Criterion
 =========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    |ocdsDescription|
-    Criterion title.
+    |ocdsDescription| Назва критерію.
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    Criterion description.
+    |ocdsDescription| Опис критерію.
 
 :source:
-    string
+    рядок
 
-    |ocdsDescription|
-    Source of response to the requirements specified in the criterion. For example, responses might be submitted by tenderers or by an assessment committee at the procuringEntity.
+    |ocdsDescription| Джерело відповіді на вимоги, зазначені в критерії. Наприклад, відповіді можуть бути подані учасниками тендеру або замовником.
 
-    Possible values are:
+    Можливі значення:
      :`tenderer`:
-       Default. The response is provided by the tenderer.
+       Відповідь надається учасником.
      :`buyer`:
-       The response is provided by the buyer.
+       Відповідь надається замовником.
      :`procuringEntity`:
-       The response is provided by the procuring entity.
+       Відповідь надається закупівельником.
      :`ssrBot`:
-       The response is provided by the bot.
+       Відповідь надається ботом.
      :`winner`:
-       The response is provided by the winner.
+       Відповідь надається переможцем.
 
 :relatesTo:
-    string
+    рядок
 
-    |ocdsDescription|
-    The schema element that the criterion judges, evaluates or assesses. For example, the criterion might be defined against items or against bidders.
+    |ocdsDescription| Елемент схеми, який критерій оцінює. Наприклад, критерій може бути визначений щодо позицій або проти учасників торгів.
 
-    Possible values are:
+    Можливі значення:
      :`tenderer`:
-       Default. The criterion evaluates or assesses a tenderer.
+       Критерій відноситься до учасника.
      :`item`:
-       The criterion evaluates or assesses a item.
+       Критерій відноситься до предмету.
      :`lot`:
-       The criterion evaluates or assesses a lot.
+       Критерій відноситься до лоту.
 
 :relatedItem:
-    string
+    рядок
 
-    :`if relatesTo == tender`:
-      Should be None.
-    :`if relatesTo == item`:
-      Id of related :ref:`item`.
-    :`if relatesTo == lot`:
-      Id of related :ref:`lot`.
+    :якщо relatesTo == tender:
+      Поле повинно бути пустим.
+    :якщо relatesTo == item:
+      Id пов'язаного :ref:`item`
+    :якщо relatesTo == lot:
+      Id пов'язаного :ref:`lot`
 
 :classification:
     :ref:`Classification`
 
-    |ocdsDescription|
-    The primary classification for the item.
+    |ocdsDescription| Основна класифікація елемента
 
 :additionalClassifications:
-    List of :ref:`Classification` objects
+    Список об'єктів :ref:`Classification`.
 
-    |ocdsDescription|
-    An array of additional classifications for the item.
+    |ocdsDescription| Масив додаткових класифікацій елемента.
 
 :legislation:
-    List of :ref:`LegislationItem` objects.
+    Список об'єктів :ref:`LegislationItem`.
 
 :requirementGroups:
-    List of :ref:`RequirementGroup` objects.
+    Список об'єктів :ref:`RequirementGroup`.

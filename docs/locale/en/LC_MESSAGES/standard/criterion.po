@@ -1,0 +1,157 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-26 17:34+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+
+msgid "Criterion"
+msgstr "Criterion"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий"
+msgstr "string, multilingual, required"
+
+msgid "|ocdsDescription| Назва критерію."
+msgstr "|ocdsDescription| Criterion title."
+
+msgid "description"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "|ocdsDescription| Опис критерію."
+msgstr "|ocdsDescription| Criterion description."
+
+msgid "source"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "|ocdsDescription| Джерело відповіді на вимоги, зазначені в критерії. Наприклад, відповіді можуть бути подані учасниками тендеру або замовником."
+msgstr "|ocdsDescription| Source of response to the requirements specified in the criterion. For example, responses might be submitted by tenderers or by an assessment committee at the procuringEntity."
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`tenderer`"
+msgstr ""
+
+msgid "Відповідь надається учасником."
+msgstr "Default. The response is provided by the tenderer."
+
+msgid "`buyer`"
+msgstr ""
+
+msgid "Відповідь надається замовником."
+msgstr "The response is provided by the buyer."
+
+msgid "`procuringEntity`"
+msgstr ""
+
+msgid "Відповідь надається закупівельником."
+msgstr "The response is provided by the procuring entity."
+
+msgid "`ssrBot`"
+msgstr ""
+
+msgid "Відповідь надається ботом."
+msgstr "The response is provided by the bot."
+
+msgid "`winner`"
+msgstr ""
+
+msgid "Відповідь надається переможцем."
+msgstr "The response is provided by the winner."
+
+msgid "relatesTo"
+msgstr ""
+
+msgid "|ocdsDescription| Елемент схеми, який критерій оцінює. Наприклад, критерій може бути визначений щодо позицій або проти учасників торгів."
+msgstr "|ocdsDescription| The schema element that the criterion judges, evaluates or assesses. For example, the criterion might be defined against items or against bidders."
+
+msgid "Критерій відноситься до учасника."
+msgstr "Default. The criterion evaluates or assesses a tenderer."
+
+msgid "`item`"
+msgstr ""
+
+msgid "Критерій відноситься до предмету."
+msgstr "The criterion evaluates or assesses a item."
+
+msgid "`lot`"
+msgstr ""
+
+msgid "Критерій відноситься до лоту."
+msgstr "The criterion evaluates or assesses a lot."
+
+msgid "relatedItem"
+msgstr ""
+
+msgid "якщо relatesTo == tender"
+msgstr "`if relatesTo == tender`"
+
+msgid "Поле повинно бути пустим."
+msgstr "Should be None."
+
+msgid "якщо relatesTo == item"
+msgstr "`if relatesTo == item`"
+
+msgid "Id пов'язаного :ref:`item`"
+msgstr "Id of related :ref:`item`."
+
+msgid "якщо relatesTo == lot"
+msgstr "`if relatesTo == lot`"
+
+msgid "Id пов'язаного :ref:`lot`"
+msgstr "Id of related :ref:`lot`."
+
+msgid "classification"
+msgstr ""
+
+msgid ":ref:`Classification`"
+msgstr ""
+
+msgid "|ocdsDescription| Основна класифікація елемента"
+msgstr "|ocdsDescription| The primary classification for the item."
+
+msgid "additionalClassifications"
+msgstr ""
+
+msgid "Список об'єктів :ref:`Classification`."
+msgstr "List of :ref:`Classification` objects"
+
+msgid "|ocdsDescription| Масив додаткових класифікацій елемента."
+msgstr "|ocdsDescription| An array of additional classifications for the item."
+
+msgid "legislation"
+msgstr ""
+
+msgid "Список об'єктів :ref:`LegislationItem`."
+msgstr "List of :ref:`LegislationItem` objects."
+
+msgid "requirementGroups"
+msgstr ""
+
+msgid "Список об'єктів :ref:`RequirementGroup`."
+msgstr "List of :ref:`RequirementGroup` objects."
+

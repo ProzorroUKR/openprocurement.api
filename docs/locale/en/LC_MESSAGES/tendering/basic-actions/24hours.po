@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-09 11:40+0300\n"
+"PO-Revision-Date: 2020-04-23 11:14+0300\n"
+"Last-Translator: \n"
+"Language: en_UA\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "\"24 години\""
+msgstr "\"24 hours\""
+
+msgid "Під час кваліфікаційного процесу (або попередньої кваліфікації, якщо процедура має таку), замовник може прийняти рішення дозволити учаснику торгів дозавантажувати документи до своєї заявки, додавати/змінювати `evidences` у вигляді файлів або змінити ряд полів у своїй пропозиції."
+msgstr "During the qualification process (or pre-qualification if the procedure has one) procuring entity can decide to allow a bidder to upload more documents to their bid, add/change `evidences` for requirementResponses. or update particular fields in bid."
+
+msgid "Поля, які дозволено змінювати при застосуванні `milestone:code:24h`:"
+msgstr "The fields that may be updated during 24 hours milestone:"
+
+msgid "requirementResponses"
+msgstr ""
+
+msgid "items.unit.value.amount"
+msgstr ""
+
+msgid "subcontractingDetails"
+msgstr ""
+
+msgid "lotValues.subcontractingDetails"
+msgstr ""
+
+msgid "tenderers.signerInfo"
+msgstr ""
+
+msgid "Приклад розміщення :ref:`qualificationmilestone` для кваліфікації"
+msgstr "Example of posting :ref:`qualificationmilestone` for qualification"
+
+msgid "Приклад попередньої кваліфікації"
+msgstr "Example of pre-qualification"
+
+msgid "Після додавання майлстоуну виправлення невідповідностей `24h`, award/qualification має бути підписаний через додавання файлу `documentType: deviationReport`."
+msgstr "After adding milestone `24h`, the award/qualification should be signed with `documentType: deviationReport`."
+
+msgid "Підписання :ref:`qualificationmilestone` для кваліфікації:"
+msgstr "Signing :ref:`qualificationmilestone` for qualification:"
+
+msgid "Підписання попередньої кваліфікації:"
+msgstr "Signing milestone of pre-qualification:"
+
+msgid "Тільки один документ з типом `deviationReport` може бути доданий до award/qualification:"
+msgstr "Only one document with type `deviationReport` could be in award/qualification:"
+
+msgid "Поле “dueDate” у відповіді вказує на кінець періоду, під час якого замовник не може прийняти рішення щодо об’єкта кваліфікації"
+msgstr "The \"dueDate\" field in the response indicates the end of the period when procuring entity is unable to make a decision on the qualification object"
+
+msgid "Учасник торгів може розмістити нові документи на свою заявку"
+msgstr "The bidder can post new documents to their bid"
+
+msgid "Учасник торгів може оновити свої документи"
+msgstr "The bidder can update their documents"
+
+msgid "Учасник торгів може змінити ряд полів у своїй пропозиції:"
+msgstr "The bidder can update some fields in bid:"
+
+msgid "Якщо це поля, які змінювати заборонено, то ми побачимо помилку:"
+msgstr "If updated field is not forbidden, we will see an error:"
+
+msgid "Учасник торгів може змінювати відповіді на критерії `requirementResponses` у своїй пропозиції."
+msgstr "The bidder can update `requirementResponses` for his bid."
+
+msgid "Наприклад, учасник може видалити попередню відповідь на одну `requirementGroup` статті 17:"
+msgstr "For example, the bidder can delete `requirementResponses` from one requirementGroup in article 17:"
+
+msgid "і натомість надати відповідь на іншу `requirementGroup` статті 17:"
+msgstr "and then add new `requirementResponses` for another requirementGroup in article 17:"
+
+msgid "Учасник може додавати/змінювати `evidences` у вигляді файлів:"
+msgstr "The bidder can add/change `evidences` for requirementResponses:"
+
+msgid "Після закінчення `milestone.dueDate` в учасника немає можливості змінювати поля пропозиції:"
+msgstr "If milestone `dueDate` already passed, it is forbidden to patch any field in bid:"
+

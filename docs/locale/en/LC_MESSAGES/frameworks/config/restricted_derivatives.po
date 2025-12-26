@@ -1,0 +1,265 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-21 17:16+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "restrictedDerivatives"
+msgstr ""
+
+msgid "Створення фреймворку з обмеженим доступом"
+msgstr "Create Framework with restricted access"
+
+msgid "Спочатку створимо фреймворк з обмеженим доступом з токеном майданчика. Для цього нам потрібно встановити ``restricted_derivatives`` поле в ``true`` в ``config`` розділі запиту на створення фреймворку."
+msgstr "First create framework with restricted access by `Broker`. To do this, we need to set ``restricted_derivatives`` field to ``true`` in ``config`` section of framework creation request."
+
+msgid "Цей фреймворк видно всім в публічному API."
+msgstr "This framework by itself is visible to everyone in public API."
+
+msgid "Для `ProcuringEntity` з kind `defense` поле ``restricted_derivatives`` буде встановлено в ``true`` автоматично."
+msgstr "For `ProcuringEntity` with `defense` kind ``restricted_derivatives`` field will be set to ``true`` automatically."
+
+msgid "Другий крок - перехід фреймворку в статус `active`:"
+msgstr "The second step is moving the framework to `active` status:"
+
+msgid "Створення та активація пропозицій з обмеженим доступом"
+msgstr "Create and activate Submissions with restricted access"
+
+msgid "Після активації фреймворку користувачі можуть зареєструвати свої пропозиції в період від `framework.period.startDate` до framework.period.endDate`."
+msgstr "After activating framework, users can register their submissions in period from `framework.period.startDate` to `framework.period.endDate`."
+
+msgid "Зареєструємо пропозицію:"
+msgstr "Let's register submission:"
+
+msgid "Ви можете побачити, що поле ``restricted`` було встановлено в ``true`` в розділі ``config`` відповіді на створення пропозиції."
+msgstr "You can see that ``restricted`` field was set to ``true`` in ``config`` section of submission creation response."
+
+msgid "Далі активуємо пропозицію:"
+msgstr "Next activate submission:"
+
+msgid "Запит пропозицій з обмеженим доступом"
+msgstr "Request submissions with restricted access"
+
+msgid "Перевіримо пропозиції всіх учасників:"
+msgstr "Let's check submissions:"
+
+msgid "Анонімно"
+msgstr "Anonymous"
+
+msgid "Створимо пропозицію використовуючи анонімний запит:"
+msgstr "Let's get submission with anonymous request:"
+
+msgid "Бачимо що деякі її поля приховані."
+msgstr "We can see that some of it's fields are masked."
+
+msgid "Перевіримо фід пропозицій з анонімним запитом:"
+msgstr "Let's check submission feed with anonymous request:"
+
+msgid "Майданчик"
+msgstr "Broker"
+
+msgid "Але якщо ми зробимо запит з `broker` токеном майданчика , ми побачимо, що відповідні поля більше не приховані:"
+msgstr "But if we will make a request with `broker` token, we will see that corresponding fields are not longer masked:"
+
+msgid "Перевіримо фід пропозицій для майданчика:"
+msgstr "Let's check submission feed for broker:"
+
+msgid "Запит кваліфікацій з обмеженим доступом"
+msgstr "Request Qualifications with restricted access"
+
+msgid "Перевіримо кваліфікацію:"
+msgstr "Let's check qualification:"
+
+msgid "Переглнемо кваліфікацію з анонімним запитом:"
+msgstr "Let's qualification with anonymous request:"
+
+msgid "Перевіримо фід кваліфікацій з анонімним запитом:"
+msgstr "Let's check qualification feed with anonymous request:"
+
+msgid "Перевіримо фід кваліфікацій для майданчика:"
+msgstr "Let's check qualification feed for broker:"
+
+msgid "Активуція кваліфікації з обмеженим доступом"
+msgstr "Activate Qualifications with restricted access"
+
+msgid "Перевіримо поточний фреймворк"
+msgstr "Let's check current framework"
+
+msgid "Активуємо кваліфікацію:"
+msgstr "Let's activate qualification:"
+
+msgid "Ви можете побачити, що `agreementID` з'явився в поточному фреймворку, тому перевіримо цю угоду."
+msgstr "You can see that `agreementID` appeared in current framework, so let's check that agreement."
+
+msgid "Запит угоди з обмеженим доступом"
+msgstr "Request Agreement with restricted access"
+
+msgid "Переглянемо угоду:"
+msgstr "Let's check agreement:"
+
+msgid "Переглянемо угоду використовуючи анонімний запит:"
+msgstr "Let's get agreement with anonymous request:"
+
+msgid "Перевіримо фід угод використовуючи анонімний запит:"
+msgstr "Let's check agreement feed with anonymous request:"
+
+msgid "Перевіримо фід угод для майданчика:"
+msgstr "Let's check agreement feed for broker:"
+
+msgid "Правила маскування"
+msgstr "Masking rules"
+
+msgid "Правила складаються з JSONPath виразів. Для отримання додаткової інформації читайте `JSONPath specification <https://goessner.net/articles/JsonPath/>`_."
+msgstr "Rules are made of JSONPath expressions. For more info read `JSONPath specification <https://goessner.net/articles/JsonPath/>`_."
+
+msgid "Правила маскування пропозицій:"
+msgstr "Rules for submission masking:"
+
+msgid "path"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid "$.tenderers[*].address.streetAddress"
+msgstr ""
+
+msgid "Приховано"
+msgstr ""
+
+msgid "$.tenderers[*].address.locality"
+msgstr ""
+
+msgid "$.tenderers[*].address.region"
+msgstr ""
+
+msgid "$.tenderers[*].address.postalCode"
+msgstr ""
+
+msgid "$.tenderers[*].address.countryName"
+msgstr ""
+
+msgid "$.tenderers[*].address.countryName_en"
+msgstr ""
+
+msgid "Hidden"
+msgstr ""
+
+msgid "$.tenderers[*].address.countryName_ru"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.telephone"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.email"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.faxNumber"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.url"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.name"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.name_en"
+msgstr ""
+
+msgid "$.tenderers[*].contactPoint.name_ru"
+msgstr ""
+
+msgid "$.documents[*].title"
+msgstr ""
+
+msgid "$.documents[*].url"
+msgstr ""
+
+msgid "Rules for qualification masking:"
+msgstr ""
+
+msgid "Правила маскування угод:"
+msgstr "Rules for agreement masking:"
+
+msgid "$.contracts[*].suppliers[*].address.streetAddress"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.locality"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.region"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.postalCode"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.countryName"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.countryName_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].address.countryName_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.telephone"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.email"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.faxNumber"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.url"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.name"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.name_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].contactPoint.name_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].telephone"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].email"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].faxNumber"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].url"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].name"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].name_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].name_ru"
+msgstr ""
+
+msgid "$.contracts[*].documents[*].title"
+msgstr ""
+
+msgid "$.contracts[*].documents[*].url"
+msgstr ""
+
+msgid "$.contracts[*].milestones[*].documents[*].title"
+msgstr ""
+
+msgid "$.contracts[*].milestones[*].documents[*].url"
+msgstr ""
+

@@ -1,52 +1,52 @@
 .. _violation_reports_errors:
 
-Violation Reports API Errors
-============================
+Помилки API звітів про порушення
+================================
 
 
-DefendantStatement and Decision in `draft` status
---------------------------------------------------
+DefendantStatement і Decision у статусі `draft`
+-----------------------------------------------
 
-If a violation report is in `draft` status, it's is not public yet.
+Якщо звіт про порушення має статус `draft`, він ще не є публічним.
 
 .. http:example:: http/errors/01-00-get-report.http
    :code:
 
-Posting a defendant statement should fail.
+Спроба опублікувати заяву відповідача має завершуватися помилкою.
 
 .. http:example:: http/errors/01-01-put-defendant-statement.http
    :code:
 
 
-Posting a defendant statement document should fail as well.
+Спроба додати документ заяви відповідача також має завершуватися помилкою.
 
 .. http:example:: http/errors/01-01-put-defendant-statement.http
    :code:
 
 
-Posting a decision should fail.
+Спроба опублікувати рішення має завершуватися помилкою.
 
 .. http:example:: http/errors/01-03-put-decision.http
    :code:
 
 
-Posting a decision document should also fail.
+Спроба додати документ рішення також має завершуватися помилкою.
 
 .. http:example:: http/errors/01-04-post-decision-document.http
    :code:
 
 
-Violation report in `draft` status
-----------------------------------
+Звіт про порушення у статусі `draft`
+------------------------------------
 
 
-Patching violation report with extra fields should fail.
+Спроба змінити звіт про порушення, додаючи зайві поля, має завершуватися помилкою.
 
 .. http:example:: http/errors/01-05-patch-report-extra.http
    :code:
 
 
-Patching violation report with no changes should succeed while dateModified should be the same.
+Зміна звіту про порушення без внесення змін має бути успішною, а значення dateModified має залишатися таким самим.
 
 .. http:example:: http/errors/01-06-patch-report-no-changes.http
    :code:

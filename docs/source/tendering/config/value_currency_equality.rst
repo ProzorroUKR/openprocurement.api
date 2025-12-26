@@ -3,65 +3,62 @@
 valueCurrencyEquality
 =====================
 
-Field `valueCurrencyEquality` is a boolean field that turns off validation `currency of bid should be identical to currency of value of tender`.
-It means that multi-currency is used in the procedure.
+Поле `valueCurrencyEquality` є булевим полем, яке вимикає перевірку `currency of bid should be identical to currency of value of tender`. Це означає, що в процедурі застосовується мультивалютність.
 
-Possible values for `valueCurrencyEquality` field depends on `procurementMethodType` field:
+Можливі значення для поля `valueCurrencyEquality` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/value-currency-equality-values.csv
    :header-rows: 1
 
-valueCurrencyEquality is `true`
--------------------------------
+valueCurrencyEquality встановлено у `true`
+------------------------------------------
 
-`valueCurrencyEquality:true` means that validation will work while registering a bid and the system will check whether the currency of the bid is identical to the currency of the expected value in the tender/lot.
+`valueCurrencyEquality:true` означає, що буде працювати валідація при поданні пропозиції і система перевірить чи валюта тендерної пропозиції ідентична валюті очікуваної вартості в тендері/лоті.
 
-Let's create a tender with lots with `valueCurrencyEquality` set to `true`:
+Створимо багатолотовий тендер з `valueCurrencyEquality` встановленим у `true`:
 
 .. http:example:: http/value-currency-equality-true-tender-lots-post.http
    :code:
 
-And add bid to it with the different currency than the expected value in lot:
+І додамо до нього пропозицію з іншою валютою, ніж вказано в очікуваній вартості лоту:
 
 .. http:example:: http/value-currency-equality-true-tender-lots-add-invalid-bid.http
    :code:
 
-In that case we will have error, that adding bid with the different currency is forbidden.
+В цьому випадку ми побачимо помилку, що додавання пропозиції в іншій валюті - заборонено.
 
-Let's add bid to tender with currency identical to the currency of the expected value in the tender/lot:
+Додамо пропозицію до тендера з валютою ідентичною з очікуваною вартістю тендера/лота:
 
 .. http:example:: http/value-currency-equality-true-tender-lots-add-valid-bid.http
    :code:
 
-The participant submits an offer, where `bid:value:currency = tender:value:currency`, when trying to transfer another currency, the system issues an error.
-Let's try to patch bid currency to another one and we will see error, that it is forbidden with this configuration.
+Учасник подає пропозицію, де `bid:value:currency = tender:value:currency`, при спробі передати іншу валюту система видає помилку. Спробуємо змінити валюту пропозиції на іншу і побачимо помилку, що це забронено зі встановленою конфігурацією `valueCurrencyEquality:true`.
 
 .. http:example:: http/value-currency-equality-true-tender-lots-patch-bid.http
    :code:
 
-valueCurrencyEquality is `false`
----------------------------------
+valueCurrencyEquality встановлено у `false`
+-------------------------------------------
 
-`valueCurrencyEquality:false` means that currency validation will not work.
+`valueCurrencyEquality:false` означає, що валідація стосовно валюти працювати не буде.
 
 .. note::
-    Multi-currency can be applied only with `hasAuction:false` and with `hasAwardingOrder:false` and with `hasValueRestriction:false`.
+    Мультивалютність може бути застосована лише при `hasAuction:false` та при `hasAwardingOrder:false` та при `hasValueRestriction:false`.
 
-Let's create a tender with lots with `valueCurrencyEquality` set to `false`:
+Створимо багатолотовивй тендер з `valueCurrencyEquality` встановленим у `false`:
 
 .. http:example:: http/value-currency-equality-false-tender-lots-post.http
    :code:
 
-And add bid to it with the different currency than the expected value in lot:
+І додамо до нього пропозицію з іншою валютою, ніж вказано в очікуваній вартості лоту:
 
 .. http:example:: http/value-currency-equality-false-tender-lots-add-valid-bid.http
    :code:
 
-In that case we won't see any error, as adding bid with the different currency is allowed with configuration `valueCurrencyEquality:false`.
+В цьому випадку ми не побачимо ніяку помилку, тому що додавання пропозиції в іншій валюті - дозволено.
 
-The customer and the participant conclude the contract in the currency in which the offer was indicated by the participant.
-Let's look at completed tender, awards and contracts value's currency are the same as they were at bid:
+Замовник та учасник укладають договір у тій валюті, в якій було вказано пропозицію учасником. Подивимося на завершений тендер, валюта вартості в аварді і договорі така ж сама як і в пропозиції:
 
 .. http:example:: http/value-currency-equality-false-tender-complete.http
    :code:

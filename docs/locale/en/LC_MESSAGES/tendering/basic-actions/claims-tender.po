@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-31 17:29+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+msgid "Отримання інформації про вимоги/скарги"
+msgstr "Claim/Complaint Retrieval"
+
+msgid "Отримання інформації про вимоги/скарги на умови закупівлі"
+msgstr "Tender Conditions Claim/Complaint Retrieval"
+
+msgid "Ви можете отримати список всіх вимог/скарг на умови закупівлі:"
+msgstr "You can list all Tender Conditions Claims/Complaints:"
+
+msgid "Або перевірити окрему скаргу чи вимогу:"
+msgstr "And check individual complaint or claim:"
+
+msgid "Подання вимоги"
+msgstr "Claim Submission"
+
+msgid "`Deprecated`"
+msgstr ""
+
+msgid "Відповідь на вимогу"
+msgstr "Claim's Answer"
+
+msgid "Відповідь на вирішену вимогу"
+msgstr "Answer to resolved claim"
+
+msgid "Задовільнена вимога"
+msgstr "Satisfied Claim"
+
+msgid "Рішення про задовільнення вимоги"
+msgstr "Satisfying resolution"
+
+msgid "Перетворення вимоги в скаргу"
+msgstr "Escalate claim to complaint"
+

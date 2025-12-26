@@ -1,9 +1,9 @@
 .. _openeu:
 
-Open procedure with publication in English - ``aboveThresholdEU``
-=================================================================
+Відкриті торги з публікацією англійською мовою - ``aboveThresholdEU``
+=====================================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

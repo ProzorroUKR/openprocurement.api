@@ -1,58 +1,58 @@
 .. _has_value_restriction:
 
 hasValueRestriction
-====================
+===================
 
-Field `hasValueRestriction` is a boolean field that indicates whether the bid value can exceed tender/lot initial value of the subject of procurement, specified in the announcement.
+Поле `hasValueRestriction` є булевим полем, яке вказує, що ціна тендерної пропозиції може перевищувати очікувану вартість предмета закупівлі, зазначену в оголошенні про проведення.
 
-Possible values for `hasValueRestriction` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasValueRestriction` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/has-value-restriction-values.csv
    :header-rows: 1
 
-hasValueRestriction is `true`
------------------------------
+hasValueRestriction встановлено у `true`
+----------------------------------------
 
-`hasValueRestriction:true` means that bid value can not exceed initial value of the subject of procurement.
+`hasValueRestriction:true` означає, що ціна тендерної пропозиції не може перевищувати очікувану вартість предмета закупівлі.
 
-Let's create a tender with lots with `hasValueRestriction` set to `true`:
+Створимо тендер з лотами з `hasValueRestriction` встановленим у `true`:
 
 .. http:example:: http/has-value-restriction-true-tender-lots-post.http
    :code:
 
-And add bid to it with value more than initially announced in lot:
+І додамо пропозицію до тендера з вартістю більшою за очікувану вартість, оголошену у лоті:
 
 .. http:example:: http/has-value-restriction-true-tender-lots-add-invalid-bid.http
    :code:
 
-In that case we will have error, that adding bid with exceeded value is forbidden.
+В цьому випадку ми побачимо помилку, що додавання пропозиції з вартістю більшою за очікувану вартість заборонено.
 
-Let's add bid to tender with value less than initially announced in lot:
+Додамо пропозицію до тендера з вартістю меншою за очікувану вартість, оголошену у лоті:
 
 .. http:example:: http/has-value-restriction-true-tender-lots-add-valid-bid.http
    :code:
 
-Let's try to patch bid value to bigger one and we will see error, that it is forbidden with this configuration.
+Спробуємо відредагувати вартість пропозиції на більшу за очікувану вартість, оголошену у лоті, і ми побачимо помилку, тому що це заборонено конфігурацією `hasValueRestriction:true`.
 
 .. http:example:: http/has-value-restriction-true-tender-lots-patch-bid.http
    :code:
 
 
-hasValueRestriction is `false`
--------------------------------
+hasValueRestriction встановлено у `false`
+-----------------------------------------
 
-`hasValueRestriction:false` means that bid value can exceed initial value of the subject of procurement.
+`hasValueRestriction:false` означає, що ціна тендерної пропозиції може перевищувати очікувану вартість предмета закупівлі.
 
 
-Let's create a tender with lots with `hasValueRestriction` set to `false`:
+Створимо тендер з лотами з `hasValueRestriction` встановленим у `false`:
 
 .. http:example:: http/has-value-restriction-false-tender-lots-post.http
    :code:
 
-And add bid to it with value more than initially announced in lot:
+І додамо пропозицію до тендера з вартістю більшою за очікувану вартість, оголошену у лоті:
 
 .. http:example:: http/has-value-restriction-false-tender-lots-add-valid-bid.http
    :code:
 
-In that case we won't see any error, as adding bid with exceeded value is allowed with configuration `hasValueRestriction:false`.
+В цьому випадку ми не побачимо ніякої помилки, тому що додавання пропозиції з вартістю більшою за очікувану вартість дозволено конфігурацією `hasValueRestriction:false`.

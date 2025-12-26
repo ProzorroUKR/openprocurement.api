@@ -1,83 +1,83 @@
-Example for Plan
-------------------
+Приклад для плану закупівлі
+---------------------------
 
-Plan ownership change
-~~~~~~~~~~~~~~~~~~~~~~~
+Зміна власника плану закупівлі
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's view transfer example for plan.
+Переглянемо приклад зміни власника для плану.
 
 
-Tender creation
-^^^^^^^^^^^^^^^
+Створення плану закупівлі
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At first let's create a plan:
+Спочатку створимо план закупівлі:
 
 .. http:example:: tutorial/create-plan.http
    :code:
 
-`broker` is current plan's ``owner``.
+Майданчик `broker` є поточним власником ``owner`` плану закупівлі.
 
-Note that response's `access` section contains a ``transfer`` key which is used to change plan ownership.
+Зверніть увагу, що секція відповіді `access` містить ключ ``transfer``, який використовується для зміни власника плану закупівлі.
 
-After plan's registration in CDB broker has to provide its customer with ``transfer`` key.
+Після реєстрація плану закупівлі в ЦБД майданчик повинен довести ключ ``transfer`` до відома клієнта.
 
-Transfer creation
-^^^^^^^^^^^^^^^^^
+Ініціація зміни власника
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-Broker that is going to become new plan owner should create a `Transfer`.
+Майданчик, що стане новим власником плану закупівлі, повинен створити об'єкт `Transfer`.
 
 .. http:example:: tutorial/create-plan-transfer.http
    :code:
 
-`Transfer` object contains new access ``token`` and new ``transfer`` token for the object that will be transferred to new broker.
+Об'єкт `Transfer` містить новий ключ доступу ``token`` та новий ключ ``transfer`` для об'єкта, власник якого буде змінений.
 
-`Transfer` can be retrieved by `id`:
+Об'єкт `Transfer` можна переглянути за допомогою ідентифікатора `id`:
 
 .. http:example:: tutorial/get-plan-transfer.http
    :code:
 
-Changing plan's owner
-^^^^^^^^^^^^^^^^^^^^^^^
+Зміна власника плану закупівлі
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-An ability to change plan's ownership depends on plan's status:
+Можливість зміни власника плану закупівлі залежить від статусу плану закупівлі:
 
-+-----------+-------------+
-| Allowed   | Not Allowed |
-+-----------+-------------+
-| scheduled | draft       |
-|           |             |
-|           | cancelled   |
-|           |             |
-|           | complete    |
-+-----------+-------------+
++-----------+--------------+
+| Дозволено | Не дозволено |
++-----------+--------------+
+| scheduled | draft        |
+|           |              |
+|           | cancelled    |
+|           |              |
+|           | complete     |
++-----------+--------------+
 
-To change plan's ownership new broker should send POST request to appropriate `/plans/id/` with `data` section containing ``id`` of `Transfer` and ``transfer`` token received from customer:
+Щоб змінити власника плану закупівлі новий майданчик повинен надіслати POST запит на відповідний  `/plans/id/` з секцією `data`, що міститиме ідентифікатор ``id`` для `Transfer` та ключ ``transfer`` отриманий від клієнта:
 
 .. http:example:: tutorial/change-plan-ownership.http
    :code:
 
-Updated ``owner`` value indicates that ownership is successfully changed. 
+Оновлене значення властивості ``owner`` вказує, що власник був успішно змінений. 
 
-Note that new broker has to provide its customer with new ``transfer`` key (generated in `Transfer` object).
+Зверніть увагу, що новий майданчик повинен довести до відома клієнта новий ключ ``transfer`` (згенерований в об'єкті `Transfer`).
 
-After `Transfer` is applied it stores plan path in ``usedFor`` property:
+Після того, як об'єкт `Transfer` було застосовано, для нього генерується властивість ``usedFor`` (вказується шлях до об'єкта, власника якого було змінено):
 
 .. http:example:: tutorial/get-used-plan-transfer.http
    :code:
 
-'Used' `Transfer` can't be applied to any other object.
+'Використаний' об'єкт `Transfer` вже не можна застосувати до іншого об'єкта.
 
-Let's try to change the plan using ``token`` received on `Transfer` creation:
+Спробуємо змінити план закупівлі за допомогою ключа ``token``, отриманого при створенні об'єкта `Transfer`.
 
 .. http:example:: tutorial/modify-plan.http
    :code:
 
-Pay attention that only broker with appropriate accreditation level can become new owner. Otherwise broker will be forbidden from this action.
+Зверніть увагу, що тільки майданчик з відповідним рівнем акредитації може стати новим власником. В іншому випадку майданчику така дія буде заборонена.
 
 .. http:example:: tutorial/change-plan-ownership-forbidden.http
    :code:
 
-Also ownership change is allowed only if current owner has a special accreditation level that allows ownership change:
+Зміна власника дозволена тільки якщо поточний власник тендера має спеціальний рівень акредетації, що дозволяє зміну:
 
 .. http:example:: tutorial/change-plan-ownership-forbidden-owner.http
    :code:

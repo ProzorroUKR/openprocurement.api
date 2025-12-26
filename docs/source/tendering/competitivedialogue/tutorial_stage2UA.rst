@@ -1,57 +1,56 @@
 .. _tutorial_stage2UA:
 
-Configuration
--------------
+Конфігурація
+------------
 
-The set of possible configuration values:
+Набір можливих значень конфігурації:
 
 .. csv-table::
    :file: csv/config-ua-stage2.csv
    :header-rows: 1
 
-You can look for more details in :ref:`config` section.
+Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-The set of possible `procuringEntity.kind` values for `competitiveDialogueUA.stage2`
-------------------------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `competitiveDialogueUA.stage2`
+--------------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-ua-stage2.csv
    :header-rows: 1
 
-Modifying tender
-----------------
+Редагування закупівлі
+---------------------
 
-If on first stage you set ``procurementMethodType`` to ``CompetitiveDialogueUA``
-then on second stage you have tender witch similar to Open UA procedure
+На першому етапі параметр ``procurementMethodType`` був ``CompetitiveDialogueUA`` тому на другому етапі створюється процедура, яка схожа на Open UA процедуру.
 
-You can modify only ``tenderPeriod.endDate`` and ``deliveryDate`` for ``items``.
+На другому етапі є можливість редагувати тільки ``tenderPeriod.endDate`` та ``deliveryDate`` в ``items``.
 
-If you change another field we will see an error:
+Якщо спробувати відредагувати якесь заборонене поле, то побачимо помилку:
 
 .. http:example:: tutorial/stage2/UA/patch-tender-invalid.http
    :code:
 
-Let's update tender by supplementing it with all other essential properties:
+Спробуємо внести дозволені зміни:
 
 .. http:example:: tutorial/stage2/UA/patch-tender-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації.
 
-Checking the listing again reflects the new modification date:
+Ще одна перевірка списку відображає нову дату модифікації:
 
 .. http:example:: tutorial/stage2/UA/tender-listing-after-patch.http
    :code:
 
 
-Procuring entity can not change tender if there are less than 7 days before tenderPeriod ends. Changes will not be accepted by API.
+Замовник не може редагувати закупівлю, якщо залишилось менше 7 днів до завершення періоду подання пропозицій. API таких змін не прийме.
 
 .. http:example:: tutorial/stage2/UA/update-tender-after-enqiery.http
    :code:
 
-That is why tenderPeriod has to be extended by 7 days.
+Ось чому потрібно продовжити період подання пропозицій на 7 днів.
 
 .. http:example:: tutorial/stage2/UA/update-tender-after-enqiery-with-update-periods.http
    :code:
@@ -59,50 +58,46 @@ That is why tenderPeriod has to be extended by 7 days.
 
 .. index:: Document
 
-Uploading documentation
+Завантаження документів
 -----------------------
 
-Procuring entity can upload PDF files into the created tender. Uploading should
-follow the :ref:`upload` rules.
+Замовник може завантажити PDF файл у створену закупівлю. Завантаження повинно відбуватись згідно правил :ref:`upload`.
 
 .. http:example:: tutorial/stage2/UA/upload-tender-notice.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation.
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції `документів`, щоб підтвердити дію:
 
 .. http:example:: tutorial/stage2/UA/tender-documents.http
    :code:
 
-The single array element describes the uploaded document. We can upload more documents:
+Один елемент масиву описує завантажений документ. Ми можемо завантажити більше документів:
 
 .. http:example:: tutorial/stage2/UA/upload-award-criteria.http
    :code:
 
-And again we can confirm that there are two documents uploaded.
+І знову можна перевірити, що є два завантажених документа.
 
 .. http:example:: tutorial/stage2/UA/tender-documents-2.http
    :code:
 
-In case we made an error, we can reupload the document over the older version:
+Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:
 
 .. http:example:: tutorial/stage2/UA/update-award-criteria.http
    :code:
 
-And we can see that it is overriding the original version:
+І ми бачимо, що вона перекриває оригінальну версію:
 
 .. http:example:: tutorial/stage2/UA/tender-documents-3.http
    :code:
 
 
-.. index:: Enquiries, Question, Answer
+.. index:: Звернення, Question, Answer
 
-Enquiries
+Звернення
 ---------
 
-When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions.
-Ask question can only participants which were approved on first stage, someone else try ask, he catch error:
+Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть подавати звернення чи просити уточнень умов закупівлі. Звернення можуть задавати тільки учасники, які були допущені на першому етапі, інші при спробі отримають помилку:
 
 .. http:example:: tutorial/stage2/UA/ask-question-bad-participant.http
    :code:
@@ -111,23 +106,23 @@ Ask question can only participants which were approved on first stage, someone e
 .. http:example:: tutorial/stage2/UA/ask-question.http
    :code:
 
-Procuring entity can answer them:
+Замовник може відповісти на них:
 
 .. http:example:: tutorial/stage2/UA/answer-question.http
    :code:
 
-One can retrieve either questions list:
+Можна отримати список запитань:
 
 .. http:example:: tutorial/stage2/UA/list-question.http
    :code:
 
-or individual answer:
+або окрему відповідь:
 
 .. http:example:: tutorial/stage2/UA/get-answer.http
    :code:
 
 
-Enquiries can be made only during ``Tender.enqueryPeriod``
+Звернення можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``.
 
 .. http:example:: tutorial/stage2/UA/ask-question-after-enquiry-period.http
    :code:
@@ -135,76 +130,74 @@ Enquiries can be made only during ``Tender.enqueryPeriod``
 
 .. index:: Bidding
 
-Registering bid
----------------
+Реєстрація пропозиції
+---------------------
 
-Tender status ``active.tendering`` allows registration of bids.
+Статус закупівлі ``active.tendering`` дозволяє подання пропозицій.
 
-Like with question only approved participants can register bid.
-First participant witch didn't was on first stage try create bid.
+Як і зі зверненнями тільки допущені учасники на першому етапі можуть реєструвати пропозиції. Якщо учасник якого не було допущено на першому етапі пробує створити пропозицію то йому поверне помилку.
 
 .. http:example:: tutorial/stage2/UA/try-register-bidder.http
    :code:
 
-Bidder can register a bid with draft status:
+Учасник може зареєструвати цінову пропозицію:
 
 .. http:example:: tutorial/stage2/UA/register-bidder.http
    :code:
 
-Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
-If there is no sign document during activation, we will see an error:
+Після цього учасник має підтвердити пропозицію, перевівши у ``pending`` статус. Якщо учасник резидент (`tenderers.identifier.scheme = 'UA-EDR'`), то перед підтвердженням пропозиції він має накласти електронний підпис. Якщо файлу підписа не знайдено під час підтвердження, буде наступна помилка:
 
 .. http:example:: tutorial/stage2/UA/activate-bidder-without-proposal.http
    :code:
 
-Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
+Файл підпису має тип документу `documentType: proposal` та розширення `title: *.p7s`. Додамо файл підпису:
 
 .. http:example:: tutorial/stage2/UA/upload-bid-proposal.http
    :code:
 
-Let's try to activate bid one more time:
+Спробуємо знову підтвердити пропозицію:
 
 .. http:example:: tutorial/stage2/UA/activate-bidder.http
    :code:
 
-It is possible to check the uploaded documents:
+Можна перевірити завантажені документи:
 
 .. http:example:: tutorial/stage2/UA/bidder-documents.http
    :code:
 
-If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
+При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:
 
 .. http:example:: tutorial/stage2/UA/patch-pending-bid.http
    :code:
 
-If we try to activate bidder the new sign will be needed:
+Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:
 
 .. http:example:: tutorial/stage2/UA/activate-bidder-without-sign.http
    :code:
 
-Bid invalidation
-~~~~~~~~~~~~~~~~
+Пропозиція стає недійсною
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If tender is modified, status of all bid proposals will be changed to ``invalid``. Bid proposal will look the following way after tender has been modified:
+Якщо закупівля була модифікована, статус всіх пропозицій змінюється на ``invalid`` (недійсний). Ось так пропозиція буде виглядати після редагування закупівлі:
 
 .. http:example:: tutorial/stage2/UA/bidder-after-changing-tender.http
    :code:
 
-Bid confirmation
-~~~~~~~~~~~~~~~~
+Підтвердження пропозиції
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Bidder should confirm bid proposal:
+Учасник повинен підтвердити свою пропозицію:
 
 .. http:example:: tutorial/stage2/UA/bidder-activate-after-changing-tender.http
    :code:
 
 
-Second stage Competitive Dialogue UA procedure demands at least two bidders, so there should be at least two bid proposals registered to move to auction stage.
+Для того, щоб другий етап процедуру конкурентного діалогу відбувся, необхідно хоча б два учасника, тобто хоча б дві пропозиції повинні бути зареєстровані до початку аукціону.
 
-Batch-mode bid registration
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Пакетний режим реєстрації
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Register one more bid with documents using single request (batch-mode):
+У пакетному режимі (batch-mode) є можливість зареєструвати пропозицію одним запитом. Зареєструйте ще одну пропозицію:
 
 .. http:example:: tutorial/stage2/UA/register-2nd-bidder.http
    :code:
@@ -212,155 +205,150 @@ Register one more bid with documents using single request (batch-mode):
 
 .. index:: Awarding, Qualification
 
-Auction
+Аукціон
 -------
 
-After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.auctionUrl`:
+Після того, як аукціон заплановано, будь-хто може його відвідати для перегляду. Аукціон можна подивитись за допомогою `Tender.auctionUrl`:
 
 .. http:example:: tutorial/stage2/UA/auction-url.http
    :code:
 
-Bidders can find out their participation URLs via their bids:
+Учасники можуть дізнатись свої URL-адреси для участі через свої пропозиції:
 
 .. http:example:: tutorial/stage2/UA/bidder-participation-url.http
    :code:
 
-See the `Bid.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:
+Дивіться на `Bid.participationUrl` у відповіді. Схожу, але іншу, URL-адресу можна отримати для інших учасників.
 
 .. http:example:: tutorial/stage2/UA/bidder2-participation-url.http
    :code:
 
-Confirming qualification
-------------------------
+Підтвердження кваліфікації
+--------------------------
 
-Qualification comission can set award to `active` or `unsuccessful` status.
+Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус.
 
-There are validations before registering qualification decision:
+Валідація значення полів відповідно до рішення під час винесення рішення:
 
-* `eligible: True` and `qualified: True` - for setting award from `pending` to `active`
+* `eligible: True` та `qualified: True` - при переході award з `pending` в `active`
 
-* `eligible: False` and `qualified: True` OR `eligible: True` and `qualified: False` OR `eligible: False` and `qualified: False` - for setting award from `pending` to `unsuccessful`
+* `eligible: False` та `qualified: True` АБО `eligible: True` та `qualified: False` АБО `eligible: False` та `qualified: False` - при переході award з `pending` в `unsuccessful`
 
-Let's try to set `unsuccessful` status for `qualified` and `eligible` award and we will see an error:
+Спробуємо відхилити авард для `qualified` та `eligible` учасника:
 
 .. http:example:: tutorial/stage2/UA/unsuccessful-qualified-award.http
    :code:
 
-Let's try to set `active` status for `non-qualified` or `non-eligible` award and we will see an error:
+Спробуємо винести рішення по переможцю по аварду для `non-qualified` або `non-eligible` учасника:
 
 .. http:example:: tutorial/stage2/UA/activate-non-qualified-award.http
    :code:
 
-Before making decision it is required to add sign document to award.
-If there is no sign document during activation, we will see an error:
+Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:
 
 .. http:example:: tutorial/stage2/UA/award-notice-document-required.http
    :code:
 
-The same logic for `unsuccessful` status:
+Така сама логіка при відхилені аварду:
 
 .. http:example:: tutorial/stage2/UA/award-unsuccessful-notice-document-required.http
    :code:
 
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+Файл підпису має тип документу `documentType: notice` та розширення `title: *.p7s`. Додамо файл підпису:
 
 .. http:example:: tutorial/stage2/UA/award-add-notice-document.http
    :code:
 
-Qualification commission registers its decision via the following call:
+Кваліфікаційна комісія реєструє своє рішення:
 
 .. http:example:: tutorial/stage2/UA/confirm-qualification.http
    :code:
 
 
-.. index:: Setting Contract
+.. index:: Налаштування угоди
 
-Setting Contract
-----------------
+Налаштування угоди
+------------------
 
-In EContracting the contract is created directly in contracting system.
+В режимі Е-Контрактінгу угода створюється безпосередньо в системі угод.
 
 .. note::
-    Some of data will be mirrored to tender until contract will be activated for backward compatibility.
+    Деякі дані для забезпечення сумісності будуть дублюватись в закупівлі до тих пір, поки угода не буде активована.
 
-Read more about working with EContracting in contracting system in :ref:`contracting_tutorial` section.
+Більше дізнатись про роботу з Е-Контрактінгом в системі угод можна в розділі :ref:`contracting_tutorial`.
 
 
-Cancelling tender
------------------
+Скасування закупівлі
+--------------------
 
-Tender creator can cancel tender anytime. The following steps should be applied:
+Замовник може скасувати закупівлю у будь-який момент. Для цього виконайте наступні кроки:
 
-1. Prepare cancellation request.
-2. Fill it with the protocol describing the cancellation reasons.
-3. Passing complaint period(10 days)
-4. Cancel the tender with the prepared reasons.
+1. Приготуйте запит на скасування.
+2. Наповніть його протоколом про причини скасування.
+3. Проходження періоду оскарження(триває 10 днів)
+4. Скасуйте закупівлю через подані причини.
 
-Only the request that has been activated (th step above) has power to
-cancel tender.  I.e.  you have to not only prepare cancellation request but
-to activate it as well.
+Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її.
 
-For cancelled cancellation you need to update cancellation status to `unsuccessful`
-from `draft` or `pending`.
+Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`
 
-See :ref:`cancellation` data structure for details.
+Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації.
 
-Preparing the cancellation request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Формування запиту на скасування
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`).
+Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`).
 
-The following steps should be applied:
+Для цього потрібно виконати наступні кроки:
 
-There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`.
+При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`.
 
-`id` is autogenerated and passed in the `Location` header of response.
+`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:
 
 .. http:example:: tutorial/stage2/EU/prepare-cancellation.http
    :code:
 
-You can change ``reasonType`` value to any of the above.
+Ви можете виправити тип на будь-який що вказаний вище
 
 .. http:example:: tutorial/stage2/UA/update-cancellation-reasonType.http
    :code:
 
-Filling cancellation with protocol and supplementary documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Наповнення протоколом та іншою супровідною документацією
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This step is required. Without documents you can't update tender status.
+Цей крок обов'язковий. Без документів ви не можете оновити статус скарги.
 
-Upload the file contents
+Завантажте вміст файлу
 
 .. http:example:: tutorial/stage2/UA/upload-cancellation-doc.http
    :code:
 
-Change the document description and other properties
+Змініть опис документа та інші властивості
 
 
 .. http:example:: tutorial/stage2/UA/patch-cancellation.http
    :code:
 
-Upload new version of the document
+Завантажте нову версію документа
 
 
 .. http:example:: tutorial/stage2/UA/update-cancellation-doc.http
    :code:
 
-Passing Complaint Period
-~~~~~~~~~~~~~~~~~~~~~~~~
+Проходження періоду оскарження
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For activate complaint period, you need to update cancellation from `draft` to `pending`.
+Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`.
 
 .. http:example:: tutorial/stage2/UA/pending-cancellation.http
    :code:
 
-When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.
+Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі.
 
-Activating the request and cancelling tender
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Активація запиту та скасування закупівлі
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if the complaint period(duration 10 days) is over and there were no complaints or
-all complaints are canceled, then cancellation will automatically update status to `active`.
+Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`
 
 .. http:example:: tutorial/stage2/UA/active-cancellation.http
    :code:

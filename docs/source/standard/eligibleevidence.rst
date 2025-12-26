@@ -7,32 +7,29 @@
 EligibleEvidence
 ================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    EligibleEvidence title.
+    |ocdsDescription| Назва відпвідного доказу.
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    EligibleEvidence description.
+    |ocdsDescription| Опис відпвідного доказу.
 
 :type:
     string
 
-    |ocdsDescription|
-    the form in which the buyer wants to obtain evidence.
+    |ocdsDescription| форма, в якій замовник хоче отримати докази.
 
-    Possible values are:
+    Можливі значення:
      :`document`:
-       An internal document stored in Prozorro system
+       Внутрішній документ, що зберігається в системі Prozorro
      :`statement`:
-       A machine-readable confirmation by a requested Party
+       Машиночитане підтвердження запитуваною cтороною

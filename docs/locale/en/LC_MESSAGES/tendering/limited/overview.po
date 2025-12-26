@@ -1,0 +1,63 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.limited 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-14 13:21+0300\n"
+"PO-Revision-Date: 2016-04-29 14:00+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+msgid "Огляд"
+msgstr "Overview"
+
+msgid "Open Procurement API це єдиний інтерфейс для бази даних Open Procurement, що є основним елементом інфраструктури `Open Procurement`."
+msgstr "The Open Procurement API is the only interface to Open Procurement database that is core unit of `Open Procurement` infrastructure."
+
+msgid "Ця документація стосується трьох процедур:"
+msgstr "This documentation covers three procedures:"
+
+msgid "``reporting`` - процедура звітування про укладений договір (без періоду очікування скарг)"
+msgstr "``reporting`` - reporting with no stand-still period"
+
+msgid "``negotiation`` - переговорна процедура з десятиденним періодом очікування скарг перед реєстрацією угоди"
+msgstr "``negotiation`` - negotiation procedure with 10 day stand-still before contract registration"
+
+msgid "``negotiation.quick`` - переговорна процедура за нагальною потребою з п’ятиденним періодом очікування скарг перед реєстрацією угоди"
+msgstr "``negotiation.quick`` - quick negotiation procedure with 5 day stand-still before contract registration"
+
+msgid "Переговорна процедура"
+msgstr "Negotiation procedure"
+
+msgid "`Переговорна процедура закупівлі` – це процедура відповідно до якої замовник укладає договір про закупівлю з учасником після проведення переговорів з одним або кількома учасниками."
+msgstr "`Negotiation procurement procedure` is a procedure according to which Procuring entity concludes a purchase agreement with a participant after negotiations with one or more participants."
+
+msgid "Етапи переговорної процедури:"
+msgstr "Negotiation procedure stages:"
+
+msgid "Публікація рішення про намір провести переговорну процедуру."
+msgstr "Publication of the decision of intent to conduct negotiation procedure."
+
+msgid "Замовник розміщує оголошення про намір проведення переговорної процедури, в якому зазначає інформацію про предмет закупівлі, очікувану вартість і очікуваний термін поставки."
+msgstr "The procuring entity places the announcement of intention to conduct negotiation procedure, describing the following procurement details: procurement subject, expected value, expected delivery time."
+
+msgid "Зацікавлені учасники можуть звернутись до замовника з повідомленням про бажання прийняти участь в переговорній процедурі. Рішення про вибір учасників переговорів приймає Замовник."
+msgstr "Interested suppliers can contact the Procuring entity if they want to participate in the negotiation procedure. The decision about negotiation participants is made by the Procuring entity."
+
+msgid "Визначення переможця"
+msgstr "Awarding"
+
+msgid "Замовник розміщує оголошення про намір укласти угоду з переможцем процедури, визначеним у ході переговорів."
+msgstr "According to the results of conducted negotiations with participant(s) Procuring entity publishes the announcement of intention to conclude an agreement with the winner of the procedure chosen in the course of negotiations."
+
+msgid "Укладання угоди"
+msgstr "Conclusion of the Agreement"
+
+msgid "Замовник публікує угоду, укладену з переможцем, та інші документи."
+msgstr "The Procuring entity publishes purchase agreement and accompanying documents."
+

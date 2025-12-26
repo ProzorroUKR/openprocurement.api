@@ -3,9 +3,9 @@
 hasQualificationComplaints
 ==========================
 
-Field `hasQualificationComplaints` is a boolean field that determines the presence or absence of an appeal in the procurement (appeal to the AMCU by means of a complaint) after preliminary prequalification of participants.
+Поле `hasQualificationComplaints` - логічне поле, яке визначає наявність або відсутність оскарження закупівлі (звернення до АМКУ у вигляді скарги) після попереднього кваліфікаційного відбору учасників.
 
-Possible values for `hasQualificationComplaints` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasQualificationComplaints` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/has-qualification-complaints-values.csv
@@ -14,7 +14,7 @@ Possible values for `hasQualificationComplaints` field depends on `procurementMe
 hasQualificationComplaints is `true`
 ------------------------------------
 
-Example tutorials:
+Приклад використання:
 
 * :ref:`openeu` → :ref:`openeu_tutorial`
 * :ref:`esco` → :ref:`esco_tutorial`
@@ -24,7 +24,7 @@ Example tutorials:
 hasQualificationComplaints is `false`
 -------------------------------------
 
-Example tutorials:
+Приклад використання:
 
 * :ref:`belowthreshold` → :ref:`tutorial`
 * :ref:`open` → :ref:`open_tutorial`

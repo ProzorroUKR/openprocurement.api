@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-14 11:48+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+msgid "ComplaintObjectionRequestedRemedy"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "Унікальний ідентифікатор вимоги"
+msgstr "Id of the requested remedy"
+
+msgid "type"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Тип вимоги. Має бути одне зі значень з довідника `типи вимог <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_."
+msgstr "Type of requested remedy. Should be from `requested remedies type <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_ dictionary."
+
+msgid "description"
+msgstr ""
+
+msgid "Опис вимоги"
+msgstr "Description of the requested remedy"
+

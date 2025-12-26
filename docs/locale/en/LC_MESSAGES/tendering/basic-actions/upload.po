@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-10 06:15+0300\n"
+"PO-Revision-Date: 2024-06-09 16:58+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Завантаження документів"
+msgstr "Documents Uploading"
+
+msgid "Всі точки входу API завантаження документів використовують той самий набір правил."
+msgstr "All of the document uploading API endpoints follow the same set of rules."
+
+msgid "Завантажити документ з реєстрацією"
+msgstr "Upload document with registration"
+
+msgid ":ref:`Зареєструвати завантаження документа в Document Service <documentservice:register-document-upload>`."
+msgstr ":ref:`Register document upload in document service <documentservice:register-document-upload>`."
+
+msgid "Додати документ в API:"
+msgstr "Add document in API:"
+
+msgid ":ref:`Завантажити документ в document service <documentservice:upload-document>`."
+msgstr ":ref:`Upload document in document service <documentservice:upload-document>`."
+
+msgid "Завантажити документ без реєстрації"
+msgstr "Upload document w/o registration"
+
+msgid ":ref:`Зареєструвати завантаження документа в Document Service <documentservice:upload-document-w-o-registration>`."
+msgstr ":ref:`Register document upload in document service <documentservice:upload-document-w-o-registration>`."
+
+msgid ":ref:`Перейдіть за посиланням, щоб переглянути більше прикладів запитів по документам <bt-documents-tutorial>`."
+msgstr ":ref:`Follow the link to see more document request examples <bt-documents-tutorial>`."
+

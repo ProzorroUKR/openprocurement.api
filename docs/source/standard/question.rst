@@ -6,52 +6,52 @@
 Question
 ========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :author:
-    :ref:`Organization`, required
+    :ref:`Organization`, обов’язково
 
-    Who is asking a question (contactPoint - person, identification - organization that person represents).
+    Хто подає звернення (contactPoint - людина, identification - організація, яку ця людина представляє).
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Title of the question.
+    Назва звернення.
 
 :description:
-    string
+    рядок
 
-    Description of the question.
+    Опис звернення.
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of posting.
+    Дата публікації.
 
 :dateAnswered:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date when answer has been provided.
+    Дата, коли було надано відповідь.
 
 :answer:
-    string
+    рядок
 
-    Answer for the question asked.
+    Відповідь на звернення.
 
 :questionOf:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
     * `tender`
     * `item`
     * `lot`
 
 :relatedItem:
-    string
+    рядок
 
-    Id of related :ref:`lot` or :ref:`item`.
+    ID пов’язаних :ref:`lot` або :ref:`item`.

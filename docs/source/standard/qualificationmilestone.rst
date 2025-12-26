@@ -8,27 +8,27 @@ QualificationMilestone
 ======================
 
 
-Schema
-------
+Схема
+-----
 
 
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :code:
-    string, required
+    рядок, обов’язковий
 
-    Possible values are:
+    Можливі значення:
 
-    * ``24h`` (Used by :ref:`24hours`)
-    * ``alp`` (Used to indicate an abnormally low price bid. Find an example on :ref:`openua_tutorial`)
+    * ``24h`` (Використовується у :ref:`24hours`)
+    * ``alp`` (Використовується для позначення аномально низької ціни. Приклад у :ref:`openua_tutorial`)
 
 
 :description:
-    string
+    рядок
 
-    In case of ``alp`` code, contains at least one line of the following::
+    У разі коду `alp` містить принаймні один рядок із наступного::
 
         найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків 
         від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій
@@ -40,8 +40,8 @@ Schema
 
 
 :dueDate:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично

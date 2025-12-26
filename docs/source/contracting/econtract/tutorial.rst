@@ -1,6 +1,6 @@
 .. _econtracting_tutorial:
 
-Tutorial
+Туторіал
 ========
 
 Загальна картина
@@ -77,33 +77,33 @@ Tutorial
 
 Як бачимо, майданчик вказано правильно.
 
-Creating contract
------------------
+Створення договору
+------------------
 
-Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
+Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``.
 
-A contract is created with additional fields:
+Договір створюється з додатковими полями:
 
-* `contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)
-* `period` - `startDate` equals `dateCreated` + 5 calendar days, `endDate` is the end of the year of `startDate`
+* `contractTemplateName` - копіюється з закупівлі, якщо вона встановлена (більше про це в :ref:`contract-template-name`)
+* `period` - `startDate` дорівнює `dateCreated` контракту + 5 календарних днів, `endDate` дорівнює кінець року, що вказаний у `startDate`
 
-A PQ contract is created with additional fields:
+Договір PQ створюється з додатковими полями:
 
-* `attributes` - formed from requirements and responses in tender
+* `attributes` - формується з вимог та відповідей на вимоги у закупівлі
 
-Also, PDF document is created based on the template (`contractTemplateName`) and automatically attached to the contract with documentType `contractNotice`. 
+Також, PDF документ створюється на основі шаблону (`contractTemplateName`) та автоматично прикріплюється до договору з documentType `contractNotice`. 
 
-This document will be required for signing for both supplier and buyer later to activate the contract.
+Цей документ буде потрібен для підписання як постачальником, так і замовником пізніше, щоб активувати договір.
 
-Getting contract
-----------------
+Отримання договору
+------------------
 
-Contract in the tender system
+Договір в системі закупівель
 
 .. http:example:: http/example-contract.http
    :code:
 
-*Contract id is the same in both tender and contract system.*
+*Ідентифікатор `id` договору однаковий в системах закупівель та договорів.*
 
 Let’s see what listing of contracts in contracting module reveals us:
 
@@ -112,95 +112,92 @@ Let’s see what listing of contracts in contracting module reveals us:
 
 
 
-Let's access the URL of the created object:
+Спробуємо отримати створений об’єкт по URL:
 
 .. http:example:: http/contract-view.http
    :code:
 
-Getting access
----------------
+Отримання доступу
+-----------------
 
-For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created.
+Для отримання доступу для замовника або постачальника використовується ендпоінт `contracts/{contract_id}/access` після ствворення контракту.
 
-Algorith of getting access:
+Алгоритм отримання доступу:
 
-* POST `/access` with identifier of client - returns token for client
+* POST `/access` з індентифікатором клієнта - повертає токен для клієнта
 
-Main action is POST `/access` - a query with a client identifier determines whether it is a buyer or supplier.
-If the identifier does not match any of the entities, an error is issued:
+Треба зробити POST `/access` - запит з індентифікатором клієнта, по якому визначається чи це buyer чи supplier. Якщо ідентифікатор не відповідає жодній із сутностей, то видається помилка:
 
 .. http:example:: http/contract-access-invalid.http
    :code:
 
-If identifier is found, then we validate whether authenticated user is an owner for this role:
+Якщо індентифікатор знайшло, після цього відбувається валідація чи підходить майданчик, з якого робиться запит для цієї ролі:
 
 .. http:example:: http/contract-access-owner-invalid.http
    :code:
 
-If identifier is found and owner matches, then the token is set according to the entity for supplier or buyer:
+Якщо індентифікатор знайшло і `owner` підходить, то сетапиться токен відповідно до сутності для постачальника або замовника:
 
 .. http:example:: http/contract-access-by-buyer.http
    :code:
 
-If buyer get access, we will see in response new `transfer` token too.
+Якщо замовник запитує доступ, то у відповіді також буде згенерований новий `transfer` токен.
 
-After token generation, it is allowed to regenerate token, make new POST request with this identifier:
+Після генерації токену все ще дозволено перегенерувати токен, тому можна робити нові POST запити з цим ідентифікатором:
 
 .. http:example:: http/contract-access-by-buyer-2.http
    :code:
 
-**NOTE:**
-Then user can modify contract as buyer only using the last generated token.
+**NOTE:** Тепер користувачу дозволено редагувати контракт як замовник тільки використовуючи останній згенерований токен.
 
-After token was regenerated, previous token can not be used for updating contract:
+Після того, як токен був перегенерований, попередній токен при редагуванні контракту вже не можна буде використати:
 
 .. http:example:: http/contract-patch-by-buyer-1-forbidden.http
    :code:
 
-The same algorithm will be for supplier access.
+Такий самий алгоритм і для отримання доступу постачальником.
 
-Let's require access for supplier:
+Запросимо доступ для постачальника:
 
 .. http:example:: http/contract-access-by-supplier.http
    :code:
 
-**WARNING:**
-It is allowed to get access only during contract is `pending`.
+**WARNING:** Отримання доступів дозволено тільки під час `pending` контракту.
 
-Activating contract
+Реєстрація договору
 -------------------
 
-If contract was created using new flow with set `contract_owner` in tender for `suppliers` and `buyers` than for activating electronic contract, signer information and all participants signature are required.
+Якщо контракт був створений за правилами електронного контрактингу за новим флоу зі встановленними майданчиками для постачальника та замовника ще під час закупівлі, то для активації такого контракту обов'язковими є заповнення інформації підписантів та додавання підписів всіх учасників.
 
-To activate contract it is required to add contract signature document type from each participant (supplier and buyer).
+Для того, щоб активувати контракт, потрібно замовнику та постачальнику додати в якості документів електронні підписи.
 
-Requirements for signing:
+Вимоги до підпису:
 
-* Contract document with documentType `contractNotice` should be signed
-* Signature file should be attached to the contract with documentType `contractSignature`
-* Signature must have following parameters:
+* Має бути підписаний документ договору з `documentType` `contractNotice`
+* Файл підпису має бути прикріплений до договору з `documentType` `contractSignature`
+* Підпис повинен мати наступні параметри:
 
-  * Format: CAdES-X Long
-  * Algorithm: DSTU 4145
-  * Type: Separate data and signature files (detached)
+  * Формат підпису: CAdES-X Long
+  * Алгоритм підпису: ДСТУ 4145
+  * Тип підпису: Підпис та дані в окремих файлах (detached)
 
-Here is a diagram of the signing process:
+Діаграма процесу підписання:
 
 .. image:: /contracting/econtract/diagram/e_contract_pdf_signing/image.png
 
-If both sides signed the current version of contract, than contract becomes `active`.
+Після того, як будуть накладені два підписи на поточну весрію контракту, контракт стає `active`.
 
-Supplier adds signature document using his token (`supplier_token`) which he got during access query:
+Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:
 
 .. http:example:: http/contract-supplier-add-signature-doc.http
    :code:
 
-Buyer adds signature document using his token (`buyer_token`) which he got during access query:
+Замовник додає документ підпису використовуючи свій токен (`buyer_token`), який він отримав при запиті доступу:
 
 .. http:example:: http/contract-buyer-add-signature-doc.http
    :code:
 
-If all required signatures are completed, the contract will automatically transition to the `active` status:
+Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:
 
 .. http:example:: http/get-active-contract.http
    :code:
@@ -208,50 +205,50 @@ If all required signatures are completed, the contract will automatically transi
 
 .. _contract_versions:
 
-New versions of contract
-=========================
+Нові версії договору
+====================
 
-If one of sides doesn't agree to sign current version of contract, there is an opportunity to create a new version of contract.
+Якщо одна зі сторін договору не погоджується підписувати поточну версію контракту, існує можливість створити нову версію контракту, змінивши деякі поля.
 
-Flow:
+Етапи:
 
-* create a cancellation of current version of contract
+* скасування попереднього контракту
 
-* POST new version o contract with updates
+* створення нової версії зі змінами (POST)
 
-* sign new version and wait till another side agrees to sign (or create new version by his side)
+* підписання нової версії і очікування поки друга сторона погодиться підписати дану версію (або створення нової версії контракту вже іншою стороною)
 
-Cancellations
---------------
+Скасування
+----------
 
-It is allowed to cancel current version of contract and create new one during contract is `pending`.
+Інсує можливість скасування поточної версії контракту та створення нової тільки поки контракт знаходиться в статусі `pending`.
 
-To cancel current version of contract, participant of contract should create a cancellation with reason `requiresChanges`:
+Для того, щоб скасувати контракт, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування `requiresChanges`:
 
 .. http:example:: http/contract-supplier-cancels-contract.http
    :code:
 
-Let's look at contract:
+Подивимося на договір:
 
 .. http:example:: http/cancellation-of-contract.http
    :code:
 
-It is forbidden to add more than one cancellation:
+Заборонено додавати більше ніж один `cancellation`:
 
 .. http:example:: http/cancellation-of-contract-duplicated.http
    :code:
 
-After cancellation created, there is forbidden to sign contract:
+Після того, як додано `cancellation`, підписувати цю версію контракту вже заборонено:
 
 .. http:example:: http/contract-supplier-add-signature-forbidden.http
    :code:
 
-Create new contract version
----------------------------
+Створення нової версії договору
+-------------------------------
 
-Then any of the participant should create a new version of contract using his token.
+Після скасування будь-який учасник має створити нову версію контракту, використовуючи свій токен.
 
-Allowed fields for updating:
+Сторона, яка створює нову версію може змінити наступні поля:
 
 * period
 * contractNumber
@@ -263,94 +260,94 @@ Allowed fields for updating:
 * description
 * description_en
 * dateSigned
-* signerInfo (for supplier or buyer depends on who cancelled contract)
+* signerInfo (інформацію про підписанта своєї сторони)
 * milestones
 
-If participant tried to update another field, he will see an error:
+Якщо учасник намагається змінити якесь інше поле, то він побачить помилку:
 
 .. http:example:: http/contract-supplier-post-contract-invalid.http
    :code:
 
-Let's update fields `period` and `signerInfo.name` using token for supplier:
+Змінемо наступні поля `period` та `signerInfo.name`, використовуючи токен замовника:
 
 .. http:example:: http/contract-supplier-post-contract-version.http
    :code:
 
-Success! Let's look at previous version of contract, it became `cancelled` and cancellation now is `active`:
+Успіх! Подивимося на попередню версію контракту, в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:
 
 .. http:example:: http/get-previous-contract-version.http
    :code:
 
-Let's look at all contracts in tender:
+Подивимося на всі контракти в закупівлі:
 
 .. http:example:: http/get-tender-contracts.http
    :code:
 
-After that new round of signatures begins.
+Після цього починається новий етап підписання.
 
-Supplier and buyer can sign this new version of contract if they agreed with changes or create new version if disagreed.
+Замовник та постачальник можуть підписати нову версію договору, якщо їх влаштовують зміни або створити нову версію, якщо треба ще щось змінити.
 
-Cancellations of Econtract
-===========================
+Скасування електронного договору
+================================
 
-It is allowed to cancel contract while it is on `pending` status.
+Договір можна скасувати, поки він в статусі `pending`.
 
-There are two `reasonTypes` for creating cancellation of contract:
+При створенні скасування договору можна обрати одну з двох причини скасування:
 
 * `requiresChanges`
 * `signingRefusal`
 
-Reason `requiresChanges` means that one of the sides doesn't agree to sign current version of contract, and they want to create a new version of contract. Described in :ref:`contract_versions`.
+Причина скасування `requiresChanges` використовується, якщо одна зі сторін договору не погоджується підписувати поточну версію контракту і є необхідність створити нову версію контракту, змінивши деякі поля. Детально описано в :ref:`contract_versions`.
 
-Reason `signingRefusal` means that the winner of tender is refused to sign aa contract, that's why his award should be cancelled by buyer.
+Причина скасування `signingRefusal` використовується, якщо переможець процедури закупівлі відмовився від підписання договору про закупівлю відповідно до вимог тендерної документації або укладення договору про закупівлю. В цьому випадку авард переможця має бути скасований.
 
-Participant of contract can create a cancellation with reason `signingRefusal`:
+Підписант (замовник/постачальник) може створити `cancellation` з причиною `reasonType = signingRefusal`:
 
 .. http:example:: http/contract-supplier-cancels-contract-2.http
    :code:
 
-Let's look at contract:
+Подивимося на договір:
 
 .. http:example:: http/winner-cancellation-of-contract.http
    :code:
 
-After that buyer should cancel the winner via award:
+Після цього замовник скасовує переможця - `award` змінює статус на `cancelled`:
 
 .. http:example:: http/winner-award-cancellation.http
    :code:
 
-Let's look at contract one more time and we will see that contract became `cancelled`, cancellation became `active`:
+Подивимося на контракт ще раз і побачимо, що в нього статус тепер `cancelled` і `cancellation` тепер має статус `active`:
 
 .. http:example:: http/contract-with-winner-cancellation.http
    :code:
 
-Let's look at tender, the winner is cancelled an awarding is continuing:
+Подивимося на закупівлю, переможець скасований і підтвердження кваліфікації продовужється (статус закупівлі знову `active.qualification`):
 
 .. http:example:: http/tender-with-winner-cancellation-of-contract.http
    :code:
 
-Changes for active contract
-=============================
+Додаткові угоди (зміни) в EContract
+===================================
 
-Changes to the terms of the contracts can be made by the signatories through the submission and signing of an additional agreement. The system uses the terminology "changes".
+Зміни в умови контрактів можуть бути внесені підписантами через подання і підписання додаткових угод. В системі використовується термінологія «змін» / «changes».
 
-The initiator of the change can be both the buyer and the supplier.
+Ініціатором внесення змін може бути обидва замовник і постачальник.
 
-The initiator fills in three mandatory fields:
+Ініціатор заповнює три обов’язкових поля:
 
 :rationale:
-    string, reason of changes
+    string, причина змін
 
 :rationaleTypes:
-    list, reason type of changes
+    list, типи причин
 
-    Possible values for field `rationaleTypes` are validated from list of keys in `contractChangeRationaleTypes`.
+    Можливі значення для поля `rationaleTypes` валідуються зі списку причин, вказаних в  `contractChangeRationaleTypes`.
 
 :modifications:
-    object, new values in fields
+    object, нові значення в електронних полях
 
 
-`modifications` is a structure that reflects the changes in the contract field that will be made:
+`modifications` це структура, що відображає зміни в електроних поля, які буде внесено:
 
 :title:
     string
@@ -367,10 +364,10 @@ The initiator fills in three mandatory fields:
 :period:
     :ref:`Period`
 
-    The start and end date for the contract.
+    Дата початку та кінця договору.
 
 :items:
-    List of :ref:`Item` objects
+    Список об'єктів :ref:`Item`
 
 :value:
     :ref:`ContractValue` object
@@ -381,121 +378,120 @@ The initiator fills in three mandatory fields:
 :milestones:
     List of :ref:`ContractMilestone` objects
 
-Changes can be made only to signed contracts:
+Зміни можна вносити тільки в підписані контракти:
 
 .. http:example:: http/changes-for-pending-contract.http
    :code:
 
-Creating changes
-------------------
+Створення додаткових угод
+-------------------------
 
-If we set `rationaleTypes` not from `contractChangeRationaleTypes` we will see an error:
+Якщо буде вказана причина, якої немає в  `contractChangeRationaleTypes`, ми побачимо помилку:
 
 .. http:example:: http/create-change-invalid-rationale-types.http
    :code:
 
-Request to create a change:
+Запит створення пропозиції змін:
 
 .. http:example:: http/create-change.http
    :code:
 
-There are validations for some fields during changes.
+Для деяких полів договору існують валідації (такі самі як і були при PATCH для активного договору),
 
-For example, if the buyer decided to change currency in contract value:
+Наприклад, якщо замовник вирішив змінити валюту в `value` договору:
 
 .. http:example:: http/change-modifications-invalid-currency.http
    :code:
 
-For example, if the supplier decided to change period endDate in contract to incorrect date:
+Наприклад, якщо постачальник вирішив змінити період договору на неправильну дату:
 
 .. http:example:: http/change-modifications-invalid-period.http
    :code:
 
-Change activation
-------------------
+Підписання змін
+---------------
 
-To activate change it is required to add contract signature document type from each participant (supplier and buyer).
+Для того, щоб активувати зміни, потрібно замовнику та постачальнику додати в якості документів електронні підписи.
 
-If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes.
+Після того, як будуть накладені два підписи на зміни, зміни стають `active`.
 
-Supplier adds signature document using his token (`supplier_token`):
+Постачальник додає документ підпису використовуючи свій токен (`supplier_token`):
 
 .. http:example:: http/change-supplier-add-signature-doc.http
    :code:
 
-Buyer adds signature document using his token (`buyer_token`):
+Замовник додає документ підпису використовуючи свій токен (`buyer_token`):
 
 .. http:example:: http/change-buyer-add-signature-doc.http
    :code:
 
-If all required signatures are completed, the change will automatically transition to the `active` status:
+Коли обидва підписа є у системі, то система підтверджує, що зміни підписано і активує їх:
 
 .. http:example:: http/get-active-change.http
    :code:
 
-Cancellations
---------------
+Скасування
+----------
 
-It is allowed to cancel change of contract if it is not actual anymore.
+Сторони можуть скасовувати дод. угоди, якщо вони неактуальні, надавши коментар.
 
-Create one more change:
+Створимо ще одну додаткову угоду:
 
 .. http:example:: http/create-change-2.http
    :code:
 
-To cancel change, participant of contract should create a cancellation with reason:
+Для того, щоб скасувати угоду, учасник договору має додати об'єкт `cancellation` обов'язково вказавши причину скасування:
 
 .. http:example:: http/contract-supplier-cancels-change.http
    :code:
 
-Let's look at change:
+Подивимося на додаткову угоду:
 
 .. http:example:: http/cancellation-of-change.http
    :code:
 
-It is forbidden to add more than one cancellation:
+Заборонено додавати більше ніж один `cancellation`:
 
 .. http:example:: http/cancellation-of-change-duplicated.http
    :code:
 
-After cancellation created, there is forbidden to sign change:
+Після того, як додано `cancellation`, підписувати цю додаткову угоду вже заборонено:
 
 .. http:example:: http/contract-supplier-add-signature-to-change-forbidden.http
     :code:
 
-Signing additional changes does not change the electronic fields of the contract itself.
-That is, if, for example, the value of the contract was changed by an additional change, then changes will contain the current value, and the contract will contain the value current at the time of signing the contract:
+Підписання додаткових угод не змінює електронні поля самого контракту. Тобто якщо, наприклад, вартість контракту було змінено додатковою угодою, то в changes буде актуальне значення, а в контракті - актуальне на момент підписання контракту.
 
 .. http:example:: http/get-contract-with-changes.http
     :code:
 
-Items length change
---------------------
+Оновлення специфікації Договору
+-------------------------------
 
-There is an opportunity to change length of items during contract is `active` using `changes`.
+Існує можливість змінювати і додавати новий масив items в активному статусі контракту через `changes`.
 
-It is allowed to add new items, but the main fields should be the same as in one of previous item in contact.
+Дозволяється додавати новий item, але при цьому основні поля мають відповідати попереднім значенням в масиві `items`.
 
-Fields that can not be changed:
+Поля, які не можна змінювати:
 
 * `classification`
 * `relatedLot`
 * `relatedBuyer`
 * `additionalClassifications`
 
-Let's try to add new item with new `classification` and we will see an error:
+Спробуємо додати новий `item` з новим полем `classification` і побачимо помилку:
 
 .. http:example:: http/create-change-items-invalid-classification.http
     :code:
 
-For example, we can split first item into two new items.
+Наприклад, розділимо перший `item` на дві номенклатури з такими самими основними полями.
 
-But there is still a validation for unit prices of all items:
+Але при цьому все ще існує валідація на суму цін за одиницю для всіх `items`:
 
 .. http:example:: http/create-change-items-invalid-price.http
     :code:
 
-Let's update quantity in first item and add new item with correct `unit.value`:
+Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:
 
 .. http:example:: http/create-change-items.http
     :code:

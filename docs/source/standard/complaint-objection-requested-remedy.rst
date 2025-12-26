@@ -8,21 +8,20 @@
 ComplaintObjectionRequestedRemedy
 =================================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-    Id of the requested remedy
+    Унікальний ідентифікатор вимоги
 
 :type:
-    string, required
+    рядок, обов’язковий
 
-    Type of requested remedy.
-    Should be from `requested remedies type <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_ dictionary.
+    Тип вимоги. Має бути одне зі значень з довідника `типи вимог <https://prozorroukr.github.io/standards/AMCU/requested_remedies_type.json>`_.
 
 :description:
-    string, required
+    рядок, обов’язковий
 
-    Description of the requested remedy
+    Опис вимоги

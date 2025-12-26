@@ -1,107 +1,99 @@
 .. _cfaua_tutorial:
 
-Tutorial
+Туторіал
 ========
 
 .. index:: Tender
 
-Configuration
--------------
+Конфігурація
+------------
 
-The set of possible configuration values:
+Набір можливих значень конфігурації:
 
 .. csv-table::
    :file: csv/config.csv
    :header-rows: 1
 
-You can look for more details in :ref:`config` section.
+Ви можете ознайомитись з деталями в секції :ref:`config`.
 
 .. ПРЕЦЕДЕНТ Т1. Опублікувати оголошення
 
-The set of possible `procuringEntity.kind` values for `closeFrameworkAgreementUA`
----------------------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `closeFrameworkAgreementUA`
+-----------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv
    :header-rows: 1
 
-Creating tender
----------------
+Створення тендера
+-----------------
 
-Let's create tender with the minimal (only required) data set:
+Створімо тендерну пропозицію з мінімальним (обов'язковим для внесення) набором даних:
 
 .. http:example:: tutorial/tender-post-attempt-json-data.http
    :code:
 
-Success! Now we can see that new object was created. Response code is `201`
-and `Location` response header reports the location of the created object.  The
-body of response reveals the information about the created tender: its internal
-`id` (that matches the `Location` segment), its official `tenderID` and
-`dateModified` datestamp stating the moment in time when tender was last
-modified. Pay attention to the `procurementMethodType`. Note that tender is
-created with `draft` status.
+Вийшло! Тепер бачимо, що створено новий об'єкт. Код відповіді - `201` а заголовок відповіді `Location` вказує на місцезнаходження створеного об'єкта. Тіло відповіді показує інформацію про створену тендерну пропозицію: її внутрішнє `id` (що співпадає з сегментом `Location`), її офіційне `tenderID` та мітку дати `dateModified`, що вказує час, коли до тендерної пропозиції востаннє вносились зміни. Зверніть увагу на `procurementMethodType`. Важливо, що тендерна пропозиція створюється зі статусом `draft`.
 
-Let's access the URL of the created object (the `Location` header of the response):
+Використаємо URL створеного об'єкта (заголовок відповіді `Location`):
 
-The peculiarity of the Close FrameworkAgreement UA procedure is that ``procurementMethodType`` was changed from
-``belowThreshold`` to ``closeFrameworkAgreementUA``.
-Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
+Особливість процедури Закритої Рамкової Угоди UA полягає в тому, що ``procurementMethodType`` було змінено з ``belowThreshold`` на ``closeFrameworkAgreementUA``. Також тут немає можливості встановити ``enquiryPeriod``, оскільки він призначається автоматично.
 
 .. http:example:: tutorial/blank-tender-view.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
 
-We can see the same response we got after creating tender.
+Ми бачимо ту ж відповідь, що і після створення закупівлі.
 
-Let's see what listing of tenders reveals us:
+Подивимось, що показує список закупівель:
 
 .. http:example:: tutorial/initial-tender-listing.http
    :code:
 
-We don't see internal `id` of tender, because tender appears in the listing from ``active.enquiries`` status.
+Ми поки не бачимо внутрішнього `id` закупівлі, тому що у списку відображаються закупівлі лише після статусу ``active.enquiries``
 
-You can add additional :ref:`ContactPoint` and set several :ref:`Item`. Also you can create tender with :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`).
+Ви можете додати додаткову :ref:`ContactPoint` і декілька :ref:`Item`. Також можна створити закупівлю з :ref:`Feature` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#announcing-meat`).
 
-Tender activating
------------------
+Та активувати заявку:
+---------------------
 
-At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`).
+Спочатку нам потрібно додати вийняткові критерії до нашої закупівлі(:ref:`Про критерії ви можете дізнатися тут<criteria_operation>`)
 
 .. http:example:: tutorial/add-exclusion-criteria.http
    :code:
 
-After adding needed criteria we can activate our tender, so let's do that:
+Після додавання необхідних критеріїв ми иожемо активувати закупівлю:
 
 .. http:example:: tutorial/tender-activating.http
    :code:
 
-Let's see what listing of tenders reveals us:
+Подивимось, що показує список закупівель:
 
 .. http:example:: tutorial/active-tender-listing-no-auth.http
    :code:
 
-Now We do see the internal `id` of a tender (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/tenders/`) and its `dateModified` datestamp.
+Тепер ми бачимо внутрішнє `id` тендерної пропозиції (що можна використати для побудови повної URL-адреси коли додамо `http://api-sandbox.openprocurement.org/api/0/tenders/`) та її мітку дати `dateModified`.
 
 
-Modifying tender
-----------------
+Внесення змін до тендера
+------------------------
 
-Let's update tender by supplementing it with all other essential properties:
+Оновимо тендерну пропозицію, додаючи інші важливі властивості:
 
 .. http:example:: tutorial/patch-items-value-periods.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properies have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Бачимо, що додані властивості об'єдналися з наявними даними щодо тенденої пропозиції. Також оновилась властивість `dateModified` і тепер відображає мітку дати останнього внесення змін.
 
-Checking the listing again reflects the new modification date:
+Знову перевіряємо список і бачимо нову дату внесення змін:
 
 .. http:example:: tutorial/tender-listing-after-patch.http
    :code:
 
-Procuring entity can set bid guarantee:
+Замовник може встановити тендерну гарантію:
 
 .. http:example:: tutorial/set-bid-guarantee.http
    :code:
@@ -109,78 +101,73 @@ Procuring entity can set bid guarantee:
 
 .. index:: Document
 
-You can modify the following fields on this step: ``agreementDuration``, :ref:`item`, ``maxAwardsCount``, :ref:`ProcuringEntity`, ``tenderPeriod``, ``title``, ``title_ru``, ``title_en``,
-``description``, ``description_ru``, ``description_en``, ``eligibilityCriteria``, ``procurementMethodRationale``, ``guarantee``, :ref:`feature`, :ref:`document`, :ref:`lot`.
+На цьому етапі можна змінювати наступні поля: ``agreementDuration``, :ref:`item`, ``maxAwardsCount``, :ref:`ProcuringEntity`, ``tenderPeriod``, ``title``, ``title_ru``, ``title_en``, ``description``, ``description_ru``, ``description_en``, ``eligibilityCriteria``, ``procurementMethodRationale``, ``guarantee``, :ref:`feature`, :ref:`document`, :ref:`lot`.
 
 
-Uploading documentation
------------------------
+Завантаження документації
+-------------------------
 
-Procuring entity can upload PDF files into the created tender. Uploading should
-follow the :ref:`upload` rules.
+Замовник може завантажити PDF файли у створену тендерну пропозицію. Завантаження має відбуватись згідно з правилами :ref:`upload`.
 
 .. http:example:: tutorial/upload-tender-notice.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation.
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ створено. Можна додатково здійснити запит точки входу API колекції `documents`, щоб підтвердити дію:
 
 .. http:example:: tutorial/tender-documents.http
    :code:
 
-The single array element describes the uploaded document. We can upload more documents:
+Єдиний елемент масиву описує завантажений документ. Можна завантажити більше документів:
 
 .. http:example:: tutorial/upload-award-criteria.http
    :code:
 
-And again we can confirm that there are two documents uploaded.
+Знову можна підтвердити, що завантажено два документа.
 
 .. http:example:: tutorial/tender-documents-2.http
    :code:
 
-In case we made an error, we can reupload the document over the older version:
+Якщо сталася помилка, ми можемо ще раз завантажити документ поверх старої версії:
 
 .. http:example:: tutorial/update-award-criteria.http
    :code:
 
-And we can see that it is overriding the original version:
+І бачимо, що він замінив початкову версію документа:
 
 .. http:example:: tutorial/tender-documents-3.http
    :code:
 
 
-.. index:: Enquiries, Question, Answer
+.. index:: Звернення, Question, Answer
 
 
 .. ПРЕЦЕДЕНТ Т5. Задати питання
 
-Enquiries
+Звернення
 ---------
 
-When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``
-hasn't come yet, interested parties can ask questions:
+Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:
 
 .. http:example:: tutorial/ask-question.http
    :code:
 
-Procuring entity can answer them:
+Замовник може на них відповідати:
 
 .. http:example:: tutorial/answer-question.http
    :code:
 
-And one can retrieve the questions list:
+Можна отримати список запитань:
 
 .. http:example:: tutorial/list-question.http
    :code:
 
-And individual answer:
+Та окрему відповідь:
 
 .. http:example:: tutorial/get-answer.http
    :code:
 
 
-Enquiries can be made only during ``Tender.enqueryPeriod``
+Звернення можна задавати лише під час ``Tender.enqueryPeriod``
 
 .. http:example:: tutorial/ask-question-after-enquiry-period.http
    :code:
@@ -191,160 +178,155 @@ Enquiries can be made only during ``Tender.enqueryPeriod``
 .. ПРЕЦЕДЕНТ Т3. Подати пропозицію
 .. ПРЕЦЕДЕНТ Т4. Внести зміну в пропозицію
 
-Registering bid
----------------
+Реєстрація цінової заявки
+-------------------------
 
-Step-by-step registration
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Покрокова реєстрація
+~~~~~~~~~~~~~~~~~~~~
 
-Tender status ``active.tendering`` allows registration of bids.
+Коли тендерна пропозиція перебуває в статусі ``active.tendering``, можна реєструвати цінові заявки.
 
-Bidder can register a bid in `draft` status:
+Учасник може зареєструвати заявку зі статусом `draft`:
 
 .. http:example:: tutorial/register-bidder.http
    :code:
 
-And append responses for criteria requirements:
+Та додамо відповіді на вимоги критеріїв:
 
 .. http:example:: tutorial/add-requirement-responses-to-bidder.http
    :code:
 
-Then bidder should approve bid with pending status. If `tenderers.identifier.scheme = 'UA-EDR'` it is required to add sign document to bid.
-If there is no sign document during activation, we will see an error:
+Після цього учасник має підтвердити пропозицію, перевівши у ``pending`` статус. Якщо учасник резидент (`tenderers.identifier.scheme = 'UA-EDR'`), то перед підтвердженням пропозиції він має накласти електронний підпис. Якщо файлу підписа не знайдено під час підтвердження, буде наступна помилка:
 
 .. http:example:: tutorial/activate-bidder-without-proposal.http
    :code:
 
-Sign document should have `documentType: proposal` and `title: *.p7s`. Let's add such document:
+Файл підпису має тип документу `documentType: proposal` та розширення `title: *.p7s`. Додамо файл підпису:
 
 .. http:example:: tutorial/upload-bid-proposal.http
    :code:
 
-Let's try to activate bid one more time:
+Спробуємо підтвердити пропозицію:
 
 .. http:example:: tutorial/activate-bidder.http
    :code:
 
-Bidder can also submit bid with non-price criteria - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`).
+Також учасник може подати ставку з неціновими критеріями - :ref:`parameter` (`https://prozorro-api-docs.readthedocs.io/uk/frameworkagreement/basic-actions/meat.html?highlight=features#bidding-in-meat`).
 
-If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:
+При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:
 
 .. http:example:: tutorial/patch-pending-bid.http
    :code:
 
-If we try to activate bidder the new sign will be needed:
+Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:
 
 .. http:example:: tutorial/activate-bidder-without-sign.http
    :code:
 
-Confidentiality
-^^^^^^^^^^^^^^^
+Конфіденційність
+^^^^^^^^^^^^^^^^
 
-Documents can be either public or private:
+Документи можуть мати як публічний, так і приватний доступ:
 
-  1. Privacy settings can be changed only for the latest version of the document.
-  2. When you upload new version of the document, privacy settings are copied from the previous version.
-  3. Privacy settings can be changed only during `tenderPeriod` (with `active.tendering` status).
-  4. If tender has status `active.qualification` winner can upload only public documents.
+  1. Налаштування приватності можна змінити лише для останньої версії документу.
+  2. Коли ви завантажуєте нову версію документу, налаштування приватності дублюються з попередньої версії.
+  3. Налаштування приватності можна змінити лише під час `tenderPeriod` (у статусі `active.tendering`).
+  4. Якщо тендерна пропозиція має статус `active.qualification`, то переможець може завантажити лише документи з публічним доступом.
 
-Let's upload private document:
+Спробуймо завантажити документ з приватним доступом:
 
 .. http:example:: tutorial/upload-bid-private-proposal.http
    :code:
 
-To define the document as "private" - `confidentiality` and `confidentialityRationale` fields should be set.
+Щоб документ визначався як "private", потрібно налаштувати поля `confidentiality` та `confidentialityRationale`.
 
-`confidentiality` field value can be either `buyerOnly` (document is private) or `public` (document is publicly accessible).
+Значення поля `confidentiality` може бути `buyerOnly` (документ лише з приватним доступом) або `public` (документ з публічним доступом).
 
-Content of private documents (`buyerOnly`) can be accessed only by procuring entity or by participant who uploaded them.
+Вміст приватних документів (`buyerOnly`) може бути доступним лише для замовника чи учасника, який їх завантажив.
 
-`confidentialityRationale` field is required only for private documents and should contain at least 30 characters.
+Поле `confidentialityRationale` є обов'язковим до заповнення лише для приватних документів і повинне містити щонайменше 30 символів.
 
-Let's mark the document as "private":
+Позначмо документ як "private":
 
 .. http:example:: tutorial/mark-bid-doc-private.http
    :code:
 
-It is possible to check the uploaded documents:
+Є можливість перевірити завантажені документи:
 
 .. http:example:: tutorial/bidder-documents.http
    :code:
 
 .. _envelopes:
 
-Financial, eligibility and qualification documents uploading
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Завантаження документів, що стосуються вартості, терміну дії та кваліфікації
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Financial, eligibility and qualification documents are also a part of Bid but are located in different end-points.
+Документи, що стосуються вартості і терміну дії угоди та підтвердження кваліфікації також є частиною Заявки але знаходяться в інших точках входу.
 
-In order to create and/or get financial document ``financial_documents`` end-point should be used:
+Щоб створити і/або отримати документ щодо вартості угоди, потрібно використати точку входу ``financial_documents``:
 
 .. http:example:: tutorial/upload-bid-financial-document-proposal.http
    :code:
 
-Get financial documents:
+Отримуємо документи щодо вартості:
 
 .. http:example:: tutorial/bidder-financial-documents.http
    :code:
 
-In order to create and/or get eligibility document ``eligibility_documents`` end-point should be used:
+Щоб створити і/або отримати документ щодо терміну дії угоди, потрібно використати точку входу ``eligibility_documents``:
 
 .. http:example:: tutorial/upload-bid-eligibility-document-proposal.http
    :code:
 
-In order to create and/or get qualification document ``qualification_documents`` end-point should be used:
+Щоб створити і/або отримати документ щодо підтвердження кваліфікації, потрібно використати точку входу ``qualification_documents``:
 
 .. http:example:: tutorial/upload-bid-qualification-document-proposal.http
    :code:
 
-In case we made an error, we can reupload the document over the older version:
+Якщо сталася помилка, ми можемо ще раз завантажити документ поверх старої версії:
 
 .. http:example:: tutorial/upload-bid-qualification-document-proposal-updated.http
    :code:
 
 
-`Financial` and `qualification` documents will be publicly accessible after the auction.
-`Eligibility` documents will become publicly accessible starting from tender pre-qualification period.
+Документація `Financial`та `qualification` стане загальнодоступною після закінчення аукціону. Документація щодо `Eligibility` стане загальнодоступною з початком прекваліфікаційного періоду.
 
-Here is bidder proposal with all documents.
+Тут бачимо пропозицію учасника з усіма документами.
 
 .. http:example:: tutorial/bidder-view-financial-documents.http
    :code:
 
-Note that financial, eligibility, and qualification documents are stored in `financialDocuments`,
-`eligibilityDocuments`, and `qualificationDocuments` attributes of :ref:`Bid`.
+Зверніть увагу, що документи, що стосуються вартості і терміну дії угоди та підтвердження кваліфікації зберігаються в атрибутах :ref:`Bid`.
 
 
-Bid invalidation
-~~~~~~~~~~~~~~~~
+Скасування заявки
+~~~~~~~~~~~~~~~~~
 
-If tender is modified, status of all bid proposals will be changed to ``invalid``.
-Bid proposal will look the following way after tender has been modified:
+Якщо до тендерної пропозиції вносяться зміни, то статуси усіх цінових заявок зміниться на ``invalid``. Так виглядатиме заявка учасника торгів після внесення змін до тендерної пропозиції:
 
 .. http:example:: tutorial/bidder-after-changing-tender.http
    :code:
 
-Bid confirmation
-~~~~~~~~~~~~~~~~
+Підтвердження заявки
+~~~~~~~~~~~~~~~~~~~~
 
-Bidder should confirm bid proposal:
+Учасник має підтвердити подану пропозицію:
 
 .. http:example:: tutorial/bidder-activate-after-changing-tender.http
    :code:
 
-Bidder can change his bid after activating it. He can change value:amount (:ref:`value`). Also he can update :ref:`parameter`, subContractors, :ref:`document`.
+Учасник може змінити свою пропозицію, після її активації. Для цього він змінює value:amount (:ref:`value`). Також можливо модифікувати :ref:`parameter`, subContractors, :ref:`document`.
 
-Close FrameworkAgreement UA procedure demands at least three bidders, so there should be at least three bid proposals
-registered to move to auction stage:
+Процедура Закритої Рамкової Угоди UA вимагає щонайменше трьох учасників торгів, тож має бути зареєстровано щонайменше три цінові заявки, щоб перейти до етапу аукціону:
 
 .. http:example:: tutorial/register-2nd-bidder.http
    :code:
 
 
-Batch-mode registration
-~~~~~~~~~~~~~~~~~~~~~~~
+Пакетний режим реєстрації
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Register bid with documents using one request:
+Можна зареєструвати заявку з документами одним запитом:
 
 .. http:example:: tutorial/register-2nd-bidder.http
    :code:
@@ -355,18 +337,18 @@ Register bid with documents using one request:
 
 .. ПРЕЦЕДЕНТ Т10. Провести прекваліфікацію
 
-Bid Qualification
------------------
+Кваліфікація заявок
+-------------------
 
-Close FrameworkAgreement UA procedure requires bid qualification.
+Процедура Закритої Рамкової Угоди UA вимагає кваліфікації заявок.
 
-Let's list qualifications:
+Складемо список кваліфікаційних вимог:
 
 
 .. http:example:: tutorial/qualifications-listing.http
    :code:
 
-Approve three bids through qualification objects:
+Схвалюємо три заявки з допомогою об'єктів кваліфікації:
 
 .. http:example:: tutorial/approve-qualification1.http
    :code:
@@ -377,62 +359,62 @@ Approve three bids through qualification objects:
 .. http:example:: tutorial/approve-qualification4.http
    :code:
 
-We can also reject bid:
+Також можна відхилити заявку:
 
 .. http:example:: tutorial/reject-qualification3.http
    :code:
 
-To reject bid, Procuring entity should specify reason of rejection in ``description`` field.
+Для того, щоб відхилити пропозицію, Замовник має вказати причину відхилення в полі ``description``.
 
-And check that qualified bids are switched to `active`:
+І перевірити чи заявки, що пройшли кваліфікацію, переведені в статус `active`:
 
 .. http:example:: tutorial/qualificated-bids-view.http
    :code:
 
-Rejected bid is not shown in `bids/` listing.
+Відхилена заявка не відображається у списку `bids/`.
 
-We can access rejected bid by id:
+Можемо знайти відхилену заявку за її id:
 
 .. http:example:: tutorial/rejected-bid-view.http
    :code:
 
-Procuring entity approves qualifications by switching to next status.
+Замовник схвалює кваліфікацію заявок, перейшовши в наступний статус.
 
-Before approving qualifications it is required to add sign document to tender. Sign doc should be added generally for tender. If there is no sign document during approving qualification, we will see an error:
+Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути доданий до тендеру загалом. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:
 
 .. http:example:: tutorial/pre-qualification-sign-doc-is-required.http
    :code:
 
-Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:
+Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/upload-evaluation-reports-doc.http
    :code:
 
-Let's approve qualifications one more time:
+Ще раз схвалимо кваліфікацію заявок:
 
 .. http:example:: tutorial/pre-qualification-confirmation.http
    :code:
 
-Procuring entity may change ``status`` of Bid on opposite during `active.prequalification`.
+Замовник може змінити ``status`` пропозиції на протилежний під час `active.prequalification`.
 
-You may notice 10 day stand-still time set in `qualificationPeriod`.
+Зверніть увагу, що термін простою `qualificationPeriod` встановлюється на 10 днів.
 
 .. ПРЕЦЕДЕНТ Т11. Брати участь в аукціоні
 
-Auction
+Аукціон
 -------
 
-After auction is scheduled anybody can visit it to watch. The auction can be reached at `Tender.lot.auctionUrl`:
+Коли оголошується час проведення аукціону, будь-хто може подивитись, як він проходить. На аукціон можна зайти за адресою `Tender.lot.auctionUrl`:
 
 .. http:example:: tutorial/auction-url.http
    :code:
 
-And bidders can find out their participation URLs via their bids:
+Учасники торгів можуть отримати свої URL для доступу на аукціон через свої заявки :
 
 .. http:example:: tutorial/bidder-participation-url.http
    :code:
 
-See the `Bid.lotValues.participationUrl` in the response. Similar, but different, URL can be retrieved for other participants:
+`Bid.lotValues.participationUrl` має з'явитись у відповіді. Подібні але інші URL можна витягнути й для решти учасників:
 
 .. http:example:: tutorial/bidder2-participation-url.http
    :code:
@@ -442,120 +424,118 @@ See the `Bid.lotValues.participationUrl` in the response. Similar, but different
 
 .. ПРЕЦЕДЕНТ Т12. Визначити переможців
 
-Confirming qualification
-------------------------
+Підтвердження кваліфікації
+--------------------------
 
 
-Qualification comission can set award to `active` or `unsuccessful` status.
+Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус.
 
-There are validations before registering qualification decision:
+Валідація значення полів відповідно до рішення під час винесення рішення:
 
-* `eligible: True` and `qualified: True` - for setting award from `pending` to `active`
+* `eligible: True` та `qualified: True` - при переході award з `pending` в `active`
 
-* `eligible: False` and `qualified: True` OR `eligible: True` and `qualified: False` OR `eligible: False` and `qualified: False` - for setting award from `pending` to `unsuccessful`
+* `eligible: False` та `qualified: True` АБО `eligible: True` та `qualified: False` АБО `eligible: False` та `qualified: False` - при переході award з `pending` в `unsuccessful`
 
-Let's try to set `unsuccessful` status for `qualified` and `eligible` award and we will see an error:
+Спробуємо відхилити авард для `qualified` та `eligible` учасника:
 
 .. http:example:: tutorial/unsuccessful-qualified-award.http
    :code:
 
-Let's try to set `active` status for `non-qualified` or `non-eligible` award and we will see an error:
+Спробуємо винести рішення по переможцю по аварду для `non-qualified` або `non-eligible` учасника:
 
 .. http:example:: tutorial/activate-non-qualified-award.http
    :code:
 
-Before making decision it is required to add sign document to award.
-If there is no sign document during activation, we will see an error:
+Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:
 
 .. http:example:: tutorial/award-notice-document-required.http
    :code:
 
-The same logic for `unsuccessful` status:
+Така сама логіка при відхилені аварду:
 
 .. http:example:: tutorial/award-unsuccessful-notice-document-required.http
    :code:
 
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+Файл підпису має тип документу `documentType: notice` та розширення `title: *.p7s`. Додамо файл підпису:
 
 .. http:example:: tutorial/award-add-notice-document.http
    :code:
 
-Qualification board receives the qualifications list
+Кваліфікаційна комісія отримує список претендентів до кваліфікації
 
 .. http:example:: tutorial/qualifications-list.http
    :code:
 
-Adds sign docs and registers its decisions via the following call `per award`:
+Додає підпис і реєструє своє рішення через такий виклик на кожного `award`:
 
 .. http:example:: tutorial/confirm-qualification.http
    :code:
 
-The board may cancel the award winner by calling
-``{'data': {'status': 'cancelled'}}``
+Комісія також може дискваліфікувати переможця викликом ``{'data': {'status': 'cancelled'}}``
 
 .. http:example:: tutorial/patch-award-cancelled.http
    :code:
 
-We can see new `pending` award is generated for the same bidder.
+Бачимо, що згенеровано новий award в статусі `pending` для цього ж учасника.
 
 .. http:example:: tutorial/qualifications-list2.http
    :code:
 
-Now we can sign and patch `pending` award to `unsuccessful`.
+Тепер можна підписати і патчити award зі статусу `pending` в `unsuccessful`.
 
 .. http:example:: tutorial/patch-award-unsuccessful.http
    :code:
 
-In case of transferring award from ``unsuccessful`` to ``cancelled``, tender moves to the beginning of ``active.qualification`` status, all of the awards become ``cancelled`` and new :ref:`award` objects are creating.
+У випадку переведення award з ``unsuccessful`` в ``cancelled``, тендер переходить на початок статусу ``active.qualification``, всі об'єкти :ref:`award` стають ``cancelled`` і генеруються нові об'єкти.
 
-So we patch `unsuccessful` award to `cancelled`.
+Тепер можна патчити award зі статусу `pending` в `unsuccessful`.
 
 .. http:example:: tutorial/patch-award-unsuccessful-cancelled.http
    :code:
 
-New `pending` award is generated for each bidder.
+Нові award в статусі `pending` генеруються для кожного учасника.
 
 .. http:example:: tutorial/qualifications-list3.http
    :code:
 
-Finally we confirm all `pending` awards via the following call:
+Нарешті ми підтверджуємо всі award в статусі `pending`:
 
 .. http:example:: tutorial/confirm-qualification2.http
    :code:
 
-Procuring entity may specify reasons of Bidder disqualification in the ``description`` field.
+Замовник має вказати причину дискваліфікації Учасника в полі ``description``.
 
-Procuring entity may continue consideration of decision for some :ref:`award` if it is needed. Procuring entity should upload a document for that.
+Замовник може продовжити процес кваліфікації :ref:`award`, якщо це необхідно. Замовник має завантажити документи про це.
 
-Completion of qualification is transfer procedure into `active.qualification.stand-still` status.
+Завершенням кваліфікаї є переведення процедури в статус `active.qualification.stand-still`.
 
 
 .. ПРЕЦЕДЕНТ Т13. Додати документи з цінами
 
-Uploading document with unit price per item
--------------------------------------------
+Завантаження документу з переліком цін за одиницю товару
+--------------------------------------------------------
 
-When tender transfers to status `active.awarded` then :ref:`Agreement_cfaua` is created and the awarded participants are given 5 business days to upload the itemized price list with unit price per every 'item'
+Коли тендерна пропозиція переходить в статус `active.awarded`, створюється :ref:`Agreement_cfaua`, і переможцям аукціону надається п'ять робочих днів на завантаження переліку цін за одиницю кожного предмету закупівлі.
 
 .. http:example:: tutorial/upload-prices-document.http
    :code:
 
-Entering prices per item by the ordering party
-----------------------------------------------
+Внесення цін за предмет закупівлі стороною замовника
+----------------------------------------------------
 
-The object list :ref:`Agreement_cfaua` can be obtained via the following call
+Список об'єктів :ref:`Agreement_cfaua` можна отримати з допомогою цього виклику
 
 .. http:example:: tutorial/agreements-list.http
    :code:
 
-Only one contract is created per each qualified award winner
+Лише один контракт створюється на одного переможця аукціону, що пройшов кваліфікацію
 
-The object list :ref:`Contract` to enter prices per item can be obtained by the ordering party via the following call 
+Сторона замовника може отримати список об'єктів :ref:`Contract` для внесення цін за предмет закупівлі з допомогою такого виклику 
 
 .. http:example:: tutorial/agreement-contracts-list.http
    :code:
 
-Entering unit prices is allowed only for all 'items' taken together
+Внесення цін за одиницю товару можливе лише для всіх предметів закупівлі 'items' разом
 
 .. http:example:: tutorial/agreement-contract-unitprices1.http
    :code:
@@ -566,151 +546,142 @@ Entering unit prices is allowed only for all 'items' taken together
 .. http:example:: tutorial/agreement-contract-unitprices3.http
    :code:
 
-Also the ordering party is allowed to exclude a winner from the framework agreement by setting the contract to 
-``{'data': {'status': 'unsuccessful'}}``
+Також стороні замовника дозволено виключити переможця з рамкової угоди, перевівши контракт в статус ``{'data': {'status': 'unsuccessful'}}``
 
-For a successful signing of a Framework agreement not less than 3 active contracts are needed 
+Для успішного підписання Рамкової угоди необхідно щонайменше 3 активних контракта 
 
-A Framework agreement can be signed only when `agreement.contractPeriod.clarificationsUntil` is reached
+Рамкову угоду можна підписати лише з настанням моменту `agreement.contractPeriod.clarificationsUntil`
 
-Procuring entity may fill the information about ``agreementNumber``.
+Замовник може заповнити інформацію про ``agreementNumber``.
 
 
-Uploading agreement documentation
----------------------------------
+Завантаження документації щодо угоди
+------------------------------------
 
-You can upload agreement documents. Let's upload agreement document:
+Тепер можна завантажити документацію, що стосується угоди. Спробуймо завантажити документ, що стосується угоди:
 
 .. http:example:: tutorial/tender-agreement-upload-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm that this document was added.
+Код відповіді `201 Created` і заголовок `Location` підтверджують, що цей документ було додано.
 
-Let's see the list of agreement documents:
+Перегляньмо список документів стосовно угоди:
 
 .. http:example:: tutorial/tender-agreement-get-documents.http
    :code:
 
-We can add another agreement document:
+Можемо додати ще один документ стосовно угоди:
 
 .. http:example:: tutorial/tender-agreement-upload-second-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm that the second document was uploaded.
+Код відповіді `201 Created` і заголовок `Location` підтверджують, що другий документ також було додано.
 
-By default, document language is Ukrainian. You can can change it and set another language for the document
-by assigning appropriate language code to the `language` field (available options: ``uk``, ``en``, ``ru``).
-You can also set document's title (e.g. `title_en`) and description (e.g. `description_en`) fields.
-See :ref:`Document` data structure for details.
+За замовчуванням, мова документації - українська. Це можна змінити і встановити іншу мову для документу, встановивши відповідний мовнй код в полі `language` (доступні варіанти: ``uk``, ``en``, ``ru``). Можна також встановити поля назви документа (наприклад, `title_en`) та його опису (наприклад, `description_en`). Детальніше в структурі даних :ref:`Document`.
 
 .. http:example:: tutorial/tender-agreement-patch-document.http
     :code:
 
-Let's see the list of all added agreement documents:
+Перегляньмо список усіх доданих документів стосовно угоди:
 
 .. http:example:: tutorial/tender-agreement-get-documents-again.http
    :code:
 
-Let's view separate contract document:
+Подивімося на окремий документ щодо угоди:
 
 .. http:example:: tutorial/tender-agreement-get.http
     :code:
 
 
-Set agreement signature date
-----------------------------
+Встановлення дати підписання угоди
+----------------------------------
 
-There is a possibility to set custom agreement signature date.
-If the date is not set it will be generated on agreement registration.
+Є можливість встановити потрібну дату підписання угоди. Якщо дата не встановлена, то вона буде згенерована під час реєстрації угоди.
 
 .. http:example:: tutorial/tender-agreement-sign-date.http
    :code:
 
-Agreement registration
-----------------------
+Реєстрація угоди
+----------------
 
 .. http:example:: tutorial/tender-agreement-sign.http
    :code:
 
-Cancelling tender
------------------
+Скасування тендера
+------------------
 
-Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`).
+Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`).
 
-The following steps should be applied:
+Для цього потрібно виконати такі кроки:
 
-1. Prepare cancellation request
-2. Fill it with the protocol describing the cancellation reasons
-3. Passing complaint period(10 days)
-4. Cancel the tender with the prepared reasons.
+1. Приготуйте запит на скасування
+2. Наповніть його протоколом про причини скасування
+3. Проходження періоду оскарження(триває 10 днів)
+4. Скасуйте тендерну пропозицію через подані причини.
 
-Only the request that has been activated (4th step above) has power to
-cancel tender.  I.e.  you have to not only prepare cancellation request but
-to activate it as well.
+Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її.
 
-For cancelled cancellation you need to update cancellation status to `unsuccessful`
-from `draft` or `pending`.
+Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`
 
-See :ref:`cancellation` data structure for details.
+Детальніше в структурі запиту :ref:`cancellation`.
 
-Preparing the cancellation request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Формування запиту на скасування
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You should pass `reason` and `reasonType`, `status` defaults to `draft`.
+Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`.
 
-There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`.
+При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`.
 
-`id` is autogenerated and passed in the `Location` header of response.
+`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`.
 
 .. http:example:: tutorial/prepare-cancellation.http
    :code:
 
 
-Filling cancellation with protocol and supplementary documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Наповнення запиту на скасування протоколом та супровідною документацією
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This step is required. Without documents you can't update tender status.
+Цей крок обов'язковий. Без документів ви не можете оновити статус скарги.
 
-Upload the file contents
+Завантажуємо вміст файлу
 
 .. http:example:: tutorial/upload-cancellation-doc.http
    :code:
 
-Change the document description and other properties
+Змінюємо опис документу та інші властивості
 
 .. http:example:: tutorial/patch-cancellation.http
    :code:
 
-Upload new version of the document
+Завантажуємо нову версію документа
 
 .. http:example:: tutorial/update-cancellation-doc.http
    :code:
 
-Passing Complaint Period
-~~~~~~~~~~~~~~~~~~~~~~~~
+Проходження періоду оскарження
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For activate complaint period, you need to update cancellation from `draft` to `pending`.
+Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`.
 
 .. http:example:: tutorial/pending-cancellation.http
    :code:
 
-When cancellation in `pending` status the tender owner is prohibited from all actions on the tender.
+Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі.
 
-Activating the request and cancelling tender
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Активуємо запит і скасовуємо тендерну пропозицію
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if the complaint period(duration 10 days) is over and there were no complaints or
-all complaints are canceled, then cancellation will automatically update status to `active`.
+Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`
 
-Transfer agreement to `unsuccessful`
-------------------------------------
+Переведення угоди в статус `unsuccessful`
+-----------------------------------------
 
-Procuring entity can patch `agreement` to  `unsuccessful`.
+Замовник може змінити статус угоди на `unsuccessful`.
 
 .. http:example:: tutorial/agreement-unsuccessful.http
    :code:
 
-This will transfer `tender` to `unsuccessful` status.
+Переведення тендера в статус `unsuccessful`.
 
 .. http:example:: tutorial/tender-unsuccessful.http
    :code:

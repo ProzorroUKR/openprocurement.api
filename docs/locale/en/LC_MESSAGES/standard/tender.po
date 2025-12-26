@@ -1,0 +1,837 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.10\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-04 19:04+0200\n"
+"PO-Revision-Date: 2021-10-26 13:16+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Tender"
+msgstr "Tender"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "Додатково у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (stage2_EU):"
+msgstr "Additionally in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (stage2_EU):"
+
+msgid "uk (title) та en (title_en) переклади обов’язкові"
+msgstr "uk (title) and en (title_en) translations are required"
+
+msgid "Назва тендера, яка відображається у списках. Можна включити такі елементи:"
+msgstr "The name of the tender, displayed in listings. You can include the following items:"
+
+msgid "код закупівлі (у системі управління організації-замовника)"
+msgstr "tender code (in procuring organization management system)"
+
+msgid "періодичність закупівлі (щороку, щокварталу, і т.д.)"
+msgstr "periodicity of the tender (annual, quarterly, etc.)"
+
+msgid "елемент, що закуповується"
+msgstr "item being procured"
+
+msgid "інша інформація"
+msgstr "some other info"
+
+msgid "description"
+msgstr ""
+
+msgid "Детальний опис закупівлі."
+msgstr "Detailed description of tender."
+
+msgid "tenderID"
+msgstr ""
+
+msgid "рядок, генерується автоматично, лише для читання"
+msgstr "string, auto-generated, read-only"
+
+msgid "Ідентифікатор закупівлі, щоб знайти закупівлю у \"паперовій\" документації."
+msgstr "The tender identifier to refer tender to in \"paper\" documentation."
+
+msgid "|ocdsDescription| Ідентифікатор тендера `TenderID` повинен завжди співпадати з OCID. Його включають, щоб зробити структуру даних більш зручною."
+msgstr "|ocdsDescription| TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient."
+
+msgid "procuringEntity"
+msgstr ""
+
+msgid ":ref:`ProcuringEntity`, обов’язково"
+msgstr ":ref:`ProcuringEntity`, required"
+
+msgid "Замовник (організація, що проводить закупівлю)."
+msgstr "Organization conducting the tender."
+
+msgid "|ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи."
+msgstr "|ocdsDescription| The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured."
+
+msgid "Якщо :code:`procurementMethodType` має значення :code:`negotiation` або :code:`negotiation.quick`, тоді можливі значення :code:`ProcuringEntity.kind` обмежені :code:`[‘general’, ‘special’, ‘defense’]`."
+msgstr "If :code:`procurementMethodType` is :code:`negotiation` or :code:`negotiation.quick`, then possible values of :code:`ProcuringEntity.kind` are limited to :code:`['general', 'special', 'defense']`."
+
+msgid "procurementMethod"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "`limited`"
+msgstr ""
+
+msgid "Метод закупівлі тендеру."
+msgstr "Procurement Method of the Tender."
+
+msgid "Тільки у :ref:`limited`"
+msgstr "Only in :ref:`limited`"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "`belowThreshold`"
+msgstr ""
+
+msgid "ідентифікатор до порогової процедури"
+msgstr "below threshold procedure indentifier"
+
+msgid "`aboveThresholdUA`"
+msgstr ""
+
+msgid "ідентифікатор вище порогової процедури"
+msgstr "above threshold procedure indentifier"
+
+msgid "`aboveThresholdEU`"
+msgstr ""
+
+msgid "вище порогового ідентифікатора процедури з публікацією на англійській мові"
+msgstr "above threshold EU procedure indentifier"
+
+msgid "`aboveThresholdUA.defense`"
+msgstr ""
+
+msgid "ідентифікатор процедури для потреб оборони"
+msgstr "defense procedure indentifier"
+
+msgid "`reporting`"
+msgstr ""
+
+msgid "ідентифікатор процедури звітування"
+msgstr "reporting procedure indentifier"
+
+msgid "`negotiation`"
+msgstr ""
+
+msgid "ідентифікатор процедури переговорів"
+msgstr "negotiation procedure indentifier"
+
+msgid "`negotiation.quick`"
+msgstr ""
+
+msgid "ідентифікатор процедури швидких переговорів"
+msgstr "negotiation.quick procedure indentifier"
+
+msgid "`esco`"
+msgstr ""
+
+msgid "ідентифікатор процедури esco"
+msgstr "esco procedure indentifier"
+
+msgid "`closeFrameworkAgreementUA`"
+msgstr ""
+
+msgid "closeframeworkagreementua procedure indentifier"
+msgstr ""
+
+msgid "`closeFrameworkAgreementSelectionUA`"
+msgstr ""
+
+msgid "closeframeworkagreementua.selection procedure indentifier"
+msgstr ""
+
+msgid "Можливі значення у :ref:`competitivedialogue` stage1:"
+msgstr "Possible values in :ref:`competitivedialogue` stage1:"
+
+msgid "`competitiveDialogueEU`"
+msgstr ""
+
+msgid "`competitiveDialogueUA`"
+msgstr ""
+
+msgid "Можливі значення у :ref:`competitivedialogue` stage2:"
+msgstr "Possible values in :ref:`competitivedialogue` stage2:"
+
+msgid "`competitiveDialogueEU.stage2`"
+msgstr ""
+
+msgid "`competitiveDialogueUA.stage2`"
+msgstr ""
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`value`, обов’язково"
+msgstr ":ref:`value`, required"
+
+msgid "Повний доступний бюджет закупівлі. Пропозиції, що більші за ``value`` будуть відхилені."
+msgstr "Total available tender budget. Bids greater then ``value`` will be rejected."
+
+msgid "|ocdsDescription| Загальна кошторисна вартість закупівлі."
+msgstr "|ocdsDescription| The total estimated value of the procurement."
+
+msgid "Відсутнє в :ref:`esco`"
+msgstr "Absent in :ref:`esco`"
+
+msgid "guarantee"
+msgstr ""
+
+msgid ":ref:`BasicValue`"
+msgstr ""
+
+msgid "Забезпечення тендерної пропозиції"
+msgstr "Bid guarantee"
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "items"
+msgstr ""
+
+msgid "список об’єктів :ref:`item`, обов’язково"
+msgstr "list of :ref:`item` objects, required"
+
+msgid "Список, який містить елемент, що закуповується."
+msgstr "List that contains single item being procured."
+
+msgid "|ocdsDescription| Товари та послуги, що будуть закуплені, поділені на спискові елементи, де це можливо. Елементи не повинні дублюватись, замість цього вкажіть кількість 2."
+msgstr "|ocdsDescription| The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead."
+
+msgid "features"
+msgstr ""
+
+msgid "список об’єктів :ref:`Feature`"
+msgstr "list of :ref:`Feature` objects"
+
+msgid "Властивості закупівлі."
+msgstr "Features of tender."
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`document`"
+msgstr "List of :ref:`document` objects"
+
+msgid "|ocdsDescription| Всі документи та додатки пов’язані із закупівлею."
+msgstr "|ocdsDescription| All documents and attachments related to the tender."
+
+msgid "questions"
+msgstr ""
+
+msgid "Список об’єктів :ref:`question`"
+msgstr "List of :ref:`question` objects"
+
+msgid "Звернення до замовника ``procuringEntity`` і відповіді на них."
+msgstr "Questions to ``procuringEntity`` and answers to them."
+
+msgid "complaints"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Complaint` та :ref:`Claim`."
+msgstr "List of :ref:`Complaint` and :ref:`Claim` objects."
+
+msgid "Список об’єктів :ref:`Claim` для `belowThreshold`."
+msgstr "List of :ref:`Claim` objects for  `belowThreshold`."
+
+msgid "Скарги та Вимоги на умови закупівлі та їх вирішення."
+msgstr "Complaints and Claims to tender conditions and their resolutions."
+
+msgid "bids"
+msgstr ""
+
+msgid "Список об’єктів :ref:`bid`"
+msgstr "List of :ref:`bid` objects"
+
+msgid "Список усіх пропозицій зроблених під час закупівлі разом із інформацією про учасників закупівлі, їхні пропозиції та інша кваліфікаційна документація."
+msgstr "A list of all bids placed in the tender with information about tenderers, their proposal and other qualification documentation."
+
+msgid "|ocdsDescription| Список усіх компаній, які подали заявки для участі у закупівлі."
+msgstr "|ocdsDescription| A list of all the companies who entered submissions for the tender."
+
+msgid "minimalStep"
+msgstr ""
+
+msgid ":ref:`value`, обов'язково для безлотових закупівель з аукціоном"
+msgstr ":ref:`value`, required for non-lots tenders with auction"
+
+msgid "Мінімальний крок аукціону (редукціону). Правила валідації:"
+msgstr "The minimal step of auction (reduction). Validation rules:"
+
+msgid "Значення `amount` повинно бути меншим за `Tender.value.amount` та в межах 0.5%-3% від `Tender.value.amount`"
+msgstr "`amount` should be less then `Tender.value.amount` and between 0.5% and 3% of `Tender.value.amount`"
+
+msgid "Значення `currency` повинно бути або відсутнім, або співпадати з `Tender.value.currency`"
+msgstr "`currency` should either be absent or match `Tender.value.currency`"
+
+msgid "Значення `valueAddedTaxIncluded` повинно бути або відсутнім, або співпадати з `Tender.value.valueAddedTaxIncluded`"
+msgstr "`valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`"
+
+msgid "awards"
+msgstr ""
+
+msgid "Список об’єктів :ref:`award`"
+msgstr "List of :ref:`award` objects"
+
+msgid "Усі  кваліфікації (дискваліфікації та переможці)."
+msgstr "All qualifications (disqualifications and awards)."
+
+msgid "agreements"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Agreement <agreement_cfaua>`"
+msgstr "List of :ref:`Agreement <agreement_cfaua>` objects"
+
+msgid "Тільки у :ref:`cfaua` та :ref:`cfaselectionua`"
+msgstr "Only in :ref:`cfaua` or :ref:`cfaselectionua`"
+
+msgid "agreement"
+msgstr ""
+
+msgid "Об’єкт :ref:`Agreement <agreement_pricequotation>`"
+msgstr ":ref:`Agreement <agreement_pricequotation>` object"
+
+msgid "Тільки у :ref:`pricequotation`"
+msgstr "Only in :ref:`pricequotation`"
+
+msgid "contracts"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Contract`"
+msgstr "List of :ref:`Contract` objects"
+
+msgid "enquiryPeriod"
+msgstr ""
+
+msgid ":ref:`period`, обов’язково"
+msgstr ":ref:`period`, required"
+
+msgid "Період, коли дозволено подавати звернення. Повинна бути вказана хоча б `endDate` дата."
+msgstr "Period when questions are allowed. At least `endDate` has to be provided."
+
+msgid "|ocdsDescription| Період, коли можна зробити уточнення та отримати відповіді на них."
+msgstr "|ocdsDescription| The period during which enquiries may be made and will be answered."
+
+msgid "Додатково у :ref:`defense`, :ref:`openua` та :ref:`openeu`:"
+msgstr "Additionally in :ref:`defense`, :ref:`openua` and :ref:`openeu`:"
+
+msgid "`enquiryPeriod` має додаткові поля:"
+msgstr "`enquiryPeriod` has additional fields:"
+
+msgid "``invalidationDate`` - це дата останньої зміни умов, коли всі подані цінові пропозиції перейшли в стан `invalid`. Відповідно необхідні дії майданчика щодо активації чи переподачі пропозицій."
+msgstr "``invalidationDate`` - date of the last tender conditions modification, when all bid proposals became `invalid`. Broker (eMall) should take action in order for bids to be activated or re-submitted."
+
+msgid "``clarificationsUntil``- час, до якого можна давати відповіді на зернення та вимоги, після якого блокується процедура."
+msgstr "``clarificationsUntil`` - time before which answers for questions and claims can be provided. After this time the procedure will be blocked."
+
+msgid "dateModified"
+msgstr ""
+
+msgid "owner"
+msgstr ""
+
+msgid "tenderPeriod"
+msgstr ""
+
+msgid "Період, коли подаються пропозиції. Повинна бути вказана хоча б `endDate` дата."
+msgstr "Period when bids can be submitted. At least `endDate` has to be provided."
+
+msgid "|ocdsDescription| Період, коли закупівля відкрита для подачі пропозицій. Кінцева дата - це дата, коли перестають прийматись пропозиції."
+msgstr "|ocdsDescription| The period when the tender is open for submissions. The end date is the closing date for tender submissions."
+
+msgid "qualificationPeriod"
+msgstr ""
+
+msgid ":ref:`period`,  лише для читання"
+msgstr ":ref:`period`, read-only"
+
+msgid "Цей період включає кваліфікацію та 10-денний період блокування."
+msgstr "This period consists of qualification and 10 days of stand still period."
+
+msgid "|ocdsDescription| Період, коли кваліфікацію можна подати з періодом блокування."
+msgstr "|ocdsDescription| Period when qualification can be submitted with stand still period."
+
+msgid "Тільки у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`"
+msgstr "Only in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`"
+
+msgid "auctionPeriod"
+msgstr ""
+
+msgid "Період, коли проводиться аукціон."
+msgstr "Period when Auction is conducted."
+
+msgid "auctionUrl"
+msgstr ""
+
+msgid "url-адреса"
+msgstr "url"
+
+msgid "Веб-адреса для перегляду аукціону."
+msgstr "A web address for view auction."
+
+msgid "awardPeriod"
+msgstr ""
+
+msgid "Період, коли відбувається визначення переможця."
+msgstr "Awarding process period."
+
+msgid "|ocdsDescription| Дата або період, коли очікується визначення переможця."
+msgstr "|ocdsDescription| The date or period on which an award is anticipated to be made."
+
+msgid "mainProcurementCategory"
+msgstr ""
+
+msgid "`goods`"
+msgstr ""
+
+msgid "Основним предметом закупівлі являється продукція, об’єкти будь-якого виду та призначення, у тому числі сировина, вироби, устаткування, технології, предмети у твердому, рідкому і газоподібному стані, а також послуги, пов’язані з постачанням таких товарів, якщо вартість таких послуг не перевищує вартості самих товарів."
+msgstr "The primary object of this tender involves physical or electronic goods or supplies."
+
+msgid "`services`"
+msgstr ""
+
+msgid "Основним предметом закупівлі являється проектування, будівництво нових, розширення, реконструкція, капітальний ремонт та реставрація існуючих об’єктів і споруд виробничого і невиробничого призначення, роботи з нормування в будівництві, геологорозвідувальні роботи, технічне переоснащення діючих підприємств та супровідні роботам послуги, у тому числі геодезичні роботи, буріння, сейсмічні дослідження, аеро- і супутникова фотозйомка та інші послуги, що включаються до кошторисної вартості робіт, якщо вартість таких послуг не перевищує вартості самих робіт."
+msgstr "The primary object of this tender involves construction, repair, rehabilitation, demolition, restoration or maintenance of some asset or infrastructure."
+
+msgid "`works`"
+msgstr ""
+
+msgid "Основним предметом закупівлі являється будь-який предмет закупівлі, крім товарів і робіт, зокрема транспортні послуги, освоєння технологій, наукові дослідження, науково-дослідні або дослідно-конструкторські розробки, медичне та побутове обслуговування, лізинг, найм (оренда), а також фінансові та консультаційні послуги, поточний ремонт."
+msgstr "The primary object of this tender involves professional services of some form, generally contracted for on the basis of measurable outputs or deliverables."
+
+msgid "|ocdsDescription| Основна категорія, що описує основний об'єкт тендеру."
+msgstr "|ocdsDescription| The primary category describing the main object of the tender."
+
+msgid "Validation depends on:"
+msgstr ""
+
+msgid ":ref:`MPC_REQUIRED_FROM` constant"
+msgstr ""
+
+msgid "milestones"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Milestone`."
+msgstr "List of :ref:`Milestone` objects."
+
+msgid "plans"
+msgstr ""
+
+msgid "Список об’єктів :ref:`PlanRelation`."
+msgstr "List of :ref:`PlanRelation` objects."
+
+msgid "status"
+msgstr ""
+
+msgid "`active.enquiries`"
+msgstr ""
+
+msgid "Період уточнень (уточнення)"
+msgstr "Enquiries period (enquiries)"
+
+msgid "`active.tendering`"
+msgstr ""
+
+msgid "Очікування пропозицій (пропозиції)"
+msgstr "Tendering period (tendering)"
+
+msgid "`active.auction`"
+msgstr ""
+
+msgid "Період аукціону (аукціон)"
+msgstr "Auction period (auction)"
+
+msgid "`active.qualification`"
+msgstr ""
+
+msgid "Кваліфікація переможця (кваліфікація)"
+msgstr "Winner qualification (qualification)"
+
+msgid "`active.awarded`"
+msgstr ""
+
+msgid "Пропозиції розглянуто (розглянуто)"
+msgstr "Standstill period (standstill)"
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "Закупівля не відбулась (не відбулась)"
+msgstr "Unsuccessful tender (unsuccessful)"
+
+msgid "`complete`"
+msgstr ""
+
+msgid "Завершена закупівля (завершена)"
+msgstr "Complete tender (complete)"
+
+msgid "`cancelled`"
+msgstr ""
+
+msgid "Відмінена закупівля (відмінена)"
+msgstr "Cancelled tender (cancelled)"
+
+msgid "Статус Закупівлі."
+msgstr "Status of the Tender."
+
+msgid "Відмінності у :ref:`defense`, :ref:`openua` та :ref:`competitivedialogue` (UA):"
+msgstr "Different in :ref:`defense`, :ref:`openua` and and :ref:`competitivedialogue` (UA):"
+
+msgid "Відмінності у :ref:`limited`:"
+msgstr "Different in :ref:`limited`:"
+
+msgid "`active`"
+msgstr ""
+
+msgid "Активний тендер (за умовчанням)"
+msgstr "Active tender (default)"
+
+msgid "Завершений тендер"
+msgstr "Completed tender"
+
+msgid "Відмінена закупівля (відмінена)"
+msgstr "Cancelled tender"
+
+msgid "Закупівля не відбулась (не відбулась)"
+msgstr "Unsuccessful tender"
+
+msgid "Відмінності в :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):"
+msgstr "Different in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (EU):"
+
+msgid "Період подання пропозицій та уточнень"
+msgstr "Enquiries and tendering period"
+
+msgid "`active.pre-qualification`"
+msgstr ""
+
+msgid "Перед-кваліфікаційний період"
+msgstr "Pre qulification period"
+
+msgid "`active.pre-qualification.stand-still`"
+msgstr ""
+
+msgid "Блокування перед аукціоном"
+msgstr "Standstill before auction"
+
+msgid "Відмінності у :ref:`cfaua`:"
+msgstr "Different in :ref:`cfaua`:"
+
+msgid "Пре-кваліфікаційній період (пре-кваліфікація)"
+msgstr "Pre-qualification period (pre-qualification)"
+
+msgid "Кваліфікація переможця (кваліфікація)"
+msgstr "Winners qualification (qualification)"
+
+msgid "`active.qualification.stand-still`"
+msgstr ""
+
+msgid "Standstill before contract signing"
+msgstr ""
+
+msgid "Відмінності :ref:`cfaselectionua`:"
+msgstr "Different in :ref:`cfaselectionua`:"
+
+msgid "`draft`"
+msgstr ""
+
+msgid "ProcuringEntity creats draft of procedure, where should be specified procurementMethodType - closeFrameworkAgreementSelectionUA, procurementMethod - selective. One lot structure procedure. Also ProcuringEntity should specify agreement:id, items, title, description and features, if needed."
+msgstr ""
+
+msgid "`draft.pending`"
+msgstr ""
+
+msgid "ProcuringEntity changes status of procedure from 'draft' to 'draft.pending' to make the system check provided information and pull up necassery information from :ref:`Agreement`."
+msgstr ""
+
+msgid "`draft.unsuccessful`"
+msgstr ""
+
+msgid "Terminal status. System moves procedure to 'draft.unsuccessful' status if at least one of the checks is failed."
+msgstr ""
+
+msgid "lots"
+msgstr ""
+
+msgid "Список об’єктів :ref:`lot`."
+msgstr "List of :ref:`lot` objects."
+
+msgid "Містить всі лоти закупівлі."
+msgstr "Contains all tender lots."
+
+msgid "У :ref:`limited`: Тільки якщо `tender.procurementMethodType` є` negotiation` або `negotiation.quick`."
+msgstr "In :ref:`limited`: Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`."
+
+msgid "agreementDuration"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Duration of agreement. Maximum 4 years. Format ISO8601 (PnYnMnDTnHnMnS)"
+msgstr ""
+
+msgid "Тільки у :ref:`cfaua`"
+msgstr "Only in :ref:`cfaua`"
+
+msgid "maxAwardsCount"
+msgstr ""
+
+msgid "Maximum number of required Awards"
+msgstr ""
+
+msgid "qualifications"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Qualification`."
+msgstr "List of :ref:`Qualification` objects."
+
+msgid "Містить усі тендерні кваліфікації."
+msgstr "Contains all tender qualifications."
+
+msgid "Тільки у :ref:`openeu` та :ref:`competitivedialogue`"
+msgstr "Only in :ref:`openeu` and :ref:`competitivedialogue`"
+
+msgid "cancellations"
+msgstr ""
+
+msgid "Список об’єктів :ref:`cancellation`."
+msgstr "List of :ref:`cancellation` objects."
+
+msgid "Містить 1 об’єкт зі статусом `active` на випадок, якщо закупівлю буде відмінено."
+msgstr "Contains 1 object with `active` status in case of cancelled Tender."
+
+msgid "Об’єкт :ref:`cancellation` описує причину скасування закупівлі та надає відповідні документи, якщо такі є."
+msgstr "The :ref:`cancellation` object describes the reason of tender cancellation contains accompanying documents  if any."
+
+msgid "funders"
+msgstr ""
+
+msgid "Список об’єктів :ref:`organization`."
+msgstr "List of :ref:`organization` objects."
+
+msgid "Необов’язкове поле."
+msgstr "Optional field."
+
+msgid "Фінансування - суб’єкт, який надає грошові кошти або фінансує процес укладення договору."
+msgstr "The funder is an entity providing money or finance for contracting process."
+
+msgid "buyers"
+msgstr ""
+
+msgid "Перелік об'єктів :ref:`Buyer`, необхідний принаймні 1 об'єкт у випадку центральних закупівель"
+msgstr "List of :ref:`Buyer` objects, required at least 1 object in case of the central procurement kind"
+
+msgid "Cуб’єкт(и) в інтересах якого(их) проводиться закупівля"
+msgstr "Identifications of the subjects in whose interests the purchase is made"
+
+msgid "revisions"
+msgstr ""
+
+msgid "Список об’єктів :ref:`revision`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`revision` objects, auto-generated"
+
+msgid "Зміни властивостей об’єктів Закупівлі."
+msgstr "Historical changes to Tender object properties."
+
+msgid "cause"
+msgstr ""
+
+msgid "**Deprecated (нове поле CauseDetails)**"
+msgstr "**Deprecated (use CauseDetails instead)**"
+
+msgid "рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
+msgstr "string, required for **negotiation** and **negotiation.quick** procedures. Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+
+msgid "100 000 для товарів,"
+msgstr "100 000 for goods,"
+
+msgid "200 000 для послуг,"
+msgstr "200 000 for services,"
+
+msgid "1 500 000 для робіт."
+msgstr "1 500 000 for works."
+
+msgid "Підстава для використання звітів, “звичайної” переговорної процедури або переговорної процедури за нагальною потребою. Для більш детальної інформації дивіться статтю 35 Закону України \\”Про публічні закупівлі\\”."
+msgstr "Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine \"On Public Procurement\""
+
+msgid "Можливі значення зберігаються у довіднику `підстави <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_."
+msgstr "Possible values in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries."
+
+msgid "causeDescription"
+msgstr ""
+
+msgid "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
+msgstr "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
+
+msgid "causeDetails"
+msgstr ""
+
+msgid ":ref:`CauseDetails`, обов’язково"
+msgstr ":ref:`CauseDetails`, required"
+
+msgid "Підстави та обгрунтування використання звітів."
+msgstr "Causes and reasoning for tenders."
+
+msgid "stage2TenderID"
+msgstr ""
+
+msgid "The tender identifier on second stage"
+msgstr ""
+
+msgid "Тільки у :ref:`competitivedialogue` stage1"
+msgstr "Only in :ref:`competitivedialogue` stage1"
+
+msgid "shortlistedFirms"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Firm`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`Firm` objects, auto-generated, read-only"
+
+msgid "|ocdsDescription| Список усіх компаній, які подали заявки для участі у закупівлі"
+msgstr "|ocdsDescription| List of firm which can register bid on tender"
+
+msgid "Тільки у :ref:`competitivedialogue` stage2"
+msgstr "Only in :ref:`competitivedialogue` stage2"
+
+msgid "targets"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Feature`"
+msgstr "List of :ref:`Metric`"
+
+msgid "Тільки для :ref:`cfaua`"
+msgstr "Only in :ref:`openua`"
+
+msgid "Може бути створений лише у якщо ``status`` тендера ``draft``. Модифікація можлива, тільки за умови, що ``status`` тендера один з [``draft``, ``active.tendering``]. В усіх інших випадках створення та модифікація заборонена."
+msgstr "Could be created only if ``status`` of tender is ``draft``. Modifying is possible if ``status`` of tender in [``draft``, ``active.tendering``]. In all other statuses creating and modifying is forbidden."
+
+msgid "Додатково у :ref:`esco`:"
+msgstr "Additionally in :ref:`esco`:"
+
+msgid "NBUdiscountRate"
+msgstr ""
+
+msgid "float, обов’язково"
+msgstr "float, required"
+
+msgid "NBU Discount Rate as of tender notice publication date. Possible values: from 0 to 0.99 (from 0% to 99% respectively), with 3-digit precision after comma (e.g. 00.000). NBUdiscountRate change is interpreted as a change of tender conditions."
+msgstr ""
+
+msgid "minimalStepPercentage"
+msgstr ""
+
+msgid ":ref:`value`, Float, обов'язково для безлотових закупівель з аукціоном."
+msgstr ":ref:`value`, Float, required for non-lots tenders with auction."
+
+msgid "Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid. Possible values: from 0.005 to 0.03 (from 0.5% to 3%), with 3-digit precision after comma."
+msgstr ""
+
+msgid "fundingKind"
+msgstr ""
+
+msgid "рядок, обов’язковий."
+msgstr "string, required."
+
+msgid "Tender funding source. Possible values:"
+msgstr ""
+
+msgid "budget -  Budget funding."
+msgstr ""
+
+msgid "other - exclusively supplier’s funding."
+msgstr ""
+
+msgid "Default value: other"
+msgstr ""
+
+msgid "yearlyPaymentsPercentageRange"
+msgstr ""
+
+msgid "float, обов'язково для безлотових закупівель з аукціоном"
+msgstr "float, required for non-lots tenders with auction"
+
+msgid "Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma. Possible values:"
+msgstr ""
+
+msgid "from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other."
+msgstr ""
+
+msgid "from 0 to x, where x can vary from 0 to 0.8 (from 0% to x% respectively) if tender:fundingKind:budget."
+msgstr ""
+
+msgid "noticePublicationDate"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "Генерується автоматично, лише для читання."
+msgstr "Read-only, autogenerated."
+
+msgid "Date of tender announcement."
+msgstr ""
+
+msgid "contractChangeRationaleTypes"
+msgstr ""
+
+msgid "object"
+msgstr ""
+
+msgid "Довідник з можливими причинами внесення змін до договору."
+msgstr "The dictionary of possible rationaleTypes for contract."
+
+msgid "Можливі значення:"
+msgstr "Could be one of:"
+
+msgid "`rationaleTypes для LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_"
+msgstr "`rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_"
+
+msgid "`rationaleTypes для DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_"
+msgstr "`rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_"
+
+msgid "Дати закупівлі повинні бути послідовними:"
+msgstr "The Tender dates should be sequential:"
+
+msgid "Поточний час"
+msgstr "Current time"
+
+msgid "`enquiryPeriod.startDate`"
+msgstr "`enquiryPeriod.startDate`"
+
+msgid "`enquiryPeriod.endDate`"
+msgstr "`enquiryPeriod.endDate`"
+
+msgid "`tenderPeriod.startDate`"
+msgstr "`tenderPeriod.startDate`"
+
+msgid "`tenderPeriod.endDate`"
+msgstr "`tenderPeriod.endDate`"
+
+msgid "Робочий процес у :ref:`limited`"
+msgstr "Tender workflow :ref:`limited`"
+
+msgid "\\* позначає початковий стан"
+msgstr "\\* marks initial state"
+

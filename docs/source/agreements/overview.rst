@@ -1,11 +1,11 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement `Agreement` is plugin to `Open Procurement API` software.
+Open Procurement `Agreement` це плагін до `Open Procurement API <http://api-docs.openprocurement.org/>`_. Цей модуль призначений для реєстрації об'єктів Agreement.
 
-REST-ful interface to plugin is in line with core software design principles.
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення.
 
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`agreement_cfaua_tutorial` or :ref:`agreement_framework_tutorial`.
+Наступні кроки
+--------------
+Можливо, вам також варто переглянути :ref:`agreement_cfaua_tutorial` чи :ref:`agreement_framework_tutorial`.

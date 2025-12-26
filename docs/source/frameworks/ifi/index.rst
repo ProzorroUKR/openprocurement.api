@@ -1,9 +1,9 @@
 .. _frameworks_ifi:
 
 internationalFinancialInstitutions framework
-=====================================================
+============================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

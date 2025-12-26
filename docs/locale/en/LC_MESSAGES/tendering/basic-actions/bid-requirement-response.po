@@ -1,0 +1,94 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-17 17:37+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.0\n"
+
+msgid "Відповідь на вимогу в пропозиції"
+msgstr "Bid Requirement response"
+
+msgid "Відповідь на вимогу - об'єкт який показує що користувач відповідає вимогам замовника, та може приймати участь у закупівлі."
+msgstr "Bid requirement response - an object that shows that the user meets the tender owner requirements, and can participate in the procurement."
+
+msgid "Будь-які дії над відповіддю на вимогу в пропозиції може виконувати лише власник пропозиції."
+msgstr "Any action on the requirement response in the bid can be performed only by the bid owner."
+
+msgid "Базові операції над відповідями на вимоги"
+msgstr "Requirement response basic operation"
+
+msgid "Схема даних :ref:`відповіді на вимогу<RequirementResponse>`"
+msgstr "Requirement response data :ref:`scheme<RequirementResponse>`"
+
+msgid "Створення відповіді на вимогу"
+msgstr "Create Bid Requirement Response"
+
+msgid "Можливо створити декілька відповідей на вимоги за один запит з повним набором даних."
+msgstr "You can create few requirement responses in one request with complete set of data."
+
+msgid "Можливо також створювати відповіді на вимоги одним запитом через оновлення пропозиції."
+msgstr "You can create requirement responses in one request with bid patch."
+
+msgid "Оновлення відповіді на вимогу"
+msgstr "Update Bid Requirement Response"
+
+msgid "Можливо редагувати відповіді на вимоги один запитом через оновлення пропозиції, але потрібно передавати також всі відповіді на вимоги, або віповіді, які не будуть передані - будуть видалені."
+msgstr "You can patch requirement responses in one request with bid patch, and you must send data about other requirement responses or this other requirement responses will be deleted."
+
+msgid "Отримання інформації по відповіді на вимогу"
+msgstr "Get Bid Requirement Response"
+
+msgid "Видалення відповіді на вимогу"
+msgstr "Delete Requirement Response"
+
+msgid "Можливо видалити відповіді на вимогу за один запит через оновлення пропозиції, просто не передавши ці відповіді."
+msgstr "You can delete requirement responses in one request with bid patch, not send this requirement response data."
+
+msgid "Базові операції над доказами"
+msgstr "Evidence basic operation"
+
+msgid "Схема даних :ref:`доказу<evidence>`"
+msgstr "Evidence data :ref:`scheme<evidence>`"
+
+msgid "Створення Доказу"
+msgstr "Create Requirement Response Evidence"
+
+msgid "Оновлення доказу"
+msgstr "Update Requirement Response Evidence"
+
+msgid "Отримання інформації по доказу"
+msgstr "Get Requirement Response Evidence"
+
+msgid "Видалення доказу"
+msgstr "Delete Requirement Response Evidence"
+
+msgid "Активація пропозіції"
+msgstr "Bid activation"
+
+msgid "Коли пропозіція переходить до стаусу `active`/`pending` або оновлюється в цих статусах, спрацьoвує валідація яка перевіряє відповідність відповідей та критерій."
+msgstr "When you update bid to `active`/`pending` status or PATCH bid in these statuses, the validation is triggered that checks the compliance of the responses and criteria requirements."
+
+msgid "Відповіді обов'язкові лише для критеріїв, які мають хоча б одину вимогу у статусі `active`."
+msgstr "Responses are necessary only for criteria that have at least one requirement in status \"active\"."
+
+msgid "Помилка, коли в пропозіції немає відповідей на один з критеріїв:"
+msgstr "Error when bid doesn't have response for one of criteria:"
+
+msgid "Помилка, коли в пропозиції існують відповіді на декілька груп вимог в рамках одного критерію:"
+msgstr "Error when bid have responses for few requirement groups inside one criteria:"
+
+msgid "Помилка, коли пропозиція не містить відповіді хоча б на одну вимогу в рамках однієї групи вимог:"
+msgstr "Error when bid doesn't have all responses for all requirements inside requirement group:"
+
+msgid "Схема роботи відповідей на вимогу"
+msgstr "Workflow Requirement Response"
+
+msgid "Схему роботу ви можете побачити тут: :ref:`Схема роботи <criteria_workflow>`"
+msgstr "Workflow of requirement response you could see here: :ref:`Criteria Workflow <criteria_workflow>`"
+

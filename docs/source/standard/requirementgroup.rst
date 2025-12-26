@@ -7,18 +7,17 @@
 RequirementGroup
 ================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :description:
-    stringtring, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    RequirementGroup description.
+    |ocdsDescription| Опис групи вимог.
 
 :requirements:
-    List of :ref:`Requirement`
+    Список об'єктів :ref:`Requirement`
 

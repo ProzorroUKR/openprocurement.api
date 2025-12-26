@@ -1,125 +1,122 @@
 .. _competitiveordering_long_tutorial:
 
-Tutorial (long)
-===============
+Туторіал (подовжений тендер)
+============================
 
-Configuration
--------------
+Конфігурація
+------------
 
-The set of possible configuration values:
+Набір можливих значень конфігурації:
 
 .. csv-table::
    :file: csv/config-long.csv
    :header-rows: 1
 
-You can look for more details in :ref:`config` section.
+Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-Creating tender
----------------
+Створення тендеру
+-----------------
 
-Tender `competitiveOrdering` has pre-selection procedure and has to be connected to agreement.
+Для тендеру `competitiveOrdering` замовник зазначає, що був попередній відбір учасників та вказує id agreement.
 
-Let's use next agreement for our example:
+Використаємо `agreement` для прикладу:
 
 .. http:example:: http/long/view-agreement-1-contract.http
    :code:
 
-We can create tender connected to this agreement:
+Ми можемо створити тендер, вказавши цей `agreement`:
 
 .. http:example:: http/long/tender-post-attempt-json-data.http
    :code:
 
-Also you will need to update data about item's related lots:
+Також необхідно відредагувати дані `relatedLot` в `items`:
 
 .. http:example:: http/long/tender-add-relatedLot-to-item.http
    :code:
 
-Tender activating
+Активація тендеру
 -----------------
 
-At first we needed to add EXCLUSION criteria to our tender(:ref:`About criteria you can read here<criteria_operation>`).
+Спочатку нам потрібно додати вийняткові критерії до нашої закупівлі (:ref:`Про критерії ви можете дізнатися тут<criteria_operation>`)
 
 .. http:example:: http/long/add-exclusion-criteria.http
    :code:
 
-Let's try to activate tender:
+Спробуємо активувати тендер:
 
 .. http:example:: http/long/tender-activating-insufficient-active-contracts-error.http
    :code:
 
-You can see that we got error, because we have not enough active contracts in our agreement.
+Ми побачимо помилку, тому що в нас недостатньо активних контрактів в нашій угоді.
 
-There is the list of all validation errors that can be raised during tender activation related to agreement:
+Список помилок пов'язаних з угодою, які можуть виникати при активації тендеру:
 
 * Agreement not found in agreements
 * Agreement status is not active
 * Agreement has less than 3 active contracts
 * tender.procuringEntity.identifier (scheme or id), doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)
 
-Before activating tender it is required to add sign document to tender.
-If there is no sign document during activation, we will see an error:
+Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:
 
 .. http:example:: http/long/notice-document-required.http
    :code:
 
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: http/long/add-notice-document.http
    :code:
 
-After adding more active contracts to our agreement and sign document let's make another attempt to activate tender:
+Після того, як були додані ще активні контракти до нашої угоди та файл підпису, зробимо ще одну спробу активації тендеру:
 
 .. http:example:: http/long/tender-activating.http
    :code:
 
-You can see that tender was activated successfully.
+Ми побачимо, що тендер був успішно активований:
 
-Questions
-----------
+Звернення
+---------
 
-When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:
+Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:
 
 .. http:example:: http/long/ask-question.http
    :code:
 
-The difference between :ref:`open` procedure is that in `competitiveOrdering` only qualified suppliers from agreement may ask question.
-If another author try to ask question, we will see error:
+Відмінність у зверненнях від :ref:`open` процедури це те, що в `competitiveOrdering` звернення щодо тендерної документації можуть подавати лише кваліфіковані учасники. Якщо якийсь інший автор спробує додати звернення, буде помилка:
 
 .. http:example:: http/long/ask-question-invalid-author.http
    :code:
 
 
-Active tendering period end
-----------------------------
+Закінчення періоду подання пропозицій
+-------------------------------------
 
-After tender period ended, CBD checks one more time status of contract for suppliers in agreement.
-If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status.
+По закінченню періоду подання пропозицій (active.tendering) система знову перевіряє статус учасника у agreement. Якщо досі `аctive` - bid отримує `status:active`, якщо інший статус - пропозиція падає у статус `invalid`.
 
-Let's imagine, after `active.tendering` period start, the bid with active contract in agreement was registered successfully:
+Припустимо, що на початку періоду `active.tendering` була подана пропозиція, в якій постачальний був кваліфікований в угоді, тому він успішно став учасником тендеру:
 
 .. http:example:: http/long/register-third-bid.http
    :code:
 
-After that second contract supplier in agreement was disqualified during `active.tendering` period.
+Вже після цього цей постачальник в угоді був дискваліфікований під час періоду `active.tendering`.
 
-Let's see our bid status after `active.tendering` period ends. This bid was disqualified:
+Подивимося на статус нашої пропозицій після закінчення періоду `active.tendering`. Пропозиція, в якій постачальник був дискваліфікований в угоді, тепер має статус `invalid`:
 
 .. http:example:: http/long/active-tendering-end-not-member-bid.http
    :code:
 
 
-Confirming qualification
-------------------------
+Підтвердження кваліфікації
+--------------------------
 
-Qualification comission can set award to `active` or `unsuccessful` status.
+Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус.
 
-There are validations before registering qualification decision:
+Валідація значення полів відповідно до рішення під час винесення рішення:
 
-* `qualified: True` - for setting award from `pending` to `active`
+* `qualified: True` - при переході award з `pending` в `active`
 
-* `qualified: False` - for setting award from `pending` to `unsuccessful`
+* `qualified: False` - при переході award з `pending` в `unsuccessful`
 
-As `competitiveOrdering` doesn't have ARTICLE 17 criteria, it is forbidden to set field `eligible` for award.
+Так як тендер `competitiveOrdering` не має критеріїв статті 17, заборонено передавали поле `eligible` для авардів.
 
 .. note::
-    Further steps for `competitiveOrdering` tender are the same as in :ref:`open`, you can follow corresponding tutorial :ref:`open_tutorial`.
+    Подальші дії для тендеру `competitiveOrdering` такі ж самі як для :ref:`open`, ви можете дотримуватися відповідного туторіалу :ref:`open_tutorial`.

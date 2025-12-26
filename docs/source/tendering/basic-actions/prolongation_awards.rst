@@ -1,39 +1,39 @@
 .. _prolongation-awards:
 
-Awards prolongation
-====================
+Подовження строку розгляду award
+================================
 
-For all procedures, except :ref:`limited` and :ref:`belowThreshold`, there is an option to extend award period.
+Для всіх процедур, окрім :ref:`limited` та :ref:`belowThreshold`, існує можливість подовжити строк розгляду аварду.
 
-During award creation, field `period` appeared in every award. By default there are 5 working days for making decision:
+Під час створення ававрду, з'являється поле `period`. По замовчуванню є 5 робочих днів на прийняття рішення:
 
 .. http:example:: ./http/prolongation-awards/award-get.http
    :code:
 
 .. note::
-    Field `period` will be absent in awards in :ref:`limited`.
+    Поле `period` буде відсутнє в авардах :ref:`limited`.
 
-To extend this period to 20 days, the procuring entity should add milestone with code `extensionPeriod`:
+Для того, щоб подовжити строк розгляду аварду до 20 робочих днів, замовник має додати майлстоун з кодом `extensionPeriod`:
 
 .. http:example:: ./http/prolongation-awards/award-milestone-extension-post.http
    :code:
 
-Only one milestone with type `extensionPeriod` could be in award:
+Тільки один майлстоун з типом `extensionPeriod` може бути доданий до аварду:
 
 .. http:example:: ./http/prolongation-awards/award-milestone-extension-invalid-post.http
    :code:
 
-After that it is required to add document with `documentType: extensionReport`:
+Після цього необхідно загрузити документ з `documentType: extensionReport`:
 
 .. http:example:: ./http/prolongation-awards/award-extension-report-post.http
    :code:
 
-Only one document with type `extensionReport` could be in award:
+Тільки один документ з типом `extensionReport` може бути доданий до аварду:
 
 .. http:example:: ./http/prolongation-awards/award-extension-report-invalid-post.http
    :code:
 
-Now look at award, we will see that field `period.endDate` has been changed from 5 working days to 20 working days from award creation date:
+Тепер подивимося на авард, в ньому змінилося поле `period.endDate` з 5 робочих днів до 20 робочих днів від дати початку розгляду:
 
 .. http:example:: ./http/prolongation-awards/award-extension-get.http
    :code:

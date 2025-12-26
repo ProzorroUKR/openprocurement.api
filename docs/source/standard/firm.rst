@@ -5,26 +5,24 @@
 .. _Firm:
 
 Firm
-================
+====
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, firm name, required
+    рядок, назва фірми, обов’язковий
 
 :identifier:
     :ref:`Identifier`
 
-    |ocdsDescription|
-    The primary identifier for this organization.
+    |ocdsDescription| Ідентифікатор цієї організації.
 
 :lots:
 
-   list of :ref:`LotId` objects.
+   список з :ref:`LotId` об'єктів.
 
-   |ocdsDescription|
-   List of lots
+   |ocdsDescription| Список з id лотів
 
 
 .. _LotId:
@@ -32,11 +30,10 @@ Schema
 LotId
 =====
 
-Schema
-------
+Схема
+-----
 
 :id:
     :ref:`lot`
 
-    |ocdsDescription|
-    The primary identifier for lot.
+    |ocdsDescription| Ідентифікатор лоту.

@@ -1,0 +1,79 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-10-12 21:10+0300\n"
+"PO-Revision-Date: 2019-06-21 14:12+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+msgid "PlanOrganization"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "name"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "|ocdsDescription| Назва організації."
+msgstr "|ocdsDescription| The common name of the organization."
+
+msgid "identifier"
+msgstr ""
+
+msgid ":ref:`Identifier`, обов’язково"
+msgstr ":ref:`Identifier`"
+
+msgid "|ocdsDescription| Ідентифікатор цієї організації."
+msgstr "|ocdsDescription| The primary identifier for this organization."
+
+msgid "address"
+msgstr ""
+
+msgid ":ref:`Address`, обов’язково"
+msgstr ":ref:`Address`, required"
+
+msgid "contactPoint"
+msgstr ""
+
+msgid ":ref:`ContactPoint`, optionally can be added to buyers only"
+msgstr ""
+
+msgid "kind"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення:"
+msgstr "Possible values:"
+
+msgid "``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган"
+msgstr "``authority`` - Public authority, local government or law enforcement agency"
+
+msgid "``central`` - Юридична особа, що здійснює закупівлі в інтересах замовників (ЦЗО)"
+msgstr "``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)"
+
+msgid "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"
+msgstr "``defense`` - Procuring entity that conducts procurement for the defense needs"
+
+msgid "``general`` - Юридична особа, яка забезпечує потреби держави або територіальної громади"
+msgstr "``general`` - Legal person providing the needs of the state or territorial community"
+
+msgid "``other`` - Державне або комунальне підприємство, яке не належить до замовників"
+msgstr "``other`` -  State or utility company that is not regarded as procuring entity"
+
+msgid "``social`` - Орган соціального страхування"
+msgstr "``social`` - Social insurance authority"
+
+msgid "``special`` - Юридична особа, яка здійснює діяльність в одній або декількох окремих сферах господарювання"
+msgstr "``special`` - A legal entity that operates in one or more specific business areas"
+

@@ -3,68 +3,68 @@
 hasItems
 ========
 
-Field `hasItems` is the boolean field that defines if the framework should have items.
+Поле `hasItems` - це булеве поле, яке визначає, чи повинен відбір мати номенклатуру.
 
-Possible values for `hasItems` field depends on `frameworkType` field:
+Можливі значення для поля `hasItems` залежать від поля `frameworkType`:
 
 .. csv-table::
    :file: csv/has-items-values.csv
    :header-rows: 1
 
-hasItems is `false`
--------------------
+hasItems має значення `false`
+-----------------------------
 
-`hasItems:false` means that items is not allowed for framework.
+`hasItems:false` означає, що номенклатура не дозволена для відбору.
 
-Let's create a framework with `hasItems` set to `false` with items:
+Створімо відбір зі значенням `hasItems:false` з номенклатурою:
 
 .. http:example:: http/has-items-false-with-items-create-error.http
    :code:
 
-We can see error that indicates that items are not allowed for framework with `hasItems` set to `false`.
+Бачимо помилку, яка вказує, що номенклатура не дозволена для відбору зі значенням `hasItems:false`.
 
-Now let's create a framework with `hasItems` set to `false` without items:
+Тепер створімо відбір зі значенням `hasItems:false` без номенклатури:
 
 .. http:example:: http/has-items-false-without-items-create.http
    :code:
 
-And then activate it:
+А потім активуємо її:
 
 .. http:example:: http/has-items-false-without-items-activate-success.http
    :code:
 
-We can see that framework created successfully without items.
+Бачимо, що відбір успішно створений без номенклатури:
 
-hasItems is `true`
-------------------
+hasItems має значення `true`
+----------------------------
 
-`hasItems:true` means that items are required for framework.
+`hasItems:true` означає, що номенклатура обов'язкова для відбору.
 
-Let's create a framework with `hasItems` set to `true` without items:
+Створімо відбір зі значенням `hasItems:true` без номенклатури:
 
 .. http:example:: http/has-items-true-without-items-create.http
    :code:
 
-And then activate it:
+А потім активуємо її:
 
 .. http:example:: http/has-items-true-without-items-activate-error.http
    :code:
 
-We can see error that indicates that items are required for framework with `hasItems` set to `true`.
+Бачимо помилку, яка вказує, що номенклатура обов'язкова для відбору зі значенням `hasItems:true`.
 
-Now let's create a framework with `hasItems` set to `true` with items:
+Тепер створімо відбір зі значенням `hasItems:true` з номенклатурою:
 
 .. http:example:: http/has-items-true-with-items-create.http
    :code:
 
-And then activate it:
+А потім активуємо її:
 
 .. http:example:: http/has-items-true-with-items-activate-success.http
    :code:
 
-We can see that framework created successfully with items.
+Бачимо, що відбір успішно створений з номенклатурою:
 
-Later, when agreement is created, items will be transferred to agreement:
+Пізніше, коли буде створено угоду, номенклатуру буде перенесено до угоди:
 
 .. http:example:: http/has-items-true-with-items-agreement.http
    :code:

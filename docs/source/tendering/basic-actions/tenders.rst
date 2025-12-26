@@ -1,10 +1,10 @@
 .. _tenders:
 
-Retrieving Tender Information
-=============================
+Отримання інформації про закупівлі
+==================================
 
-Getting list of all tenders
----------------------------
+Отримати список всіх закупівель
+-------------------------------
 .. sourcecode:: http
 
   GET /tenders HTTP/1.1
@@ -13,51 +13,39 @@ Getting list of all tenders
 
   HTTP/1.1 200 OK
 
-Sorting
-~~~~~~~
-Tenders retuned are sorted by modification time.
+Сортування
+~~~~~~~~~~
+Повернені закупівлі просортовані за датою модифікації.
 
-Limiting number of Tenders returned
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Обмежити кількість Закупівель, що повертаються
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can control the number of `data` entries in the tenders feed (batch
-size) with `limit` parameter. If not specified, data is being returned in
-batches of 100 elements.
+Ви можете контролювати кількість `data` записів потоку даних закупівлі (розмір пакета) за допомогою параметра `limit`. Якщо він не вказаний, то дані будуть повернені пакетами по 100 елементів.
 
-Batching
-~~~~~~~~
+Пакети
+~~~~~~
 
-The response contains `next_page` element with the following properties:
+Відповідь містить елемент `next_page` з такими властивостями:
 
 :offset:
-    This is the parameter you have to add to the original request you made
-    to get next page.
+    Це параметр, який ви повинні додати до вихідного запиту, щоб отримати наступну сторінку.
 
 :path:
-    This is path section of URL with original parameters and `offset`
-    parameter added/replaced above.
+    Це частина шляху URL-адреси з вихідними параметрами та доданим/заміненим `offset` параметром вище.
 
 :uri:
-    The full version of URL for next page.
+    Повна версія URL-адреси для наступної сторінки.
 
-If next page request returns no data (i.e. empty array) then there is little
-sense in fetching further pages.
+Якщо запит наступної сторінки повертається без даних (наприклад, пустий масив), тоді немає сенсу викликати сторінки далі.
 
-Synchronizing
+Синхронізація
 ~~~~~~~~~~~~~
 
-It is often necessary to be able to syncronize central database changes with
-other database (we'll call it "local").  The default sorting "by
-modification date" together with Batching mechanism allows one to implement
-synchronization effectively.  The synchronization process can go page by
-page until there is no new data returned.  Then the synchronizer has to
-pause for a while to let central database register some changes and attempt
-fetching subsequent page.  The `next_page` guarantees that all changes
-from the last request are included in the new batch.
+Часто необхідно мати можливість синхронізувати зміни центральної бази даних з іншою базою даних (ми будемо називати її "локальною"). Стандартне сортування "за датою модифікації" разом із механізмом пакетування дозволяє ефективно здійснювати синхронізацію. Процес синхронізації може виконуватись посторінково, поки не буде жодних нових даних, що повертаються. Тоді синхронізатор призупиниться на деякий час, щоб дозволити центральній базі даних зареєструвати деякі зміни і спробувати завантажити наступну сторінку. `next_page` гарантує, що усі зміни з останнього запиту будуть включені у новий пакет.
 
-The safe frequency of synchronization requests is once per 5 minutes.
+Безпечна частота запитів на синхронізацію це раз в 5 хвилин.
  
-Reading the individual tender information
+Прочитати інформацію про окремі закупівлі
 -----------------------------------------
 .. sourcecode:: http
 
@@ -67,8 +55,8 @@ Reading the individual tender information
 
   HTTP/1.1 200 OK
 
-Reading the tender documents list
----------------------------------
+Прочитати список документів закупівлі
+-------------------------------------
 
 .. sourcecode:: http
 
@@ -78,14 +66,12 @@ Reading the tender documents list
 
   HTTP/1.1 200 OK
 
-Example request:
+Приклад запиту:
 
 .. http:example:: ../belowthreshold/http/tutorial/tender-documents-2.http
    :code:
 
-Reading the tender document
----------------------------
+Прочитати документ закупівлі
+----------------------------
 
-The document can be retrieved by requesting the url returned in structures
-from document list request in `data[*].url`.  It is safe to provide the
-download URL to end user for download.
+Документ можна отримати за допомогою запиту url-адреси з відповіді на запит списку документів у `data[*].url`. URL для скачування безпечно надавати кінцевому користувачу.

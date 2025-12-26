@@ -1,37 +1,36 @@
 .. _pricequotation_overview:
 
-Overview
-========
+Огляд
+=====
 
-The Open Procurement `Price Quotation` procedure is plugin to `Open Procurement API` software.
+The Open Procurement `Price Quotation` процедура - це плагін до `Open Procurement API`.
 
-REST-ful interface to plugin is in line with core software design principles. 
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення. 
 
-Main responsibilities
----------------------
-
-Price Quotation procedure is dedicated to Open Tender procedure for Ukrainian below threshold procurements.  The code for that type of procedure is `priceQuotation`.
-
-Business logic
+Основні задачі
 --------------
 
-1) Publication of the Price Quotation
+Процедура Запиту цінових пропозицій що описана в цій документації, стосується допорогових закупівель від 50 тис. грн. до 200 тис. грн. Код процедури такого типу: ``priceQuotation``
 
-Business process begins when the Procuring Entity creates a Price Quotation procedure using parameters from the e-Catalogues Profile database. 
+Бізнес логіка
+-------------
 
-After Procuring Entity supplements the procedure with quantity of items and delivery details and publishes the tender by sending a request for Price Quotation to ProZorro Business Process Engine the process starts.
+1) Публікація Запиту цінових пропозицій
 
-At this moment Business Process Engine receives and validates the Price Quotation request. Given the validation is passed the system automatically informs qualified to specific eCatalogue Profile suppliers about the request.
+Бізнес процес починається при створенні процедури Запиту цінових пропозицій Замовником, використовуючи параметри з бази даних електронних каталогів. 
 
-2) Tendering
+Після цього Замовник доповнює процедуру кількістю товарів та реквізитами доставки та опубліковує закупівлю, шляхом надсилання запиту до Business Process Engine Прозорро.
 
-Receiving a Price Quotation request, supplier decides if they are able to offer the requested product. In case of rejection supplier declines participation in procedure.
-Until the end of tender period (minimal two working days) suppliers would be able to submit a bid, while BPE will collect and register quotations. 
+В цей момент Business Process Engine отримує та проводить перевірку Запиту цінових пропозицій. Після успішного проходження перевірки система автоматично повідомляє усіх  кваліфікованих до конкретного профілю у каталогах постачальників про запит.
 
-3) Awarding, Qualification
+2) Тендерний процес
 
-After the deadline system will publish received bids, awarding suppleir with most economically advantageous bid allowing to confirm award within two business days. In case if award was not confirmed system will automatically award next supplier providing same confirmation period. In case of no suppliers left system will transfer procedure to status `unsuccessful`.
+Отримуючи Запит цінової пропозиції, постачальник приймає рішення про готовність запропонувати запитуваний товар. У випадку відмови від запиту постачальник відмовляється приймати участь у закупівлі. До кінця тендерного періоду `(мінімально два робочих дні)` постачальник має надати свою пропозиції, які буде приймати та реєструвати Business Process Engine Прозорро. 
 
-4) Contracting
+3) Процес визначення переможця
 
-Selecting a winner will lead both Procuring Entity and supplier to the contracting process, where the contract is signed, published and taken to execution.
+Після закінчення тендерного періоду система опублікує отримані пропозиції, нагороджуючи постачальника з найбільш економічно вигідною пропозицією, надаючи два робочих дні на підтвердження нагороди. У випадку якщо нагорода не була підтверджена, система автоматично нагороджує наступного постачальника, надаючи рівноцінний час на підтвердження. У випадку відсутності наступних пропозицій постачальників система переведе процедуру у стан `unsuccesful`.
+
+4) Укладання контракту
+
+Підтвердження нагороди приведе Замовника і Постачальника до процесу укладення контракту, в якому контракт підписується, опубліковується та береться у виконання.

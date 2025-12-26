@@ -1,0 +1,87 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-29 15:17+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "EContractCancellation"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "reason"
+msgstr ""
+
+msgid "рядок, обов'язковий"
+msgstr "string, required"
+
+msgid "Причина, з якої скасовується об'єкт."
+msgstr "The reason, why contract is being cancelled."
+
+msgid "reasonType"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення:"
+msgstr "There are possible values:"
+
+msgid "`requiresChanges`"
+msgstr ""
+
+msgid "`signingRefusal`"
+msgstr ""
+
+msgid "status"
+msgstr ""
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`pending`"
+msgstr ""
+
+msgid "Запит оформлюється."
+msgstr "The request is being prepared."
+
+msgid "`active`"
+msgstr ""
+
+msgid "Скасування активоване."
+msgstr "Cancellation activated."
+
+msgid "dateCreated"
+msgstr ""
+
+msgid "рядок, генерується автоматично, :ref:`date`"
+msgstr "string, auto-generated, :ref:`date`"
+
+msgid "Дата створення скасування."
+msgstr "Date of cancellation creation."
+
+msgid "author"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "Автор скасування"
+msgstr "The author of the cancellation"
+

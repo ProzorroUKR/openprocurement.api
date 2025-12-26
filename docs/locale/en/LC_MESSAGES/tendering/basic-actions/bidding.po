@@ -1,0 +1,61 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-26 14:22+0200\n"
+"PO-Revision-Date: 2014-12-18 16:53+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Операції для учасників закупівлі"
+msgstr "Bidder Operations"
+
+msgid "Реєстрація цінової пропозиції"
+msgstr "Registration of Bid proposal"
+
+msgid "Також можливо завантажувати документи за таких умов:"
+msgstr "Also documents could be uploaded if:"
+
+msgid "є `award` в статусі `active`"
+msgstr "exists `award` in status `active`"
+
+msgid "у тенедра наявний критерій `CRITERION.OTHER.CONTRACT.GUARANTEE`"
+msgstr "tender has criterion `CRITERION.OTHER.CONTRACT.GUARANTEE`"
+
+msgid "документ має тип `contractGuarantees`"
+msgstr "document has type `contractGuarantees`"
+
+msgid "Завантаження документів пропозиції"
+msgstr "Uploading Bid documents"
+
+msgid "Оновлення пропозиції"
+msgstr "Update of proposal"
+
+msgid "Оновлення документів пропозиції"
+msgstr "Updating Bid documents"
+
+msgid "Видалення документів пропозиції"
+msgstr "Deleting Bid documents"
+
+msgid "Дозволено видаляти документи в пропозиції, поки вона в статусі `draft`."
+msgstr "It is allowed to delete bid document only when bid has `draft` status."
+
+msgid "Відміна пропозиції"
+msgstr "Cancelling the proposal"
+
+msgid "Список пропозицій"
+msgstr "Bids Listing"
+
+msgid "Після закінчення аукціону можна отримати повну інформацію про пропозиції та учасників, які їх подали:"
+msgstr "After auction ends it is possible to get full information about bids and bidders that submitted them:"
+
+msgid "Вичитка пропозиції"
+msgstr "Retrieving the proposal"
+
+msgid "Окрему пропозицію можна прочитати за її `id`:"
+msgstr "Individual bid can be retrieved via its `id`:"
+

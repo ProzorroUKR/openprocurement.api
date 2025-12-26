@@ -1,10 +1,10 @@
 .. _planning:
 
-Planning API
-============
+Planning API для операцій з планом закупівлі
+============================================
 
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

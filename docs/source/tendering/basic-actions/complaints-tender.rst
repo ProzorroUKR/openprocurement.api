@@ -1,165 +1,164 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації про вимоги/скарги
+======================================
 
-Tender Conditions Claim/Complaint Retrieval
--------------------------------------------
+Отримання інформації про вимоги/скарги на умови закупівлі
+---------------------------------------------------------
 
-You can list all Tender Conditions Claims/Complaints:
+Ви можете отримати список всіх вимог/скарг на умови закупівлі:
 
 .. http:example:: http/complaints/complaints-list.http
    :code:
 
-And check individual complaint or claim:
+Або перевірити окрему скаргу чи вимогу:
 
 .. http:example:: http/complaints/complaint.http
    :code:
 
 
-Complaint Submission
-====================
+Подання скарги
+==============
 
-If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Complaint.
+Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач може подати скаргу на умови закупівлі.
 
 
-Tender Conditions Complaint Submission (with documents)
--------------------------------------------------------
+Подання скарги на умови закупівлі (з документами)
+-------------------------------------------------
 
-At first create a draft:
+Створіть чернетку скарги ``draft``:
 
 .. http:example:: http/complaints/complaint-submission.http
    :code:
 
-Then upload necessary documents:
-   
+Потім завантажте документи:
+                           
 .. http:example:: http/complaints/complaint-submission-upload.http
    :code:
 
-Submit tender conditions complaint:
-   
+Подайте скаргу на умови закупівлі:
+                                  
 .. http:example:: http/complaints/complaint-complaint.http
    :code:
 
-Tender Conditions Complaint Submission (without documents)
-----------------------------------------------------------
+Подання скарги на умови закупівлі (без документів)
+--------------------------------------------------
 
-You can submit complaint that does not need additional documents:
+Ви можете подати скаргу, що не потребує додаткових документів:
 
 .. http:example:: http-outdated/complaints/complaint-submission-complaint.http
    :code:
 
-Complaint Posts
+Запит до скарги
 ===============
 
-Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
+Для скарги у статусах 'pending' та 'accepted' орган оскарження має можливість додати запит на уточнення до скарги.
 
-Tender Conditions Complaint Posts (with complaint owner)
---------------------------------------------------------
+Запит до скарги на умови закупівлі (до скаржника)
+-------------------------------------------------
 
-Reviewer can submit a post to complaint owner:
+Орган оскарження може надати запит до скаржника:
 
 .. http:example:: http/complaints/complaint-post-reviewer-complaint-owner.http
    :code:
 
-Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/complaint-post-complaint-owner.http
    :code:
 
-Tender Conditions Complaint Posts (with tender owner)
---------------------------------------------------------
+Запит до скарги на умови закупівлі (до замовника)
+-------------------------------------------------
 
-Reviewer can submit a post to tender owner:
+Орган оскарження може надати запит до замовника:
 
 .. http:example:: http/complaints/complaint-post-reviewer-tender-owner.http
    :code:
 
-Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/complaint-post-tender-owner.http
    :code:
 
-Complaint Explanations
-======================
+Пояснення до скарги
+===================
 
-An explanation of a complaint is a certain textual information and, if necessary, an attached file/files related to a certain complaint and can be used by the AMCU commission during its consideration.
-Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them.
+Пояснення до скарги - це певна текстова інформація та за потреби прикріплений файл/файли, що відносяться до певної скарги та можуть бути використані комісією АМКУ при її розгляді. Пояснення до скарги подаються суб'єктами з власної ініціативи, без запиту АМКУ. АМКУ не буде відповідати на такі пояснення, а лише розглядатиме їх.
 
-Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation.
+Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги.
 
-Explanations can be added no later than 3 working days before the date of review of the complaint (3 days before reviewDate)
+Пояснення можна додавати не пізніше ніж за 3 робочі дні до дати розгляду скарги (3 рд до reviewDate)
 
-Each explanation must be related to one of the objections of the complaint  (`complaints:objections`).
+Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`).
 
-Complaint owner or tender owner can submit an explanation via `posts`:
+Скаржник, що подав скаргу, або замовник закупівлі можуть додати пояснення до скарги за допомогою функціоналу `posts`:
 
 .. http:example:: http/complaints/complaint-post-explanation.http
    :code:
 
-The field `recipient` is forbidden for explanation post:
+Поле `recipient` заборонено для пояснень:
 
 .. http:example:: http/complaints/complaint-post-explanation-invalid.http
    :code:
 
-It is forbidden to answer an explanation can submit by setting explanation's post `id` as `relatedPost`:
+Заборонено надавати відповідь до пояснення, передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/complaint-post-explanation-answer-forbidden.http
    :code:
 
 
-Complaint Resolution
-====================
+Вирішення скарги
+================
 
-Rejecting Tender Conditions Complaint
--------------------------------------
+Відхилення скарги на умови закупівлі
+------------------------------------
 
 .. http:example:: http/complaints/complaint-reject.http
    :code:
 
 
-Accepting Tender Conditions Complaint
--------------------------------------
+Прийняття скарги на умови закупівлі
+-----------------------------------
 
 .. http:example:: http/complaints/complaint-accept.http
    :code:
 
 
-Submitting Tender Conditions Complaint Resolution
--------------------------------------------------
+Подання рішення по скарзі на умови закупівлі
+--------------------------------------------
 
-The Complaint Review Body uploads the resolution document:
+Орган, що розглядає скарги, завантажує документ з рішенням:
 
 .. http:example:: http/complaints/complaint-resolution-upload.http
    :code:
 
-And either resolves complaint:
+Який або вирішує скаргу:
 
 .. http:example:: http/complaints/complaint-resolve.http
    :code:
 
-Or declines it:
+Або відхиляє:
 
 .. http:example:: http/complaints/complaint-decline.http
    :code:
 
-Submitting Resolution Confirmation
-----------------------------------
+Подання підтведження вирішення скарги
+-------------------------------------
 
 .. http:example:: http/complaints/complaint-resolved.http
    :code:
 
-Cancelling Tender Conditions Complaint
-======================================
+Відміна скарги на умови закупівлі
+=================================
 
-Cancelling not accepted(pending) complaint by Reviewer
-------------------------------------------------------
+Відміна скарги в статусі `pending` рецензентом
+----------------------------------------------
 
 .. http:example:: http-outdated/complaints/complaint-mistaken.http
    :code:
 
-Cancelling accepted complaint by Complainant
---------------------------------------------
+Відміна прийнятої скарги скаржником
+-----------------------------------
 
 .. http:example:: http-outdated/complaints/complaint-accepted-stopping.http
    :code:
@@ -167,8 +166,8 @@ Cancelling accepted complaint by Complainant
 .. http:example:: http-outdated/complaints/complaint-stopping-stopped.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Відміна прийнятої скарги рецензентом
+------------------------------------
 
 .. http:example:: http/complaints/complaint-accepted-stopped.http
    :code:

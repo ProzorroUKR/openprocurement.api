@@ -1,186 +1,185 @@
 .. _violation_reports_tutorial:
 
-Violation Reports Tutorial
-==========================
+Violation Reports (Звернення про порушення) Туторіал
+====================================================
 
 
-Post a violation report
------------------------
+Опублікувати звіт про порушення
+-------------------------------
 
-You create it from a contract. All the documents are posted along with the data
+Ви створюєте звіт з договору. Документи можна публікувати разом з даними.
 
 .. http:example:: http/01-00-post-report-draft.http
    :code:
 
-While in `draft` state, it can be changed
+У стані `draft` звіт можна змінити
 
 .. http:example:: http/01-01-patch-report-draft.http
    :code:
 
 
-You can delete a document
+Ви можете видалити документ
 
 .. http:example:: http/01-02-delete-document.http
    :code:
 
 
-Then post a new one
+Можна опублікувати новий
 
 .. http:example:: http/01-03-post-details-document.http
    :code:
 
 
-Or you can update document version with PUT method
+Або ви можете оновити версію документа за допомогою методу PUT
 
 .. http:example:: http/01-04-put-report-document-evidence.http
    :code:
 
-Update document details can be changed using PATCH method
+Деталі документа оновлення можна змінити за допомогою методу PATCH
 
 .. http:example:: http/01-05-patch-report-document-evidence.http
    :code:
 
 
-Before publishing, it's required to add a signature document
+Перед публікацією необхідно додати документ з підписом
 
 .. http:example:: http/01-06-post-report-draft-signature.http
    :code:
 
 
-Now you can publish your violation report by changing its status
+Тепер ви можете опублікувати свій звіт про порушення, змінивши його статус
 
 .. http:example:: http/01-07-publish-report-draft.http
    :code:
 
 
-See `defendantPeriod` that restrict the periods of the response can be posted.
-The decision can be posted once the period ends.
+Див. `defendantPeriod`, що обмежує періоди публікації відповіді. Рішення можна опублікувати після закінчення періоду.
 
 
-Post the defendant statement
-----------------------------
-Post a `draft` dependant statement
+Опублікувати заяву відповідача
+------------------------------
+Опублікувати `draft` заяви
 
 .. http:example:: http/02-01-put-defendant-statement.http
    :code:
 
 
-While is not active, you can update it
+Поки неактивний, ви можете його оновити
 
 .. http:example:: http/02-02-update-defendant-statement.http
    :code:
 
-You can delete a document
+Ви можете видалити документ
 
 .. http:example:: http/02-03-delete-document.http
    :code:
 
 
-Then post a new one
+Можна опублікувати новий
 
 .. http:example:: http/02-04-post-defendant-document.http
    :code:
 
 
-And update the evidences
+І оновити докази
 
 .. http:example:: http/02-05-put-defendant-statement-evidence.http
    :code:
 
 
-Change documents descriptions
+Змінити описи документів
 
 .. http:example:: http/02-06-patch-defendant-statement-evidence.http
    :code:
 
 
-Before publishing it's required to add a signature document
+Перед публікацією потрібно додати документ із підписом
 
 
 .. http:example:: http/02-07-post-defendant-statement-signature.http
    :code:
 
 
-Then publish the statement, so it appears in the feed
+Потім опублікуйте заяву, щоб вона з’явилася у стрічці змін
 
 .. http:example:: http/02-08-publish-defendant-statement.http
    :code:
 
 
-Post the decision
------------------
+Опублікуйте рішення
+-------------------
 
-Create a `draft` decision
+Створіть рішення у статусі `draft`
 
 .. http:example:: http/03-01-create-decision.http
    :code:
 
 
-It's required to add a signature document
+Потрібно додати документ із підписом
 
 .. http:example:: http/03-02-post-decision-signature.http
    :code:
 
 
-While in `draft`, you can change the decision
+Поки рішення у статусі `draft`, ви можете змінювати його
 
 
 .. http:example:: http/03-03-change-decision.http
    :code:
 
 
-You can delete a document
+Ви можете видалити документ
 
 .. http:example:: http/03-04-delete-document.http
    :code:
 
 
-Then post a new one
+Можна опублікувати новий
 
 .. http:example:: http/03-05-post-decision-document.http
    :code:
 
 
-Before publishing, you need to update the signature
+Перед публікацією потрібно оновити підпис
 
 .. http:example:: http/03-06-put-decision-signature.http
    :code:
 
 
-Publish the decision
+Опублікуйте рішення
 
 .. http:example:: http/03-07-publish-decision.http
    :code:
 
 
-See the result violation report object
---------------------------------------
+Перегляньте об’єкт результату звіту про порушення
+-------------------------------------------------
 
 .. http:example:: http/04-01-get-violation-report.http
    :code:
 
 
-Field `status` of violation report depends on the decision status now.
+Поле `status` звіту про порушення тепер залежить від статусу рішення.
 
 
-Feed violation report updates
------------------------------
+Оновлення звітів про порушення у стрічці змін
+---------------------------------------------
 
-Violation reports appear in their feed when the get public changes.
+Звіти про порушення з’являються у своїй стрічці змін, коли отримують публічні зміни.
 
-These are:
-  1. violationReport is published
-  2. defendantStatement is published
-  3. decision is published
+Це такі:
+  1. violationReport опубліковано
+  2. defendantStatement опубліковано
+  3. decision опубліковано
 
 
 .. http:example:: http/05-01-feed.http
    :code:
 
 
-Process objects in `data` and follow the `next_page`
+Обробляйте об’єкти в `data` та переходьте за `next_page`
 
 .. http:example:: http/05-02-feed-empty.http
    :code:
 
-Once `data` is empty make your script sleep for a while and check the same page later.
+Коли `data` буде порожнім, призупиніть виконання скрипта на деякий час і перевірте цю саму сторінку пізніше.

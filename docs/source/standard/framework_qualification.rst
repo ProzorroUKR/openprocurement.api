@@ -7,50 +7,49 @@
 Qualification
 =============
 
-Schema
-------
+Схема
+-----
 
 :frameworkID:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   The framework identifier.
+   Ідентифікатор кваліфікації.
 
 :submissionID:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   The submission identifier.
+   Ідентифікатор заявки.
 
 :qualificationType:
-    string, auto-generated, read-only
+    рядок, генерується автоматично, лише для читання
 
     :`electronicCatalogue`:
-        Qualification for electronic catalog process
+        Рішення по заявці для процесу відбору до електронного каталогу
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :documents:
-   List of :ref:`document` objects
+   Список об’єктів :ref:`document`
 
-   |ocdsDescription|
-   All documents and attachments related to the qualification.
+   |ocdsDescription| Всі документи та додатки пов’язані з рішенням по заявці.
 
 :dateModified:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :status:
-   string
+   рядок
 
    :`pending`:
-      If :code:`qualificationType` is :code:`electronicCatalogue`, then in this status can be uploaded documents and changed status.
+      Якщо :code:`qualificationType` має значення :code:`electronicCatalogue`, тоді в цьому статусі можуть бути завантажені документи та змінений статус.
    :`active`:
-      If :code:`qualificationType` is :code:`electronicCatalogue`, in this status creates qualification object and set :code:`qualificationID`.
+      Якщо :code:`qualificationType` має значення :code:`electronicCatalogue`, тоді в цьому статусі будь-яке поле может бути змінене.
    :`unsuccessful`:
-      Terminal status.
+      Термінальний статус.
 
-   Status of the Qualification.
+   Статус рішення по зявці.
 
 :revisions:
-   List of :ref:`revision` objects, auto-generated
+   Список об’єктів :ref:`revision`, генерується автоматично, лише для читання
 
-   Historical changes to Qualification object properties.
+   Зміни властивостей об’єктів рішення по заявці.

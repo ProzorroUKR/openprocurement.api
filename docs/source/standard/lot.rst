@@ -7,91 +7,91 @@
 Lot
 ===
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :title:
-   string, multilingual
+   рядок, багатомовний
 
-   The name of the tender lot.
+   Назва лота закупівлі.
 
 :description:
-   string, multilingual
+   рядок, багатомовний
 
-   Detailed description of tender lot.
+   Детальний опис лота закупівлі.
 
 :value:
-   :ref:`value`, required
+   :ref:`value`, обов’язково
 
-   Total available tender lot budget. Bids greater then ``value`` will be rejected.
+   Повний доступний бюджет лота закупівлі. Цінові пропозиції, більші ніж ``value``, будуть відхилені.
 
-   Absent in :ref:`esco`
+   Відсутнє в :ref:`esco`
 
 :guarantee:
     :ref:`BasicValue`
 
-    Bid guarantee
+    Забезпечення тендерної пропозиції
 
-    Absent in :ref:`limited`
-    
+    Відсутнє в :ref:`limited`
+                         
 :date:
-    string, :ref:`date`, auto-generated
-    
+    рядок, :ref:`date`, генерується автоматично
+                                           
 :minimalStep:
-   :ref:`value`, required
+   :ref:`value`, обов’язково
 
-   The minimal step of auction (reduction). Validation rules:
+   Мінімальний крок аукціону (редукціону). Правила валідації:
 
-   * `amount` should be less then `Lot.value.amount`
-   * `currency` should either be absent or match `Lot.value.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Lot.value.valueAddedTaxIncluded`
+   * `amount` повинно бути меншим, ніж `Lot.value.amount`
+   * `currency` повинно або бути відсутнім, або відповідати `Lot.value.currency`
+   * `valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати `Lot.value.valueAddedTaxIncluded`
 
-   Absent in :ref:`limited` and :ref:`esco`
+   Робочий процес у :ref:`limited` and :ref:`esco`
 
 :auctionPeriod:
-   :ref:`period`, read-only
+   :ref:`period`, доступно лише для читання
 
-   Period when Auction is conducted.
+   Період проведення аукціону.
 
-   Absent in :ref:`limited`
+   Відсутнє в :ref:`limited`
 
 :auctionUrl:
-    url
+    URL-адреса
 
-    A web address for view auction.
+    Веб-адреса для перегляду аукціону.
 
-    Absent in :ref:`limited`
+    Відсутнє в :ref:`limited`
 
 :status:
-   string
+   рядок
 
    :`active`:
-       Active tender lot (active)
+       Активний лот закупівлі (активний)
    :`unsuccessful`:
-       Unsuccessful tender lot (unsuccessful)
+       Неуспішний лот закупівлі (не відбувся)
    :`complete`:
-       Complete tender lot (complete)
+       Завершено лот закупівлі (завершено)
    :`cancelled`:
-       Cancelled tender lot (cancelled)
+       Скасовано лот закупівлі (скасовано)
 
-   Status of the Lot.
+   Статус лота.
 
-Additionally in :ref:`esco`:
+Додатково у :ref:`esco`:
 
 :minimalStepPercentage:
-   float, required
+   float, обов’язково
 
   Minimum step increment of the energy service contract performance indicator during auction that is calculated on participant’s bid. Possible values: from 0.005 to 0.03 (from 0.5% to 3% respectively) with 3-digit precision after comma.
 
 :fundingKind:
-    string, required
+    рядок, обов’язковий
 
 :Lot funding source:
 
-    Possible values:
+    Можливі значення:
 
     * budget -  Budget funding.
     * other - Supplier funding.
@@ -99,11 +99,11 @@ Additionally in :ref:`esco`:
     Default value: other
 
 :yearlyPaymentsPercentageRange:
-    float, required
+    float, обов’язково
 
     Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
 
-    Possible values:
+    Можливі значення:
 
    * from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other.
    * from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget.
@@ -111,8 +111,8 @@ Additionally in :ref:`esco`:
      Input precision - 3 digits after comma.
 
 
-Workflow in :ref:`limited`, :ref:`esco` and :ref:`openeu`
----------------------------------------------------------
+Робочий процес у :ref:`limited`, :ref:`esco` та :ref:`openeu`
+-------------------------------------------------------------
 
 .. graphviz::
 
@@ -126,4 +126,4 @@ Workflow in :ref:`limited`, :ref:`esco` and :ref:`openeu`
          A -> D;
     }
 
-\* marks initial state
+\* позначає початковий стан

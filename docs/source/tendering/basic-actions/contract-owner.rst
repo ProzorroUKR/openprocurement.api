@@ -1,47 +1,47 @@
 .. _contract-owner:
 
 
-Providing contract owner
-=========================
+Встановлення contract owner
+===========================
 
-For further contracting using new flow (:ref:`econtracting_tutorial`) it is possible provide contract owner (SEDO).
+Для подальшого укладання електронного договору (:ref:`econtracting_tutorial`) в закупівлі можна встановити майданчики, з яких буде виконуватися робота з договором (СЕДО).
 
-For buyer it should be set in one of fields along with `signerInfo`:
+Для замовника майданчик має бути вказаний в одному з об'єктів разом з `signerInfo`:
 
 * `procuringEntity`
 *  `buyers`
 
-For supplier it should be set in `bid.tenderers` along with `signerInfo`.
+Для постачальника майданчик має бути вказаний в об'єкті `bid.tenderers` разом з `signerInfo`.
 
-Field `contract_owner` can be set along with `contractTemplateName` in tender and `signerInfo` in object.
+Поле `contract_owner` може бути встановлене тільки разом з `contractTemplateName` в закупівлі і  `signerInfo` для цього ж об'єкта.
 
-If there is no `signerInfo` in object or there is no `contractTemplateName` in tender, we will see an error:
+Якщо в об'єкті не вказано `signerInfo` чи нема `contractTemplateName` в закупівлі, ми побачимо помилку:
 
 .. http:example:: ./http/contract-owner/add-contract-owner-no-template.http
    :code:
 
-In field `contract_owner` it is allowed to set one of the brokers which has the 6th level of accreditation.
+В полі `contract_owner` дозволено вказувати один з майданчиків, який має 6 рівень акредитації.
 
-In future contract they will have opportunity to generate token and deal with contract based on their role (`supplier` or `buyer`).
+В майбутньому контракті тільки ці майданчики будуть мати змогу згенерувати токен і працювати з контрактом в залежності від ролі (`supplier` чи `buyer`).
 
-If broker which set as a `contract_owner` doesn't have the 6th level of accreditation, we will see an error:
+Якщо майданчик, вказаний як `contract_owner`, не має 6 рівня акреддитації, то ми побачимо помилку:
 
 .. http:example:: ./http/contract-owner/add-contract-owner-invalid-broker.http
    :code:
 
-Successful adding `contract_owner` along with `contractTemplateName` in tender and `signerInfo` in `procuringEntity`:
+Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для замовника в `procuringEntity`:
 
 .. http:example:: ./http/contract-owner/add-contract-owner-buyer.http
    :code:
 
-Successful adding `contract_owner` along with `contractTemplateName` in tender and `signerInfo` in `bid.tenderers`:
+Успішне додавання `contract_owner` разом з `contractTemplateName` в закупівлі і  `signerInfo` для постачальника в `bid.tenderers`:
 
 .. http:example:: ./http/contract-owner/add-contract-owner-supplier.http
    :code:
 
-When contract is created, these brokers can generate token to deal with contract.
+Після створення контракту ці майданчики можуть згенерувати токен для подальшої роботи з договором.
 
-Let's look at contract, after creation, we will see `contract_owner` in `buyer` and `suppliers` objects:
+Подивимося як виглядає договір, в ньому є `contract_owner` в об'єктах `buyer` and `suppliers`:
 
 .. http:example:: ./http/contract-owner/get-contract-owners.http
    :code:

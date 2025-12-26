@@ -1,23 +1,23 @@
 .. _simpledefense_tutorial:
 
-Tutorial
+Туторіал
 ========
 
 .. index:: Tender
 
-Configuration
--------------
+Конфігурація
+------------
 
-The set of possible configuration values:
+Набір можливих значень конфігурації:
 
 .. csv-table::
    :file: csv/config.csv
    :header-rows: 1
 
-You can look for more details in :ref:`config` section.
+Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-The set of possible `procuringEntity.kind` values for `simple.defense`
-----------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `simple.defense`
+------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv

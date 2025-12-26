@@ -1,0 +1,117 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Violation Reports (Звернення про порушення) Туторіал"
+msgstr "Violation Reports Tutorial"
+
+msgid "Опублікувати звіт про порушення"
+msgstr "Post a violation report"
+
+msgid "Ви створюєте звіт з договору. Документи можна публікувати разом з даними."
+msgstr "You create it from a contract. All the documents are posted along with the data"
+
+msgid "У стані `draft` звіт можна змінити"
+msgstr "While in `draft` state, it can be changed"
+
+msgid "Ви можете видалити документ"
+msgstr "You can delete a document"
+
+msgid "Можна опублікувати новий"
+msgstr "Then post a new one"
+
+msgid "Або ви можете оновити версію документа за допомогою методу PUT"
+msgstr "Or you can update document version with PUT method"
+
+msgid "Деталі документа оновлення можна змінити за допомогою методу PATCH"
+msgstr "Update document details can be changed using PATCH method"
+
+msgid "Перед публікацією необхідно додати документ з підписом"
+msgstr "Before publishing, it's required to add a signature document"
+
+msgid "Тепер ви можете опублікувати свій звіт про порушення, змінивши його статус"
+msgstr "Now you can publish your violation report by changing its status"
+
+msgid "Див. `defendantPeriod`, що обмежує періоди публікації відповіді. Рішення можна опублікувати після закінчення періоду."
+msgstr "See `defendantPeriod` that restrict the periods of the response can be posted. The decision can be posted once the period ends."
+
+msgid "Опублікувати заяву відповідача"
+msgstr "Post the defendant statement"
+
+msgid "Опублікувати `draft` заяви"
+msgstr "Post a `draft` dependant statement"
+
+msgid "Поки неактивний, ви можете його оновити"
+msgstr "While is not active, you can update it"
+
+msgid "І оновити докази"
+msgstr "And update the evidences"
+
+msgid "Змінити описи документів"
+msgstr "Change documents descriptions"
+
+msgid "Перед публікацією потрібно додати документ із підписом"
+msgstr "Before publishing it's required to add a signature document"
+
+msgid "Потім опублікуйте заяву, щоб вона з’явилася у стрічці змін"
+msgstr "Then publish the statement, so it appears in the feed"
+
+msgid "Опублікуйте рішення"
+msgstr "Post the decision"
+
+msgid "Створіть рішення у статусі `draft`"
+msgstr "Create a `draft` decision"
+
+msgid "Потрібно додати документ із підписом"
+msgstr "It's required to add a signature document"
+
+msgid "Поки рішення у статусі `draft`, ви можете змінювати його"
+msgstr "While in `draft`, you can change the decision"
+
+msgid "Перед публікацією потрібно оновити підпис"
+msgstr "Before publishing, you need to update the signature"
+
+msgid "Опублікуйте рішення"
+msgstr "Publish the decision"
+
+msgid "Перегляньте об’єкт результату звіту про порушення"
+msgstr "See the result violation report object"
+
+msgid "Поле `status` звіту про порушення тепер залежить від статусу рішення."
+msgstr "Field `status` of violation report depends on the decision status now."
+
+msgid "Оновлення звітів про порушення у стрічці змін"
+msgstr "Feed violation report updates"
+
+msgid "Звіти про порушення з’являються у своїй стрічці змін, коли отримують публічні зміни."
+msgstr "Violation reports appear in their feed when the get public changes."
+
+msgid "Це такі:"
+msgstr "These are:"
+
+msgid "violationReport опубліковано"
+msgstr "violationReport is published"
+
+msgid "defendantStatement опубліковано"
+msgstr "defendantStatement is published"
+
+msgid "decision опубліковано"
+msgstr "decision is published"
+
+msgid "Обробляйте об’єкти в `data` та переходьте за `next_page`"
+msgstr "Process objects in `data` and follow the `next_page`"
+
+msgid "Коли `data` буде порожнім, призупиніть виконання скрипта на деякий час і перевірте цю саму сторінку пізніше."
+msgstr "Once `data` is empty make your script sleep for a while and check the same page later."
+

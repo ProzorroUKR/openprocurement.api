@@ -9,30 +9,30 @@ Schema
 ------
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :period:
-    :ref:`period`, required
+    :ref:`period`, обов'язково
 
 :measure:
-    string
+    рядок
 
-    Observation measure.
+    Вимір Observation
 
 :unit:
-    :ref:`ObservationUnit` object
+    Об'єкт :ref:`Unit`
 
 :dimensions:
-    List of :ref:`Dimension` objects
+    Список об'єктів :ref:`Dimension`
 
-    Subject or characteristic to which observation obey.
+    Предмет або характеристика на яку посилається Observation.
 
 :notes:
-    string
+    рядок
 
-    Metric notes.
+    Примітки метрики.
 
 :relatedImplementationMilestone:
-    :ref:`MilestoneReference` object
+    Об'єкт :ref:`MilestoneReference`.
 
-    Link to :ref:`MilestoneReference` for metric.
+    Посилання на :ref:`MilestoneReference` для метрики.

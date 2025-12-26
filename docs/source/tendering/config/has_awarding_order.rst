@@ -1,116 +1,110 @@
 .. _has_awarding_order:
 
 hasAwardingOrder
-=================
+================
 
-Field `hasAwardingOrder` is a boolean field that indicates whether the award sorting will be applied due to awardCriteria
-and awards will be created one by one or all awards will be created at once.
+Поле `hasAwardingOrder` є булевим полем, яке вказує, чи буде застосований спосіб ранжування пропозицій, вказаний в awardCriteria під час їх розкриття, і пропозиції будуть створюватися по черзі чи всі пропозиції створюються одночасно.
 
-Possible values for `hasAwardingOrder` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasAwardingOrder` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/has-awarding-order-values.csv
    :header-rows: 1
 
-hasAwardingOrder is `true`
---------------------------
+hasAwardingOrder встановлено у `true`
+-------------------------------------
 
-Let's create a tender with `hasAwardingOrder` set to `true`:
+Створимо тендер з `hasAwardingOrder` встановленим у `true`:
 
 .. http:example:: http/has-awarding-order-true-tender-post.http
    :code:
 
-You can specify any kind of awardCriteria during creation tender with `hasAwardingOrder` set to `true`:
+Ви можете зазначити тип awardCriteria під час створення тендеру з `hasAwardingOrder` встановленим у `true`:
     * lowestCost
     * lifeCycleCost
     * ratedCriteria
 
-Let's add lot to tender:
+Додамо лот до тендера:
 
 .. http:example:: http/has-awarding-order-true-tender-add-lot.http
    :code:
 
-Let's look at tender with auction results:
+Подивимося на тендер з результатами аукціону:
 
 .. http:example:: http/has-awarding-order-true-auction-results.http
    :code:
 
-There is classic flow with award creation one by one due to awardCriteria sorting. Second award (for tender/lot)
-will be generated in case the customer cancel decision for the first generated award.
+Це звичайний флоу зі створенням авардів по черзі завдяки сортуванню за критерієм (awardCriteria). Другий авард (для тендеру/лота) буде згенерований, якщо замовник скасовує рішення щодо першого згенерованого аварду.
 
-hasAwardingOrder is `false`
----------------------------
+hasAwardingOrder встановлено у `false`
+--------------------------------------
 
-Now let's create a tender with `hasAwardingOrder` set to `false`:
+Тепер створимо тендер з `hasAwardingOrder` встановленим у `false`:
 
 .. http:example:: http/has-awarding-order-false-tender-post.http
    :code:
 
-Let's add lot to tender:
+Додамо лот до тендера:
 
 .. http:example:: http/has-awarding-order-false-tender-add-lot.http
    :code:
 
-Let's look at tender with auction results:
+Подивимося на тендер з результатами аукціону:
 
 .. http:example:: http/has-awarding-order-false-auction-results.http
    :code:
 
-All awards have been generated at once after auction ends. Then the customer can choose any award as a winner.
+Усі аварди були згенеровані одразу після завершення аукціону. Після цього замовник може вибрати будь-яку пропозицію в якості переможця.
 
-Difference
-----------
+Різниця
+-------
 
-Let's look at completed tenders diff:
+Подивимося на різницю завершених тендерів:
 
 .. literalinclude:: json/has-awarding-order-false-auction-results.json
    :diff: json/has-awarding-order-true-auction-results.json
 
-Difference for tender with `hasAwardingOrder` set to `false` comparing to `true` is that in tender
-with `hasAwardingOrder` set to `false` after auction ends all awards have been created at once in status `pending`.
-Then the customer can check the received offers sequentially or in the order in which he considers it necessary.
+Різниця для тендеру з `hasAwardingOrder` встановленим у `false` порівняно з `true` це те, що в тендері  з `hasAwardingOrder` встановленим у `false` після того, як аукціон завершується, всі пропозиції розкриваються одночасно і приймають статус pending. Потім замовниик може перевіряти отримані пропозиції послідовно або в тому порядку, в якому він вважає за потрібне.
 
-Update awards statuses for hasAwardingOrder = false
----------------------------------------------------
-Let's consider cases with updating award statuses.
+Зміна статусів пропозицій для hasAwardingOrder = false
+------------------------------------------------------
+Розглянемо випадки зі зміною статусів аварду.
 
-As an example let's use tender with 3 bidders. There are 3 awards with status pending in auction results:
+В якості прикладу розглянемо тендер з трьома учасниками. Створено три пропозиції зі статусом pending:
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-1.http
    :code:
 
-1) The customer decides that the winner is award1
+1) Замовник визнає переможцем award1
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-1-activate-first-award.http
    :code:
 
-In that case award1 becomes `active`, award2 and award3 are `pending`
+В цьому випадку award1 стає `active`, award2 та award3 залишаються `pending`
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-1-results.http
    :code:
 
-2) The customer cancels decision due to award1
+2) Замовник скасував своє рішення по award1
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-2-cancel-first-award.http
    :code:
 
-In that case award1 becomes `cancelled`, award2 and award3 are `pending`,
-and award4 is being generated in status `pending` due to cancellation of the award1
+В цьому випадку award1 стає `cancelled`, award2 та award3 залишаються `pending` і генерується новий award4 в статусі `pending` через те, що award1 був скасований
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-2-results.http
    :code:
 
-3) The customer rejects award4 and recognizes as the winner award2
+3) Замовник відхиляє пропозицію award4 та визнає переможцем award2
 
-In that case award1 still `cancelled`, award2 becomes `active`, and award3 are `pending`, award4 is `unsuccessful`:
+В цьому випадку award1 залишається `cancelled`, award2 стає `active`, award3 залишається `pending`, award4 стає `unsuccessful`:
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-3-results.http
    :code:
 
-4) The customer cancel unsuccessful award4
+4) Замовник скасовує своє рішення по award4
 
-In that case award1 still `cancelled`, award2 - `active`, and award3 - `pending`, award4 - `cancelled`
-and award5 is being generated in status `pending` due to cancellation of the award4:
+В цьому випадку award1 залишається `cancelled`, award2 - `active`, award3 - `pending`, award4 - `cancelled` і генерується новий award5 в статусі `pending` через те, що award4 був скасований:
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-4-results.http
    :code:

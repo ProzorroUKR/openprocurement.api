@@ -1,0 +1,81 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.openua 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-17 12:08+0300\n"
+"PO-Revision-Date: 2016-04-29 12:46+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <support@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+msgid "Огляд"
+msgstr "Overview"
+
+msgid "Процедура відкритих закупівель для оборонних цілей (оборонні закупівлі) - це плагін до `Open Procurement API`."
+msgstr "The Defense open tender is plugin to `Open Procurement API` software."
+
+msgid "REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення."
+msgstr "REST-ful interface to plugin is in line with core software design principles."
+
+msgid "Основні задачі"
+msgstr "Main responsibilities"
+
+msgid "Відкриті торги (особливості оборони), або оборонні закупівлі, що описані в цій документації, стосуються процедури українських відкритих торгів для понадпорогових закупівель зі скороченими термінами, за якою будуть виконувати закупівлі для потреб АТО. Код процедури такого типу - `aboveThresholdUA.defense`."
+msgstr "The Defense open tender is a procedure dedicated to Ukrainian above threshold procurements for defense purposes.  The code for this type of procedure is `aboveThresholdUA.defense`."
+
+msgid "Бізнес логіка"
+msgstr "Business logic"
+
+msgid "Підхід до оборонних закупівель відрізняється від основної процедури Open Procurement API (яка використовується для допорогових закупівель) в основному :ref:`етапом закупівлі, що проходить перед <defense_tendering>` аукціоном. Детально різницю описано в пунктах нижче:"
+msgstr "The approach to Defense open tender is different from core Open Procurement API procedure (that is used for below threshold procurements) mainly in :ref:`stage that precedes <defense_tendering>` auction.  Differences are in the following aspects:"
+
+msgid "Закупівлю можна редагувати протягом усього періоду подання пропозицій - tenderPeriod (коли тендер знаходиться в стані active.tendering). Але коли редагування відбувається занадто близько до завершення періоду подання пропозицій - tenderPeriod.endDate, потрібно продовжити цей період."
+msgstr "Tender can be edited through the whole tenderPeriod (while in active.tendering state), but any edit that is close to tenderPeriod.endDate would require extending that period."
+
+msgid "Немає стану active.enguiries."
+msgstr "There is no dedicated active.enguiries state."
+
+msgid "Звернення можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod."
+msgstr "Questions can be asked within enquiryPeriod that is based upon tenderPeriod."
+
+msgid "Відповіді можна давати протягом усього періоду подання пропозицій - tenderPeriod."
+msgstr "Answers are provided during the whole tenderPeriod."
+
+msgid "Пропозиції можна подавати протягом усього періоду подання пропозицій - tenderPeriod."
+msgstr "Bids can be placed during the whole tenderPeriod."
+
+msgid "Подані пропозиції стають недійсними після будь-якої зміни закупівлі замовником, тому їх потрібно підтвердити знову."
+msgstr "Placed bids are invalidated after any tender condition editing and have to be re-confirmed."
+
+msgid "Стан проекту"
+msgstr "Project status"
+
+msgid "Цей проект активно розробляється і має пілотні встановлення."
+msgstr "The project is in active development and has pilot installations."
+
+msgid "Репозиторій цього проекту є на GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openuadefense"
+msgstr "The source repository for this project is on GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openuadefense"
+
+msgid "Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/ProzorroUKR/openprocurement.tender.openuadefense/issues>`_ (реєстрація на GitHub обов’язкова). Загальне обговорення відбувається через розсилку `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_."
+msgstr "You can leave feedback by raising a new issue on the `issue tracker <https://github.com/ProzorroUKR/openprocurement.tender.openuadefense/issues>`_ (GitHub registration necessary)."
+
+msgid "Звіт про зміни"
+msgstr "Change log"
+
+msgid "0.1"
+msgstr "0.1"
+
+msgid "Випущено: ще ні"
+msgstr "Released: not released yet"
+
+msgid "Наступні кроки"
+msgstr "Next steps"
+
+msgid "Можливо вам буде цікаво прочитати :ref:`tutorial`, або :ref:`reference`."
+msgstr "You might find it helpful to look at the :ref:`tutorial`, or the :ref:`reference`."
+

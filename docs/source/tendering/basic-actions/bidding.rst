@@ -1,10 +1,10 @@
 .. _bidding:
 
-Bidder Operations
-=================
+Операції для учасників закупівлі
+================================
 
-Registration of Bid proposal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Реєстрація цінової пропозиції
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: http
 
@@ -15,16 +15,16 @@ Registration of Bid proposal
   HTTP/1.1 201 Created
   Location: /tenders/64e93250be76435397e8c992ed4214d1/bids/4879d3f8ee2443169b5fbbc9f89fa607
 
-Also documents could be uploaded if:
- - exists `award` in status `active`
- - tender has criterion `CRITERION.OTHER.CONTRACT.GUARANTEE`
- - document has type `contractGuarantees`
+Також можливо завантажувати документи за таких умов:
+ - є `award` в статусі `active`
+ - у тенедра наявний критерій `CRITERION.OTHER.CONTRACT.GUARANTEE`
+ - документ має тип `contractGuarantees`
 
 .. http:example:: http-handwritten/bidding/add-bid-document-with-active-award.http
    :code:
 
-Uploading Bid documents
-~~~~~~~~~~~~~~~~~~~~~~~
+Завантаження документів пропозиції
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: http
 
@@ -36,8 +36,8 @@ Uploading Bid documents
   Location: /tenders/64e93250be76435397e8c992ed4214d1/bids/4879d3f8ee2443169b5fbbc9f89fa607/documents/bd2e4c64179445cab93987fff3d58d23
 
 
-Update of proposal
-~~~~~~~~~~~~~~~~~~
+Оновлення пропозиції
+~~~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: http
 
@@ -47,8 +47,8 @@ Update of proposal
 
   HTTP/1.1 200 OK
 
-Updating Bid documents
-~~~~~~~~~~~~~~~~~~~~~~
+Оновлення документів пропозиції
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: http
 
@@ -68,10 +68,10 @@ Updating Bid documents
   }
 
 
-Deleting Bid documents
-~~~~~~~~~~~~~~~~~~~~~~~
+Видалення документів пропозиції
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is allowed to delete bid document only when bid has `draft` status.
+Дозволено видаляти документи в пропозиції, поки вона в статусі `draft`.
 
 .. sourcecode:: http
 
@@ -90,8 +90,8 @@ It is allowed to delete bid document only when bid has `draft` status.
       }
   }
   
-Cancelling the proposal
-~~~~~~~~~~~~~~~~~~~~~~~
+Відміна пропозиції
+~~~~~~~~~~~~~~~~~~
 
 .. sourcecode:: http
 
@@ -101,10 +101,10 @@ Cancelling the proposal
 
   HTTP/1.1 200 OK
 
-Bids Listing
-~~~~~~~~~~~~
+Список пропозицій
+~~~~~~~~~~~~~~~~~
 
-After auction ends it is possible to get full information about bids and bidders that submitted them:
+Після закінчення аукціону можна отримати повну інформацію про пропозиції та учасників, які їх подали:
 
 .. sourcecode:: http
 
@@ -227,10 +227,10 @@ After auction ends it is possible to get full information about bids and bidders
   }
 
 
-Retrieving the proposal
-~~~~~~~~~~~~~~~~~~~~~~~
+Вичитка пропозиції
+~~~~~~~~~~~~~~~~~~
 
-Individual bid can be retrieved via its `id`:
+Окрему пропозицію можна прочитати за її `id`:
 
 .. sourcecode:: http
 

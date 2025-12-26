@@ -1,15 +1,14 @@
 .. _violation_reports_overview:
 
-Overview
-========
+Огляд
+=====
 
-Violation Reports API is a part of The OpenProcurement Central Database
-that implements the mechanism for complaints about contract violations (from buyers to suppliers).
+API звітів про порушення є частиною Центральної бази даних OpenProcurement, що реалізує механізм подання скарг щодо порушень умов контракту (від замовників до постачальників).
 
 
-Every stage or role implements its own API object and the REST API around it.
+Кожен етап або роль реалізує власний об’єкт API та REST API навколо нього.
 
 .. image:: img/objects.png
 
-Link to `swagger-ui <https://public.api.openprocurement.org/api/0/doc>`_
+Посилання на `swagger-ui <https://public.api.openprocurement.org/api/0/doc>`_
 

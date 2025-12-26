@@ -1,9 +1,9 @@
 .. _frameworks:
 
-Frameworks API
-==============
+Frameworks API для операцій з відбором до закупівлі
+===================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

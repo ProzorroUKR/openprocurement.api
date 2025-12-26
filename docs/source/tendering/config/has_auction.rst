@@ -3,82 +3,81 @@
 hasAuction
 ==========
 
-Field `hasAuction` is a boolean field that indicates whether the tender has an auction or not.
-Tender will never switch to `active.auction` status if `hasAuction` is `false`.
+Поле `hasAuction` є булевим полем, яке вказує, чи є аукціон у тендері чи ні. Тендер ніколи не перейде у статус `active.auction`, якщо `hasAuction` дорівнює `false`.
 
-Possible values for `hasAuction` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasAuction` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/has-auction-values.csv
    :header-rows: 1
 
-hasAuction is `true`
---------------------
+hasAuction встановлено у `true`
+-------------------------------
 
-Let's create a tender with `hasAuction` set to `true`:
+Створимо тендер з `hasAuction` встановленим у `true`
 
 .. http:example:: http/has-auction-true-tender-post.http
    :code:
 
-And add lot to it:
+І додамо лот до нього:
 
 .. http:example:: http/has-auction-true-tender-add-lot.http
    :code:
 
-Field `minimalStep` is required for tenders with auction.
+Поле `minimalStep` обов'язкове для закупівель з аукціоном.
 
-* If it is non-lots tender then this fields is required during activation in tender.
+* Якщо закупівля безлотова, тоді це поле обов'язкове на рівні тендеру під час активації.
 
-* It it is lots tender - then this field is required in lots but in tender this field is rogue and it doesn't set as minimal value of all `minimalStep` in lots.
+* Якщо закупівля лотова - тоді це поле обов'язкове на рівні лотів, але в закупівлі це поле заборонено вказувати і автоматично не записується як мінімальне значення з усіх лотів.
 
-If during activation tender has lots and own `minimalStep`, then we will see an error that `minimalStep` is rogue field for tender:
+Якщо під час активації закупівля має лоти і на рівні закупівлі вказано `minimalStep`, тоді ми побачимо помилку, що це поле зайве в тендері:
 
 .. http:example:: http/has-auction-true-tender-with-lots-minimal-step-rogue.http
    :code:
 
-Let's look at completed tender:
+Подивимося на завершений тендер:
 
 .. http:example:: http/has-auction-false-tender-complete.http
    :code:
 
-hasAuction is `false`
----------------------
+hasAuction встановлено у `false`
+--------------------------------
 
-Now let's create a tender with `hasAuction` set to `false`:
+Тепер створимо тендер з `hasAuction` встановленим у `false`
 
 .. http:example:: http/has-auction-false-tender-post.http
    :code:
 
-You can see that there is no `minimalStep` field in the request body, because tender with no auction doesn't have `minimalStep` field.
+Ви можете побачити, що в запиті відсутнє поле `minimalStep`, оскільки тендер без аукціону не має поля `minimalStep`.
 
-And add lot to it:
+І додамо лот до нього:
 
 .. http:example:: http/has-auction-false-tender-add-lot.http
    :code:
 
-There is also no `minimalStep` field in the request body.
+Також відсутнє поле `minimalStep` в запиті.
 
-Let's look at completed tender:
+Подивимося на завершений тендер:
 
 .. http:example:: http/has-auction-false-tender-complete.http
    :code:
 
-Difference
-----------
+Різниця
+-------
 
-Let's look at completed tenders diff:
+Подивимося на різницю завершених тендерів:
 
 .. literalinclude:: json/has-auction-false-tender-complete.json
    :diff: json/has-auction-true-tender-complete.json
 
-Differences for tender with `hasAuction` set to `false` comparing to `true` are:
+Різниця для тендеру з `hasAuction` встановленим у `false` порівняно з `true` є:
 
-* has no `submissionMethod` field
+* немає поля `submissionMethod`
 
-* has no `minimalStep` field
+* немає поля `minimalStep`
 
-* has no `auctionPeriod` field
+* немає поля `auctionPeriod`
 
-* has no `auctionUrl` field
+* немає поля `auctionUrl`
 
-* has no `participationUrl` field
+* немає поля `participationUrl`

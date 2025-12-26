@@ -14,7 +14,7 @@ Possible values for `hasPrequalification` field depends on `procurementMethodTyp
 hasPrequalification is `true`
 -----------------------------
 
-Example tutorials:
+Приклад використання:
 
 * :ref:`openeu` → :ref:`openeu_tutorial`
 * :ref:`esco` → :ref:`esco_tutorial`
@@ -24,7 +24,7 @@ Example tutorials:
 hasPrequalification is `false`
 ------------------------------
 
-Example tutorials:
+Приклад використання:
 
 * :ref:`belowthreshold` → :ref:`tutorial`
 * :ref:`open` → :ref:`open_tutorial`

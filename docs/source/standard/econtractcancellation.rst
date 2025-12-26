@@ -5,43 +5,43 @@
 .. _econtractcancellation:
 
 EContractCancellation
-======================
+=====================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :reason:
-    string, required
+    рядок, обов'язковий
 
-    The reason, why contract is being cancelled.
+    Причина, з якої скасовується об'єкт.
 
 :reasonType:
-    string
+    рядок
 
-    There are possible values:
+    Можливі значення:
 
     * `requiresChanges`
     * `signingRefusal`
 
 :status:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
      :`pending`:
-       The request is being prepared.
+       Запит оформлюється.
      :`active`:
-       Cancellation activated.
+       Скасування активоване.
 
 :dateCreated:
-    string, auto-generated, :ref:`date`
+    рядок, генерується автоматично, :ref:`date`
 
-    Date of cancellation creation.
+    Дата створення скасування.
 
 :author:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    The author of the cancellation
+    Автор скасування
 

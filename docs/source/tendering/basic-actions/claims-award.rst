@@ -1,74 +1,74 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації про звернення/скарги
+=========================================
 
-Tender Award Claim/Complaint Retrieval
--------------------------------------------
+Отримання інформації про звернення/скарги на визначення переможця
+-----------------------------------------------------------------
 
-You can list all Tender Award Claims/Complaints:
+Ви можете отримати список всіх звернень/скарг на визначення переможця:
 
 .. http:example:: http/complaints/award-complaints-list.http
    :code:
 
-And check individual complaint:
+І перевірити окрему скаргу:
 
 .. http:example:: http/complaints/award-complaint.http
    :code:
 
-Claim Submission
-================
+Подання звернення
+=================
 
-If tender award is favoriting certain supplier, or in any other viable case, participants can submit Tender Award Claim.
+Якщо при визначенні переможця відбулось порушення чи була допущена помилка, то учасник закупівлі може подати звернення щодо результатів визначення переможця.
 
-Tender Award Claim Submission (with documents)
-----------------------------------------------
+Подання звернення (з документами)
+---------------------------------
 
-At first create a claim. Send POST request with bidder's access token.
+Створіть звернення. В POST запиті потрібно передати токен доступу одного з учасників.
 
 .. http:example:: http/complaints/award-claim-submission.http
    :code:
 
-Then upload necessary documents:
+Потім завантажте документи:
 
 .. http:example:: http/complaints/award-complaint-submission-upload.http
    :code:
 
-Submit tender award claim:
+Подайте звернення:
 
 .. http:example:: http/complaints/award-complaint-claim.http
    :code:
 
-Tender Award Claim Submission (without documents)
--------------------------------------------------
+Подання звернення (без документів)
+----------------------------------
 
-You can submit claim that does not need additional documents:
+Ви можете подати звернення, що не потребує додаткових документів:
 
 .. http:example:: http/complaints/award-complaint-submission-claim.http
    :code:
 
-Claim's Answer
-==============
+Відповідь на звернення
+======================
 
-Answer to resolved claim
-------------------------
+Відповідь на вирішене звернення
+-------------------------------
 
 .. http:example:: http/complaints/award-complaint-answer.http
    :code:
 
 
-Satisfied Claim
-===============
+Задовільнене звернення
+======================
 
-Satisfying resolution
----------------------
+Рішення про задовільнення звернення
+-----------------------------------
 
 .. http:example:: http/complaints/award-complaint-satisfy.http
    :code:
 
 
-Unsatisfying resolution
------------------------
+Рішення про відхилення звернення
+--------------------------------
 
 .. http:example:: http/complaints/award-complaint-unsatisfy.http
    :code:

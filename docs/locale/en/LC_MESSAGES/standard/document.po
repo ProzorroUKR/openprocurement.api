@@ -1,0 +1,190 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-17 16:55+0300\n"
+"PO-Revision-Date: 2019-02-04 11:33+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Document"
+msgstr "Document"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "documentType"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення для файлів підпису (ЕЦП):"
+msgstr "Possible values for sign documents:"
+
+msgid "`notice` - **Файл підпису оголошення закупівлі/підтвердження кваліфікації**"
+msgstr "`notice` - **Sign document for publication tender/confirming qualification**"
+
+msgid "Використовується в документах до :ref:`tender` та :ref:`award`."
+msgstr "Can be used in :ref:`tender` and :ref:`award`."
+
+msgid "`evaluationReports` - **Файл підпису звіту про оцінку**"
+msgstr "`evaluationReports` - **Sign document for evaluation report**"
+
+msgid "Використовується в документах до :ref:`tender` та :ref:`framework_qualification` у фреймворках."
+msgstr "Can be used in :ref:`tender` and :ref:`framework_qualification` in framework."
+
+msgid "`proposal` - **Файл підпису підтвердження пропозиції**"
+msgstr "`proposal` - **Proposal**"
+
+msgid "Використовується в документах до :ref:`bid`"
+msgstr "Can be used in  :ref:`bid`"
+
+msgid "`extensionReport` - **Файл підпису для продовження строку розгляду award**"
+msgstr "`extensionReport` - **Sign document for prolongation milestone in award**"
+
+msgid "Використовується в документах до :ref:`award`."
+msgstr "Can be used in :ref:`award`."
+
+msgid "`deviationReport` - **Файл підпису для протоколу виправлення невідповідностей (24 години) в award/qualification***"
+msgstr "`deviationReport` - **Sign document for 24hour milestone in award/qualification**"
+
+msgid "Використовується в документах до :ref:`qualification` та :ref:`award`."
+msgstr "Can be used in :ref:`qualification` and :ref:`award`."
+
+msgid "Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"
+msgstr "Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"
+
+msgid "Можливі значення :ref:`award`: `типи документів для авардів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_"
+msgstr "Possible values for :ref:`award`: `award document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_"
+
+msgid "Можливі значення :ref:`contract`: `типи документів для контрактів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_"
+msgstr "Possible values for :ref:`contract`: `contract document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_"
+
+msgid "Можливі значення :ref:`bid`: `типи документів для пропозиції. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_"
+msgstr "Possible values for :ref:`bid`: `bid document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_"
+
+msgid "Можливі значення для :ref:`agreement`"
+msgstr "Possible values for :ref:`agreement`"
+
+msgid "`notice` - **Повідомлення про Рамкову угоду**"
+msgstr "`notice` - **Framework agreement notice**"
+
+msgid "БІЛЬШЕ НЕ ВИКОРИСТОВУЄТЬСЯ. Зараз цей тип документу використовується в якості файлу підпису."
+msgstr "NOT USED ANYMORE. Now it's use as sign document."
+
+msgid "Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі підписання договору та початку його реалізації. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення."
+msgstr "Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained."
+
+msgid "`contractSigned` - **Підписана Рамкова угода**"
+msgstr "`contractSigned` - **Signed Framework agreement**"
+
+msgid "`contractArrangements` - **Заходи для припинення Рамкової угоди**"
+msgstr "`contractArrangements` - **Arrangements for ending Framework agreement**"
+
+msgid "`contractSchedule` - **Розклад та етапи**"
+msgstr "`contractSchedule` - **Schedules and milestones**"
+
+msgid "`contractAnnexe` - **Додатки до Рамкової угоди**"
+msgstr "`contractAnnexe` - **Annexes to the Framework agreement**"
+
+msgid "`contractGuarantees` - **Забезпечення тендерних пропозицій**"
+msgstr "`contractGuarantees` - **Guarantees**"
+
+msgid "`subContract` - **Субпідряд**"
+msgstr "`subContract` - **Subcontracts**"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "|ocdsDescription| Назва документа."
+msgstr "|ocdsDescription| The document title."
+
+msgid "description"
+msgstr ""
+
+msgid "|ocdsDescription| Короткий опис документа. Якщо документ не буде доступний онлайн, то поле опису можна використати для вказання способу отримання копії документа."
+msgstr "|ocdsDescription| A short description of the document. In the event the document is not accessible online, the description field can be used to describe arrangements for obtaining a copy of the document."
+
+msgid "format"
+msgstr ""
+
+msgid "|ocdsDescription| Формат документа зі `списку кодів IANA Media Types <http://www.iana.org/assignments/media-types/>`_, з одним додатковим значенням 'offline/print', що буде використовуватись, коли запис цього документа використовується для опису офлайнової публікації документа."
+msgstr "|ocdsDescription| The format of the document taken from the `IANA Media Types code list <http://www.iana.org/assignments/media-types/>`_, with the addition of one extra value for 'offline/print', used when this document entry is being used to describe the offline publication of a document."
+
+msgid "url"
+msgstr ""
+
+msgid "|ocdsDescription| Пряме посилання на документ чи додаток."
+msgstr "|ocdsDescription| Direct link to the document or attachment."
+
+msgid "datePublished"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "|ocdsDescription| Дата, коли документ був опублікований вперше."
+msgstr "|ocdsDescription| The date on which the document was first published."
+
+msgid "dateModified"
+msgstr ""
+
+msgid "|ocdsDescription| Дата, коли документ був змінений востаннє"
+msgstr "|ocdsDescription| Date that the document was last modified"
+
+msgid "language"
+msgstr ""
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`uk`"
+msgstr ""
+
+msgid "`en`"
+msgstr ""
+
+msgid "`ru`"
+msgstr ""
+
+msgid "|ocdsDescription| Вказує мову документа, використовуючи або двоцифровий код `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, або розширений `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_."
+msgstr "|ocdsDescription| Specifies the language of the linked document using either two-digit `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_."
+
+msgid "documentOf"
+msgstr ""
+
+msgid "`tender`"
+msgstr "`tender`"
+
+msgid "`contract`"
+msgstr ""
+
+msgid "`change`"
+msgstr ""
+
+msgid "`item`"
+msgstr "`item`"
+
+msgid "`lot`"
+msgstr "`lot`"
+
+msgid "relatedItem"
+msgstr ""
+
+msgid "ID пов’язаних :ref:`contract`, :ref:`change`, :ref:`lot` або :ref:`item`."
+msgstr "Id of related :ref:`contract`, :ref:`change`, :ref:`lot` or :ref:`item`."
+

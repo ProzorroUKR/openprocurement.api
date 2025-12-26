@@ -1,6 +1,6 @@
 .. _pricequotation_tutorial:
 
-Tutorial
+Туторіал
 ========
 
 .. index:: Tender
@@ -8,395 +8,381 @@ Tutorial
 Configuration
 -------------
 
-The set of possible configuration values:
+Набір можливих значень конфігурації:
 
 .. csv-table::
    :file: csv/config.csv
    :header-rows: 1
 
-You can look for more details in :ref:`config` section.
+Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-The set of possible `procuringEntity.kind` values for `priceQuotation`
-----------------------------------------------------------------------
+Набір можливих значень `procuringEntity.kind` для `priceQuotation`
+------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv
    :header-rows: 1
 
-Creating tender
----------------
+Створення закупівлі
+-------------------
 
-Let's provide the data attribute in the submitted body :
+Введемо data атрибут у поданому тілі:
 
 .. http:example:: http/tender-post-attempt-json-data.http
    :code:
 
-Success! Now we can see that new object was created. Response code is `201`
-and `Location` response header reports the location of the created object.  The
-body of response reveals the information about the created tender: its internal
-`id` (that matches the `Location` segment), its official `tenderID` and
-`dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `draft` status.
+Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `draft`.
 
 .. note::
 
-    User receives `access`: `token` with which operations as a `Procuring Entity` role are accessible.
+    Користувач отримує `access`: `token` з яким доступні операції ролі Замовника.
 
-Price Quotation procedure has ``procurementMethodType``: ``priceQuotation`` and ``procurementMethod``: ``selective``.
+Процедура Запиту цінових пропозицій має ``procurementMethodType``: ``priceQuotation`` та ``procurementMethod``: ``selective``.
 
-Let's access the URL of the created object (the `Location` header of the response):
+Використаємо URL створеного об’єкта (заголовок відповіді `Location`):
 
 .. http:example:: http/blank-tender-view.http
    :code:
 
-We can see the same response we got after creating tender.
+Ми бачимо ту ж відповідь, що і після створення закупівлі.
 
-Modifying tender
-----------------
+Модифікація закупівлі
+---------------------
 
-Procuring Entity can modify tender before publishing. 
-Let's update tender by supplementing it with all other essential properties:
+Замовник може відредагувати закупівлю перед публікацією. Давайте оновимо закупівлю, доповнюючи її усіма іншими необхідними властивостями:
 
 .. http:example:: http/patch-tender-data.http
    :code:
 
-We see the added properties have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації.
 
-Checking the listing again reflects the new modification date:
+Ще одна перевірка списку відображає нову дату модифікації:
 
 .. http:example:: http/tender-listing-after-patch.http
    :code:
 
-Publishing tender (deprecated)
-------------------------------
+Публікація закупівлі (стара логіка через PQ бот)
+------------------------------------------------
    
-After creation Procuring Entity publishes procedure by changing status to `draft.publishing` where **priceQuotationBot** robot runs validation of the procedure and supplement procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`.
+Після створення Замовник публікує процедуру, змінивши статус на `draft.publishing`, де робот **priceQuotationBot** запускає перевірку процедури та доповнює процедуру додатковими даними, отриманими з бази даних електронних каталогів ProZorro, включаючи `shortListedFirms`.
 
 .. http:example:: http/publish-tender.http
    :code:
 
 
-After successful validation priceQuotationBot transmit procedure to status: `active.tendering` 
+Після успішної валідації priceQuotationBot переводить процедуру в статус: `active.tendering` 
 
 .. http:example:: http/tender-after-bot-active.http
    :code:
 
-In case if procedure do not pass validation due to invalid options, it will be switched to status: `draft.unsuccessful` by the **priceQuotationBot**.
+У разі, якщо процедура не пройде перевірку через недійсні параметри, вона буде переведена в статус: `draft.unsuccessful` за допомогою **priceQuotationBot**.
 
 .. http:example:: http/tender-after-bot-unsuccessful.http
    :code:
 
 .. index:: Document
 
-Activating tender
------------------
+Активація закупівлі
+-------------------
 
-After creation Procuring Entity can activate tender by changing status to `active.tendering`.
+Після створення Замовник може активувати закупівлю, змінивши статус на `active.tendering`.
 
-Before activating tender it is required to add sign document to tender.
-If there is no sign document during activation, we will see an error:
+Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:
 
 .. http:example:: http/notice-document-required.http
    :code:
 
-Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:
+Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: http/add-notice-document.http
    :code:
 
-During activation CBD runs some validations:
+Під час активації на ЦБД спрацьовують наступні перевірки:
 
-* Existence of item profile in catalogue
+* Наявність профілю товару в каталозі
 
-* Profile should be active or general
+* Профіль повинен мати статус `active` або `general`
 
-* Existence of related agreement
+* Наявність відповідного договору
 
-* Equality of profile agreement and related agreement in tender
+* Перевірка, що угода в профілі та пов’язана угода в тендері однакові
 
-* Agreement should not be in terminated status
+* Угода не повинна бути розірвана (статус terminated)
 
 
-If Procuring Entity will try to activate PQ procedure with non-existed profile in catalogue, we will see error:
+Якщо Замовник спробує активувати процедуру PQ з неіснуючим профілем у каталозі, ми побачимо помилку:
 
 .. http:example:: http/tender-with-non-existed-profile.http
    :code:
 
-If profile isn't in active status, we will see error:
+Якщо профіль не активний, ми побачимо помилку:
 
 .. http:example:: http/tender-with-non-active-profile.http
    :code:
 
-In case profile agreement and related agreement in tender aren't equal, the next error will be generated:
+Якщо угода (agreement) в профілі та угода в тендері не однакові, буде згенеровано наступну помилку:
 
 .. http:example:: http/tender-agreement-mismatch-in-profile.http
    :code:
 
-If agreement is in terminated status:
+Якщо угода розірвана:
 
 .. http:example:: http/tender-agreement-terminated.http
    :code:
 
-If PQ procedure matches all requirements, it will be switched to `active.tendering`:
+Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`:
 
 .. http:example:: http/tender-active.http
    :code:
 
 
-Bid submission
---------------
+Подача пропозицій
+-----------------
 
-Registering bid
-~~~~~~~~~~~~~~~
-Tender status ``active.tendering`` allows registration of bids.
+Реєстрація пропозиції
+~~~~~~~~~~~~~~~~~~~~~
+Статус закупівлі ``active.tendering`` дозволяє подання пропозицій.
 
-If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:
+Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:
 
 .. http:example:: http/register-bidder-not-member.http
    :code:
 
 .. note::
 
-    For PQ bids have strict validation: the amount of bids by item (`item.quantity * item.unit.value.amount`) must be greater than 0, and may differ downwards from bid.value.amount by no more than 20%.
+    Для типу закупівлі priceQuotation існує валідація: сума добутків по позиціям (`item.quantity * item.unit.value.amount`) повинна бути більше 0, і може відрізнятись в нижню сторону від bid.value.amount не більше ніж на 20%.
 
-If sum of unit items values are less than net value `bid.value.amount` (`bid.value.amount * 1.2`), the bidder will see the error:
+Якщо сума добутків цін за одиницю менше ніж нетто значення`bid.value.amount` (`bid.value.amount * 1.2`), учасник побачить помилку:
 
 .. http:example:: http/register-bidder-invalid-unit-value.http
    :code:
 
-If item in tender has category or profile relation, then bidder must set product in this item.
-If there is no product we will see the error:
+Якщо позиція (`item`) в закупівлі посилається на категорію чи профіль, учасник має обов'язково вказувати продукт для цієї позиції. Якщо продукт не вказаний, ми побачимо помилку:
 
 .. http:example:: http/register-bidder-without-item-product.http
    :code:
 
-Bidder can register a bid with ``draft`` status:
+Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):
 
 .. http:example:: http/register-bidder.http
    :code:
 
 .. note::
 
-    User receives `access`: `token` with which operations as a `Supplier` role are accessible.
+    Користувач отримує `access`: `token` з яким доступні операції ролі Постачальника.
 
 
-and approve to pending status:
+і підтвердити її, перевівши у ``pending`` статус:
 
 .. http:example:: http/activate-bidder.http
    :code:
 
-If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:
+Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:
 
 .. http:example:: http/register-bidder-not-member.http
    :code:
 
-Modifying bid
-~~~~~~~~~~~~~~~
+Модифікація пропозиції
+~~~~~~~~~~~~~~~~~~~~~~
    
-Bid can be updated until the end of tender period. 
+Пропозиція може бути оновленою до закінчення тендерного періоду. 
 
 .. http:example:: http/patch-bidder.http
    :code:
 
-Deleting bid
-~~~~~~~~~~~~~
+Видалення пропозиції
+~~~~~~~~~~~~~~~~~~~~
 
-Bid can be deleted until the end of tender period.
+Поки не завершився період подання пропозицій постачальник має можливість видаляти свою пропозицію.
 
-Let's add new bid to tender:
+Додамо нову пропозицію до тендеру:
 
 .. http:example:: http/register-2nd-bid.http
    :code:
 
-Now we can delete this bid:
+У постачальника є змога видалити її, якщо була допущена помилка:
 
 .. http:example:: http/delete-2nd-bid.http
    :code:
 
-The bid is not exist in tender after deletion:
+Пропозиція відсутня в тендері після видалення:
 
 .. http:example:: http/get-deleted-bid.http
    :code:
    
-Proposal Uploading
-~~~~~~~~~~~~~~~~~~
+Завантаження пропозиції
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Then bidder should upload proposal document(s):
+Потім учасник повинен завантажити документ(и) пропозиції:
 
 .. http:example:: http/upload-bid-proposal.http
    :code:
 
-It is possible to check the uploaded documents:
+Можна перевірити завантажені документи:
 
 .. http:example:: http/bidder-documents.http
    :code:
 
-Active tendering period end
-----------------------------
+Закінчення періоду подання пропозицій
+-------------------------------------
 
-After tender period ended, CBD checks one more time status of contract for suppliers in agreement.
-If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status.
+По закінченню періоду подання пропозицій (active.tendering) система знову перевіряє статус учасника у agreement. Якщо досі `аctive` - bid отримує `status:active`, якщо інший статус - пропозиція падає у статус `invalid`.
 
-Let's imagine that second contract supplier in agreement was disqualified during `active.tendering` period.
+Припустимо, що другий постачальник в угоді був дискваліфікований під час періоду `active.tendering`.
 
-Let's see our bids statuses after `active.tendering` period ends. Last bid was disqualified:
+Подивимося на статуси наших пропозицій після закінчення періоду `active.tendering`. Остання пропозиція, в якій постачальник був дискваліфікований в угоді, тепер має статус `invalid`:
 
 .. http:example:: http/active-tendering-end-bids.http
    :code:
    
 .. index:: Awarding
 
-Awarding process
-----------------
+Процес визначення переможця
+---------------------------
 
-After the tender period end date, system automatically creates `award` in `pending` status for the bid with the most economically advantageous price.
+Після закінчення тендерного періоду, система автоматично створює ``award`` у статусі ``pending`` для пропозиції з найбільш економічно вигідною ціною.
 
 .. http:example:: http/awards-listing.http
    :code:
 
-Qualification comission can set award to `active` or `unsuccessful` status.
+Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус.
 
-There are validations before registering qualification decision:
+Валідація значення полів відповідно до рішення під час винесення рішення:
 
-* `qualified: True` - for setting award from `pending` to `active`
+* `qualified: True` - при переході award з `pending` в `active`
 
-* `qualified: False` - for setting award from `pending` to `unsuccessful`
+* `qualified: False` - при переході award з `pending` в `unsuccessful`
 
-Let's try to set `unsuccessful` status for `qualified` award and we will see an error:
+Спробуємо відхилити авард для `qualified` учасника:
 
 .. http:example:: http/unsuccessful-qualified-award.http
    :code:
 
-Let's try to set `active` status for `non-qualified` award and we will see an error:
+Спробуємо винести рішення по переможцю по аварду для `non-qualified` учасника:
 
 .. http:example:: http/activate-non-qualified-award.http
    :code:
 
-Procuring Entity can accept `award` by transferring it to status: `active`.
+Замовник може прийняти `award` змінивши його статус на `active`.
 
 .. http:example:: http/award-active.http
    :code:
 
-Let's check the listing of `awards`:
+Поглянемо на список `awards`:
 
 .. http:example:: http/awards-listing-after-activation.http
    :code:
 
-Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled`:
+Замовник може відхилити `award` після прийняття змінивши його статус на `cancelled`:
 
 .. http:example:: http/award-cancelled.http
    :code:
 
-After canceling `award` system creates `second` `award` for the same bid in status: `pending`:
+Після відхилення `award` система створює `другий award` для цієї пропозиції у статусі `pending`:
 
 .. http:example:: http/awards-listing-after-cancellation.http
    :code:
 
-If the offer of the Participant with the lowest price meets the requirements, Procuring Entity uploads a document that recognizes the offer as the Winner `(awards:status:active)`.
-If it does not meet the requirements, Procuring Entity downloads a protocol confirming its decision to reject the Participant and rejects such an offer `(awards:status:unsuccessful)`.
-The system leads to the evaluation of the next one with most economically advantageous price `(awards:status:pending)`.
+Якщо пропозиція Учасника з найменшою ціною відповідає вимогам, Замовник завантажує документ, що підтверджує його рішення і визнає пропозицію Переможцем `(awards:status:active)`. Якщо не відповідає, Замовник завантажує протокол, що підтверджує його рішення про відхилення Учасника та відхиляє таку пропозицію `(awards:status:unsuccessful)`. Система приводить до оцінки наступного за ціною Учасника `(awards:status:pending)`.
 
-Let's decline `award` by transferring it to status: `unsuccessful`.
+Відхилимо `award` змінивши його статус на  `unsuccessful`.
 
 .. http:example:: http/award-unsuccesful.http
    :code:
 
-In that case `Award` will be granted to the next bid with most economically advantageous price.
+В цьому випадку `Award` буде наданий до наступної пропозиції з найбільш економічно вигідною ціною.
 
-Let's check the listing of `awards`:
+Поглянемо на список `awards`:
 
 .. http:example:: http/awards-listing-after-unsuccesful.http
    :code:
 
-Procuring Entity can accept second bidder `award` by transferring it to status: `active`.
+Замовник може прийняти `award` другого учасника змінивши його статус на  `active`.
 
 .. http:example:: http/award-active-2.http
    :code:
 
-Let's check the listing of `awards`:
+Поглянемо на список `awards`:
 
 .. http:example:: http/awards-listing-after-activation-2.http
    :code:
 
 .. note::
 
-    In the case of `award` being transferred to `unsuccessful` status for the last bid procedure will inherit termination status: **`unsuccessful`**.
+    У випадку переходу `award` останньої пропозиції у статус `unsuccessful` процедура набуде кінцевий статус: **`unsuccessful`**.
 
 
-.. index:: Setting Contract
+.. index:: Налаштування угоди
 
-Setting Contract
-----------------
+Налаштування угоди
+------------------
 
-In EContracting the contract is created directly in contracting system.
+В режимі Е-Контрактінгу угода створюється безпосередньо в системі угод.
 
 .. note::
-    Some of data will be mirrored to tender until contract will be activated for backward compatibility.
+    Деякі дані для забезпечення сумісності будуть дублюватись в закупівлі до тих пір, поки угода не буде активована.
 
-Read more about working with EContracting in contracting system in :ref:`contracting_tutorial` section.
+Більше дізнатись про роботу з Е-Контрактінгом в системі угод можна в розділі :ref:`contracting_tutorial`.
 
    
-Cancelling tender
+Відміна закупівлі
 -----------------
 
-Tender creator can cancel tender anytime (except when tender in terminal status e.g. `draft.unsuccessful`, `unsuccessful`, `cancelled`, `complete`).
+Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `unsuccessful`, `cancelled`, `complete`).
 
-The following steps should be applied:
+Для цього потрібно виконати наступні кроки:
 
-1. Prepare cancellation request.
-2. Fill it with the protocol describing the cancellation reasons.
-3. Cancel the tender with the prepared reasons.
+1. Приготуйте запит на скасування.
+2. Наповніть його протоколом про причини скасування.
+3. Скасуйте закупівлю через подані причини.
 
-Only the request that has been activated (3rd step above) has power to
-cancel tender.  I.e.  you have to not only prepare cancellation request but
-to activate it as well.
+Запит на скасування, який не пройшов активації (3-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її.
 
-For cancelled cancellation you need to update cancellation status to `unsuccessful`
-from `draft` or `pending`.
+Для відміни скасування закупівлі, вам потрібно оновити статус скасування до `unsuccessful` з `draft` чи `pending`
 
-See :ref:`cancellation` data structure for details.
+Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації.
 
-Preparing the cancellation request
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Формування запиту на скасування
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You should pass `reason` and `reasonType`, `status` defaults to `draft`.
+Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`.
 
-There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`.
+При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`.
 
-`id` is autogenerated and passed in the `Location` header of response.
+`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:
 
 .. http:example:: http/prepare-cancellation.http
    :code:
 
-You can change ``reasonType`` value to any of the above.
+Ви можете виправити тип на будь-який що вказаний вище.
 
 .. http:example:: http/update-cancellation-reasonType.http
      :code:
 
-Filling cancellation with protocol and supplementary documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Наповнення протоколом та іншою супровідною документацією
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This step is required. Without documents you can't update tender status.
+Цей крок обов'язковий. Без документів ви не можете оновити статус закупівлі.
 
-Upload the file contents
+Завантажити вміст файлу
 
 .. http:example:: http/upload-cancellation-doc.http
    :code:
 
-Change the document description and other properties
+Зміна опису документа та інших властивостей
 
 
 .. http:example:: http/patch-cancellation.http
    :code:
 
-Upload new version of the document
+Завантажити нову версію документа
 
 
 .. http:example:: http/update-cancellation-doc.http
    :code:
 
-Activating the request and cancelling tender
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Активація запиту на відміну закупівлі
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. http:example:: http/active-cancellation.http
    :code:

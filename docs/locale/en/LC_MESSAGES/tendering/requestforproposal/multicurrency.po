@@ -1,0 +1,84 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-10 11:30+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Мультивалютність"
+msgstr "Multi currency"
+
+msgid "Закупівля за правилами організаторів може бути мультивалютною. Для того, щоб створити таку процедуру, обов'язково треба встановити конфігурацію `valueCurrencyEquality:false` та заповнити поле `funders`."
+msgstr "The requestForProposal procedure can be multi currency for donors. To create such type of procedure it is required to set config `valueCurrencyEquality:false` and add `funders` field."
+
+msgid "Таким чином в учасників буде можливість додати прайс-ліст на кожну номенклатуру в різних валютах. Прайс-ліст допоможе наочно показати з яких частин формується загальна ціна учасника по кожній номенклатурі окремо."
+msgstr "In this way, it will be possible to add a price list of items to the procedure in different currency. The price list will help to visually show which parts make up the total price of the participant for each item separately."
+
+msgid "Створимо закупівлю з конфігурацією `valueCurrencyEquality:false` і полем `funders`, додамо лоти і активуємо її:"
+msgstr "Let's create tender with configuration `valueCurrencyEquality:false` and `funders` field, add lots for it and activate it:"
+
+msgid "Тепер учасник може зареєструвати пропозицію."
+msgstr "Now the participant can register bid."
+
+msgid "Для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `items` в біді. Якщо `items` в біді нема, буде згенерована помилка:"
+msgstr "It is required to add `items` for tender with field `funders`. If there are no `items` in bid, we will see an error:"
+
+msgid "Також для донорської закупівлі (якщо є поле `funders`) обов'язковим є додавання `value` в `items.unit` в біді. Якщо `value` в `items.unit` в біді нема, буде згенерована помилка:"
+msgstr "Also it is required to add `value` in `items.unit` for tender with field `funders`. If there are no `value` in `bid.items.unit`, we will see an error:"
+
+msgid "Кількість `items` в пропозиції має співпадати з кількістю `items` в тендері на рівні лоту, вказаному в `lotValues`:"
+msgstr "Quantity of items in bid should be equal to quantity of tender items related to lot set in `lotValues`:"
+
+msgid "Ідентифікатори `items` в пропозиції мають відповідати ідентифікаторам `items` в тендері та належати до того самого `relatedLot`, який вказано в пропозиції:"
+msgstr "Items ids in bid should correspond to items ids in tender and belong to the same `relatedLot` as set in bid:"
+
+msgid "До кожної номенклатури (items) учасник вказує ціну за одиницю. Він може вказувати різні валюти:"
+msgstr "For each nomenclature (items), the participant indicates the price per unit. He can specify different currencies:"
+
+msgid "Вимоги до реєстрації пропозицій:"
+msgstr "The requirements for bid registration:"
+
+msgid "Значення Валюта для кожної ціни за одиницю: може бути різним, значення може НЕ співпадати зі значенням Валюта для загальної цінової пропозиції та може НЕ бути однаковим на рівні лоту; значення може НЕ відповідати значенням Валюта, яке вказав замовник в тендері у очікуваній вартості закупівлі"
+msgstr "The `currency` value for each unit price: may be different, the value may NOT match the Currency value for the overall quote and may NOT be the same at the lot level; the value may NOT correspond to the value of the Currency specified by the customer in the tender in the expected purchase price"
+
+msgid "Загальна вартість цін за одиницю на рівні лоту може НЕ дорівнювати загальній ціні пропозиції"
+msgstr "The total cost of Lot-level Unit Prices may NOT equal the total bid price"
+
+msgid "Значення ПДВ повинно відповідати значенню, вказаному замовником у тендері"
+msgstr "The value of VAT must correspond to the value specified by the customer in the tender"
+
+msgid "Якщо учасник планує зробити замовнику так звану знижку, він може для певних номенклатур у значенні ціна за одиницю вказати значення 0"
+msgstr "If the participant plans to give the customer a so-called discount, he can specify the value 0 for certain items in the Price per unit value"
+
+msgid "Спробуємо змінити значення ПДВ в `bid.items.unit` яке буде відрізнятися від False і побачимо наступну помилку:"
+msgstr "Let's try to change VAT value in `bid.items.unit` to different than False and we will see the error:"
+
+msgid "Аукціон в таких закупівлях не передбачено."
+msgstr "An auction is not provided for such purchases."
+
+msgid "Оберемо переможця під час кваліфікації і подивимося на сформований контракт. Як ми можемо побачити всі ціни за одиницю переносяться у контракт:"
+msgstr "Let's choose the winner and look at the contract. As we can see all unit prices are transferred to the contract:"
+
+msgid "Загальна ціна пропозиції та ціна за одиницю коригуються як у бік збільшення так і у бік зменшення."
+msgstr "The total offer price and the price per unit are adjusted both upwards and downwards."
+
+msgid "При цьому загальна вартість цін за одиницю може не дорівнювати загальній ціні пропозиції."
+msgstr "At the same time, the total cost of the price per unit can be not equal to the total price of the offer."
+
+msgid "ПДВ можна змінювати на рівні контракту (повинна бути змінена як у contract.value так і у contract.items.unit.value одночасно)."
+msgstr "VAT can be changed at the contract level (must be changed in both contract.value and contract.items.unit.value at the same time)."
+
+msgid "Відредагуємо ціни в контракті:"
+msgstr "Let's patch contract values:"
+
+msgid "Далі активуємо контракт, щоб перевірити, чи можна змінити загальну суму цін за одиницю більше, ніж ми маємо в контрактній вартості:"
+msgstr "Then let's activate contract to check whether it is possible to change general sum of unit values greater than we have in contract value:"
+

@@ -9,18 +9,18 @@ Schema
 ------
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, required
+    рядок, обов'язково
 
-    Metric title.
+    Назва метрики
 
 :description:
-    string
+    рядок
 
-    Metric description.
+    Опис
 
 :observations:
-    List of :ref:`Observation` objects
+    Список об'єктів :ref:`Observation`
 

@@ -6,8 +6,8 @@ Transfer logic from PQ bot to CBD
 
 This section describes the logic of refusal of the priceQuotationBot and transferring validations from the bot to the CBD during tender activation.
 
-Creating tender
----------------
+Створення закупівлі
+-------------------
 
 Tender creation remains unchanged for PQ. A tender is created in the same way as before in the status `draft`:
 
@@ -215,15 +215,14 @@ Tender creation remains unchanged for PQ. A tender is created in the same way as
     }
 
 
-Modifying tender
-------------------
+Редагування закупівлі
+---------------------
 
-Procuring Entity can modify tender before activating.
-In previous flow with PQ bot there was the same stage before publishing (before changing status to `draft.publishing`).
+Procuring Entity can modify tender before activating. In previous flow with PQ bot there was the same stage before publishing (before changing status to `draft.publishing`).
 
 
-Activating tender
-------------------
+Активація закупівлі
+-------------------
 
 In previous flow after creation Procuring Entity published procedure by changing status to `draft.publishing` where **priceQuotationBot** robot ran validation of the procedure and supplemented procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`.
 
@@ -233,13 +232,13 @@ Now we transfer all robot's validation logic to CBD and check it while Procuring
 
 PQ robot validations:
 
-* Existence of item profile in catalogue
+* Наявність профілю товару в каталозі
 
-* Existence of related agreement
+* Наявність відповідного договору
 
-* Equality of profile agreement and related agreement in tender
+* Перевірка, що угода в профілі та пов’язана угода в тендері однакові
 
-* Agreement should not be in terminated status
+* Угода не повинна бути розірвана (статус terminated)
 
 * Agreement has qualified suppliers
 
@@ -247,7 +246,7 @@ PQ robot validations:
 Possible errors
 ---------------
 
-If Procuring Entity will try to activate PQ procedure with non-existed profile in catalogue, we will see error:
+Якщо Замовник спробує активувати процедуру PQ з неіснуючим профілем у каталозі, ми побачимо помилку:
 
 .. sourcecode:: http
 
@@ -311,7 +310,7 @@ If Procuring Entity will try to activate PQ procedure with non-existed agreement
       ]
     }
 
-In case profile agreement and related agreement in tender aren't equal, the next error will be generated:
+Якщо угода (agreement) в профілі та угода в тендері не однакові, буде згенеровано наступну помилку:
 
 .. sourcecode:: http
 
@@ -343,7 +342,7 @@ In case profile agreement and related agreement in tender aren't equal, the next
       ]
     }
 
-If agreement is in terminated status:
+Якщо угода розірвана:
 
 .. sourcecode:: http
 
@@ -411,7 +410,7 @@ If there is problem with connection to ProZorro e-Catalogues, we will see error:
 Successful scenario
 -------------------
 
-If PQ procedure matches all requirements, it will be switched to `active.tendering`:
+Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`:
 
 .. sourcecode:: http
 
@@ -527,8 +526,7 @@ If PQ procedure matches all requirements, it will be switched to `active.tenderi
     }
 
 
-There will not be `shortlistedFirms` field in procedure anymore.
-During bid creation/activation there will be validation that `bid.tenderers` is a member of agreement.
+There will not be `shortlistedFirms` field in procedure anymore. During bid creation/activation there will be validation that `bid.tenderers` is a member of agreement.
 
 Conclusion
 ----------
