@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-12-21 17:46+0200\n"
+"PO-Revision-Date: 2019-12-21 17:47+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+"Language: en\n"
+"X-Generator: Poedit 2.2.3\n"
+
+msgid "PlanMilestone"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Єдине можливе значення:"
+msgstr "The only possible value is:"
+
+msgid "`Підготовка до проведення процедури`"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "рядок, мінімальна довжина 3"
+msgstr "string, min-length is 3"
+
+msgid "Значення за промовчанням:"
+msgstr "Default value is:"
+
+msgid "`Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників`"
+msgstr ""
+
+msgid "type"
+msgstr ""
+
+msgid "`approval`"
+msgstr ""
+
+msgid "dueDate"
+msgstr ""
+
+msgid "рядок, :ref:`date`, обов’язковий"
+msgstr "string, :ref:`date`, required"
+
+msgid "author"
+msgstr ""
+
+msgid ":ref:`PlanOrganization`, обов’язково"
+msgstr ":ref:`PlanOrganization` object, required"
+
+msgid "status"
+msgstr ""
+
+msgid "рядок, за замовчуванням `scheduled`"
+msgstr "string, default `scheduled`"
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`scheduled`"
+msgstr ""
+
+msgid "`met`"
+msgstr ""
+
+msgid "`notMet`"
+msgstr ""
+
+msgid "`invalid`"
+msgstr ""
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`document`"
+msgstr "List of :ref:`document` objects"
+
+msgid "dateModified"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "dateMet"
+msgstr ""
+
+msgid "owner"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+

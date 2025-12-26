@@ -2,23 +2,20 @@
 .. _complaint-payments:
 
 
-Complaints Payments
-===================
+Оплати по скаргах
+=================
 
 
-Let's create a complaint:
+Cтворимо скаргу:
 
 .. http:example:: ./http/complaints-value/complaint-creation.http
    :code:
 
 
-You can see `value` field that contains amount to be paid for this complaint
+Ви можете побачити поле `value`, яке містить суму, яку потрібно сплатити за цю скаргу
 
 
-If currency of a tender is different from UAH,
-posting complaint will request bank.gov.ua
-and return complaint `value` in UAH anyway.
-This also can cause connection errors of different types:
+Якщо валюта тендеру відрізняється від UAH, то при розміщені скарги, буде надіслано запит на bank.gov.ua для розрахування значення `value` у гривні. Це також може спричинити помилки підключення різних типів:
 
 .. http:example:: ./http/complaints-value/complaint-creation-decoding.http
    :code:
@@ -26,7 +23,7 @@ This also can cause connection errors of different types:
 .. http:example:: ./http/complaints-value/complaint-creation-connection.http
    :code:
 
-In case of 409 code, request should be repeated. And it shouldn't in case of 422:
+У випадку коду 409 запит слід повторити. Але не треба у випадку 422:
 
 .. http:example:: ./http/complaints-value/complaint-creation-rur.http
    :code:

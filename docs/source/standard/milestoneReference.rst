@@ -11,9 +11,9 @@ Schema
 :id:
     uid
 
-    Reference on existed :ref:`milestone`.
+    Посилання на існуючий :ref:`milestone`.
 
 :title:
-    string
+    рядок
 
-    Title of existing :ref:`milestone`.
+    Назва існуючого :ref:`milestone`.

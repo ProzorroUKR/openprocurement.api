@@ -3,8 +3,7 @@
 Python linter and code formatters
 =================================
 
-Для автоматичної перевірки відповідності стилі і форматування коду,
-включіть `pre-commit hooks <https://pre-commit.com>`_
+Для автоматичної перевірки відповідності стилі і форматування коду, включіть `pre-commit hooks <https://pre-commit.com>`_
 
 
 

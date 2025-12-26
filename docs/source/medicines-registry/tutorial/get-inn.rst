@@ -1,7 +1,7 @@
-INN (International Non-proprietary Name)
-****************************************
+МНН (Міжнародна Непатентована Назва)
+************************************
 
-`International Non-Proprietary Name (INN) <https://en.wikipedia.org/wiki/International_nonproprietary_name>`_ is the unique name of the active substance of a medicinal product recommended by the World Health Organization (WHO).
+`Міжнародна Непатентована Назва (МНН) <https://uk.wikipedia.org/wiki/%D0%9C%D1%96%D0%B6%D0%BD%D0%B0%D1%80%D0%BE%D0%B4%D0%BD%D0%B0_%D0%BD%D0%B5%D0%BF%D0%B0%D1%82%D0%B5%D0%BD%D1%82%D0%BE%D0%B2%D0%B0%D0%BD%D0%B0_%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0>`_ унікальна назва діючої речовини медичного засобу, прийнята Всесвітньою організацією охорони здоров'я (ВООЗ).
 
 .. http:example:: http/inn-get.http
     :code:

@@ -1,11 +1,9 @@
 .. _standard:
 
-Data Standard
-=============
+Стандарт даних
+==============
 
-Data standard is modelled along the `Open Contracting Standard
-<http://standard.open-contracting.org/>`_ with extensions in
-areas that were not covered by it.
+Стандарт даних змодельований згідно `Open Contracting Standard <http://standard.open-contracting.org/>`_ з розширеннями в тих областях, які він не покриває.
 
 .. toctree::
    :maxdepth: 1

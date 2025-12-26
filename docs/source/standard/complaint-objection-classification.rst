@@ -8,14 +8,13 @@
 ComplaintObjectionClassification
 ================================
 
-Schema
-------
+Схема
+-----
 
 :scheme:
-    string, required
+    рядок, обов’язковий
 
-    Scheme of the classification of the essence of the objection.
-    Possible values are:
+    Схема класифікації суті заперечення. Можливі значення:
 
     * `article_16`
     * `article_17`
@@ -25,12 +24,11 @@ Schema
     * `amcu_24`
 
 :id:
-    string, required
+    рядок, обов’язковий
 
-    Id of the classification of the essence of the objection.
-    Should be from particular standards dictionary due to scheme.
+    Ідентифікатор класифікації суті заперечення. Має бути обраний з відповідного довідника, вказаного в scheme.
 
 :description:
-    string, required
+    рядок, обов’язковий
 
-    Description of the classification of the essence of the objection
+    Опис класифікації суті заперечення

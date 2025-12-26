@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-20 13:58+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+msgid "SignerInfo"
+msgstr ""
+
+msgid "Schema"
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "|ocdsDescription| Повне імʼя підписанта."
+msgstr "|ocdsDescription| signer fullname."
+
+msgid "email"
+msgstr ""
+
+msgid "|ocdsDescription| Адреса електронної пошти підписанта"
+msgstr "|ocdsDescription| The e-mail address of the signer."
+
+msgid "telephone"
+msgstr ""
+
+msgid "|ocdsDescription| Номер телефону підписанта. Повинен включати міжнародний телефонний код."
+msgstr "|ocdsDescription| The telephone number of the signer. This should include the international dialling code."
+
+msgid "iban"
+msgstr ""
+
+msgid "|ocdsDescription| Номер банкінвського рахунку підписанта."
+msgstr "|ocdsDescription| The bank account number of the signatory."
+
+msgid "authorizedBy"
+msgstr ""
+
+msgid "|ocdsDescription| назва доокументу, на сонові якого діє підписант"
+msgstr "|ocdsDescription| name of the document on the basis of which the signatory acts"
+
+msgid "position"
+msgstr ""
+
+msgid "|ocdsDescription| посада підписанта."
+msgstr "|ocdsDescription| position of the signer in the organisation."
+

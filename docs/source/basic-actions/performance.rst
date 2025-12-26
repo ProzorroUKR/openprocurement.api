@@ -1,14 +1,14 @@
 .. _performance:
 
-Performance recommendations
-===========================
+Рекомендації для роботи
+=======================
 
 
-Rate Control
--------------
+Контроль частоти запитів
+------------------------
 
-"Aggressive" IP addresses can be restricted in the speed with which servers are processing CDB requests. In this case CDB will respond with :ref:`status code 429 <errors>` to the requests that returned faster than allowed.
+На “агресивні” IP адреси може бути накладено обмеження на швидкість, з якою сервери ЦБД опрацьовують запити. У відповідь на запити, які прийшли швидше ніж дозволено, ЦБД відповідає з :ref:`кодом статусу 429 <errors>`.
 
-Expected client response to such restriction is to repeat requests returned with 429 status code increasing the delay between individual requests sent to the CDB until requests become successful (2xx / 3xx responses).
+Очікується, що на такий код відповіді ПЗ майданчика буде реагувати таким чином: буде повторювати запити, які повернулися з таким кодом помилки, збільшуючи затримку між окремими запитами, що посилаються на ЦБД, доти доки запити не почнуть вдаватися (2xx/3xx відповіді).
 
-Such CDB servers behavior is required in order to distribute server resources evenly between clients.
+Така поведінка серверів ЦБД необхідна, щоб рівномірніше розподіляти ресурси серверів між майданчиками.

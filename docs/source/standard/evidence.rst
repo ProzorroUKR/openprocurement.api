@@ -7,38 +7,34 @@
 Evidence
 ========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    Evidence title.
+    |ocdsDescription| Назва доказу.
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    Evidence description.
+    |ocdsDescription| Опис доказу.
 
 :type:
     string
 
-    |ocdsDescription|
-    the form in which the bidder give evidence.
+    |ocdsDescription| форма, в якій відповідач надає доказ.
 
-    Possible values are:
+    Можливі значення:
      :`document`:
-       An internal document stored in Prozorro system
+       Документ, що зберігається в системі Prozorro
      :`statement`:
-       A machine-readable confirmation by a requested Party
+       Машиночитане підтвердження
 
 :relatedDocument:
     :ref:`Reference`
 
-    |ocdsDescription|
-    The reference for bid/award document.
+    |ocdsDescription| Id пов'язоного документу з bid/award

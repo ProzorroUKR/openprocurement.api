@@ -6,184 +6,181 @@
 Agreement in :ref:`frameworks_electroniccatalogue`
 ==================================================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, required, auto-generated
+    ID користувача, обов'язково, генерується автоматично
 
 :agreementID:
-    string, auto-generated, read-only
+    рядок, генерується автоматично, лише для читання
 
 :agreementType:
-    string, auto-generated, value: `electronicCatalogue`, read-only
+    рядок, генерується автоматично, значення: `electronicCatalogue`, лише для читання
 
 :status:
-    string
+    рядок
 
-     The current status of agreement.
-     Possible values are:
+     Актуальний статус реєстру. Можливі значення:
 
     * `active`
     * `terminated`
 
 :date:
-    string, :ref:`date`, auto-generated, read-only
+    рядок, :ref:`date`, генерується автоматично, лише для читання
 
-    The date of the agreement change status.
+    Дата зміни реєстру
 
 :dateModified:
-    string, :ref:`date`, auto-generated, read-only
+    рядок, :ref:`date`, генерується автоматично, лише для читання
 
-    The date of the agreement change.
+    Дата зміни реєстру.
 
 :procuringEntity:
-   :ref:`ProcuringEntity`, auto-generated from framework, read-only
+   :ref:`ProcuringEntity`, генерується автоматично, лише для читання
 
    Organization conducting the agreement.
 
 :period:
     :ref:`Period`
 
-    The timeframe when agreement is in force.
+    Період чинності реєстру.
 
 :classification:
-   :ref:`Classification`, required, auto-generated from framework, read-only
+   :ref:`Classification`, генерується автоматично, лише для читання
 
 :additionalClassifications:
-    List of :ref:`Classification` objects, auto-generated from framework, read-only
+    список з :ref:`Classification`, генерується автоматично з угоди, лише для читання
 
 :contracts:
-    List of :ref:`Contract` objects
+    Список об'єктів :ref:`Contract`
 
 :frameworkDetails:
-    string
+    рядок
 
 
 .. _agreement_cfaua:
 
-Agreement in :ref:`cfaua`
-=========================
+Agreement в :ref:`cfaua`
+========================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, required, auto-generated
+    ID користувача, обов'язково, генерується автоматично
 
 :agreementID:
-    string, auto-generated, read-only
+    рядок, генерується автоматично, лише для читання
 
 :agreementNumber:
-    string
+    рядок
 
 :agreementType:
     string, value: `cfaua`
 
 :changes:
-    List of :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` or :ref:`ChangeThirdParty` objects.
+    Список  :ref:`ChangeTaxRate`, :ref:`ChangeItemPriceVariation`, :ref:`ChangePartyWithdrawal` або :ref:`ChangeThirdParty` об'єктів.
 
-    Only in `agreements` container.
+    Тільки в контейнері `agreements`.
 
 :date:
-    string, :ref:`date`, auto-generated, read-only
-    
-    The date of the agreement change.
+    рядок, :ref:`date`, генерується автоматично, лише для читання
+                                                             
+    Дата зміни реєстру.
 
 :dateModified:
-    string, :ref:`date`, auto-generated, read-only
+    рядок, :ref:`date`, генерується автоматично, лише для читання
 
-    The date of the agreement change.
+    Дата зміни реєстру.
 
 :dateSigned:
-    string, :ref:`date`
-    
-    The date of the agreement signed.
+    рядок, :ref:`date`
+                  
+    Дата підписання угоди
 
 :description:
-    string, multilingual
-    
-    Agreement description
+    рядок, багатомовний
+                   
+    Опис договору
 
 :description_en:
-    string, multilingual
-    
-    Agreement description
+    рядок, багатомовний
+                   
+    Опис договору
 
 :description_ru:
-    string, multilingual
-    
-    Agreement description
+    рядок, багатомовний
+                   
+    Опис договору
 
 :documents:
-    List of :ref:`Document` objects
-    
-    |ocdsDescription|
-    All documents and attachments related to the agreement, including any notices.
+    Список об'єктів :ref:`Document`
+                               
+    |ocdsDescription| Всі документи і додатки, що стосуються угоди, в тому числі будь-які сповіщення.
 
 :items:
-    List of :ref:`Item` objects
+    Список об'єктів :ref:`Item`
 
 :period:
     :ref:`Period`
-    
-    The timeframe when agreement is in force. Maximum 4 years.
-    
+             
+    Період чинності угоди. Щонайбільше 4 роки.
+                                          
     :clarificationsUntil: 
     
-    Deadline for participants to submit price documents
+    Крайній термін подання документів з цінами учасниками
 
 :status:
-    string
+    рядок
 
-     The current status of agreement.
-     Possible values are:
+     Актуальний статус реєстру. Можливі значення:
 
-    * `pending` - the agreement is under signing between procuring entity and :ref:`Contract` 
-    * `unsuccessful` - the agreement has not been signed between procuring entity and :ref:`Contract`
-    * `active` - the agreement is signed between procuring entity and :ref:`Contract`
-    * `cancelled` - the agreement has been cancelled within cancellation of tender/lot.
+    * `pending` - угода в процесі підписання між замовником та :ref:`Contract` 
+    * `unsuccessful` - угода між замовником та :ref:`Contract` не було підписано
+    * active` - угода між замовником та :ref:`Contract` підписана
+    * `cancelled` - підписання угоди скасовано через відміну закупівлі/лоту.
 
-     Different in `agreement` container:
+     Відмінності в контейнері `agreement`:
 
-    * `active` - the agreement is active and can be used for creating `selection` procedure
-    * `terminated` - the agreement is cannot be used, for creating `selection` procedure
+    * `active` - угода є активною і може бути використана для створення `selection` процедури
+    * `terminated` - угода не може бути використана для створення `selection` процедури
 
     
 :contracts:
-    List of :ref:`Contract` objects
+    Список об'єктів :ref:`Contract`
 
 :title:
-    string, required
-    
-    Agreement title
+    рядок, обов'язково
+                  
+    Назва угоди
 
 :title_ru:
-    string, required
-    
-    Agreement title
+    рядок, обов'язково
+                  
+    Назва угоди
 
 :title_en:
-    string, required
-    
-    Agreement title
+    рядок, обов'язково
+                  
+    Назва угоди
 
 .. _agreement_pricequotation:
 
-Agreement in :ref:`pricequotation`
-==================================
+Agreement в :ref:`pricequotation`
+=================================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, required
+    uid, обов'язково
 
-    ID for related Agreement from :ref:`frameworks_electroniccatalogue`
+    ID пов’язаної угоди з :ref:`frameworks_electroniccatalogue`
 
 
-Workflow
---------
+Послідовність дій
+-----------------
 
 .. graphviz::
 
@@ -197,8 +194,8 @@ Workflow
          A -> D;
     }
 
-Workflow in :ref:`agreementcfaua`
----------------------------------
+Робочий процес у :ref:`agreementcfaua`
+--------------------------------------
 
 .. graphviz::
 
@@ -208,4 +205,4 @@ Workflow in :ref:`agreementcfaua`
          A -> B;
     }
 
-\* marks initial state
+\* позначає початковий статус

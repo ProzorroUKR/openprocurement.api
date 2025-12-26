@@ -1,9 +1,9 @@
 .. _competitivedialogue:
 
-The Competitive Dialogue procedure - ``competitiveDialogueEU``, ``competitiveDialogueUA``
-=========================================================================================
+Конкурентний діалог - ``competitiveDialogueEU``, ``competitiveDialogueUA``
+==========================================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

@@ -1,76 +1,76 @@
-Example for Agreement
----------------------
+Приклад для угоди
+-----------------
 
-Agreement ownership change
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Зміна власника угоди
+~~~~~~~~~~~~~~~~~~~~
 
-Let's view transfer example for agreement transfer.
+Переглянемо приклад зміни власника для угоди.
 
 
-Getting agreement's credentials
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Отримання доступу до угоди
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At first let's get agreement credentials:
+Спочатку отримаємо доступ до угоди:
 
 .. http:example:: tutorial/get-agreement-credentials.http
    :code:
 
-`broker` is current agreement's ``owner``.
+Майданчик `broker` є поточним власником ``owner`` угоди.
 
-Note that response's `access` section contains a ``transfer`` key which is used to change tender ownership.
+Зверніть увагу, що секція відповіді `access` містить ключ ``transfer``, який використовується для зміни власника угоди.
 
-After agreement's credentials obtaining broker has to provide its customer with ``transfer`` key.
+Після отрімання доступу до угоди майданчик повинен довести ключ ``transfer`` до відома клієнта.
 
-Transfer creation
-^^^^^^^^^^^^^^^^^
+Ініціація зміни власника
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-First of all, you must know ID of the agreement that you want to transfer.
+Перш за все, необхідно знати ID угоди, власника якого ви хочете змінити.
 
-Broker that is going to become new agreement owner should create a `Transfer`.
+Майданчик, що стане новим власником угоди, повинен створити об'єкт `Transfer`.
 
 .. http:example:: tutorial/create-agreement-transfer.http
    :code:
 
-`Transfer` object contains new access ``token`` and new ``transfer`` token for the object that will be transferred to new broker.
+Об'єкт `Transfer` містить новий ключ доступу ``token`` та новий ключ ``transfer`` для об'єкта, власник якого буде змінений.
 
-Changing agreement's owner
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Зміна власника угоди
+^^^^^^^^^^^^^^^^^^^^
 
-An ability to change agreement's ownership depends on agreement's status:
+Можливість зміни власника угоди залежить від статусу угоди:
 
-+---------+-------------+
-| Allowed | Not Allowed |
-+---------+-------------+
-| active  | pending     |
-|         |             |
-|         | terminated  |
-+---------+-------------+
++-----------+--------------+
+| Дозволено | Не дозволено |
++-----------+--------------+
+| active    | pending      |
+|           |              |
+|           | terminated   |
++-----------+--------------+
 
-In order to change agreement's ownership new broker should send POST request to appropriate `/agreements/id/` with `data` section containing ``id`` of `Transfer` and ``transfer`` token received from customer:
+Щоб змінити власника угоди новий майданчик повинен надіслати POST запит на відповідний  `/agreements/id/` з секцією `data`, що міститиме ідентифікатор ``id`` для `Transfer` та ключ ``transfer`` отриманий від клієнта:
 
 .. http:example:: tutorial/change-agreement-ownership.http
    :code:
 
-Updated ``owner`` value indicates that ownership is successfully changed. 
+Оновлене значення властивості ``owner`` вказує, що власник був успішно змінений. 
 
-Note that new broker has to provide its customer with new ``transfer`` key (generated in `Transfer` object).
+Зверніть увагу, що новий майданчик повинен довести до відома клієнта новий ключ ``transfer`` (згенерований в об'єкті `Transfer`).
 
-After `Transfer` is applied it stores agreement path in ``usedFor`` property.
+Можна перевірити чи після застосування об'єкта `Transfer` шлях до угоди зберігається у властивості ``usedFor``.
 
 .. http:example:: tutorial/get-used-agreement-transfer.http
    :code:
 
-Let's try to change the agreement using ``token`` received on `Transfer` creation:
+Спробуємо змінити угоду за допомогою ключа ``token``, отриманого при створенні об'єкта `Transfer`.
 
 .. http:example:: tutorial/modify-agreement.http
    :code:
 
-Pay attention that only broker with appropriate accreditation level can become new owner. Otherwise broker will be forbidden from this action.
+Зверніть увагу, що тільки майданчик з відповідним рівнем акредитації може стати новим власником. В іншому випадку майданчику така дія буде заборонена.
 
 .. http:example:: tutorial/change-agreement-ownership-forbidden.http
    :code:
 
-Also ownership change is allowed only if current owner has a special accreditation level that allows ownership change:
+Зміна власника дозволена тільки якщо поточний власник тендера має спеціальний рівень акредетації, що дозволяє зміну:
 
 .. http:example:: tutorial/change-agreement-ownership-forbidden-owner.http
    :code:

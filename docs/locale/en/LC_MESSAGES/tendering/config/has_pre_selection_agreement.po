@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "Поле `hasPreSelectionAgreement` є булевим полем, яке вказує, чи закупівля має процедуру попереднього відбору та має бути зв'язана з угодою."
+msgstr "Field `hasPreSelectionAgreement` is a boolean field that indicates whether the tender has pre-selection procedure and has to be connected to agreement."
+
+msgid "Можливі значення для поля `hasPreSelectionAgreement` залежать від поля `procurementMethodType`:"
+msgstr "Possible values for `hasPreSelectionAgreement` field depends on `procurementMethodType` field:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "competitiveOrdering.long"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
+msgid "true / false"
+msgstr ""
+
+msgid "hasPreSelectionAgreement встановлено у `true`"
+msgstr "hasPreSelectionAgreement is `true`"
+
+msgid "Якщо `hasPreSelectionAgreement` встановлено у `true`, то закупівля буде зв'язана з угодою. Це означає, що закупівля буде створена з полем `agreements`, яке має поле `id` всередині:"
+msgstr "If `hasPreSelectionAgreement` is `true`, then the tender will be connected to an agreement. It means that the tender will be created with `agreements` field with `id` field inside:"
+
+msgid "Система перевіряє, чи дозволено закупівлю з вказаним `procurementMethodType` пов'язувати з угодою з певним `agreementType`. Поглянемо на діаграму дозволених зв'язків між `procurementMethodType` та `agreementType`:"
+msgstr "System will validate if tender with specified `procurementMethodType` is allowed to be connected to an agreement with specific `agreementType`. Here is the diagram of allowed relations between `procurementMethodType` and `agreementType`:"
+
+msgid "Tender Agreement Relations"
+msgstr ""
+
+msgid "При спробі створити закупівлю з вказаним `procurementMethodType`що не може бути пов'язано з угодою з вказаним `agreementType`, система поверне помилку:"
+msgstr "On attempt to create a tender with `procurementMethodType` that is not allowed to be connected to an agreement with specific `agreementType`, the system will return an error:"
+
+msgid "Стандартні правила"
+msgstr "Standard rules"
+
+msgid "Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час створення:"
+msgstr "For tender that is linked to an agreement, the following validations are applied on tender creation:"
+
+msgid "Якщо угода має номенклатуру, то номенклатура закупівлі повинна бути підмножиною номенклатури угоди"
+msgstr "if agreement has items, then tender items should be subset of agreement items"
+
+msgid "Для закупівлі, яка пов'язана з угодою, застосовуються наступні перевірки під час активації:"
+msgstr "For tender that is linked to an agreement, the following validations are applied on tender activation:"
+
+msgid "угода повинна бути активна"
+msgstr "agreement should be active"
+
+msgid "dynamicPurchasingSystem -> competitiveOrdering"
+msgstr ""
+
+msgid "угода не повинна мати номенклатур"
+msgstr "agreement should not have items"
+
+msgid "ідентифікатор та схема ідентифікатора постачальника повинні співпадати в угоді та закупівлі"
+msgstr "procuringEntity.identifier.id and procuringEntity.identifier.scheme should match in agreement and tender"
+
+msgid "угода повинна мати принаймні 3 активні контракти"
+msgstr "agreement should have at least 3 active contracts"
+
+msgid ":ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`"
+msgstr ""
+
+msgid "electronicCatalogue -> priceQuotation"
+msgstr ""
+
+msgid "угода повинна мати принаймні 1 активний контракт"
+msgstr "agreement should have at least 1 active contract"
+
+msgid "профіль кожної номенклатури повинен належати тій же угоді, що і закупівля"
+msgstr "each item profile should belong to the same agreement as the tender"
+
+msgid ":ref:`pricequotation` → :ref:`pricequotation_tutorial`"
+msgstr ""
+
+msgid "internationalFinancialInstitutions -> requestForProposal"
+msgstr ""
+
+msgid ":ref:`requestforproposal` → :ref:`requestforproposal_tutorial`"
+msgstr ""
+
+msgid "Особливі правила"
+msgstr "Specific rules"
+
+msgid "Деякі процедури мають особливості у правилах зв'язку з угодою."
+msgstr "Some procedures have specific distinctions in the rules of connection to an agreement."
+
+msgid "closeFrameworkAgreementUA -> closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid ":ref:`cfaselectionua` → :ref:`cfaselection_tutorial`"
+msgstr ""
+

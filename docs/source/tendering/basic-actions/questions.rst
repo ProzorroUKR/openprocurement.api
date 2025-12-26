@@ -1,37 +1,36 @@
 
 .. _questions:
 
-Asking Questions
-================
+Звернення до замовника
+======================
 
-Submitting Questions
---------------------
+Як подати звернення
+-------------------
 
-Anybody (who provides their identity) can ask questions:
+Будь-хто (але не анонімно) може подати звернення:
 
 .. http:example:: ../belowthreshold/http/tutorial/ask-question.http
    :code:
 
-Retrieving Questions
---------------------
+Як прочитати звернення
+----------------------
 
-All appeals for clarifications and appeals for the elimination of violations are automatically published in the electronic procurement system without identification of the person who addressed the customer.
+Усі звернення за роз’ясненнями та звернення щодо усунення порушення автоматично оприлюднюються в електронній системі закупівель без ідентифікації особи, яка звернулася до замовника.
 
-Author of question will be hashed with his `identifier.id` plus `access token` of the procedure.
-This gives us a possibility to determine that at the tender level a certain number of questions came from the same author.
+Інформація про автора звернення буде захешована, використовуючи його ЕДРПОУ та `access token` тендеру. Це робиться для того, щоб можна було визначити, що на рівні тендеру певна кількість питань надходить від одного й того ж автора.
 
-Let's look at asked question:
+Подивимося, як виглядає звернення:
 
 .. http:example:: ../belowthreshold/http/tutorial/list-question.http
    :code:
 
-Answering
-=========
+Відповіді від замовника
+=======================
 
-Submitting Answers
-------------------
+Як надати відповідь
+-------------------
 
-Tender creator can answer questions:
+Замовник закупівлі може відповісти на звернення:
  
 .. http:example:: ../belowthreshold/http/tutorial/answer-question.http
    :code:

@@ -1,9 +1,9 @@
 .. _agreementcfaua:
 
-Agreement API
-=============
+Agreement API для операцій з угодою
+===================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2
@@ -11,7 +11,7 @@ Contents:
    overview
 
 
-Tutorial of agreements for cfaua:
+Туторіал по реєстру cfaua
 
 .. toctree::
    :maxdepth: 2
@@ -19,7 +19,7 @@ Tutorial of agreements for cfaua:
    cfaua/index
 
 
-Tutorial of agreements for frameworks:
+Туторіал по реєстру кваліфікації
 
 .. toctree::
    :maxdepth: 2

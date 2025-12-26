@@ -3,9 +3,9 @@
 minEnquiriesDuration
 ====================
 
-Field `minEnquiriesDuration` is an integer field that sets the minimum duration of the enquiries period.
+Поле `minEnquiriesDuration` є цифровим полем, яке встановлює мінімальну тривалість періоду обговорень.
 
-Possible values for `minEnquiriesDuration` field depends on `procurementMethodType` field:
+Можливі значення для поля `minEnquiriesDuration` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/min-enquiries-duration-values.csv

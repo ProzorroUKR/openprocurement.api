@@ -1,9 +1,9 @@
 .. _tendering:
 
-Tendering API
-=============
+Tendering API для операцій з закупівлею
+=======================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

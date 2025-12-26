@@ -1,7 +1,7 @@
-GET request with invalid URL parameter
---------------------------------------
+GET запит з невірним URL параметром
+-----------------------------------
 
-**URL param:** /mnn.json
+**URL параметр:** /mnn.json
 
 .. http:example:: http/invalid-param-get.http
     :code:

@@ -1,7 +1,7 @@
 .. _medicines_standard:
 
-Data Standard
-=============
+Стандарт даних
+==============
 
 .. toctree::
    :maxdepth: 1

@@ -1,10 +1,10 @@
 
 .. _medicines_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Service for obtaining up-to-date information on the medicines registry (State Register of Drugs of Ukraine - Державний реєстр лікарських засобів України) and formation json`s for the return to site. Synchronization with the remote registry (State Register of Drugs of Ukraine) is occurs every day at 5.30 am.
+Сервіс для отримання актуальної інформації про реєстр медичних препаратів (Державний реєстр лікарських засобів України). Синхронізація з віддаленим реєстром (Державний реєстр лікарських засобів України) відбувається щодня о 5.30 ранку.
 
 .. toctree::
    :maxdepth: 1

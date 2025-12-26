@@ -1,75 +1,75 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації по вимогах/скаргах
+=======================================
 
-Tender Qualification Claim/Complaint Retrieval
-----------------------------------------------
+Отримання інформації по вимогах/скаргах на кваліфікацію
+-------------------------------------------------------
 
-You can list all Tender Qualification Claims/Complaints:
+Ви можете отримати список всіх вимог/скарг на кваліфікацію:
 
 .. http:example:: http/complaints/qualification-complaints-list.http
    :code:
 
-And check individual complaint:
+І перевірити окрему скаргу:
 
 .. http:example:: http/complaints/qualification-complaint.http
    :code:
 
-Claim Submission
-================
+Подання вимоги
+==============
 
-If tender qualification is favoriting certain supplier, or in any other viable case, participants can submit Tender Qualification Claim.
+Якщо під час етапу кваліфікації відбулось порушення чи була допущена помилка, то учасник закупівлі може подати вимогу про виправлення кваліфікації.
 
-Tender Qualification Claim Submission (with documents)
-------------------------------------------------------
+Подання вимоги про виправлення кваліфікації (з документами)
+-----------------------------------------------------------
 
-At first create a claim. Send POST request with bidder's access token.
+Спочатку створіть вимогу. В POST запиті потрібно передати токен доступу одного з учасників.
 
 .. http:example:: http/complaints/qualification-claim-submission.http
    :code:
 
-Then upload necessary documents:
+Потім завантажте необхідні документи:
 
 .. http:example:: http/complaints/qualification-claim-submission-upload.http
    :code:
 
-Submit tender qualification claim:
+Подайте вимогу про виправлення кваліфікації:
 
 .. http:example:: http/complaints/qualification-complaint-claim.http
    :code:
 
-Tender Qualification Claim Submission (without documents)
----------------------------------------------------------
+Подання вимоги про виправлення кваліфікації (без документів)
+------------------------------------------------------------
 
-You can submit claim that does not need additional documents:
+Ви можете подати вимогу, що не потребує додаткових документів:
 
 .. http:example:: http/complaints/qualification-complaint-submission-claim.http
    :code:
 
 
-Claim's Answer
-==============
+Відповідь на вимогу
+===================
 
-Answer to resolved claim
-------------------------
+Відповідь на вирішену вимогу
+----------------------------
 
 .. http:example:: http/complaints/qualification-complaint-answer.http
    :code:
 
 
-Satisfied Claim
-===============
+Задовільнена вимога
+===================
 
-Satisfying resolution
----------------------
+Рішення про задовільнення вимоги
+--------------------------------
 
 .. http:example:: http/complaints/qualification-complaint-satisfy.http
    :code:
 
 
-Unsatisfying resolution
------------------------
+Рішення про відхилення вимоги
+-----------------------------
 
 .. http:example:: http/complaints/qualification-complaint-unsatisfy.http
    :code:

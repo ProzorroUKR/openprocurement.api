@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-26 14:29+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Видалення документів"
+msgstr "Documents Deletion"
+
+msgid "Існує можливість видалення документів для таких об'єктів як план, закупівля, пропозиція, поки вони в статусі `draft`."
+msgstr "There is a possibility to delete documents in `draft` objects such as plan, tender, bid."
+
+msgid "Туторіал для видалення документів"
+msgstr "Delete document tutorial"
+
+msgid "Для видалення документу в закупівлі необхідно використовувати API ендпоінт з вказанням id документу з тендеру:"
+msgstr "For deletion document in tender we should use an API endpoint with particular document id from tender:"
+
+msgid "Спробуємо видалити документ, коли закупівля вже не в статусі `draft`, і побачимо помилку:"
+msgstr "Let's try to delete document in not `draft` tender and we will see an error:"
+

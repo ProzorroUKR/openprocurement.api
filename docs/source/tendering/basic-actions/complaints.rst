@@ -7,11 +7,11 @@
    :depth: 2
    :local:
 
-Claims/Complaints Workflow
-==========================
+Схема роботи скарг/вимог
+========================
 
 
-Claims
+Вимоги
 ------
 
 .. graphviz::
@@ -30,27 +30,27 @@ Claims
     }
 
 
-Tutorials
+Туторіали
 ~~~~~~~~~
 
-Tender Conditions Claims
-""""""""""""""""""""""""
+Вимоги на умови закупівлі
+"""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     claims-tender
 
-Tender Qualification Claims
-"""""""""""""""""""""""""""
+Вимоги на кваліфікацію
+""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     claims-award
 
-Tender Pre-qualification Claims
-"""""""""""""""""""""""""""""""
+Вимоги на пре-кваліфікацію
+""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
@@ -58,38 +58,38 @@ Tender Pre-qualification Claims
     claim-qualification
 
 
-Statuses
-~~~~~~~~
+Статуси
+~~~~~~~
 
 :draft:
-    Initial status
+    Початковий статус
 
-    Complainant can submit claim, upload documents, cancel claim, and re-submit it.
+    На цьому етапі скаржник може подати вимогу, завантажити документи, відкликати вимогу та подати її знову.
 
 :claim:
-    Procuring entity can upload documents and answer to claim.
+    Замовник може завантажити документи та відповісти на вимогу.
 
-    Complainant can cancel claim.
+    Скаржник може відкликати вимогу.
 
 :answered:
-    Complainant can cancel claim, upload documents, agree or disagree with decision.
+    Скаржник може відкликати вимогу, завантажити документи, згодитись або не згодитись з вирішенням.
 
 :resolved:
-    Terminal status
+    Кінцевий статус
 
-    Claim recognized as resolved.
+    Вимогу визнано вирішеною.
 
 :cancelled:
-    Terminal status
+    Кінцевий статус
 
-    Claim cancelled by complainant.
+    Вимогу відкликано скаржником.
 
 
-Complaints
-----------
+Скарги
+------
 
-Before Release 2020-04-19
-~~~~~~~~~~~~~~~~~~~~~~~~~
+До релізу 2020-04-19
+~~~~~~~~~~~~~~~~~~~~
 
 .. graphviz::
 
@@ -111,81 +111,81 @@ Before Release 2020-04-19
     }
 
 
-Tutorials
+Туторіали
 ~~~~~~~~~
 
-Tender Conditions Complaints
-""""""""""""""""""""""""""""
+Скарги на умови закупівлі
+"""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-tender
 
-Tender Qualification Complaints
-"""""""""""""""""""""""""""""""
+Скарги на кваліфікацію
+""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-award
 
-Tender Pre-qualification Complaints
-"""""""""""""""""""""""""""""""""""
+Скарги на пре-кваліфікацію
+""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-qualification
 
-Statuses
-~~~~~~~~
+Статуси
+~~~~~~~
 
 :draft:
-    Initial status
+    Початковий статус
 
-    Complainant can upload documents and submit complaint.
+    Скаржник може завантажити документи та подати скаргу.
 
 :pending:
-    Reviewer can upload documents and review complaint.
+    Орган оскарження може завантажувати документи та розглядати скарги.
 
 :accepted:
-    Complaint accepted
+    Скарга прийнята до розгляду
 
 :satisfied:
-    Complaint is the satisfied by reviewer
+    Скарга задоволена АМКУ
 
 :stopping:
-    Complaint recalled by participant
+    Скарга відкликана участником
 
 :stopped:
-    Terminal status
+    Кінцевий статус
 
-    Сomplaint has been discontinued
+    Розгляд по скарзі припинено
 
 :mistaken:
-    Terminal status
+    Кінцевий статус
 
-    Complaint was in error
+    Скарга була помилково направлена(
 
 :invalid:
-    Terminal status
+    Кінцевий статус
 
-    Claim recognized as invalid.
+    Вимогу визнано недійсною.
 
 :declined:
-    Terminal status
+    Кінцевий статус
 
-    Claim recognized as declined.
+    Вимогу визнано відхиленою.
 
 :resolved:
-    Terminal status
+    Кінцевий статус
 
-    Complaint recognized as resolved.
+    Скаргу визнано вирішеною.
 
 
-After Release 2020-04-19
-~~~~~~~~~~~~~~~~~~~~~~~~
+Після релізу 2020-04-19
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. graphviz::
 
@@ -205,34 +205,34 @@ After Release 2020-04-19
         pending -> {accepted,invalid};
     }
 
-Tutorials
+Туторіали
 ~~~~~~~~~
 
-Tender Conditions Complaints
-""""""""""""""""""""""""""""
+Скарги на умови закупівлі
+"""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-tender-2020-04-19
 
-Tender Qualification Complaints
-"""""""""""""""""""""""""""""""
+Скарги на кваліфікацію
+""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-award-2020-04-19
 
-Tender Pre-qualification Complaints
-"""""""""""""""""""""""""""""""""""
+Скарги на пре-кваліфікацію
+""""""""""""""""""""""""""
 
 .. toctree::
     :maxdepth: 1
 
     complaints-qualification-2020-04-19
 
-Tender Cancellation Complaints
+Скарги на скасування закупівлі
 """"""""""""""""""""""""""""""
 
 .. toctree::
@@ -240,61 +240,61 @@ Tender Cancellation Complaints
 
     complaints-cancellation
 
-Statuses
-~~~~~~~~
+Статуси
+~~~~~~~
 
 :draft:
-    Initial status
+    Початковий статус
 
-    Complainant can upload documents, cancel complaint and submit complaint.
+    Скаржник може завантажити документи, відхилити або подати скаргу.
 
 :pending:
-    Reviewer can upload documents and review complaint.
+    Орган оскарження може завантажувати документи та розглядати скарги.
 
 :accepted:
-    Complaint accepted
+    Скарга прийнята до розгляду
 
 :satisfied:
-    Complaint is the satisfied by reviewer
+    Скарга задоволена АМКУ
 
 :stopped:
-    Terminal status
+    Кінцевий статус
 
-    Сomplaint has been discontinued
+    Розгляд по скарзі припинено
 
 :mistaken:
-    Terminal status
+    Кінцевий статус
 
-    Complaint dismissed
+    Скарга скасована
 
 :invalid:
-    Terminal status
+    Кінцевий статус
 
-    Claim recognized as invalid.
+    Вимогу визнано недійсною.
 
 :declined:
-    Terminal status
+    Кінцевий статус
 
-    Claim recognized as declined.
+    Вимогу визнано відхиленою.
 
 :resolved:
-    Terminal status
+    Кінцевий статус
 
-    Complaint recognized as resolved.
+    Скаргу визнано вирішеною.
 
 
 
-Roles
------
+Ролі
+----
 
 :Complaint owner:
-    dashed
+    пунктирна лінія
 
 :Tender owner:
-    plain
+    звичайна лінія
 
 :AboveThresholdReviewer:
-    bold
+    жирна лінія
 
 :Chronograph:
-    dotted
+    лінія з крапками

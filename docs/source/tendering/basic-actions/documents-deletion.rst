@@ -1,19 +1,19 @@
 .. _documents-deletion:
 
-Documents Deletion
-===================
+Видалення документів
+====================
 
-There is a possibility to delete documents in `draft` objects such as plan, tender, bid.
+Існує можливість видалення документів для таких об'єктів як план, закупівля, пропозиція, поки вони в статусі `draft`.
 
-Delete document tutorial
----------------------------
+Туторіал для видалення документів
+---------------------------------
 
-For deletion document in tender we should use an API endpoint with particular document id from tender:
+Для видалення документу в закупівлі необхідно використовувати API ендпоінт з вказанням id документу з тендеру:
 
 .. http:example:: ../belowthreshold/http/tutorial/delete-tender-doc.http
     :code:
 
-Let's try to delete document in not `draft` tender and we will see an error:
+Спробуємо видалити документ, коли закупівля вже не в статусі `draft`, і побачимо помилку:
 
 .. http:example:: ../belowthreshold/http/tutorial/delete-tender-doc-invalid.http
     :code:

@@ -6,118 +6,118 @@
 .. _claim:
 
 Claim
-=========
+=====
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :author:
-    :ref:`Organization`, required
+    :ref:`Organization`, обов’язково
 
-    Organization filing a claim (contactPoint - person, identification - organization that person represents).
+    Організація, яка подає вимогу (contactPoint - людина, identification - організація, яку ця людина представляє).
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Title of the claim.
+    Заголовок вимоги.
 
 :description:
-    Description of the issue.
+    Опис запитання.
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of posting.
+    Дата подання.
 
 :dateSubmitted:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date when claim was submitted.
+    Дата, коли вимога була подана.
 
 :dateAnswered:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date when Procuring entity answered the claim.
+    Дата, коли замовник відповів на вимогу.
 
 
 :dateDecision:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of claim decision.
+    День прийняття рішення по вимозі.
 
 :dateCanceled:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of cancelling.
+    Дата відхилення.
 
 :status:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
-    * `draft`
-    * `claim`
-    * `answered`
-    * `invalid`
-    * `declined`
-    * `resolved`
-    * `cancelled`
+    * `draft` - чорновик, початковий етап
+    * `claim` - вимога
+    * `answered` - дано відповідь
+    * `invalid` - недійсно
+    * `declined` - відхилено
+    * `resolved` - вирішено
+    * `cancelled` - відхилено
 
 :type:
-    string
+    рядок
 
-    Possible values of type are:
+    Можливі значення типу:
 
-    * `claim`
+    * `claim` - вимога
 
 :resolution:
-    string
+    рядок
 
-    Resolution of Procuring entity.
+    Рішення замовника.
 
 :resolutionType:
-    string
+    рядок
 
-    Possible values of resolution type are:
+    Можливі значення типу вирішення:
 
-    * `invalid`
-    * `declined`
-    * `resolved`
+    * `invalid` - недійсно
+    * `declined` - відхилено
+    * `resolved` - вирішено
 
 :satisfied:
     bool
 
-    Claim is satisfied?
+    Вимога задовільнена?
 
 :decision:
-    string
+    рядок
 
-    Reviewer decision.
+    Рішення органу оскарження.
 
 :cancellationReason:
-    string
+    рядок
 
-    Cancellation reason.
+    Причини відхилення.
 
 :documents:
-    List of :ref:`ConfidentialDocument` objects
+    Список об’єктів :ref:`ConfidentialDocument`
 
 :relatedLot:
-    string
+    рядок
 
-    Id of related :ref:`lot`.
+    Ідентифікатор пов’язаного :ref:`lot`-а.
 
 :tendererAction:
-    string
+    рядок
 
-    Tenderer action.
+    Дія учасника.
 
 :tendererActionDate:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of tenderer action.
+    Дата дії учасника.
 
 

@@ -1,9 +1,9 @@
 .. _frameworks_dps:
 
 dynamicPurchasingSystem framework
-=====================================================
+=================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

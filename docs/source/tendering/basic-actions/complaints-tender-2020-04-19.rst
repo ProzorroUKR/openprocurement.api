@@ -1,42 +1,42 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації про вимоги/скарги
+======================================
 
-Tender Conditions Claim/Complaint Retrieval
--------------------------------------------
+Отримання інформації про вимоги/скарги на умови закупівлі
+---------------------------------------------------------
 
-You can list all Tender Conditions Claims/Complaints:
+Ви можете отримати список всіх вимог/скарг на умови закупівлі:
 
 .. http:example:: http/complaints/complaints-list.http
    :code:
 
-And check individual complaint or claim:
+Або перевірити окрему скаргу чи вимогу:
 
 .. http:example:: http/complaints/complaint.http
    :code:
 
 
-Complaint Submission
-====================
+Подання скарги
+==============
 
-If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Complaint.
+Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач може подати скаргу на умови закупівлі.
 
 
-Tender Conditions Complaint Submission
---------------------------------------
+Подання скарги на умови закупівлі
+---------------------------------
 
-At first create a draft:
+Створіть чернетку скарги ``draft``:
 
 .. http:example:: http/complaints/complaint-submission.http
    :code:
 
-This step is optional. Upload documents:
+Цей крок не обов'язковий.Завантажте документи:
 
 .. http:example:: http/complaints/complaint-submission-upload.http
    :code:
 
-Submit tender conditions complaint:
+Подайте скаргу на умови закупівлі:
 
 .. http:example:: http/complaints/complaint-complaint.http
    :code:
@@ -44,43 +44,42 @@ Submit tender conditions complaint:
 
 .. _complaint-objections:
 
-Complaint Objections
-====================
+Заперечення до скарги
+=====================
 
-When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint:
+При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections):
 
 .. http:example:: http/complaints/complaint-objections-submission.http
    :code:
 
-Objections can be added or edited while complaint is in the status `draft`.
+Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`.
 
-For each Objection, the Complainant must indicate one or more arguments. In other case there error will be raised:
+Для кожного Заперечення Скаржник обов'язково вказує одне або декілька Обгрунтуваннь (arguments). В іншому випадку буде помилка:
 
 .. http:example:: http/complaints/complaint-objections-invalid-arguments.http
    :code:
 
-For each Arguments, the Complainant can indicate one or more evidences. Evidences can be empty:
+Для кожного Обгрунтування Скаржник може вказати один або декілька Доказів (evidences). Докази можуть бути пустими:
 
 .. http:example:: http/complaints/complaint-objections-empty-evidences.http
    :code:
 
-During adding evidence, the User must indicate related document id. This document should be uploaded to complaint.
-Let's upload document to complaint:
+Під час додавання Доказу, Користувач має вказати id відносного документу. Цей документ має попередньо бути завантаженим до скарги. Додамо документ до скарги:
 
 .. http:example:: http/complaints/complaint-document-upload.http
    :code:
 
-After that User can indicate relatedDocument in evidence:
+Після цього Користувач може вказати relatedDocument в Доказі:
 
 .. http:example:: http/complaints/complaint-objections-evidences-with-document.http
    :code:
 
-There is an opportunity to create complaint already with document which can be used as relatedDocument in evidences:
+Також є можливість подати скаргу одним запитом одразу з завантаженим документом, який можна вказати в Доказі як `relatedDocument`:
 
 .. http:example:: http/complaints/complaint-objections-with-document-one-action.http
    :code:
 
-For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:
+Для кожного Заперечення Скаржник обов'язково вказує одну або декілька Вимог (requestedRemedies). В іншому випадку буде помилка:
 
 .. http:example:: http/complaints/complaint-objections-invalid-requested-remedies.http
    :code:
@@ -88,181 +87,180 @@ For each Objection, the Complainant must specify one or more requestedRemedies. 
 
 .. _complaint-appeals:
 
-Complaint Appeals
-===================
+Iнформація про оскарження скарги в суді
+=======================================
 
-After the appeal body (AMCU) makes a decision on the complaint, the customer or participant may appeal such decision in court and publish information about it in the system:
+Після винесення рішення органом оскарження (АМКУ) по скарзі, замовник або учасник може оскаржити таке рішення в суді та опублікувати інформацію про це в системі:
 
 .. http:example:: http/complaints/complaint-appeal-submission.http
    :code:
 
-Appeal can be added or edited while complaint is in the status:
+Iнформація про оскарження скарги в суді може бути додана або відредагована, коли скарга знаходиться в одному зі статусів:
 
     * `invalid`
     * `satisfied`
     * `declined`
     * `resolved`
 
-If appeal is added for complaint in another status, error will be raised:
+Якщо інформація про оскарження скарги в суді буде додана на якомусь іншому статусі скарги, ми побачимо помилку:
 
 .. http:example:: http/complaints/complaint-appeal-invalid-status.http
    :code:
 
-More than 1 appeal object can be published for one complaint by both participants and the customer. Let's add one more appeal by customer:
+До однієї скарги може бути опубліковано більше одного об’єкту `appeal` як учасниками так і замовником. Додамо ще одну апеляцію до скарги замовником:
 
 .. http:example:: http/complaints/complaint-appeal-submission-by-customer.http
    :code:
 
-After `appeal` adding, the `proceeding` object can be added to the `appeal` object.
+Після публікації інформації про оскарження скарги в суді (`appeal`) можна додати інформацію про відкриття провадження (`proceeding`).
 
-Information about the appeal and information about the proceeding are separate actions that are performed by the user gradually and can be performed with a gap in time:
+Інформація про оскарження скарги в суді та інформація про впровадження - це окремі дії, які виконуються користувачем поступово та може бути здійснено з проміжком у часі:
 
 .. http:example:: http/complaints/complaint-appeal-proceeding-submission.http
    :code:
 
-Only one `proceeding` object can be published to each appeal object:
+До кожного об’єкту `appeal` може бути опубліковано лише один об’єкт `proceeding`:
 
 .. http:example:: http/complaints/complaint-appeal-proceeding-duplicate.http
    :code:
 
-After adding information about the appeal and information about the proceeding, appeal should be signed. Document can be added through next endpoints:
+Після додавання інформації про оскарження скарги в суді та інформації про впровадження, необхідно накласти підпис. Документ можна додати через окремий ендпоінт:
 
 .. http:example:: http/complaints/complaint-appeal-documents-submission.http
    :code:
 
-Let's look at complaint with appeals:
+Подивимося на скаргу з опублікованою інформацією про оскарження скарги в суді:
 
 .. http:example:: http/complaints/complaint-appeal-get.http
    :code:
 
 
-Complaint Posts
+Запит до скарги
 ===============
 
-Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
+Для скарги у статусах 'pending' та 'accepted' орган оскарження має можливість додати запит на уточнення до скарги.
 
-Tender Conditions Complaint Posts (with complaint owner)
---------------------------------------------------------
+Запит до скарги на умови закупівлі (до скаржника)
+-------------------------------------------------
 
-Reviewer can submit a post to complaint owner:
+Орган оскарження може надати запит до скаржника:
 
 .. http:example:: http/complaints/complaint-post-reviewer-complaint-owner.http
    :code:
 
-Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/complaint-post-complaint-owner.http
    :code:
 
-Tender Conditions Complaint Posts (with tender owner)
---------------------------------------------------------
+Запит до скарги на умови закупівлі (до замовника)
+-------------------------------------------------
 
-Reviewer can submit a post to tender owner:
+Орган оскарження може надати запит до замовника:
 
 .. http:example:: http/complaints/complaint-post-reviewer-tender-owner.http
    :code:
 
-Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/complaint-post-tender-owner.http
    :code:
 
-Tender Conditions Complaint Posts Documents
----------------------------------------------
+Подання документів до запиту до скарги на умови закупівлі
+---------------------------------------------------------
 
-Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post.
+Документи до запиту до скарги мають бути додані до самої скарги з вказаними полями `documentOf: post` та `relatedItem` ідентифікатором самого запиту.
 
-Documents for post could be added only during complaint is in `pending` or `accepted` status.
+Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted`.
 
-Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:
+Тільки автор запиту до скарги може додавати документ, який посилається на його запит. Спробуємо додати документи до запиту від замовника, від імені іншого автора (скаржника):
 
 .. http:example:: http/complaints/complaint-post-documents-forbidden.http
    :code:
 
-Let's add documents by tender owner:
+Додамо документи від імені замовника до його запиту:
 
 .. http:example:: http/complaints/complaint-post-documents-tender-owner.http
    :code:
 
 
-Complaint Explanations
-======================
+Пояснення до скарги
+===================
 
-An explanation of a complaint is a certain textual information and, if necessary, an attached file/files related to a certain complaint and can be used by the AMCU commission during its consideration.
-Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them.
+Пояснення до скарги - це певна текстова інформація та за потреби прикріплений файл/файли, що відносяться до певної скарги та можуть бути використані комісією АМКУ при її розгляді. Пояснення до скарги подаються суб'єктами з власної ініціативи, без запиту АМКУ. АМКУ не буде відповідати на такі пояснення, а лише розглядатиме їх.
 
-Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation.
+Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги.
 
-Each explanation must be related to one of the objections of the complaint  (`complaints:objections`).
+Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`).
 
-Complaint owner or tender owner can submit an explanation via `posts`:
+Скаржник, що подав скаргу, або замовник закупівлі можуть додати пояснення до скарги за допомогою функціоналу `posts`:
 
 .. http:example:: http/complaints/complaint-post-explanation.http
    :code:
 
-The field `recipient` is forbidden for explanation post:
+Поле `recipient` заборонено для пояснень:
 
 .. http:example:: http/complaints/complaint-post-explanation-invalid.http
    :code:
 
-It is forbidden to answer an explanation can submit by setting explanation's post `id` as `relatedPost`:
+Заборонено надавати відповідь до пояснення, передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/complaint-post-explanation-answer-forbidden.http
    :code:
 
 
-Complaint Resolution
-====================
+Вирішення скарги
+================
 
-Rejecting Tender Conditions Complaint
--------------------------------------
+Відхилення скарги на умови закупівлі
+------------------------------------
 
 .. http:example:: http/complaints/complaint-reject.http
    :code:
 
 
-Accepting Tender Conditions Complaint
--------------------------------------
+Прийняття скарги на умови закупівлі
+-----------------------------------
 
 .. http:example:: http/complaints/complaint-accept.http
    :code:
 
 
-Submitting Tender Conditions Complaint Resolution
--------------------------------------------------
+Подання рішення по скарзі на умови закупівлі
+--------------------------------------------
 
-The Complaint Review Body uploads the resolution document:
+Орган, що розглядає скарги, завантажує документ з рішенням:
 
 .. http:example:: http/complaints/complaint-resolution-upload.http
    :code:
 
-And either resolves complaint:
+Який або вирішує скаргу:
 
 .. http:example:: http/complaints/complaint-resolve.http
    :code:
 
-Or declines it:
+Або відхиляє:
 
 .. http:example:: http/complaints/complaint-decline.http
    :code:
 
-Submitting Resolution Confirmation
-----------------------------------
+Подання підтведження вирішення скарги
+-------------------------------------
 
 .. http:example:: http/complaints/complaint-resolved.http
    :code:
 
-Cancelling Tender Conditions Complaint
-======================================
+Відміна скарги на умови закупівлі
+=================================
 
-Cancelling draft complaint by Complainant
------------------------------------------
+Відміна чернетки скарги скаржником
+----------------------------------
 
 .. http:example:: http/complaints/complaint-mistaken.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Відміна прийнятої скарги рецензентом
+------------------------------------
 
 .. http:example:: http/complaints/complaint-accepted-stopped.http
    :code:

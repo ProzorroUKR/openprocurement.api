@@ -1,9 +1,9 @@
-URL Parameters
---------------
+Параметри URL
+-------------
 
-Valid URL parameters: /**inn**.json, /**atc**.json, /**inn2atc**.json, /**atc2inn**.json
+Допустимі параметри URL: /**inn**.json, /**atc**.json, /**inn2atc**.json, /**atc2inn**.json
 
-If you use an invalid URL parameter, the following error will be returned:
+Якщо ви використовуєте невірний параметр URL-адреси, то відповідь сервера буде наступною:
 
 .. http:example:: ../tutorial/http/invalid-param-get.http
     :code:

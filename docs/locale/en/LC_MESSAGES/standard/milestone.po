@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-01 12:22+0200\n"
+"PO-Revision-Date: 2018-11-20 10:32+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Milestone"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ довідниками."
+msgstr "Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ dictionaries."
+
+msgid "description"
+msgstr ""
+
+msgid "рядок, обов’язковий якщо title == `anotherEvent`"
+msgstr "string, required if title == `anotherEvent`"
+
+msgid "type"
+msgstr ""
+
+msgid "Єдине можливе значення:"
+msgstr "The only possible value is:"
+
+msgid "`financing`"
+msgstr ""
+
+msgid "`delivery`"
+msgstr ""
+
+msgid "code"
+msgstr ""
+
+msgid "Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками."
+msgstr "Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ dictionaries."
+
+msgid "percentage"
+msgstr ""
+
+msgid "float, 0..100"
+msgstr ""
+
+msgid "Сума всіх milestone тендеру (або лоту) повинна бути 100"
+msgstr "Sum of all tender (or lot) milestones should be 100"
+
+msgid "duration"
+msgstr ""
+
+msgid ":ref:`Duration`, обов’язково"
+msgstr ":ref:`Duration` object, required"
+
+msgid "sequenceNumber"
+msgstr ""
+
+msgid "integer, обов’язковий, не негативний"
+msgstr "integer, required, non negative"
+
+msgid "relatedLot"
+msgstr ""
+
+msgid "uid"
+msgstr ""
+
+msgid "ID пов’язаного :ref:`lot`."
+msgstr "Id of related :ref:`lot`."
+
+msgid "Milestone в :ref:`frameworks_electroniccatalogue`"
+msgstr "Milestone in :ref:`frameworks_electroniccatalogue`"
+
+msgid "`activation`"
+msgstr ""
+
+msgid "`ban`"
+msgstr ""
+
+msgid "status"
+msgstr ""
+
+msgid "string"
+msgstr ""
+
+msgid "`scheduled`"
+msgstr ""
+
+msgid "`met`"
+msgstr ""
+
+msgid "`notMet`"
+msgstr ""
+
+msgid "`partiallyMet`"
+msgstr ""
+
+msgid "dueDate"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об'єктів :ref:`document`"
+msgstr "List of :ref:`document` objects"
+
+msgid "dateModified"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично, лише для читання"
+msgstr "string, :ref:`date`, auto-generated, read-only"
+
+msgid "Дата зміни майлстону"
+msgstr "The date of milestone change."
+
+msgid "dateMet"
+msgstr ""
+
+msgid "ContractMilestone"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "integer, обов’язковий, не негативний"
+msgstr "integer, required, positive"
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`working`"
+msgstr ""
+
+msgid "`banking`"
+msgstr ""
+
+msgid "`calendar`"
+msgstr ""
+

@@ -1,35 +1,30 @@
-Overview
-========
+Огляд
+=====
 
-The Competitive Dialogue procedure is plugin to `Open Procurement API` software.
+Конкурентний діалог це плагін до `Open Procurement API`.
 
-REST-ful interface to plugin is in line with core software design principles. 
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення. 
 
 
-Conventions
------------
+Домовленості
+------------
 
-This plugin conventions follow the `Open Procurement API conventions
-<http://api-docs.openprocurement.org/en/latest/overview.html#conventions>`_.
+Цей плагін підтримує `домовленості Open Procurement API <http://api-docs.openprocurement.org/en/latest/overview.html#conventions>`_.
 
-Main responsibilities
----------------------
-
-CompetitiveDialogue procedure which split on 2 stages, first it's where broker specify requirements, and second where he create tender with requirements from first stage. Second stage by procedure similar to Open EU, and Open UA.
-
-Project status
+Основні задачі
 --------------
 
-The project is in active development and has pilot installations.
+Процедура Конкурентный диалог поділяється на 2 етапа, перший - закупщик уточнює вимоги, і другий він створює тендер з умовами, які були оговорені не першому етапі. Другий етап схожий з Open EU та Open UA.
 
-The source repository for this project is on GitHub: https://github.com/openprocurement/openprocurement.tender.competitivedialogue
+Стан проекту
+------------
 
-You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/openprocurement/openprocurement.tender.competitivedialogue/issues>`_ (GitHub
-registration necessary).  For general discussion use `Open Procurement
-General <https://groups.google.com/group/open-procurement-general>`_
-maillist.
+Цей проект активно розробляється і має пілотні встановлення.
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`competitivedialogue_tutorial` or :ref:`competitivedialogue_mulitlot_tutorial`.
+Репозиторій цього проекту є на GitHub: https://github.com/openprocurement/openprocurement.tender.competitivedialogue
+
+Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/openprocurement/openprocurement.tender.openeu/issues>`_ (реєстрація на GitHub обов’язкова). Загальне обговорення відбувається через розсилку `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_.
+
+Наступні кроки
+--------------
+Далі читайте :ref:`competitivedialogue_tutorial` або :ref:`competitivedialogue_mulitlot_tutorial`.

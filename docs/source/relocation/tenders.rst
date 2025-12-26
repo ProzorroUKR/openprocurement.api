@@ -1,229 +1,229 @@
-Example for Tender
-------------------
+Приклад для закупівлі
+---------------------
 
-Tender ownership change
-~~~~~~~~~~~~~~~~~~~~~~~
+Зміна власника закупівлі
+~~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's view transfer example for tender.
+Переглянемо приклад зміни власника для закупівлі.
 
 
-Tender creation
-^^^^^^^^^^^^^^^
+Створення закупівлі
+^^^^^^^^^^^^^^^^^^^
 
-At first let's create a tender:
+Спочатку створимо закупівлю:
 
 .. http:example:: tutorial/create-tender.http
    :code:
 
-`broker` is current tender's ``owner``.
+Майданчик `broker` є поточним власником ``owner`` закупівлі.
 
-Note that response's `access` section contains a ``transfer`` key which is used to change tender ownership. 
+Зверніть увагу, що секція відповіді `access` містить ключ ``transfer``, який використовується для зміни власника закупівлі. 
 
-After tender's registration in CDB broker has to provide its customer with ``transfer`` key.
+Після реєстрація закупівлі в ЦБД майданчик повинен довести ключ ``transfer`` до відома клієнта.
 
-Transfer creation
-^^^^^^^^^^^^^^^^^
+Ініціація зміни власника
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-Broker that is going to become new tender owner should create a `Transfer`.
+Майданчик, що стане новим власником закупівлі, повинен створити об'єкт `Transfer`.
 
 .. http:example:: tutorial/create-tender-transfer.http
    :code:
 
-`Transfer` object contains new access ``token`` and new ``transfer`` token for the object that will be transferred to new broker.
+Об'єкт `Transfer` містить новий ключ доступу ``token`` та новий ключ ``transfer`` для об'єкта, власник якого буде змінений.
 
-`Transfer` can be retrieved by `id`:
+Об'єкт `Transfer` можна переглянути за допомогою ідентифікатора `id`:
 
 .. http:example:: tutorial/get-tender-transfer.http
    :code:
 
-Changing tender's owner
-^^^^^^^^^^^^^^^^^^^^^^^
+Зміна власника закупівлі
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-An ability to change tender's ownership depends on tender's status:
+Можливість зміни власника закупівлі залежить від статусу закупівлі:
 
-+--------------------------------------+-----------------------+
-|                Allowed               |      Not Alowwed      |
-+--------------------------------------+-----------------------+
-|                      **belowThreshold**                      |
-+--------------------------------------+-----------------------+
-| active.enquiries                     | complete              |
-|                                      |                       |
-| active.tendering                     | cancelled             |
-|                                      |                       |
-| active.auction                       | unsuccessful          |
-|                                      |                       |
-| active.qualification                 |                       |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                     **aboveThresholdUA**                     |
-+--------------------------------------+-----------------------+
-| active.tendering                     | complete              |
-|                                      |                       |
-| active.auction                       | cancelled             |
-|                                      |                       |
-| active.qualification                 | unsuccessful          |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                     **aboveThresholdEU**                     |
-+--------------------------------------+-----------------------+
-| active.tendering                     | complete              |
-|                                      |                       |
-| active.pre-qualification             | cancelled             |
-|                                      |                       |
-| active.pre-qualification.stand-still | unsuccessful          |
-|                                      |                       |
-| active.auction                       |                       |
-|                                      |                       |
-| active.qualification                 |                       |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                 **aboveThresholdUA.defense**                 |
-+--------------------------------------+-----------------------+
-| active.tendering                     | complete              |
-|                                      |                       |
-| active.auction                       | cancelled             |
-|                                      |                       |
-| active.qualification                 | unsuccessful          |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                   **competitiveDialogueUA**                  |
-+--------------------------------------+-----------------------+
-| active.tendering                     | active.stage2.waiting |
-|                                      |                       |
-| active.pre-qualification             | complete              |
-|                                      |                       |
-| active.pre-qualification.stand-still | unsuccessful          |
-|                                      |                       |
-| active.stage2.pending                | cancelled             |
-+--------------------------------------+-----------------------+
-|               **competitiveDialogueUA.stage2**               |
-+--------------------------------------+-----------------------+
-| draft.stage2                         | complete              |
-|                                      |                       |
-| active.tendering                     | unsuccessful          |
-|                                      |                       |
-| active.auction                       | cancelled             |
-|                                      |                       |
-| active.qualification                 |                       |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                   **competitiveDialogueEU**                  |
-+--------------------------------------+-----------------------+
-| active.tendering                     | active.stage2.waiting |
-|                                      |                       |
-| active.pre-qualification             | complete              |
-|                                      |                       |
-| active.pre-qualification.stand-still | unsuccessful          |
-|                                      |                       |
-| active.stage2.pending                | cancelled             |
-+--------------------------------------+-----------------------+
-|               **competitiveDialogueEU.stage2**               |
-+--------------------------------------+-----------------------+
-| draft.stage2                         | complete              |
-|                                      |                       |
-| active.tendering                     | unsuccessful          |
-|                                      |                       |
-| active.pre-qualification             | cancelled             |
-|                                      |                       |
-| active.pre-qualification.stand-still |                       |
-|                                      |                       |
-| active.auction                       |                       |
-|                                      |                       |
-| active.qualification                 |                       |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                           **esco**                           |
-+--------------------------------------+-----------------------+
-| active.tendering                     | complete              |
-|                                      |                       |
-| active.pre-qualification             | unsuccessful          |
-|                                      |                       |
-| active.pre-qualification.stand-still | cancelled             |
-|                                      |                       |
-| active.auction                       |                       |
-|                                      |                       |
-| active.qualification                 |                       |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|                 **closeFrameworkAgreementUA**                |
-+--------------------------------------+-----------------------+
-| active.tendering                     | complete              |
-|                                      |                       |
-| active.pre-qualification             | unsuccessful          |
-|                                      |                       |
-| active.pre-qualification.stand-still | cancelled             |
-|                                      |                       |
-| active.auction                       |                       |
-|                                      |                       |
-| active.qualification                 |                       |
-|                                      |                       |
-| active.qualification.stand-still     |                       |
-|                                      |                       |
-| active.awarded                       |                       |
-+--------------------------------------+-----------------------+
-|            **closeFrameworkAgreementSelectionUA**            |
-+--------------------------------------+-----------------------+
-| draftactive.enquiries                | draft.pending         |
-|                                      |                       |
-| active.tendering                     | draft.unsuccessful    |
-|                                      |                       |
-| active.auction                       | complete              |
-|                                      |                       |
-| active.qualification                 | unsuccessful          |
-|                                      |                       |
-| active.awarded                       | cancelled             |
-+--------------------------------------+-----------------------+
-|                         **reporting**                        |
-+--------------------------------------+-----------------------+
-| active                               | complete              |
-|                                      |                       |
-|                                      | cancelled             |
-+--------------------------------------+-----------------------+
-|                        **negotiation**                       |
-+--------------------------------------+-----------------------+
-| active                               | complete              |
-|                                      |                       |
-|                                      | cancelled             |
-+--------------------------------------+-----------------------+
-|                     **negotiation.quick**                    |
-+--------------------------------------+-----------------------+
-| active                               | complete              |
-+--------------------------------------+-----------------------+
++----------------------------------------+-----------------------+
+| Дозволено                              | Не дозволено          |
++----------------------------------------+-----------------------+
+| **belowThreshold**                     |                       |
++----------------------------------------+-----------------------+
+| active.enquiries                       | complete              |
+|                                        |                       |
+| active.tendering                       | cancelled             |
+|                                        |                       |
+| active.auction                         | unsuccessful          |
+|                                        |                       |
+| active.qualification                   |                       |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **aboveThresholdUA**                   |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | complete              |
+|                                        |                       |
+| active.auction                         | cancelled             |
+|                                        |                       |
+| active.qualification                   | unsuccessful          |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **aboveThresholdEU**                   |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | complete              |
+|                                        |                       |
+| active.pre-qualification               | cancelled             |
+|                                        |                       |
+| active.pre-qualification.stand-still   | unsuccessful          |
+|                                        |                       |
+| active.auction                         |                       |
+|                                        |                       |
+| active.qualification                   |                       |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **aboveThresholdUA.defense**           |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | complete              |
+|                                        |                       |
+| active.auction                         | cancelled             |
+|                                        |                       |
+| active.qualification                   | unsuccessful          |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **competitiveDialogueUA**              |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | active.stage2.waiting |
+|                                        |                       |
+| active.pre-qualification               | complete              |
+|                                        |                       |
+| active.pre-qualification.stand-still   | unsuccessful          |
+|                                        |                       |
+| active.stage2.pending                  | cancelled             |
++----------------------------------------+-----------------------+
+| **competitiveDialogueUA.stage2**       |                       |
++----------------------------------------+-----------------------+
+| draft.stage2                           | complete              |
+|                                        |                       |
+| active.tendering                       | unsuccessful          |
+|                                        |                       |
+| active.auction                         | cancelled             |
+|                                        |                       |
+| active.qualification                   |                       |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **competitiveDialogueEU**              |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | active.stage2.waiting |
+|                                        |                       |
+| active.pre-qualification               | complete              |
+|                                        |                       |
+| active.pre-qualification.stand-still   | unsuccessful          |
+|                                        |                       |
+| active.stage2.pending                  | cancelled             |
++----------------------------------------+-----------------------+
+| **competitiveDialogueEU.stage2**       |                       |
++----------------------------------------+-----------------------+
+| draft.stage2                           | complete              |
+|                                        |                       |
+| active.tendering                       | unsuccessful          |
+|                                        |                       |
+| active.pre-qualification               | cancelled             |
+|                                        |                       |
+| active.pre-qualification.stand-still   |                       |
+|                                        |                       |
+| active.auction                         |                       |
+|                                        |                       |
+| active.qualification                   |                       |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **esco**                               |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | complete              |
+|                                        |                       |
+| active.pre-qualification               | unsuccessful          |
+|                                        |                       |
+| active.pre-qualification.stand-still   | cancelled             |
+|                                        |                       |
+| active.auction                         |                       |
+|                                        |                       |
+| active.qualification                   |                       |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **closeFrameworkAgreementUA**          |                       |
++----------------------------------------+-----------------------+
+| active.tendering                       | complete              |
+|                                        |                       |
+| active.pre-qualification               | unsuccessful          |
+|                                        |                       |
+| active.pre-qualification.stand-still   | cancelled             |
+|                                        |                       |
+| active.auction                         |                       |
+|                                        |                       |
+| active.qualification                   |                       |
+|                                        |                       |
+| active.qualification.stand-still       |                       |
+|                                        |                       |
+| active.awarded                         |                       |
++----------------------------------------+-----------------------+
+| **closeFrameworkAgreementSelectionUA** |                       |
++----------------------------------------+-----------------------+
+| draftactive.enquiries                  | draft.pending         |
+|                                        |                       |
+| active.tendering                       | draft.unsuccessful    |
+|                                        |                       |
+| active.auction                         | complete              |
+|                                        |                       |
+| active.qualification                   | unsuccessful          |
+|                                        |                       |
+| active.awarded                         | cancelled             |
++----------------------------------------+-----------------------+
+| **reporting**                          |                       |
++----------------------------------------+-----------------------+
+| active                                 | complete              |
+|                                        |                       |
+|                                        | cancelled             |
++----------------------------------------+-----------------------+
+| **negotiation**                        |                       |
++----------------------------------------+-----------------------+
+| active                                 | complete              |
+|                                        |                       |
+|                                        | cancelled             |
++----------------------------------------+-----------------------+
+| **negotiation.quick**                  |                       |
++----------------------------------------+-----------------------+
+| active                                 | complete              |
++----------------------------------------+-----------------------+
 
-To change tender's ownership new broker should send POST request to appropriate `/tenders/id/` with `data` section containing ``id`` of `Transfer` and ``transfer`` token received from customer:
+Щоб змінити власника закупівлі новий майданчик повинен надіслати POST запит на відповідний  `/tenders/id/` з секцією `data`, що міститиме ідентифікатор ``id`` для `Transfer` та ключ ``transfer`` отриманий від клієнта:
 
 .. http:example:: tutorial/change-tender-ownership.http
    :code:
 
-Updated ``owner`` value indicates that ownership is successfully changed. 
+Оновлене значення властивості ``owner`` вказує, що власник був успішно змінений. 
 
-Note that new broker has to provide its customer with new ``transfer`` key (generated in `Transfer` object).
+Зверніть увагу, що новий майданчик повинен довести до відома клієнта новий ключ ``transfer`` (згенерований в об'єкті `Transfer`).
 
-After `Transfer` is applied it stores tender path in ``usedFor`` property:
+Після того, як об'єкт `Transfer` було застосовано, для нього генерується властивість ``usedFor`` (вказується шлях до об'єкта, власника якого було змінено):
 
 .. http:example:: tutorial/get-used-tender-transfer.http
    :code:
 
-'Used' `Transfer` can't be applied to any other object.
+'Використаний' об'єкт `Transfer` вже не можна застосувати до іншого об'єкта.
 
-Let's try to change the tender using ``token`` received on `Transfer` creation:
+Спробуємо змінити закупівлю за допомогою ключа ``token``, отриманого при створенні об'єкта `Transfer`.
 
 .. http:example:: tutorial/modify-tender.http
    :code:
 
-Pay attention that only broker with appropriate accreditation level can become new owner. Otherwise broker will be forbidden from this action.
+Зверніть увагу, що тільки майданчик з відповідним рівнем акредитації може стати новим власником. В іншому випадку майданчику така дія буде заборонена.
 
 .. http:example:: tutorial/change-tender-ownership-forbidden.http
    :code:
 
-Also ownership change is allowed only if current owner has a special accreditation level that allows ownership change:
+Зміна власника дозволена тільки якщо поточний власник тендера має спеціальний рівень акредетації, що дозволяє зміну:
 
 .. http:example:: tutorial/change-tender-ownership-forbidden-owner.http
    :code:

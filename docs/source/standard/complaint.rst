@@ -8,146 +8,146 @@
 Complaint
 =========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :author:
-    :ref:`Organization`, required
+    :ref:`Organization`, обов’язково
 
-    Organization filing a complaint (contactPoint - person, identification - organization that person represents).
+    Організація, яка подає скаргу (contactPoint - людина, identification - організація, яку ця людина представляє).
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Title of the complaint.
+    Заголовок скарги.
 
 :description:
-    Description of the issue.
+    Опис запитання.
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of posting.
+    Дата подання.
 
 :dateSubmitted:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date when complaint was submitted.
+    Дата, коли скарга була подана.
 
 :dateEscalated:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of claim to complaint escalation.
+    Дата ескалації (перетворення вимоги на скаргу).
 
 :dateDecision:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of complaint decision.
+    День прийняття рішення по скарзі.
 
 :dateCanceled:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of cancelling.
+    Дата відхилення.
 
 :status:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
-    * `draft`
-    * `pending`
-    * `accepted`
-    * `stopping`
-    * `satisfied`
-    * `mistaken`
-    * `invalid`
-    * `declined`
-    * `stopped`
-    * `resolved`
-    * `cancelled`
+    * `draft` - чорновик, початковий етап
+    * `pending` - не вирішено, ще обробляється
+    * `accepted` - прийнято
+    * `stopping` - відкликано
+    * `satisfied` - задоволено
+    * `mistaken` - помилкова
+    * `invalid` - недійсно
+    * `declined` - відхилено
+    * `stopped`- припинено
+    * `resolved` - вирішено
+    * `cancelled` - відхилено
 
 :type:
-    string
+    рядок
 
-    Possible values of type are:
+    Можливі значення типу:
 
-    * `complaint`
+    * `complaint` - скарга
 
 :decision:
-    string
+    рядок
 
-    Reviewer decision.
+    Рішення органу оскарження.
 
 :cancellationReason:
-    string
+    рядок
 
-    Cancellation reason.
+    Причини відхилення.
 
 :documents:
-    List of :ref:`ConfidentialDocument` objects
+    Список об’єктів :ref:`ConfidentialDocument`
 
 :relatedLot:
-    string
+    рядок
 
-    Id of related :ref:`lot`.
+    Ідентифікатор пов’язаного :ref:`lot`-а.
 
 :tendererAction:
-    string
+    рядок
 
-    Tenderer action.
+    Дія учасника.
 
 :tendererActionDate:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
-    Date of tenderer action.
+    Дата дії учасника.
 
 :posts:
-    List of :ref:`ComplaintPost` objects
+    Список об’єктів :ref:`ComplaintPost`
 
 
 :objections:
-    List of :ref:`complaint-objection` objects
+    Список об’єктів :ref:`complaint-objection`
 
 
 :appeals:
-    List of :ref:`complaint-appeal` objects
+    Список об’єктів :ref:`complaint-appeal`
 
 :value:
-    :ref:`BasicValue`, auto-generated
+    :ref:`BasicValue`, генерується автоматично
 
-    Amount to be paid to activate this complaint. See :ref:`complaint-payments`
+    Сума, яку потрібно сплатити за активацію цієї скарги. Див :ref:`complaint-payments`
 
 :rejectReason:
-    string
+    рядок
 
-    * `lawNonCompliance` - complaint does not meet the law requirements in article 18 paragraphs 2-5 and 9
-    * `alreadyExists` - bidder complains about violation that has been already reviewed by the Complaints Committee
-    * `buyerViolationsCorrected` - buyer has corrected the violations that was described in complaint
-    * `tenderCancelled` - tender has been cancelled before the complaint submitted date by the buyer besides complaining about tender cancellation
-    * `cancelledByComplainant` - The complaint was cancelled by the complainant
-    * `complaintPeriodEnded` - The complaint period has ended
-    * `incorrectPayment` - The payment received does not match the estimated amount for the complaint
+    * `lawNonCompliance` - скарга не відповідає вимогам частин 2-5 та 9 статті 18 Закону про публічні закупівлі
+    * `alreadyExists` - суб’єкт оскарження подає скаргу щодо того самого порушення та з тих самих підстав, що вже були предметом розгляду органу оскарження і щодо яких органом оскарження було прийнято відповідне рішення
+    * `buyerViolationsCorrected` - замовником відповідно до цього Закону усунено порушення
+    * `tenderCancelled` - до дня подання скарги замовником прийнято рішення про відміну тендеру чи визнання його таким, що не відбувся, крім випадку оскарження будь-якого з цих рішень
+    * `cancelledByComplainant` - Скарга скасована суб’єктом оскарження
+    * `complaintPeriodEnded` - Період оскарження закінчився
+    * `incorrectPayment` - Отримана сума оплати не співпадає з розрахованою для даної скарги
 
 :acceptance:
-    bool
+    булеве значення
 
-    Complaint is satisfied?
+    Скарга задовільнена?
 
 
 :rejectReasonDescription:
-    string
+    рядок
 
-    Reject reason description.
+    Опис причин відхилення.
 
 :reviewDate:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    Date of review.
+    Дата розгляду.
 
 :reviewPlace:
-    string
+    рядок
 
-    Place of review.
+    Місце розгляду.

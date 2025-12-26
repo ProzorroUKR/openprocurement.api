@@ -140,7 +140,7 @@
    auction/frontend
 
 Проєкт Catalog API (Prozorro Market)
--------------------------------------
+------------------------------------
 
 |github| `ProzorroUKR/prozorro-catalog <https://github.com/ProzorroUKR/prozorro-catalog>`_
 
@@ -158,7 +158,7 @@
    Загальний опис
 
 Проєкт DS
-----------
+---------
 
 |github| `ProzorroUKR/openprocurement.documentservice <https://github.com/ProzorroUKR/openprocurement.documentservice>`_
 
@@ -176,7 +176,7 @@
    Загальний опис
 
 Проєкт Render API
-------------------
+-----------------
 
 .. admonition:: TODO
    

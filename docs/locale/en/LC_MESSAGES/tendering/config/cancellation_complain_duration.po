@@ -1,0 +1,123 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "Поле `cancellationComplainDuration` - це ціле поле, яке вказує тривалість оскарження результатів визначення виграшу"
+msgstr "Field `cancellationComplainDuration` is a integer field that indicates the duration of contesting the results of determining the winne"
+
+msgid "Можливі значення поля `cancellationComplainDuration` залежать від поля `procurementMethodType`:"
+msgstr "Possible values for `cancellationComplainDuration` field depends on `procurementMethodType` field:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "0 / 10"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "competitiveOrdering.long"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
+msgid "cancellationComplainDuration is `true`"
+msgstr ""
+
+msgid "Давайте створимо тендер `belowThreshold`:"
+msgstr "Let's create a tender `belowThreshold`:"
+
+msgid "Потім додайте relevantLot для елемента:"
+msgstr "Then add relatedLot for item:"
+
+msgid "Тут ми можемо перевірити, що поле \"complaintPeriod\" відсутнє у відповіді."
+msgstr "Here we can check that \"complaintPeriod\" field is absent in the response."
+
+msgid "Тепер давайте створимо тендер `aboveThreshold`:"
+msgstr "Now, let's create a tender `aboveThreshold`:"
+
+msgid "Ми побачимо, що відповідь містить поле \"complaintPeriod\", що означає, що період скарги відображатиметься для тендерів із `cancellationComplainDuration` вищим за 0"
+msgstr "We'll see that response contains a \"complaintPeriod\" field, which means that a complaint period will appear for the tenders with `cancellationComplainDuration` higher than 0"
+

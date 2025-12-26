@@ -1,30 +1,27 @@
 
 .. _defense_tendering:
 
-Tendering
-=========
+Період подання пропозицій
+=========================
 
-The Defense open tender procedure has `active.tendering` status and can be represented with
-the following diagram:
+Процедура відкритих торгів для оборонних цілей має `active.tendering` статус і може бути представлена такою діаграмою:
 
 .. image:: _static/active-tendering-defense.png
 
 
-Constraints
------------
+Обмеження
+---------
 
- - `tenderPeriod` cannot be shorter than 6 working days.
+ - Період подання пропозицій `tenderPeriod` не може бути коротший ніж 6 робочих днів.
 
- - `enquiryPeriod` always ends 3 working days before tenderPeriod ends.
+ - Період уточнень `enquiryPeriod` завжди закінчується за 3 робочі дні до закінчення періоду подання пропозицій.
  
- - If question is not answered `tenderPeriod` is extended for 2 working days.
+ - У випадку звернення без відповіді, період подання пропозицій `tenderPeriod` подовжується на 2 робочі дні
 
 
-Claims and Complaits
-~~~~~~~~~~~~~~~~~~~~
+Вимоги та скарги
+~~~~~~~~~~~~~~~~
 
- - Claims can be submitted only if there are more than 3 days left
-   in tenderPeriod.
+ - Вимоги можна подавати не пізніше ніж за 3 дні до завершення періоду подання пропозицій.
 
- - Complaints can be submitted only if there are 2 or more days left in
-   tenderPeriod.
+ - Скарги можна подавати не пізніше ніж за 2 дні до завершення періоду подання пропозицій.

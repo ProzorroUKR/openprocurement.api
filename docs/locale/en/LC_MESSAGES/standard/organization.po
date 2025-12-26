@@ -1,0 +1,298 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-20 13:03+0300\n"
+"PO-Revision-Date: 2019-10-02 21:20+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Organization"
+msgstr "Organization"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "name"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "Додатково у :ref:`openeu` та :ref:`esco`:"
+msgstr "Additionally in :ref:`openeu` and :ref:`esco`:"
+
+msgid "uk (name) та en (name_en) переклади обов’язкові"
+msgstr "uk (name) and en (name_en) translations are required"
+
+msgid "|ocdsDescription| Назва організації."
+msgstr "|ocdsDescription| The common name of the organization."
+
+msgid "identifier"
+msgstr ""
+
+msgid ":ref:`Identifier`"
+msgstr ":ref:`Identifier`"
+
+msgid "|ocdsDescription| Ідентифікатор цієї організації."
+msgstr "|ocdsDescription| The primary identifier for this organization."
+
+msgid "additionalIdentifiers"
+msgstr ""
+
+msgid "Список об’єктів :ref:`identifier`"
+msgstr "List of :ref:`identifier` objects"
+
+msgid "address"
+msgstr ""
+
+msgid ":ref:`Address`, обов’язково"
+msgstr ":ref:`Address`, required"
+
+msgid "contactPoint"
+msgstr ""
+
+msgid ":ref:`ContactPoint`, обов’язково"
+msgstr ":ref:`ContactPoint`, required"
+
+msgid "Додатково у :ref:`openeu`:"
+msgstr "Additionally in :ref:`openeu`:"
+
+msgid "additionalContactPoints"
+msgstr ""
+
+msgid "Список об’єктів :ref:`ContactPoint`"
+msgstr "List of :ref:`ContactPoint` objects"
+
+msgid "BusinessOrganization"
+msgstr ""
+
+msgid "scale"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`micro`"
+msgstr ""
+
+msgid "`sme`"
+msgstr ""
+
+msgid "`large`"
+msgstr ""
+
+msgid "`mid`"
+msgstr ""
+
+msgid "`not specified`"
+msgstr ""
+
+msgid "Validation depends on:"
+msgstr ""
+
+msgid ":ref:`ORGANIZATION_SCALE_FROM` constant"
+msgstr ""
+
+msgid "Tenderer"
+msgstr ""
+
+msgid "signerInfo"
+msgstr ""
+
+msgid ":ref:`SignerInfo`"
+msgstr ""
+
+msgid "contract_owner"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Може бути вказаний один з майданчиків, який отримав 6 рівень акредитації"
+msgstr "Could be one of the brokers which has the 6th level of accreditation"
+
+msgid "Buyer"
+msgstr ""
+
+msgid ":ref:`ContactPoint`, optionally can be added to buyers only"
+msgstr ""
+
+msgid "kind"
+msgstr ""
+
+msgid "Можливі значення:"
+msgstr "Possible values:"
+
+msgid "``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган"
+msgstr "``authority`` - Public authority, local government or law enforcement agency"
+
+msgid "``central`` - Юридична особа, що здійснює закупівлі в інтересах замовників (ЦЗО)"
+msgstr "``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)"
+
+msgid "``defense`` - Замовник, що здійснює закупівлі для потреб оборони"
+msgstr "``defense`` - Procuring entity that conducts procurement for the defense needs"
+
+msgid "``general`` - Юридична особа, яка забезпечує потреби держави або територіальної громади"
+msgstr "``general`` - Legal person providing the needs of the state or territorial community"
+
+msgid "``other`` - Державне або комунальне підприємство, яке не належить до замовників"
+msgstr "``other`` -  State or utility company that is not regarded as procuring entity"
+
+msgid "``social`` - Орган соціального страхування"
+msgstr "``social`` - Social insurance authority"
+
+msgid "``special`` - Юридична особа, яка здійснює діяльність в одній або декількох окремих сферах господарювання"
+msgstr "``special`` - A legal entity that operates in one or more specific business areas"
+
+msgid "EContractOrganization"
+msgstr ""
+
+msgid "Identifier"
+msgstr ""
+
+msgid "scheme"
+msgstr ""
+
+msgid "рядок, обов’язковий(в об'єкті `Legislation` не обов'язковий)"
+msgstr "string, required(in `Legislation` object is not required)"
+
+msgid "|ocdsDescription| Ідентифікатори організації беруться з існуючої схеми ідентифікації. Це поле вказує схему або список кодів, де можна знайти ідентифікатор організації. Це значення повинно братись зі Схеми Ідентифікації Організацій."
+msgstr "|ocdsDescription| Organization identifiers be drawn from an existing identification scheme. This field is used to indicate the scheme or codelist in which the identifier will be found.  This value should be drawn from the Organization Identifier Scheme."
+
+msgid "id"
+msgstr ""
+
+msgid "|ocdsDescription| Ідентифікатор організації у вибраній схемі."
+msgstr "|ocdsDescription| The identifier of the organization in the selected scheme."
+
+msgid "Дозволеними є коди зі `спику кодів \"Organisation Registration Agency\" Стандарту IATI <http://iatistandard.org/codelists/OrganisationRegistrationAgency/>`_ з додаванням коду `UA-EDR` для організацій, зареєстрованих в Україні (ЄДРПОУ та ІПН)."
+msgstr "The allowed codes are the ones found in `\"Organisation Registration Agency\" codelist of IATI Standard <http://iatistandard.org/codelists/OrganisationRegistrationAgency/>`_ with addition of `UA-EDR` code for organizations registered in Ukraine (EDRPOU and IPN)."
+
+msgid "legalName"
+msgstr ""
+
+msgid "Додатково у :ref:`complaint` для поля `author`:"
+msgstr "Additionally in :ref:`complaint` for `author` field:"
+
+msgid "uk (legalName) переклад обов’язковий. en (legalName_en), ru (legalName_ru) переклади не обов’язкові"
+msgstr "uk (legalName) translation is required. en (legalName_en), ru (legalName_ru) translations are not required"
+
+msgid "|ocdsDescription| Легально зареєстрована назва організації."
+msgstr "|ocdsDescription| The legally registered name of the organization."
+
+msgid "uri"
+msgstr "uri"
+
+msgid "|ocdsDescription| URI для ідентифікації організації, наприклад, ті, які надають Open Corporates або інші постачальники URI. Це не для вебсайту організації, його можна надати в полі url в ContactPoint організації."
+msgstr "|ocdsDescription| A URI to identify the organization, such as those provided by Open Corporates or some other relevant URI provider.  This is not for listing the website of the organization: that can be done through the url field of the Organization contact point."
+
+msgid "Регулярний вираз для цього поля: ``^https?://\\S+$``"
+msgstr "Regular expression for this field: ``^https?://\\S+$``"
+
+msgid "Address"
+msgstr ""
+
+msgid "streetAddress"
+msgstr ""
+
+msgid "|ocdsDescription| Вулиця. Наприклад, вул.Хрещатик, 22."
+msgstr "|ocdsDescription| The street address. For example, 1600 Amphitheatre Pkwy."
+
+msgid "locality"
+msgstr ""
+
+msgid "|ocdsDescription| Населений пункт. Наприклад, Київ."
+msgstr "|ocdsDescription| The locality. For example, Mountain View."
+
+msgid "region"
+msgstr ""
+
+msgid "|ocdsDescription| Область. Наприклад, Київська."
+msgstr "|ocdsDescription| The region. For example, CA."
+
+msgid "postalCode"
+msgstr ""
+
+msgid "|ocdsDescription| Поштовий індекс, Наприклад, 78043."
+msgstr "|ocdsDescription| The postal code. For example, 94043."
+
+msgid "countryName"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий"
+msgstr "string, multilingual, required"
+
+msgid "|ocdsDescription| Назва країни. Наприклад, Україна."
+msgstr "|ocdsDescription| The country name. For example, United States."
+
+msgid "addressDetails"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Classification`"
+msgstr "List of :ref:`Classification` objects"
+
+msgid "Класифікатори адреси, наприклад код територальної громади (КАТОТТГ)"
+msgstr "Classifications of address, e.g. code for territorial community (KATOTTG)."
+
+msgid "З 01-01-2020 поля countryName та region почнуть перевірятися в усіх нових обʼєктах. Назва країни в полі **countryName** має бути присутня в `довіднику країн <https://prozorroukr.github.io/standards/classifiers/countries.json>`_. Якщо поле countryName заповнене як *Україна* і поле **region** заповнене, його вміст має бути присутнім в `каталозі регіонів України <https://prozorroukr.github.io/standards/classifiers/ua_regions.json>`_. Для існуючих обʼєктів валідація застосовуватися не буде."
+msgstr "Since 01-01-2020 fields **countryName** and **region** in all new entities will validate. Country name in field **countryName** must be present in `countries catalog <https://prozorroukr.github.io/standards/classifiers/countries.json>`_. If field **countryName** filled as *Україна*, and **region** filled, region must be present in `ukrainian regions catalog <https://prozorroukr.github.io/standards/classifiers/ua_regions.json>`_. For existed objects validation will not apply."
+
+msgid "ContactPoint"
+msgstr "ContactPoint"
+
+msgid "|ocdsDescription| Ім’я контактної особи, назва відділу чи контактного пункту для листування, що стосується цього процесу укладання договору."
+msgstr "|ocdsDescription| The name of the contact person, department, or contact point, for correspondence relating to this contracting process."
+
+msgid "email"
+msgstr "email"
+
+msgid "|ocdsDescription| Адреса електронної пошти контактної особи/пункту."
+msgstr "|ocdsDescription| The e-mail address of the contact point/person."
+
+msgid "telephone"
+msgstr ""
+
+msgid "|ocdsDescription| Номер телефону контактної особи/пункту. Повинен включати міжнародний телефонний код."
+msgstr "|ocdsDescription| The telephone number of the contact point/person. This should include the international dialling code."
+
+msgid "Повинне бути заповнене хоча б одне з полів: або `email`, або `telephone`."
+msgstr "Either `email` or `telephone` field has to be provided."
+
+msgid "faxNumber"
+msgstr ""
+
+msgid "|ocdsDescription| Номер факсу контактної особи/пункту. Повинен включати міжнародний телефонний код."
+msgstr "|ocdsDescription| The fax number of the contact point/person. This should include the international dialling code."
+
+msgid "url"
+msgstr "url"
+
+msgid "|ocdsDescription| Веб адреса контактної особи/пункту."
+msgstr "|ocdsDescription| A web address for the contact point/person."
+
+msgid "Додаткові поля для :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:"
+msgstr "Additionally in :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:"
+
+msgid "availableLanguage"
+msgstr ""
+
+msgid "`uk` - українська мова"
+msgstr "`uk`"
+
+msgid "`en` - англійська мова"
+msgstr "`en`"
+
+msgid "`ru` - російська мова"
+msgstr "`ru`"
+
+msgid "Визначає мови спілкування."
+msgstr "Specifies the language of communication."
+

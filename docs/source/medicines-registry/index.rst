@@ -1,11 +1,11 @@
-Medicines registry
-==================
+Реєстр лікарських засобів
+=========================
 
-.. title:: Medicines registry
+.. title:: Реєстр лікарських засобів
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Зміст:
 
    standard/index
    tutorial/index

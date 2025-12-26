@@ -1,56 +1,33 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement API is the only interface to Open Procurement database
-that is core unit of `Open Procurement <http://openprocurement.org/>`_
-infrastructure.
+Open Procurement API це єдиний інтерфейс для бази даних Open Procurement, що є основним елементом інфраструктури `Open Procurement <http://openprocurement.org/>`_.
 
-The Open Procurement API is a `REST 
-<http://en.wikipedia.org/wiki/Representational_State_Transfer>`_-ful
-interface that provides programmatic access to Tender database of Open
-Procurement system.  It provides predictable URLs for accessing resources,
-and uses built-in HTTP features to receive commands and return responses. 
-This makes it easy to communicate with.
+Open Procurement API це `REST <http://en.wikipedia.org/wiki/Representational_State_Transfer>`_-ful інтерфейс, що надає програмний доступ до бази даних Tender системи Open Procurement. Він надає URL-адреси для доступу до ресурсів і використовує вбудовані HTTP особливості, щоб отримувати команди та повертати відповіді. Це полегшує спілкування.
 
-The API accepts `JSON <http://json.org/>`_ or form-encoded content in
-requests.  It returns JSON content in all of its responses, including
-errors.  Only the UTF-8 character encoding is supported for both requests
-and responses.
+API приймає `JSON <http://json.org/>`_ або form-encoded вміст у запитах. Він повертає JSON вміст у всіх своїх відповідях, включно з помилками. Підтримується лише UTF-8 кодування і для запитів, і для відповідей.
 
-Conventions
------------
-All API POST and PUT requests expect a top-level object with a single
-element in it named `data`.  Successful responses will mirror this format. 
-The data element should itself be an object, containing the parameters for
-the request.  In the case of creating a new tender, these are the fields we
-want to set on the tender itself.
+Домовленості
+------------
+Всі API POST та PUT запити очікують об'єкт верхнього рівня з єдиним елементом з назвою `data`. Відповіді з повідомленням про успіх будуть віддзеркалювати цей формат. Елемент data повинен сам бути об’єктом, що містить параметри запиту. Якщо створюється нова закупівля, то це ті поля, які ми хочемо встановити на самій закупівлі.
 
-If the request was successful, we will get a response code of `201`
-indicating the object was created.  That response will have a data field at
-its top level, which will contain complete information on the new tender,
-including its ID.
+Якщо запит був успішним, ми отримаємо код відповіді `201`, який вказує, що об’єкт був створений. Ця відповідь буде мати data поле на верхньому рівні, яке вміщуватиме повну інформацію про нову закупівлю, включно з ID.
 
-If something went wrong during the request, we'll get a different status
-code and the JSON returned will have an `errors` field at the top level
-containing a list of problems.  We look at the first one and print out its
-message.
+Якщо під час запиту виникли труднощі, ми отримаємо інший код стану та JSON, який при поверненні міститиме `errors` поле на верхньому рівні зі списком проблем. Ми дивимось на першу з них і видруковуємо її повідомлення.
 
-Main responsibilities
----------------------
-
-Business logic
+Основні задачі
 --------------
 
-Project status
+Бізнес логіка
+-------------
+
+Стан проекту
+------------
+
+Репозиторій джерельних текстів цього проекту є на `GitHub <https://github.com/ProzorroUKR/openprocurement.api>`_.
+
+Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/ProzorroUKR/openprocurement.api/issues>`_ (реєстрація на GitHub обов’язкова).  
+
+Наступні кроки
 --------------
-
-The source repository for this project is on GitHub: https://github.com/ProzorroUKR/openprocurement.api
-
-You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/ProzorroUKR/openprocurement.api/issues>`_ (GitHub
-registration necessary).  
-
-Next steps
-----------
-You might find it helpful to look at the :ref:`tutorial`, or the
-:ref:`reference`.
+Можливо вам буде цікаво прочитати :ref:`tutorial`, або :ref:`reference`.

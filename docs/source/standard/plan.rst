@@ -7,35 +7,33 @@ Plan
 
 planID
 ------
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   The plan identifier to refer plan to in "paper" documentation.
+   Ідентифікатор плану для позначення плану в "паперовій" документації.
 
-   |ocdsDescription|
-   planID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
+   |ocdsDescription| Ідентифікатор тендера `TenderID` повинен завжди співпадати з OCID. Його включають, щоб зробити структуру даних більш зручною.
 
 procuringEntity
 ---------------
 
-   :ref:`PlanOrganization`, required
+   :ref:`PlanOrganization`, обов’язково
 
-   Organization conducting the tender.
+   Замовник (організація, що проводить закупівлю).
 
-   |ocdsDescription|
-   The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+   |ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи.
 
 status
 ------
 
-   string
+   рядок
 
-   Possible values:
+   Можливі значення:
         * draft
         * scheduled
         * cancelled
         * complete
 
-   Status of the Plan.
+   Статус плану.
 
    .. graphviz::
 
@@ -79,9 +77,9 @@ status
 
 buyers
 ------
-   List of :ref:`PlanOrganization` objects, required at least 1 object
+   Cписок об’єктів :ref:`PlanOrganization`, обов’язково 1 об’єкт
 
-   Identifications of the subjects in whose interests the purchase is made
+   Cуб’єкт(и) в інтересах якого(их) проводиться закупівля
 
    Validation depends on:
 
@@ -91,9 +89,9 @@ buyers
 milestones
 ----------
 
-   List of :ref:`PlanMilestone` objects
+   Список об’єктів :ref:`PlanMilestone`
 
-   Milestones of type `approval` used to provide Central procurement organization approve feature
+   Майлстоуни типу “затвердження” використовуються для того, щоб надати центральній організації закупівель функцію затвердження
 
    Validation depends on:
 
@@ -101,86 +99,71 @@ milestones
 
 tender
 ------
-   :ref:`PlanTender`, required
+   :ref:`PlanTender`, обов’язково
 
-   Data regarding tender process.
+   Дані щодо тендерного процесу.
 
 budget
 ------
-   :ref:`Budget`, required (except `tender.procurementMethodType` is `"esco"`).
+   :ref:`Budget`, обов’язково (за вийнятком `tender.procurementMethodType` має значення `"esco"`)
 
-   Total available tender budget.
+   Повний доступний бюджет закупівлі.
 
-   |ocdsDescription|
-   The total estimated value of the procurement.
+   |ocdsDescription| Загальна кошторисна вартість закупівлі.
 
 
 project
 -------
    :ref:`Project`
 
-   |ocdsDescription|
-   The project object which describes the infrastructure or public-private partnership (PPP) project to which the planning process is related.
+   |ocdsDescription| Об’єкт проекту, який описує інфраструктуру або проект державно-приватного партнерства, з яким пов’язаний процес планування.
 
 
 
 classification
 --------------
 
-    :ref:`Classification`, required
+    :ref:`Classification`, обов’язково
 
-    |ocdsDescription|
-    The primary classification for the item. See the
-    itemClassificationScheme to identify preferred classification lists,
-    including CPV and GSIN.
+    |ocdsDescription| Початкова класифікація елемента. Дивіться у itemClassificationScheme, щоб визначити бажані списки класифікації, включно з CPV та GSIN.
 
-    It is mandatory for `classification.scheme` to be `CPV` or `ДК021`. The
-    `classification.id` should be valid CPV or ДК021 code.
+    Класифікація `classification.scheme` обов’язково повинна бути `CPV` або `ДК021`. `classification.id` повинно бути дійсним CPV або ДК021 кодом.
 
 additionalClassifications
 -------------------------
 
-    List of :ref:`Classification` objects
+    Список об’єктів :ref:`Classification`
 
-    |ocdsDescription|
-    An array of additional classifications for the item. See the
-    itemClassificationScheme codelist for common options to use in OCDS.
-    This may also be used to present codes from an internal classification
-    scheme.
+    |ocdsDescription| Масив додаткових класифікацій для елемента. Дивіться у список кодів itemClassificationScheme, щоб використати поширені варіанти в OCDS. Також можна використовувати для представлення кодів з внутрішньої схеми класифікації.
 
-    Item which classification.id starts with 336 and contains
-    additionalClassification objects have to contain no more than one
-    additionalClassifications with scheme=INN.
+    Елемент, у якому classification.id починається з 336 і містить додаткові об’єкти класифікації, повинен містити не більше однієї додаткової класифікації зі схемою INN.
 
-    Item with classification.id=33600000-6 have to contain exactly one
-    additionalClassifications with scheme=INN.
+    Елемент з classification.id = 33600000-6 повинен містити рівно одну додаткову класифікацію зі схемою = INN.
 
-    It is mandatory to have at least one item with `ДКПП` as `scheme`.
+    Обов’язково мати принаймні один елемент з `ДКПП` як `scheme`.
 
 documents
 ---------
-   List of :ref:`document` objects
+   Список об’єктів :ref:`document`
 
-   |ocdsDescription|
-   All documents and attachments related to the tender.
+   |ocdsDescription| Всі документи та додатки пов’язані із закупівлею.
 
 .. _tender_id:
 
 tender_id
 ---------
 
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   ``id`` of the linked tender object. See :ref:`tender-from-plan`
+   ``id`` пов’язаного тендер об’єкта. Див :ref:`tender-from-plan`
 
 items
 -----
-   list of :ref:`item` objects, required
+   список об’єктів :ref:`item`, обов’язково
 
-   List that contains single item being procured.
+   Список, який містить елемент, що закуповується.
 
-   |ocdsDescription|
-   The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+   |ocdsDescription| Товари та послуги, що будуть закуплені, поділені на спискові елементи, де це можливо. Елементи не повинні дублюватись, замість цього вкажіть кількість 2.
 
 cancellation
 ------------
@@ -189,25 +172,25 @@ cancellation
 
 milestones
 ----------
-   List of :ref:`PlanMilestone` objects
+   Список об’єктів :ref:`PlanMilestone`
 
 dateModified
 ------------
-   string, :ref:`date`, auto-generated
+   рядок, :ref:`date`, генерується автоматично
 
 datePublished
 -------------
-   string, :ref:`date`, auto-generated
+   рядок, :ref:`date`, генерується автоматично
 
 owner
 -----
-    string, auto-generated
+    рядок, генерується автоматично
 
 revisions
 ---------
-   List of :ref:`revision` objects, auto-generated
+   Список об’єктів :ref:`revision`, генерується автоматично, лише для читання
 
-   Historical changes to Tender object properties.
+   Зміни властивостей об’єктів Закупівлі.
 
 
 -----------
@@ -221,25 +204,24 @@ PlanTender
 
 procurementMethod
 -----------------
-    string
+    рядок
 
-    Possible values:
-        * ''
+    Можливі значення:
+                 
         * 'open'
         * 'limited'
 
-    Procurement Method of the Tender.
+    Метод закупівлі тендеру.
 
 
 procurementMethodType
 ---------------------
-    string
-    Possible values for `procurementMethod` == `''`:
+    можливі значення для `procurementMethod` == `''`:
 
-    * '' - Without using an electronic system
-    * 'centralizedProcurement' - Procurement via Central Purchasing Body
+    * '' - Без використання електронної системи
+    * 'centralizedProcurement' - Закупівля через Централізовану закупівельну організацію
 
-    Possible values for `procurementMethod` == `'open'`:
+    Можливі значення для `procurementMethod` == `’open’`:
 
     * belowThreshold
     * aboveThresholdUA
@@ -250,7 +232,7 @@ procurementMethodType
     * competitiveDialogueEU
     * competitiveDialogueUA
 
-    Possible values for `procurementMethod` == `'limited'`:
+    Можливі значення для `procurementMethod` == `’limited’`:
 
     * reporting
     * negotiation
@@ -259,12 +241,11 @@ procurementMethodType
 
 tenderPeriod
 ------------
-   :ref:`period`, required
+   :ref:`period`, обов’язково
 
-   Period when bids can be submitted. At least `endDate` has to be provided.
+   Період, коли подаються пропозиції. Повинна бути вказана хоча б `endDate` дата.
 
-   |ocdsDescription|
-   The period when the tender is open for submissions. The end date is the closing date for tender submissions.
+   |ocdsDescription| Період, коли закупівля відкрита для подачі пропозицій. Кінцева дата - це дата, коли перестають прийматись пропозиції.
 
 -----------
 
@@ -275,15 +256,15 @@ Project
 
 id
 --
-    string
+    рядок
 
 title
 -----
-    string, required
+    рядок, обов’язковий
 
 uri
-----
-    string, required
+---
+    рядок, обов’язковий
 
 -----------
 
@@ -294,23 +275,23 @@ Budget
 
 id
 --
-    string, required
+    рядок, обов’язковий
 
 description
 -----------
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
 amount
 ------
-    float, required
+    float, обов’язково
 
 amountNet
 ---------
-    float, required
+    float, обов’язково
 
 currency
 --------
-    string, required, length = 3
+    рядок, обов’язковий, довжина = 3
 
 project
 -------
@@ -334,11 +315,11 @@ year
 
 notes
 -----
-    string
+    рядок
 
 breakdown
 ---------
-    List of :ref:`BudgetBreakdown`, required (except `tender.procurementMethodType` is `"belowThreshold"`, `"reporting"`, `"esco"`, `""`)
+    Список об’єктів :ref:`BudgetBreakdown`, обов’язковий (за вийнятком `tender.procurementMethodType` має значення `"belowThreshold"`, `"reporting"`, `"esco"`, `""`)
 
 
 -----------
@@ -351,15 +332,15 @@ BudgetProject:
 
 id
 --
-    string, required
+    рядок, обов’язковий
 
 name
 ----
-    string, required
+    рядок, обов’язковий
 
 name_en
 -------
-    string
+    рядок
 
 -----------
 
@@ -370,19 +351,17 @@ BudgetPeriod
 
 startDate
 ---------
-    string, required, :ref:`date`
+    рядок, обов’язковий, :ref:`date`
 
-    |ocdsDescription|
-    The start date for the period.
+    |ocdsDescription| Початкова дата періоду.
 
 endDate
 -------
-    string, required, :ref:`date`
+    рядок, обов’язковий, :ref:`date`
 
-    |ocdsDescription|
-    The end date for the period.
+    |ocdsDescription| Кінцева дата періоду.
 
-`startDate` should always precede `endDate`.
+Значення `startDate` завжди повинно йти перед `endDate`.
 
 .. _BudgetBreakdown:
 
@@ -390,12 +369,12 @@ BudgetBreakdown
 ===============
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Possible values are:
+    Можливі значення:
 
     * `state`
     * `crimea`
@@ -406,34 +385,33 @@ BudgetBreakdown
     * `other`
 
 :description:
-    string, multilingual, required if title == `other`
+    рядок, багатомовний, обов’язковий за умови title == `other`
 
-    Detailed description of budget breakdown.
+    Детальний опис джерел фінансування закупівлі.
 
 :value:
     :ref:`BasicValue`
 
-    Budget breakdown value
+    Cума, яка виділена для окремого джерела фінансування
 
-    Currency should be identical for all budget breakdown values and budget
+    Валюта для всіх breakdown value та budget повинна бути однаковою
 
-    Sum of the breakdown values amounts can't be greater than budget amount  (except `tender.procurementMethodType` is `"esco"`)
+    Загальна вартість всіх breakdown value amount не може бути більшим за budget amount (за вийнятком `tender.procurementMethodType` має значення `"esco"`)
 
 :address:
     :ref:`Address`
 
-    Object of address details for `budget.breakdown`.
+    Об'єкт з деталями адреси джерела фінансуванння `budget.breakdown`.
 
-    If plan has `budget.breakdown.title` is `state` it is required to have at least one KATOTTG classificator
-    in `address.addressDetails`.
+    Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор КАТОТТГ має зазначатись обовʼязково.
 
 
 :classification:
 
-    :ref:`Classification`, object
+    Список об’єктів :ref:`Classification`
 
-    Classification for the `budget.breakdown`.
+    Класифікатор для бюджету в залежності від джерела фінансуванння `budget.breakdown`.
 
-    If plan has `budget.breakdown.title` some of `local`, `crimea` it is required to have TPKVKMB classificator.
+    Якщо джерело фінансування `budget.breakdown.title` вказано одне зі значень `local`, `crimea`, класифікатор ТПКВКМБ має зазначатись обовʼязково.
 
-    If plan has `budget.breakdown.title` is `state` it is required to have KPK classificator.
+    Якщо джерело фінансування `budget.breakdown.title` вказано `state`, класифікатор КПК має зазначатись обовʼязково.

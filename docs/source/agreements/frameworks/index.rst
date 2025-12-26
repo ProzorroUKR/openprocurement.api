@@ -1,9 +1,9 @@
 .. _agreement_framework_index:
 
 Open Framework Agreement - ``dynamicPurchasingSystem``, ``electronicCatalogue``, ``internationalFinancialInstitutions``
-========================================================================================================================
+=======================================================================================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

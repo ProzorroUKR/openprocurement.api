@@ -1,78 +1,78 @@
-Example for Contract
+Приклад для договору
 --------------------
 
-Contract ownership change
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Зміна власника договору
+~~~~~~~~~~~~~~~~~~~~~~~
 
-Let's view transfer example for contract transfer.
+Переглянемо приклад зміни власника для договору.
 
 
-Getting contract's credentials
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Отримання доступу до договору
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At first let's get contract credentials:
+Спочатку отримаємо доступ до договору:
 
 .. http:example:: tutorial/get-contract-credentials.http
    :code:
 
-`broker` is current contract's ``owner``.
+Майданчик `broker` є поточним власником ``owner`` договору.
 
-Note that response's `access` section contains a ``transfer`` key which is used to change tender ownership.
+Зверніть увагу, що секція відповіді `access` містить ключ ``transfer``, який використовується для зміни власника договору.
 
-After contract's credentials obtaining broker has to provide its customer with ``transfer`` key.
+Після отрімання доступу до договору майданчик повинен довести ключ ``transfer`` до відома клієнта.
 
-Transfer creation
-^^^^^^^^^^^^^^^^^
+Ініціація зміни власника
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-First of all, you must know ID of the contract that you want to transfer.
+Перш за все, необхідно знати ID договору, власника якого ви хочете змінити.
 
-Broker that is going to become new contract owner should create a `Transfer`.
+Майданчик, що стане новим власником договору, повинен створити об'єкт `Transfer`.
 
 .. http:example:: tutorial/create-contract-transfer.http
    :code:
 
-`Transfer` object contains new access ``token`` and new ``transfer`` token for the object that will be transferred to new broker.
+Об'єкт `Transfer` містить новий ключ доступу ``token`` та новий ключ ``transfer`` для об'єкта, власник якого буде змінений.
 
-Changing contract's owner
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Зміна власника договору
+^^^^^^^^^^^^^^^^^^^^^^^
 
-An ability to change contract's ownership depends on contract's status:
+Можливість зміни власника договору залежить від статусу договору:
 
-+---------+-------------+
-| Allowed | Not Allowed |
-+---------+-------------+
-| active  | pending     |
-|         |             |
-|         | terminated  |
-|         |             |
-|         | cancelled   |
-+---------+-------------+
++-----------+--------------+
+| Дозволено | Не дозволено |
++-----------+--------------+
+| active    | pending      |
+|           |              |
+|           | terminated   |
+|           |              |
+|           | cancelled    |
++-----------+--------------+
 
-In order to change contract's ownership new broker should send POST request to appropriate `/contracts/id/` with `data` section containing ``id`` of `Transfer` and ``transfer`` token received from customer:
+Щоб змінити власника договору новий майданчик повинен надіслати POST запит на відповідний  `/contracts/id/` з секцією `data`, що міститиме ідентифікатор ``id`` для `Transfer` та ключ ``transfer`` отриманий від клієнта:
 
 .. http:example:: tutorial/change-contract-ownership.http
    :code:
 
-Updated ``owner`` value indicates that ownership is successfully changed. 
+Оновлене значення властивості ``owner`` вказує, що власник був успішно змінений. 
 
-Note that new broker has to provide its customer with new ``transfer`` key (generated in `Transfer` object).
+Зверніть увагу, що новий майданчик повинен довести до відома клієнта новий ключ ``transfer`` (згенерований в об'єкті `Transfer`).
 
-After `Transfer` is applied it stores contract path in ``usedFor`` property.
+Можна перевірити чи після застосування об'єкта `Transfer` шлях до договору зберігається у властивості ``usedFor``.
 
 .. http:example:: tutorial/get-used-contract-transfer.http
    :code:
 
-Let's try to change the contract using ``token`` received on `Transfer` creation:
+Спробуємо змінити договір за допомогою ключа ``token``, отриманого при створенні об'єкта `Transfer`.
 
 .. http:example:: tutorial/modify-contract.http
    :code:
 
-Pay attention that only broker with appropriate accreditation level can become new owner. Otherwise broker will be forbidden from this action.
+Зверніть увагу, що тільки майданчик з відповідним рівнем акредитації може стати новим власником. В іншому випадку майданчику така дія буде заборонена.
 
 .. http:example:: tutorial/change-contract-ownership-forbidden.http
    :code:
 
-Also ownership change is allowed only if current owner has a special accreditation level that allows ownership change:
+Зміна власника дозволена тільки якщо поточний власник тендера має спеціальний рівень акредетації, що дозволяє зміну:
 
 .. http:example:: tutorial/change-contract-ownership-forbidden-owner.http
    :code:

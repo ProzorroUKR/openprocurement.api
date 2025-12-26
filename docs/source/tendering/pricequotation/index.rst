@@ -1,9 +1,9 @@
 .. _pricequotation:
 
-Price Quotation procedure - ``priceQuotation``
-==============================================
+Процедура Запиту Цінових Пропозицій - ``priceQuotation``
+========================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

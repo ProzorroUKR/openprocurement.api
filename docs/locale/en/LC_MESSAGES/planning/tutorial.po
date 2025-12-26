@@ -1,0 +1,177 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.limited 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-04-28 16:24+0300\n"
+"PO-Revision-Date: 2023-10-26 10:31+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Туторіал"
+msgstr "Tutorial"
+
+msgid "Створення плану закупівлі"
+msgstr "Creating plan procurement"
+
+msgid "Наполегливо рекомендуємо створювати плани у статусі `draft`."
+msgstr "We strongly recommend creating plans in `draft` status."
+
+msgid "Створимо план:"
+msgstr "Let’s create a plan:"
+
+msgid "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `planID` та властивість `dateModified` - дату, що показує час, коли план закупівлі востаннє модифікувався."
+msgstr "We have `201 Created` response code, `Location` header and body with extra `id`, `planID`, and `dateModified` properties."
+
+msgid "Другий крок - переміщення плану в статус `scheduled`, щоб опубліковати план:"
+msgstr "The second step is moving the plan to `scheduled` status so that it becomes actually published:"
+
+msgid "Перевіримо, що містить реєстр планів закупівель:"
+msgstr "Let's check what plan registry contains:"
+
+msgid "Відображається  `id` - внутрішній ідентифікатор (який можна використовувати, щоб побудувати повну URL-адресу, додаючи `http://api-sandbox.openprocurement.org/api/0/plans/` на початку) та мітка часу `dateModified`."
+msgstr "We do see the internal `id` of a plan (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/plans/`) and its `dateModified` datestamp."
+
+msgid "Модифікація плану закупівлі"
+msgstr "Modifying plan"
+
+msgid "Оновимо план шляхом надання їй усіх інших важливих властивостей:"
+msgstr "Let's update plan by supplementing it with all other essential properties:"
+
+msgid "Ми бачимо, що додаткові властивості об’єднані з існуючими даними плану. Додатково оновлена властивість dateModified, щоб відображати останню дату модифікації."
+msgstr "We see the added properties have merged with existing plan data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+
+msgid "Ще одна перевірка списку відображає нову дату модифікації:"
+msgstr "Checking the listing again reflects the new modification date:"
+
+msgid "Створення закупівлі з плану"
+msgstr "Tender creation from a procurement plan"
+
+msgid "Закупівля може бути створена з відповідного їй плану закупівлі. Закупівля буде пов’язана з планом за допомогою полів :ref:`plans тендеру <tender>` і :ref:`tender_id плану <tender_id>`."
+msgstr "A tender can be created from your procurement plan. This tender will be linked with the plan using :ref:`tender's plans <tender>` and :ref:`plan's tender_id <tender_id>` fields."
+
+msgid "Системні збої під час створення закупівлі з плану можуть призвести до закупівель, які не пов’язані з їхніми планами по :ref:`tender_id`."
+msgstr "System failures during tender-from-plan creation can produce tenders that are not linked with their plans by :ref:`tender_id`."
+
+msgid "Переконайтеся, що ви використовуєте :ref:`2pc` і не проводте ці помилкові закупівлі (створюйте нові натомість)."
+msgstr "Make sure you do use :ref:`2pc` and do not proceed with these error state tender objects (create new ones)."
+
+msgid "Для зменшення шансів зробити помилку та зв’язати закупівлю з неправильним планом, встановлені правила валідації"
+msgstr "There are validation rules that are supposed to decline the chance of making a mistake"
+
+msgid "Усього їх три:"
+msgstr "There are three of them:"
+
+msgid "procurementMethodType - відповідність типу процедури плана і тендера"
+msgstr "procurementMethodType"
+
+msgid "procuringEntity.identifier - відповідність полів id і scheme для плана і тендера"
+msgstr "procuringEntity.identifier - matching id and scheme with the same fields in tender data"
+
+msgid "classification.id - відповідність перших 4-х цифр кодів класифікатора плана і тендера (336 виняток - відповідність перших 3-х цифр)"
+msgstr "classification.id  - matching with tender item classification codes using first 4 digits (``336`` is exception)"
+
+msgid "План має містити джерела фінансування, інакше буде отрімано помилку під час створення тендеру:"
+msgstr "Plan should contain budget breakdown, otherwise it will be an error during tender creation:"
+
+msgid "Додамо джерело фінансування та проект до плану:"
+msgstr "Let's add budget breakdown and project to plan:"
+
+msgid "Успішний приклад виглядає так:"
+msgstr "A successful example looks like this:"
+
+msgid "Перевіримо, чи стан плану було перемкнено на `complete`:"
+msgstr "Let's check that the plan status was switched to `complete`:"
+
+msgid "Після створення закупівлі з плану змінити план більше неможливо:"
+msgstr "After tender was created from plan it's no longer allowed to change plan:"
+
+msgid "Завершення плану без торгів"
+msgstr "Plan completing without tendering"
+
+msgid "Існує спосіб завершити план без створення тендеру:"
+msgstr "There is a way to complete a plan without tender creation:"
+
+msgid "Це працює лише в тому випадку, якщо `procurementMethodType` є одним із наступних:"
+msgstr "This only works if `procurementMethodType` is one of the following:"
+
+msgid "``belowThreshold``"
+msgstr ""
+
+msgid "``reporting``"
+msgstr ""
+
+msgid "порожній рядок"
+msgstr "empty string"
+
+msgid "Скасування плану"
+msgstr "Plan cancellation"
+
+msgid "План можна скасувати за допомогою :ref:`plancancellation`:"
+msgstr "A plan can be cancelled using :ref:`plancancellation`:"
+
+msgid "Зміна статуса об’єкта скасування на ``active`` скасовує план:"
+msgstr "Making the cancellation object ``active`` cancels the plan:"
+
+msgid "Оновлення обгурнтування плану закупівлі"
+msgstr "Plan rationale update"
+
+msgid "Поле ``rationale`` оновлюється у будь-якому статусі плану закупівлі:"
+msgstr "The ``rationale`` field can be updated at any plan status:"
+
+msgid "Історія змін полів плану закупівлі"
+msgstr "Plan fields history"
+
+msgid "Існує окремий метод API, який дозволяє передивлятися історію полів плану закупівлі."
+msgstr "There is an endpoint that can show changes history of the certain fields."
+
+msgid "На даний момент підтримується тільки поле ``rationale`` :"
+msgstr "At the moment only ``rationale`` is supported:"
+
+msgid "План України"
+msgstr "Plan of Ukraine"
+
+msgid "Якщо зазначено джерело фінансування, Замовник може зазначати пункт Плану України в полі `budget.project`."
+msgstr "If the source of financing is indicated, the Customer may indicate the item of the Plan of Ukraine in `budget.project`."
+
+msgid "Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_, то ми побачимо додаткові валідації на поля `name` та `name_en`:"
+msgstr "If item is from dictionary `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ than there are additional validations for `name` and `name_en` fields:"
+
+msgid "Успішне додавання джерела фінансування разом з проектом з Плану України:"
+msgstr "Successful adding project from plan of Ukraine:"
+
+msgid "Ukraine facility"
+msgstr ""
+
+msgid "Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовинк має вказати код з класифікаторів Ukraine facility в полі `budget.breakdown.classification` та `budget.breakdown.address.addressDetails`."
+msgstr "For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classifiers in `budget.breakdown.classification` and `budget.breakdown.address.addressDetails`."
+
+msgid "Для державних бюджетів використовується класифікатор КПК. Він поділений на декілька довідників в залежності від року, наприклад `КПК-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_."
+msgstr "For `state` budgets KPK dictionaries are used. They are divided by year, e.g. `KPK-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_."
+
+msgid "Для місцевих бюджетів та бюджетів Автономної Республіки Крим використовуються класифікатори `КАТОТТГ <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ та  `ТПКВКМБ <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_"
+msgstr "For `local` and `crimea` budgets `KATOTTG <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ and  `TPKVKMB <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_ dictionaries are used."
+
+msgid "Існують додаткові валідації для планів з цими джерелами фінансування:"
+msgstr "There are additional validations for these kinds of budget's breakdown:"
+
+msgid "Додамо `classification` для державного бюджету:"
+msgstr "Successful adding `classification` for `state` budget breakdown:"
+
+msgid "Подивимося, що буде, якщо ми змінимо бюджет на місцевий:"
+msgstr "Let's look what we have for `local` budget breakdown:"
+
+msgid "Додамо `classification` для місцевого бюджету і зробимо запит ще раз:"
+msgstr "Let's add `classification` for `local` budget breakdown and see what happened:"
+
+msgid "Додамо адресу, після цього ЦБД буде вимагати КАТОТТГ для місцевого бюджету:"
+msgstr "Let's add address, KATOTTG is required for `local` budget:"
+
+msgid "Тепер додамо `classification` разом з `address` для місцевого бюджету:"
+msgstr "Successful adding `classification` and `address` for `local` budget breakdown:"
+

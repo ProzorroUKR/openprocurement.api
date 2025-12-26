@@ -7,23 +7,21 @@
 RequirementResponse
 ===================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    |ocdsDescription|
-    RequirementResponse title.
+    |ocdsDescription| Назва відповіді на вимогу.
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    RequirementResponse description.
+    |ocdsDescription| Опис відповіді на вимогу.
 
 :period:
     :ref:`extendPeriod`
@@ -31,29 +29,27 @@ Schema
 :requirement:
     :ref:`Reference`
 
-    |ocdsDescription|
-    The reference for tender requirement.
+    |ocdsDescription| Посилання на вимогу.
 
 :relatedTenderer:
      :ref:`Reference`
 
-    |ocdsDescription|
-    The reference for organization.
+    |ocdsDescription| Посилання на організацію.
 
 :relatedItem:
     string
 
-    Id of related :ref:`item`.
+    Id пов'язанного об'єкту :ref:`item`.
 
 :evidences:
-    List of :ref:`Evidence` objects
+    Список об'єктів :ref:`Evidence`
 
 :values:
-    List of strings
+    Список рядків
 
-    The values should be from `requirement.expectedValues` field. This field should be set if requirement has `dataType: string`.
+    Значення мають бути зі списку `requirement.expectedValues`. Це поле необхідно передавати у випадку, коли характеристика має `dataType: string`.
 
 :value:
     boolean/int/decimal
 
-    The value of this requirement response. The value must be of the type defined in the requirement.dataType field. This field should be set if requirement has `dataType` another from `string`.
+    Значення відповіді на цю вимогу. Значення має бути типом, визначеним у полі requirement.dataType. Це поле необхідно передавати у випадку, коли характеристика має будь-який `dataType`, окрім `string`.

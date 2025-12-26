@@ -7,20 +7,20 @@
 ChangeTaxRate in :ref:`cfaua`
 =============================
 
-Schema
-------
+Схема
+-----
 
 .. include:: base_change.rst
 
 :rationaleType:
-    string
+    рядок
 
-     Default value is `taxRate`.
+     Значення за замовчуванням - `taxRate`.
 
 :modifications:
-    List of :ref:`UnitPriceModification` objects
+    Список об'єктів :ref:`UnitPriceModification`
 
-     * For `ChangeTaxRate`, `UnitPriceModification` is allowed only with one attribute ( `factor` or `addend` ).
+     * Для `UnitPriceModification` в `ChangeTaxRate` дозволяється тільки один атрибут (`factor` або `addend` ).
 
 
 .. _ChangeItemPriceVariation:
@@ -28,20 +28,20 @@ Schema
 ChangeItemPriceVariation in :ref:`cfaua`
 ========================================
 
-Schema
-------
+Схема
+-----
 
 .. include:: base_change.rst
 
 :rationaleType:
-    string
+    рядок
 
-     Default value is `itemPriceVariation`.
+     Значення за замовчуванням - `itemPriceVariation`.
 
 :modifications:
-    List of :ref:`UnitPriceModification` objects
+    Список об'єктів :ref:`UnitPriceModification`
 
-     * For `ChangeItemPriceVariation`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be in range 0.9 - 1.1.
+     * Для `UnitPriceModification` в `ChangeItemPriceVariation` дозволяється тільки атрибут `factor`. Атрибут `factor` має бути в межах 0.9 - 1.1.
 
 
 .. _ChangeThirdParty:
@@ -52,14 +52,14 @@ ChangeThirdParty in :ref:`cfaua`
 .. include:: base_change.rst
 
 :rationaleType:
-    string
+    рядок
 
-     Default value is `thirdParty`.
+     Значення за замовчуванням - `thirdParty`.
 
 :modifications:
-    List of :ref:`UnitPriceModification` objects
+    Список об'єктів :ref:`UnitPriceModification`
 
-     * For `ChangeThirdParty`, `UnitPriceModification` is allowed only with `factor` . `factor` attribute should be over 0.0.
+     * Для `UnitPriceModification` в `ChangeThirdParty` дозволяється тільки атрибут `factor`. Атрибут `factor` має бути більше 0.0.
 
 
 .. _ChangePartyWithdrawal:
@@ -67,18 +67,18 @@ ChangeThirdParty in :ref:`cfaua`
 ChangePartyWithdrawal in :ref:`cfaua`
 =====================================
 
-Schema
-------
+Схема
+-----
 
 .. include:: base_change.rst
 
 :rationaleType:
-    string
+    рядок
 
-     Default value is `partyWithdrawal`.
+     Значення за замовчуванням - `partyWithdrawal`.
 
 :modifications:
-    List of :ref:`ContractModification` objects
+    Список об'єктів :ref:`ContractModification`
 
 
 .. _UnitPriceModification:
@@ -86,24 +86,23 @@ Schema
 UnitPriceModification in :ref:`cfaua`
 =====================================
 
-Schema
-------
+Схема
+-----
 
 :itemId:
-    string
+    рядок
 
-     Id of changing item.
+     Ідентифікатор змінюваного об'єкту.
 
 :factor:
-    decimal
+    неціле число
 
-     Min value is 0.0 .
+     Мінімальне значення - 0.0.
 
 :addend:
-    decimal
+    неціле число
 
-     Is absolute value of changing.
-     Note: factor and addend are not required fields. But one of fields should be provided.
+     Абсолютне значення зміни. Примітка: `factor` і `addend` не є обов'язковими полями, але хоча б одне поле має бути заповненим.
 
 
 .. _ContractModification:
@@ -111,20 +110,20 @@ Schema
 ContractModification in :ref:`cfaua`
 ====================================
 
-Schema
-------
+Схема
+-----
 
 :itemId:
-    string
+    рядок
 
-     Id of changing item.
+     Ідентифікатор змінюваного об'єкту.
 
 :contractId:
-    string, required
+    рядок, обов'язковий
 
 
-Workflow
---------
+Схема роботи
+------------
 
 .. graphviz::
 
@@ -134,6 +133,6 @@ Workflow
          A -> B;
     }
 
-\* marks initial state
+\* позначає початковий стан
 
 

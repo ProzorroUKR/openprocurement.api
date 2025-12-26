@@ -1,0 +1,436 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-12-02 23:42+0200\n"
+"PO-Revision-Date: 2020-09-14 17:38+0200\n"
+"Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
+"Language-Team: English <kde-i18n-doc@kde.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Туторіал"
+msgstr "Tutorial"
+
+msgid "Configuration"
+msgstr ""
+
+msgid "Набір можливих значень конфігурації:"
+msgstr "The set of possible configuration values:"
+
+msgid "name"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "hasAuction"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "hasAwardingOrder"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "hasValueRestriction"
+msgstr ""
+
+msgid "valueCurrencyEquality"
+msgstr ""
+
+msgid "hasPrequalification"
+msgstr ""
+
+msgid "minBidsNumber"
+msgstr ""
+
+msgid "1"
+msgstr ""
+
+msgid "hasPreSelectionAgreement"
+msgstr ""
+
+msgid "hasTenderComplaints"
+msgstr ""
+
+msgid "hasAwardComplaints"
+msgstr ""
+
+msgid "hasCancellationComplaints"
+msgstr ""
+
+msgid "hasValueEstimation"
+msgstr ""
+
+msgid "hasQualificationComplaints"
+msgstr ""
+
+msgid "tenderComplainRegulation"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "qualificationComplainDuration"
+msgstr ""
+
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "cancellationComplainDuration"
+msgstr ""
+
+msgid "clarificationUntilDuration"
+msgstr ""
+
+msgid "qualificationDuration"
+msgstr ""
+
+msgid "minTenderingDuration"
+msgstr ""
+
+msgid "2"
+msgstr ""
+
+msgid "working"
+msgstr ""
+
+msgid "hasEnquiries"
+msgstr ""
+
+msgid "minEnquiriesDuration"
+msgstr ""
+
+msgid "enquiryPeriodRegulation"
+msgstr ""
+
+msgid "restricted"
+msgstr ""
+
+msgid "true / false"
+msgstr ""
+
+msgid "Ви можете ознайомитись з деталями в секції :ref:`config`."
+msgstr "You can look for more details in :ref:`config` section."
+
+msgid "Набір можливих значень `procuringEntity.kind` для `priceQuotation`"
+msgstr "The set of possible `procuringEntity.kind` values for `priceQuotation`"
+
+msgid "procuringEntity.kind"
+msgstr ""
+
+msgid "authority"
+msgstr ""
+
+msgid "social"
+msgstr ""
+
+msgid "general"
+msgstr ""
+
+msgid "defense"
+msgstr ""
+
+msgid "other"
+msgstr ""
+
+msgid "special"
+msgstr ""
+
+msgid "Створення закупівлі"
+msgstr "Creating tender"
+
+msgid "Введемо data атрибут у поданому тілі:"
+msgstr "Let's provide the data attribute in the submitted body :"
+
+msgid "Успіх! Тепер ми бачимо, що новий об’єкт було створено. Код відповіді `201` та заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `draft`."
+msgstr "Success! Now we can see that new object was created. Response code is `201` and `Location` response header reports the location of the created object.  The body of response reveals the information about the created tender: its internal `id` (that matches the `Location` segment), its official `tenderID` and `dateModified` datestamp stating the moment in time when tender was last modified.  Note that tender is created with `draft` status."
+
+msgid "Користувач отримує `access`: `token` з яким доступні операції ролі Замовника."
+msgstr "User receives `access`: `token` with which operations as a `Procuring Entity` role are accessible."
+
+msgid "Процедура Запиту цінових пропозицій має ``procurementMethodType``: ``priceQuotation`` та ``procurementMethod``: ``selective``."
+msgstr "Price Quotation procedure has ``procurementMethodType``: ``priceQuotation`` and ``procurementMethod``: ``selective``."
+
+msgid "Використаємо URL створеного об’єкта (заголовок відповіді `Location`):"
+msgstr "Let's access the URL of the created object (the `Location` header of the response):"
+
+msgid "Ми бачимо ту ж відповідь, що і після створення закупівлі."
+msgstr "We can see the same response we got after creating tender."
+
+msgid "Модифікація закупівлі"
+msgstr "Modifying tender"
+
+msgid "Замовник може відредагувати закупівлю перед публікацією. Давайте оновимо закупівлю, доповнюючи її усіма іншими необхідними властивостями:"
+msgstr "Procuring Entity can modify tender before publishing. Let's update tender by supplementing it with all other essential properties:"
+
+msgid "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
+msgstr "We see the added properties have merged with existing tender data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
+
+msgid "Ще одна перевірка списку відображає нову дату модифікації:"
+msgstr "Checking the listing again reflects the new modification date:"
+
+msgid "Публікація закупівлі (стара логіка через PQ бот)"
+msgstr "Publishing tender (deprecated)"
+
+msgid "Після створення Замовник публікує процедуру, змінивши статус на `draft.publishing`, де робот **priceQuotationBot** запускає перевірку процедури та доповнює процедуру додатковими даними, отриманими з бази даних електронних каталогів ProZorro, включаючи `shortListedFirms`."
+msgstr "After creation Procuring Entity publishes procedure by changing status to `draft.publishing` where **priceQuotationBot** robot runs validation of the procedure and supplement procedure with additional data taken from ProZorro e-Catalogues database including `shortListedFirms`."
+
+msgid "Після успішної валідації priceQuotationBot переводить процедуру в статус: `active.tendering`"
+msgstr "After successful validation priceQuotationBot transmit procedure to status: `active.tendering`"
+
+msgid "У разі, якщо процедура не пройде перевірку через недійсні параметри, вона буде переведена в статус: `draft.unsuccessful` за допомогою **priceQuotationBot**."
+msgstr "In case if procedure do not pass validation due to invalid options, it will be switched to status: `draft.unsuccessful` by the **priceQuotationBot**."
+
+msgid "Активація закупівлі"
+msgstr "Activating tender"
+
+msgid "Після створення Замовник може активувати закупівлю, змінивши статус на `active.tendering`."
+msgstr "After creation Procuring Entity can activate tender by changing status to `active.tendering`."
+
+msgid "Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:"
+msgstr "Before activating tender it is required to add sign document to tender. If there is no sign document during activation, we will see an error:"
+
+msgid "Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:"
+msgstr "Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:"
+
+msgid "Під час активації на ЦБД спрацьовують наступні перевірки:"
+msgstr "During activation CBD runs some validations:"
+
+msgid "Наявність профілю товару в каталозі"
+msgstr "Existence of item profile in catalogue"
+
+msgid "Профіль повинен мати статус `active` або `general`"
+msgstr "Profile should be active or general"
+
+msgid "Наявність відповідного договору"
+msgstr "Existence of related agreement"
+
+msgid "Перевірка, що угода в профілі та пов’язана угода в тендері однакові"
+msgstr "Equality of profile agreement and related agreement in tender"
+
+msgid "Угода не повинна бути розірвана (статус terminated)"
+msgstr "Agreement should not be in terminated status"
+
+msgid "Якщо Замовник спробує активувати процедуру PQ з неіснуючим профілем у каталозі, ми побачимо помилку:"
+msgstr "If Procuring Entity will try to activate PQ procedure with non-existed profile in catalogue, we will see error:"
+
+msgid "Якщо профіль не активний, ми побачимо помилку:"
+msgstr "If profile isn't in active status, we will see error:"
+
+msgid "Якщо угода (agreement) в профілі та угода в тендері не однакові, буде згенеровано наступну помилку:"
+msgstr "In case profile agreement and related agreement in tender aren't equal, the next error will be generated:"
+
+msgid "Якщо угода розірвана:"
+msgstr "If agreement is in terminated status:"
+
+msgid "Якщо процедура PQ відповідає всім вимогам, вона буде переведена в статус `active.tendering`:"
+msgstr "If PQ procedure matches all requirements, it will be switched to `active.tendering`:"
+
+msgid "Подача пропозицій"
+msgstr "Bid submission"
+
+msgid "Реєстрація пропозиції"
+msgstr "Registering bid"
+
+msgid "Статус закупівлі ``active.tendering`` дозволяє подання пропозицій."
+msgstr "Tender status ``active.tendering`` allows registration of bids."
+
+msgid "Якщо `tenderer` в пропозиції не є кваліфікованим учасником в угоді, то ми побачимо помилку під час подання пропозиції:"
+msgstr "If bid `tenderer` is not a member of agreement, than we will see an error during registration of bid:"
+
+msgid "Для типу закупівлі priceQuotation існує валідація: сума добутків по позиціям (`item.quantity * item.unit.value.amount`) повинна бути більше 0, і може відрізнятись в нижню сторону від bid.value.amount не більше ніж на 20%."
+msgstr "For PQ bids have strict validation: the amount of bids by item (`item.quantity * item.unit.value.amount`) must be greater than 0, and may differ downwards from bid.value.amount by no more than 20%."
+
+msgid "Якщо сума добутків цін за одиницю менше ніж нетто значення`bid.value.amount` (`bid.value.amount * 1.2`), учасник побачить помилку:"
+msgstr "If sum of unit items values are less than net value `bid.value.amount` (`bid.value.amount * 1.2`), the bidder will see the error:"
+
+msgid "Якщо позиція (`item`) в закупівлі посилається на категорію чи профіль, учасник має обов'язково вказувати продукт для цієї позиції. Якщо продукт не вказаний, ми побачимо помилку:"
+msgstr "If item in tender has category or profile relation, then bidder must set product in this item. If there is no product we will see the error:"
+
+msgid "Учасник може зареєструвати пропозицію зі статусом ``draft`` (чернетка):"
+msgstr "Bidder can register a bid with ``draft`` status:"
+
+msgid "Користувач отримує `access`: `token` з яким доступні операції ролі Постачальника."
+msgstr "User receives `access`: `token` with which operations as a `Supplier` role are accessible."
+
+msgid "і підтвердити її, перевівши у ``pending`` статус:"
+msgstr "and approve to pending status:"
+
+msgid "Модифікація пропозиції"
+msgstr "Modifying bid"
+
+msgid "Пропозиція може бути оновленою до закінчення тендерного періоду."
+msgstr "Bid can be updated until the end of tender period."
+
+msgid "Видалення пропозиції"
+msgstr "Deleting bid"
+
+msgid "Поки не завершився період подання пропозицій постачальник має можливість видаляти свою пропозицію."
+msgstr "Bid can be deleted until the end of tender period."
+
+msgid "Додамо нову пропозицію до тендеру:"
+msgstr "Let's add new bid to tender:"
+
+msgid "У постачальника є змога видалити її, якщо була допущена помилка:"
+msgstr "Now we can delete this bid:"
+
+msgid "Пропозиція відсутня в тендері після видалення:"
+msgstr "The bid is not exist in tender after deletion:"
+
+msgid "Завантаження пропозиції"
+msgstr "Proposal Uploading"
+
+msgid "Потім учасник повинен завантажити документ(и) пропозиції:"
+msgstr "Then bidder should upload proposal document(s):"
+
+msgid "Можна перевірити завантажені документи:"
+msgstr "It is possible to check the uploaded documents:"
+
+msgid "Закінчення періоду подання пропозицій"
+msgstr "Active tendering period end"
+
+msgid "По закінченню періоду подання пропозицій (active.tendering) система знову перевіряє статус учасника у agreement. Якщо досі `аctive` - bid отримує `status:active`, якщо інший статус - пропозиція падає у статус `invalid`."
+msgstr "After tender period ended, CBD checks one more time status of contract for suppliers in agreement. If contract status is still `active` - bid is getting `active` status too, in other cases - bid gets `invalid` status."
+
+msgid "Припустимо, що другий постачальник в угоді був дискваліфікований під час періоду `active.tendering`."
+msgstr "Let's imagine that second contract supplier in agreement was disqualified during `active.tendering` period."
+
+msgid "Подивимося на статуси наших пропозицій після закінчення періоду `active.tendering`. Остання пропозиція, в якій постачальник був дискваліфікований в угоді, тепер має статус `invalid`:"
+msgstr "Let's see our bids statuses after `active.tendering` period ends. Last bid was disqualified:"
+
+msgid "Процес визначення переможця"
+msgstr "Awarding process"
+
+msgid "Після закінчення тендерного періоду, система автоматично створює ``award`` у статусі ``pending`` для пропозиції з найбільш економічно вигідною ціною."
+msgstr "After the tender period end date, system automatically creates `award` in `pending` status for the bid with the most economically advantageous price."
+
+msgid "Кваліфікаційна комісія може винести рішення по переможцю або відхилити award - перевести авард в `active` або `unsuccessful` статус."
+msgstr "Qualification comission can set award to `active` or `unsuccessful` status."
+
+msgid "Валідація значення полів відповідно до рішення під час винесення рішення:"
+msgstr "There are validations before registering qualification decision:"
+
+msgid "`qualified: True` - при переході award з `pending` в `active`"
+msgstr "`qualified: True` - for setting award from `pending` to `active`"
+
+msgid "`qualified: False` - при переході award з `pending` в `unsuccessful`"
+msgstr "`qualified: False` - for setting award from `pending` to `unsuccessful`"
+
+msgid "Спробуємо відхилити авард для `qualified` учасника:"
+msgstr "Let's try to set `unsuccessful` status for `qualified` award and we will see an error:"
+
+msgid "Спробуємо винести рішення по переможцю по аварду для `non-qualified` учасника:"
+msgstr "Let's try to set `active` status for `non-qualified` award and we will see an error:"
+
+msgid "Замовник може прийняти `award` змінивши його статус на `active`."
+msgstr "Procuring Entity can accept `award` by transferring it to status: `active`."
+
+msgid "Поглянемо на список `awards`:"
+msgstr "Let's check the listing of `awards`:"
+
+msgid "Замовник може відхилити `award` після прийняття змінивши його статус на `cancelled`:"
+msgstr "Procuring Entity can cancel `award` after acceptance by changing `award` status to `cancelled`:"
+
+msgid "Після відхилення `award` система створює `другий award` для цієї пропозиції у статусі `pending`:"
+msgstr "After canceling `award` system creates `second` `award` for the same bid in status: `pending`:"
+
+msgid "Якщо пропозиція Учасника з найменшою ціною відповідає вимогам, Замовник завантажує документ, що підтверджує його рішення і визнає пропозицію Переможцем `(awards:status:active)`. Якщо не відповідає, Замовник завантажує протокол, що підтверджує його рішення про відхилення Учасника та відхиляє таку пропозицію `(awards:status:unsuccessful)`. Система приводить до оцінки наступного за ціною Учасника `(awards:status:pending)`."
+msgstr "If the offer of the Participant with the lowest price meets the requirements, Procuring Entity uploads a document that recognizes the offer as the Winner `(awards:status:active)`. If it does not meet the requirements, Procuring Entity downloads a protocol confirming its decision to reject the Participant and rejects such an offer `(awards:status:unsuccessful)`. The system leads to the evaluation of the next one with most economically advantageous price `(awards:status:pending)`."
+
+msgid "Відхилимо `award` змінивши його статус на  `unsuccessful`."
+msgstr "Let's decline `award` by transferring it to status: `unsuccessful`."
+
+msgid "В цьому випадку `Award` буде наданий до наступної пропозиції з найбільш економічно вигідною ціною."
+msgstr "In that case `Award` will be granted to the next bid with most economically advantageous price."
+
+msgid "Замовник може прийняти `award` другого учасника змінивши його статус на  `active`."
+msgstr "Procuring Entity can accept second bidder `award` by transferring it to status: `active`."
+
+msgid "У випадку переходу `award` останньої пропозиції у статус `unsuccessful` процедура набуде кінцевий статус: **`unsuccessful`**."
+msgstr "In the case of `award` being transferred to `unsuccessful` status for the last bid procedure will inherit termination status: **`unsuccessful`**."
+
+msgid "Налаштування угоди"
+msgstr "Setting Contract"
+
+msgid "В режимі Е-Контрактінгу угода створюється безпосередньо в системі угод."
+msgstr "In EContracting the contract is created directly in contracting system."
+
+msgid "Деякі дані для забезпечення сумісності будуть дублюватись в закупівлі до тих пір, поки угода не буде активована."
+msgstr "Some of data will be mirrored to tender until contract will be activated for backward compatibility."
+
+msgid "Більше дізнатись про роботу з Е-Контрактінгом в системі угод можна в розділі :ref:`contracting_tutorial`."
+msgstr "Read more about working with EContracting in contracting system in :ref:`contracting_tutorial` section."
+
+msgid "Відміна закупівлі"
+msgstr "Cancelling tender"
+
+msgid "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `unsuccessful`, `cancelled`, `complete`)."
+msgstr "Tender creator can cancel tender anytime (except when tender in terminal status e.g. `draft.unsuccessful`, `unsuccessful`, `cancelled`, `complete`)."
+
+msgid "Для цього потрібно виконати наступні кроки:"
+msgstr "The following steps should be applied:"
+
+msgid "Приготуйте запит на скасування."
+msgstr "Prepare cancellation request."
+
+msgid "Наповніть його протоколом про причини скасування."
+msgstr "Fill it with the protocol describing the cancellation reasons."
+
+msgid "Скасуйте закупівлю через подані причини."
+msgstr "Cancel the tender with the prepared reasons."
+
+msgid "Запит на скасування, який не пройшов активації (3-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
+msgstr "Only the request that has been activated (3rd step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
+
+msgid "Для відміни скасування закупівлі, вам потрібно оновити статус скасування до `unsuccessful` з `draft` чи `pending`"
+msgstr "For cancelled cancellation you need to update cancellation status to `unsuccessful` from `draft` or `pending`."
+
+msgid "Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації."
+msgstr "See :ref:`cancellation` data structure for details."
+
+msgid "Формування запиту на скасування"
+msgstr "Preparing the cancellation request"
+
+msgid "Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`."
+msgstr "You should pass `reason` and `reasonType`, `status` defaults to `draft`."
+
+msgid "При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`."
+msgstr "There are four possible types of cancellation reason - tender was `noDemand`, `unFixable`, `forceMajeure` and `expensesCut`."
+
+msgid "`id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:"
+msgstr "`id` is autogenerated and passed in the `Location` header of response."
+
+msgid "Ви можете виправити тип на будь-який що вказаний вище."
+msgstr "You can change ``reasonType`` value to any of the above."
+
+msgid "Наповнення протоколом та іншою супровідною документацією"
+msgstr "Filling cancellation with protocol and supplementary documentation"
+
+msgid "Цей крок обов'язковий. Без документів ви не можете оновити статус закупівлі."
+msgstr "This step is required. Without documents you can't update tender status."
+
+msgid "Завантажити вміст файлу"
+msgstr "Upload the file contents"
+
+msgid "Зміна опису документа та інших властивостей"
+msgstr "Change the document description and other properties"
+
+msgid "Завантажити нову версію документа"
+msgstr "Upload new version of the document"
+
+msgid "Активація запиту на відміну закупівлі"
+msgstr "Activating the request and cancelling tender"
+

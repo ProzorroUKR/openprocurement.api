@@ -1,48 +1,48 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації про вимоги/скарги
+======================================
 
-Tender Conditions Claim/Complaint Retrieval
--------------------------------------------
+Отримання інформації про вимоги/скарги на умови закупівлі
+---------------------------------------------------------
 
-You can list all Tender Conditions Claims/Complaints:
+Ви можете отримати список всіх вимог/скарг на умови закупівлі:
 
 .. http:example:: http/complaints/complaints-list.http
    :code:
 
-And check individual complaint or claim:
+Або перевірити окрему скаргу чи вимогу:
 
 .. http:example:: http/complaints/complaint.http
    :code:
 
-Claim Submission
-================
+Подання вимоги
+==============
 
 `Deprecated`
 
-Claim's Answer
-==============
+Відповідь на вимогу
+===================
 
-Answer to resolved claim
-------------------------
+Відповідь на вирішену вимогу
+----------------------------
 
 .. http:example:: http/complaints/complaint-answer.http
    :code:
 
 
-Satisfied Claim
-===============
+Задовільнена вимога
+===================
 
-Satisfying resolution
----------------------
+Рішення про задовільнення вимоги
+--------------------------------
 
 .. http:example:: http/complaints/complaint-satisfy.http
    :code:
 
 
-Escalate claim to complaint
----------------------------
+Перетворення вимоги в скаргу
+----------------------------
 
 .. http:example:: http/complaints/complaint-escalate.http
    :code:

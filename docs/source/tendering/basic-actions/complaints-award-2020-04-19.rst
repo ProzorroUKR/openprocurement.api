@@ -1,286 +1,277 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації про звернення/скарги
+=========================================
 
-Tender Award Claim/Complaint Retrieval
--------------------------------------------
+Отримання інформації про звернення/скарги на визначення переможця
+-----------------------------------------------------------------
 
-You can list all Tender Award Claims/Complaints:
+Ви можете отримати список всіх звернень/скарг на визначення переможця:
 
 .. http:example:: http/complaints/award-complaints-list.http
    :code:
 
-And check individual complaint:
+І перевірити окрему скаргу:
 
 .. http:example:: http/complaints/award-complaint.http
    :code:
 
-Complaint Submission
-====================
+Подання скарги
+==============
 
-If tender award is favoriting certain supplier, or in any other viable case, participants who were admitted to auction can submit Tender Award Complaint.
+Якщо тендерн вирішено з перевагою для певного постачальника або в будь-якій іншій життєздатній ситуації, учасники, які були прийняті до аукціону, можуть подати скаргу тендерної пропозиції.
 
-Tender Award Complaint Submission for unsuccessful award
----------------------------------------------------------
+Подання скарги на відмову переможця
+-----------------------------------
 
-For unsuccessful award it is allowed only that bidder of award can complain on his award.
+Якщо кваліфікаційна комісія відмовила переможцю (статус аварду `unssuccesful`), то в цьому випадку дозволено подавати скаргу тільки тому самому учаснику, для якого був створений цей авард.
 
-Let's try to complain to unsuccessful award from another bidder and we will see an error:
+Спробуємо додати скаргу до `unssuccesful` аварду від імені іншого учасника (у вигляді токену доступу) і побачимо помилку:
 
 .. http:example:: http/complaints/award-unsuccessful-complaint-invalid-bidder.http
    :code:
 
-Now let's make a complain from correct bidder:
+Тепер подамо скаргу від того ж самого учасника:
 
 .. http:example:: http/complaints/award-unsuccessful-complaint-valid-bidder.http
    :code:
 
 
-Tender Award Complaint Submission for the winner
-------------------------------------------------
+Подання скарги на визначення переможця
+--------------------------------------
 
-At first create a complaint. Send POST request with bidder's access token.
+Спочатку створимо скаргу. В запиті потрібно передати токен доступу одного з учасників.
 
 .. http:example:: http/complaints/award-complaint-submission.http
    :code:
 
-When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint.
-Objections can be added or edited while complaint is in the status `draft`.
-For more details, see :ref:`tender complaint objections <complaint-objections>`.
+При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections). Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`. Детальніше дивитися: :ref:`Заперечення до скарг <complaint-objections>`
 
-This step is optional. Upload documents:
+Цей крок не обов'язковий.Завантажте документи:
 
 .. http:example:: http/complaints/award-complaint-submission-upload.http
    :code:
 
-Submit tender award complaint:
+І подамо скаргу на визначення переможця:
 
 .. http:example:: http/complaints/award-complaint-complaint.http
    :code:
 
 
-Complaint Posts
+Запит до скарги
 ===============
 
-Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
+Для скарги у статусах `pending` та `accepted` орган оскарження має можливість додати запит на уточнення до скарги.
 
-Tender Award Complaint Posts (with complaint owner)
---------------------------------------------------------
+Запит до скарги на відмову переможця (до скаржника)
+---------------------------------------------------
 
-Reviewer can submit a post to complaint owner:
+Орган оскарження може надати запит до скаржника:
 
 .. http:example:: http/complaints/award-complaint-post-reviewer-complaint-owner.http
    :code:
 
-Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/award-complaint-post-complaint-owner.http
    :code:
 
-Tender Award Complaint Posts (with tender owner)
---------------------------------------------------------
+Запит до скарги на відмову переможця (до замовника)
+---------------------------------------------------
 
-Reviewer can submit a post to tender owner:
+Орган оскарження може надати запит до замовника:
 
 .. http:example:: http/complaints/award-complaint-post-reviewer-tender-owner.http
    :code:
 
-Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/award-complaint-post-tender-owner.http
    :code:
 
-Tender Award Complaint Posts Documents
----------------------------------------------
+Подання документів до запиту до скарги на відмову переможця
+-----------------------------------------------------------
 
-Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post.
+Документи до запиту до скарги мають бути додані до самої скарги з вказаними полями `documentOf: post` та `relatedItem` ідентифікатором самого запиту.
 
-Documents for post could be added only during complaint is in `pending` or `accepted` status.
+Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted`.
 
-Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:
+Тільки автор запиту до скарги може додавати документ, який посилається на його запит. Спробуємо додати документи до запиту від замовника, від імені іншого автора (скаржника):
 
 .. http:example:: http/complaints/award-complaint-post-documents-forbidden.http
    :code:
 
-Let's add documents by tender owner:
+Додамо документи від імені замовника до його запиту:
 
 .. http:example:: http/complaints/award-complaint-post-documents-tender-owner.http
    :code:
 
-Complaint Appeals
-==================
+Iнформація про оскарження скарги в суді
+=======================================
 
-Once complaint is in `invalid`, `satisfied`, `declined` or `resolved` status tender owner or complaint author can submit an appeal for complaint.
+Для скарги у статусах `invalid`, `satisfied`, `declined` та `resolved` власник тендеру або автор скарги мають можливість додати інформацію про оскарження скарги в суді.
 
-For more details, see :ref:`tender complaint appeals <complaint-appeals>`.
+Детальніше дивитися: :ref:`Iнформація про оскарження скарги в суді <complaint-appeals>`
 
-Complaint Explanations
-======================
+Пояснення до скарги
+===================
 
-An explanation of a complaint is a certain textual information and, if necessary, an attached file/files related to a certain complaint and can be used by the AMCU commission during its consideration.
-Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them.
+Пояснення до скарги - це певна текстова інформація та за потреби прикріплений файл/файли, що відносяться до певної скарги та можуть бути використані комісією АМКУ при її розгляді. Пояснення до скарги подаються суб'єктами з власної ініціативи, без запиту АМКУ. АМКУ не буде відповідати на такі пояснення, а лише розглядатиме їх.
 
-Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation.
+Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги.
 
-Each explanation must be related to one of the objections of the complaint  (`complaints:objections`).
+Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`).
 
-Complaint owner or tender owner can submit an explanation via `posts`:
+Скаржник, що подав скаргу, або замовник закупівлі можуть додати пояснення до скарги за допомогою функціоналу `posts`:
 
 .. http:example:: http/complaints/award-complaint-post-explanation.http
    :code:
 
-The field `recipient` is forbidden for explanation post:
+Поле `recipient` заборонено для пояснень:
 
 .. http:example:: http/complaints/award-complaint-post-explanation-invalid.http
    :code:
 
-It is forbidden to answer an explanation can submit by setting explanation's post `id` as `relatedPost`:
+Заборонено надавати відповідь до пояснення, передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/award-complaint-post-explanation-answer-forbidden.http
    :code:
 
-Complaint Resolution
-====================
+Вирішення скарги
+================
 
-Rejecting Tender Award Complaint
--------------------------------------
+Відхилення скарги на визначення переможця
+-----------------------------------------
 
 .. http:example:: http/complaints/award-complaint-reject.http
    :code:
 
 
-Accepting Tender Award Complaint
--------------------------------------
+Прийняття скарги на визначення переможця
+----------------------------------------
 
 .. http:example:: http/complaints/award-complaint-accept.http
    :code:
 
 
-Submitting Tender Award Complaint Resolution
+Подання рішення по скарзі на визначення переможця
 -------------------------------------------------
 
-The Complaint Review Body uploads the resolution document:
+Орган, що розглядає скарги, завантажує документ з рішенням:
 
 .. http:example:: http/complaints/award-complaint-resolution-upload.http
    :code:
 
-And either resolves complaint:
+Яке або вирішує скаргу:
 
 .. http:example:: http/complaints/award-complaint-resolve.http
    :code:
 
-Or declines it:
+Або відхиляє:
 
 .. http:example:: http/complaints/award-complaint-decline.http
    :code:
 
-Correcting problems
+Виправлення проблем
 -------------------
 
-If tender award complaint was satisfied by the Complaint Review Body, then procuring entity has to correct problems.
+Якщо скарга на визначення переможця була задоволена органом оскарження, то замовник повинен виправити допущені порушення.
 
-One of the possible solutions is award cancellation:
+Одним з можливих рішень є відміна результатів визначення переможця (`award`):
 
 
 .. http:example:: http/complaints/award-complaint-satisfied-resolving.http
    :code:
 
-After award cancellation system generates new award. Its location is present in the `Location` header of response.
+При відміні результатів визначення переможця система генерує новий `award`. Шлях до нього передається в `Location` заголовку відповіді.
 
-Submitting Resolution Confirmation
-----------------------------------
-When complaint has been successfully resolved, procuring entity submits resolution confirmation.
+Подання підтвердження вирішення скарги
+--------------------------------------
+Якщо скаргу вирішено і порушення усунуто, то замовник подає підтвердження вирішення.
 
 .. http:example:: http/complaints/award-complaint-resolved.http
    :code:
 
-Submitting complaint to new award
----------------------------------
+Подання скарги на нове визначення переможця
+-------------------------------------------
 
 .. http:example:: http/complaints/award-complaint-submit.http
    :code:
 
-Cancelling Tender Award Complaint
-=================================
+Відміна скарги на визначення переможця
+======================================
 
-Cancelling draft complaint by Complainant
------------------------------------------
+Відміна чернетки скарги скаржником
+----------------------------------
 
 .. http:example:: http/complaints/award-complaint-mistaken.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Відміна прийнятої скарги рецензентом
+------------------------------------
 
 .. http:example:: http/complaints/award-complaint-accepted-stopped.http
    :code:
 
-Complaints in Defense open tender
-=================================
-Complaint periods creation in Defense open tender differs from other procurement methods.
+Оскарження в Процедурі відкритих торгів для оборонних цілей
+===========================================================
+Створення періодів оскарження в Процедурі відкритих торгів для оборонних цілей відрізняється від інших процедур.
 
-In moment of award activation (status changes to `active`):
+В момент підтвердження визначення переможця (при зміні статусу аварда на `active`):
 
-- Complaint period is created for this award
-- Complaint periods are created/updated for awards with `unsuccessful` status (if lots - only for active lots)
+- Для цього аварда буде створено період оскарження
+- Періоди оскарження будет створено/оновлено для авардів в статусі `unsuccessful` (для лотових тендерів - лише для активних лотів)
 
-Claims are denied in Defense open tender
+Вимогу на переможця в Процедурі відкритих торгів для оборонних цілей подати неможна
 
-List awards after auction
------------------------------------------
-We have tender on qualification stage with 3 bids and one pending award
+Список авардів після аукціону
+-----------------------------
+Ми маємо тендер на етапі кваліфікації з трьома пропозиціями (bids) та одним авардом в статусі `pending`
 
 .. http:example:: ../defense/http/new-complaints-list-award.http
    :code:
 
-Disqualification of first bid award
------------------------------------------
-Tender owner patches first bid award from `pending` to `unsuccessful`.
-No complaint period for the award was created.
+Дискваліфікація аварду для першої пропозиції
+--------------------------------------------
+Власник тендеру переводить авард для першої пропозиції зі статусу `pending` в `unsuccessful`. Період оскарження для аварду не створюється.
 
 .. http:example:: ../defense/http/new-complaints-patch-award-unsuccessful.http
    :code:
 
-Activation of second bid award
------------------------------------------
-Tender owner patches second bid award from `pending` to `active`.
-Complaint period for the second bid award was created.
+Підтвердження визначення переможця для другої пропозиції
+--------------------------------------------------------
+Власник тендеру переводить авард для другої пропозиції зі статусу `pending` в `active`. Період оскарження для аварду створюється.
 
 .. http:example:: ../defense/http/new-complaints-patch-award-active.http
    :code:
 
-Also Complaint period for the first (unsuccessful) bid award was created.
+Також створюється період оскарження для аварду (в статусі `unsuccessful`) для першої пропозиції.
 
 .. http:example:: ../defense/http/new-complaints-list-award-2.http
    :code:
 
-Cancellation of second bid award
------------------------------------------
-Tender owner patches second bid award from `active` to `cancelled`.
-Complaint period for the award remains unchanged.
+Відміна аварду для другої пропозиції
+------------------------------------
+Власник тендеру переводить авард для другої пропрозиції зі статусу `active` в `cancelled`. Період оскарження для аварду залишається незмінним.
 
 .. http:example:: ../defense/http/new-complaints-patch-award-cancelled.http
    :code:
 
-Disqualification of second bid award
------------------------------------------
-Tender owner patches second bid award from `pending` to `unsuccessful`.
-No complaint period for the award was created.
+Дискваліфікація аварду для другої пропозиції
+--------------------------------------------
+Власник тендеру переводить авард для другої пропозиції зі статусу `pending` в `unsuccessful`. Період оскарження для аварду не створюється.
 
 .. http:example:: ../defense/http/new-complaints-patch-award-unsuccessful-2.http
    :code:
 
-Activation of third bid award
------------------------------------------
-One day time delay left.
-Tender owner patches third bid award from `pending` to `active`.
-Complaint period for the third bid award was created.
+Підтвердження визначення переможця для третьої пропозиції
+---------------------------------------------------------
+Витримаємо один день затримки часу. Власник тендеру переводить авард для третьої пропозиції зі статусу `pending` в `active`. Період оскарження для аварду створюється.
 
 .. http:example:: ../defense/http/new-complaints-patch-award-active-2.http
    :code:
 
-Also complaint period for the first and second (unsuccessful) bid award was created/updated.
+Також оновлюється/створюється період оскарження для авардів (в статусі `unsuccessful`) для першої та другої пропозицій.
 
 .. http:example:: ../defense/http/new-complaints-list-award-3.http
    :code:

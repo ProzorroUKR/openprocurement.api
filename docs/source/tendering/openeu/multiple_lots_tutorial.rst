@@ -1,125 +1,119 @@
 .. _openeu_mulitlot_tutorial:
 
-Multiple Lots Tutorial
-======================
+Туторіал для багатолотової закупівлі
+====================================
 
 
-Creating tender
----------------
+Створення закупівлі
+-------------------
 
-Let's create tender:
+Створимо закупівлю:
 
 .. http:example:: http/multiple_lots_tutorial/tender-post-attempt-json-data.http
    :code:
 
-Now we can see that new object was created. Response code is `201`
-and `Location` response header reports the location of the created object.  The
-body of response reveals the information about the created tender: its internal
-`id` (that matches the `Location` segment), its official `tenderID` and
-`dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `active.tendering` status.
+Тепер ми бачимо, що новий об’єкт було створено. Код відповіді - `201`, заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `active.tendering`.
 
-The peculiarity of the Open EU procedure is that ``procurementMethodType`` was changed from ``belowThreshold`` to ``aboveThresholdEU``.
-Also there is no opportunity to set up ``enquiryPeriod``, it will be assigned automatically.
+Особливість відкритих торгів з публікацією англ. мовою в тому, що ``procurementMethodType`` було змінено з ``belowThreshold`` на ``aboveThresholdEU``. Також тут неможливо встановити ``enquiryPeriod``, бо він буде призначений автоматично.
 
-Tender can contain several different lots. We can add lot using the following way:
+Закупівля може складатись із декількох лотів. Можна створити лот таким чином:
 
 .. http:example:: http/multiple_lots_tutorial/tender-add-lot.http
    :code:
 
-Also you will need to update data about item's related lots:
+Потрібно оновити дані пов’язані із залежністю на лот:
 
 .. http:example:: http/multiple_lots_tutorial/tender-add-relatedLot-to-item.http
    :code:
 
-View tender listing:
+Перегляньте список закупівель:
 
 .. http:example:: http/multiple_lots_tutorial/tender-listing-no-auth.http
    :code:
 
-or view tender:
+або перегляньте окрему закупівлю:
 
 .. http:example:: http/multiple_lots_tutorial/tender-view.http
    :code:
 
 
 
-Registering bid
----------------
+Реєстрація пропозиції
+---------------------
 
-Tender status ``active.tendering`` allows registration of bids.
+Статус закупівлі ``active.tendering`` дозволяє реєстрацію пропозицій.
 
-Bidder can register a bid for lot №1:
+Учасник може зареєструвати пропозицію для лота №1:
 
 .. http:example:: http/multiple_lots_tutorial/bid-lot1.http
    :code:
 
-Bidder can register bids for all lots:
+Учасник може зареєструвати пропозиції для всіх лотів:
 
 .. http:example:: http/multiple_lots_tutorial/bid-lot2.http
    :code:
 
-Then bidder should upload technical and private documents of proposal.
+Учасник повинен завантажити технічні та приватні документи пропозиції.
 
-We can update tender during ``active.tendering`` period. Bids will be invalid after updating tender. For example, let's reduce the lot price to 400.
+Закупівлю можна оновлювати протягом періоду ``active.tendering``. Всі пропозиції вважатимуться недійсними після оновлення закупівлі. Наприклад, зменшимо ціну лота до 400.
 
 .. http:example:: http/multiple_lots_tutorial/tender-invalid-all-bids.http
    :code:
 
-Here is the bidder's proposal after tender was updated.
+Це пропозиція учасника після оновлення закупівлі.
 
 .. http:example:: http/multiple_lots_tutorial/bid-lot1-invalid-view.http
    :code:
 
-Firstly bidder has to renew bid, even if he was placing a bid just for a lot №1.
+Спочатку учасник повинен поновити свою пропозицію, навіть якщо подавав її лише для лота №1.
 
 .. http:example:: http/multiple_lots_tutorial/bid-lot1-update-view.http
    :code:
 
-Then bidder has to renew bid only for a lot №1.
+Потім учасник повинен поновити пропозицію для лота №1.
 
 .. http:example:: http/multiple_lots_tutorial/bid-lot2-update-view.http
    :code:
 
 
-Bid Qualification
------------------
+Кваліфікація пропозицій
+-----------------------
 
-Open EU procedure requires bid's value qualification.
+Для процедури відкритих торгів з публікацією англ. мовою необхідна кваліфікація значень пропозицій.
 
-Let's view tender: 
+Переглянемо закупівлю: 
 
 .. http:example:: http/multiple_lots_tutorial/tender-view-pre-qualification.http
    :code:
 
-Let's list qualifications:
+Переглянемо список кваліфікацій:
 
 .. http:example:: http/multiple_lots_tutorial/qualifications-view.http
    :code:
 
-Approve bid's value through qualification objects:
+Підтвердіть значення пропозиції через кваліфікаційні об’єкти:
 
 .. http:example:: http/multiple_lots_tutorial/tender-activate-qualifications.http
    :code:
 
 
-Procuring entity approves qualifications by switching to next status.
+Замовник підтверджує кваліфікацію переходом до наступного статусу.
 
-Before approving qualifications it is required to add sign document to tender. Sign doc should be added generally for tender if there is no lots. If there is no sign document during approving qualification, we will see an error:
+Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути доданий до тендеру загалом. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:
 
 .. http:example:: http/multiple_lots_tutorial/pre-qualification-sign-doc-is-required.http
    :code:
 
-Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:
+Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: http/multiple_lots_tutorial/upload-evaluation-reports-doc.http
    :code:
 
-Let's approve qualifications one more time:
+Ще раз схвалимо кваліфікацію заявок:
 
 .. http:example:: http/multiple_lots_tutorial/tender-view-pre-qualification-stand-still.http
    :code:
 
-There is 10 day stand-still period set in `qualificationPeriod`.   
+В цій процедурі є період блокування на 10 днів під час `qualificationPeriod`.   
 
    

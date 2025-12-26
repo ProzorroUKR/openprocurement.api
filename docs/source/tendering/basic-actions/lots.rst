@@ -1,13 +1,11 @@
 .. _lots:
 
-Tenders with multiple Lots
-==========================
+Багатолотові закупівлі
+======================
 
-When having tender with separate items that can be supplied by different
-providers it is possible to split the tender into :ref:`Lots <lot>`.  Each
-Lot has its own budget (i.e. `Lot.value`).
+Якщо є закупівля з декількома різними елементами, що можуть бути куплені у різних постачальників, то можна розділити цю процедуру закупівлі на :ref:`лоти <lot>`. Кожен лот має свій власний бюджет (`Lot.value`).
 
-For more information read `Tender with multiple lots <http://openprocurement.org/en/multilots.html>`_.
+Більш детальну інформацію шукайте на сторінці `Багатолотові закупівлі <http://openprocurement.org/ua/multilots.html>`_.
 
 .. sourcecode:: json
 
@@ -31,8 +29,7 @@ For more information read `Tender with multiple lots <http://openprocurement.org
     ]
   }
 
-Multilot Tender shares general documentation, and can have lot-specific and
-even item-specific documentation.
+Багатолотова закупівля може мати документацію для процедури в цілому, окремо для лота та окремо для елемента.
 
 .. sourcecode:: json
 
@@ -51,11 +48,9 @@ even item-specific documentation.
     ]
   }
 
-The same applies to :ref:`Questions <question>` and answers. Question placed
-in Tender can be general, lot-specific or item-specific.
+Те саме стосується і :ref:`звернень <question>` та відповідей. Звернення може бути по процедурі в цілому, окремо для лота та окремо для елемента.
 
-When bidding, provider can place bid against single lot, multiple lots or
-even all lots of the tender.
+На торгах учасник може подавати пропозицію для одного лота, декількох лотів, або навіть для всіх лотів закупівлі.
 
 .. sourcecode:: json
 
@@ -74,19 +69,16 @@ even all lots of the tender.
     "..."
   }
 
-Each of the :ref:`documents <document>` attached to the :ref:`Bid` can be
-general, lot-specific or item-specific.
+Кожен :ref:`документ <document>`, вкладений до :ref:`пропозиції <bid>`, може стосуватись процедури в цілому, окремого лота або окремого елемента.
 
-Each Lot has its own auction and awarding process.
+Кожен лот має окремий аукціон та процес визначення переможця.
 
-Each Lot can be cancelled individually, not affecting processes that take
-place in other lots.
+Кожен лот можна скасувати окремо, не впливаючи на інші лоти.
 
-Announcing Multilot tender
---------------------------
+Оголошення багатолотової закупівлі
+----------------------------------
 
-One has to create Multilot tender in several steps. There should be
-tender created with items.
+Багатолотова закупівля створюється в декілька кроків. Спочатку потрібно створити закупівлю з декількома елементами.
 
 .. sourcecode:: http
 
@@ -115,7 +107,7 @@ tender created with items.
     ...
   }
 
-Then all lots have to be added to Tender with separate requests.
+Потім потрібно додати всі лоти окремими запитами.
 
 .. sourcecode:: http
 
@@ -128,7 +120,7 @@ Then all lots have to be added to Tender with separate requests.
   HTTP/1.1 201 Created
   Location: /tenders/64e93250be76435397e8c992ed4214d1/lots/7d774fbf1e86420484c7d1a005cc283f
 
-2nd lot:
+Другий лот:
 
 .. sourcecode:: http
 
@@ -141,7 +133,7 @@ Then all lots have to be added to Tender with separate requests.
   HTTP/1.1 201 Created
   Location: /tenders/64e93250be76435397e8c992ed4214d1/lots/563ef5d999f34d36a5a0e4e4d91d7be1
 
-Items should be distributed among the lots.
+Елементи повинні бути розподілені по лотах.
 
 .. sourcecode:: http
 
@@ -157,12 +149,10 @@ Items should be distributed among the lots.
     ...
   }
 
-Bidding in Multilot tender
---------------------------
+Подання пропозицій у багатолотовій закупівлі
+--------------------------------------------
 
-Bid should have `lotValues` property consisting of multiple :ref:`LotValue`
-objects.  Each should reference lot the bid is placed against via
-`relatedLot` property.
+Цінова пропозиція повинна мати властивість `lotValues`, що складається з декількох об’єктів :ref:`LotValue`. Кожен з них повинен посилатись на лот, до якого подана пропозиція, через властивість `relatedLot`.
 
 .. sourcecode:: http
 
@@ -188,14 +178,12 @@ objects.  Each should reference lot the bid is placed against via
   HTTP/1.1 201 Created
   Location: /tenders/64e93250be76435397e8c992ed4214d1/bids/ae836da01ef749e494427dc591d36062
 
-Auction participation URLs are available for each of the submitted lots.
+URL-адреси для участі в аукціоні будуть доступні для кожного з поданих лотів.
 
-Qualification in Multilot tender
---------------------------------
+Кваліфікація у багатолотових закупівлях
+---------------------------------------
 
-After Auctions are over each active lot has its own awarding process started.
-I.e.  there are multiple award objects created in :ref:`Tender` each
-requiring decision (disqualification or acceptance).
+ПІсля завершення аукціонів для кожного лота розпочинається його власний процес визначення переможця. Тобто, у :ref:`Tender` створюється декілька об’єктів визначення переможця і кожен з них вимагає рішення (дискваліфікації чи прийняття).
 
 .. sourcecode:: http
 
@@ -225,7 +213,5 @@ requiring decision (disqualification or acceptance).
   }
 
 
-When all qualification processes end, and all stand still periods end, the
-whole tender switch state to either `complete` or `unsuccessful` (if awads
-for all lots are `unsuccessful`).
+Після того, як завершуються всі кваліфікаційні процеси та всі періоди зупинок, вся закупівля змінює статус або на "завершена", або на "не відбулась" (якщо визначення переможців для всіх лотів `не відбулись`).
 

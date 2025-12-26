@@ -7,119 +7,114 @@
 Framework
 =========
 
-Schema
-------
+Схема
+-----
 
 :title:
-   string, multilingual
+   рядок, багатомовний
 
-   The name of the framework, displayed in listings.
+   Назва кваліфікації, яка відображається у списках.
 
 :description:
-   string, multilingual
+   рядок, багатомовний
 
-   Detailed description of framework.
+   Детальний опис кваліфікації.
 
 :prettyID:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   The framework identifier.
+   Ідентифікатор кваліфікації.
 
 
 :procuringEntity:
-   :ref:`ProcuringEntity`, required
+   :ref:`ProcuringEntity`, обов’язково
 
-   Organization conducting the framework.
+   Замовник (організація, що створює кваліфікацію).
 
-   If :code:`frameworkType` is :code:`electronicCatalogue`, then possible values of :code:`ProcuringEntity.kind` are limited to :code:`['central']`.
+   Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді можливі значення :code:`ProcuringEntity.kind` обмежені :code:`[‘central’]`.
 
 
 :frameworkType:
-    string
+    рядок
 
     :`electronicCatalogue`:
-        Framework for electronic catalog process
+        Кваліфікація для процесу відбору до електронного каталогу
 
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 
 :documents:
-   List of :ref:`document` objects
+   Список об’єктів :ref:`document`
 
-   |ocdsDescription|
-   All documents and attachments related to the framework.
+   |ocdsDescription| Всі документи та додатки пов’язані з кваліфікацією.
 
 :enquiryPeriod:
-   :ref:`period`, read-only, auto-generated
+   :ref:`period`, лише для читання, генерується автоматично
 
-   Period when questions are allowed.
+   Період, коли дозволено подавати звернення.
 
-   |ocdsDescription|
-   The period during which enquiries may be made and will be answered.
+   |ocdsDescription| Період, коли можна зробити уточнення та отримати відповіді на них.
 
-   If :code:`frameworkType` is :code:`electronicCatalogue`, then suppliers cannot add submissions in this period.
+   Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді постачальник не може подавати заявки в цей період.
 
 :dateModified:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :owner:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :period:
-   :ref:`period`, read-only, auto-generated
+   :ref:`period`, лише для читання, генерується автоматично
 
-   Period when submissions can be submitted.
+   Період, в який постачальники можуть додавати заявки до кваліфікації.
 
-   |ocdsDescription|
-   The period when the framework is open for submissions.
+   |ocdsDescription| Період, коли кваліфікація відкрита для подачі заявки.
 
 :qualificationPeriod:
-   :ref:`period`, required
+   :ref:`period`, обов’язково
 
-   Period when submissions can be qualified. At least `endDate` has to be provided.
+   Період, коли приймаються рішення щодо заявок постачальників. Повинна бути вказана хоча б `endDate` дата.
 
-    If :code:`frameworkType` is :code:`electronicCatalogue`, then :code:`qualificationPeriod` can be from 365 to 1461 days long.
+    Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді :code:`qualificationPeriod` має бути від 365 до 1461 днів
 
 
 :status:
-   string
+   рядок
 
    :`draft`:
-      If :code:`frameworkType` is :code:`electronicCatalogue`, then in this status any fields of framework can be changed.
+      Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді в цьому статусі можна змінювати будь-які поля кваліфікації.
    :`active`:
-      If :code:`frameworkType` is :code:`electronicCatalogue`, then in this status only :code:`contactPoint`, :code:`qualificationPeriod.endDate`, :code:`description` and :code:`documents` fields of framework can be changed.
+      Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді в цьому статусі можна змінювати лише поля :code:`contactPoint`, :code:`qualificationPeriod.endDate`, :code:`description` та :code:`documents`
    :`unsuccessful`:
-      Terminal status. Framework can become `unsuccessful` if there was no submissions in first 20 full working days from framework activation.
+      Завершальний статус. Кваліфікація може перейти в статус `unsuccessful` якщо за перші 20 повних робочих днів до неї не було створенно жодної заявки.
    :`complete`:
-      Complete framework.
+      Завершена кваліфікація.
 
-   Status of the Framework.
+   Статус кваліфікації.
 
 
 :classification:
-   :ref:`Classification`, required
+   :ref:`Classification`, обов'язково
 
-   |ocdsDescription|
-   The primary classification for the framework.
+   |ocdsDescription| Початкова класифікація кваліфікації.
 
-   If :code:`frameworkType` is :code:`electronicCatalogue`, then it is mandatory for `classification.scheme` to be `ДК021`. The `classification.id` should be valid ДК021 code.
+   Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді `classification.scheme` має бути `ДК021`. `classification.id` повинно бути дійсним ДК021 кодом.
 
 
 :additionalClassification:
-   List of :ref:`Classification` objects
+   Список об'єктів :ref:`Classification`.
 
-   |ocdsDescription|
-   An array of additional classifications for the framework.
+   |ocdsDescription| Массив додаткових класифікацій кваліфікації.
 
 :changes:
-   List of :ref:`FrameworkChange` objects
+   Список об’єктів :ref:`FrameworkChange`
 
-   An array of all changes during framework is `active`.
+   Список всіх змін під час активного відбору.
 
 
 :revisions:
-   List of :ref:`revision` objects, auto-generated
+   Список об’єктів :ref:`revision`, генерується автоматично, лише для читання
 
-   Historical changes to Framework object properties.
+   Зміни властивостей об’єктів кваліфікації.

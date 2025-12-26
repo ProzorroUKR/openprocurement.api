@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-09-19 10:43+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Подовження строку розгляду award"
+msgstr "Awards prolongation"
+
+msgid "Для всіх процедур, окрім :ref:`limited` та :ref:`belowThreshold`, існує можливість подовжити строк розгляду аварду."
+msgstr "For all procedures, except :ref:`limited` and :ref:`belowThreshold`, there is an option to extend award period."
+
+msgid "Під час створення ававрду, з'являється поле `period`. По замовчуванню є 5 робочих днів на прийняття рішення:"
+msgstr "During award creation, field `period` appeared in every award. By default there are 5 working days for making decision:"
+
+msgid "Поле `period` буде відсутнє в авардах :ref:`limited`."
+msgstr "Field `period` will be absent in awards in :ref:`limited`."
+
+msgid "Для того, щоб подовжити строк розгляду аварду до 20 робочих днів, замовник має додати майлстоун з кодом `extensionPeriod`:"
+msgstr "To extend this period to 20 days, the procuring entity should add milestone with code `extensionPeriod`:"
+
+msgid "Тільки один майлстоун з типом `extensionPeriod` може бути доданий до аварду:"
+msgstr "Only one milestone with type `extensionPeriod` could be in award:"
+
+msgid "Після цього необхідно загрузити документ з `documentType: extensionReport`:"
+msgstr "After that it is required to add document with `documentType: extensionReport`:"
+
+msgid "Тільки один документ з типом `extensionReport` може бути доданий до аварду:"
+msgstr "Only one document with type `extensionReport` could be in award:"
+
+msgid "Тепер подивимося на авард, в ньому змінилося поле `period.endDate` з 5 робочих днів до 20 робочих днів від дати початку розгляду:"
+msgstr "Now look at award, we will see that field `period.endDate` has been changed from 5 working days to 20 working days from award creation date:"
+

@@ -1,102 +1,75 @@
 .. _errors:
 
-Responses
+Відповіді
 =========
 
-After processing API always provides response, reporting either success
-or failure.
+Після обробки API завжди надає відповідь, звітуючи або про успіх, або про помилку.
 
-Status Codes
-------------
-In all cases, the API should return an `HTTP Status Code
-<http://en.wikipedia.org/wiki/List_of_HTTP_status_codes>`_ that indicates
-the nature of the failure (see below), with a response body in JSON format
-containing additional information.
+Коди стану
+----------
+У будь-якому випадку API повинен повернути `Код стану HTTP <http://en.wikipedia.org/wiki/List_of_HTTP_status_codes>`_, що вказуватиме природу помилки (див. внизу), з тілом відповіді у форматі JSON, що міститиме додаткову інформацію.
 
 200
-  Success. If data was requested, it will be available in the `data` field
-  at the top level of the response body.
+  Успіх. Якщо це був запит про інформацію, то вона буде доступна у `data` полі на верхньому рівні тіла відповіді.
 
 201
-  Success (for object creation). Its information is available in the `data`
-  field at the top level of the response body.  The API URL where the object
-  can be retrieved is also returned in the `Location` header of the
-  response.
+  Створено. Його інформація доступна у `data` полі на верхньому рівні тіла відповіді. API URL, де об’єкт можна прочитати, міститься у `Location` заголовку відповіді.
 
 400
-  Invalid request. This usually occurs because of a missing or malformed
-  parameter.  Check the documentation and the syntax of your request and try
-  again.
+  Неправильний запит. Зазвичай це відбувається через відсутній або неправильний параметр. Перевірте документацію та синтаксис вашого запиту і спробуйте ще раз.
 
 401
-  No authorization. A valid API key was not provided with the request, so
-  the API could not associate a user with the request.
+  Несанкційонований доступ. Не було надано дійсного API ключа разом із запитом, тому API не може зв'язати користувача із запитом.
 
 403
-  Forbidden. The API key and request syntax was valid but the server is
-  refusing to complete the request.  This can happen if you are trying to
-  read or write to objects or properties that you do not have access to.
+  Заборонено. API ключ та синтаксис запиту були дійсними, але сервер відмовляється виконати запит. Це може статися, якщо ви пробуєте прочитати або записати об'єкти чи властивості, до яких не маєте доступу.
 
 404
-  Not found. Either the request method and path supplied do not specify a
-  known action in the API, or the object specified by the request does not
-  exist.
+  Ресурс не знайдено. Або даний метод та шлях запиту не вказують відому дію для API, або об’єкт, вказаний у запиті, не існує.
 
 409
-  Document update conflict. The request could not be completed due to a conflict with the current state of the target resource. Please repeat your request.
+  Конфлікт при оновленні документу. Запит не може бути опрацьований через конфлікт стану цільового ресурсу, наприклад, конфлікт одночасного редагування.
 
 410
-  Archived. The resource requested is not and will not be available.
+  Архівовано. Шуканий ресурс не є й не буде доступним.
 
 412
-  Precondition Failed. See :ref:`API in cluster mode <cluster>`.
+  Збій під час обробки попередньої умови. Дивіться розділ :ref:`Pобота з API в режимі кластеру <cluster>`.
 
 422
-  Unprocessable Entity. This status code means the server understands the content type of the request entity. For example, this error condition may occur if a JSON request body contains well-formed (i.e., syntactically correct), but semantically erroneous, JSON instructions.
+  Неможливо обробити об'єкт. Цей код стану означає, що сервер розуміє тип змісту об'єкта запиту. Наприклад, ця помилка може статися, якщо тіло запиту JSON містить добре сформовані (тобто синтаксично правильні), але семантично помилкові, інструкції у форматі JSON.
 
 429
-  Rate Limit Enforced. See :ref:`Rate control <performance>`.
+  Перевищено допустиму частоту запитів. Дивіться розділ :ref:`Контроль частоти запитів <performance>`.
 
 500
-  Server error. There was a problem on OpenProcurement's end.
+  Помилка сервера. Була проблема зі сторони OpenProcurement.
 
 501
-  Not Implemented. The server either does not recognize the request method,
-  or it lacks the ability to fulfill the request. Re-check the request consistency.
+  Метод не підтримується. Сервер або не розпізнає метод запиту, або в нього немає можливості його виконати. Повторно перевірте відповідність запиту.
 
 502
-  Bad Gateway. The server received an invalid response or backend is not ready
-  to handle requests. Repeat request for repeatable operations or check object
-  data with interval 1-5 min.
+  Помилка шлюзу. Сервер отримав відповідь про помилку чи не готовий обробляти запити. Для повторюваних операцій повторіть запит або перевіряйте дані об'єкту з інтервалом 1-5 хв.
 
 503
-  Service Unavailable. The server is currently unavailable (because it is
-  overloaded or down for maintenance). Generally, this is a temporary state.
+  Сервіс недоступний. На даний момент сервер недоступний (через перевантаження чи технічне обслуговування). Переважно ця помилка тимчасова.
 
 504
-  Gateway Time-out. The server did not receive a timely response. Repeat
-  request for repeatable operations or check object data with interval 1-5 min.
+  Шлюз не відповідає. Сервер не дочекався відповіді. Для повторюваних операцій повторіть запит або перевіряйте дані об'єкту з інтервалом 1-5 хв.
 
 505
-  HTTP Version Not Supported. The server does not support the HTTP protocol
-  version used in the request. Re-check the request consistency.
+  Версія НТТР не підтримується. Сервер не підтримує версію протоколу HTTP, використану у запиті. Повторно перевірте відповідність запиту.
 
 
-Success Response
-----------------
-Every successful get, create, update, replace request results in response
-that contains `data` attribute.  That `data` attribute contains full JSON
-object representation after the operation.  If some data were generated in
-the result of processing (like new object IDs, or `modified` date) they are
-present in the respose.
+Відповідь з повідомленням про успіх
+-----------------------------------
+Кожен успішний запит вичитки, створення, оновлення, чи заміни отримує відповідь, що містить `data` атрибут. Цей  `data` атрибут містить повне представлення JSON об’єкта після операції. Якщо деякі дані були згенеровані у результаті обробки (наприклад, нові ID об’єкта або `modified` дата), то вони присутні у відповіді.
 
-The listing requests result in similar responses, but instead of single
-object in `data` attribute, the JSON response contains collection of
-objects.
+Запити списку отримують схожі відповіді, але замість одного об'єкта в `data` атрибуті, JSON відповідь містить колекцію об'єктів.
 
-Example Succes Response
-~~~~~~~~~~~~~~~~~~~~~~~
-Here is a response that describes tender
+Приклад відповіді з повідомленням про успіх
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Це відповідь, що описує закупівлю.
 
 .. sourcecode:: http
 
@@ -167,21 +140,19 @@ Here is a response that describes tender
   }
 
 
-Error Response
---------------
-In the event of an error, the response body will contain an `errors` field
-at the top level.  It contains an array of at least one error object,
-described below:
+Відповідь з повідомленням про помилку
+-------------------------------------
+У випадку помилки, тіло відповіді міститиме `errors` поле на вищому рівні. Воно містить масив як мінімум одного помилкового об’єкта описаного нижче:
 
 :location:
-   Part of the request causing the error. Possible values are `header` and `body`.
+   Частина запиту спричинює помилку. Можливі значення це `header` (заголовок) або `body` (тіло).
 
 :name:
-    * Specific header name that caused the problem (in case of `header` location)
-    * The field name causing the error (in case of `body` location)
+    * Конкретна назва заголовку, що спричиняє проблему (у випадку місцярозташування `заголовок`)
+    * Конкретна назва поля, що спричиняє проблему (у випадку місцярозташування `тіло`)
 
 :description:
-    Verbose (human readable) description of the error.
+    Докладний (придатний для читання людиною) опис помилки.
 
 .. message
   *totalValue.amount: Missing input* - Message providing more detail about the
@@ -195,9 +166,9 @@ described below:
   Unique correlation identifier of the error response for audit and issue
   reporting purposes.
 
-Example Error Response
-~~~~~~~~~~~~~~~~~~~~~~
-Sample below indicates incomplete request.
+Приклад відповіді з повідомленням про помилку
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Зразок нижче вказує на неповний запит.
 
 .. sourcecode:: http
 

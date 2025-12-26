@@ -1,89 +1,87 @@
 .. _contracting_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Exploring basic rules
----------------------
+Розглянемо основні правила
+--------------------------
 
-Let's try exploring the `/contracts` endpoint:
+Подивимось як працює точка входу `/contracts`:
 
 .. http:example:: http/contracts-listing-0.http
    :code:
 
-Just invoking it reveals an empty set.
+При виклику видає пустий набір.
 
-Contract is transferred from the tender system by an automated process.
-The circumstances under which this happens are described below.
+Перенесення договору із системи закупівель відбувається автоматично.Обставини за яких вібувається перенесення, описані нижче.
 
 
 .. index:: Contracts
 
-Creating contract
------------------
+Створення договору
+------------------
 
-Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status.
+Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``.
 
-*Brokers (eMalls) can't create contracts in the contract system.*
+*Майданчики (брокери) не мають можливості створювати договори в системі договорів.*
 
-A contract is created with additional fields:
+Договір створюється з додатковими полями:
 
-* `contractTemplateName` - copied from tender if exists (more about it in :ref:`contract-template-name`)
+* `contractTemplateName` - копіюється з закупівлі, якщо вона встановлена (більше про це в :ref:`contract-template-name`)
 
-A PQ contract is created with additional fields:
+Договір PQ створюється з додатковими полями:
 
-* `attributes` - formed from requirements and responses in tender
+* `attributes` - формується з вимог та відповідей на виомги у закупівлі
 
 
-Getting contract
-----------------
+Отримання договору
+------------------
 
-Contract in the tender system
+Договір в системі закупівель
 
 .. http:example:: http/example_contract.http
    :code:
 
-*Contract id is the same in both tender and contract system.*
+*Ідентифікатор `id` договору однаковий в системах закупівель та договорів.*
 
-Let's access the URL of the created object:
+Спробуємо доступитись до URL створеного об’єкта:
 
 .. http:example:: http/contract-view.http
    :code:
 
 
-Getting access
---------------
+Отримання доступу
+-----------------
 
-**WARNING:**
-Now that method is deprecated(later it will be deleted), you can use for all contract operation ``tender_token``.
+**ЗАСТЕРЕЖЕННЯ:** Наразі цей метод є застарілим(пізніше буде видаленим), ви можете проводити всі дії над договором використовуючи ``tender_token``.
 
 
-In order to get rights for future contract editing, you need to use this view ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` with the API key of the eMall (broker), where tender was generated.
+Для того, щоб отримати права для майбутнього редагування договору, необхідно використати таку в’юшку ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}`` з API ключем майданчика, де була згенерована закупівля.
 
-In the ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:
+В ``PATCH: /contracts/{id}/credentials?acc_token={tender_token}``:
 
-* ``id`` stands for contract id,
+* ``id`` - це ідентифікатор договору,
 
-* ``tender_token`` is tender's token (is used for contract token generation).
+* ``tender_token`` - це токен закупівлі (використовується для генерування токена договору).
 
-Response will contain ``access.token`` for the contract that can be used for further contract modification.
+У відповіді буде ``access.token`` для договору, який буде використовуватись для модифікації договору.
 
 .. http:example:: http/deprecated-contract-credentials.http
    :code:
 
-Let's view contracts.
+Переглянемо договори.
 
 .. http:example:: http/contracts-listing-1.http
    :code:
 
 
-We do see the internal `id` of a contract (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/contracts/`) and its `dateModified` datestamp.
+Ми бачимо внутрішнє `id` договору (що може бути використано для побудови повної URL-адреси, якщо додати `http://api-sandbox.openprocurement.org/api/0/contracts/`) та його dateModified дату.
 
 
-Modifying pending contract
---------------------------
+Редагування чернетки договору
+-----------------------------
 
-When contract in `pending` status buyer can update those fields:
+Коли договір у статусі `pending` замовник може змінити такі поля:
 
 * `title`
 * `description`
@@ -97,223 +95,220 @@ When contract in `pending` status buyer can update those fields:
 * `milestones`
 
 
-Setting contract value
-~~~~~~~~~~~~~~~~~~~~~~
+Встановлення вартості договору
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By default contract value is set based on the award, but there is a possibility to set custom contract value.
+За замовчуванням вартість договору встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення.
 
-If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field(for all procedures except esco).
+Якщо ви хочете **знизити вартість договору**, ви можете встановити нове значення для поля `amount` або `amountNet` (для всіх процедур окрім esco).
 
 .. http:example:: http/contract-set-contract-value.http
    :code:
 
-`200 OK` response was returned. The value was modified successfully.
+Було повернуто код відповіді `200 OK`. Значення змінено успішно.
 
-Setting value per item's unit
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Встановлення ціни за одиницю
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. http:example:: http/contract-set-contract_items_unit-value.http
    :code:
 
-`200 OK` response was returned with successfully set item.unit.value structure.
+`200 OK` відповіддь повертається з успішно створеною структурою item.unit.value.
 
-`Item.unit.value.currency` must correspond to the value of `contract.value.currency`.
-`Item.unit.value.valueAddedTaxIncluded` should be `False`.
+`Item.unit.value.currency` має відповідати значенню `contract.value.currency`. `Item.unit.value.valueAddedTaxIncluded` має бути `False`.
 
 
-Setting contract signature date
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Встановлення дати підписання договору
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-There is a possibility to set custom contract signature date. You can insert appropriate date into the `dateSigned` field.
+Є можливість встановити дату підписання договору. Для цього вставте відповідну дату в поле `dateSigned`.
 
-If this date is not set, it will be auto-generated on the date of contract registration.
+Якщо ви не встановите дату підписання, то вона буде згенерована автоматично під час реєстрації договору.
 
 .. http:example:: http/contract-sign-date.http
    :code:
 
-Setting contract validity period
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Встановлення терміну дії договору
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Setting contract validity period is optional, but if it is needed, you can set appropriate `startDate` and `endDate`.
+Встановлення терміну дії договору необов’язкове, але, якщо є необхідність, ви можете встановити відповідну дату початку `startDate` та кінця `endDate` терміну дії.
 
 .. http:example:: http/contract-period.http
    :code:
 
-Uploading contract documentation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Завантаження документації по договору
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Contract documents can be uploaded only to contract in `pending` and `active` statuses. Let's add contract document:
+Документи пов’язані з договором можна завантажувати лише до контракту у статусі `pending` чи `active`. Спробуємо додати такий документ:
 
 .. http:example:: http/contract-upload-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm that document has been added.
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:
 
-Let's see the list of contract documents:
+Переглянемо список завантажених документів:
 
 .. http:example:: http/contract-get-documents.http
    :code:
 
-We can add another contract document:
+Тепер спробуємо додати ще один документ щодо укладанням договору:
 
 .. http:example:: http/contract-upload-second-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm second document has been added.
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що ще один документ було додано.
 
-Let's see the list of all uploaded contract documents:
+Тепер переглянемо знову усі документи пов’язані із укладанням договору:
 
 .. http:example:: http/contract-get-documents-again.http
    :code:
 
 
-Cancelling contract
+Скасування договору
 -------------------
 
-There are two ways for cancelling contract:
+Існує два способи скасування договору:
 
-* PATCH award status from `active` to `cancelled`
-* PATCH contract status from "pending" to "cancelled" (this can only work if this contract is not the last active contract)
+* Зміна стаусу award з `active` на `cancelled`
+* Зміна статусу договору з "pending" to "cancelled" (цей метод працює, коли це не останній активний договір)
 
 
 .. _contracting_tutorial_cancelling_award:
 
-Cancelling from award
-~~~~~~~~~~~~~~~~~~~~~
+Відміна договору через award
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-All you need, it's just patch award status to ``cancelled``
+Все що потрібно, це змінити статус award на ``cancelled``
 
 .. http:example:: http/award-cancelling.http
    :code:
 
-Tender contract **automatically** turned to ``cancelled``
+Договір у системі закупівель **автомтично** перейде до ``cancelled``
 
 .. http:example:: http/tender-contract-cancelled.http
    :code:
 
-Contract in contracting also **automatically** turned to ``cancelled``
+Договір у системі договорів також **автоматично** перейде до ``cancelled``
 
 .. http:example:: http/contract-cancelled.http
    :code:
 
-Cancelling from contract
-~~~~~~~~~~~~~~~~~~~~~~~~
+Відміна через зміну договору
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If  you try to patch contract in ``pending`` to ``cancelled`` you'll get error:
+Якщо ви спробуєте змінити статус договору з ``pending`` на ``cancelled`` ви отримаєте помилку:
 
 .. http:example:: http/contract-cancelling-error.http
    :code:
 
 
-Activating contract
--------------------
+Активація договору
+------------------
 
-If tender has `contractTemplateName` set (more about it in :ref:`contract-template-name`), it will be used as `contractTemplateName` for contract.
-If `contractTemplateName` is set for contract, signer information is required for activation.
-Let's look at tender with contractTemplateName set:
+Якщо у закупівлі встановлено `contractTemplateName` (більше про це в :ref:`contract-template-name`), то це значення буде використано як `contractTemplateName` для договору. Якщо `contractTemplateName` встановлено для договору, то для його активації потрібна інформація про підписантів. Розглянемо закупівлю з встановленим `contractTemplateName`:
 
 .. http:example:: http/tender-with-contract-template-name.http
    :code:
 
 
-If you try activate contract without signer information you'll get error:
+При спробі активувати договір без заповненої інформації підписанта, буде отримана помилка:
 
 .. http:example:: http/contract-activating-error.http
    :code:
 
 
-Buyer fill signer information using ``contract_token`` or ``tender_token``:
+Замовник заповнює інформацію підписанта використовуючи ``contract_token`` чи ``tender_token``:
 
 .. http:example:: http/contract-owner-add-signer-info.http
    :code:
 
 
-Supplier fill signer information using ``bid_token``, for `limited` procedure that request, make buyer using ``contract_token`` or ``tender_token``:
+Постачальник заповнює інформацію підписанта використовуючи ``bid_token``, для `limited` процедури цей запит виконує замовник використовуючи ``contract_token`` чи ``tender_token``:
 
 .. http:example:: http/contract-supplier-add-signer-info.http
    :code:
 
 
-You can update signer information using same method:
+Інформацію підписанта можна оновоити використовуючи той самий спосіб:
 
 .. http:example:: http/update-contract-owner-add-signer-info.http
    :code:
 
-If you try activate contract without required fields (`contractNumber`, `period.startDate`, etc.) you'll get error:
+При спробі активувати договір без заповненої обов'язкової інформації, буде отримана помилка:
 
 .. http:example:: http/contract-activating-error-fields.http
    :code:
 
-After signer information and all required fields added you can activate contract:
+Після того, як було додано інформацію про підписантів та інші обов'язкові поля, ви можете зареєструвати договір:
 
 .. http:example:: http/contract-activate.http
    :code:
 
 
-After activating contract, tender contract **automatically** switch to `active` and tender  to `complete`:
+Після активації договору, договір у системі закупівель **автоматично** перейде у `active` і закупівля у статус `complete`:
 
 .. http:example:: http/tender-complete.http
    :code:
 
-Modifying active contract
--------------------------
+Редагування зареєстрованого договору
+------------------------------------
 
-You can make changes to the contract in cases described in the 4th part of Article 36 of the Law "On the Public Procurement".
+Внесення змін до істотних умов договору можливі у випадках, описаних частиною четвертою статті 36 Закону України “Про публічні закупівлі”.
 
-**Essential contract terms** can be modified by the submission of a new :ref:`change` object to the `Contract.changes` container.
+**Істотні умови договору** можуть бути змінені поданням нового об’єкта :ref:`change` в котейнер `Contract.changes`.
 
-All `changes` are processed by the endpoint `/contracts/{id}/changes`.
+Всі зміни `change` обробляються точкою входу (endpoint) `/contracts/{id}/changes`.
 
-Submitting a change
-~~~~~~~~~~~~~~~~~~~
+Подання зміни
+~~~~~~~~~~~~~
 
-Let's add new `change` to the contract:
+Додамо нову зміну `change` до договору:
 
 .. http:example:: http/add-contract-change.http
    :code:
 
-Note that you can provide more than one value in ``rationaleTypes`` field.
+Зверніть увагу на те, що ви можете надати більше ніж одне значення для поля ``rationaleTypes``.
 
-Possible values for field `rationaleTypes` are validated from list of keys in `contractChangeRationaleTypes`.
+Можливі значення для поля `rationaleTypes` валідуються зі списку причин, вказаних в  `contractChangeRationaleTypes`.
 
-If we set `rationaleTypes` not from `contractChangeRationaleTypes` we will see an error:
+Якщо буде вказана причина, якої немає в  `contractChangeRationaleTypes`, ми побачимо помилку:
 
 .. http:example:: http/add-contract-change-invalid-rationale-types.http
    :code:
 
-You can view the `change`:
+Ви можете переглянути зміну `change`:
 
 .. http:example:: http/view-contract-change.http
    :code:
 
-`Change` can be modified while it is in the ``pending`` status:
+Зміну `change` можна модифікувати доки вона має статус ``pending``.
 
 .. http:example:: http/patch-contract-change.http
    :code:
 
-Uploading change document
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Завантаження документа зміни
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Document can be added only while `change` is in the ``pending`` status.
+Документ можна додати доки зміна `change` має статус ``pending``.
 
-Document has to be added in two stages:
+Документ додається в два етапи:
 
-* you should upload document
+* ви повинні завантажити документ
 
 .. http:example:: http/add-contract-change-document.http
    :code:
 
-* you should set document properties ``"documentOf": "change"`` and ``"relatedItem": "{change.id}"`` in order to bind the uploaded document to the `change`:
+* ви повинні задати властивості документа: ``"documentOf": "change"`` та ``"relatedItem": "{change.id}"``, щоб "прив’язати" завантажений документ до зміни `change`:
 
 .. http:example:: http/set-document-of-change.http
    :code:
 
-Updating contract properties
+Оновлення властивостей зміни
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Now you can update contract properties which belong to the change.
+Тепер ви можете оновити властивості договору, що стосуються зміни.
 
-You can update value `amount` and `amountNet` following next rules:
+Ви можете встановити нові значення для полів `amount` та `amountNet` керуючись наступними правилами:
 
 .. list-table::
    :widths: 25 75
@@ -324,7 +319,7 @@ You can update value `amount` and `amountNet` following next rules:
    * - true
      - Amount should be greater than amountNet and differ by no more than 20%
 
-       (but Amount and amountNet can be equal)
+       (але Amount та amountNet можуть бути рівними)
    * - false
      - Amount and amountNet should be equal
 
@@ -332,101 +327,98 @@ You can update value `amount` and `amountNet` following next rules:
 .. http:example:: http/contracts-patch.http
    :code:
 
-We see the added properties have merged with existing contract data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації.
 
-Fields that can be modified: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`.
+Поля, які можна модифікувати: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`.
 
-See examples of `items` customization below. You can:
+Дивіться приклади зміни елемента (`items`) нижче. Ви можете:
 
-* update item:
+* оновити елемент (`items`):
 
 .. http:example:: http/update-contract-item.http
    :code:
 
-* add new item:
+* додати новий item:
 
-It is allowed to add new items, but the main fields should be the same as in one of previous item in contact.
+Дозволяється додавати новий item, але при цьому основні поля мають відповідати попереднім значенням в масиві `items`.
 
-Fields that can not be changed:
+Поля, які не можна змінювати:
 
 * `classification`
 * `relatedLot`
 * `relatedBuyer`
 * `additionalClassifications`
 
-Let's try to add new item with new `classification` and we will see an error:
+Спробуємо додати новий `item` з новим полем `classification` і побачимо помилку:
 
 .. http:example:: http/add-item-invalid-classification.http
     :code:
 
-For example, we can split first item into two new items.
+Наприклад, розділимо перший `item` на дві номенклатури з такими самими основними полями.
 
-But there is still a validation for unit prices of all items:
+Але при цьому все ще існує валідація на суму цін за одиницю для всіх `items`:
 
 .. http:example:: http/add-item-invalid-price.http
     :code:
 
-Let's update quantity in first item and add new item with correct `unit.value`:
+Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:
 
 .. http:example:: http/add-contract-item.http
    :code:
 
-Applying the change
-~~~~~~~~~~~~~~~~~~~
+Застосування зміни
+~~~~~~~~~~~~~~~~~~
 
-`Change` can be applied by switching to the ``active`` status.
+Зміна `change` застосовується при переключенні в статус ``active``.
 
-In order to apply ``active`` status `dateSigned` field must be set.
+Щоб застосувати статус ``active`` потрібно встановити поле `dateSigned`.
 
-After this `change` can't be modified anymore.
+Після цього модифікувати зміну `change` вже не можна.
 
 .. http:example:: http/apply-contract-change.http
    :code:
 
-`dateSigned` field validation:
+Валідація поля `dateSigned`:
 
-* for the first contract `change` date should be after `contract.dateSigned`;
+* для першої зміни `change` договору дата повинна бути після `contract.dateSigned`;
 
-* for all next `change` objects date should be after the previous `change.dateSigned`.
+* для всіх наступних змін `change` договору дата повинна бути після попередньої дати `change.dateSigned`.
 
-You can view all changes:
+Ви можете переглянути всі зміни:
 
 .. http:example:: http/view-all-contract-changes.http
    :code:
 
-All changes are also listed on the contract view.
+Всі зміни присутні при перегляді контракту.
 
 .. http:example:: http/view-contract.http
    :code:
 
 
-Uploading documentation
------------------------
+Завантаження документації
+-------------------------
 
-Procuring entity can upload PDF files into the created contract. Uploading should
-follow the :ref:`upload` rules.
+Замовник може завантажити PDF файл у створений договір. Завантаження повинно відбуватись згідно правил :ref:`upload`.
 
 .. http:example:: http/upload-contract-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation.
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:
 
 .. http:example:: http/contract-documents.http
    :code:
 
-And again we can confirm that there are two documents uploaded.
+І знову можна перевірити, що є два завантажених документа.
 
 .. http:example:: http/upload-contract-document-2.http
    :code:
 
-In case we made an error, we can reupload the document over the older version:
+Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:
 
 .. http:example:: http/upload-contract-document-3.http
    :code:
 
-And we can see that it is overriding the original version:
+І ми бачимо, що вона перекриває оригінальну версію:
 
 .. http:example:: http/get-contract-document-3.http
    :code:
@@ -435,49 +427,47 @@ And we can see that it is overriding the original version:
 .. index:: Enquiries, Question, Answer
 
 
-Completing contract
+Завершення договору
 -------------------
 
-Before contract can be completed ``amountPaid`` field value should be set (regardless whether the contract was successful or unsuccessful).
-Contract can be completed by switching to ``terminated`` status.
-Let's perform these actions in single request:
+Перед завершенням договору необхідно встановити значення поля  ``amountPaid`` (незалежно від того успішний договір чи ні). Договір можна завершити переключенням у статус ``terminated``. Виконаємо ці дії єдиним запитом:
 
 .. http:example:: http/contract-termination.http
    :code:
 
-Note that you can set/change ``amountPaid.amount``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded`` values. ``amountPaid.currency`` field value is generated from ``Contract.value`` field.
+Зверніть увагу, що ви можете встановлювати/змінювати значення ``amountPaid.amount``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded``. А значення поля ``amountPaid.currency`` генеруються з поля ``Contract.value``.
 
-If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified.
+Якщо договір неуспішний, то потрібно вказати причини його припинення ``terminationDetails``.
 
-Any future modification to the contract are not allowed.
+Після цього додання змін до договору не дозволяється.
 
 
-.. index:: Aggregate contracts
+.. index:: Агреговані контракти
 
-Aggregate contracts
-===================
+Агреговані контракти
+====================
 
-Creation of aggregate contracts
--------------------------------
+Створення агрегованих контрактів
+--------------------------------
 
-For each `buyer` object in tender system is creating separate `contract` respectively when `award` become active.
+Для кожного об'єктку `buyer` в тендері система створює окремий `contract` відповідно, в той момент коли `award` стає активним.
 
-Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :
+Створюємо тендер з декількома buyers, кожен `item` повинен бути прив'язаний до відповідного `buyer`, використовючи поле `relatedBuyer`:
 
 .. http:example:: http/create-multiple-buyers-tender.http
     :code:
 
-Move forward as usual, activate award:
+Йдемо далі, як зазвичай, активуємо авард
 
 .. http:example:: http/set-active-award.http
     :code:
 
-After activating award system is creating such amount of contracts that corresponds to the amount of buyers
+Після активації аварду система створює таку кількість об'єктів contracts, що відповідає кількості buyers в тендері
 
 .. http:example:: http/get-multi-contracts.http
     :code:
 
-Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract.
+Оновлюємо Amount.Value для кожного контракту, враховуючи суму добутків Unit.Value на Quantity для кожного item в контракті:
 
 .. http:example:: http/patch-1st-contract-value.http
     :code:
@@ -485,31 +475,30 @@ Update Amount.Value of each contract considering the sum of product of Unit.Valu
 .. http:example:: http/patch-2nd-contract-value.http
     :code:
 
-You can activate or terminate each contract as usual.
-If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`
+Ви можете активувати або термінувати кожен контракт як зазвичай. Якщо відсутні контракти в стутусі `pending` та хоча б один котракт знаходиться в статусі `active`, тендер переходить в статус `complete`
 
-If award was cancelled, all contracts related to this awardID become in cancelled status.
+При скасуванні аварду всі контракти відповідного awardID переходять в статус cancelled.
 
 
-Cancellation of aggregate contracts
------------------------------------
+Відміна агрегованих контрактів
+------------------------------
 
-Contracts can be cancelled:
+Контракт може бути відмінений:
 
 .. http:example:: http/patch-to-cancelled-1st-contract.http
     :code:
 
-Except when contract is the last not cancelled contract:
+За винятком коли котракт є останнім невідміненим контрактом:
 
 .. http:example:: http/patch-to-cancelled-2nd-contract-error.http
     :code:
 
-In that case related award should be cancelled:
+В цьому випадку повинен бути відмінений відповідний авард:
 
 .. http:example:: http/award-cancelling.http
     :code:
 
-Let's check all contracts are cancelled:
+Перевіримо що всі контракти відмінені:
 
 .. http:example:: http/get-multi-contracts-cancelled.http
     :code:

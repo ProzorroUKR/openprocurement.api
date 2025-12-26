@@ -1,0 +1,64 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-09-19 18:43+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.12.1\n"
+
+msgid "Відповідь на вимогу в кваліфікації"
+msgstr "Award Requirement response"
+
+msgid "Будь-які дії над відповіддю на вимогу в кваліфікації може виконувати лише замовник."
+msgstr "Any action on the requirement response in the award can be performed only by the tender owner."
+
+msgid "Базові операції над відповідями на вимоги"
+msgstr "Requirement response basic operation"
+
+msgid "Схема даних :ref:`відповіді на вимогу<RequirementResponse>`"
+msgstr "Requirement response data :ref:`scheme<RequirementResponse>`"
+
+msgid "Створення відповіді на вимогу"
+msgstr "Create Award Requirement Response"
+
+msgid "Можливо створити декілька відповідей на вимоги за один запит з повним набором даних."
+msgstr "You can create few requirement responses in one request with complete set of data."
+
+msgid "Можливо також створювати відповіді на вимоги одним запитом через оновлення кваліфікації."
+msgstr "You can create requirement responses in one request with award patch."
+
+msgid "Оновлення відповіді на вимогу"
+msgstr "Update Award Requirement Response"
+
+msgid "Можливо редагувати відповіді на вимоги одним запитом через оновлення кваліфікації, але потрібно передавати також всі відповіді на вимоги або відповіді, які не будуть передані - будуть видалені."
+msgstr "You can patch requirement responses in one request with award patch, and you must send data about other requirement responses or this other requirement responses will be deleted."
+
+msgid "Отримання інформації по відповіді на вимогу"
+msgstr "Get Award Requirement Response"
+
+msgid "Видалення відповіді на вимогу"
+msgstr "Delete Requirement Response"
+
+msgid "Базові операції над доказами"
+msgstr "Evidence basic operation"
+
+msgid "Схема даних :ref:`доказу<evidence>`"
+msgstr "Evidence data :ref:`scheme<evidence>`"
+
+msgid "Створення Доказу"
+msgstr "Create Requirement Response Evidence"
+
+msgid "Оновлення доказу"
+msgstr "Update Requirement Response Evidence"
+
+msgid "Отримання інформації по доказу"
+msgstr "Get Requirement Response Evidence"
+
+msgid "Видалення доказу"
+msgstr "Delete Requirement Response Evidence"
+

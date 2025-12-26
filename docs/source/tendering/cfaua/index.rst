@@ -1,9 +1,9 @@
 .. _cfaua:
 
-Close Framework Agreement procedure - ``closeFrameworkAgreement``
-=================================================================
+Укладання рамкової угоди - ``closeFrameworkAgreement``
+======================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

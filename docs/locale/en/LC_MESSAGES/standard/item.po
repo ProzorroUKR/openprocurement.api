@@ -1,0 +1,231 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-20 13:03+0300\n"
+"PO-Revision-Date: 2021-10-26 13:27+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Item"
+msgstr "Item"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "description"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий"
+msgstr "string, multilingual, required"
+
+msgid "|ocdsDescription| Опис товарів та послуг, які повинні бути надані."
+msgstr "|ocdsDescription| A description of the goods, services to be provided."
+
+msgid "classification"
+msgstr ""
+
+msgid ":ref:`Classification`"
+msgstr ":ref:`Classification`"
+
+msgid "|ocdsDescription| Початкова класифікація елемента. Дивіться у itemClassificationScheme, щоб визначити бажані списки класифікації, включно з CPV та GSIN."
+msgstr "|ocdsDescription| The primary classification for the item. See the itemClassificationScheme to identify preferred classification lists, including CPV and GSIN."
+
+msgid "Класифікація `classification.scheme` обов’язково повинна бути `CPV` або `ДК021`. `classification.id` повинно бути дійсним CPV або ДК021 кодом."
+msgstr "It is mandatory for `classification.scheme` to be `CPV` or `ДК021`. The `classification.id` should be valid CPV or ДК021 code."
+
+msgid "additionalClassifications"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Classification`"
+msgstr "List of :ref:`Classification` objects"
+
+msgid "|ocdsDescription| Масив додаткових класифікацій для елемента. Дивіться у список кодів itemClassificationScheme, щоб використати поширені варіанти в OCDS. Також можна використовувати для представлення кодів з внутрішньої схеми класифікації."
+msgstr "|ocdsDescription| An array of additional classifications for the item. See the itemClassificationScheme codelist for common options to use in OCDS. This may also be used to present codes from an internal classification scheme."
+
+msgid "Об’єкт, у якого classification.id починаєтсья з 336, може мати не більше одного додаткового класифікатора зі scheme=INN."
+msgstr "Item wich classification.id starts with 336 and contains additionalClassification objects have to contain no more than one additionalClassifications with scheme=INN."
+
+msgid "Об’єкт з classification.id=33600000-6 повинен обов’язково мати один додатковий класифікатор зі scheme=INN."
+msgstr "Item with classification.id=33600000-6 have to contain exactly one additionalClassifications with scheme=INN."
+
+msgid "Обов’язково мати хоча б один елемент з `ДКПП` у стрічці `scheme`."
+msgstr "It is mandatory to have at least one item with `ДКПП` as `scheme`."
+
+msgid "Validation depends on:"
+msgstr ""
+
+msgid ":ref:`NOT_REQUIRED_ADDITIONAL_CLASSIFICATION_FROM` constant"
+msgstr ""
+
+msgid ":ref:`CPV_336_INN_FROM` constant (for :ref:`Tender` :ref:`Item`)"
+msgstr ""
+
+msgid "unit"
+msgstr ""
+
+msgid ":ref:`Unit`"
+msgstr ":ref:`Unit`"
+
+msgid "|ocdsDescription| Опис одиниці виміру товару, наприклад, години, кілограми. Складається з назви одиниці та значення однієї одиниці."
+msgstr "|ocdsDescription| Description of the unit which the good comes in e.g.  hours, kilograms. Made up of a unit name, and the value of a single unit."
+
+msgid "quantity"
+msgstr ""
+
+msgid "ціле число"
+msgstr "integer"
+
+msgid "|ocdsDescription| Кількість необхідних одиниць."
+msgstr "|ocdsDescription| The number of units required"
+
+msgid "Відсутня в :ref:`esco`"
+msgstr "Absent in :ref:`esco`"
+
+msgid "deliveryDate"
+msgstr ""
+
+msgid ":ref:`Period`"
+msgstr ":ref:`Period`"
+
+msgid "Період, протягом якого елемент повинен бути доставлений."
+msgstr "Period during which the item should be delivered."
+
+msgid "deliveryAddress"
+msgstr ""
+
+msgid ":ref:`Address`"
+msgstr ":ref:`Address`"
+
+msgid "Адреса місця, куди елемент повинен бути доставлений."
+msgstr "Address, where the item should be delivered."
+
+msgid "deliveryLocation"
+msgstr ""
+
+msgid "словник"
+msgstr "dictionary"
+
+msgid "Географічні координати місця доставки. Складається з таких компонентів:"
+msgstr "Geographical coordinates of delivery location. Element consist of the following items:"
+
+msgid "latitude"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "longitude"
+msgstr ""
+
+msgid "elevation"
+msgstr ""
+
+msgid "рядок, не обов’язково, переважно не використовується"
+msgstr "string, optional, usually not used"
+
+msgid "`deliveryLocation` зазвичай має вищий пріоритет ніж `deliveryAddress`, якщо вони обидва вказані."
+msgstr "`deliveryLocation` usually takes precedence over `deliveryAddress` if both are present."
+
+msgid "relatedLot"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "ID пов’язаного :ref:`lot`."
+msgstr "Id of related :ref:`lot`."
+
+msgid "Додатково у :ref:`pricequotation`:"
+msgstr "Additionally in :ref:`pricequotation`:"
+
+msgid "profile"
+msgstr ""
+
+msgid "ID пов’язаного профілю"
+msgstr "ID for related profile"
+
+msgid "Додатково у :ref:`base-contracting`:"
+msgstr "Additional fields for :ref:`base-contracting`:"
+
+msgid "attributes"
+msgstr ""
+
+msgid "Список з :ref:`ItemAttribute`"
+msgstr "List of :ref:`ItemAttribute`"
+
+msgid "BidItem"
+msgstr ""
+
+msgid "Additionally in :ref:`belowthreshold` :ref:`openua`, :ref:`openeu`, :ref:`open`, :ref:`competitiveordering`, :ref:`esco` and :ref:`competitivedialogue`: :ref:`pricequotation`:"
+msgstr ""
+
+msgid "product"
+msgstr ""
+
+msgid "ID пов’язаного продукту з маркету"
+msgstr "ID for related product from catalogue"
+
+msgid "Classification"
+msgstr "Classification"
+
+msgid "scheme"
+msgstr ""
+
+msgid "|ocdsDescription| Класифікація повинна бути взята з існуючої схеми або списку кодів. Це поле використовується, щоб вказати схему/список кодів, з яких буде братись класифікація. Для класифікацій лінійних елементів це значення повинно представляти відому Схему Класифікації Елементів, де це можливо."
+msgstr "|ocdsDescription| A classification should be drawn from an existing scheme or list of codes.  This field is used to indicate the scheme/codelist from which the classification is drawn.  For line item classifications, this value should represent a known Item Classification Scheme wherever possible."
+
+msgid "|ocdsDescription| Код класифікації взятий з вибраної схеми."
+msgstr "|ocdsDescription| The classification code drawn from the selected scheme."
+
+msgid "|ocdsDescription| Текстовий опис або назва коду."
+msgstr "|ocdsDescription| A textual description or title for the code."
+
+msgid "uri"
+msgstr "uri"
+
+msgid "|ocdsDescription| URI для ідентифікації коду. Якщо індивідуальні URI не доступні для елементів у схемі ідентифікації це значення треба залишити пустим."
+msgstr "|ocdsDescription| A URI to identify the code. In the event individual URIs are not available for items in the identifier scheme this value should be left blank."
+
+msgid "Регулярний вираз для цього поля: ``^https?://\\S+$``"
+msgstr "Regular expression for this field: ``^https?://\\S+$``"
+
+msgid "Unit"
+msgstr "Unit"
+
+msgid "code"
+msgstr ""
+
+msgid "Код одиниці в UN/CEFACT Recommendation 20."
+msgstr "UN/CEFACT Recommendation 20 unit code."
+
+msgid "name"
+msgstr ""
+
+msgid "|ocdsDescription| Назва одиниці"
+msgstr "|ocdsDescription| Name of the unit"
+
+msgid "Додатково у :ref:`limited`:"
+msgstr "Additionally in :ref:`limited`:"
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`Value`"
+msgstr ""
+
+msgid "Ціна за одиницю."
+msgstr "Price per unit."
+

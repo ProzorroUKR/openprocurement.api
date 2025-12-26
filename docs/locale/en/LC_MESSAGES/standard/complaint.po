@@ -1,0 +1,252 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"PO-Revision-Date: 2021-03-03 22:32+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Complaint"
+msgstr "Complaint"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "author"
+msgstr ""
+
+msgid ":ref:`Organization`, обов’язково"
+msgstr ":ref:`Organization`, required"
+
+msgid "Організація, яка подає скаргу (contactPoint - людина, identification - організація, яку ця людина представляє)."
+msgstr "Organization filing a complaint (contactPoint - person, identification - organization that person represents)."
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Заголовок скарги."
+msgstr "Title of the complaint."
+
+msgid "description"
+msgstr ""
+
+msgid "Опис запитання."
+msgstr "Description of the issue."
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "Дата подання."
+msgstr "Date of posting."
+
+msgid "dateSubmitted"
+msgstr ""
+
+msgid "Дата, коли скарга була подана."
+msgstr "Date when complaint was submitted."
+
+msgid "dateEscalated"
+msgstr ""
+
+msgid "Дата ескалації (перетворення вимоги на скаргу)."
+msgstr "Date of claim to complaint escalation."
+
+msgid "dateDecision"
+msgstr ""
+
+msgid "День прийняття рішення по скарзі."
+msgstr "Date of complaint decision."
+
+msgid "dateCanceled"
+msgstr ""
+
+msgid "Дата відхилення."
+msgstr "Date of cancelling."
+
+msgid "status"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`draft` - чорновик, початковий етап"
+msgstr "`draft`"
+
+msgid "`pending` - не вирішено, ще обробляється"
+msgstr "`pending`"
+
+msgid "`accepted` - прийнято"
+msgstr "`accepted`"
+
+msgid "`stopping` - відкликано"
+msgstr "`stopping`"
+
+msgid "`satisfied` - задоволено"
+msgstr "`satisfied`"
+
+msgid "`mistaken` - помилкова"
+msgstr "`mistaken`"
+
+msgid "`invalid` - недійсно"
+msgstr "`invalid`"
+
+msgid "`declined` - відхилено"
+msgstr "`declined`"
+
+msgid "`stopped`- припинено"
+msgstr "`stopped`"
+
+msgid "`resolved` - вирішено"
+msgstr "`resolved`"
+
+msgid "`cancelled` - відхилено"
+msgstr "`cancelled`"
+
+msgid "type"
+msgstr ""
+
+msgid "Можливі значення типу:"
+msgstr "Possible values of type are:"
+
+msgid "`complaint` - скарга"
+msgstr "`complaint`"
+
+msgid "decision"
+msgstr ""
+
+msgid "Рішення органу оскарження."
+msgstr "Reviewer decision."
+
+msgid "cancellationReason"
+msgstr ""
+
+msgid "Причини відхилення."
+msgstr "Cancellation reason."
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`ConfidentialDocument`"
+msgstr "List of :ref:`ConfidentialDocument` objects"
+
+msgid "relatedLot"
+msgstr ""
+
+msgid "Ідентифікатор пов’язаного :ref:`lot`-а."
+msgstr "Id of related :ref:`lot`."
+
+msgid "tendererAction"
+msgstr ""
+
+msgid "Дія учасника."
+msgstr "Tenderer action."
+
+msgid "tendererActionDate"
+msgstr ""
+
+msgid "Дата дії учасника."
+msgstr "Date of tenderer action."
+
+msgid "posts"
+msgstr ""
+
+msgid "Список об’єктів :ref:`ComplaintPost`"
+msgstr "List of :ref:`ComplaintPost` objects"
+
+msgid "objections"
+msgstr ""
+
+msgid "Список об’єктів :ref:`complaint-objection`"
+msgstr "List of :ref:`complaint-objection` objects"
+
+msgid "appeals"
+msgstr ""
+
+msgid "Список об’єктів :ref:`complaint-appeal`"
+msgstr "List of :ref:`complaint-appeal` objects"
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`BasicValue`, генерується автоматично"
+msgstr ":ref:`BasicValue`, auto-generated"
+
+msgid "Сума, яку потрібно сплатити за активацію цієї скарги. Див :ref:`complaint-payments`"
+msgstr "Amount to be paid to activate this complaint. See :ref:`complaint-payments`"
+
+msgid "rejectReason"
+msgstr ""
+
+msgid "`lawNonCompliance` - скарга не відповідає вимогам частин 2-5 та 9 статті 18 Закону про публічні закупівлі"
+msgstr "`lawNonCompliance` - complaint does not meet the law requirements in article 18 paragraphs 2-5 and 9"
+
+msgid "`alreadyExists` - суб’єкт оскарження подає скаргу щодо того самого порушення та з тих самих підстав, що вже були предметом розгляду органу оскарження і щодо яких органом оскарження було прийнято відповідне рішення"
+msgstr "`alreadyExists` - bidder complains about violation that has been already reviewed by the Complaints Committee"
+
+msgid "`buyerViolationsCorrected` - замовником відповідно до цього Закону усунено порушення"
+msgstr "`buyerViolationsCorrected` - buyer has corrected the violations that was described in complaint"
+
+msgid "`tenderCancelled` - до дня подання скарги замовником прийнято рішення про відміну тендеру чи визнання його таким, що не відбувся, крім випадку оскарження будь-якого з цих рішень"
+msgstr "`tenderCancelled` - tender has been cancelled before the complaint submitted date by the buyer besides complaining about tender cancellation"
+
+msgid "`cancelledByComplainant` - Скарга скасована суб’єктом оскарження"
+msgstr "`cancelledByComplainant` - The complaint was cancelled by the complainant"
+
+msgid "`complaintPeriodEnded` - Період оскарження закінчився"
+msgstr "`complaintPeriodEnded` - The complaint period has ended"
+
+msgid "`incorrectPayment` - Отримана сума оплати не співпадає з розрахованою для даної скарги"
+msgstr "`incorrectPayment` - The payment received does not match the estimated amount for the complaint"
+
+msgid "acceptance"
+msgstr ""
+
+msgid "булеве значення"
+msgstr "bool"
+
+msgid "Скарга задовільнена?"
+msgstr "Complaint is satisfied?"
+
+msgid "rejectReasonDescription"
+msgstr ""
+
+msgid "Опис причин відхилення."
+msgstr "Reject reason description."
+
+msgid "reviewDate"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "Дата розгляду."
+msgstr "Date of review."
+
+msgid "reviewPlace"
+msgstr ""
+
+msgid "Місце розгляду."
+msgstr "Place of review."
+

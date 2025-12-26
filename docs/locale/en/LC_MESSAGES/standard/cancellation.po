@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-20 11:23+0200\n"
+"PO-Revision-Date: 2018-08-17 15:05+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Cancellation"
+msgstr "Cancellation"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "reason"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий"
+msgstr "string, multilingual, required"
+
+msgid "Причина, з якої скасовується закупівля."
+msgstr "The reason, why Tender is being cancelled."
+
+msgid "status"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`draft`"
+msgstr ""
+
+msgid "За замовчуванням. Скасування у стані формування."
+msgstr "Default. Cancellation in a state of formation."
+
+msgid "`pending`"
+msgstr ""
+
+msgid "Запит оформлюється."
+msgstr "The request is being prepared."
+
+msgid "`active`"
+msgstr ""
+
+msgid "Скасування активоване."
+msgstr "Cancellation activated."
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "Невдале скасування"
+msgstr "Cancellation was unsuccessful."
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`ConfidentialDocument`"
+msgstr "List of :ref:`ConfidentialDocument` objects"
+
+msgid "Супровідна документація скасування: Протокол рішення Тендерного комітету Замовника про скасування закупівлі."
+msgstr "Documents accompanying the Cancellation: Protocol of Tender Committee with decision to cancel the Tender."
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "Дата скасування"
+msgstr "Cancellation date."
+
+msgid "cancellationOf"
+msgstr ""
+
+msgid "string, обов’язковий, за замовчуванням `tender`"
+msgstr "string, required, default `tender`"
+
+msgid "`tender` - закупівля"
+msgstr "`tender`"
+
+msgid "`lot` - лот"
+msgstr "`lot`"
+
+msgid "Можливі значення у :ref:`limited`: * `tender`"
+msgstr "Possible values in :ref:`limited`: * `tender`"
+
+msgid "relatedLot"
+msgstr ""
+
+msgid "ID пов’язаного :ref:`lot`."
+msgstr "Id of related :ref:`lot`."
+
+msgid "reasonType"
+msgstr ""
+
+msgid "Існує чотири можливi причини скасування для процедур `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering`, `priceQuotation`:"
+msgstr "There are four possible types for `reporting`, `aboveThreshold`, `aboveThresholdUA`, `aboveThresholdEU`, `esco`, `competitiveDialogueEU`, `competitiveDialogueUA`, `competitiveDialogueEU.stage2`, `competitiveDialogueUA.stage2`, `closeFrameworkAgreementUA`, `closeFrameworkAgreementSelectionUA`, `competitiveOrdering`, `priceQuotation` procedures set by procuring entity:"
+
+msgid "`noDemand`"
+msgstr ""
+
+msgid "Відсутність подальшої потреби в закупівлі товарів, робіт і послуг."
+msgstr "No need in procurement of goods, works and services."
+
+msgid "`unFixable`"
+msgstr ""
+
+msgid "Неможливість усунення виявлених порушень законодавства у сфері публічних закупівель."
+msgstr "Can not fix revealed violations of the law in the scope of public procurement."
+
+msgid "`forceMajeure`"
+msgstr ""
+
+msgid "Неможливість здійснення закупівлі унаслідок непереборної сили."
+msgstr "Can not do a procurement due to force majeure conditions."
+
+msgid "`expensesCut`"
+msgstr ""
+
+msgid "Скорочення видатків на здійснення закупівлі товарів, робіт і послуг."
+msgstr "Cut down the expenses of procurement of goods, works and services."
+
+msgid "Ще одна можлива причина скасування для процедур `aboveThreshold` і `competitiveOrdering`:"
+msgstr "There is one more possible type for `aboveThreshold` and `competitiveOrdering`:"
+
+msgid "`noOffer`"
+msgstr ""
+
+msgid "Подано менше 2 тендерних пропозицій."
+msgstr "Less than two bids were submitted."
+
+msgid "Можливі причини скасування для `negotiation` та `negotiation.quick`:"
+msgstr "Possible types for `negotiation` and `negotiation.quick`:"
+
+msgid "`noObjectiveness`"
+msgstr ""
+
+msgid "`dateViolation`"
+msgstr ""
+
+msgid "Моживі причини скасування для `aboveThresholdUA.defense` та `aboveThresholdUA.defense`:"
+msgstr "Possible types for `belowThreshold` and `aboveThresholdUA.defense`:"
+
+msgid "complaintPeriod"
+msgstr ""
+
+msgid ":ref:`period`"
+msgstr ""
+
+msgid "Період, під час якого можна подавати скарги."
+msgstr "The timeframe when complaints can be submitted."
+
+msgid "complaints"
+msgstr ""
+
+msgid "Список об’єктів :ref:`complaint`"
+msgstr "List of :ref:`complaint` objects"
+
+msgid "Робочий процес у :ref:`limited` and :ref:`openeu`"
+msgstr "Cancellation workflow in :ref:`limited` and :ref:`openeu`"
+
+msgid "\\* позначає початковий стан"
+msgstr "\\* marks initial state"
+

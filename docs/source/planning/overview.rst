@@ -1,16 +1,14 @@
 .. _planning_overview:
 
-Overview
-========
+Огляд
+=====
 
-The Open Procurement API is the only interface to Open Procurement database
-that is core unit of `Open Procurement <http://openprocurement.org/>`_
-infrastructure.
+Open Procurement API це єдиний інтерфейс для бази даних Open Procurement, що є основним елементом інфраструктури `Open Procurement <http://openprocurement.org/>`_
 
-This documentation covers procurement plan.
+Ця документація стосується планів закупівлі
 
-Procurement plan
-----------------
+Плани закупівлі
+---------------
 
 Після затвердження бюджету/фінансового плану організації, ця інформація заноситься в систему у вигляді структурованої інформації. Річний план закупівель деталізується до п’ятого знаку класифікатора ДК 016:2010, третього знаку ДК 021:2015 та коду КЕКВ (якщо закупівля здійснюється за кошти державного бюджету). Поступово ця інформація деталізується Змовником через внесення змін до річного плану, у яких зазначається місяць початку процедури і предмет закупівлі.
 
@@ -18,18 +16,16 @@ Procurement plan
 
 Для внесення річного плану і змін до нього Замовник може використовувати будь-який Майданчик, приєднаний до системи Prozorro і авторизований для обслуговування замовників.
 
-Important links
----------------
+Корисні посилання
+-----------------
 
-The source repository for this documentation is on GitHub: https://github.com/openprocurement/openprocurement.planning.api
+Репозиторій джерельних текстів цього проекту: https://github.com/openprocurement/openprocurement.planning.api
 
-The source repository for the API is on GitHub: https://github.com/openprocurement/openprocurement.api
+Репозиторій API: https://github.com/openprocurement/openprocurement.api.
 
-You can leave feedback by raising a new issue on the `issue tracker <https://github.com/openprocurement/openprocurement.planning.api/issues>`_ (GitHub
-registration necessary).  
+Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/openprocurement/openprocurement.planning.api/issues>`_ (реєстрація на GitHub обов’язкова).  
 
-For general discussion use `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_ maillist.
+Загальне обговорення відбувається через розсилку `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_.
 
-General information, roadmap, and technical specifications for the 
-Open Procurement project can be found at `openprocurement.org <http://openprocurement.org/en>`_.
+Загальну інформацію, пояснення та технічні специфікації можна знайти на сайті `openprocurement.org <http://openprocurement.org/en>`_.
 

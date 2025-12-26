@@ -1,48 +1,44 @@
 .. _authentication:
 
-Authentication
+Аутентифікація
 ==============
 
-Some of the API requests (especially the ones that are read-only GET
-requests) do not require any authentication.  The other ones, that modify data
-into the database, require broker authentication via API key.  Additionally,
-owner tokens are issued to facilitate multiple actor roles upon object creation.
+Деякі запити API (особливо GET запити лише для читання) не потребують аутентифікації. Інші, ті, які модифікують дані у базі даних, потребують аутентифікації брокера через ключ API. Додатково видаються токени власника, щоб забезпечити кілька ролей дійових осіб при створенні об’єкта.
 
-API keys
---------
+Ключі API
+---------
 
 Basic Authenication
 ~~~~~~~~~~~~~~~~~~~
-API key is username to use with Basic Authentication scheme (see :rfc:`2617#section-2`).
+Ключ API - це ім’я користувача, що буде використовуватись зі схемою базової аутентифікації (див. :rfc:`2617#section-2`).
 
 Bearer Authenication
 ~~~~~~~~~~~~~~~~~~~~
-API key is token to use with Bearer Authentication scheme
+Ключ API - це токен, що буде використовуватись для аутентифікації.
 
-Owner tokens
-------------
+Токени власника
+---------------
 
-Getting token
-~~~~~~~~~~~~~
+Отримання токена
+~~~~~~~~~~~~~~~~
 
-The token is issued when object is created in the database:
+Токен видається, коли об'єкт створюється в базі даних:
 
 .. http:example:: ../tendering/belowthreshold/http/tutorial/create-tender-procuringEntity.http
    :code:
 
-You can see the `access` with `token` in response.  Its value can be used to
-modify objects further under "Owner role".  
+У відповіді є `access` разом з `token`. Це значення можна використати для модифікації об’єктів у "ролі Власника".  
 
-Using token
-~~~~~~~~~~~
+Використання токена
+~~~~~~~~~~~~~~~~~~~
 
-You can pass access token in the following ways:
+Ви можете передати токен доступу такими способами:
 
-1) `acc_token` URL query string parameter
-2) `X-Access-Token` HTTP request header
-3) `access.token` in the body of POST/PUT/PATCH request
+1) параметр рядка URL запиту `acc_token`
+2) заголовок HTTP запиту `X-Access-Token`
+3) `access.token` в тілі запитів POST/PUT/PATCH
 
-See the example of the action with token passed as URL query string:
+Ось приклад, де токен передається як рядок URL запиту:
 
 .. http:example:: ../tendering/belowthreshold/http/tutorial/patch-items-value-periods.http
    :code:

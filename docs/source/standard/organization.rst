@@ -8,38 +8,36 @@
 Organization
 ============
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual
+    рядок, багатомовний
 
-    Additionally in :ref:`openeu` and :ref:`esco`:
+    Додатково у :ref:`openeu` та :ref:`esco`:
 
-    uk (name) and en (name_en) translations are required
-    
-    |ocdsDescription|
-    The common name of the organization.
-    
+    uk (name) та en (name_en) переклади обов’язкові
+                                               
+    |ocdsDescription| Назва організації.
+                                    
 :identifier:
     :ref:`Identifier`
-    
-    |ocdsDescription|
-    The primary identifier for this organization. 
+                 
+    |ocdsDescription| Ідентифікатор цієї організації. 
     
 :additionalIdentifiers:
-    List of :ref:`identifier` objects
+    Список об’єктів :ref:`identifier`
 
 :address:
-    :ref:`Address`, required
+    :ref:`Address`, обов’язково
 
 :contactPoint:
-    :ref:`ContactPoint`, required
+    :ref:`ContactPoint`, обов’язково
 
-Additionally in :ref:`openeu`:
+Додатково у :ref:`openeu`:
 
 :additionalContactPoints:
-    List of :ref:`ContactPoint` objects
+    Список об’єктів :ref:`ContactPoint`
 
 
 .. index:: BusinessOrganization, Company
@@ -49,43 +47,41 @@ Additionally in :ref:`openeu`:
 BusinessOrganization
 ====================
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual
+    рядок, багатомовний
 
-    Additionally in :ref:`openeu` and :ref:`esco`:
+    Додатково у :ref:`openeu` та :ref:`esco`:
 
-    uk (name) and en (name_en) translations are required
+    uk (name) та en (name_en) переклади обов’язкові
 
-    |ocdsDescription|
-    The common name of the organization.
+    |ocdsDescription| Назва організації.
 
 :identifier:
     :ref:`Identifier`
 
-    |ocdsDescription|
-    The primary identifier for this organization.
+    |ocdsDescription| Ідентифікатор цієї організації.
 
 :additionalIdentifiers:
-    List of :ref:`identifier` objects
+    Список об’єктів :ref:`identifier`
 
 :address:
-    :ref:`Address`, required
+    :ref:`Address`, обов’язково
 
 :contactPoint:
-    :ref:`ContactPoint`, required
+    :ref:`ContactPoint`, обов’язково
 
-Additionally in :ref:`openeu`:
+Додатково у :ref:`openeu`:
 
 :additionalContactPoints:
-    List of :ref:`ContactPoint` objects
+    Список об’єктів :ref:`ContactPoint`
 
 :scale:
-    string, required
+    рядок, обов’язковий
 
-    Possible values are:
+    Можливі значення:
 
     * `micro`
     * `sme`
@@ -105,51 +101,49 @@ Additionally in :ref:`openeu`:
 Tenderer
 ========
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual
+    рядок, багатомовний
 
-    Additionally in :ref:`openeu` and :ref:`esco`:
+    Додатково у :ref:`openeu` та :ref:`esco`:
 
-    uk (name) and en (name_en) translations are required
+    uk (name) та en (name_en) переклади обов’язкові
 
-    |ocdsDescription|
-    The common name of the organization.
+    |ocdsDescription| Назва організації.
 
 :identifier:
     :ref:`Identifier`
 
-    |ocdsDescription|
-    The primary identifier for this organization.
+    |ocdsDescription| Ідентифікатор цієї організації.
 
 :additionalIdentifiers:
-    List of :ref:`identifier` objects
+    Список об’єктів :ref:`identifier`
 
 :address:
-    :ref:`Address`, required
+    :ref:`Address`, обов’язково
 
 :contactPoint:
-    :ref:`ContactPoint`, required
+    :ref:`ContactPoint`, обов’язково
 
 :signerInfo:
     :ref:`SignerInfo`
 
 :contract_owner:
-    string
+    рядок
 
-    Could be one of the brokers which has the 6th level of accreditation
+    Може бути вказаний один з майданчиків, який отримав 6 рівень акредитації
 
-Additionally in :ref:`openeu`:
+Додатково у :ref:`openeu`:
 
 :additionalContactPoints:
-    List of :ref:`ContactPoint` objects
+    Список об’єктів :ref:`ContactPoint`
 
 :scale:
-    string, required
+    рядок, обов’язковий
 
-    Possible values are:
+    Можливі значення:
 
     * `micro`
     * `sme`
@@ -168,48 +162,46 @@ Additionally in :ref:`openeu`:
 
 
 Buyer
-======
+=====
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    The common name of the organization.
+    |ocdsDescription| Назва організації.
 
 :identifier:
     :ref:`Identifier`
 
-    |ocdsDescription|
-    The primary identifier for this organization.
+    |ocdsDescription| Ідентифікатор цієї організації.
 
 :address:
-    :ref:`Address`, required
+    :ref:`Address`, обов’язково
 
 :contactPoint:
    :ref:`ContactPoint`, optionally can be added to buyers only
 
 :kind:
-    string
+    рядок
 
-    Possible values:
-        - ``authority`` - Public authority, local government or law enforcement agency
-        - ``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)
-        - ``defense`` - Procuring entity that conducts procurement for the defense needs
-        - ``general`` - Legal person providing the needs of the state or territorial community
-        - ``other`` -  State or utility company that is not regarded as procuring entity
-        - ``social`` - Social insurance authority
-        - ``special`` - A legal entity that operates in one or more specific business areas
+    Можливі значення:
+        - ``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган
+        - ``central`` - Юридична особа, що здійснює закупівлі в інтересах замовників (ЦЗО)
+        - ``defense`` - Замовник, що здійснює закупівлі для потреб оборони
+        - ``general`` - Юридична особа, яка забезпечує потреби держави або територіальної громади
+        - ``other`` - Державне або комунальне підприємство, яке не належить до замовників
+        - ``social`` - Орган соціального страхування
+        - ``special`` - Юридична особа, яка здійснює діяльність в одній або декількох окремих сферах господарювання
 
 :signerInfo:
     :ref:`SignerInfo`
 
 :contract_owner:
-    string
+    рядок
 
-    Could be one of the brokers which has the 6th level of accreditation
+    Може бути вказаний один з майданчиків, який отримав 6 рівень акредитації
 
 
 .. index:: EContractOrganization, Company
@@ -219,34 +211,32 @@ Schema
 EContractOrganization
 =====================
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    The common name of the organization.
+    |ocdsDescription| Назва організації.
 
 :identifier:
     :ref:`Identifier`
 
-    |ocdsDescription|
-    The primary identifier for this organization.
+    |ocdsDescription| Ідентифікатор цієї організації.
 
 :additionalIdentifiers:
-    List of :ref:`identifier` objects
+    Список об’єктів :ref:`identifier`
 
 :address:
-    :ref:`Address`, required
+    :ref:`Address`, обов’язково
 
 :signerInfo:
     :ref:`SignerInfo`
 
 :contract_owner:
-    string
+    рядок
 
-    Could be one of the brokers which has the 6th level of accreditation
+    Може бути вказаний один з майданчиків, який отримав 6 рівень акредитації
 
 
 .. index:: Company, id
@@ -256,50 +246,36 @@ Schema
 Identifier
 ==========
 
-Schema
-------
+Схема
+-----
 
 :scheme:
-   string, required(in `Legislation` object is not required)
+   рядок, обов’язковий(в об'єкті `Legislation` не обов'язковий)
 
-   |ocdsDescription|
-   Organization identifiers be drawn from an existing identification scheme. 
-   This field is used to indicate the scheme or codelist in which the
-   identifier will be found.  This value should be drawn from the
-   Organization Identifier Scheme.
+   |ocdsDescription| Ідентифікатори організації беруться з існуючої схеми ідентифікації. Це поле вказує схему або список кодів, де можна знайти ідентифікатор організації. Це значення повинно братись зі Схеми Ідентифікації Організацій.
 
 :id:
-   string, required
-   
-   |ocdsDescription| The identifier of the organization in the selected
-   scheme.
+   рядок, обов’язковий
+                   
+   |ocdsDescription| Ідентифікатор організації у вибраній схемі.
 
-   The allowed codes are the ones found in `"Organisation Registration Agency"
-   codelist of IATI
-   Standard <http://iatistandard.org/codelists/OrganisationRegistrationAgency/>`_
-   with addition of `UA-EDR` code for organizations registered in Ukraine
-   (EDRPOU and IPN).
+   Дозволеними є коди зі `спику кодів "Organisation Registration Agency" Стандарту IATI <http://iatistandard.org/codelists/OrganisationRegistrationAgency/>`_ з додаванням коду `UA-EDR` для організацій, зареєстрованих в Україні (ЄДРПОУ та ІПН).
 
 :legalName:
-   string, multilingual
+   рядок, багатомовний
 
-   Additionally in :ref:`complaint` for `author` field:
+   Додатково у :ref:`complaint` для поля `author`:
 
-   uk (legalName) translation is required. en (legalName_en), ru (legalName_ru) translations are not required
+   uk (legalName) переклад обов’язковий. en (legalName_en), ru (legalName_ru) переклади не обов’язкові
 
-   |ocdsDescription|
-   The legally registered name of the organization.
+   |ocdsDescription| Легально зареєстрована назва організації.
 
 :uri:
    uri
 
-   |ocdsDescription|
-   A URI to identify the organization, such as those provided by Open
-   Corporates or some other relevant URI provider.  This is not for listing
-   the website of the organization: that can be done through the url field
-   of the Organization contact point.
+   |ocdsDescription| URI для ідентифікації організації, наприклад, ті, які надають Open Corporates або інші постачальники URI. Це не для вебсайту організації, його можна надати в полі url в ContactPoint організації.
 
-   Regular expression for this field: ``^https?://\S+$``
+   Регулярний вираз для цього поля: ``^https?://\S+$``
 
 
 .. index:: Address, City, Street, Country
@@ -309,48 +285,42 @@ Schema
 Address
 =======
 
-Schema
-------
+Схема
+-----
 
 :streetAddress:
-    string
-    
-    |ocdsDescription|
-    The street address. For example, 1600 Amphitheatre Pkwy.
-    
+    рядок
+     
+    |ocdsDescription| Вулиця. Наприклад, вул.Хрещатик, 22.
+                                                      
 :locality:
-    string
-    
-    |ocdsDescription|
-    The locality. For example, Mountain View.
-    
+    рядок
+     
+    |ocdsDescription| Населений пункт. Наприклад, Київ.
+                                                   
 :region:
-    string
-    
-    |ocdsDescription|
-    The region. For example, CA.
-    
+    рядок
+     
+    |ocdsDescription| Область. Наприклад, Київська.
+                                               
 :postalCode:
-    string
-    
-    |ocdsDescription|
-    The postal code. For example, 94043.
-    
+    рядок
+     
+    |ocdsDescription| Поштовий індекс, Наприклад, 78043.
+                                                    
 :countryName:
-    string, multilingual, required
-    
-    |ocdsDescription|
-    The country name. For example, United States.
+    рядок, багатомовний, обов’язковий
+                                 
+    |ocdsDescription| Назва країни. Наприклад, Україна.
 
 :addressDetails:
 
-    List of :ref:`Classification` objects
+    Список об’єктів :ref:`Classification`
 
-    Classifications of address, e.g. code for territorial community (KATOTTG).
+    Класифікатори адреси, наприклад код територальної громади (КАТОТТГ)
 
 
-Since 01-01-2020 fields **countryName** and **region** in all new entities will validate. Country name in field **countryName** must be present in `countries catalog <https://prozorroukr.github.io/standards/classifiers/countries.json>`_.
-If field **countryName** filled as *Україна*, and **region** filled, region must be present in `ukrainian regions catalog <https://prozorroukr.github.io/standards/classifiers/ua_regions.json>`_. For existed objects validation will not apply. 
+З 01-01-2020 поля countryName та region почнуть перевірятися в усіх нових обʼєктах. Назва країни в полі **countryName** має бути присутня в `довіднику країн <https://prozorroukr.github.io/standards/classifiers/countries.json>`_. Якщо поле countryName заповнене як *Україна* і поле **region** заповнене, його вміст має бути присутнім в `каталозі регіонів України <https://prozorroukr.github.io/standards/classifiers/ua_regions.json>`_. Для існуючих обʼєктів валідація застосовуватися не буде. 
 
 
 .. index:: Person, Phone, Email, Website, ContactPoint
@@ -360,56 +330,51 @@ If field **countryName** filled as *Україна*, and **region** filled, regi
 ContactPoint
 ============
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual, required
-    
-    |ocdsDescription|
-    The name of the contact person, department, or contact point, for correspondence relating to this contracting process.
-    
+    рядок, багатомовний, обов’язковий
+                                 
+    |ocdsDescription| Ім’я контактної особи, назва відділу чи контактного пункту для листування, що стосується цього процесу укладання договору.
+                                                                                                                                            
 :email:
     email
-    
-    |ocdsDescription|
-    The e-mail address of the contact point/person.
-    
+     
+    |ocdsDescription| Адреса електронної пошти контактної особи/пункту.
+                                                                   
 :telephone:
-    string
-    
-    |ocdsDescription|
-    The telephone number of the contact point/person. This should include the international dialling code.
+    рядок
+     
+    |ocdsDescription| Номер телефону контактної особи/пункту. Повинен включати міжнародний телефонний код.
 
-    Either `email` or `telephone` field has to be provided.
-    
+    Повинне бути заповнене хоча б одне з полів: або `email`, або `telephone`.
+                                                                         
 :faxNumber:
-    string
-    
-    |ocdsDescription|
-    The fax number of the contact point/person. This should include the international dialling code.
-    
+    рядок
+     
+    |ocdsDescription| Номер факсу контактної особи/пункту. Повинен включати міжнародний телефонний код.
+                                                                                                   
 :url:
     url
-    
-    |ocdsDescription|
-    A web address for the contact point/person.
+   
+    |ocdsDescription| Веб адреса контактної особи/пункту.
 
-    Regular expression for this field: ``^https?://\S+$``
+    Регулярний вираз для цього поля: ``^https?://\S+$``
 
 
-Additionally in :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:
+Додаткові поля для :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:
 
 :availableLanguage:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
-    * `uk`
-    * `en`
-    * `ru`
+    * `uk` - українська мова
+    * `en` - англійська мова
+    * `ru` - російська мова
 
-    Specifies the language of communication.
-    
+    Визначає мови спілкування.
+                          
 
 

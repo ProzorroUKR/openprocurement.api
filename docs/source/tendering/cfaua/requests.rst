@@ -1,584 +1,584 @@
 .. _cfaua_requests:
 
-REST API specification
-======================
+REST API специфікації
+=====================
 
-Tender:
+Тендер:
 -------
 
 * GET:
     `/tenders`
 
-    Get tenders collection
+    Отримайте список тендерів
 
     `/tenders/:tender_id`
 
-    Get tender by id
+    Отримайте тендер по його ідентифікатору (id)
 
 * POST
     `/tenders:tender_id`
 
-    Tender edit
+    Відредагувати тендер
 
 
-Tender documents:
------------------
+Документи тендера:
+------------------
 
 * GET
     `/tenders/:tender_id/documents/:document_id`
 
-    Tender Document Read
+    Читайте документи тендера
 
     `/tenders/:tender_id/documents`
 
-    Tender Documents List
+    Список документів тендера
 
 * PUT
     `/tenders/:tender_id/documents/:document_id`
 
-    Tender Document Update
+    Оновлення документів тендера
 
 * POST
     `/tenders/:tender_id/documents`
 
-    Tender Documents Upload
+    Завантаження документів тендера
 
 * PATCH
     `/tenders/:tender_id/documents/:document_id`
 
-    Tender Document Update
+    Оновлення документів тендера
 
-Tender questions
-----------------
+Звернення до тендера
+--------------------
 
 * GET
     `/tenders/:tender_id/questions/:question_id`
 
-    Retrieving the question
+    Отримання звернення
 
     `/tenders/:tender_id/questions`
 
-    List of questions
+    Список питань
 
 * POST
     `/tenders/:tender_id/questions`
 
-    Post a question
+    Опублікувати звернення
 
 * PATCH
     `/tenders/:tender_id/questions/:question_id`
 
-    Post an Answer
+    Опублікувати відповідь
 
-Tender qualifications
----------------------
+Кваліфікації тендера
+--------------------
 
 * GET
     `/tenders/:tender_id/qualifications`
 
-    List of qualifications
+    Список кваліфікацій
 
     `/tenders/:tender_id/qual…tions/:qualification_id`
 
-    Retrieving the qualification
+    Отримання кваліфікацій
 
 * PATCH
     `/tenders/:tender_id/qual…tions/:qualification_id`
 
-    Post a qualification resolution
+    Опублікувати рішення по кваліфікації
 
-Tender qualifications complaints
---------------------------------
+Скарги на кваліфікації тендера
+------------------------------
 
 * GET
     `/tenders/:tender_id/qualifications/:qualification_id/complaints`
 
-    List of complaint for award
+    Список скарг на переможців
 
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id`
 
-    Retrieving the complaint for award
+    Отримання скарги на переможця
 
 * PATCH
     `/tenders/:tender_id/qualifications/:qualification_id/complaints`
 
-    Post a complaint
+    Опублікувати скаргу
 
-Tender qualifications documents
--------------------------------
+Документи по кваліфікаціях тендера
+----------------------------------
 
 * PATCH
     `/tenders/:tender_id/qualifications/:qualification_id/documents/:document_id`
 
-    Tender qualification document update
+    Оновлення документів по кваліфікаціях тендера
 
 * POST
 
     `/tenders/:tender_id/qualifications/:qualification_id/documents`
 
-    Tender qualification document upload
+    Завантаження документів по кваліфікаціях тендера
 
 * PUT
 
     `/tenders/:tender_id/qualifications/:qualification_id/documents/:document_id`
 
-    Tender qualification document update
+    Оновлення документів по кваліфікаціях тендера
 
 * GET
     `/tenders/:tender_id/qualifications/:qualification_id/documents/:document_id`
 
-    Tender qualification document read
+    Читайте документи по кваліфікаціях тендера
 
     `/tenders/:tender_id/qualifications/:qualification_id/documents`
 
-    Tender qualification documents list
+    Список документів по кваліфікаціях тендера
 
-Tender qualification complaint documents
-----------------------------------------
+Документи до скарг по кваліфікаціяз тендера
+-------------------------------------------
 
 * GET
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id/documents/document_id`
 
-    Tender award complaint document read
+    Читайте документи до скарг на переможців тендера
 
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id/documents`
 
-    Tender award complaint documents list
+    Список документів до скарг на переможців тендера
 
 * PUT
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id/documents/:document_id`
 
-    Tender award complaint document update
+    Оновлення документів до скарг на переможців тендера
 
 * POST
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id/documents`
 
-    Tender award complaint document upload
+    Завантаження документів до скарг на переможців тендера
 
 * PATCH
     `/tenders/:tender_id/qualifications/:qualification_id/complaints/:complaint_id/documents/:document_id`
 
-    Tender award complaint document update
+    Оновлення документів до скарг на переможців тендера
 
-Tender lots
------------
+Лоти тендера
+------------
 
 * GET
     `/tenders/:tender_id/lots`
 
-    Lots listing
+    Список лотів
 
     `/tenders/:tender_id/lots/:lot_id`
 
-    Retrieving the lot
+    Отримання лота
 
 * PATCH
     `/tenders/:tender_id/lots/:lot_id`
 
-    Update of lot
+    Оновлення лота
 
 * POST
     `/tenders/:tender_id/lots`
 
-    Add a lot
+    Додавання лота
 
 * DELETE
     `/tenders/:tender_id/lots/:lot_id`
 
-    Lot deleting
+    Видалення лота
 
-Tender cancellations
---------------------
+Скасування тендера
+------------------
 
 * GET
     `/tenders/:tender_id/cancellations`
 
-    List of cancellations
+    Список об'єктів скасування тендера
 
     `/tenders/:tender_id/cancellations/:cancellation_id`
 
-    Retrieving cancellation
+    Отримання скасування
 
 * PATCH
     `/tenders/:tender_id/cancellations/:cancellation_id`
 
-    Post a cancellation resolution
+    Опублікувати рішення про скасування
 
 * POST
     `/tenders/:tender_id/cancellations`
 
-    Post a cancellation
+    Опублікувати скасування
 
-Tender cancellation documents
------------------------------
+Документи до скасування тендера
+-------------------------------
 
 * GET
     `/tenders/:tender_id/cancellations/:cancellation_id/documents/:document_id`
 
-    Tender cancellation document read
+    Читайте документи до скасування тендера
 
     `/tenders/:tender_id/cancellations/:cancellation_id/documents`
 
-    Tender cancellation documents list
+    Список документів до скасування тендера
 
 * POST
     `/tenders/:tender_id/cancellations/:cancellation_id/documents`
 
-    Tender cancellation document upload
+    Завантаження документів до скасування тендера
 
 * PATCH
     `/tenders/:tender_id/cancellations/:cancellation_id/documents/:document_id`
 
-    Tender cancellation document update
+    Оновлення документів до скасування тендера
 
 * PUT
     `/tenders/:tender_id/cancellations/:cancellation_id/documents/:document_id`
 
-    Tender cancellation document update
+    Оновлення документів до скасування тендера
 
-Tender complaints
------------------
+Скарги на тендер
+----------------
 
 * GET
     `/tenders/:tender_id/complaints`
 
-    List of complaints
+    Список скарг
 
     `/tenders/:tender_id/complaints/:complaint_id`
 
-    Retrieving the complaint
+    Отримання скарги
 
 * POST
     `/tenders/:tender_id/complaints`
 
-    Post a complaint
+    Опублікувати скаргу
 
     `/tenders/:tender_id/complaints/:complaint_id`
 
-    Retrieving the complaint
+    Отримання скарги
 
 * PATCH
     `/tenders/:tender_id/complaints/:complaint_id`
 
-    Post a complaint resolution
+    Опублікуавти рішення по скарзі
 
-Tender bids
------------
+Ставки тендера
+--------------
 
 * GET
     `/tenders/:tender_id/bids/:bid_id`
 
-    Retrieving the proposal
+    Отримання пропозицій
 
     `/tenders/:tender_id/bids`
 
-    Bids Listing
+    Список пропозицій
 
 * POST
     `/tenders/:tender_id/bids`
 
-    Registration of new bid proposal
+    Реєстрація нової пропозиції
 
 * PATCH
     `/tenders/:tender_id/bids/:bid_id`
 
-    Update of proposal
+    Оновлення пропозиції
 
 * DELETE
     `/tenders/:tender_id/bids/:bid_id`
 
-    Cancelling the proposal
+    Скасування пропозиції
 
-Tender bid documents
---------------------
+Документи до пропозиції
+-----------------------
 
 * GET
     `/tenders/:tender_id/bids/:bid_id/documents/:document_id`
 
-    Tender bid document read
+    Читайте документи до пропозиції
 
     `/tenders/:tender_id/bids/:bid_id/documents`
 
-    Tender bid documents list
+    Список документів до пропозиції
 
 * POST
     `/tenders/:tender_id/bids/:bid_id/documents`
 
-    Tender bid document upload
+    Завантаження документів до пропозиції
 
 * PUT
     `/tenders/:tender_id/bids…/documents/:document_id`
 
-    Tender bid document update
+    Оновлення документів до пропозиції
 
 * PATCH
     /tenders/:tender_id/bids/:bid_id/documents/:document_id
 
-    Tender bid document update
+    Оновлення документів до пропозиції
 
-Tender bid eligibility documents
---------------------------------
+Документи по критеріях відбору пропозицій
+-----------------------------------------
 
 * GET
     `/tenders/:tender_id/bids…_documents/:document_id`
 
-    Tender bid document read
+    Читайте документи до пропозиції
 
     `/tenders/:tender_id/bids/:bid_id/eligibility_documents`
 
-    Tender bid documents list
+    Список документів до пропозиції
 
 * PATCH
     `/tenders/:tender_id/bids/:bid_id/eligibility_documents/:document_id`
 
-    Tender bid document update
+    Оновлення документів до пропозиції
 
 * PUT
     `/tenders/:tender_id/bids/:bid_id/eligibility_documents/:document_id`
-    
-    Tender bid document update
+                                                                     
+    Оновлення документів до пропозиції
 
 * POST
     `/tenders/:tender_id/bids/:bid_id/eligibility_documents`
 
-    Tender bid document upload
+    Завантаження документів до пропозиції
 
-Tender bid financial documents
-------------------------------
+Фінансові документи до пропозиції
+---------------------------------
 
 * GET
     `/tenders/:tender_id/bids…_documents/:document_id`
 
-    Tender bid document read
+    Читайте документи до пропозиції
 
-    `/tenders/:tender_id/bids…_id/financial_documents`
+    `tenders/:tender_id/bids…_id/financial_documents`
 
-    Tender bid documents list
+    Список документів до пропозиції
 
 * POST
     `/tenders/:tender_id/bids/:bid_id/financial_documents`
 
-    Tender bid document upload
+    Завантаження документів до пропозиції
 
 * PATCH
     `/tenders/:tender_id/bids/:bid_id/financial_documents/:document_id`
 
-    Tender bid document update
+    Оновлення документів до пропозиції
 
 * PUT
     `/tenders/:tender_id/bids/:bid_id/financial_documents/:document_id`
 
-    Tender bid document update
+    Оновлення документів до пропозиції
 
-Tender bid qualification documents
-----------------------------------
+Кваліфікаційні документи до пропозиції
+--------------------------------------
 
 * GET
     `/tenders/:tender_id/bids/:bid_id/qualification_documents/:document_id`
 
-    Tender bid document read
+    Читайте документи до пропозиції
 
     `/tenders/:tender_id/bids/:bid_id/qualification_documents`
 
-    Tender bid documents list
+    Список документів до пропозиції
 
 * POST
     `/tenders/:tender_id/bids/:bid_id/qualification_documents`
 
-    Tender bid document upload
+    Завантаження документів до пропозиції
 
 * PATCH
     `/tenders/:tender_id/bids/:bid_id/qualification_documents/:document_id`
-    
-    Tender bid document update
+                                                                       
+    Оновлення документів до пропозиції
 
 * PUT
     `/tenders/:tender_id/bids/:bid_id/qualification_documents/:document_id`
-    
-    Tender bid document update
+                                                                       
+    Оновлення документів до пропозиції
 
-Tender awards
--------------
+Переможці тендера
+-----------------
 
 * GET
     `/tenders/:tender_id/awards/:award_id`
 
-    Retrieving the award
+    Отримання переможця
 
     `/tenders/:tender_id/awards`
 
-    Tender Awards List
+    Список переможців
 
 * PATCH
     `/tenders/:tender_id/awards/:award_id`
 
-    Update of award
+    Оновлення переможця
 
 * POST
     `/tenders/:tender_id/awards`
 
-    Accept or reject bidder application
+    Прийняти або відхилити додаток пропозиції
 
-Tender award documents
-----------------------
+Документи до переможця тендера
+------------------------------
 
 * GET
     `/tenders/:tender_id/awar…/documents/:document_id`
 
-    Tender award document read
+    Читайте документи до переможця тендера
 
     `/tenders/:tender_id/awards/:award_id/documents`
 
-    Tender award documents list
+    Список документів до переможця тендера
 
 * POST
     `/tenders/:tender_id/awards/:award_id/documents`
 
-    Tender award document upload
+    Завантаження документів до переможця тендера
 
 * PUT
     `/tenders/:tender_id/awards/:award_id/documents/:document_id`
 
-    Tender award document update
+    Оновлення документів до переможця тендера
 
 * PATCH
     `/tenders/:tender_id/awards/:award_id/documents/:document_id`
 
-    Tender award document update
+    Оновлення документів до переможця тендера
 
-Tender award complaints
------------------------
+Скарга на переможця тендера
+---------------------------
 
 * GET
     `/tenders/:tender_id/awards/:award_id/complaints/:complaint_id`
 
-    Retrieving the complaint for award
+    Отримання скарги на переможця
 
     `/tenders/:tender_id/awards/:award_id/complaints`
 
-    List complaints for award
+    Список скарг на переможця
 
 * POST
     `/tenders/:tender_id/awards/:award_id/complaints`
 
-    Post a complaint for award
+    Опублікуавти скаргу на переможця
 
 * PATCH
     `/tenders/:tender_id/awards/:award_id/complaints/:complaint_id`
 
-    Patch a complaint for award
+    Оновіть скаргу на переможця
 
-Tender award complaint documents
---------------------------------
+Документи до скарги на переможця тендера
+----------------------------------------
 
 * GET
     `/tenders/:tender_id/awards/:award_id/complaints/:complaint_id/documents/:document_id`
 
-    Tender award complaint document read
+    Читайте документи до скарг на переможців тендера
 
     `/tenders/:tender_id/awards/:award_id/complaints/:complaint_id/documents`
 
-    Tender award complaint documents list
+    Список документів до скарг на переможців тендера
 
 * POST
     `/tenders/:tender_id/awar…:complaint_id/documents`
 
-    Tender award complaint document upload
+    Завантаження документів до скарг на переможців тендера
 
 * PATCH
     `/tenders/:tender_id/awards/:award_id/complaints/:complaint_id/documents/:document_id`
 
-    Tender award complaint document update
+    Оновлення документів до скарг на переможців тендера
 
 * PUT
     `/tenders/:tender_id/awards/:award_id/complaints/:complaint_id/documents/:document_id`
 
-    Tender award complaint document update
+    Оновлення документів до скарг на переможців тендера
 
-Tender auction
---------------
+Аукціон
+-------
 
 * GET
     `/tenders/:tender_id/auction`
 
-    Get auction info
+    Отримати інформацію про аукціон
 
 * POST
     `/tenders/:tender_id/auction`
 
-    Report auction results
+    Опублікувати результати аукціону
 
     `/tenders/:tender_id/auction/:auction_lot_id`
 
-    Report auction results for lot
+    Опублікувати результати аукціону по лоту
 
 * PATCH
     `/tenders/:tender_id/auction`
 
-    Set urls for access to auction
+    Налаштувати URL для доступу до аукціону
 
     `/tenders/:tender_id/auction/:auction_lot_id`
 
-    Set url for access to auction for lot
+    Налаштувати URL для доступу до аукціону по лоту
 
-Tender agreement
-----------------
+Угода
+-----
 
 * GET
     `/tenders/:tender_id/agreements`
 
-    List of agreements for award
+    Список угод до переможця
 
 * POST
     `/tenders/:tender_id/agreements`
 
-    Post an agreement for award
+    Опублікувати угоду до переможця
 
 * PATCH
     `/tenders/:tender_id/agreements/:agreement_id`
 
-    Update of agreement
+    Оновити угоду
 
-Tender agreement contract
--------------------------
+Контракт до угоди
+-----------------
 
 * GET
     `/tenders/:tender_id/agreements/:agreement_id/contracts/:contract_id`
-    
-    Retrieving the contract for agreement
+                                                                     
+    Отримання контракту до угоди
 
     `/tenders/:tender_id/agreements/:agreement_id/contracts`
 
-    List of contracts for agreement
+    Список контрактів до угоди
 
 * PATCH
     `/tenders/:tender_id/agreements/:agreement_id/contracts/:contract_id`
 
-    Update agreement contract
+    Оновити контракт до угоди
 
-Tender agreement documents
---------------------------
+Документи до угоди
+------------------
 
 * GET
     `/tenders/:tender_id/agreements/:agreement_id/documents/:document_id`
 
-    Tender agreement document read
+    Читайте документи до угоди
 
     `/tenders/:tender_id/agreements/:agreement_id/documents`
 
-    Tender agreement documents list
+    Список документів до угоди
 
 * POST
     `/tenders/:tender_id/agreements/:agreement_id/documents`
 
-    Tender agreement document upload
+    Завантажте документи до угоди
 
 * PUT
     `/tenders/:tender_id/agreements/:agreement_id/documents/:document_id`
 
-    Tender agreement document update
+    Оновіть документи до угоди
 
 * PATCH
     `/tenders/:tender_id/agreements/:agreement_id/documents/:document_id`
 
-    Tender agreement document update
+    Оновіть документи до угоди

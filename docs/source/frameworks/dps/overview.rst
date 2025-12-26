@@ -1,6 +1,6 @@
 .. _dps_overview:
 
-Overview
-========
+Огляд
+=====
 
 The Open Procurement `dynamicPurchasingSystem` framework is plugin to Open Procurement API software.

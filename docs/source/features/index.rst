@@ -1,7 +1,7 @@
 .. _features:
 
-Drafts
-======
+Чернетки
+========
 
 Contents:
 

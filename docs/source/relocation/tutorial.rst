@@ -1,7 +1,7 @@
-Tutorial
+Туторіал
 ========
 
-When customer needs to change current broker this customer should provide new preferred broker with ``transfer`` key for an object. Then new broker should create `Transfer` object and send request with `Transfer` ``id`` and ``transfer`` key (received from customer) in order to change object's owner.
+Якщо клієнт хоче змінити поточний майданчик, цей клієнт повинен надати новому майданчику ключ ``transfer`` для відповідного об'єкта. Тоді новий майданчик повинен створити об'єкт `Transfer` і надіслати запит, вказавши ідентифікатор ``id`` для `Transfer` та ключ ``transfer`` (отриманий від клієнта), для того, щоб змінити власника цього об'єкта.
 
 .. toctree::
    :maxdepth: 4

@@ -1,11 +1,11 @@
 .. _tender_complaints:
 
 hasTenderComplaints
-====================
+===================
 
-Field `hasTenderComplaints` is a boolean field that indicates the presence or absence of a complaint about the terms of the tender documentation in the procurement.
+Поле `hasTenderComplaints` є булевим полем, яке визначає наявність або відсутність у закупівлі оскарження (звернення до АМКУ за допомогою скарги) умов тендерної документації.
 
-Possible values for `hasTenderComplaints` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasTenderComplaints` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/hasTenderComplaints-values.csv
@@ -14,12 +14,12 @@ Possible values for `hasTenderComplaints` field depends on `procurementMethodTyp
 hasTenderComplaints is `false`
 ------------------------------
 
-Example tutorials:
+Приклад використання:
     * :ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`
 
 
 hasTenderComplaints is `true`
 -----------------------------
 
-Example tutorials:
+Приклад використання:
     * :ref:`open` → :ref:`open_tutorial`

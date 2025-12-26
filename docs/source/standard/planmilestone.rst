@@ -5,44 +5,44 @@
 PlanMilestone
 =============
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `Підготовка до проведення процедури`
 
 :description:
-    string, min-length is 3
+    рядок, мінімальна довжина 3
 
-    Default value is:
+    Значення за промовчанням:
 
     * `Узагальнення та аналіз отриманної інформації щодо проведення закупівель товарів, послуг (крім поточного ремонту) в інтересах замовників`
 
 :type:
-    string, required
+    рядок, обов’язковий
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `approval`
 
 :dueDate:
-    string, :ref:`date`, required
+    рядок, :ref:`date`, обов’язковий
 
 :author:
-    :ref:`PlanOrganization` object, required
+    :ref:`PlanOrganization`, обов’язково
 
 
 :status:
-    string, default `scheduled`
+    рядок, за замовчуванням `scheduled`
 
-    Possible values are:
+    Можливі значення:
 
     * `scheduled`
     * `met`
@@ -50,13 +50,13 @@ Schema
     * `invalid`
 
 :documents:
-    List of :ref:`document` objects
+    Список об’єктів :ref:`document`
 
 :dateModified:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :dateMet:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :owner:
-    string, auto-generated
+    рядок, генерується автоматично

@@ -8,29 +8,28 @@
 ComplaintObjection
 ==================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-    Id of objection
+    Унікальний ідентифікатор заперечення
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Title of objection
+    Назва заперечення
 
 :description:
     string
 
-    Description of objection
+    Опис заперечення
 
 :relatesTo:
-    string, required
+    рядок, обов’язковий
 
-    Type of related element.
-    Possible values are:
+    Тип пов'яазного елемента. Можливі значення:
 
     * `tender`
     * `lot`
@@ -39,18 +38,18 @@ Schema
     * `cancellation`
 
 :relatedItem:
-    string, required
+    рядок, обов’язковий
 
-    The id of related element.
+    Ідентифікатор пов'яазного елемента.
 
 :classification:
     :ref:`complaint-objection-classification`
 
 :requestedRemedies:
-    List of :ref:`complaint-objection-requested-remedy` objects
+    Список об’єктів :ref:`complaint-objection-requested-remedy`
 
 :arguments:
-    List of :ref:`complaint-objection-argument` objects
+    Список об’єктів :ref:`complaint-objection-argument`
 
 :sequenceNumber:
     integer, non negative

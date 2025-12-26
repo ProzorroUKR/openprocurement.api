@@ -9,6 +9,6 @@ Schema
 ------
 
 :description:
-    string
+    рядок
 
-    Dimension description
+    Опис

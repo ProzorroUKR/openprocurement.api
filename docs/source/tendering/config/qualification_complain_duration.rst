@@ -3,9 +3,9 @@
 qualificationComplainDuration
 =============================
 
-Field `qualificationComplainDuration` is an integer field that determines the duration of appealing the qualification results.
+Поле `qualificationComplainDuration` є цифровим полем, що визначає тривалість оскарження результатів кваліфікації.
 
-Possible values for `qualificationComplainDuration` field depends on `procurementMethodType` field:
+Можливі значення для поля `qualificationComplainDuration` залежать від `procurementMethodType`
 
 .. csv-table::
    :file: csv/qualification-complain-duration-values.csv
@@ -14,9 +14,9 @@ Possible values for `qualificationComplainDuration` field depends on `procuremen
 Examples
 --------
 
-Let's create a tender with `qualificationComplainDuration` 5 days:
+Створемо тендер з `qualificationComplainDuration`, що дорівнює пʼяти дням:
 
 .. http:example:: http/qualification-complain-duration-5-days.http
    :code:
 
-Tender created successfully with expected complaint periods, each of which ends five days after the qualification is created.
+Тендев успішно створено з очікуваними періодами подачі скарг, кожен з яких закінчується через пʼять днів після створення кваліфікації.

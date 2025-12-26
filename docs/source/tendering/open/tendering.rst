@@ -1,32 +1,26 @@
 
 .. _open_tendering:
 
-Tendering
-=========
+Період подання пропозицій
+=========================
 
-Open procedure has `active.tendering` status and can be represented with
-the following diagram:
+Процедура відкритих торгів має `active.tendering` статус і може бути представлена такою діаграмою:
 
 .. image:: _static/active-tendering.png
 
 
-Constraints
------------
+Обмеження
+---------
 
- - `tenderPeriod` cannot be shorter than 7 days.
+ - Період подання пропозицій `tenderPeriod` не може бути коротший ніж 7 днів.
 
- - `enquiryPeriod` always ends 3 days before tenderPeriod ends.
+ - Період уточнень `enquiryPeriod` завжди закінчується за 3 днів до закінчення періоду подання пропозицій.
 
- - If tender conditions are modified with less than 4 days left to
-   `tenderPeriod.endDate`, this period should be extended so that
-   from the moment of the change in the tender documentation until
-   `tenderPeriod.endDate` has remained at least 4 days.
+ - Якщо умови закупівлі змінюються менше ніж за 4 днів до завершення періоду подання пропозицій, цей період треба продовжити таким чином, щоб з моменту внесення змін до тендерної документації до закінчення строку подання тендерних пропозицій залишалося не менше ніж 4 днів.
 
-Claims and Complaits
-~~~~~~~~~~~~~~~~~~~~
+Вимоги та скарги
+~~~~~~~~~~~~~~~~
 
- - Claims can be submitted only if there are more than 3 days left
-   in tenderPeriod.
+ - Вимоги можна подавати не пізніше ніж за 3 днів до завершення періоду подання пропозицій.
 
- - Complaints can be submitted only if there are 3 or more days left in
-   tenderPeriod.
+ - Скарги можна подавати не пізніше ніж за 3 дні до завершення періоду подання пропозицій.

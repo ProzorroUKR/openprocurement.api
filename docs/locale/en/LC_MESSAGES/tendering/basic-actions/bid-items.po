@@ -1,0 +1,114 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-06 12:58+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Предмет закупівлі в пропозиції"
+msgstr "Bid Items"
+
+msgid "Предмет закупівлі в пропозиції доступний у всіх типах процедур"
+msgstr "Items in bid are available in all types of procedures"
+
+msgid "Створюємо пропозицію з предметом закупівлі"
+msgstr "Creating bid with items"
+
+msgid "Щоб створити пропозицію з предметом закупівлі, вам потрібно передати поле items зі значенням, що містить список :ref:`BidItem`."
+msgstr "To create a bid with a procurement item, you need to pass the `items` field with a value containing a list of :ref:`BidItem` ."
+
+msgid "Якщо ви спробуєте передати предмет закупівлі з id, якого не існує в tender.items, ви отримаєте помилку:"
+msgstr "If you try to pass an item with an id that does not exist in tender.items, you will get an error:"
+
+msgid "VAT для `items.unit.value` може мати лише значення `False`. Якщо ви спробуєте передати значення `True`, ви отримаєте помилку:"
+msgstr "VAT in `items.unit.value` can be only `False`. If you try to pass `True` you will see an error:"
+
+msgid "Надішлемо правильні дані:"
+msgstr "Let's send correct data:"
+
+msgid "Оновлення предмету закупівлі"
+msgstr "Update bid items"
+
+msgid "Ви можете оновити `quantity` та `unit` предмета закупівлі в пропозиції"
+msgstr "You can update `quantity` and `unit` in bid items."
+
+msgid "Щоб оновити дані в items, вам потрібно передати всі елементи зі списку разом з усіма даними; в іншому випадку, дані, які не передані, будуть втрачені:"
+msgstr "To update the data in items, you need to pass all elements from the list along with all data; otherwise, the data that is not passed will be lost:"
+
+msgid "Продукт в предметі закупівлі пропозиції"
+msgstr "Product in bid items"
+
+msgid "Замість використання eligibleEvidence у критерії та evidence у відповідях, можна використовувати `product` у `bid.items`."
+msgstr "Instead of using eligibleEvidence in criteria and evidence in requirementResponses, now you can use product in bid.items."
+
+msgid "Процедури з продуктом в предметі закупівлі"
+msgstr "Procedures with product in bid items"
+
+msgid "Продукт в предмет закупівлі доступний у таких процедурах:"
+msgstr "Product in bid items is available in these procedures:"
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "Стоврення пропозиції з продуктом в предметі закупівлі"
+msgstr "Create bid with product in items"
+
+msgid "Все що вам потрібно це вказати ідентифікатор активного продукту з маркету в полі `product` у bid.items."
+msgstr "All you need it's pass product identifier of active product with the same category as in tender item from market to field `product` in bid.items."
+
+msgid "Якщо ви спробуєте передати не існуючий ідентифікатор, ви отримаєте помилку:"
+msgstr "If you pass a non-existent identifier, you will get an error:"
+
+msgid "Якщо ви спробуєте передати ідентифікатор продукту зі статусом `hidden`, ви отримаєте помилку:"
+msgstr "if you try to pass identifier of product with `hidden` status, you'll also get error:"
+
+msgid "Якщо ви спробуєте передати ідентифікатор продукту з іншим знченням в полі `relatedCategory` аніж `category` в айтемі тендера, ви отримаєте помилку:"
+msgstr "If you try to pass identifier of product with another `relatedCategory` that doesn't match `category` in tender item, you'll also get error:"
+
+msgid "тже, якщо всі правила дотримані, ви можете створити пропозицію з продуктом у предметі закупівлі:"
+msgstr "So if all rules are met, you can create bid with product in items:"
+
+msgid "Оновлення продукту в предметі закупівлі"
+msgstr "Update product in bid items"
+
+msgid "Ви можете змінити ідентифікатор продукту, використовуючи метод `PATCH` для пропозиції (усі перевірки, що здійснюються під час створення, також застосовуються під час оновлення):"
+msgstr "You can change product identifier using `PATCH` method on bid(All validations on creation also work on update):"
+

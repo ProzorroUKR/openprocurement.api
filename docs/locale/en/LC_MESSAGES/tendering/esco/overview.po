@@ -1,0 +1,60 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.esco 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-09-12 11:30+0300\n"
+"PO-Revision-Date: 2018-09-12 11:57+0300\n"
+"Last-Translator: \n"
+"Language: en\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+msgid "Огляд"
+msgstr "Overview"
+
+msgid "The Open Procurement `ESCO` procedure is plugin to `Open Procurement API` software."
+msgstr ""
+
+msgid "REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення."
+msgstr "REST-ful interface to plugin is in line with core software design principles."
+
+msgid "Домовленості"
+msgstr "Conventions"
+
+msgid "Цей плагін підтримує `домовленості Open Procurement API <http://api-docs.openprocurement.org/en/latest/overview.html#conventions>`_."
+msgstr "This plugin conventions follow the `Open Procurement API conventions <http://api-docs.openprocurement.org/en/latest/overview.html#conventions>`_."
+
+msgid "Основні задачі"
+msgstr "Main responsibilities"
+
+msgid "ESCO procedure is applied for all energy service procurements regardless their price. The main assessment criterion for this type of procurement procedure is Net Present Value (NPV). ESCO procedure features reverse approach compared to the other openprocurement procedures: tender is won by supplier who offered the highest Net Present Value."
+msgstr ""
+
+msgid "The `procurementMethodType` is `esco`."
+msgstr ""
+
+msgid "ESCO contracts use separate extension: https://github.com/openprocurement/openprocurement.contract.esco"
+msgstr ""
+
+msgid "Стан проекту"
+msgstr "Project status"
+
+msgid "Цей проект активно розробляється і має пілотні встановлення."
+msgstr "The project is in active development and has pilot installations."
+
+msgid "Репозиторій цього проекту є на GitHub: https://github.com/openprocurement/openprocurement.tender.esco"
+msgstr "The source repository for this project is on GitHub: https://github.com/openprocurement/openprocurement.tender.esco"
+
+msgid "Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/openprocurement/openprocurement.tender.esco/issues>`_ (реєстрація на GitHub обов’язкова). Загальне обговорення відбувається через розсилку `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_."
+msgstr "You can leave feedback by raising a new issue on the `issue tracker <https://github.com/openprocurement/openprocurement.tender.esco/issues>`_ (GitHub registration necessary).  For general discussion use `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_ maillist."
+
+msgid "API stability"
+msgstr ""
+
+msgid "API is highly unstable, and while API endpoints are expected to remain relatively stable the data exchange formats are expected to be changed a lot.  The changes in the API are communicated via `Open Procurement API maillist <https://groups.google.com/group/open-procurement-api>`_."
+msgstr ""
+

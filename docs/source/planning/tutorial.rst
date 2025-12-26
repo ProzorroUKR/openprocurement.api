@@ -1,46 +1,46 @@
 .. _planning_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Creating plan procurement
+Створення плану закупівлі
 -------------------------
 
-We strongly recommend creating plans in `draft` status.
+Наполегливо рекомендуємо створювати плани у статусі `draft`.
 
-Let’s create a plan:
+Створимо план:
 
 .. http:example:: tutorial/create-plan.http
    :code:
 
-We have `201 Created` response code, `Location` header and body with extra `id`, `planID`, and `dateModified` properties.
+Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `planID` та властивість `dateModified` - дату, що показує час, коли план закупівлі востаннє модифікувався.
 
-The second step is moving the plan to `scheduled` status so that it becomes actually published:
+Другий крок - переміщення плану в статус `scheduled`, щоб опубліковати план:
 
 .. http:example:: tutorial/patch-plan-status-scheduled.http
    :code:
 
-Let's check what plan registry contains:
+Перевіримо, що містить реєстр планів закупівель:
 
 .. http:example:: tutorial/plan-listing.http
    :code:
 
-We do see the internal `id` of a plan (that can be used to construct full URL by prepending `http://api-sandbox.openprocurement.org/api/0/plans/`) and its `dateModified` datestamp.
+Відображається  `id` - внутрішній ідентифікатор (який можна використовувати, щоб побудувати повну URL-адресу, додаючи `http://api-sandbox.openprocurement.org/api/0/plans/` на початку) та мітка часу `dateModified`.
 
 
-Modifying plan
---------------
+Модифікація плану закупівлі
+---------------------------
 
-Let's update plan by supplementing it with all other essential properties:
+Оновимо план шляхом надання їй усіх інших важливих властивостей:
 
 .. http:example:: tutorial/patch-plan-procuringEntity-name.http
    :code:
 
 .. XXX body is empty for some reason (printf fails)
 
-We see the added properties have merged with existing plan data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Ми бачимо, що додаткові властивості об’єднані з існуючими даними плану. Додатково оновлена властивість dateModified, щоб відображати останню дату модифікації.
 
-Checking the listing again reflects the new modification date:
+Ще одна перевірка списку відображає нову дату модифікації:
 
 .. http:example:: tutorial/plan-listing-after-patch.http
    :code:
@@ -48,156 +48,155 @@ Checking the listing again reflects the new modification date:
 .. _tender-from-plan:
 
 
-Tender creation from a procurement plan
----------------------------------------
+Створення закупівлі з плану
+---------------------------
 
-A tender can be created from your procurement plan. This tender will be linked with the plan
-using :ref:`tender's plans <tender>` and :ref:`plan's tender_id <tender_id>` fields.
+Закупівля може бути створена з відповідного їй плану закупівлі. Закупівля буде пов’язана з планом за допомогою полів :ref:`plans тендеру <tender>` і :ref:`tender_id плану <tender_id>`.
 
 .. note::
-    | System failures during tender-from-plan creation can produce tenders that are not linked with their plans by :ref:`tender_id`.
-    | Make sure you do use :ref:`2pc` and do not proceed with these error state tender objects (create new ones).
+    | Системні збої під час створення закупівлі з плану можуть призвести до закупівель, які не пов’язані з їхніми планами по :ref:`tender_id`.
+    | Переконайтеся, що ви використовуєте :ref:`2pc` і не проводте ці помилкові закупівлі (створюйте нові натомість).
 
 
-There are validation rules that are supposed to decline the chance of making a mistake
+Для зменшення шансів зробити помилку та зв’язати закупівлю з неправильним планом, встановлені правила валідації
 
 .. http:example:: tutorial/tender-from-plan-validation.http
    :code:
 
-There are three of them:
+Усього їх три:
 
-    * procurementMethodType
-    * procuringEntity.identifier - matching id and scheme with the same fields in tender data
-    * classification.id  - matching with tender item classification codes using first 4 digits (``336`` is exception)
+    * procurementMethodType - відповідність типу процедури плана і тендера
+    * procuringEntity.identifier - відповідність полів id і scheme для плана і тендера
+    * classification.id - відповідність перших 4-х цифр кодів класифікатора плана і тендера (336 виняток - відповідність перших 3-х цифр)
 
-Plan should contain budget breakdown, otherwise it will be an error during tender creation:
+План має містити джерела фінансування, інакше буде отрімано помилку під час створення тендеру:
 
 .. http:example:: tutorial/tender-from-plan-breakdown.http
    :code:
 
-Let's add budget breakdown and project to plan:
+Додамо джерело фінансування та проект до плану:
 
 .. http:example:: tutorial/patch-plan-breakdown.http
    :code:
 
-A successful example looks like this:
+Успішний приклад виглядає так:
 
 .. http:example:: tutorial/tender-from-plan.http
    :code:
 
-Let's check that the plan status was switched to `complete`:
+Перевіримо, чи стан плану було перемкнено на `complete`:
 
 .. http:example:: tutorial/get-complete-plan.http
    :code:
 
-After tender was created from plan it's no longer allowed to change plan:
+Після створення закупівлі з плану змінити план більше неможливо:
 
 .. http:example:: tutorial/tender-from-plan-readonly.http
    :code:
 
 
 
-Plan completing without tendering
----------------------------------
+Завершення плану без торгів
+---------------------------
 
-There is a way to complete a plan without tender creation:
+Існує спосіб завершити план без створення тендеру:
 
 .. http:example:: tutorial/complete-plan-manually.http
    :code:
 
-This only works if `procurementMethodType` is one of the following:
+Це працює лише в тому випадку, якщо `procurementMethodType` є одним із наступних:
 
     * ``belowThreshold``
     * ``reporting``
-    * empty string
+    * порожній рядок
 
 
-Plan cancellation
------------------
+Скасування плану
+----------------
 
-A plan can be cancelled using :ref:`plancancellation`:
+План можна скасувати за допомогою :ref:`plancancellation`:
 
 .. http:example:: tutorial/plan-cancellation.http
    :code:
 
-Making the cancellation object ``active`` cancels the plan:
+Зміна статуса об’єкта скасування на ``active`` скасовує план:
 
 .. http:example:: tutorial/plan-cancellation-activation.http
    :code:
 
 
-Plan rationale update
----------------------
+Оновлення обгурнтування плану закупівлі
+---------------------------------------
 
-The ``rationale`` field can be updated at any plan status:
+Поле ``rationale`` оновлюється у будь-якому статусі плану закупівлі:
 
 
 .. http:example:: tutorial/complete-plan-rationale.http
    :code:
 
 
-Plan fields history
--------------------
+Історія змін полів плану закупівлі
+----------------------------------
 
-There is an endpoint that can show changes history of the certain fields.
+Існує окремий метод API, який дозволяє передивлятися історію полів плану закупівлі.
 
 
-At the moment only ``rationale`` is supported:
+На даний момент підтримується тільки поле ``rationale`` :
 
 
 .. http:example:: tutorial/plan-rationale-history.http
    :code:
 
 
-Plan of Ukraine
----------------
+План України
+------------
 
-If the source of financing is indicated, the Customer may indicate the item of the Plan of Ukraine in `budget.project`.
+Якщо зазначено джерело фінансування, Замовник може зазначати пункт Плану України в полі `budget.project`.
 
-If item is from dictionary `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ than there are additional validations for `name` and `name_en` fields:
+Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_, то ми побачимо додаткові валідації на поля `name` та `name_en`:
 
 .. http:example:: tutorial/patch-plan-budget-project-name-invalid.http
    :code:
 
-Successful adding project from plan of Ukraine:
+Успішне додавання джерела фінансування разом з проектом з Плану України:
 
 .. http:example:: tutorial/patch-plan-breakdown.http
    :code:
 
 Ukraine facility
------------------
+----------------
 
-For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classifiers in `budget.breakdown.classification` and `budget.breakdown.address.addressDetails`.
+Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовинк має вказати код з класифікаторів Ukraine facility в полі `budget.breakdown.classification` та `budget.breakdown.address.addressDetails`.
 
-*  For `state` budgets KPK dictionaries are used. They are divided by year, e.g. `KPK-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_.
-*  For `local` and `crimea` budgets `KATOTTG <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ and  `TPKVKMB <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_ dictionaries are used.
+*  Для державних бюджетів використовується класифікатор КПК. Він поділений на декілька довідників в залежності від року, наприклад `КПК-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_.
+*  Для місцевих бюджетів та бюджетів Автономної Республіки Крим використовуються класифікатори `КАТОТТГ <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ та  `ТПКВКМБ <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_
 
-There are additional validations for these kinds of budget's breakdown:
+Існують додаткові валідації для планів з цими джерелами фінансування:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-state-invalid.http
    :code:
 
-Successful adding `classification` for `state` budget breakdown:
+Додамо `classification` для державного бюджету:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-state.http
    :code:
 
-Let's look what we have for `local` budget breakdown:
+Подивимося, що буде, якщо ми змінимо бюджет на місцевий:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-invalid.http
    :code:
 
-Let's add `classification` for `local` budget breakdown and see what happened:
+Додамо `classification` для місцевого бюджету і зробимо запит ще раз:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-address-required.http
    :code:
 
-Let's add address, KATOTTG is required for `local` budget:
+Додамо адресу, після цього ЦБД буде вимагати КАТОТТГ для місцевого бюджету:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local-address-invalid.http
    :code:
 
-Successful adding `classification` and `address` for `local` budget breakdown:
+Тепер додамо `classification` разом з `address` для місцевого бюджету:
 
 .. http:example:: tutorial/patch-plan-budget-breakdown-classifications-local.http
    :code:

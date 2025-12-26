@@ -3,9 +3,9 @@
 hasEnquiries
 ============
 
-Field `hasEnquiries` is a boolean field that indicates whether the tender has a separate enquiries period (active.enquiries) that lasts before tendering period (active.tendering).
+Поле `hasAwardingOrder` є булевим полем, яке вказує на наявність або відсутність у закупівлі окремого етапу обговорення умов тендерної документації (active.enquiries) що проходить перед етапом подання пропозицій (active.tendering)
 
-Possible values for `hasEnquiries` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasEnquiries` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/has-enquiries-values.csv

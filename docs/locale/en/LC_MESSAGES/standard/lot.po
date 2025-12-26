@@ -1,0 +1,193 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.8.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"PO-Revision-Date: 2018-08-17 15:28+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Lot"
+msgstr "Lot"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "Назва лота закупівлі."
+msgstr "The name of the tender lot."
+
+msgid "description"
+msgstr ""
+
+msgid "Детальний опис лота закупівлі."
+msgstr "Detailed description of tender lot."
+
+msgid "value"
+msgstr ""
+
+msgid ":ref:`value`, обов’язково"
+msgstr ":ref:`value`, required"
+
+msgid "Повний доступний бюджет лота закупівлі. Цінові пропозиції, більші ніж ``value``, будуть відхилені."
+msgstr "Total available tender lot budget. Bids greater then ``value`` will be rejected."
+
+msgid "Відсутнє в :ref:`esco`"
+msgstr "Absent in :ref:`esco`"
+
+msgid "guarantee"
+msgstr ""
+
+msgid ":ref:`BasicValue`"
+msgstr ""
+
+msgid "Забезпечення тендерної пропозиції"
+msgstr "Bid guarantee"
+
+msgid "Відсутнє в :ref:`limited`"
+msgstr "Absent in :ref:`limited`"
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "minimalStep"
+msgstr ""
+
+msgid "Мінімальний крок аукціону (редукціону). Правила валідації:"
+msgstr "The minimal step of auction (reduction). Validation rules:"
+
+msgid "`amount` повинно бути меншим, ніж `Lot.value.amount`"
+msgstr "`amount` should be less then `Lot.value.amount`"
+
+msgid "`currency` повинно або бути відсутнім, або відповідати `Lot.value.currency`"
+msgstr "`currency` should either be absent or match `Lot.value.currency`"
+
+msgid "`valueAddedTaxIncluded` повинно або бути відсутнім, або відповідати `Lot.value.valueAddedTaxIncluded`"
+msgstr "`valueAddedTaxIncluded` should either be absent or match `Lot.value.valueAddedTaxIncluded`"
+
+msgid "Робочий процес у :ref:`limited` and :ref:`esco`"
+msgstr "Absent in :ref:`limited` and :ref:`esco`"
+
+msgid "auctionPeriod"
+msgstr ""
+
+msgid ":ref:`period`, доступно лише для читання"
+msgstr ":ref:`period`, read-only"
+
+msgid "Період проведення аукціону."
+msgstr "Period when Auction is conducted."
+
+msgid "auctionUrl"
+msgstr ""
+
+msgid "URL-адреса"
+msgstr "url"
+
+msgid "Веб-адреса для перегляду аукціону."
+msgstr "A web address for view auction."
+
+msgid "status"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "`active`"
+msgstr ""
+
+msgid "Активний лот закупівлі (активний)"
+msgstr "Active tender lot (active)"
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "Неуспішний лот закупівлі (не відбувся)"
+msgstr "Unsuccessful tender lot (unsuccessful)"
+
+msgid "`complete`"
+msgstr ""
+
+msgid "Завершено лот закупівлі (завершено)"
+msgstr "Complete tender lot (complete)"
+
+msgid "`cancelled`"
+msgstr ""
+
+msgid "Скасовано лот закупівлі (скасовано)"
+msgstr "Cancelled tender lot (cancelled)"
+
+msgid "Статус лота."
+msgstr "Status of the Lot."
+
+msgid "Додатково у :ref:`esco`:"
+msgstr "Additionally in :ref:`esco`:"
+
+msgid "minimalStepPercentage"
+msgstr ""
+
+msgid "float, обов’язково"
+msgstr "float, required"
+
+msgid "Minimum step increment of the energy service contract performance indicator during auction that is calculated on participant’s bid. Possible values: from 0.005 to 0.03 (from 0.5% to 3% respectively) with 3-digit precision after comma."
+msgstr ""
+
+msgid "fundingKind"
+msgstr ""
+
+msgid "рядок, обов’язковий"
+msgstr "string, required"
+
+msgid "Lot funding source"
+msgstr ""
+
+msgid "Можливі значення:"
+msgstr "Possible values:"
+
+msgid "budget -  Budget funding."
+msgstr ""
+
+msgid "other - Supplier funding."
+msgstr ""
+
+msgid "Default value: other"
+msgstr ""
+
+msgid "yearlyPaymentsPercentageRange"
+msgstr ""
+
+msgid "Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma."
+msgstr ""
+
+msgid "from 0.8 to 1 (from 80% to 100% respectively) if lot:fundingKind:other."
+msgstr ""
+
+msgid "from 0 to 0.8 (from 0% to 80% respectively) if lot:fundingKind:budget."
+msgstr ""
+
+msgid "Input precision - 3 digits after comma."
+msgstr ""
+
+msgid "Робочий процес у :ref:`limited`, :ref:`esco` та :ref:`openeu`"
+msgstr "Workflow in :ref:`limited`, :ref:`esco` and :ref:`openeu`"
+
+msgid "\\* позначає початковий стан"
+msgstr "\\* marks initial state"
+

@@ -1,80 +1,66 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement Open UA procedure is plugin to `Open Procurement API` software.  It requires 0.12 version
-of `openprocurement.api package
-<https://github.com/ProzorroUKR/openprocurement.api>`_ to work.
+The Open Procurement Open UA procedure is plugin to `Open Procurement API` software.  It requires 0.12 version of `openprocurement.api package <https://github.com/ProzorroUKR/openprocurement.api>`_ to work.
 
-REST-ful interface to plugin is in line with core software design principles. 
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення. 
 
 
-Main responsibilities
----------------------
-
-Open Procurement Open UA procedure is dedicated to Open Tender procedure for
-Ukrainian above threshold procurements.  The code for that type of procedure
-is `aboveThresholdUA`.
-
-Business logic
+Основні задачі
 --------------
 
-The approach to Open UA procedure is different from core Open Procurement API
-procedure (that is used for below threshold procurements) mainly in
-:ref:`stage that precedes <openua_tendering>` auction.  Differences are in the
-following aspects:
+OpenUA процедура, що описана в цій документації, стосується процедури українських відкритих торгів для понадпорогових закупівель. Код процедури такого типу - `aboveThresholdUA`.
 
-1) Tender can be edited through the whole tenderPeriod (while in
-   active.tendering state), but any edit that is close to
-   tenderPeriod.endDate would require extending that period.
+Бізнес логіка
+-------------
 
-2) There is no dedicated active.enguiries state. 
+Підхід до відкритих торгів відрізняється від основної процедури Open Procurement API (яка використовується для допорогових закупівель) в основному :ref:`етапом закупівлі, що проходить перед <openua_tendering>` аукціоном. Детально різницю описано в пунктах нижче:
 
-3) Questions can be asked within enquiryPeriod that is based upon
-   tenderPeriod.
+1) Закупівлю можна редагувати протягом усього періоду подання пропозицій - tenderPeriod (коли тендер знаходиться в стані active.tendering). Але коли редагування відбувається занадто близько до завершення періоду подання пропозицій - tenderPeriod.endDate, потрібно продовжити цей період.
 
-4) Answers are provided during the whole tenderPeriod.
+2) Немає стану active.enguiries. 
 
-5) Bids can be placed during the whole tenderPeriod.
+3) Звернення можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod.
 
-6) Placed bids are invalidated after any tender condition editing and have to
-   be re-confirmed.
+4) Відповіді можна давати протягом усього періоду подання пропозицій - tenderPeriod.
+
+5) Пропозиції можна подавати протягом усього періоду подання пропозицій - tenderPeriod.
+
+6) Подані пропозиції стають недійсними після будь-якої зміни закупівлі замовником, тому їх потрібно підтвердити знову.
    
-Project status
+Стан проекту
+------------
+
+Цей проект активно розробляється і має пілотні встановлення.
+
+Репозиторій цього проекту є на GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openua
+
+Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/ProzorroUKR/openprocurement.tender.openua/issues>`_ (реєстрація на GitHub обов’язкова).
+
+Звіт про зміни
 --------------
-
-The project is in active development and has pilot installations.
-
-The source repository for this project is on GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openua
-
-You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/ProzorroUKR/openprocurement.tender.openua/issues>`_ (GitHub
-registration necessary).
-
-Change log
-----------
 
 0.2
 ~~~
-Released: unreleased
+Випущено: ще ні
 
- New features:
+ Новий функціонал:
 
- - Above Threshold `Complaint workflow`
+ - `Схема роботи оскаржень` для понадпорогових закупівель
 
- Modifications:
+ Модифікації:
 
 0.1
 ~~~
 
-Released: 2016-01-25
+Випущено: 2016-01-25
 
- New features:
+ Новий функціонал:
 
- - no `active.enquiries` status
- - Bid invalidation
- - Open Tender UA validation rules
+ - відсутність статусу `active.enquiries`
+ - Недійсність пропозицій
+ - Правила валідації для відкритих торгів
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`tutorial`, or the
-:ref:`reference`.
+Наступні кроки
+--------------
+Можливо вам буде цікаво прочитати :ref:`tutorial`, або :ref:`reference`.

@@ -11,19 +11,19 @@ Schema
 :id:
     uid
 
-    Unit identifier.
+    Ідентифікатор unit.
 
 :scheme:
-    string
+    рядок
 
-    Standard of unit dimensions.
+    Стандарт виміру unit.
 
 :name:
-    string
+    рядок
 
-    Name of unit.
+    Назва unit
 
 :uri:
-    string
+    рядок
 
-    Unit uri.
+    Лінк unit.

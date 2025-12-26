@@ -1,81 +1,76 @@
 .. _limited_mulitlot_tutorial:
 
-Multiple Lots Tutorial
-======================
+Туторіал для багатолотової закупівлі
+====================================
 
 
-Creating tender
----------------
+Створення закупівлі
+-------------------
 
-Let's create tender:
+Створимо закупівлю:
 
 .. http:example:: http/multiple_lots_tutorial/tender-post-attempt-json-data.http
    :code:
 
-Now we can see that new object was created. Response code is `201`
-and `Location` response header reports the location of the created object.  The
-body of response reveals the information about the created tender: its internal
-`id` (that matches the `Location` segment), its official `tenderID` and
-`dateModified` datestamp stating the moment in time when tender was last
-modified.  Note that tender is created with `active.tendering` status.
+Тепер ми бачимо, що новий об’єкт було створено. Код відповіді - `201`, заголовок відповіді `Location` вказує місцерозташування створеного об’єкта. Тіло відповіді показує інформацію про створену закупівлю, її внутрішнє `id` (яке співпадає з сегментом `Location`), її офіційне `tenderID` та `dateModified` дату, що показує час, коли закупівля востаннє модифікувалась. Зверніть увагу, що закупівля створюється зі статусом `active.tendering`.
 
-Tender can contain several different lots. We can add lot using the following way:
+Закупівля може складатись із декількох лотів. Можна створити лот таким чином:
 
 .. http:example:: http/multiple_lots_tutorial/tender-add-lot.http
    :code:
 
-Also you will need to update data about item's related lots:
+Потрібно оновити дані пов’язані із залежністю на лот:
 
 .. http:example:: http/multiple_lots_tutorial/tender-add-relatedLot-to-item.http
    :code:
 
-View tender listing:
+Перегляньте список закупівель:
 
 .. http:example:: http/multiple_lots_tutorial/tender-listing-no-auth.http
    :code:
 
-or view tender:
+або перегляньте окрему закупівлю:
 
 .. http:example:: http/multiple_lots_tutorial/tender-view.http
    :code:
 
 
-Awarding
---------
+Визначення переможця
+--------------------
 
-Addition of supplier information is the same for all procedures.
+Спосіб додавання інформації про постачальника однаковий для всіх процедур.
 
-Add award for lot №1:
+Додавання інформації про постачальника для лота №1:
 
 .. http:example:: http/multiple_lots_tutorial/tender-award.http
    :code:
 
-Award confirmation:
+Підтвердження визначення переможця:
 
 .. http:example:: http/multiple_lots_tutorial/tender-award-approve.http
    :code:
 
-The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days and for **negotiation.quick** is 5 days.
+Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 10 днів та 5 днів для **переговорної процедури за нагальною потребою**
 
 .. _settingcontractvalue:
 
-Setting contract value
-----------------------
+Встановлення вартості угоди
+---------------------------
 
-By default contract value is set based on the award, but there is a possibility to set custom contract value.
+За замовчуванням вартість угоди встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення.
 
-If you want to **lower contract value**, you can insert new one into the `amount` field.
+Якщо ви хочете **знизити вартість угоди**, ви можете встановити нове значення для поля `amount`.
 
 .. http:example:: http/multiple_lots_tutorial/tender-contract-set-contract-value.http
    :code:
 
-`200 OK` response was returned. The value was modified successfully.
+Було повернуто код відповіді `200 OK`. Значення змінено успішно.
 
 
-Contract registration
----------------------
+Реєстрація угоди
+----------------
 
-**Negotiation** and **Negotiation.quick** tender contract can be registered only after the stand-still (10 and 5 days period after the award confirmation).
+Угода про закупівлю за **переговорною** та **переговорної процедури за нагальною потребою** процедурою може бути зареєстрована одразу після періоду очікування скарг (десятиденний та пятидений період після підтвердження визначення переможця).
 
 .. http:example:: http/multiple_lots_tutorial/tender-contract-sign.http
    :code:

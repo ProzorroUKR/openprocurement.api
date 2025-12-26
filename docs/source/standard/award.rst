@@ -7,139 +7,130 @@
 Award
 =====
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated, read-only
-    
-    |ocdsDescription|
-    The identifier for this award.
-    
+    рядок, генерується автоматично, лише для читання
+                                                
+    |ocdsDescription| Ідентифікатор цього рішення.
+                                              
 :bid_id:
-    string, auto-generated, read-only
+    рядок, генерується автоматично, лише для читання
 
-    The Id of a bid that the award relates to.
+    ID пропозиції, що виграла закупівлю.
 
-    absent in :ref:`limited`:
-    
+    відсутній у :ref:`limited`:
+                           
 :title:
-    string, multilingual
-    
-    |ocdsDescription|
-    Award title.
-    
+    рядок, багатомовний
+                   
+    |ocdsDescription| Назва рішення.
+                                
 :description:
-    string, multilingual
-    
-    |ocdsDescription|
-    Award description.
-    
+    рядок, багатомовний
+                   
+    |ocdsDescription| Опис рішення.
+                               
 :status:
-    string
-    
-    |ocdsDescription|
-    The current status of the award drawn from the `awardStatus` codelist.
+    рядок
+     
+    |ocdsDescription| Поточний статус рішення, взятий зі списку кодів `awardStatus`.
 
-    Possible values are:
+    Можливі значення:
 
-    * `pending` - the award is under review of qualification committee
-    * `unsuccessful` - the award has been rejected by qualification committee
-    * `active` - the tender is awarded to the bidder from the `bid_id`
-    * `cancelled` - the award has been cancelled by complaint review body
+    * `pending` - переможець розглядається кваліфікаційною комісією
+    * `unsuccessful` - кваліфікаційна комісія відмовила переможцю
+    * `active` - закупівлю виграв учасник з пропозицією `bid_id`
+    * `cancelled` - орган, що розглядає скарги, відмінив результати закупівлі
 
 :date:
-    string, :ref:`Date`, auto-generated, read-only
-    
-    |ocdsDescription|
-    The date of the contract award.
-    
+    рядок, :ref:`Date`, генерується автоматично, лише для читання
+                                                             
+    |ocdsDescription| Дата рішення про підписання договору.
+                                                       
 :value:
-    :ref:`Value` object, auto-generated, read-only
+    Об’єкт :ref:`Value`, генерується автоматично, лише для читання
 
-    |ocdsDescription|
-    The total value of this award.
+    |ocdsDescription| Загальна вартість згідно цього рішення.
 
-    Differences in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:
+    Відмінності :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:
 
-    List of :ref:`Value` objects, auto-generated, read-only
+    Список :ref:`Value` об’єктів, генерується автоматично, лише для читання
 
-    Differences in :ref:`limited`:
+    Відмінності у :ref:`limited`:
 
-    `Value` object
+    Об'єкт `Value`
 
 :suppliers:
-    List of :ref:`BusinessOrganization` objects, auto-generated, read-only
-    
-    |ocdsDescription|
-    The suppliers awarded with this award.
-    
+    Список об’єктів :ref:`BusinessOrganization`, генерується автоматично, лише для читання
+                                                                                      
+    |ocdsDescription| Постачальники, що були визнані переможцями згідно цього рішення.
+                                                                                  
 :items:
-    List of :ref:`Item` objects, auto-generated, read-only
-    
-    |ocdsDescription|
-    The goods and services awarded in this award, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead. 
+    Список об’єктів :ref:`Item`, генерується автоматично, лише для читання
+                                                                      
+    |ocdsDescription| Товари та послуги, що розглядались цим рішенням, поділені на окремі рядки, де це можливо. Елементи не повинні бути продубльовані, а повинні мати вказану кількість. 
     
 :documents:
-    List of :ref:`ConfidentialDocument` objects
-    
-    |ocdsDescription|
-    All documents and attachments related to the award, including any notices. 
+    Список об’єктів :ref:`ConfidentialDocument`
+                                           
+    |ocdsDescription| Усі документи та додатки пов’язані з рішенням, включно з будь-якими повідомленнями. 
     
 :complaints:
-    |    List of :ref:`Complaint` and :ref:`Claim` objects.
+    |    Список об’єктів :ref:`Complaint` та :ref:`Claim`.
 
-    |    List of :ref:`Claim` objects for  `belowThreshold`.
-    |    List of :ref:`Complaint` objects for  `negotiation` and `negotiation.quick`.
+    |    Список об’єктів :ref:`Claim` для `belowThreshold`.
+    |    Список об’єктів :ref:`Complaint` для `negotiation` and `negotiation.quick`.
 
 
 :complaintPeriod:
     :ref:`period`
 
-    The timeframe when complaints can be submitted.
+    Період, під час якого можна подавати скарги.
 
 :lotID:
-    string
+    рядок
 
-    Id of related :ref:`lot`.
+    ID пов’язаного :ref:`lot`.
 
-    Differences in :ref:`limited`:
+    Відмінності у :ref:`limited`:
 
-        Id of related :ref:`lot`. Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`.
+        Id пов'язаного :ref:`lot`. Тільки для процуде з `tender.procurementMethodType`: `negotiation` чи `negotiation.quick`.
 
 :qualified:
     bool
 
-    Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine "On Public Procurement".
+    Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України ”Про державні закупівлі”.
 
 
-Additionally in :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`open`, :ref:`openua` and :ref:`openeu`:
+Відмінності :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`open`, :ref:`openua` та :ref:`openeu`:
 
 :eligible:
     bool
 
-    Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents.
+    Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації.
 
-Additionally in all procedures except :ref:`limited`:
+Додатково для всіх процедур окрім :ref:`limited`:
 
 :period:
     :ref:`Period`
 
-    The timeframe for making decision regarding award.
+    Період для прийняття рішення по аварду.
 
 
-Additionally in :ref:`limited`:
+Додатково :ref:`limited`:
 
 :subcontractingDetails:
-    string
+    рядок
 
-    The text field of any length that contains information about subcontractor.
+    Текстове поле будь-якої довжини, що містить інформацію про субпідрядника.
 
 :requirementResponses:
-        List of :ref:`RequirementResponse` objects.
+        Список об’єктів :ref:`RequirementResponse`.
 
-Award workflow in :ref:`limited`:
----------------------------------
+Робочий процес нагороди в :ref:`limited`:
+-----------------------------------------
 
 .. graphviz::
 
@@ -156,8 +147,8 @@ Award workflow in :ref:`limited`:
 \* marks initial state
 
 
-Workflow in :ref:`openeu` and :ref:`esco`:
-------------------------------------------
+Робочий процес у :ref:`openeu` та :ref:`esco`:
+----------------------------------------------
 
 .. graphviz::
 

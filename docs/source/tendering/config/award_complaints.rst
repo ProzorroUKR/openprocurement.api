@@ -1,11 +1,11 @@
 .. _award_complaints:
 
 hasAwardComplaints
-===================
+==================
 
-Field `hasAwardComplaints` is a boolean field that indicates the presence or absence in the procurement of a complaint about the decision on the qualifications of participants.
+Поле `hasAwardComplaints` є булевим полем, яке визначає наявність або відсутність у закупівлі оскарження (звернення до АМКУ за допомогою скарги) рішення по кваліфікації учасників.
 
-Possible values for `hasAwardComplaints` field depends on `procurementMethodType` field:
+Можливі значення для поля `hasAwardComplaints` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/hasAwardComplaints-values.csv
@@ -14,12 +14,12 @@ Possible values for `hasAwardComplaints` field depends on `procurementMethodType
 hasAwardComplaints is `false`
 -----------------------------
 
-Example tutorials:
+Приклад використання:
     * :ref:`competitiveordering` → :ref:`competitiveordering_short_tutorial`
 
 
 hasAwardComplaints is `true`
------------------------------
+----------------------------
 
-Example tutorials:
+Приклад використання:
     * :ref:`open` → :ref:`open_tutorial`

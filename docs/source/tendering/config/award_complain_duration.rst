@@ -1,27 +1,27 @@
 .. _award_complain_duration:
 
 awardComplainDuration
-========================
+=====================
 
-Field `awardComplainDuration` is a integer field that indicates the duration of contesting the results of determining the winne
+Поле `awardComplainDuration` є цілим полем, що вказує тривалість оскарження результатів визначення виграшу
 
-Possible values for `awardComplainDuration` field depends on `procurementMethodType` field:
+Можливі значення для поля `awardComplainDuration` залежать від поля `procurementMethodType`
 
 .. csv-table::
    :file: csv/award-complain-duration-values.csv
    :header-rows: 1
 
 awardComplainDuration is `true`
-----------------------------------
+-------------------------------
 
-Let's create a tender `belowThreshold`:
+Давайте створимо тендер `belowThreshold`:
 
 .. http:example:: http/award-complain-duration-tender-post-1.http
    :code:
 
-Then add relatedLot for item:
+Потім додайте relevantLot для елемента:
 
 .. http:example:: http/award-complain-duration-tender-patch-1.http
    :code:
 
-Here we can check that "complaintPeriod" field is absent in the response.
+Тут ми можемо перевірити, що поле "complaintPeriod" відсутнє у відповіді.

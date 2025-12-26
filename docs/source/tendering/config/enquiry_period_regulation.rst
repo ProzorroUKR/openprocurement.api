@@ -3,9 +3,9 @@
 enquiryPeriodRegulation
 =======================
 
-Field `enquiryPeriodRegulation` is an integer field that sets the number of days from the end of the enquiry period to the end of the tendering period.
+Поле `enquiryPeriodRegulation` є цифровим полем, що визначає кількість днів між кінцевою датою обговорення умов та кінцевим строком подання пропозицій.
 
-Possible values for `enquiryPeriodRegulation` field depends on `procurementMethodType` field:
+Можливі значення для поля `enquiryPeriodRegulation` залежать від поля `procurementMethodType`.
 
 .. csv-table::
    :file: csv/enquiry-period-regulation-values.csv

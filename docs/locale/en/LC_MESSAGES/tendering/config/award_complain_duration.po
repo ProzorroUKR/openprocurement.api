@@ -1,0 +1,121 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "awardComplainDuration"
+msgstr ""
+
+msgid "Поле `awardComplainDuration` є цілим полем, що вказує тривалість оскарження результатів визначення виграшу"
+msgstr "Field `awardComplainDuration` is a integer field that indicates the duration of contesting the results of determining the winne"
+
+msgid "Можливі значення для поля `awardComplainDuration` залежать від поля `procurementMethodType`"
+msgstr "Possible values for `awardComplainDuration` field depends on `procurementMethodType` field:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "5"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "competitiveOrdering.long"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "10"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "4"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "2"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
+msgid "awardComplainDuration is `true`"
+msgstr ""
+
+msgid "Давайте створимо тендер `belowThreshold`:"
+msgstr "Let's create a tender `belowThreshold`:"
+
+msgid "Потім додайте relevantLot для елемента:"
+msgstr "Then add relatedLot for item:"
+
+msgid "Тут ми можемо перевірити, що поле \"complaintPeriod\" відсутнє у відповіді."
+msgstr "Here we can check that \"complaintPeriod\" field is absent in the response."
+

@@ -1,0 +1,68 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-29 12:11+0200\n"
+"PO-Revision-Date: 2015-07-23 17:12+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.6\n"
+"Language: en\n"
+
+msgid "Операції для організації-замовника закупівлі"
+msgstr "Procuring Entity Operations"
+
+msgid "Реєстрація Закупівлі"
+msgstr "Registration of the Tender"
+
+msgid "Cтворення початкового запису Закупівлі"
+msgstr "Creating primary Tender record"
+
+msgid "При реєстрації закупівлі у базі даних потрібно надати всі основні деталі закупівлі (окрім двійкових документів) в тілі запиту."
+msgstr "When registering tender in the database, one has provide all primary tender details (except binary documents) in payload of request."
+
+msgid "Завантаження документації"
+msgstr "Uploading documentation"
+
+msgid "Зміна Закупівлі"
+msgstr "Changing the Tender"
+
+msgid "Замовник закупівлі може змінити і початковий запис, і відповідну документацію."
+msgstr "Procuring Entity can change both the primary record and associated documentation."
+
+msgid "Зміна початкового запису Закупівлі"
+msgstr "Changing primary Tender Record"
+
+msgid "Зміна існуючих документів"
+msgstr "Changing existing documents"
+
+msgid "Завантаження додаткових документів"
+msgstr "Uploading additional documents"
+
+msgid "Приклад запиту:"
+msgstr "Example request:"
+
+msgid "Замовник може завантажити нові версії документів закупівлі. Всі типи запитів, які підтримуються, ви можете побачити в секції :ref:`upload`."
+msgstr "Procuring Entity can upload new versions of the tender documentation. You can see supported request types in :ref:`upload` section."
+
+msgid "Так само як :ref:`procuring-uploading-docs`."
+msgstr "The same as :ref:`procuring-uploading-docs`."
+
+msgid "Реєстрація Закупівлі складається зі створення початкового запису та завантаження документації."
+msgstr "Tender registration consists of primary record creation and documentation uploading."
+
+msgid "Отримана відповідь міститиме URL створеної закупівлі у заголовку відповіді `Location` та у ``data.id`` тіла."
+msgstr "The produced response will contain URL of the created tender in Location header of response, and in ``data.id`` of body."
+
+msgid "Вся документація закупівлі повинна бути завантажена такими запитами, по одному запиту на документ. Всі типи запитів, які підтримуються, ви можете побачити в секції :ref:`upload`."
+msgstr "All tender documentation should be uploaded with the following request - one request per document. You can see supported request types in :ref:`upload` section."
+
+msgid "Отримана відповідь міститиме URL створеної закупівлі у заголовку відповіді `Location` та у ``data.id`` тіла."
+msgstr "The response produced will have URL of the tender uploaded document in Location header of response and in ``data.id`` of body."
+
+msgid "Замовник може змінити властивості Закупівлі за таким запитом. Інформація для зміни повинна міститися у вмісті повідомлення."
+msgstr "Procuring Entity can change the Tender properties with the following request. Data to change should be in payload of the message."
+

@@ -1,78 +1,75 @@
 .. _centralized_procurements:
 
 
-Centralized procurements
+Централізовані закупівлі
 ========================
 
 
-Creating plan procurement
+Створення плану закупівлі
 -------------------------
 
-Buyer creates a plan. He should specify himself in `buyers` list and point at one of the central procurement organizations in `procuringEntity` field:
+Покупець створює план. Він повинен вказати себе в списку покупців `buyers` і вказати на одну з центральних закупівельних організацій у полі `procuringEntity`:
 
 .. http:example:: http/create-plan.http
    :code:
 
 
-Creating approve milestone
---------------------------
+Створення об’єкту відповіді
+---------------------------
 
-As central procurement organization sees itself as `procuringEntity` of a plan,
-it can post milestones to this plan:
+Коли центральна організація є `procuringEntity` плану, вона може додати відповідь до цього плану:
 
     .. http:example:: http/post-plan-milestone.http
        :code:
 
-Only if the access token from the response is provided, the milestone can be changed later:
+Тільки якщо надається токен доступу, відповідь можна змінити:
 
     .. http:example:: http/patch-plan-milestone.http
        :code:
 
 .. note::
-    The fields you can update depend on current milestone status:
-       - `dueDate` can only be updated at `scheduled` milestone status
-       - `description` - either at `scheduled` or `met`
+    Поля, які можна оновити, залежать від поточного статусу об’єкту:
+       - `dueDate` можна оновити лише у статусі `scheduled`
+       - `description` - у `scheduled` та `met`
 
-Posting documents is also require the milestone access token (as well as changing documents using PATCH/PUT methods):
+Публікація документів також вимагає токен доступу (як і зміна документів за допомогою методів PATCH / PUT):
 
     .. http:example:: http/post-plan-milestone-document.http
        :code:
 
 
-Creating tender
----------------
+Створення закупівлі
+-------------------
 
-The central procurement organization creates an aggregated tender in `draft` status
-and specifies all the buyer organizations using `buyers` list of :ref:`PlanOrganization`:
+Центральна закупівельна організація створює агрегований тендер у статусі `draft` і вказує всіх покупців, використовуючи `buyers` список об’єктів :ref:`PlanOrganization`:
 
 .. http:example:: http/create-tender.http
    :code:
 
 
-Connecting plans to the tender
-------------------------------
+Зв’язування планів з тендером
+-----------------------------
 
-The central procurement organization connects the plan to the tender.
-If there are many plans, they should be connected one by one.
+Центральна організація закупівель зв’язує план з тендером. Якщо є більш ніж один план, вони повинні бути з'єднані один за одним.
 
 
 .. http:example:: http/post-tender-plans.http
     :code:
 
 
-As a result the plan is moved to "complete" status
+У результаті план переміщається у статус “complete”
 
 .. http:example:: http/plan-complete.http
     :code:
 
 
-The tender `plans` field contains all the plan ids
+Поле `plans` тендеру містить всі ідентифікатори планів
 
 .. http:example:: http/tender-get.http
     :code:
 
 
-Aggregate contracts
--------------------
+Агреговані контракти
+--------------------
 
-All operations with aggregated contracts moved to :ref:`base-contracting`
+Усі операції над агрегованими контрактами перенесені до :ref:`base-contracting`

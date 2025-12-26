@@ -1,183 +1,180 @@
 
 
-Claim/Complaint Retrieval
-=========================
+Отримання інформації по вимогах/скаргах
+=======================================
 
-Tender Qualification Claim/Complaint Retrieval
-----------------------------------------------
+Отримання інформації по вимогах/скаргах на кваліфікацію
+-------------------------------------------------------
 
-You can list all Tender Qualification Claims/Complaints:
+Ви можете отримати список всіх вимог/скарг на кваліфікацію:
 
 .. http:example:: http/complaints/qualification-complaints-list.http
    :code:
 
-And check individual complaint:
+І перевірити окрему скаргу:
 
 .. http:example:: http/complaints/qualification-complaint.http
    :code:
 
-Complaint Submission
-====================
+Подання скарги
+==============
 
-If tender qualification is favoriting certain supplier, or in any other viable case, participants can submit Tender Qualification Complaint.
+Якщо кваліфікація сприятлива лише для одного постачальника або при будь-якому іншому серйозному порушенні, учасники можуть подати скаргу на кваліфікацію.
 
-Tender Qualification Complaint Submission
------------------------------------------
+Подання скарги на кваліфікацію
+------------------------------
 
-At first create a complaint. Send POST request with bidder's access token.
+Спочатку створіть скаргу. В POST запиті потрібно передати токен доступу одного з учасників, який вже подав пропозицію.
 
 .. http:example:: http/complaints/qualification-complaint-submission.http
    :code:
 
-When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint.
-Objections can be added or edited while complaint is in the status `draft`.
-For more details, see :ref:`tender complaint objections <complaint-objections>`.
+При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections). Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`. Детальніше дивитися: :ref:`Заперечення до скарг <complaint-objections>`
 
-This step is optional. Upload documents:
+Цей крок не обов'язковий.Завантажте документи:
 
 .. http:example:: http/complaints/qualification-complaint-submission-upload.http
    :code:
 
-Submit tender qualification complaint:
+Подайте скаргу на кваліфікацію:
 
 .. http:example:: http/complaints/qualification-complaint-complaint.http
    :code:
 
 
-Complaint Posts
+Запит до скарги
 ===============
 
-Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint.
+Для скарги у статусах 'pending' та 'accepted' орган оскарження має можливість додати запит на уточнення до скарги.
 
-Tender Qualification Complaint Posts (with complaint owner)
-------------------------------------------------------------
+Запит до скарги на кваліфікацію (до скаржника)
+----------------------------------------------
 
-Reviewer can submit a post to complaint owner:
+Орган оскарження може надати запит до скаржника:
 
 .. http:example:: http/complaints/qualification-complaint-post-reviewer-complaint-owner.http
    :code:
 
-Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/qualification-complaint-post-complaint-owner.http
    :code:
 
-Tender Qualification Complaint Posts (with tender owner)
----------------------------------------------------------
+Запит до скарги на кваліфікацію (до замовника)
+----------------------------------------------
 
-Reviewer can submit a post to tender owner:
+Орган оскарження може надати запит до замовника:
 
 .. http:example:: http/complaints/qualification-complaint-post-reviewer-tender-owner.http
    :code:
 
-Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:
+Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/qualification-complaint-post-tender-owner.http
    :code:
 
-Tender Qualification Complaint Posts Documents
-------------------------------------------------
+Подання документів до запиту до скарги на кваліфікацію
+------------------------------------------------------
 
-Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post.
+Документи до запиту до скарги мають бути додані до самої скарги з вказаними полями `documentOf: post` та `relatedItem` ідентифікатором самого запиту.
 
-Documents for post could be added only during complaint is in `pending` or `accepted` status.
+Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted`.
 
-Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:
+Тільки автор запиту до скарги може додавати документ, який посилається на його запит. Спробуємо додати документи до запиту від замовника, від імені іншого автора (скаржника):
 
 .. http:example:: http/complaints/qualification-complaint-post-documents-forbidden.http
    :code:
 
-Let's add documents by tender owner:
+Додамо документи від імені замовника до його запиту:
 
 .. http:example:: http/complaints/qualification-complaint-post-documents-tender-owner.http
    :code:
 
 
-Complaint Appeals
-==================
+Iнформація про оскарження скарги в суді
+=======================================
 
-Once complaint is in `invalid`, `satisfied`, `declined` or `resolved` status tender owner or complaint author can submit an appeal for complaint.
+Для скарги у статусах `invalid`, `satisfied`, `declined` та `resolved` власник тендеру або автор скарги мають можливість додати інформацію про оскарження скарги в суді.
 
-For more details, see :ref:`tender complaint appeals <complaint-appeals>`.
+Детальніше дивитися: :ref:`Iнформація про оскарження скарги в суді <complaint-appeals>`
 
-Complaint Explanations
-======================
+Пояснення до скарги
+===================
 
-An explanation of a complaint is a certain textual information and, if necessary, an attached file/files related to a certain complaint and can be used by the AMCU commission during its consideration.
-Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them.
+Пояснення до скарги - це певна текстова інформація та за потреби прикріплений файл/файли, що відносяться до певної скарги та можуть бути використані комісією АМКУ при її розгляді. Пояснення до скарги подаються суб'єктами з власної ініціативи, без запиту АМКУ. АМКУ не буде відповідати на такі пояснення, а лише розглядатиме їх.
 
-Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation.
+Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги.
 
-Each explanation must be related to one of the objections of the complaint  (`complaints:objections`).
+Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`).
 
-Complaint owner or tender owner can submit an explanation via `posts`:
+Скаржник, що подав скаргу, або замовник закупівлі можуть додати пояснення до скарги за допомогою функціоналу `posts`:
 
 .. http:example:: http/complaints/qualification-complaint-post-explanation.http
    :code:
 
-The field `recipient` is forbidden for explanation post:
+Поле `recipient` заборонено для пояснень:
 
 .. http:example:: http/complaints/qualification-complaint-post-explanation-invalid.http
    :code:
 
-It is forbidden to answer an explanation can submit by setting explanation's post `id` as `relatedPost`:
+Заборонено надавати відповідь до пояснення, передавши поле `id` запиту у полі `relatedPost`:
 
 .. http:example:: http/complaints/qualification-complaint-post-explanation-answer-forbidden.http
    :code:
 
 
-Complaint Resolution
-====================
+Вирішення скарги
+================
 
-Rejecting Tender Qualification Complaint
-----------------------------------------
+Відхилення скарги на кваліфікацію
+---------------------------------
 
 .. http:example:: http/complaints/qualification-complaint-reject.http
    :code:
 
 
-Accepting Tender Qualification Complaint
-----------------------------------------
+Прийняття скарги на кваліфікацію
+--------------------------------
 
 .. http:example:: http/complaints/qualification-complaint-accept.http
    :code:
 
 
-Submitting Tender Qualification Complaint Resolution
-----------------------------------------------------
+Подання рішення по скарзі на кваліфікацію
+-----------------------------------------
 
-The Complaint Review Body uploads the resolution document:
+Орган оскарження завантажує документ з рішенням:
 
 .. http:example:: http/complaints/qualification-complaint-resolution-upload.http
    :code:
 
-And either resolves complaint:
+Яке або вирішує скаргу:
 
 .. http:example:: http/complaints/qualification-complaint-resolve.http
    :code:
 
-Or declines it:
+Або відхиляє скаргу:
 
 .. http:example:: http/complaints/qualification-complaint-decline.http
    :code:
 
-Submitting Resolution Confirmation
-----------------------------------
+Подання вирішення скарги
+------------------------
 
 .. http:example:: http/complaints/qualification-complaint-resolved.http
    :code:
 
-Cancelling Tender Qualification Complaint
-=========================================
+Відміна скарги на кваліфікацію
+==============================
 
-Cancelling draft complaint by Complainant
------------------------------------------
+Відміна чернетки скарги скаржником
+----------------------------------
 
 .. http:example:: http/complaints/qualification-complaint-mistaken.http
    :code:
 
-Cancelling accepted complaint by Reviewer
------------------------------------------
+Відміна прийнятої скарги рецензентом
+------------------------------------
 
 .. http:example:: http/complaints/qualification-complaint-accepted-stopped.http
    :code:

@@ -1,67 +1,65 @@
-Questions
+Звернення
 =========
 
 Framework
 ---------
 
-Let's take a look at activated framework:
+Візьмемо активований фреймворк:
 
 .. http:example:: http/questions/get-framework.http
    :code:
 
-Enquiries
+Звернення
 ---------
 
-The participant has the opportunity to contact the administrator through the electronic procurement system regarding the review of the requirements for the participant, specified in the announcement of qualification for the electronic catalog within ten working days from the day of its publication.
+У учасника є можливість звернутися до адміністратора (ЦЗО) через електронну систему закупівель щодо перегляду вимог до учасника, зазначених в оголошенні про проведення кваліфікації до електронного каталогу, протягом десяти робочих днів з дня його оприлюднення.
 
-During enquiry period, interested parties can ask questions:
+Під час `enquiryPeriod` зацікавлені сторони можуть дозапитувати інформацію у замовника:
 
 .. http:example:: http/questions/ask-question.http
    :code:
 
-All appeals for clarifications and appeals for the elimination of violations are automatically published in the electronic procurement system without identification of the person who addressed the customer.
+Усі звернення за роз’ясненнями та звернення щодо усунення порушення автоматично оприлюднюються в електронній системі закупівель без ідентифікації особи, яка звернулася до замовника.
 
-Author of question will be hashed with his `identifier.id` plus `access token` of the framework.
-This gives us a possibility to determine that at the framework level a certain number of questions came from the same author.
+Інформація про автора звернення буде захешована, використовуючи його ЕДРПОУ та `access token` фреймворку. Це робиться для того, щоб можна було визначити, що на рівні фреймворку певна кількість питань надходить від одного й того ж автора.
 
-Let's look at asked question:
+Подивимося, як виглядає звернення:
 
 .. http:example:: http/questions/get-question.http
    :code:
 
-Procuring entity can answer them:
+Замовник може на них відповісти:
 
 .. http:example:: http/questions/answer-question.http
    :code:
 
-It is allowed to answer the question during the whole `enquiryPeriod` and between `enquiryPeriod.endDate` and `enquiryPeriod.clarificationUntil`.
-In case procuring entity is answering question after `enquiryPeriod.clarificationUntil`, the error will be raised:
+Надавати замовникам відповіді на questions дозволено протягом всього `enquiryPeriod`, а також до `enquiryPeriod.clarificationsUntil`. У випадку, якщо замовник надасть відповідь після закінчення `enquiryPeriod.clarificationUntil`, буде помилка:
 
 .. http:example:: http/questions/answer-question-after-clarifications-until.http
    :code:
 
-Only procuring entity has permission to answer the questions:
+Тільки замовник має право відповідати на звернення:
 
 .. http:example:: http/questions/answer-question-invalid.http
    :code:
 
-To retrieve the questions list:
+Можна отримати список запитань:
 
 .. http:example:: http/questions/list-questions.http
    :code:
 
-To retrieve the individual answer:
+та окрему відповідь:
 
 .. http:example:: http/questions/get-answer.http
    :code:
 
-The presence of a question does not block the transition of the qualification announcement to the next status.
+Наявність звернення не блокує перехід оголошення про кваліфікацію у наступний статус.
 
-The presence or absence of an answer to the question does not block the transition of the qualification announcement to the next status.
+Наявність або відсутність відповіді на звернення не блокує перехід оголошення про кваліфікацію у наступний статус.
 
-The period during which the participant can apply to the administrator through the electronic procurement system to review the requirements for the participant: the date of publication of the announcement + 10 working days.
+Період, протягом якого Учасник може звернутися до адміністратора (ЦЗО) через електронну систему закупівель щодо перегляду вимог до учасника: дата оприлюднення оголошення + 10 робочих днів.
 
-It is forbidden to ask or answer question outside the enquiry period:
+Не можна створювати або редагувати звернення за межами `enquiryPeriod`:
 
 .. http:example:: http/questions/ask-question-invalid.http
    :code:

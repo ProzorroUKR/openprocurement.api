@@ -1,47 +1,46 @@
 
 .. _bid_requirement_response_operation:
 
-Bid Requirement response
-------------------------
+Відповідь на вимогу в пропозиції
+--------------------------------
 
-Bid requirement response - an object that shows that the user meets the tender owner requirements, and can participate in the procurement.
+Відповідь на вимогу - об'єкт який показує що користувач відповідає вимогам замовника, та може приймати участь у закупівлі.
 
-Any action on the requirement response in the bid can be performed only by the bid owner.
+Будь-які дії над відповіддю на вимогу в пропозиції може виконувати лише власник пропозиції.
 
-Requirement response basic operation
-------------------------------------
+Базові операції над відповідями на вимоги
+-----------------------------------------
 
-Requirement response data :ref:`scheme<RequirementResponse>`
+Схема даних :ref:`відповіді на вимогу<RequirementResponse>`
 
-Create Bid Requirement Response
-"""""""""""""""""""""""""""""""
+Створення відповіді на вимогу
+"""""""""""""""""""""""""""""
 
-You can create few requirement responses in one request with complete set of data.
+Можливо створити декілька відповідей на вимоги за один запит з повним набором даних.
 
 .. http:example:: http/criteria/create-requirement-response.http
    :code:
 
-You can create requirement responses in one request with bid patch.
+Можливо також створювати відповіді на вимоги одним запитом через оновлення пропозиції.
 
 .. http:example:: http/criteria/add-requirement-response-from-bid.http
    :code:
 
 
-Update Bid Requirement Response
-"""""""""""""""""""""""""""""""
+Оновлення відповіді на вимогу
+"""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/update-requirement-response.http
    :code:
 
-You can patch requirement responses in one request with bid patch,
-and you must send data about other requirement responses or this other requirement responses will be deleted.
+Можливо редагувати відповіді на вимоги один запитом через оновлення пропозиції, але потрібно передавати також всі відповіді на вимоги, або віповіді, які не будуть передані - будуть видалені.
 
 .. http:example:: http/criteria/patch-requirement-response-from-bid.http
    :code:
 
 
-Get Bid Requirement Response
-""""""""""""""""""""""""""""
+Отримання інформації по відповіді на вимогу
+"""""""""""""""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/requirement-response-list.http
    :code:
@@ -50,38 +49,38 @@ Get Bid Requirement Response
    :code:
 
 
-Delete Requirement Response
-"""""""""""""""""""""""""""
+Видалення відповіді на вимогу
+"""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/delete-requirement-response.http
    :code:
 
-You can delete requirement responses in one request with bid patch, not send this requirement response data.
+Можливо видалити відповіді на вимогу за один запит через оновлення пропозиції, просто не передавши ці відповіді.
 
 .. http:example:: http/criteria/update-requirement-response.http
    :code:
 
 
-Evidence basic operation
-------------------------
+Базові операції над доказами
+----------------------------
 
-Evidence data :ref:`scheme<evidence>`
+Схема даних :ref:`доказу<evidence>`
 
-Create Requirement Response Evidence
-""""""""""""""""""""""""""""""""""""
+Створення Доказу
+""""""""""""""""
 
 .. http:example:: http/criteria/create-requirement-response-evidence.http
    :code:
 
 
-Update Requirement Response Evidence
-""""""""""""""""""""""""""""""""""""
+Оновлення доказу
+""""""""""""""""
 
 .. http:example:: http/criteria/update-requirement-response-evidence.http
    :code:
 
-Get Requirement Response Evidence
-"""""""""""""""""""""""""""""""""
+Отримання інформації по доказу
+""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/requirement-response-evidence-list.http
    :code:
@@ -89,23 +88,22 @@ Get Requirement Response Evidence
 .. http:example:: http/criteria/requirement-response-evidence.http
    :code:
 
-Delete Requirement Response Evidence
-""""""""""""""""""""""""""""""""""""
+Видалення доказу
+""""""""""""""""
 
 .. http:example:: http/criteria/delete-requirement-response-evidence.http
    :code:
 
 .. _bid_activation_with_requirement_responses:
 
-Bid activation
---------------
+Активація пропозіції
+--------------------
 
-When you update bid to `active`/`pending` status or PATCH bid in these statuses, the validation is triggered
-that checks the compliance of the responses and criteria requirements.
+Коли пропозіція переходить до стаусу `active`/`pending` або оновлюється в цих статусах, спрацьoвує валідація яка перевіряє відповідність відповідей та критерій.
 
-Responses are necessary only for criteria that have at least one requirement in status "active".
+Відповіді обов'язкові лише для критеріїв, які мають хоча б одину вимогу у статусі `active`.
 
-Error when bid doesn't have response for one of criteria:
+Помилка, коли в пропозіції немає відповідей на один з критеріїв:
 
 .. http:example:: http/criteria/requirement-response-basic-data-1.http
    :code:
@@ -113,7 +111,7 @@ Error when bid doesn't have response for one of criteria:
 .. http:example:: http/criteria/bid-activation-not-all-criteria.http
    :code:
 
-Error when bid have responses for few requirement groups inside one criteria:
+Помилка, коли в пропозиції існують відповіді на декілька груп вимог в рамках одного критерію:
 
 .. http:example:: http/criteria/requirement-response-basic-data-2.http
    :code:
@@ -122,7 +120,7 @@ Error when bid have responses for few requirement groups inside one criteria:
    :code:
 
 
-Error when bid doesn't have all responses for all requirements inside requirement group:
+Помилка, коли пропозиція не містить відповіді хоча б на одну вимогу в рамках однієї групи вимог:
 
 .. http:example:: http/criteria/requirement-response-basic-data-3.http
    :code:
@@ -131,7 +129,7 @@ Error when bid doesn't have all responses for all requirements inside requiremen
    :code:
 
 
-Workflow Requirement Response
------------------------------
+Схема роботи відповідей на вимогу
+---------------------------------
 
-Workflow of requirement response you could see here: :ref:`Criteria Workflow <criteria_workflow>`
+Схему роботу ви можете побачити тут: :ref:`Схема роботи <criteria_workflow>`

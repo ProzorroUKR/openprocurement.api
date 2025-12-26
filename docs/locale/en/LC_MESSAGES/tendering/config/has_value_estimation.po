@@ -1,0 +1,166 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "hasValueEstimation"
+msgstr ""
+
+msgid "Поле `hasValueEstimation` є булевим полем, яке вказує на наявність або відсутнісь у закупівлі очікуваної вартості."
+msgstr "Field `hasValueEstimation` is a boolean field that determines the presence or absence of the expected cost in the procurement."
+
+msgid "Можливі значення для поля `hasValueEstimation` залежать від поля `procurementMethodType`:"
+msgstr "Possible values for `hasValueEstimation` field depends on `procurementMethodType` field:"
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "true"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "competitiveOrdering.long"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
+msgid "true / false"
+msgstr ""
+
+msgid "hasValueEstimation встановлено у `true`"
+msgstr "hasValueEstimation is `true`"
+
+msgid "`hasValueEstimation:true` означає, що закупівля має очікувану вартість."
+msgstr "`hasValueEstimation:true` means that procurement has the expected cost."
+
+msgid "Створимо тендер з `hasValueEstimation` встановленим в `true`"
+msgstr "Let's create a tender with `hasValueEstimation` set to `true`:"
+
+msgid "Тендер з очікуваною вартістю успішно створено."
+msgstr "Tender created successfully with expected cost of the procurement."
+
+msgid "І додамо в нього лоти:"
+msgstr "And add lot to it:"
+
+msgid "Лот з очікуваною вартістю успішно додано."
+msgstr "Lot added successfully with expected lot value."
+
+msgid "Подивимося на тендер:"
+msgstr "Let's look at the tender:"
+
+msgid "hasValueEstimation встановлено у `false`"
+msgstr "hasValueEstimation is `false`"
+
+msgid "`hasValueEstimation:false` означає, що закупівля не має очікуваної вартості. Система буде відхиляти очікувану вартість тендера, якщо вона буде передана."
+msgstr "`hasValueEstimation:false` means that procurement does not have the expected cost. System will reject tender expected cost, if it will be passed."
+
+msgid "Створимо тендер з `hasValueEstimation` встановленим в `false` і вказаною очікуваною вартістю:"
+msgstr "Let's create a tender with `hasValueEstimation` set to `false` and expected cost:"
+
+msgid "В цьому випадку ми побачимо помилку, що створення тендеру з очікуваною вартістю заборонено."
+msgstr "In that case we will have error, tender with expected cost value is forbidden."
+
+msgid "Створимо тендер з `hasValueEstimation` встановленим в `false` без очікуваної вартості:"
+msgstr "Let's create a tender with `hasValueEstimation` set to `false` without expected cost:"
+
+msgid "Таке ж правило для лотів. Система буде відхиляти очікувану вартість лота, якщо вона буде вказана."
+msgstr "The same rule for lots. System will reject lots with expected cost."
+
+msgid "Додамо лот з очікуваною вартістю:"
+msgstr "Let's add a lot with expected cost:"
+
+msgid "В цьому випадку ми побачимо помилку, що створення лоту з очікуваною вартістю заборонено."
+msgstr "In that case we will have error, lots with expected cost value is forbidden."
+
+msgid "Додамо лот без очікуваної вартості:"
+msgstr "Let's add a lot without expected cost:"
+
+msgid "Подивимося на тендер:"
+msgstr "And finally look at the tender:"
+
+msgid "Різниця"
+msgstr "Difference"
+
+msgid "Різниця для тендерів з `hasValueEstimation` встановленим у `false` порівняно з `true` є"
+msgstr "Differences for tender with `hasValueEstimation` set to `false` comparing to `true` are:"
+
+msgid "тендери не мають поля ``value:amount``, передавати його заборонено"
+msgstr "tenders have no ``value:amount``, it's forbidden"
+
+msgid "лоти не мають поля ``value:amount``, передавати його заборонено"
+msgstr "lots have no ``value:amount``, it's also forbidden"
+

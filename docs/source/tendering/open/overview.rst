@@ -1,44 +1,33 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement Open procedure is plugin to `Open Procurement API` software.  It requires 0.12 version
-of `openprocurement.api package
-<https://github.com/ProzorroUKR/openprocurement.api>`_ to work.
+The Open Procurement Open procedure is plugin to `Open Procurement API` software.  It requires 0.12 version of `openprocurement.api package <https://github.com/ProzorroUKR/openprocurement.api>`_ to work.
 
-REST-ful interface to plugin is in line with core software design principles. 
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення. 
 
 
-Main responsibilities
----------------------
-
-Open Procurement Open procedure is dedicated to Open Tender procedure for
-Ukrainian above threshold procurements.  The code for that type of procedure
-is `aboveThreshold`.
-
-Business logic
+Основні задачі
 --------------
 
-The approach to Open procedure is different from core Open Procurement API
-procedure (that is used for below threshold procurements) mainly in
-:ref:`stage that precedes <open_tendering>` auction.  Differences are in the
-following aspects:
+Open процедура, що описана в цій документації, стосується процедури українських відкритих торгів для понадпорогових закупівель. Код процедури такого типу - `aboveThreshold`.
 
-1) Tender can be edited through the whole tenderPeriod (while in
-   active.tendering state), but any edit that is close to
-   tenderPeriod.endDate would require extending that period.
+Бізнес логіка
+-------------
 
-2) There is no dedicated active.enguiries state. 
+Підхід до відкритих торгів відрізняється від основної процедури Open Procurement API (яка використовується для допорогових закупівель) в основному :ref:`етапом закупівлі, що проходить перед <open_tendering>` аукціоном. Детально різницю описано в пунктах нижче:
 
-3) Questions can be asked within enquiryPeriod that is based upon
-   tenderPeriod.
+1) Закупівлю можна редагувати протягом усього періоду подання пропозицій - tenderPeriod (коли тендер знаходиться в стані active.tendering). Але коли редагування відбувається занадто близько до завершення періоду подання пропозицій - tenderPeriod.endDate, потрібно продовжити цей період.
 
-4) Answers are provided during the whole tenderPeriod.
+2) Немає стану active.enguiries. 
 
-5) Bids can be placed during the whole tenderPeriod.
+3) Звернення можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod.
 
-6) Placed bids are invalidated after any tender condition editing and have to
-   be re-confirmed.
+4) Відповіді можна давати протягом усього періоду подання пропозицій - tenderPeriod.
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`open_tutorial`.
+5) Пропозиції можна подавати протягом усього періоду подання пропозицій - tenderPeriod.
+
+6) Подані пропозиції стають недійсними після будь-якої зміни закупівлі замовником, тому їх потрібно підтвердити знову.
+
+Наступні кроки
+--------------
+Можливо вам буде цікаво прочитати :ref:`open_tutorial`.

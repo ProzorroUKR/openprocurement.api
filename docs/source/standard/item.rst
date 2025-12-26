@@ -8,46 +8,34 @@
 Item
 ====
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :description:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    |ocdsDescription|
-    A description of the goods, services to be provided.
+    |ocdsDescription| Опис товарів та послуг, які повинні бути надані.
 
 :classification:
     :ref:`Classification`
 
-    |ocdsDescription|
-    The primary classification for the item. See the
-    itemClassificationScheme to identify preferred classification lists,
-    including CPV and GSIN.
+    |ocdsDescription| Початкова класифікація елемента. Дивіться у itemClassificationScheme, щоб визначити бажані списки класифікації, включно з CPV та GSIN.
 
-    It is mandatory for `classification.scheme` to be `CPV` or `ДК021`. The
-    `classification.id` should be valid CPV or ДК021 code.
+    Класифікація `classification.scheme` обов’язково повинна бути `CPV` або `ДК021`. `classification.id` повинно бути дійсним CPV або ДК021 кодом.
 
 :additionalClassifications:
-    List of :ref:`Classification` objects
+    Список об’єктів :ref:`Classification`
 
-    |ocdsDescription|
-    An array of additional classifications for the item. See the
-    itemClassificationScheme codelist for common options to use in OCDS. 
-    This may also be used to present codes from an internal classification
-    scheme.
+    |ocdsDescription| Масив додаткових класифікацій для елемента. Дивіться у список кодів itemClassificationScheme, щоб використати поширені варіанти в OCDS. Також можна використовувати для представлення кодів з внутрішньої схеми класифікації.
 
-    Item wich classification.id starts with 336 and contains
-    additionalClassification objects have to contain no more than one
-    additionalClassifications with scheme=INN.
+    Об’єкт, у якого classification.id починаєтсья з 336, може мати не більше одного додаткового класифікатора зі scheme=INN.
 
-    Item with classification.id=33600000-6 have to contain exactly one
-    additionalClassifications with scheme=INN.
+    Об’єкт з classification.id=33600000-6 повинен обов’язково мати один додатковий класифікатор зі scheme=INN.
 
-    It is mandatory to have at least one item with `ДКПП` as `scheme`.
+    Обов’язково мати хоча б один елемент з `ДКПП` у стрічці `scheme`.
 
     Validation depends on:
 
@@ -57,61 +45,58 @@ Schema
 :unit:
     :ref:`Unit`
 
-    |ocdsDescription| 
-    Description of the unit which the good comes in e.g.  hours, kilograms. 
-    Made up of a unit name, and the value of a single unit.
+    |ocdsDescription| Опис одиниці виміру товару, наприклад, години, кілограми. Складається з назви одиниці та значення однієї одиниці.
 
 :quantity:
-    integer
+    ціле число
 
-    |ocdsDescription|
-    The number of units required
+    |ocdsDescription| Кількість необхідних одиниць.
 
-    Absent in :ref:`esco`
+    Відсутня в :ref:`esco`
 
 :deliveryDate:
     :ref:`Period`
 
-    Period during which the item should be delivered.
+    Період, протягом якого елемент повинен бути доставлений.
 
-    Absent in :ref:`esco`
+    Відсутня в :ref:`esco`
 
 :deliveryAddress:
     :ref:`Address`
 
-    Address, where the item should be delivered.
+    Адреса місця, куди елемент повинен бути доставлений.
 
 :deliveryLocation:
-    dictionary
+    словник
 
-    Geographical coordinates of delivery location. Element consist of the following items:
+    Географічні координати місця доставки. Складається з таких компонентів:
 
     :latitude:
-        string, required
+        рядок, обов’язковий
     :longitude:
-        string, required
+        рядок, обов’язковий
     :elevation:
-        string, optional, usually not used
+        рядок, не обов’язково, переважно не використовується
 
-    `deliveryLocation` usually takes precedence over `deliveryAddress` if both are present.
+    `deliveryLocation` зазвичай має вищий пріоритет ніж `deliveryAddress`, якщо вони обидва вказані.
 
 :relatedLot:
-    string
+    рядок
 
-    Id of related :ref:`lot`.
+    ID пов’язаного :ref:`lot`.
 
-Additionally in :ref:`pricequotation`:
+Додатково у :ref:`pricequotation`:
 
 :profile:
-    string, required
+    рядок, обов’язковий
 
-    ID for related profile
+    ID пов’язаного профілю
 
 
-Additional fields for :ref:`base-contracting`:
+Додатково у :ref:`base-contracting`:
 
 :attributes:
-    List of :ref:`ItemAttribute`
+    Список з :ref:`ItemAttribute`
 
 
 .. _BidItem:
@@ -119,42 +104,38 @@ Additional fields for :ref:`base-contracting`:
 BidItem
 =======
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :description:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    |ocdsDescription|
-    A description of the goods, services to be provided.
+    |ocdsDescription| Опис товарів та послуг, які повинні бути надані.
 
 :unit:
     :ref:`Unit`
 
-    |ocdsDescription|
-    Description of the unit which the good comes in e.g.  hours, kilograms.
-    Made up of a unit name, and the value of a single unit.
+    |ocdsDescription| Опис одиниці виміру товару, наприклад, години, кілограми. Складається з назви одиниці та значення однієї одиниці.
 
 :quantity:
-    integer
+    ціле число
 
-    |ocdsDescription|
-    The number of units required
+    |ocdsDescription| Кількість необхідних одиниць.
 
 :relatedLot:
-    string
+    рядок
 
-    Id of related :ref:`lot`.
+    ID пов’язаного :ref:`lot`.
 
 Additionally in :ref:`belowthreshold` :ref:`openua`, :ref:`openeu`, :ref:`open`, :ref:`competitiveordering`, :ref:`esco` and :ref:`competitivedialogue`: :ref:`pricequotation`:
 
 :product:
-    string, required
+    рядок, обов’язковий
 
-    ID for related product from catalogue
+    ID пов’язаного продукту з маркету
 
 
 .. _Classification:
@@ -162,62 +143,52 @@ Additionally in :ref:`belowthreshold` :ref:`openua`, :ref:`openeu`, :ref:`open`,
 Classification
 ==============
 
-Schema
-------
+Схема
+-----
 
 :scheme:
-    string
+    рядок
 
-    |ocdsDescription|
-    A classification should be drawn from an existing scheme or list of
-    codes.  This field is used to indicate the scheme/codelist from which
-    the classification is drawn.  For line item classifications, this value
-    should represent a known Item Classification Scheme wherever possible.
+    |ocdsDescription| Класифікація повинна бути взята з існуючої схеми або списку кодів. Це поле використовується, щоб вказати схему/список кодів, з яких буде братись класифікація. Для класифікацій лінійних елементів це значення повинно представляти відому Схему Класифікації Елементів, де це можливо.
 
 :id:
-    string
+    рядок
 
-    |ocdsDescription|
-    The classification code drawn from the selected scheme.
+    |ocdsDescription| Код класифікації взятий з вибраної схеми.
 
 :description:
-    string
+    рядок
 
-    |ocdsDescription|
-    A textual description or title for the code.
+    |ocdsDescription| Текстовий опис або назва коду.
 
 :uri:
     uri
 
-    |ocdsDescription|
-    A URI to identify the code. In the event individual URIs are not
-    available for items in the identifier scheme this value should be left
-    blank.
+    |ocdsDescription| URI для ідентифікації коду. Якщо індивідуальні URI не доступні для елементів у схемі ідентифікації це значення треба залишити пустим.
 
-    Regular expression for this field: ``^https?://\S+$``
+    Регулярний вираз для цього поля: ``^https?://\S+$``
 
 .. _Unit:
 
 Unit
 ====
 
-Schema
-------
+Схема
+-----
 
 :code:
-    string, required
+    рядок, обов’язковий
 
-    UN/CEFACT Recommendation 20 unit code.
+    Код одиниці в UN/CEFACT Recommendation 20.
 
 :name:
-    string
+    рядок
 
-    |ocdsDescription|
-    Name of the unit
+    |ocdsDescription| Назва одиниці
 
-Additionally in :ref:`limited`:
+Додатково у :ref:`limited`:
 
 :value:
     :ref:`Value`
 
-    Price per unit.
+    Ціна за одиницю.

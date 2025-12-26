@@ -3,7 +3,7 @@
 Close Framework Agreement - ``closeFrameworkAgreement``
 =======================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

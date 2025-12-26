@@ -6,11 +6,11 @@
 Implementation
 ==============
 
-Schema
-------
+Схема
+-----
 
 
 :transactions:
-    List of :ref:`Transaction` objects
+    список з :ref:`Transaction` об'єктів
 
-    A list of the spending transactions made against this contract
+    Перелік витрат, здійснених за цим контрактом

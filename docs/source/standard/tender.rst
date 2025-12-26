@@ -7,82 +7,80 @@
 Tender
 ======
 
-Schema
-------
+Схема
+-----
 
 :title:
-   string, multilingual
+   рядок, багатомовний
 
-   Additionally in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (stage2_EU):
+   Додатково у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (stage2_EU):
 
-       uk (title) and en (title_en) translations are required
+       uk (title) та en (title_en) переклади обов’язкові
 
-   The name of the tender, displayed in listings. You can include the following items:
+   Назва тендера, яка відображається у списках. Можна включити такі елементи:
 
-   * tender code (in procuring organization management system)
-   * periodicity of the tender (annual, quarterly, etc.)
-   * item being procured
-   * some other info
+   * код закупівлі (у системі управління організації-замовника)
+   * періодичність закупівлі (щороку, щокварталу, і т.д.)
+   * елемент, що закуповується
+   * інша інформація
 
 :description:
-   string, multilingual
+   рядок, багатомовний
 
-   Detailed description of tender.
+   Детальний опис закупівлі.
 
 :tenderID:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   The tender identifier to refer tender to in "paper" documentation. 
+   Ідентифікатор закупівлі, щоб знайти закупівлю у "паперовій" документації. 
 
-   |ocdsDescription|
-   TenderID should always be the same as the OCID. It is included to make the flattened data structure more convenient.
+   |ocdsDescription| Ідентифікатор тендера `TenderID` повинен завжди співпадати з OCID. Його включають, щоб зробити структуру даних більш зручною.
 
 :procuringEntity:
-   :ref:`ProcuringEntity`, required
+   :ref:`ProcuringEntity`, обов’язково
 
-   Organization conducting the tender.
+   Замовник (організація, що проводить закупівлю).
 
-   |ocdsDescription|
-   The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+   |ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи.
 
-   If :code:`procurementMethodType` is :code:`negotiation` or :code:`negotiation.quick`, then possible values of :code:`ProcuringEntity.kind` are limited to :code:`['general', 'special', 'defense']`.
+   Якщо :code:`procurementMethodType` має значення :code:`negotiation` або :code:`negotiation.quick`, тоді можливі значення :code:`ProcuringEntity.kind` обмежені :code:`[‘general’, ‘special’, ‘defense’]`.
 
 :procurementMethod:
-    string, auto-generated
+    рядок, генерується автоматично
 
     :`limited`:
 
-    Procurement Method of the Tender.
+    Метод закупівлі тендеру.
 
-    Only in :ref:`limited`
+    Тільки у :ref:`limited`
 
 
 :procurementMethodType:
-    string
+    рядок
 
     :`belowThreshold`:
-        below threshold procedure indentifier
+        ідентифікатор до порогової процедури
 
     :`aboveThresholdUA`:
-        above threshold procedure indentifier
+        ідентифікатор вище порогової процедури
 
     :`aboveThresholdEU`:
-        above threshold EU procedure indentifier
+        вище порогового ідентифікатора процедури з публікацією на англійській мові
 
     :`aboveThresholdUA.defense`:
-        defense procedure indentifier
+        ідентифікатор процедури для потреб оборони
 
     :`reporting`:
-        reporting procedure indentifier
+        ідентифікатор процедури звітування
 
     :`negotiation`:
-        negotiation procedure indentifier
+        ідентифікатор процедури переговорів
 
     :`negotiation.quick`:
-        negotiation.quick procedure indentifier
+        ідентифікатор процедури швидких переговорів
 
     :`esco`:
-        esco procedure indentifier
+        ідентифікатор процедури esco
 
     :`closeFrameworkAgreementUA`:
         closeframeworkagreementua procedure indentifier
@@ -91,13 +89,13 @@ Schema
         closeframeworkagreementua.selection procedure indentifier
 
 
-    Possible values in :ref:`competitivedialogue` stage1:
+    Можливі значення у :ref:`competitivedialogue` stage1:
 
     :`competitiveDialogueEU`:
 
     :`competitiveDialogueUA`:
 
-    Possible values in :ref:`competitivedialogue` stage2:
+    Можливі значення у :ref:`competitivedialogue` stage2:
 
     :`competitiveDialogueEU.stage2`:
 
@@ -105,161 +103,152 @@ Schema
 
 
 :value:
-   :ref:`value`, required
+   :ref:`value`, обов’язково
 
-   Total available tender budget. Bids greater then ``value`` will be rejected.
+   Повний доступний бюджет закупівлі. Пропозиції, що більші за ``value`` будуть відхилені.
 
-   |ocdsDescription|
-   The total estimated value of the procurement.
+   |ocdsDescription| Загальна кошторисна вартість закупівлі.
 
-   Absent in :ref:`esco`
+   Відсутнє в :ref:`esco`
 
 :guarantee:
     :ref:`BasicValue`
 
-    Bid guarantee
+    Забезпечення тендерної пропозиції
 
 :date:
-    string, :ref:`date`, auto-generated
-    
+    рядок, :ref:`date`, генерується автоматично
+                                           
 :items:
-   list of :ref:`item` objects, required
+   список об’єктів :ref:`item`, обов’язково
 
-   List that contains single item being procured. 
+   Список, який містить елемент, що закуповується. 
 
-   |ocdsDescription|
-   The goods and services to be purchased, broken into line items wherever possible. Items should not be duplicated, but a quantity of 2 specified instead.
+   |ocdsDescription| Товари та послуги, що будуть закуплені, поділені на спискові елементи, де це можливо. Елементи не повинні дублюватись, замість цього вкажіть кількість 2.
 
 :features:
-   list of :ref:`Feature` objects
+   список об’єктів :ref:`Feature`
 
-   Features of tender.
+   Властивості закупівлі.
 
 :documents:
-   List of :ref:`document` objects
+   Список об’єктів :ref:`document`
  
-   |ocdsDescription|
-   All documents and attachments related to the tender.
+   |ocdsDescription| Всі документи та додатки пов’язані із закупівлею.
 
 :questions:
-   List of :ref:`question` objects
+   Список об’єктів :ref:`question`
 
-   Questions to ``procuringEntity`` and answers to them.
+   Звернення до замовника ``procuringEntity`` і відповіді на них.
 
 :complaints:
-   |   List of :ref:`Complaint` and :ref:`Claim` objects.
-   |   List of :ref:`Claim` objects for  `belowThreshold`.
+   |   Список об’єктів :ref:`Complaint` та :ref:`Claim`.
+   |   Список об’єктів :ref:`Claim` для `belowThreshold`.
 
-   Complaints and Claims to tender conditions and their resolutions.
+   Скарги та Вимоги на умови закупівлі та їх вирішення.
 
 :bids:
-   List of :ref:`bid` objects
+   Список об’єктів :ref:`bid`
 
-   A list of all bids placed in the tender with information about tenderers, their proposal and other qualification documentation.
+   Список усіх пропозицій зроблених під час закупівлі разом із інформацією про учасників закупівлі, їхні пропозиції та інша кваліфікаційна документація.
 
-   |ocdsDescription|
-   A list of all the companies who entered submissions for the tender.
+   |ocdsDescription| Список усіх компаній, які подали заявки для участі у закупівлі.
 
 :minimalStep:
-   :ref:`value`, required for non-lots tenders with auction
+   :ref:`value`, обов'язково для безлотових закупівель з аукціоном
 
-   The minimal step of auction (reduction). Validation rules:
+   Мінімальний крок аукціону (редукціону). Правила валідації:
 
-   * `amount` should be less then `Tender.value.amount` and between 0.5% and 3% of `Tender.value.amount`
-   * `currency` should either be absent or match `Tender.value.currency`
-   * `valueAddedTaxIncluded` should either be absent or match `Tender.value.valueAddedTaxIncluded`
+   * Значення `amount` повинно бути меншим за `Tender.value.amount` та в межах 0.5%-3% від `Tender.value.amount`
+   * Значення `currency` повинно бути або відсутнім, або співпадати з `Tender.value.currency`
+   * Значення `valueAddedTaxIncluded` повинно бути або відсутнім, або співпадати з `Tender.value.valueAddedTaxIncluded`
 
-    Absent in :ref:`esco`
+    Відсутнє в :ref:`esco`
 
 :awards:
-    List of :ref:`award` objects
+    Список об’єктів :ref:`award`
 
-    All qualifications (disqualifications and awards).
+    Усі  кваліфікації (дискваліфікації та переможці).
 
 :agreements:
-    List of :ref:`Agreement <agreement_cfaua>` objects
+    Список об’єктів :ref:`Agreement <agreement_cfaua>`
 
-    Only in :ref:`cfaua` or :ref:`cfaselectionua`
+    Тільки у :ref:`cfaua` та :ref:`cfaselectionua`
 
 :agreement:
-    :ref:`Agreement <agreement_pricequotation>` object
+    Об’єкт :ref:`Agreement <agreement_pricequotation>`
 
-    Only in :ref:`pricequotation`
+    Тільки у :ref:`pricequotation`
 
 :contracts:
-    List of :ref:`Contract` objects
+    Список об’єктів :ref:`Contract`
 
 :enquiryPeriod:
-   :ref:`period`, required
+   :ref:`period`, обов’язково
 
-   Period when questions are allowed. At least `endDate` has to be provided.
+   Період, коли дозволено подавати звернення. Повинна бути вказана хоча б `endDate` дата.
 
-   |ocdsDescription|
-   The period during which enquiries may be made and will be answered.
+   |ocdsDescription| Період, коли можна зробити уточнення та отримати відповіді на них.
 
-   Additionally in :ref:`defense`, :ref:`openua` and :ref:`openeu`:
-      `enquiryPeriod` has additional fields:
+   Додатково у :ref:`defense`, :ref:`openua` та :ref:`openeu`:
+      `enquiryPeriod` має додаткові поля:
 
-      * ``invalidationDate`` - date of the last tender conditions modification, when all bid proposals became `invalid`. Broker (eMall) should take action in order for bids to be activated or re-submitted.
+      * ``invalidationDate`` - це дата останньої зміни умов, коли всі подані цінові пропозиції перейшли в стан `invalid`. Відповідно необхідні дії майданчика щодо активації чи переподачі пропозицій.
 
-      * ``clarificationsUntil`` - time before which answers for questions and claims can be provided. After this time the procedure will be blocked.
+      * ``clarificationsUntil``- час, до якого можна давати відповіді на зернення та вимоги, після якого блокується процедура.
 
 :dateModified:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :owner:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :tenderPeriod:
-   :ref:`period`, required
+   :ref:`period`, обов’язково
 
-   Period when bids can be submitted. At least `endDate` has to be provided.
+   Період, коли подаються пропозиції. Повинна бути вказана хоча б `endDate` дата.
 
-   |ocdsDescription|
-   The period when the tender is open for submissions. The end date is the closing date for tender submissions.
+   |ocdsDescription| Період, коли закупівля відкрита для подачі пропозицій. Кінцева дата - це дата, коли перестають прийматись пропозиції.
 
 :qualificationPeriod:
-   :ref:`period`, read-only
+   :ref:`period`,  лише для читання
 
-   This period consists of qualification and 10 days of stand still period.
+   Цей період включає кваліфікацію та 10-денний період блокування.
 
-   |ocdsDescription|
-   Period when qualification can be submitted with stand still period.
+   |ocdsDescription| Період, коли кваліфікацію можна подати з періодом блокування.
 
-   Only in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`
+   Тільки у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`
 
 :auctionPeriod:
-   :ref:`period`, read-only
+   :ref:`period`,  лише для читання
 
-   Period when Auction is conducted.
+   Період, коли проводиться аукціон.
 
 :auctionUrl:
-    url
+    url-адреса
 
-    A web address for view auction.
+    Веб-адреса для перегляду аукціону.
 
 :awardPeriod:
-   :ref:`period`, read-only
+   :ref:`period`,  лише для читання
 
-   Awarding process period.
+   Період, коли відбувається визначення переможця.
 
-   |ocdsDescription|
-   The date or period on which an award is anticipated to be made.
+   |ocdsDescription| Дата або період, коли очікується визначення переможця.
 
 :mainProcurementCategory:
-   string
+   рядок
 
    :`goods`:
-       The primary object of this tender involves physical or electronic goods or supplies.
+       Основним предметом закупівлі являється продукція, об’єкти будь-якого виду та призначення, у тому числі сировина, вироби, устаткування, технології, предмети у твердому, рідкому і газоподібному стані, а також послуги, пов’язані з постачанням таких товарів, якщо вартість таких послуг не перевищує вартості самих товарів.
 
    :`services`:
-       The primary object of this tender involves construction, repair, rehabilitation, demolition, restoration or maintenance of some asset or infrastructure.
+       Основним предметом закупівлі являється проектування, будівництво нових, розширення, реконструкція, капітальний ремонт та реставрація існуючих об’єктів і споруд виробничого і невиробничого призначення, роботи з нормування в будівництві, геологорозвідувальні роботи, технічне переоснащення діючих підприємств та супровідні роботам послуги, у тому числі геодезичні роботи, буріння, сейсмічні дослідження, аеро- і супутникова фотозйомка та інші послуги, що включаються до кошторисної вартості робіт, якщо вартість таких послуг не перевищує вартості самих робіт.
 
    :`works`:
-       The primary object of this tender involves professional services of some form, generally contracted for on the basis of measurable outputs or deliverables.
+       Основним предметом закупівлі являється будь-який предмет закупівлі, крім товарів і робіт, зокрема транспортні послуги, освоєння технологій, наукові дослідження, науково-дослідні або дослідно-конструкторські розробки, медичне та побутове обслуговування, лізинг, найм (оренда), а також фінансові та консультаційні послуги, поточний ремонт.
 
-   |ocdsDescription|
-   The primary category describing the main object of the tender.
+   |ocdsDescription| Основна категорія, що описує основний об'єкт тендеру.
 
    Validation depends on:
 
@@ -267,107 +256,107 @@ Schema
 
 :milestones:
 
-   List of :ref:`Milestone` objects.
+   Список об’єктів :ref:`Milestone`.
 
 
 :plans:
-   List of :ref:`PlanRelation` objects.
+   Список об’єктів :ref:`PlanRelation`.
 
 :status:
-   string
+   рядок
 
    :`active.enquiries`:
-       Enquiries period (enquiries)
+       Період уточнень (уточнення)
    :`active.tendering`:
-       Tendering period (tendering)
+       Очікування пропозицій (пропозиції)
    :`active.auction`:
-       Auction period (auction)
+       Період аукціону (аукціон)
    :`active.qualification`:
-       Winner qualification (qualification)
+       Кваліфікація переможця (кваліфікація)
    :`active.awarded`:
-       Standstill period (standstill)
+       Пропозиції розглянуто (розглянуто)
    :`unsuccessful`:
-       Unsuccessful tender (unsuccessful)
+       Закупівля не відбулась (не відбулась)
    :`complete`:
-       Complete tender (complete)
+       Завершена закупівля (завершена)
    :`cancelled`:
-       Cancelled tender (cancelled)
+       Відмінена закупівля (відмінена)
 
-   Status of the Tender.
+   Статус Закупівлі.
 
-   Different in :ref:`defense`, :ref:`openua` and and :ref:`competitivedialogue` (UA):
+   Відмінності у :ref:`defense`, :ref:`openua` та :ref:`competitivedialogue` (UA):
 
    :`active.tendering`:
-       Tendering period (tendering)
+       Очікування пропозицій (пропозиції)
    :`active.auction`:
-       Auction period (auction)
+       Період аукціону (аукціон)
    :`active.qualification`:
-       Winner qualification (qualification)
+       Кваліфікація переможця (кваліфікація)
    :`active.awarded`:
-       Standstill period (standstill)
+       Пропозиції розглянуто (розглянуто)
    :`unsuccessful`:
-       Unsuccessful tender (unsuccessful)
+       Закупівля не відбулась (не відбулась)
    :`complete`:
-       Complete tender (complete)
+       Завершена закупівля (завершена)
    :`cancelled`:
-       Cancelled tender (cancelled)
+       Відмінена закупівля (відмінена)
 
-   Different in :ref:`limited`:
+   Відмінності у :ref:`limited`:
 
    :`active`:
-       Active tender (default)
+       Активний тендер (за умовчанням)
    :`complete`:
-       Completed tender
+       Завершений тендер
    :`cancelled`:
-       Cancelled tender
+       Відмінена закупівля (відмінена)
    :`unsuccessful`:
-       Unsuccessful tender
+       Закупівля не відбулась (не відбулась)
 
-   Different in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (EU):
+   Відмінності в :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):
 
    :`active.tendering`:
-       Enquiries and tendering period
+       Період подання пропозицій та уточнень
    :`active.pre-qualification`:
-       Pre qulification period
+       Перед-кваліфікаційний період
    :`active.pre-qualification.stand-still`:
-       Standstill before auction
+       Блокування перед аукціоном
    :`active.auction`:
-       Auction period (auction)
+       Період аукціону (аукціон)
    :`active.qualification`:
-       Winner qualification (qualification)
+       Кваліфікація переможця (кваліфікація)
    :`active.awarded`:
-       Standstill period (standstill)
+       Пропозиції розглянуто (розглянуто)
    :`complete`:
-       Complete tender (complete)
+       Завершена закупівля (завершена)
    :`unsuccessful`:
-       Unsuccessful tender (unsuccessful)
+       Закупівля не відбулась (не відбулась)
    :`cancelled`:
-       Cancelled tender (cancelled)
+       Відмінена закупівля (відмінена)
 
-   Different in :ref:`cfaua`:
+   Відмінності у :ref:`cfaua`:
 
    :`active.tendering`:
-       Tendering period (tendering)
+       Очікування пропозицій (пропозиції)
    :`active.pre-qualification`:
-       Pre-qualification period (pre-qualification)
+       Пре-кваліфікаційній період (пре-кваліфікація)
    :`active.pre-qualification.stand-still`:
-       Standstill before auction
+       Блокування перед аукціоном
    :`active.auction`:
-       Auction period (auction)
+       Період аукціону (аукціон)
    :`active.qualification`:
-       Winners qualification (qualification)
+       Кваліфікація переможця (кваліфікація)
    :`active.qualification.stand-still`:
        Standstill before contract signing
    :`active.awarded`:
-       Standstill period (standstill)
+       Пропозиції розглянуто (розглянуто)
    :`unsuccessful`:
-       Unsuccessful tender (unsuccessful)
+       Закупівля не відбулась (не відбулась)
    :`complete`:
-       Complete tender (complete)
+       Завершена закупівля (завершена)
    :`cancelled`:
-       Cancelled tender (cancelled)
+       Відмінена закупівля (відмінена)
 
-   Different in :ref:`cfaselectionua`:
+   Відмінності :ref:`cfaselectionua`:
 
    :`draft`:
        ProcuringEntity creats draft of procedure, where should be specified procurementMethodType - closeFrameworkAgreementSelectionUA, procurementMethod - selective. One lot structure procedure. Also ProcuringEntity should specify agreement:id, items, title, description and features, if needed.
@@ -376,151 +365,145 @@ Schema
    :`draft.unsuccessful`:
        Terminal status. System moves procedure to 'draft.unsuccessful' status if at least one of the checks is failed.
    :`active.enquiries`:
-       Enquiries period (enquiries)
+       Період уточнень (уточнення)
    :`active.tendering`:
-       Tendering period (tendering)
+       Очікування пропозицій (пропозиції)
    :`active.auction`:
-       Auction period (auction)
+       Період аукціону (аукціон)
    :`active.qualification`:
-       Winner qualification (qualification)
+       Кваліфікація переможця (кваліфікація)
    :`active.awarded`:
-       Standstill period (standstill)
+       Пропозиції розглянуто (розглянуто)
    :`unsuccessful`:
-       Unsuccessful tender (unsuccessful)
+       Закупівля не відбулась (не відбулась)
    :`complete`:
-       Complete tender (complete)
+       Завершена закупівля (завершена)
    :`cancelled`:
-       Cancelled tender (cancelled)
+       Відмінена закупівля (відмінена)
 
 :lots:
-   List of :ref:`lot` objects.
+   Список об’єктів :ref:`lot`.
 
-   Contains all tender lots.
+   Містить всі лоти закупівлі.
 
-   In :ref:`limited`: Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`.
+   У :ref:`limited`: Тільки якщо `tender.procurementMethodType` є` negotiation` або `negotiation.quick`.
 
 :agreementDuration:
-   string, required
+   рядок, обов’язковий
 
    Duration of agreement. Maximum 4 years. Format ISO8601 (PnYnMnDTnHnMnS)
 
-   Only in :ref:`cfaua`
+   Тільки у :ref:`cfaua`
 
 :maxAwardsCount:
-   string, required
+   рядок, обов’язковий
 
    Maximum number of required Awards
 
-   Only in :ref:`cfaua`
+   Тільки у :ref:`cfaua`
 
 :qualifications:
 
-   List of :ref:`Qualification` objects.
+   Список об’єктів :ref:`Qualification`.
 
-   Contains all tender qualifications.
+   Містить усі тендерні кваліфікації.
 
-   Only in :ref:`openeu` and :ref:`competitivedialogue`
+   Тільки у :ref:`openeu` та :ref:`competitivedialogue`
 
 :cancellations:
-   List of :ref:`cancellation` objects.
+   Список об’єктів :ref:`cancellation`.
 
-   Contains 1 object with `active` status in case of cancelled Tender.
+   Містить 1 об’єкт зі статусом `active` на випадок, якщо закупівлю буде відмінено.
 
-   The :ref:`cancellation` object describes the reason of tender cancellation contains accompanying
-   documents  if any.
+   Об’єкт :ref:`cancellation` описує причину скасування закупівлі та надає відповідні документи, якщо такі є.
 
 :funders:
-  List of :ref:`organization` objects.
+  Список об’єктів :ref:`organization`.
 
-  Optional field.
+  Необов’язкове поле.
 
-  The funder is an entity providing money or finance for contracting process.
+  Фінансування - суб’єкт, який надає грошові кошти або фінансує процес укладення договору.
 
 :buyers:
-   List of :ref:`Buyer` objects, required at least 1 object in case of the central procurement kind
+   Перелік об'єктів :ref:`Buyer`, необхідний принаймні 1 об'єкт у випадку центральних закупівель
 
-   Identifications of the subjects in whose interests the purchase is made
+   Cуб’єкт(и) в інтересах якого(их) проводиться закупівля
 
 :revisions:
-   List of :ref:`revision` objects, auto-generated
+   Список об’єктів :ref:`revision`, генерується автоматично, лише для читання
 
-   Historical changes to Tender object properties.
+   Зміни властивостей об’єктів Закупівлі.
 
 
 :cause:
-    **Deprecated (use CauseDetails instead)**
+    **Deprecated (нове поле CauseDetails)**
 
-    string, required for **negotiation** and **negotiation.quick** procedures.
-    Also it is required for **reporting** procedure if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:
+    рядок, обов’язковий для **переговорної** процедури та **переговорної процедури за нагальною потребою**. Також обов’язковий для **звітів**, які мають пусте поле `procurementMethodRationale`, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:
 
-        * 100 000 for goods,
-        * 200 000 for services,
-        * 1 500 000 for works.
+        * 100 000 для товарів,
+        * 200 000 для послуг,
+        * 1 500 000 для робіт.
 
-    Causes for using reporting, negotiation or negotiation.quick procedures. For more details see Article 35 of the Law of Ukraine "On Public Procurement"
+    Підстава для використання звітів, “звичайної” переговорної процедури або переговорної процедури за нагальною потребою. Для більш детальної інформації дивіться статтю 35 Закону України \”Про публічні закупівлі\”.
 
-    Possible values in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries.
+    Можливі значення зберігаються у довіднику `підстави <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_.
 
 
-    Only in :ref:`limited`
+    Тільки у :ref:`limited`
 
 :causeDescription:
-    **Deprecated (use CauseDetails instead)**
+    **Deprecated (нове поле CauseDetails)**
 
-    string, multilingual
+    рядок, багатомовний
 
-    Reasoning behind usage of reporting, negotiation or negotiation.quick procedures.
+    Обгрунтування використання звітів, \”звичайної\” переговорної процедури або переговорної процедури за нагальною потребою.
 
-    Only in :ref:`limited`
+    Тільки у :ref:`limited`
 
 :causeDetails:
-    :ref:`CauseDetails`, required
+    :ref:`CauseDetails`, обов’язково
 
-    Causes and reasoning for tenders.
+    Підстави та обгрунтування використання звітів.
 
-    Only in :ref:`limited`
+    Тільки у :ref:`limited`
 
 :stage2TenderID:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
    The tender identifier on second stage
 
-   Only in :ref:`competitivedialogue` stage1
+   Тільки у :ref:`competitivedialogue` stage1
 
 :shortlistedFirms:
 
-    List of :ref:`Firm` objects, auto-generated, read-only
+    Список об’єктів :ref:`Firm`, генерується автоматично, лише для читання
 
-    |ocdsDescription|
-    List of firm which can register bid on tender
+    |ocdsDescription| Список усіх компаній, які подали заявки для участі у закупівлі
 
-    Only in :ref:`competitivedialogue` stage2
+    Тільки у :ref:`competitivedialogue` stage2
 
 :targets:
-    List of :ref:`Metric`
+    Список об’єктів :ref:`Feature`
 
-    Only in :ref:`openua`
+    Тільки для :ref:`cfaua`
 
-    Could be created only if ``status`` of tender is ``draft``.
-    Modifying is possible if ``status`` of tender in [``draft``, ``active.tendering``].
-    In all other statuses creating and modifying is forbidden.
+    Може бути створений лише у якщо ``status`` тендера ``draft``. Модифікація можлива, тільки за умови, що ``status`` тендера один з [``draft``, ``active.tendering``]. В усіх інших випадках створення та модифікація заборонена.
 
-Additionally in :ref:`esco`:
+Додатково у :ref:`esco`:
 
 :NBUdiscountRate:
-    float, required
+    float, обов’язково
 
     NBU Discount Rate as of tender notice publication date. Possible values: from 0 to 0.99 (from 0% to 99% respectively), with 3-digit precision after comma (e.g. 00.000). NBUdiscountRate change is interpreted as a change of tender conditions.
 
 
 :minimalStepPercentage:
-   :ref:`value`, Float, required for non-lots tenders with auction.
+   :ref:`value`, Float, обов'язково для безлотових закупівель з аукціоном.
 
-   Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid.
-   Possible values: from 0.005 to 0.03 (from 0.5% to 3%), with 3-digit precision after comma.
+   Minimum step increment of the energy service contract performance indicator during auction that is calculated from  participant’s bid. Possible values: from 0.005 to 0.03 (from 0.5% to 3%), with 3-digit precision after comma.
 
 :fundingKind:
-    string, required.
+    рядок, обов’язковий.
 
     Tender funding source. Possible values:
         * budget -  Budget funding.
@@ -529,47 +512,46 @@ Additionally in :ref:`esco`:
     Default value: other
 
 :yearlyPaymentsPercentageRange:
-    float, required for non-lots tenders with auction
+    float, обов'язково для безлотових закупівель з аукціоном
 
-    Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma.
-    Possible values:
+    Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma. Possible values:
 
         * from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other.
         * from 0 to x, where x can vary from 0 to 0.8 (from 0% to x% respectively) if tender:fundingKind:budget.
 
 :noticePublicationDate:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    Read-only, autogenerated.
+    Генерується автоматично, лише для читання.
 
     Date of tender announcement.
 
 :contractChangeRationaleTypes:
     object
 
-    Read-only, autogenerated.
+    Генерується автоматично, лише для читання.
 
-    The dictionary of possible rationaleTypes for contract.
+    Довідник з можливими причинами внесення змін до договору.
 
-    Could be one of:
+    Можливі значення:
 
-        * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
-        * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
+        * `rationaleTypes для LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
+        * `rationaleTypes для DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
 
 
 .. important::
 
-    The Tender dates should be sequential:
+    Дати закупівлі повинні бути послідовними:
 
-        * Current time
+        * Поточний час
         * `enquiryPeriod.startDate`
         * `enquiryPeriod.endDate`
         * `tenderPeriod.startDate`
         * `tenderPeriod.endDate`
 
 
-Tender workflow :ref:`limited`
---------------------------------
+Робочий процес у :ref:`limited`
+-------------------------------
 
 .. graphviz::
 
@@ -581,4 +563,4 @@ Tender workflow :ref:`limited`
          A -> C;
     }
 
-\* marks initial state
+\* позначає початковий стан

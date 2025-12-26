@@ -1,62 +1,51 @@
-Overview
-========
+Огляд
+=====
 
-The Defense open tender is plugin to `Open Procurement API` software.
+Процедура відкритих закупівель для оборонних цілей (оборонні закупівлі) - це плагін до `Open Procurement API`.
 
-REST-ful interface to plugin is in line with core software design principles. 
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення. 
 
 
-Main responsibilities
----------------------
-
-The Defense open tender is a procedure dedicated to Ukrainian above threshold procurements for defense purposes.  The code for this type of procedure
-is `aboveThresholdUA.defense`.
-
-Business logic
+Основні задачі
 --------------
 
-The approach to Defense open tender is different from core Open Procurement API
-procedure (that is used for below threshold procurements) mainly in
-:ref:`stage that precedes <defense_tendering>` auction.  Differences are in the
-following aspects:
+Відкриті торги (особливості оборони), або оборонні закупівлі, що описані в цій документації, стосуються процедури українських відкритих торгів для понадпорогових закупівель зі скороченими термінами, за якою будуть виконувати закупівлі для потреб АТО. Код процедури такого типу - `aboveThresholdUA.defense`.
 
-1) Tender can be edited through the whole tenderPeriod (while in
-   active.tendering state), but any edit that is close to
-   tenderPeriod.endDate would require extending that period.
+Бізнес логіка
+-------------
 
-2) There is no dedicated active.enguiries state. 
+Підхід до оборонних закупівель відрізняється від основної процедури Open Procurement API (яка використовується для допорогових закупівель) в основному :ref:`етапом закупівлі, що проходить перед <defense_tendering>` аукціоном. Детально різницю описано в пунктах нижче:
 
-3) Questions can be asked within enquiryPeriod that is based upon
-   tenderPeriod.
+1) Закупівлю можна редагувати протягом усього періоду подання пропозицій - tenderPeriod (коли тендер знаходиться в стані active.tendering). Але коли редагування відбувається занадто близько до завершення періоду подання пропозицій - tenderPeriod.endDate, потрібно продовжити цей період.
 
-4) Answers are provided during the whole tenderPeriod.
+2) Немає стану active.enguiries. 
 
-5) Bids can be placed during the whole tenderPeriod.
+3) Звернення можна задавати в період уточнень - enquiryPeriod, що відбувається в період подання пропозицій - tenderPeriod.
 
-6) Placed bids are invalidated after any tender condition editing and have to
-   be re-confirmed.
+4) Відповіді можна давати протягом усього періоду подання пропозицій - tenderPeriod.
+
+5) Пропозиції можна подавати протягом усього періоду подання пропозицій - tenderPeriod.
+
+6) Подані пропозиції стають недійсними після будь-якої зміни закупівлі замовником, тому їх потрібно підтвердити знову.
 
 
-Project status
+Стан проекту
+------------
+
+Цей проект активно розробляється і має пілотні встановлення.
+
+Репозиторій цього проекту є на GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openuadefense
+
+Повідомляйте про всі проблеми та поради через `issue tracker <https://github.com/ProzorroUKR/openprocurement.tender.openuadefense/issues>`_ (реєстрація на GitHub обов’язкова). Загальне обговорення відбувається через розсилку `Open Procurement General <https://groups.google.com/group/open-procurement-general>`_.
+
+Звіт про зміни
 --------------
-
-The project is in active development and has pilot installations.
-
-The source repository for this project is on GitHub: https://github.com/ProzorroUKR/openprocurement.tender.openuadefense
-
-You can leave feedback by raising a new issue on the `issue tracker
-<https://github.com/ProzorroUKR/openprocurement.tender.openuadefense/issues>`_ (GitHub
-registration necessary).
-
-Change log
-----------
 
 0.1
 ~~~
 
-Released: not released yet
+Випущено: ще ні
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`tutorial`, or the
-:ref:`reference`.
+Наступні кроки
+--------------
+Можливо вам буде цікаво прочитати :ref:`tutorial`, або :ref:`reference`.

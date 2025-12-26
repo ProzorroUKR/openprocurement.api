@@ -8,21 +8,21 @@
 ItemAttribute
 =============
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, required
+    рядок, обов’язковий
 
 :unit:
     :ref:`Unit`
 
 :values:
-    List of strings
+    Список рядків
 
-    The values should be from `requirement.expectedValues` field.
+    Значення мають бути зі списку `requirement.expectedValues`.
 
 :value:
     boolean/int/decimal
 
-    The value of attribute. The value must be of the type defined in the requirement.dataType field.
+    Значення відповіді на цю вимогу. Значення має бути типом, визначеним у полі requirement.dataType.

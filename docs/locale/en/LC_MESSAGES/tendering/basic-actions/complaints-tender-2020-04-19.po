@@ -1,0 +1,207 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-19 11:25+0300\n"
+"PO-Revision-Date: 2020-05-20 22:51+0300\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Отримання інформації про вимоги/скарги"
+msgstr "Claim/Complaint Retrieval"
+
+msgid "Отримання інформації про вимоги/скарги на умови закупівлі"
+msgstr "Tender Conditions Claim/Complaint Retrieval"
+
+msgid "Ви можете отримати список всіх вимог/скарг на умови закупівлі:"
+msgstr "You can list all Tender Conditions Claims/Complaints:"
+
+msgid "Або перевірити окрему скаргу чи вимогу:"
+msgstr "And check individual complaint or claim:"
+
+msgid "Подання скарги"
+msgstr "Complaint Submission"
+
+msgid "Якщо умови закупівлі сприятливі лише для одного постачальника або при будь-якому іншому серйозному порушенні, будь-який зареєстрований користувач може подати скаргу на умови закупівлі."
+msgstr "If tender conditions are favoriting particular supplier, or in any other viable case, any registered user can submit Tender Conditions Complaint."
+
+msgid "Подання скарги на умови закупівлі"
+msgstr "Tender Conditions Complaint Submission"
+
+msgid "Створіть чернетку скарги ``draft``:"
+msgstr "At first create a draft:"
+
+msgid "Цей крок не обов'язковий.Завантажте документи:"
+msgstr "This step is optional. Upload documents:"
+
+msgid "Подайте скаргу на умови закупівлі:"
+msgstr "Submit tender conditions complaint:"
+
+msgid "Заперечення до скарги"
+msgstr "Complaint Objections"
+
+msgid "При створенні скарги Користувач може додати одне або декілька Заперечень, що висуваються Скаржником в рамках скарги (objections):"
+msgstr "When creating a complaint, the User can add one or more Objections raised by the Complainant as part of the complaint:"
+
+msgid "Заперечення можуть бути додані або відредаговані, коли скарга знаходиться в статусі `draft`."
+msgstr "Objections can be added or edited while complaint is in the status `draft`."
+
+msgid "Для кожного Заперечення Скаржник обов'язково вказує одне або декілька Обгрунтуваннь (arguments). В іншому випадку буде помилка:"
+msgstr "For each Objection, the Complainant must indicate one or more arguments. In other case there error will be raised:"
+
+msgid "Для кожного Обгрунтування Скаржник може вказати один або декілька Доказів (evidences). Докази можуть бути пустими:"
+msgstr "For each Arguments, the Complainant can indicate one or more evidences. Evidences can be empty:"
+
+msgid "Під час додавання Доказу, Користувач має вказати id відносного документу. Цей документ має попередньо бути завантаженим до скарги. Додамо документ до скарги:"
+msgstr "During adding evidence, the User must indicate related document id. This document should be uploaded to complaint. Let's upload document to complaint:"
+
+msgid "Після цього Користувач може вказати relatedDocument в Доказі:"
+msgstr "After that User can indicate relatedDocument in evidence:"
+
+msgid "Також є можливість подати скаргу одним запитом одразу з завантаженим документом, який можна вказати в Доказі як `relatedDocument`:"
+msgstr "There is an opportunity to create complaint already with document which can be used as relatedDocument in evidences:"
+
+msgid "Для кожного Заперечення Скаржник обов'язково вказує одну або декілька Вимог (requestedRemedies). В іншому випадку буде помилка:"
+msgstr "For each Objection, the Complainant must specify one or more requestedRemedies. In other case there error will be raised:"
+
+msgid "Iнформація про оскарження скарги в суді"
+msgstr "Complaint Appeals"
+
+msgid "Після винесення рішення органом оскарження (АМКУ) по скарзі, замовник або учасник може оскаржити таке рішення в суді та опублікувати інформацію про це в системі:"
+msgstr "After the appeal body (AMCU) makes a decision on the complaint, the customer or participant may appeal such decision in court and publish information about it in the system:"
+
+msgid "Iнформація про оскарження скарги в суді може бути додана або відредагована, коли скарга знаходиться в одному зі статусів:"
+msgstr "Appeal can be added or edited while complaint is in the status:"
+
+msgid "`invalid`"
+msgstr ""
+
+msgid "`satisfied`"
+msgstr ""
+
+msgid "`declined`"
+msgstr ""
+
+msgid "`resolved`"
+msgstr ""
+
+msgid "Якщо інформація про оскарження скарги в суді буде додана на якомусь іншому статусі скарги, ми побачимо помилку:"
+msgstr "If appeal is added for complaint in another status, error will be raised:"
+
+msgid "До однієї скарги може бути опубліковано більше одного об’єкту `appeal` як учасниками так і замовником. Додамо ще одну апеляцію до скарги замовником:"
+msgstr "More than 1 appeal object can be published for one complaint by both participants and the customer. Let's add one more appeal by customer:"
+
+msgid "Після публікації інформації про оскарження скарги в суді (`appeal`) можна додати інформацію про відкриття провадження (`proceeding`)."
+msgstr "After `appeal` adding, the `proceeding` object can be added to the `appeal` object."
+
+msgid "Інформація про оскарження скарги в суді та інформація про впровадження - це окремі дії, які виконуються користувачем поступово та може бути здійснено з проміжком у часі:"
+msgstr "Information about the appeal and information about the proceeding are separate actions that are performed by the user gradually and can be performed with a gap in time:"
+
+msgid "До кожного об’єкту `appeal` може бути опубліковано лише один об’єкт `proceeding`:"
+msgstr "Only one `proceeding` object can be published to each appeal object:"
+
+msgid "Після додавання інформації про оскарження скарги в суді та інформації про впровадження, необхідно накласти підпис. Документ можна додати через окремий ендпоінт:"
+msgstr "After adding information about the appeal and information about the proceeding, appeal should be signed. Document can be added through next endpoints:"
+
+msgid "Подивимося на скаргу з опублікованою інформацією про оскарження скарги в суді:"
+msgstr "Let's look at complaint with appeals:"
+
+msgid "Запит до скарги"
+msgstr "Complaint Posts"
+
+msgid "Для скарги у статусах 'pending' та 'accepted' орган оскарження має можливість додати запит на уточнення до скарги."
+msgstr "Once complaint is in `pending` or `accepted` status reviewer can submit a post to complaint."
+
+msgid "Запит до скарги на умови закупівлі (до скаржника)"
+msgstr "Tender Conditions Complaint Posts (with complaint owner)"
+
+msgid "Орган оскарження може надати запит до скаржника:"
+msgstr "Reviewer can submit a post to complaint owner:"
+
+msgid "Скаржник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:"
+msgstr "Complaint owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
+
+msgid "Запит до скарги на умови закупівлі (до замовника)"
+msgstr "Tender Conditions Complaint Posts (with tender owner)"
+
+msgid "Орган оскарження може надати запит до замовника:"
+msgstr "Reviewer can submit a post to tender owner:"
+
+msgid "Замовник має можливість надати відповідь на запит органу оскарження передавши поле `id` запиту у полі `relatedPost`:"
+msgstr "Tender owner can submit a reply post to reviewer by setting reviewer's post `id` as `relatedPost`:"
+
+msgid "Подання документів до запиту до скарги на умови закупівлі"
+msgstr "Tender Conditions Complaint Posts Documents"
+
+msgid "Документи до запиту до скарги мають бути додані до самої скарги з вказаними полями `documentOf: post` та `relatedItem` ідентифікатором самого запиту."
+msgstr "Documents for posts should be added in complaint with `documentOf: post` and `relatedItem` id of current post."
+
+msgid "Документи до запиту до скарги можуть бути додані поки скарга має статус `pending` чи `accepted`."
+msgstr "Documents for post could be added only during complaint is in `pending` or `accepted` status."
+
+msgid "Тільки автор запиту до скарги може додавати документ, який посилається на його запит. Спробуємо додати документи до запиту від замовника, від імені іншого автора (скаржника):"
+msgstr "Only author of post can add documents for his post. Let's try to add documents for post created by tender owner using another author:"
+
+msgid "Додамо документи від імені замовника до його запиту:"
+msgstr "Let's add documents by tender owner:"
+
+msgid "Пояснення до скарги"
+msgstr "Complaint Explanations"
+
+msgid "Пояснення до скарги - це певна текстова інформація та за потреби прикріплений файл/файли, що відносяться до певної скарги та можуть бути використані комісією АМКУ при її розгляді. Пояснення до скарги подаються суб'єктами з власної ініціативи, без запиту АМКУ. АМКУ не буде відповідати на такі пояснення, а лише розглядатиме їх."
+msgstr "An explanation of a complaint is a certain textual information and, if necessary, an attached file/files related to a certain complaint and can be used by the AMCU commission during its consideration. Explanations to the complaint are submitted by subjects on their own initiative, without a request from AMCU. AMCU will not respond to such explanations, but will only consider them."
+
+msgid "Для скарги у статусах `pending` та `accepted` скаржник, що подав скаргу, або замовник закупівлі має можливість додати пояснення до скарги."
+msgstr "Once complaint is in `pending` or `accepted` status complaint owner or tender owner can submit a post to complaint as explanation."
+
+msgid "Кожне пояснення обов'язково повинно відноситись до одного із пунктів скарги (`complaints:objections`)."
+msgstr "Each explanation must be related to one of the objections of the complaint  (`complaints:objections`)."
+
+msgid "Скаржник, що подав скаргу, або замовник закупівлі можуть додати пояснення до скарги за допомогою функціоналу `posts`:"
+msgstr "Complaint owner or tender owner can submit an explanation via `posts`:"
+
+msgid "Поле `recipient` заборонено для пояснень:"
+msgstr "The field `recipient` is forbidden for explanation post:"
+
+msgid "Заборонено надавати відповідь до пояснення, передавши поле `id` запиту у полі `relatedPost`:"
+msgstr "It is forbidden to answer an explanation can submit by setting explanation's post `id` as `relatedPost`:"
+
+msgid "Вирішення скарги"
+msgstr "Complaint Resolution"
+
+msgid "Відхилення скарги на умови закупівлі"
+msgstr "Rejecting Tender Conditions Complaint"
+
+msgid "Прийняття скарги на умови закупівлі"
+msgstr "Accepting Tender Conditions Complaint"
+
+msgid "Подання рішення по скарзі на умови закупівлі"
+msgstr "Submitting Tender Conditions Complaint Resolution"
+
+msgid "Орган, що розглядає скарги, завантажує документ з рішенням:"
+msgstr "The Complaint Review Body uploads the resolution document:"
+
+msgid "Який або вирішує скаргу:"
+msgstr "And either resolves complaint:"
+
+msgid "Або відхиляє:"
+msgstr "Or declines it:"
+
+msgid "Подання підтведження вирішення скарги"
+msgstr "Submitting Resolution Confirmation"
+
+msgid "Відміна скарги на умови закупівлі"
+msgstr "Cancelling Tender Conditions Complaint"
+
+msgid "Відміна чернетки скарги скаржником"
+msgstr "Cancelling draft complaint by Complainant"
+
+msgid "Відміна прийнятої скарги рецензентом"
+msgstr "Cancelling accepted complaint by Reviewer"
+

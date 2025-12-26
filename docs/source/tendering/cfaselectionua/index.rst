@@ -1,9 +1,9 @@
 .. _cfaselectionua:
 
-Close Framework Agreement (Selection) procedure - ``closeFrameworkAgreementSelectionUA``
-========================================================================================
+Відбір для закупівлі за рамковою угодою - ``closeFrameworkAgreementSelectionUA``
+================================================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

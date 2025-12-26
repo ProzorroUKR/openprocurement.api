@@ -1,10 +1,10 @@
-Overview
-========
+Огляд
+=====
 
-The Open Procurement `Contracting` is plugin to `Open Procurement API` software.
+Open Procurement `Contracting` це плагін до `Open Procurement API`. Цей модуль призначений для реєстрації метаінформації та документів (бінарних файлів), які пов’язані з договором і генеруються при його підписанні, виконанні та завершенні.
 
-REST-ful interface to plugin is in line with core software design principles.
+REST-ful інтерфейс для плагіна відповідає основним принципам дизайну програмного забезпечення.
 
-Next steps
-----------
-You might find it helpful to look at the :ref:`contracting_tutorial`.
+Наступні кроки
+--------------
+Далі читайте :ref:`contracting_tutorial`.

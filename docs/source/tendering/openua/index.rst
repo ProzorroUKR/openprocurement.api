@@ -1,9 +1,9 @@
 .. _openua:
 
-Open procedure - ``aboveThresholdUA``
+Відкриті торги - ``aboveThresholdUA``
 =====================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

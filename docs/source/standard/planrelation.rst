@@ -7,12 +7,12 @@
 
 
 PlanRelation
-================
+============
 
 Schema
 ------
 
 :id:
-   string, auto-generated, read-only
+   рядок, генерується автоматично, лише для читання
 
-   ``id`` of the linked plan object. See :ref:`tender-from-plan`
+   ``id`` пов’язаного тендер об’єкта. Див :ref:`tender-from-plan`

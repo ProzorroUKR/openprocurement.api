@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-03-05 11:39+0200\n"
+"PO-Revision-Date: 2015-07-23 17:06+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.10.1\n"
+
+msgid "Звернення до замовника"
+msgstr "Asking Questions"
+
+msgid "Як подати звернення"
+msgstr "Submitting Questions"
+
+msgid "Будь-хто (але не анонімно) може подати звернення:"
+msgstr "Anybody (who provides their identity) can ask questions:"
+
+msgid "Як прочитати звернення"
+msgstr "Retrieving Questions"
+
+msgid "Усі звернення за роз’ясненнями та звернення щодо усунення порушення автоматично оприлюднюються в електронній системі закупівель без ідентифікації особи, яка звернулася до замовника."
+msgstr "All appeals for clarifications and appeals for the elimination of violations are automatically published in the electronic procurement system without identification of the person who addressed the customer."
+
+msgid "Інформація про автора звернення буде захешована, використовуючи його ЕДРПОУ та `access token` тендеру. Це робиться для того, щоб можна було визначити, що на рівні тендеру певна кількість питань надходить від одного й того ж автора."
+msgstr "Author of question will be hashed with his `identifier.id` plus `access token` of the procedure. This gives us a possibility to determine that at the tender level a certain number of questions came from the same author."
+
+msgid "Подивимося, як виглядає звернення:"
+msgstr "Let's look at asked question:"
+
+msgid "Відповіді від замовника"
+msgstr "Answering"
+
+msgid "Як надати відповідь"
+msgstr "Submitting Answers"
+
+msgid "Замовник закупівлі може відповісти на звернення:"
+msgstr "Tender creator can answer questions:"
+

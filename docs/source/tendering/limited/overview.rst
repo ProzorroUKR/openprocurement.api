@@ -1,35 +1,33 @@
 .. _limited_overview:
 
-Overview
-========
+Огляд
+=====
 
-The Open Procurement API is the only interface to Open Procurement database
-that is core unit of `Open Procurement`
-infrastructure.
+Open Procurement API це єдиний інтерфейс для бази даних Open Procurement, що є основним елементом інфраструктури `Open Procurement`.
 
-This documentation covers three procedures: 
+Ця документація стосується трьох процедур: 
 
- * ``reporting`` - reporting with no stand-still period 
- * ``negotiation`` - negotiation procedure with 10 day stand-still before contract registration
- * ``negotiation.quick`` - quick negotiation procedure with 5 day stand-still before contract registration
+ * ``reporting`` - процедура звітування про укладений договір (без періоду очікування скарг) 
+ * ``negotiation`` - переговорна процедура з десятиденним періодом очікування скарг перед реєстрацією угоди
+ * ``negotiation.quick`` - переговорна процедура за нагальною потребою з п’ятиденним періодом очікування скарг перед реєстрацією угоди
 
-Negotiation procedure
+Переговорна процедура
 ---------------------
 
-`Negotiation procurement procedure` is a procedure according to which Procuring entity concludes a purchase agreement with a participant after negotiations with one or more participants.
+`Переговорна процедура закупівлі` – це процедура відповідно до якої замовник укладає договір про закупівлю з учасником після проведення переговорів з одним або кількома учасниками.
 
-Negotiation procedure stages:
+Етапи переговорної процедури:
 
-1. Publication of the decision of intent to conduct negotiation procedure.
+1. Публікація рішення про намір провести переговорну процедуру.
 
-The procuring entity places the announcement of intention to conduct negotiation procedure, describing the following procurement details: procurement subject, expected value, expected delivery time.
+Замовник розміщує оголошення про намір проведення переговорної процедури, в якому зазначає інформацію про предмет закупівлі, очікувану вартість і очікуваний термін поставки.
 
-Interested suppliers can contact the Procuring entity if they want to participate in the negotiation procedure. The decision about negotiation participants is made by the Procuring entity.
+Зацікавлені учасники можуть звернутись до замовника з повідомленням про бажання прийняти участь в переговорній процедурі. Рішення про вибір учасників переговорів приймає Замовник.
 
-2. Awarding
+2. Визначення переможця
 
-According to the results of conducted negotiations with participant(s) Procuring entity publishes the announcement of intention to conclude an agreement with the winner of the procedure chosen in the course of negotiations.
+Замовник розміщує оголошення про намір укласти угоду з переможцем процедури, визначеним у ході переговорів.
 
-3. Conclusion of the Agreement
+3. Укладання угоди
 
-The Procuring entity publishes purchase agreement and accompanying documents.
+Замовник публікує угоду, укладену з переможцем, та інші документи.

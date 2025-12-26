@@ -1,74 +1,73 @@
 .. _min_bids_number:
 
 minBidsNumber
-====================
+=============
 
-Field `minBidsNumber` is a integer field that indicates required number of propositions for the success of procedure.
+Поле `minBidsNumber` є ціло-числовим полем, яке встановлює достатню кількість пропозицій для того, щоб процедура відбулась.
 
-Possible values for `minBidsNumber` field depends on `procurementMethodType` field:
+Можливі значення для поля `minBidsNumber` залежать від поля `procurementMethodType`:
 
 .. csv-table::
    :file: csv/min-bids-number-values.csv
    :header-rows: 1
 
-Configuration peculiarities
-----------------------------
+Особливості конфігурації
+------------------------
 
-* The field value must be in the range from 1 to 9
+* Значення поля має бути в діапазоні від 1 до 9
 
-Let's create a tender `belowThreshold` with configuration `minBidsNumber=0` and we will see error:
+Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=0` і побачимо помилку:
 
 .. http:example:: http/min-bids-number-invalid-value-1.http
    :code:
 
-Let's create a tender `belowThreshold` with configuration `minBidsNumber=10` and we will see error:
+Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=10` і побачимо помилку:
 
 .. http:example:: http/min-bids-number-invalid-value-2.http
    :code:
 
-* The value is indicated at the tender level. If the procedure contains >1 lots, then this value is applied equally to each lot:
+* Значення вказується на рівні тендеру. Якщо процедура містить >1 lots, то це значення застосовується однаково до кожного лоту:
 
 .. note::
-    Specify `minBidsNumber` at tender level `minBidsNumber=2` then `lot1=2; lot2=2; lotX=2`
+    Вказуємо `minBidsNumber` на рівні тендеру `minBidsNumber=2` тоді `lot1=2; lot2=2; lotX=2`
 
-* If at the end of the bid acceptance period, fewer bids than specified in the `minBidsNumber` field are submitted, the procedure automatically switches to the status `unsuccessful`, and the purchase is displayed as `The auction did not take place` on the site and on the official portal.
+* Якщо по закінченню періоду прийому пропозицій подано менше пропозицій, ніж вказано в полі `minBidsNumber`, то процедура автоматично переходить до статусу `unsuccessful`, а на майданчику та на офіційному порталі закупівля відображається, як `Торги не відбулися`.
 
-Let's create a tender `belowThreshold` with configuration `minBidsNumber=2` and 1 bid:
+Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=2` і одним бідом:
 
 .. http:example:: http/min-bids-number-tender-post-1.http
    :code:
 
-Let's look at tender after `active.tendering` is finished:
+Подивимося на тендер після закінчення `active.tendering` періоду:
 
 .. http:example:: http/min-bids-number-tender-unsuccessful.http
    :code:
 
-* If the value `hasAuction:true`, `minBidsNumber=1` is set and `bids=1` are submitted after the end of the bid acceptance period, the system automatically registers the participant as a potential winner, the purchase is transferred to the status `active.qualification`.
+* Якщо встановлено значення `hasAuction:true`, `minBidsNumber=1` та після завершення періоду прийому пропозицій подано `bids=1`, то система автоматично реєструє учасника як потенційного переможця, закупівля переводиться до статусу «Кваліфікація» `active.qualification`.
 
-Let's create a tender `belowThreshold` with configuration `minBidsNumber=1` and 1 bid:
+Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=1` і одним бідом:
 
 .. http:example:: http/min-bids-number-tender-post-2.http
    :code:
 
-Let's look at tender after `active.tendering` is finished, `auction` will be skipped and `active.qualification` period is started:
+Подивимося на тендер після закінчення `active.tendering` періоду, аукціон буде пропущений і одразу розпочнеться `active.qualification` період:
 
 .. http:example:: http/min-bids-number-tender-qualification-1.http
    :code:
 
-* If the `hasAuction:true` value is set, >=2 bids are submitted and the number of bids passes the minBidsNumber field check, the system activates the single `Auction` module.
+* Якщо встановлено значення `hasAuction:true`, пропозицій подано >=2 та кількість пропозицій проходить перевірку по полю minBidsNumber, то система активує єдиний модуль «Аукціон».
 
-Let's create a tender `belowThreshold` with configuration `minBidsNumber=2` and 2 bids:
+Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=2` і двома бідами:
 
 .. http:example:: http/min-bids-number-tender-post-3.http
    :code:
 
-Let's look at tender after `active.tendering` is finished, `auction` will be started:
+Подивимося на тендер після закінчення `active.tendering` періоду, розпочнеться аукціон:
 
 .. http:example:: http/min-bids-number-tender-auction.http
    :code:
 
-After `active.auction` is finished, the system should run `active.qualification`.
-We look again at the `minBidsNumber:2` value and check for active bids. are there two of them? Yes, let's run `active.qualification`:
+Після закінчення `active.auction`, система повинна запустити `active.qualification`. Дивимось знову на значення `minBidsNumber:2` та перевіряємо наявність активних bids. Їх два? Так, запускаємо `active.qualification`:
 
 .. http:example:: http/min-bids-number-tender-qualification-2.http
    :code:

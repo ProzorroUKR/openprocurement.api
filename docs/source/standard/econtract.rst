@@ -7,154 +7,138 @@
 EContract
 =========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
-    |ocdsDescription|
-    The identifier for this contract.
+    |ocdsDescription| Ідентифікатор цього договору.
 
 :awardID:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    The `Award.id` against which this contract is being issued.
+    |ocdsDescription| `Award.id` вказує на рішення, згідно якого видається договір.
 
 :contractID:
-    string, auto-generated, read-only
+    рядок, генерується автоматично, лише для читання
 
 :contractNumber:
-    string
+    рядок
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    Contract title
+    |ocdsDescription| Назва договору
 
 :description:
-    string
+    рядок
 
-    |ocdsDescription|
-    Contract description
+    |ocdsDescription| Опис договору
 
 :status:
-    string, required
+    рядок, обов’язковий
 
-    |ocdsDescription|
-    The current status of the contract.
+    |ocdsDescription| Поточний статус договору.
 
-    Possible values are:
+    Можливі значення:
 
-    * `pending` - this contract has been proposed, but is not yet in force.
-      It may be awaiting signature.
-    * `active` - this contract has been signed by all the parties, and is
-      now legally in force.
-    * `cancelled` - this contract has been cancelled prior to being signed.
+    * `pending` - цей договір запропоновано, але він ще не діє. Можливо очікується його підписання.
+    * `active` - цей договір підписаний всіма учасниками, і зараз діє на законних підставах.
+    * `cancelled` - цей договір було скасовано до підписання.
 
-    * `terminated` - this contract was signed and in force, and has now come
-      to a close.  This may be due to a successful completion of the contract,
-      or may be early termination due to some non-completion issue.
+    * `terminated` - договір був підписаний та діяв, але вже завершився. Це може бути пов'язано з виконанням договору, або з достроковим припиненням через якусь незавершеність.
 
 :period:
     :ref:`Period`
 
-    |ocdsDescription|
-    The start and end date for the contract.
+    |ocdsDescription| Дата початку та завершення договору.
 
 :items:
-    List of :ref:`Item` objects, auto-generated, read-only
+    Список об’єктів :ref:`Item`, генерується автоматично, лише для читання
 
-    |ocdsDescription|
-    The goods, services, and any intangible outcomes in this contract. Note: If the items are the same as the award do not repeat.
+    |ocdsDescription| Товари, послуги та інші нематеріальні результати у цій угоді. Зверніть увагу: Якщо список співпадає з визначенням переможця `award`, то його не потрібно повторювати.
 
 :suppliers:
-    List of :ref:`EContractOrganization` objects, auto-generated, read-only
+    Список об’єктів :ref:`EContractOrganization`, генерується автоматично, лише для читання
 
 :value:
-    :ref:`ContractValue` object, auto-generated
+    Об’єкт :ref:`ContractValue`, генерується автоматично, лише для читання
 
-    |ocdsDescription|
-    The total value of this contract.
+    |ocdsDescription| Загальна вартість договору.
 
     Check ":ref:`SettingContractValue`" tutorial section for more info
 
 :dateSigned:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    |ocdsDescription|
-    The date when the contract was signed. In the case of multiple signatures, the date of the last signature.
+    |ocdsDescription| Дата підписання договору. Якщо було декілька підписань, то береться дата останнього підписання.
 
 
 :documents:
-    List of :ref:`ConfidentialDocument` objects
+    Список об’єктів :ref:`ConfidentialDocument`
 
-    |ocdsDescription|
-    All documents and attachments related to the contract, including any notices.
+    |ocdsDescription| Усі документи та додатки пов’язані з договором, включно з будь-якими повідомленнями.
 
 
 :buyer:
    :ref:`EContractOrganization`
 
-   |ocdsDescription|
-   The entity managing the procurement, which may be different from the buyer who is paying / using the items being procured.
+   |ocdsDescription| Об’єкт, що управляє закупівлею. Він не обов’язково є покупцем, який платить / використовує закуплені елементи.
 
 
 :changes:
-    List of :ref:`EContractChange` objects.
+    Список пов’язаних об’єктів :ref:`EContractChange`.
 
 :amountPaid:
 
-    :amount: float, required
-    :currency: string, required, auto-generated
-    :valueAddedTaxIncluded: bool, required , auto-generated
+    :amount: число з рухомою комою, обов’язкове
+    :currency: рядок, обов’язковий, генерується автоматично
+    :valueAddedTaxIncluded: логічний (булевий) тип даних, обов’язковий, генерується автоматично
 
-    Amount of money actually paid.
+    Дійсно оплачена сума.
 
 :implementation:
     :ref:`Implementation`
 
 :terminationDetails:
-    string, required for unsuccessful contract
+    рядок, обов’язковий для неуспішних договорів
 
-    Reasons for contract termination. Presence of this field indicates that contract is unsuccessful.
+    Причина припинення договору. Наявність цього поля вказує, що договір є неуспішним.
 
 :contractTemplateName:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    template link on standards
+    посилання на шаблон а стандртах
 
 :cancellations:
-   List of :ref:`EContractCancellation` objects.
+   Список пов’язаних об’єктів :ref:`EContractCancellation`.
 
-   Contains 1 object with `active` status in case of cancelled EContract.
+   Містить 1 об’єкт зі статусом `active` на випадок, якщо версію договора буде відмінено.
 
-   The :ref:`EContractCancellation` object describes the reason of contract cancellation contains accompanying
-   documents  if any.
+   Об’єкт :ref:`EContractCancellation` описує причину скасування договору та надає відповідні документи, якщо такі є..
 
 :author:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    The author of the new version of contract (if previous one was cancelled)
+    Автор нової версії договору (якщо попередня версія була скасована)
 
 :contractChangeRationaleTypes:
     object
 
-    Read-only, autogenerated.
+    Лише для читання, генерується автоматично.
 
-    The dictionary of possible rationaleTypes for contract.
+    Довідник з можливими причинами внесення змін до договору.
 
-    Could be one of:
+    Можливі значення:
 
-        * `rationaleTypes for LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
-        * `rationaleTypes for DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
-        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (deprecated after date CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
+        * `rationaleTypes для LAW 922 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_law_922.json>`_
+        * `rationaleTypes для DECREE 1178 <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type_decree_1178.json>`_
+        * `rationaleTypes general <https://github.com/ProzorroUKR/standards/blob/master/codelists/contract_change_rationale_type.json>`_ (діє до дати CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM)
 
 
-Workflow
---------
+Робочий процес
+--------------
 
 .. graphviz::
 
@@ -168,4 +152,4 @@ Workflow
          B -> D;
     }
 
-\* marks initial state
+\* позначає початковий стан

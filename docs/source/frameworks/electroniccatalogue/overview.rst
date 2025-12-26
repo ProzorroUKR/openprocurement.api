@@ -1,12 +1,11 @@
 .. _electroniccatalogue_overview:
 
-Overview
-========
+Огляд
+=====
 
 The Open Procurement `electronicCatalogue` framework is plugin to Open Procurement API software.
 
-Main responsibilities
----------------------
+Основні задачі
+--------------
 
-Cpb can create `electronicCatalogue` process for valid code for 'ДК021' classification to get the submissions from suppliers who want to participate in procedures based on electronic catalogue.
-As a result of `electronicCatalogue` process cpb will have the pool of suppliers who are allowed to add their proposes in particular 'ДК021' classification category.
+ЦЗО може створювати `electronicCatalogue` процес для корректних кодів довідника 'ДК021'. Постачальники, які хочуть приймати участь у закупівельних процедурах, що базуються на електронних каталогах, зможуть подати заявку на кваліфікацію. В результаті `electronicCatalogue` процесу ЦЗО матиме перелік постачальників, що можуть додавати свої пропозиції в конкретну категорію класифікатора 'ДК021'

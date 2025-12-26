@@ -2,47 +2,47 @@
 .. _confidential-documents:
 
 
-Confidential documents
-======================
+Конфіденційні документи
+=======================
 
-Confidential documents are supported for bids in the above threshold procedures.
-
-
-Confidentiality for bids
--------------------------
-
-Documents can be either public or private:
-
-  1. Privacy settings can be changed only for the latest version of the document.
-  2. When you upload new version of the document, privacy settings are copied from the previous version.
-  3. Privacy settings can be changed only during `tenderPeriod` (with `active.tendering` status).
-  4. If tender has status `active.qualification` winner can upload only public documents.
+Конфіденційні документи підтримуються для пропозицій у понадпорогових процедурах.
 
 
-Tutorial
+Конфіденційність в пропозиціях
+------------------------------
+
+Документи можуть бути публічними або приватними:
+
+  1. Приватність документа можна змінити тільки для останньої версії.
+  2. При завантаженні нової версії, налаштування приватності копіюються з попередньої версії документа.
+  3. Налаштування приватності можна міняти тільки під час періоду подання пропозицій (зі статусом active.tendering).
+  4. Якщо закупівля має статус active.qualification, переможець може завантажувати тільки публічні документи.
+
+
+Туторіал
 --------
 
 
-Let's upload a private document
+Завантажимо приватний документ
 
 
 .. http:example:: ./http/confidential-documents/create-document.http
    :code:
 
 
-`confidentiality` can be changed during `active.tendering` tender status
+“конфіденційність” може бути змінена під час періоду подання пропозицій
 
 .. http:example:: ./http/confidential-documents/patch-public-document.http
    :code:
 
 
-The confidential documents shown without the `url` field
+Конфіденційні документи показані без поля “url”
 
 .. http:example:: ./http/confidential-documents/document-list-public.http
    :code:
 
 
-Only tender and bid owner should see the `url` fields and be able to download confidential documents
+Тільки власник тендерів та торгів повинен бачити поля ‘url’ та мати можливість завантажувати конфіденційні документи
 
 .. http:example:: ./http/confidential-documents/document-list-private.http
    :code:

@@ -1,0 +1,196 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-08-13 19:03+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Framework"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "Назва кваліфікації, яка відображається у списках."
+msgstr "The name of the framework, displayed in listings."
+
+msgid "description"
+msgstr ""
+
+msgid "Детальний опис кваліфікації."
+msgstr "Detailed description of framework."
+
+msgid "prettyID"
+msgstr ""
+
+msgid "рядок, генерується автоматично, лише для читання"
+msgstr "string, auto-generated, read-only"
+
+msgid "Ідентифікатор кваліфікації."
+msgstr "The framework identifier."
+
+msgid "procuringEntity"
+msgstr ""
+
+msgid ":ref:`ProcuringEntity`, обов’язково"
+msgstr ":ref:`ProcuringEntity`, required"
+
+msgid "Замовник (організація, що створює кваліфікацію)."
+msgstr "Organization conducting the framework."
+
+msgid "Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді можливі значення :code:`ProcuringEntity.kind` обмежені :code:`[‘central’]`."
+msgstr "If :code:`frameworkType` is :code:`electronicCatalogue`, then possible values of :code:`ProcuringEntity.kind` are limited to :code:`['central']`."
+
+msgid "frameworkType"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "`electronicCatalogue`"
+msgstr ""
+
+msgid "Кваліфікація для процесу відбору до електронного каталогу"
+msgstr "Framework for electronic catalog process"
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично"
+msgstr "string, :ref:`date`, auto-generated"
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`document`"
+msgstr "List of :ref:`document` objects"
+
+msgid "|ocdsDescription| Всі документи та додатки пов’язані з кваліфікацією."
+msgstr "|ocdsDescription| All documents and attachments related to the framework."
+
+msgid "enquiryPeriod"
+msgstr ""
+
+msgid ":ref:`period`, лише для читання, генерується автоматично"
+msgstr ":ref:`period`, read-only, auto-generated"
+
+msgid "Період, коли дозволено подавати звернення."
+msgstr "Period when questions are allowed."
+
+msgid "|ocdsDescription| Період, коли можна зробити уточнення та отримати відповіді на них."
+msgstr "|ocdsDescription| The period during which enquiries may be made and will be answered."
+
+msgid "Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді постачальник не може подавати заявки в цей період."
+msgstr "If :code:`frameworkType` is :code:`electronicCatalogue`, then suppliers cannot add submissions in this period."
+
+msgid "dateModified"
+msgstr ""
+
+msgid "owner"
+msgstr ""
+
+msgid "рядок, генерується автоматично"
+msgstr "string, auto-generated"
+
+msgid "period"
+msgstr ""
+
+msgid "Період, в який постачальники можуть додавати заявки до кваліфікації."
+msgstr "Period when submissions can be submitted."
+
+msgid "|ocdsDescription| Період, коли кваліфікація відкрита для подачі заявки."
+msgstr "|ocdsDescription| The period when the framework is open for submissions."
+
+msgid "qualificationPeriod"
+msgstr ""
+
+msgid ":ref:`period`, обов’язково"
+msgstr ":ref:`period`, required"
+
+msgid "Період, коли приймаються рішення щодо заявок постачальників. Повинна бути вказана хоча б `endDate` дата."
+msgstr "Period when submissions can be qualified. At least `endDate` has to be provided."
+
+msgid "Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді :code:`qualificationPeriod` має бути від 365 до 1461 днів"
+msgstr "If :code:`frameworkType` is :code:`electronicCatalogue`, then :code:`qualificationPeriod` can be from 365 to 1461 days long."
+
+msgid "status"
+msgstr ""
+
+msgid "`draft`"
+msgstr ""
+
+msgid "Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді в цьому статусі можна змінювати будь-які поля кваліфікації."
+msgstr "If :code:`frameworkType` is :code:`electronicCatalogue`, then in this status any fields of framework can be changed."
+
+msgid "`active`"
+msgstr ""
+
+msgid "Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді в цьому статусі можна змінювати лише поля :code:`contactPoint`, :code:`qualificationPeriod.endDate`, :code:`description` та :code:`documents`"
+msgstr "If :code:`frameworkType` is :code:`electronicCatalogue`, then in this status only :code:`contactPoint`, :code:`qualificationPeriod.endDate`, :code:`description` and :code:`documents` fields of framework can be changed."
+
+msgid "`unsuccessful`"
+msgstr ""
+
+msgid "Завершальний статус. Кваліфікація може перейти в статус `unsuccessful` якщо за перші 20 повних робочих днів до неї не було створенно жодної заявки."
+msgstr "Terminal status. Framework can become `unsuccessful` if there was no submissions in first 20 full working days from framework activation."
+
+msgid "`complete`"
+msgstr ""
+
+msgid "Завершена кваліфікація."
+msgstr "Complete framework."
+
+msgid "Статус кваліфікації."
+msgstr "Status of the Framework."
+
+msgid "classification"
+msgstr ""
+
+msgid ":ref:`Classification`, обов'язково"
+msgstr ":ref:`Classification`, required"
+
+msgid "|ocdsDescription| Початкова класифікація кваліфікації."
+msgstr "|ocdsDescription| The primary classification for the framework."
+
+msgid "Якщо :code:`frameworkType` має значення :code:`electronicCatalogue`, тоді `classification.scheme` має бути `ДК021`. `classification.id` повинно бути дійсним ДК021 кодом."
+msgstr "If :code:`frameworkType` is :code:`electronicCatalogue`, then it is mandatory for `classification.scheme` to be `ДК021`. The `classification.id` should be valid ДК021 code."
+
+msgid "additionalClassification"
+msgstr ""
+
+msgid "Список об'єктів :ref:`Classification`."
+msgstr "List of :ref:`Classification` objects"
+
+msgid "|ocdsDescription| Массив додаткових класифікацій кваліфікації."
+msgstr "|ocdsDescription| An array of additional classifications for the framework."
+
+msgid "changes"
+msgstr ""
+
+msgid "Список об’єктів :ref:`FrameworkChange`"
+msgstr "List of :ref:`FrameworkChange` objects"
+
+msgid "Список всіх змін під час активного відбору."
+msgstr "An array of all changes during framework is `active`."
+
+msgid "revisions"
+msgstr ""
+
+msgid "Список об’єктів :ref:`revision`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`revision` objects, auto-generated"
+
+msgid "Зміни властивостей об’єктів кваліфікації."
+msgstr "Historical changes to Framework object properties."
+

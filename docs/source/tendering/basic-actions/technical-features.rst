@@ -1,14 +1,14 @@
 .. _technical_features:
 
 
-Technical Features
-==================
+Технічні характеристики
+=======================
 
 
-Procedures with technical features
-----------------------------------
+Процедури з технічними характеристиками
+---------------------------------------
 
-Technical features available in these procedures:
+Процедури які підтримують технічні характеристики:
  - aboveThresholdUA
  - aboveThresholdEU
  - belowThreshold
@@ -22,58 +22,57 @@ Technical features available in these procedures:
  - priceQuotation
 
 
-Creating tender for technical features
---------------------------------------
+Створення закупівлі з технічними характеристами
+-----------------------------------------------
 
-You can set id of catalogue object in field `profile` or `category` to item.
+Ви можете встановити індетифікатор обʼєкту з сервісу каталогів у поля `profile` чи `category` до передмету закупівлі.
 
-If such profile or category doesn't exist in catalogue service, you will get an error:
+Якщо вказанаий профіль чи категорія не існує в сервісі каталогів, ви отримаєте помилку:
 
 .. http:example:: http/techfeatures/item-profile-not-found.http
    :code:
 
 
-Also catalogue item should be in `active` status:
+Також обʼєкт з каталогів повинен статус `active`:
 
 .. http:example:: http/techfeatures/item-profile-not-active.http
    :code:
 
 .. note::
 
-    For :ref:`pricequotation` `profile` is required if:
+    Для :ref:`pricequotation` поле `profile` обов'язкове, якщо:
 
-        * framework electronic catalogue
+        * відбір з каталогу
 
         * tender.value.amount >= 500000 UAH
 
         * tender.procuringEntity.kind != special/defense/other
 
 
-So if you set `id` of correct profile/category, you can create tender:
+Тож якщо ви встановите індертифікатор корректного профілю/категорію, ви зможете створити закупівлю:
 
 .. http:example:: http/techfeatures/tender-with-item-profile-created.http
    :code:
 
 
-Create technical feature criteria
----------------------------------
+Створення критерія технічних характеристик
+------------------------------------------
 
-If you want create technical feature criteria, you should set `CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES`
-to `criterion.classification.id` and `relatedItem` to item with relates to profile/category .
+Якщо ви хочете створити критерій технічних характеристик, потрібно встановити `CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES` у `criterion.classification.id` та `relatedItem` до предмету з повʼязаним профілем/категорією.
 
-If you try to create technical feature criteria without relatesTo to item, you'll get error:
+Якщо ви спробуєте створити критерій без `relatesTo`: `item` ви отримаєте помилку:
 
 .. http:example:: http/techfeatures/create-tech-criteria-without-related-item.http
    :code:
 
 
-Also if you try to create criteria with relatedItem without profile/category you'll get error:
+Також якщо ви спробуєте створити критерій без `relatedItem` до предмету без полей `profile`/`category`, ви отримаєте помилку:
 
 .. http:example:: http/techfeatures/create-tech-criteria-for-items-without-profile.http
    :code:
 
 
-So if all rules are met, you can create technical feature criteria:
+Тож якщо всі правила дотримані ви можете створити критерій технічних характеристик:
 
 .. http:example:: http/techfeatures/tender-with-item-profile-created.http
    :code:

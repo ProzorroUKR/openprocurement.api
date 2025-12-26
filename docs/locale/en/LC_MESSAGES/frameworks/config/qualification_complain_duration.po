@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-27 17:16+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "qualificationComplaintDuration"
+msgstr ""
+
+msgid "Полe `qualificationComplaintDuration` - це числове поле, яке встановлює кількість днів для надання відповіді замовником на звернення"
+msgstr "Field `qualificationComplaintDuration` is the integer field that sets the number of days for the customer to provide explanations for the request."
+
+msgid "Можливі значення для `qualificationComplainDuration` в залежності від поля `frameworkType`:"
+msgstr "Possible values for `qualificationComplainDuration` field depends on `frameworkType` field:"
+
+msgid "frameworkType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "dynamicPurchasingSystem"
+msgstr ""
+
+msgid "0"
+msgstr ""
+
+msgid "electronicCatalogue"
+msgstr ""
+
+msgid "internationalFinancialInstitutions"
+msgstr ""
+
+msgid "Examples"
+msgstr ""
+
+msgid "Скарги ще не повністю імплементовані. Приклади будуть додані у майбутньому."
+msgstr "Complaints has not fully implemented yet. Examples will be added in the future."
+

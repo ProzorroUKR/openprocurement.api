@@ -1,0 +1,151 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-09-08 12:48+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Операції кваліфікації"
+msgstr "Qualification Operations"
+
+msgid "Коли закінчується аукціон, розпочинається процес оцінки. Закупівля отримує статус `active.qualification`. Після того, як результати подаються у Центральну базу даних, реєструється рішення про перемогу учасника аукціону."
+msgstr "When auction is over, the qualification process starts. The status of tender is `active.qualification` then.  Right after results are submitted to Central DB, there is award generated for auction winner."
+
+msgid "Перегляд результатів оцінки"
+msgstr "Listing awards"
+
+msgid "Результати аукціону, що оцінюються, можна дізнатись запитом на отримання списків усіх доступних винагород:"
+msgstr "The pending award can be retrieved via request to list all available awards:"
+
+msgid "Визначення переможця (винагорода) має статус `pending`, якщо замовнику потрібно перевірити документи пов’язані з пропозицією кандидата."
+msgstr "When the award is in `pending` status, it means that procuring entity has to review documents describing the bid and other bidder documents."
+
+msgid "Дискваліфікація"
+msgstr "Disqualification"
+
+msgid "Протокол рішення Кваліфікаційного комітету повинен бути завантажений у вигляді документа до рішення. Пізніше його статус повинен бути змінений або на `active` (якщо його прийнято), або на `unsuccessful` (якщо відмовлено)."
+msgstr "The protocol of Qualification Committee decision should be uploaded as document into award and later its status should switch to either `active` (if it is accepted) or `unsuccessful` (if rejected)."
+
+msgid "Перед винесенням рішення необхідно обов'язково додати документ підпису до аварду."
+msgstr "Before making decision it is required to add sign document to award."
+
+msgid "Кваліфікаційний комітет може завантажити декілька документів, наприклад, рішення подовжити процес кваліфікації, щоб дозволити кандидату зібрати усі необхідні документи або виправити помилки. Такі документи допоможуть зробити процедуру прозорою та зменшать ймовірність відміни рішення органом розгляду скарг."
+msgstr "The Qualification Committee can upload several documents, for example, decisions to prolong the qualification process - in order to allow the bidder to collect all necessary documents or correct errors.  Such documents would help to have procedure as transparent as possible and will reduce risk of cancellation by Complaint Review Body."
+
+msgid "Зверніть увагу, що після відмови визначеному переможцю наступна пропозиція у просортованому за ціновими пропозиціями списку стає претендентом на перемогу. Для зручності, ви можете використати заголовок `Location` з попередньої відповіді, що вказує на \"pending\" стан оцінки, що ще триває."
+msgstr "Note that after award rejection the next bid in the value-sorted bid sequence becomes subject of subsequent award.  For convenience you can use the `Location` response header from the response above that is pointing to an award in \"pending\" state."
+
+msgid "Винагорода (визначення переможця з ціллю підписання договору)"
+msgstr "Contract Awarding"
+
+msgid "Завантаження протоколу:"
+msgstr "Protocol upload:"
+
+msgid "Підтвердження визначення переможця:"
+msgstr "Confirming the Award:"
+
+msgid "Замовник може почекати, доки кандидат надасть усі відсутні документи (ліцензії, сертифікати, заяви, і т.п.) або оновить існуючі документи пропозиції, щоб виправити помилку. З іншого боку, замовник може відмовити пропозиції, якщо надані документи не задовільняють умов закупівлі, навіть до того як повний пакет документів стане доступним."
+msgstr "The procuring entity can wait until bidder provides all missing documents (licenses, certificates, statements, etc.) or update original bid documents to correct errors.  Alternatively, they can reject the bid if provided documents do not satisfy the pass/fail criteria of tender (even before full package of supplementary documents is available)."
+
+msgid "Скасування активної винагороди"
+msgstr "Cancelling Active Award"
+
+msgid "Іноді Учасник відмовляється підписати договір, навіть після проходження процесу кваліфікації. У цьому випадку замовник закупівлі повинен мати можливість відмовитися від затвердженого переможця, а потім дискваліфікувати його цінову пропозицію."
+msgstr "Sometimes Bidder refuses to sign the contract even after passing qualification process.  In this case Procuring Entity is expected to be able to reject approved award and disqualify Bid afterwards."
+
+msgid "Коли стадія Визначення переможця активна:"
+msgstr "After we have Award with active status:"
+
+msgid "Є необхідність її скасувати:"
+msgstr "There is need to cancel it:"
+
+msgid "Зверніть увагу, що повернуто заголовок Location, який допомогає в пошуку \"свіжої\" винагороди, яка, швидше за все, і є предметом дискваліфікації:"
+msgstr "Note that there is Location header returned that aids in locating the \"fresh\" award that is most likely subject for disqualification:"
+
+msgid "У випадку, якщо є інша пропозиція для кваліфікації, у відповіді буде заголовок Location, що вказуватиме на відповідну винагороду."
+msgstr "In the case when there is another Bid for qualification, there will be Location header in the response pointing to its Award."
+
+msgid "Відміна рішення про дискваліфікацію без впливу задовільненої скарги"
+msgstr "Cancellation of the decision on disqualification without the effect of a satisfied complaint"
+
+msgid "Для деяких процедур є можливість замовнику скасувати своє рішення про відхилення пропозиції учасника по тендеру/лоту, коли об’єкт award набуває статусу `unsuccessful`, за умови, якщо відсутній контракт у статусі `active` у тендері/лоті."
+msgstr "For some procedures, it is possible for the contracting authority to cancel its decision to reject a tenderer's offer when the award becomes unsuccessful, only if there is no contract in the active status in the tender/lot."
+
+msgid "Список процедур:"
+msgstr "The list of procedures:"
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "Відхилений авард:"
+msgstr "Unsuccessful award:"
+
+msgid "Скасуємо рішення про дискваліфікацію:"
+msgstr "Let's cancel unsuccessful award:"
+
+msgid "Наявність скарги у будь якому статусі не блокує таку опцію."
+msgstr "The presence of a complaint in any status does not block this option."
+
+msgid "При скасування такого рішення ніяких додаткових обґрунтувань не передбачено."
+msgstr "No additional justification is provided for the cancellation of such a decision."
+
+msgid "Коли замовник скасовує рішення по `award:unsuccessful`, в такому випадку, як при будь якому скасуванню рішення, award набуває статусу `cancelled`, утворюється новий award `pending`, по якому замовник повинен прийняти нове рішення:"
+msgstr "When the customer cancels the decision on award:unsuccessful, in this case, as with any cancellation of the decision, the award acquires the status `cancelled`, a new award `pending` is created, on which the customer must make a new decision:"
+
+msgid "При цьому наявні `award:pending` та `award:аctive` автоматично набувають статусу `cancelled`."
+msgstr "In this case, the existing `award:pending` and `award:active` automatically acquire the status `cancelled`."
+
+msgid "Вплив задовільненої скарги"
+msgstr "Influence of Complaint Satisfaction"
+
+msgid "Якщо рішення замовника є несправедливим, будь-який учасник може подати скаргу і, після її відповідного розгляду, весь процес визначення переможця може вернутись до цього рішення."
+msgstr "If decision of the procuring entity is unfair any bidder can file complaint and after proper review the whole awarding process can start from the award in question."
+
+msgid "Рішення кваліфікаційної комісії замовника про дискваліфікацію  можна відмінити у таких випадках:"
+msgstr "Disqualification decision of procuring entity's qualification committee can be cancelled in the following cases:"
+
+msgid "подана вимога на цю дискваліфікацію (статус вимоги ``claim``);"
+msgstr "claim for this disqualification has been submitted (claim status is ``claim``);"
+
+msgid "надана відповідь по вимозі (статус вимоги ``answered``);"
+msgstr "claim has been answered (claim status is ``answered``);"
+
+msgid "скарга очікує розгляду органом оскарження (статус скарги ``pending``);"
+msgstr "complaint is pending review (complaint status is ``pending``);"
+
+msgid "скарга задовільнена, тобто є позитивне рішення органу оскарження (статус скарги ``resolved``)."
+msgstr "complaint has been satisfied by the Complaint Review Body (complaint status is ``resolved``)."
+
+msgid "При відміні рішення про дискваліфікацію воно отримує статус ``cancelled``. Генерується новий процес визначення переможця і замовник зобов’язаний кваліфікувати його знову (зважаючи на рекомендації зазначені в звіті органу розгляду скарг, якщо такий є)."
+msgstr "After the disqualification decision cancellation it receives ``cancelled`` status. New pending award is generated and procuring entity is obliged to qualify it again (taking into consideration recommendations from the report of Complaint Review Body if there is one)."
+

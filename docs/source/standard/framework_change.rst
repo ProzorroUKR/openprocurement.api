@@ -1,53 +1,53 @@
 .. _FrameworkChange:
 
 FrameworkChange
-=================
+===============
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :rationaleType:
-    string, required
+    рядок, обов'язковий
 
-    Reason for framework change
+    Тип причини  додання змін для відбору
 
-    Possible values for reasons in `framework period change causes <https://prozorroukr.github.io/standards/codelists/framework/framework_period_change_causes.json>`_ dictionaries.
+    Можливі значення вказані в довіднику `framework period change causes <https://prozorroukr.github.io/standards/codelists/framework/framework_period_change_causes.json>`_.
 
 :rationale:
-    string, multilingual, required
+    рядок, багатомовний, обов'язковий
 
-    The description of reason, why framework should be changed.
+    Причина для зміни відбору.
 
 :modifications:
-    List of :ref:`FrameworkChangeModifications` objects
+    Список об'єктів :ref:`FrameworkChangeModifications`
 
 :previous:
-    List of :ref:`FrameworkChangeModifications` objects with values of framework before change.
+    Список об'єктів :ref:`FrameworkChangeModifications` з попередніми значеннями відбору.
 
 :date:
-    string, :ref:`Date`, auto-generated, read-only
+    рядок, :ref:`date`, генерується автоматично
 
-    The date of the period changes.
+    Дата внесення змін.
 
 :dateModified:
-    string, :ref:`date`, auto-generated
+    pядок, :ref:`date`, генерується автоматично
 
 :documents:
-    List of :ref:`Document` objects
+    Список об’єктів :ref:`Document`
 
 
 .. _FrameworkChangeModifications:
 
 FrameworkChangeModifications
-=============================
+============================
 
-Schema
-------
+Схема
+-----
 
 :qualificationPeriod:
-   :ref:`period`, required
+   :ref:`period`, обов’язково
 
-   Period when submissions can be qualified. At least `endDate` has to be provided.
+   Період, коли приймаються рішення щодо заявок постачальників. Повинна бути вказана хоча б `endDate` дата.

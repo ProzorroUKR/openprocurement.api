@@ -12,30 +12,30 @@ Schema
 ------
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :reason:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    The reason, why Plan is being cancelled.
+    Причина, з якої скасовується план.
 
 :status:
     string
 
-    Possible values are:
+    Можливі значення:
      :`pending`:
-       Default. The request is being prepared.
+       За замовчуванням. Запит оформляється.
      :`active`:
-       Cancellation activated.
+       Скасування активоване.
 
 :date:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
-    Cancellation date.
+    Дата скасування.
 
 
-Cancellation workflow
----------------------
+Робочий процес
+--------------
 
 .. graphviz::
 
@@ -45,6 +45,6 @@ Cancellation workflow
          A -> B;
     }
 
-\* marks initial state
+\* позначає початковий стан
 
 

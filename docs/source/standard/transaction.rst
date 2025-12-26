@@ -8,40 +8,40 @@
 Transaction
 ===========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, required
+    рядок, обов'язково
 
-    A unique identifier for this transaction.
+    Унікальний ідентифікатор транзакції
 
 :documents:
-    List of :ref:`Document` objects
+    Список об'єктів :ref:`Document`
 
-    Used to point either to a corresponding Fiscal Data Package, IATI file, or machine or human-readable source
+    Використовується для вказівки або на відповідний пакет Fiscal Data Package, або на файл IATI, або на машинне чи людське джерело
 
 :date:
-    string, :ref:`date`, required
+    рядок, :ref:`date`, обов'язково
 
-    The date of the transaction.
+    Дата транзакції
 
 :value:
-    string, :ref:`BasicValue`, required
+    рядок, :ref:`BasicValue`, обов'язково
 
-    The value of the transaction.
+    Значення транзакції
 
 :payer:
-    :ref:`OrganizationReference`, required
+    :ref:`OrganizationReference`, обов'язково
 
-    An organization reference for the organization from which the funds in this transaction originate.
+    Довідка організації про організацію, з якої походять кошти в цій транзакції.
 
 :payee:
-    :ref:`OrganizationReference`, required
+    :ref:`OrganizationReference`, обов'язково
 
-    An organization reference for the organization which receives the funds in this transaction.
+    Довідка організації про організацію, яка отримує кошти за цією транзакцією.
 
 :status:
-    string, required
+    рядок, обов'язково
 
-    The current status of transaction.
+    Поточний стан транзакції.

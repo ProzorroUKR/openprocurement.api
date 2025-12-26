@@ -8,122 +8,115 @@
 Document
 ========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    string, auto-generated
+    рядок, генерується автоматично
 
 :documentType:
-    string
+    рядок
 
-    Possible values for sign documents:
+    Можливі значення для файлів підпису (ЕЦП):
 
-    * `notice` - **Sign document for publication tender/confirming qualification**
+    * `notice` - **Файл підпису оголошення закупівлі/підтвердження кваліфікації**
 
-      Can be used in :ref:`tender` and :ref:`award`.
+      Використовується в документах до :ref:`tender` та :ref:`award`.
 
-    * `evaluationReports` - **Sign document for evaluation report**
+    * `evaluationReports` - **Файл підпису звіту про оцінку**
 
-      Can be used in :ref:`tender` and :ref:`framework_qualification` in framework.
+      Використовується в документах до :ref:`tender` та :ref:`framework_qualification` у фреймворках.
 
-    * `proposal` - **Proposal**
+    * `proposal` - **Файл підпису підтвердження пропозиції**
 
-      Can be used in  :ref:`bid`
+      Використовується в документах до :ref:`bid`
 
-    * `extensionReport` - **Sign document for prolongation milestone in award**
+    * `extensionReport` - **Файл підпису для продовження строку розгляду award**
 
-      Can be used in :ref:`award`.
+      Використовується в документах до :ref:`award`.
 
-    * `deviationReport` - **Sign document for 24hour milestone in award/qualification**
+    * `deviationReport` - **Файл підпису для протоколу виправлення невідповідностей (24 години) в award/qualification***
 
-      Can be used in :ref:`qualification` and :ref:`award`.
+      Використовується в документах до :ref:`qualification` та :ref:`award`.
 
-    Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
+    Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
+                                                                                                                                                  
     
-    
-    Possible values for :ref:`award`: `award document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_
+    Можливі значення :ref:`award`: `типи документів для авардів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/award.json>`_
 
     
-    Possible values for :ref:`contract`: `contract document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_
+    Можливі значення :ref:`contract`: `типи документів для контрактів. <https://github.com/ProzorroUKR/standards/blob/master/document_types/contract.json>`_
+                                                                                                                                                        
     
-    
-    Possible values for :ref:`bid`: `bid document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_
+    Можливі значення :ref:`bid`: `типи документів для пропозиції. <https://github.com/ProzorroUKR/standards/blob/master/document_types/bid.json>`_
 
 
-    Possible values for :ref:`agreement`
+    Можливі значення для :ref:`agreement`
 
 
-        * `notice` - **Framework agreement notice**
+        * `notice` - **Повідомлення про Рамкову угоду**
 
-          NOT USED ANYMORE. Now it's use as sign document.
+          БІЛЬШЕ НЕ ВИКОРИСТОВУЄТЬСЯ. Зараз цей тип документу використовується в якості файлу підпису.
 
-          Earlier this type of document was used as the formal notice that gives details of a contract being signed and valid to start implementation. This may be a link to a downloadable document, to a web page, or to an official gazette in which the notice is contained.
+          Раніше цей тип документу використовувався як офіційне повідомлення, що містить деталі підписання договору та початку його реалізації. Це може бути посилання на документ, веб-сторінку, чи на офіційний бюлетень, де розміщено повідомлення.
 
-        * `contractSigned` - **Signed Framework agreement**
+        * `contractSigned` - **Підписана Рамкова угода**
 
-        * `contractArrangements` - **Arrangements for ending Framework agreement**
+        * `contractArrangements` - **Заходи для припинення Рамкової угоди**
 
-        * `contractSchedule` - **Schedules and milestones**
+        * `contractSchedule` - **Розклад та етапи**
 
-        * `contractAnnexe` - **Annexes to the Framework agreement**
+        * `contractAnnexe` - **Додатки до Рамкової угоди**
 
-        * `contractGuarantees` - **Guarantees**
+        * `contractGuarantees` - **Забезпечення тендерних пропозицій**
 
-        * `subContract` - **Subcontracts**
+        * `subContract` - **Субпідряд**
 
 :title:
-    string, multilingual
-    
-    |ocdsDescription|
-    The document title. 
+    рядок, багатомовний
+                   
+    |ocdsDescription| Назва документа. 
     
 :description:
-    string, multilingual
-    
-    |ocdsDescription|
-    A short description of the document. In the event the document is not accessible online, the description field can be used to describe arrangements for obtaining a copy of the document.
-    
+    рядок, багатомовний
+                   
+    |ocdsDescription| Короткий опис документа. Якщо документ не буде доступний онлайн, то поле опису можна використати для вказання способу отримання копії документа.
+                                                                                                                                                                  
 :format:
-    string
-    
-    |ocdsDescription|
-    The format of the document taken from the `IANA Media Types code list <http://www.iana.org/assignments/media-types/>`_, with the addition of one extra value for 'offline/print', used when this document entry is being used to describe the offline publication of a document. 
+    рядок
+     
+    |ocdsDescription| Формат документа зі `списку кодів IANA Media Types <http://www.iana.org/assignments/media-types/>`_, з одним додатковим значенням 'offline/print', що буде використовуватись, коли запис цього документа використовується для опису офлайнової публікації документа. 
     
 :url:
-    string, auto-generated
-    
-    |ocdsDescription|
-    Direct link to the document or attachment. 
+    рядок, генерується автоматично
+                              
+    |ocdsDescription| Пряме посилання на документ чи додаток. 
     
 :datePublished:
-    string, :ref:`date`
-    
-    |ocdsDescription|
-    The date on which the document was first published. 
+    рядок, :ref:`date`
+                  
+    |ocdsDescription| Дата, коли документ був опублікований вперше. 
     
 :dateModified:
-    string, :ref:`date`
-    
-    |ocdsDescription|
-    Date that the document was last modified
-    
+    рядок, :ref:`date`
+                  
+    |ocdsDescription| Дата, коли документ був змінений востаннє
+                                                           
 :language:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
     * `uk`
     * `en`
     * `ru`
     
-    |ocdsDescription|
-    Specifies the language of the linked document using either two-digit `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, or extended `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_. 
+    |ocdsDescription| Вказує мову документа, використовуючи або двоцифровий код `ISO 639-1 <https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>`_, або розширений `BCP47 language tags <http://www.w3.org/International/articles/language-tags/>`_. 
 
 :documentOf:
-    string
+    рядок
 
-    Possible values are:
+    Можливі значення:
 
     * `tender`
     * `contract`
@@ -132,7 +125,7 @@ Schema
     * `lot`
 
 :relatedItem:
-    string
+    рядок
 
-    Id of related :ref:`contract`, :ref:`change`, :ref:`lot` or :ref:`item`.
+    ID пов’язаних :ref:`contract`, :ref:`change`, :ref:`lot` або :ref:`item`.
 

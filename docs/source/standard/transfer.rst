@@ -5,17 +5,17 @@
 Transfer
 ========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :date:
-    string, :ref:`date`, auto-generated
+    рядок, :ref:`date`, генерується автоматично
 
 :usedFor:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    Path to the object to which `Transfer` was applied. 
+    Шлях до об'єкта, до якого було застосовано перенесення `Transfer`. 
     

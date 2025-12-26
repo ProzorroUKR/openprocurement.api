@@ -1,0 +1,219 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-12 14:03+0200\n"
+"PO-Revision-Date: 2021-03-03 21:36+0200\n"
+"Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
+"Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Award"
+msgstr "Award"
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "рядок, генерується автоматично, лише для читання"
+msgstr "string, auto-generated, read-only"
+
+msgid "|ocdsDescription| Ідентифікатор цього рішення."
+msgstr "|ocdsDescription| The identifier for this award."
+
+msgid "bid_id"
+msgstr ""
+
+msgid "ID пропозиції, що виграла закупівлю."
+msgstr "The Id of a bid that the award relates to."
+
+msgid "відсутній у :ref:`limited`:"
+msgstr "absent in :ref:`limited`:"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "|ocdsDescription| Назва рішення."
+msgstr "|ocdsDescription| Award title."
+
+msgid "description"
+msgstr ""
+
+msgid "|ocdsDescription| Опис рішення."
+msgstr "|ocdsDescription| Award description."
+
+msgid "status"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "|ocdsDescription| Поточний статус рішення, взятий зі списку кодів `awardStatus`."
+msgstr "|ocdsDescription| The current status of the award drawn from the `awardStatus` codelist."
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`pending` - переможець розглядається кваліфікаційною комісією"
+msgstr "`pending` - the award is under review of qualification committee"
+
+msgid "`unsuccessful` - кваліфікаційна комісія відмовила переможцю"
+msgstr "`unsuccessful` - the award has been rejected by qualification committee"
+
+msgid "`active` - закупівлю виграв учасник з пропозицією `bid_id`"
+msgstr "`active` - the tender is awarded to the bidder from the `bid_id`"
+
+msgid "`cancelled` - орган, що розглядає скарги, відмінив результати закупівлі"
+msgstr "`cancelled` - the award has been cancelled by complaint review body"
+
+msgid "date"
+msgstr ""
+
+msgid "рядок, :ref:`Date`, генерується автоматично, лише для читання"
+msgstr "string, :ref:`Date`, auto-generated, read-only"
+
+msgid "|ocdsDescription| Дата рішення про підписання договору."
+msgstr "|ocdsDescription| The date of the contract award."
+
+msgid "value"
+msgstr ""
+
+msgid "Об’єкт :ref:`Value`, генерується автоматично, лише для читання"
+msgstr ":ref:`Value` object, auto-generated, read-only"
+
+msgid "|ocdsDescription| Загальна вартість згідно цього рішення."
+msgstr "|ocdsDescription| The total value of this award."
+
+msgid "Відмінності :ref:`defense`, :ref:`esco`, :ref:`openua` та :ref:`openeu`:"
+msgstr "Differences in :ref:`defense`, :ref:`esco`, :ref:`openua` and :ref:`openeu`:"
+
+msgid "Список :ref:`Value` об’єктів, генерується автоматично, лише для читання"
+msgstr "List of :ref:`Value` objects, auto-generated, read-only"
+
+msgid "Відмінності у :ref:`limited`:"
+msgstr "Differences in :ref:`limited`:"
+
+msgid "Об'єкт `Value`"
+msgstr "`Value` object"
+
+msgid "suppliers"
+msgstr ""
+
+msgid "Список об’єктів :ref:`BusinessOrganization`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`BusinessOrganization` objects, auto-generated, read-only"
+
+msgid "|ocdsDescription| Постачальники, що були визнані переможцями згідно цього рішення."
+msgstr "|ocdsDescription| The suppliers awarded with this award."
+
+msgid "items"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Item`, генерується автоматично, лише для читання"
+msgstr "List of :ref:`Item` objects, auto-generated, read-only"
+
+msgid "|ocdsDescription| Товари та послуги, що розглядались цим рішенням, поділені на окремі рядки, де це можливо. Елементи не повинні бути продубльовані, а повинні мати вказану кількість."
+msgstr "|ocdsDescription| The goods and services awarded in this award, broken into line items wherever possible. Items should not be duplicated, but the quantity specified instead."
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`ConfidentialDocument`"
+msgstr "List of :ref:`ConfidentialDocument` objects"
+
+msgid "|ocdsDescription| Усі документи та додатки пов’язані з рішенням, включно з будь-якими повідомленнями."
+msgstr "|ocdsDescription| All documents and attachments related to the award, including any notices."
+
+msgid "complaints"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Complaint` та :ref:`Claim`."
+msgstr "List of :ref:`Complaint` and :ref:`Claim` objects."
+
+msgid "Список об’єктів :ref:`Claim` для `belowThreshold`."
+msgstr "List of :ref:`Claim` objects for  `belowThreshold`."
+
+msgid "Список об’єктів :ref:`Complaint` для `negotiation` and `negotiation.quick`."
+msgstr "List of :ref:`Complaint` objects for  `negotiation` and `negotiation.quick`."
+
+msgid "complaintPeriod"
+msgstr ""
+
+msgid ":ref:`period`"
+msgstr ":ref:`period`"
+
+msgid "Період, під час якого можна подавати скарги."
+msgstr "The timeframe when complaints can be submitted."
+
+msgid "lotID"
+msgstr ""
+
+msgid "ID пов’язаного :ref:`lot`."
+msgstr "Id of related :ref:`lot`."
+
+msgid "Id пов'язаного :ref:`lot`. Тільки для процуде з `tender.procurementMethodType`: `negotiation` чи `negotiation.quick`."
+msgstr "Id of related :ref:`lot`. Only if `tender.procurementMethodType` is `negotiation` or `negotiation.quick`."
+
+msgid "qualified"
+msgstr ""
+
+msgid "bool"
+msgstr "bool"
+
+msgid "Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України ”Про державні закупівлі”."
+msgstr "Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine \"On Public Procurement\"."
+
+msgid "Відмінності :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`open`, :ref:`openua` та :ref:`openeu`:"
+msgstr "Additionally in :ref:`defense`, :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`open`, :ref:`openua` and :ref:`openeu`:"
+
+msgid "eligible"
+msgstr ""
+
+msgid "Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації."
+msgstr "Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents."
+
+msgid "Додатково для всіх процедур окрім :ref:`limited`:"
+msgstr "Additionally in all procedures except :ref:`limited`:"
+
+msgid "period"
+msgstr "period"
+
+msgid ":ref:`Period`"
+msgstr ":ref:`Period`"
+
+msgid "Період для прийняття рішення по аварду."
+msgstr "The timeframe for making decision regarding award."
+
+msgid "Додатково :ref:`limited`:"
+msgstr "Additionally in :ref:`limited`:"
+
+msgid "subcontractingDetails"
+msgstr ""
+
+msgid "Текстове поле будь-якої довжини, що містить інформацію про субпідрядника."
+msgstr "The text field of any length that contains information about subcontractor."
+
+msgid "requirementResponses"
+msgstr ""
+
+msgid "Список об’єктів :ref:`RequirementResponse`."
+msgstr "List of :ref:`RequirementResponse` objects."
+
+msgid "Робочий процес нагороди в :ref:`limited`:"
+msgstr "Award workflow in :ref:`limited`:"
+
+msgid "\\* marks initial state"
+msgstr "\\* marks initial state"
+
+msgid "Робочий процес у :ref:`openeu` та :ref:`esco`:"
+msgstr "Workflow in :ref:`openeu` and :ref:`esco`:"
+

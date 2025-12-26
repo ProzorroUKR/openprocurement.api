@@ -1,0 +1,175 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-02-11 12:41+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.15.0\n"
+
+msgid "Requirement"
+msgstr ""
+
+msgid "Схема"
+msgstr "Schema"
+
+msgid "id"
+msgstr ""
+
+msgid "uid, генерується автоматично"
+msgstr "uid, auto-generated"
+
+msgid "title"
+msgstr ""
+
+msgid "рядок, багатомовний, обов’язковий"
+msgstr "string, multilingual, required"
+
+msgid "|ocdsDescription| Назва вимоги."
+msgstr "|ocdsDescription| Requirement title."
+
+msgid "status"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Можливі значення:"
+msgstr "Possible values are:"
+
+msgid "`active`"
+msgstr ""
+
+msgid "`cancelled`"
+msgstr ""
+
+msgid "Статус вимоги (`active` за замовчуванням)."
+msgstr "|ocdsDescription| Requirement status (`active` by default)."
+
+msgid "description"
+msgstr ""
+
+msgid "рядок, багатомовний"
+msgstr "string, multilingual"
+
+msgid "|ocdsDescription| Опис вимоги."
+msgstr "|ocdsDescription| Requirement description."
+
+msgid "dataType"
+msgstr ""
+
+msgid "рядок, обов'язковий"
+msgstr "string, required"
+
+msgid "|ocdsDescription| Визначає тип відповіді."
+msgstr "|ocdsDescription| Determines the type of response."
+
+msgid "`string`"
+msgstr ""
+
+msgid "Відповідь на вимогу має бути надана у строковому форматі"
+msgstr "The requirement response must be of type string"
+
+msgid "`number`"
+msgstr ""
+
+msgid "Відповідь на вимогу має бути надана у форматі числа"
+msgstr "The requirement response must be of type number"
+
+msgid "`integer`"
+msgstr ""
+
+msgid "Відповідь на вимогу має бути надана у форматі цілого числа"
+msgstr "The requirement response must be of type integer"
+
+msgid "`boolean`"
+msgstr ""
+
+msgid "Відповідь на вимогу має бути надана у булевуму форматі"
+msgstr "The requirement response must be of type boolean"
+
+msgid "dataSchema"
+msgstr ""
+
+msgid "Визначає схему формату даних для значень з довідника. Дозволено тільки для `\"dataType\": \"string\"`"
+msgstr "Determines the schema of data format in expectedValues. It is allowed only for `\"dataType\": \"string\"`"
+
+msgid "`ISO 639-3`"
+msgstr ""
+
+msgid "Формат для `кодів мови <https://prozorroukr.github.io/standards/classifiers/languages.json>`_"
+msgstr "Format for `language codes <https://prozorroukr.github.io/standards/classifiers/languages.json>`_"
+
+msgid "`ISO 3166-1 alpha-2`"
+msgstr ""
+
+msgid "Формат для `кодів країн <https://prozorroukr.github.io/standards/classifiers/countries.json>`_"
+msgstr "Format for `country codes <https://prozorroukr.github.io/standards/classifiers/countries.json>`_"
+
+msgid "minValue"
+msgstr ""
+
+msgid "int/float"
+msgstr ""
+
+msgid "|ocdsDescription| Використовується для визначення нижньої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні."
+msgstr "|ocdsDescription| Used to state the lower bound of the requirement when the response must be within a certain range."
+
+msgid "maxValue"
+msgstr ""
+
+msgid "|ocdsDescription| Використовується для визначення вищої межі вимоги, коли відповідь повинна знаходитися в певному діапазоні."
+msgstr "|ocdsDescription| Used to state the higher bound of the requirement when the response must be within a certain range."
+
+msgid "expectedValue"
+msgstr ""
+
+msgid "int/float/bool"
+msgstr ""
+
+msgid "|ocdsDescription| Використовується коли відповідь на вимогу має мати визначене значення."
+msgstr "|ocdsDescription| Used to state the requirement when the response must be particular value."
+
+msgid "expectedValues"
+msgstr ""
+
+msgid "Використовується коли відповідь на вимогу має мати визначене значення з довідника."
+msgstr "Used to state the requirement when the response must be an array of particular values."
+
+msgid "period"
+msgstr ""
+
+msgid ":ref:`extendPeriod`"
+msgstr ""
+
+msgid "relatedFeature"
+msgstr ""
+
+msgid "Id пов'язанного :ref:`Feature`."
+msgstr "Id of related :ref:`Feature`."
+
+msgid "eligibleEvidences"
+msgstr ""
+
+msgid "Список об'єктів :ref:`EligibleEvidence`."
+msgstr "List of :ref:`EligibleEvidence` objects."
+
+msgid "datePublished"
+msgstr ""
+
+msgid "рядок, :ref:`date`"
+msgstr "string, :ref:`date`"
+
+msgid "Дата публікації вимоги"
+msgstr "|ocdsDescription| The date on which the requirement version was published."
+
+msgid "dateModified"
+msgstr ""
+
+msgid "Дата зміни статусу вимоги на `cancelled`."
+msgstr "|ocdsDescription| Date that the requirement version was cancelled"
+

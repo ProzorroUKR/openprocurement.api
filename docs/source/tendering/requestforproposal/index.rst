@@ -1,9 +1,9 @@
 .. _requestforproposal:
 
-Request For Proposal procedure - ``requestForProposal``
-=======================================================
+Торги за правилами організатора - ``requestForProposal``
+========================================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

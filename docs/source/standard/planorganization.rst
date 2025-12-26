@@ -9,35 +9,33 @@
 PlanOrganization
 ================
 
-Schema
-------
+Схема
+-----
 
 :name:
-    string, multilingual
+    рядок, багатомовний
 
-    |ocdsDescription|
-    The common name of the organization.
+    |ocdsDescription| Назва організації.
 
 :identifier:
-    :ref:`Identifier`
+    :ref:`Identifier`, обов’язково
 
-    |ocdsDescription|
-    The primary identifier for this organization.
+    |ocdsDescription| Ідентифікатор цієї організації.
 
 :address:
-    :ref:`Address`, required
+    :ref:`Address`, обов’язково
 
 :contactPoint:
    :ref:`ContactPoint`, optionally can be added to buyers only
 
 :kind:
-    string
+    рядок
 
-    Possible values:
-        - ``authority`` - Public authority, local government or law enforcement agency
-        - ``central`` - Legal entity that conducts procurement in the interests of the customers (CPB)
-        - ``defense`` - Procuring entity that conducts procurement for the defense needs
-        - ``general`` - Legal person providing the needs of the state or territorial community
-        - ``other`` -  State or utility company that is not regarded as procuring entity
-        - ``social`` - Social insurance authority
-        - ``special`` - A legal entity that operates in one or more specific business areas
+    Можливі значення:
+        - ``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган
+        - ``central`` - Юридична особа, що здійснює закупівлі в інтересах замовників (ЦЗО)
+        - ``defense`` - Замовник, що здійснює закупівлі для потреб оборони
+        - ``general`` - Юридична особа, яка забезпечує потреби держави або територіальної громади
+        - ``other`` - Державне або комунальне підприємство, яке не належить до замовників
+        - ``social`` - Орган соціального страхування
+        - ``special`` - Юридична особа, яка здійснює діяльність в одній або декількох окремих сферах господарювання

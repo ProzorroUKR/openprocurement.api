@@ -1,63 +1,51 @@
 
 .. _qualification_operations:
 
-Qualification Operations
-========================
+Операції кваліфікації
+=====================
 
-When auction is over, the qualification process starts. The status of tender
-is `active.qualification` then.  Right after results are submitted to
-Central DB, there is award generated for auction winner.
+Коли закінчується аукціон, розпочинається процес оцінки. Закупівля отримує статус `active.qualification`. Після того, як результати подаються у Центральну базу даних, реєструється рішення про перемогу учасника аукціону.
 
-Listing awards
-~~~~~~~~~~~~~~
+Перегляд результатів оцінки
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The pending award can be retrieved via request to list all available awards:
+Результати аукціону, що оцінюються, можна дізнатись запитом на отримання списків усіх доступних винагород:
 
 .. http:example:: http/qualification/awards-get.http
    :code:
 
 
-When the award is in `pending` status, it means that procuring entity has
-to review documents describing the bid and other bidder documents.
+Визначення переможця (винагорода) має статус `pending`, якщо замовнику потрібно перевірити документи пов’язані з пропозицією кандидата.
 
-Disqualification
-~~~~~~~~~~~~~~~~
+Дискваліфікація
+~~~~~~~~~~~~~~~
 
-The protocol of Qualification Committee decision should be uploaded as
-document into award and later its status should switch to either `active`
-(if it is accepted) or `unsuccessful` (if rejected).
+Протокол рішення Кваліфікаційного комітету повинен бути завантажений у вигляді документа до рішення. Пізніше його статус повинен бути змінений або на `active` (якщо його прийнято), або на `unsuccessful` (якщо відмовлено).
 
 .. note::
-    Before making decision it is required to add sign document to award.
+    Перед винесенням рішення необхідно обов'язково додати документ підпису до аварду.
 
 .. http:example:: http/qualification/award-pending-upload.http
    :code:
 
-The Qualification Committee can upload several documents, for example, decisions to
-prolong the qualification process - in order to allow the bidder to collect all
-necessary documents or correct errors.  Such documents would help to have
-procedure as transparent as possible and will reduce risk of cancellation by
-Complaint Review Body.
+Кваліфікаційний комітет може завантажити декілька документів, наприклад, рішення подовжити процес кваліфікації, щоб дозволити кандидату зібрати усі необхідні документи або виправити помилки. Такі документи допоможуть зробити процедуру прозорою та зменшать ймовірність відміни рішення органом розгляду скарг.
 
 .. http:example:: http/qualification/award-pending-unsuccessful.http
    :code:
 
-Note that after award rejection the next bid in the value-sorted bid
-sequence becomes subject of subsequent award.  For convenience you can use
-the `Location` response header from the response above that is pointing
-to an award in "pending" state.
+Зверніть увагу, що після відмови визначеному переможцю наступна пропозиція у просортованому за ціновими пропозиціями списку стає претендентом на перемогу. Для зручності, ви можете використати заголовок `Location` з попередньої відповіді, що вказує на "pending" стан оцінки, що ще триває.
 
 
-Contract Awarding
-~~~~~~~~~~~~~~~~~
+Винагорода (визначення переможця з ціллю підписання договору)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Protocol upload:
+Завантаження протоколу:
 
 .. sourcecode:: http
 
   POST /tenders/64e93250be76435397e8c992ed4214d1/awards/{}/documents HTTP/1.1
 
-Confirming the Award:
+Підтвердження визначення переможця:
 
 .. sourcecode:: http
 
@@ -73,31 +61,24 @@ Confirming the Award:
 
   HTTP/1.1 200 OK
 
-The procuring entity can wait until bidder provides all missing documents
-(licenses, certificates, statements, etc.) or update original bid documents
-to correct errors.  Alternatively, they can reject the bid if provided
-documents do not satisfy the pass/fail criteria of tender (even before
-full package of supplementary documents is available).
+Замовник може почекати, доки кандидат надасть усі відсутні документи (ліцензії, сертифікати, заяви, і т.п.) або оновить існуючі документи пропозиції, щоб виправити помилку. З іншого боку, замовник може відмовити пропозиції, якщо надані документи не задовільняють умов закупівлі, навіть до того як повний пакет документів стане доступним.
 
-Cancelling Active Award
-~~~~~~~~~~~~~~~~~~~~~~~
+Скасування активної винагороди
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes Bidder refuses to sign the contract even after passing
-qualification process.  In this case Procuring Entity is expected to be able
-to reject approved award and disqualify Bid afterwards.
+Іноді Учасник відмовляється підписати договір, навіть після проходження процесу кваліфікації. У цьому випадку замовник закупівлі повинен мати можливість відмовитися від затвердженого переможця, а потім дискваліфікувати його цінову пропозицію.
 
-After we have Award with active status:
+Коли стадія Визначення переможця активна:
 
 .. http:example:: http/qualification/award-active-get.http
    :code:
 
-There is need to cancel it:
+Є необхідність її скасувати:
 
 .. http:example:: http/qualification/award-active-cancel.http
    :code:
 
-Note that there is Location header returned that aids in locating the "fresh"
-award that is most likely subject for disqualification:
+Зверніть увагу, що повернуто заголовок Location, який допомогає в пошуку "свіжої" винагороди, яка, швидше за все, і є предметом дискваліфікації:
 
 .. http:example:: http/qualification/award-active-cancel-upload.http
    :code:
@@ -105,17 +86,15 @@ award that is most likely subject for disqualification:
 .. http:example:: http/qualification/award-active-cancel-disqualify.http
    :code:
 
-In the case when there is another Bid for qualification, there will be
-Location header in the response pointing to its Award.
+У випадку, якщо є інша пропозиція для кваліфікації, у відповіді буде заголовок Location, що вказуватиме на відповідну винагороду.
 
 
-Cancellation of the decision on disqualification without the effect of a satisfied complaint
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Відміна рішення про дискваліфікацію без впливу задовільненої скарги
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-For some procedures, it is possible for the contracting authority to cancel its decision to reject a tenderer's offer when the award becomes unsuccessful,
-only if there is no contract in the active status in the tender/lot.
+Для деяких процедур є можливість замовнику скасувати своє рішення про відхилення пропозиції учасника по тендеру/лоту, коли об’єкт award набуває статусу `unsuccessful`, за умови, якщо відсутній контракт у статусі `active` у тендері/лоті.
 
-The list of procedures:
+Список процедур:
  - competitiveOrdering
  - aboveThreshold
  - aboveThresholdUA
@@ -126,42 +105,40 @@ The list of procedures:
  - competitiveDialogueEU.stage2
  - esco
 
-Unsuccessful award:
+Відхилений авард:
 
 .. http:example:: http/qualification/awards-unsuccessful-get1.http
    :code:
 
-Let's cancel unsuccessful award:
+Скасуємо рішення про дискваліфікацію:
 
 .. http:example:: http/qualification/awards-unsuccessful-cancel-wo-complaints.http
    :code:
 
-The presence of a complaint in any status does not block this option.
+Наявність скарги у будь якому статусі не блокує таку опцію.
 
-No additional justification is provided for the cancellation of such a decision.
+При скасування такого рішення ніяких додаткових обґрунтувань не передбачено.
 
-When the customer cancels the decision on award:unsuccessful, in this case, as with any cancellation of the decision, the award acquires the status `cancelled`, a new award `pending` is created, on which the customer must make a new decision:
+Коли замовник скасовує рішення по `award:unsuccessful`, в такому випадку, як при будь якому скасуванню рішення, award набуває статусу `cancelled`, утворюється новий award `pending`, по якому замовник повинен прийняти нове рішення:
 
 .. http:example:: http/qualification/awards-unsuccessful-cancelled-get.http
    :code:
 
-In this case, the existing `award:pending` and `award:active` automatically acquire the status `cancelled`.
+При цьому наявні `award:pending` та `award:аctive` автоматично набувають статусу `cancelled`.
 
-Influence of Complaint Satisfaction
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Вплив задовільненої скарги
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If decision of the procuring entity is unfair any bidder can file
-complaint and after proper review the whole awarding process can start from
-the award in question.
+Якщо рішення замовника є несправедливим, будь-який учасник може подати скаргу і, після її відповідного розгляду, весь процес визначення переможця може вернутись до цього рішення.
 
-Disqualification decision of procuring entity's qualification committee can be cancelled in the following cases:
+Рішення кваліфікаційної комісії замовника про дискваліфікацію  можна відмінити у таких випадках:
 
-* claim for this disqualification has been submitted (claim status is ``claim``);
-* claim has been answered (claim status is ``answered``);
-* complaint is pending review (complaint status is ``pending``);
-* complaint has been satisfied by the Complaint Review Body (complaint status is ``resolved``).
+* подана вимога на цю дискваліфікацію (статус вимоги ``claim``);
+* надана відповідь по вимозі (статус вимоги ``answered``);
+* скарга очікує розгляду органом оскарження (статус скарги ``pending``);
+* скарга задовільнена, тобто є позитивне рішення органу оскарження (статус скарги ``resolved``).
 
-After the disqualification decision cancellation it receives ``cancelled`` status. New pending award is generated and procuring entity is obliged to qualify it again (taking into consideration recommendations from the report of Complaint Review Body if there is one).
+При відміні рішення про дискваліфікацію воно отримує статус ``cancelled``. Генерується новий процес визначення переможця і замовник зобов’язаний кваліфікувати його знову (зважаючи на рекомендації зазначені в звіті органу розгляду скарг, якщо такий є).
 
 .. http:example:: http/qualification/awards-unsuccessful-get2.http
    :code:

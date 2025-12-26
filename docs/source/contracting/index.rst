@@ -1,9 +1,9 @@
 .. _base-contracting:
 
-Contracting API
-===============
+Contracting API для операцій з договором
+========================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 4

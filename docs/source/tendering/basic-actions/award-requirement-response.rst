@@ -1,46 +1,45 @@
 
 .. _award_requirement_response_operation:
 
-Award Requirement response
---------------------------
+Відповідь на вимогу в кваліфікації
+----------------------------------
 
-Any action on the requirement response in the award can be performed only by the tender owner.
+Будь-які дії над відповіддю на вимогу в кваліфікації може виконувати лише замовник.
 
-Requirement response basic operation
-------------------------------------
+Базові операції над відповідями на вимоги
+-----------------------------------------
 
-Requirement response data :ref:`scheme<RequirementResponse>`
+Схема даних :ref:`відповіді на вимогу<RequirementResponse>`
 
 
-Create Award Requirement Response
-"""""""""""""""""""""""""""""""""
+Створення відповіді на вимогу
+"""""""""""""""""""""""""""""
 
-You can create few requirement responses in one request with complete set of data.
+Можливо створити декілька відповідей на вимоги за один запит з повним набором даних.
 
 .. http:example:: http/criteria/award-create-requirement-response.http
    :code:
 
-You can create requirement responses in one request with award patch.
+Можливо також створювати відповіді на вимоги одним запитом через оновлення кваліфікації.
 
 .. http:example:: http/criteria/add-requirement-response-from-award.http
    :code:
 
 
-Update Award Requirement Response
-"""""""""""""""""""""""""""""""""
+Оновлення відповіді на вимогу
+"""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/award-update-requirement-response.http
    :code:
 
-You can patch requirement responses in one request with award patch,
-and you must send data about other requirement responses or this other requirement responses will be deleted.
+Можливо редагувати відповіді на вимоги одним запитом через оновлення кваліфікації, але потрібно передавати також всі відповіді на вимоги або відповіді, які не будуть передані - будуть видалені.
 
 .. http:example:: http/criteria/patch-requirement-response-from-award.http
    :code:
 
 
-Get Award Requirement Response
-""""""""""""""""""""""""""""""
+Отримання інформації по відповіді на вимогу
+"""""""""""""""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/award-requirement-response-list.http
    :code:
@@ -49,33 +48,33 @@ Get Award Requirement Response
    :code:
 
 
-Delete Requirement Response
-"""""""""""""""""""""""""""
+Видалення відповіді на вимогу
+"""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/award-delete-requirement-response.http
    :code:
 
 
-Evidence basic operation
-------------------------
+Базові операції над доказами
+----------------------------
 
-Evidence data :ref:`scheme<evidence>`
+Схема даних :ref:`доказу<evidence>`
 
-Create Requirement Response Evidence
-""""""""""""""""""""""""""""""""""""
+Створення Доказу
+""""""""""""""""
 
 .. http:example:: http/criteria/award-create-requirement-response-evidence.http
    :code:
 
 
-Update Requirement Response Evidence
-""""""""""""""""""""""""""""""""""""
+Оновлення доказу
+""""""""""""""""
 
 .. http:example:: http/criteria/award-update-requirement-response-evidence.http
    :code:
 
-Get Requirement Response Evidence
-"""""""""""""""""""""""""""""""""
+Отримання інформації по доказу
+""""""""""""""""""""""""""""""
 
 .. http:example:: http/criteria/award-requirement-response-evidence-list.http
    :code:
@@ -83,8 +82,8 @@ Get Requirement Response Evidence
 .. http:example:: http/criteria/award-requirement-response-evidence.http
    :code:
 
-Delete Requirement Response Evidence
-""""""""""""""""""""""""""""""""""""
+Видалення доказу
+""""""""""""""""
 
 .. http:example:: http/criteria/award-delete-requirement-response-evidence.http
    :code:

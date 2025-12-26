@@ -1,174 +1,170 @@
 .. _framework_electroniccatalogue_tutorial:
 
-Tutorial
+Туторіал
 ========
 
-Framework creation
-------------------
+Створення кваліфікації
+----------------------
 
-Only markets with 5th accreditation level can create frameworks. `ProcuringEntity` can have only `central` kind.
-Framework can be created only for cpb that have `active: true` status https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
+Лише майданчики з 5м рівнем аккредитації можуть створювати кваліфікації. `ProcuringEntity` може бути лише типу `central`. Кваліфікацію можуть створювати лише активні ЦЗО зі списку: https://prozorroukr.github.io/standards/organizations/authorized_cpb.json
 
-Let’s create a framework:
+Створимо кваліфікацію:
 
 .. http:example:: tutorial/create-framework.http
    :code:
 
-We have `201 Created` response code, `Location` header and body with extra properties.
+Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковими полями.
 
-Framework was created in `draft` status. In this status any field, except technical, can be changed using PATCH method.
+Кваліфікацію було створено у статусі `draft`. У цьому статусі будь-яке поле, окрім технічних, може бути змінено.
 
 .. http:example:: tutorial/patch-framework-draft.http
    :code:
 
-Uploading documentation
------------------------
+Завантаження документації
+-------------------------
 
-Procuring entity can upload files into the created framework. Uploading should
-follow the :ref:`upload` rules.
+Замовник може завантажити PDF файл у створениу кваліфікацію. Завантаження повинно відбуватись згідно правил :ref:`upload`.
 
 .. http:example:: tutorial/upload-framework-document.http
    :code:
 
-`201 Created` response code and `Location` header confirm document creation.
-We can additionally query the `documents` collection API endpoint to confirm the
-action:
+Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:
 
 .. http:example:: tutorial/framework-documents.http
    :code:
 
-And again we can confirm that there are two documents uploaded.
+І знову можна перевірити, що є два завантажених документа.
 
 .. http:example:: tutorial/upload-framework-document-2.http
    :code:
 
-In case we made an error, we can reupload the document over the older version:
+Якщо сталась помилка, ми можемо ще раз завантажити документ поверх старої версії:
 
 .. http:example:: tutorial/upload-framework-document-3.http
    :code:
 
-And we can see that it is overriding the original version:
+І ми бачимо, що вона перекриває оригінальну версію:
 
 .. http:example:: tutorial/get-framework-document-3.http
    :code:
 
-Framework activation
---------------------
+Активація кваліфікації
+----------------------
 
-The second step is moving the framework to `active` status.
+Наступний крок - змінити статус кваліфікації на `active`.
 
-`qualificationPeriod.endDate` should be in between 365 and 1461 days from activation moment.
+`qualificationPeriod.endDate` має бути у проміжку не менш ніж 365 днів і не більш ніж 1461 днів з моменту активації.
 
-There should be at least 1 document in addition to sign document.
+Перед активацією до кваліфікації має бути додано хоча б один документ та підпис.
 
 .. http:example:: tutorial/patch-framework-draft-to-active.http
    :code:
 
-After framework activation frameworks periods was calculated:
+Після активації кваліфікації будуть розраховані періоди:
 
-`enquiryPeriod` - first 10 full working days after activation.
+`enquiryPeriod` - перші 10 повних робочих днів з моменту активації.
 
-`period` - period when suppliers can add submissions.
+`period` - період, коли постачальники можуть подавати заявки.
 
-`qualificationPeriod` - last 30 full calendar days of framework when suppliers cannot add submissions but still can be qualified based on previous submissions.
+`qualificationPeriod` - останні 30 повних календарних днів кваліфікації. У цей період постачальники не можуть подавати нові заявки, але ще приймаються рішення щодо попередньо поданих заявок.
 
 .. http:example:: tutorial/get-framework.http
    :code:
 
-Let's check what framework registry contains:
+Перевіримо, що містить реєстр кваліфікації:
 
 .. http:example:: tutorial/framework-listing.http
    :code:
 
-We do see the internal `id` of a framework and its `dateModified` datestamp.
+Відображається  `id` - внутрішній ідентифікатор та мітка часу `dateModified`.
 
-Modifying framework
--------------------
+Зміна кваліфікації
+------------------
 
-In `active` status only some fields can be changed: `telephone`, `name`, `email` for `procuringEntity.contactPoint`, `description` and `documents`.
+У статусі `active` можна змінювати лише деякі поля: `telephone`, `name`, `email` для `procuringEntity.contactPoint`, `description` and `documents`.
 
 .. http:example:: tutorial/patch-framework-active.http
    :code:
 
-Additionally, the `dateModified` property was updated to reflect the last modification datestamp.
+Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації.
 
-Checking the listing again reflects the new modification date:
+Ще одна перевірка списку відображає нову дату модифікації:
 
 .. http:example:: tutorial/framework-listing.http
    :code:
 
-Modifying qualificationPeriod in active framework
---------------------------------------------------
+Зміна qualificationPeriod в активному відборі
+---------------------------------------------
 
-Also in `active` status can be changed `endDate` for `qualificationPeriod` but it can be done only using another endpoint.
+Також у статусі `active` можна замінити `endDate` поле в `qualificationPeriod`, але це можна зробити вже через окремий ендпоінт.
 
-There are validations for changing `qualificationPeriod.endDate`:
+Існують наступні валідації для зміни терміну дії відбору `qualificationPeriod.endDate`:
 
 * qualificationPeriod.endDate couldn't be less than 30 full calendar days from now
 * qualificationPeriod.endDate couldn't be more than 1461 full calendar days from now
 
-It is allowed to modify `qualificationPeriod` only by framework owner using `changes`.
+Зміну терміну дії відбору може виконувати лише `framework_owner` (власник кваліфікації) використовуючи ченжі.
 
-Fields for modifying period:
+Поля, які необхідно заповнити для зміни терміну дії відбору:
 
 * `qualificationPeriod.endDate` (in `change.modifications`)
 * `rationale`
 * `rationaleType`
 * `documents` (optional)
 
-Let's try to change `qualificationPeriod.endDate` with soon date:
+Спробуємо змінити `qualificationPeriod.endDate` на ранню дату:
 
 .. http:example:: tutorial/patch-framework-active-qualification-period-too-soon.http
    :code:
 
-Let's try to prolong `qualificationPeriod.endDate` with late date:
+Спробуємо змінити `qualificationPeriod.endDate` на пізню дату:
 
 .. http:example:: tutorial/patch-framework-active-qualification-period-too-late.http
    :code:
 
-Success changing of `qualificationPeriod`:
+Успішна зміна терміну дії відбору:
 
 .. http:example:: tutorial/patch-framework-active-qualification-period.http
    :code:
 
-There is special parameter `opt_context` for getting change data for signing:
+Необхідно вказати параметр opt_context=true для того, щоб отримати додаткову інформацію з відбору для підписання змін:
 
 .. http:example:: tutorial/get-change-sign-data.http
    :code:
 
-For more detail about signing the data with context: :ref:`sign-data`.
+Для детальної інформації про відображення інформації для підписів, дивитися тут: :ref:`sign-data`.
 
-Then the signature should be added to change:
+Тепер необхідно додати документ підпису до змін:
 
 .. http:example:: tutorial/sign-framework-active-qualification-period.http
    :code:
 
-If `qualificationPeriod.endDate` was changed all periods will be recalculated.
+Якщо було змінено поле `qualificationPeriod.endDate` - всі періоди будуть перераховані.
 
-Let's look at framework:
+Подивимося тепер на відбір:
 
 .. http:example:: tutorial/get-framework-after-qualification-period-modified.http
    :code:
 
-There is a new object `changes` in framework with previous `qualificationPeriod.endDate` and new one. All period changes will be saved in this object.
+Тепер у відборі існує новий об'єкт `changes` з попереднім значенням `qualificationPeriod.endDate` і новим значенням. Всі зміни терміну дії відбору будуть збережені в цьому об'єкті.
 
-Registering submission
-----------------------
+Реєстрація заявки
+-----------------
 
-After activating framework, users can register their submissions in period from `framework.period.startDate` to `framework.period.endDate`:
+Після активації кваліфікації, користувачі можуть зареєструвати свої заявки в період з `framework.period.startDate` до `framework.period.endDate`:
 
 .. http:example:: tutorial/register-submission.http
    :code:
 
-We have `201 Created` response code, `Location` header and body with extra properties.
+Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковими полями.
 
 
-Uploading Submission documentation
-----------------------------------
+Завантаження документації по заявці
+-----------------------------------
 
-Documents can be uploaded/changed only for submission in `draft` status.
+Документи можливо завантажити/оновити тільки до заявки у статусі `draft.`
 
-Documents operations is same like in framework:
+Усі операції над документами такі ж як у кваліфікації:
 
 .. http:example:: tutorial/upload-submission-document.http
    :code:
@@ -176,85 +172,84 @@ Documents operations is same like in framework:
 .. http:example:: tutorial/get-submission-documents.http
    :code:
 
-Confidential documents for submissions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Конфіденційні файли у заявці
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Documents can be public or confident.
+Документи можуть бути публічними та конфіденційними.
 
-Confidentiality may be applied/changed only for submission in `draft` status.
-It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`.
+Приховання (конфіденційність) може бути застосована/змінена для документів у заявці у статусі `draft`. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`.
 
-Let's add documents with `confidentiality` as `buyerOnly` and look what we've got:
+Додамо документи з `confidentiality: buyerOnly` і подивимося, що ми маємо:
 
 .. http:example:: tutorial/upload-submission-conf-docs-wo-rationale.http
    :code:
 
-Let's add `confidentialityRationale`:
+Додамо поле обґрунтування `confidentialityRational`:
 
 .. http:example:: tutorial/upload-submission-conf-docs.http
    :code:
 
-The bidder and framework owner see these kind of documents and can download:
+Власник заявки та власник відбору бачить такі документи і може завантажиити їх:
 
 .. http:example:: tutorial/get-submission-conf-docs-by-owner.http
    :code:
 
-All others can't read the document:
+Всі інші користувачі не можуть переглянути документ:
 
 .. http:example:: tutorial/get-submission-conf-docs-by-public.http
    :code:
 
-Nobody but the owner of submission and framework can download the confidential document:
+Ніхто окрім власника заявки та власника відбору не може викачати документ:
 
 .. http:example:: tutorial/upload-submission-conf-doc-by-public.http
    :code:
 
-Deleting submission
--------------------
+Видалення заявки
+----------------
 
-Submission can be deleted only in `draft` status:
+Заявка може бути видалена лише у статусі `draft`:
 
 .. http:example:: tutorial/deleting-submission.http
    :code:
 
 
-Updating Submission
--------------------
+Оновлення заявки
+----------------
 
-Submission can be changed only in `draft` status:
+Заявка може бути оновлена лише у статусі `draft`:
 
 .. http:example:: tutorial/updating-submission.http
    :code:
 
-Submission activation
----------------------
+Активація заявки
+----------------
 
-Submission can be activated before `period.endDate`
+Заявку можна активувати лише до настання `period.endDate`
 
 .. http:example:: tutorial/activating-submission.http
    :code:
 
-After activating the submission, a qualification object is automatically created and submission `qualificationID` field is filled.
+Після активації заявки, автоматично створюється об'єкт рішення по заявці і заповнюється поле `qualificationID` в заявці.
 
-Let's check what submission registry contains:
+Перевіримо, що містить реєстр заявки:
 
 .. http:example:: tutorial/submission-listing.http
    :code:
 
-Let's check created qualification object:
+Перевіримо об'єкт рішення по заявці:
 
 .. http:example:: tutorial/get-qualification.http
    :code:
 
-All operations with qualification object can do only `framework_owner`.
+Всі операції над об'єктом рішення по заявці може виконувати лише `framework_owner` (власник кваліфікації).
 
 
-Uploading qualification documentation
--------------------------------------
+Завантаження документації до рішення по заявці
+----------------------------------------------
 
-Documents can be uploaded/changed only for qualification in `pending` status.
+Документи можливо завантажити/оновити тільки до рішення у статусі `pending`.
 
-Documents operations is same like in framework:
+Усі операції над документами такі ж як у кваліфікації:
 
 .. http:example:: tutorial/upload-qualification-document.http
    :code:
@@ -263,86 +258,85 @@ Documents operations is same like in framework:
    :code:
 
 
-Canceled qualification
-----------------------
+Відміна рішення по заявці
+-------------------------
 
-Qualification can be cancelled only in `pending` status.
+Рішення можливо відмінити лише у статусі `pending`.
 
-Before cancelling qualification it is required to add sign document to qualification. If there is no sign document during cancelling, we will see an error:
+Перед відміною рішення необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час відміни, ми побачимо помилку:
 
 .. http:example:: tutorial/evaluation-reports-document-required-for-cancelling.http
    :code:
 
-Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:
+Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/add-evaluation-reports-document-for-cancelling.http
    :code:
 
-Then it is allowed to cancel qualification:
+Тепер можна відмінити рішення по заявці:
 
 .. http:example:: tutorial/unsuccessful-qualification.http
    :code:
 
-After cancelling qualification, related submission changed status from `active` to `complete`.
+Після відміни рішення, пов'язана завявка змінює статус з `active` на `complete`.
 
-Let's check what happen with submissions after cancelling qualification:
+Перевіримо що сталося з заявками після відміни рішення:
 
 .. http:example:: tutorial/get-submissions-by-framework-id.http
    :code:
 
-Approve qualification
-------------------------
+Підтвердження рішення по заявці
+-------------------------------
 
-Qualification can be approved only in `pending` status.
+Рішення можливо погодити лише у статусі `pending`.
 
-Before activating qualification it is required to add sign document to qualification. If there is no sign document during activation, we will see an error:
+Перед погодженням необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час активації, ми побачимо помилку:
 
 .. http:example:: tutorial/evaluation-reports-document-required.http
    :code:
 
-Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:
+Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/add-evaluation-reports-document.http
    :code:
 
-Then it is allowed to activate qualification:
+Тепер можна підтвердити рішення по заявці:
 
 .. http:example:: tutorial/activation-qualification.http
    :code:
 
-After approving qualification, if it was first active qualification system create agreement with contract
-otherwise system add contract to agreement.
+Після підтвердження рішення по заявці, якщо це було перше затверджене рішення система створює реєстр з контрактом, в іншому випадку система додає контракт до реєстру.
 
-Let's check current framework
+Перевіримо кваліфікацію:
 
 .. http:example:: tutorial/get-framework-with-agreement.http
    :code:
 
-You can see that `agreementID` appeared in current framework, so let's check that agreement:
+Ви можете побачити, що в кваліфікації з'явилось поле `agreementID`, тож давайте перевіримо реєстр:
 
 .. http:example:: tutorial/get-agreement.http
    :code:
 
-As you can see agreement now in `active` status, and already have contract, so we can see that agreement in agreement feed:
+Як ви можете побачити реєстр в статусі `active` та має контракт, щож ми можемо побачити цей реєстр в потоці даних:
 
 .. http:example:: tutorial/agreement-listing.http
    :code:
 
 
-Let's check what qualification registry contains:
+Перевіримо, що містить реєстр рішення по заявці:
 
 .. http:example:: tutorial/qualification-listing.http
    :code:
 
-Let's check all qualifications for current framework:
+Перевіримо всі рішення по заявці до данної кваліфікації:
 
 .. http:example:: tutorial/get-qualifications-by-framework-id.http
    :code:
 
 
-Framework completing
---------------------
+Завершення кваліфікації
+-----------------------
 
-Framework is completed automatically at `qualificationPeriod.endDate` moment.
+Завершення кваліфікації відбувається автоматично після настання дати `qualificationPeriod.endDate`.
 
-PATCH with new `qualificationPeriod.endDate` allow to complete framework earlier than was planned, but not earlier than 30 full calendar days from change moment.
+PATCH запит з новим значенням `qualificationPeriod.endDate` дозволяє завершити фрейморк раніше запланованого часу, але не раніше 30 повних календарних днів з моменту зміни `qualificationPeriod.endDate`.

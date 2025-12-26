@@ -1,9 +1,9 @@
 .. _belowthreshold:
 
-Below Threshold procedure - ``belowThreshold``
-==============================================
+Спрощена закупівля - ``belowThreshold``
+=======================================
 
-Contents:
+Зміст:
 
 .. toctree::
    :maxdepth: 2

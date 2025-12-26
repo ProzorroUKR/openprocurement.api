@@ -5,63 +5,63 @@
 Milestone
 =========
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ dictionaries.
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ довідниками.
 
 :description:
-    string, required if title == `anotherEvent`
+    рядок, обов’язковий якщо title == `anotherEvent`
 
 :type:
-    string, required
+    рядок, обов’язковий
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `financing`
     * `delivery`
 
 :code:
-    string, required
+    рядок, обов’язковий
 
-    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ dictionaries.
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками.
 
 :percentage:
     float, 0..100
 
-    Sum of all tender (or lot) milestones should be 100
+    Сума всіх milestone тендеру (або лоту) повинна бути 100
 
 :duration:
-    :ref:`Duration` object, required
+    :ref:`Duration`, обов’язково
 
 :sequenceNumber:
-    integer, required, non negative
+    integer, обов’язковий, не негативний
 
 :relatedLot:
     uid
 
-    Id of related :ref:`lot`.
+    ID пов’язаного :ref:`lot`.
 
 
-Milestone in :ref:`frameworks_electroniccatalogue`
-==================================================
+Milestone в :ref:`frameworks_electroniccatalogue`
+=================================================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :type:
-    string, required
+    рядок, обов’язковий
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `activation`
     * `ban`
@@ -69,7 +69,7 @@ Schema
 :status:
     string
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `scheduled`
     * `met`
@@ -77,18 +77,18 @@ Schema
     * `partiallyMet`
 
 :dueDate:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
 :documents:
-    List of :ref:`document` objects
+    Список об'єктів :ref:`document`
 
 :dateModified:
-    string, :ref:`date`, auto-generated, read-only
+    рядок, :ref:`date`, генерується автоматично, лише для читання
 
-    The date of milestone change.
+    Дата зміни майлстону
 
 :dateMet:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
 
 .. _ContractMilestone:
@@ -96,74 +96,74 @@ Schema
 ContractMilestone
 =================
 
-Schema
-------
+Схема
+-----
 
 :id:
-    uid, auto-generated
+    uid, генерується автоматично
 
 :title:
-    string, required
+    рядок, обов’язковий
 
-    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ dictionaries.
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/title.json>`__ довідниками.
 
 :description:
-    string, required if title == `anotherEvent`
+    рядок, обов’язковий якщо title == `anotherEvent`
 
 :type:
-    string, required
+    рядок, обов’язковий
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `financing`
     * `delivery`
 
 :code:
-    string, required
+    рядок, обов’язковий
 
-    Possible values should be from `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ dictionaries.
+    Значення заповнюються згідно з `milestones <https://prozorroukr.github.io/standards/codelists/milestones/code.json>`_ довідниками.
 
 :percentage:
     float, 0..100
 
-    Sum of all tender (or lot) milestones should be 100
+    Сума всіх milestone тендеру (або лоту) повинна бути 100
 
 :duration:
-    :ref:`Duration` object, required
+    :ref:`Duration`, обов’язково
 
 :sequenceNumber:
-    integer, required, non negative
+    integer, обов’язковий, не негативний
 
 :relatedLot:
     uid
 
-    Id of related :ref:`lot`.
+    ID пов’язаного :ref:`lot`.
 
 :status:
     string
 
-    The only possible value is:
+    Єдине можливе значення:
 
     * `scheduled`
 
 :dateMet:
-    string, :ref:`date`
+    рядок, :ref:`date`
 
 .. _Duration:
 
 Duration
 ========
 
-Schema
-------
+Схема
+-----
 
 :days:
-    integer, required, positive
+    integer, обов’язковий, не негативний
 
 :type:
-    string, required
+    рядок, обов’язковий
 
-    Possible values are:
+    Можливі значення:
 
     * `working`
     * `banking`

@@ -8,54 +8,54 @@
 Feature
 =======
 
-Schema
-------
+Схема
+-----
 
 :code:
-    string, auto-generated
+    рядок, генерується автоматично
 
-    Code of the feature.
+    Код нецінового критерію.
 
 :featureOf:
-    string, required
+    рядок, обов’язковий
 
-    Possible values are:
+    Можливі значення:
 
-    * `tenderer`
+    * `tenderer` - учасник закупівлі
     * `lot`
     * `item`
 
 :relatedItem:
-    string
+    рядок
 
-    Id of related :ref:`item` or :ref:`lot` (only if the ``featureOf`` value is ``item`` or ``lot``).
+    ID пов’язаного :ref:`item` або :ref:`lot` (якщо значення ``featureOf`` дорівнює ``item`` або ``lot``).
 
 :title:
-    string, multilingual, required
+    рядок, багатомовний, обов’язковий
 
-    Title of the feature.
+    Назва критерію.
 
 :description:
-    string, multilingual
+    рядок, багатомовний
 
-    Description of the feature.
+    Опис критерію.
 
 :enum:
-    list
+    список
 
-    List of values:
+    Список значень:
 
     :value:
-        float, required
+        float, обов’язково
 
-        Value of the feature.
+        Значення критерію.
 
     :title:
-        string, multilingual, required
+        рядок, багатомовний, обов’язковий
 
-        Title of the value.
+        Назва значення.
 
     :description:
-        string, multilingual
+        рядок, багатомовний
 
-        Description of the value.
+        Опис значення.

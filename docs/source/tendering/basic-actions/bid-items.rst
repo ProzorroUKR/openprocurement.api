@@ -1,39 +1,39 @@
 .. _bid_items:
 
 
-Bid Items
-=========
+Предмет закупівлі в пропозиції
+==============================
 
-Items in bid are available in all types of procedures
+Предмет закупівлі в пропозиції доступний у всіх типах процедур
 
 
-Creating bid with items
------------------------
+Створюємо пропозицію з предметом закупівлі
+------------------------------------------
 
-To create a bid with a procurement item, you need to pass the `items` field with a value containing a list of :ref:`BidItem` .
+Щоб створити пропозицію з предметом закупівлі, вам потрібно передати поле items зі значенням, що містить список :ref:`BidItem`.
 
-If you try to pass an item with an id that does not exist in tender.items, you will get an error:
+Якщо ви спробуєте передати предмет закупівлі з id, якого не існує в tender.items, ви отримаєте помилку:
 
 .. http:example:: http/bid-items-localization/unsuccessful-create-bid-with-items.http
    :code:
 
-VAT in `items.unit.value` can be only `False`. If you try to pass `True` you will see an error:
+VAT для `items.unit.value` може мати лише значення `False`. Якщо ви спробуєте передати значення `True`, ви отримаєте помилку:
 
 .. http:example:: http/bid-items-localization/unsuccessful-create-bid-with-items-VAT.http
    :code:
 
-Let's send correct data:
+Надішлемо правильні дані:
 
 .. http:example:: http/bid-items-localization/successfuly-create-bid-with-items.http
    :code:
 
 
-Update bid items
-----------------
+Оновлення предмету закупівлі
+----------------------------
 
-You can update `quantity` and `unit` in bid items.
+Ви можете оновити `quantity` та `unit` предмета закупівлі в пропозиції
 
-To update the data in items, you need to pass all elements from the list along with all data; otherwise, the data that is not passed will be lost:
+Щоб оновити дані в items, вам потрібно передати всі елементи зі списку разом з усіма даними; в іншому випадку, дані, які не передані, будуть втрачені:
 
 .. http:example:: http/bid-items-localization/update-bid-items.http
    :code:
@@ -42,15 +42,15 @@ To update the data in items, you need to pass all elements from the list along w
 .. _bid_product_items:
 
 
-Product in bid items
-=====================
+Продукт в предметі закупівлі пропозиції
+=======================================
 
-Instead of using eligibleEvidence in criteria and evidence in requirementResponses, now you can use product in bid.items.
+Замість використання eligibleEvidence у критерії та evidence у відповідях, можна використовувати `product` у `bid.items`.
 
-Procedures with product in bid items
-------------------------------------
+Процедури з продуктом в предметі закупівлі
+------------------------------------------
 
-Product in bid items is available in these procedures:
+Продукт в предмет закупівлі доступний у таких процедурах:
  - aboveThresholdUA
  - aboveThresholdEU
  - belowThreshold
@@ -64,39 +64,39 @@ Product in bid items is available in these procedures:
  - priceQuotation
 
 
-Create bid with product in items
---------------------------------
+Стоврення пропозиції з продуктом в предметі закупівлі
+-----------------------------------------------------
 
-All you need it's pass product identifier of active product with the same category as in tender item from market to field `product` in bid.items.
+Все що вам потрібно це вказати ідентифікатор активного продукту з маркету в полі `product` у bid.items.
 
 
-If you pass a non-existent identifier, you will get an error:
+Якщо ви спробуєте передати не існуючий ідентифікатор, ви отримаєте помилку:
 
 .. http:example:: http/bid-items-localization/item-product-not-found.http
    :code:
 
 
-if you try to pass identifier of product with `hidden` status, you'll also get error:
+Якщо ви спробуєте передати ідентифікатор продукту зі статусом `hidden`, ви отримаєте помилку:
 
 .. http:example:: http/bid-items-localization/item-product-not-active.http
    :code:
 
-If you try to pass identifier of product with another `relatedCategory` that doesn't match `category` in tender item, you'll also get error:
+Якщо ви спробуєте передати ідентифікатор продукту з іншим знченням в полі `relatedCategory` аніж `category` в айтемі тендера, ви отримаєте помилку:
 
 .. http:example:: http/bid-items-localization/item-product-invalid-related-category.http
    :code:
 
 
-So if all rules are met, you can create bid with product in items:
+тже, якщо всі правила дотримані, ви можете створити пропозицію з продуктом у предметі закупівлі:
 
 .. http:example:: http/bid-items-localization/bid-with-item-product-created.http
    :code:
 
 
-Update product in bid items
-----------------------------
+Оновлення продукту в предметі закупівлі
+---------------------------------------
 
-You can change product identifier using `PATCH` method on bid(All validations on creation also work on update):
+Ви можете змінити ідентифікатор продукту, використовуючи метод `PATCH` для пропозиції (усі перевірки, що здійснюються під час створення, також застосовуються під час оновлення):
 
 .. http:example:: http/bid-items-localization/update_bid-with-item-product.http
    :code:
