@@ -1,0 +1,28 @@
+:root {
+    --prozorro-blue: #027efd;
+    --primary-text-color: #2070d1;
+}
+
+.wy-nav-content {
+    max-width: 1200px !important;
+}
+
+.wy-side-nav-search {
+    background-color: var(--prozorro-blue);
+}
+
+.rst-content {
+    max-width: 1200px !important;
+}
+
+.wy-table-responsive {
+    max-width: 100%;
+}
+
+a {
+    color: var(--primary-text-color);
+}
+
+.rst-content a:visited {
+    color: var(--primary-text-color);
+}
