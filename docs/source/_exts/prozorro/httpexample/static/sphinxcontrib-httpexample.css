@@ -46,18 +46,17 @@
 
 .http-example .json-foldable {
     position: relative;
-    min-width: 200px; /* Ensure minimum width for button visibility */
-    overflow: visible; /* Ensure button is not clipped */
+    min-width: 200px;
+    overflow: visible;
 }
 
 .http-example .json-fold-toggle {
     display: block;
     position: sticky;
     top: 0;
-    /* We use JS to set 'left' to stick it to the right side of the viewport */
     width: fit-content;
-    margin: 0 0 -25px 10px; /* Adjusted for button height, no top margin to prevent collapse */
-    transform: translateY(8px); /* Visual offset without affecting layout flow */
+    margin: 0 0 -25px 10px;
+    transform: translateY(8px);
     background: #f8f9fa;
     border: 1px solid #dee2e6;
     border-radius: 4px;
