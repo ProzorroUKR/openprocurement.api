@@ -78,7 +78,7 @@ async def get_violation_report_id() -> str:
     db = get_mongodb()
     ctime = get_now_async().date()
     index = await db.sequences.get_next_value(f"violation_report_{ctime.isoformat()}")
-    return "UA-{:04}-{:02}-{:02}-{:06}".format(
+    return "UA-D-{:04}-{:02}-{:02}-{:06}".format(
         ctime.year,
         ctime.month,
         ctime.day,
