@@ -1,0 +1,20 @@
+POST /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/68db49ecd6ef439a81feaec69cd6ab07/signatories?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {}
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": {
+    "role": "supplier",
+    "date": "2023-10-10T01:00:00+03:00"
+  }
+}
+

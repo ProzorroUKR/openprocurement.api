@@ -91,7 +91,7 @@
 
 * `attributes` - формується з вимог та відповідей на вимоги у закупівлі
 
-Також, PDF документ створюється на основі шаблону (`contractTemplateName`) та автоматично прикріплюється до договору з documentType `contractNotice`. 
+Також, PDF документ створюється на основі шаблону (`contractTemplateName`) та автоматично прикріплюється до договору з documentType `contractNotice`.
 
 Цей документ буде потрібен для підписання як постачальником, так і замовником пізніше, щоб активувати договір.
 
@@ -185,11 +185,23 @@ Let’s see what listing of contracts in contracting module reveals us:
 
 .. image:: /contracting/econtract/diagram/e_contract_pdf_signing/image.png
 
-Після того, як будуть накладені два підписи на поточну весрію контракту, контракт стає `active`.
+Після того, як обидві сторони підтвердять завершення підписання поточної верcії контракту, контракт стає `active`.
+
+Постачальник і замовник мають додати хоча б один документ підпису для підтвердження завершення процесу підписання.
 
 Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:
 
 .. http:example:: http/contract-supplier-add-signature-doc.http
+   :code:
+
+Постачальник додає другий опціональний документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:
+
+.. http:example:: http/contract-supplier-add-signature-second-doc.http
+   :code:
+
+Постачальник підтверджує завершення процесу підписання використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:
+
+.. http:example:: http/contract-supplier-add-signatory.http
    :code:
 
 Замовник додає документ підпису використовуючи свій токен (`buyer_token`), який він отримав при запиті доступу:
@@ -197,7 +209,12 @@ Let’s see what listing of contracts in contracting module reveals us:
 .. http:example:: http/contract-buyer-add-signature-doc.http
    :code:
 
-Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:
+Замовник підтверджує завершення процесу підписання використовуючи свій токен (buyer_token), який він отримав при запиті доступу:
+
+.. http:example:: http/contract-buyer-add-signatory.http
+   :code:
+
+Коли усі підписи додані і підтверджені, то система автоматичер активує контракт:
 
 .. http:example:: http/get-active-contract.http
    :code:
@@ -413,11 +430,23 @@ Let’s see what listing of contracts in contracting module reveals us:
 
 Для того, щоб активувати зміни, потрібно замовнику та постачальнику додати в якості документів електронні підписи.
 
-Після того, як будуть накладені два підписи на зміни, зміни стають `active`.
+Після того, як обидві сторони підтвердять завершення підписання поточної верcії зміни, зміна стає `active` і модифікації будуть враховані під час наступних змін.
+
+Постачальник і замовник мають додати хоча б один документ підпису для підтвердження завершення процесу підписання.
 
 Постачальник додає документ підпису використовуючи свій токен (`supplier_token`):
 
 .. http:example:: http/change-supplier-add-signature-doc.http
+   :code:
+
+Постачальник додає другий опціональний документ підпису використовуючи свій токен (`supplier_token`):
+
+.. http:example:: http/change-supplier-add-signature-second-doc.http
+   :code:
+
+Постачальник підтверджує завершення процесу підписання використовуючи свій токен (`supplier_token`):
+
+.. http:example:: http/change-supplier-add-signatory.http
    :code:
 
 Замовник додає документ підпису використовуючи свій токен (`buyer_token`):
@@ -425,7 +454,12 @@ Let’s see what listing of contracts in contracting module reveals us:
 .. http:example:: http/change-buyer-add-signature-doc.http
    :code:
 
-Коли обидва підписа є у системі, то система підтверджує, що зміни підписано і активує їх:
+Замовник підтверджує завершення процесу підписання використовуючи свій токен (`buyer_token`):
+
+.. http:example:: http/change-buyer-add-signatory.http
+   :code:
+
+Коли усі підписи додані і підтверджені, то система автоматично активує зміну:
 
 .. http:example:: http/get-active-change.http
    :code:
