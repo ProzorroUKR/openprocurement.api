@@ -22,15 +22,16 @@
 
 Ви можете ознайомитись з деталями в секції :ref:`config`.
 
+Дозволені значення `procuringEntity.kind`
+-----------------------------------------
+
 Набір можливих значень `procuringEntity.kind` для `competitiveDialogueEU`
--------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-eu-stage1.csv
    :header-rows: 1
 
 Набір можливих значень `procuringEntity.kind` для `competitiveDialogueUA`
--------------------------------------------------------------------------
 
 .. csv-table::
    :file: csv/kind-ua-stage1.csv
