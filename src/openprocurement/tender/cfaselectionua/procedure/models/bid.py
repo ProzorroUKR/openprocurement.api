@@ -6,12 +6,18 @@ from openprocurement.tender.cfaselectionua.procedure.models.parameter import (
     Parameter,
     PatchParameter,
 )
-from openprocurement.tender.core.procedure.models.bid import Bid as BaseBid
-from openprocurement.tender.core.procedure.models.bid import PatchBid as BasePatchBid
 from openprocurement.tender.core.procedure.models.bid import (
-    PatchQualificationBid as BasePatchQualificationBid,
+    LocalizationBid as BaseLocalizationBid,
 )
-from openprocurement.tender.core.procedure.models.bid import PostBid as BasePostBid
+from openprocurement.tender.core.procedure.models.bid import (
+    PatchLocalizationBid as BasePatchLocalizationBid,
+)
+from openprocurement.tender.core.procedure.models.bid import (
+    PatchQualificationLocalizationBid as BasePatchQualificationLocalizationBid,
+)
+from openprocurement.tender.core.procedure.models.bid import (
+    PostLocalizationBid as BasePostLocalizationBid,
+)
 from openprocurement.tender.core.procedure.models.req_response import (
     BidResponsesMixin,
     PatchObjResponsesMixin,
@@ -19,18 +25,18 @@ from openprocurement.tender.core.procedure.models.req_response import (
 from openprocurement.tender.core.procedure.models.value import WeightedValue
 
 
-class PatchBid(PatchObjResponsesMixin, BasePatchBid):
+class PatchBid(PatchObjResponsesMixin, BasePatchLocalizationBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_uniq_code])
 
 
-class PatchQualificationBid(PatchObjResponsesMixin, BasePatchQualificationBid):
+class PatchQualificationBid(PatchObjResponsesMixin, BasePatchQualificationLocalizationBid):
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_uniq_code])
 
 
-class PostBid(BidResponsesMixin, BasePostBid):
+class PostBid(BidResponsesMixin, BasePostLocalizationBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
 
-class Bid(BidResponsesMixin, BaseBid):
+class Bid(BidResponsesMixin, BaseLocalizationBid):
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
     weightedValue = ModelType(WeightedValue)
