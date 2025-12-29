@@ -16,8 +16,8 @@
 
 Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-Набір можливих значень `procuringEntity.kind` для `aboveThreshold`
-------------------------------------------------------------------
+Дозволені значення `procuringEntity.kind`
+-----------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv
@@ -292,7 +292,7 @@
 Аномально низька ціна
 ---------------------
 
-Об’єкт award може містити milestone типу ``apl`` 
+Об’єкт award може містити milestone типу ``apl``
 
 .. http:example:: http/get-awards-list.http
    :code:

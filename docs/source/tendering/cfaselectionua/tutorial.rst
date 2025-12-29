@@ -16,8 +16,8 @@ Configuration
 
 Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-Набір можливих значень `procuringEntity.kind` для `closeFrameworkAgreementSelectionUA`
---------------------------------------------------------------------------------------
+Дозволені значення `procuringEntity.kind`
+-----------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv

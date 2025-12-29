@@ -16,8 +16,8 @@ Configuration
 
 Ви можете ознайомитись з деталями в секції :ref:`config`.
 
-Набір можливих значень `procuringEntity.kind` для `priceQuotation`
-------------------------------------------------------------------
+Дозволені значення `procuringEntity.kind`
+-----------------------------------------
 
 .. csv-table::
    :file: csv/kind.csv
@@ -70,7 +70,7 @@ Configuration
    :code:
 
 
-Після успішної валідації priceQuotationBot переводить процедуру в статус: `active.tendering` 
+Після успішної валідації priceQuotationBot переводить процедуру в статус: `active.tendering`
 
 .. http:example:: http/tender-after-bot-active.http
    :code:
@@ -185,7 +185,7 @@ Configuration
 Модифікація пропозиції
 ~~~~~~~~~~~~~~~~~~~~~~
    
-Пропозиція може бути оновленою до закінчення тендерного періоду. 
+Пропозиція може бути оновленою до закінчення тендерного періоду.
 
 .. http:example:: http/patch-bidder.http
    :code:

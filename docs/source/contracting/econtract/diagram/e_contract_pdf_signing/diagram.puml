@@ -43,6 +43,15 @@ DS --> CDB: Файл PDF
 deactivate DS
 hnote over CDB: Перевірка підпису накладеного на PDF
 hnote over CDB: Прикріплення підпису в документи контракту
-hnote over CDB: Дії з контрактом передбачені за умови валідного підпису
 CDB --> Broker: JSON з прикріпленим підписом
 deactivate CDB
+
+...
+
+Broker --> CDB: Запит на підтвердження завершення підписання
+activate CDB
+hnote over CDB: Активація контракту за умови наявності підтвердження з усіх сторін
+CDB --> Broker: JSON з підтвердженням завершення підписання
+deactivate CDB
+
+@enduml

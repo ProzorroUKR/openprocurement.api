@@ -297,6 +297,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, "201 Created")
 
+        # buyer provides signatory confirmation
+        self.app.post_json(
+            f"/contracts/{self.contract_id}/signatories?acc_token={buyer_token_2}",
+            {"data": {}},
+        )
+
         self.app.authorization = ("Basic", ("broker6", ""))
         with open(TARGET_DIR + "contract-supplier-cancels-contract.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -455,7 +461,21 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/documents?acc_token={supplier_token}", {"data": contract_sign_data}
             )
-        self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "contract-supplier-add-signature-second-doc.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{self.contract_id}/documents?acc_token={supplier_token}", {"data": contract_sign_data}
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "contract-supplier-add-signatory.http", "w") as self.app.file_obj:
+            # supplier provides signatory confirmation
+            self.app.post_json(
+                f"/contracts/{self.contract_id}/signatories?acc_token={supplier_token}",
+                {"data": {}},
+            )
+            self.assertEqual(response.status, "201 Created")
 
         with (
             change_auth(self.app, ("Basic", ("broker6", ""))),
@@ -464,7 +484,15 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             response = self.app.post_json(
                 f"/contracts/{self.contract_id}/documents?acc_token={buyer_token_2}", {"data": contract_sign_data}
             )
-        self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "contract-buyer-add-signatory.http", "w") as self.app.file_obj:
+            # buyer provides signatory confirmation
+            self.app.post_json(
+                f"/contracts/{self.contract_id}/signatories?acc_token={buyer_token_2}",
+                {"data": {}},
+            )
+            self.assertEqual(response.status, "201 Created")
 
         with open(TARGET_DIR + "get-active-contract.http", "w") as self.app.file_obj:
             self.app.get(f"/contracts/{self.contract_id}?acc_token={buyer_token_2}")
@@ -549,7 +577,22 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={supplier_token}",
                 {"data": contract_sign_data},
             )
-        self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "change-supplier-add-signature-second-doc.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={supplier_token}",
+                {"data": contract_sign_data},
+            )
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "change-supplier-add-signatory.http", "w") as self.app.file_obj:
+            # supplier provides signatory confirmation
+            self.app.post_json(
+                f"/contracts/{self.contract_id}/changes/{change_id}/signatories?acc_token={supplier_token}",
+                {"data": {}},
+            )
+            self.assertEqual(response.status, "201 Created")
 
         with (
             change_auth(self.app, ("Basic", ("broker6", ""))),
@@ -559,7 +602,15 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 f"/contracts/{self.contract_id}/changes/{change_id}/documents?acc_token={buyer_token_2}",
                 {"data": contract_sign_data},
             )
-        self.assertEqual(response.status, "201 Created")
+            self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "change-buyer-add-signatory.http", "w") as self.app.file_obj:
+            # buyer provides signatory confirmation
+            self.app.post_json(
+                f"/contracts/{self.contract_id}/changes/{change_id}/signatories?acc_token={buyer_token_2}",
+                {"data": {}},
+            )
+            self.assertEqual(response.status, "201 Created")
 
         with (
             change_auth(self.app, ("Basic", ("broker6", ""))),

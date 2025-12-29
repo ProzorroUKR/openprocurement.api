@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-09 13:57+0200\n"
+"POT-Creation-Date: 2025-12-28 22:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -214,17 +214,29 @@ msgstr "Type: Separate data and signature files (detached)"
 msgid "Діаграма процесу підписання:"
 msgstr "Here is a diagram of the signing process:"
 
-msgid "Після того, як будуть накладені два підписи на поточну весрію контракту, контракт стає `active`."
-msgstr "If both sides signed the current version of contract, than contract becomes `active`."
+msgid "Після того, як обидві сторони підтвердять завершення підписання поточної верcії контракту, контракт стає `active`."
+msgstr "When both sides confirm the completion of signing of the current version of contract, contract becomes `active`."
+
+msgid "Постачальник і замовник мають додати хоча б один документ підпису для підтвердження завершення процесу підписання."
+msgstr "Supplier and buyer have to provide at least one signature document in order to confirm the completion of signing process."
 
 msgid "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:"
 msgstr "Supplier adds signature document using his token (`supplier_token`) which he got during access query:"
 
+msgid "Постачальник додає другий опціональний документ підпису використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:"
+msgstr "Supplier adds optional second signature document using his token (`supplier_token`) which he got during access query:"
+
+msgid "Постачальник підтверджує завершення процесу підписання використовуючи свій токен (`supplier_token`), який він отримав при запиті доступу:"
+msgstr "Supplier confirms the completion of signing process using his token (`supplier_token`) which he got during access query:"
+
 msgid "Замовник додає документ підпису використовуючи свій токен (`buyer_token`), який він отримав при запиті доступу:"
 msgstr "Buyer adds signature document using his token (`buyer_token`) which he got during access query:"
 
-msgid "Коли обидва підписа є у системі, то система підтверджує, що контракт підписано і активує його:"
-msgstr "If all required signatures are completed, the contract will automatically transition to the `active` status:"
+msgid "Замовник підтверджує завершення процесу підписання використовуючи свій токен (buyer_token), який він отримав при запиті доступу:"
+msgstr "Buyer confirms the completion of signing process using his token (`buyer_token`) which he got during access query:"
+
+msgid "Коли усі підписи додані і підтверджені, то система автоматичер активує контракт:"
+msgstr "If all signatures are added and confirmed, the contract will automatically transition to the `active` status:"
 
 msgid "Нові версії договору"
 msgstr "New versions of contract"
@@ -442,17 +454,26 @@ msgstr "Change activation"
 msgid "Для того, щоб активувати зміни, потрібно замовнику та постачальнику додати в якості документів електронні підписи."
 msgstr "To activate change it is required to add contract signature document type from each participant (supplier and buyer)."
 
-msgid "Після того, як будуть накладені два підписи на зміни, зміни стають `active`."
-msgstr "If both sides signed the current version of change, than change becomes `active` and modifications will be taken into account during next changes."
+msgid "Після того, як обидві сторони підтвердять завершення підписання поточної верcії зміни, зміна стає `active` і модифікації будуть враховані під час наступних змін."
+msgstr "When both sides confirm the completion of signing of the current version of change, change becomes `active` and modifications will be taken into account during next changes."
 
 msgid "Постачальник додає документ підпису використовуючи свій токен (`supplier_token`):"
 msgstr "Supplier adds signature document using his token (`supplier_token`):"
 
+msgid "Постачальник додає другий опціональний документ підпису використовуючи свій токен (`supplier_token`):"
+msgstr "Supplier adds optional second signature document using his token (`supplier_token`):"
+
+msgid "Постачальник підтверджує завершення процесу підписання використовуючи свій токен (`supplier_token`):"
+msgstr "Supplier confirms the completion of signing process using his token (`supplier_token`):"
+
 msgid "Замовник додає документ підпису використовуючи свій токен (`buyer_token`):"
 msgstr "Buyer adds signature document using his token (`buyer_token`):"
 
-msgid "Коли обидва підписа є у системі, то система підтверджує, що зміни підписано і активує їх:"
-msgstr "If all required signatures are completed, the change will automatically transition to the `active` status:"
+msgid "Замовник підтверджує завершення процесу підписання використовуючи свій токен (`buyer_token`):"
+msgstr "Buyer confirms the completion of signing process using his token (`buyer_token`):"
+
+msgid "Коли усі підписи додані і підтверджені, то система автоматично активує зміну:"
+msgstr "If all signatures are added and confirmed, the change will automatically transition to the `active` status:"
 
 msgid "Сторони можуть скасовувати дод. угоди, якщо вони неактуальні, надавши коментар."
 msgstr "It is allowed to cancel change of contract if it is not actual anymore."
