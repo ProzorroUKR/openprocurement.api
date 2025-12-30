@@ -1,5 +1,5 @@
 import logging
-from copy import deepcopy
+from typing import Any
 from unittest.mock import ANY
 
 from pymongo import UpdateOne
@@ -52,21 +52,24 @@ class Migration(CollectionMigration):
         }
 
     def update_document(self, doc, context=None):
-        prev_doc = deepcopy(doc)
         if doc.get("causeDetails") and not doc.get("cause"):
-            doc["causeDetails"]["code"] = doc["causeDetails"]["title"]
+            if "code" not in doc["causeDetails"]:
+                doc["causeDetails"]["code"] = doc["causeDetails"]["title"]
             doc = set_cause_details_from_dictionary(doc)
         else:
             doc = convert_cause_to_cause_details(doc)
             for field_name in ("cause", "causeDescription", "causeDescription_en", "causeDescription_ru"):
                 doc.pop(field_name, None)
 
-        if prev_doc != doc:
-            return doc
+        return doc
 
-        logger.info(f"Tender {doc['_id']}: Cause with code {doc['cause']} wasn't found in dictionary")
-
-        return None
+    def generate_base_pipeline_stages(self, doc: dict) -> list:
+        pipeline: list[dict[str, Any]] = [{"$set": doc}]
+        if doc.get("causeDetails"):  # to check whether we migrate old fields
+            pipeline.append(
+                {"$unset": ["cause", "causeDescription", "causeDescription_en", "causeDescription_ru"]},
+            )
+        return pipeline
 
     def run_test(self):
         mock_collection = self.run_test_data(
