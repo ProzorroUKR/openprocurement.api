@@ -1,4 +1,4 @@
-POST /violation_reports/UA-2025-10-12-000001/decisions HTTP/1.0
+POST /violation_reports/UA-D-2025-10-12-000001/decisions HTTP/1.0
 Authorization: Bearer broker
 
 {
@@ -19,10 +19,10 @@ Authorization: Bearer broker
 
 
 HTTP/1.0 201 Created
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decisions/88888888444455556666000000000027
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027
 Content-Type: application/json; charset=utf-8
 X-Request-ID: 88888888-4444-5555-6666-000000000026
-Content-Length: 833
+Content-Length: 835
 
 {
   "data": {
@@ -33,7 +33,7 @@ Content-Length: 833
       {
         "id": "88888888444455556666000000000028",
         "hash": "md5:00000000000000000000000000000000",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000028?download=88888888444455556666000000000025",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000028?download=88888888444455556666000000000025",
         "dateModified": "2025-10-16T10:15:00+03:00",
         "datePublished": "2025-10-16T10:15:00+03:00",
         "documentType": "violationReportEvidence",

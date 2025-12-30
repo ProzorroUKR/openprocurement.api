@@ -1,4 +1,4 @@
-PATCH /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+PATCH /violation_reports/UA-D-2025-10-12-000001 HTTP/1.0
 Authorization: Bearer broker
 
 {

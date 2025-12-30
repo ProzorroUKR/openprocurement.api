@@ -1,4 +1,4 @@
-POST /violation_reports/UA-2025-10-12-000001/decisions/11111111111111111111111111111111/documents HTTP/1.0
+POST /violation_reports/UA-D-2025-10-12-000001/decisions/11111111111111111111111111111111/documents HTTP/1.0
 Authorization: Bearer broker
 
 {

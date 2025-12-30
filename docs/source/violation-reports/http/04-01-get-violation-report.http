@@ -1,10 +1,10 @@
-GET /violation_reports/UA-2025-10-12-000001 HTTP/1.0
+GET /violation_reports/UA-D-2025-10-12-000001 HTTP/1.0
 
 
 HTTP/1.0 200 OK
 Content-Type: application/json; charset=utf-8
 X-Request-ID: 88888888-4444-5555-6666-000000000035
-Content-Length: 6977
+Content-Length: 6991
 
 {
   "data": {
@@ -15,7 +15,7 @@ Content-Length: 6977
         {
           "id": "8888888844445555666600000000000b",
           "hash": "md5:11111111111111111111111111111111",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/8888888844445555666600000000000e?download=8888888844445555666600000000000c",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/details/documents/8888888844445555666600000000000e?download=8888888844445555666600000000000c",
           "dateModified": "2025-10-12T15:37:45+03:00",
           "datePublished": "2025-10-12T15:37:10+03:00",
           "documentType": "violationReportEvidence",
@@ -29,7 +29,7 @@ Content-Length: 6977
         {
           "id": "88888888444455556666000000000012",
           "hash": "md5:00000000000000000000000000000000",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/details/documents/88888888444455556666000000000012?download=88888888444455556666000000000010",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/details/documents/88888888444455556666000000000012?download=88888888444455556666000000000010",
           "dateModified": "2025-10-12T15:38:47+03:00",
           "datePublished": "2025-10-12T15:38:47+03:00",
           "documentType": "violationReportSignature",
@@ -40,7 +40,7 @@ Content-Length: 6977
       ],
       "dateModified": "2025-10-12T15:38:47+03:00"
     },
-    "id": "UA-2025-10-12-000001",
+    "id": "UA-D-2025-10-12-000001",
     "status": "declinedNoViolation",
     "tender_id": "88888888444455556666000000000002",
     "contract_id": "88888888444455556666000000000001",
@@ -121,7 +121,7 @@ Content-Length: 6977
           {
             "id": "8888888844445555666600000000001c",
             "hash": "md5:22222222222222222222222222222222",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/8888888844445555666600000000001f?download=8888888844445555666600000000001d",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/8888888844445555666600000000001f?download=8888888844445555666600000000001d",
             "dateModified": "2025-10-13T01:56:09+03:00",
             "datePublished": "2025-10-13T01:55:34+03:00",
             "documentType": "violationReportEvidence",
@@ -134,7 +134,7 @@ Content-Length: 6977
           {
             "id": "88888888444455556666000000000023",
             "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/88888888444455556666000000000023?download=88888888444455556666000000000021",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/88888888444455556666000000000023?download=88888888444455556666000000000021",
             "dateModified": "2025-10-13T01:56:24+03:00",
             "datePublished": "2025-10-13T01:56:24+03:00",
             "documentType": "violationReportSignature",
@@ -157,7 +157,7 @@ Content-Length: 6977
           {
             "id": "88888888444455556666000000000030",
             "hash": "md5:ffffffffffffffffffffffffffffffff",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000030?download=8888888844445555666600000000002e",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000030?download=8888888844445555666600000000002e",
             "dateModified": "2025-10-16T10:15:54+03:00",
             "datePublished": "2025-10-16T10:15:54+03:00",
             "documentType": "violationReportEvidence",
@@ -168,7 +168,7 @@ Content-Length: 6977
           {
             "id": "8888888844445555666600000000002b",
             "hash": "md5:33333333333333333333333333333333",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000033?download=88888888444455556666000000000031",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000033?download=88888888444455556666000000000031",
             "dateModified": "2025-10-16T10:16:06+03:00",
             "datePublished": "2025-10-16T10:16:06+03:00",
             "documentType": "violationReportSignature",
