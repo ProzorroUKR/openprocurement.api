@@ -38,6 +38,7 @@ class DocumentTypes(StrEnum):
     qualificationDocuments = "qualificationDocuments"
     eligibilityDocuments = "eligibilityDocuments"
     registerExtract = "registerExtract"
+    registerUSR = "registerUSR"
     registerFiscal = "registerFiscal"
     evidence = "evidence"
     register = "register"

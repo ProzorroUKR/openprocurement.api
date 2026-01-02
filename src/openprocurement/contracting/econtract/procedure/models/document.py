@@ -43,6 +43,7 @@ DOCUMENT_TYPES = (
     "qualificationDocuments",
     "eligibilityDocuments",
     "registerExtract",
+    "registerUSR",
     "registerFiscal",
     "winningBid",
     "evidence",
