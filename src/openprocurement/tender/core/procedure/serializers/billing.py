@@ -30,6 +30,7 @@ class BillingTenderSerializer(BaseUIDSerializer):
         "value",
         "awardPeriod",
         "enquiryPeriod",
+        "tenderPeriod",
         "procurementMethodType",
         "lots",
         "bids",
