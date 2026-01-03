@@ -45,6 +45,7 @@ class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing
     listing_allowed_fields = {
         "dateCreated",
         "dateModified",
+        "tenderPeriod",
         "qualificationPeriod",
         "auctionPeriod",
         "awardPeriod",
