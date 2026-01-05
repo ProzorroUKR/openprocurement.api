@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_contract
-from openprocurement.api.utils import json_view
+from openprocurement.api.utils import get_tender_by_id, json_view, request_init_tender
 from openprocurement.api.views.base import (
     MongodbResourceListing,
     RestrictedResourceListingMixin,
@@ -67,7 +67,10 @@ class ContractResource(ContractBaseResource):
     @json_view(permission="view_contract")
     def get(self):
         contract = get_contract()
+        if not contract.get("contractChangeRationaleTypes"):
+            tender_doc = get_tender_by_id(self.request, contract["tender_id"])
+            request_init_tender(self.request, tender_doc)
         return {
-            "data": self.serializer_class(contract).data,
+            "data": self.serializer_class(contract, tender=self.request.validated.get("tender")).data,
             "config": contract["config"],
         }

@@ -14,11 +14,11 @@ from openprocurement.tender.core.procedure.contracting import (
 
 class EChangeState(BaseContractState, ContractChangeStateMixin):
     def change_on_post(self, data):
-        self.validate_change_rationale_types(data)
+        tender = self.request.validated["tender"]
+        self.validate_change_rationale_types(data, tender)
         self.validate_change(data)
         self.set_author_of_object(data)
         contract = self.request.validated["contract"]
-        tender = self.request.validated["tender"]
         upload_contract_change_pdf_document(data, contract, tender)
 
     def validate_change(self, data):

@@ -16,7 +16,8 @@ class ChangeState(BaseState, ContractChangeStateMixin):
         self.change_always(after)
 
     def change_always(self, data):
-        self.validate_change_rationale_types(data)
+        tender = self.request.validated["tender"]
+        self.validate_change_rationale_types(data, tender)
         self.validate_change_date_signed(data)
 
     def change_status_up(self, before_status, after_status, data):

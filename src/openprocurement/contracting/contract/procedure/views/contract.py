@@ -72,7 +72,7 @@ class ContractResource(BaseContractResource):
                         extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
                     )
                     return {
-                        "data": self.serializer_class(contract).data,
+                        "data": self.serializer_class(contract, tender=self.request.validated.get("tender")).data,
                         "config": contract["config"],
                     }
 
@@ -102,7 +102,7 @@ class ContractCredentialsResource(ContractBaseResource):
                 extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
             )
             return {
-                "data": self.serializer_class(contract).data,
+                "data": self.serializer_class(contract, tender=self.request.validated.get("tender")).data,
                 "config": contract["config"],
                 "access": access,
             }
