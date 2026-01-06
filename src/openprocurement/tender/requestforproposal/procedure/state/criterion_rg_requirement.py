@@ -8,7 +8,6 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
 )
 from openprocurement.tender.core.procedure.validation import (
     base_validate_operation_ecriteria_objects,
-    validate_tender_first_revision_date,
 )
 from openprocurement.tender.requestforproposal.procedure.state.criterion import (
     BaseRequestForProposalCriterionStateMixin,
@@ -39,12 +38,9 @@ class RequestForProposalRequirementStateMixin(
 
 
 class RequestForProposalRequirementState(RequestForProposalRequirementStateMixin, RequestForProposalTenderState):
+    allowed_put_statuses = ["active.enquiries"]
+
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
         self._validate_ids_uniq()
         self.validate_action_with_exist_inspector_review_request()
-
-    def _validate_put_requirement_objects(self) -> None:
-        validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
-        valid_statuses = ["active.enquiries"]
-        base_validate_operation_ecriteria_objects(self.request, valid_statuses)

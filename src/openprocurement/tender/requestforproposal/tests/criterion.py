@@ -21,7 +21,6 @@ from openprocurement.tender.requestforproposal.tests.base import (
 )
 from openprocurement.tender.requestforproposal.tests.criterion_blanks import (
     delete_requirement_evidence,
-    put_rg_requirement_invalid,
 )
 
 
@@ -49,7 +48,6 @@ class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, Tend
     initial_status = "draft"
     allowed_put_statuses = ["active.enquiries"]
 
-    test_put_rg_requirement_invalid = snitch(put_rg_requirement_invalid)
     test_put_rg_requirement_valid = snitch(put_rg_requirement_valid)
     test_put_rg_requirement_valid_value_change = None  # FIXME: adopt test
 

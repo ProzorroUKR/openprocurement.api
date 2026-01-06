@@ -7,5 +7,7 @@ from openprocurement.tender.cfaselectionua.procedure.state.tender import (
 
 
 class CFASelectionRequirementState(BelowThresholdRequirementStateMixin, CFASelectionTenderState):
+    allowed_put_statuses = ["active.enquiries", "active.tendering"]
+
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
