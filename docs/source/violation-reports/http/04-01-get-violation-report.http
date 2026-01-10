@@ -1,10 +1,10 @@
-GET /violation_reports/UA-D-2025-10-12-000001 HTTP/1.0
+GET /violation_reports/88888888444455556666000000000006 HTTP/1.0
 
 
 HTTP/1.0 200 OK
 Content-Type: application/json; charset=utf-8
-X-Request-ID: 88888888-4444-5555-6666-000000000035
-Content-Length: 6991
+X-Request-ID: 88888888-4444-5555-6666-000000000030
+Content-Length: 6030
 
 {
   "data": {
@@ -13,9 +13,9 @@ Content-Length: 6991
       "description": "Якість товару не відповідає нормі.",
       "documents": [
         {
-          "id": "8888888844445555666600000000000b",
+          "id": "8888888844445555666600000000000c",
           "hash": "md5:11111111111111111111111111111111",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/details/documents/8888888844445555666600000000000e?download=8888888844445555666600000000000c",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/details/documents/8888888844445555666600000000000f?download=8888888844445555666600000000000d",
           "dateModified": "2025-10-12T15:37:45+03:00",
           "datePublished": "2025-10-12T15:37:10+03:00",
           "documentType": "violationReportEvidence",
@@ -25,28 +25,18 @@ Content-Length: 6991
           "description_en": "Expert opinion regarding damaged wood.",
           "format": "application/pdf",
           "language": "uk"
-        },
-        {
-          "id": "88888888444455556666000000000012",
-          "hash": "md5:00000000000000000000000000000000",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/details/documents/88888888444455556666000000000012?download=88888888444455556666000000000010",
-          "dateModified": "2025-10-12T15:38:47+03:00",
-          "datePublished": "2025-10-12T15:38:47+03:00",
-          "documentType": "violationReportSignature",
-          "title": "sign.p7s",
-          "format": "application/pkcs7-signature",
-          "language": "uk"
         }
       ],
-      "dateModified": "2025-10-12T15:38:47+03:00"
+      "dateModified": "2025-10-12T15:37:45+03:00"
     },
-    "id": "UA-D-2025-10-12-000001",
-    "status": "declinedNoViolation",
+    "id": "88888888444455556666000000000006",
+    "violationReportID": "UA-D-2025-10-12-000001",
+    "status": "declined",
     "tender_id": "88888888444455556666000000000002",
     "contract_id": "88888888444455556666000000000001",
     "dateCreated": "2025-10-12T15:35:35+03:00",
     "dateModified": "2025-10-16T10:16:08+03:00",
-    "datePublished": "2025-10-12T15:39:22+03:00",
+    "datePublished": "2025-10-12T15:38:20+03:00",
     "author": {
       "name": "Adam Bryan",
       "identifier": {
@@ -110,54 +100,43 @@ Content-Length: 6991
       "kind": "central"
     },
     "defendantPeriod": {
-      "startDate": "2025-10-12T15:39:22+03:00",
+      "startDate": "2025-10-12T15:38:20+03:00",
       "endDate": "2025-10-16T00:00:00+03:00"
     },
     "defendantStatements": [
       {
-        "id": "88888888444455556666000000000016",
+        "id": "88888888444455556666000000000014",
         "description": "В усьому винні бобри. Обіцяли, що більше не будуть.",
         "documents": [
           {
-            "id": "8888888844445555666600000000001c",
+            "id": "8888888844445555666600000000001a",
             "hash": "md5:22222222222222222222222222222222",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/8888888844445555666600000000001f?download=8888888844445555666600000000001d",
-            "dateModified": "2025-10-13T01:56:09+03:00",
-            "datePublished": "2025-10-13T01:55:34+03:00",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/defendantStatements/88888888444455556666000000000014/documents/8888888844445555666600000000001d?download=8888888844445555666600000000001b",
+            "dateModified": "2025-10-13T01:55:07+03:00",
+            "datePublished": "2025-10-13T01:54:32+03:00",
             "documentType": "violationReportEvidence",
             "title": "доказ_оновлений.pdf",
             "description": "Докази причетності бобрів.",
             "description_en": "Evidence of beaver involvement.",
             "format": "image/gif",
             "language": "uk"
-          },
-          {
-            "id": "88888888444455556666000000000023",
-            "hash": "md5:00000000000000000000000000000000",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/defendantStatements/88888888444455556666000000000016/documents/88888888444455556666000000000023?download=88888888444455556666000000000021",
-            "dateModified": "2025-10-13T01:56:24+03:00",
-            "datePublished": "2025-10-13T01:56:24+03:00",
-            "documentType": "violationReportSignature",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "language": "uk"
           }
         ],
-        "dateModified": "2025-10-13T01:56:24+03:00",
-        "datePublished": "2025-10-13T01:56:39+03:00",
+        "dateModified": "2025-10-13T01:55:07+03:00",
+        "datePublished": "2025-10-13T01:55:22+03:00",
         "status": "active"
       }
     ],
     "decisions": [
       {
-        "id": "88888888444455556666000000000027",
+        "id": "88888888444455556666000000000022",
         "resolution": "declinedNoViolation",
         "description": "Комісія дійшла висновку, що ці бобри не підпадають під гриф \"таємно\" або \"для службового користування\".",
         "documents": [
           {
-            "id": "88888888444455556666000000000030",
+            "id": "8888888844445555666600000000002b",
             "hash": "md5:ffffffffffffffffffffffffffffffff",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000030?download=8888888844445555666600000000002e",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022/documents/8888888844445555666600000000002b?download=88888888444455556666000000000029",
             "dateModified": "2025-10-16T10:15:54+03:00",
             "datePublished": "2025-10-16T10:15:54+03:00",
             "documentType": "violationReportEvidence",
@@ -166,9 +145,9 @@ Content-Length: 6991
             "language": "uk"
           },
           {
-            "id": "8888888844445555666600000000002b",
+            "id": "88888888444455556666000000000026",
             "hash": "md5:33333333333333333333333333333333",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000033?download=88888888444455556666000000000031",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022/documents/8888888844445555666600000000002e?download=8888888844445555666600000000002c",
             "dateModified": "2025-10-16T10:16:06+03:00",
             "datePublished": "2025-10-16T10:16:06+03:00",
             "documentType": "violationReportSignature",

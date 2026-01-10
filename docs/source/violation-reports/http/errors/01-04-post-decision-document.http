@@ -1,10 +1,10 @@
-POST /violation_reports/UA-D-2025-10-12-000001/decisions/11111111111111111111111111111111/documents HTTP/1.0
+POST /violation_reports/88888888444455556666000000000033/decisions/11111111111111111111111111111111/documents HTTP/1.0
 Authorization: Bearer broker
 
 {
   "data": {
     "title": "sign.p7s",
-    "url": "http://ds.k8s.prozorro.local/get/8888888844445555666600000000000a?Signature=uc6ZyZsTuIdBtCnn%2F3FqiDnKyUCpjYwNQP2dAG3Xy4LSxRaWiQCr0DXiaOZIXb%2B%2FW11AQ%2B3nXVNVgHlbGPzWCg%3D%3D&KeyID=a8968c46",
+    "url": "http://ds.k8s.prozorro.local/get/8888888844445555666600000000000b?Signature=pmBa12rHL%2Bcw4rVkxiC84Hm6ypCJhsEjatCayJ4QRTwHRRxeTqngrgWizWCmqlGQlt2%2FfNk%2FWeJRtZal7%2BFtAQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pkcs7-signature",
     "documentType": "violationReportSignature"

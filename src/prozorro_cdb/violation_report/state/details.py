@@ -37,16 +37,9 @@ class ViolationReportDetailsState(BaseState):
 
     @staticmethod
     def validate_documents_before_publish(details: ReportDetails):
-        # validate both evidence and signature documents provided
-        documents = {d.documentType: d for d in details.documents}
-        if DocumentTypes.violationReportSignature not in documents:
-            raise JsonHTTPBadRequest(details="Signature document not found.")
-        if DocumentTypes.violationReportEvidence not in documents:
+        # validate evidence documents are provided (signature is not required)
+        if not any(d.documentType == DocumentTypes.violationReportEvidence for d in details.documents):
             raise JsonHTTPBadRequest(details="Evidence document not found.")
-        signature = documents[DocumentTypes.violationReportSignature]
-
-        if signature.dateModified < details.dateModified:
-            raise JsonHTTPBadRequest(details="Signature document should be uploaded after any detail changes.")
 
     @staticmethod
     def build_defendant_period(published_date, tender: Tender) -> Period:
@@ -67,6 +60,7 @@ class ViolationReportDetailsState(BaseState):
     def create_object(
         cls,
         uid: str,
+        pretty_id: str,
         base_url: str,
         request_data: ViolationReportPostRequestData,
         contract: Contract,
@@ -77,6 +71,7 @@ class ViolationReportDetailsState(BaseState):
         create_obj = ViolationReportDBModel.model_validate(
             dict(
                 _id=uid,
+                violationReportID=pretty_id,
                 contract_id=contract.id,
                 tender_id=contract.tender_id,
                 author=contract.buyer,

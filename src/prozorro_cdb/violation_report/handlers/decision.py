@@ -85,7 +85,12 @@ class ViolationReportDecisionListView(BaseView):
 
         logger.info(
             "Violation Report Decision posted",
-            extra=get_request_logging_context({"MESSAGE_ID": "POST_VIOLATION_REPORT_DECISION"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "POST_VIOLATION_REPORT_DECISION",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
         return json_response(
             status=201,
@@ -140,7 +145,12 @@ class ViolationReportDecisionView(DecisionDetailMixing, BaseView):
             await update_violation_report(violation_report, modified=True)
             logger.info(
                 "Violation Report Decision updated",
-                extra=get_request_logging_context({"MESSAGE_ID": "VIOLATION_REPORT_DECISION_ACTIVATED"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "VIOLATION_REPORT_DECISION_ACTIVATED",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
 
         elif isinstance(body.data, DecisionPatchRequestData):
@@ -156,7 +166,12 @@ class ViolationReportDecisionView(DecisionDetailMixing, BaseView):
                 await update_violation_report(violation_report, modified=False)
             logger.info(
                 "Violation Report Decision updated",
-                extra=get_request_logging_context({"MESSAGE_ID": "VIOLATION_REPORT_DECISION_UPDATED"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "VIOLATION_REPORT_DECISION_UPDATED",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
         return {"data": ViolationReportDecisionSerializer(decision).data}
 
@@ -194,7 +209,12 @@ class ViolationReportDecisionDocumentListView(DecisionDetailMixing, BaseView):
         await update_violation_report(violation_report, modified=False)
         logger.info(
             "Violation Report decision document post",
-            extra=get_request_logging_context({"MESSAGE_ID": "POST_VIOLATION_REPORT_DECISION_DOCUMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "POST_VIOLATION_REPORT_DECISION_DOCUMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
 
         return {"data": DocumentSerializer(document).data}
@@ -249,7 +269,12 @@ class ViolationReportDecisionDocumentView(DecisionDetailMixing, BaseView):
             await update_violation_report(violation_report, modified=False)
             logger.info(
                 "Violation report document patch",
-                extra=get_request_logging_context({"MESSAGE_ID": "PATCH_VIOLATION_REPORT_DECISION_DOCUMENT"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "PATCH_VIOLATION_REPORT_DECISION_DOCUMENT",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
             return {"data": DocumentSerializer(new_document).data}
 
@@ -280,7 +305,12 @@ class ViolationReportDecisionDocumentView(DecisionDetailMixing, BaseView):
         await update_violation_report(violation_report, modified=False)
         logger.info(
             "Violation report document put",
-            extra=get_request_logging_context({"MESSAGE_ID": "PUT_VIOLATION_REPORT_DECISION_DOCUMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "PUT_VIOLATION_REPORT_DECISION_DOCUMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
         return {"data": DocumentSerializer(new_document).data}
 
@@ -298,6 +328,11 @@ class ViolationReportDecisionDocumentView(DecisionDetailMixing, BaseView):
             await update_violation_report(violation_report)
             logger.info(
                 "Violation report decision document delete",
-                extra=get_request_logging_context({"MESSAGE_ID": "DELETE_VIOLATION_REPORT_DECISION_DOCUMENT"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "DELETE_VIOLATION_REPORT_DECISION_DOCUMENT",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
         return HTTPNoContent()

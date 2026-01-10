@@ -56,9 +56,10 @@ class ViolationReportDBModelFactory(BaseFactory):
     class Meta:
         model = ViolationReportDBModel
 
-    _id = Sequence(lambda n: "UA-2025-10-22-%06d" % n)
+    _id = LazyFunction(lambda: uuid.uuid4().hex)
     tender_id = LazyFunction(lambda: uuid.uuid4().hex)
     contract_id = LazyFunction(lambda: uuid.uuid4().hex)
+    violationReportID = Sequence(lambda n: "UA-2025-10-22-%06d" % n)
     dateCreated = Faker("date_time_between", start_date="-2d")
     datePublished = Faker("date_time_between", start_date="-2d")
     dateModified = Faker("date_time_between", start_date="-1d")

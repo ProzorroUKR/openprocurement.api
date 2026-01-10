@@ -1,10 +1,10 @@
-POST /violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents HTTP/1.0
+POST /violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022/documents HTTP/1.0
 Authorization: Bearer broker
 
 {
   "data": {
     "title": "sign.p7s",
-    "url": "http://ds.k8s.prozorro.local/get/88888888444455556666000000000029?Signature=ZN4h0KeEBT7dp7aIfFrjBP%2FvkzCZhg3fdg0KtoPGN5Y9NcXGCPVilJXNoKJu7GVl3cz3YmbiUkiV91XTtJ1RCw%3D%3D&KeyID=a8968c46",
+    "url": "http://ds.k8s.prozorro.local/get/88888888444455556666000000000024?Signature=%2F8YGcY2PiIxIoS5HH3oDeD0bJiBbZwAS0J0B6mM%2Bg5fycVYFcp8qXpa2lC6XjY3cBfWGnMwFzB1Fdo9b2OUTDw%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pkcs7-signature",
     "documentType": "violationReportSignature"
@@ -14,14 +14,14 @@ Authorization: Bearer broker
 
 HTTP/1.0 201 Created
 Content-Type: application/json; charset=utf-8
-X-Request-ID: 88888888-4444-5555-6666-00000000002a
-Content-Length: 540
+X-Request-ID: 88888888-4444-5555-6666-000000000025
+Content-Length: 550
 
 {
   "data": {
-    "id": "8888888844445555666600000000002b",
+    "id": "88888888444455556666000000000026",
     "hash": "md5:00000000000000000000000000000000",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/8888888844445555666600000000002b?download=88888888444455556666000000000029",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022/documents/88888888444455556666000000000026?download=88888888444455556666000000000024",
     "dateModified": "2025-10-16T10:15:12+03:00",
     "datePublished": "2025-10-16T10:15:12+03:00",
     "documentType": "violationReportSignature",

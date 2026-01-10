@@ -1,4 +1,4 @@
-PATCH /violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027 HTTP/1.0
+PATCH /violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022 HTTP/1.0
 Authorization: Bearer broker
 
 {
@@ -10,19 +10,19 @@ Authorization: Bearer broker
 
 HTTP/1.0 200 OK
 Content-Type: application/json; charset=utf-8
-X-Request-ID: 88888888-4444-5555-6666-000000000034
-Content-Length: 1816
+X-Request-ID: 88888888-4444-5555-6666-00000000002f
+Content-Length: 1836
 
 {
   "data": {
-    "id": "88888888444455556666000000000027",
+    "id": "88888888444455556666000000000022",
     "resolution": "declinedNoViolation",
     "description": "Комісія дійшла висновку, що ці бобри не підпадають під гриф \"таємно\" або \"для службового користування\".",
     "documents": [
       {
-        "id": "88888888444455556666000000000030",
+        "id": "8888888844445555666600000000002b",
         "hash": "md5:ffffffffffffffffffffffffffffffff",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000030?download=8888888844445555666600000000002e",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022/documents/8888888844445555666600000000002b?download=88888888444455556666000000000029",
         "dateModified": "2025-10-16T10:15:54+03:00",
         "datePublished": "2025-10-16T10:15:54+03:00",
         "documentType": "violationReportEvidence",
@@ -31,9 +31,9 @@ Content-Length: 1816
         "language": "uk"
       },
       {
-        "id": "8888888844445555666600000000002b",
+        "id": "88888888444455556666000000000026",
         "hash": "md5:33333333333333333333333333333333",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/decisions/88888888444455556666000000000027/documents/88888888444455556666000000000033?download=88888888444455556666000000000031",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/decisions/88888888444455556666000000000022/documents/8888888844445555666600000000002e?download=8888888844445555666600000000002c",
         "dateModified": "2025-10-16T10:16:06+03:00",
         "datePublished": "2025-10-16T10:16:06+03:00",
         "documentType": "violationReportSignature",

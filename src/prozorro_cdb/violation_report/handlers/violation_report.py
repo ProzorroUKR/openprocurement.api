@@ -1,5 +1,6 @@
 import logging
 from typing import List, Union
+from uuid import uuid4
 
 from aiohttp_pydantic.oas.typing import r200, r201
 
@@ -19,8 +20,8 @@ from prozorro_cdb.violation_report.database.helpers import (
     get_contract_or_404,
     get_pq_tender_or_error,
     get_tender_violation_reports,
-    get_violation_report_id,
     get_violation_report_or_404,
+    get_violation_report_pretty_id,
     update_violation_report,
 )
 from prozorro_cdb.violation_report.database.schema.violation_report import (
@@ -122,13 +123,15 @@ class ContractViolationReportListView(BaseView):
         # create state and validate input
         ViolationReportDetailsState.validate_create(request_data=body.data)
 
-        # get increment number
-        violation_report_id = await get_violation_report_id()
+        # get ids
+        violation_report_id = uuid4().hex
+        violation_report_pretty_id = await get_violation_report_pretty_id()
 
         # create obj
         base_url = get_view_url(ViolationReportView.view_name, violation_report_id=violation_report_id)
         report_obj = ViolationReportDetailsState.create_object(
             uid=violation_report_id,
+            pretty_id=violation_report_pretty_id,
             base_url=base_url,
             tender=tender,
             agreement=agreement,
@@ -138,7 +141,12 @@ class ContractViolationReportListView(BaseView):
         violation_report = await create_violation_report(report_obj)
         logger.info(
             "Violation Report created",
-            extra=get_request_logging_context({"MESSAGE_ID": "CREATE_VIOLATION_REPORT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "CREATE_VIOLATION_REPORT",
+                    "violation_report_id": report_obj.id,
+                }
+            ),
         )
         return json_response(
             status=201,
@@ -149,6 +157,21 @@ class ContractViolationReportListView(BaseView):
 
 class ViolationReportListView(MongodbResourceListingAsync):
     view_name = "violation_reports_feed"
+    listing_allowed_fields = {
+        "dateCreated",
+        "dateModified",
+        "datePublished",
+        "status",
+        "violationReportID",
+        "tender_id",
+        "contract_id",
+        "author",
+        "defendants",
+        "authority",
+        "defendantPeriod",
+        "defendantStatements",
+        "decisions",
+    }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

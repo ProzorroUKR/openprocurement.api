@@ -5,6 +5,7 @@ from freezegun import freeze_time
 
 from prozorro_cdb.violation_report.database.schema.violation_report import (
     ViolationReportReason,
+    ViolationReportStatus,
 )
 
 from ..conftest import generate_test_doc_url
@@ -145,31 +146,11 @@ class TestViolationReport:
             )
             assert resp.status == 200, await resp.text()
 
-        # add signature
-        now += timedelta(seconds=62)
-        with freeze_time(now):
-            resp = await request_to_http(
-                filename=TARGET_DIR + "01-06-post-report-draft-signature.http",
-                method="post",
-                url=f"/violation_reports/{violation_report_id}/details/documents",
-                headers={"Authorization": f"Bearer {BROKER}"},
-                json_data={
-                    "data": {
-                        "title": "sign.p7s",
-                        "url": generate_test_doc_url(sub_app),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/pkcs7-signature",
-                        "documentType": "violationReportSignature",
-                    }
-                },
-            )
-            assert resp.status == 201, await resp.text()
-
         # publish report
         now += timedelta(seconds=35)
         with freeze_time(now):
             resp = await request_to_http(
-                filename=TARGET_DIR + "01-07-publish-report-draft.http",
+                filename=TARGET_DIR + "01-06-publish-report-draft.http",
                 method="patch",
                 url=f"/violation_reports/{violation_report_id}",
                 headers={"Authorization": f"Bearer {BROKER}"},
@@ -291,26 +272,6 @@ class TestViolationReport:
                 },
             )
             assert resp.status == 200, await resp.text()
-
-        # add response signature
-        now += timedelta(seconds=15)
-        with freeze_time(now):
-            resp = await request_to_http(
-                filename=TARGET_DIR + "02-07-post-defendant-statement-signature.http",
-                method="post",
-                url=f"/violation_reports/{violation_report_id}/defendantStatements/{defendant_statement_id}/documents",
-                headers={"Authorization": f"Bearer {BROKER}"},
-                json_data={
-                    "data": {
-                        "title": "sign.p7s",
-                        "url": generate_test_doc_url(sub_app),
-                        "hash": "md5:" + "0" * 32,
-                        "format": "application/pkcs7-signature",
-                        "documentType": "violationReportSignature",
-                    }
-                },
-            )
-            assert resp.status == 201, await resp.text()
 
         now += timedelta(seconds=15)
         with freeze_time(now):
@@ -487,12 +448,47 @@ class TestViolationReport:
     async def test_errors(self, deterministic_environment, request_to_http, sub_app, api):
         now = datetime.fromisoformat("2025-10-12T15:35:35+03:00")
         target_dir = f"{TARGET_DIR}/errors/"
-
         with freeze_time(now):
             contract = await ContractFactory.create()
             tender = await TenderFactory.create(_id=contract.tender_id)
             await AgreementFactory.create(_id=tender.agreement.id)
 
+        with freeze_time(now):
+            # fail post pending pending report
+            resp = await request_to_http(
+                filename=target_dir + "00-01-post-pending-fail.http",
+                method="post",
+                url=f"/contracts/{contract.id}/violation_reports",
+                headers={"Authorization": f"Bearer {BROKER}"},
+                json_data={
+                    "data": {
+                        "details": {
+                            "reason": ViolationReportReason.contractBreach,
+                            "description": "Постачальник порушив контракт.",
+                        },
+                        "status": ViolationReportStatus.pending,
+                    }
+                },
+            )
+            assert resp.status == 400, await resp.text()
+            result = await resp.json()
+            assert result == {
+                "type": "data-validation",
+                "title": "Data Validation Error",
+                "details": "Validation errors in body",
+                "status": 400,
+                "errors": [
+                    {
+                        "type": "status_error",
+                        "loc": ["data", "status"],
+                        "msg": "pending should be draft.",
+                        "input": "pending",
+                        "ctx": {"status": "pending"},
+                    }
+                ],
+            }
+
+        with freeze_time(now):
             resp = await api.post(
                 path=f"/contracts/{contract.id}/violation_reports",
                 headers={"Authorization": f"Bearer {BROKER}"},

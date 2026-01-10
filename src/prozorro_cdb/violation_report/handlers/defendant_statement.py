@@ -88,7 +88,12 @@ class DefendantStatementListView(BaseView):
 
         logger.info(
             "Violation Report Defendant Statement posted",
-            extra=get_request_logging_context({"MESSAGE_ID": "POST_VIOLATION_REPORT_DEFENDANT_STATEMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "POST_VIOLATION_REPORT_DEFENDANT_STATEMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
         return json_response(
             status=201,
@@ -149,7 +154,12 @@ class DefendantStatementView(DefendantStatementDetailMixing, BaseView):
             await update_violation_report(violation_report, modified=True)
             logger.info(
                 "Violation Report Defendant Statement updated",
-                extra=get_request_logging_context({"MESSAGE_ID": "VIOLATION_REPORT_DEFENDANT_STATEMENT_ACTIVATED"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "VIOLATION_REPORT_DEFENDANT_STATEMENT_ACTIVATED",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
         elif isinstance(body.data, DefendantStatementPatchRequestData):
             ViolationReportDefendantState.validate_update_defendant_statement(
@@ -164,7 +174,12 @@ class DefendantStatementView(DefendantStatementDetailMixing, BaseView):
                 await update_violation_report(violation_report, modified=False)
             logger.info(
                 "Violation Report Defendant Statement updated",
-                extra=get_request_logging_context({"MESSAGE_ID": "VIOLATION_REPORT_DEFENDANT_STATEMENT_UPDATED"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "VIOLATION_REPORT_DEFENDANT_STATEMENT_UPDATED",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
         return {"data": ViolationReportDefendantStatementSerializer(defendant_statement).data}
 
@@ -204,7 +219,12 @@ class DefendantStatementDocumentListView(DefendantStatementDetailMixing, BaseVie
         await update_violation_report(violation_report, modified=False)
         logger.info(
             "Violation Report defendant document post",
-            extra=get_request_logging_context({"MESSAGE_ID": "POST_VIOLATION_REPORT_DEFENDANT_DOCUMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "POST_VIOLATION_REPORT_DEFENDANT_DOCUMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
         return {"data": DocumentSerializer(document).data}
 
@@ -272,7 +292,12 @@ class DefendantStatementDocumentView(DefendantStatementDetailMixing, BaseView):
             await update_violation_report(violation_report, modified=False)
             logger.info(
                 "Violation report defendant document patch",
-                extra=get_request_logging_context({"MESSAGE_ID": "PATCH_VIOLATION_REPORT_DEFENDANT_DOCUMENT"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "PATCH_VIOLATION_REPORT_DEFENDANT_DOCUMENT",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
             return {"data": DocumentSerializer(new_document).data}
 
@@ -304,7 +329,12 @@ class DefendantStatementDocumentView(DefendantStatementDetailMixing, BaseView):
         await update_violation_report(violation_report, modified=False)
         logger.info(
             "Violation report defendant document put",
-            extra=get_request_logging_context({"MESSAGE_ID": "PUT_VIOLATION_REPORT_DEFENDANT_DOCUMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "PUT_VIOLATION_REPORT_DEFENDANT_DOCUMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
         return {"data": DocumentSerializer(new_document).data}
 
@@ -322,6 +352,11 @@ class DefendantStatementDocumentView(DefendantStatementDetailMixing, BaseView):
             await update_violation_report(violation_report)
             logger.info(
                 "Violation report defendant document delete",
-                extra=get_request_logging_context({"MESSAGE_ID": "DELETE_VIOLATION_REPORT_DEFENDANT_DOCUMENT"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "DELETE_VIOLATION_REPORT_DEFENDANT_DOCUMENT",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
         return HTTPNoContent()

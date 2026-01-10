@@ -74,7 +74,7 @@ async def get_tender_violation_reports(
     return [ViolationReportDBModel.model_validate(obj) for obj in objs]
 
 
-async def get_violation_report_id() -> str:
+async def get_violation_report_pretty_id() -> str:
     db = get_mongodb()
     ctime = get_now_async().date()
     index = await db.sequences.get_next_value(f"violation_report_{ctime.isoformat()}")

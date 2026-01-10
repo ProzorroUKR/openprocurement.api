@@ -61,8 +61,7 @@ class ViolationReportStatus(StrEnum):
     draft = "draft"
     pending = "pending"
     satisfied = "satisfied"
-    declinedNoViolation = "declinedNoViolation"
-    declinedLackEvidence = "declinedLackEvidence"
+    declined = "declined"
 
 
 class ViolationReportDBModel(BaseModel):
@@ -72,6 +71,7 @@ class ViolationReportDBModel(BaseModel):
     # системні поля
     id: str = Field(alias="_id", default_factory=lambda: uuid4().hex)
     rev: str = Field(alias="_rev", default="")
+    violationReportID: str = Field(description="Більш візуально прийнятний ідентифікатор")
     status: ViolationReportStatus = Field(default=ViolationReportStatus.draft)
     mode: Optional[Literal["test"]] = Field(None, description="Тест мод (з тендера)")
     tender_id: str

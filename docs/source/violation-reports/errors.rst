@@ -4,6 +4,28 @@
 ================================
 
 
+Звіт про порушення у статусі `draft`
+------------------------------------
+
+Заборонено публікувати одразу опубліковані звіти  про порушення
+
+.. http:example:: http/errors/00-01-post-pending-fail.http
+    :code:
+
+
+Спроба змінити звіт про порушення, додаючи зайві поля, має завершуватися помилкою.
+
+.. http:example:: http/errors/01-05-patch-report-extra.http
+   :code:
+
+
+Зміна звіту про порушення без внесення змін має бути успішною, а значення dateModified має залишатися таким самим.
+
+.. http:example:: http/errors/01-06-patch-report-no-changes.http
+   :code:
+
+
+
 DefendantStatement і Decision у статусі `draft`
 -----------------------------------------------
 
@@ -33,20 +55,4 @@ DefendantStatement і Decision у статусі `draft`
 Спроба додати документ рішення також має завершуватися помилкою.
 
 .. http:example:: http/errors/01-04-post-decision-document.http
-   :code:
-
-
-Звіт про порушення у статусі `draft`
-------------------------------------
-
-
-Спроба змінити звіт про порушення, додаючи зайві поля, має завершуватися помилкою.
-
-.. http:example:: http/errors/01-05-patch-report-extra.http
-   :code:
-
-
-Зміна звіту про порушення без внесення змін має бути успішною, а значення dateModified має залишатися таким самим.
-
-.. http:example:: http/errors/01-06-patch-report-no-changes.http
    :code:
