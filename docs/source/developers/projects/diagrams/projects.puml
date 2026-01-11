@@ -20,9 +20,6 @@ rectangle "Проєкти ЦБД" {
             rectangle "Проєкт\nAuction" as AuctionProject COLOR_PROJECT
             rectangle "Проєкт\nAuction\nFrontend" as AuctionFrontendProject COLOR_PROJECT
         }
-        rectangle "Група проєктів\nBridges" as BridgesProjectGroup {
-            rectangle "Проєкт\nCD\nBridge" as BridgeCDProject COLOR_PROJECT
-        }
         rectangle "Проєкт\nTasks" as TasksProject COLOR_PROJECT
         rectangle "Проєкт\nChronograph" as ChronographProject COLOR_PROJECT
     }
@@ -48,7 +45,6 @@ rectangle "Проєкти ЦБД" {
 AuctionFrontendProject -left-> AuctionProject #Blue
 
 CDBProject <-up- ChronographProject #Green
-CDBProject <-up- BridgeCDProject #Purple
 CDBProject <-up- TasksProject #Chocolate
 
 CDBProject <-up- AuctionProject #Blue

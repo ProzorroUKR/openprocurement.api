@@ -62,29 +62,6 @@
 
    Загальний опис
 
-Гпупа проєктів bridges
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. admonition:: TODO
-
-   Загальний опис
-
-Проєкт bridge frameworkagreement
-
-|github| `ProzorroUKR/prozorro-bridge-frameworkagreement <https://github.com/ProzorroUKR/prozorro-bridge-frameworkagreement>`_
-
-.. admonition:: TODO
-
-   Загальний опис
-
-Проєкт bridge competitivedialogue
-
-|github| `ProzorroUKR/prozorro-bridge-competitivedialogue <https://github.com/ProzorroUKR/prozorro-bridge-competitivedialogue>`_
-
-.. admonition:: TODO
-
-   Загальний опис
-
 Проєкт tasks
 ~~~~~~~~~~~~
 
