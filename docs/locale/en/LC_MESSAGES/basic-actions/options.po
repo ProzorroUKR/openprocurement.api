@@ -1,17 +1,18 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-22 15:30+0300\n"
+"POT-Creation-Date: 2026-01-11 22:18+0200\n"
 "PO-Revision-Date: 2023-08-22 15:38+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
 "Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.12.1\n"
-"X-Generator: Poedit 3.3.2\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Опції"
 msgstr "Options"
@@ -28,6 +29,7 @@ msgstr "pretty"
 msgid "`?opt_pretty`"
 msgstr "`?opt_pretty`"
 
+#, python-brace-format
 msgid "`options: { pretty: true }`"
 msgstr "`options: { pretty: true }`"
 
@@ -51,6 +53,9 @@ msgstr "`?opt_fields=comma,separated,field,list`"
 
 msgid "Список додаткових полів, що міститимуться у відповіді."
 msgstr "List of extra fields to include in response."
+
+msgid "Детальний перелік доступних полів для кожного типу об'єктів дивіться в :ref:`opt_fields`."
+msgstr ""
 
 msgid "schema"
 msgstr ""

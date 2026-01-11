@@ -1,0 +1,232 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-01-11 22:18+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Опціональні поля (opt_fields)"
+msgstr ""
+
+msgid "Параметр ``opt_fields`` дозволяє додати додаткові поля до відповіді API. Це дозволяє отримувати тільки необхідні дані, зменшуючи обсяг переданої інформації та прискорюючи обробку."
+msgstr ""
+
+msgid "Використання"
+msgstr ""
+
+msgid "Параметр ``opt_fields`` вказується як URL параметр зі списком полів, розділених комою:"
+msgstr ""
+
+msgid "Загальні поля"
+msgstr ""
+
+msgid "Наступні поля доступні для всіх типів feed ендпоінтів:"
+msgstr ""
+
+msgid "``public_modified``"
+msgstr ""
+
+msgid "Тендери (Tenders)"
+msgstr ""
+
+msgid "Feed"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/tenders`` доступні наступні поля:"
+msgstr ""
+
+msgid "``dateCreated``"
+msgstr ""
+
+msgid "``dateModified``"
+msgstr ""
+
+msgid "``tenderPeriod``"
+msgstr ""
+
+msgid "``qualificationPeriod``"
+msgstr ""
+
+msgid "``auctionPeriod``"
+msgstr ""
+
+msgid "``awardPeriod``"
+msgstr ""
+
+msgid "``status``"
+msgstr ""
+
+msgid "``tenderID``"
+msgstr ""
+
+msgid "``lots``"
+msgstr ""
+
+msgid "``contracts``"
+msgstr ""
+
+msgid "``agreements``"
+msgstr ""
+
+msgid "``procuringEntity``"
+msgstr ""
+
+msgid "``procurementMethodType``"
+msgstr ""
+
+msgid "``procurementMethod``"
+msgstr ""
+
+msgid "``next_check``"
+msgstr ""
+
+msgid "``mode``"
+msgstr ""
+
+msgid "``stage2TenderID``"
+msgstr ""
+
+msgid "Приклад:"
+msgstr ""
+
+msgid "Детальний"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/tenders/{id}`` доступне наступне поле:"
+msgstr ""
+
+msgid "Контракти (Contracts)"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/contracts`` доступні наступні поля:"
+msgstr ""
+
+msgid "``contractID``"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/contracts/{id}`` доступне наступне поле:"
+msgstr ""
+
+msgid "Плани (Plans)"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/plans`` доступні наступні поля:"
+msgstr ""
+
+msgid "``planID``"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/plans/{id}`` доступне наступне поле:"
+msgstr ""
+
+msgid "Фреймворки (Frameworks)"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/frameworks`` доступні наступні поля:"
+msgstr ""
+
+msgid "``id``"
+msgstr ""
+
+msgid "``title``"
+msgstr ""
+
+msgid "``prettyID``"
+msgstr ""
+
+msgid "``enquiryPeriod``"
+msgstr ""
+
+msgid "``period``"
+msgstr ""
+
+msgid "``frameworkType``"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/frameworks/{id}`` доступне наступне поле:"
+msgstr ""
+
+msgid "Подання (Submissions)"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/submissions`` доступні наступні поля:"
+msgstr ""
+
+msgid "``frameworkID``"
+msgstr ""
+
+msgid "``qualificationID``"
+msgstr ""
+
+msgid "``submissionType``"
+msgstr ""
+
+msgid "``tenderers``"
+msgstr ""
+
+msgid "``documents``"
+msgstr ""
+
+msgid "``date``"
+msgstr ""
+
+msgid "``datePublished``"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/submissions/{id}`` доступне наступне поле:"
+msgstr ""
+
+msgid "Кваліфікації (Qualifications)"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/qualifications`` доступні наступні поля:"
+msgstr ""
+
+msgid "``submissionID``"
+msgstr ""
+
+msgid "``qualificationType``"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/qualifications/{id}`` доступне наступне поле:"
+msgstr ""
+
+msgid "Угоди (Agreements)"
+msgstr ""
+
+msgid "Для feed ендпоінта ``/api/0/agreements`` доступні наступні поля:"
+msgstr ""
+
+msgid "``agreementID``"
+msgstr ""
+
+msgid "``agreementType``"
+msgstr ""
+
+msgid "``tender_id``"
+msgstr ""
+
+#, python-brace-format
+msgid "Для детального ендпоінта ``/api/0/agreements/{id}`` доступне наступне поле:"
+msgstr ""
+

@@ -10,7 +10,9 @@
 
    authentication
    errors
+   feed
    options
+   opt_fields
    dates
    performance
    cluster
