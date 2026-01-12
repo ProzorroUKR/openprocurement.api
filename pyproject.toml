@@ -139,7 +139,7 @@ esculator = { git = "https://github.com/ProzorroUKR/esculator.git", rev = "0.0.2
 dateorro = { git = "https://github.com/ProzorroUKR/dateorro.git", rev = "0.0.3" }
 jsonpatch = { git = "https://github.com/ProzorroUKR/python-json-patch.git", rev = "1.14+jsondiff.unicode.replacefix.0" }
 barbecue = { git = "https://github.com/ProzorroUKR/barbecue.git", rev = "0.2" }
-standards = { git = "https://github.com/ProzorroUKR/standards.git", rev = "1.0.212" }
+standards = { git = "https://github.com/ProzorroUKR/standards.git", rev = "1.0.216" }
 
 [tool.pytest.ini_options]
 minversion = "6.0"
