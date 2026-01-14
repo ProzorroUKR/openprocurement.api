@@ -316,18 +316,12 @@ def activate_contract_cancelled_lot(self):
     if RELEASE_2020_04_19 > get_now():
         self.assertEqual(response.json["data"]["status"], "pending")
     else:
-        response = self.app.post_json(
-            f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/documents?acc_token={self.tender_token}",
-            {
-                "data": {
-                    "title": "name.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
+        self.add_sign_doc(
+            self.tender_id,
+            self.tender_token,
+            docs_url=f"/cancellations/{cancellation_id}/documents",
+            document_type="cancellationReport",
         )
-        self.assertEqual(response.status, "201 Created")
 
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?acc_token={self.tender_token}",

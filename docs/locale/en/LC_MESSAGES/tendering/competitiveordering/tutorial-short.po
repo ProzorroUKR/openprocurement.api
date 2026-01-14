@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"POT-Creation-Date: 2026-01-13 18:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Туторіал (скорочений тендер)"
 msgstr "Tutorial (short)"
@@ -226,6 +227,15 @@ msgstr "As tender `competitiveOrdering` doesn't have the opportunity to add comp
 
 msgid "`complaintPeriod` відсутній в скасуванні. Після того, як `cancellation` буде переведений в статус `pending`, `cancellation` автоматично змінить статус на `active`, а тендер буде скасовано."
 msgstr "`complaintPeriod` is not present in cancellation. And after cancellation was transferred to status `pending`, then cancellation will automatically update status to `active` and tender is being cancelled."
+
+msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
+msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
+
+msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
+
+msgid "Змінимо статус скасування з `draft` на `pending`:"
+msgstr "Let's update cancellation from `draft` to `pending`."
 
 msgid "Підтвердження кваліфікації"
 msgstr "Confirming qualification"

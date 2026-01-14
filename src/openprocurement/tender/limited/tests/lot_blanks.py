@@ -1180,21 +1180,12 @@ def patch_lot_with_cancellation(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("broker", ""))
 
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-                self.tender_id, cancellation_id, self.tender_token
-            ),
-            {
-                "data": {
-                    "title": "name.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
+        self.add_sign_doc(
+            self.tender_id,
+            self.tender_token,
+            docs_url=f"/cancellations/{cancellation_id}/documents",
+            document_type="cancellationReport",
         )
-        self.assertEqual(response.status, "201 Created")
-        self.assertEqual(response.content_type, "application/json")
 
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),

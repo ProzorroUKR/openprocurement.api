@@ -34,19 +34,12 @@ def activate_cancellation_with_complaints_after_2020_04_19(self, cancellation_id
     if not tender_token:
         tender_token = self.tender_token
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(tender_id, cancellation_id, tender_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        tender_id,
+        tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
     )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
 
     tender = self.mongodb.tenders.get(tender_id)
 
@@ -92,19 +85,12 @@ def activate_cancellation_without_complaints_after_2020_04_19(self, cancellation
     if not tender_token:
         tender_token = self.tender_token
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(tender_id, cancellation_id, tender_token),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        tender_id,
+        tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
     )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(tender_id, cancellation_id, tender_token),

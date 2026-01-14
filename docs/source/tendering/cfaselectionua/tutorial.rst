@@ -383,6 +383,18 @@ Cписок аwards в статусі `pending` можна отримати за
 Активація запиту та скасування закупівлі
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:
+
+.. http:example:: tutorial/cancellation-sign-doc-is-required.http
+   :code:
+
+Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+
+.. http:example:: tutorial/upload-cancellation-report-doc.http
+   :code:
+
+Активуємо запит на скасування закупівлі:
+
 .. http:example:: tutorial/active-cancellation.http
    :code:
 

@@ -27,20 +27,12 @@ def create_tender_co_lot_cancellation_complaint(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation_id = response.json["data"]["id"]
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-            self.tender_id, cancellation_id, self.tender_token
-        ),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
     )
-    self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),

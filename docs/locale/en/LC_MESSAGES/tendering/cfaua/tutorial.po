@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:14+0200\n"
+"POT-Creation-Date: 2026-01-13 18:46+0200\n"
 "PO-Revision-Date: 2019-03-25 12:27+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -473,6 +474,7 @@ msgstr "Qualification board receives the qualifications list"
 msgid "Додає підпис і реєструє своє рішення через такий виклик на кожного `award`:"
 msgstr "Adds sign docs and registers its decisions via the following call `per award`:"
 
+#, python-brace-format
 msgid "Комісія також може дискваліфікувати переможця викликом ``{'data': {'status': 'cancelled'}}``"
 msgstr "The board may cancel the award winner by calling ``{'data': {'status': 'cancelled'}}``"
 
@@ -524,6 +526,7 @@ msgstr "The object list :ref:`Contract` to enter prices per item can be obtained
 msgid "Внесення цін за одиницю товару можливе лише для всіх предметів закупівлі 'items' разом"
 msgstr "Entering unit prices is allowed only for all 'items' taken together"
 
+#, python-brace-format
 msgid "Також стороні замовника дозволено виключити переможця з рамкової угоди, перевівши контракт в статус ``{'data': {'status': 'unsuccessful'}}``"
 msgstr "Also the ordering party is allowed to exclude a winner from the framework agreement by setting the contract to ``{'data': {'status': 'unsuccessful'}}``"
 
@@ -632,8 +635,17 @@ msgstr "Upload new version of the document"
 msgid "Проходження періоду оскарження"
 msgstr "Passing Complaint Period"
 
-msgid "Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`."
+msgid "Для того щоб перейти до періоду оскарження потрібно змінити статус скасування з `draft` на `pending`."
 msgstr "For activate complaint period, you need to update cancellation from `draft` to `pending`."
+
+msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
+msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
+
+msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
+
+msgid "Змінимо статус скасування з `draft` на `pending`:"
+msgstr "Let's update cancellation from `draft` to `pending`."
 
 msgid "Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі."
 msgstr "When cancellation in `pending` status the tender owner is prohibited from all actions on the tender."

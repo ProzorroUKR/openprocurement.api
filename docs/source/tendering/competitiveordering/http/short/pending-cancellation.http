@@ -33,6 +33,19 @@ Content-Type: application/json
         "id": "2a79d914024f4862bcafd0c7a378fd26",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "dateModified": "2023-10-10T01:00:00+03:00"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "cancellationReport",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6ff3192a44b3453da381cf93461fd769?Signature=Kd%2Fl1NVTnJGpzZXkivaxeTxVk30aBL8qHuUQ3Amf1OhRHRkKfYP3wo9pBtR4J4unJnMuJjuqYiKdYCP8REOrCg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "1227fd6a448449b5b186cfd6ba0d5e00",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ]
   }

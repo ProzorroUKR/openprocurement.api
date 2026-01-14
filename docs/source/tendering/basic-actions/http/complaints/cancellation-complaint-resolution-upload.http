@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "ComplaintResolution.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1fdf9d4644a4acebba0c9562af28f88?Signature=iiKon%2FDzYKBFmSG%2FPM1HpNleXMhysTQgkvDajaocVNxk1%2FeevO3t90wOPUMDQsiqMJ2cMb5xtgUyiX07J4FUBA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/322fd4d20227454eab0a224e75860448?Signature=McuxC%2BNWLT4EjixhzUGCZcWkcklgClJk94pJz7lPDW%2BopwEa50tJaGf3Ex0HB14JcOMUkmyRlsuuGFGyHC%2BQCA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3e50c95aba5434d9d21eb46e65d8f4d/cancellations/8b3cf6c0fad24bc1a5cf5fb05119836b/complaints/e64da7492d294ea194bee32ab3525f32/documents/3535a5fd6671437191c35d9f80bbbb13
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3e50c95aba5434d9d21eb46e65d8f4d/cancellations/8b3cf6c0fad24bc1a5cf5fb05119836b/complaints/e64da7492d294ea194bee32ab3525f32/documents/c28d44868dc3459eb5dfb21c71ea70d7
 
 {
   "data": {
@@ -23,9 +23,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b3e50c95aba5434d
     "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1fdf9d4644a4acebba0c9562af28f88?Signature=HLhDeQLKIspb%2Bvs9PJvvOtPJBYJd2Xom6llJ3V62qVo4QKMMYar8lXXQIaAbPsbsmCW6D8RyLVeMTwqV9dtSAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/322fd4d20227454eab0a224e75860448?Signature=Xdb5hL5KjGI8r7XTAw7ScV7ujouitZLOw3PwoOv1K814ZNF4D%2FRPNsqsl%2Fnp%2BQSOuzKRmJceSpiX389sCzvyBw%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "3535a5fd6671437191c35d9f80bbbb13",
+    "id": "c28d44868dc3459eb5dfb21c71ea70d7",
     "documentOf": "tender",
     "datePublished": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
