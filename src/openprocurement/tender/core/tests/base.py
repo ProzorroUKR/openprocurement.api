@@ -250,7 +250,7 @@ class BaseCoreWebTest(BaseWebTest):
                 "documentType": document_type,
                 "url": self.generate_docservice_url(),
                 "hash": "md5:" + "0" * 32,
-                "format": "sign/pkcs7-signature",
+                "format": "application/pkcs7-signature",
             }
         }
 

@@ -9,7 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "documentType": "evaluationReports",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c7e69a013bf54d068f2e6246e8c10f0b?Signature=T9f%2FYzVVEcS9gzDRI4tMkpViOSqguh867WGrwQwYu42Dr%2BS0oj9IO3FsdWdTsgQEE5M36FfsXhszYD3ie0j%2FAQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
-    "format": "sign/pkcs7-signature"
+    "format": "application/pkcs7-signature"
   }
 }
 
@@ -24,7 +24,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
     "documentType": "evaluationReports",
     "hash": "md5:00000000000000000000000000000000",
     "title": "sign.p7s",
-    "format": "sign/pkcs7-signature",
+    "format": "application/pkcs7-signature",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c7e69a013bf54d068f2e6246e8c10f0b?Signature=aBgckpwTbT0CrqQqg7DcJ1zA3UKfipkwoMPt8H8yw%2FliWWtW7JI60HFSK8KorK4a%2B5vKqNX07WnGQIoP06wiDA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "language": "uk",

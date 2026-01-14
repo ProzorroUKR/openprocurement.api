@@ -61,7 +61,7 @@ Content-Type: application/json
         "datePublished": "2023-10-10T01:01:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
-        "format": "sign/pkcs7-signature",
+        "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1cde1d1230724f8b85f3f49389aa119a?Signature=GIsI0QCfzUVpFAdXWyMtbIP4Neq%2BQVkRLlQJov1Se%2FfOubFnSa%2F7F7IDgBSkc%2FN52hlhyEZD6tHTbffHj2S3BQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:01:00+03:00",

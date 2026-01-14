@@ -68,7 +68,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/493cc77e367e48e9
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
-        "format": "sign/pkcs7-signature",
+        "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ca52b3a34ed43afa5ddd476aaff2f6b?Signature=XJNjn%2FUP5YgNNtvjPxwfcDz1hEDLhmL1%2FP%2FbIKSs7KWlZQV%2BXxHjy4l9%2BptYXUJTE4TPP3K0R6w0rw6H5vLWBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
