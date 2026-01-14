@@ -1,0 +1,39 @@
+POST /contracts/88888888444455556666000000000001/violation_reports HTTP/1.0
+Authorization: Bearer broker
+
+{
+  "data": {
+    "details": {
+      "reason": "contractBreach",
+      "description": "Постачальник порушив контракт."
+    },
+    "status": "pending"
+  }
+}
+
+
+HTTP/1.0 400 Bad Request
+Content-Type: application/json; charset=utf-8
+X-Request-ID: 88888888-4444-5555-6666-000000000004
+Content-Length: 266
+
+{
+  "type": "data-validation",
+  "title": "Data Validation Error",
+  "details": "Validation errors in body",
+  "status": 400,
+  "errors": [
+    {
+      "type": "status_error",
+      "loc": [
+        "data",
+        "status"
+      ],
+      "msg": "pending should be draft.",
+      "input": "pending",
+      "ctx": {
+        "status": "pending"
+      }
+    }
+  ]
+}

@@ -67,7 +67,12 @@ class ViolationReportDocumentListView(BaseView):
         await update_violation_report(violation_report)
         logger.info(
             "Violation Report document post",
-            extra=get_request_logging_context({"MESSAGE_ID": "POST_VIOLATION_REPORT_DETAILS_DOCUMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "POST_VIOLATION_REPORT_DETAILS_DOCUMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
 
         return {"data": DocumentSerializer(document).data}
@@ -126,7 +131,12 @@ class ViolationReportDocumentView(BaseView):
             await update_violation_report(violation_report)
             logger.info(
                 "Violation report document patch",
-                extra=get_request_logging_context({"MESSAGE_ID": "PATCH_VIOLATION_REPORT_DETAILS_DOCUMENT"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "PATCH_VIOLATION_REPORT_DETAILS_DOCUMENT",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
             return {"data": DocumentSerializer(new_document).data}
 
@@ -152,7 +162,12 @@ class ViolationReportDocumentView(BaseView):
         await update_violation_report(violation_report)
         logger.info(
             "Violation report document put",
-            extra=get_request_logging_context({"MESSAGE_ID": "PUT_VIOLATION_REPORT_DETAILS_DOCUMENT"}),
+            extra=get_request_logging_context(
+                {
+                    "MESSAGE_ID": "PUT_VIOLATION_REPORT_DETAILS_DOCUMENT",
+                    "violation_report_id": violation_report_id,
+                }
+            ),
         )
         return {"data": DocumentSerializer(new_document).data}
 
@@ -168,6 +183,11 @@ class ViolationReportDocumentView(BaseView):
             await update_violation_report(violation_report)
             logger.info(
                 "Violation report document delete",
-                extra=get_request_logging_context({"MESSAGE_ID": "DELETE_VIOLATION_REPORT_DETAILS_DOCUMENT"}),
+                extra=get_request_logging_context(
+                    {
+                        "MESSAGE_ID": "DELETE_VIOLATION_REPORT_DETAILS_DOCUMENT",
+                        "violation_report_id": violation_report_id,
+                    }
+                ),
             )
         return HTTPNoContent()

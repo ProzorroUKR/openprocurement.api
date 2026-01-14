@@ -1,4 +1,4 @@
-PATCH /violation_reports/UA-D-2025-10-12-000001 HTTP/1.0
+PATCH /violation_reports/88888888444455556666000000000006 HTTP/1.0
 Authorization: Bearer broker
 
 {
@@ -10,8 +10,8 @@ Authorization: Bearer broker
 
 HTTP/1.0 200 OK
 Content-Type: application/json; charset=utf-8
-X-Request-ID: 88888888-4444-5555-6666-000000000013
-Content-Length: 3308
+X-Request-ID: 88888888-4444-5555-6666-000000000011
+Content-Length: 2878
 
 {
   "data": {
@@ -20,9 +20,9 @@ Content-Length: 3308
       "description": "Якість товару не відповідає нормі.",
       "documents": [
         {
-          "id": "8888888844445555666600000000000b",
+          "id": "8888888844445555666600000000000c",
           "hash": "md5:11111111111111111111111111111111",
-          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/details/documents/8888888844445555666600000000000e?download=8888888844445555666600000000000c",
+          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006/details/documents/8888888844445555666600000000000f?download=8888888844445555666600000000000d",
           "dateModified": "2025-10-12T15:37:45+03:00",
           "datePublished": "2025-10-12T15:37:10+03:00",
           "documentType": "violationReportEvidence",
@@ -32,28 +32,18 @@ Content-Length: 3308
           "description_en": "Expert opinion regarding damaged wood.",
           "format": "application/pdf",
           "language": "uk"
-        },
-        {
-          "id": "88888888444455556666000000000012",
-          "hash": "md5:00000000000000000000000000000000",
-          "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/UA-D-2025-10-12-000001/details/documents/88888888444455556666000000000012?download=88888888444455556666000000000010",
-          "dateModified": "2025-10-12T15:38:47+03:00",
-          "datePublished": "2025-10-12T15:38:47+03:00",
-          "documentType": "violationReportSignature",
-          "title": "sign.p7s",
-          "format": "application/pkcs7-signature",
-          "language": "uk"
         }
       ],
-      "dateModified": "2025-10-12T15:38:47+03:00"
+      "dateModified": "2025-10-12T15:37:45+03:00"
     },
-    "id": "UA-D-2025-10-12-000001",
+    "id": "88888888444455556666000000000006",
+    "violationReportID": "UA-D-2025-10-12-000001",
     "status": "pending",
     "tender_id": "88888888444455556666000000000002",
     "contract_id": "88888888444455556666000000000001",
     "dateCreated": "2025-10-12T15:35:35+03:00",
-    "dateModified": "2025-10-12T15:39:22+03:00",
-    "datePublished": "2025-10-12T15:39:22+03:00",
+    "dateModified": "2025-10-12T15:38:20+03:00",
+    "datePublished": "2025-10-12T15:38:20+03:00",
     "author": {
       "name": "Adam Bryan",
       "identifier": {
@@ -117,7 +107,7 @@ Content-Length: 3308
       "kind": "central"
     },
     "defendantPeriod": {
-      "startDate": "2025-10-12T15:39:22+03:00",
+      "startDate": "2025-10-12T15:38:20+03:00",
       "endDate": "2025-10-16T00:00:00+03:00"
     }
   }

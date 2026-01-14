@@ -11,6 +11,7 @@ from prozorro_cdb.violation_report.database.schema.violation_report import (
     DecisionDBModel,
     DraftActiveObjectStatus,
     ViolationReportDBModel,
+    ViolationReportResolution,
     ViolationReportStatus,
 )
 from prozorro_cdb.violation_report.handlers.schema.decision import (
@@ -125,7 +126,11 @@ class ViolationReportDecisionState(BaseState):
         decision.status = DraftActiveObjectStatus.active
         decision.datePublished = now
 
-        violation_report.status = ViolationReportStatus(decision.resolution.value)
+        violation_report.status = (
+            ViolationReportStatus.satisfied
+            if decision.resolution == ViolationReportResolution.satisfied
+            else ViolationReportStatus.declined
+        )
         violation_report.dateModified = now
 
     @classmethod

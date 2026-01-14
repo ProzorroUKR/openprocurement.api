@@ -10,5 +10,5 @@ API звітів про порушення є частиною Централь�
 
 .. image:: img/objects.png
 
-Посилання на `swagger-ui <https://public.api.openprocurement.org/api/0/doc>`_
+Посилання на `swagger-ui <https://lb-api-sandbox-2.prozorro.gov.ua/api/0/doc>`_
 
