@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.cfaselectionua 2.4.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:14+0200\n"
+"POT-Creation-Date: 2026-01-13 18:46+0200\n"
 "PO-Revision-Date: 2019-03-25 11:49+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -442,6 +443,15 @@ msgstr "Upload new version of the document"
 
 msgid "Активація запиту та скасування закупівлі"
 msgstr "Activating the request and cancelling tender"
+
+msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
+msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
+
+msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
+
+msgid "Активуємо запит на скасування закупівлі:"
+msgstr "Activate the request of cancelling tender"
 
 msgid "Можливо, буде корисно побачити актуальні вимоги: `Сценарії ручного тестування для III рівня акредитації <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ і `Сценарії ручного тестування для IV рівня акредитації <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."
 msgstr "It may be useful to see top requirements: `Test Cases for III level of accreditation <https://docs.google.com/spreadsheets/d/1-AT2RjbnSFAP75x6YNDvhKeN2Cy3tMlG6kb0tt6FScs/edit#gid=0>`_ and `Test Cases for IV level of accreditation <https://docs.google.com/spreadsheets/d/1-93kcQ2EeuUU08aqPMDwMeAjnG2SGnEEh5RtjHWOlOY/edit#gid=0>`_."

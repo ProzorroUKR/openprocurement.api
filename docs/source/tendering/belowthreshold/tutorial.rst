@@ -439,5 +439,17 @@
 Активація запиту та скасування закупівлі
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. http:example:: http/tutorial/create-tender-funders.http
+Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:
+
+.. http:example:: http/tutorial/cancellation-sign-doc-is-required.http
+   :code:
+
+Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+
+.. http:example:: http/tutorial/upload-cancellation-report-doc.http
+   :code:
+
+Активуємо запит на скасування закупівлі:
+
+.. http:example:: http/tutorial/active-cancellation.http
    :code:

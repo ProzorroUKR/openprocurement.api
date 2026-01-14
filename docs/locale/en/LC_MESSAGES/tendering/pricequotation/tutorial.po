@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:14+0200\n"
+"POT-Creation-Date: 2026-01-13 18:46+0200\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -433,4 +434,13 @@ msgstr "Upload new version of the document"
 
 msgid "Активація запиту на відміну закупівлі"
 msgstr "Activating the request and cancelling tender"
+
+msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
+msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
+
+msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
+
+msgid "Активуємо запит на скасування закупівлі:"
+msgstr "Activate the request of cancelling tender"
 

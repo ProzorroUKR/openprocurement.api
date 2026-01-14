@@ -546,6 +546,21 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             )
             self.assertEqual(response.status, "200 OK")
 
+        with open(TARGET_DIR + "tutorial/cancellation-sign-doc-is-required.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
+                {"data": {"status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + "tutorial/upload-cancellation-report-doc.http", "w") as self.app.file_obj:
+            self.add_sign_doc(
+                self.tender_id,
+                owner_token,
+                docs_url=f"/cancellations/{cancellation_id}/documents",
+                document_type="cancellationReport",
+            )
+
         #### Activating the request and cancelling tender
         with open(TARGET_DIR + "tutorial/pending-cancellation.http", "w") as self.app.file_obj:
             response = self.app.patch_json(

@@ -24,9 +24,10 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
+        "documentType": "cancellationReport",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/120e2d279ef84f8db8c5a993a4e58137?Signature=RXTrCl%2F%2FjNeNIhs3yj%2FbnqpUp3cugk2nhmpngGkBKfvl2ap1RnLUZ4YPsuglw6RCNcCyMUuyip0XrCCNGm0XAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",

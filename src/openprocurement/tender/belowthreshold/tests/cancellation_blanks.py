@@ -203,6 +203,13 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation = response.json["data"]
 
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation['id']}/documents",
+        document_type="cancellationReport",
+    )
+
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
         {"data": {"status": "active"}},
@@ -1087,22 +1094,12 @@ def patch_tender_cancellation_2020_04_19(self):
     self.assertEqual(cancellation["status"], "draft")
     self.assertIn(cancellation_id, response.headers["Location"])
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-            self.tender_id, cancellation_id, self.tender_token
-        ),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
     )
-
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
@@ -1165,20 +1162,12 @@ def permission_cancellation_pending(self):
     self.assertEqual(cancellation_2["reason"], "cancellation reason")
     self.assertEqual(cancellation_2["status"], "draft")
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-            self.tender_id, cancellation_1_id, self.tender_token
-        ),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_1_id}/documents",
+        document_type="cancellationReport",
     )
-    self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_1_id, self.tender_token),
@@ -1245,20 +1234,12 @@ def tender_lot_cancellation_universal_logic(self):
     self.assertEqual(response.content_type, "application/json")
     cancellation_id = response.json["data"]["id"]
 
-    response = self.app.post_json(
-        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-            self.tender_id, cancellation_id, self.tender_token
-        ),
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
     )
-    self.assertEqual(response.status, "201 Created")
 
     response = self.app.patch_json(
         "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),

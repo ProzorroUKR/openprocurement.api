@@ -3310,17 +3310,12 @@ class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
         self.assertEqual(response.status, "201 Created")
         cancellation_id = response.json["data"]["id"]
 
-        # add cancellation document
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
-            {
-                "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
+        # add cancellation sign document
+        self.add_sign_doc(
+            self.tender_id,
+            owner_token,
+            docs_url=f"/cancellations/{cancellation_id}/documents",
+            document_type="cancellationReport",
         )
         self.assertEqual(response.status, "201 Created")
         with open(TARGET_DIR + "cancellation-complain-duration-tender-patch-1.http", "w") as self.app.file_obj:

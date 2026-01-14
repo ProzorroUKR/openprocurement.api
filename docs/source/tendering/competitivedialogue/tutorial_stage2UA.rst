@@ -338,7 +338,19 @@
 Проходження періоду оскарження
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`.
+Для того щоб перейти до періоду оскарження потрібно змінити статус скасування з `draft` на `pending`.
+
+Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:
+
+.. http:example:: tutorial/stage2/UA/cancellation-sign-doc-is-required.http
+   :code:
+
+Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+
+.. http:example:: tutorial/stage2/UA/upload-cancellation-report-doc.http
+   :code:
+
+Змінимо статус скасування з `draft` на `pending`:
 
 .. http:example:: tutorial/stage2/UA/pending-cancellation.http
    :code:

@@ -1619,6 +1619,21 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             )
             self.assertEqual(response.status, "200 OK")
 
+        with open(TARGET_DIR + "stage2/EU/cancellation-sign-doc-is-required.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
+                {"data": {"status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + "stage2/EU/upload-cancellation-report-doc.http", "w") as self.app.file_obj:
+            self.add_sign_doc(
+                self.tender_id,
+                owner_token,
+                docs_url=f"/cancellations/{cancellation_id}/documents",
+                document_type="cancellationReport",
+            )
+
         #### Activating the request and cancelling tender
         with open(TARGET_DIR + "stage2/EU/pending-cancellation.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
@@ -2576,6 +2591,21 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
                 },
             )
             self.assertEqual(response.status, "200 OK")
+
+        with open(TARGET_DIR + "stage2/UA/cancellation-sign-doc-is-required.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
+                {"data": {"status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_DIR + "stage2/UA/upload-cancellation-report-doc.http", "w") as self.app.file_obj:
+            self.add_sign_doc(
+                self.tender_id,
+                owner_token,
+                docs_url=f"/cancellations/{cancellation_id}/documents",
+                document_type="cancellationReport",
+            )
 
         #### Activating the request and cancelling tender
         with open(TARGET_DIR + "stage2/UA/pending-cancellation.http", "w") as self.app.file_obj:

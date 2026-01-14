@@ -31,6 +31,7 @@ from openprocurement.tender.openua.tests.cancellation_blanks import (
     bot_patch_tender_cancellation_complaint,
     cancellation_active_award,
     cancellation_unsuccessful_award,
+    check_sign_doc_before_cancellation_activation,
     create_cancellation_in_award_complaint_period,
     create_cancellation_with_award_complaint,
     create_cancellation_with_tender_complaint,
@@ -67,6 +68,7 @@ class TenderCancellationResourceNewReleaseTestMixin:
     test_patch_tender_cancellation_2020_04_19_to_pending = snitch(patch_tender_cancellation_2020_04_19_to_pending)
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
     test_create_cancellation_with_tender_complaint = snitch(create_cancellation_with_tender_complaint)
+    test_check_sign_doc_before_cancellation_activation = snitch(check_sign_doc_before_cancellation_activation)
 
 
 class TenderAwardsCancellationResourceTestMixin:

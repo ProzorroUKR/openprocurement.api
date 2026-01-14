@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/8690ddb7d98e43858e01a709a3b81a8a/cancellations/fb5a1d901e0f4ac0a73bae6f0d7cc312?acc_token=955ba98fce244b3aa2cd16bcdbd01e2a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "pending"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "Document with type 'cancellationReport' and format pkcs7-signature is required"
+    }
+  ]
+}
+

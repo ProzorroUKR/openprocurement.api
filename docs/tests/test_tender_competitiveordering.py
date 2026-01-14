@@ -522,6 +522,21 @@ class TenderrCOShortResourceTest(
                 response.json["errors"][0]["description"], "Can't add complaint as it is forbidden by configuration"
             )
 
+        with open(TARGET_SHORT_DIR + "cancellation-sign-doc-is-required.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
+                {"data": {"status": "pending"}},
+                status=422,
+            )
+
+        with open(TARGET_SHORT_DIR + "upload-cancellation-report-doc.http", "w") as self.app.file_obj:
+            self.add_sign_doc(
+                self.tender_id,
+                owner_token,
+                docs_url=f"/cancellations/{cancellation_id}/documents",
+                document_type="cancellationReport",
+            )
+
         # Activating the request and cancelling tender
         with open(TARGET_SHORT_DIR + "pending-cancellation.http", "w") as self.app.file_obj:
             response = self.app.patch_json(

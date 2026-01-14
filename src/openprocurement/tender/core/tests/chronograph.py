@@ -221,16 +221,11 @@ def switch_tender_after_cancellation_unsuccessful(self):
         },
     )
     cancellation_id = response.json["data"]["id"]
-    self.app.post_json(
-        f"/tenders/{self.tender_id}/cancellations/{cancellation_id}/documents?acc_token={self.tender_token}",
-        {
-            "data": {
-                "title": "name.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
     )
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?acc_token={self.tender_token}",
