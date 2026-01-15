@@ -9,6 +9,9 @@ BUILDDIR      = build
 SPHINXINTL    = sphinx-intl
 LANG          = en
 
+# Patterns to exclude from gettext extraction
+EXCLUDE_GETTEXT_PATTERNS = features
+
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
 $(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don't have Sphinx installed, grab it from http://sphinx-doc.org/)
@@ -46,6 +49,12 @@ html:
 
 gettext:
 	$(SPHINXBUILD) -b gettext $(I18NSPHINXOPTS) $(BUILDDIR)/locale
+	
+	@if [ -n "$(EXCLUDE_GETTEXT_PATTERNS)" ]; then \
+		for pattern in $$(echo "$(EXCLUDE_GETTEXT_PATTERNS)" | tr ',' ' '); do \
+			rm -rf $(BUILDDIR)/locale/$$pattern; \
+		done; \
+	fi
 
 changes:
 	$(SPHINXBUILD) -b changes $(ALLSPHINXOPTS) $(BUILDDIR)/changes
