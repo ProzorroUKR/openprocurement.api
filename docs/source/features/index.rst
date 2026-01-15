@@ -20,3 +20,4 @@ Contents:
    rendering_documents
    auction_planning
    modify_framework_period
+   arma
