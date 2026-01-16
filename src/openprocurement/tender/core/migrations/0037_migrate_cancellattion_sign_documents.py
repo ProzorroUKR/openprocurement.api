@@ -16,8 +16,8 @@ class Migration(CollectionMigration):
 
     append_revision = True
 
-    update_date_modified: bool = True
-    update_feed_position: bool = True
+    update_date_modified: bool = False
+    update_feed_position: bool = False
 
     log_every: int = 100000
     bulk_max_size: int = 500

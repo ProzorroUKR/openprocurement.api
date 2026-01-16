@@ -43,6 +43,7 @@ class CancellationStateMixing:
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
     should_validate_cancellation_doc_required = True
+    all_documents_should_be_public = False
 
     def validate_cancellation_post(self, data):
         request, tender = get_request(), get_tender()
@@ -218,7 +219,7 @@ class CancellationStateMixing:
     def validate_docs(self, data):
         documents = data.get("documents", [])
         for doc in documents:
-            validate_edrpou_confidentiality_doc(doc)
+            validate_edrpou_confidentiality_doc(doc, should_be_public=self.all_documents_should_be_public)
         if tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM):
             validate_doc_type_quantity(documents, document_type="cancellationReport")
 

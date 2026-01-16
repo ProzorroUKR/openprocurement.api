@@ -2039,7 +2039,7 @@ def check_sign_doc_before_cancellation_activation(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        f"cancellationReport document in tender should be only one",
+        "cancellationReport document in tender should be only one",
     )
 
     response = self.app.patch_json(
