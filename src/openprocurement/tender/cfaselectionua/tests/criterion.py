@@ -44,6 +44,7 @@ class TenderCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, Tend
     initial_data = test_tender_cfaselectionua_data
     test_lots_data = test_tender_cfaselectionua_lots
     initial_lots = test_tender_cfaselectionua_lots
+    allowed_put_statuses = ["active.enquiries", "active.tendering"]
 
     test_put_rg_requirement_valid_value_change = None  # FIXME: adopt test
 

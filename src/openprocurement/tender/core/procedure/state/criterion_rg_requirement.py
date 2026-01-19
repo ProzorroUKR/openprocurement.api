@@ -42,6 +42,8 @@ class RequirementValidationsMixin:
 
 
 class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):
+    allowed_put_statuses = ["active.tendering"]
+
     def get_patch_data_model(self):
         criterion = self.request.validated["criterion"]
         classification_id = criterion["classification"]["id"]
@@ -123,8 +125,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
     def _validate_put_requirement_objects(self) -> None:
         validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
-        valid_statuses = ["active.tendering"]
-        base_validate_operation_ecriteria_objects(self.request, valid_statuses)
+        base_validate_operation_ecriteria_objects(self.request, self.allowed_put_statuses)
 
     @validation_error_handler
     def _validate_requirement_data(self, data: dict) -> None:
