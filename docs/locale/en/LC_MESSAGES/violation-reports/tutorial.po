@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"POT-Creation-Date: 2026-01-19 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -37,10 +37,7 @@ msgstr "Or you can update document version with PUT method"
 msgid "Деталі документа оновлення можна змінити за допомогою методу PATCH"
 msgstr "Update document details can be changed using PATCH method"
 
-msgid "Перед публікацією необхідно додати документ з підписом"
-msgstr "Before publishing, it's required to add a signature document"
-
-msgid "Тепер ви можете опублікувати свій звіт про порушення, змінивши його статус"
+msgid "Опублікувати звіт про порушення можна змінивши статус"
 msgstr "Now you can publish your violation report by changing its status"
 
 msgid "Див. `defendantPeriod`, що обмежує періоди публікації відповіді. Рішення можна опублікувати після закінчення періоду."
@@ -61,11 +58,8 @@ msgstr "And update the evidences"
 msgid "Змінити описи документів"
 msgstr "Change documents descriptions"
 
-msgid "Перед публікацією потрібно додати документ із підписом"
-msgstr "Before publishing it's required to add a signature document"
-
-msgid "Потім опублікуйте заяву, щоб вона з’явилася у стрічці змін"
-msgstr "Then publish the statement, so it appears in the feed"
+msgid "Опублікуйте заяву, щоб вона з’явилася у стрічці змін"
+msgstr "Now it is possible to publish the statement, so it appears in the feed"
 
 msgid "Опублікуйте рішення"
 msgstr "Post the decision"
@@ -81,9 +75,6 @@ msgstr "While in `draft`, you can change the decision"
 
 msgid "Перед публікацією потрібно оновити підпис"
 msgstr "Before publishing, you need to update the signature"
-
-msgid "Опублікуйте рішення"
-msgstr "Publish the decision"
 
 msgid "Перегляньте об’єкт результату звіту про порушення"
 msgstr "See the result violation report object"

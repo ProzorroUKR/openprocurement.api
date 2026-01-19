@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"POT-Creation-Date: 2026-01-19 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -15,6 +16,18 @@ msgstr ""
 
 msgid "Помилки API звітів про порушення"
 msgstr "Violation Reports API Errors"
+
+msgid "Звіт про порушення у статусі `draft`"
+msgstr "Violation report in `draft` status"
+
+msgid "Заборонено публікувати одразу опубліковані звіти  про порушення"
+msgstr "It is forbidden to post already published violation reports"
+
+msgid "Спроба змінити звіт про порушення, додаючи зайві поля, має завершуватися помилкою."
+msgstr "Patching violation report with extra fields should fail."
+
+msgid "Зміна звіту про порушення без внесення змін має бути успішною, а значення dateModified має залишатися таким самим."
+msgstr "Patching violation report with no changes should succeed while dateModified should be the same."
 
 msgid "DefendantStatement і Decision у статусі `draft`"
 msgstr "DefendantStatement and Decision in `draft` status"
@@ -33,13 +46,4 @@ msgstr "Posting a decision should fail."
 
 msgid "Спроба додати документ рішення також має завершуватися помилкою."
 msgstr "Posting a decision document should also fail."
-
-msgid "Звіт про порушення у статусі `draft`"
-msgstr "Violation report in `draft` status"
-
-msgid "Спроба змінити звіт про порушення, додаючи зайві поля, має завершуватися помилкою."
-msgstr "Patching violation report with extra fields should fail."
-
-msgid "Зміна звіту про порушення без внесення змін має бути успішною, а значення dateModified має залишатися таким самим."
-msgstr "Patching violation report with no changes should succeed while dateModified should be the same."
 

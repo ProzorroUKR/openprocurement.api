@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-25 16:20+0200\n"
+"POT-Creation-Date: 2026-01-19 11:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -22,6 +23,6 @@ msgstr "Violation Reports API is a part of The OpenProcurement Central Database 
 msgid "Кожен етап або роль реалізує власний об’єкт API та REST API навколо нього."
 msgstr "Every stage or role implements its own API object and the REST API around it."
 
-msgid "Посилання на `swagger-ui <https://public.api.openprocurement.org/api/0/doc>`_"
-msgstr "Link to `swagger-ui <https://public.api.openprocurement.org/api/0/doc>`_"
+msgid "Посилання на `swagger-ui <https://lb-api-sandbox-2.prozorro.gov.ua/api/0/doc>`_"
+msgstr "Link to `swagger-ui <https://lb-api-sandbox-2.prozorro.gov.ua/api/0/doc>`_"
 

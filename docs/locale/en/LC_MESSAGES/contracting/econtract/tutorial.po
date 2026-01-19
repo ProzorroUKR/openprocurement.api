@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:45+0200\n"
+"POT-Creation-Date: 2026-01-19 11:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -118,6 +119,18 @@ msgstr "A PQ contract is created with additional fields:"
 msgid "`attributes` - формується з вимог та відповідей на вимоги у закупівлі"
 msgstr "`attributes` - formed from requirements and responses in tender"
 
+msgid "Поля `contract_owner`, в яких вказано майданчик, на якому буде проходити контрактінг, переїзжають в наступні структури:"
+msgstr "The `contract_owner` fields, which specify the platform where contracting will take place, are moving to the following structures:"
+
+msgid "`buyer.contract_owner` - майданчик зі сторони замовника, на якому буде проходити контрактінг (переїзжає з `tender.procuringEntity.contract_owner` або `tender.buyers.contract_owner`)"
+msgstr "`buyer.contract_owner` - the buyer's platform where contracting will take place (moves from `tender.procuringEntity.contract_owner` or `tender.buyers.contract_owner`)"
+
+msgid "`suppliers.contract_owner` - майданчик зі сторони постачальника, на якому буде проходити контрактінг (переїзжає з `tender.bids.tenderers.contract_owner`)"
+msgstr "`suppliers.contract_owner` - the supplier's platform where contracting will take place (moves from `tender.bids.tenderers.contract_owner`)"
+
+msgid "Більш детально про `contract_owner` в закупівлі можна прочитати в розділі :ref:`contract-owner`."
+msgstr "You can read more details about `contract_owner` in tender in the :ref:`contract-owner` section."
+
 msgid "Також, PDF документ створюється на основі шаблону (`contractTemplateName`) та автоматично прикріплюється до договору з documentType `contractNotice`."
 msgstr "Also, PDF document is created based on the template (`contractTemplateName`) and automatically attached to the contract with documentType `contractNotice`."
 
@@ -133,8 +146,8 @@ msgstr "Contract in the tender system"
 msgid "*Ідентифікатор `id` договору однаковий в системах закупівель та договорів.*"
 msgstr "*Contract id is the same in both tender and contract system.*"
 
-msgid "Let’s see what listing of contracts in contracting module reveals us:"
-msgstr ""
+msgid "Подивимося на фід в модулі контрактінгу та яку інформацію там можна побачити:"
+msgstr "Let’s see what listing of contracts in contracting module reveals us:"
 
 msgid "Спробуємо отримати створений об’єкт по URL:"
 msgstr "Let's access the URL of the created object:"
@@ -142,6 +155,7 @@ msgstr "Let's access the URL of the created object:"
 msgid "Отримання доступу"
 msgstr "Getting access"
 
+#, python-brace-format
 msgid "Для отримання доступу для замовника або постачальника використовується ендпоінт `contracts/{contract_id}/access` після ствворення контракту."
 msgstr "For getting access for buyer or supplier endpoint `contracts/{contract_id}/access` is used after contract was created."
 
