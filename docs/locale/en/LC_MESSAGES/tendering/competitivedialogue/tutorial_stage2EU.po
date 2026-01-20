@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialogue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:14+0200\n"
+"POT-Creation-Date: 2026-01-13 18:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -500,8 +501,17 @@ msgstr "Upload new version of the document"
 msgid "Проходження періоду оскарження"
 msgstr "Passing Complaint Period"
 
-msgid "Для того щоб перейти до періоду оскарження потрібно змінити стаутс скасування з `draft` на `pending`."
+msgid "Для того щоб перейти до періоду оскарження потрібно змінити статус скасування з `draft` на `pending`."
 msgstr "For activate complaint period, you need to update cancellation from `draft` to `pending`."
+
+msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
+msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
+
+msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
+
+msgid "Змінимо статус скасування з `draft` на `pending`:"
+msgstr "Let's update cancellation from `draft` to `pending`."
 
 msgid "Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі."
 msgstr "When cancellation in `pending` status the tender owner is prohibited from all actions on the tender."

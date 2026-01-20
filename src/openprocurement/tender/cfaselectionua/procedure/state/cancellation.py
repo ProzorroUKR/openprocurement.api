@@ -4,9 +4,6 @@ from openprocurement.tender.belowthreshold.procedure.state.cancellation import (
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_edrpou_confidentiality_doc,
-)
 
 
 class CFASelectionCancellationState(BelowThresholdCancellationStateMixing, CFASelectionTenderState):
@@ -17,7 +14,4 @@ class CFASelectionCancellationState(BelowThresholdCancellationStateMixing, CFASe
         "forceMajeure",
         "expensesCut",
     ]
-
-    def validate_docs(self, data):
-        for doc in data.get("documents", []):
-            validate_edrpou_confidentiality_doc(doc, should_be_public=True)
+    all_documents_should_be_public = True

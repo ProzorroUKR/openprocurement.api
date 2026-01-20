@@ -40,6 +40,19 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "cancellationReport",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c6f174057b8944e384a06cbca1476445?Signature=Gh%2BahGZNZGSMDgOb%2F5CKaEadKq823DbVyw2WulK0M8%2BEYWUlicW9RUdp1IJb4F7jRCYV6B26gVo7q4fWM%2FzDBw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "8b23f580a58f429380ed3744def40487",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2023-10-10T01:00:00+03:00"
       }
     ],
     "complaintPeriod": {

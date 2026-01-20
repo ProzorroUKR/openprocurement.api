@@ -71,6 +71,7 @@ class TenderCancellationResourceTest(
 
     test_patch_tender_cancellation_2020_04_19 = snitch(patch_tender_cancellation_2020_04_19)
     test_patch_tender_cancellation_2020_04_19_to_pending = None
+    test_check_sign_doc_before_cancellation_activation = None
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
 
 

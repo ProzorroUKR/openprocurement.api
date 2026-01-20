@@ -1,14 +1,22 @@
 from datetime import timedelta
 
-from openprocurement.api.constants_env import RELEASE_2020_04_19
+from openprocurement.api.constants_env import (
+    CANCELLATION_REPORT_DOC_REQUIRED_FROM,
+    RELEASE_2020_04_19,
+)
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+    tender_created_after_2020_rules,
+)
 from openprocurement.tender.core.procedure.validation import (
+    validate_doc_type_quantity,
+    validate_doc_type_required,
     validate_edrpou_confidentiality_doc,
     validate_field_change,
 )
@@ -35,6 +43,7 @@ class CancellationStateMixing:
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
     should_validate_cancellation_doc_required = True
+    all_documents_should_be_public = False
 
     def validate_cancellation_post(self, data):
         request, tender = get_request(), get_tender()
@@ -208,8 +217,11 @@ class CancellationStateMixing:
             self.always(get_tender())
 
     def validate_docs(self, data):
-        for doc in data.get("documents", []):
-            validate_edrpou_confidentiality_doc(doc)
+        documents = data.get("documents", [])
+        for doc in documents:
+            validate_edrpou_confidentiality_doc(doc, should_be_public=self.all_documents_should_be_public)
+        if tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM):
+            validate_doc_type_quantity(documents, document_type="cancellationReport")
 
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()
@@ -225,6 +237,14 @@ class CancellationStateMixing:
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
+            if self.should_validate_cancellation_doc_required and tender_created_after(
+                CANCELLATION_REPORT_DOC_REQUIRED_FROM
+            ):
+                validate_doc_type_required(
+                    cancellation.get("documents", []),
+                    document_type="cancellationReport",
+                    document_of="tender",
+                )
             cancellation_complain_duration = tender["config"]["cancellationComplainDuration"]
             if tender["config"]["hasCancellationComplaints"] is True and cancellation_complain_duration > 0:
                 now = get_request_now()
@@ -259,6 +279,14 @@ class CancellationStateMixing:
                     f"{'and documents ' if self.should_validate_cancellation_doc_required else ''}must be filled "
                     "for switch cancellation to active status",
                     status=422,
+                )
+            if self.should_validate_cancellation_doc_required and tender_created_after(
+                CANCELLATION_REPORT_DOC_REQUIRED_FROM
+            ):
+                validate_doc_type_required(
+                    cancellation.get("documents", []),
+                    document_type="cancellationReport",
+                    document_of="tender",
                 )
             self.cancel(cancellation)
         elif before == "draft" and after == "unsuccessful":

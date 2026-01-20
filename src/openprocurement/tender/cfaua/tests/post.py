@@ -164,18 +164,11 @@ class TenderCancellationComplaintPostResourceTest(
 
         # Add document and update cancellation status to pending
 
-        self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
-                self.tender_id, self.cancellation_id, self.tender_token
-            ),
-            {
-                "data": {
-                    "title": "name.doc",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/msword",
-                }
-            },
+        self.add_sign_doc(
+            self.tender_id,
+            self.tender_token,
+            docs_url=f"/cancellations/{self.cancellation_id}/documents",
+            document_type="cancellationReport",
         )
         self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, self.cancellation_id, self.tender_token),

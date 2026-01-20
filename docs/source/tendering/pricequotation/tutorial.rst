@@ -384,5 +384,17 @@ Configuration
 Активація запиту на відміну закупівлі
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:
+
+.. http:example:: http/cancellation-sign-doc-is-required.http
+   :code:
+
+Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+
+.. http:example:: http/upload-cancellation-report-doc.http
+   :code:
+
+Активуємо запит на скасування закупівлі:
+
 .. http:example:: http/active-cancellation.http
    :code:

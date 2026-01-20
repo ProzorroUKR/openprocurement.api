@@ -52,6 +52,7 @@ DOCUMENT_TYPES = (
     "proposal",
     "extensionReport",
     "deviationReport",
+    "cancellationReport",
 )
 
 

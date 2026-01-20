@@ -2340,18 +2340,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         with open(TARGET_DIR + "sign-data/sign-cancellation-data.http", "w") as self.app.file_obj:
             self.app.get(f"/tenders/{self.tender_id}/cancellations/{cancellation_id}?opt_context=true")
 
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
-            {
-                "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
+        self.add_sign_doc(
+            self.tender_id,
+            owner_token,
+            docs_url=f"/cancellations/{cancellation_id}/documents",
+            document_type="cancellationReport",
         )
-        self.assertEqual(response.status, "201 Created")
 
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, owner_token),
@@ -2619,18 +2613,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         cancellation2_id = response.json["data"]["id"]
         self.assertEqual(response.status, "201 Created")
 
-        response = self.app.post_json(
-            "/tenders/{}/cancellations/{}/documents?acc_token={}".format(self.tender_id, cancellation2_id, owner_token),
-            {
-                "data": {
-                    "title": "Notice.pdf",
-                    "url": self.generate_docservice_url(),
-                    "hash": "md5:" + "0" * 32,
-                    "format": "application/pdf",
-                }
-            },
+        self.add_sign_doc(
+            self.tender_id,
+            owner_token,
+            docs_url=f"/cancellations/{cancellation2_id}/documents",
+            document_type="cancellationReport",
         )
-        self.assertEqual(response.status, "201 Created")
 
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation2_id, owner_token),

@@ -125,6 +125,18 @@
 
 `complaintPeriod` відсутній в скасуванні. Після того, як `cancellation` буде переведений в статус `pending`, `cancellation` автоматично змінить статус на `active`, а тендер буде скасовано.
 
+Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:
+
+.. http:example:: http/short/cancellation-sign-doc-is-required.http
+   :code:
+
+Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+
+.. http:example:: http/short/upload-cancellation-report-doc.http
+   :code:
+
+Змінимо статус скасування з `draft` на `pending`:
+
 .. http:example:: http/short/pending-cancellation.http
    :code:
 
