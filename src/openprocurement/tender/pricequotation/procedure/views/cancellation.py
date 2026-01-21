@@ -16,5 +16,5 @@ from openprocurement.tender.pricequotation.procedure.state.cancellation import (
     procurementMethodType=PQ,
     description="Tender cancellations",
 )
-class UACancellationResource(BaseCancellationResource):
+class PQCancellationResource(BaseCancellationResource):
     state_class = PQCancellationState

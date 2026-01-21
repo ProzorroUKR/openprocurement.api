@@ -189,3 +189,66 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["reason"], "cancellation reason")
+
+
+def tender_cancellation_activation_sign_docs(self):
+    request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
+    response = self.app.post_json(request_path, {"data": test_tender_pq_cancellation})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    cancellation = response.json["data"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], self.initial_status)
+
+    response = self.app.post_json(
+        "/tenders/{}/cancellations/{}/documents?acc_token={}".format(
+            self.tender_id, cancellation["id"], self.tender_token
+        ),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+
+    # activate cancellation for kind central without sign docs
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
+        {"data": {"status": "active"}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": "Document with type 'cancellationReport' and format pkcs7-signature is required",
+                "location": "body",
+                "name": "documents",
+            }
+        ],
+    )
+
+    tender_data = self.mongodb.tenders.get(self.tender_id)
+    tender_data["procuringEntity"]["kind"] = "other"
+    self.mongodb.tenders.save(tender_data)
+
+    # activate cancellation for kind central without sign docs
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
+        {"data": {"status": "active"}},
+    )
+
+    cancellation = response.json["data"]
+    self.assertEqual(cancellation["reason"], "cancellation reason")
+    self.assertEqual(cancellation["status"], "active")
+    self.assertIn("id", cancellation)
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")

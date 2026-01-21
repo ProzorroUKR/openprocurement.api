@@ -23,6 +23,7 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 class AwardStateMixing:
     award_stand_still_working_days: bool = True
     sign_award_required: bool = True
+    procurement_kinds_not_required_sign: tuple = ()
     award_has_period: bool = True
 
     def validate_award_patch(self, before, after):
@@ -76,7 +77,11 @@ class AwardStateMixing:
         now = get_request_now().isoformat()
 
         if before == "pending" and after == "active":
-            if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
+            if (
+                self.sign_award_required
+                and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM)
+                and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
+            ):
                 validate_doc_type_required(award.get("documents", []), document_of="tender")
             self.award_status_up_from_pending_to_active(award, tender)
 
@@ -84,7 +89,11 @@ class AwardStateMixing:
             self.award_status_up_from_active_to_cancelled(award, tender)
 
         elif before == "pending" and after == "unsuccessful":
-            if self.sign_award_required and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM):
+            if (
+                self.sign_award_required
+                and tender_created_after(AWARD_NOTICE_DOC_REQUIRED_FROM)
+                and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
+            ):
                 validate_doc_type_required(award.get("documents", []), document_of="tender")
             self.award_status_up_from_pending_to_unsuccessful(award, tender)
 

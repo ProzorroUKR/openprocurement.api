@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 18:46+0200\n"
+"POT-Creation-Date: 2026-01-21 12:22+0200\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -201,8 +201,14 @@ msgstr "Activating tender"
 msgid "Після створення Замовник може активувати закупівлю, змінивши статус на `active.tendering`."
 msgstr "After creation Procuring Entity can activate tender by changing status to `active.tendering`."
 
-msgid "Перед активацією тендера необхідно обов'язково додати файл підпису. Якщо такого документу нема, під час активації буде помилка:"
-msgstr "Before activating tender it is required to add sign document to tender. If there is no sign document during activation, we will see an error:"
+msgid "Перед активацією тендера необхідно обов'язково додати файл підпису."
+msgstr "Before activating tender it is required to add sign document to tender."
+
+msgid "При проведенні закупівлі PQ організацією, що не є Замовником в розумінні закону (kind:other), використання підпису при оголошенні закупівлі не є обов'язковим."
+msgstr "When conducting a PQ procurement by an organization that is not a Customer within the meaning of the law (kind:other), adding sign document during activating tender is not required."
+
+msgid "Якщо такого документу нема, під час активації буде помилка:"
+msgstr "If there is no sign document during activation, we will see an error:"
 
 msgid "Файл підпису повинен мати `documentType: notice` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: notice` and `title: *.p7s`. Let's add such document:"
@@ -435,8 +441,14 @@ msgstr "Upload new version of the document"
 msgid "Активація запиту на відміну закупівлі"
 msgstr "Activating the request and cancelling tender"
 
-msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
-msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
+msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`."
+msgstr "Before activating cancellation request, you must add a signature file to `cancellation`."
+
+msgid "При проведенні закупівлі PQ організацією, що не є Замовником в розумінні закону (kind:other), використання підпису під час активації скасування не є обов'язковим."
+msgstr "When conducting a PQ procurement by an organization that is not a Customer within the meaning of the law (kind:other), adding sign document during activating cancellation request is not required."
+
+msgid "Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
+msgstr "If there is no signature file when activating the cancellation, we will see an error:"
 
 msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"

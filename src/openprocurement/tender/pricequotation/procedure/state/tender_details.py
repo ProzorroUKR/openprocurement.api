@@ -20,6 +20,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
     should_validate_notice_doc_required = True
+    procurement_kinds_not_required_sign = ("other",)
     agreement_field = "agreement"
     should_validate_related_lot_in_items = False
     agreement_allowed_types = [ELECTRONIC_CATALOGUE_TYPE]

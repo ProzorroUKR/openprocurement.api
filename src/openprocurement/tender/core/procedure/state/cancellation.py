@@ -43,6 +43,7 @@ class CancellationStateMixing:
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
     should_validate_cancellation_doc_required = True
+    procurement_kinds_not_required_sign = ()
     all_documents_should_be_public = False
 
     def validate_cancellation_post(self, data):
@@ -237,8 +238,10 @@ class CancellationStateMixing:
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
-            if self.should_validate_cancellation_doc_required and tender_created_after(
-                CANCELLATION_REPORT_DOC_REQUIRED_FROM
+            if (
+                self.should_validate_cancellation_doc_required
+                and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)
+                and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
             ):
                 validate_doc_type_required(
                     cancellation.get("documents", []),
@@ -280,8 +283,10 @@ class CancellationStateMixing:
                     "for switch cancellation to active status",
                     status=422,
                 )
-            if self.should_validate_cancellation_doc_required and tender_created_after(
-                CANCELLATION_REPORT_DOC_REQUIRED_FROM
+            if (
+                self.should_validate_cancellation_doc_required
+                and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)
+                and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
             ):
                 validate_doc_type_required(
                     cancellation.get("documents", []),
