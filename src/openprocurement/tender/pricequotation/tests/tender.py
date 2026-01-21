@@ -45,6 +45,7 @@ from openprocurement.tender.pricequotation.tests.tender_blanks import (
     patch_tender_status,
     required_field_deletion,
     switch_draft_to_tendering_success,
+    tender_activation_sign_docs,
     tender_criteria_values_type,
     tender_delivery_milestones,
     tender_fields,
@@ -104,6 +105,7 @@ class TenderResourceTest(MockMarketMixin, MockCriteriaIDMixin, BaseTenderWebTest
     test_patch_tender_status = snitch(patch_tender_status)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_tender_criteria_values_type = snitch(tender_criteria_values_type)
+    test_tender_activation_sign_docs = snitch(tender_activation_sign_docs)
 
 
 class TenderActivationTest(TenderContentWebTest):

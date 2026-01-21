@@ -13,6 +13,7 @@ class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
         "forceMajeure",
         "expensesCut",
     ]
+    procurement_kinds_not_required_sign = ("other",)
 
 
 class PQCancellationState(PQCancellationStateMixing, PriceQuotationTenderState):
