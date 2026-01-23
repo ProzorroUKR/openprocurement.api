@@ -46,6 +46,8 @@ class TenderStateAwardingMixing:
     # Generate award milestones
     generate_award_milestones: bool = True
 
+    award_period_duration: int = 5
+
     def on_auction_results(self, tender, lot_id=None):
         if lot_id:
             for lot in tender["lots"]:
@@ -386,7 +388,7 @@ class TenderStateAwardingMixing:
                 "startDate": get_request_now().isoformat(),
                 "endDate": calculate_tender_full_date(
                     get_request_now(),
-                    timedelta(days=5),
+                    timedelta(days=self.award_period_duration),
                     tender=tender,
                     working_days=True,
                 ).isoformat(),

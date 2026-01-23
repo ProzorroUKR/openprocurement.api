@@ -7,7 +7,7 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):
-    sign_award_required = False
+    award_period_duration = 2
     procurement_kinds_not_required_sign = ("other",)  # in case when signing award will be required in the future
 
     def award_status_up_from_pending_to_active(self, award, tender):

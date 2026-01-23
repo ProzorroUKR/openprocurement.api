@@ -21,6 +21,7 @@ class AwardMilestoneState(QualificationMilestoneState):
         AwardMilestoneCode.CODE_24_HOURS.value,
         AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,
     )
+    award_period_prolongation_duration = 20
 
     def validate_post(self, context_name, parent, milestone):
         super().validate_post(context_name, parent, milestone)
@@ -36,7 +37,7 @@ class AwardMilestoneState(QualificationMilestoneState):
                 parent_period_start_date = dt_from_iso(parent["period"]["startDate"])
                 parent["period"]["endDate"] = milestone["dueDate"] = calculate_tender_full_date(
                     parent_period_start_date,
-                    timedelta(days=20),
+                    timedelta(days=self.award_period_prolongation_duration),
                     tender=get_tender(),
                     working_days=True,
                 ).isoformat()
