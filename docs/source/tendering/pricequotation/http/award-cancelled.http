@@ -55,6 +55,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f38940af1314712
       }
     ],
     "bid_id": "0e3de0a7af624bd294b409456dee24e6",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "025740c4c0d645d4bcf8604296106a88",
+        "datePublished": "2024-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4c6c19b850ce42f1bb4b8179665e9e71?Signature=2tI48fv3B5n4pSbtYE8NMPGxLSNFDEdJMtwplMcl%2F%2FM2vzwbF1pWGkvofUFmhcDeUJfY8dAf%2BrsaJTli76EYBA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2024-01-01T00:00:01+02:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "period": {
       "startDate": "2024-01-01T00:00:01+02:00",
       "endDate": "2024-01-09T00:00:00+02:00"

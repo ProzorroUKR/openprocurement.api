@@ -37,3 +37,6 @@
 
 .. http:example:: ./http/prolongation-awards/award-extension-get.http
    :code:
+
+.. note::
+     Для :ref:`pricequotation` є 2 робочі дні на прийняття рішення та можна подовжити строк розгляду аварду до 5 робочих днів з майлстоуном `extensionPeriod`.
