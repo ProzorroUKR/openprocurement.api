@@ -47,6 +47,8 @@ class EContractState(BaseContractState):
             )
         for field_name in ("owner", "transfer_token", "access", "contractChangeRationaleTypes"):
             after[field_name] = before.get(field_name)
+        if "id" not in after and "_id" not in after:
+            after["id"] = uuid4().hex
         self.set_author_of_object(after)
 
     def validate_on_post(self, before, after) -> None:
