@@ -529,7 +529,7 @@ Content-Type: application/json
         "bid_id": "6eb4106605214f398c4336aee7072c4c",
         "period": {
           "startDate": "2023-10-10T01:00:00+03:00",
-          "endDate": "2023-10-18T00:00:00+03:00"
+          "endDate": "2023-10-13T00:00:00+03:00"
         }
       }
     ],

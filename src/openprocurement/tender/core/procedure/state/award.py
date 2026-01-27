@@ -65,7 +65,7 @@ class AwardStateMixing:
                 "startDate": get_request_now().isoformat(),
                 "endDate": calculate_tender_full_date(
                     get_request_now(),
-                    timedelta(days=5),
+                    timedelta(days=self.award_period_duration),
                     tender=get_tender(),
                     working_days=True,
                 ).isoformat(),

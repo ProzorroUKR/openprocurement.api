@@ -1,9 +1,21 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
+from openprocurement.api.utils import get_now
+from openprocurement.tender.core.procedure.models.award_milestone import (
+    AwardMilestoneCode,
+)
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.pricequotation.tests.data import test_tender_pq_supplier
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 def create_tender_award_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
     request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
@@ -162,6 +174,8 @@ def create_tender_award_invalid(self):
 
 
 def create_tender_award(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
     with change_auth(self.app, ("Basic", ("token", ""))):
         request_path = "/tenders/{}/awards".format(self.tender_id)
         response = self.app.post_json(
@@ -180,6 +194,35 @@ def create_tender_award(self):
         self.assertEqual(award["suppliers"][0]["name"], test_tender_pq_supplier["name"])
         self.assertIn("id", award)
         self.assertIn(award["id"], response.headers["Location"])
+        period_start_date = award["period"]["startDate"]
+        period_end_date = calculate_tender_full_date(
+            dt_from_iso(period_start_date),
+            timedelta(days=2),
+            tender=tender,
+            working_days=True,
+        ).isoformat()
+        self.assertEqual(award["period"]["endDate"], period_end_date)
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award['id']}/milestones?acc_token={self.tender_token}",
+        {"data": {"code": AwardMilestoneCode.CODE_EXTENSION_PERIOD.value, "description": "Prolongation"}},
+    )
+
+    # check prolongation
+    due_date = response.json["data"]["dueDate"]
+    response = self.app.get(
+        f"/tenders/{self.tender_id}/awards/{award['id']}?acc_token={self.tender_token}",
+    )
+    award = response.json["data"]
+    period_start = dt_from_iso(award["period"]["startDate"])
+    new_period_end = calculate_tender_full_date(
+        period_start,
+        timedelta(days=5),
+        tender=tender,
+        working_days=True,
+    ).isoformat()
+    self.assertEqual(award["period"]["endDate"], new_period_end)
+    self.assertEqual(due_date, new_period_end)
 
     response = self.app.get(request_path)
     self.assertEqual(response.status, "200 OK")

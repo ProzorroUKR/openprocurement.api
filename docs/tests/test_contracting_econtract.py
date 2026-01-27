@@ -410,8 +410,9 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             )
 
         new_award_id = response.json["data"]["awards"][-1]["id"]
-        with patch(upload_mock_path) as mock_upload_contract_pdf, change_auth(self.app, ("Basic", ("token", ""))):
+        with patch(upload_mock_path) as mock_upload_contract_pdf, change_auth(self.app, ("Basic", ("broker", ""))):
             mock_upload_contract_pdf.return_value = {"data": pdf_data}
+            self.add_sign_doc(tender_id, tender_token, docs_url=f"/awards/{new_award_id}/documents")
             self.app.patch_json(
                 f"/tenders/{tender_id}/awards/{new_award_id}?acc_token={tender_token}",
                 {"data": {"status": "active", "qualified": True}},

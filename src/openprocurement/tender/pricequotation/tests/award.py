@@ -1,6 +1,9 @@
 import unittest
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.award import (
     TenderAwardDocumentResourceTestMixin,
 )
@@ -50,6 +53,10 @@ class TenderAwardResourceScaleTest(TenderContentWebTest):
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
 
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
 class TenderAwardDocumentResourceTest(TenderContentWebTest, TenderAwardDocumentResourceTestMixin):
     initial_status = "active.qualification"
     initial_bids = test_tender_pq_bids

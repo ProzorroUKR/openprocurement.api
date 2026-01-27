@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:14+0200\n"
+"POT-Creation-Date: 2026-01-23 09:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -151,7 +152,25 @@ msgstr "Allowed `procuringEntity.kind` values"
 msgid "procuringEntity.kind"
 msgstr ""
 
+msgid "authority"
+msgstr ""
+
+msgid "social"
+msgstr ""
+
+msgid "central"
+msgstr ""
+
+msgid "general"
+msgstr ""
+
+msgid "defense"
+msgstr ""
+
 msgid "other"
+msgstr ""
+
+msgid "special"
 msgstr ""
 
 msgid "Закупівля з контролером"

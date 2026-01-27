@@ -55,9 +55,25 @@ Content-Type: application/json
       }
     ],
     "bid_id": "b01762f36d1e4980945e212dd14bd93d",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "b159a0e1b7f14d448d54dc808ffd9dcd",
+        "datePublished": "2024-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6d35ae62882445019e500ad2f9a4bff2?Signature=Y2UpbXGtFrSn1DXklKvkD9yMq%2FrFvMNPMMhA8YkQgmXY5y6Sk3uIoln36MuplKESXA3DC0Ty0QjTG8%2F65rcWAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2024-01-01T00:00:01+02:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
     "period": {
       "startDate": "2024-01-01T00:00:01+02:00",
-      "endDate": "2024-01-09T00:00:00+02:00"
+      "endDate": "2024-01-04T00:00:00+02:00"
     },
     "qualified": true
   }

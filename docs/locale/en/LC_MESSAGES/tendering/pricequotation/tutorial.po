@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-21 12:22+0200\n"
+"POT-Creation-Date: 2026-01-23 12:39+0200\n"
 "PO-Revision-Date: 2020-09-14 17:38+0200\n"
 "Last-Translator: Oleh Helesh <olehhelesh@quintagroup.org>\n"
 "Language-Team: English <kde-i18n-doc@kde.org>\n"
@@ -342,6 +342,12 @@ msgstr "Let's try to set `unsuccessful` status for `qualified` award and we will
 msgid "Спробуємо винести рішення по переможцю по аварду для `non-qualified` учасника:"
 msgstr "Let's try to set `active` status for `non-qualified` award and we will see an error:"
 
+msgid "Перед прийняттям рішення по переможцю необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час активації буде помилка:"
+msgstr "Before activating the winner it is required to add sign document to award. If there is no sign document during activation, we will see an error:"
+
+msgid "При проведенні закупівлі PQ організацією, що не є Замовником в розумінні закону (kind:other), використання підпису перед прийняттям рішення по переможцю не є обов'язковим."
+msgstr "When conducting a PQ procurement by an organization that is not a Customer within the meaning of the law (kind:other), adding sign document during activating the winner is not required."
+
 msgid "Замовник може прийняти `award` змінивши його статус на `active`."
 msgstr "Procuring Entity can accept `award` by transferring it to status: `active`."
 
@@ -356,6 +362,15 @@ msgstr "After canceling `award` system creates `second` `award` for the same bid
 
 msgid "Якщо пропозиція Учасника з найменшою ціною відповідає вимогам, Замовник завантажує документ, що підтверджує його рішення і визнає пропозицію Переможцем `(awards:status:active)`. Якщо не відповідає, Замовник завантажує протокол, що підтверджує його рішення про відхилення Учасника та відхиляє таку пропозицію `(awards:status:unsuccessful)`. Система приводить до оцінки наступного за ціною Учасника `(awards:status:pending)`."
 msgstr "If the offer of the Participant with the lowest price meets the requirements, Procuring Entity uploads a document that recognizes the offer as the Winner `(awards:status:active)`. If it does not meet the requirements, Procuring Entity downloads a protocol confirming its decision to reject the Participant and rejects such an offer `(awards:status:unsuccessful)`. The system leads to the evaluation of the next one with most economically advantageous price `(awards:status:pending)`."
+
+msgid "При відхилені аварду необхідно обов'язково додати файл підпису до аварду. Якщо такого документу нема, під час відхилення буде помилка:"
+msgstr "Before declining the award it is required to add sign document to award. If there is no sign document during declining, we will see an error:"
+
+msgid "При проведенні закупівлі PQ організацією, що не є Замовником в розумінні закону (kind:other), використання підпису при відхилені аварду по переможцю не є обов'язковим."
+msgstr "When conducting a PQ procurement by an organization that is not a Customer within the meaning of the law (kind:other), adding sign document during declining the award is not required."
+
+msgid "Додамо підпис:"
+msgstr "Let's add sign document:"
 
 msgid "Відхилимо `award` змінивши його статус на  `unsuccessful`."
 msgstr "Let's decline `award` by transferring it to status: `unsuccessful`."
