@@ -2744,3 +2744,66 @@ def validate_procuring_entity_match(self):
     )
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.status, "201 Created")
+
+
+def tender_activation_sign_docs(self):
+    data = self.initial_data.copy()
+    data.update({"status": "draft"})
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+
+    test_criteria = deepcopy(test_tender_pq_criteria)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+
+    pq_entity = deepcopy(tender["procuringEntity"])
+    pq_entity["kind"] = "central"
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"procuringEntity": pq_entity}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to activate tender with kind central w/o sign docs
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {
+            "data": {
+                "status": self.primary_tender_status,
+                "criteria": test_criteria,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "documents",
+                "description": "Document with type 'notice' and format pkcs7-signature is required",
+            }
+        ],
+    )
+
+    pq_entity["kind"] = "other"
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"procuringEntity": pq_entity}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # try to activate tender with kind other w/o sign docs
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {
+            "data": {
+                "status": self.primary_tender_status,
+                "criteria": test_criteria,
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], self.primary_tender_status)

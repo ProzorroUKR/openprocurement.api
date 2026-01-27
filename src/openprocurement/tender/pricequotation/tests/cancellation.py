@@ -13,6 +13,7 @@ from openprocurement.tender.pricequotation.tests.cancellation_blanks import (
     create_tender_cancellation,
     create_tender_cancellation_invalid,
     patch_tender_cancellation,
+    tender_cancellation_activation_sign_docs,
 )
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_bids,
@@ -28,6 +29,7 @@ class TenderCancellationResourceTestMixin:
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_get_tender_cancellation = snitch(get_tender_cancellation)
     test_get_tender_cancellations = snitch(get_tender_cancellations)
+    test_tender_cancellation_activation_sign_docs = snitch(tender_cancellation_activation_sign_docs)
 
 
 class TenderCancellationActiveTenderingResourceTest(
