@@ -58,8 +58,6 @@ def generate_contract_value(award, multi_contracts=False):
 
 
 def add_contracts(request, award):
-    # TODO: copy of add_contracts func, now only for pq, later rename on add_contracts
-
     tender = request.validated["tender"]
     bids = tuple(i for i in tender.get("bids", "") if i["id"] == award.get("bid_id", ""))
     bid = bids[0] if bids else None
@@ -137,6 +135,14 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
     if "contracts" not in tender:
         tender["contracts"] = []
 
+    lot = None
+    if related_lot_id := award.get("lotID"):
+        for lot in tender.get("lots", []):
+            if lot["id"] == related_lot_id:
+                break
+        else:
+            lot = None
+
     base_contract_data = {
         "id": uuid4().hex,
         "status": "pending",
@@ -144,6 +150,26 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "date": get_request_now().isoformat(),
         "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
     }
+
+    if lot:
+        base_contract_data.update(
+            {
+                "title": lot.get("title"),
+                "title_en": lot.get("title_en"),
+                "description": lot.get("description"),
+                "description_en": lot.get("description_en"),
+            }
+        )
+    else:
+        base_contract_data.update(
+            {
+                "title": tender.get("title"),
+                "title_en": tender.get("title_en"),
+                "description": tender.get("description"),
+                "description_en": tender.get("description_en"),
+            }
+        )
+
     if contract_value:
         base_contract_data["value"] = clean_contract_value(contract_value)
 

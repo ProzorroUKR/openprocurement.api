@@ -21,6 +21,7 @@ Content-Type: application/json
     "buyerID": "22222222222222222222222222222222",
     "awardID": "8facda3d30224909895aa678c5ecbdac",
     "contractID": "UA-2023-10-10-000001-a-2",
+    "title": "футляри до державних нагород",
     "dateModified": "2023-10-10T01:00:01+03:00",
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "items": [

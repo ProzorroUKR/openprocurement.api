@@ -10,6 +10,8 @@ Content-Type: application/json
   "data": {
     "awardID": "58db49c04f694106a0637db5f0601b89",
     "contractID": "UA-2023-10-10-000001-a-1",
+    "title": "Лот №1",
+    "description": "Опис Лот №1",
     "value": {
       "amount": 200.0,
       "currency": "USD",
