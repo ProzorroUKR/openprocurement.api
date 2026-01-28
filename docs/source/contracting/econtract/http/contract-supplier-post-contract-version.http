@@ -7,6 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "awardID": "f10947246ab44416ab8f1f75df484ded",
     "contractID": "UA-2023-10-10-000002-a-1",
+    "title": "Комп’ютерне обладнання",
     "period": {
       "startDate": "2022-01-01",
       "endDate": "2026-01-01"
@@ -269,6 +270,7 @@ Content-Type: application/json
   "data": {
     "awardID": "f10947246ab44416ab8f1f75df484ded",
     "contractID": "UA-2023-10-10-000002-a-2",
+    "title": "Комп’ютерне обладнання",
     "period": {
       "startDate": "2022-01-01T00:00:00+02:00",
       "endDate": "2026-01-01T00:00:00+02:00"

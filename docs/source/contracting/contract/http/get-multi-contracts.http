@@ -14,6 +14,7 @@ Content-Type: application/json
       "awardID": "35d712ce71d44d0581150ef3f9cbfa3f",
       "date": "2023-10-10T01:00:00+03:00",
       "contractID": "UA-2023-10-10-000001-a-1",
+      "title": "футляри до державних нагород",
       "value": {
         "amount": 0,
         "currency": "UAH",
@@ -27,6 +28,7 @@ Content-Type: application/json
       "awardID": "35d712ce71d44d0581150ef3f9cbfa3f",
       "date": "2023-10-10T01:00:00+03:00",
       "contractID": "UA-2023-10-10-000001-a-2",
+      "title": "футляри до державних нагород",
       "value": {
         "amount": 0,
         "currency": "UAH",

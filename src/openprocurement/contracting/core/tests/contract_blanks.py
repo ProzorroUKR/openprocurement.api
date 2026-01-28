@@ -712,7 +712,6 @@ def contract_status_change(self):
     response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contract['id']}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amountNet"], self.contract["value"]["amountNet"] - 1)
-    self.assertNotIn("title", response.json["data"])
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",

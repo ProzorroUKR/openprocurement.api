@@ -11,6 +11,8 @@ Content-Type: application/json
     "awardID": "58db49c04f694106a0637db5f0601b89",
     "contractID": "UA-2023-10-10-000001-a-1",
     "contractNumber": "contract #13111",
+    "title": "Лот №1",
+    "description": "Опис Лот №1",
     "dateModified": "2023-11-09T00:00:00+02:00",
     "dateCreated": "2023-11-09T00:00:00+02:00",
     "items": [

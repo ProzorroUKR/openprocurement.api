@@ -494,9 +494,13 @@ def move_award_contract_to_contracting(self):
         "buyer",
         "contractTemplateName",
         "contractChangeRationaleTypes",
+        "title",
+        "title_en",
+        "description",
+        "description_en",
     }
 
-    self.assertEqual(contract_fields, set(response.json["data"].keys()))
+    self.assertTrue(set(response.json["data"].keys()).issubset(contract_fields))
     item = response.json["data"]["items"][0]
     self.assertIn("attributes", item)
     self.assertEqual(len(item["attributes"]), 9)

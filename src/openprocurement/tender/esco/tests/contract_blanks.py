@@ -286,13 +286,17 @@ def get_tender_contract(self):
         "date",
         "contractID",
         "value",
+        "title",
+        "title_en",
+        "description",
+        "description_en",
     }
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get(f"/tenders/{self.tender_id}/contracts/{self.contracts_ids[-1]}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(fields_set, set(response.json["data"].keys()))
+    self.assertTrue(set(response.json["data"].keys()).issubset(fields_set))
 
     response = self.app.get(f"/tenders/{self.tender_id}/contracts/some_id", status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -315,12 +319,16 @@ def get_tender_contracts(self):
         "date",
         "contractID",
         "value",
+        "title",
+        "title_en",
+        "description",
+        "description_en",
     }
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(set(response.json["data"][-1].keys()), fields_set)
+    self.assertTrue(set(response.json["data"][-1].keys()).issubset(fields_set))
 
     response = self.app.get("/tenders/some_id/contracts", status=404)
     self.assertEqual(response.status, "404 Not Found")

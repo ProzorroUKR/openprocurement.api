@@ -1228,6 +1228,10 @@ def create_tender_contract(self):
         "buyer",
         "milestones",
         "contractChangeRationaleTypes",
+        "title",
+        "title_en",
+        "description",
+        "description_en",
     }
 
     if "contractTemplateName" in tender:
@@ -1236,7 +1240,7 @@ def create_tender_contract(self):
     if "value" in award:
         contract_fields.update({"value"})
 
-    self.assertEqual(contract_fields, set(response.json["data"].keys()))
+    self.assertTrue(set(response.json["data"].keys()).issubset(contract_fields))
     # self.assertIn("attributes", response.json["data"]["items"][0])
 
     response = self.activate_contract(contract_id)

@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "awardID": "3e40e177566e4e628ef3f8b9585fb2d8",
     "contractID": "UA-2023-10-10-000003-a-1",
+    "title": "Комп’ютерне обладнання",
     "period": {
       "startDate": "2023-10-15T00:00:00+03:00",
       "endDate": "2023-12-31T23:59:59+03:00"

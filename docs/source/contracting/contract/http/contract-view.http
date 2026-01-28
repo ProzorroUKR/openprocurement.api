@@ -9,6 +9,7 @@ Content-Type: application/json
   "data": {
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
     "contractID": "UA-2023-10-10-000001-a-1",
+    "title": "Комп’ютерне обладнання",
     "value": {
       "amount": 500.0,
       "currency": "UAH",

@@ -25,6 +25,7 @@ Content-Type: application/json
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
     "contractID": "UA-2023-10-10-000001-a-1",
     "contractNumber": "contract #13111",
+    "title": "Комп’ютерне обладнання",
     "dateSigned": "2023-10-10T01:00:00+03:00",
     "date": "2023-10-10T01:00:00+03:00",
     "dateModified": "2023-10-10T01:00:00+03:00",
