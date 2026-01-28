@@ -30,7 +30,7 @@ Content-Type: application/json
       "location": "body",
       "name": "rationaleTypes",
       "description": [
-        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceChange', 'priceReductionWithoutQuantity', 'qualityImprovement', 'taxationSystem', 'externalIndicators', 'volumeCuts', 'restoration', 'projectDocumentation', 'emergencyReconstruction', 'infrastructureProtection', 'externalCofinancing')."
+        "Value must be one of ('durationExtension', 'fiscalYearExtension', 'itemPriceChange', 'priceReductionWithoutQuantity', 'qualityImprovement', 'taxationSystem', 'externalIndicators', 'volumeCuts', 'restoration', 'projectDocumentation', 'emergencyReconstruction', 'infrastructureProtection', 'externalCofinancing', 'emergencyElectricitySupply')."
       ]
     }
   ]
