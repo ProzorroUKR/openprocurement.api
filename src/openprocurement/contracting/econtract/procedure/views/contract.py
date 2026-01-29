@@ -79,6 +79,7 @@ class EContractPostResource(ContractBaseResource):
                 and tender_contract.get("cancellations")
             ):
                 prev_contract = tender_contract
+                prev_contract["id"] = prev_contract["_id"]
         self.state.validate_on_post(prev_contract, contract)
         self.state.on_post(prev_contract, contract)
         with atomic_transaction():

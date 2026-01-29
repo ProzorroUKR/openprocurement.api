@@ -169,6 +169,7 @@ def post_new_version_of_contract(self):
     contract_data = deepcopy(initial_contract_data)
     del contract_data["dateCreated"]
     del contract_data["dateModified"]
+    del contract_data["id"]
 
     with change_auth(self.app, ("Basic", ("brokerx", ""))):
         response = self.app.post_json(
@@ -357,6 +358,9 @@ def post_new_version_of_contract(self):
         "hash": "md5:" + "0" * 32,
         "title": "contract.pdf",
     }
+
+    contract_data["value"]["amount"] = self.award["value"]["amount"]
+    contract_data["value"]["amountNet"] = contract_data["value"]["amount"]
 
     with patch("openprocurement.tender.core.procedure.contracting.upload_contract_pdf") as mock_upload_contract_pdf:
         mock_upload_contract_pdf.return_value = {"data": pdf_data}
