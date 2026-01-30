@@ -781,6 +781,7 @@ class ContractState(
 
     def on_patch(self, before, after) -> None:
         after["id"] = after["_id"]
+        before["id"] = before["_id"]
         self.validate_contract_patch(self.request, before, after)
         if after.get("value"):
             self.synchronize_items_unit_value(after)
@@ -891,7 +892,10 @@ class ContractState(
             contracts_ids = [
                 i["id"]
                 for i in tender.get("contracts", [])
-                if i.get("status", "") != "cancelled" and i["awardID"] == after["awardID"] and i["id"] != after["id"]
+                if i.get("status", "") != "cancelled"
+                and i["awardID"] == after["awardID"]
+                and i["id"] != after["id"]
+                and i["id"] != before["id"]
             ]
 
             _contracts_values = []
