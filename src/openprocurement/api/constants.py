@@ -226,6 +226,7 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "reporting": standards.load("data_model/schema/TenderConfig/reporting.json"),
     "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
     "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
+    "complexAsset.arma": standards.load("data_model/schema/TenderConfig/complexAsset.arma.json"),
 }
 
 TENDER_CO_CONFIG_JSONSCHEMAS = {
