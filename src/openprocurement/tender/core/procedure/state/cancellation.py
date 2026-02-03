@@ -42,7 +42,7 @@ class CancellationStateMixing:
 
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
-    should_validate_cancellation_doc_required = True
+    should_validate_cancellation_report_doc_required = True
     procurement_kinds_not_required_sign = ()
     all_documents_should_be_public = False
 
@@ -227,19 +227,15 @@ class CancellationStateMixing:
     def cancellation_status_up(self, before, after, cancellation):
         request, tender = get_request(), get_tender()
         if before == "draft" and after == "pending":
-            if not cancellation["reason"] or (
-                self.should_validate_cancellation_doc_required and not cancellation.get("documents")
-            ):
+            if not cancellation["reason"]:
                 raise_operation_error(
                     request,
-                    "Fields reason, cancellationOf "
-                    f"{'and documents ' if self.should_validate_cancellation_doc_required else ''}must be filled "
-                    "for switch cancellation to pending status",
+                    "Field reason must be filled for switch cancellation to pending status",
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
             if (
-                self.should_validate_cancellation_doc_required
+                self.should_validate_cancellation_report_doc_required
                 and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)
                 and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
             ):
@@ -272,19 +268,14 @@ class CancellationStateMixing:
                 or self.use_deprecated_activation(cancellation, tender)
             )
         ):
-            if tender_created_after_2020_rules() and (
-                not cancellation["reason"]
-                or (self.should_validate_cancellation_doc_required and not cancellation.get("documents"))
-            ):
+            if tender_created_after_2020_rules() and not cancellation["reason"]:
                 raise_operation_error(
                     request,
-                    "Fields reason, cancellationOf "
-                    f"{'and documents ' if self.should_validate_cancellation_doc_required else ''}must be filled "
-                    "for switch cancellation to active status",
+                    "Field reason must be filled for switch cancellation to active status",
                     status=422,
                 )
             if (
-                self.should_validate_cancellation_doc_required
+                self.should_validate_cancellation_report_doc_required
                 and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)
                 and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
             ):

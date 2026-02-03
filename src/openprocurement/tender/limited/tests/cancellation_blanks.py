@@ -613,9 +613,9 @@ def patch_tender_cancellation_2020_04_19(self):
         response.json["errors"],
         [
             {
-                "description": "Fields reason, cancellationOf and documents must be filled for switch cancellation to pending status",
+                "description": "Document with type 'cancellationReport' and format pkcs7-signature is required",
                 "location": "body",
-                "name": "data",
+                "name": "documents",
             }
         ],
     )
