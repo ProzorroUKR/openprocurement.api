@@ -18,7 +18,7 @@ TARGET_DIR = "docs/source/violation-reports/http/"
 
 
 class TestViolationReport:
-    async def test_success(self, deterministic_environment, request_to_http, sub_app):
+    async def test_success(self, deterministic_environment, request_to_http, sub_app, api):
         now = datetime.fromisoformat("2025-10-12T15:35:35+03:00")
         with freeze_time(now):
             contract = await ContractFactory.create()
@@ -148,7 +148,8 @@ class TestViolationReport:
 
         # publish report
         now += timedelta(seconds=35)
-        with freeze_time(now):
+        publish_report_dt = now
+        with freeze_time(publish_report_dt):
             resp = await request_to_http(
                 filename=TARGET_DIR + "01-06-publish-report-draft.http",
                 method="patch",
@@ -192,6 +193,16 @@ class TestViolationReport:
             defendant_statement = (await resp.json())["data"]
             defendant_statement_id = defendant_statement["id"]
             defendant_statement_evidence_id = defendant_statement["documents"][0]["id"]
+
+        # check "public_modified" is not dropped by private obj update
+        resp = await api.get(
+            "/violation_reports?opt_fields=public_modified",
+        )
+        result = await resp.json()
+        assert resp.status == 200, await resp.text()
+        assert len(result["data"]) == 1
+        assert result["data"][0]["id"] == violation_report_id
+        assert result["data"][0]["public_modified"] == publish_report_dt.timestamp()
 
         now += timedelta(seconds=15)
         with freeze_time(now):

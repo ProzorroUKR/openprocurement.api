@@ -71,6 +71,7 @@ class ViolationReportDBModel(BaseModel):
     # системні поля
     id: str = Field(alias="_id", default_factory=lambda: uuid4().hex)
     rev: str = Field(alias="_rev", default="")
+    public_modified: float = Field(default=0)  # this field is added by MongodbStore
     violationReportID: str = Field(description="Більш візуально прийнятний ідентифікатор")
     status: ViolationReportStatus = Field(default=ViolationReportStatus.draft)
     mode: Optional[Literal["test"]] = Field(None, description="Тест мод (з тендера)")
