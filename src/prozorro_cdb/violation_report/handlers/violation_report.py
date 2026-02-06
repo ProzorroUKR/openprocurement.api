@@ -158,6 +158,7 @@ class ContractViolationReportListView(BaseView):
 class ViolationReportListView(MongodbResourceListingAsync):
     view_name = "violation_reports_feed"
     listing_allowed_fields = {
+        "public_modified",
         "dateCreated",
         "dateModified",
         "datePublished",

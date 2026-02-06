@@ -20,7 +20,7 @@ from prozorro_cdb.violation_report.serializers.violation_report_details import (
 
 
 class ViolationReportSerializer(BaseSerializer):
-    private_fields = {"rev"}
+    private_fields = {"rev", "public_modified"}
     serializers = {
         "details": ViolationReportDetailsSerializer,
         "decisions": HideDraftListSerializer(ViolationReportDecisionSerializer),
