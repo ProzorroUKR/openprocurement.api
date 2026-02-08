@@ -12,6 +12,7 @@ class BillingBidSerializer(BaseSerializer):
         "date",
         "status",
         "value",
+        "initialValue",
         "owner",
     }
 
