@@ -53,6 +53,10 @@ class PostTender(BasePostTender):
         validate_milestones_lot(data, value)
 
 
+PostTender._fields.pop("contractTemplateName", None)
+PostTender._fields.pop("features", None)
+
+
 class PatchTender(BasePatchTender):
     procuringEntity = ModelType(ProcuringEntity)
     status = StringType(
@@ -73,6 +77,10 @@ class PatchTender(BasePatchTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     contractTemplateName = None
     features = None
+
+
+PatchTender._fields.pop("contractTemplateName", None)
+PatchTender._fields.pop("features", None)
 
 
 class Tender(BaseTender):
@@ -113,3 +121,7 @@ class Tender(BaseTender):
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
+
+
+Tender._fields.pop("contractTemplateName", None)
+Tender._fields.pop("features", None)

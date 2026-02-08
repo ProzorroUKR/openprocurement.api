@@ -2197,5 +2197,4 @@ def change_contract_milestones(self, _, contract_status, milestones, resp_status
         {"data": {"milestones": milestones}},
         status=resp_status,
     )
-    print(response.json)
     check_response(self, response)
