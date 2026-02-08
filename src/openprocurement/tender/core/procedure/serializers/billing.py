@@ -24,6 +24,7 @@ class BillingTenderSerializer(BaseUIDSerializer):
     public_fields = {
         "id",
         "owner",
+        "agreement",
         "tenderID",
         "dateCreated",
         "date",
