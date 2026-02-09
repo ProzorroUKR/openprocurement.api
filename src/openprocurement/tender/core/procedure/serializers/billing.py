@@ -10,6 +10,7 @@ class BillingBidSerializer(BaseSerializer):
         "id",
         "lotValues",
         "date",
+        "submissionDate",
         "status",
         "value",
         "initialValue",
