@@ -1,4 +1,5 @@
 from copy import deepcopy
+from datetime import timedelta
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -6,9 +7,15 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
 )
+from openprocurement.tender.core.procedure.models.award_milestone import (
+    AwardMilestoneCode,
+)
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.utils import calculate_tender_full_date
 
 # TenderAwardResourceTest
 
@@ -625,3 +632,39 @@ def patch_tender_2lot_award(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can update award only in active lot status")
+
+
+def prolongation_award(self):
+    tender = self.app.get(f"/tenders/{self.tender_id}").json["data"]
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tender_below_supplier],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_bids[0]["lotValues"][0]["relatedLot"] if self.initial_lots else None,
+                }
+            },
+        )
+    award_id = response.json["data"]["id"]
+    period_start = dt_from_iso(response.json["data"]["period"]["startDate"])
+    period_end = calculate_tender_full_date(
+        period_start,
+        timedelta(days=5),
+        tender=tender,
+        working_days=True,
+    ).isoformat()
+    self.assertEqual(response.json["data"]["period"]["endDate"], period_end)
+
+    # try to add milestone for extension without description
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award_id}/milestones?acc_token={self.tender_token}",
+        {"data": {"code": AwardMilestoneCode.CODE_EXTENSION_PERIOD.value}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "code", "description": ["Value must be one of ['24h']."]},
+    )

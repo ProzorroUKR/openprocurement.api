@@ -1,17 +1,16 @@
 from datetime import timedelta
 
-from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
-
 TENDERING_DAYS = 20
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
-COMPLAINT_STAND_STILL = timedelta(days=5)
+QUALIFICATION_DURATION = timedelta(days=10)
+ENQUIRY_PERIOD_REGULATION = timedelta(days=10)
 
 PERIODS = {
     "active.tendering": {
         "start": {
             "enquiryPeriod": {
                 "startDate": -timedelta(days=1),
-                "endDate": TENDERING_DURATION + timedelta(days=1) - QUESTIONS_STAND_STILL,
+                "endDate": TENDERING_DURATION - ENQUIRY_PERIOD_REGULATION,
             },
             "tenderPeriod": {
                 "startDate": -timedelta(days=1),
@@ -21,21 +20,21 @@ PERIODS = {
         },
         "enquiry_end": {
             "enquiryPeriod": {
-                "startDate": -(TENDERING_DURATION - timedelta(days=1)),
-                "endDate": -timedelta(days=1),
+                "startDate": -TENDERING_DURATION - timedelta(days=1),
+                "endDate": -ENQUIRY_PERIOD_REGULATION,
             },
             "tenderPeriod": {
-                "startDate": -(TENDERING_DURATION - timedelta(days=1)),
+                "startDate": -TENDERING_DURATION - timedelta(days=1),
                 "endDate": timedelta(days=2),
             },
         },
         "complaint_end": {
             "enquiryPeriod": {
-                "startDate": -(TENDERING_DURATION - timedelta(days=2)),
-                "endDate": -timedelta(days=2),
+                "startDate": -TENDERING_DURATION - timedelta(days=2),
+                "endDate": -ENQUIRY_PERIOD_REGULATION,
             },
             "tenderPeriod": {
-                "startDate": -(TENDERING_DURATION - timedelta(days=2)),
+                "startDate": -TENDERING_DURATION - timedelta(days=2),
                 "endDate": timedelta(days=3),
             },
         },
@@ -43,8 +42,8 @@ PERIODS = {
     "active.pre-qualification": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -TENDERING_DURATION,
-                "endDate": -QUESTIONS_STAND_STILL,
+                "startDate": -TENDERING_DURATION - timedelta(days=1),
+                "endDate": -ENQUIRY_PERIOD_REGULATION,
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
@@ -55,8 +54,8 @@ PERIODS = {
     "active.pre-qualification.stand-still": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -TENDERING_DURATION,
-                "endDate": -QUESTIONS_STAND_STILL,
+                "startDate": -TENDERING_DURATION - timedelta(days=1),
+                "endDate": -ENQUIRY_PERIOD_REGULATION,
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
@@ -64,26 +63,26 @@ PERIODS = {
             },
             "qualificationPeriod": {
                 "startDate": timedelta(),
-                "endDate": timedelta() + COMPLAINT_STAND_STILL,
+                "endDate": QUALIFICATION_DURATION,
                 "reportingDatePublication": timedelta(),
             },
-            "auctionPeriod": {"startDate": COMPLAINT_STAND_STILL},
+            "auctionPeriod": {"startDate": QUALIFICATION_DURATION},
         }
     },
     "active.auction": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL,
-                "endDate": -COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL,
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION,
+                "endDate": -QUALIFICATION_DURATION - TENDERING_DURATION + ENQUIRY_PERIOD_REGULATION,
             },
             "tenderPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1),
-                "endDate": -COMPLAINT_STAND_STILL,
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=1),
+                "endDate": -QUALIFICATION_DURATION,
             },
             "qualificationPeriod": {
-                "startDate": -COMPLAINT_STAND_STILL,
+                "startDate": -QUALIFICATION_DURATION,
                 "endDate": timedelta(),
-                "reportingDatePublication": -COMPLAINT_STAND_STILL,
+                "reportingDatePublication": -QUALIFICATION_DURATION,
             },
             "auctionPeriod": {"startDate": timedelta()},
         }
@@ -91,17 +90,17 @@ PERIODS = {
     "active.qualification": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1),
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=2),
+                "endDate": -ENQUIRY_PERIOD_REGULATION - QUALIFICATION_DURATION - timedelta(days=1),
             },
             "tenderPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2),
-                "endDate": -COMPLAINT_STAND_STILL - timedelta(days=1),
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=2),
+                "endDate": -QUALIFICATION_DURATION - timedelta(days=1),
             },
             "qualificationPeriod": {
-                "startDate": -COMPLAINT_STAND_STILL - timedelta(days=1),
+                "startDate": -QUALIFICATION_DURATION - timedelta(days=1),
                 "endDate": -timedelta(days=1),
-                "reportingDatePublication": -COMPLAINT_STAND_STILL - timedelta(days=1),
+                "reportingDatePublication": -QUALIFICATION_DURATION - timedelta(days=1),
             },
             "auctionPeriod": {"startDate": -timedelta(days=1), "endDate": timedelta()},
             "awardPeriod": {"startDate": timedelta()},
@@ -110,17 +109,17 @@ PERIODS = {
     "active.awarded": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=2),
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=3),
+                "endDate": -ENQUIRY_PERIOD_REGULATION - QUALIFICATION_DURATION - timedelta(days=2),
             },
             "tenderPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3),
-                "endDate": -COMPLAINT_STAND_STILL - timedelta(days=2),
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=3),
+                "endDate": -QUALIFICATION_DURATION - timedelta(days=2),
             },
             "qualificationPeriod": {
-                "startDate": -COMPLAINT_STAND_STILL - timedelta(days=2),
+                "startDate": -QUALIFICATION_DURATION - timedelta(days=2),
                 "endDate": -timedelta(days=2),
-                "reportingDatePublication": -COMPLAINT_STAND_STILL - timedelta(days=2),
+                "reportingDatePublication": -QUALIFICATION_DURATION - timedelta(days=2),
             },
             "auctionPeriod": {
                 "startDate": -timedelta(days=2),
@@ -132,17 +131,17 @@ PERIODS = {
     "complete": {
         "start": {
             "enquiryPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3),
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=4),
+                "endDate": -ENQUIRY_PERIOD_REGULATION - QUALIFICATION_DURATION - timedelta(days=3),
             },
             "tenderPeriod": {
-                "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
-                "endDate": -COMPLAINT_STAND_STILL - timedelta(days=3),
+                "startDate": -TENDERING_DURATION - QUALIFICATION_DURATION - timedelta(days=4),
+                "endDate": -QUALIFICATION_DURATION - timedelta(days=3),
             },
             "qualificationPeriod": {
-                "startDate": -COMPLAINT_STAND_STILL - timedelta(days=3),
+                "startDate": -QUALIFICATION_DURATION - timedelta(days=3),
                 "endDate": -timedelta(days=3),
-                "reportingDatePublication": -COMPLAINT_STAND_STILL - timedelta(days=3),
+                "reportingDatePublication": -QUALIFICATION_DURATION - timedelta(days=3),
             },
             "auctionPeriod": {
                 "startDate": -timedelta(days=3),

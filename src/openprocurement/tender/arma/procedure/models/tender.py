@@ -6,7 +6,6 @@ from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.models.item import Item
 from openprocurement.tender.arma.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
@@ -24,7 +23,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     PostTender as BasePostTender,
 )
 from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 
 
 class PostTender(BasePostTender):
@@ -43,11 +41,6 @@ class PostTender(BasePostTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     contractTemplateName = None
     features = None
-
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
-        max_features_sum = 0.3
-        validate_features_custom_weight(data, features, max_features_sum)
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
@@ -113,11 +106,6 @@ class Tender(BaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     contractTemplateName = None
     features = None
-
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
-        max_features_sum = 0.3
-        validate_features_custom_weight(data, features, max_features_sum)
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)

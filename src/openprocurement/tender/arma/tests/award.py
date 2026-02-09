@@ -13,6 +13,7 @@ from openprocurement.tender.arma.tests.award_blanks import (
     patch_tender_award_active,
     patch_tender_lot_award,
     patch_tender_lot_award_unsuccessful,
+    prolongation_award,
 )
 from openprocurement.tender.arma.tests.base import (
     BaseTenderContentWebTest,
@@ -49,8 +50,8 @@ class TenderAwardQualificationResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_arma_lots
     initial_auth = ("Basic", ("broker", ""))
 
-    test_patch_tender_award_unsuccessful_complaint_first = snitch(patch_tender_award_unsuccessful_first)
-    test_patch_tender_award_unsuccessful_complaint_second = snitch(patch_tender_award_unsuccessful_second)
+    test_patch_tender_award_unsuccessful_first = snitch(patch_tender_award_unsuccessful_first)
+    test_patch_tender_award_unsuccessful_second = snitch(patch_tender_award_unsuccessful_second)
     test_patch_tender_award_unsuccessful_forbidden = snitch(patch_tender_award_unsuccessful_forbidden)
 
     def setUp(self):
@@ -95,8 +96,8 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         self.app.authorization = ("Basic", ("broker", ""))
 
-    # test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_award_sign = snitch(award_sign)
+    test_prolongation_award = snitch(prolongation_award)
 
 
 class Tender2LotAwardResourceTestMixin:
