@@ -21,6 +21,8 @@ from openprocurement.tender.arma.tests.tender_blanks import (
     patch_tender_draft,
     set_buyers_signer_info,
     set_procuring_entity_signer_info,
+    tender_delivery_milestones,
+    tender_financing_milestones,
     unsuccessful_after_prequalification_tender,
 )
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
@@ -56,6 +58,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_invalid_bid_tender_lot = snitch(invalid_bid_tender_lot)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
+    test_tender_financing_milestones = snitch(tender_financing_milestones)
+    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)

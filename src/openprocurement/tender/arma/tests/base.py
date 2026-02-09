@@ -8,10 +8,7 @@ from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.tests.periods import PERIODS, TENDERING_DAYS
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_buyer,
-    test_tender_below_milestones,
-)
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_buyer
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
@@ -19,8 +16,6 @@ from openprocurement.tender.core.tests.base import (
 )
 from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
-
-test_tender_arma_milestones = copy.deepcopy(test_tender_below_milestones)
 
 test_tender_arma_supplier = {
     "name": "Державне управління справами",
@@ -139,7 +134,6 @@ test_tender_arma_data = {
     ],
     "tenderPeriod": {"endDate": (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()},
     "procurementMethodType": COMPLEX_ASSET_ARMA,
-    "milestones": test_tender_arma_milestones,
 }
 if SANDBOX_MODE:
     test_tender_arma_data["procurementMethodDetails"] = "quick, accelerator=1440"

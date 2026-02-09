@@ -326,17 +326,21 @@ def check_sign_doc_qualifications_before_stand_still(self):
         "evaluationReports document in tender should be only one",
     )
 
+    # try to add doc without documentType
+    sign_doc.pop("documentType", None)
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+        {"data": sign_doc},
+    )
+    self.assertEqual(response.status, "201 Created")
+
     # try to add doc with another documentType in pre-qualification
     sign_doc["documentType"] = "notice"
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
         {"data": sign_doc},
-        status=403,
     )
-    self.assertEqual(
-        response.json["errors"][0]["description"],
-        "Can't add document in current (active.pre-qualification) tender status",
-    )
+    self.assertEqual(response.status, "201 Created")
 
     # add right document
     sign_doc["documentType"] = "evaluationReports"

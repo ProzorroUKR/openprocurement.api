@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
@@ -371,7 +372,6 @@ def create_tender_generated(self):
             "next_check",
             "procurementMethod",
             "procurementMethodType",
-            "milestones",
             "owner",
             "documents",
             "id",
@@ -1244,3 +1244,231 @@ def lost_contract_for_active_award(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
+
+
+def tender_delivery_milestones(self):
+    lot_id = self.initial_lots[0]["id"] if self.initial_lots else None
+    data = deepcopy(self.initial_data)
+    data["milestones"] = [
+        {
+            "id": "a" * 32,
+            "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 10,
+            "relatedLot": lot_id,
+        },
+        {
+            "id": "b" * 32,
+            "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 2,
+            "code": "standard",
+            "percentage": 90,
+            "relatedLot": lot_id,
+        },
+    ]
+
+    data["milestones"][-1]["duration"]["days"] = 1500
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"duration": ["days shouldn't be more than 1000 for delivery milestone"]}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["duration"]["days"] = 1000
+    data["milestones"][-1]["code"] = "postpayment"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "code": [f"Value must be one of {MILESTONE_CODES['delivery']}"],
+                    }
+                ],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["code"] = "standard"
+    data["milestones"][-1]["title"] = "executionOfWorks"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"title": [f"Value must be one of {MILESTONE_TITLES['delivery']}"]}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["title"] = "signingTheContract"
+    old_lot_id = data["milestones"][-1].pop("relatedLot")
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["relatedLot"] = old_lot_id
+    old_percentage = data["milestones"][-1].pop("percentage")
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "milestones", "description": [{"percentage": ["This field is required."]}]}],
+    )
+
+    data["milestones"][-1]["percentage"] = 100
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": f"Sum of the delivery milestone percentages 110.0 is not equal 100 for lot {lot_id}.",
+            }
+        ],
+    )
+    data["milestones"][-1]["percentage"] = old_percentage
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+
+def tender_financing_milestones(self):
+    lot_id = self.initial_lots[0]["id"] if self.initial_lots else None
+    data = deepcopy(self.initial_data)
+    data["milestones"] = [
+        {
+            "id": "a" * 32,
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 1,
+            "percentage": 10,
+            "relatedLot": lot_id,
+        },
+        {
+            "id": "b" * 32,
+            "title": "deliveryOfGoods",
+            "code": "postpayment",
+            "type": "financing",
+            "duration": {"days": 999, "type": "calendar"},
+            "sequenceNumber": 2,
+            "percentage": 90,
+            "relatedLot": lot_id,
+        },
+    ]
+
+    data["milestones"][-1]["duration"]["days"] = 1500
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"duration": ["days shouldn't be more than 1000 for financing milestone"]}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["duration"]["days"] = 1000
+    data["milestones"][-1]["code"] = "standard"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "code": [f"Value must be one of {MILESTONE_CODES['financing']}"],
+                    }
+                ],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["code"] = "postpayment"
+    data["milestones"][-1]["title"] = "afterPostPayment"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"title": [f"Value must be one of {MILESTONE_TITLES['financing']}"]}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["title"] = "signingTheContract"
+    old_lot_id = data["milestones"][-1].pop("relatedLot")
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [
+                    {
+                        "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                    }
+                ],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["relatedLot"] = old_lot_id
+    old_percentage = data["milestones"][-1].pop("percentage")
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "milestones", "description": [{"percentage": ["This field is required."]}]}],
+    )
+
+    data["milestones"][-1]["percentage"] = 100
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": f"Sum of the financing milestone percentages 110.0 is not equal 100 for lot {lot_id}.",
+            }
+        ],
+    )
+    data["milestones"][-1]["percentage"] = old_percentage
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
