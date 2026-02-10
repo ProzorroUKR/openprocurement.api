@@ -14,7 +14,7 @@ Authorization: Bearer broker
 HTTP/1.0 200 OK
 Content-Type: application/json; charset=utf-8
 X-Request-ID: 88888888-4444-5555-6666-000000000008
-Content-Length: 2291
+Content-Length: 2290
 
 {
   "data": {
@@ -103,7 +103,7 @@ Content-Length: 2291
         "faxNumber": "(645)734-5619",
         "url": "http://martin.com/"
       },
-      "kind": "central"
+      "kind": "social"
     }
   }
 }

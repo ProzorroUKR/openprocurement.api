@@ -24,7 +24,7 @@ HTTP/1.0 201 Created
 Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/violation_reports/88888888444455556666000000000006
 Content-Type: application/json; charset=utf-8
 X-Request-ID: 88888888-4444-5555-6666-000000000005
-Content-Length: 2375
+Content-Length: 2374
 
 {
   "data": {
@@ -118,7 +118,7 @@ Content-Length: 2375
         "faxNumber": "(645)734-5619",
         "url": "http://martin.com/"
       },
-      "kind": "central"
+      "kind": "social"
     }
   }
 }

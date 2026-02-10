@@ -1,4 +1,5 @@
 from factory import Factory, Faker, SubFactory
+from factory.fuzzy import FuzzyChoice
 
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from prozorro_cdb.api.database.schema.organization import (
@@ -54,7 +55,7 @@ class BuyerFactory(OrganizationFactory):
     class Meta:
         model = Buyer
 
-    kind = "general"
+    kind = FuzzyChoice(ProcuringEntityKind)
     signerInfo = None
 
 
@@ -70,4 +71,4 @@ class ProcuringEntityFactory(OrganizationFactory):
     class Meta:
         model = ProcuringEntity
 
-    kind = ProcuringEntityKind.CENTRAL
+    kind = FuzzyChoice(ProcuringEntityKind)

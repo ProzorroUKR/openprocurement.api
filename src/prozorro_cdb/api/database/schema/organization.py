@@ -81,7 +81,7 @@ class Supplier(Organization):
 class Buyer(Organization):
     """Buyer (procuring entity) organization"""
 
-    kind: Optional[Literal["general", "special", "defense"]] = None
+    kind: Optional[ProcuringEntityKind] = None
     signerInfo: Optional[SignerInfo] = None
 
 
