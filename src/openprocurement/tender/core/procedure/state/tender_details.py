@@ -746,6 +746,9 @@ class BaseTenderDetailsMixing:
                         timedelta(days=qualif_complain_duration),
                         working_days=self.working_days_config["qualificationComplainDuration"],
                         tender=after,
+                        # if qualif_complain_duration is 0 - force ceil,
+                        # otherwise let the ceil flag to be defined inside the calculate_tender_full_date function
+                        ceil=None if qualif_complain_duration else True,
                     ).isoformat()
 
                     if qualif_complain_duration > 0:

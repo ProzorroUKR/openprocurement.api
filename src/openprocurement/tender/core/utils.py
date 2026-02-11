@@ -106,8 +106,9 @@ def calculate_tender_date(date_obj, timedelta_obj, working_days=False, calendar=
 
 
 @accelerated_tender
-def calculate_tender_full_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS):
-    ceil = timedelta_obj > timedelta()
+def calculate_tender_full_date(date_obj, timedelta_obj, working_days=False, calendar=WORKING_DAYS, ceil=None):
+    if ceil is None:
+        ceil = timedelta_obj > timedelta()
     return calculate_full_date(date_obj, timedelta_obj, working_days=working_days, calendar=calendar, ceil=ceil)
 
 

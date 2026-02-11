@@ -1,8 +1,7 @@
 from datetime import timedelta
 
-TENDERING_DAYS = 20
-TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
-QUALIFICATION_DURATION = timedelta(days=10)
+TENDERING_DURATION = timedelta(weeks=4, days=1)
+QUALIFICATION_DURATION = timedelta(weeks=2, days=1)
 ENQUIRY_PERIOD_REGULATION = timedelta(days=10)
 
 PERIODS = {

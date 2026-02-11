@@ -7,7 +7,7 @@ from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.tests.periods import PERIODS, TENDERING_DAYS
+from openprocurement.tender.arma.tests.periods import PERIODS, TENDERING_DURATION
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_buyer
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -132,7 +132,7 @@ test_tender_arma_data = {
             },
         }
     ],
-    "tenderPeriod": {"endDate": (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()},
+    "tenderPeriod": {"endDate": (now + TENDERING_DURATION).isoformat()},
     "procurementMethodType": COMPLEX_ASSET_ARMA,
 }
 if SANDBOX_MODE:
