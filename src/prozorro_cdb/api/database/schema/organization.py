@@ -1,8 +1,11 @@
-from typing import Any, Literal, Optional
+from typing import Any, Optional
 
 from pydantic import EmailStr, HttpUrl
 
-from openprocurement.api.procedure.models.organization import ProcuringEntityKind
+from openprocurement.api.procedure.models.organization import (
+    OrganizationScale,
+    ProcuringEntityKind,
+)
 from prozorro_cdb.api.database.schema.common import BaseModel
 
 
@@ -74,7 +77,7 @@ class SignerInfo(BaseModel):
 class Supplier(Organization):
     """Supplier organization"""
 
-    scale: Optional[Literal["micro", "sme", "large"]] = None
+    scale: Optional[OrganizationScale] = None
     signerInfo: Optional[SignerInfo] = None
 
 
