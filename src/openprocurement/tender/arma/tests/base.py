@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.tests.periods import PERIODS, TENDERING_DURATION
@@ -40,7 +39,6 @@ test_tender_arma_supplier = {
         "telephone": "+0440000000",
     },
     "scale": "micro",
-    "signerInfo": test_signer_info,
 }
 
 test_tender_arma_bids = [
@@ -96,7 +94,6 @@ test_tender_arma_procuring_entity = {
         "name_en": "State administration",
         "telephone": "+0440000000",
     },
-    "signerInfo": test_signer_info,
 }
 
 test_tender_arma_data = {

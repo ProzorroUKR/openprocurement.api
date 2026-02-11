@@ -254,8 +254,8 @@ msgstr "And we can see that it is overriding the original version:"
 msgid "Звернення"
 msgstr "Enquiries"
 
-msgid "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть подавати звернення чи просити уточнень умов закупівлі:"
-msgstr "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
+msgid "Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enquiryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть подавати звернення чи просити уточнень умов закупівлі:"
+msgstr "When tender has ``active.tendering`` status and ``Tender.enquiryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
 
 msgid "Замовник може відповісти на них:"
 msgstr "Procuring entity can answer them:"
@@ -266,8 +266,8 @@ msgstr "One can retrieve either questions list:"
 msgid "або окрему відповідь:"
 msgstr "or individual answer:"
 
-msgid "Звернення можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``"
-msgstr "Enquiries can be made only during ``Tender.enqueryPeriod``"
+msgid "Звернення можна задавати лише протягом періоду уточнень ``Tender.enquiryPeriod``"
+msgstr "Enquiries can be made only during ``Tender.enquiryPeriod``"
 
 msgid "Реєстрація пропозиції"
 msgstr "Registering bid"
@@ -296,7 +296,7 @@ msgstr "It is possible to check the uploaded documents:"
 msgid "При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:"
 msgstr "If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:"
 
-msgid "Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:"
+msgid "Якщо ми спробуємо підтвердити пропозицію, буде вимагатися новий підпис:"
 msgstr "If we try to activate bidder the new sign will be needed:"
 
 msgid "Учасник може зареєструвати пропозиції для всіх лотів:"
@@ -386,7 +386,7 @@ msgstr "Read more about working with EContracting in contracting system in :ref:
 msgid "Скасування закупівлі"
 msgstr "Cancelling tender"
 
-msgid "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
+msgid "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `unsuccessful`, `canceled`, `complete`)."
 msgstr "Tender creator can cancel tender anytime (except when tender in status `active.auction` or in terminal status e.g. `unsuccessful`, `canceled`, `complete`)."
 
 msgid "Для цього потрібно виконати наступні кроки:"
@@ -407,7 +407,7 @@ msgstr "Cancel the tender with the prepared reasons."
 msgid "Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її."
 msgstr "Only the request that has been activated (4th step above) has power to cancel tender.  I.e.  you have to not only prepare cancellation request but to activate it as well."
 
-msgid "Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`."
+msgid "Для відміни скасування закупівлі, вам потрібно оновити статус скасування до `unsuccessful` з `draft` чи `pending`."
 msgstr "For cancelled cancellation you need to update cancellation status to `unsuccessful` from `draft` or `pending`."
 
 msgid "Дивіться структуру запиту :ref:`cancellation` для більш детальної інформації."
@@ -452,18 +452,18 @@ msgstr "For activate complaint period, you need to update cancellation from `dra
 msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
 msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
 
-msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgid "Файл підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
 
 msgid "Змінимо статус скасування з `draft` на `pending`:"
 msgstr "Let's update cancellation from `draft` to `pending`."
 
-msgid "Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі."
+msgid "Коли скасування закупівлі в статусі `pending` замовнику забороняються всі дії по закупівлі."
 msgstr "When cancellation in `pending` status the tender owner is prohibited from all actions on the tender."
 
 msgid "Активація запиту та скасування закупівлі"
 msgstr "Activating the request and cancelling tender"
 
-msgid "якщо період оскарження(триває 4 дня) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`."
+msgid "якщо період оскарження(триває 4 дня) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично змінює статус на `active`."
 msgstr "if the complaint period(duration 4 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
 

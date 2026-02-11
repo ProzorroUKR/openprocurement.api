@@ -146,7 +146,7 @@
 Звернення
 ---------
 
-Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:
+Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enquiryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:
 
 .. http:example:: tutorial/ask-question.http
    :code:
@@ -167,7 +167,7 @@
    :code:
 
 
-Звернення можна задавати лише під час ``Tender.enqueryPeriod``
+Звернення можна задавати лише під час ``Tender.enquiryPeriod``
 
 .. http:example:: tutorial/ask-question-after-enquiry-period.http
    :code:
@@ -218,7 +218,7 @@
 .. http:example:: tutorial/patch-pending-bid.http
    :code:
 
-Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:
+Якщо ми спробуємо підтвердити пропозицію, буде вимагатися новий підпис:
 
 .. http:example:: tutorial/activate-bidder-without-sign.http
    :code:
@@ -385,7 +385,7 @@
 .. http:example:: tutorial/pre-qualification-sign-doc-is-required.http
    :code:
 
-Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/upload-evaluation-reports-doc.http
    :code:
@@ -610,7 +610,7 @@
 Скасування тендера
 ------------------
 
-Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`).
+Замовник може скасувати закупівлю у будь-який момент (крім закупівель у статусі `active.auction` чи у кінцевому стані, наприклад, `unsuccessful`, `canceled`, `complete`).
 
 Для цього потрібно виконати такі кроки:
 
@@ -621,7 +621,7 @@
 
 Запит на скасування, який не пройшов активації (4-й крок), не матиме сили, тобто, для скасування закупівлі буде обов’язковим не тільки створити заявку, але і активувати її.
 
-Для відміни скасування закупівлі, вам потрібно оновоить статус скасування до `unsuccessful` з `draft` чи `pending`
+Для відміни скасування закупівлі, вам потрібно оновити статус скасування до `unsuccessful` з `draft` чи `pending`
 
 Детальніше в структурі запиту :ref:`cancellation`.
 
@@ -668,7 +668,7 @@
 .. http:example:: tutorial/cancellation-sign-doc-is-required.http
    :code:
 
-Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/upload-cancellation-report-doc.http
    :code:
@@ -678,12 +678,12 @@
 .. http:example:: tutorial/pending-cancellation.http
    :code:
 
-Коли скасування закупівлі в статусі `pending` замовнику зобороняються всі дії по закупівлі.
+Коли скасування закупівлі в статусі `pending` замовнику забороняються всі дії по закупівлі.
 
 Активуємо запит і скасовуємо тендерну пропозицію
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично зміює статус на `active`
+Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично змінює статус на `active`
 
 Переведення угоди в статус `unsuccessful`
 -----------------------------------------

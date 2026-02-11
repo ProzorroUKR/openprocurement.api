@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/d9668d8fd5d14779905c208c929e49bc?acc_token=c09bfd8bd3964ff4a95d9cb9477f7dfd HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "Document with type 'notice' and format pkcs7-signature is required"
+    }
+  ]
+}
+

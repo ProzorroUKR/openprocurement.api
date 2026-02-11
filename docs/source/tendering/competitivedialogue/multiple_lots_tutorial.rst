@@ -104,7 +104,7 @@
 .. http:example:: multiple_lots_tutorial/pre-qualification-sign-doc-is-required.http
    :code:
 
-Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: multiple_lots_tutorial/upload-evaluation-reports-doc.http
    :code:

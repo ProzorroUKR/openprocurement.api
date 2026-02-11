@@ -1,0 +1,78 @@
+PATCH /api/2.5/tenders/d9668d8fd5d14779905c208c929e49bc/awards/a65a1a9a8adc42a297e2339e146ecb45?acc_token=c09bfd8bd3964ff4a95d9cb9477f7dfd HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active",
+    "qualified": true,
+    "eligible": true
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "a65a1a9a8adc42a297e2339e146ecb45",
+    "status": "active",
+    "date": "2023-10-10T01:03:00+03:00",
+    "value": {
+      "amount": 499.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "suppliers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        },
+        "scale": "sme"
+      }
+    ],
+    "bid_id": "d460530aeea940e187f1c8e88da5e225",
+    "lotID": "d9c1c86a51294d9f9e128b780416b344",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "e8b9c7c9efdf44ac900688a56acfde64",
+        "datePublished": "2023-10-10T01:03:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a6b0ff3ec70841abb1b99860cd5d9b17?Signature=lKg5g8fm1FbOS2cCH69s%2BbFBKG9AXzZtFuB8DeqhjVgANXQ3RSpV6HfqgH%2Bijz1sBCC3251C2OVkQ6Dbza0cBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:03:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "period": {
+      "startDate": "2023-10-10T01:03:00+03:00",
+      "endDate": "2023-10-18T00:00:00+03:00"
+    },
+    "qualified": true,
+    "eligible": true
+  }
+}
+

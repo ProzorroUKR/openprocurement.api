@@ -194,8 +194,8 @@ msgstr "You can see that tender was activated successfully."
 msgid "Звернення"
 msgstr "Questions"
 
-msgid "Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:"
-msgstr "When tender has ``active.tendering`` status and ``Tender.enqueryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
+msgid "Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enquiryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:"
+msgstr "When tender has ``active.tendering`` status and ``Tender.enquiryPeriod.endDate``  hasn't come yet, interested parties can ask questions:"
 
 msgid "Відмінність у зверненнях від :ref:`open` процедури це те, що в `competitiveOrdering` звернення щодо тендерної документації можуть подавати лише кваліфіковані учасники. Якщо якийсь інший автор спробує додати звернення, буде помилка:"
 msgstr "The difference between :ref:`open` procedure is that in `competitiveOrdering` only qualified suppliers from agreement may ask question. If another author try to ask question, we will see error:"
