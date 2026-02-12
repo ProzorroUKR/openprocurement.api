@@ -14,6 +14,7 @@ from pymongo import (
     ReadPreference,
     ReturnDocument,
 )
+from pymongo.monitoring import CommandListener
 from pymongo.read_concern import ReadConcern
 from pymongo.write_concern import WriteConcern
 
@@ -65,6 +66,73 @@ def get_public_ts():
     return "$$CLUSTER_TIME"
 
 
+class MongoServerLoggingListener(CommandListener):
+    @staticmethod
+    def _format_mongo_server(connection_id):
+        """Format (host, port) as 'host:port' for logging."""
+        host, port = connection_id[0], connection_id[1]
+        return f"{host}:{port}" if port is not None else str(host)
+
+    @staticmethod
+    def _mongo_settings(store):
+        database = store.database
+        return {
+            "DB_NAME": database.name,
+            "READ_PREFERENCE": database.read_preference.name,
+            "WRITE_CONCERN": str(database.write_concern.document),
+            "READ_CONCERN": database.read_concern.level,
+        }
+
+    @staticmethod
+    def _replica_info_from_topology(store, connection_id):
+        client = store.connection
+        topo = client.topology_description
+        sds = topo.server_descriptions()
+
+        host, port = connection_id[0], connection_id[1]
+        for addr, sdesc in sds.items():
+            if addr[0] == host and addr[1] == port:
+                out = {
+                    "SERVER_TYPE": sdesc.server_type_name,
+                    "RTT_SEC": sdesc.round_trip_time or sdesc.min_round_trip_time,
+                }
+                return out
+
+        return {}
+
+    def _update_logging_context(self, event):
+        if event.connection_id is None:
+            return
+
+        request = get_request()
+        if request is None:
+            return
+
+        params = {"SERVER": self._format_mongo_server(event.connection_id)}
+
+        store = getattr(request.registry, "mongodb", None)
+        if store:
+            try:
+                params.update(self._replica_info_from_topology(store, event.connection_id))
+                params.update(self._mongo_settings(store))
+            except (AttributeError, TypeError):
+                LOGGER.warning("Failed to get mongo settings from store for logging context", exc_info=True)
+
+        # pylint: disable-next=import-outside-toplevel
+        from openprocurement.api.utils import update_logging_context
+
+        update_logging_context(request, {"MONGO_LAST_COMMAND_INFO": params})
+
+    def started(self, event):
+        pass
+
+    def succeeded(self, event):
+        self._update_logging_context(event)
+
+    def failed(self, event):
+        self._update_logging_context(event)
+
+
 class MongodbStore:
     def __init__(self, settings):
         self.settings = settings
@@ -85,6 +153,7 @@ class MongodbStore:
             mongodb_uri,
             maxPoolSize=max_pool_size,
             minPoolSize=min_pool_size,
+            event_listeners=[MongoServerLoggingListener()],
         )
         self.database = self.connection.get_database(
             db_name,
