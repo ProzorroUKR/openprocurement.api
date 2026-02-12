@@ -768,3 +768,35 @@ def remove_nested_value(data: dict, path: str):
             return None
         data = data[k]
     data.pop(keys[-1], None)
+
+
+def filter_nested_values(data, *allowed_paths):
+    if not allowed_paths:
+        return [] if isinstance(data, list) else {}
+
+    allowed_paths = set(p for p in allowed_paths if p)
+
+    def filter_value(obj, paths):
+        if isinstance(obj, list):
+            return [filter_value(item, paths) for item in obj]
+        if not isinstance(obj, dict):
+            return obj
+        by_key = {}
+        for p in paths:
+            if "." in p:
+                key, rest = p.split(".", 1)
+                by_key.setdefault(key, set()).add(rest)
+            else:
+                by_key.setdefault(p, set()).add(None)
+        result = {}
+        for key, sub_paths in by_key.items():
+            if key not in obj:
+                continue
+            sub_paths.discard(None)
+            if not sub_paths:
+                result[key] = obj[key]
+            else:
+                result[key] = filter_value(obj[key], sub_paths)
+        return result
+
+    return filter_value(data, allowed_paths)

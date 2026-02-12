@@ -1,6 +1,7 @@
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.constants import AUCTION_SET_URLS_LOG_FIELDS
 from openprocurement.tender.core.procedure.models.auction import (
     AuctionLotResults,
     AuctionResults,
@@ -9,7 +10,10 @@ from openprocurement.tender.core.procedure.models.auction import (
 )
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import save_tender
+from openprocurement.tender.core.procedure.utils import (
+    filter_nested_values,
+    save_tender,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_active_lot,
     validate_auction_tender_non_lot,
@@ -46,11 +50,14 @@ class TenderAuctionResource(TenderBaseResource):
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
+
+        # apply data patch and update tender state
         updated = apply_data_patch(tender, data)
         if updated:
             tender = self.request.validated["tender"] = updated
             self.state.on_patch(tender_src, tender)
 
+        # save tender
         if save_tender(self.request):
             self.LOGGER.info(
                 "Updated auction urls",
@@ -74,15 +81,28 @@ class TenderAuctionResource(TenderBaseResource):
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
+
+        # apply data patch and update tender state
         updated = apply_data_patch(tender, data)
         if updated:
             tender = self.request.validated["tender"] = updated
             self.state.on_patch(tender_src, tender)
+
+        # save tender
         if save_tender(self.request):
+            LOG_CONTEXT = {
+                "before": filter_nested_values(tender_src, *AUCTION_SET_URLS_LOG_FIELDS),
+                "after": filter_nested_values(tender, *AUCTION_SET_URLS_LOG_FIELDS),
+            }
             self.LOGGER.info(
                 "Updated auction urls",
-                extra=context_unpack(self.request, {"MESSAGE_ID": "tender_lot_auction_patch"}),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_lot_auction_patch"},
+                    {"CONTEXT": LOG_CONTEXT},
+                ),
             )
+
             return {
                 "data": self.serializer_class(tender).data,
                 "config": tender["config"],
