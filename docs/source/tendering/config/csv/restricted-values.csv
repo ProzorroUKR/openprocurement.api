@@ -19,4 +19,4 @@ negotiation.quick,false,false
 priceQuotation,true / false,false
 reporting,false,false
 simple.defense,false,false
-requestForProposal,false,false
+requestForProposal,true / false,false

@@ -49,8 +49,8 @@ Content-Type: application/json
           "countryName": "Приховано"
         },
         "deliveryDate": {
-          "startDate": "1970-01-01T03:00:00+03:00",
-          "endDate": "1970-01-01T03:00:00+03:00"
+          "startDate": "Приховано",
+          "endDate": "Приховано"
         }
       }
     ],
