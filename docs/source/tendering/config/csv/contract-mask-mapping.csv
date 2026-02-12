@@ -1,6 +1,6 @@
 path,value
-$.items[*].deliveryDate.startDate,1970-01-01T03:00:00+03:00
-$.items[*].deliveryDate.endDate,1970-01-01T03:00:00+03:00
+$.items[*].deliveryDate.startDate,Приховано
+$.items[*].deliveryDate.endDate,Приховано
 $.items[*].deliveryAddress.streetAddress,Приховано
 $.items[*].deliveryAddress.locality,Приховано
 $.items[*].deliveryAddress.region,Приховано

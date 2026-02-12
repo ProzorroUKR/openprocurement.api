@@ -21,4 +21,4 @@ minTenderingDuration,4,4,calendar
 hasEnquiries,true,true,
 minEnquiriesDuration,3,3,calendar
 enquiryPeriodRegulation,3,3,calendar
-restricted,false,false,
+restricted,true / false,false,
