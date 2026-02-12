@@ -225,8 +225,8 @@
             ],
             "quantity": 136.2,
             "deliveryDate": {
-                "startDate": "Приховано",
-                "endDate": "Приховано"
+                "startDate": "1970-01-01T03:00:00+03:00",
+                "endDate": "1970-01-01T03:00:00+03:00"
             },
             "deliveryAddress": {
                 "streetAddress": "Приховано",
@@ -678,8 +678,8 @@
                     ],
                     "quantity": 136.2,
                     "deliveryDate": {
-                        "startDate": "Приховано",
-                        "endDate": "Приховано"
+                        "startDate": "1970-01-01T03:00:00+03:00",
+                        "endDate": "1970-01-01T03:00:00+03:00"
                     },
                     "deliveryAddress": {
                         "streetAddress": "Приховано",
@@ -783,8 +783,8 @@
                     ],
                     "quantity": 136.2,
                     "deliveryDate": {
-                        "startDate": "Приховано",
-                        "endDate": "Приховано"
+                        "startDate": "1970-01-01T03:00:00+03:00",
+                        "endDate": "1970-01-01T03:00:00+03:00"
                     },
                     "deliveryAddress": {
                         "streetAddress": "Приховано",

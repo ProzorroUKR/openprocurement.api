@@ -1,4 +1,5 @@
 from openprocurement.api.mask import (
+    MASK_DATE,
     MASK_NUMBER,
     MASK_STRING,
     MASK_STRING_EN,
@@ -8,8 +9,8 @@ from openprocurement.api.mask import (
 
 TENDER_MASK_MAPPING_RAW = {
     # items.deliveryDate
-    "$.items[*].deliveryDate.startDate": MASK_STRING,
-    "$.items[*].deliveryDate.endDate": MASK_STRING,
+    "$.items[*].deliveryDate.startDate": MASK_DATE,
+    "$.items[*].deliveryDate.endDate": MASK_DATE,
     # items.deliveryAddress
     "$.items[*].deliveryAddress.streetAddress": MASK_STRING,
     "$.items[*].deliveryAddress.locality": MASK_STRING,
@@ -103,8 +104,8 @@ TENDER_MASK_MAPPING_RAW = {
     # bids.tenderers.scale
     "$.awards[*].suppliers[*].scale": MASK_STRING,
     # contracts.items.deliveryDate
-    "$.contracts[*].items[*].deliveryDate.startDate": MASK_STRING,
-    "$.contracts[*].items[*].deliveryDate.endDate": MASK_STRING,
+    "$.contracts[*].items[*].deliveryDate.startDate": MASK_DATE,
+    "$.contracts[*].items[*].deliveryDate.endDate": MASK_DATE,
     # contracts.items.deliveryAddress
     "$.contracts[*].items[*].deliveryAddress.streetAddress": MASK_STRING,
     "$.contracts[*].items[*].deliveryAddress.locality": MASK_STRING,
