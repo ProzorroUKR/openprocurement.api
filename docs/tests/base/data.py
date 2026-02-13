@@ -938,3 +938,17 @@ test_docs_tender_rfp_maximum = {
     "mainProcurementCategory": "services",
     "contractTemplateName": "00000000.0002.01",
 }
+
+test_docs_arma_procuring_entity = deepcopy(test_docs_procuring_entity_en)
+# clear eContract fields
+test_docs_arma_procuring_entity.pop("signerInfo")
+
+test_docs_tender_complex_assets_arma = {
+    "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(weeks=4, days=1)).isoformat()},
+    "title": "Послуги шкільних їдалень",
+    "procurementMethodType": "complexAsset.arma",
+    "value": {"currency": "UAH"},
+    "procuringEntity": test_docs_arma_procuring_entity,
+    "items": test_docs_items_en,
+    "mainProcurementCategory": "services",
+}

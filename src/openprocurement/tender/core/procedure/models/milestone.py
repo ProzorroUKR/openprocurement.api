@@ -17,10 +17,7 @@ from openprocurement.tender.core.procedure.models.qualification_milestone import
     QualificationMilestoneCode,
 )
 from openprocurement.tender.core.procedure.validation import is_positive_float
-from openprocurement.tender.core.utils import (
-    calculate_tender_date,
-    calculate_tender_full_date,
-)
+from openprocurement.tender.core.utils import calculate_tender_date
 
 
 class QualificationMilestone(Model):
@@ -44,13 +41,6 @@ class QualificationMilestone(Model):
                     self.date,
                     timedelta(hours=24),
                     tender=get_tender(),
-                )
-            elif self.code == QualificationMilestoneCode.CODE_LOW_PRICE.value:
-                self.dueDate = calculate_tender_full_date(
-                    self.date,
-                    timedelta(days=1),
-                    tender=get_tender(),
-                    working_days=True,
                 )
         return self.dueDate and self.dueDate.isoformat()
 

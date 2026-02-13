@@ -109,7 +109,7 @@ https://github.com/ProzorroUKR/standards/blob/master/organizations/kind_procurem
 `Різниця між структурами тендеру простого активу та складного активу <https://prozorro-ua.atlassian.net/wiki/spaces/Knowledge/pages/637698053>`_
 
 1. Відключити обов'язковість ``tender.milestones``
-"""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
 
 Відключити обов'язковість ``tender.milestones`` (і відповідно ``contract.milestones``) з типами:
 

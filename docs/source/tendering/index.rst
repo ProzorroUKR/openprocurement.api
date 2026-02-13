@@ -24,3 +24,4 @@ Tendering API для операцій з закупівлею
    cfaselectionua/index
    pricequotation/index
    requestforproposal/index
+   arma/index

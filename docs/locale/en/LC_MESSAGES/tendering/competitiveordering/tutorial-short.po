@@ -231,7 +231,7 @@ msgstr "`complaintPeriod` is not present in cancellation. And after cancellation
 msgid "Перед активацією запиту на скасування закупівлі необхідно додати файл підпису до `cancellation`. Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
 msgstr "Before activating cancellation request, you must add a signature file to `cancellation`. If there is no signature file when activating the cancellation, we will see an error:"
 
-msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgid "Файл підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
 
 msgid "Змінимо статус скасування з `draft` на `pending`:"

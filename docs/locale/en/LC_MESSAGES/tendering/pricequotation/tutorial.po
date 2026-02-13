@@ -465,7 +465,7 @@ msgstr "When conducting a PQ procurement by an organization that is not a Custom
 msgid "Якщо нема файлу підпису під час активації скасування, ми побачимо помилку:"
 msgstr "If there is no signature file when activating the cancellation, we will see an error:"
 
-msgid "Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
+msgid "Файл підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: cancellationReport` and `title: *.p7s`. Let's add such document:"
 
 msgid "Активуємо запит на скасування закупівлі:"

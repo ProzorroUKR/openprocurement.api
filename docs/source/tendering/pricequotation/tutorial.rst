@@ -429,7 +429,7 @@ Configuration
 .. http:example:: http/cancellation-sign-doc-is-required.http
    :code:
 
-Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: http/upload-cancellation-report-doc.http
    :code:

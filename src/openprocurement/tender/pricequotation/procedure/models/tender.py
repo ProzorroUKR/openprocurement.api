@@ -82,6 +82,9 @@ class PostTender(PostBaseTender):
             raise ValidationError("period should begin after tenderPeriod")
 
 
+PostTender._fields.pop("agreements", None)
+
+
 class PatchTender(PatchBaseTender):
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -116,6 +119,9 @@ class PatchTender(PatchBaseTender):
         ModelType(Criterion),
         validators=[validate_criteria_id_uniq],
     )
+
+
+PatchTender._fields.pop("agreements", None)
 
 
 class Tender(BaseTender):

@@ -301,7 +301,7 @@
 .. http:example:: http/tutorial/patch-pending-bid.http
    :code:
 
-Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:
+Якщо ми спробуємо підтвердити пропозицію, буде вимагатися новий підпис:
 
 .. http:example:: http/tutorial/activate-bidder-without-sign.http
    :code:
@@ -393,7 +393,7 @@
 Скасування закупівлі
 --------------------
 
-Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`).
+Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `unsuccessful`, `canceled`, `complete`).
 
 Для цього потрібно виконати наступні кроки:
 
@@ -444,7 +444,7 @@
 .. http:example:: http/tutorial/cancellation-sign-doc-is-required.http
    :code:
 
-Файд підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: cancellationReport` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: http/tutorial/upload-cancellation-report-doc.http
    :code:

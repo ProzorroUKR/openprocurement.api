@@ -561,6 +561,8 @@ class BaseTenderAwardMilestoneALPMixin:
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
 class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
+    alp_period_work_days = 1
+
     def test_milestone(self):
         """
         test alp milestone is created in two cases
@@ -605,7 +607,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         tender = self.mongodb.tenders.get(self.tender_id)
         expected_due_date = calculate_tender_full_date(
             parse_date(milestone["date"]),
-            timedelta(days=1),
+            timedelta(days=self.alp_period_work_days),
             tender=tender,
             working_days=True,
         )

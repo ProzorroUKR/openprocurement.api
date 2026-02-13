@@ -386,7 +386,7 @@ msgstr "If tender has multicurrency turned off, than there will be validation th
 msgid "При кожному редагуванні вже поданої пропозиції, пропозиція буде переходити в статус `invalid` і її треба буде заново підписати:"
 msgstr "If we patched some fields in pending bid, then bid becomes `invalid` and should be signed one more time:"
 
-msgid "Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:"
+msgid "Якщо ми спробуємо підтвердити пропозицію, буде вимагатися новий підпис:"
 msgstr "If we try to activate bidder the new sign will be needed:"
 
 msgid "Пакетний режим реєстрації"
@@ -446,8 +446,8 @@ msgstr "Read more about working with EContracting in contracting system in :ref:
 msgid "Скасування закупівлі"
 msgstr "Cancelling tender"
 
-msgid "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `usuccesfull`, `canceled`, `complete`)."
-msgstr "Tender creator can cancel tender anytime (except when tender has terminal status e.g. `usuccesfull`, `canceled`, `complete`)."
+msgid "Замовник може скасувати закупівлю у будь-який момент (крім закупівель у кінцевому стані, наприклад, `unsuccessful`, `canceled`, `complete`)."
+msgstr "Tender creator can cancel tender anytime (except when tender has terminal status e.g. `unsuccessful`, `canceled`, `complete`)."
 
 msgid "Для цього потрібно виконати наступні кроки:"
 msgstr "The following steps should be applied:"

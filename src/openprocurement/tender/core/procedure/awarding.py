@@ -47,6 +47,7 @@ class TenderStateAwardingMixing:
     generate_award_milestones: bool = True
 
     award_period_duration: int = 5
+    alp_due_date_period: timedelta = timedelta(days=1)
 
     def on_auction_results(self, tender, lot_id=None):
         if lot_id:
@@ -365,7 +366,16 @@ class TenderStateAwardingMixing:
                 if following_amount and ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
                     reasons.append(ALP_MILESTONE_REASONS[1])
             if reasons:
-                milestones.append({"code": "alp", "description": " / ".join(reasons)})
+                date = get_request_now()
+                due_date = calculate_tender_full_date(date, self.alp_due_date_period, tender=tender, working_days=True)
+                milestones.append(
+                    {
+                        "code": "alp",
+                        "date": date.isoformat(),
+                        "dueDate": due_date.isoformat(),
+                        "description": " / ".join(reasons),
+                    }
+                )
         return milestones
 
     def tender_append_award(self, tender, bid, all_bids, lot_id=None):
