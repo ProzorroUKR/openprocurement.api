@@ -120,3 +120,29 @@ DEFAULT_WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": False,
     "qualificationComplainDuration": False,
 }
+
+
+AUCTION_SET_URLS_LOG_FIELDS = [
+    "_id",
+    "_rev",
+    "status",
+    "lots.id",
+    "lots.status",
+    "lots.auctionPeriod",
+    "bids.id",
+    "bids.status",
+    "bids.date",
+    "bids.lotValues.status",
+    "bids.lotValues.relatedLot",
+    "bids.lotValues.date",
+    "bids.lotValues.participationUrl",
+    "dateModified",
+]
+
+CHRONOGRAPH_PATCH_LOG_FIELDS = [
+    "_id",
+    "_rev",
+    "status",
+    "dateModified",
+    "next_check",
+]
