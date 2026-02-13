@@ -233,7 +233,7 @@ msgstr "Qualification can be cancelled only in `pending` status."
 msgid "Перед відміною рішення необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час відміни, ми побачимо помилку:"
 msgstr "Before cancelling qualification it is required to add sign document to qualification. If there is no sign document during cancelling, we will see an error:"
 
-msgid "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
+msgid "Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:"
 
 msgid "Тепер можна відмінити рішення по заявці:"

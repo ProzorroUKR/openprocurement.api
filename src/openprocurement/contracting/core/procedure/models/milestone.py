@@ -9,3 +9,6 @@ class ContractMilestone(Milestone):
     status = StringType(choices=["scheduled"], default="scheduled")
     dateMet = IsoDateTimeType()
     relatedLot = None
+
+
+ContractMilestone._fields.pop("relatedLot", None)

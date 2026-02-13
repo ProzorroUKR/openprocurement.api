@@ -8,10 +8,7 @@ from schematics.types.serializable import serializable
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.tender.core.utils import (
-    calculate_tender_date,
-    calculate_tender_full_date,
-)
+from openprocurement.tender.core.utils import calculate_tender_date
 
 
 class QualificationMilestoneCode(StrEnum):
@@ -41,13 +38,6 @@ class PostQualificationMilestone(Model):
                 get_request_now(),
                 timedelta(hours=24),
                 tender=get_tender(),
-            )
-        elif self.code == QualificationMilestoneCode.CODE_LOW_PRICE.value:
-            dt = calculate_tender_full_date(
-                get_request_now(),
-                timedelta(days=1),
-                tender=get_tender(),
-                working_days=True,
             )
         return dt.isoformat()
 

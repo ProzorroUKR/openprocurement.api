@@ -166,7 +166,7 @@
 Уточнення і звернення
 ---------------------
 
-Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enqueryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть подавати звернення чи просити уточнень умов закупівлі:
+Якщо закупівля має статус ``active.tendering`` та дата завершення періоду подання пропозицій ``Tender.enquiryPeriod.endDate`` ще не прийшла , то зацікавлені учасники можуть подавати звернення чи просити уточнень умов закупівлі:
 
 .. http:example:: tutorial/ask-question.http
    :code:
@@ -187,7 +187,7 @@
    :code:
 
 
-Звернення можна задавати лише протягом періоду уточнень ``Tender.enqueryPeriod``.
+Звернення можна задавати лише протягом періоду уточнень ``Tender.enquiryPeriod``.
 
 .. http:example:: tutorial/ask-question-after-enquiry-period.http
    :code:
@@ -230,7 +230,7 @@
 .. http:example:: tutorial/patch-pending-bid.http
    :code:
 
-Якщо ми спробуємо підтвердити пропозиціію, буде вимагатися новий підпиис:
+Якщо ми спробуємо підтвердити пропозицію, буде вимагатися новий підпис:
 
 .. http:example:: tutorial/activate-bidder-without-sign.http
    :code:
@@ -376,7 +376,7 @@
 .. http:example:: tutorial/pre-qualification-sign-doc-is-required.http
    :code:
 
-Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/upload-evaluation-reports-doc.http
    :code:

@@ -1,0 +1,591 @@
+GET /api/2.5/tenders/d9668d8fd5d14779905c208c929e49bc HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "description": "new description",
+    "date": "2023-10-10T01:03:00+03:00",
+    "dateModified": "2023-10-10T01:03:00+03:00",
+    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "tenderID": "UA-2023-10-10-000001-a",
+    "questions": [
+      {
+        "id": "dce0c22adf2141a8ae5b03d497e0a35f",
+        "author": {
+          "hash": "eefc2e295999e44a89a6a72fdd9a7edf"
+        },
+        "title": "Калорійність",
+        "description": "Просимо додати таблицю потрібної калорійності харчування",
+        "date": "2023-10-10T01:00:00+03:00",
+        "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
+        "questionOf": "tender",
+        "dateAnswered": "2023-10-10T01:00:00+03:00"
+      }
+    ],
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "1e54fe5afdfd4a17999100cbf30e424e",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4e663a08f75a4dcd93c884221b53761c?Signature=fFid5irMDeuYCSm8AyopbowsXU01KbROImd1wPSajrgzLBsvSlG5LlgVlwJBjKc0B8p%2F9EG1QlquP4b8FOhDDQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "id": "60fceec3019242e3bd6961e62b891596",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/446ac6579a0f45b2bf6e2f58e355b80f?Signature=TFSaViGaSkrINcHV7DWkC37%2BfhVxYdGVWsxsoLTsTNU%2BYIkR6p2qR5D8JRkyaQ%2B5GAka5X%2FpDatctwCxP4MKAQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "id": "698825c40bae4f15ad953982f2da5b44",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d8d16167f3d941448a69aa1f0ba976d8?Signature=V9pkoxXgYTCRwG4A4b1ClgJmXe5hxbEYYR0gb%2FreRLKlfAp%2FFSeiHC%2F0PkrE5mv2%2FP04tNSBs9%2B76DwJ3%2BxEDg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "id": "60fceec3019242e3bd6961e62b891596",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3b8ece8dac841458896f09eb8b3eaa8?Signature=SkOhjjQ0P67yv095p%2Ffjp9bCuDamvJ4%2B8DvQFUUE5Oei1cxLw0DB%2Fhhxvv1z2j%2FJ4hyMLsEEXaIueuJ5VeL%2FCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "owner": "broker",
+    "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
+    "procurementMethod": "open",
+    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "contractChangeRationaleTypes": {
+      "durationExtension": {
+        "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
+        "title_en": "Clause 4, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Продовження строку дії договору про закупівлю та строку виконання зобов’язань щодо передачі товару, виконання робіт, надання послуг у разі виникнення документально підтверджених об’єктивних обставин, що спричинили таке продовження, у тому числі обставин непереборної сили, затримки фінансування витрат замовника, за умови що такі зміни не призведуть до збільшення суми, визначеної в договорі про закупівлю",
+        "title_uk": "Пункт 4 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "fiscalYearExtension": {
+        "description_en": "Еffect of the procurement contract may be extended for a period sufficient for conduction of the procurement procedure/simplified procurement at the beginning of the next year in volume that does not exceed 20% of the sum specified in the initial procurement contract concluded in the previous year, if expenditures for achieving this goal are approved in the prescribed manner",
+        "title_en": "Part 6 of Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Дія договору про закупівлю може бути продовжена на строк, достатній для проведення процедури закупівлі/спрощеної закупівлі на початку наступного року в обсязі, що не перевищує 20 відсотків суми, визначеної в початковому договорі про закупівлю, укладеному в попередньому році, якщо видатки на досягнення цієї цілі затверджено в установленому порядку",
+        "title_uk": "Частина 6 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "priceClarification": {
+        "description_en": "Drawing up a contract price, specified in accordance with the approved project documentation for the purchase contract, specified in paragraph three of part one of this article",
+        "title_en": "Clause 2, Part 7, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Складання договірної ціни, уточненої відповідно до затвердженої проектної документації до договору про закупівлю, зазначеного в абзаці третьому частини першої цієї статті",
+        "title_uk": "Пункт 2 частини 7 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "itemPriceVariation": {
+        "description_en": "An increase in the price per unit of goods by up to 10 percent in proportion to the increase in the market price of such goods in the event of fluctuations in the market price of such goods, provided that such a change does not lead to an increase in the amount specified in the procurement contract; - no more than once every 90 days from the date of signing the procurement contract/making changes to such a contract regarding an increase in the price per unit of goods. The restriction on the timing of changes in the price per unit of goods does not apply in cases of changes in the terms of the contract for the procurement of gasoline and diesel fuel, natural gas, and electricity",
+        "title_en": "Clause 2, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Збільшення ціни за одиницю товару до 10 відсотків пропорційно збільшенню ціни такого товару на ринку у разі коливання ціни такого товару на ринку за умови, що така зміна не призведе до збільшення суми, визначеної в договорі про закупівлю, - не частіше ніж один раз на 90 днів з моменту підписання договору про закупівлю/внесення змін до такого договору щодо збільшення ціни за одиницю товару. Обмеження щодо строків зміни ціни за одиницю товару не застосовується у випадках зміни умов договору про закупівлю бензину та дизельного пального, природного газу та електричної енергії",
+        "title_uk": "Пункт 2 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "priceReduction": {
+        "description_en": "Аpproval of price changes in the procurement contract in the direction of reduction (without changing the quantity (volume) and quality of goods, works and services), including in case of fluctuations in the price of goods on the market",
+        "title_en": "Clause 5, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Погодження зміни ціни в договорі про закупівлю в бік зменшення (без зміни кількості (обсягу) та якості товарів, робіт і послуг), у тому числі у разі коливання ціни товару на ринку",
+        "title_uk": "Пункт 5 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "qualityImprovement": {
+        "description_en": "Іmprovement of the item's quality, provided that such improvement will not increase the sum of money specified in the procurement contract",
+        "title_en": "Clause 3, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Покращення якості предмета закупівлі, за умови що таке покращення не призведе до збільшення суми, визначеної в договорі про закупівлю",
+        "title_uk": "Пункт 3 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "taxRate": {
+        "description_en": "Changes in the price in the purchase contract due to changes in tax and duty rates and/or changes in the conditions for granting tax benefits - in proportion to the change in such rates and/or tax benefits",
+        "title_en": "Clause 6, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Зміни ціни в договорі про закупівлю у зв’язку зі зміною ставок податків і зборів та/або зміною умов щодо надання пільг з оподаткування - пропорційно до зміни таких ставок та/або пільг з оподаткування",
+        "title_uk": "Пункт 6 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "thirdParty": {
+        "description_en": "Changes in the consumer price index established in accordance with the legislation by state statistics bodies, changes in foreign currency exchange rates, changes in stock market quotes or Platts, ARGUS indicators of regulated prices (tariffs) and standards applied in the procurement contract, if the procurement contract establishes the procedure for changing the price",
+        "title_en": "Clause 7, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Зміни встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників Platts, ARGUS регульованих цін (тарифів) і нормативів, що застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни",
+        "title_uk": "Пункт 7 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      },
+      "volumeCuts": {
+        "description_en": "Reduction of the procurement's volume, particularly taking into account the actual expenditures of the procuring entity",
+        "title_en": "Clause 1, Part 5, Article 41 of the Law of Ukraine dated 25.12.2015 No. 922-VIII \"On Public Procurement\"",
+        "description_uk": "Зменшення обсягів закупівлі, зокрема з урахуванням фактичного обсягу видатків замовника",
+        "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+      }
+    },
+    "submissionMethod": "electronicAuction",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "d9c1c86a51294d9f9e128b780416b344",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true,
+          "amount": 5.0
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-25T12:29:40.230000+03:00",
+          "shouldStartAfter": "2023-10-25T00:00:00+03:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2023-10-10T01:03:00+03:00",
+      "endDate": "2023-10-25T00:00:00+03:00"
+    },
+    "procurementMethodType": "complexAsset.arma",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "name_en": "Kutsa Svitlana V.",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
+    "status": "active.pre-qualification",
+    "enquiryPeriod": {
+      "startDate": "2023-09-10T01:03:00+03:00",
+      "endDate": "2023-09-30T01:03:00+03:00",
+      "clarificationsUntil": "2023-10-14T00:00:00+03:00",
+      "invalidationDate": "2023-10-10T01:00:00+03:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2023-09-10T01:03:00+03:00",
+      "endDate": "2023-10-10T01:03:00+03:00"
+    },
+    "items": [
+      {
+        "id": "537866309f724e778575587e250ccf80",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "faa17eff12e543a79ed9a73e87df078f",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 6.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": true
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+        "deliveryDate": {
+          "startDate": "2023-10-30T00:00:00+02:00",
+          "endDate": "2023-11-29T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "description_en": "Services in school canteens"
+      }
+    ],
+    "awardCriteria": "ratedCriteria",
+    "bids": [
+      {
+        "tenderers": [
+          {
+            "name": "Школяр",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "scale": "micro"
+          }
+        ],
+        "status": "pending",
+        "id": "53778cd7fba344d9ab95e564fbd16ed3",
+        "lotValues": [
+          {
+            "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+            "status": "pending"
+          }
+        ],
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "dbeb22543f584f0aae825088850a0348",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/538464f12cbd43c8bd9b3cbf0f4247f2?Signature=u1B7sYL8z3Ln6DTCRNsAfwcN3Y8vEtNqm5eS1a6lbaxljYs1hfvdrRMmMyqUp6D1Pr4sfiBSn5oRcOBV6JgHCw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "Only our company sells badgers with pink hair.",
+            "id": "87eb0e8f4b06422f8a1aaeafeb93503e",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal_top_secrets.pdf",
+            "format": "application/pdf",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "dbeb22543f584f0aae825088850a0348",
+            "datePublished": "2023-10-10T01:01:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/838ddfbf53c94f7195edd06d7437dca6?Signature=xj54a6QQhciokWFFUNzlPnvpRYdfhALB%2FBdqdMKrR%2BClxnxaR9PHB7vLlf3ZTq%2FpJwzyzuamBqatJ70CgNx%2BBg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:01:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "dbeb22543f584f0aae825088850a0348",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "sign/p7s",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2904c7ae1be649d3bbcd5be047f9b25d?Signature=ocP%2FB42FT6cfbCImWNbNJriJLSXcFRFYfjEvOI2Jcu58crTP4JoV6AUd998PFAAkWoyjG0VSjuc2AA9%2BTyAzBw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          }
+        ],
+        "eligibilityDocuments": [
+          {
+            "confidentiality": "public",
+            "id": "02012fddb60246e0aef90001a741d282",
+            "datePublished": "2023-10-10T01:00:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "eligibility_doc.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a54ae6a4f9784591a3fd46c4dce78726?Signature=qphIPb1y6GuyS14dPCW8EVarVJYbTOsm5XcgUg60mNt0R0Q1NASGz907f6AQOW7Nz8q1x6pObGdJYm0jc367Cw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:00:00+03:00",
+            "language": "uk"
+          }
+        ]
+      },
+      {
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930"
+            },
+            "scale": "sme"
+          }
+        ],
+        "status": "pending",
+        "id": "d460530aeea940e187f1c8e88da5e225",
+        "lotValues": [
+          {
+            "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+            "status": "pending"
+          }
+        ],
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "290791a1fda247828554e65e014a6d12",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73669a2c620c45d9912b60e02682b356?Signature=G1IfJGmwE2PH7pvnTcgNxDWGXWwqTOwQ0Uk9JdR3CoiSC%2FKVQiwMpqzCaWnIHPY%2FIYIqUpslikqaGQx98KgwAA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          }
+        ]
+      },
+      {
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930"
+            },
+            "scale": "sme"
+          }
+        ],
+        "status": "pending",
+        "id": "00c99f2f37594ea98eb9def71cc4b22d",
+        "lotValues": [
+          {
+            "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+            "status": "pending"
+          }
+        ],
+        "documents": [
+          {
+            "confidentiality": "public",
+            "id": "a4c6496b4d6049cfa16cf172cbf15adb",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal_part1.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3da35c056a0b4b43952d0ecbf914fc15?Signature=NKWI4ugkCjb%2Bc8Nf233WH3Hatz9zb9iOtkbydQsMRybg8aup%2FVFNjZl3OKADkSYqH4qBKXOPWwpEl1LrXPNICA%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "public",
+            "id": "bfd8f9424cd24782b75eeef08eaa3f2d",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "Proposal_part2.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ea295d5d35b423fa4348824a0a8422f?Signature=bgYRIF2Gvsw2FE2ElxUz%2FQcoQhbNYODuPnGryDEtfiCTzERejibJ0c%2BoYw%2BdirQDWVUYHpLqUcTC1aIvQGYODQ%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          },
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "19251a5cb3174433ac06122d0815b804",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aad3c0f56ceb4a8eb64a1293c64ffbb2?Signature=jjZM8RpEHFPgaeixb0p7%2Bx5oZBXJun4HVISigzBVzLep3xNOEWU2NWxCDifRj5VTwm1AqaKnYvvH9GS3hdebAw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          }
+        ],
+        "eligibilityDocuments": [
+          {
+            "confidentiality": "public",
+            "id": "6400246f63a04a4ba5109df632b0811e",
+            "datePublished": "2023-10-10T01:03:00+03:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "eligibility_doc.pdf",
+            "format": "application/pdf",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/de26f3bd29214a70b4dadeb8861e79e2?Signature=z79UHn9n%2FD1jVJ40V1mKr31XMTE1wSyPKvLppaDO0DpyIWUiNfpLxE2ctSeKtX2N3s3xZJ7k13yy21sEbqEzBQ%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2023-10-10T01:03:00+03:00",
+            "language": "uk"
+          }
+        ]
+      }
+    ],
+    "qualifications": [
+      {
+        "id": "c29c905d6d9049b086108508281cfcf0",
+        "bidID": "53778cd7fba344d9ab95e564fbd16ed3",
+        "lotID": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "pending",
+        "date": "2023-10-10T01:03:00+03:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "408057cd725c4451982e0a42bfc03b5e",
+        "bidID": "d460530aeea940e187f1c8e88da5e225",
+        "lotID": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "pending",
+        "date": "2023-10-10T01:03:00+03:00",
+        "qualified": false,
+        "eligible": false
+      },
+      {
+        "id": "2896d1591f314d42865277bf08da65ea",
+        "bidID": "00c99f2f37594ea98eb9def71cc4b22d",
+        "lotID": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "pending",
+        "date": "2023-10-10T01:03:00+03:00",
+        "qualified": false,
+        "eligible": false
+      }
+    ],
+    "id": "d9668d8fd5d14779905c208c929e49bc"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": false,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true,
+    "minBidsNumber": 2,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "hasValueEstimation": false,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 5,
+    "qualificationDuration": 10,
+    "minTenderingDuration": 20,
+    "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 10,
+    "restricted": false
+  }
+}
+

@@ -1,0 +1,53 @@
+GET /api/2.5/tenders/d9668d8fd5d14779905c208c929e49bc/documents HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentiality": "public",
+      "documentType": "notice",
+      "id": "1e54fe5afdfd4a17999100cbf30e424e",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "sign.p7s",
+      "format": "application/pkcs7-signature",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4e663a08f75a4dcd93c884221b53761c?Signature=fFid5irMDeuYCSm8AyopbowsXU01KbROImd1wPSajrgzLBsvSlG5LlgVlwJBjKc0B8p%2F9EG1QlquP4b8FOhDDQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "id": "60fceec3019242e3bd6961e62b891596",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "AwardCriteria.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f3b8ece8dac841458896f09eb8b3eaa8?Signature=SkOhjjQ0P67yv095p%2Ffjp9bCuDamvJ4%2B8DvQFUUE5Oei1cxLw0DB%2Fhhxvv1z2j%2FJ4hyMLsEEXaIueuJ5VeL%2FCw%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "AwardCriteria.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d8d16167f3d941448a69aa1f0ba976d8?Signature=V9pkoxXgYTCRwG4A4b1ClgJmXe5hxbEYYR0gb%2FreRLKlfAp%2FFSeiHC%2F0PkrE5mv2%2FP04tNSBs9%2B76DwJ3%2BxEDg%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "698825c40bae4f15ad953982f2da5b44",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner"
+    }
+  ]
+}
+

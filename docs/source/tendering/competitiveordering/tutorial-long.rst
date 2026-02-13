@@ -76,7 +76,7 @@
 Звернення
 ---------
 
-Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enqueryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:
+Поки тендерна пропозиція має статус ``active.tendering``, а момент ``Tender.enquiryPeriod.endDate`` ще не настав, зацікавлені сторони можуть подавати звернення:
 
 .. http:example:: http/long/ask-question.http
    :code:

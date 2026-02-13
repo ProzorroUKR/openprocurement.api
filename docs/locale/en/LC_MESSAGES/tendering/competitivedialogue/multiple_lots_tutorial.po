@@ -88,7 +88,7 @@ msgstr "Procuring entity approves qualifications by switching to next status."
 msgid "Перед схваленням рішення необхідно додати файл підпису до тендеру. Файл підпису повинен бути доданий до тендеру загалом. Якщо нема файлу підпису під час схвалення кваліфікації, ми побачимо помилку:"
 msgstr "Before approving qualifications it is required to add sign document to tender. Sign doc should be added generally for tender. If there is no sign document during approving qualification, we will see an error:"
 
-msgid "Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
+msgid "Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
 msgstr "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:"
 
 msgid "Ще раз схвалимо кваліфікацію заявок:"

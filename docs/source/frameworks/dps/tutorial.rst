@@ -268,7 +268,7 @@
 .. http:example:: tutorial/evaluation-reports-document-required-for-cancelling.http
    :code:
 
-Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/add-evaluation-reports-document-for-cancelling.http
    :code:
@@ -295,7 +295,7 @@
 .. http:example:: tutorial/evaluation-reports-document-required.http
    :code:
 
-Файд підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
+Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
 
 .. http:example:: tutorial/add-evaluation-reports-document.http
    :code:
