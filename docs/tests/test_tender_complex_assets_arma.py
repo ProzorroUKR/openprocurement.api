@@ -36,11 +36,15 @@ bid3.update(test_docs_qualified)
 for b in [bid, bid2, bid3]:
     for x in b["tenderers"]:
         x.pop("signerInfo", None)
+    b["value"].pop("amount", None)
+    b["value"]["amountPercentage"] = 40
 
-test_lots[0]["value"] = test_tender_data["value"]
-test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
-test_lots[1]["value"] = test_tender_data["value"]
-test_lots[1]["minimalStep"] = {"amount": 5, "currency": "UAH"}
+test_lots[0]["value"] = {"amountPercentage": 40}
+# todo: uncomment when auction is availabe
+# test_lots[0]["minimalStep"] = {"amountPercentage": 5}
+test_lots[1]["value"] = {"amountPercentage": 40}
+# todo: uncomment when auction is availabe
+# test_lots[1]["minimalStep"] ={"amountPercentage": 5}
 
 BASE_DIR = "docs/source/tendering/arma/"
 TARGET_DIR = BASE_DIR + "complexAsset/http/tutorial/"
@@ -679,7 +683,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                         {
                             "id": b["id"],
                             "lotValues": [
-                                {"value": lot["value"], "relatedLot": lot["relatedLot"]} for lot in b["lotValues"]
+                                {"value": {"amount": lot["value"]["amountPercentage"]}, "relatedLot": lot["relatedLot"]}
+                                for lot in b["lotValues"]
                             ],
                         }
                         for b in auction_bids_data

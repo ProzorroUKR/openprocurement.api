@@ -9,6 +9,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "c11a79964fb8409586e9d9ee9b32a048",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "value": {
@@ -42,12 +43,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens",
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
         "id": "deef5391f86241b0b0a89b4257997238",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "value": {
@@ -81,7 +82,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens",
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
     ]
@@ -158,33 +158,6 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "submissionMethod": "electronicAuction",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "d9c1c86a51294d9f9e128b780416b344",
-        "date": "2023-10-10T01:00:00+03:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amount": 5.0
-        },
-        "auctionPeriod": {
-          "startDate": "2023-11-22T13:09:55.701000+02:00",
-          "shouldStartAfter": "2023-11-22T00:00:00+02:00"
-        }
-      }
-    ],
     "qualificationPeriod": {
       "startDate": "2023-11-08T00:00:00+02:00",
       "endDate": "2023-11-22T00:00:00+02:00"
@@ -229,6 +202,7 @@ Content-Type: application/json
       {
         "id": "c11a79964fb8409586e9d9ee9b32a048",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "value": {
@@ -262,12 +236,12 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
+        }
       },
       {
         "id": "deef5391f86241b0b0a89b4257997238",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "value": {
@@ -301,15 +275,26 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
+        }
       }
     ],
     "awardCriteria": "ratedCriteria",
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "d9c1c86a51294d9f9e128b780416b344",
+        "date": "2023-10-10T01:00:00+03:00",
+        "value": {
+          "amountPercentage": 40.0
+        }
+      }
+    ],
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {
-    "hasAuction": true,
+    "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,

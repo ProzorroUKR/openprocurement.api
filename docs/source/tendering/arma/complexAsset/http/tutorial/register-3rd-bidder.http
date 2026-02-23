@@ -72,7 +72,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "lotValues": [
       {
         "value": {
-          "amount": 499
+          "amountPercentage": 40
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
@@ -116,9 +116,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
       {
         "status": "pending",
         "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "amountPercentage": 40.0
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
         "date": "2023-10-10T01:03:00+03:00"

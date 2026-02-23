@@ -10,9 +10,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "title": "Послуги шкільних їдалень",
     "procurementMethodType": "complexAsset.arma",
-    "value": {
-      "currency": "UAH"
-    },
     "procuringEntity": {
       "kind": "general",
       "address": {
@@ -116,18 +113,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "value": {
-          "currency": "UAH"
-        },
-        "minimalStep": {
-          "amount": 5,
-          "currency": "UAH"
+          "amountPercentage": 40
         },
         "id": "d9c1c86a51294d9f9e128b780416b344"
       }
     ]
   },
   "config": {
-    "hasAuction": true,
+    "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,
@@ -162,32 +155,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
   "data": {
     "mainProcurementCategory": "services",
     "title": "Послуги шкільних їдалень",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "id": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "active",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": true
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "amount": 5.0,
-          "valueAddedTaxIncluded": true
-        },
-        "date": "2023-10-10T01:00:00+03:00",
-        "auctionPeriod": {
-          "shouldStartAfter": "2023-11-22T00:00:00+02:00",
-          "startDate": "2023-11-22T13:09:55.701000+02:00"
-        }
-      }
-    ],
     "procurementMethodType": "complexAsset.arma",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -223,6 +190,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
       {
         "id": "c11a79964fb8409586e9d9ee9b32a048",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "value": {
@@ -255,12 +223,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
+        }
       },
       {
         "id": "deef5391f86241b0b0a89b4257997238",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "value": {
@@ -293,15 +261,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
+        }
       }
     ],
     "awardCriteria": "ratedCriteria",
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "id": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "active",
+        "value": {
+          "amountPercentage": 40.0
+        },
+        "date": "2023-10-10T01:00:00+03:00"
+      }
+    ],
     "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
-    "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-29T00:00:00+03:00",
@@ -373,7 +351,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {
-    "hasAuction": true,
+    "hasAuction": false,
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,
