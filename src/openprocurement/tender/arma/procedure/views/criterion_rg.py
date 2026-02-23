@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.views.criterion_rg import (
 
 
 @resource(
-    name="complexAsset.arma:Criteria Requirement Group",
+    name=f"{COMPLEX_ASSET_ARMA}:Criteria Requirement Group",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups",
     path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

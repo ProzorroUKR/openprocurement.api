@@ -23,7 +23,7 @@ from openprocurement.tender.core.procedure.views.award_milestone import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Milestones",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Milestones",
     collection_path="/tenders/{tender_id}/awards/{award_id}/milestones",
     path="/tenders/{tender_id}/awards/{award_id}/milestones/{milestone_id}",
     description="Tender award milestones",

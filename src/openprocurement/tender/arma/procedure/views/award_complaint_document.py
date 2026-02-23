@@ -10,7 +10,7 @@ from openprocurement.tender.openua.procedure.state.award_complaint_document impo
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Complaint Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Complaint Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

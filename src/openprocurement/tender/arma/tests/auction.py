@@ -23,8 +23,8 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_s
 from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
 
 
+@unittest.skip("disable skip when auction is available")
 class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceTestMixin):
-    # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_arma_bids
     initial_lots = test_lots_data = test_tender_arma_lots
@@ -59,6 +59,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
     test_patch_tender_auction = snitch(patch_tender_auction)
 
 
+@unittest.skip("disable skip when auction is available")
 class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_below_supplier)

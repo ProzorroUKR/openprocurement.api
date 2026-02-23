@@ -52,7 +52,8 @@ def generate_contract_value(award, multi_contracts=False):
         if multi_contracts:
             value["amountNet"], value["amount"] = 0, 0
         else:
-            value["amountNet"] = value["amount"]
+            # todo: this is a temporary hack for ARMA, fix when contracting is available
+            value["amountNet"] = value.get("amount") or value.get("amountPercentage")
         return value
     return None
 

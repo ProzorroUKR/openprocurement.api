@@ -350,6 +350,7 @@ TENDER_CRITERIA_RULES = {
     "priceQuotation": load_criteria_rules("priceQuotation", constants_env),
     "reporting": load_criteria_rules("reporting", constants_env),
     "simple.defense": load_criteria_rules("simple.defense", constants_env),
+    "complexAsset.arma": load_criteria_rules("complexAsset.arma", constants_env),
 }
 
 # Auction plannning configuration

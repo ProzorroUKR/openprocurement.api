@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.views.award_complaint_post import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Complaint Posts",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Complaint Posts",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/posts/{post_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

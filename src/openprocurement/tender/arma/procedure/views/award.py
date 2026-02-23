@@ -26,7 +26,7 @@ from openprocurement.tender.core.procedure.views.award import TenderAwardResourc
 
 
 @resource(
-    name="complexAsset.arma:Tender Awards",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Awards",
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender awards",

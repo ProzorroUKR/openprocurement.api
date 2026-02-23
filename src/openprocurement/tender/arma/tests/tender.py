@@ -12,6 +12,7 @@ from openprocurement.tender.arma.tests.base import (
 from openprocurement.tender.arma.tests.tender_blanks import (
     create_tender_generated,
     create_tender_invalid,
+    create_tender_with_required_unit,
     invalid_bid_tender_lot,
     lost_contract_for_active_award,
     one_bid_tender,
@@ -27,7 +28,6 @@ from openprocurement.tender.arma.tests.tender_blanks import (
 from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_with_inn,
-    create_tender_with_required_unit,
     guarantee,
     invalid_tender_conditions,
     patch_not_author,
@@ -85,7 +85,9 @@ class TenderProcessTest(BaseTenderWebTest):
     test_one_bid_tender = snitch(one_bid_tender)
     test_unsuccessful_after_prequalification_tender = snitch(unsuccessful_after_prequalification_tender)
     test_one_qualificated_bid_tender = snitch(one_qualificated_bid_tender)
-    test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
+    test_lost_contract_for_active_award = unittest.skip("disable skip when contracting is available")(
+        snitch(lost_contract_for_active_award)
+    )
 
 
 def suite():

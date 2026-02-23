@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.views.qualification_complaint_post im
 
 
 @resource(
-    name="complexAsset.arma:Tender Qualification Complaint Posts",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Complaint Posts",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}/posts/{post_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

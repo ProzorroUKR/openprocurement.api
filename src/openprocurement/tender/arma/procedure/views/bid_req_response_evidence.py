@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
 
 
 @resource(
-    name="complexAsset.arma:Bid Requirement Response Evidence",
+    name=f"{COMPLEX_ASSET_ARMA}:Bid Requirement Response Evidence",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences",
     path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences/{evidence_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.views.chronograph import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Chronograph",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Chronograph",
     path="/tenders/{tender_id}/chronograph",
     procurementMethodType=COMPLEX_ASSET_ARMA,
     description="Tender chronograph",

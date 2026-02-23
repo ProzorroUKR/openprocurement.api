@@ -19,7 +19,7 @@ from openprocurement.tender.core.procedure.views.qualification_complaint import 
 
 
 @resource(
-    name="complexAsset.arma:Tender Qualification Complaints Get",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Complaints Get",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -31,7 +31,7 @@ class QualificationClaimAndComplaintGetResource(QualificationComplaintGetResourc
 
 
 @resource(
-    name="complexAsset.arma:Tender Qualification Claims",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Claims",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -44,7 +44,7 @@ class QualificationClaimResource(BaseQualificationClaimResource):
 
 
 @resource(
-    name="complexAsset.arma:Tender Qualification Complaints",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Complaints",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

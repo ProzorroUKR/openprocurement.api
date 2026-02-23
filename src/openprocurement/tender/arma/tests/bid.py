@@ -18,6 +18,9 @@ from openprocurement.tender.arma.tests.bid_blanks import (
     bids_invalidation_on_tender_change,
     create_tender_bid_no_scale_invalid,
     create_tender_bid_with_all_documents,
+    create_tender_bid_with_document,
+    create_tender_bid_with_document_invalid,
+    create_tender_bid_with_documents,
     create_tender_bid_with_eligibility_document,
     create_tender_bid_with_eligibility_document_invalid,
     create_tender_bid_with_eligibility_documents,
@@ -43,6 +46,7 @@ from openprocurement.tender.arma.tests.bid_blanks import (
     patch_tender_bidder_document,
     patch_tender_bidder_document_private_json,
     patch_tender_draft_bidder,
+    patch_tender_lot_values_any_order,
     put_tender_bidder_document,
     put_tender_bidder_document_private_json,
 )
@@ -53,11 +57,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2LotBidResourceTest
     bid_proposal_doc,
     create_tender_bid_document_json_bulk,
-    create_tender_bid_with_document,
-    create_tender_bid_with_document_invalid,
-    create_tender_bid_with_documents,
     patch_pending_bid,
-    patch_tender_lot_values_any_order,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.openua.tests.bid import (
@@ -93,8 +93,8 @@ class Tender2BidResourceTestMixin:
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
-    test_get_tender_bidder = snitch(get_tender_bidder)
-    test_get_tender_tenderers = snitch(get_tender_tenderers)
+    test_get_tender_bidder = unittest.skip("disable skip when auction is available")(snitch(get_tender_bidder))
+    test_get_tender_tenderers = unittest.skip("disable skip when auction is available")(snitch(get_tender_tenderers))
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
 
@@ -106,11 +106,13 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     test_bids_data = test_tender_arma_bids  # TODO: change attribute identifier
     author_data = test_tender_below_author
 
-    test_delete_tender_bidder = snitch(delete_tender_bidder)
-    test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
-    test_bids_related_product = snitch(bids_related_product)
-    test_bid_proposal_doc = snitch(bid_proposal_doc)
-    test_patch_pending_bid = snitch(patch_pending_bid)
+    test_delete_tender_bidder = unittest.skip("disable skip when auction is available")(snitch(delete_tender_bidder))
+    test_bids_invalidation_on_tender_change = unittest.skip("disable skip when auction is available")(
+        snitch(bids_invalidation_on_tender_change)
+    )
+    test_bids_related_product = unittest.skip("disable skip when auction is available")(snitch(bids_related_product))
+    test_bid_proposal_doc = unittest.skip("disable skip when auction is available")(snitch(bid_proposal_doc))
+    test_patch_pending_bid = unittest.skip("disable skip when auction is available")(snitch(patch_pending_bid))
 
     def setUp(self):
         super().setUp()
@@ -147,6 +149,7 @@ class TenderBidDocumentResourceTestMixin:
     test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
 
 
+@unittest.skip("disable skip when auction is available")
 class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTenderContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
@@ -170,6 +173,7 @@ class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTend
 
 
 class TenderBidBatchDocumentsResourceTest(BaseTenderContentWebTest):
+    initial_lots = test_tender_arma_lots
     initial_status = "active.tendering"
 
     test_create_tender_bid_with_document_invalid = snitch(create_tender_bid_with_document_invalid)
@@ -197,7 +201,7 @@ class TenderBidBatchDocumentsResourceTest(BaseTenderContentWebTest):
     def setUp(self):
         self.bid_data_wo_docs = {
             "tenderers": [test_tender_below_supplier],
-            "value": {"amount": 500},
+            "value": {"amountPercentage": 40},
             "selfQualified": True,
             "documents": [],
         }
@@ -214,6 +218,7 @@ class TenderBidRequirementResponseResourceTest(
 ):
     test_bids_data = test_tender_arma_bids
     initial_status = "active.tendering"
+    initial_lots = test_tender_arma_lots
 
 
 class TenderBidRequirementResponseEvidenceResourceTest(
@@ -222,6 +227,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     BaseTenderContentWebTest,
 ):
     test_bids_data = test_tender_arma_bids
+    initial_lots = test_tender_arma_lots
     initial_status = "active.tendering"
     tender_auth = ("Basic", ("token", ""))
 

@@ -38,7 +38,7 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name="complexAsset.arma:Tender Bids",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Bids",
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

@@ -39,7 +39,7 @@ def validate_award_document_tender_not_in_allowed_tender_status(request, allowed
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

@@ -33,7 +33,7 @@ validate_tender_document_operation_in_allowed_tender_statuses = validate_documen
 
 
 @resource(
-    name="complexAsset.arma:Tender Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

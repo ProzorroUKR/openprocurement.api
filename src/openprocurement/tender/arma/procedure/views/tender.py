@@ -33,7 +33,7 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
 @resource(
-    name="complexAsset.arma:Tenders",
+    name=f"{COMPLEX_ASSET_ARMA}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -85,3 +85,8 @@ class TenderResource(TendersResource):
     )
     def patch(self):
         return super().patch()
+
+    @json_view(permission="view_tender")
+    def get(self):
+        # todo: if auction - serialize value for auction
+        return super().get()

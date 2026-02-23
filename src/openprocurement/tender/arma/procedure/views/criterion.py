@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.views.criterion import BaseCriterionR
 
 
 @resource(
-    name="complexAsset.arma:Tender Criteria",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Criteria",
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

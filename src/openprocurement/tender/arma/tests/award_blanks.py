@@ -421,7 +421,7 @@ def patch_tender_lot_award(self):
     response = self.app.get("/tenders/{}/awards/{}".format(self.tender_id, self.award_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["value"]["amount"], self.expected_award_amount)
+    self.assertEqual(response.json["data"]["value"]["amountPercentage"], self.expected_award_amount)
 
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),

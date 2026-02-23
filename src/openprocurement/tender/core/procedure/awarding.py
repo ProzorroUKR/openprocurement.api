@@ -35,6 +35,7 @@ class TenderStateAwardingMixing:
     # Bids are sorted by this key on awarding stage
     # Most procedures use "amount" key
     # esco procedure uses "amountPerformance" key
+    # ARMA procedure uses "amountPercentage" key
     awarding_criteria_key: str = "amount"
 
     # Default configuration for awarding is reversed (from lower to higher)
@@ -48,6 +49,8 @@ class TenderStateAwardingMixing:
 
     award_period_duration: int = 5
     alp_due_date_period: timedelta = timedelta(days=1)
+    # ARMA procedure uses "amountPercentage" key
+    alp_amount_key: str = "amount"
 
     def on_auction_results(self, tender, lot_id=None):
         if lot_id:
@@ -310,7 +313,7 @@ class TenderStateAwardingMixing:
             before_auction_bids,
             lot_id=lot_id,
         )
-        initial_amounts = {b["id"]: float(b["value"]["amount"]) for b in before_auction_bids}
+        initial_amounts = {b["id"]: float(b["value"][self.alp_amount_key]) for b in before_auction_bids}
         initial_values = [initial_amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id]
         mean_value = sum(initial_values) / float(len(initial_values))
         return mean_value
@@ -338,7 +341,7 @@ class TenderStateAwardingMixing:
 
         if len(all_bids) > 1:
             reasons = []
-            amount = bid["value"]["amount"]
+            amount = bid["value"][self.alp_amount_key]
 
             #  1st criteria
             mean_value = self.get_mean_value_tendering_bids(
@@ -362,7 +365,7 @@ class TenderStateAwardingMixing:
             following_index = index + 1
             if following_index < len(all_bids):  # selected bid has the following one
                 following_bid = all_bids[following_index]
-                following_amount = following_bid["value"]["amount"]
+                following_amount = following_bid["value"][self.alp_amount_key]
                 if following_amount and ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
                     reasons.append(ALP_MILESTONE_REASONS[1])
             if reasons:
@@ -420,6 +423,12 @@ class TenderStateAwardingMixing:
         tender["awards"].append(award.serialize())
 
     @classmethod
+    def set_weighted_value(cls, weighted_value, value_container, value_amount):
+        weighted_value[cls.awarding_criteria_key] = round(value_amount, 2)
+        weighted_value["currency"] = value_container["value"]["currency"]
+        return weighted_value
+
+    @classmethod
     def calc_weighted_value(cls, tender: dict, bid: dict, value_container: dict, lot_id: str = None) -> Optional[dict]:
         value = value_container.get("value", {})
 
@@ -449,9 +458,7 @@ class TenderStateAwardingMixing:
             weighted_value["addition"] = round(addition, 2)
 
         if weighted_value:
-            weighted_value[cls.awarding_criteria_key] = round(value_amount, 2)
-            weighted_value["currency"] = value_container["value"]["currency"]
-            return weighted_value
+            return cls.set_weighted_value(weighted_value, value_container, value_amount)
 
         return None
 

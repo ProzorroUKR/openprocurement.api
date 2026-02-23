@@ -16,7 +16,7 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
 
 
 @resource(
-    name="complexAsset.arma:Tender Auction",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Auction",
     collection_path="/tenders/{tender_id}/auction",
     path="/tenders/{tender_id}/auction/{auction_lot_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -33,6 +33,7 @@ class AuctionResource(TenderAuctionResource):
         ),
     )
     def collection_post(self):
+        # todo: add backwards serialization from auction data
         return super().collection_post()
 
     @json_view(
@@ -44,4 +45,5 @@ class AuctionResource(TenderAuctionResource):
         ),
     )
     def post(self):
+        # todo: add backwards serialization from auction data
         return super().post()
