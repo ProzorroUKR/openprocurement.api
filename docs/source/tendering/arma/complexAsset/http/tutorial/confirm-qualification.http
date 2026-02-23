@@ -69,7 +69,7 @@ Content-Type: application/json
     "qualified": true,
     "eligible": true,
     "value": {
-      "amountPercentage": 40.0
+      "amountPercentage": 50.0
     }
   }
 }

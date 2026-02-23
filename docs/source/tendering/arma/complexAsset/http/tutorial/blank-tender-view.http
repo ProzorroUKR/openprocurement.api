@@ -127,14 +127,22 @@ Content-Type: application/json
         "id": "d9c1c86a51294d9f9e128b780416b344",
         "status": "active",
         "value": {
-          "amountPercentage": 40.0
+          "amountPercentage": 50.0
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "minimalStep": {
+          "amountPercentage": 1
+        },
+        "date": "2023-10-10T01:00:00+03:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2023-11-22T00:00:00+02:00",
+          "startDate": "2023-11-22T13:09:55.701000+02:00"
+        }
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
+    "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2023-10-29T00:00:00+03:00",
@@ -206,7 +214,7 @@ Content-Type: application/json
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {
-    "hasAuction": false,
+    "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,

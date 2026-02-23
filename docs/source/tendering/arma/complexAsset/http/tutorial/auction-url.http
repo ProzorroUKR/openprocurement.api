@@ -397,6 +397,7 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
+    "submissionMethod": "electronicAuction",
     "qualificationPeriod": {
       "startDate": "2023-09-25T01:03:00+03:00",
       "endDate": "2023-10-10T01:03:00+03:00",
@@ -557,20 +558,24 @@ Content-Type: application/json
         "id": "d9c1c86a51294d9f9e128b780416b344",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amountPercentage": 40.0
+          "amountPercentage": 50.0
+        },
+        "minimalStep": {
+          "amountPercentage": 1
         },
         "auctionPeriod": {
-          "startDate": "2023-10-10T01:03:00+03:00"
+          "startDate": "2023-10-11T15:28:52.219000+03:00",
+          "shouldStartAfter": "2023-10-11T00:00:00+03:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0c99535af6024017bcbdec7b4a5c49da_d9c1c86a51294d9f9e128b780416b344"
       }
     ],
-    "next_check": "2023-10-10T02:39:00+03:00",
+    "next_check": "2023-10-11T15:28:52.219000+03:00",
     "auctionPeriod": {},
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {
-    "hasAuction": false,
+    "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,
