@@ -56,17 +56,13 @@ class TenderLotEdgeCasesTestMixin:
 )
 class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin, TenderLotValueTestMixin):
     initial_auth = ("Basic", ("broker", ""))
-    initial_lots = test_lots_data = test_tender_arma_lots  # TODO: change attribute identifier
+    initial_lots = test_lots_data = test_tender_arma_lots
     initial_data = test_tender_arma_data
 
-    test_get_tender_lot = unittest.skip("disable skip when auction is available")(snitch(get_tender_lot))
-    test_get_tender_lots = unittest.skip("disable skip when auction is available")(snitch(get_tender_lots))
-    test_create_tender_lot_minimalstep_validation = unittest.skip("disable skip when auction is available")(
-        snitch(create_tender_lot_minimalstep_validation)
-    )
-    test_patch_tender_lot_minimalstep_validation = unittest.skip("disable skip when auction is available")(
-        snitch(patch_tender_lot_minimalstep_validation)
-    )
+    test_get_tender_lot = snitch(get_tender_lot)
+    test_get_tender_lots = snitch(get_tender_lots)
+    test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
+    test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
     test_patch_tender_currency = None
     test_patch_tender_vat = None
@@ -84,7 +80,7 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_arma_lots
     initial_auth = ("Basic", ("broker", ""))
 
-    test_bids_data = test_tender_arma_bids  # TODO: change attribute identifier
+    test_bids_data = test_tender_arma_bids
 
     test_create_tender_bidder_invalid = snitch(create_tender_bidder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
@@ -99,21 +95,23 @@ class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
 
     initial_data = test_tender_arma_data
 
-    test_lots_data = test_tender_arma_lots  # TODO: change attribute identifier
-    test_bids_data = test_tender_arma_bids  # TODO: change attribute identifier
+    test_lots_data = test_tender_arma_lots
+    test_bids_data = test_tender_arma_bids
 
     days_till_auction_starts = 16
 
     test_1lot_1bid = snitch(one_lot_1bid)
     test_1lot_2bid_1unqualified = snitch(one_lot_2bid_1unqualified)
-    test_1lot_2bid = unittest.skip("disable skip when auction is available")(snitch(one_lot_2bid))
+    test_1lot_2bid = unittest.skip("disable skip when contracting is available")(snitch(one_lot_2bid))
     test_2lot_2bid_1lot_del = snitch(two_lot_2bid_1lot_del)
-    test_1lot_3bid_1del = unittest.skip("disable skip when auction is available")(snitch(one_lot_3bid_1del))
-    test_1lot_3bid_1un = unittest.skip("disable skip when auction is available")(snitch(one_lot_3bid_1un))
+    test_1lot_3bid_1del = unittest.skip("disable skip when contracting is available")(snitch(one_lot_3bid_1del))
+    test_1lot_3bid_1un = unittest.skip("disable skip when contracting is available")(snitch(one_lot_3bid_1un))
     test_2lot_1can = snitch(two_lot_1can)
     test_2lot_2bid_0com_1can = snitch(two_lot_2bid_0com_1can)
-    test_2lot_2bid_2com_2win = unittest.skip("disable skip when auction is available")(snitch(two_lot_2bid_2com_2win))
-    test_2lot_3bid_1win_bug = unittest.skip("disable skip when auction is available")(snitch(two_lot_3bid_1win_bug))
+    test_2lot_2bid_2com_2win = unittest.skip("disable skip when contracting is available")(
+        snitch(two_lot_2bid_2com_2win)
+    )
+    test_2lot_3bid_1win_bug = unittest.skip("disable skip when contracting is available")(snitch(two_lot_3bid_1win_bug))
 
 
 def suite():

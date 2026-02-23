@@ -109,43 +109,29 @@ def create_tender_lot_invalid(self):
             "data": {
                 "title": "lot title",
                 "description": "lot description",
-                "value": {"amountPercentage": 40},
+                "value": {"amountPercentage": 50},
+                "minimalStep": {"amountPercentage": 51},
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Minimal step value should be less than lot value", "location": "body", "name": "lots"}],
+    )
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": {
+                "title": "lot title",
+                "description": "lot description",
+                "value": {"amountPercentage": 50},
+                "minimalStep": {"amountPercentage": 39},
             }
         },
     )
     self.assertEqual(response.status, "201 Created")
-    # todo: enable this when auction is available
-    # response = self.app.post_json(
-    #     request_path,
-    #     {
-    #         "data": {
-    #             "title": "lot title",
-    #             "description": "lot description",
-    #             "value": {"amountPercentage": 40},
-    #             "minimalStep": {"amountPercentage": 41},
-    #         }
-    #     },
-    #     status=422,
-    # )
-    # self.assertEqual(response.status, "422 Unprocessable Entity")
-    # self.assertEqual(
-    #     response.json["errors"],
-    #     [
-    #
-    #     ],
-    # )
-    # response = self.app.post_json(
-    #     request_path,
-    #     {
-    #         "data": {
-    #             "title": "lot title",
-    #             "description": "lot description",
-    #             "value": {"amountPercentage": 40},
-    #             "minimalStep": {"amountPercentage": 39},
-    #         }
-    #     },
-    # )
-    # self.assertEqual(response.status, "201 Created")
 
     response = self.app.get(request_path)
     self.assertEqual(response.content_type, "application/json")
@@ -392,7 +378,7 @@ def create_tender_bidder_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "lotValues"}],
     )
 
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 40}}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 50}}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -412,7 +398,7 @@ def create_tender_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 40}, "relatedLot": "0" * 32}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 50}, "relatedLot": "0" * 32}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -432,7 +418,7 @@ def create_tender_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 41}, "relatedLot": self.initial_lots[0]["id"]}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 51}, "relatedLot": self.initial_lots[0]["id"]}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -453,7 +439,7 @@ def create_tender_bidder_invalid(self):
     )
 
     bid_data["value"] = {"amount": 500}
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 40}, "relatedLot": self.initial_lots[0]["id"]}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 50}, "relatedLot": self.initial_lots[0]["id"]}]
 
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -468,7 +454,7 @@ def create_tender_bidder_invalid(self):
 def patch_tender_bidder(self):
     lot_id = self.initial_lots[0]["id"]
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 40}, "relatedLot": lot_id}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}]
     del bid_data["value"]
 
     bidder, bid_token = self.create_bid(self.tender_id, bid_data)
@@ -493,7 +479,7 @@ def patch_tender_bidder(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
         {
             "data": {
-                "lotValues": [{**lot_values[0], "value": {"amountPercentage": 40}, "relatedLot": lot_id}],
+                "lotValues": [{**lot_values[0], "value": {"amountPercentage": 50}, "relatedLot": lot_id}],
                 "tenderers": self.test_bids_data[0]["tenderers"],
             }
         },
@@ -523,7 +509,7 @@ def patch_tender_bidder(self):
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
         {
             "data": {
-                "lotValues": [{**lot_values[0], "value": {"amountPercentage": 40}, "relatedLot": lot_id}],
+                "lotValues": [{**lot_values[0], "value": {"amountPercentage": 50}, "relatedLot": lot_id}],
                 "status": "active",
             }
         },
@@ -553,7 +539,7 @@ def create_tender_feature_bidder_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
 
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 40}}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 50}}]
 
     response = self.app.post_json(
         request_path,
@@ -574,7 +560,7 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 40}, "relatedLot": "0" * 32}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 50}, "relatedLot": "0" * 32}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -594,7 +580,7 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amountPercentage": 41}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amountPercentage": 51}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -687,7 +673,7 @@ def create_tender_feature_bidder(self):
     del bid_data["value"]
     bid_data.update(
         {
-            "lotValues": [{"value": {"amountPercentage": 40}, "relatedLot": self.lot_id}],
+            "lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": self.lot_id}],
             "parameters": [
                 {"code": "code_item", "value": 0.01},
                 {"code": "code_tenderer", "value": 0.01},
@@ -1985,7 +1971,7 @@ def patch_tender_lot_minimalstep_validation(self):
     ):
         response = self.app.patch_json(
             "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
-            {"data": {"minimalStep": {**lot["minimalStep"], "amount": 100.0}}},
+            {"data": {"minimalStep": {**lot["minimalStep"], "amountPercentage": 1}}},
             status=200,
         )
         self.assertEqual(response.status, "200 OK")

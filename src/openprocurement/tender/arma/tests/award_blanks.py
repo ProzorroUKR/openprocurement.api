@@ -673,3 +673,144 @@ def prolongation_award(self):
         response.json["errors"][0],
         {"location": "body", "name": "code", "description": ["Value must be one of ['24h']."]},
     )
+
+
+def award_sign(self):
+    auth = self.app.authorization
+    self.app.authorization = ("Basic", ("token", ""))
+    request_path = "/tenders/{}/awards".format(self.tender_id)
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": {
+                "suppliers": [test_tender_below_supplier],
+                "status": "pending",
+                "bid_id": self.initial_bids[0]["id"],
+                "lotID": self.initial_lots[0]["id"],
+                "value": {"amountPercentage": 50},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award = response.json["data"]
+
+    self.app.authorization = auth
+    # try to make unsuccessful award without sign
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'notice' and format pkcs7-signature is required",
+    )
+
+    # add sign doc
+    doc_id = self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents").json[
+        "data"
+    ]["id"]
+
+    # try to add another sign
+    request_body = {
+        "data": {
+            "title": "sign.p7s",
+            "documentType": "notice",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "sign/pkcs7-signature",
+        }
+    }
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award['id']}/documents?acc_token={self.tender_token}",
+        request_body,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "notice document in award should be only one",
+    )
+
+    # try to put sign
+    response = self.app.put_json(
+        f"/tenders/{self.tender_id}/awards/{award['id']}/documents/{doc_id}?acc_token={self.tender_token}",
+        request_body,
+    )
+
+    # try to add another doc
+    request_body["data"]["documentType"] = "winningBid"
+    request_body["data"]["title"] = "winBid.doc"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{award['id']}/documents?acc_token={self.tender_token}",
+        request_body,
+    )
+
+    # try to make unsuccessful award after signing
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False, "eligible": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+
+    response = self.app.get(request_path)
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn(response.json["data"][-1]["id"], new_award_location)
+    new_award = response.json["data"][-1]
+
+    # try to make active award without sign
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Document with type 'notice' and format pkcs7-signature is required",
+    )
+
+    # add sign doc
+    doc_id = self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award['id']}/documents").json[
+        "data"
+    ]["id"]
+
+    # try to add another sign
+    request_body["data"]["documentType"] = "notice"
+    request_body["data"]["title"] = "sign.p7s"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{new_award['id']}/documents?acc_token={self.tender_token}",
+        request_body,
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "notice document in award should be only one",
+    )
+
+    # try to put sign
+    response = self.app.put_json(
+        f"/tenders/{self.tender_id}/awards/{new_award['id']}/documents/{doc_id}?acc_token={self.tender_token}",
+        request_body,
+    )
+
+    # try to add another doc
+    request_body["data"]["documentType"] = "winningBid"
+    request_body["data"]["title"] = "winBid.doc"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards/{new_award['id']}/documents?acc_token={self.tender_token}",
+        request_body,
+    )
+
+    # try to make active award after signing
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
+        {"data": {"status": "active", "qualified": True, "eligible": True}},
+    )

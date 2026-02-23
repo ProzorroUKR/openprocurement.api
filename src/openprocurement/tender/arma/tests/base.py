@@ -62,7 +62,7 @@ test_tender_arma_three_bids = copy.deepcopy(test_tender_arma_bids)
 test_tender_arma_three_bids.append(
     {
         "tenderers": [test_tender_arma_supplier.copy()],
-        "value": {"amountPercentage": 40},
+        "value": {"amountPercentage": 50},
         "selfQualified": True,
     }
 )
@@ -139,9 +139,8 @@ test_tender_arma_lots = [
     {
         "title": "lot title",
         "description": "lot description",
-        "value": {"amountPercentage": 40},
-        # todo: enable this field when auction is available
-        # "minimalStep": {"amountPercentage": 1},
+        "value": {"amountPercentage": 50},
+        "minimalStep": {"amountPercentage": 1},
     }
 ]
 
@@ -153,7 +152,7 @@ test_tender_arma_multi_buyers_data = set_tender_multi_buyers(
 
 
 test_tender_arma_config = {
-    "hasAuction": False,
+    "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": False,
     "valueCurrencyEquality": True,
@@ -260,16 +259,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
                                     "lotValues": [
                                         {
                                             "relatedLot": lot["relatedLot"],
-                                            "value": (
-                                                {
-                                                    "yearlyPaymentsPercentage": lot["value"][
-                                                        "yearlyPaymentsPercentage"
-                                                    ],
-                                                    "contractDuration": lot["value"]["contractDuration"],
-                                                }
-                                                if "contractDuration" in lot["value"]
-                                                else lot["value"]
-                                            ),
+                                            "value": lot["value"],
                                         }
                                         for lot in b["lotValues"]
                                     ],

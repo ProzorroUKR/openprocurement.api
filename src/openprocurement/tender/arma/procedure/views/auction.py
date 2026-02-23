@@ -24,29 +24,56 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
 )
 class AuctionResource(TenderAuctionResource):
     state_class = TenderState
+    patch_value_field_names = {"value", "initialValue", "weightedValue"}
 
-    def morph_auction_results(self):
+    def patch_from_auction_data(self, data):
         """
-        Method morphs auction results to fit ARMA structure
+        Method patches auction results to fit ARMA structure
         """
 
-        def _morph_value(value):
+        def _patch_value(value):
             value.pop("currency", None)
             value.pop("valueAddedTaxIncluded", None)
-            if amount_percentage := value.pop("amount", None):
-                value["amountPercentage"] = amount_percentage
+            amount = value.pop("amount", None)
+            if amount is not None:
+                value["amountPercentage"] = amount
 
-        data = self.request.validated["data"]
         for bid in data["bids"]:
-            if "value" in bid:
-                _morph_value(bid["value"])
+            for value_field in self.patch_value_field_names:
+                if val := bid.get(value_field):
+                    _patch_value(val)
+
             if "lotValues" in bid:
                 for l_value in bid["lotValues"]:
-                    _morph_value(l_value["value"])
-            if "weightedValue" in bid:
-                _morph_value(bid["weightedValue"])
+                    for value_field in self.patch_value_field_names:
+                        if val := l_value.get(value_field):
+                            _patch_value(val)
 
-        self.request.validated["data"] = data
+        return data
+
+    def patch_to_auction_data(self, data):
+        """
+        Method patches ARMA structure to fit auction structure
+        """
+
+        def _patch_value(value):
+            value["currency"] = "%"
+            amount_percentage = value.pop("amountPercentage", None)
+            if amount_percentage is not None:
+                value["amount"] = amount_percentage
+
+        for bid in data["data"]["bids"]:
+            for value_field in self.patch_value_field_names:
+                if val := bid.get(value_field):
+                    _patch_value(val)
+
+            if "lotValues" in bid:
+                for l_value in bid["lotValues"]:
+                    for value_field in self.patch_value_field_names:
+                        if val := l_value.get(value_field):
+                            _patch_value(val)
+
+        return data
 
     @json_view(
         permission="auction",
@@ -56,7 +83,7 @@ class AuctionResource(TenderAuctionResource):
         ),
     )
     def collection_post(self):
-        self.morph_auction_results()
+        self.request.validated["data"] = self.patch_from_auction_data(self.request.validated["data"])
         return super().collection_post()
 
     @json_view(
@@ -68,5 +95,12 @@ class AuctionResource(TenderAuctionResource):
         ),
     )
     def post(self):
-        self.morph_auction_results()
+        self.request.validated["data"] = self.patch_from_auction_data(self.request.validated["data"])
         return super().post()
+
+    @json_view(
+        permission="auction",
+        validators=(validate_auction_tender_status,),
+    )
+    def collection_get(self):
+        return self.patch_to_auction_data(super().collection_get())

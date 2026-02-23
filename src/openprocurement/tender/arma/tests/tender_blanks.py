@@ -322,6 +322,7 @@ def create_tender_generated(self):
             "tenderPeriod",
             "awardCriteria",
             "dateModified",
+            "submissionMethod",
             "next_check",
             "procurementMethod",
             "procurementMethodType",

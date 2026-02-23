@@ -135,7 +135,7 @@ def bids_on_tender_cancellation_in_auction(self):
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(response.json["data"]["status"], "active.auction")
 
     if RELEASE_2020_04_19 > get_now():
         tender = self._cancel_tender()
@@ -180,10 +180,9 @@ def bids_on_tender_cancellation_in_qualification(self):
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(response.json["data"]["status"], "active.auction")
 
-    # todo: uncomment when auction is available
-    # self._set_auction_results()
+    self._set_auction_results()
 
     tender = self._cancel_tender()
 
@@ -272,10 +271,9 @@ def bids_on_tender_cancellation_in_awarded(self):
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(response.json["data"]["status"], "active.auction")
 
-    # todo: uncomment when auction is available
-    # self._set_auction_results()
+    self._set_auction_results()
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token))
@@ -622,26 +620,25 @@ def cancellation_active_award(self):
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(response.json["data"]["status"], "active.auction")
 
-    # todo: uncomment when auction is available
-    # with change_auth(self.app, ("Basic", ("auction", ""))):
-    #     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    #     auction_bids_data = response.json["data"]["bids"]
-    #     for lot_id in self.initial_lots:
-    #         response = self.app.post_json(
-    #             "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
-    #             {
-    #                 "data": {
-    #                     "bids": [
-    #                         {"id": b["id"], "lotValues": [{"relatedLot": lot["relatedLot"]} for lot in b["lotValues"]]}
-    #                         for b in auction_bids_data
-    #                     ]
-    #                 }
-    #             },
-    #         )
-    #         self.assertEqual(response.status, "200 OK")
-    #         self.assertEqual(response.content_type, "application/json")
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
+        for lot_id in self.initial_lots:
+            response = self.app.post_json(
+                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
+                {
+                    "data": {
+                        "bids": [
+                            {"id": b["id"], "lotValues": [{"relatedLot": lot["relatedLot"]} for lot in b["lotValues"]]}
+                            for b in auction_bids_data
+                        ]
+                    }
+                },
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
@@ -732,26 +729,26 @@ def cancellation_unsuccessful_award(self):
 
     self.set_status("active.auction", {"id": self.tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(response.json["data"]["status"], "active.auction")
 
-    # todo: uncomment when auction is available
-    # with change_auth(self.app, ("Basic", ("auction", ""))):
-    #     response = self.app.get("/tenders/{}/auction".format(self.tender_id))
-    #     auction_bids_data = response.json["data"]["bids"]
-    #     for lot_id in self.initial_lots:
-    #         response = self.app.post_json(
-    #             "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
-    #             {
-    #                 "data": {
-    #                     "bids": [
-    #                         {"id": b["id"], "lotValues": [{"relatedLot": lot["relatedLot"]} for lot in b["lotValues"]]}
-    #                         for b in auction_bids_data
-    #                     ]
-    #                 }
-    #             },
-    #         )
-    #         self.assertEqual(response.status, "200 OK")
-    #         self.assertEqual(response.content_type, "application/json")
+    with change_auth(self.app, ("Basic", ("auction", ""))):
+        response = self.app.get("/tenders/{}/auction".format(self.tender_id))
+        auction_bids_data = response.json["data"]["bids"]
+        for lot_id in self.initial_lots:
+            response = self.app.post_json(
+                "/tenders/{}/auction/{}".format(self.tender_id, lot_id["id"]),
+                {
+                    "data": {
+                        "bids": [
+                            {"id": b["id"], "lotValues": [{"relatedLot": lot["relatedLot"]} for lot in b["lotValues"]]}
+                            for b in auction_bids_data
+                        ]
+                    }
+                },
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 

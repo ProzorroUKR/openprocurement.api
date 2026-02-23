@@ -105,4 +105,4 @@ def switch_to_auction(self):
     self.assertEqual(response.json["data"]["status"], "active.pre-qualification.stand-still")
 
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "active.qualification")
+    self.assertEqual(response.json["data"]["status"], "active.auction")
