@@ -12,65 +12,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 }
 
 
-HTTP/1.0 200 OK
+HTTP/1.0 422 Unprocessable Entity
 Content-Type: application/json
 
 {
-  "data": {
-    "id": "a65a1a9a8adc42a297e2339e146ecb45",
-    "status": "active",
-    "date": "2023-10-10T01:03:00+03:00",
-    "suppliers": [
-      {
-        "name": "Школяр",
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137256",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-          "uri": "http://www.sc.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця",
-          "region": "Вінницька область",
-          "postalCode": "21100",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
-        },
-        "scale": "micro"
-      }
-    ],
-    "bid_id": "9d1348ad3820464db3213aaf48a1f51b",
-    "lotID": "d9c1c86a51294d9f9e128b780416b344",
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "notice",
-        "id": "ef0971758a37450aa370656ad75645cb",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a6b0ff3ec70841abb1b99860cd5d9b17?Signature=lKg5g8fm1FbOS2cCH69s%2BbFBKG9AXzZtFuB8DeqhjVgANXQ3RSpV6HfqgH%2Bijz1sBCC3251C2OVkQ6Dbza0cBQ%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
-    "period": {
-      "startDate": "2023-10-10T01:03:00+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
-    },
-    "qualified": true,
-    "eligible": true,
-    "value": {
-      "amountPercentage": 50.0
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "status",
+      "description": "Award activation is temporarily disabled"
     }
-  }
+  ]
 }
 
