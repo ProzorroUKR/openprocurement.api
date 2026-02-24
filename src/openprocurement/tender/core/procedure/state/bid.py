@@ -14,6 +14,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
+from openprocurement.api.procedure.validation import validate_field_change
 from openprocurement.api.utils import (
     error_handler,
     get_tender_product,
@@ -456,15 +457,7 @@ class BidState(BaseState):
             return
 
         for field_name in after.keys():
-            if field_name not in self.item_patch_fields_during_qualification and before.get(field_name) != after.get(
-                field_name
-            ):
-                raise_operation_error(
-                    get_request(),
-                    f"Updated could be only {tuple(self.item_patch_fields_during_qualification.keys())} in bid,"
-                    f" {field_name} change forbidden",
-                    status=422,
-                )
+            validate_field_change(before, after, field_name, self.item_patch_fields_during_qualification.keys(), "bid")
             if allowed_nested_fields := self.item_patch_fields_during_qualification.get(field_name):
                 validate_allowed_field_change_in_list(
                     before,

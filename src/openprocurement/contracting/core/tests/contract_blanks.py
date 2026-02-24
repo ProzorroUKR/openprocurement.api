@@ -824,7 +824,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to delete fields {'unit'}",
+                "description": "Forbidden to delete fields in item: {'unit'}",
             }
         ],
     )

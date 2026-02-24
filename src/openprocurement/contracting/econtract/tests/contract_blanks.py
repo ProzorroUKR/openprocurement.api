@@ -339,7 +339,7 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only signerInfo in suppliers, name change forbidden",
+                "description": "Updated could be only ('signerInfo',) in suppliers, name change forbidden",
             }
         ],
     )
