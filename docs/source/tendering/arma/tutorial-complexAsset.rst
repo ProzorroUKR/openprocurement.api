@@ -420,7 +420,7 @@
 .. http:example:: complexAsset/http/tutorial/award-add-notice-document.http
    :code:
 
-Кваліфікаційна комісія реєструє своє рішення:
+Кваліфікаційна комісія реєструє своє рішення (активація авардів тимчасово заблокована для цього типу закупівель):
 
 .. http:example:: complexAsset/http/tutorial/confirm-qualification.http
    :code:

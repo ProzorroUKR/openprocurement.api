@@ -37,14 +37,12 @@ for b in [bid, bid2, bid3]:
     for x in b["tenderers"]:
         x.pop("signerInfo", None)
     b["value"].pop("amount", None)
-    b["value"]["amountPercentage"] = 40
+    b["value"]["amountPercentage"] = 50
 
-test_lots[0]["value"] = {"amountPercentage": 40}
-# todo: uncomment when auction is availabe
-# test_lots[0]["minimalStep"] = {"amountPercentage": 5}
-test_lots[1]["value"] = {"amountPercentage": 40}
-# todo: uncomment when auction is availabe
-# test_lots[1]["minimalStep"] ={"amountPercentage": 5}
+test_lots[0]["value"] = {"amountPercentage": 50}
+test_lots[0]["minimalStep"] = {"amountPercentage": 1}
+test_lots[1]["value"] = {"amountPercentage": 50}
+test_lots[1]["minimalStep"] = {"amountPercentage": 1}
 
 BASE_DIR = "docs/source/tendering/arma/"
 TARGET_DIR = BASE_DIR + "complexAsset/http/tutorial/"
@@ -683,8 +681,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                         {
                             "id": b["id"],
                             "lotValues": [
-                                {"value": {"amount": lot["value"]["amountPercentage"]}, "relatedLot": lot["relatedLot"]}
-                                for lot in b["lotValues"]
+                                {"relatedLot": lot["relatedLot"], "value": lot["value"]} for lot in b["lotValues"]
                             ],
                         }
                         for b in auction_bids_data
@@ -729,11 +726,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
 
         with open(TARGET_DIR + "confirm-qualification.http", "w") as self.app.file_obj:
+            # todo: awards activation is temporarily disabled for ARMA
             self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
+                status=422,
             )
-            self.assertEqual(response.status, "200 OK")
 
         #### Preparing the cancellation request
 

@@ -46,7 +46,7 @@ Content-Type: application/json
     "lotValues": [
       {
         "value": {
-          "amountPercentage": 40.0
+          "amountPercentage": 50.0
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
         "status": "pending",

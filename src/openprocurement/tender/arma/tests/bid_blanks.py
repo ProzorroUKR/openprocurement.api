@@ -17,7 +17,7 @@ from openprocurement.tender.core.tests.utils import (
 def create_tender_biddder_invalid(self):
     response = self.app.post_json(
         "/tenders/some_id/bids",
-        {"data": {"tenderers": self.test_bids_data[0]["tenderers"], "value": {"amountPercentage": 40}}},
+        {"data": {"tenderers": self.test_bids_data[0]["tenderers"], "value": {"amountPercentage": 50}}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -164,7 +164,7 @@ def create_tender_biddder_invalid(self):
     )
 
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"] = {"amountPercentage": 41}
+    bid_data["lotValues"][0]["value"] = {"amountPercentage": 51}
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -187,7 +187,7 @@ def create_tender_bidder(self):
     bid_data.update(
         {
             "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-            "lotValues": [{"value": {"amountPercentage": 40}, "relatedLot": lot_id}],
+            "lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}],
             "value": None,
             "parameters": None,
             "documents": None,
@@ -240,7 +240,7 @@ def patch_tender_bidder(self):
     bid_data.update(
         {
             "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-            "lotValues": [{"value": {"amountPercentage": 40}, "relatedLot": lot_id}],
+            "lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}],
         }
     )
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
@@ -293,7 +293,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/some_id?acc_token={}".format(self.tender_id, bid_token),
-        {"data": {"lotValues": [{"value": {"amountPercentage": 40}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}]}},
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
@@ -302,7 +302,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["errors"], [{"description": "Not Found", "location": "url", "name": "bid_id"}])
 
     response = self.app.patch_json(
-        "/tenders/some_id/bids/some_id", {"data": {"value": {"amountPercentage": 40}}}, status=404
+        "/tenders/some_id/bids/some_id", {"data": {"value": {"amountPercentage": 50}}}, status=404
     )
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(response.content_type, "application/json")
@@ -327,7 +327,7 @@ def patch_tender_bidder(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": [{"value": {"amountPercentage": 40}, "relatedLot": lot_id}]}},
+        {"data": {"lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}]}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -340,7 +340,7 @@ def patch_tender_draft_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data.update(
         {
-            "lotValues": [{"value": {"amountPercentage": 40}, "relatedLot": lot_id}],
+            "lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}],
             "status": "draft",
         }
     )
@@ -597,7 +597,7 @@ def create_tender_bid_no_scale_invalid(self):
             "lotValues": [
                 {
                     "relatedLot": self.tender_lots[0]["id"],
-                    "value": {"amountPercentage": 40},
+                    "value": {"amountPercentage": 50},
                 }
             ],
             "tenderers": [{key: value for key, value in self.author_data.items() if key != "scale"}],
@@ -619,7 +619,7 @@ def create_tender_bid_no_scale_invalid(self):
 )
 def delete_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"] = {"amountPercentage": 40}
+    bid_data["lotValues"][0]["value"] = {"amountPercentage": 50}
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
 
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
@@ -661,7 +661,7 @@ def delete_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
 
     for i in range(self.min_bids_number):
-        bid_data["lotValues"][0]["value"] = {"amountPercentage": 40 - i}
+        bid_data["lotValues"][0]["value"] = {"amountPercentage": 50 - i}
         self.create_bid(self.tender_id, bid_data, "pending")
 
     # switch to active.pre-qualification
@@ -805,7 +805,7 @@ def get_tender_tenderers(self):
 
 def bid_Administrator_change(self):
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"] = {"amountPercentage": 40}
+    bid_data["lotValues"][0]["value"] = {"amountPercentage": 50}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(

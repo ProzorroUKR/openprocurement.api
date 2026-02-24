@@ -143,6 +143,7 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
+    "submissionMethod": "electronicAuction",
     "qualificationPeriod": {
       "startDate": "2023-10-10T01:03:00+03:00",
       "endDate": "2023-10-25T00:00:00+03:00"
@@ -273,7 +274,14 @@ Content-Type: application/json
         "id": "d9c1c86a51294d9f9e128b780416b344",
         "date": "2023-10-10T01:00:00+03:00",
         "value": {
-          "amountPercentage": 40.0
+          "amountPercentage": 50.0
+        },
+        "minimalStep": {
+          "amountPercentage": 1
+        },
+        "auctionPeriod": {
+          "startDate": "2023-10-25T12:29:40.230000+03:00",
+          "shouldStartAfter": "2023-10-25T00:00:00+03:00"
         }
       }
     ],
@@ -548,7 +556,7 @@ Content-Type: application/json
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {
-    "hasAuction": false,
+    "hasAuction": true,
     "hasAwardingOrder": true,
     "hasValueRestriction": false,
     "valueCurrencyEquality": true,

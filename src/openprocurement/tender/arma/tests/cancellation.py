@@ -303,7 +303,9 @@ class TenderCancellationBidsAvailabilityTest(BaseTenderContentWebTest, TenderCan
     )
     test_bids_on_tender_cancellation_in_auction = snitch(bids_on_tender_cancellation_in_auction)
     test_bids_on_tender_cancellation_in_qualification = snitch(bids_on_tender_cancellation_in_qualification)
-    test_bids_on_tender_cancellation_in_awarded = snitch(bids_on_tender_cancellation_in_awarded)
+    test_bids_on_tender_cancellation_in_awarded = unittest.skip("disable skip when contracting is available")(
+        snitch(bids_on_tender_cancellation_in_awarded)
+    )
     test_create_cancellation_in_qualification_complaint_period = snitch(
         create_cancellation_in_qualification_complaint_period
     )
@@ -337,7 +339,9 @@ class TenderAwardsCancellationResourceTest(
     test_cancellation_active_qualification_j1427 = snitch(cancellation_active_qualification_j1427)
     test_cancellation_active_qualification = snitch(cancellation_active_qualification)
     test_cancellation_unsuccessful_qualification = snitch(cancellation_unsuccessful_qualification)
-    test_cancellation_active_award = snitch(cancellation_active_award)
+    test_cancellation_active_award = unittest.skip("disable skip when contracting is available")(
+        snitch(cancellation_active_award)
+    )
     test_cancellation_unsuccessful_award = snitch(cancellation_unsuccessful_award)
 
 

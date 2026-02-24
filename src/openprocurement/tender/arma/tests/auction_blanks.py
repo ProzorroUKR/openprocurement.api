@@ -22,13 +22,14 @@ def get_tender_auction(self):
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(
         auction["bids"][0]["lotValues"][0]["value"]["amount"],
-        self.initial_bids[0]["lotValues"][0]["value"]["amount"],
+        self.initial_bids[0]["lotValues"][0]["value"]["amountPercentage"],
     )
+    self.assertEqual(auction["bids"][0]["lotValues"][0]["value"]["currency"], "%")
     self.assertEqual(
         auction["bids"][1]["lotValues"][0]["value"]["amount"],
-        self.initial_bids[1]["lotValues"][0]["value"]["amount"],
+        self.initial_bids[1]["lotValues"][0]["value"]["amountPercentage"],
     )
-    # self.assertEqual(self.initial_data["auctionPeriod"]['startDate'], auction["auctionPeriod"]['startDate'])
+    self.assertEqual(auction["bids"][1]["lotValues"][0]["value"]["currency"], "%")
 
     response = self.app.get("/tenders/{}/auction?opt_jsonp=callback".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
@@ -105,13 +106,13 @@ def post_tender_auction(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     for n, b in enumerate(tender["bids"]):
-        self.assertEqual(b["lotValues"][0]["value"]["amount"], n)
+        self.assertEqual(b["lotValues"][0]["value"]["amountPercentage"], n)
 
     self.assertEqual("active.qualification", tender["status"])
     self.assertIn("tenderers", tender["bids"][0])
     self.assertIn("name", tender["bids"][0]["tenderers"][0])
     self.assertEqual(tender["awards"][0]["bid_id"], self.initial_bids[0]["id"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], 0)
+    self.assertEqual(tender["awards"][0]["value"]["amountPercentage"], 0)
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
     response = self.app.post_json("/tenders/{}/auction".format(self.tender_id), {"data": patch_data}, status=403)
@@ -128,25 +129,42 @@ def post_tender_auction_not_changed(self):
     lot_id = self.initial_lots[0]["id"]
     response = self.app.post_json(
         "/tenders/{}/auction/{}".format(self.tender_id, lot_id),
-        {"data": {"bids": [{"lotValues": [{"value": bid["value"]}]} for bid in self.test_bids_data]}},
+        {
+            "data": {
+                "bids": [
+                    {"lotValues": [{"value": {"amount": bid["value"]["amountPercentage"]}}]}
+                    for bid in self.test_bids_data
+                ]
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual("active.qualification", tender["status"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[0]["lotValues"][0]["value"]["amount"])
+    self.assertEqual(
+        tender["awards"][0]["value"]["amountPercentage"],
+        self.initial_bids[0]["lotValues"][0]["value"]["amountPercentage"],
+    )
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[0]["tenderers"])
 
 
 def post_tender_auction_reversed(self):
     self.app.authorization = ("Basic", ("auction", ""))
     lot_id = self.initial_lots[0]["id"]
-    patch_data = {"bids": [{"lotValues": [{"value": bid["value"]}]} for bid in self.test_bids_data]}
+    patch_data = {
+        "bids": [
+            {"lotValues": [{"value": {"amount": bid["value"]["amountPercentage"]}}]} for bid in self.test_bids_data
+        ]
+    }
 
     response = self.app.post_json("/tenders/{}/auction/{}".format(self.tender_id, lot_id), {"data": patch_data})
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual("active.qualification", tender["status"])
-    self.assertEqual(tender["awards"][0]["value"]["amount"], self.initial_bids[-1]["lotValues"][0]["value"]["amount"])
+    self.assertEqual(
+        tender["awards"][0]["value"]["amountPercentage"],
+        self.initial_bids[-1]["lotValues"][0]["value"]["amountPercentage"],
+    )
     self.assertEqual(tender["awards"][0]["suppliers"], self.initial_bids[-1]["tenderers"])

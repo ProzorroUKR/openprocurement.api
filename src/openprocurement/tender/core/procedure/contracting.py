@@ -47,13 +47,13 @@ LOGGER = getLogger(__name__)
 
 
 def generate_contract_value(award, multi_contracts=False):
+    # todo: adapt ARMA contracting stage
     if award.get("value"):
         value = deepcopy(award["value"])
         if multi_contracts:
             value["amountNet"], value["amount"] = 0, 0
         else:
-            # todo: this is a temporary hack for ARMA, fix when contracting is available
-            value["amountNet"] = value.get("amount") or value.get("amountPercentage")
+            value["amountNet"] = value["amount"]
         return value
     return None
 

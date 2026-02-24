@@ -85,8 +85,3 @@ class TenderResource(TendersResource):
     )
     def patch(self):
         return super().patch()
-
-    @json_view(permission="view_tender")
-    def get(self):
-        # todo: if auction - serialize value for auction
-        return super().get()

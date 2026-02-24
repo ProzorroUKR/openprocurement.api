@@ -1,5 +1,5 @@
 name,values,default
-hasAuction,true / false,false
+hasAuction,true,true
 hasAwardingOrder,true,true
 hasValueRestriction,false,false
 valueCurrencyEquality,true,true
