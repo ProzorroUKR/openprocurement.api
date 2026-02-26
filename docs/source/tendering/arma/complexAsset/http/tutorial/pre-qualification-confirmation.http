@@ -569,7 +569,7 @@ Content-Type: application/json
           "amountPercentage": 50.0
         },
         "minimalStep": {
-          "amountPercentage": 1
+          "amountPercentage": 1.0
         },
         "auctionPeriod": {
           "startDate": "2023-10-11T12:04:26.072000+03:00",

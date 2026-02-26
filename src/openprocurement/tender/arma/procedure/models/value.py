@@ -5,7 +5,11 @@ from schematics.types import FloatType, MD5Type, StringType
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import DecimalType, ModelType
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    ModelType,
+    NormalizedDecimalType,
+)
 from openprocurement.tender.core.procedure.utils import find_lot
 from openprocurement.tender.core.procedure.validation import validate_related_lot
 
@@ -15,7 +19,7 @@ PRECISION = -3
 
 
 class Value(Model):
-    amountPercentage = DecimalType(
+    amountPercentage = NormalizedDecimalType(
         min_value=MIN_VALUE,
         max_value=MAX_VALUE,
         precision=PRECISION,
@@ -24,9 +28,9 @@ class Value(Model):
 
 
 class WeightedValue(Model):
-    amountPercentage = DecimalType(required=True, precision=PRECISION)
+    amountPercentage = NormalizedDecimalType(required=True)
     denominator = FloatType()
-    addition = DecimalType(precision=PRECISION)
+    addition = DecimalType(precision=-2)
 
 
 class PostLotValue(Model):
