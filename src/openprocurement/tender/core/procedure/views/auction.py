@@ -32,6 +32,19 @@ class TenderAuctionResource(TenderBaseResource):
     )
     def collection_get(self):
         tender = self.request.validated["tender"]
+
+        LOG_CONTEXT = {
+            "data": filter_nested_values(tender, *AUCTION_SET_URLS_LOG_FIELDS),
+        }
+        self.LOGGER.info(
+            "Get tender by auction",
+            extra=context_unpack(
+                self.request,
+                {"MESSAGE_ID": "tender_by_auction_get"},
+                {"CONTEXT": LOG_CONTEXT},
+            ),
+        )
+
         return {
             "data": self.serializer_class(tender).data,
             "config": tender["config"],
