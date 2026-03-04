@@ -33,7 +33,7 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
 @resource(
-    name="complexAsset.arma:Tenders",
+    name=f"{COMPLEX_ASSET_ARMA}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

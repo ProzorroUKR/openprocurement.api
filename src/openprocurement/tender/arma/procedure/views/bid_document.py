@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Bid Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Bid Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -21,7 +21,7 @@ class BidDocumentResource(BaseTenderBidDocumentResource):
 
 
 @resource(
-    name="complexAsset.arma:Tender Bid Eligibility Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -32,7 +32,7 @@ class BidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
 
 
 @resource(
-    name="complexAsset.arma:Tender Bid Financial Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Bid Financial Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -43,7 +43,7 @@ class BidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
 
 
 @resource(
-    name="complexAsset.arma:Tender Bid Qualification Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Bid Qualification Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

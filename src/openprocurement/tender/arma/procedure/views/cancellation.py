@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.views.cancellation import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Cancellations",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

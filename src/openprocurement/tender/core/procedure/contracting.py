@@ -47,6 +47,7 @@ LOGGER = getLogger(__name__)
 
 
 def generate_contract_value(award, multi_contracts=False):
+    # todo: adapt ARMA contracting stage
     if award.get("value"):
         value = deepcopy(award["value"])
         if multi_contracts:

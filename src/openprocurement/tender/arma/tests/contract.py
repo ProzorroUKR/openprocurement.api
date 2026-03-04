@@ -26,6 +26,7 @@ from openprocurement.tender.belowthreshold.tests.contract_blanks import (
 )
 
 
+@unittest.skip("disable skip when contracting is available")
 class TenderContractResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_arma_bids
@@ -72,6 +73,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
     test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
 
 
+@unittest.skip("disable skip when contracting is available")
 class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_arma_bids

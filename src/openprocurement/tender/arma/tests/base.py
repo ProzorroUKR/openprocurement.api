@@ -44,12 +44,12 @@ test_tender_arma_supplier = {
 test_tender_arma_bids = [
     {
         "tenderers": [copy.deepcopy(test_tender_arma_supplier)],
-        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amountPercentage": 38},
         "selfQualified": True,
     },
     {
         "tenderers": [copy.deepcopy(test_tender_arma_supplier)],
-        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amountPercentage": 39},
         "selfQualified": True,
     },
 ]
@@ -62,7 +62,7 @@ test_tender_arma_three_bids = copy.deepcopy(test_tender_arma_bids)
 test_tender_arma_three_bids.append(
     {
         "tenderers": [test_tender_arma_supplier.copy()],
-        "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amountPercentage": 50},
         "selfQualified": True,
     }
 )
@@ -101,7 +101,6 @@ test_tender_arma_data = {
     "title_en": "Cases for state awards",
     "mainProcurementCategory": "services",
     "procuringEntity": test_tender_arma_procuring_entity.copy(),
-    "value": {"currency": "UAH"},
     "items": [
         {
             "description": "футляри до державних нагород",
@@ -114,7 +113,7 @@ test_tender_arma_data = {
                     "description": "папір і картон гофровані, паперова й картонна тара",
                 }
             ],
-            "unit": {"name": "item", "code": "KGM", "value": {"amount": 6}},
+            "unit": {"name": "item", "code": "KGM"},
             "quantity": 5,
             "deliveryDate": {
                 "startDate": (now + timedelta(days=2)).isoformat(),
@@ -140,8 +139,8 @@ test_tender_arma_lots = [
     {
         "title": "lot title",
         "description": "lot description",
-        "value": test_tender_arma_data["value"],
-        "minimalStep": {"currency": "UAH"},
+        "value": {"amountPercentage": 50},
+        "minimalStep": {"amountPercentage": 1},
     }
 ]
 
@@ -260,16 +259,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
                                     "lotValues": [
                                         {
                                             "relatedLot": lot["relatedLot"],
-                                            "value": (
-                                                {
-                                                    "yearlyPaymentsPercentage": lot["value"][
-                                                        "yearlyPaymentsPercentage"
-                                                    ],
-                                                    "contractDuration": lot["value"]["contractDuration"],
-                                                }
-                                                if "contractDuration" in lot["value"]
-                                                else lot["value"]
-                                            ),
+                                            "value": lot["value"],
                                         }
                                         for lot in b["lotValues"]
                                     ],

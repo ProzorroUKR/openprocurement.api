@@ -71,6 +71,24 @@ class DecimalType(BaseDecimalType):
         return value
 
 
+# todo: remove this class when unified decimal solution is available
+class NormalizedDecimalType(DecimalType):
+    @staticmethod
+    def clean_decimal(value: Decimal, quantize_exp: Decimal = Decimal("0.1")):
+        value = value.normalize()
+        # If it's now an integer value, remove exponent
+        if value == value.to_integral():
+            return value.quantize(quantize_exp)
+        return value
+
+    def _apply_precision(self, value):
+        try:
+            value = self.clean_decimal(Decimal(value).quantize(self.precision, rounding=ROUND_HALF_UP))
+        except (TypeError, InvalidOperation):
+            raise ConversionError(self.messages["number_coerce"].format(value))
+        return value
+
+
 class StringDecimalType(BaseDecimalType):
     def to_primitive(self, *args, **kwargs):
         value = super().to_primitive(*args, **kwargs)

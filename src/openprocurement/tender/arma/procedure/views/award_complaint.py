@@ -17,7 +17,7 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Complaints Get",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Complaints Get",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -29,7 +29,7 @@ class AwardClaimAndComplaintGetResource(BaseAwardComplaintGetResource):
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Claims",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Claims",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -42,7 +42,7 @@ class AwardClaimResource(BaseAwardClaimResource):
 
 
 @resource(
-    name="complexAsset.arma:Tender Award Complaints",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Award Complaints",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

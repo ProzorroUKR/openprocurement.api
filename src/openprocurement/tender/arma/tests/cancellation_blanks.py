@@ -748,6 +748,7 @@ def cancellation_unsuccessful_award(self):
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification")
 

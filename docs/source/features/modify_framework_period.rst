@@ -524,7 +524,7 @@
 При подачі пропозиції у вже оголошені тендери:
 
 * Bid is not a member of agreement (should be active contract with the same supplier)
-* Bid value.amount can't be greater than contact value.amount.
+* Bid value.amount can't be greater than contract value.amount.
 * Can't post inconsistent bid (check parameters values in contract and bid)
 
 

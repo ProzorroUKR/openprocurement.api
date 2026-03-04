@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.views.complaint_appeal_document impor
 
 
 @resource(
-    name="complexAsset.arma:Tender Complaint Appeal Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Complaint Appeal Documents",
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}/documents",
     path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

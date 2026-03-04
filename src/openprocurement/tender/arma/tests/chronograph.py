@@ -28,6 +28,7 @@ from openprocurement.tender.openua.tests.chronograph_blanks import (
 class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification"
     initial_bids = test_tender_arma_bids
+    initial_lots = test_tender_arma_lots
 
     test_switch_to_pre_qual = snitch(active_tendering_to_pre_qual)
     test_switch_to_auction = snitch(pre_qual_switch_to_auction)
@@ -37,6 +38,7 @@ class TenderSwitchPreQualificationResourceTest(BaseTenderContentWebTest):
 class TenderSwitchAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification.stand-still"
     initial_bids = test_tender_arma_bids
+    initial_lots = test_tender_arma_lots
 
     test_switch_to_auction = snitch(switch_to_auction)
 
@@ -48,7 +50,7 @@ class TenderSwitchUnsuccessfulResourceTest(BaseTenderContentWebTest):
 
 
 class TenderLotSwitchPreQualificationResourceTest(TenderSwitchPreQualificationResourceTest):
-    initial_lots = test_tender_arma_lots
+    pass
 
 
 class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
@@ -62,9 +64,11 @@ class TenderLotSwitchPreQualificationUnsuccessfulTest(BaseTenderContentWebTest):
         tender = self.mongodb.tenders.get(self.tender_id)
         # Create award with an unsuccessful lot
         for bid in tender["bids"]:
+            lot_value = bid["lotValues"][0]
+            lot_value["value"]["amountPercentage"] = str(lot_value["value"]["amountPercentage"])
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid['owner_token']}",
-                {"data": {"lotValues": bid["lotValues"][:1]}},
+                {"data": {"lotValues": [lot_value]}},
             )
             self.assertEqual(response.status, "200 OK")
             response = self.activate_bid(self.tender_id, bid["id"], bid["owner_token"])
@@ -82,6 +86,7 @@ class TenderLotUnsuccessfulTenderingTest(BaseTenderContentWebTest):
 
 class TenderUnsuccessfulTenderingTest(BaseTenderContentWebTest):
     initial_bids = test_tender_arma_bids[:1]
+    initial_lots = test_tender_arma_lots
     initial_status = "active.tendering"
     test_lot_active_tendering_to_unsuccessful = snitch(active_tendering_to_unsuccessful)
 

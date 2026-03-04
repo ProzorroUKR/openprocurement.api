@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.views.award_req_response import (
 
 
 @resource(
-    name="complexAsset.arma:Award Requirement Response",
+    name=f"{COMPLEX_ASSET_ARMA}:Award Requirement Response",
     collection_path="/tenders/{tender_id}/awards/{award_id}/requirement_responses",
     path="/tenders/{tender_id}/awards/{award_id}/requirement_responses/{requirement_response_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

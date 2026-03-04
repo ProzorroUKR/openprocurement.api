@@ -274,7 +274,7 @@ def create_tender_bid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Bid value.amount can't be greater than contact value.amount.",
+                "description": "Bid value.amount can't be greater than contract value.amount.",
             }
         ],
     )

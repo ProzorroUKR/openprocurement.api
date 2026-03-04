@@ -4,6 +4,11 @@ from schematics.types.compound import ListType, ModelType
 from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.models.item import Item
+from openprocurement.tender.arma.procedure.models.lot import (
+    Lot,
+    PatchTenderLot,
+    PostTenderLot,
+)
 from openprocurement.tender.arma.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
@@ -39,8 +44,11 @@ class PostTender(BasePostTender):
     )
     milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
+    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
     contractTemplateName = None
     features = None
+    minimalStep = None
+    value = None
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
@@ -48,6 +56,8 @@ class PostTender(BasePostTender):
 
 PostTender._fields.pop("contractTemplateName", None)
 PostTender._fields.pop("features", None)
+PostTender._fields.pop("minimalStep", None)
+PostTender._fields.pop("value", None)
 
 
 class PatchTender(BasePatchTender):
@@ -68,12 +78,17 @@ class PatchTender(BasePatchTender):
     )
     milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
+    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
     contractTemplateName = None
     features = None
+    minimalStep = None
+    value = None
 
 
 PatchTender._fields.pop("contractTemplateName", None)
 PatchTender._fields.pop("features", None)
+PatchTender._fields.pop("minimalStep", None)
+PatchTender._fields.pop("value", None)
 
 
 class Tender(BaseTender):
@@ -104,8 +119,11 @@ class Tender(BaseTender):
     milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
     complaintPeriod = BaseType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
+    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
     contractTemplateName = None
     features = None
+    minimalStep = None
+    value = None
 
     def validate_milestones(self, data, value):
         validate_milestones_lot(data, value)
@@ -113,3 +131,5 @@ class Tender(BaseTender):
 
 Tender._fields.pop("contractTemplateName", None)
 Tender._fields.pop("features", None)
+Tender._fields.pop("minimalStep", None)
+Tender._fields.pop("value", None)

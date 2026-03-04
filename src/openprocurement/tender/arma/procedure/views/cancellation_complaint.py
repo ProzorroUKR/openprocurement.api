@@ -13,7 +13,7 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Cancellation Complaints Get",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Cancellation Complaints Get",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
@@ -25,7 +25,7 @@ class CancellationClaimAndComplaintGetResource(CancellationComplaintGetResource)
 
 
 @resource(
-    name="complexAsset.arma:Tender Cancellation Complaints",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Cancellation Complaints",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

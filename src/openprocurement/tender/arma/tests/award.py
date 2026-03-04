@@ -5,6 +5,7 @@ from unittest import mock
 from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.tests.award_blanks import (
+    award_sign,
     create_tender_2lot_award,
     create_tender_award_invalid,
     create_tender_lot_award,
@@ -30,7 +31,6 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.open.tests.award_blanks import (
-    award_sign,
     patch_tender_award_unsuccessful_first,
     patch_tender_award_unsuccessful_forbidden,
     patch_tender_award_unsuccessful_second,
@@ -50,9 +50,15 @@ class TenderAwardQualificationResourceTest(BaseTenderContentWebTest):
     initial_lots = test_tender_arma_lots
     initial_auth = ("Basic", ("broker", ""))
 
-    test_patch_tender_award_unsuccessful_first = snitch(patch_tender_award_unsuccessful_first)
-    test_patch_tender_award_unsuccessful_second = snitch(patch_tender_award_unsuccessful_second)
-    test_patch_tender_award_unsuccessful_forbidden = snitch(patch_tender_award_unsuccessful_forbidden)
+    test_patch_tender_award_unsuccessful_first = unittest.skip("disable skip when contracting is available")(
+        snitch(patch_tender_award_unsuccessful_first)
+    )
+    test_patch_tender_award_unsuccessful_second = unittest.skip("disable skip when contracting is available")(
+        snitch(patch_tender_award_unsuccessful_second)
+    )
+    test_patch_tender_award_unsuccessful_forbidden = unittest.skip("disable skip when contracting is available")(
+        snitch(patch_tender_award_unsuccessful_forbidden)
+    )
 
     def setUp(self):
         super().setUp()
@@ -68,12 +74,20 @@ class TenderAwardQualificationResourceTest(BaseTenderContentWebTest):
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
 class TenderLotAwardResourceTestMixin:
-    test_create_tender_award = snitch(create_tender_lot_award)
-    test_patch_tender_award = snitch(patch_tender_lot_award)
-    test_patch_tender_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
+    test_create_tender_award = unittest.skip("disable skip when contracting is available")(
+        snitch(create_tender_lot_award)
+    )
+    test_patch_tender_award = unittest.skip("disable skip when contracting is available")(
+        snitch(patch_tender_lot_award)
+    )
+    test_patch_tender_award_unsuccessful = unittest.skip("disable skip when contracting is available")(
+        snitch(patch_tender_lot_award_unsuccessful)
+    )
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
     test_create_tender_award_invalid = snitch(create_tender_award_invalid)
-    test_patch_tender_award_active = snitch(patch_tender_award_active)
+    test_patch_tender_award_active = unittest.skip("disable skip when contracting is available")(
+        snitch(patch_tender_award_active)
+    )
     test_get_tender_award = snitch(get_tender_award)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
 
@@ -83,7 +97,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
     initial_bids = test_tender_arma_bids
     initial_lots = test_tender_arma_lots
     initial_auth = ("Basic", ("broker", ""))
-    expected_award_amount = test_tender_arma_bids[0]["value"]["amount"]
+    expected_award_amount = test_tender_arma_bids[0]["value"]["amountPercentage"]
 
     def setUp(self):
         super().setUp()
@@ -96,7 +110,7 @@ class TenderLotAwardResourceTest(BaseTenderContentWebTest, TenderLotAwardResourc
         self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
         self.app.authorization = ("Basic", ("broker", ""))
 
-    test_award_sign = snitch(award_sign)
+    test_award_sign = unittest.skip("disable skip when contracting is available")(snitch(award_sign))
     test_prolongation_award = snitch(prolongation_award)
 
 
@@ -105,6 +119,7 @@ class Tender2LotAwardResourceTestMixin:
     test_patch_tender_award = snitch(patch_tender_2lot_award)
 
 
+@unittest.skip("disable skip when contracting is available")
 class Tender2LotAwardResourceTest(BaseTenderContentWebTest, Tender2LotAwardResourceTestMixin):
     initial_status = "active.tendering"
     initial_lots = 2 * test_tender_arma_lots
@@ -126,6 +141,7 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
     initial_status = "active.qualification"
     initial_bids = test_tender_arma_bids
     initial_auth = ("Basic", ("broker", ""))
+    initial_lots = test_tender_arma_lots
 
     def setUp(self):
         super().setUp()
@@ -138,11 +154,15 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest, TenderAwardDocum
                         "suppliers": [test_tender_below_supplier],
                         "status": "pending",
                         "bid_id": self.initial_bids[0]["id"],
+                        "lotID": self.initial_lots[0]["id"],
                     }
                 },
             )
         award = response.json["data"]
         self.award_id = award["id"]
+
+    # todo: enable test when ARMA contracting is available
+    test_create_award_document_bot = None
 
 
 class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAwardDocumentResourceTestMixin):

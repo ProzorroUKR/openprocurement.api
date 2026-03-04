@@ -9,7 +9,7 @@ LOGGER = getLogger(__name__)
 
 
 @resource(
-    name="complexAsset.arma:Tender Contracts",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Contracts",
     collection_path="/tenders/{tender_id}/contracts",
     path="/tenders/{tender_id}/contracts/{contract_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

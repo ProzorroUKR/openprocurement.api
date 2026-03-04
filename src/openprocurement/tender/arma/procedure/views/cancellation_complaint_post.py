@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint_post imp
 
 
 @resource(
-    name="complexAsset.arma:Tender Cancellation Complaint Posts",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Cancellation Complaint Posts",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/posts",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/posts/{post_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

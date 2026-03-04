@@ -6,6 +6,7 @@ from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.arma.procedure.models.award_milestone import (
     AwardMilestoneListMixin,
 )
+from openprocurement.tender.arma.procedure.models.value import Value, WeightedValue
 from openprocurement.tender.core.procedure.models.award import Award as BaseAward
 from openprocurement.tender.core.procedure.models.award import (
     PatchAward as BasePatchAward,
@@ -13,7 +14,6 @@ from openprocurement.tender.core.procedure.models.award import (
 from openprocurement.tender.core.procedure.models.award import (
     PostAward as BasePostAward,
 )
-from openprocurement.tender.core.procedure.models.value import WeightedValue
 from openprocurement.tender.openua.procedure.models.item import Item
 
 
@@ -22,6 +22,7 @@ class Award(AwardMilestoneListMixin, BaseAward):
     items = ListType(ModelType(Item, required=True))
     eligible = BooleanType()
     weightedValue = ModelType(WeightedValue)
+    value = ModelType(Value)
 
     def validate_eligible(self, data, eligible):
         if data["status"] == "active" and not eligible:
@@ -35,3 +36,5 @@ class PatchAward(BasePatchAward):
 
 class PostAward(BasePostAward):
     weightedValue = ModelType(WeightedValue)
+    value = ModelType(Value)
+    items = ListType(ModelType(Item))

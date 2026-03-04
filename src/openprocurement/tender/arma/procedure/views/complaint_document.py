@@ -10,7 +10,7 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Complaint Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Complaint Documents",
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/complaints/{complaint_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

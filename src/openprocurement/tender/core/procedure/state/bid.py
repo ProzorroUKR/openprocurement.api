@@ -46,6 +46,14 @@ class BidState(BaseState):
     items_unit_value_required_for_funders = False
     items_product_required = False
     qualification_statuses = ("active.qualification", "active.pre-qualification")
+    item_patch_fields_during_qualification = {
+        "items": ("unit.value.amount",),
+        "requirementResponses": None,
+        "subcontractingDetails": None,
+        "tenderers": ("signerInfo",),
+        "lotValues": ("subcontractingDetails",),
+    }
+    check_item_unit_amount = True
 
     @property
     def check_all_exist_tender_items(self):
@@ -181,11 +189,12 @@ class BidState(BaseState):
         elif self.items_unit_value_required_for_funders and tender.get("funders"):
             self.raise_items_error("items is required for tender with funders")
 
-        if items_for_lot:
-            for lot_id, items_ids in items_unit_value_amount.items():
-                validate_items_unit_amount(items_ids, lot_values_by_id[lot_id], obj_name="bid.lotValues")
-        else:
-            validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
+        if self.check_item_unit_amount:
+            if items_for_lot:
+                for lot_id, items_ids in items_unit_value_amount.items():
+                    validate_items_unit_amount(items_ids, lot_values_by_id[lot_id], obj_name="bid.lotValues")
+            else:
+                validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 
     def validate_items_quantity(self, data):
         if tender_created_before(ITEM_QUANTITY_REQUIRED_FROM):
@@ -331,7 +340,7 @@ class BidState(BaseState):
         ):
             raise_operation_error(
                 self.request,
-                "Bid value.amount can't be greater than contact value.amount.",
+                "Bid value.amount can't be greater than contract value.amount.",
             )
 
         if data.get("parameters") and agreement.get("frameworkID") is None:  # validate only for CFASelection
@@ -445,38 +454,21 @@ class BidState(BaseState):
     def validate_patch_bid_fields_during_qualification(self, before, after):
         if get_tender().get("status") not in self.qualification_statuses:
             return
-        item_patch_fields = [
-            "items",
-            "requirementResponses",
-            "subcontractingDetails",
-            "tenderers",
-            "lotValues",
-        ]
+
         for field_name in after.keys():
-            if field_name == "items":
-                validate_allowed_field_change_in_list(
-                    before,
-                    after,
-                    field_name=field_name,
-                    nested_field_names=("unit.value.amount",),
-                )
-            if field_name == "tenderers":
-                validate_allowed_field_change_in_list(
-                    before,
-                    after,
-                    field_name=field_name,
-                    nested_field_names=("signerInfo",),
-                )
-            if field_name == "lotValues":
-                validate_allowed_field_change_in_list(
-                    before,
-                    after,
-                    field_name=field_name,
-                    nested_field_names=("subcontractingDetails",),
-                )
-            if field_name not in item_patch_fields and before.get(field_name) != after.get(field_name):
+            if field_name not in self.item_patch_fields_during_qualification and before.get(field_name) != after.get(
+                field_name
+            ):
                 raise_operation_error(
                     get_request(),
-                    f"Updated could be only {tuple(item_patch_fields)} in bid, {field_name} change forbidden",
+                    f"Updated could be only {tuple(self.item_patch_fields_during_qualification.keys())} in bid,"
+                    f" {field_name} change forbidden",
                     status=422,
+                )
+            if allowed_nested_fields := self.item_patch_fields_during_qualification.get(field_name):
+                validate_allowed_field_change_in_list(
+                    before,
+                    after,
+                    field_name=field_name,
+                    nested_field_names=allowed_nested_fields,
                 )

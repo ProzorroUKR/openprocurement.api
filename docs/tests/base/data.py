@@ -947,7 +947,6 @@ test_docs_tender_complex_assets_arma = {
     "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(weeks=4, days=1)).isoformat()},
     "title": "Послуги шкільних їдалень",
     "procurementMethodType": "complexAsset.arma",
-    "value": {"currency": "UAH"},
     "procuringEntity": test_docs_arma_procuring_entity,
     "items": test_docs_items_en,
     "mainProcurementCategory": "services",

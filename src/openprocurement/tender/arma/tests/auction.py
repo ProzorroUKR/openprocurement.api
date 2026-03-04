@@ -24,7 +24,6 @@ from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auctio
 
 
 class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceTestMixin):
-    # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_arma_bids
     initial_lots = test_lots_data = test_tender_arma_lots

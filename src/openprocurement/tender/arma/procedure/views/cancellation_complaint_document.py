@@ -10,7 +10,7 @@ from openprocurement.tender.openua.procedure.state.complaint_document import (
 
 
 @resource(
-    name="complexAsset.arma:Tender Cancellation Complaint Documents",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Cancellation Complaint Documents",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}/documents/{document_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,

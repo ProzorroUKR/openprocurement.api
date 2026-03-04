@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.views.question import TenderQuestionR
 
 
 @resource(
-    name="complexAsset.arma:Tender Questions",
+    name=f"{COMPLEX_ASSET_ARMA}:Tender Questions",
     collection_path="/tenders/{tender_id}/questions",
     path="/tenders/{tender_id}/questions/{question_id}",
     procurementMethodType=COMPLEX_ASSET_ARMA,
