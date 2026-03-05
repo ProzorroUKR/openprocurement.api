@@ -92,13 +92,15 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
 
 
 class ListSerializer(AbstractSerializer[list[Any]]):
-    def __init__(self, serializer: Callable):
+    def __init__(self, serializer: Callable, data: Optional[list[Any]] = None, **kwargs):
         self.serializer = serializer
-
-    def __call__(self, data: list[Any], **kwargs) -> ListSerializer:
         self._data = data
         self._kwargs = kwargs.copy()
-        return self
+
+    def __call__(self, data: list[Any], **kwargs) -> ListSerializer:
+        # Return a new instance per invocation
+        # so concurrent requests don't overwrite shared state
+        return type(self)(self.serializer, data=data, **kwargs)
 
     @property
     def data(self) -> list[Any]:
