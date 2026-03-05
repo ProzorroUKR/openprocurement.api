@@ -188,8 +188,10 @@ def test_fail_not_draft(app, plan):
 def test_fail_non_central(app, plan):
     app.authorization = ("Basic", ("broker", "broker"))
 
-    test_data = deepcopy(test_tender_openua_central_data)
-    test_data["procuringEntity"]["kind"] = "general"
+    test_data = deepcopy(test_tender_openua_data)
+    test_data.pop("bids", None)
+    test_data.pop("revisions", None)
+    test_data.pop("status", None)
     response = app.post_json("/tenders", {"data": test_data, "config": test_tender_openua_config})
     assert response.status == "201 Created"
     tender = response.json
