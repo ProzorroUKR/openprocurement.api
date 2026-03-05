@@ -1,4 +1,5 @@
 from copy import deepcopy
+from decimal import Decimal
 from unittest import mock
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
@@ -182,12 +183,17 @@ def create_tender_biddder_invalid(self):
 
 
 def create_tender_bidder(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    for lot in tender["lots"]:
+        lot["value"]["amountPercentage"] = Decimal("99.999")
+    self.mongodb.tenders.save(tender)
+
     bid_data = deepcopy(test_tender_arma_bids[0])
     lot_id = self.initial_lots[0]["id"]
     bid_data.update(
         {
             "tenderers": [self.test_bids_data[0]["tenderers"][0]],
-            "lotValues": [{"value": {"amountPercentage": 50}, "relatedLot": lot_id}],
+            "lotValues": [{"value": {"amountPercentage": 99.999}, "relatedLot": lot_id}],
             "value": None,
             "parameters": None,
             "documents": None,

@@ -43,7 +43,7 @@ class PostLotValue(Model):
         lot = find_lot(get_tender(), data["relatedLot"])
         if lot and value:
             tender_lot_value = lot.get("value")
-            if float(tender_lot_value["amountPercentage"]) < value["amountPercentage"]:
+            if tender_lot_value["amountPercentage"] < value["amountPercentage"]:
                 raise ValidationError("value of bid should be less than value of lot")
 
     def validate_relatedLot(self, data, related_lot):
