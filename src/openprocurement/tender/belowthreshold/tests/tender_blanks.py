@@ -18,6 +18,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.models.organization import (
     PROCURING_ENTITY_KIND_CHOICES,
+    ProcuringEntityKind,
 )
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
@@ -3362,6 +3363,7 @@ def patch_items_related_buyer_id(self):
     test_buyer2["name"] = "Управління міжнародних справ"
     test_buyer2["identifier"]["id"] = "00055555"
 
+    data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
     data["status"] = "draft"
     data["buyers"] = [
         test_buyer1,
@@ -4853,6 +4855,7 @@ def set_buyers_signer_info(self):
     buyer["id"] = uuid4().hex
     buyer.pop("signerInfo", None)
 
+    tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
     tender_data["buyers"] = [buyer]
     tender_data["items"][0]["relatedBuyer"] = buyer["id"]
 
@@ -4968,6 +4971,7 @@ def set_procuring_entity_contract_owner(self):
     buyer["id"] = uuid4().hex
     buyer["contract_owner"] = "broker"
 
+    tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
     tender_data["buyers"] = [buyer]
     tender_data["items"][0]["relatedBuyer"] = buyer["id"]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})

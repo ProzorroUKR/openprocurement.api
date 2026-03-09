@@ -4,6 +4,7 @@ from uuid import uuid4
 import pytest
 
 from openprocurement.api.constants_env import RELEASE_SIMPLE_DEFENSE_FROM
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     app,
     singleton_app,
@@ -103,6 +104,11 @@ def test_set_buyers(app, request_tender_data, request_tender_config):
     ]
     for item in test_data["items"]:
         item["relatedBuyer"] = test_data["buyers"][0]["id"]
+    response = app.post_json("/tenders", {"data": test_data, "config": request_tender_config}, status=422)
+    assert response.status == "422 Unprocessable Entity"
+    assert response.json["errors"] == [{"location": "body", "name": "buyers", "description": ["Rogue field."]}]
+
+    test_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
     response = app.post_json("/tenders", {"data": test_data, "config": request_tender_config})
     assert response.status == "201 Created"
     assert len(response.json["data"]["buyers"]) == 1

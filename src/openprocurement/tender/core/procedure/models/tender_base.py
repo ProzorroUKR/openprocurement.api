@@ -155,8 +155,11 @@ class PostBaseTender(CommonBaseTender):
     plans = ListType(ModelType(PlanRelation, required=True))
 
     def validate_buyers(self, data, value):
-        if data.get("procuringEntity", {}).get("kind", "") == ProcuringEntityKind.CENTRAL and not value:
+        procuring_entity_kind = data.get("procuringEntity", {}).get("kind", "")
+        if procuring_entity_kind == ProcuringEntityKind.CENTRAL and not value:
             raise ValidationError(BaseType.MESSAGES["required"])
+        elif procuring_entity_kind != ProcuringEntityKind.CENTRAL and value:
+            raise ValidationError("Rogue field.")
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)

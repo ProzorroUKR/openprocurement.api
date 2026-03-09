@@ -66,7 +66,9 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_empty_listing = snitch(empty_listing)
     test_patch_tender_period = snitch(patch_tender_period)
     test_patch_tender_draft = snitch(patch_tender_draft)
-    test_set_buyers_signer_info = snitch(set_buyers_signer_info)
+    test_set_buyers_signer_info = unittest.skip(
+        "ARMA procedure cannot have kind=central, hence cannot create buyers field"
+    )(snitch(set_buyers_signer_info))
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
 
     test_set_procuring_entity_contract_owner = None
