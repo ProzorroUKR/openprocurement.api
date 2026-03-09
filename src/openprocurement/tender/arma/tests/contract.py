@@ -5,31 +5,23 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.tender.arma.tests.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
-    test_tender_arma_multi_buyers_data,
+    test_tender_arma_lots,
 )
 from openprocurement.tender.arma.tests.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_datesigned,
+    patch_tender_contract_value,
 )
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
-    patch_contract_single_item_unit_value,
-    patch_contract_single_item_unit_value_with_status,
-    patch_tender_contract_value,
-    patch_tender_multi_contracts,
-    patch_tender_multi_contracts_cancelled,
-    patch_tender_multi_contracts_cancelled_validate_amount,
-    patch_tender_multi_contracts_cancelled_with_one_activated,
-)
 
 
-@unittest.skip("disable skip when contracting is available")
 class TenderContractResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_arma_bids
+    initial_lots = test_tender_arma_lots
     initial_auth = ("Basic", ("broker", ""))
     author_data = test_tender_below_author
 
@@ -43,7 +35,8 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
                     "suppliers": [self.supplier_info],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": {"amountPercentage": 50},
                     "items": self.initial_data["items"],
                 }
             },
@@ -69,36 +62,11 @@ class TenderContractResourceTest(BaseTenderContentWebTest):
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
-    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
-    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
-
-
-@unittest.skip("disable skip when contracting is available")
-class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
-    initial_status = "active.qualification"
-    initial_bids = test_tender_arma_bids
-    initial_auth = ("Basic", ("broker", ""))
-    author_data = test_tender_below_author
-    initial_data = test_tender_arma_multi_buyers_data
-
-    def setUp(self):
-        super().setUp()
-        TenderContractResourceTest.create_award(self)
-
-    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
-    test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
-    test_patch_tender_multi_contracts_cancelled_with_one_activated = snitch(
-        patch_tender_multi_contracts_cancelled_with_one_activated
-    )
-    test_patch_tender_multi_contracts_cancelled_validate_amount = snitch(
-        patch_tender_multi_contracts_cancelled_validate_amount
-    )
 
 
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractResourceTest))
-    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderContractMultiBuyersResourceTest))
     return suite
 
 

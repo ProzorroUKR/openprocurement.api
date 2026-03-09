@@ -538,6 +538,19 @@ def get_change_class(poly_model, data, _validation=False):
     return _change_class
 
 
+def get_contract_value_class(poly_model, data, _validation=False):
+    class_name = "ContractValue"
+    if "amountPercentage" in data:
+        class_name = "AmountPercentageValue"
+
+    try:
+        return next(model_class for model_class in poly_model.model_classes if model_class.__name__ == class_name)
+    except StopIteration:
+        if _validation:
+            return None
+        raise ValidationError("Input for polymorphic field did not match any model")
+
+
 def requested_fields_changes(request, fieldnames):
     changed_fields = request.validated["json_data"].keys()
     return set(fieldnames) & set(changed_fields)

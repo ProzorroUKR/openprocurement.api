@@ -1,8 +1,15 @@
+from decimal import Decimal
+
 from schematics.exceptions import ValidationError
 from schematics.types import BooleanType, FloatType, StringType
 
 from openprocurement.api.constants import CURRENCIES
 from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import NormalizedDecimalType
+
+MIN_VALUE = Decimal("0")
+MAX_VALUE = Decimal("100")
+PRECISION = -3
 
 
 class BasicValue(Model):
@@ -24,3 +31,12 @@ class EstimatedValue(Value):
 
 class ContractValue(Value):
     amountNet = FloatType(min_value=0)
+
+
+class AmountPercentageValue(Model):
+    amountPercentage = NormalizedDecimalType(
+        min_value=MIN_VALUE,
+        max_value=MAX_VALUE,
+        precision=PRECISION,
+        required=True,
+    )

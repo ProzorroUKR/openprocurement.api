@@ -96,7 +96,9 @@ def create_tender_lot_invalid(self):
         response.json["errors"],
         [
             {
-                "description": ["Please use a mapping for this field or Value instance instead of str."],
+                "description": [
+                    "Please use a mapping for this field or AmountPercentageValue instance instead of str."
+                ],
                 "location": "body",
                 "name": "value",
             }

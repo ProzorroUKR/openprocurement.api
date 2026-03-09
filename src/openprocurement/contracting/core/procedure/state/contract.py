@@ -33,6 +33,7 @@ from openprocurement.contracting.core.procedure.utils import (
     is_bid_owner,
     is_contract_owner,
 )
+from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     IgnoredClaimMixing,
@@ -48,6 +49,7 @@ from openprocurement.tender.core.procedure.utils import (
     set_mode_test_titles,
     tender_created_after,
     tender_created_in,
+    validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_items_unit_amount,
@@ -66,6 +68,10 @@ class ContractStateMixing:
 
     set_object_status: Callable
     check_skip_award_complaint_period: Callable
+
+    @staticmethod
+    def is_percentage_value(value):
+        return "amountPercentage" in value
 
     @staticmethod
     def calculate_stand_still_end(tender, lot_awards, now):
@@ -235,6 +241,18 @@ class ContractStateMixing:
         pass
 
     def validate_activate_contract(self, contract):
+        if not self.is_percentage_value(contract.get("value", {})):
+            self._validate_contract_items_unit_value_amount(contract)
+
+        if tender_created_after(UNIT_PRICE_REQUIRED_FROM):
+            for item in contract.get("items", []):
+                if item.get("unit") and item["unit"].get("value", None) is None:
+                    raise_operation_error(
+                        get_request(),
+                        "Can't activate contract while unit.value is not set for each item",
+                    )
+
+    def _validate_contract_items_unit_value_amount(self, contract: dict) -> None:
         items_unit_value_amount = []
         for item in contract.get("items", []):
             if item.get("unit") and item.get("quantity", None) is not None:
@@ -250,14 +268,6 @@ class ContractStateMixing:
                     )
 
         validate_items_unit_amount(items_unit_value_amount, contract)
-
-        if tender_created_after(UNIT_PRICE_REQUIRED_FROM):
-            for item in contract.get("items", []):
-                if item.get("unit") and item["unit"].get("value", None) is None:
-                    raise_operation_error(
-                        get_request(),
-                        "Can't activate contract while unit.value is not set for each item",
-                    )
 
     def validate_contract_signing(self, before: dict, after: dict):
         tender = get_tender()
@@ -328,6 +338,8 @@ class ContractStateMixing:
         elif value is not None:
             value_data = value
         else:
+            return
+        if self.is_percentage_value(value_data):
             return
         valueAddedTaxIncluded = value_data["valueAddedTaxIncluded"]
         currency = value_data["currency"]
@@ -607,6 +619,14 @@ class ContractState(
         if contract.get("mode") == "test":
             set_mode_test_titles(contract)
 
+    def validate_value(self, value: dict):
+        if value:
+            tender = get_tender()
+            if tender.get("procurementMethodType") == COMPLEX_ASSET_ARMA:
+                validate_field(value, "amountPercentage")
+            else:
+                validate_field(value, "amount")
+
     def validate_patch_contract_items(self, request, before: dict, after: dict) -> None:
         # TODO: Remove this logic later with adding new endpoint for items in contract
 
@@ -697,23 +717,6 @@ class ContractState(
     def validate_update_contracting_items_unit_value_amount(self, request, before, after) -> None:
         if after.get("items"):
             self._validate_contract_items_unit_value_amount(after)
-
-    def _validate_contract_items_unit_value_amount(self, contract: dict) -> None:
-        items_unit_value_amount = []
-        for item in contract.get("items", ""):
-            if item.get("unit") and item.get("quantity") is not None:
-                if item["unit"].get("value"):
-                    if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
-                        raise_operation_error(
-                            get_request(),
-                            "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
-                            status=422,
-                        )
-                    items_unit_value_amount.append(
-                        to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
-                    )
-
-        validate_items_unit_amount(items_unit_value_amount, contract)
 
     @staticmethod
     def validate_update_contracting_value_identical(request, before, after):
@@ -814,13 +817,15 @@ class ContractState(
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
         tender = get_tender()
 
+        self.validate_value(after.get("value", {}))
         self.validate_dateSigned(request, tender, before, after)
         self.validate_update_contract_status(request, tender, before, after)
         self.validate_patch_contract_items(request, before, after)
         self.validate_milestones(request, before, after)
         self.validate_update_contract_value(request, before, after)
-        self.validate_update_contract_value_net_required(request, before, after)
-        self.validate_update_contract_value_amount(request, before, after)
+        if not self.is_percentage_value(after.get("value", {})):
+            self.validate_update_contract_value_net_required(request, before, after)
+            self.validate_update_contract_value_amount(request, before, after)
 
         if after["status"] != "cancelled":
             if before["status"] == "pending":
@@ -876,64 +881,79 @@ class ContractState(
 
     def validate_contract_active_patch(self, request, before: dict, after: dict) -> None:
         self.validate_update_contracting_value_identical(request, before, after)
-        self.validate_update_contracting_items_unit_value_amount(request, before, after)
-        self.validate_update_contract_value_net_required(request, before, after, name="amountPaid")
-        self.validate_update_contract_paid_amount(request, before, after)
+        if not self.is_percentage_value(after.get("value", {})):
+            self.validate_update_contracting_items_unit_value_amount(request, before, after)
+            self.validate_update_contract_value_net_required(request, before, after, name="amountPaid")
+            self.validate_update_contract_paid_amount(request, before, after)
         self.validate_terminate_contract_without_amountPaid(request, before, after)
         self.validate_period(before, after)
 
-    @staticmethod
-    def validate_update_contract_value_with_award(request, tender: dict, before: dict, after: dict) -> None:
+    def validate_update_contract_value_with_award(self, request, tender: dict, before: dict, after: dict) -> None:
         if is_multi_currency_tender():
             return
-        value = after.get("value")
+        value = after.get("value", {})
         if value and (before.get("value") != after.get("value") or before.get("status") != after.get("status")):
-            award = request.validated["award"]
-            contracts_ids = [
-                i["id"]
-                for i in tender.get("contracts", [])
-                if i.get("status", "") != "cancelled"
-                and i["awardID"] == after["awardID"]
-                and i["id"] != after["id"]
-                and i["id"] != before["id"]
-            ]
-
-            _contracts_values = []
-
-            if contracts_ids:
-                _contracts_values = request.registry.mongodb.contracts.list(
-                    fields={"value"},
-                    filters={"_id": {"$in": contracts_ids}},
-                    mode="_all_",
-                )
-
-            _contracts_values.append({"value": value})
-
-            amount = sum(to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values)
-            amount_net = sum(to_decimal(obj["value"].get("amountNet", 0)) for obj in _contracts_values)
-            tax_included = value.get("valueAddedTaxIncluded")
-            if tax_included:
-                if award.get("value", {}).get("valueAddedTaxIncluded"):
-                    if amount > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(
-                            request,
-                            "Amount should be less or equal to awarded amount",
-                            name="value",
-                        )
-                else:
-                    if amount_net > to_decimal(award.get("value", {}).get("amount")):
-                        raise_operation_error(
-                            request,
-                            "AmountNet should be less or equal to awarded amount",
-                            name="value",
-                        )
+            if self.is_percentage_value(value):
+                self._validate_contract_value_amountPercentage(request, value)
             else:
+                self._validate_contract_value_amount(request, tender, before, after, value)
+
+    def _validate_contract_value_amount(self, request, tender, before, after, value):
+        award = request.validated["award"]
+        contracts_ids = [
+            i["id"]
+            for i in tender.get("contracts", [])
+            if i.get("status", "") != "cancelled"
+            and i["awardID"] == after["awardID"]
+            and i["id"] != after["id"]
+            and i["id"] != before["id"]
+        ]
+
+        _contracts_values = []
+
+        if contracts_ids:
+            _contracts_values = request.registry.mongodb.contracts.list(
+                fields={"value"},
+                filters={"_id": {"$in": contracts_ids}},
+                mode="_all_",
+            )
+
+        _contracts_values.append({"value": value})
+
+        amount = sum(to_decimal(obj["value"].get("amount", 0)) for obj in _contracts_values)
+        amount_net = sum(to_decimal(obj["value"].get("amountNet", 0)) for obj in _contracts_values)
+        tax_included = value.get("valueAddedTaxIncluded")
+        if tax_included:
+            if award.get("value", {}).get("valueAddedTaxIncluded"):
                 if amount > to_decimal(award.get("value", {}).get("amount")):
                     raise_operation_error(
                         request,
                         "Amount should be less or equal to awarded amount",
                         name="value",
                     )
+            else:
+                if amount_net > to_decimal(award.get("value", {}).get("amount")):
+                    raise_operation_error(
+                        request,
+                        "AmountNet should be less or equal to awarded amount",
+                        name="value",
+                    )
+        else:
+            if amount > to_decimal(award.get("value", {}).get("amount")):
+                raise_operation_error(
+                    request,
+                    "Amount should be less or equal to awarded amount",
+                    name="value",
+                )
+
+    def _validate_contract_value_amountPercentage(self, request, value):
+        award = request.validated["award"]
+        if value.get("amountPercentage") > award.get("value", {}).get("amountPercentage"):
+            raise_operation_error(
+                request,
+                "Amount percentage should be less or equal to awarded amount percentage",
+                name="value",
+            )
 
     def validate_required_signed_info(self, data: dict) -> None:
         if "contractTemplateName" in data:

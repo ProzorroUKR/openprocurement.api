@@ -1,7 +1,7 @@
 from schematics.types import BooleanType, FloatType
 
-from openprocurement.api.procedure.models.value import BasicValue
-from openprocurement.api.procedure.types import DecimalType
+from openprocurement.api.procedure.models.value import AmountPercentageValue, BasicValue
+from openprocurement.api.procedure.types import DecimalType, NormalizedDecimalType
 
 
 class Value(BasicValue):
@@ -26,3 +26,9 @@ class WeightedValue(BasicValue):
     # It's not decided yet to remove it or not by migration
     # In case of migration we will remove this field
     valueAddedTaxIncluded = BooleanType()
+
+
+class AmountPercentageWeightedValue(AmountPercentageValue):
+    amountPercentage = NormalizedDecimalType(required=True)
+    denominator = FloatType()
+    addition = DecimalType(precision=-2)
