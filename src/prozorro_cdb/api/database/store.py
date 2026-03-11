@@ -273,6 +273,12 @@ class BaseCollection:
         self.collection = getattr(store.database, self.collection_name)
 
     def get_indexes(self) -> list[IndexModel]:
+        public_modified_index = IndexModel(
+            [
+                ("public_modified", ASCENDING),
+            ],
+            name="public_modified",
+        )
         real_by_public_modified_index = IndexModel(
             [
                 ("public_modified", ASCENDING),
@@ -315,6 +321,7 @@ class BaseCollection:
             },
         )
         return [
+            public_modified_index,
             real_by_public_modified_index,
             test_by_public_modified_index,
             all_by_public_modified_index,
