@@ -368,9 +368,19 @@ def request_params(request):
 
 
 def default_exceptionresponse_view(request):
-    name = request.exception.title.lower().replace(" ", "_")
-    request.errors.add("url", name, request.exception.title)
-    request.errors.status = request.exception.code
+    code = request.exception.code
+    description = request.exception.title
+    name = description.lower().replace(" ", "_")
+
+    # keep some original names for backward compatibility
+    if code == 403:
+        name = "permission"
+    elif code == 412:
+        name = "precondition"
+
+    # create error
+    request.errors.add("url", name, description)
+    request.errors.status = code
     return error_handler(request)
 
 

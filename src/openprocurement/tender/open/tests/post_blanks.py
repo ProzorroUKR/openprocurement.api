@@ -362,7 +362,7 @@ def patch_complaint_post(self):
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.patch_post({"title": "Test"}, status=405)
     self.assertEqual(response.status, "405 Method Not Allowed")
-    self.assertEqual(response.content_type, "text/plain")
+    self.assertEqual(response.content_type, "application/json")
 
 
 @mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_ENABLED)
