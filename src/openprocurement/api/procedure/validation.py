@@ -467,3 +467,37 @@ def validate_cert_key_type(cert_key_type):
             get_request(),
             "Invalid certificate key type, expected ДСТУ-4145",
         )
+
+
+def validate_field_change(
+    before: dict,
+    after: dict,
+    field_name: str,
+    allowed_fields: list[str],
+    container_name: str,
+    status: int = 422,
+) -> None:
+    field_value_before = before.get(field_name)
+    field_value_after = after.get(field_name)
+    if field_name not in allowed_fields and field_value_before != field_value_after:
+        raise_operation_error(
+            get_request(),
+            f"Updated could be only {tuple(allowed_fields)} in {container_name}, "
+            f"{field_name} change forbidden: {field_value_before} -> {field_value_after}",
+            status=status,
+        )
+
+
+def validate_fileds_deletion(
+    before: dict,
+    after: dict,
+    container_name: str,
+    status: int = 422,
+) -> None:
+    keys_difference = set(before.keys()) - set(after.keys())
+    if keys_difference:
+        raise_operation_error(
+            get_request(),
+            f"Forbidden to delete fields in {container_name}: {keys_difference}",
+            status=status,
+        )

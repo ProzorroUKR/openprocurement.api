@@ -411,6 +411,7 @@ def patch_tender_contract(self):
     )
 
     new_items = deepcopy(contract["items"])
+    original_description = new_items[0]["description"]
     new_items[0]["description"] = "New Description"
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -423,7 +424,10 @@ def patch_tender_contract(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Updated could be only ('unit', 'quantity') in item, description change forbidden",
+        (
+            "Updated could be only ('unit', 'quantity') in item, description change forbidden: "
+            f"{original_description} -> New Description"
+        ),
     )
 
     response = self.app.get(f"/contracts/{contract['id']}")

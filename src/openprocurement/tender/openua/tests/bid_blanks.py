@@ -2502,9 +2502,12 @@ def patch_bid_during_qualification_with_24h_milestone(self):
 
     self.bid_token = self.initial_bids_tokens[self.initial_bids[0]["id"]]
 
+    value_before = bids[0]["value"]
+    value_patch = {"amount": 453.0}
+    value_after = {**value_before, **value_patch}
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
-        {"data": {"value": {"amount": 453}}},
+        {"data": {"value": value_patch}},
         status=422,
     )
     self.assertEqual(
@@ -2512,7 +2515,10 @@ def patch_bid_during_qualification_with_24h_milestone(self):
         {
             "location": "body",
             "name": "data",
-            "description": "Updated could be only ('items', 'requirementResponses', 'subcontractingDetails', 'tenderers', 'lotValues') in bid, value change forbidden",
+            "description": (
+                "Updated could be only ('items', 'requirementResponses', 'subcontractingDetails', 'tenderers', 'lotValues') in bid, "
+                f"value change forbidden: {value_before} -> {value_after}"
+            ),
         },
     )
 

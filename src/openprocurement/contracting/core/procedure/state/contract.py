@@ -21,6 +21,10 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_request, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import get_items, parse_date, to_decimal
+from openprocurement.api.procedure.validation import (
+    validate_field_change,
+    validate_fileds_deletion,
+)
 from openprocurement.api.utils import (
     calculate_full_date,
     context_unpack,
@@ -626,38 +630,27 @@ class ContractState(
         for item_before, item_after in zip_longest(items_before, items_after):
             if None in (item_before, item_after):
                 raise_operation_error(get_request(), "Can't change items list length")
-            else:
-                # check deletion of fields
-                keys_difference = set(item_before.keys()) - set(item_after.keys())
-                if keys_difference:
-                    raise_operation_error(
-                        get_request(),
-                        f"Forbidden to delete fields {keys_difference}",
-                    )
-                for k in item_before.keys() | item_after.keys():
-                    before, after = item_before.get(k), item_after.get(k)
-                    if k not in item_patch_fields and before != after:
-                        raise_operation_error(
-                            get_request(),
-                            f"Updated could be only {tuple(item_patch_fields)} in item, {k} change forbidden",
-                        )
-                    # check fields deletion in dict objects such as deliveryAddress, deliveryLocation, etc.
-                    if isinstance(before, dict) and isinstance(after, dict) and set(before.keys()) - set(after.keys()):
-                        raise_operation_error(
-                            get_request(),
-                            f"Forbidden to delete fields in {k}: {set(before.keys()) - set(after.keys())}",
-                        )
 
-                    if (
-                        k == "unit"
-                        and before is not None  # for ESCO there could be no unit for contract, but it can be added
-                        and before.get("value")
-                    ):
-                        if before["value"]["currency"] != after["value"]["currency"]:
-                            raise_operation_error(
-                                get_request(),
-                                "Forbidden to change currency in contract items unit",
-                            )
+            validate_fileds_deletion(item_before, item_after, "item", status=403)
+            for k in item_before.keys() | item_after.keys():
+                validate_field_change(item_before, item_after, k, item_patch_fields, "item", status=403)
+
+                before_obj, after_obj = item_before.get(k), item_after.get(k)
+
+                # check fields deletion in dict objects such as deliveryAddress, deliveryLocation, etc.
+                if isinstance(before_obj, dict) and isinstance(after_obj, dict):
+                    validate_fileds_deletion(before_obj, after_obj, k, status=403)
+
+                if (
+                    k == "unit"
+                    and before_obj is not None  # for ESCO there could be no unit for contract, but it can be added
+                    and before_obj.get("value")
+                ):
+                    if before_obj["value"]["currency"] != after_obj["value"]["currency"]:
+                        raise_operation_error(
+                            get_request(),
+                            "Forbidden to change currency in contract items unit",
+                        )
 
     def extract_key_hash(self, item):
         """Make hash from field set"""

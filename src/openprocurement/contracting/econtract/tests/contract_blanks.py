@@ -238,6 +238,7 @@ def post_new_version_of_contract(self):
     )
 
     # try to change forbidden field
+    title_ru_before = initial_contract_data.get("title_ru")
     contract_data["title_ru"] = "New contract"
     response = self.app.post_json(
         f"/contracts?acc_token={self.supplier_token}",
@@ -251,15 +252,20 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', 'description_en', 'dateSigned', 'milestones', 'suppliers') in contract, title_ru change forbidden",
+                "description": (
+                    "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', "
+                    "'description_en', 'dateSigned', 'milestones', 'suppliers') "
+                    "in contract, title_ru change forbidden: "
+                    f"{title_ru_before} -> New contract"
+                ),
             }
         ],
     )
 
     del contract_data["title_ru"]
-    contract_data["items"][0]["deliveryDate"] = {
-        "startDate": "2022-01-01",
-    }
+    delivery_date_before = initial_contract_data["items"][0]["deliveryDate"]
+    delivery_date_after = {"startDate": "2022-01-01T00:00:00+02:00"}
+    contract_data["items"][0]["deliveryDate"] = delivery_date_after
     contract_data.update(
         {
             "period": {
@@ -279,7 +285,10 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('unit', 'quantity') in item, deliveryDate change forbidden",
+                "description": (
+                    "Updated could be only ('unit', 'quantity') in item, deliveryDate change forbidden: "
+                    f"{delivery_date_before} -> {delivery_date_after}"
+                ),
             }
         ],
     )
@@ -327,6 +336,7 @@ def post_new_version_of_contract(self):
     )
 
     contract_data["value"]["amountNet"] = contract_data["value"]["amount"]
+    supplier_name_before = initial_contract_data["suppliers"][0].get("name")
     contract_data["suppliers"][0]["name"] = "new name"
     response = self.app.post_json(
         f"/contracts?acc_token={self.supplier_token}",
@@ -339,7 +349,10 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only signerInfo in suppliers, name change forbidden",
+                "description": (
+                    "Updated could be only ('signerInfo',) in suppliers, name change forbidden: "
+                    f"{supplier_name_before} -> new name"
+                ),
             }
         ],
     )

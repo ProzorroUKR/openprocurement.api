@@ -1,6 +1,7 @@
 from uuid import uuid4
 
 from openprocurement.api.context import get_request, get_request_now
+from openprocurement.api.procedure.validation import validate_field_change
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.state.contract import (
@@ -112,26 +113,21 @@ class EContractState(BaseContractState):
             item_patch_fields.append("buyer")
         else:
             item_patch_fields.append("suppliers")
+
         for field_name in updated_contract_data.keys():
-            if field_name not in item_patch_fields and before.get(field_name) != after.get(field_name):
-                raise_operation_error(
-                    get_request(),
-                    f"Updated could be only {tuple(item_patch_fields)} in contract, {field_name} change forbidden",
-                    status=422,
-                )
-            if field_name in ("suppliers", "buyers"):
-                participant_obj = after.get(field_name, {})
-                prev_participant_obj = before.get(field_name, {})
-                if field_name == "suppliers":
-                    participant_obj = after.get(field_name, [{}])[0]
-                    prev_participant_obj = before.get(field_name, [{}])[0]
-                for nested_field_name, value in participant_obj.items():
-                    if prev_participant_obj.get(nested_field_name) != value and nested_field_name != "signerInfo":
-                        raise_operation_error(
-                            get_request(),
-                            f"Updated could be only signerInfo in {field_name}, {nested_field_name} change forbidden",
-                            status=422,
-                        )
+            validate_field_change(before, after, field_name, item_patch_fields, "contract")
+
+            if field_name == "buyer":
+                after_obj = after.get(field_name, {})
+                before_obj = before.get(field_name, {})
+                for nested_field_name in after_obj:
+                    validate_field_change(before_obj, after_obj, nested_field_name, ["signerInfo"], "buyer")
+
+            if field_name == "suppliers":
+                after_obj = after.get(field_name, [{}])[0]
+                before_obj = before.get(field_name, [{}])[0]
+                for nested_field_name in after_obj:
+                    validate_field_change(before_obj, after_obj, nested_field_name, ["signerInfo"], "suppliers")
 
     def on_post(self, before, after):
         tender = get_request().validated["tender"]

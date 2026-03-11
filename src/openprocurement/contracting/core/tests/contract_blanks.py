@@ -824,7 +824,7 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to delete fields {'unit'}",
+                "description": "Forbidden to delete fields in item: {'unit'}",
             }
         ],
     )
@@ -841,7 +841,10 @@ def contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Updated could be only ('unit', 'quantity') in item, description change forbidden",
+                "description": (
+                    "Updated could be only ('unit', 'quantity') in item, description change forbidden: "
+                    f"{item['description']} -> тапочки для тараканів"
+                ),
             }
         ],
     )

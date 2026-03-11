@@ -11,6 +11,7 @@ def patch_tender_contract(self):
     contract = response.json["data"]
 
     items = contract["items"]
+    original_description = items[0]["description"]
     items[0]["description"] = "New Description"
 
     value = contract["value"]
@@ -28,7 +29,10 @@ def patch_tender_contract(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Updated could be only ('unit', 'quantity') in item, description change forbidden",
+        (
+            "Updated could be only ('unit', 'quantity') in item, description change forbidden: "
+            f"{original_description} -> New Description"
+        ),
     )
 
     old_currency = value["currency"]
