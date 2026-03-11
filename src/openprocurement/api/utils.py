@@ -367,15 +367,10 @@ def request_params(request):
     return params
 
 
-def forbidden(request):
-    request.errors.add("url", "permission", "Forbidden")
-    request.errors.status = 403
-    return error_handler(request)
-
-
-def precondition(request):
-    request.errors.add("url", "precondition", "Precondition Failed")
-    request.errors.status = 412
+def default_exceptionresponse_view(request):
+    name = request.exception.title.lower().replace(" ", "_")
+    request.errors.add("url", name, request.exception.title)
+    request.errors.status = request.exception.code
     return error_handler(request)
 
 

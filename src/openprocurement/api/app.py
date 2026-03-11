@@ -24,9 +24,10 @@ import sentry_sdk
 from nacl.encoding import HexEncoder
 from nacl.signing import SigningKey, VerifyKey
 from paste.deploy.config import make_prefix_middleware
+from pyramid import httpexceptions
 from pyramid.authorization import ACLAuthorizationPolicy as AuthorizationPolicy
 from pyramid.config import Configurator
-from pyramid.httpexceptions import HTTPPreconditionFailed
+from pyramid.httpexceptions import HTTPError
 from pyramid.renderers import JSON, JSONP
 from pyramid.settings import asbool
 from request_id_middleware.middleware import RequestIdMiddleware
@@ -42,10 +43,9 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbStore
 from openprocurement.api.translogger import make_filter as make_trans_logger_filter
 from openprocurement.api.utils import (
-    forbidden,
+    default_exceptionresponse_view,
     get_currency_rates,
     json_dumps,
-    precondition,
     request_params,
 )
 
@@ -99,8 +99,13 @@ def make_app(global_config, **settings):
     )
     config.include("pyramid_exclog")
     config.include("cornice")
-    config.add_forbidden_view(forbidden)
-    config.add_view(precondition, context=HTTPPreconditionFailed)
+
+    # Register exception view for all 4xx and 5xx HTTP exceptions
+    for name in dir(httpexceptions):
+        obj = getattr(httpexceptions, name)
+        if isinstance(obj, type) and issubclass(obj, HTTPError) and obj is not HTTPError:
+            config.add_view(default_exceptionresponse_view, context=obj)
+
     config.add_request_method(request_params, "params", reify=True)
     config.add_request_method(authenticated_role, reify=True)
     config.add_request_method(check_accreditations)
