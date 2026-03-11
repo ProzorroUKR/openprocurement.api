@@ -482,7 +482,8 @@ def validate_field_change(
     if field_name not in allowed_fields and field_value_before != field_value_after:
         raise_operation_error(
             get_request(),
-            f"Updated could be only {tuple(allowed_fields)} in {container_name}, {field_name} change forbidden",
+            f"Updated could be only {tuple(allowed_fields)} in {container_name}, "
+            f"{field_name} change forbidden: {field_value_before} -> {field_value_after}",
             status=status,
         )
 

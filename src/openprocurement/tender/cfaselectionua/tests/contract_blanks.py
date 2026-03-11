@@ -37,6 +37,7 @@ def patch_tender_contract(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
 
+    original_description = items[0]["description"]
     items[0]["description"] = "New Description"
 
     response = self.app.patch_json(
@@ -50,7 +51,10 @@ def patch_tender_contract(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Updated could be only ('unit', 'quantity') in item, description change forbidden",
+        (
+            "Updated could be only ('unit', 'quantity') in item, description change forbidden: "
+            f"{original_description} -> New Description"
+        ),
     )
 
     value["currency"] = "USD"
