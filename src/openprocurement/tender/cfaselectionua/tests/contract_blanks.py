@@ -22,7 +22,7 @@ def patch_tender_contract(self):
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "text/plain")
+    self.assertEqual(response.content_type, "application/json")
 
     tender = self.mongodb.tenders.get(self.tender_id)
 

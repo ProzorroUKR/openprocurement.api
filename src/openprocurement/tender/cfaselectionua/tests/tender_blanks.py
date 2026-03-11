@@ -1931,7 +1931,7 @@ def invalid_tender_conditions(self):
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "text/plain")
+    self.assertEqual(response.content_type, "application/json")
 
     # cancellation
     cancellation = deepcopy(test_tender_below_cancellation)

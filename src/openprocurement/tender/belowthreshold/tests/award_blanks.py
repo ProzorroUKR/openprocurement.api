@@ -1122,7 +1122,7 @@ def create_tender_award_complaint(self):
         status=404,
     )
     self.assertEqual(response.status, "404 Not Found")
-    self.assertEqual(response.content_type, "text/plain")
+    self.assertEqual(response.content_type, "application/json")
 
     response = self.app.post_json(
         "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, self.award_id, token),
