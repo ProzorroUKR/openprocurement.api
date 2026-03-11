@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-30 13:51+0300\n"
+"POT-Creation-Date: 2026-03-11 11:33+0200\n"
 "PO-Revision-Date: 2018-08-17 15:28+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -184,6 +184,27 @@ msgstr ""
 
 msgid "Input precision - 3 digits after comma."
 msgstr ""
+
+msgid "Lot в :ref:`arma`"
+msgstr "Lot for :ref:`arma`"
+
+msgid "Не відрізняється від :ref:`Lot`, окрім:"
+msgstr "No differences from :ref:`Lot`, except:"
+
+msgid "Об’єкт :ref:`AmountPercentageValue`, обов’язково"
+msgstr ":ref:`AmountPercentageValue` object, required"
+
+msgid "Максимально допустимий розмір винагороди управителя у відсотках. Цінові пропозиції, більші ніж ``value``, будуть відхилені."
+msgstr "The maximum allowable amount of the manager's fee in percentage. Bids greater than ``value`` will be rejected."
+
+msgid "Об’єкт :ref:`AmountPercentageValue`, не обов’язково"
+msgstr ":ref:`AmountPercentageValue` object, not required"
+
+msgid "Мінімальний крок аукціону у відсотках. Правила валідації:"
+msgstr "The minimal step of auction in percents. Validation rules:"
+
+msgid "`amountPercentage` повинно бути меншим або дорівнювати `Lot.value.amountPercentage`"
+msgstr "`amountPercentage` should be less or equal to `Lot.value.amountPercentage`"
 
 msgid "Робочий процес у :ref:`limited`, :ref:`esco` та :ref:`openeu`"
 msgstr "Workflow in :ref:`limited`, :ref:`esco` and :ref:`openeu`"

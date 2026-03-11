@@ -732,6 +732,22 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, "200 OK")
 
+        # get contract id
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        contract = response.json["data"]["contracts"][-1]
+        contract_id = contract["id"]
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        ####  Set contract value
+
+        with open(TARGET_DIR + "contract-set-contract-value-percentage.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/contracts/{contract_id}?acc_token={owner_token}", {"data": {"value": {"amountPercentage": 35}}}
+            )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["value"]["amountPercentage"], 35)
+
         #### Preparing the cancellation request
 
         with open(TARGET_DIR + "prepare-cancellation.http", "w") as self.app.file_obj:

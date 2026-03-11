@@ -156,6 +156,21 @@ Value
 
     :ref:`ContractDuration <contact_duration>`, required.
 
+.. index:: AmountPercentageValue
+.. _AmountPercentageValue:
+
+AmountPercentageValue
+=====================
+
+Схема
+-----
+
+:amountPercentage:
+    float, обов’язково
+
+    |ocdsDescription| Кількість відсотків як число.
+
+    Повинно бути додатнім. Від 0 до 100. Приймається 3 знаки після коми.
 
 .. _contact_duration:
 

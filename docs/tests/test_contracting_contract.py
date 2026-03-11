@@ -212,13 +212,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["value"]["amount"], 238)
 
+        #### Set contact.item.unit value
+
         contract["items"][0]["unit"]["value"] = {
             "amount": 12,
             "currency": contract["value"]["currency"],
             "valueAddedTaxIncluded": contract["value"]["valueAddedTaxIncluded"],
         }
-
-        #### Set contact.item.unit value
 
         with open(TARGET_DIR + "contract-set-contract_items_unit-value.http", "w") as self.app.file_obj:
             response = self.app.patch_json(

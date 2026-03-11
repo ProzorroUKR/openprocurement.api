@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-25 16:20+0200\n"
+"POT-Creation-Date: 2026-03-11 11:33+0200\n"
 "PO-Revision-Date: 2018-09-12 16:36+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -37,9 +37,6 @@ msgstr "`startDate` should always precede `endDate`."
 
 msgid "ExtendPeriod"
 msgstr ""
-
-msgid "Схема"
-msgstr "Scheme"
 
 msgid "maxExtendDate"
 msgstr ""
@@ -158,6 +155,18 @@ msgstr ""
 msgid ":ref:`ContractDuration <contact_duration>`, required."
 msgstr ""
 
+msgid "AmountPercentageValue"
+msgstr ""
+
+msgid "amountPercentage"
+msgstr ""
+
+msgid "|ocdsDescription| Кількість відсотків як число."
+msgstr "|ocdsDescription| Amount of percentages as a number."
+
+msgid "Повинно бути додатнім. Від 0 до 100. Приймається 3 знаки після коми."
+msgstr "Should be positive. From 0 to 100. 3 decimal places are accepted."
+
 msgid "ContractDuration"
 msgstr ""
 
@@ -215,9 +224,6 @@ msgstr "The unique identifier for BankAccount."
 msgid "scheme"
 msgstr ""
 
-msgid "Можливі значення:"
-msgstr "Possible string values are:"
-
 msgid "`IBAN` - International Bank Account Number"
 msgstr "`IBAN` - International Bank Account Number"
 
@@ -245,9 +251,6 @@ msgstr "An id used to cross-reference the entry in the parties section that cont
 msgid "title"
 msgstr ""
 
-msgid "Поле імені, яке повторює ім'я, вказане в розділі сторін, передбачене для зручності перегляду даних і для підтримки виявлення помилок при перехресних посиланнях."
-msgstr "A title field that repeats the title given in the parties section, provided for the convenience of users viewing the data, and to support detection of mistakes in cross-referencing."
-
 msgid "LegislationItem"
 msgstr ""
 
@@ -265,9 +268,6 @@ msgstr ""
 
 msgid "type"
 msgstr ""
-
-msgid "Можливі значення:"
-msgstr "Possible values are:"
 
 msgid "`NATIONAL_LEGISLATION`"
 msgstr ""
@@ -391,7 +391,4 @@ msgstr "Legal justification for usage of reporting, negotiation or negotiation.q
 
 msgid "description"
 msgstr ""
-
-msgid "Обгрунтування використання звітів, \\”звичайної\\” переговорної процедури або переговорної процедури за нагальною потребою."
-msgstr "Reasoning behind usage of reporting, negotiation or negotiation.quick procedures."
 

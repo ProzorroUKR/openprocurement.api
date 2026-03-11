@@ -129,6 +129,19 @@ Award
 :requirementResponses:
         Список об’єктів :ref:`RequirementResponse`.
 
+Award в :ref:`arma`
+===================
+
+Схема
+-----
+
+Не відрізняється від :ref:`Award`, окрім:
+
+:value:
+    Об’єкт :ref:`AmountPercentageValue`, генерується автоматично, лише для читання
+
+    |ocdsDescription| Загальна вартість згідно цього рішення.
+
 Робочий процес нагороди в :ref:`limited`:
 -----------------------------------------
 
