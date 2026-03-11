@@ -271,12 +271,12 @@ def check_reporting_date_publication(self):
     qualifications = response.json["data"]["qualifications"]
     for qualification in qualifications:
         end_date = parse_date(qualification["complaintPeriod"]["endDate"])
-        # Use calendar days to avoid DST issues (timedelta.days counts 24h periods)
-        delta_days = (end_date.date() - reporting_date.date()).days
         if SANDBOX_MODE:
-            self.assertEqual(delta_days * 1440, 5 * 1440)  # accelerator = 1440
+            delta = (end_date - reporting_date) * 1440  # accelerator = 1440
         else:
-            self.assertEqual(delta_days, 5)
+            # Use calendar days to avoid DST issues (timedelta.days counts 24h periods)
+            delta = end_date.date() - reporting_date.date()
+        self.assertEqual(delta.days, 5)
 
 
 # Tender2LotQualificationResourceTest
