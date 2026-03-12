@@ -167,9 +167,16 @@ DECREE_1178 = {criterion["classification"]["id"] for criterion in standards.load
 CRITERIA_UKRAINE_FACILITY = {
     criterion["classification"]["id"] for criterion in standards.load("criteria/ukraine_facility.json")
 }
+DECREE_822 = {criterion["classification"]["id"] for criterion in standards.load("criteria/decree_822.json")}
 
 CRITERIA_LIST = (
-    ARTICLE_16 | ARTICLE_17 | OTHER_CRITERIA | CRITERION_LIFE_CYCLE_COST_IDS | DECREE_1178 | CRITERIA_UKRAINE_FACILITY
+    ARTICLE_16
+    | ARTICLE_17
+    | OTHER_CRITERIA
+    | CRITERION_LIFE_CYCLE_COST_IDS
+    | DECREE_1178
+    | CRITERIA_UKRAINE_FACILITY
+    | DECREE_822
 )
 
 # AMCU
