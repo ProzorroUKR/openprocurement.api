@@ -1,7 +1,7 @@
 from base64 import b64decode, b64encode
 from binascii import Error as BinasciiError
 from time import time
-from typing import Iterable, Tuple, TypeVar
+from typing import Iterable, Iterator, Tuple, TypeVar
 from urllib.parse import parse_qsl, quote, unquote, urlencode, urlparse
 from uuid import uuid4
 
@@ -18,12 +18,14 @@ from prozorro_cdb.api.settings import DocStorageConfig
 DocumentDataT = TypeVar("DocumentDataT", bound=PostDocument)
 
 
-def upload_documents(documents: list[DocumentDataT], current_url: str) -> Iterable[Tuple[str, DocumentDataT]]:
+def upload_documents(
+    documents: list[DocumentDataT], current_url: str, doc_ids: Iterator[str] = None
+) -> Iterable[Tuple[str, DocumentDataT]]:
     doc_config = get_request_async().app.doc_storage_config
     for document in documents:
         check_document(doc_config, document)
 
-        doc_id = uuid4().hex
+        doc_id = next(doc_ids, uuid4().hex) if doc_ids else uuid4().hex
         key = urlparse(str(document.url)).path.split("/")[-1]
         yield doc_id, document.model_copy(update=dict(url=f"{current_url}/documents/{doc_id}?download={key}"))
 
