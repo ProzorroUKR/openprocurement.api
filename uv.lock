@@ -224,22 +224,6 @@ wheels = [
 ]
 
 [[package]]
-name = "black"
-version = "24.3.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "click" },
-    { name = "mypy-extensions" },
-    { name = "packaging" },
-    { name = "pathspec" },
-    { name = "platformdirs" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/8f/5f/bac24a952668c7482cfdb4ebf91ba57a796c9da8829363a772040c1a3312/black-24.3.0.tar.gz", hash = "sha256:a0c9c4a0771afc6919578cec71ce82a3e31e054904e7197deacbc9382671c41f", size = 634292, upload-time = "2024-03-15T19:35:43.699Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4d/ea/31770a7e49f3eedfd8cd7b35e78b3a3aaad860400f8673994bc988318135/black-24.3.0-py3-none-any.whl", hash = "sha256:41622020d7120e01d377f74249e677039d20e6344ff5851de8a10f11f513bf93", size = 201493, upload-time = "2024-03-15T19:35:41.572Z" },
-]
-
-[[package]]
 name = "certifi"
 version = "2025.8.3"
 source = { registry = "https://pypi.org/simple" }
@@ -969,13 +953,11 @@ dependencies = [
 dev = [
     { name = "autoflake" },
     { name = "bandit" },
-    { name = "black" },
     { name = "coverage" },
     { name = "docutils" },
     { name = "execnet" },
     { name = "factory-boy" },
     { name = "freezegun" },
-    { name = "isort" },
     { name = "mock" },
     { name = "mypy" },
     { name = "parameterized" },
@@ -1041,13 +1023,11 @@ requires-dist = [
 dev = [
     { name = "autoflake", specifier = "==2.2.1" },
     { name = "bandit", extras = ["toml"], specifier = "==1.7.7" },
-    { name = "black", specifier = "==24.3.0" },
     { name = "coverage", specifier = "==7.8.1" },
     { name = "docutils", specifier = "<0.19" },
     { name = "execnet", specifier = "==2.1.1" },
     { name = "factory-boy", specifier = "~=3.3" },
     { name = "freezegun", specifier = "==1.5.1" },
-    { name = "isort", specifier = "==5.13.2" },
     { name = "mock", specifier = "==5.2.0" },
     { name = "mypy", specifier = "==1.11.2" },
     { name = "parameterized", specifier = "==0.7.4" },
@@ -1191,15 +1171,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/e3/97/0c4a613ec96a54d21daa7e089178263915554320402e89b4e319436a63cb/PasteDeploy-3.1.0.tar.gz", hash = "sha256:9ddbaf152f8095438a9fe81f82c78a6714b92ae8e066bed418b6a7ff6a095a95", size = 37841, upload-time = "2023-11-21T04:54:33.203Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/85/30/cdddd9a88969683a59222a6d61cd6dce923977f2e9f9ffba38e1324149cd/PasteDeploy-3.1.0-py3-none-any.whl", hash = "sha256:76388ad53a661448d436df28c798063108f70e994ddc749540d733cdbd1b38cf", size = 16943, upload-time = "2023-11-21T04:54:28.226Z" },
-]
-
-[[package]]
-name = "pathspec"
-version = "0.12.1"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ca/bc/f35b8446f4531a7cb215605d100cd88b7ac6f44ab3fc94870c120ab3adbf/pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712", size = 51043, upload-time = "2023-12-10T22:30:45Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/cc/20/ff623b09d963f88bfde16306a54e12ee5ea43e9b597108672ff3a408aad6/pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08", size = 31191, upload-time = "2023-12-10T22:30:43.14Z" },
 ]
 
 [[package]]

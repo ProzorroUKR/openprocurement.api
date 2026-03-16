@@ -6,9 +6,8 @@ from hashlib import new as hash_new
 
 from isodate import Duration, ISO8601Error, duration_isoformat, parse_duration
 from schematics.exceptions import ConversionError, StopValidation, ValidationError
-from schematics.types import BaseType
+from schematics.types import BaseType, StringType
 from schematics.types import DecimalType as BaseDecimalType
-from schematics.types import StringType
 from schematics.types.compound import ListType as BaseListType
 from schematics.types.compound import ModelType as BaseModelType
 

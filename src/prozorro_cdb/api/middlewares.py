@@ -5,9 +5,8 @@ import time
 import uuid
 from base64 import b64decode
 
-from aiohttp.web import HTTPException, HTTPInternalServerError, Request, Response
+from aiohttp.web import HTTPException, HTTPInternalServerError, Request, Response, middleware
 from aiohttp.web import json_response as base_json_response
-from aiohttp.web import middleware
 from bson.json_util import loads
 from pydantic import ValidationError
 from yarl import URL
