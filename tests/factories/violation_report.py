@@ -1,15 +1,19 @@
 import uuid
 
 from factory import Factory, Faker, Iterator, LazyFunction, List, Sequence, SubFactory
+from factory.fuzzy import FuzzyChoice
 
 from prozorro_cdb.api.database.schema.common import Period
 from prozorro_cdb.api.database.schema.document import Document
 from prozorro_cdb.api.database.store import get_mongodb
 from prozorro_cdb.violation_report.database.collection import ViolationReportCollection
 from prozorro_cdb.violation_report.database.schema.violation_report import (
+    DecisionDBModel,
+    DefendantStatementDBModel,
     ReportDetails,
     ViolationReportDBModel,
     ViolationReportReason,
+    ViolationReportResolution,
 )
 from tests.factories.base import BaseFactory
 from tests.factories.organization import (
@@ -46,6 +50,27 @@ class PeriodFactory(Factory):
 
     startDate = Faker("date_time_between", end_date="-5d")
     endDate = Faker("date_time_between", start_date="-5d")
+
+
+class DefendantStatementFactory(Factory):
+    class Meta:
+        model = DefendantStatementDBModel
+
+    id = LazyFunction(lambda: uuid.uuid4().hex)
+    description = Faker("sentence")
+    documents = List([SubFactory(DocumentFactory)])
+    dateModified = Faker("date_time_between", end_date="-1d")
+
+
+class DecisionFactory(Factory):
+    class Meta:
+        model = DecisionDBModel
+
+    id = LazyFunction(lambda: uuid.uuid4().hex)
+    resolution = FuzzyChoice(ViolationReportResolution)
+    description = Faker("sentence")
+    documents = List([SubFactory(DocumentFactory)])
+    dateModified = Faker("date_time_between", end_date="-1d")
 
 
 class ViolationReportDBModelFactory(BaseFactory):

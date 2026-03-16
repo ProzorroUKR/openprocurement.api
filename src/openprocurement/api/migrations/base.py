@@ -198,12 +198,12 @@ class CollectionMigration(BaseMigration):
     def _projection(self) -> dict:
         projection = self.get_projection()
         if projection:
-            self.validate_projection(projection)
             # if projection is set, add additional fields required for migration,
             # else all fields will be present
             projection.update({"_id": 1, "_rev": 1})
             if self.append_revision:
                 projection.update({"revisions": 1})
+            self.validate_projection(projection)
         return projection
 
     def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
