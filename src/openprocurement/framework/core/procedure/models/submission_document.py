@@ -3,12 +3,12 @@ from schematics.types import StringType
 from openprocurement.api.procedure.models.document import (
     ConfidentialDocumentMixin,
     ConfidentialityType,
-)
-from openprocurement.api.procedure.models.document import Document as BaseDocument
-from openprocurement.api.procedure.models.document import (
     PatchDocument,
     PostConfidentialDocumentMixin,
     PostDocument,
+)
+from openprocurement.api.procedure.models.document import (
+    Document as BaseDocument,
 )
 
 

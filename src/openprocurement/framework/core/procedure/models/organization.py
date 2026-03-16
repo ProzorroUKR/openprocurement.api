@@ -7,11 +7,11 @@ from openprocurement.api.procedure.models.contact import (
 from openprocurement.api.procedure.models.organization import (
     PROCURING_ENTITY_KIND_CHOICES,
     BusinessOrganization,
+    ProcuringEntityKind,
 )
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
-from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.framework.core.procedure.models.address import Address, FullAddress
 from openprocurement.framework.core.procedure.models.contact import (

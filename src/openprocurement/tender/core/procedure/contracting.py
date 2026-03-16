@@ -19,13 +19,11 @@ from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.models.contract import (
     Buyer,
     ContractValue,
+    PostContract,
+    Supplier,
 )
 from openprocurement.contracting.core.procedure.models.contract import (
     Item as ContractItem,
-)
-from openprocurement.contracting.core.procedure.models.contract import (
-    PostContract,
-    Supplier,
 )
 from openprocurement.contracting.core.procedure.models.document import PostDocument
 from openprocurement.contracting.core.procedure.serializers.contract import (

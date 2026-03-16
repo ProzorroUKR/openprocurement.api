@@ -6,11 +6,11 @@ from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.organization import (
     ORGANIZATION_SCALE_CHOICES,
     PROCURING_ENTITY_KIND_CHOICES,
+    CommonOrganization,
 )
 from openprocurement.api.procedure.models.organization import (
     BusinessOrganization as BaseBusinessOrganization,
 )
-from openprocurement.api.procedure.models.organization import CommonOrganization
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )

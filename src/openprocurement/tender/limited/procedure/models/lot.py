@@ -1,12 +1,11 @@
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.tender.core.procedure.models.lot import BaseLot
+from openprocurement.tender.core.procedure.models.lot import BaseLot, PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.lot import PatchLot as BasePatchLot
 from openprocurement.tender.core.procedure.models.lot import (
     PatchTenderLot as BasePatchTenderLot,
 )
-from openprocurement.tender.core.procedure.models.lot import PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.value import (
     EstimatedValue,
     PostEstimatedValue,
