@@ -1,6 +1,6 @@
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.serializers.contract import (
-    get_change_rationale_types,
+    get_change_rationale_types_frozen,
 )
 
 
@@ -8,7 +8,7 @@ class ContractChangeStateMixin:
     def validate_change_rationale_types(self, data, tender):
         contract = self.request.validated["contract"]
         allowed_rationale_types = tuple(
-            contract.get("contractChangeRationaleTypes", get_change_rationale_types(tender)).keys()
+            contract.get("contractChangeRationaleTypes", get_change_rationale_types_frozen(tender)).keys()
         )
         for rationale in data.get("rationaleTypes", []):
             if rationale not in allowed_rationale_types:

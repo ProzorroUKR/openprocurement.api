@@ -13,11 +13,8 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
-    RATIONALE_TYPES_DECREE_1178,
-    RATIONALE_TYPES_LAW_922,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
-    TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178,
     WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
@@ -46,6 +43,9 @@ from openprocurement.api.utils import (
     get_tender_category,
     get_tender_profile,
     raise_operation_error,
+)
+from openprocurement.contracting.core.procedure.serializers.contract import (
+    get_change_rationale_types,
 )
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
@@ -1646,28 +1646,7 @@ class BaseTenderDetailsMixing:
         if tender_created_before(CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM):
             return
 
-        cause_details = data.get("causeDetails", {})
-        cause_scheme = cause_details.get("scheme")
-
-        if cause_scheme:
-            if cause_scheme == "DECREE1178":
-                data["contractChangeRationaleTypes"] = RATIONALE_TYPES_DECREE_1178
-            elif cause_scheme == "LAW922":
-                data["contractChangeRationaleTypes"] = RATIONALE_TYPES_LAW_922
-            else:
-                raise_operation_error(
-                    self.request,
-                    f"Unknown causeDetails.scheme value: {cause_scheme}",
-                    status=422,
-                    location="body",
-                    name="causeDetails.scheme",
-                )
-        else:
-            procurement_method_type = data.get("procurementMethodType")
-            if procurement_method_type in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
-                data["contractChangeRationaleTypes"] = RATIONALE_TYPES_DECREE_1178
-            else:
-                data["contractChangeRationaleTypes"] = RATIONALE_TYPES_LAW_922
+        data["contractChangeRationaleTypes"] = get_change_rationale_types(data)
 
 
 class TenderDetailsMixing(TenderConfigMixin, BaseTenderDetailsMixing):

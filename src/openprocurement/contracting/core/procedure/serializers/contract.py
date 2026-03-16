@@ -1,6 +1,8 @@
 from datetime import datetime
 
 from openprocurement.api.constants import (
+    RATIONALE_TYPES_DECREE_1178,
+    RATIONALE_TYPES_LAW_922,
     TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178,
     TZ,
 )
@@ -19,14 +21,43 @@ from openprocurement.contracting.core.procedure.serializers.document import (
 DATE_BEFORE_TYPES_SPLITTING = TZ.localize(datetime(year=2022, month=10, day=12))
 
 
-def get_change_rationale_types(tender):
+def get_change_rationale_types_frozen(tender):
+    # Old tenders use LAW922
     date_created = datetime.fromisoformat(tender["dateCreated"])
     if date_created < DATE_BEFORE_TYPES_SPLITTING:
         return FROZEN_RATIONALE_TYPES_LAW_922
-    elif tender["procurementMethodType"] in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
+
+    # New causeDetails.scheme logic
+    cause_details = tender.get("causeDetails", {})
+    cause_scheme = cause_details.get("scheme")
+    if cause_scheme == "DECREE1178":
         return FROZEN_RATIONALE_TYPES_DECREE_1178
-    else:
+    if cause_scheme == "LAW922":
         return FROZEN_RATIONALE_TYPES_LAW_922
+
+    # Some procurementMethodType use DECREE1178
+    if tender["procurementMethodType"] in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
+        return FROZEN_RATIONALE_TYPES_DECREE_1178
+
+    # Default to LAW922
+    return FROZEN_RATIONALE_TYPES_LAW_922
+
+
+def get_change_rationale_types(tender):
+    # New causeDetails.scheme logic
+    cause_details = tender.get("causeDetails", {})
+    cause_scheme = cause_details.get("scheme")
+    if cause_scheme == "DECREE1178":
+        return RATIONALE_TYPES_DECREE_1178
+    if cause_scheme == "LAW922":
+        return RATIONALE_TYPES_LAW_922
+
+    # Some procurementMethodType use DECREE1178
+    if tender["procurementMethodType"] in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
+        return RATIONALE_TYPES_DECREE_1178
+
+    # Default to LAW922
+    return RATIONALE_TYPES_LAW_922
 
 
 class ContractBaseSerializer(BaseUIDSerializer):
@@ -56,4 +87,4 @@ class ContractBaseSerializer(BaseUIDSerializer):
         super().__init__(data, tender=tender, **kwargs)
 
         if tender and not data.get("contractChangeRationaleTypes"):
-            data["contractChangeRationaleTypes"] = get_change_rationale_types(tender)
+            data["contractChangeRationaleTypes"] = get_change_rationale_types_frozen(tender)
