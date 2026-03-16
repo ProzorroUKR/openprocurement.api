@@ -25,7 +25,7 @@ class Migration(CollectionMigration):
 
     def process_data(self, cursor):
         cursor.sort([("public_modified", DESCENDING)])
-        super().process_data(cursor)
+        return super().process_data(cursor)
 
     def get_filter(self):
         return {

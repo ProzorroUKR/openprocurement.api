@@ -101,12 +101,15 @@ class CollectionMigration(BaseMigration):
 
     collection_name: str
 
+    # Migration configuration
     append_revision: bool = True
-
     update_date_modified: bool = False
     update_feed_position: bool = False
 
+    # Progress logging
     log_every: int = 100000
+
+    # Bulk operations
     bulk_max_size: int = 500
 
     def run(self) -> None:
@@ -117,7 +120,8 @@ class CollectionMigration(BaseMigration):
             with self._collection.database.client.start_session() as session:
                 cursor = self._collection.find(self._filter, self._projection, no_cursor_timeout=True, session=session)
                 cursor.batch_size(self.args.b)
-                self.process_data(cursor)
+                result = self.process_data(cursor)
+                self.log_result(result, action="Finished")
 
         except MigrationFailed:
             if self.args.test:
@@ -143,14 +147,21 @@ class CollectionMigration(BaseMigration):
         """
         return getattr(self.env["registry"].mongodb, self.collection_name).collection
 
-    @property
-    def _collection(self) -> Collection | CollectionWrapper:
-        collection: Collection | CollectionWrapper = self.get_collection()
+    def wrap_collection(self, collection: Collection) -> Collection | CollectionWrapper:
         if self.args.readonly:
             collection = ReadonlyCollectionWrapper(collection)
         if self.args.log_db:
             collection = LoggingCollectionWrapper(collection)
         return collection
+
+    @property
+    def _collection(self) -> Collection | CollectionWrapper:
+        collection: Collection = self.get_collection()
+        return self.wrap_collection(collection)
+
+    @property
+    def collection(self) -> Collection | CollectionWrapper:
+        return self._collection
 
     def get_filter(self) -> dict:
         """Get filter for documents to process.
@@ -173,10 +184,21 @@ class CollectionMigration(BaseMigration):
         """
         return {}
 
+    def validate_projection(self, projection: dict) -> None:
+        """Ensure projection has no nested fields.
+
+        :param projection: MongoDB projection to validate
+        :raises ValueError: If any projection key contains "."
+        """
+        for key in projection:
+            if "." in key:
+                raise ValueError(f"Nested projection '{key}' is not allowed. Use top-level field names only.")
+
     @property
     def _projection(self) -> dict:
         projection = self.get_projection()
         if projection:
+            self.validate_projection(projection)
             # if projection is set, add additional fields required for migration,
             # else all fields will be present
             projection.update({"_id": 1, "_rev": 1})
@@ -315,8 +337,6 @@ class CollectionMigration(BaseMigration):
         if bulk:
             bulk_result = self.process_bulk(bulk)
             result += bulk_result
-
-        self.log_result(result, action="Finished")
 
         return result
 
