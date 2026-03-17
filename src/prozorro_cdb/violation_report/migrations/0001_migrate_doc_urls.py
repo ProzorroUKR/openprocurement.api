@@ -1,6 +1,7 @@
 import asyncio
 import os
 from re import compile
+from typing import Callable
 
 import sentry_sdk
 
@@ -10,10 +11,13 @@ from prozorro_cdb.violation_report.database.collection import ViolationReportCol
 URL_PATTERN = compile(r"(?P<base_url>.*)/documents/(\w+)\?download=(?P<download_key>.*)")
 
 
-def fix_docs(docs: list[dict]):
+def fix_docs(docs: list[dict], fix_base_url: Callable = None):
     for d in docs:
         if search_res := URL_PATTERN.search(d.get("url", "")):
-            d["url"] = f"{search_res.group('base_url')}/documents/{d['id']}?download={search_res.group('download_key')}"
+            base_url = search_res.group("base_url")
+            if fix_base_url is not None:
+                base_url = fix_base_url(base_url)
+            d["url"] = f"{base_url}/documents/{d['id']}?download={search_res.group('download_key')}"
 
 
 class Migration(CollectionMigration):
@@ -25,7 +29,7 @@ class Migration(CollectionMigration):
 
     def update_obj(self, doc: dict):
         if details := doc.get("details", {}):
-            fix_docs(details.get("documents", []))
+            fix_docs(details.get("documents", []), lambda x: x if x.endswith("/details") else x + "/details")
         for def_statement in doc.get("defendantStatements", []):
             fix_docs(def_statement.get("documents", []))
         for decision in doc.get("decisions", []):

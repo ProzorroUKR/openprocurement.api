@@ -24,7 +24,7 @@ migration_module = import_module("prozorro_cdb.violation_report.migrations.0001_
                         DocumentFactory.build(
                             id="a" * 32,
                             documentType=DocumentTypes.violationReportEvidence,
-                            url="/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/documents/"
+                            url="/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/details/documents/"
                             "0a58ea0077954c6697e1e3c1f072e08f?download=070bb2eff5584e3f87e9d8495e887f06",
                         )
                     ]
@@ -65,7 +65,7 @@ migration_module = import_module("prozorro_cdb.violation_report.migrations.0001_
                 set(updated_data["details"].keys()) - {"documents"},
                 updated_data["details"]["documents"][0]["url"] != violation_report.details.documents[0].url,
                 updated_data["details"]["documents"][0]["url"]
-                == f"/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/documents/{"a" * 32}?download=070bb2eff5584e3f87e9d8495e887f06",
+                == f"/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/details/documents/{"a" * 32}?download=070bb2eff5584e3f87e9d8495e887f06",
                 # check if decisions has more data except documents
                 set(updated_data["decisions"][0].keys()) - {"documents"},
                 updated_data["decisions"][0]["documents"][0]["url"] != violation_report.decisions[0].documents[0].url,
@@ -86,7 +86,7 @@ migration_module = import_module("prozorro_cdb.violation_report.migrations.0001_
                         DocumentFactory.build(
                             id="a" * 32,
                             documentType=DocumentTypes.violationReportEvidence,
-                            url=f"/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/documents/"
+                            url=f"/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/details/documents/"
                             f"{"a" * 32}?download=070bb2eff5584e3f87e9d8495e887f06",
                         )
                     ]
@@ -133,6 +133,31 @@ migration_module = import_module("prozorro_cdb.violation_report.migrations.0001_
                 set(updated_data["defendantStatements"][0].keys()) - {"documents"},
                 updated_data["defendantStatements"][0]["documents"][0]["url"]
                 == violation_report.defendantStatements[0].documents[0].url,
+            ),
+        ),
+        pytest.param(
+            {
+                "details": ReportDetailsFactory.build(
+                    documents=[
+                        DocumentFactory.build(
+                            id="a" * 32,
+                            documentType=DocumentTypes.violationReportEvidence,
+                            url="/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/documents/"
+                            "0a58ea0077954c6697e1e3c1f072e08f?download=070bb2eff5584e3f87e9d8495e887f06",
+                        )
+                    ]
+                ),
+            },
+            lambda updated_data, violation_report: (
+                "public_modified" in updated_data,
+                updated_data["public_modified"] != violation_report.public_modified,
+                updated_data["dateModified"] == violation_report.dateModified.isoformat(),
+                updated_data["_rev"] != violation_report.rev,
+                # check if details has more data except documents
+                set(updated_data["details"].keys()) - {"documents"},
+                updated_data["details"]["documents"][0]["url"] != violation_report.details.documents[0].url,
+                updated_data["details"]["documents"][0]["url"]
+                == f"/violation_reports/dfe1ddd181e74db3ae5a902e19e9b3c5/details/documents/{"a" * 32}?download=070bb2eff5584e3f87e9d8495e887f06",
             ),
         ),
     ],
