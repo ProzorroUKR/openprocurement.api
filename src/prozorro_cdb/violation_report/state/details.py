@@ -61,7 +61,7 @@ class ViolationReportDetailsState(BaseState):
         cls,
         uid: str,
         pretty_id: str,
-        base_url: str,
+        details_base_url: str,
         request_data: ViolationReportPostRequestData,
         contract: Contract,
         tender: Tender,
@@ -82,7 +82,7 @@ class ViolationReportDetailsState(BaseState):
                 details=ReportDetails(
                     reason=request_data.details.reason,
                     description=request_data.details.description,
-                    documents=cls.create_document_objects(now, base_url, request_data.details.documents),
+                    documents=cls.create_document_objects(now, details_base_url, request_data.details.documents),
                     dateModified=now,
                 ),
                 dateCreated=now,
@@ -184,9 +184,7 @@ class ViolationReportDetailsState(BaseState):
     ) -> Document:
         now = get_now_async()
         documents = cls.create_document_objects(
-            now=now,
-            base_url=base_url,
-            documents=[document_data],
+            now=now, base_url=base_url, documents=[document_data], doc_ids=iter([document.id])
         )
         update = documents[0].model_dump(exclude={"id", "author", "documentType"})
 

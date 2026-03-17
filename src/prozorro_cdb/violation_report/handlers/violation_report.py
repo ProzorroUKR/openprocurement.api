@@ -33,6 +33,7 @@ from prozorro_cdb.violation_report.handlers.schema.violation_report import (
     ViolationReportPostRequestData,
     ViolationReportPublishRequestData,
 )
+from prozorro_cdb.violation_report.handlers.violation_report_details import ViolationReportDetailsView
 from prozorro_cdb.violation_report.serializers.violation_report import (
     ViolationReportSerializer,
 )
@@ -129,10 +130,11 @@ class ContractViolationReportListView(BaseView):
 
         # create obj
         base_url = get_view_url(ViolationReportView.view_name, violation_report_id=violation_report_id)
+        details_base_url = get_view_url(ViolationReportDetailsView.view_name, violation_report_id=violation_report_id)
         report_obj = ViolationReportDetailsState.create_object(
             uid=violation_report_id,
             pretty_id=violation_report_pretty_id,
-            base_url=base_url,
+            details_base_url=details_base_url,
             tender=tender,
             agreement=agreement,
             contract=contract,

@@ -168,9 +168,7 @@ class ViolationReportDefendantState(BaseState):
     ) -> Document:
         now = get_now_async()
         documents = cls.create_document_objects(
-            now=now,
-            base_url=base_url,
-            documents=[document_data],
+            now=now, base_url=base_url, documents=[document_data], doc_ids=iter([document.id])
         )
         update = documents[0].model_dump(exclude={"id", "author", "documentType"})
 
