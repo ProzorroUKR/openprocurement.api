@@ -5,9 +5,8 @@ from importlib import import_module
 
 import pytest
 from pymongo.errors import BulkWriteError
-from pyramid.scripting import prepare
 
-from openprocurement.api.migrations.base import CollectionMigration
+from openprocurement.api.migrations.base import PymongoCollectionMigration
 from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
@@ -50,6 +49,7 @@ from openprocurement.tender.openua.tests.base import (
     test_tender_openua_data,
 )
 
+
 fixtures = (app, singleton_app)
 
 test_tenders = [
@@ -90,10 +90,9 @@ def migration_app(app):
     yield app
 
 
-def app_env(app):
-    env = prepare(None, unwrap_app(app).registry)
-    env["app"] = app.app
-    return env
+def get_settings(app):
+    """Get application settings for migration tests."""
+    return unwrap_app(app).registry.settings
 
 
 default_test_args = Namespace(
@@ -107,8 +106,13 @@ default_test_args = Namespace(
 )
 
 
-class TestMigration(CollectionMigration):
+class TestMigration(PymongoCollectionMigration):
     collection_name = "tenders"
+
+    def get_collection(self):
+        """Use collection name from settings for test compatibility."""
+        collection_name = self.settings.get("mongodb.tender_collection", self.collection_name)
+        return self.db_store.database.get_collection(collection_name)
 
     def update_document(self, doc: dict, context: dict = None) -> dict:
         doc["title"] = "test"
@@ -124,7 +128,7 @@ def create_collection_migration_test(path: str):
         test_args = deepcopy(default_test_args)
         test_args.test = True
         test_args.failafter = 1
-        migration = migration_class(app_env(app), test_args)
+        migration = migration_class(get_settings(app), test_args)
         migration.run_test()
 
     return test_migration_wrapper
@@ -150,8 +154,9 @@ def test_migration(migration_app):
     collection.bulk_write = mock_bulk_write
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), default_test_args)
+    migration = TestMigration(get_settings(migration_app), default_test_args)
     migration.bulk_max_size = len(tenders_before)
+    migration.get_collection = lambda: collection
 
     # Run migration
     migration.run()
@@ -205,8 +210,9 @@ def test_migration_multiple_bulk_write(migration_app):
     collection.bulk_write = mock_bulk_write
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), default_test_args)
+    migration = TestMigration(get_settings(migration_app), default_test_args)
     migration.bulk_max_size = math.ceil(len(tenders_before) / 2)
+    migration.get_collection = lambda: collection
 
     # Run migration
     migration.run()
@@ -266,8 +272,9 @@ def test_migration_multiple_bulk_write_fail(migration_app):
     collection.update_one = mock_update_one
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), default_test_args)
+    migration = TestMigration(get_settings(migration_app), default_test_args)
     migration.bulk_max_size = math.ceil(len(tenders_before) / 2)
+    migration.get_collection = lambda: collection
 
     # Run migration
     migration.run()
@@ -306,7 +313,7 @@ def test_migration_with_filter(migration_app):
             return {"procurementMethodType": "belowThreshold"}
 
     # Create migration
-    migration = Migration(app_env(migration_app), default_test_args)
+    migration = Migration(get_settings(migration_app), default_test_args)
 
     # Run migration
     migration.run()
@@ -339,7 +346,7 @@ def test_migration_with_filter_arg(migration_app):
     test_args.filter = '{"procurementMethodType": "belowThreshold"}'
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), test_args)
+    migration = TestMigration(get_settings(migration_app), test_args)
 
     # Run migration
     migration.run()
@@ -373,9 +380,7 @@ def test_migration_with_projection(migration_app):
             return {"_id": 1, "title": 1}
 
     # Run migration
-    migration = Migration(app_env(migration_app), default_test_args)
-
-    # Run migration
+    migration = Migration(get_settings(migration_app), default_test_args)
     migration.run()
 
     # Get migrated data
@@ -398,7 +403,7 @@ def test_migration_update_date_modified(migration_app):
     tenders_before = list(collection.find())
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), default_test_args)
+    migration = TestMigration(get_settings(migration_app), default_test_args)
     migration.update_date_modified = True
 
     # Run migration
@@ -424,7 +429,7 @@ def test_migration_update_feed_position(migration_app):
     tenders_before = list(collection.find())
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), default_test_args)
+    migration = TestMigration(get_settings(migration_app), default_test_args)
     migration.update_feed_position = True
 
     # Run migration
@@ -454,7 +459,7 @@ def test_migration_with_readonly_arg(migration_app):
     test_args.readonly = True
 
     # Create migration
-    migration = TestMigration(app_env(migration_app), test_args)
+    migration = TestMigration(get_settings(migration_app), test_args)
 
     # Run migration
     migration.run()

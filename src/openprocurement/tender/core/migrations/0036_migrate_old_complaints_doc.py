@@ -9,8 +9,8 @@ from pyramid.csrf import urlparse
 from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_request_now
 from openprocurement.api.migrations.base import (
-    CollectionMigration,
-    CollectionMigrationArgumentParser,
+    PymongoCollectionMigration,
+    PymongoCollectionMigrationArgumentParser,
     migrate_collection,
 )
 from openprocurement.tender.core.procedure.models.document import PostComplaintDocument
@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrate tenders complaint posts with documents"
 
     collection_name = "tenders"
@@ -605,7 +605,7 @@ class Migration(CollectionMigration):
         assert award_complaint_doc["url"] == expected_url_4
 
 
-class MigrationArgumentParser(CollectionMigrationArgumentParser):
+class MigrationArgumentParser(PymongoCollectionMigrationArgumentParser):
     def __init__(self):
         super().__init__()
         self.add_argument(

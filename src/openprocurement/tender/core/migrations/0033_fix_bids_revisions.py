@@ -4,13 +4,13 @@ from copy import deepcopy
 from jsonpatch import JsonPatchConflict, apply_patch
 from jsonpointer import JsonPointerException
 
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Fix bids revisions"
 
     collection_name = "tenders"

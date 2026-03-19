@@ -4,7 +4,7 @@ from unittest.mock import ANY, MagicMock, call, patch
 from pymongo import DESCENDING, UpdateOne
 
 from openprocurement.api.migrations.base import (
-    CollectionMigration,
+    PymongoCollectionMigration,
     ReadonlyCollectionWrapper,
     migrate_collection,
 )
@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrating milestones from tender to contract"
 
     collection_name = "contracts"

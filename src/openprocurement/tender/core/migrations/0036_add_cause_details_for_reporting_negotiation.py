@@ -4,7 +4,7 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
     NEGOTIATION_QUICK,
@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrate limited tenders causes"
 
     collection_name = "tenders"

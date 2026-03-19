@@ -3,14 +3,14 @@ from unittest.mock import ANY
 
 from pymongo import DESCENDING, UpdateOne
 
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrating missing tender/bid contracts tokens to access object"
 
     collection_name = "contracts"

@@ -7,14 +7,14 @@ from unittest.mock import ANY
 from jsonpatch import apply_patch
 from pymongo import UpdateOne
 
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.utils import get_lot_value_status
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrating bids initial value"
 
     collection_name = "tenders"

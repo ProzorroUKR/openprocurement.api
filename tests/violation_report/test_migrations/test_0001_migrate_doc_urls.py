@@ -2,6 +2,7 @@ from importlib import import_module
 
 import pytest
 
+from openprocurement.api.migrations.base import CollectionMigrationArgumentParser
 from prozorro_cdb.api.database.schema.document import DocumentTypes
 from tests.factories.violation_report import (
     DecisionFactory,
@@ -165,7 +166,8 @@ migration_module = import_module("prozorro_cdb.violation_report.migrations.0001_
 async def test_migration(api, data, check_results):
     violation_report = await ViolationReportDBModelFactory.create(**data)
 
-    migration = migration_module.Migration()
+    args = CollectionMigrationArgumentParser().parse_args([])
+    migration = migration_module.Migration(args=args)
     await migration.run()
 
     updated_data = await migration.collection.find_one({"_id": violation_report.id})
