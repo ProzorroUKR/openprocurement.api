@@ -7,13 +7,12 @@ from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.tests.periods import PERIODS, TENDERING_DURATION
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_buyer
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
     test_criteria_all,
 )
-from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
 
 test_tender_arma_supplier = {
@@ -143,12 +142,6 @@ test_tender_arma_lots = [
         "minimalStep": {"amountPercentage": 1},
     }
 ]
-
-test_tender_arma_multi_buyers_data = set_tender_multi_buyers(
-    test_tender_arma_data,
-    test_tender_arma_data["items"][0],
-    test_tender_below_buyer,
-)
 
 
 test_tender_arma_config = {

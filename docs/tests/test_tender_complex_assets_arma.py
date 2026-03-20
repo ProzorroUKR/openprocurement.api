@@ -726,12 +726,27 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
 
         with open(TARGET_DIR + "confirm-qualification.http", "w") as self.app.file_obj:
-            # todo: awards activation is temporarily disabled for ARMA
             self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, owner_token),
                 {"data": {"status": "active", "qualified": True, "eligible": True}},
-                status=422,
             )
+            self.assertEqual(response.status, "200 OK")
+
+        # get contract id
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        contract = response.json["data"]["contracts"][-1]
+        contract_id = contract["id"]
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        ####  Set contract value
+
+        with open(TARGET_DIR + "contract-set-contract-value-percentage.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/contracts/{contract_id}?acc_token={owner_token}", {"data": {"value": {"amountPercentage": 35}}}
+            )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["value"]["amountPercentage"], 35)
 
         #### Preparing the cancellation request
 

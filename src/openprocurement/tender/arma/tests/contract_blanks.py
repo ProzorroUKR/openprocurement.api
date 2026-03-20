@@ -15,7 +15,6 @@ def patch_tender_contract(self):
     items[0]["description"] = "New Description"
 
     value = contract["value"]
-    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
@@ -34,17 +33,6 @@ def patch_tender_contract(self):
             f"{original_description} -> New Description"
         ),
     )
-
-    old_currency = value["currency"]
-    value["currency"] = "USD"
-    response = self.app.patch_json(
-        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
-        {"data": {"value": value}},
-        status=403,
-    )
-    value["currency"] = old_currency
-    self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
     self.set_status("complete", {"status": "active.awarded"})
 
@@ -117,27 +105,11 @@ def patch_tender_contract_datesigned(self):
     self.set_status("complete", {"status": "active.awarded"})
 
     value = contract["value"]
-    value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
     )
     self.assertEqual(response.status, "200 OK")
-
-    if "contractTemplateName" in self.initial_data:
-        # set signerInfo for buyer
-        response = self.app.put_json(
-            f"/contracts/{contract['id']}/buyer/signer_info?acc_token={self.tender_token}",
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, "200 OK")
-
-        # set signerInfo for suppliers
-        response = self.app.put_json(
-            f"/contracts/{contract['id']}/suppliers/signer_info?acc_token={self.bid_token}",
-            {"data": test_signer_info},
-        )
-        self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -156,3 +128,49 @@ def patch_tender_contract_datesigned(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertIn("dateSigned", response.json["data"].keys())
+
+
+def patch_tender_contract_value(self):
+    response = self.app.get(f"/tenders/{self.tender_id}/contracts")
+    contract = response.json["data"][0]
+
+    response = self.app.patch_json(
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
+        {"data": {"value": {"amountPercentage": 51}}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Amount percentage should be less or equal to awarded amount percentage",
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
+        {"data": {"value": {"amountPercentage": 50}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
+        {"data": {"value": {"amountPercentage": 49}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amountPercentage"], 49)
+
+    response = self.app.patch_json(
+        f"/contracts/{contract['id']}?acc_token={self.tender_token}",
+        {"data": {"value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "amountPercentage",
+                "description": ["This field is required."],
+            }
+        ],
+    )

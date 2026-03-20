@@ -8,6 +8,7 @@ from uuid import uuid4
 from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.value import AmountPercentageValue
 from openprocurement.api.utils import (
     calculate_full_date,
     get_contract_by_id,
@@ -45,9 +46,10 @@ LOGGER = getLogger(__name__)
 
 
 def generate_contract_value(award, multi_contracts=False):
-    # todo: adapt ARMA contracting stage
     if award.get("value"):
         value = deepcopy(award["value"])
+        if "amountPercentage" in value:
+            return value
         if multi_contracts:
             value["amountNet"], value["amount"] = 0, 0
         else:
@@ -210,7 +212,10 @@ def clean_objs(objs: List[Dict], model, forbidden_fields=None):
 
 
 def clean_contract_value(value: dict) -> dict:
-    acceptable_fields = set(ContractValue.fields)
+    if "amountPercentage" in value:
+        acceptable_fields = set(AmountPercentageValue.fields)
+    else:
+        acceptable_fields = set(ContractValue.fields)
     for field in set(value.keys()):
         if field not in acceptable_fields:
             value.pop(field, None)

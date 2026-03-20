@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-09 13:57+0200\n"
+"POT-Creation-Date: 2026-03-11 11:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -31,7 +31,7 @@ msgstr "Contract is transferred from the tender system by an automated process. 
 msgid "Створення договору"
 msgstr "Creating contract"
 
-msgid "Нехай у нас відбулась закупівля і є переможець. Після вибору перможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Econtract`) у статусі ``pending``."
+msgid "Нехай у нас відбулась закупівля і є переможець. Після вибору переможця **автоматично** створюється контракт в закупівлі з обмеженим набором полів(`id`, `awardID`, `status`, `date`, `value`) та в системі договорів з повним набором полів(:ref:`Contract`) у статусі ``pending``."
 msgstr "Let's say that we have conducted tender with award. When the award is activated, a contract is **automatically** created in the tender with a limited set of fields(`id`, `awardID`, `status`, `date`, `value`) and in the contracting module with a full set of fields(:ref:`Econtract`) in ``pending`` status."
 
 msgid "*Майданчики (брокери) не мають можливості створювати договори в системі договорів.*"
@@ -130,20 +130,23 @@ msgstr "Setting contract value"
 msgid "За замовчуванням вартість договору встановлюється на основі рішення про визначення переможця, але є можливість змінити це значення."
 msgstr "By default contract value is set based on the award, but there is a possibility to set custom contract value."
 
-msgid "Якщо ви хочете **знизити вартість договору**, ви можете встановити нове значення для поля `amount` або `amountNet` (для всіх процедур окрім esco)."
-msgstr "If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field(for all procedures except esco)."
+msgid "Якщо ви хочете **знизити вартість договору**, ви можете встановити нове значення для поля `amount` або `amountNet` (для всіх процедур окрім :ref:`esco` та :ref:`arma`)."
+msgstr "If you want to **lower contract value**, you can insert new one into the `amount` or `amountNet` field (for all procedures except :ref:`esco` and :ref:`arma`)."
 
 msgid "Було повернуто код відповіді `200 OK`. Значення змінено успішно."
 msgstr "`200 OK` response was returned. The value was modified successfully."
 
+msgid "Для :ref:`arma` можна встановити нове значення в полі `amountPercentage`."
+msgstr "For :ref:`arma` you can set new value for `amountPercentage`."
+
 msgid "Встановлення ціни за одиницю"
 msgstr "Setting value per item's unit"
 
-msgid "`200 OK` відповіддь повертається з успішно створеною структурою item.unit.value."
+msgid "`200 OK` відповідь повертається з успішно створеною структурою item.unit.value."
 msgstr "`200 OK` response was returned with successfully set item.unit.value structure."
 
-msgid "`Item.unit.value.currency` має відповідати значенню `contract.value.currency`. `Item.unit.value.valueAddedTaxIncluded` має бути `False`."
-msgstr "`Item.unit.value.currency` must correspond to the value of `contract.value.currency`. `Item.unit.value.valueAddedTaxIncluded` should be `False`."
+msgid "`Item.unit.value.currency` має відповідати значенню `contract.value.currency`. `Item.unit.value.valueAddedTaxIncluded` має бути `False`. В :ref:`arma` ці валідації не виконуються"
+msgstr "`Item.unit.value.currency` must correspond to the value of `contract.value.currency`. `Item.unit.value.valueAddedTaxIncluded` should be `False`. These validations are ignored in :ref:`arma`"
 
 msgid "Встановлення дати підписання договору"
 msgstr "Setting contract signature date"
@@ -226,7 +229,7 @@ msgstr "Buyer fill signer information using ``contract_token`` or ``tender_token
 msgid "Постачальник заповнює інформацію підписанта використовуючи ``bid_token``, для `limited` процедури цей запит виконує замовник використовуючи ``contract_token`` чи ``tender_token``:"
 msgstr "Supplier fill signer information using ``bid_token``, for `limited` procedure that request, make buyer using ``contract_token`` or ``tender_token``:"
 
-msgid "Інформацію підписанта можна оновоити використовуючи той самий спосіб:"
+msgid "Інформацію підписанта можна оновити використовуючи той самий спосіб:"
 msgstr "You can update signer information using same method:"
 
 msgid "При спробі активувати договір без заповненої обов'язкової інформації, буде отримана помилка:"
@@ -244,7 +247,7 @@ msgstr "Modifying active contract"
 msgid "Внесення змін до істотних умов договору можливі у випадках, описаних частиною четвертою статті 36 Закону України “Про публічні закупівлі”."
 msgstr "You can make changes to the contract in cases described in the 4th part of Article 36 of the Law \"On the Public Procurement\"."
 
-msgid "**Істотні умови договору** можуть бути змінені поданням нового об’єкта :ref:`change` в котейнер `Contract.changes`."
+msgid "**Істотні умови договору** можуть бути змінені поданням нового об’єкта :ref:`change` в контейнер `Contract.changes`."
 msgstr "**Essential contract terms** can be modified by the submission of a new :ref:`change` object to the `Contract.changes` container."
 
 msgid "Всі зміни `change` обробляються точкою входу (endpoint) `/contracts/{id}/changes`."
@@ -292,8 +295,8 @@ msgstr "Updating contract properties"
 msgid "Тепер ви можете оновити властивості договору, що стосуються зміни."
 msgstr "Now you can update contract properties which belong to the change."
 
-msgid "Ви можете встановити нові значення для полів `amount` та `amountNet` керуючись наступними правилами:"
-msgstr "You can update value `amount` and `amountNet` following next rules:"
+msgid "Ви можете встановити нові значення для полів `amount` та `amountNet` (для всіх процедур окрім :ref:`esco` та :ref:`arma`) керуючись наступними правилами:"
+msgstr "You can update value `amount` and `amountNet` (for all procedures except :ref:`esco` and :ref:`arma`) following next rules:"
 
 msgid "`valueAddedTaxIncluded`"
 msgstr ""
@@ -319,8 +322,8 @@ msgstr ""
 msgid "Ми бачимо, що додаткові властивості об’єднані з існуючими даними закупівлі. Додатково оновлена властивість `dateModified`, щоб відображати останню дату модифікації."
 msgstr "We see the added properties have merged with existing contract data. Additionally, the `dateModified` property was updated to reflect the last modification datestamp."
 
-msgid "Поля, які можна модифікувати: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`."
-msgstr "Fields that can be modified: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`."
+msgid "Поля, які можна модифікувати: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`. Для :ref:`arma` замість полів `value.amount`, `value.amountNet` - `value.amountPercentage`"
+msgstr "Fields that can be modified: `title`, `description`, `status`, `value.amount`, `value.amountNet`, `period`, `items`, `amountPaid.amount`, `amountPaid.amountNet`, `terminationDetails`. For :ref:`arma` use `value.amountPercentage` instead of `value.amount`, `value.amountNet`"
 
 msgid "Дивіться приклади зміни елемента (`items`) нижче. Ви можете:"
 msgstr "See examples of `items` customization below. You can:"
@@ -394,9 +397,6 @@ msgstr "Uploading documentation"
 msgid "Замовник може завантажити PDF файл у створений договір. Завантаження повинно відбуватись згідно правил :ref:`upload`."
 msgstr "Procuring entity can upload PDF files into the created contract. Uploading should follow the :ref:`upload` rules."
 
-msgid "Код відповіді `201 Created` та заголовок `Location` підтверджують, що документ було створено. Додатково можна зробити запит точки входу API колекції документів, щоб підтвердити дію:"
-msgstr "`201 Created` response code and `Location` header confirm document creation. We can additionally query the `documents` collection API endpoint to confirm the action:"
-
 msgid "І знову можна перевірити, що є два завантажених документа."
 msgstr "And again we can confirm that there are two documents uploaded."
 
@@ -412,8 +412,8 @@ msgstr "Completing contract"
 msgid "Перед завершенням договору необхідно встановити значення поля  ``amountPaid`` (незалежно від того успішний договір чи ні). Договір можна завершити переключенням у статус ``terminated``. Виконаємо ці дії єдиним запитом:"
 msgstr "Before contract can be completed ``amountPaid`` field value should be set (regardless whether the contract was successful or unsuccessful). Contract can be completed by switching to ``terminated`` status. Let's perform these actions in single request:"
 
-msgid "Зверніть увагу, що ви можете встановлювати/змінювати значення ``amountPaid.amount``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded``. А значення поля ``amountPaid.currency`` генеруються з поля ``Contract.value``."
-msgstr "Note that you can set/change ``amountPaid.amount``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded`` values. ``amountPaid.currency`` field value is generated from ``Contract.value`` field."
+msgid "Зверніть увагу, що ви можете встановлювати/змінювати значення ``amountPaid.amount``, ``amountPaid.currency``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded``. Значення поля ``amountPaid.currency`` має співпадати з полем ``Contract.value.currency`` (в :ref:`arma` валідація не виконується)."
+msgstr "Note that you can set/change ``amountPaid.amount``, ``amountPaid.currency``, ``amountPaid.amountNet``, ``amountPaid.valueAddedTaxIncluded`` values. ``amountPaid.currency`` field value has to match ``Contract.value.currency`` field (validation is ignored in :ref:`arma`)."
 
 msgid "Якщо договір неуспішний, то потрібно вказати причини його припинення ``terminationDetails``."
 msgstr "If contract is unsuccessful reasons for termination ``terminationDetails`` should be specified."
@@ -427,10 +427,10 @@ msgstr "Aggregate contracts"
 msgid "Створення агрегованих контрактів"
 msgstr "Creation of aggregate contracts"
 
-msgid "Для кожного об'єктку `buyer` в тендері система створює окремий `contract` відповідно, в той момент коли `award` стає активним."
+msgid "Для кожного об'єкту `buyer` в тендері система створює окремий `contract` відповідно, в той момент коли `award` стає активним."
 msgstr "For each `buyer` object in tender system is creating separate `contract` respectively when `award` become active."
 
-msgid "Створюємо тендер з декількома buyers, кожен `item` повинен бути прив'язаний до відповідного `buyer`, використовючи поле `relatedBuyer`:"
+msgid "Створюємо тендер з декількома buyers, кожен `item` повинен бути прив'язаний до відповідного `buyer`, використовуючи поле `relatedBuyer`:"
 msgstr "Create tender with several buyers, each `item` should be assigned to related `buyer` using `relatedBuyer` field :"
 
 msgid "Йдемо далі, як зазвичай, активуємо авард"
@@ -442,7 +442,7 @@ msgstr "After activating award system is creating such amount of contracts that 
 msgid "Оновлюємо Amount.Value для кожного контракту, враховуючи суму добутків Unit.Value на Quantity для кожного item в контракті:"
 msgstr "Update Amount.Value of each contract considering the sum of product of Unit.Value by Quantity for each item in contract."
 
-msgid "Ви можете активувати або термінувати кожен контракт як зазвичай. Якщо відсутні контракти в стутусі `pending` та хоча б один котракт знаходиться в статусі `active`, тендер переходить в статус `complete`"
+msgid "Ви можете активувати або термінувати кожен контракт як зазвичай. Якщо відсутні контракти в статусі `pending` та хоча б один контракт знаходиться в статусі `active`, тендер переходить в статус `complete`"
 msgstr "You can activate or terminate each contract as usual. If there are not contracts in `pending` status and at least one contract became `active` tender is becoming `complete`"
 
 msgid "При скасуванні аварду всі контракти відповідного awardID переходять в статус cancelled."
@@ -454,7 +454,7 @@ msgstr "Cancellation of aggregate contracts"
 msgid "Контракт може бути відмінений:"
 msgstr "Contracts can be cancelled:"
 
-msgid "За винятком коли котракт є останнім невідміненим контрактом:"
+msgid "За винятком коли контракт є останнім невідміненим контрактом:"
 msgstr "Except when contract is the last not cancelled contract:"
 
 msgid "В цьому випадку повинен бути відмінений відповідний авард:"

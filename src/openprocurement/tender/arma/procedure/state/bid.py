@@ -30,7 +30,6 @@ class BidState(BaseBidState):
         if (
             data.get("lotValues")
             and supplier_contract.get("value")
-            # todo: adapt this for ARMA
             and Decimal(data["lotValues"][0]["value"]["amountPercentage"])
             > Decimal(supplier_contract["value"]["amountPercentage"])
         ):

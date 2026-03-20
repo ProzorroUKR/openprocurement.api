@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-12 14:03+0200\n"
+"POT-Creation-Date: 2026-03-11 11:33+0200\n"
 "PO-Revision-Date: 2021-03-03 21:36+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -11,7 +11,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Award"
 msgstr "Award"
@@ -207,6 +207,15 @@ msgstr ""
 
 msgid "Список об’єктів :ref:`RequirementResponse`."
 msgstr "List of :ref:`RequirementResponse` objects."
+
+msgid "Award в :ref:`arma`"
+msgstr "Award for :ref:`arma`"
+
+msgid "Не відрізняється від :ref:`Award`, окрім:"
+msgstr "No differences from :ref:`Award`, except:"
+
+msgid "Об’єкт :ref:`AmountPercentageValue`, генерується автоматично, лише для читання"
+msgstr ":ref:`AmountPercentageValue` object, auto-generated, read-only"
 
 msgid "Робочий процес нагороди в :ref:`limited`:"
 msgstr "Award workflow in :ref:`limited`:"

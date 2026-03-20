@@ -1,8 +1,7 @@
 from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.models.value import BasicValue
-from openprocurement.tender.arma.procedure.models.value import Value
+from openprocurement.api.procedure.models.value import AmountPercentageValue, BasicValue
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
     PostBaseLot,
@@ -12,16 +11,16 @@ from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 
 
 class PostLot(PostBaseLot):
-    value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value)
+    value = ModelType(AmountPercentageValue, required=True)
+    minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
     # assetValue = ModelType(PostEstimatedValue, required=True)
 
 
 class PatchLot(BaseLot):
     title = StringType()
-    value = ModelType(Value)
-    minimalStep = ModelType(Value)
+    value = ModelType(AmountPercentageValue)
+    minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
     status = StringType(choices=["active"])
     # assetValue = ModelType(EstimatedValue)
@@ -32,15 +31,15 @@ class PostTenderLot(PostLot, TenderLotMixin):
 
 
 class PatchTenderLot(BaseLot, TenderLotMixin):
-    value = ModelType(Value)
-    minimalStep = ModelType(Value)
+    value = ModelType(AmountPercentageValue)
+    minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
     # assetValue = ModelType(EstimatedValue)
 
 
 class Lot(BaseLot, TenderLotMixin):
-    value = ModelType(Value, required=True)
-    minimalStep = ModelType(Value)
+    value = ModelType(AmountPercentageValue, required=True)
+    minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
     # assetValue = ModelType(EstimatedValue, required=True)
 
