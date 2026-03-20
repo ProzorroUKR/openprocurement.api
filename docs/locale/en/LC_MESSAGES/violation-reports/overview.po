@@ -23,6 +23,6 @@ msgstr "Violation Reports API is a part of The OpenProcurement Central Database 
 msgid "Кожен етап або роль реалізує власний об’єкт API та REST API навколо нього."
 msgstr "Every stage or role implements its own API object and the REST API around it."
 
-msgid "Посилання на `swagger-ui <https://lb-api-sandbox-2.prozorro.gov.ua/api/0/doc>`_"
-msgstr "Link to `swagger-ui <https://lb-api-sandbox-2.prozorro.gov.ua/api/0/doc>`_"
+msgid "Посилання на `swagger-ui <https://public-api.prozorro.gov.ua/api/0/doc>`_"
+msgstr "Link to `swagger-ui <https://public-api.prozorro.gov.ua/api/0/doc>`_"
 
