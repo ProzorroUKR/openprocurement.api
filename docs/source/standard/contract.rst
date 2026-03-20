@@ -285,3 +285,15 @@ Contract в :ref:`frameworks_electroniccatalogue`
 
     Дата, коли договір був змінений або активований.
 
+Contract в :ref:`arma`
+======================
+
+Схема
+-----
+
+Не відрізняється від :ref:`Contract`, окрім:
+
+:value:
+    Об’єкт :ref:`AmountPercentageValue`, генерується автоматично, лише для читання
+
+    |ocdsDescription| Загальна вартість договору у відсотках.

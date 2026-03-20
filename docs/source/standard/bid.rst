@@ -121,6 +121,21 @@ Bid
     :requirementResponses:
         Список об’єктів :ref:`RequirementResponse`
 
+Bid в :ref:`arma`
+=================
+
+Схема
+-----
+
+Не відрізняється від :ref:`Bid`, окрім:
+
+:value:
+    Об’єкт :ref:`AmountPercentageValue`, обов’язково
+
+    Правила валідації:
+
+    * Значення `amountPercentage` повинно бути меншим або дорівнювати `tender.lots[].value.amountPercentage`
+
 .. _Parameter:
 
 Parameter

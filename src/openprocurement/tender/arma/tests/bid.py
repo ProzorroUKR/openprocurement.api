@@ -93,7 +93,7 @@ class Tender2BidResourceTestMixin:
     test_create_tender_biddder_invalid = snitch(create_tender_biddder_invalid)
     test_patch_tender_bidder = snitch(patch_tender_bidder)
     test_patch_tender_draft_bidder = snitch(patch_tender_draft_bidder)
-    test_get_tender_bidder = unittest.skip("disable skip when contracting is available")(snitch(get_tender_bidder))
+    test_get_tender_bidder = snitch(get_tender_bidder)
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
@@ -106,9 +106,7 @@ class TenderBidResourceTest(BaseTenderContentWebTest, TenderBidResourceTestMixin
     test_bids_data = test_tender_arma_bids
     author_data = test_tender_below_author
 
-    test_delete_tender_bidder = unittest.skip("disable skip when contracting is available")(
-        snitch(delete_tender_bidder)
-    )
+    test_delete_tender_bidder = snitch(delete_tender_bidder)
     test_bids_invalidation_on_tender_change = snitch(bids_invalidation_on_tender_change)
     test_bids_related_product = snitch(bids_related_product)
     test_bid_proposal_doc = snitch(bid_proposal_doc)
@@ -141,24 +139,12 @@ class Tender2LotBidResourceTest(BaseTenderContentWebTest):
 )
 class TenderBidDocumentResourceTestMixin:
     test_not_found = snitch(not_found)
-    test_get_tender_bidder_document = unittest.skip("disable skip when contracting is available")(
-        snitch(get_tender_bidder_document)
-    )
-    test_create_tender_bidder_document = unittest.skip("disable skip when contracting is available")(
-        snitch(create_tender_bidder_document)
-    )
-    test_put_tender_bidder_document = unittest.skip("disable skip when contracting is available")(
-        snitch(put_tender_bidder_document)
-    )
-    test_patch_tender_bidder_document = unittest.skip("disable skip when contracting is available")(
-        snitch(patch_tender_bidder_document)
-    )
-    test_download_tender_bidder_document = unittest.skip("disable skip when contracting is available")(
-        snitch(download_tender_bidder_document)
-    )
-    test_patch_tender_bidder_document_private_json = unittest.skip("disable skip when contracting is available")(
-        snitch(patch_tender_bidder_document_private_json)
-    )
+    test_get_tender_bidder_document = snitch(get_tender_bidder_document)
+    test_create_tender_bidder_document = snitch(create_tender_bidder_document)
+    test_put_tender_bidder_document = snitch(put_tender_bidder_document)
+    test_patch_tender_bidder_document = snitch(patch_tender_bidder_document)
+    test_download_tender_bidder_document = snitch(download_tender_bidder_document)
+    test_patch_tender_bidder_document_private_json = snitch(patch_tender_bidder_document_private_json)
 
 
 class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTenderContentWebTest):
@@ -180,9 +166,7 @@ class TenderBidDocumentResourceTest(TenderBidDocumentResourceTestMixin, BaseTend
 
     test_create_tender_bid_document_json_bulk = snitch(create_tender_bid_document_json_bulk)
     test_put_tender_bidder_document_private_json = snitch(put_tender_bidder_document_private_json)
-    test_get_tender_bidder_document_ds = unittest.skip("disable skip when contracting is available")(
-        snitch(get_tender_bidder_document_ds)
-    )
+    test_get_tender_bidder_document_ds = snitch(get_tender_bidder_document_ds)
 
 
 class TenderBidBatchDocumentsResourceTest(BaseTenderContentWebTest):

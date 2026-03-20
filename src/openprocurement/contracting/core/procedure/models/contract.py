@@ -2,14 +2,18 @@ from uuid import uuid4
 
 from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, StringType
-from schematics.types.compound import ModelType
+from schematics.types.compound import ModelType, PolyModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.models.value import ContractValue
+from openprocurement.api.procedure.models.value import (
+    AmountPercentageValue,
+    ContractValue,
+)
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.utils import get_contract_value_class
 from openprocurement.api.validation import validate_uniq_id
 from openprocurement.contracting.core.procedure.models.access import AccessDetails
 from openprocurement.contracting.core.procedure.models.change import Change
@@ -56,7 +60,13 @@ class PostContract(Model):
     description_ru = StringType()
 
     period = ModelType(Period)
-    value = ModelType(ContractValue)
+    value = PolyModelType(
+        (
+            AmountPercentageValue,
+            ContractValue,
+        ),
+        claim_function=get_contract_value_class,
+    )
 
     items = ListType(ModelType(Item, required=True))
     buyer = ModelType(Buyer, required=True)
@@ -83,7 +93,13 @@ class BasePatchContract(Model):
     implementation = ModelType(Implementation)
     status = StringType(choices=["terminated", "active"])
     period = ModelType(Period)
-    value = ModelType(ContractValue)
+    value = PolyModelType(
+        (
+            AmountPercentageValue,
+            ContractValue,
+        ),
+        claim_function=get_contract_value_class,
+    )
     items = ListType(ModelType(Item, required=True), min_size=1)
     milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
 
@@ -144,7 +160,13 @@ class Contract(Model):
 
     documents = ListType(ModelType(Document, required=True))
     amountPaid = ModelType(AmountPaid)
-    value = ModelType(ContractValue)
+    value = PolyModelType(
+        (
+            AmountPercentageValue,
+            ContractValue,
+        ),
+        claim_function=get_contract_value_class,
+    )
 
     contractChangeRationaleTypes = BaseType()
 
@@ -166,11 +188,11 @@ class Contract(Model):
         type=ModelType(AmountPaid),
     )
     def contract_amountPaid(self):
-        if self.amountPaid:
+        if self.amountPaid and isinstance(self.value, ContractValue):
             self.amountPaid.currency = self.value.currency if self.value else self.amountPaid.currency
             if self.amountPaid.valueAddedTaxIncluded is None:
                 self.amountPaid.valueAddedTaxIncluded = self.value.valueAddedTaxIncluded
-            return self.amountPaid
+        return self.amountPaid
 
 
 class PatchContract(BasePatchContract):
@@ -178,7 +200,13 @@ class PatchContract(BasePatchContract):
     items = ListType(ModelType(Item, required=True), min_size=1)
     terminationDetails = StringType()
     amountPaid = ModelType(AmountPaid)
-    value = ModelType(ContractValue)
+    value = PolyModelType(
+        (
+            AmountPercentageValue,
+            ContractValue,
+        ),
+        claim_function=get_contract_value_class,
+    )
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
@@ -189,7 +217,13 @@ class PatchContractPending(BasePatchContract):
     items = ListType(ModelType(Item, required=True), min_size=1)
     dateSigned = IsoDateTimeType()
     contractNumber = StringType()
-    value = ModelType(ContractValue)
+    value = PolyModelType(
+        (
+            AmountPercentageValue,
+            ContractValue,
+        ),
+        claim_function=get_contract_value_class,
+    )
 
     def validate_items(self, data, items):
         validate_item_unit_values(data, items)
@@ -215,6 +249,8 @@ def validate_item_unit_values(data, items):
     base_value = data.get("value")
     if base_value is None:
         base_value = (get_contract() or {}).get("value")
+    if base_value and "amountPercentage" in base_value:
+        return
     if base_value and items:
         for item in items:
             item_value = (item.get("unit") or {}).get("value")

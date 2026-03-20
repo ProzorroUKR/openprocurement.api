@@ -1298,6 +1298,13 @@ def patch_tender_contract_identical(self):
     self.assertIn("amountPaid", response.json["data"])
 
     response = self.app.patch_json(
+        f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
+        {"data": {"amountPaid": {"amount": 100, "amountNet": 95, "currency": "UAH"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("amountPaid", response.json["data"])
+
+    response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}", {"data": {"amountPaid": None}}
     )
     self.assertEqual(response.status, "200 OK")

@@ -192,8 +192,8 @@ class BidState(BaseState):
 
         if self.check_item_unit_amount:
             if items_for_lot:
-                for lot_id, items_ids in items_unit_value_amount.items():
-                    validate_items_unit_amount(items_ids, lot_values_by_id[lot_id], obj_name="bid.lotValues")
+                for lot_id, amounts in items_unit_value_amount.items():
+                    validate_items_unit_amount(amounts, lot_values_by_id[lot_id], obj_name="bid.lotValues")
             else:
                 validate_items_unit_amount(items_unit_value_amount, data, obj_name="bid")
 

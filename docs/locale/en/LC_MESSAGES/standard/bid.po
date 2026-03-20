@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-13 17:50+0300\n"
+"POT-Creation-Date: 2026-03-11 11:33+0200\n"
 "PO-Revision-Date: 2019-12-19 15:14+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Bid"
 msgstr "Bid"
@@ -191,14 +191,23 @@ msgstr ""
 msgid "Список об’єктів :ref:`RequirementResponse`"
 msgstr "List of :ref:`RequirementResponse` objects."
 
+msgid "Bid в :ref:`arma`"
+msgstr "Bid for :ref:`arma`"
+
+msgid "Не відрізняється від :ref:`Bid`, окрім:"
+msgstr "No differences from :ref:`Bid`, except:"
+
+msgid "Об’єкт :ref:`AmountPercentageValue`, обов’язково"
+msgstr ":ref:`AmountPercentageValue` object, required"
+
+msgid "Значення `amountPercentage` повинно бути меншим або дорівнювати `tender.lots[].value.amountPercentage`"
+msgstr "`amountPercentage` should be less or equal to `tender.lots[].value.amountPercentage`"
+
 msgid "Parameter"
 msgstr "Parameter"
 
 msgid "code"
 msgstr ""
-
-msgid "рядок, обов’язковий"
-msgstr "string, required"
 
 msgid "Код критерію."
 msgstr "Code of the feature."
