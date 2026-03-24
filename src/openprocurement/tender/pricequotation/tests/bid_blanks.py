@@ -682,7 +682,6 @@ def requirement_response_value_validation_for_expected_values(self):
         "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']},
         "values": [5, 7, 6],
     }
-    copy_criteria_req_id(tender["criteria"], rr)
 
     bid_data = {
         "tenderers": [test_tender_pq_supplier],
@@ -754,7 +753,6 @@ def requirement_response_value_validation_for_expected_values(self):
 
     # invalid value in response
     test_response = deepcopy(rr)
-    copy_criteria_req_id(tender["criteria"], test_response)
     test_response[-2]['values'] = ['ivalid']
 
     bid_data["status"] = "active"

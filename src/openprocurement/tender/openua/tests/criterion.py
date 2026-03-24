@@ -47,11 +47,14 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
 
 
 class TenderCriteriaBaseTestMixin:
+    required_criteria = []
+
     def setUp(self):
         super().setUp()
         tender = self.get_tender().json["data"]
 
         criteria_data = deepcopy(test_main_criteria)
+        criteria_data = [c for c in criteria_data if c["classification"]["id"] not in self.required_criteria]
         set_tender_criteria(
             criteria_data,
             tender.get("lots", []),

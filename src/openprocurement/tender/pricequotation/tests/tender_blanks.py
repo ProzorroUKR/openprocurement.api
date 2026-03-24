@@ -783,7 +783,7 @@ def create_tender_draft_with_criteria(self):
     self.assertEqual({e["id"] for e in patch_result["criteria"]}, {e["id"] for e in patch_criteria})
 
     # try adding a new criteria
-    patch_criteria = patch_criteria + deepcopy(patch_criteria)
+    patch_criteria = deepcopy(patch_criteria) + [patch_criteria[0]]
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}", {"data": {"criteria": patch_criteria}}, status=422
@@ -861,7 +861,7 @@ def create_tender_draft_with_criteria(self):
     patch_result = response.json["data"]
 
     # old object ids hasn't been changed
-    self.assertEqual(len(patch_result["criteria"]), 1)
+    self.assertEqual(len(patch_result["criteria"]), 3)
     self.assertEqual([e["id"] for e in patch_result["criteria"]], [e["id"] for e in patch_criteria[:-1]])
 
     # check unique criteria classification ids
