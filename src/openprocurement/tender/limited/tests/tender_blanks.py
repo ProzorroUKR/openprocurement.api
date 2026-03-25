@@ -4,6 +4,8 @@ from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import (
+    RATIONALE_TYPES_DECREE_1178,
+    RATIONALE_TYPES_LAW_922,
     ROUTE_PREFIX,
     TENDER_CAUSE,
     TENDER_CAUSE_NEGOTIATION,
@@ -1891,4 +1893,47 @@ def reporting_contract_template_name_forbid(self):
                 "description": "Rogue field",
             }
         ],
+    )
+
+
+def tender_cause_change_rationale_types_update(self):
+    data = deepcopy(self.initial_data)
+    data["causeDetails"] = {
+        "code": "hematopoieticStemCells",
+        "scheme": "LAW922",
+        "description": "test",
+    }
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "hematopoieticStemCells")
+    self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "LAW922")
+
+    self.assertEqual(
+        response.json["data"]["contractChangeRationaleTypes"].keys(),
+        RATIONALE_TYPES_LAW_922.keys(),
+    )
+
+    tender_id = self.tender_id = response.json["data"]["id"]
+    owner_token = response.json["access"]["token"]
+
+    update_data = {}
+    update_data["causeDetails"] = {
+        "code": "stateLegalServices",
+        "scheme": "DECREE1178",
+        "description": "test",
+    }
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, owner_token),
+        {"data": update_data},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "stateLegalServices")
+    self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "DECREE1178")
+
+    self.assertEqual(
+        response.json["data"]["contractChangeRationaleTypes"].keys(),
+        RATIONALE_TYPES_DECREE_1178.keys(),
     )
