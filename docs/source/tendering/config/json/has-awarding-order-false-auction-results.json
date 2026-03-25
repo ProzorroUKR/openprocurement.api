@@ -1789,13 +1789,6 @@
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2023-10-10T01:00:00+03:00",
-                                "eligibleEvidences": [
-                                    {
-                                        "id": "43a615b168244231b7ddc489b273c6fd",
-                                        "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
-                                        "type": "document"
-                                    }
-                                ],
                                 "expectedValue": true,
                                 "id": "6d601885600943ae965b827693107934",
                                 "status": "active",
@@ -1847,7 +1840,7 @@
                                 "datePublished": "2023-10-10T01:00:00+03:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "507882389e2549d3bc06a03025da25b8",
+                                        "id": "43a615b168244231b7ddc489b273c6fd",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }

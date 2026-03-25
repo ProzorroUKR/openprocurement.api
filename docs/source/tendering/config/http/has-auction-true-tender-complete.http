@@ -948,13 +948,6 @@ Content-Type: application/json
                 "id": "6d601885600943ae965b827693107934",
                 "title": "Текст заповнений користувачем",
                 "dataType": "boolean",
-                "eligibleEvidences": [
-                  {
-                    "title": "Документальне підтвердження",
-                    "type": "document",
-                    "id": "43a615b168244231b7ddc489b273c6fd"
-                  }
-                ],
                 "status": "active",
                 "expectedValue": true,
                 "datePublished": "2023-10-10T01:00:00+03:00"
@@ -1008,7 +1001,7 @@ Content-Type: application/json
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "507882389e2549d3bc06a03025da25b8"
+                    "id": "43a615b168244231b7ddc489b273c6fd"
                   }
                 ],
                 "status": "active",
