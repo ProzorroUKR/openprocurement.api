@@ -54,6 +54,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_award_create,
     tender_cancellation,
     tender_cause,
+    tender_cause_change_rationale_types_update,
     tender_cause_choices,
     tender_cause_desc,
     tender_cause_quick,
@@ -79,6 +80,7 @@ class TenderTest(BaseTenderWebTest):
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
     test_tender_cause = snitch(tender_cause_reporting)
     test_reporting_contract_template_name_forbid = snitch(reporting_contract_template_name_forbid)
+    test_tender_cause_change_rationale_types_update = snitch(tender_cause_change_rationale_types_update)
 
 
 class TenderResourceTest(BaseTenderWebTest):

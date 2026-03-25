@@ -331,10 +331,18 @@ class BaseTenderDetailsMixing:
                         self.validate_minimal_step(after, before=before)
         else:
             self.validate_change_item_profile_or_category(after, before)
-        if after.get("tenderPeriod", {}).get("endDate") and after["tenderPeriod"]["endDate"] != before.get(
-            "tenderPeriod", {}
-        ).get("endDate"):
-            self.calc_qualification_period(after, dt_from_iso(after["tenderPeriod"]["endDate"]))
+
+        # update qualification period if required
+        tender_period_end_date_after = after.get("tenderPeriod", {}).get("endDate")
+        tender_period_end_date_before = before.get("tenderPeriod", {}).get("endDate")
+        if tender_period_end_date_after and tender_period_end_date_after != tender_period_end_date_before:
+            self.calc_qualification_period(after, dt_from_iso(tender_period_end_date_after))
+
+        # update contract change rationale types if required
+        cause_details_after = after.get("causeDetails")
+        cause_details_before = before.get("causeDetails")
+        if cause_details_after != cause_details_before:
+            self.set_contract_change_rationale_types(after)
 
         super().on_patch(before, after)
 
