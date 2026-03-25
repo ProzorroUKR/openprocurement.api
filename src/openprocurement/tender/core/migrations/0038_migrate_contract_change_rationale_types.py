@@ -5,8 +5,8 @@ from pymongo import DESCENDING
 from openprocurement.api.constants import RATIONALE_TYPES_DECREE_1178
 from openprocurement.api.constants_env import CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM
 from openprocurement.api.migrations.base import (
-    CollectionMigration,
     MigrationResult,
+    PymongoCollectionMigration,
     migrate_collection,
 )
 
@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     """Main migration: migrate contractChangeRationaleTypes in tenders and their contracts."""
 
     description = "Migrate contractChangeRationaleTypes in tender/contract (tender main migration)"
@@ -49,7 +49,7 @@ class Migration(CollectionMigration):
 
     def process_data(self, cursor):
         # Prepare sub migration
-        self.sub_migration = ContractSubMigration(self.env, self.args)
+        self.sub_migration = ContractSubMigration(self.settings, self.args)
         self.sub_result = MigrationResult()
 
         # Do migration
@@ -108,7 +108,7 @@ class Migration(CollectionMigration):
         return unset_pipeline + super().generate_base_pipeline_stages(doc)
 
 
-class ContractSubMigration(CollectionMigration):
+class ContractSubMigration(PymongoCollectionMigration):
     """Migrate contractChangeRationaleTypes in contracts collection."""
 
     description = "Migrate contractChangeRationaleTypes in tender/contract (contract sub migration)"

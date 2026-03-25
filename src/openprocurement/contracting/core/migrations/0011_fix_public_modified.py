@@ -2,13 +2,13 @@ import logging
 
 from pymongo import DESCENDING
 
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Fix public_modified field in tenders"
 
     collection_name = "tenders"

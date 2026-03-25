@@ -1,7 +1,7 @@
 import logging
 
 from openprocurement.api.constants import COUNTRIES_MAP
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.tender.core.constants import CRITERION_LOCALIZATION
 from openprocurement.tender.core.procedure.models.criterion import DataSchema
 
@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrating tenders localization criteria"
 
     collection_name = "tenders"

@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 from pymongo import DESCENDING
 
 from openprocurement.api.migrations.base import (
-    CollectionMigration,
+    PymongoCollectionMigration,
     ReadonlyCollectionWrapper,
     migrate_collection,
 )
@@ -14,7 +14,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Fix contractID format: add missing 'a' prefix before contract number"
 
     collection_name = "contracts"

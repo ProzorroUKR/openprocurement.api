@@ -3,7 +3,7 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
-from openprocurement.api.migrations.base import CollectionMigration, migrate_collection
+from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.tender.core.procedure.serializers.config import (
     tender_config_enquiry_period_regulation_migrate_value,
     tender_config_has_enquiries_migrate_value,
@@ -15,7 +15,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrate tender configs: minTenderingDuration"
 
     collection_name = "tenders"

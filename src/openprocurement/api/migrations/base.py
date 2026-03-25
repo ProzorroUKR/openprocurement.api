@@ -9,10 +9,10 @@ from dataclasses import dataclass
 from typing import Any, Optional, Type
 from unittest.mock import MagicMock, patch
 
+import sentry_sdk
 from pymongo import UpdateOne
 from pymongo.collection import Collection
 from pymongo.errors import BulkWriteError, OperationFailure
-from pyramid.paster import bootstrap
 
 from openprocurement.api.constants import BASE_DIR
 from openprocurement.api.database import (
@@ -59,10 +59,10 @@ class MigrationResult:
 
 class CollectionWrapper:
     def __init__(self, collection):
-        self._collection = collection
+        self.collection = collection
 
     def __getattr__(self, name):
-        return getattr(self._collection, name)
+        return getattr(self.collection, name)
 
 
 class MigrationFailed(Exception):
@@ -72,13 +72,13 @@ class MigrationFailed(Exception):
 class BaseMigration:
     """Base class for database migrations"""
 
-    def __init__(self, env: Any, args: Any):
+    def __init__(self, settings: dict, args: Any):
         """Initialize migration.
 
         :param env: Pyramid environment
         :param args: Command line arguments
         """
-        self.env = env
+        self.settings = settings
         self.args = args
 
     def run(self) -> None:
@@ -91,15 +91,17 @@ class BaseMigration:
 class CollectionMigration(BaseMigration):
     """Base class for database migrations with configurable collection, filter and update logic.
 
+    Abstract base for PymongoCollectionMigration (sync) and AsyncIOMotorCollectionMigration (async).
+
     :ivar description: Description of the migration
     :ivar log_every: Log progress every N records
     :ivar bulk_max_size: Maximum size of bulk operations
     :ivar collection_name: Name of the MongoDB collection to migrate
     """
 
-    description: str = "Base migration"
+    description: str = "base collection migration"
 
-    collection_name: str
+    collection_name: str = ""
 
     # Migration configuration
     append_revision: bool = True
@@ -113,25 +115,8 @@ class CollectionMigration(BaseMigration):
     bulk_max_size: int = 500
 
     def run(self) -> None:
-        """Run the migration."""
-        logger.info("Starting migration %s: %s", self.get_name(), self.description)
-
-        try:
-            with self._collection.database.client.start_session() as session:
-                cursor = self._collection.find(self._filter, self._projection, no_cursor_timeout=True, session=session)
-                cursor.batch_size(self.args.b)
-                result = self.process_data(cursor)
-                self.log_result(result, action="Finished")
-
-        except MigrationFailed:
-            if self.args.test:
-                raise
-        except Exception as e:
-            logger.exception(f"Migration failed with unexpected error: {type(e).__name__}: {str(e)}", exc_info=e)
-            raise
-        finally:
-            if "cursor" in locals():
-                cursor.close()
+        """Run the migration. Subclasses must implement."""
+        raise NotImplementedError("Subclasses must implement run")
 
     def get_name(self) -> str:
         """Get migration name from filename.
@@ -141,27 +126,17 @@ class CollectionMigration(BaseMigration):
         return os.path.basename(inspect.getfile(self.__class__)).split(".")[0]
 
     def get_collection(self) -> Collection:
-        """Get MongoDB collection.
+        """Get MongoDB collection. Subclasses must implement."""
+        raise NotImplementedError("Subclasses must implement get_collection")
 
-        :return: MongoDB collection
+    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
+        """Process a single document. Subclasses must implement.
+
+        :param doc: dict of document to process
+        :param context: dict of context
+        :return: dict of modified document needs to be updated, None otherwise
         """
-        return getattr(self.env["registry"].mongodb, self.collection_name).collection
-
-    def wrap_collection(self, collection: Collection) -> Collection | CollectionWrapper:
-        if self.args.readonly:
-            collection = ReadonlyCollectionWrapper(collection)
-        if self.args.log_db:
-            collection = LoggingCollectionWrapper(collection)
-        return collection
-
-    @property
-    def _collection(self) -> Collection | CollectionWrapper:
-        collection: Collection = self.get_collection()
-        return self.wrap_collection(collection)
-
-    @property
-    def collection(self) -> Collection | CollectionWrapper:
-        return self._collection
+        raise NotImplementedError("Subclasses must implement update_document")
 
     def get_filter(self) -> dict:
         """Get filter for documents to process.
@@ -171,9 +146,9 @@ class CollectionMigration(BaseMigration):
         return {}
 
     @property
-    def _filter(self) -> dict:
+    def filter(self) -> dict:
         filter = self.get_filter()
-        if self.args.filter:
+        if self.args and self.args.filter:
             filter.update(json.loads(self.args.filter))
         return filter
 
@@ -183,6 +158,22 @@ class CollectionMigration(BaseMigration):
         :return: MongoDB projection
         """
         return {}
+
+    @property
+    def projection(self) -> dict:
+        projection = self.get_projection()
+        if projection:
+            # if projection is set, add additional fields required for migration,
+            # else all fields will be present
+            projection = dict(projection)
+            projection.update({"_id": 1, "_rev": 1})
+            if self.append_revision:
+                projection.update({"revisions": 1})
+            self.validate_projection(projection)
+        return projection
+
+    def get_next_revision(self, doc: dict) -> str:
+        raise NotImplementedError("Subclasses must implement get_next_revision")
 
     def validate_projection(self, projection: dict) -> None:
         """Ensure projection has no nested fields.
@@ -194,45 +185,36 @@ class CollectionMigration(BaseMigration):
             if "." in key:
                 raise ValueError(f"Nested projection '{key}' is not allowed. Use top-level field names only.")
 
-    @property
-    def _projection(self) -> dict:
-        projection = self.get_projection()
-        if projection:
-            # if projection is set, add additional fields required for migration,
-            # else all fields will be present
-            projection.update({"_id": 1, "_rev": 1})
-            if self.append_revision:
-                projection.update({"revisions": 1})
-            self.validate_projection(projection)
-        return projection
+    def validate_revisions_update(self, doc: dict, updated_doc: dict) -> None:
+        revisions = doc.get("revisions")
+        revisions_future = updated_doc.get("revisions")
+        if not revisions or not revisions_future or revisions != revisions_future:
+            raise ValueError("Document has no revisions. Revisions may be lost. Please check the projection.")
 
-    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
-        """Process a single document.
+    def generate_base_pipeline_stages(self, doc: dict) -> list[dict]:
+        return [
+            {"$set": doc},
+        ]
 
-        :param doc: dict of document to process
-        :param context: dict of context
-        :return: dict of modified document needs to be updated, None otherwise
-        :raises NotImplementedError: If not implemented in subclass
-        """
-        raise NotImplementedError("Subclasses must implement process_document")
+    def generate_revision_number_pipeline_stages(self, doc: dict) -> list[dict]:
+        return [
+            {"$set": {"_rev": self.get_next_revision(doc)}},
+        ]
 
-    def process_operation(self, doc: dict, context: dict = None) -> Optional[UpdateOne]:
-        """Generate update operation for a single document.
+    def generate_date_modified_pipeline_stages(self, doc: dict) -> list[dict]:
+        return [
+            {"$set": {"dateModified": get_now().isoformat()}},
+        ]
 
-        :param pipeline: Pipeline of update operations
-        :param context: dict of context
-        :return: UpdateOne operation
-        """
-        pipeline = self.process_pipeline(doc, context=context)
-
-        if not pipeline:
-            # Skip document processing
-            return None
-
-        return UpdateOne(
-            {"_id": doc["_id"], "_rev": doc["_rev"]},
-            pipeline,
-        )
+    def generate_feed_position_pipeline_stages(self, doc: dict) -> list[dict]:
+        return [
+            {
+                "$set": {
+                    "public_modified": get_public_modified(),
+                    "public_ts": get_public_ts(),
+                }
+            },
+        ]
 
     def process_pipeline(self, doc: dict, context: dict = None) -> Optional[list[dict]]:
         """Generate update pipeline for a single document.
@@ -241,14 +223,13 @@ class CollectionMigration(BaseMigration):
         :param context: dict of context
         :return: list of dict of update pipeline
         """
-
         updated_doc = self.update_document(deepcopy(doc), context=context)
 
         if not updated_doc or doc == updated_doc:
             # Skip document processing
             return None
 
-        if self.args.log_diff:
+        if hasattr(self, "args") and self.args and getattr(self.args, "log_diff", False):
             import difflib
 
             doc_str = json.dumps(doc, indent=2, ensure_ascii=False, sort_keys=True, cls=CustomJSONEncoder)
@@ -279,36 +260,86 @@ class CollectionMigration(BaseMigration):
 
         return pipeline
 
-    def generate_base_pipeline_stages(self, doc: dict) -> list[dict]:
-        return [
-            {"$set": doc},
-        ]
 
-    def generate_revision_number_pipeline_stages(self, doc: dict) -> list[dict]:
-        return [
-            {"$set": {"_rev": MongodbStore.get_next_rev(doc["_rev"])}},
-        ]
+class PymongoCollectionMigration(CollectionMigration):
+    """Sync collection migration using pymongo."""
 
-    def generate_date_modified_pipeline_stages(self, doc: dict) -> list[dict]:
-        return [
-            {"$set": {"dateModified": get_now().isoformat()}},
-        ]
+    description: str = "pymongo collection migration"
 
-    def generate_feed_position_pipeline_stages(self, doc: dict) -> list[dict]:
-        return [
-            {
-                "$set": {
-                    "public_modified": get_public_modified(),
-                    "public_ts": get_public_ts(),
-                }
-            },
-        ]
+    def __init__(self, settings: dict, args: Any):
+        super().__init__(settings, args)
+        self.db_store = MongodbStore(settings)
 
-    def validate_revisions_update(self, doc: dict, updated_doc: dict) -> None:
-        revisions = doc.get("revisions")
-        revisions_future = updated_doc.get("revisions")
-        if not revisions or not revisions_future or revisions != revisions_future:
-            raise ValueError("Document has no revisions. Revisions may be lost. Please check the projection.")
+    def run(self) -> None:
+        """Run the migration."""
+        logger.info("Starting migration %s: %s", self.get_name(), self.description)
+
+        try:
+            with self.collection.database.client.start_session() as session:
+                cursor = self.collection.find(self.filter, self.projection, no_cursor_timeout=True, session=session)
+                cursor.batch_size(self.args.b)
+                result = self.process_data(cursor)
+                self.log_result(result, action="Finished")
+
+        except MigrationFailed:
+            if self.args.test:
+                raise
+        except Exception as e:
+            logger.exception(f"Migration failed with unexpected error: {type(e).__name__}: {str(e)}", exc_info=e)
+            raise
+        finally:
+            if "cursor" in locals():
+                cursor.close()
+
+    def get_next_revision(self, doc: dict) -> str:
+        return self.db_store.get_next_rev(doc["_rev"])
+
+    def get_collection(self) -> Collection:
+        """Get MongoDB collection.
+
+        :return: MongoDB collection
+        """
+        return self.db_store.database.get_collection(self.collection_name)
+
+    def wrap_collection(self, collection: Collection) -> Collection | CollectionWrapper:
+        if self.args.readonly:
+            collection = ReadonlyCollectionWrapper(collection)
+        if self.args.log_db:
+            collection = LoggingCollectionWrapper(collection)
+        return collection
+
+    @property
+    def collection(self) -> Collection | CollectionWrapper:
+        collection: Collection = self.get_collection()
+        return self.wrap_collection(collection)
+
+    def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
+        """Process a single document.
+
+        :param doc: dict of document to process
+        :param context: dict of context
+        :return: dict of modified document needs to be updated, None otherwise
+        :raises NotImplementedError: If not implemented in subclass
+        """
+        raise NotImplementedError("Subclasses must implement update_document")
+
+    def process_operation(self, doc: dict, context: dict = None) -> Optional[UpdateOne]:
+        """Generate update operation for a single document.
+
+        :param pipeline: Pipeline of update operations
+        :param context: dict of context
+        :return: UpdateOne operation
+        """
+        pipeline = self.process_pipeline(doc, context=context)
+
+        if not pipeline:
+            # Skip document processing
+            return None
+
+        return UpdateOne(
+            {"_id": doc["_id"], "_rev": doc["_rev"]},
+            pipeline,
+        )
 
     def process_data(self, cursor) -> MigrationResult:
         """Process documents from cursor and apply updates.
@@ -380,7 +411,7 @@ class CollectionMigration(BaseMigration):
             if not update_operations:
                 return result
 
-            self._collection.bulk_write(update_operations)
+            self.collection.bulk_write(update_operations)
             result.updated = len(update_operations)
         except (OperationFailure, BulkWriteError) as e:
             logger.exception(
@@ -407,7 +438,7 @@ class CollectionMigration(BaseMigration):
 
             for attempt in range(max_retries):
                 # Refetch the document to get latest version
-                doc = self._collection.find_one({"_id": doc_id}, self._projection)
+                doc = self.collection.find_one({"_id": doc_id}, self.projection)
                 if not doc:
                     logger.error(f"Document {doc_id} not found")
                     result.failed += 1
@@ -432,7 +463,7 @@ class CollectionMigration(BaseMigration):
 
                 try:
                     # Update document with latest changes
-                    self._collection.update_one({"_id": doc_id, "_rev": doc["_rev"]}, pipeline)
+                    self.collection.update_one({"_id": doc_id, "_rev": doc["_rev"]}, pipeline)
                     result.updated += 1
                     success = True
                     break
@@ -471,7 +502,7 @@ class CollectionMigration(BaseMigration):
         mock_cursor.__iter__.return_value = iter(test_docs)
 
         mock_collection = MagicMock()
-        mock_collection.database = self._collection.database
+        mock_collection.database = self.collection.database
         mock_collection.find.return_value = mock_cursor
 
         self.run_test_mock(mock_collection)
@@ -494,7 +525,7 @@ class LoggingCollectionWrapper(CollectionWrapper):
         self._logger = logger
 
     def __getattr__(self, name):
-        attr = getattr(self._collection, name)
+        attr = getattr(self.collection, name)
 
         if not callable(attr):
             return attr
@@ -537,7 +568,7 @@ class ReadonlyCollectionWrapper(CollectionWrapper):
         self._logger = logger
 
     def __getattr__(self, name):
-        attr = getattr(self._collection, name)
+        attr = getattr(self.collection, name)
 
         if not callable(attr):
             return attr
@@ -573,6 +604,20 @@ class CollectionMigrationArgumentParser(BaseMigrationArgumentParser):
     def __init__(self):
         super().__init__()
         self.add_argument(
+            "--log-diff",
+            action="store_true",
+            help=("Log all diffs."),
+        )
+        self.add_argument(
+            "--filter",
+            help=("Filter for documents to process."),
+        )
+
+
+class PymongoCollectionMigrationArgumentParser(CollectionMigrationArgumentParser):
+    def __init__(self):
+        super().__init__()
+        self.add_argument(
             "--test",
             action="store_true",
             help=("Run the migration in test mode."),
@@ -583,18 +628,9 @@ class CollectionMigrationArgumentParser(BaseMigrationArgumentParser):
             help=("Log all database operations."),
         )
         self.add_argument(
-            "--log-diff",
-            action="store_true",
-            help=("Log all diffs."),
-        )
-        self.add_argument(
             "--readonly",
             action="store_true",
             help=("Run migration in readonly mode - all database writes will be simulated."),
-        )
-        self.add_argument(
-            "--filter",
-            help=("Filter for documents to process."),
         )
         self.add_argument(
             "--failafter",
@@ -603,22 +639,33 @@ class CollectionMigrationArgumentParser(BaseMigrationArgumentParser):
         )
 
 
+def init_migration(migration: Type[BaseMigration], parser: Type[BaseMigrationArgumentParser]) -> BaseMigration:
+    os.environ["NO_GEVENT_MONKEY_PATCH"] = "1"
+    from openprocurement.api.app import load_config
+
+    args = parser().parse_args()
+    settings = load_config(args.p)["app:main"]
+
+    if dsn := settings.get("sentry.dsn"):
+        sentry_sdk.init(dsn=dsn)
+
+    return migration(settings, args)
+
+
 def migrate(
     migration: Type[BaseMigration],
     parser: Type[BaseMigrationArgumentParser] = BaseMigrationArgumentParser,
 ):
-    os.environ["NO_GEVENT_MONKEY_PATCH"] = "1"
-    args = parser().parse_args()
-    if args.test:
-        migration(MagicMock(), args).run_test()
+    migration_instance = init_migration(migration, parser)
+    if migration_instance.args.test:
+        migration_instance.run_test()
     else:
-        with bootstrap(args.p) as env:
-            migration(env, args).run()
+        migration_instance.run()
 
 
 def migrate_collection(
-    migration: Type[CollectionMigration],
-    parser: Type[CollectionMigrationArgumentParser] = CollectionMigrationArgumentParser,
+    migration: Type[PymongoCollectionMigration],
+    parser: Type[PymongoCollectionMigrationArgumentParser] = PymongoCollectionMigrationArgumentParser,
 ):
     migrate(migration, parser)
 
