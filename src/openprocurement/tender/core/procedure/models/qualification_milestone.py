@@ -1,4 +1,3 @@
-from datetime import timedelta
 from enum import StrEnum
 from uuid import uuid4
 
@@ -6,9 +5,8 @@ from schematics.types import StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.tender.core.utils import calculate_tender_date
+from openprocurement.api.procedure.types import IsoDateTimeType
 
 
 class QualificationMilestoneCode(StrEnum):
@@ -25,21 +23,11 @@ class PostQualificationMilestone(Model):
         ],
     )
     description = StringType()
+    dueDate = IsoDateTimeType()
 
     @serializable
     def id(self):
         return uuid4().hex
-
-    @serializable
-    def dueDate(self):
-        dt = get_request_now()
-        if self.code == QualificationMilestoneCode.CODE_24_HOURS.value:
-            dt = calculate_tender_date(
-                get_request_now(),
-                timedelta(hours=24),
-                tender=get_tender(),
-            )
-        return dt.isoformat()
 
     @serializable
     def date(self):

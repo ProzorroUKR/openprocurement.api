@@ -1,5 +1,3 @@
-from cornice.resource import resource
-
 from openprocurement.api.procedure.utils import get_items
 from openprocurement.api.procedure.validation import (
     validate_input_data,
@@ -25,6 +23,7 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.qualification import (
     resolve_qualification,
 )
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 def resolve_milestone(request, context_name: str = "qualification"):
@@ -93,12 +92,6 @@ class BaseMilestoneResource(TenderBaseResource):
         pass
 
 
-@resource(
-    name="Tender Qualification Milestones",
-    collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones",
-    path="/tenders/{tender_id}/qualifications/{qualification_id}/milestones/{milestone_id}",
-    description="Tender qualification milestones",
-)
 class QualificationMilestoneResource(BaseMilestoneResource):
     def __init__(self, request, context=None):
         super().__init__(request, context)  # resolve tender
@@ -107,8 +100,9 @@ class QualificationMilestoneResource(BaseMilestoneResource):
 
     def set_location(self, tender, milestone):
         parent_obj = self.request.validated[self.context_name]
+        route_prefix = ProcurementMethodTypePredicate.route_prefix(self.request)
         self.request.response.headers["Location"] = self.request.route_url(
-            "Tender {} Milestones".format(self.context_name.capitalize()),
+            "{}:Tender {} Milestones".format(route_prefix, self.context_name.capitalize()),
             **{
                 "tender_id": tender["_id"],
                 "{}_id".format(self.context_name): parent_obj["id"],

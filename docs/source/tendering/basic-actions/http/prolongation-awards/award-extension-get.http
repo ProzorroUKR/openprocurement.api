@@ -59,8 +59,8 @@ Content-Type: application/json
         "description": "Обгрунтування продовження строків розгляду",
         "code": "extensionPeriod",
         "id": "7237e58915b949df9c07a98cfc4bdcd4",
-        "dueDate": "2023-11-08T00:00:00+02:00",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2023-10-10T01:00:00+03:00",
+        "dueDate": "2023-11-08T00:00:00+02:00"
       }
     ],
     "documents": [

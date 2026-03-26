@@ -16,8 +16,8 @@ Content-Type: application/json
         "code": "24h",
         "description": "One ring to bring them all and in the darkness bind them",
         "id": "20b000ba78824104838f8d8de899ab65",
-        "dueDate": "2023-10-13T01:00:04+03:00",
-        "date": "2023-10-12T01:00:04+03:00"
+        "date": "2023-10-12T01:00:04+03:00",
+        "dueDate": "2023-10-13T01:00:04+03:00"
       }
     ]
   },
@@ -1687,8 +1687,8 @@ Content-Type: application/json
               "code": "24h",
               "description": "One ring to bring them all and in the darkness bind them",
               "id": "20b000ba78824104838f8d8de899ab65",
-              "dueDate": "2023-10-13T01:00:04+03:00",
-              "date": "2023-10-12T01:00:04+03:00"
+              "date": "2023-10-12T01:00:04+03:00",
+              "dueDate": "2023-10-13T01:00:04+03:00"
             }
           ]
         }

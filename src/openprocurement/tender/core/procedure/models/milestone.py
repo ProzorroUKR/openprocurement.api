@@ -1,10 +1,8 @@
-from datetime import timedelta
 from enum import StrEnum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
 from schematics.types import FloatType, IntType, MD5Type, StringType
-from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
@@ -13,11 +11,8 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.tender.core.procedure.models.qualification_milestone import (
-    QualificationMilestoneCode,
-)
+from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
 from openprocurement.tender.core.procedure.validation import is_positive_float
-from openprocurement.tender.core.utils import calculate_tender_date
 
 
 class QualificationMilestone(Model):
@@ -32,17 +27,6 @@ class QualificationMilestone(Model):
     dueDate = IsoDateTimeType()
     description = StringType()
     date = IsoDateTimeType(default=get_request_now)
-
-    @serializable(serialized_name="dueDate")
-    def set_due_date(self):
-        if not self.dueDate:
-            if self.code == QualificationMilestoneCode.CODE_24_HOURS.value:
-                self.dueDate = calculate_tender_date(
-                    self.date,
-                    timedelta(hours=24),
-                    tender=get_tender(),
-                )
-        return self.dueDate and self.dueDate.isoformat()
 
 
 class QualificationMilestoneListMixin(Model):
