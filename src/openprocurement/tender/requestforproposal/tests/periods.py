@@ -22,6 +22,16 @@ PERIODS = {
             "tenderPeriod": {"startDate": timedelta(), "endDate": timedelta(days=7)},
         },
     },
+    "active.pre-qualification": {
+        "start": {
+            "enquiryPeriod": {
+                "startDate": -timedelta(days=15),
+                "endDate": -timedelta(days=7),
+                "clarificationsUntil": -timedelta(days=7) + ENQUIRY_STAND_STILL_TIME,
+            },
+            "tenderPeriod": {"startDate": -timedelta(days=7), "endDate": timedelta()},
+        }
+    },
     "active.auction": {
         "start": {
             "enquiryPeriod": {

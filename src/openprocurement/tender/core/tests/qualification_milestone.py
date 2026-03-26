@@ -6,6 +6,7 @@ from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
+from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
@@ -195,7 +196,7 @@ class BaseTenderMilestone24HMixin:
         # wait until milestone dueDate ends
         with patch(
             "openprocurement.tender.core.procedure.validation.get_request_now",
-            lambda: get_now() + timedelta(hours=24),
+            lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
         ):
             # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
 
@@ -335,7 +336,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         # wait until milestone dueDate ends
         with patch(
             "openprocurement.tender.core.procedure.validation.get_request_now",
-            lambda: get_now() + timedelta(hours=24),
+            lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
         ):
             if procurement_method_type in ("belowThreshold", "simple.defense", "requestForProposal"):
                 unsuccessful_data = {"status": "unsuccessful", "qualified": False}
@@ -407,7 +408,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         # wait until milestone dueDate ends
         with patch(
             "openprocurement.tender.core.procedure.validation.get_request_now",
-            lambda: get_now() + timedelta(hours=24),
+            lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
         ):
             response = self.app.patch_json(
                 "/tenders/{}/{}s/{}?acc_token={}".format(

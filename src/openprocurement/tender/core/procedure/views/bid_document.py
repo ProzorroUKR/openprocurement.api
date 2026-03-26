@@ -1,4 +1,3 @@
-from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.validation import (
@@ -186,13 +185,6 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
         return super().delete()
 
 
-@resource(
-    name="belowThreshold:Tender Bid Eligibility Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender bidder eligibility documents",
-)
 class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
     """Tender Bid Eligibility Documents"""
 
@@ -254,13 +246,6 @@ class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
         return super().patch()
 
 
-@resource(
-    name="belowThreshold:Tender Bid Financial Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender bidder financial documents",
-)
 class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
     """Tender Bid Financial Documents"""
 
@@ -343,13 +328,6 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         return super().patch()
 
 
-@resource(
-    name="belowThreshold:Tender Bid Qualification Documents",
-    collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
-    path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
-    procurementMethodType="belowThreshold",
-    description="Tender bidder qualification documents",
-)
 class BaseTenderBidQualificationDocumentResource(BaseTenderBidDocumentResource):
     """Tender Bid Qualification Documents"""
 
