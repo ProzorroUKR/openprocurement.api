@@ -4,6 +4,9 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
+from openprocurement.tender.belowthreshold.tests.base import (
+    test_tender_below_milestones,
+)
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
@@ -98,25 +101,7 @@ test_tender_pq_procuring_entity["identifier"] = {"scheme": "UA-IPN", "id": "0003
 test_tender_pq_buyer = test_tender_pq_procuring_entity.copy()
 test_tender_pq_buyer.pop("contactPoint")
 
-test_tender_pq_milestones = [
-    {
-        "id": "a" * 32,
-        "title": "signingTheContract",
-        "code": "prepayment",
-        "type": "financing",
-        "duration": {"days": 2, "type": "banking"},
-        "sequenceNumber": 1,
-        "percentage": 45.55,
-    },
-    {
-        "title": "deliveryOfGoods",
-        "code": "postpayment",
-        "type": "financing",
-        "duration": {"days": 900, "type": "calendar"},
-        "sequenceNumber": 2,
-        "percentage": 54.45,
-    },
-]
+test_tender_pq_milestones = deepcopy(test_tender_below_milestones)
 
 test_tender_pq_item = {
     "description": "Комп’ютерне обладнання",
@@ -160,6 +145,7 @@ test_tender_pq_data = {
     "items": [test_tender_pq_item],
     "agreement": {"id": "0" * 32},
     "contractTemplateName": "00000000.0002.01",
+    "milestones": test_tender_pq_milestones,
 }
 
 if SANDBOX_MODE:

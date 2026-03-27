@@ -2,6 +2,9 @@ from schematics.types import BaseType, StringType
 from schematics.types.compound import ListType
 from schematics.validate import ValidationError
 
+from openprocurement.api.constants_env import (
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
+)
 from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
@@ -11,6 +14,7 @@ from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.models.criterion import Criterion
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
+    TenderMilestoneType,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
@@ -22,8 +26,10 @@ from openprocurement.tender.core.procedure.models.tender import (
     BaseTender,
     PatchBaseTender,
     PostBaseTender,
+    TenderMilestoneMixin,
     validate_related_buyer_in_items,
 )
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.models.agreement import Agreement
 from openprocurement.tender.pricequotation.procedure.models.item import TenderItem
@@ -35,7 +41,7 @@ from openprocurement.tender.pricequotation.procedure.validation import (
 )
 
 
-class PostTender(PostBaseTender):
+class PostTender(TenderMilestoneMixin, PostBaseTender):
     procurementMethodType = StringType(choices=[PQ], default=PQ)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -52,7 +58,6 @@ class PostTender(PostBaseTender):
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     items = ListType(
         ModelType(TenderItem, required=True),
@@ -66,6 +71,14 @@ class PostTender(PostBaseTender):
     )
 
     def validate_milestones(self, data, value):
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
         validate_milestones_lot(data, value)
 
     def validate_items(self, data, items):
@@ -124,7 +137,7 @@ class PatchTender(PatchBaseTender):
 PatchTender._fields.pop("agreements", None)
 
 
-class Tender(BaseTender):
+class Tender(TenderMilestoneMixin, BaseTender):
     procurementMethodType = StringType(choices=[PQ], required=True)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -154,7 +167,6 @@ class Tender(BaseTender):
     tenderPeriod = ModelType(PeriodStartEndRequired)
     awardPeriod = ModelType(Period)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     classification = ModelType(Classification)
     unsuccessfulReason = ListType(StringType)  # deprecated after PQ bot removing
@@ -173,6 +185,14 @@ class Tender(BaseTender):
     next_check = BaseType()
 
     def validate_milestones(self, data, value):
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
         validate_milestones_lot(data, value)
 
     def validate_items(self, data, items):

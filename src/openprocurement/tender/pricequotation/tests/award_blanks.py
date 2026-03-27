@@ -498,6 +498,7 @@ def move_award_contract_to_contracting(self):
         "title_en",
         "description",
         "description_en",
+        "milestones",
     }
 
     self.assertTrue(set(response.json["data"].keys()).issubset(contract_fields))

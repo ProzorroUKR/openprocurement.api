@@ -3895,6 +3895,14 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 "sequenceNumber": 1,
                 "percentage": 54.45,
             },
+            {
+                "title": "signingTheContract",
+                "type": "delivery",
+                "duration": {"days": 2, "type": "calendar"},
+                "sequenceNumber": 3,
+                "code": "standard",
+                "percentage": 100,
+            },
         ]
         with open(TARGET_DIR + "milestones/tender-post-milestones.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})

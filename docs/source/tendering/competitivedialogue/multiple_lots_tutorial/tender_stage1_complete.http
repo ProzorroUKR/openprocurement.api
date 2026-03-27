@@ -392,13 +392,19 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 900.0
-    },
     "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
@@ -409,10 +415,10 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 2
       },
       {
-        "id": "df3a38bf0a854f24b0c783b100db5aa3",
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -421,9 +427,15 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2
+        "sequenceNumber": 3
       }
     ],
+    "awardCriteria": "lowestCost",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 900.0
+    },
     "qualificationPeriod": {
       "startDate": "2023-10-05T01:01:00+03:00",
       "endDate": "2023-10-10T01:01:00+03:00",

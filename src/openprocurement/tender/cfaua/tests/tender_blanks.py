@@ -2113,11 +2113,11 @@ def tender_milestones_sequence_number(self):
     data["milestones"] = [
         {
             "title": "signingTheContract",
-            "code": "prepayment",
-            "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 0,
-            "percentage": 50,
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
             "relatedLot": self.initial_lots[0]["id"],
         },
         {
@@ -2129,7 +2129,17 @@ def tender_milestones_sequence_number(self):
             "percentage": 50,
             "relatedLot": self.initial_lots[0]["id"],
         },
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 3,
+            "percentage": 50,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
     ]
+    data["milestones"][-1]["sequenceNumber"] = 1
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
@@ -2145,7 +2155,7 @@ def tender_milestones_sequence_number(self):
             }
         ],
     )
-    data["milestones"][0]["sequenceNumber"] = 1
+    data["milestones"][-1]["sequenceNumber"] = 2
     del data["milestones"][-1]["relatedLot"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -2165,10 +2175,19 @@ def tender_milestones_sequence_number(self):
     data["milestones"] = [
         {
             "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+        {
+            "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 1,
+            "sequenceNumber": 2,
             "percentage": 45.55,
             "relatedLot": self.initial_lots[0]["id"],
         },
@@ -2177,7 +2196,7 @@ def tender_milestones_sequence_number(self):
             "code": "postpayment",
             "type": "financing",
             "duration": {"days": 999, "type": "calendar"},
-            "sequenceNumber": 2,
+            "sequenceNumber": 3,
             "percentage": 54.45,
             "relatedLot": self.initial_lots[0]["id"],
         },

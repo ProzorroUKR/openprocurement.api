@@ -85,6 +85,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "milestones": [
       {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "code": "standard",
+        "percentage": 100
+      },
+      {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
         "code": "prepayment",
@@ -93,10 +105,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "percentage": 45.55
       },
       {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "code": "postpayment",
         "type": "financing",
@@ -104,7 +117,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2,
+        "sequenceNumber": 3,
         "percentage": 54.45
       }
     ],
@@ -146,6 +159,44 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/03c83777bb8341d8
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 2
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3
+      }
+    ],
     "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
@@ -157,32 +208,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/03c83777bb8341d8
       "amount": 5.0,
       "valueAddedTaxIncluded": true
     },
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 1
-      },
-      {
-        "id": "e941ad0259a5445eb35e58f7e5c3788d",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 2
-      }
-    ],
     "status": "draft",
     "tenderPeriod": {
       "startDate": "2023-10-21T01:00:02+03:00",

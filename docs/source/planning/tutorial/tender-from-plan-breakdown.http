@@ -140,6 +140,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "procurementMethodType": "belowThreshold",
     "milestones": [
       {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "code": "standard",
+        "percentage": 100
+      },
+      {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
         "code": "prepayment",
@@ -148,10 +160,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "percentage": 45.55
       },
       {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "code": "postpayment",
         "type": "financing",
@@ -159,7 +172,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2,
+        "sequenceNumber": 3,
         "percentage": 54.45
       }
     ],

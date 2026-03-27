@@ -49,9 +49,6 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     unsuccessful_after_prequalification_tender,
 )
-from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
-    tender_delivery_milestones,
-)
 from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing
 
@@ -104,7 +101,6 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_not_author = snitch(patch_not_author)
-    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
 

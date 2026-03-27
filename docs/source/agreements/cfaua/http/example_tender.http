@@ -10,12 +10,6 @@ Content-Type: application/json
   "data": {
     "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
-    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -28,8 +22,26 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
       }
     ],
+    "awardCriteria": "lowestCost",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
     "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -675,7 +687,33 @@ Content-Type: application/json
             "status": "active"
           }
         ],
-        "status": "active"
+        "status": "active",
+        "milestones": [
+          {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "title": "signingTheContract",
+            "type": "financing",
+            "code": "prepayment",
+            "percentage": 100.0,
+            "duration": {
+              "days": 2,
+              "type": "banking"
+            },
+            "sequenceNumber": 1
+          },
+          {
+            "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "title": "signingTheContract",
+            "type": "delivery",
+            "code": "standard",
+            "percentage": 100.0,
+            "duration": {
+              "days": 2,
+              "type": "calendar"
+            },
+            "sequenceNumber": 2
+          }
+        ]
       }
     ],
     "id": "abbc9a0c6f034659b3b28397ceceaac1"

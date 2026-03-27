@@ -10,13 +10,19 @@ Content-Type: application/json
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": true
-    },
     "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
@@ -27,10 +33,10 @@ Content-Type: application/json
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 2
       },
       {
-        "id": "93c57f127e8a408f99dbf5183b980c62",
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -39,9 +45,15 @@ Content-Type: application/json
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2
+        "sequenceNumber": 3
       }
     ],
+    "awardCriteria": "lowestCost",
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": true
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {

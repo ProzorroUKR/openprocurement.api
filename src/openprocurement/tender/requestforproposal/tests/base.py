@@ -128,12 +128,21 @@ test_agreement_rfp_data = {
 
 test_tender_rfp_milestones = [
     {
+        "id": "c" * 32,
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {"days": 2, "type": "calendar"},
+        "sequenceNumber": 1,
+        "code": "standard",
+        "percentage": 100,
+    },
+    {
         "id": "a" * 32,
         "title": "signingTheContract",
         "code": "prepayment",
         "type": "financing",
         "duration": {"days": 2, "type": "banking"},
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "percentage": 45.55,
     },
     {
@@ -141,7 +150,7 @@ test_tender_rfp_milestones = [
         "code": "postpayment",
         "type": "financing",
         "duration": {"days": 900, "type": "calendar"},
-        "sequenceNumber": 2,
+        "sequenceNumber": 3,
         "percentage": 54.45,
     },
 ]

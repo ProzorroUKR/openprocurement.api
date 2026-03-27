@@ -1,3 +1,5 @@
+import json
+from collections import Counter
 from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
@@ -5,6 +7,7 @@ from logging import getLogger
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import (
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.context import get_request_now
@@ -36,6 +39,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_EXPIRED_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
     AGREEMENT_ITEMS_MESSAGE,
+    AGREEMENT_MILESTONES_MISMATCH_MESSAGE,
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_START_DATE_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
@@ -148,6 +152,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                             f"Can't update {f} in items in active.enquiries",
                         )
 
+                if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+                    if not self.milestones_match(before, after):
+                        raise_operation_error(get_request(), "Can't update tender milestones.")
+
                 if before["tenderPeriod"]["startDate"] != after["tenderPeriod"].get("startDate"):
                     raise_operation_error(
                         get_request(),
@@ -236,6 +244,20 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
 
         if self.has_mismatched_procuring_entities(tender, agreement):
             return AGREEMENT_IDENTIFIER_MESSAGE
+
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if not self.milestones_match(tender, agreement):
+                return AGREEMENT_MILESTONES_MISMATCH_MESSAGE
+
+    @classmethod
+    def milestones_match(cls, obj_1, obj_2):
+        milestones_1 = obj_1.get("milestones", [])
+        milestones_2 = obj_2.get("milestones", [])
+
+        def _normalize(obj):
+            return json.dumps({k: v for k, v in obj.items() if k != "id"}, sort_keys=True)
+
+        return Counter(map(_normalize, milestones_1)) == Counter(map(_normalize, milestones_2))
 
     @classmethod
     def are_tender_items_is_not_subset_of_agreement_items(cls, tender, agreement):

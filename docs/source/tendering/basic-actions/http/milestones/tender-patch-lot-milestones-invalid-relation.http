@@ -31,6 +31,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "description": "Підозрілий опис"
+      },
+      {
+        "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3
       }
     ]
   }

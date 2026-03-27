@@ -1301,10 +1301,6 @@ def create_tender_invalid_config(self):
     )
 
 
-@mock.patch(
-    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
-)
 def tender_finance_milestones(self):
     data = deepcopy(self.initial_data)
 
@@ -1313,10 +1309,18 @@ def tender_finance_milestones(self):
         {
             "id": "a" * 32,
             "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+        },
+        {
+            "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 2,
             "percentage": 45.55,
         },
         {
@@ -1324,7 +1328,7 @@ def tender_finance_milestones(self):
             "code": "postpayment",
             "type": "financing",
             "duration": {"days": 999, "type": "calendar"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 3,
             "percentage": 54.45,
         },
     ]
@@ -1332,7 +1336,7 @@ def tender_finance_milestones(self):
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.assertIn("milestones", tender)
-    self.assertEqual(len(tender["milestones"]), 2)
+    self.assertEqual(len(tender["milestones"]), 3)
     for milestone in tender["milestones"]:
         self.assertEqual(
             set(milestone.keys()), {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
@@ -1351,16 +1355,16 @@ def tender_finance_milestones(self):
     self.assertEqual(response.status, "200 OK")
     self.assertIn("milestones", response.json["data"])
     milestones = response.json["data"]["milestones"]
-    self.assertEqual(len(milestones), 2)
+    self.assertEqual(len(milestones), 3)
     self.assertEqual(milestones[0]["title"], tender["milestones"][0]["title"])
     self.assertEqual(milestones[1]["title"], new_title)
 
     # test success update milestones in active.tendering status
     self.set_status("active.tendering")
-    patch_milestones[0]["title"] = new_title
+    patch_milestones[-1]["title"] = new_title
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"milestones": patch_milestones}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["milestones"][0]["title"], new_title)
+    self.assertEqual(response.json["data"]["milestones"][-1]["title"], new_title)

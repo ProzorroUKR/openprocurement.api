@@ -43,6 +43,7 @@ from openprocurement.tender.cfaselectionua.tests.tender_blanks import (
     listing_changes,
     listing_draft,
     lost_contract_for_active_award,
+    milestones_mismatch,
     one_invalid_bid_tender,
     one_valid_bid_tender,
     patch_not_author,
@@ -122,6 +123,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
     test_set_buyers_signer_info = snitch(set_buyers_signer_info)
     test_set_procuring_entity_contract_owner = snitch(set_procuring_entity_contract_owner)
+    test_milestones_mismatch = snitch(milestones_mismatch)
 
 
 class TenderProcessTest(BaseTenderWebTest):

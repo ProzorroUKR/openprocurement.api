@@ -1,8 +1,6 @@
-from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
@@ -17,14 +15,10 @@ from openprocurement.tender.core.procedure.models.lot import (
     PostTenderLot,
 )
 from openprocurement.tender.core.procedure.models.milestone import (
-    TenderMilestoneType,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.procedure.utils import (
-    tender_created_after,
-    validate_features_custom_weight,
-)
+from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
 from openprocurement.tender.openeu.procedure.models.item import Item
 from openprocurement.tender.openeu.procedure.models.tender import (
     PatchTender as BasePatchTender,
@@ -56,12 +50,6 @@ class PostEUTender(BasePostTender):
         validate_features_custom_weight(data, features, FEATURES_MAX_SUM)
 
     def validate_milestones(self, data, value):
-        if tender_created_after(MILESTONES_VALIDATION_FROM):
-            if value is None or len(value) < 1:
-                raise ValidationError("Tender should contain at least one milestone")
-        for milestone in value:
-            if milestone.type == TenderMilestoneType.DELIVERY.value:
-                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
         validate_milestones_lot(data, value)
 
 
@@ -122,12 +110,6 @@ class EUTender(BaseTender):
         validate_features_custom_weight(data, features, FEATURES_MAX_SUM)
 
     def validate_milestones(self, data, value):
-        if tender_created_after(MILESTONES_VALIDATION_FROM):
-            if value is None or len(value) < 1:
-                raise ValidationError("Tender should contain at least one milestone")
-        for milestone in value:
-            if milestone.type == TenderMilestoneType.DELIVERY.value:
-                raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
         validate_milestones_lot(data, value)
 
 

@@ -1921,6 +1921,19 @@
         "mainProcurementCategory": "goods",
         "milestones": [
             {
+                "code": "standard",
+                "duration": {
+                    "days": 2,
+                    "type": "calendar"
+                },
+                "id": "cccccccccccccccccccccccccccccccc",
+                "percentage": 100.0,
+                "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+                "sequenceNumber": 1,
+                "title": "signingTheContract",
+                "type": "delivery"
+            },
+            {
                 "code": "prepayment",
                 "duration": {
                     "days": 2,
@@ -1929,7 +1942,7 @@
                 "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "percentage": 45.55,
                 "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-                "sequenceNumber": 1,
+                "sequenceNumber": 2,
                 "title": "signingTheContract",
                 "type": "financing"
             },
@@ -1939,10 +1952,10 @@
                     "days": 900,
                     "type": "calendar"
                 },
-                "id": "ad63536cbc0d4fd8b7c49031d56cd337",
+                "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 "percentage": 54.45,
                 "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-                "sequenceNumber": 2,
+                "sequenceNumber": 3,
                 "title": "deliveryOfGoods",
                 "type": "financing"
             }

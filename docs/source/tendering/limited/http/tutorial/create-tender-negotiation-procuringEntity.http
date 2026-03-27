@@ -86,6 +86,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "description_ru": "Услуги школьных столовых",
     "milestones": [
       {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "code": "standard",
+        "percentage": 100,
+        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
+      },
+      {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
         "code": "prepayment",
@@ -94,11 +107,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "percentage": 45.55,
         "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
       },
       {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "code": "postpayment",
         "type": "financing",
@@ -106,7 +120,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2,
+        "sequenceNumber": 3,
         "percentage": 54.45,
         "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
       }
@@ -171,6 +185,47 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
     "description_ru": "Услуги школьных столовых",
     "procurementMethod": "limited",
     "title": "Послуги шкільних їдалень",
+    "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
+      },
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 2,
+        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3,
+        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
+      }
+    ],
     "procurementMethodType": "negotiation",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -267,34 +322,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "valueAddedTaxIncluded": true
         },
         "date": "2023-10-10T01:00:00+03:00"
-      }
-    ],
-    "milestones": [
-      {
-        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 1,
-        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
-      },
-      {
-        "id": "8e573efd07a7401694ff2b7358021171",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 900,
-          "type": "calendar"
-        },
-        "sequenceNumber": 2,
-        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
       }
     ],
     "tenderID": "UA-2023-10-10-000001-a",

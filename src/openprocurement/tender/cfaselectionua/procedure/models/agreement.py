@@ -5,7 +5,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_change_class
-from openprocurement.api.validation import validate_uniq_code
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaselectionua.procedure.models.agreement_contract import (
     AgreementContract,
 )
@@ -25,6 +25,7 @@ from openprocurement.tender.cfaselectionua.procedure.models.organization import 
 from openprocurement.tender.cfaselectionua.procedure.models.parameter_contract import (
     validate_parameter_contracts,
 )
+from openprocurement.tender.core.procedure.models.milestone import Milestone
 
 
 class PatchAgreement(Model):
@@ -44,6 +45,7 @@ class PatchAgreement(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     terminationDetails = StringType()
     tender_id = MD5Type()

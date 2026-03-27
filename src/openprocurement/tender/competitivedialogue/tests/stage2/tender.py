@@ -40,7 +40,6 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     tender_features,
     tender_features_invalid,
     tender_funders,
-    tender_milestones_not_required,
     tender_not_found,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
@@ -91,7 +90,6 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
-    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
 
 
@@ -136,7 +134,6 @@ class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):
     test_guarantee = snitch(guarantee)
     test_tender_Administrator_change = snitch(tender_Administrator_change)
     test_patch_not_author = snitch(patch_not_author)
-    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
 
 

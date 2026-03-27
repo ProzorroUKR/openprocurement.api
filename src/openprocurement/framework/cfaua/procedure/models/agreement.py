@@ -6,7 +6,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_change_class
-from openprocurement.api.validation import validate_uniq_code
+from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeItemPriceVariation,
@@ -37,6 +37,7 @@ from openprocurement.framework.core.procedure.models.agreement import (
 from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement as BasePatchAgreement,
 )
+from openprocurement.tender.core.procedure.models.milestone import Milestone
 
 
 class Agreement(BaseAgreement):
@@ -69,6 +70,7 @@ class Agreement(BaseAgreement):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     @serializable
     def numberOfContracts(self):
@@ -105,6 +107,7 @@ class PostAgreement(BasePostAgreement):
     procuringEntity = ModelType(ProcuringEntity, required=True)
     tender_token = StringType(required=True)
     tender_id = StringType(required=True)
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     @serializable(serialized_name="agreementType")
     def _agreementType(self):

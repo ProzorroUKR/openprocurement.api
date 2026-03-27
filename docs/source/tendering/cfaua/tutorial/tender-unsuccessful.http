@@ -997,17 +997,6 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500.0
-    },
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -1020,8 +1009,31 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 1
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 2
       }
     ],
+    "submissionMethod": "electronicAuction",
+    "awardCriteria": "lowestCost",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500.0
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
     "qualificationPeriod": {
       "startDate": "2023-09-24T01:02:01+03:00",
       "endDate": "2023-09-29T01:02:01+03:00",
@@ -1932,6 +1944,32 @@ Content-Type: application/json
             "awardID": "afa433c494e44739930128fe436e711d",
             "bidID": "91c7aa33638e4680980085954fdc33a8",
             "date": "2023-10-10T01:02:01+03:00"
+          }
+        ],
+        "milestones": [
+          {
+            "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "title": "signingTheContract",
+            "type": "financing",
+            "code": "prepayment",
+            "percentage": 100.0,
+            "duration": {
+              "days": 2,
+              "type": "banking"
+            },
+            "sequenceNumber": 1
+          },
+          {
+            "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "title": "signingTheContract",
+            "type": "delivery",
+            "code": "standard",
+            "percentage": 100.0,
+            "duration": {
+              "days": 2,
+              "type": "calendar"
+            },
+            "sequenceNumber": 2
           }
         ],
         "documents": [

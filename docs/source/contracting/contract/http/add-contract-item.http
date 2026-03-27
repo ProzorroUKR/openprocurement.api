@@ -538,6 +538,47 @@ Content-Type: application/json
         "title_uk": "Підпункт 11 пункту 19 Постанови Кабміну Міністрів України від 12.10.2022 № 1178 \"Про затвердження особливостей здійснення публічних закупівель товарів, робіт і послуг для замовників, передбачених Законом України \"Про публічні закупівлі\", на період дії правового режиму воєнного стану в Україні та протягом 90 днів з дня його припинення або скасування\""
       }
     },
+    "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "status": "scheduled"
+      },
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 2,
+        "status": "scheduled"
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3,
+        "status": "scheduled"
+      }
+    ],
     "id": "78fd8d7877d74b0dbc9c605462545e1c"
   },
   "config": {

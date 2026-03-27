@@ -50,6 +50,10 @@ class TestTenderMilestones(unittest.TestCase):
         with patch(
             "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
             get_now() - timedelta(days=1),
+        ), patch(
+            "openprocurement.tender.core.procedure.models.tender."
+            "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
+            get_now() + timedelta(days=1),
         ):
             tender = create_tender_instance(Tender, self.initial_tender_data)
             data = tender.serialize()
@@ -61,6 +65,10 @@ class TestTenderMilestones(unittest.TestCase):
     def test_regression_milestones(self):
         with patch(
             "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
+            get_now() + timedelta(days=1),
+        ), patch(
+            "openprocurement.tender.core.procedure.models.tender."
+            "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
             get_now() + timedelta(days=1),
         ):
             tender = create_tender_instance(Tender, self.initial_tender_data)
@@ -207,6 +215,16 @@ class TestTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
+                    "title": "signingTheContract",
+                    "type": "delivery",
+                    "duration": {"days": 2, "type": "calendar"},
+                    "sequenceNumber": 1,
+                    "code": "standard",
+                    "percentage": 100,
+                }
+            ]
+            + [
+                {
                     "title": "deliveryOfGoods",
                     "code": "prepayment",
                     "type": "financing",
@@ -244,13 +262,21 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
+                    "title": "signingTheContract",
+                    "type": "delivery",
+                    "duration": {"days": 2, "type": "calendar"},
+                    "sequenceNumber": 1,
+                    "code": "standard",
+                    "percentage": 100,
+                },
+                {
                     "title": "deliveryOfGoods",
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
                     "percentage": 100,
-                    "sequenceNumber": 0,
-                }
+                    "sequenceNumber": 2,
+                },
             ]
         )
 
@@ -262,14 +288,22 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
+                    "title": "signingTheContract",
+                    "type": "delivery",
+                    "duration": {"days": 2, "type": "calendar"},
+                    "sequenceNumber": 1,
+                    "code": "standard",
+                    "percentage": 100,
+                },
+                {
                     "title": "deliveryOfGoods",
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
                     "percentage": 100,
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 2,
                     "relatedLot": "c" * 32,
-                }
+                },
             ]
         )
 
@@ -284,11 +318,20 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
         initial_data.update(
             milestones=[
                 {
+                    "title": "signingTheContract",
+                    "type": "delivery",
+                    "duration": {"days": 2, "type": "calendar"},
+                    "sequenceNumber": 1,
+                    "code": "standard",
+                    "percentage": 100,
+                    "relatedLot": initial_data["lots"][0]["id"],
+                },
+                {
                     "title": "deliveryOfGoods",
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 2,
                     "percentage": 45.55,
                     "relatedLot": initial_data["lots"][0]["id"],
                 },
@@ -297,7 +340,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "postpayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 3,
                     "percentage": 54.45,
                     "relatedLot": initial_data["lots"][0]["id"],
                 },
@@ -306,7 +349,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 1,
                     "percentage": 100.0,
                     "relatedLot": initial_data["lots"][1]["id"],
                 },
@@ -325,7 +368,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 1,
                     "percentage": 33.333,
                     "relatedLot": initial_data["lots"][1]["id"],
                 },
@@ -334,7 +377,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 2,
                     "percentage": 33.333,
                     "relatedLot": initial_data["lots"][1]["id"],
                 },
@@ -343,16 +386,25 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 3,
                     "percentage": 33.334,
                     "relatedLot": initial_data["lots"][1]["id"],
+                },
+                {
+                    "title": "signingTheContract",
+                    "type": "delivery",
+                    "duration": {"days": 2, "type": "calendar"},
+                    "sequenceNumber": 1,
+                    "code": "standard",
+                    "percentage": 100,
+                    "relatedLot": initial_data["lots"][0]["id"],
                 },
                 {
                     "title": "deliveryOfGoods",
                     "code": "postpayment",
                     "type": "financing",
                     "duration": {"days": 15, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 2,
                     "percentage": 100,
                     "relatedLot": initial_data["lots"][0]["id"],
                 },
@@ -361,7 +413,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "prepayment",
                     "type": "financing",
                     "duration": {"days": 2, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 1,
                     "percentage": 51,
                 },
                 {
@@ -369,7 +421,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
                     "code": "postpayment",
                     "type": "financing",
                     "duration": {"days": 15, "type": "banking"},
-                    "sequenceNumber": 0,
+                    "sequenceNumber": 2,
                     "percentage": 49,
                 },
             ]

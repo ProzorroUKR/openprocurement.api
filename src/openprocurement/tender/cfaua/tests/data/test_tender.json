@@ -79,6 +79,18 @@
             "duration": {"days": 2, "type": "banking"},
             "sequenceNumber": 1,
             "percentage": 100
+        },
+        {
+            "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {
+                "days": 2,
+                "type": "calendar"
+            },
+            "sequenceNumber": 2,
+            "code": "standard",
+            "percentage": 100
         }
     ]
 }
