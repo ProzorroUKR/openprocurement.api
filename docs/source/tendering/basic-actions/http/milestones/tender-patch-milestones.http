@@ -30,6 +30,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "description": "Підозрілий опис"
+      },
+      {
+        "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3
       }
     ]
   }
@@ -107,6 +119,45 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
+    "milestones": [
+      {
+        "id": "a2a02b9393cf44bf996c7477bb5f11c0",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "3158ad6b45c44e8f9e48991053ebc67c",
+        "title": "anotherEvent",
+        "description": "Підозрілий опис",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3
+      }
+    ],
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -150,33 +201,6 @@ Content-Type: application/json
       "startDate": "2023-10-25T13:09:55.701000+03:00",
       "shouldStartAfter": "2023-10-25T00:00:00+03:00"
     },
-    "milestones": [
-      {
-        "id": "a2a02b9393cf44bf996c7477bb5f11c0",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 5,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "3158ad6b45c44e8f9e48991053ebc67c",
-        "title": "anotherEvent",
-        "description": "Підозрілий опис",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 7,
-          "type": "calendar"
-        },
-        "sequenceNumber": 1
-      }
-    ],
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",

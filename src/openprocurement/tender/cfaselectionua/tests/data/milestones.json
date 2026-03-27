@@ -1,0 +1,38 @@
+[
+  {
+    "id": "3e2a984b61f840378e8889bdfc65e3a2",
+    "title": "signingTheContract",
+    "type": "delivery",
+    "duration": {
+      "days": 2,
+      "type": "calendar"
+    },
+    "sequenceNumber": 1,
+    "code": "standard",
+    "percentage": 100
+  },
+  {
+    "id": "01a57f19ca1148f2bf563d30719293af",
+    "title": "signingTheContract",
+    "code": "prepayment",
+    "type": "financing",
+    "duration": {
+      "days": 2,
+      "type": "banking"
+    },
+    "sequenceNumber": 2,
+    "percentage": 45.55
+  },
+  {
+    "id": "53046a18213a431ca810da2828761c60",
+    "title": "deliveryOfGoods",
+    "code": "postpayment",
+    "type": "financing",
+    "duration": {
+      "days": 900,
+      "type": "calendar"
+    },
+    "sequenceNumber": 3,
+    "percentage": 54.45
+  }
+]

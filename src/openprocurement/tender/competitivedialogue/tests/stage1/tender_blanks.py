@@ -1606,32 +1606,6 @@ def tender_with_main_procurement_category(self):
     self.assertEqual(response.json["data"]["mainProcurementCategory"], "works")
 
 
-def tender_delivery_milestones(self):
-    data = deepcopy(self.initial_data)
-    data["milestones"].append(
-        {
-            "id": "c" * 32,
-            "title": "signingTheContract",
-            "type": "delivery",
-            "duration": {"days": 1500, "type": "calendar"},
-            "sequenceNumber": 0,
-            "percentage": 100,
-            "code": "standard",
-        }
-    )
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "milestones",
-                "description": ["Forbidden to add milestone with type delivery"],
-            }
-        ],
-    )
-
-
 def tender_milestones_sequence_number(self):
     data = deepcopy(self.initial_data)
     lot = deepcopy(self.initial_lots[0])

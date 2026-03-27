@@ -1491,14 +1491,6 @@ def first_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "complete")
 
 
-def tender_milestones_not_required(self):
-    data = deepcopy(self.initial_data)
-    self.app.authorization = ("Basic", ("token", ""))
-    data["milestones"] = []
-
-    self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
-
-
 def create_tender_central(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         create_tender_central_base(self)

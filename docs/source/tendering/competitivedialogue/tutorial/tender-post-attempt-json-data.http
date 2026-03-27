@@ -122,6 +122,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "milestones": [
       {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "code": "standard",
+        "percentage": 100
+      },
+      {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
         "code": "prepayment",
@@ -130,10 +142,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "percentage": 45.55
       },
       {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "code": "postpayment",
         "type": "financing",
@@ -141,7 +154,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2,
+        "sequenceNumber": 3,
         "percentage": 54.45
       }
     ],
@@ -183,13 +196,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": true
-    },
     "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "title": "signingTheContract",
@@ -200,10 +219,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "days": 2,
           "type": "banking"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 2
       },
       {
-        "id": "93c57f127e8a408f99dbf5183b980c62",
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "title": "deliveryOfGoods",
         "type": "financing",
         "code": "postpayment",
@@ -212,9 +231,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "days": 900,
           "type": "calendar"
         },
-        "sequenceNumber": 2
+        "sequenceNumber": 3
       }
     ],
+    "awardCriteria": "lowestCost",
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": true
+    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "address": {

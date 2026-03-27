@@ -24,6 +24,7 @@ from openprocurement.tender.core.procedure.models.period import (
     TenderAuctionPeriod,
 )
 from openprocurement.tender.core.procedure.models.tender import (
+    TenderMilestoneMixin,
     validate_items_related_lot,
 )
 from openprocurement.tender.core.procedure.models.tender_base import (
@@ -95,7 +96,7 @@ def validate_lots_yearly_payments_percentage_range(data, lots):
                     )
 
 
-class PostTender(PostBaseTender):
+class PostTender(TenderMilestoneMixin, PostBaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -123,7 +124,6 @@ class PostTender(PostBaseTender):
         validators=[validate_uniq_id],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
     auctionPeriod = ModelType(TenderAuctionPeriod)
@@ -180,7 +180,7 @@ class PatchTender(PatchBaseTender):
     enquiryPeriod = ModelType(EnquiryPeriod)
 
 
-class Tender(BaseTender):
+class Tender(TenderMilestoneMixin, BaseTender):
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], required=True)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -212,7 +212,6 @@ class Tender(BaseTender):
         validators=[validate_uniq_id, validate_classification_id],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(PeriodEndRequired, required=True)
     enquiryPeriod = ModelType(EnquiryPeriod)
 

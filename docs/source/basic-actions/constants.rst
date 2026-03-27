@@ -74,6 +74,12 @@ MILESTONES_VALIDATION_FROM
 """"""""""""""""""""""""""
 Make `milestones` field of :ref:`Tender` required
 
+.. _REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM:
+
+REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+Make `milestones` field of :ref:`Tender` required, and at least one of each financing/delivery types is required
+
 .. _PLAN_BUYERS_REQUIRED_FROM:
 
 PLAN_BUYERS_REQUIRED_FROM

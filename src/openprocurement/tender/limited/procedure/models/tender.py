@@ -4,8 +4,8 @@ from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.constants import TENDER_CAUSE
 from openprocurement.api.constants_env import (
-    MILESTONES_VALIDATION_FROM,
     NEW_NEGOTIATION_CAUSES_FROM,
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -25,9 +25,11 @@ from openprocurement.tender.core.procedure.models.organization import ProcuringE
 from openprocurement.tender.core.procedure.models.tender import (
     BaseTender,
     PostBaseTender,
+    TenderMilestoneMixin,
     validate_items_related_lot,
 )
 from openprocurement.tender.core.procedure.models.tender_base import CommonBaseTender
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
     validate_funders_unique,
@@ -73,7 +75,7 @@ def reporting_cause_is_required(data):
 
 
 # reporting
-class PostReportingTender(PostBaseTender):
+class PostReportingTender(TenderMilestoneMixin, PostBaseTender):
     procurementMethodType = StringType(choices=[REPORTING], default=REPORTING)
     procuringEntity = ModelType(ReportingProcuringEntity, required=True)
     items = ListType(
@@ -84,7 +86,6 @@ class PostReportingTender(PostBaseTender):
     )
     value = ModelType(Value)
     status = StringType(choices=["draft"], default="draft")
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     funders = ListType(
         ModelType(ReportFundOrganization, required=True),
@@ -99,10 +100,15 @@ class PostReportingTender(PostBaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_milestones(self, data, value):
-        if value:
-            for milestone in value:
-                if milestone.type == TenderMilestoneType.DELIVERY.value:
-                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
+        validate_milestones_lot(data, value)
 
     def validate_cause(self, data, value):
         if value is not None and value not in TENDER_CAUSE:
@@ -131,7 +137,7 @@ class PatchReportingTender(CommonBaseTender):
     causeDetails = ModelType(CauseDetails)
 
 
-class ReportingTender(BaseTender):
+class ReportingTender(TenderMilestoneMixin, BaseTender):
     procurementMethodType = StringType(choices=[REPORTING], required=True)
     procuringEntity = ModelType(ReportingProcuringEntity, required=True)
     items = ListType(
@@ -146,7 +152,6 @@ class ReportingTender(BaseTender):
     # contracts = BaseType()
     cancellations = BaseType()
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     funders = ListType(
         ModelType(ReportFundOrganization, required=True),
         validators=[validate_funders_unique, validate_funders_ids],
@@ -160,10 +165,15 @@ class ReportingTender(BaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_milestones(self, data, value):
-        if value:
-            for milestone in value:
-                if milestone.type == TenderMilestoneType.DELIVERY.value:
-                    raise ValidationError(f"Forbidden to add milestone with type {TenderMilestoneType.DELIVERY.value}")
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
+        validate_milestones_lot(data, value)
 
     def validate_cause(self, data, value):
         if value is not None and value not in TENDER_CAUSE:
@@ -201,7 +211,7 @@ def validate_cause(value):
         raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))
 
 
-class PostNegotiationTender(PostBaseTender):
+class PostNegotiationTender(TenderMilestoneMixin, PostBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], default=NEGOTIATION)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft"], default="draft")
@@ -219,21 +229,12 @@ class PostNegotiationTender(PostBaseTender):
     causeDetails = ModelType(CauseDetails)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
-
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
         validate_items_related_lot(data, items)
 
     def validate_cause(self, data, value):
         validate_cause(value)
-
-    def validate_milestones(self, data, value):
-        required = get_first_revision_date(get_tender(), default=get_request_now()) > MILESTONES_VALIDATION_FROM
-        if required and (value is None or len(value) < 1):
-            raise ValidationError("Tender should contain at least one milestone")
-
-        validate_milestones_lot(data, value)
 
 
 class PatchNegotiationTender(CommonBaseTender):
@@ -256,7 +257,7 @@ class PatchNegotiationTender(CommonBaseTender):
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
 
-class NegotiationTender(BaseTender):
+class NegotiationTender(TenderMilestoneMixin, BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
@@ -274,7 +275,6 @@ class NegotiationTender(BaseTender):
     causeDetails = ModelType(CauseDetails)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     awards = BaseType()
 
     def validate_items(self, data, items):
@@ -283,12 +283,6 @@ class NegotiationTender(BaseTender):
 
     def validate_cause(self, data, value):
         validate_cause(value)
-
-    def validate_milestones(self, data, value):
-        required = get_first_revision_date(get_tender(), default=get_request_now()) > MILESTONES_VALIDATION_FROM
-        if required and (value is None or len(value) < 1):
-            raise ValidationError("Tender should contain at least one milestone")
-        validate_milestones_lot(data, value)
 
 
 # Negotiation Quick

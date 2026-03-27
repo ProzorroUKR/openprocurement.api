@@ -3022,10 +3022,6 @@ def tender_with_main_procurement_category(self):
     )
 
 
-@mock.patch(
-    "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
-)
 def tender_finance_milestones(self):
     data = deepcopy(self.initial_data)
 
@@ -3034,19 +3030,20 @@ def tender_finance_milestones(self):
         {
             "id": "a" * 32,
             "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+        },
+        {
+            "id": "b" * 32,
+            "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 0,
-            "percentage": 45.55,
-        },
-        {
-            "title": "deliveryOfGoods",
-            "code": "postpayment",
-            "type": "financing",
-            "duration": {"days": 999, "type": "calendar"},
-            "sequenceNumber": 0,
-            "percentage": 54.45,
+            "sequenceNumber": 2,
+            "percentage": 100,
         },
     ]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -3850,7 +3847,28 @@ def tender_created_after_related_lot_is_required(self):
 
 
 def tender_financing_milestones(self):
+    lot_id = self.initial_lots[0]["id"]
     data = deepcopy(self.initial_data)
+    data["milestones"] = [
+        {
+            "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+            "relatedLot": lot_id,
+        },
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 2,
+            "percentage": 100,
+            "relatedLot": lot_id,
+        },
+    ]
     percentage = data["milestones"][-1].pop("percentage", None)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -3907,17 +3925,26 @@ def tender_financing_milestones(self):
 def tender_delivery_milestones(self):
     lot_id = self.initial_lots[0]["id"]
     data = deepcopy(self.initial_data)
-    data["milestones"].append(
+    data["milestones"] = [
         {
-            "id": "c" * 32,
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 1,
+            "percentage": 100,
+            "relatedLot": lot_id,
+        },
+        {
             "title": "signingTheContract",
             "type": "delivery",
             "duration": {"days": 2, "type": "calendar"},
-            "sequenceNumber": 0,
+            "sequenceNumber": 2,
             "code": "standard",
-            "percentage": 10,
-        }
-    )
+            "percentage": 100,
+            "relatedLot": lot_id,
+        },
+    ]
 
     data["milestones"][-1]["duration"]["days"] = 1500
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
@@ -3965,7 +3992,7 @@ def tender_delivery_milestones(self):
         ],
     )
     data["milestones"][-1]["title"] = "signingTheContract"
-    data["milestones"][-1]["sequenceNumber"] = 3
+    del data["milestones"][-1]["relatedLot"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
@@ -4038,12 +4065,21 @@ def tender_milestones_sequence_number(self):
     data["milestones"] = [
         {
             "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+            "relatedLot": self.initial_lots[0]["id"],
+        },
+        {
+            "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
             "sequenceNumber": 1,
             "percentage": 100,
-            "relatedLot": self.initial_lots[0]["id"],
+            "relatedLot": lot["id"],
         },
         {
             "title": "signingTheContract",
@@ -4055,6 +4091,7 @@ def tender_milestones_sequence_number(self):
             "relatedLot": lot["id"],
         },
     ]
+    data["milestones"][-1]["sequenceNumber"] = 1
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
@@ -4070,8 +4107,8 @@ def tender_milestones_sequence_number(self):
             }
         ],
     )
-    data["milestones"][-1]["sequenceNumber"] = 1
-    del data["milestones"][0]["relatedLot"]
+    data["milestones"][-1]["sequenceNumber"] = 2
+    del data["milestones"][-1]["relatedLot"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],

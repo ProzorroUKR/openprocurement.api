@@ -2,7 +2,11 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
+from openprocurement.api.constants_env import (
+    MILESTONES_VALIDATION_FROM,
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
+)
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
@@ -26,6 +30,7 @@ from openprocurement.tender.core.procedure.models.lot import (
 )
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
+    TenderMilestoneType,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
@@ -77,7 +82,25 @@ def validate_award_period(data, period):
         raise ValidationError("period should begin after tenderPeriod")
 
 
-class PostTender(PostBaseTender):
+class TenderMilestoneMixin(Model):
+    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+
+    def validate_milestones(self, data, value):
+        if tender_created_after(MILESTONES_VALIDATION_FROM):
+            if value is None or len(value) < 1:
+                raise ValidationError("Tender should contain at least one milestone")
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
+        validate_milestones_lot(data, value)
+
+
+class PostTender(TenderMilestoneMixin, PostBaseTender):
     submissionMethod = StringType(
         choices=[
             "electronicAuction",
@@ -110,7 +133,6 @@ class PostTender(PostBaseTender):
     )
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     def validate_lots(self, data, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
@@ -126,13 +148,6 @@ class PostTender(PostBaseTender):
 
     def validate_awardPeriod(self, data, period):
         validate_award_period(data, period)
-
-    def validate_milestones(self, data, value):
-        if tender_created_after(MILESTONES_VALIDATION_FROM):
-            if value is None or len(value) < 1:
-                raise ValidationError("Tender should contain at least one milestone")
-
-        validate_milestones_lot(data, value)
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):
@@ -166,7 +181,7 @@ class PatchTender(PatchBaseTender):
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
 
-class Tender(BaseTender):
+class Tender(TenderMilestoneMixin, BaseTender):
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
     submissionMethodDetails_en = StringType()
@@ -189,7 +204,6 @@ class Tender(BaseTender):
     )
     lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     qualificationPeriod = ModelType(QualificationPeriod)
     complaintPeriod = ModelType(Period)
@@ -205,13 +219,6 @@ class Tender(BaseTender):
 
     def validate_awardPeriod(self, data, period):
         validate_award_period(data, period)
-
-    def validate_milestones(self, data, value):
-        if tender_created_after(MILESTONES_VALIDATION_FROM):
-            if value is None or len(value) < 1:
-                raise ValidationError("Tender should contain at least one milestone")
-
-        validate_milestones_lot(data, value)
 
     def validate_awardCriteria(self, data, value):
         if value == AWARD_CRITERIA_LIFE_CYCLE_COST and data.get("features"):

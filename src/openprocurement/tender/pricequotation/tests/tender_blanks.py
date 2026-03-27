@@ -623,6 +623,7 @@ def create_tender_generated(self):
         "agreement",
         "contractTemplateName",
         "contractChangeRationaleTypes",
+        "milestones",
     ]
 
     self.assertEqual(
@@ -2366,14 +2367,21 @@ def tender_delivery_milestones(self):
     data = deepcopy(self.initial_data)
     data["milestones"] = [
         {
-            "id": "c" * 32,
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 1,
+            "percentage": 100,
+        },
+        {
             "title": "signingTheContract",
             "type": "delivery",
             "duration": {"days": 2, "type": "calendar"},
-            "sequenceNumber": 1,
+            "sequenceNumber": 2,
             "code": "standard",
-            "percentage": 10,
-        }
+            "percentage": 100,
+        },
     ]
 
     data["milestones"][-1]["duration"]["days"] = 1500
@@ -2491,7 +2499,7 @@ def tender_finance_milestones(self):
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.assertIn("milestones", tender)
-    self.assertEqual(len(tender["milestones"]), 2)
+    self.assertEqual(len(tender["milestones"]), 3)
     for milestone in tender["milestones"]:
         self.assertEqual(
             set(milestone.keys()), {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
@@ -2500,15 +2508,15 @@ def tender_finance_milestones(self):
     token = response.json["access"]["token"]
 
     patch_milestones = deepcopy(tender["milestones"])
-    patch_milestones[0]["title"] = "submissionDateOfApplications"
+    patch_milestones[-1]["title"] = "submissionDateOfApplications"
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"milestones": patch_milestones}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["milestones"][0]["title"], "submissionDateOfApplications")
+    self.assertEqual(response.json["data"]["milestones"][-1]["title"], "submissionDateOfApplications")
 
-    patch_milestones[0]["percentage"] = 70
+    patch_milestones[-1]["percentage"] = 70
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"milestones": patch_milestones}},
@@ -2520,13 +2528,13 @@ def tender_finance_milestones(self):
             {
                 "location": "body",
                 "name": "milestones",
-                "description": "Sum of the financing milestone percentages 124.45 is not equal 100.",
+                "description": "Sum of the financing milestone percentages 115.55 is not equal 100.",
             }
         ],
     )
 
-    patch_milestones[0]["percentage"] = 45.55
-    patch_milestones[0]["sequenceNumber"] = 3
+    patch_milestones[-1]["percentage"] = 54.45
+    patch_milestones[-1]["sequenceNumber"] = 1
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": {"milestones": patch_milestones}},

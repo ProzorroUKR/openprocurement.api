@@ -1,3 +1,4 @@
+from openprocurement.api.constants_env import REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.competitivedialogue.procedure.utils import (
     get_item_by_id,
@@ -5,6 +6,7 @@ from openprocurement.tender.competitivedialogue.procedure.utils import (
     prepare_bid_identifier,
     prepare_shortlistedFirms,
 )
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 
@@ -22,14 +24,16 @@ def validate_cd2_allowed_patch_fields(request, **_):
     tender = request.validated["tender"]
 
     status = tender["status"]
-    if status in ("draft.stage2", "active.tendering"):
-        tender_public_fields = {"tenderPeriod", "complaintPeriod", "items"}
-        if status == "draft.stage2":
-            tender_public_fields.add("mainProcurementCategory")
-            tender_public_fields.add("status")
+    patchable_fields_by_status = {
+        "draft.stage2": {"tenderPeriod", "complaintPeriod", "items", "mainProcurementCategory", "status"},
+        "active.tendering": {"tenderPeriod", "complaintPeriod", "items"},
+    }
+    if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+        patchable_fields_by_status["draft.stage2"].add("milestones")
 
+    if status in patchable_fields_by_status:
         for f in changes:
-            if f not in tender_public_fields and tender.get(f) != changes[f]:
+            if f not in patchable_fields_by_status[status] and tender.get(f) != changes[f]:
                 return raise_operation_error(
                     request,
                     "Field change's not allowed",

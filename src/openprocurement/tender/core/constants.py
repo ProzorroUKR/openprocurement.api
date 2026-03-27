@@ -109,6 +109,7 @@ AGREEMENT_IDENTIFIER_MESSAGE = (
     "tender.procuringEntity.identifier (scheme or id), "
     "doesnt match tender.agreements[0].procuringEntity.identifier (scheme of id)"
 )
+AGREEMENT_MILESTONES_MISMATCH_MESSAGE = "Agreement milestones does not match tender milestones"
 
 CONTRACT_PERIOD_START_DAYS = 5
 

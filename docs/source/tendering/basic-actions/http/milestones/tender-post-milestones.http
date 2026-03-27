@@ -100,6 +100,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 1,
         "percentage": 54.45
+      },
+      {
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3,
+        "code": "standard",
+        "percentage": 100
       }
     ],
     "contractTemplateName": "00000000.0002.01"
@@ -142,6 +153,44 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
     "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "status": "draft",
+    "milestones": [
+      {
+        "id": "a2a02b9393cf44bf996c7477bb5f11c0",
+        "title": "signingTheContract",
+        "type": "financing",
+        "code": "prepayment",
+        "percentage": 45.55,
+        "duration": {
+          "days": 5,
+          "type": "banking"
+        },
+        "sequenceNumber": 0
+      },
+      {
+        "id": "3158ad6b45c44e8f9e48991053ebc67c",
+        "title": "deliveryOfGoods",
+        "type": "financing",
+        "code": "postpayment",
+        "percentage": 54.45,
+        "duration": {
+          "days": 7,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1
+      },
+      {
+        "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "code": "standard",
+        "percentage": 100.0,
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3
+      }
+    ],
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -180,32 +229,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
       "startDate": "2023-10-17T01:00:00+03:00",
       "endDate": "2023-10-24T01:00:00+03:00"
     },
-    "milestones": [
-      {
-        "id": "a2a02b9393cf44bf996c7477bb5f11c0",
-        "title": "signingTheContract",
-        "type": "financing",
-        "code": "prepayment",
-        "percentage": 45.55,
-        "duration": {
-          "days": 5,
-          "type": "banking"
-        },
-        "sequenceNumber": 0
-      },
-      {
-        "id": "3158ad6b45c44e8f9e48991053ebc67c",
-        "title": "deliveryOfGoods",
-        "type": "financing",
-        "code": "postpayment",
-        "percentage": 54.45,
-        "duration": {
-          "days": 7,
-          "type": "calendar"
-        },
-        "sequenceNumber": 1
-      }
-    ],
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
       "endDate": "2023-10-17T01:00:00+03:00",

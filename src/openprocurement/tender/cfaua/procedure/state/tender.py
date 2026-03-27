@@ -122,6 +122,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                     "items": items,
                     "features": tender.get("features", []),
                     "status": "pending",
+                    "milestones": tender.get("milestones", []),
                 }
                 agreement = Agreement(data)
                 tender["agreements"].append(agreement.serialize())

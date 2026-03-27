@@ -19,3 +19,7 @@ test_0034_migrate_contract_template_name = create_collection_migration_test(
 test_0036_migrate_old_complaints_doc = create_collection_migration_test(
     "openprocurement.tender.core.migrations.0036_migrate_old_complaints_doc.Migration"
 )
+
+test_0038_migrate_milestones_to_cfa_agreements = create_collection_migration_test(
+    "openprocurement.tender.core.migrations.0038_migrate_milestones_to_cfa_agreements.Migration"
+)

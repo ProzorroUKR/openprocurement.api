@@ -17,14 +17,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_lots_none,
     tender_delivery_milestones,
     tender_funders,
-    tender_milestones_not_required,
     tender_milestones_required,
     tender_not_found,
     validate_procurement_entity_kind,
     validate_procurement_entity_kind_patch,
-)
-from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks import (
-    tender_delivery_milestones as tender_delivery_milestones_forbidden,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
@@ -76,7 +72,6 @@ class AccreditationTenderTest(BaseTenderWebTest):
 
 class TenderTest(BaseTenderWebTest):
     initial_data = test_tender_reporting_data
-    test_tender_milestones_not_required = snitch(tender_milestones_not_required)
     test_tender_set_fund_organizations = snitch(tender_set_fund_organizations)
     test_tender_cause = snitch(tender_cause_reporting)
     test_reporting_contract_template_name_forbid = snitch(reporting_contract_template_name_forbid)
@@ -111,7 +106,6 @@ class TenderResourceTest(BaseTenderWebTest):
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
-    test_tender_delivery_milestones = snitch(tender_delivery_milestones_forbidden)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
     test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
 

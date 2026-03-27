@@ -1,7 +1,11 @@
+from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ListType, ModelType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.constants_env import (
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
+)
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
@@ -22,10 +26,17 @@ from openprocurement.tender.core.procedure.models.criterion import (
     validate_criteria_requirement_uniq,
 )
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.tender.core.procedure.models.milestone import (
+    TenderMilestoneType,
+    validate_milestones_lot,
+)
 from openprocurement.tender.core.procedure.models.period import (
     PostPeriodStartEndRequired,
 )
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+    validate_features_custom_weight,
+)
 from openprocurement.tender.core.procedure.validation import validate_object_id_uniq
 from openprocurement.tender.openeu.procedure.models.tender import (
     PatchTender as BasePatchTender,
@@ -82,9 +93,8 @@ class PostEUTender(BasePostTender):
     def validate_mainProcurementCategory(self, data, value):
         pass
 
-    # Not required milestones
     def validate_milestones(self, data, value):
-        pass
+        validate_milestones_lot(data, value)
 
     def validate_shortlistedFirms(self, data, value):
         validate_shortlisted_firm_ids(data, value)
@@ -154,9 +164,16 @@ class EUTender(BaseTender):
     def validate_mainProcurementCategory(self, data, value):
         pass
 
-    # Not required milestones
     def validate_milestones(self, data, value):
-        pass
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
+        validate_milestones_lot(data, value)
 
 
 # === UA
@@ -204,9 +221,8 @@ class PostUATender(UABasePostTender):
     def validate_mainProcurementCategory(self, data, value):
         pass
 
-    # Not required milestones
     def validate_milestones(self, data, value):
-        pass
+        validate_milestones_lot(data, value)
 
 
 class PatchUATender(UABasePatchTender):
@@ -274,6 +290,13 @@ class UATender(UABaseTender):
     def validate_mainProcurementCategory(self, data, value):
         pass
 
-    # Not required milestones
     def validate_milestones(self, data, value):
-        pass
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+                set(x.get("type") for x in value)
+            ):
+                raise ValidationError(
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                )
+        validate_milestones_lot(data, value)

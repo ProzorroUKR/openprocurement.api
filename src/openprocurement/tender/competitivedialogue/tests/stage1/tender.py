@@ -11,7 +11,6 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
     tender_financing_milestones,
     tender_lot_minimalstep_validation,
-    tender_milestones_required,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUWebTest,
@@ -33,7 +32,6 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     patch_tender_eu_ua,
     patch_tender_lots_none,
     path_complete_tender,
-    tender_delivery_milestones,
     tender_features_invalid,
     tender_milestones_sequence_number,
     tender_with_main_procurement_category,
@@ -71,11 +69,9 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
-    test_tender_milestones_required = snitch(tender_milestones_required)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
-    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
 
@@ -97,12 +93,10 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_update_status_complete_owner_ua = snitch(update_status_complete_owner_ua)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
-    test_tender_milestones_required = snitch(tender_milestones_required)
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_lot_minimalstep_validation = snitch(tender_lot_minimalstep_validation)
     test_patch_tender_minimalstep_validation = snitch(patch_tender_minimalstep_validation)
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
-    test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
 

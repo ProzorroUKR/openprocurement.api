@@ -1514,6 +1514,8 @@ def proc_1lot_0bid(self):
     data["lots"] = self.initial_lots = lots
     for i, item in enumerate(data["items"]):
         item["relatedLot"] = lots[i % len(lots)]["id"]
+    for i, milestone in enumerate(data.get("milestones", [])):
+        milestone["relatedLot"] = lots[i % len(lots)]["id"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -1563,6 +1565,8 @@ def proc_1lot_1bid(self):
     data["lots"] = self.initial_lots = lots
     for i, item in enumerate(data["items"]):
         item["relatedLot"] = lots[i % len(lots)]["id"]
+    for i, milestone in enumerate(data.get("milestones", [])):
+        milestone["relatedLot"] = lots[i % len(lots)]["id"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -1645,6 +1649,8 @@ def proc_1lot_2bid(self):
     data["lots"] = self.initial_lots = lots
     for i, item in enumerate(data["items"]):
         item["relatedLot"] = lots[i % len(lots)]["id"]
+    for i, milestone in enumerate(data.get("milestones", [])):
+        milestone["relatedLot"] = lots[i % len(lots)]["id"]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]

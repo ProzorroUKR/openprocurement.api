@@ -22,6 +22,9 @@ from openprocurement.tender.core.tests.utils import (
 here = os.path.dirname(os.path.abspath(__file__))
 now = datetime.now(TZ)
 
+with open(os.path.join(here, "data/milestones.json")) as _in:
+    test_tender_cfaselectionua_milestones = json.load(_in)
+
 with open(os.path.join(here, "data/agreement.json")) as _in:
     test_tender_cfaselectionua_agreement = json.load(_in)
 
@@ -67,27 +70,9 @@ with open(os.path.join(here, "data/tender_data.json")) as _in:
     test_tender_cfaselectionua_data = json.load(_in)
 test_tender_cfaselectionua_data["procuringEntity"] = test_tender_cfaselectionua_procuring_entity
 test_tender_cfaselectionua_data["items"] = test_tender_cfaselectionua_items
+
 test_tender_cfaselectionua_data_with_milestones = deepcopy(test_tender_cfaselectionua_data)
-test_tender_cfaselectionua_data_with_milestones["milestones"] = [
-    {
-        "id": uuid4().hex,
-        "title": "signingTheContract",
-        "code": "prepayment",
-        "type": "financing",
-        "duration": {"days": 2, "type": "banking"},
-        "sequenceNumber": 1,
-        "percentage": 45.55,
-    },
-    {
-        "id": uuid4().hex,
-        "title": "deliveryOfGoods",
-        "code": "postpayment",
-        "type": "financing",
-        "duration": {"days": 900, "type": "calendar"},
-        "sequenceNumber": 2,
-        "percentage": 54.45,
-    },
-]
+test_tender_cfaselectionua_data_with_milestones["milestones"] = test_tender_cfaselectionua_milestones
 
 if SANDBOX_MODE:
     test_tender_cfaselectionua_data["procurementMethodDetails"] = "quick, accelerator=1440"

@@ -1432,10 +1432,19 @@ def tender_finance_milestones(self):
         {
             "id": "a" * 32,
             "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+            "relatedLot": self.initial_lots[0]["id"] if self.initial_lots else None,
+        },
+        {
+            "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
             "duration": {"days": 2, "type": "banking"},
-            "sequenceNumber": 1,
+            "sequenceNumber": 2,
             "percentage": 45.55,
             "relatedLot": self.initial_lots[0]["id"] if self.initial_lots else None,
         },
@@ -1444,7 +1453,7 @@ def tender_finance_milestones(self):
             "code": "postpayment",
             "type": "financing",
             "duration": {"days": 999, "type": "calendar"},
-            "sequenceNumber": 2,
+            "sequenceNumber": 3,
             "percentage": 54.45,
             "relatedLot": self.initial_lots[0]["id"] if self.initial_lots else None,
         },
@@ -1453,7 +1462,7 @@ def tender_finance_milestones(self):
     self.assertEqual(response.status, "201 Created")
     tender = response.json["data"]
     self.assertIn("milestones", tender)
-    self.assertEqual(len(tender["milestones"]), 2)
+    self.assertEqual(len(tender["milestones"]), 3)
     for milestone in tender["milestones"]:
         fields = {"id", "code", "duration", "percentage", "type", "sequenceNumber", "title"}
         if self.initial_lots:
@@ -1476,7 +1485,7 @@ def tender_finance_milestones(self):
     self.assertEqual(response.status, "200 OK")
     self.assertIn("milestones", response.json["data"])
     milestones = response.json["data"]["milestones"]
-    self.assertEqual(len(milestones), 2)
+    self.assertEqual(len(milestones), 3)
     self.assertEqual(milestones[0]["title"], tender["milestones"][0]["title"])
     self.assertEqual(milestones[1]["title"], new_title)
 

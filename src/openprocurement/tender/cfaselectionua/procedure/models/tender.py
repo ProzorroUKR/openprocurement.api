@@ -36,6 +36,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     BaseTender,
     PatchBaseTender,
     PostBaseTender,
+    TenderMilestoneMixin,
     validate_items_related_lot,
 )
 from openprocurement.tender.core.procedure.models.value import BasicValue
@@ -47,7 +48,7 @@ def validate_features(data, features):
     validate_features_custom_weight(data, features, Decimal("0.3"))
 
 
-class PostTender(PostBaseTender):
+class PostTender(TenderMilestoneMixin, PostBaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION], default=CFA_SELECTION)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -72,7 +73,6 @@ class PostTender(PostBaseTender):
         validators=[validate_uniq_id],
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     guarantee = ModelType(BasicValue)
     # tenderPeriod = ModelType(PeriodEndRequired)
 
@@ -144,7 +144,7 @@ class PatchTender(PatchBaseTender):
             raise ValidationError("Rogue field")
 
 
-class Tender(BaseTender):
+class Tender(TenderMilestoneMixin, BaseTender):
     procurementMethodType = StringType(choices=[CFA_SELECTION], required=True)
     submissionMethod = StringType(choices=["electronicAuction"])
     submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
@@ -181,7 +181,6 @@ class Tender(BaseTender):
     )
     features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
     unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     tenderPeriod = ModelType(PeriodEndRequired)
     enquiryPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable

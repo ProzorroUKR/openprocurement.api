@@ -20,6 +20,7 @@ from openprocurement.tender.cfaselectionua.constants import (
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_base_organization,
     test_tender_cfaselectionua_features,
+    test_tender_cfaselectionua_milestones,
     test_tender_cfaselectionua_supplier,
 )
 from openprocurement.tender.cfaselectionua.tests.periods import ENQUIRY_PERIOD
@@ -2418,3 +2419,24 @@ def edit_tender_in_active_enquiries(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], data["title"])
     self.assertEqual(response.json["data"]["guarantee"], data["guarantee"])
+
+
+def milestones_mismatch(self):
+    agreement = deepcopy(self.initial_agreement)
+    agreement["milestones"] = deepcopy(test_tender_cfaselectionua_milestones)
+    # alter milestones data
+    agreement["milestones"][0]["duration"]["days"] = agreement["milestones"][0]["duration"]["days"] + 1
+
+    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+
+    self.create_agreement(agreement)
+
+    create_tender_draft_pending(self)
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+
+    self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
+    self.assertCountEqual(
+        response.json["data"]["unsuccessfulReason"],
+        ['Agreement milestones does not match tender milestones'],
+    )

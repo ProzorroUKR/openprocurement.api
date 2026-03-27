@@ -1016,6 +1016,44 @@ Content-Type: application/json
           "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
         }
       },
+      "milestones": [
+        {
+          "id": "cccccccccccccccccccccccccccccccc",
+          "title": "signingTheContract",
+          "type": "delivery",
+          "code": "standard",
+          "percentage": 100.0,
+          "duration": {
+            "days": 2,
+            "type": "calendar"
+          },
+          "sequenceNumber": 1
+        },
+        {
+          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "title": "signingTheContract",
+          "type": "financing",
+          "code": "prepayment",
+          "percentage": 45.55,
+          "duration": {
+            "days": 2,
+            "type": "banking"
+          },
+          "sequenceNumber": 2
+        },
+        {
+          "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "title": "deliveryOfGoods",
+          "type": "financing",
+          "code": "postpayment",
+          "percentage": 54.45,
+          "duration": {
+            "days": 900,
+            "type": "calendar"
+          },
+          "sequenceNumber": 3
+        }
+      ],
       "submissionMethod": "electronicAuction",
       "awardCriteria": "lowestCost",
       "procuringEntity": {
@@ -1077,32 +1115,6 @@ Content-Type: application/json
             "endDate": "2023-10-10T01:00:00+03:00"
           },
           "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_5666a4d7fa694af28825b1971b3912b9"
-        }
-      ],
-      "milestones": [
-        {
-          "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-          "title": "signingTheContract",
-          "type": "financing",
-          "code": "prepayment",
-          "percentage": 45.55,
-          "duration": {
-            "days": 2,
-            "type": "banking"
-          },
-          "sequenceNumber": 1
-        },
-        {
-          "id": "ec3fa01f759d4654979b4becaceef967",
-          "title": "deliveryOfGoods",
-          "type": "financing",
-          "code": "postpayment",
-          "percentage": 54.45,
-          "duration": {
-            "days": 900,
-            "type": "calendar"
-          },
-          "sequenceNumber": 2
         }
       ],
       "complaintPeriod": {
