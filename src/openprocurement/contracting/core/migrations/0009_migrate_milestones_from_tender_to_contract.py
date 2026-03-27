@@ -37,7 +37,7 @@ class Migration(PymongoCollectionMigration):
         return {"awardID": 1, "tender_id": 1}
 
     def _get_tenders_collection(self):
-        return ReadonlyCollectionWrapper(self.db_store.database.get_collection("tenders"))
+        return ReadonlyCollectionWrapper(self.db_store.tenders.collection)
 
     @property
     def _tenders_collection(self):
