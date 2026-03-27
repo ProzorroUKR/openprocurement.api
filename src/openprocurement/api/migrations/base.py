@@ -22,6 +22,11 @@ from openprocurement.api.database import (
 )
 from openprocurement.api.procedure.utils import generate_revision, get_revision_changes
 from openprocurement.api.utils import CustomJSONEncoder, get_now
+from openprocurement.framework.core.database import FrameworkCollection, QualificationCollection, SubmissionCollection
+from openprocurement.planning.api.database import PlanCollection
+from openprocurement.tender.core.database import TenderCollection
+from prozorro_cdb.contracting.core.database import ContractCollection
+from prozorro_cdb.framework.core.database import AgreementCollection
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -269,6 +274,13 @@ class PymongoCollectionMigration(CollectionMigration):
     def __init__(self, settings: dict, args: Any):
         super().__init__(settings, args)
         self.db_store = MongodbStore(settings)
+        self.db_store.add_collection("tenders", TenderCollection)
+        self.db_store.add_collection("plans", PlanCollection)
+        self.db_store.add_collection("contracts", ContractCollection)
+        self.db_store.add_collection("qualifications", QualificationCollection)
+        self.db_store.add_collection("submissions", SubmissionCollection)
+        self.db_store.add_collection("frameworks", FrameworkCollection)
+        self.db_store.add_collection("agreements", AgreementCollection)
 
     def run(self) -> None:
         """Run the migration."""
@@ -299,7 +311,7 @@ class PymongoCollectionMigration(CollectionMigration):
 
         :return: MongoDB collection
         """
-        return self.db_store.database.get_collection(self.collection_name)
+        return getattr(self.db_store, self.collection_name).collection
 
     def wrap_collection(self, collection: Collection) -> Collection | CollectionWrapper:
         if self.args.readonly:

@@ -136,6 +136,7 @@ class MongoServerLoggingListener(CommandListener):
 class MongodbStore:
     def __init__(self, settings):
         self.settings = settings
+        self.collections = {}
 
         db_name = os.environ.get("DB_NAME", settings["mongodb.db_name"])
         mongodb_uri = os.environ.get("MONGODB_URI", settings["mongodb.uri"])
@@ -162,8 +163,6 @@ class MongodbStore:
             read_concern=ReadConcern(level=raw_r_concern),
             codec_options=codec_options,
         )
-
-    collections = {}
 
     def __getattr__(self, name):
         """

@@ -27,7 +27,7 @@ class Migration(PymongoCollectionMigration):
     bulk_max_size: int = 500
 
     def _get_tenders_collection(self):
-        return ReadonlyCollectionWrapper(self.db_store.database.get_collection("tenders"))
+        return ReadonlyCollectionWrapper(self.db_store.tenders.collection)
 
     @property
     def _tenders_collection(self):

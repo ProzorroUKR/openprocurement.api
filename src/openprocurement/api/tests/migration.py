@@ -109,11 +109,6 @@ default_test_args = Namespace(
 class TestMigration(PymongoCollectionMigration):
     collection_name = "tenders"
 
-    def get_collection(self):
-        """Use collection name from settings for test compatibility."""
-        collection_name = self.settings.get("mongodb.tender_collection", self.collection_name)
-        return self.db_store.database.get_collection(collection_name)
-
     def update_document(self, doc: dict, context: dict = None) -> dict:
         doc["title"] = "test"
         return doc
