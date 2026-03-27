@@ -27,7 +27,7 @@ class Migration(PymongoCollectionMigration):
     bulk_max_size: int = 500
 
     def _get_agreements_collection(self):
-        return ReadonlyCollectionWrapper(getattr(self.env["registry"].mongodb, "agreements").collection)
+        return ReadonlyCollectionWrapper(self.db_store.database.get_collection("agreements"))
 
     @property
     def _agreements_collection(self):
