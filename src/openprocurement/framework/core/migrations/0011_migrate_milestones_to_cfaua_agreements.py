@@ -3,13 +3,17 @@ from unittest.mock import ANY, MagicMock, call, patch
 
 from pymongo import UpdateOne
 
-from openprocurement.api.migrations.base import CollectionMigration, ReadonlyCollectionWrapper, migrate_collection
+from openprocurement.api.migrations.base import (
+    PymongoCollectionMigration,
+    ReadonlyCollectionWrapper,
+    migrate_collection,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
 
-class Migration(CollectionMigration):
+class Migration(PymongoCollectionMigration):
     description = "Migrate cfaua agreements to have milestones"
 
     collection_name = "agreements"
