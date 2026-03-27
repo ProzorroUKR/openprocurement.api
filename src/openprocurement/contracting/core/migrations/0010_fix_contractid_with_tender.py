@@ -47,7 +47,7 @@ class Migration(PymongoCollectionMigration):
         return {"contractID": 1, "tender_id": 1}
 
     def _get_tenders_collection(self):
-        return ReadonlyCollectionWrapper(getattr(self.env["registry"].mongodb, "tenders").collection)
+        return ReadonlyCollectionWrapper(self.db_store.tenders.collection)
 
     @property
     def _tenders_collection(self):
@@ -102,7 +102,7 @@ class Migration(PymongoCollectionMigration):
 
         # Update tender if contractID was changed
         if updated:
-            tenders_collection = getattr(self.env["registry"].mongodb, "tenders").collection
+            tenders_collection = self.db_store.tenders.collection
             result = tenders_collection.update_one(
                 {"_id": tender_id, "_rev": tender_rev},
                 [
