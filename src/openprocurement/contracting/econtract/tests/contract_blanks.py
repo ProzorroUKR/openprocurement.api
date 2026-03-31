@@ -428,6 +428,60 @@ def post_new_version_of_contract(self):
     self.assertNotEqual(prev_contract["dateCreated"], new_contract["dateCreated"])
 
 
+def post_new_version_of_contract_test_mode(self):
+    # Set mode "test" on the tender
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    tender_doc["mode"] = "test"
+    self.mongodb.tenders.save(tender_doc)
+
+    # Set mode "test" on the initial contract (as it would have been set during first contract creation)
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    contract_doc["mode"] = "test"
+    self.mongodb.contracts.save(contract_doc)
+
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    initial_contract_data = response.json["data"]
+    self.assertEqual(initial_contract_data["mode"], "test")
+
+    contract_data = deepcopy(initial_contract_data)
+    del contract_data["dateCreated"]
+    del contract_data["dateModified"]
+    del contract_data["id"]
+    del contract_data["mode"]
+
+    contract_data["tender_id"] = self.tender_id
+
+    # add cancellation by supplier
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
+        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    contract_data["value"]["amount"] = self.award["value"]["amount"]
+    contract_data["value"]["amountNet"] = contract_data["value"]["amount"]
+
+    pdf_data = {
+        "url": self.generate_docservice_url(),
+        "format": "application/pdf",
+        "hash": "md5:" + "0" * 32,
+        "title": "contract.pdf",
+    }
+
+    with patch("openprocurement.tender.core.procedure.contracting.upload_contract_pdf") as mock_upload_contract_pdf:
+        mock_upload_contract_pdf.return_value = {"data": pdf_data}
+        response = self.app.post_json(
+            f"/contracts?acc_token={self.supplier_token}",
+            {"data": contract_data},
+        )
+        mock_upload_contract_pdf.assert_called_once()
+
+    new_contract = response.json["data"]
+    self.assertEqual(new_contract["status"], "pending")
+    # Verify that mode "test" is propagated from the tender to the new contract
+    self.assertEqual(new_contract["mode"], "test")
+
+
 def contract_cancellation_via_award(self):
     response = self.app.get(f"/contracts/{self.contract_id}")
     initial_contract_data = response.json["data"]

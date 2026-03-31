@@ -138,6 +138,7 @@ class EContractState(BaseContractState):
                 "id": uuid4().hex,
                 "date": get_request_now().isoformat(),
                 "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
+                "mode": tender.get("mode"),
             }
         )
         upload_contract_pdf_document(after, tender)
