@@ -1561,17 +1561,38 @@ def validate_field_change(field_name, before_obj, after_obj, validator, args):
         validator(*args)
 
 
-def validate_signer_info_container(request, tender, container, container_name):
-    if isinstance(container, list):
-        for index, item in enumerate(container):
-            validate_signer_info(request, tender, item, container_name, index)
+def validate_econtract_fields_tender(request, tender):
+    if buyers := tender.get("buyers", []):
+        validate_buyers_contract_owner_consistent(request, buyers)
+        for index, buyer in enumerate(buyers):
+            validate_signer_info(request, tender, buyer, "buyers", index)
+            validate_contract_owner_required(request, tender, buyer, "buyers", index)
+            validate_contract_owner(request, tender, buyer, "buyers", index)
     else:
-        validate_signer_info(request, tender, container, container_name)
+        procuring_entity = tender.get("procuringEntity", {})
+        validate_signer_info(request, tender, procuring_entity, "procuringEntity")
+        validate_contract_owner_required(request, tender, procuring_entity, "procuringEntity")
+        validate_contract_owner(request, tender, procuring_entity, "procuringEntity")
+
+
+def validate_econtract_fields_bid(request, tender, bid):
+    tenderers = bid.get("tenderers", [])
+    for index, tenderer in enumerate(tenderers):
+        validate_signer_info(request, tender, tenderer, "tenderers", index)
+        validate_contract_owner_consistent(request, tender, tenderer, "tenderers", index)
+        validate_contract_owner(request, tender, tenderer, "tenderers", index)
+
+
+def validate_econtract_fields_award(request, tender, award):
+    suppliers = award.get("suppliers", [])
+    for index, supplier in enumerate(suppliers):
+        validate_signer_info(request, tender, supplier, "suppliers", index)
+        validate_contract_owner_consistent(request, tender, supplier, "suppliers", index)
+        validate_contract_owner(request, tender, supplier, "suppliers", index)
 
 
 def validate_signer_info(request, tender, organization, field_name, field_index=None) -> None:
     signer_info = organization.get("signerInfo")
-    contract_owner = organization.get("contract_owner")
     contract_template_name = tender.get("contractTemplateName")
     field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
     if tender_created_after(TENDER_SIGNER_INFO_REQUIRED_FROM) and contract_template_name and not signer_info:
@@ -1581,6 +1602,13 @@ def validate_signer_info(request, tender, organization, field_name, field_index=
             name=field_path,
             status=422,
         )
+
+
+def validate_contract_owner(request, tender, organization, field_name, field_index=None) -> None:
+    signer_info = organization.get("signerInfo")
+    contract_owner = organization.get("contract_owner")
+    contract_template_name = tender.get("contractTemplateName")
+    field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
     if contract_owner is not None:
         if not contract_template_name or not signer_info:
             raise_operation_error(
@@ -1596,13 +1624,65 @@ def validate_signer_info(request, tender, organization, field_name, field_index=
                 name=field_path,
                 status=422,
             )
-    elif tender_created_after(CONTRACT_OWNER_REQUIRED_FROM) and contract_template_name and signer_info:
+
+
+def validate_contract_owner_required(request, tender, organization, field_name, field_index=None) -> None:
+    signer_info = organization.get("signerInfo")
+    contract_owner = organization.get("contract_owner")
+    contract_template_name = tender.get("contractTemplateName")
+    field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
+
+    if contract_owner is not None:
+        return
+
+    if not tender_created_after(CONTRACT_OWNER_REQUIRED_FROM):
+        return
+
+    if contract_template_name and signer_info:
         raise_operation_error(
             request,
             {"contract_owner": BaseType.MESSAGES["required"]},
             name=field_path,
             status=422,
         )
+
+
+def validate_contract_owner_consistent(request, tender, organization, field_name, field_index=None) -> None:
+    if buyers := tender.get("buyers", []):
+        tender_has_contract_owner = any(buyer.get("contract_owner") is not None for buyer in buyers)
+    else:
+        procuring_entity = tender.get("procuringEntity", {})
+        tender_has_contract_owner = procuring_entity.get("contract_owner") is not None
+
+    contract_owner = organization.get("contract_owner")
+    field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
+    if not tender_has_contract_owner and contract_owner is not None:
+        raise_operation_error(
+            request,
+            {"contract_owner": "could not be set when contract_owner is not set on tender"},
+            name=field_path,
+            status=422,
+        )
+    elif tender_has_contract_owner and contract_owner is None:
+        raise_operation_error(
+            request,
+            {"contract_owner": "should be set when contract_owner is set on tender"},
+            name=field_path,
+            status=422,
+        )
+
+
+def validate_buyers_contract_owner_consistent(request, buyers) -> None:
+    if not any(buyer.get("contract_owner") is not None for buyer in buyers):
+        return
+    for index, buyer in enumerate(buyers):
+        if buyer.get("contract_owner") is None:
+            raise_operation_error(
+                request,
+                {"contract_owner": "should be set for all buyers when set on any buyer"},
+                name=f"buyers.{index}",
+                status=422,
+            )
 
 
 def get_contract_owner_choices():
