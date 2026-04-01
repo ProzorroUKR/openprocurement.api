@@ -4,6 +4,8 @@ from datetime import timedelta
 from unittest import mock
 from uuid import uuid4
 
+import pytest
+
 from openprocurement.api.constants import (
     DEFAULT_CONTRACT_TEMPLATE_KEY,
     GUARANTEE_ALLOWED_TENDER_TYPES,
@@ -5014,6 +5016,121 @@ def set_procuring_entity_contract_owner(self):
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+
+
+def set_procuring_entity_contract_owner_required_by_edrpou(self):
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
+
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["signerInfo"] = test_signer_info
+    tender_data["procuringEntity"].pop("contract_owner", None)
+    tender_data["procuringEntity"]["identifier"]["id"] = "12345678"
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+        get_now() + timedelta(days=1),
+    ), mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
+        {"12345678": get_now() - timedelta(days=1)},
+    ):
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "procuringEntity",
+                    "description": {"contract_owner": "This field is required."},
+                }
+            ],
+        )
+
+
+def set_buyers_contract_owner_required_by_edrpou(self):
+    if ProcuringEntityKind.CENTRAL not in self.allowed_proc_entity_kinds:
+        pytest.skip("ProcuringEntityKind.CENTRAL is not allowed for this procurement method type")
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
+
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
+
+    buyer = deepcopy(test_tender_below_buyer)
+    buyer["id"] = uuid4().hex
+    buyer["signerInfo"] = test_signer_info
+    buyer["identifier"]["id"] = "12345678"
+    buyer.pop("contract_owner", None)
+
+    tender_data["buyers"] = [buyer]
+    tender_data["items"][0]["relatedBuyer"] = buyer["id"]
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM", 
+        get_now() + timedelta(days=1),
+    ), mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
+        {"12345678": get_now() - timedelta(days=1)},
+    ):
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "buyers.0",
+                    "description": {"contract_owner": "This field is required."},
+                }
+            ],
+        )
+        tender_data["buyers"][0]["contract_owner"] = "broker"
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+
+
+def set_buyers_contract_owner_consistent(self):
+    if ProcuringEntityKind.CENTRAL not in self.allowed_proc_entity_kinds:
+        pytest.skip("ProcuringEntityKind.CENTRAL is not allowed for this procurement method type")
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
+
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
+
+    buyer_1 = deepcopy(test_tender_below_buyer)
+    buyer_1["id"] = uuid4().hex
+    buyer_1["signerInfo"] = test_signer_info
+    buyer_1["contract_owner"] = "broker"
+
+    buyer_2 = deepcopy(test_tender_below_buyer)
+    buyer_2["id"] = uuid4().hex
+    buyer_2["signerInfo"] = test_signer_info
+    buyer_2.pop("contract_owner", None)
+
+    tender_data["buyers"] = [buyer_1, buyer_2]
+    tender_data["items"][0]["relatedBuyer"] = buyer_1["id"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "buyers.1",
+                "description": {"contract_owner": "should be set for all buyers when set on any buyer"},
+            }
+        ],
+    )
+
+    tender_data["buyers"][1]["contract_owner"] = "broker"
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+    self.assertEqual(response.json["data"]["buyers"][1]["contract_owner"], "broker")
 
 
 def tender_contract_change_rationale_types(self):
