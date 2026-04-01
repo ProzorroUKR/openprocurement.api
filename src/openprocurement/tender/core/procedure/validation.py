@@ -1606,15 +1606,14 @@ def validate_signer_info(request, tender, organization, field_name, field_index=
 
 
 def validate_contract_owner(request, tender, organization, field_name, field_index=None) -> None:
-    signer_info = organization.get("signerInfo")
     contract_owner = organization.get("contract_owner")
     contract_template_name = tender.get("contractTemplateName")
     field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
     if contract_owner is not None:
-        if not contract_template_name or not signer_info:
+        if not contract_template_name:
             raise_operation_error(
                 request,
-                {"contract_owner": "could be set only along with signerInfo and contractTemplateName"},
+                {"contract_owner": "could be set only along with contractTemplateName"},
                 name=field_path,
                 status=422,
             )

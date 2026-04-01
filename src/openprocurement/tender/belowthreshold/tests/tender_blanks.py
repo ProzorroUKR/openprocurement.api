@@ -4963,7 +4963,7 @@ def set_procuring_entity_contract_owner(self):
             {
                 "location": "body",
                 "name": "procuringEntity",
-                "description": {"contract_owner": "could be set only along with signerInfo and contractTemplateName"},
+                "description": {"contract_owner": "could be set only along with contractTemplateName"},
             }
         ],
     )
