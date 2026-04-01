@@ -5,6 +5,7 @@ from openprocurement.api.constants_utils import (
     get_default_constants_file_path,
     load_constants,
     parse_bool,
+    parse_key_date_pairs,
     parse_str_list,
 )
 
@@ -353,4 +354,10 @@ CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM = get_constant(
 PQ_CRITERIA_DECREE_822 = get_constant(
     CONSTANTS_CONFIG,
     "PQ_CRITERIA_DECREE_822",
+)
+
+CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU = get_constant(
+    CONSTANTS_CONFIG,
+    "CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
+    parse_func=parse_key_date_pairs,
 )

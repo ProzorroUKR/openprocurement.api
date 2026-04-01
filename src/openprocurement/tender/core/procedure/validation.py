@@ -35,6 +35,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
     CONTRACT_OWNER_REQUIRED_FROM,
+    CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
@@ -1627,18 +1628,18 @@ def validate_contract_owner(request, tender, organization, field_name, field_ind
 
 
 def validate_contract_owner_required(request, tender, organization, field_name, field_index=None) -> None:
+    edrpou_id = organization.get("identifier", {}).get("id")
+    edrpou_from = CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU.get(edrpou_id) if edrpou_id else None
+    required_from = edrpou_from or CONTRACT_OWNER_REQUIRED_FROM
+    if not tender_created_after(required_from):
+        return
+
     signer_info = organization.get("signerInfo")
     contract_owner = organization.get("contract_owner")
     contract_template_name = tender.get("contractTemplateName")
     field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
 
-    if contract_owner is not None:
-        return
-
-    if not tender_created_after(CONTRACT_OWNER_REQUIRED_FROM):
-        return
-
-    if contract_template_name and signer_info:
+    if contract_owner is None and contract_template_name and signer_info:
         raise_operation_error(
             request,
             {"contract_owner": BaseType.MESSAGES["required"]},
