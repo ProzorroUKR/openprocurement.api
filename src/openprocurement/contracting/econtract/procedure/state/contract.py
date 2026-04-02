@@ -138,9 +138,12 @@ class EContractState(BaseContractState):
                 "id": uuid4().hex,
                 "date": get_request_now().isoformat(),
                 "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
-                "mode": tender.get("mode"),
             }
         )
+
+        if mode := tender.get('mode'):
+            after['mode'] = mode
+
         upload_contract_pdf_document(after, tender)
         self.set_object_status(before, "cancelled")
         self.set_object_status(before["cancellations"][0], "active", update_date=False)
