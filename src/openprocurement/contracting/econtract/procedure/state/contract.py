@@ -141,8 +141,8 @@ class EContractState(BaseContractState):
             }
         )
 
-        if mode := tender.get('mode'):
-            after['mode'] = mode
+        if mode := tender.get("mode"):
+            after["mode"] = mode
 
         upload_contract_pdf_document(after, tender)
         self.set_object_status(before, "cancelled")
