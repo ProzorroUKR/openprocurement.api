@@ -500,7 +500,7 @@ def activate_tender(self):
     request_path = "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
-    required_tech_features = False
+    required_tech_features = getattr(self, "tech_features_criteria_required", False)
     required_criteria = deepcopy(self.required_criteria)
     if CRITERION_TECHNICAL_FEATURES in required_criteria:
         required_tech_features = True
@@ -517,9 +517,8 @@ def activate_tender(self):
             if criterion.get("classification")
         }
 
-        criteria_ids = self.required_criteria
         test_criteria = deepcopy(test_criteria_all)
-        test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+        test_criteria = get_criteria_by_ids(test_criteria, required_criteria)
         set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
 
         # Try to activate without criteria
@@ -695,9 +694,8 @@ def activate_tender(self):
             ],
         )
 
-        criteria_ids = self.required_criteria
         test_criteria = deepcopy(test_tech_feature_criteria)
-        test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+        test_criteria = get_criteria_by_ids(test_criteria, [CRITERION_TECHNICAL_FEATURES])
         set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
 
         # Add missing required criteria
@@ -718,7 +716,7 @@ def activate_tender(self):
     self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
     self.assertEqual(
         len(response.json["data"].get("criteria", [])),
-        len(self.required_criteria) + (1 if article_16_criteria_required else 0),
+        len(required_criteria) + (1 if article_16_criteria_required else 0) + (1 if required_tech_features else 0),
     )
 
 

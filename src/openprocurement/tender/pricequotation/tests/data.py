@@ -7,6 +7,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
 )
+from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
@@ -269,10 +270,12 @@ test_tech_features_requirements = [
 ]
 
 test_tender_pq_required_criteria_ids = {
-    "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES",
+    "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
+    "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
 }
 
 test_tender_pq_criteria = []
+test_tender_pq_criteria.extend(get_criteria_by_ids(test_criteria_all, [CRITERION_TECHNICAL_FEATURES]))
 test_tender_pq_criteria.extend(get_criteria_by_ids(test_criteria_all, test_tender_pq_required_criteria_ids))
 
 for criterion in test_tender_pq_criteria:
@@ -457,7 +460,6 @@ test_tender_pq_criteria_2 = [
     }
 ]
 
-
 test_tender_pq_criteria_3 = [
     {
         "description": "Форма випуску",
@@ -514,7 +516,6 @@ test_tender_pq_criteria_3 = [
         "title": "Форма випуску",
     }
 ]
-
 
 test_tender_pq_criteria_4 = [
     {
@@ -573,19 +574,16 @@ test_tender_pq_response_1 = [
     {"requirement": {"id": "400496-0003-001-03"}, "values": ["Відповідь1", "Відповідь2"]},
 ]
 
-
 test_tender_pq_response_2 = [
     {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин"]},
     {"requirement": {"id": "400496-0001-002-01"}, "values": ["Порошок"]},
 ]
-
 
 test_tender_pq_response_3 = [
     {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин"]},
     {"requirement": {"id": "400496-0001-001-02"}, "value": 500},
     {"requirement": {"id": "400496-0001-002-01"}, "values": ["Порошок"]},
 ]
-
 
 test_tender_pq_response_4 = [
     {"requirement": {"id": "400496-0001-001-01"}, "values": ["Порошок"]},

@@ -28,6 +28,7 @@ class TenderPQCriteriaTest(MockMarketMixin, MockCriteriaIDMixin, TenderCriteriaT
     initial_criteria = None
 
     required_criteria = test_tender_pq_required_criteria_ids
+    tech_features_criteria_required = True
 
     test_get_tender_criteria = snitch(get_tender_criteria)
     test_create_tender_criteria_invalid = snitch(create_tender_criteria_invalid)
@@ -52,6 +53,8 @@ class TenderPQCriteriaRGRequirementEvidenceTest(
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderContentWebTest,
 ):
+    required_criteria = test_tender_pq_required_criteria_ids
+    tech_features_criteria_required = True
     test_delete_requirement_evidence = snitch(delete_requirement_evidence)
 
 
