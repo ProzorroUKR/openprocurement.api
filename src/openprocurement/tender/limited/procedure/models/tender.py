@@ -5,7 +5,6 @@ from schematics.types.compound import ListType, ModelType
 from openprocurement.api.constants import TENDER_CAUSE
 from openprocurement.api.constants_env import (
     NEW_NEGOTIATION_CAUSES_FROM,
-    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -18,7 +17,6 @@ from openprocurement.tender.core.procedure.models.item import (
 )
 from openprocurement.tender.core.procedure.models.milestone import (
     Milestone,
-    TenderMilestoneType,
     validate_milestones_lot,
 )
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
@@ -29,7 +27,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,
 )
 from openprocurement.tender.core.procedure.models.tender_base import CommonBaseTender
-from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
     validate_funders_unique,
@@ -100,14 +97,6 @@ class PostReportingTender(TenderMilestoneMixin, PostBaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_milestones(self, data, value):
-        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
-            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
-                set(x.get("type") for x in value)
-            ):
-                raise ValidationError(
-                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
-                    f"and one {TenderMilestoneType.FINANCING} milestone"
-                )
         validate_milestones_lot(data, value)
 
     def validate_cause(self, data, value):
@@ -165,14 +154,6 @@ class ReportingTender(TenderMilestoneMixin, BaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_milestones(self, data, value):
-        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
-            if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
-                set(x.get("type") for x in value)
-            ):
-                raise ValidationError(
-                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
-                    f"and one {TenderMilestoneType.FINANCING} milestone"
-                )
         validate_milestones_lot(data, value)
 
     def validate_cause(self, data, value):
