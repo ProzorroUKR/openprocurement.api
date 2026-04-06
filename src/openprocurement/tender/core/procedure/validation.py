@@ -2,7 +2,7 @@ import logging
 from collections import defaultdict
 from copy import deepcopy
 from datetime import datetime, timedelta
-from decimal import ROUND_FLOOR, Decimal
+from decimal import Decimal
 from hashlib import sha512
 from typing import Callable
 
@@ -71,7 +71,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
     tender_created_before,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -1337,41 +1336,50 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))
 
 
-def validate_items_unit_amount(items_unit_value_amount, data, obj_name="contract"):
-    if items_unit_value_amount and data.get("value") and not is_multi_currency_tender():
-        sum_items_unit = sum(items_unit_value_amount)
-        calculated_value = sum_items_unit.quantize(Decimal("1E-2"), rounding=ROUND_FLOOR)
-        obj_value = to_decimal(data["value"]["amount"])
+def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"):
+    obj_value = obj.get("value")
 
-        # For PQ from particular date it is required that:
-        #  - sum of all items.unit.value.amount should be equal obj value if VAT is not included in obj (without coins)
-        #  - sum of items.unit.value.amount < obj value < (sum of items.unit.value.amount * 1.2 ) if VAT is included in obj
-        if (
-            tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
-            and get_tender().get("procurementMethodType") == PQ
-        ):
-            tax_included = data["value"]["valueAddedTaxIncluded"]
-            if tax_included:
-                # get amountNet from obj.value if it is set or count this -20% net amount
-                obj_amount_net = data["value"].get("amountNet")
-                if obj_amount_net is None:
-                    obj_amount_net = (obj_value / AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_FLOOR)
-                # we ignore coins for this validation, that's why int() was used
-                if calculated_value <= 0 or not (int(obj_amount_net) <= int(calculated_value) <= int(obj_value)):
-                    raise_operation_error(
-                        get_request(),
-                        f"Total amount of unit values must be no more than {obj_name}.value.amount and no less than net {obj_name} amount",
-                        name="items",
-                        status=422,
-                    )
-            elif int(obj_value) != int(calculated_value):  # ignore coins
+    if is_multi_currency_tender():
+        # Skip validation for multi-currency tenders
+        # It can have different currencies across lots, units, bids etc.
+        return
+
+    if not items_unit_value_amount or not obj_value:
+        # Skip. Nothing to comare
+        return
+
+    vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
+    units_amount_sum = sum(items_unit_value_amount)
+    obj_amount = to_decimal(obj_value["amount"])
+
+    # New validation rules
+    if vat_aware_validation:
+        # VAT-inclusive: unit sum between net and gross;
+        # VAT-exclusive: must equal amount;
+        tax_included = obj_value["valueAddedTaxIncluded"]
+        if tax_included:
+            # obj.value.amountNet or amount-20%
+            obj_amount_net = obj_value.get("amountNet", obj_amount / AMOUNT_NET_COEF)
+            # ignore coins for this validation
+            if units_amount_sum <= 0 or not (int(obj_amount_net) <= int(units_amount_sum) <= int(obj_amount)):
                 raise_operation_error(
                     get_request(),
-                    f"Total amount of unit values should be equal {obj_name}.value.amount if VAT is not included in {obj_name}",
+                    f"Total amount of unit values must be no more than {obj_name}.value.amount and no less than net {obj_name} amount",
                     name="items",
                     status=422,
                 )
-        elif calculated_value > obj_value:
+        elif int(obj_amount) != int(units_amount_sum):  # ignore coins
+            raise_operation_error(
+                get_request(),
+                f"Total amount of unit values should be equal {obj_name}.value.amount if VAT is not included in {obj_name}",
+                name="items",
+                status=422,
+            )
+
+    # Legacy validation rules
+    if not vat_aware_validation:
+        # Upper bound only.
+        if not (int(units_amount_sum) <= int(obj_amount)):
             raise_operation_error(
                 get_request(),
                 f"Total amount of unit values can't be greater than {obj_name}.value.amount",
