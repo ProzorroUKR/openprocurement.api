@@ -45,6 +45,7 @@ DOCUMENT_TYPES = (
     "evidence",
     "register",
     "cancellationReport",
+    "acceptanceReport",
 )
 
 

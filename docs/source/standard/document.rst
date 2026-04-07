@@ -39,6 +39,10 @@ Document
 
       Використовується в документах до :ref:`qualification` та :ref:`award`.
 
+    * `acceptanceReport` - **Акт приймання-передачі**
+
+      Використовується в документах до :ref:`tender` (active.pre-qualification), :ref:`award` (active.qualification, active.awarded) та :ref:`cancellation`.
+
     Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
                                                                                                                                                   
     
