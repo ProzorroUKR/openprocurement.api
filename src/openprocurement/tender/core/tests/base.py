@@ -172,6 +172,7 @@ class BaseCoreWebTest(BaseWebTest):
     tender_for_funders = None
     guarantee_criterion = None
     bid_item_product_required = False
+    should_add_contract_proforma_doc = True
 
     agreement_id = None
     tender_id = None
@@ -216,6 +217,20 @@ class BaseCoreWebTest(BaseWebTest):
 
         add_criteria(self, tender["data"]["id"], tender["access"]["token"])
         if "active" in status:
+            response = self.app.post_json(
+                f"/tenders/{tender['data']['id']}/documents?acc_token={tender['access']['token']}",
+                {
+                    "data": {  # pass documents with the tender post request
+                        "title": "name.doc",
+                        "url": self.generate_docservice_url(),
+                        "hash": "md5:" + "0" * 32,
+                        "format": "application/msword",
+                        "documentType": "contractProforma",
+                    }
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+
             self.add_sign_doc(tender["data"]["id"], tender["access"]["token"])
         response = self.app.patch_json(
             f"/tenders/{tender['data']['id']}?acc_token={tender['access']['token']}",
@@ -242,6 +257,22 @@ class BaseCoreWebTest(BaseWebTest):
                 bid = response.json["data"]
 
         return bid, token
+
+    def add_contract_proforma_doc(self, tender_id, owner_token):
+        response = self.app.post_json(
+            f"/tenders/{tender_id}/documents?acc_token={owner_token}",
+            {
+                "data": {
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractProforma",
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
+        return response
 
     def add_sign_doc(self, tender_id, owner_token, docs_url="/documents", document_type="notice", doc_id=None):
         request_body = {
@@ -494,6 +525,9 @@ class BaseCoreWebTest(BaseWebTest):
                 status=201,
             )
 
+        if self.should_add_contract_proforma_doc:
+            self.add_contract_proforma_doc(self.tender_id, self.tender_token)
+
         status = tender["status"]
         if self.initial_bids:
             self.initial_bids_tokens = {}
@@ -515,7 +549,8 @@ class BaseCoreWebTest(BaseWebTest):
                 self.initial_bids_tokens[bid_id] = bid_token
             self.initial_bids = bids
         if self.initial_status and self.initial_status != status:
-            self.set_status(self.initial_status)
+            status = self.initial_status
+            self.set_status(status)
 
     def create_agreement(self, agreement=None):
         if self.mongodb.agreements.get(self.agreement_id):

@@ -658,6 +658,8 @@ def requirement_response_value_validation_for_expected_values(self):
         },
     ]
 
+    self.add_contract_proforma_doc(tender["id"], tender_token)
+
     # switch to tendering and add criteria with expectedValues array
     self.add_sign_doc(tender['id'], tender_token)
     response = self.app.patch_json(

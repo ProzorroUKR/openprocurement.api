@@ -58,14 +58,14 @@ def put_tender_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
-    self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"]["previousVersions"][-1]["dateModified"])
 
     # Get documents with uri param all=true
     response = self.app.get("/tenders/{}/documents?all=true".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][-2]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][-1]["dateModified"])
 
     # Create new documents, save doc_id, dateModified
     response = self.app.post_json(
@@ -89,8 +89,8 @@ def put_tender_document(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][-2]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][-1]["dateModified"])
 
     # Update document
     response = self.app.put_json(

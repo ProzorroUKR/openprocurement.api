@@ -126,6 +126,8 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
             )
             self.assertEqual(response.status, "201 Created")
 
+        self.add_contract_proforma_doc(tender["id"], owner_token)
+
         with open(TARGET_DIR + "notice-document-required.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),

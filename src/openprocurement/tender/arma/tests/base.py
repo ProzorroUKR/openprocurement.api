@@ -206,7 +206,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
     def setUp(self):
         super(BaseTenderUAWebTest, self).setUp()
-        self.app.authorization = self.initial_auth or ("Basic", ("token", ""))
+        self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))
 
     def prepare_award(self):
         # switch to active.pre-qualification

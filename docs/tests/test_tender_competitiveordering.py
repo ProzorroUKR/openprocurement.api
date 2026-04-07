@@ -4,7 +4,6 @@ from copy import deepcopy
 from uuid import uuid4
 
 from openprocurement.api.context import get_request_now, set_request_now
-from openprocurement.api.tests.base import test_signer_info
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
@@ -186,6 +185,7 @@ class TenderrCOShortResourceTest(
             self.assertEqual(response.status, "201 Created")
 
         # Tender activating (fail)
+        self.add_contract_proforma_doc(tender_id, owner_token)
 
         with open(
             TARGET_SHORT_DIR + "tender-activating-insufficient-active-contracts-error.http", "w"
@@ -219,7 +219,6 @@ class TenderrCOShortResourceTest(
         submission_tenderer = submission_data["tenderers"][0]
 
         bid_tenderer = deepcopy(submission_tenderer)
-        bid_tenderer["signerInfo"] = test_signer_info
 
         # Tender activating
         with open(TARGET_SHORT_DIR + "notice-document-required.http", "w") as self.app.file_obj:
@@ -673,6 +672,7 @@ class TenderrCOLongResourceTest(
             self.assertEqual(response.status, "201 Created")
 
         # Tender activating (fail)
+        self.add_contract_proforma_doc(tender_id, owner_token)
 
         with open(
             TARGET_LONG_DIR + "tender-activating-insufficient-active-contracts-error.http", "w"
@@ -706,7 +706,6 @@ class TenderrCOLongResourceTest(
         submission_tenderer = submission_data["tenderers"][0]
 
         bid_tenderer = deepcopy(submission_tenderer)
-        bid_tenderer["signerInfo"] = test_signer_info
 
         # Tender activating
         with open(TARGET_LONG_DIR + "notice-document-required.http", "w") as self.app.file_obj:

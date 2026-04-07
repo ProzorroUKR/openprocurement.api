@@ -16,6 +16,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.document_blanks imp
 
 class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
+    should_add_contract_proforma_doc = False
 
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
@@ -23,6 +24,8 @@ class DialogEUDocumentResourceTest(BaseCompetitiveDialogEUContentWebTest):
 
 class DialogUADocumentResourceTest(BaseCompetitiveDialogUAContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
+    should_add_contract_proforma_doc = False
+
     test_put_tender_document = snitch(put_tender_document)
     test_patch_tender_document = snitch(patch_tender_document)
 

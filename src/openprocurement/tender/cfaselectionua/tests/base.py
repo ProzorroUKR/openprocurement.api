@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
-from openprocurement.api.tests.base import BaseWebTest, test_signer_info
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaselectionua.constants import MINIMAL_STEP_PERCENTAGE
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
@@ -35,7 +35,6 @@ test_tender_cfaselectionua_base_organization = deepcopy(test_tender_cfaselection
 test_tender_cfaselectionua_base_organization.pop("scale")
 
 test_tender_cfaselectionua_supplier = deepcopy(test_tender_cfaselectionua_organization)
-test_tender_cfaselectionua_supplier["signerInfo"] = test_signer_info
 
 test_tender_cfaselectionua_author = deepcopy(test_tender_cfaselectionua_base_organization)
 
@@ -54,7 +53,6 @@ for bid in test_tender_cfaselectionua_bids:
 
 with open(os.path.join(here, "data/procuringEntity.json")) as _in:
     test_tender_cfaselectionua_procuring_entity = json.load(_in)
-test_tender_cfaselectionua_procuring_entity["signerInfo"] = test_signer_info
 
 test_tender_cfaselectionua_buyer = deepcopy(test_tender_cfaselectionua_procuring_entity)
 test_tender_cfaselectionua_buyer.pop("contactPoint")

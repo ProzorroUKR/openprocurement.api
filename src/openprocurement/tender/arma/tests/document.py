@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.document import (
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_status = "active.tendering"
     initial_auth = ("Basic", ("broker", ""))
+    should_add_contract_proforma_doc = False
 
 
 class TenderDraftDocumentResourceTest(TenderDocumentResourceTest):

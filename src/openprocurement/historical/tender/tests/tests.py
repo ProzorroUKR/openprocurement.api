@@ -190,6 +190,7 @@ class TestGetHistoricalData(BaseTenderWebTest):
     initial_data = test_tender_below_data
     initial_lots = test_tender_below_lots
     relative_to = os.path.dirname(__file__)
+    should_add_contract_proforma_doc = False
 
     def setUp(self):
         super().setUp()

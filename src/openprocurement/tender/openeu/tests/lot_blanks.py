@@ -723,6 +723,7 @@ def one_lot_2bid_1unqualified(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -792,6 +793,7 @@ def one_lot_2bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
@@ -1028,6 +1030,7 @@ def one_lot_3bid_1del(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bids = []
@@ -1184,6 +1187,7 @@ def one_lot_3bid_1un(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.test_bids_data[0])
@@ -1463,6 +1467,7 @@ def two_lot_2bid_0com_1can(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1558,6 +1563,7 @@ def two_lot_2bid_2com_2win(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 
@@ -1744,8 +1750,8 @@ def two_lot_3bid_1win_bug(self):
         {"data": {"items": items}},
     )
     self.assertEqual(response.status, "200 OK")
-
     self.set_initial_status(tender_response)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
 

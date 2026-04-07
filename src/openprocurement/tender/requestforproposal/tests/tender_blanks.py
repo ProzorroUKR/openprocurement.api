@@ -11,7 +11,6 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import (
-    get_contract_template_name,
     set_tender_lots,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -984,7 +983,6 @@ def patch_tender_active_tendering(self):
     )
     active_data_patch["items"] = deepcopy(self.initial_data["items"])
     active_data_patch["items"][0]["classification"]["id"] = "33600000-6"
-    active_data_patch["contractTemplateName"] = get_contract_template_name(active_data_patch)
     additional_classification_0 = {
         "scheme": "INN",
         "id": "sodium oxybate",

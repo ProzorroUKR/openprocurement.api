@@ -9,6 +9,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     now,
     test_tender_below_supplier,
 )
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.tender.core.tests.utils import (
     change_auth,
     generate_criterion_responses,
@@ -2625,12 +2626,20 @@ def patch_bid_during_qualification_with_24h_milestone(self):
 
     # successfully change signerInfo
     tenderers = deepcopy(bids[0]["tenderers"])
+    tenderers[0]["signerInfo"] = test_signer_info
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"tenderers": tenderers}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["tenderers"][0]["signerInfo"]["name"], test_signer_info["name"])
     tenderers[0]["signerInfo"]["name"] = "Mr Brown"
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
         {"data": {"tenderers": tenderers}},
     )
     self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["tenderers"][0]["signerInfo"]["name"], "Mr Brown")
 
     # try to patch bid after milestone dueDate
     with freeze_time((get_now() + timedelta(days=1))):

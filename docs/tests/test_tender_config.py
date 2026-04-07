@@ -419,6 +419,7 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
         self.assertEqual(response.status, "200 OK")
 
         self.add_criteria(tender_id, owner_token)
+        self.add_contract_proforma_doc(tender_id, owner_token)
         self.add_sign_doc(tender_id, owner_token)
         with open(TARGET_DIR + "has-auction-true-tender-with-lots-minimal-step-rogue.http", "w") as self.app.file_obj:
             self.app.patch_json(
@@ -596,6 +597,7 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
             file_json.write(json.dumps(response.json, indent=4, sort_keys=True))
 
     def activate_tender(self, tender_id, owner_token):
+        self.add_contract_proforma_doc(tender_id, owner_token)
         self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"status": "active.tendering"}}
@@ -1934,6 +1936,7 @@ class MinBidsNumberTenderConfigTest(TenderConfigBaseTest):
         )
 
     def activate_tender(self, tender_id, owner_token):
+        self.add_contract_proforma_doc(tender_id, owner_token)
         self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"status": "active.enquiries"}}
@@ -2374,7 +2377,6 @@ class HasPreSelectionAgreementTenderConfigTest(TenderConfigBaseTest, FrameworkAc
         # Creating tender
 
         procuring_entity = deepcopy(test_framework_dps_data["procuringEntity"])
-        procuring_entity["signerInfo"] = test_signer_info
         item = deepcopy(test_docs_tender_co["items"][0])
         item["classification"]["id"] = test_framework_dps_data["classification"]["id"]
         items = [item]
@@ -2926,7 +2928,10 @@ class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin
         self.assertEqual(response.status, "201 Created")
 
         # Tender activating
+        self.add_contract_proforma_doc(tender_id, owner_token)
+
         self.add_sign_doc(tender_id, owner_token)
+
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"status": "active.tendering"}}
         )
@@ -2972,6 +2977,7 @@ class RestrictedTenderConfigTest(TenderConfigBaseTest, FrameworkActionsTestMixin
         self.assertEqual(response.status, "201 Created")
 
         # Tender activating
+        self.add_contract_proforma_doc(tender_id, owner_token)
         self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"status": "active.tendering"}}
@@ -3216,6 +3222,7 @@ class CancellationComplainDurationTenderConfigTest(TenderConfigBaseTest):
 
     def activate_tender(self, tender_id, owner_token):
         #### Tender activating
+        self.add_contract_proforma_doc(tender_id, owner_token)
         self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender_id, owner_token),

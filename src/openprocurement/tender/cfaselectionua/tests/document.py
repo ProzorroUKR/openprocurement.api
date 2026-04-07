@@ -35,6 +35,8 @@ class TenderDocumentResourceTestMixin:
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_lots = test_tender_cfaselectionua_lots
     initial_status = "active.enquiries"
+    should_add_contract_proforma_doc = False
+
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
     test_create_document_active_enquiries_status = snitch(create_document_active_enquiries_status)
 

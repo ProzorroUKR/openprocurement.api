@@ -153,6 +153,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 },
             )
 
+        self.add_contract_proforma_doc(self.tender_id, self.tender_token)
+
         # Activating tender
 
         profile = deepcopy(test_tender_pq_short_profile)

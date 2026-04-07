@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.tests.base import BaseWebTest, test_signer_info
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
 from openprocurement.tender.belowthreshold.tests.periods import PERIODS
@@ -47,13 +47,11 @@ test_tender_below_organization = test_tender_below_base_organization.copy()
 test_tender_below_organization["scale"] = "micro"
 
 test_tender_below_supplier = test_tender_below_organization.copy()
-test_tender_below_supplier["signerInfo"] = test_signer_info
 
 test_tender_below_author = test_tender_below_base_organization.copy()
 
 test_tender_below_procuring_entity = test_tender_below_base_organization.copy()
 test_tender_below_procuring_entity["kind"] = "general"
-test_tender_below_procuring_entity["signerInfo"] = test_signer_info
 
 test_tender_below_buyer = test_tender_below_procuring_entity.copy()
 test_tender_below_buyer.pop("contactPoint")
@@ -121,7 +119,6 @@ test_tender_below_data = {
     "items": [deepcopy(test_tender_below_item)],
     "procurementMethodType": "belowThreshold",
     "milestones": test_tender_below_milestones,
-    "contractTemplateName": "00000000.0002.01",
 }
 
 if SANDBOX_MODE:

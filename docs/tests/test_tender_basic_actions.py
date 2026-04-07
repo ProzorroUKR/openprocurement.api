@@ -5,6 +5,7 @@ from unittest.mock import Mock, patch
 from uuid import uuid4
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest as BelowThresholdBaseTenderWebTest,
@@ -2684,6 +2685,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, "201 Created")
         tender_ua_id = response.json["data"]["id"]
         tender_ua_owner_token = response.json["access"]["token"]
+        self.add_contract_proforma_doc(tender_ua_id, tender_ua_owner_token)
         self.add_sign_doc(tender_ua_id, tender_ua_owner_token)
         with open(
             TARGET_DIR + "criteria/update-tender-status-without-exclusion-criteria-general.http", "wb"
@@ -2695,6 +2697,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "403 Forbidden")
 
+        self.add_contract_proforma_doc(self.tender_id, owner_token)
         self.add_sign_doc(self.tender_id, owner_token)
         # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdEU
         with open(
@@ -3035,6 +3038,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "201 Created")
 
+        self.add_contract_proforma_doc(self.tender_id, owner_token)
         self.add_sign_doc(self.tender_id, owner_token)
 
         # Try to update tender from `draft` to `active.tendering` without ARTICLE_16 criteria
@@ -4232,7 +4236,6 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         self.app.authorization = ("Basic", ("broker", ""))
 
         data = deepcopy(self.initial_data)
-        del data["contractTemplateName"]
 
         response = self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
@@ -4249,6 +4252,8 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 {"data": {"contractTemplateName": "09130000.0001.01"}},
                 status=422,
             )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertIn("Incorrect contractTemplateName", response.json["errors"][0]["description"])
 
         with open(TARGET_DIR + "contract-template-name/add-contract-proforma.http", "w") as self.app.file_obj:
             response = self.app.post_json(
@@ -4268,8 +4273,22 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         with open(TARGET_DIR + "contract-template-name/invalid-with-contract-proforma.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "00000000.0002.01"}},
+                {
+                    "data": {
+                        "contractTemplateName": "00000000.0002.01",
+                        "procuringEntity": {
+                            **deepcopy(self.initial_data["procuringEntity"]),
+                            "signerInfo": test_signer_info,
+                            "contract_owner": "broker",
+                        },
+                    }
+                },
                 status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Cannot use both contractTemplateName and contractProforma document simultaneously",
             )
 
         response = self.app.patch_json(
@@ -4283,12 +4302,22 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "00000000.0002.01"}},
+                {
+                    "data": {
+                        "contractTemplateName": "00000000.0002.01",
+                        "procuringEntity": {
+                            **deepcopy(self.initial_data["procuringEntity"]),
+                            "signerInfo": test_signer_info,
+                            "contract_owner": "broker",
+                        },
+                    }
+                },
             )
 
         with open(TARGET_DIR + "contract-template-name/delete-contract-template-name.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"contractTemplateName": None}}
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": {"contractTemplateName": None, "procuringEntity": self.initial_data["procuringEntity"]}},
             )
 
         self.set_status("active.pre-qualification")
@@ -4300,6 +4329,11 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {"data": {"contractTemplateName": "00000000.0002.01"}},
                 status=422,
+            )
+            self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Can't change contract template name in current tender 'active.pre-qualification' status",
             )
 
     def test_LCC_criteria(self):
@@ -4388,13 +4422,13 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         agreement = {"id": self.agreement_id}
         tender_data["agreement"] = agreement
 
-        contract_template = tender_data.pop("contractTemplateName")
+        tender_data["procuringEntity"]["signerInfo"] = test_signer_info
         tender_data["procuringEntity"]["contract_owner"] = "brokerx"
 
         with open(TARGET_DIR + "contract-owner/add-contract-owner-no-template.http", "w") as self.app.file_obj:
             self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
 
-        tender_data["contractTemplateName"] = contract_template
+        tender_data["contractTemplateName"] = "00000000.0002.01"
         with open(TARGET_DIR + "contract-owner/add-contract-owner-invalid-broker.http", "w") as self.app.file_obj:
             self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
 
@@ -4414,6 +4448,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         self.app.authorization = ("Basic", ("broker", ""))
         supplier = deepcopy(test_tender_pq_supplier)
         supplier["contract_owner"] = "broker6"
+        supplier["signerInfo"] = test_signer_info
         product = {"id": "1" * 32, "status": "active"}
         with (
             patch(

@@ -19,7 +19,6 @@ from openprocurement.tender.openeu.tests.base import (
 NBU_DISCOUNT_RATE = 0.22
 
 test_tender_esco_data = deepcopy(test_tender_openeu_data)
-del test_tender_esco_data["contractTemplateName"]
 test_tender_esco_data["procurementMethodType"] = "esco"
 test_tender_esco_data["NBUdiscountRate"] = NBU_DISCOUNT_RATE
 test_tender_esco_data["fundingKind"] = "other"
