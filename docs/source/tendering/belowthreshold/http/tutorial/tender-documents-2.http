@@ -10,6 +10,20 @@ Content-Type: application/json
   "data": [
     {
       "confidentiality": "public",
+      "documentType": "contractProforma",
+      "id": "9efcbe5d4c364b2a851f9f8796b07674",
+      "datePublished": "2023-10-10T01:00:00+03:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "name.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/03a139af718d4f44a208c07ac60d32c8?Signature=IE09GTizTTvK%2BR6AGPOIRBPtrjRNA5UrUnRhM5kz9Yia%2FcTwnsojgrKgkFSZPk4zA%2FVXpqGExUX%2FahUOdmWgAA%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2023-10-10T01:00:00+03:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
       "documentType": "notice",
       "id": "b4de033f25694a918858177ebb83f878",
       "datePublished": "2023-10-10T01:00:00+03:00",

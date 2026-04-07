@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff?acc_token=72c23cdbf37d48cc86e38cc626e42d6b HTTP/1.0
+PATCH /api/2.5/tenders/2b5eb9efd396490d8e3e662b7153c1ff?acc_token=bca86a8ecc4d4aa981506c9f90afa78a HTTP/1.0
 Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -55,7 +55,6 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
-    "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "agreements": [
       {

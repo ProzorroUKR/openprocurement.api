@@ -112,7 +112,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "contractTemplateName": "00000000.0002.01",
     "funders": [
       {
         "additionalIdentifiers": [],
@@ -198,7 +197,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/011deff957b44991
         }
       }
     ],
-    "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "status": "draft",
     "milestones": [

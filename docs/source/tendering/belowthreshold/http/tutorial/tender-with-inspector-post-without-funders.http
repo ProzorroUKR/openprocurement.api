@@ -112,7 +112,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "contractTemplateName": "00000000.0002.01",
     "inspector": {
       "additionalIdentifiers": [],
       "address": {

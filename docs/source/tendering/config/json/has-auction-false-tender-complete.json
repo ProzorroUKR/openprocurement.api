@@ -48,10 +48,10 @@
                         "documentType": "notice",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "3cf50cf789a440d295515c9528981a93",
+                        "id": "23f226442d9d42f892dccc1f8df81d16",
                         "language": "uk",
                         "title": "sign.p7s",
-                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/044479574d254f76835790f4fc469e92?Signature=MbK6IILsE3Z3d2WmKFapmc9IPPWc4KkqyTrE4JuRMubMsT8CyQau%2FXYwntcZyGTbzIdgYfcpxMGGA6nNCrLUDA%3D%3D&KeyID=a8968c46"
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ba0ef02e80d5491ab93e10c7b8fcb1b0?Signature=7H%2BUm1WjbFZjmozxkkRyuUeaC8ADNRg6ZOfb3sZD7A6W%2BxSC3tvCQQNrYreA9X4I0d%2FFPgjEGM%2FOxa5ka4q%2BBw%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "eligible": true,
@@ -118,10 +118,10 @@
                         "documentType": "notice",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "23f226442d9d42f892dccc1f8df81d16",
+                        "id": "5a767248d80d4631938ca7a90952d99b",
                         "language": "uk",
                         "title": "sign.p7s",
-                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5dd49324f1514dae884a991b7a26721c?Signature=pw5PPHPlSib%2FnQBJ5SrVLMLfdT9jxFgv0GnFLyW%2Fe%2BRTQeyAsFGyzjNfj%2BE57Jyk7YLMeMgnpUARbzfYgunaDg%3D%3D&KeyID=a8968c46"
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/af1e4a374fe0437f9b6d522c0e415a6e?Signature=EgLRhDKKuzCWnhqjdO32mmSYEOVLeFgxIMcTJs3W1swE1TdaAhrmcZUy4ds1XdtOao8VrjM%2BzDdhuORqNwDrBw%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "eligible": true,
@@ -184,10 +184,10 @@
                         "documentType": "proposal",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "e3899d998f4d4394bbac7d6e0df0dd38",
+                        "id": "c4a5427de3d04afca7b9a450030a5f5f",
                         "language": "uk",
                         "title": "sign.p7s",
-                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/46869872f67449aabbe1a2bfe87200fb?Signature=MQKn8ro0Ns3hopYN2ZvACN9UgBLPNlklOvyBqQoerYmuJ5Khs9aPKi9S99fR7CC9KwJpnnWGEFU58oHO6IJ0Cw%3D%3D&KeyID=a8968c46"
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f18b8a8f5e9f49ab86d0c8257ad0d0b3?Signature=gUD9CArsLkdJKjU433j1O0Ivaanfvu6P1joV8W%2FOPLbZZoWPn8pshAplt7MOC0qep2s2iv47JmKaK6lcVuGxAA%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "id": "4b2f22ec008b4f4e88f2f69ea174242c",
@@ -472,10 +472,10 @@
                         "documentType": "proposal",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "c4a5427de3d04afca7b9a450030a5f5f",
+                        "id": "3cf50cf789a440d295515c9528981a93",
                         "language": "uk",
                         "title": "sign.p7s",
-                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/329da4e2eaee4ce29314b2e37f785b05?Signature=u7yp5KUqmtVWMklL3RWqwh6ueEvMxnEJMtjQUooyc%2BqDL5B4osj492WCffSFzCBu8u%2Bmn%2Bg%2BYr6oZ71hHcVgDQ%3D%3D&KeyID=a8968c46"
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/de4a546303474923aca8287d764ba77e?Signature=gAjrYFZ8UeMp3W9dnrRVIdlAhouIUW0zheD4Ls07nfCWxouysPXjLVep7HSwTiNh5jBJ8rRrg3ZSZfkoUbSwDw%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "id": "33aec5588bb84aecbaf28ee83b356bad",
@@ -840,7 +840,6 @@
                 "title_uk": "\u041f\u0456\u0434\u043f\u0443\u043d\u043a\u0442 1 \u043f\u0443\u043d\u043a\u0442\u0443 19 \u041f\u043e\u0441\u0442\u0430\u043d\u043e\u0432\u0438 \u041a\u0430\u0431\u043c\u0456\u043d\u0443 \u041c\u0456\u043d\u0456\u0441\u0442\u0440\u0456\u0432 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \u0432\u0456\u0434 12.10.2022 \u2116 1178 \"\u041f\u0440\u043e \u0437\u0430\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u043e\u0441\u043e\u0431\u043b\u0438\u0432\u043e\u0441\u0442\u0435\u0439 \u0437\u0434\u0456\u0439\u0441\u043d\u0435\u043d\u043d\u044f \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0438\u0445 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u0435\u043b\u044c \u0442\u043e\u0432\u0430\u0440\u0456\u0432, \u0440\u043e\u0431\u0456\u0442 \u0456 \u043f\u043e\u0441\u043b\u0443\u0433 \u0434\u043b\u044f \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u0456\u0432, \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0438\u0445 \u0417\u0430\u043a\u043e\u043d\u043e\u043c \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456\", \u043d\u0430 \u043f\u0435\u0440\u0456\u043e\u0434 \u0434\u0456\u0457 \u043f\u0440\u0430\u0432\u043e\u0432\u043e\u0433\u043e \u0440\u0435\u0436\u0438\u043c\u0443 \u0432\u043e\u0454\u043d\u043d\u043e\u0433\u043e \u0441\u0442\u0430\u043d\u0443 \u0432 \u0423\u043a\u0440\u0430\u0457\u043d\u0456 \u0442\u0430 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c 90 \u0434\u043d\u0456\u0432 \u0437 \u0434\u043d\u044f \u0439\u043e\u0433\u043e \u043f\u0440\u0438\u043f\u0438\u043d\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u0441\u043a\u0430\u0441\u0443\u0432\u0430\u043d\u043d\u044f\""
             }
         },
-        "contractTemplateName": "00000000.0002.01",
         "contracts": [
             {
                 "awardID": "45661e84097445e784c31e2d96566832",
@@ -848,7 +847,7 @@
                 "date": "2023-11-09T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "description_en": null,
-                "id": "7b24533c27bf4163a4b3ec5be9e8abeb",
+                "id": "5dd49324f1514dae884a991b7a26721c",
                 "status": "active",
                 "title": "\u041b\u043e\u0442 \u21161",
                 "title_en": null,
@@ -865,7 +864,7 @@
                 "date": "2023-11-09T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "description_en": null,
-                "id": "e11eddbda0794b0da849c19d74ab06d8",
+                "id": "cb1e9bc6225b4df5a6d35a11a41e5090",
                 "status": "active",
                 "title": "\u041b\u043e\u0442 \u21161",
                 "title_en": null,
@@ -1891,13 +1890,27 @@
                 "dateModified": "2023-10-10T01:00:00+03:00",
                 "datePublished": "2023-10-10T01:00:00+03:00",
                 "documentOf": "tender",
-                "documentType": "notice",
-                "format": "application/pkcs7-signature",
+                "documentType": "contractProforma",
+                "format": "application/msword",
                 "hash": "md5:00000000000000000000000000000000",
                 "id": "d36c85e688f540b4803d634f663b4dd0",
                 "language": "uk",
-                "title": "sign.p7s",
+                "title": "name.doc",
                 "url": "http://public-docs-sandbox.prozorro.gov.ua/get/857bf8327126450d82f8a82679f7c783?Signature=i6gtGGDKTmSVpdr%2BnhIf0IF%2FAoi2YJ0Sg3TzQFOfo67bb56mciRO4HjIF0IXu9pdn%2FTMaeASz30%2BgD9QUxiYAg%3D%3D&KeyID=a8968c46"
+            },
+            {
+                "author": "tender_owner",
+                "confidentiality": "public",
+                "dateModified": "2023-10-10T01:00:00+03:00",
+                "datePublished": "2023-10-10T01:00:00+03:00",
+                "documentOf": "tender",
+                "documentType": "notice",
+                "format": "application/pkcs7-signature",
+                "hash": "md5:00000000000000000000000000000000",
+                "id": "e3899d998f4d4394bbac7d6e0df0dd38",
+                "language": "uk",
+                "title": "sign.p7s",
+                "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46"
             }
         ],
         "enquiryPeriod": {

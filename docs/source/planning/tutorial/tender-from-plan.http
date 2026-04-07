@@ -176,7 +176,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "contractTemplateName": "00000000.0002.01",
     "status": "draft"
   },
   "config": {
@@ -214,7 +213,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e7db462b6c17406f
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "contractTemplateName": "00000000.0002.01",
     "title": "Насіння",
     "status": "draft",
     "milestones": [

@@ -43,15 +43,7 @@ Content-Type: application/json
           "name": "Державне управління справами",
           "telephone": "+0440000000"
         },
-        "scale": "micro",
-        "signerInfo": {
-          "name": "Test Testovich",
-          "email": "example@email.com",
-          "telephone": "+380950000000",
-          "iban": "111111111111111",
-          "position": "Генеральний директор",
-          "authorizedBy": "Статут компанії"
-        }
+        "scale": "micro"
       }
     ],
     "bid_id": "d948edc4cb6e40fda39035b61fd70ac6",

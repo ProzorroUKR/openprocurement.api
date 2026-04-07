@@ -8,7 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "id": "a3115169ef8442119cb766648a4a0862",
@@ -1020,13 +1019,27 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "documentType": "notice",
+        "documentType": "contractProforma",
         "id": "d36c85e688f540b4803d634f663b4dd0",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bed2a0c68b0347dab30b439da99f00d8?Signature=CShmezH%2FLIYkzCCJFX14EUmE4Ch3EG3Q6MxF7Y9sWgfnGhmDNdINsIHAAhspO9KOVm8DnCtncxdMy3YMq6Z0AA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "e3899d998f4d4394bbac7d6e0df0dd38",
         "datePublished": "2023-10-10T01:00:00+03:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bed2a0c68b0347dab30b439da99f00d8?Signature=CShmezH%2FLIYkzCCJFX14EUmE4Ch3EG3Q6MxF7Y9sWgfnGhmDNdINsIHAAhspO9KOVm8DnCtncxdMy3YMq6Z0AA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/514d764704784304906b25138785146c?Signature=yjgKJXMrDifuPHmXZ9OKsemcsg6kfa%2BsUEKReUksv1aA%2BwPBLKW%2BCBBwZvjzl0Oi0plsYZ8wZjx1oOPKO51IDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2023-10-10T01:00:00+03:00",
         "author": "tender_owner",
@@ -1500,12 +1513,12 @@ Content-Type: application/json
           {
             "confidentiality": "public",
             "documentType": "proposal",
-            "id": "e3899d998f4d4394bbac7d6e0df0dd38",
+            "id": "c4a5427de3d04afca7b9a450030a5f5f",
             "datePublished": "2023-10-10T01:00:00+03:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/af1f946d1ab8441f9ec7d0324162df65?Signature=F6YBi36cIk2uuT0anhLNTkoCV0S2T3BFeuIsCr%2FjG6JMKyc%2BNUmTgPGxEvjT7N0nh71SyY0FvkUCHQs2mmLsAg%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0121857b699945f68148169bf6653022?Signature=uSnJ2NjcEb7DIwHulRIxFBHgxC7scOcASPouOdUwov%2BhFvsUbzlRbSFkF8gzrl%2FMpXCbka6QzriIbhWloh1QBg%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2023-10-10T01:00:00+03:00",
             "language": "uk"

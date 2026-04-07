@@ -30,7 +30,6 @@ Content-Type: application/json
         }
       }
     ],
-    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "id": "d7149d4d2b40402f91e636a8d335592e",
