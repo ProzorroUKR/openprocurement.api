@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-17 16:55+0300\n"
+"POT-Creation-Date: 2026-04-08 10:42+0300\n"
 "PO-Revision-Date: 2019-02-04 11:33+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Document"
 msgstr "Document"
@@ -60,6 +60,12 @@ msgid "`deviationReport` - **Файл підпису для протоколу �
 msgstr "`deviationReport` - **Sign document for 24hour milestone in award/qualification**"
 
 msgid "Використовується в документах до :ref:`qualification` та :ref:`award`."
+msgstr "Can be used in :ref:`qualification` and :ref:`award`."
+
+msgid "`acceptanceReport` - **Файл підпису для протоколу погодження**"
+msgstr "`evaluationReports` - **Sign document for evaluation report**"
+
+msgid "Використовується в документах до :ref:`tender` (active.pre-qualification), :ref:`award` (active.qualification, active.awarded) та :ref:`cancellation`."
 msgstr "Can be used in :ref:`qualification` and :ref:`award`."
 
 msgid "Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"

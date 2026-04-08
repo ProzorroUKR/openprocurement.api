@@ -39,7 +39,7 @@ Document
 
       Використовується в документах до :ref:`qualification` та :ref:`award`.
 
-    * `acceptanceReport` - **Акт приймання-передачі**
+    * `acceptanceReport` - **Файл підпису для протоколу погодження**
 
       Використовується в документах до :ref:`tender` (active.pre-qualification), :ref:`award` (active.qualification, active.awarded) та :ref:`cancellation`.
 
