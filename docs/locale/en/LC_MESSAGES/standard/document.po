@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-08 10:42+0300\n"
+"POT-Creation-Date: 2026-04-08 17:52+0300\n"
 "PO-Revision-Date: 2019-02-04 11:33+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -62,11 +63,11 @@ msgstr "`deviationReport` - **Sign document for 24hour milestone in award/qualif
 msgid "Використовується в документах до :ref:`qualification` та :ref:`award`."
 msgstr "Can be used in :ref:`qualification` and :ref:`award`."
 
-msgid "`acceptanceReport` - **Файл підпису для протоколу погодження**"
-msgstr "`evaluationReports` - **Sign document for evaluation report**"
+msgid "`acceptanceReport` - **Протокол погодження**"
+msgstr "`acceptanceReport` - **Agreement protocol**"
 
-msgid "Використовується в документах до :ref:`tender` (active.pre-qualification), :ref:`award` (active.qualification, active.awarded) та :ref:`cancellation`."
-msgstr "Can be used in :ref:`qualification` and :ref:`award`."
+msgid "Додаткова інформація про прийняті рішення, яка засвідчується або погоджується окремою комісією чи іншими зовнішніми комітетами."
+msgstr "Additional information about decisions made, which is certified or agreed upon by a separate commission or other external committees."
 
 msgid "Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"
 msgstr "Possible values for :ref:`tender`: `tender document types. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_"

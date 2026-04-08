@@ -39,9 +39,9 @@ Document
 
       Використовується в документах до :ref:`qualification` та :ref:`award`.
 
-    * `acceptanceReport` - **Файл підпису для протоколу погодження**
+    * `acceptanceReport` - **Протокол погодження**
 
-      Використовується в документах до :ref:`tender` (active.pre-qualification), :ref:`award` (active.qualification, active.awarded) та :ref:`cancellation`.
+      Додаткова інформація про прийняті рішення, яка засвідчується або погоджується окремою комісією чи іншими зовнішніми комітетами.
 
     Можливі значення :ref:`tender`: `типи документів для зкупівлі. <https://github.com/ProzorroUKR/standards/blob/master/document_types/tender.json>`_
                                                                                                                                                   
