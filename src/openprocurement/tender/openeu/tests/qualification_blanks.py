@@ -420,6 +420,46 @@ def check_sign_doc_qualifications_before_stand_still(self):
     )
 
 
+def create_tender_acceptance_report_in_pre_qualification(self):
+    response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
+    self.assertEqual(response.content_type, "application/json")
+    qualifications = response.json["data"]
+    for qualification in qualifications:
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(self.tender_id, qualification["id"], self.tender_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    # try to add acceptanceReport in pre-qualification — should succeed
+    acceptance_doc = {
+        "title": "acceptance_report.p7s",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pkcs7-signature",
+        "documentType": "acceptanceReport",
+    }
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+        {"data": acceptance_doc},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")
+
+    # try to add a non-allowed documentType in pre-qualification — should fail
+    acceptance_doc["documentType"] = "notice"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/documents?acc_token={self.tender_token}",
+        {"data": acceptance_doc},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't add document in current (active.pre-qualification) tender status",
+    )
+
+
 def lot_patch_tender_qualifications_lots_none(self):
     response = self.app.get("/tenders/{}/qualifications".format(self.tender_id))
     self.assertEqual(response.content_type, "application/json")

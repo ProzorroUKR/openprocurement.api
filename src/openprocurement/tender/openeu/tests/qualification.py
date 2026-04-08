@@ -18,6 +18,7 @@ from openprocurement.tender.openeu.tests.qualification_blanks import (
     change_status_to_standstill_with_complaint,
     check_reporting_date_publication,
     check_sign_doc_qualifications_before_stand_still,
+    create_tender_acceptance_report_in_pre_qualification,
     complaint_not_found,
     create_qualification_document,
     create_qualification_document_after_status_change,
@@ -185,6 +186,7 @@ class Tender2LotQualificationResourceTest(TenderQualificationBaseTestCase):
     test_tender_qualification_cancelled = snitch(tender_qualification_cancelled)
     test_lot_patch_tender_qualifications_lots_none = snitch(lot_patch_tender_qualifications_lots_none)
     test_check_sign_doc_qualifications_before_stand_still = snitch(check_sign_doc_qualifications_before_stand_still)
+    test_create_tender_acceptance_report_in_pre_qualification = snitch(create_tender_acceptance_report_in_pre_qualification)
 
 
 class TenderQualificationDocumentResourceTest(TenderQualificationBaseTestCase):

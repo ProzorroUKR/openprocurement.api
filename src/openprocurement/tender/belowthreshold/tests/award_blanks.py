@@ -3239,6 +3239,68 @@ def patch_not_author(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can update document only author")
 
 
+def create_award_acceptance_report_in_active_awarded(self):
+    broker_authorization = self.app.authorization
+
+    # activate the award to move tender to active.awarded
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
+    try:
+        self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+            {"data": {"eligible": True}},
+        )
+    except AppError:
+        pass
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {"data": {"status": "active", "qualified": True}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    # verify tender is now in active.awarded
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.json["data"]["status"], "active.awarded")
+
+    # try to upload a regular document (not acceptanceReport) — should fail
+    self.app.authorization = broker_authorization
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "notice",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Can't add document in current (active.awarded) tender status",
+    )
+
+    # upload acceptanceReport — should succeed
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "title": "acceptance_report.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+                "documentType": "acceptanceReport",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")
+
+
 # Tender2LotAwardDocumentResourceTest
 
 

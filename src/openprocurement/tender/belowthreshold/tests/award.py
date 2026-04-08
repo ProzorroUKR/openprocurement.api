@@ -7,6 +7,7 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     award_sign,
     check_tender_award,
     check_tender_award_complaint_period_dates,
+    create_award_acceptance_report_in_active_awarded,
     create_award_document_bot,
     create_tender_award_complaint,
     create_tender_award_complaint_document,
@@ -78,6 +79,7 @@ class TenderAwardDocumentResourceTestMixin:
     test_put_tender_award_document = snitch(put_tender_award_document)
     test_patch_tender_award_document = snitch(patch_tender_award_document)
     test_create_award_document_bot = snitch(create_award_document_bot)
+    test_create_award_acceptance_report_in_active_awarded = snitch(create_award_acceptance_report_in_active_awarded)
     test_patch_not_author = snitch(patch_not_author)
 
 
