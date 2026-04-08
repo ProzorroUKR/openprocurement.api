@@ -807,9 +807,7 @@ def validate_document_operation_in_allowed_tender_statuses(allowed_statuses):
             documents = data if isinstance(data, list) else [data]
 
             # Check if all documents are evaluation reports or acceptance reports (sign docs)
-            if all(
-                doc.get("documentType") in ("evaluationReports", "acceptanceReport") for doc in documents
-            ):
+            if all(doc.get("documentType") in ("evaluationReports", "acceptanceReport") for doc in documents):
                 # If it's only sign docs, then we can allow operation in pre-qualification status
                 valid_statuses.append("active.pre-qualification")
 
