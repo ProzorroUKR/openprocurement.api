@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "unit": {
           "value": {
             "amount": 5000,
-            "currency": "EUR"
+            "currency": "USD"
           },
           "code": "KGM"
         },
@@ -83,7 +83,7 @@ Content-Type: application/json
         "unit": {
           "value": {
             "amount": 5000.0,
-            "currency": "EUR",
+            "currency": "USD",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"

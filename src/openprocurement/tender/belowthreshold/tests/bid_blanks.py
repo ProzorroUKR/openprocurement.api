@@ -861,7 +861,7 @@ def post_tender_bid_with_another_currency(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "currency of bid unit should be identical to currency of tender value",
+        "currency of bid unit should be identical to currency of bid lotValues",
     )
 
 

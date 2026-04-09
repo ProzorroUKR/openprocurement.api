@@ -38,7 +38,7 @@ Content-Type: application/json
         "unit": {
           "value": {
             "amount": 0.2,
-            "currency": "EUR",
+            "currency": "USD",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"

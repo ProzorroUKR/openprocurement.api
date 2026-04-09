@@ -888,7 +888,7 @@ class TenderResourceTest(
                             "id": items[0]["id"],
                             "unit": {
                                 "code": "KGM",
-                                "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": False},
+                                "value": {"amount": 0.6, "currency": "USD", "valueAddedTaxIncluded": False},
                             },
                         },
                         {
@@ -897,7 +897,7 @@ class TenderResourceTest(
                             "id": items[1]["id"],
                             "unit": {
                                 "code": "KGM",
-                                "value": {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False},
+                                "value": {"amount": 0, "currency": "EUR", "valueAddedTaxIncluded": False},
                             },
                         },
                     ],
@@ -1034,7 +1034,7 @@ class TenderResourceTest(
                                 "id": items[0]["id"],
                                 "unit": {
                                     "code": "KGM",
-                                    "value": {"amount": 0.2, "currency": "EUR", "valueAddedTaxIncluded": False},
+                                    "value": {"amount": 0.2, "currency": "USD", "valueAddedTaxIncluded": False},
                                 },
                             },
                             {
@@ -1043,7 +1043,7 @@ class TenderResourceTest(
                                 "id": items[1]["id"],
                                 "unit": {
                                     "code": "KGM",
-                                    "value": {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False},
+                                    "value": {"amount": 0, "currency": "EUR", "valueAddedTaxIncluded": False},
                                 },
                             },
                         ],
@@ -1074,7 +1074,7 @@ class TenderResourceTest(
                                 "id": items[0]["id"],
                                 "unit": {
                                     "code": "KGM",
-                                    "value": {"amount": 0.6, "currency": "EUR", "valueAddedTaxIncluded": True},
+                                    "value": {"amount": 0.6, "currency": "USD", "valueAddedTaxIncluded": True},
                                 },
                             },
                             {
@@ -1083,7 +1083,7 @@ class TenderResourceTest(
                                 "id": items[1]["id"],
                                 "unit": {
                                     "code": "KGM",
-                                    "value": {"amount": 0, "currency": "USD", "valueAddedTaxIncluded": False},
+                                    "value": {"amount": 0, "currency": "EUR", "valueAddedTaxIncluded": False},
                                 },
                             },
                         ]
@@ -1136,7 +1136,7 @@ class TenderResourceTest(
 
         contract_items[0]["unit"]["value"] = {
             "amount": 5000,
-            "currency": "EUR",
+            "currency": "USD",
         }
 
         with open(TARGET_DIR + "multi-currency/contract-patch.http", "w") as self.app.file_obj:
