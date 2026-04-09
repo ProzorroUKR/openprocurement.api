@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-11 11:33+0200\n"
+"POT-Creation-Date: 2026-04-09 13:53+0300\n"
 "PO-Revision-Date: 2018-09-12 16:36+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -211,6 +212,9 @@ msgstr ""
 
 msgid "рядок, обов’язковий, за замовчуванням = `UAH`"
 msgstr "string, required, default = `UAH`"
+
+msgid "EstimatedValue"
+msgstr ""
 
 msgid "BankAccount"
 msgstr ""
