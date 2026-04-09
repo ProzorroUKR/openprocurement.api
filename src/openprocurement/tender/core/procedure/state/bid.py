@@ -34,10 +34,10 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
+    validate_econtract_fields_bid,
     validate_items_unit_amount,
     validate_req_response_values,
     validate_required_fields,
-    validate_signer_info_container,
 )
 
 logger = logging.getLogger(__name__)
@@ -69,7 +69,7 @@ class BidState(BaseState):
         now = get_request_now().isoformat()
         data["date"] = now
         self.validate_items_required_field(data)
-        self.validate_tenderers_signer_info(data)
+        self.validate_bid_econtract_fields(data)
         self.validate_bid_unit_value(data)
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
@@ -88,7 +88,7 @@ class BidState(BaseState):
 
     def on_patch(self, before, after):
         self.validate_items_required_field(after)
-        self.validate_tenderers_signer_info(after)
+        self.validate_bid_econtract_fields(after)
         self.lot_values_patch_keep_unchange(after, before)
         self.validate_patch_bid_fields_during_qualification(before, after)
         self.validate_bid_unit_value(after)
@@ -448,9 +448,9 @@ class BidState(BaseState):
                     else:
                         lot_values[0][field] = lot_values[1][field]
 
-    def validate_tenderers_signer_info(self, bid):
+    def validate_bid_econtract_fields(self, bid):
         tender = self.request.validated["tender"]
-        validate_signer_info_container(self.request, tender, bid.get("tenderers"), "tenderers")
+        validate_econtract_fields_bid(self.request, tender, bid)
 
     def validate_patch_bid_fields_during_qualification(self, before, after):
         if get_tender().get("status") not in self.qualification_statuses:

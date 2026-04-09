@@ -8,6 +8,7 @@ from openprocurement.tender.esco.tests.base import BaseESCOContentWebTest
 
 class TenderDocumentResourceTest(BaseESCOContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
+    should_add_contract_proforma_doc = False
 
 
 def suite():

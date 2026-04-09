@@ -562,7 +562,6 @@ def create_tender_generated(self):
         "milestones",
         "documents",
         "noticePublicationDate",
-        "contractTemplateName",
         "contractChangeRationaleTypes",
     ]
     if tender["procurementMethodType"] not in ("aboveThresholdUA.defense", "simple.defense"):
@@ -1623,6 +1622,7 @@ def tender_created_before_related_lot_constant(self):
     self.tender_token = response.json["access"]["token"]
 
     add_criteria(self)
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     # forbid patch tender without lot even before RELATED_LOT_REQUIRED_FROM constant

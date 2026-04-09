@@ -139,8 +139,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 3,
         "percentage": 54.45
       }
-    ],
-    "contractTemplateName": "00000000.0002.01"
+    ]
   },
   "config": {
     "hasAuction": true,

@@ -4,6 +4,8 @@ from datetime import timedelta
 from unittest import mock
 from uuid import uuid4
 
+import pytest
+
 from openprocurement.api.constants import (
     DEFAULT_CONTRACT_TEMPLATE_KEY,
     GUARANTEE_ALLOWED_TENDER_TYPES,
@@ -46,7 +48,6 @@ from openprocurement.tender.core.tests.utils import (
     change_auth,
     generate_criterion_responses,
     get_contract_data,
-    get_contract_template_name,
     set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
@@ -153,6 +154,7 @@ def listing(self):
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
     add_criteria(self, tender_id, tender_token)
+    self.add_contract_proforma_doc(tender_id, tender_token)
     self.add_sign_doc(tender_id, tender_token)
     self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={tender_token}", {"data": {"status": self.primary_tender_status}}
@@ -1025,8 +1027,6 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
-    if "contractTemplateName" in self.initial_data:
-        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33611000-6", "scheme": "ДК021"}
@@ -1038,8 +1038,6 @@ def create_tender_with_inn(self):
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
-    if "contractTemplateName" in self.initial_data:
-        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
     addit_classif = [
@@ -1048,8 +1046,6 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33652000-5"
-    if "contractTemplateName" in self.initial_data:
-        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     if self.agreement_id:
         agreement = self.mongodb.agreements.get(self.agreement_id)
         agreement["classification"] = {"id": "33652000-5", "scheme": "ДК021"}
@@ -1061,8 +1057,6 @@ def create_tender_with_inn(self):
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
-    if "contractTemplateName" in self.initial_data:
-        self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
 
@@ -1280,7 +1274,6 @@ def create_tender_generated(self):
         "lots",
         "documents",
         "noticePublicationDate",
-        "contractTemplateName",
         "contractChangeRationaleTypes",
     ]
     if self.tender_for_funders:
@@ -1369,6 +1362,7 @@ def create_tender_draft(self):
     self.assertEqual(tender["status"], "draft")
 
     add_criteria(self, tender["id"], token)
+    self.add_contract_proforma_doc(tender["id"], token)
     self.add_sign_doc(tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
@@ -1638,8 +1632,6 @@ def create_tender(self):
     data = deepcopy(self.initial_data)
     data["items"] = [data["items"][0]]
     data["items"][0]["classification"]["id"] = "33600000-6"
-    if "contractTemplateName" in self.initial_data:
-        data["contractTemplateName"] = get_contract_template_name(data)
 
     additional_classification_0 = {
         "scheme": "INN",
@@ -2505,6 +2497,7 @@ def guarantee(self):
                 },
                 status=201,
             )
+            self.add_contract_proforma_doc(tender["id"], token)
             self.add_sign_doc(tender["id"], token)
 
             try:
@@ -3403,6 +3396,7 @@ def patch_items_related_buyer_id(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["items"][0]["relatedBuyer"], buyer1_id)
 
+    self.add_contract_proforma_doc(tender_id, tender_token)
     self.add_sign_doc(tender_id, tender_token)
 
     response = self.app.patch_json(patch_request_path, {"data": {"status": self.primary_tender_status}})
@@ -3495,6 +3489,7 @@ def tender_with_guarantee_multilot(self):
         },
         status=201,
     )
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     response = self.app.patch_json(
@@ -3570,6 +3565,7 @@ def activate_bid_guarantee_multilot(self):
         },
         status=201,
     )
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -3794,9 +3790,10 @@ def tender_created_before_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
 
     # successfully patch tender without lot
-    self.add_sign_doc(self.tender_id, self.tender_token)
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}?acc_token={self.tender_token}", {"data": {"status": "active.enquiries"}}, status=200
     )
@@ -3813,6 +3810,7 @@ def tender_created_after_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     # forbid to patch tender without lot
@@ -3837,6 +3835,7 @@ def tender_created_after_related_lot_is_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
     self.tender_token = response.json["access"]["token"]
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
     self.add_sign_doc(self.tender_id, self.tender_token)
 
     # successfully patch tender with lot
@@ -4194,6 +4193,8 @@ def check_notice_doc_during_activation(self):
     self.tender_token = response.json["access"]["token"]
     self.assertNotIn("noticePublicationDate", response.json["data"])
 
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
+
     request_path = f"/tenders/{self.tender_id}?acc_token={self.tender_token}"
     response = self.app.patch_json(
         request_path,
@@ -4282,6 +4283,8 @@ def check_minimal_step_during_activation(self):
         request_path,
         {"data": {"items": items}},
     )
+
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
 
     # as lots were added, than during activation minimalStep already is rogue field for tender
     response = self.app.patch_json(
@@ -4407,8 +4410,12 @@ def contract_template_name_set(self):
         # Handle contract template
         if template_name is not None:
             tender["contractTemplateName"] = template_name
+            tender["procuringEntity"]["signerInfo"] = test_signer_info
+            tender["procuringEntity"]["contract_owner"] = "broker"
         else:
             tender.pop("contractTemplateName", None)
+            tender["procuringEntity"].pop("signerInfo", None)
+            tender["procuringEntity"].pop("contract_owner", None)
 
         # Handle documents, remove contractProforma
         for doc in tender.get("documents", []):
@@ -4542,7 +4549,40 @@ def contract_template_name_set(self):
     def test_set_valid_value(template_name, extra=None):
         # Set valid value success
 
-        data = {"contractTemplateName": template_name}
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        procuring_entity = response.json["data"]["procuringEntity"]
+        procuring_entity["signerInfo"] = test_signer_info
+        procuring_entity["contract_owner"] = "broker"
+        data = {
+            "contractTemplateName": template_name,
+            "procuringEntity": procuring_entity,
+        }
+
+        if not (pmt == "closeFrameworkAgreementSelectionUA" and status == "active.tendering"):
+            data.update(extra or {})
+
+        should_validate_items_classifications_prefix_mock_str = (
+            "openprocurement.tender.core.procedure.state.tender_details."
+            "TenderDetailsMixing.should_validate_items_classifications_prefix"
+        )
+
+        with mock.patch(should_validate_items_classifications_prefix_mock_str, False):
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {"data": data},
+            )
+            self.assertEqual(response.status, "200 OK")
+
+        for key, value in data.items():
+            self.assertEqual(response.json["data"][key], value)
+
+    def test_set_valid_value_only(template_name, extra=None):
+        # Set valid value success (only contractTemplateName)
+
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        data = {
+            "contractTemplateName": template_name,
+        }
 
         if not (pmt == "closeFrameworkAgreementSelectionUA" and status == "active.tendering"):
             data.update(extra or {})
@@ -4563,15 +4603,29 @@ def contract_template_name_set(self):
             self.assertEqual(response.json["data"][key], value)
 
     def test_not_required():
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        procuring_entity = response.json["data"]["procuringEntity"]
+        procuring_entity.pop("signerInfo", None)
+        procuring_entity.pop("contract_owner", None)
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-            {"data": {"contractTemplateName": None}},
+            {"data": {
+                "contractTemplateName": None,
+                "procuringEntity": procuring_entity,
+            }},
         )
         self.assertEqual(response.status, "200 OK")
         self.assertNotIn("contractTemplateName", response.json["data"])
 
     def test_required(extra=None):
-        data = {"contractTemplateName": None}
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        procuring_entity = response.json["data"]["procuringEntity"]
+        procuring_entity.pop("signerInfo", None)
+        procuring_entity.pop("contract_owner", None)
+        data = {
+            "contractTemplateName": None,
+            "procuringEntity": procuring_entity,
+        }
         data.update(extra or {})
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -4590,20 +4644,28 @@ def contract_template_name_set(self):
         )
 
     data = deepcopy(self.initial_data)
-    data["procuringEntity"]["signerInfo"] = test_signer_info
     data["status"] = "draft"
     pmt = data["procurementMethodType"]
 
+    # Statuses where contractTemplateName is alowed to add, remove, change
+    default_statuses = ("draft", "active.tendering")
     status_map = {
-        "closeFrameworkAgreementSelectionUA": ("draft", "active.enquiries", "active.tendering"),
-        "requestForProposal": ("draft", "active.enquiries", "active.tendering"),
+        "closeFrameworkAgreementSelectionUA": ("draft",),
+        "requestForProposal": ("draft", "active.enquiries"),
         "belowThreshold": ("draft", "active.enquiries"),
         "negotiation": ("draft", "active"),
         "negotiation.quick": ("draft", "active"),
         "priceQuotation": ("draft",),
     }
-    default_statuses = ("draft", "active.tendering")
     statuses = status_map.get(pmt, default_statuses)
+
+    # Statuses where contractTemplateName is only allowed to change,
+    # since procuringEntiy (signerInfo, contract_owner) is not allowed to change
+    change_only_status_map = {
+        "closeFrameworkAgreementSelectionUA": ("active.enquiries", "active.tendering"),
+        "requestForProposal": ("active.tendering",),
+    }
+    change_only_statuses = change_only_status_map.get(pmt, ())
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
@@ -4822,6 +4884,17 @@ def contract_template_name_set(self):
                 classification_ids=["03222111-4", "42112100-8"],
             )
 
+    for status in change_only_statuses:
+        self.set_status(status)
+
+        prepare_tender_state(
+            template_name="00000000.0002.01",
+            classification_ids=["44617100-9"],
+        )
+        test_set_valid_value_only(
+            template_name="00000000.0003.01",
+        )
+
 
 def set_procuring_entity_signer_info(self):
     tender_data = deepcopy(self.initial_data)
@@ -4869,6 +4942,7 @@ def set_procuring_entity_signer_info(self):
     )
 
     tender_data["procuringEntity"]["signerInfo"] = test_signer_info
+    tender_data["procuringEntity"]["contract_owner"] = "broker"
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={tender_token}",
@@ -4937,6 +5011,7 @@ def set_buyers_signer_info(self):
     )
 
     tender_data["buyers"][0]["signerInfo"] = test_signer_info
+    tender_data["buyers"][0]["contract_owner"] = "broker"
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={tender_token}",
@@ -4953,7 +5028,7 @@ def set_buyers_signer_info(self):
 
 def set_procuring_entity_contract_owner(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data.pop("contractTemplateName", None)
+    tender_data["procuringEntity"]["signerInfo"] = test_signer_info
     tender_data["procuringEntity"]["contract_owner"] = "test"
 
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
@@ -4963,13 +5038,12 @@ def set_procuring_entity_contract_owner(self):
             {
                 "location": "body",
                 "name": "procuringEntity",
-                "description": {"contract_owner": "could be set only along with signerInfo and contractTemplateName"},
+                "description": {"contract_owner": "could be set only along with contractTemplateName"},
             }
         ],
     )
 
     tender_data["contractTemplateName"] = "00000000.0002.01"
-    tender_data["procuringEntity"]["signerInfo"] = test_signer_info
 
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(
@@ -5007,6 +5081,7 @@ def set_procuring_entity_contract_owner(self):
     buyer = deepcopy(test_tender_below_buyer)
     buyer["id"] = uuid4().hex
     buyer["contract_owner"] = "broker"
+    buyer["signerInfo"] = test_signer_info
 
     tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
     tender_data["buyers"] = [buyer]
@@ -5014,6 +5089,120 @@ def set_procuring_entity_contract_owner(self):
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+
+
+def set_procuring_entity_contract_owner_required_by_edrpou(self):
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
+
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["signerInfo"] = test_signer_info
+    tender_data["procuringEntity"]["identifier"]["id"] = "12345678"
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+        get_now() + timedelta(days=1),
+    ), mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
+        {"12345678": get_now() - timedelta(days=1)},
+    ):
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "procuringEntity",
+                    "description": {"contract_owner": "This field is required."},
+                }
+            ],
+        )
+
+
+def set_buyers_contract_owner_required_by_edrpou(self):
+    if ProcuringEntityKind.CENTRAL not in self.allowed_proc_entity_kinds:
+        pytest.skip("ProcuringEntityKind.CENTRAL is not allowed for this procurement method type")
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
+
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
+
+    buyer = deepcopy(test_tender_below_buyer)
+    buyer["id"] = uuid4().hex
+    buyer["signerInfo"] = test_signer_info
+    buyer["identifier"]["id"] = "12345678"
+    buyer.pop("contract_owner", None)
+
+    tender_data["buyers"] = [buyer]
+    tender_data["items"][0]["relatedBuyer"] = buyer["id"]
+
+    with mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+        get_now() + timedelta(days=1),
+    ), mock.patch(
+        "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
+        {"12345678": get_now() - timedelta(days=1)},
+    ):
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "buyers.0",
+                    "description": {"contract_owner": "This field is required."},
+                }
+            ],
+        )
+        tender_data["buyers"][0]["contract_owner"] = "broker"
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+
+
+def set_buyers_contract_owner_consistent(self):
+    if ProcuringEntityKind.CENTRAL not in self.allowed_proc_entity_kinds:
+        pytest.skip("ProcuringEntityKind.CENTRAL is not allowed for this procurement method type")
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
+
+    tender_data = deepcopy(self.initial_data)
+    tender_data["contractTemplateName"] = "00000000.0002.01"
+    tender_data["procuringEntity"]["kind"] = ProcuringEntityKind.CENTRAL
+
+    buyer_1 = deepcopy(test_tender_below_buyer)
+    buyer_1["id"] = uuid4().hex
+    buyer_1["signerInfo"] = test_signer_info
+    buyer_1["contract_owner"] = "broker"
+
+    buyer_2 = deepcopy(test_tender_below_buyer)
+    buyer_2["id"] = uuid4().hex
+    buyer_2["signerInfo"] = test_signer_info
+    buyer_2.pop("contract_owner", None)
+
+    tender_data["buyers"] = [buyer_1, buyer_2]
+    tender_data["items"][0]["relatedBuyer"] = buyer_1["id"]
+
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "buyers.1",
+                "description": {"contract_owner": "should be set for all buyers when set on any buyer"},
+            }
+        ],
+    )
+
+    tender_data["buyers"][1]["contract_owner"] = "broker"
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["buyers"][0]["contract_owner"], "broker")
+    self.assertEqual(response.json["data"]["buyers"][1]["contract_owner"], "broker")
 
 
 def tender_contract_change_rationale_types(self):

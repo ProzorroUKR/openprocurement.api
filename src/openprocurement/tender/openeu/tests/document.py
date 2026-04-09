@@ -8,6 +8,7 @@ from openprocurement.tender.openeu.tests.base import BaseTenderContentWebTest
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
+    should_add_contract_proforma_doc = False
 
 
 def suite():

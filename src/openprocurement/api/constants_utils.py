@@ -89,6 +89,25 @@ def parse_str_list(value):
     return [x.strip() for x in value.split(",") if x.strip()]
 
 
+def parse_key_date_pairs(value):
+    """Pairs: key, ISO-8601 datetime, key, datetime, ...
+
+    Example: key1,2026-02-23T11:08:17+02:00,key2,2026-02-24T11:08:17+02:00
+    Returns: {key1: datetime(2026, 2, 23, 11, 8, 17), key2: datetime(2026, 2, 24, 11, 8, 17)}
+    """
+    if not value or not str(value).strip():
+        return {}
+    parts = [x.strip() for x in str(value).split(",")]
+    parts = [p for p in parts if p]
+    result = {}
+    i = 0
+    while i + 1 < len(parts):
+        edrpou, date_str = parts[i], parts[i + 1]
+        result[edrpou] = parse_date(date_str)
+        i += 2
+    return result
+
+
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):
     return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
 

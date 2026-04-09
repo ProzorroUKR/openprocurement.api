@@ -124,7 +124,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
-    "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -222,7 +221,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Форма випуску",
         "relatedItem": "29cbde01600848de837efe5448e726fb"
       }
-    ]
+    ],
+    "contractTemplateName": "00000000.0002.01"
   },
   "config": {
     "hasAuction": false,

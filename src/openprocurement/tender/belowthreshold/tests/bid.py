@@ -20,6 +20,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     bid_activate_with_cancelled_tenderer_criterion,
     bid_Administrator_change,
     bid_proposal_doc,
+    contract_owner_required_in_bid_tenderers,
     create_one_tender_bid_document_json_bulk,
     create_tender_bid,
     create_tender_bid_document_active_qualification,
@@ -78,6 +79,7 @@ class TenderBidResourceTest(TenderContentWebTest):
 
     test_create_tender_bid_invalid = snitch(create_tender_bid_invalid)
     test_create_tender_bid = snitch(create_tender_bid)
+    test_contract_owner_required_in_bid_tenderers = snitch(contract_owner_required_in_bid_tenderers)
     test_patch_tender_bid = snitch(patch_tender_bid)
     test_get_tender_bid = snitch(get_tender_bid)
     test_get_tender_bid_data_for_sign = snitch(get_tender_bid_data_for_sign)

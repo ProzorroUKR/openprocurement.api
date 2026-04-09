@@ -16,7 +16,6 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "contractTemplateName": "00000000.0002.01",
     "criteria": [
       {
         "id": "1a4c81ec00ce47619bcb2cff2565236f",
@@ -841,6 +840,20 @@ Content-Type: application/json
     "dateCreated": "2023-10-10T01:00:00+03:00",
     "tenderID": "UA-2023-10-10-000001-a",
     "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "contractProforma",
+        "id": "42d118382346428da9937caf7e38c40b",
+        "datePublished": "2023-10-10T01:00:00+03:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "name.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/178b52d0627c4679b09280eef6d89a6f?Signature=iLKH9cuNQmF1Le6qFsmpjaqXb4BvPuVNsgN5DUct74cWOMON7gzfkWYdCyNV%2F7jusfGsHI6%2BVjiChrxJp1brCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2023-10-10T01:00:00+03:00",
+        "author": "tender_owner",
+        "language": "uk"
+      },
       {
         "confidentiality": "public",
         "documentType": "notice",

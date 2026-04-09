@@ -385,7 +385,6 @@ def create_tender_generated(self):
             "lots",
             "documents",
             "noticePublicationDate",
-            "contractTemplateName",
             "contractChangeRationaleTypes",
         },
     )
@@ -787,6 +786,7 @@ def unsuccessful_after_prequalification_tender(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
+    self.add_contract_proforma_doc(tender_id, owner_token)
     # create bid
     bidder_data = deepcopy(test_tender_below_supplier)
     self.app.authorization = ("Basic", ("broker", ""))
@@ -864,6 +864,7 @@ def one_qualificated_bid_tender(self):
     tender_id = self.tender_id = response.json["data"]["id"]
     tender_owner_token = response.json["access"]["token"]
     self.set_initial_status(response.json)
+    self.add_contract_proforma_doc(tender_id, tender_owner_token)
     # create bids
     bidder_data = deepcopy(test_tender_below_supplier)
     self.app.authorization = ("Basic", ("broker", ""))
@@ -955,6 +956,7 @@ def multiple_bidders_tender(self):
     tender_owner_token = response.json["access"]["token"]
     tender = response.json["data"]
     self.set_initial_status(response.json)
+    self.add_contract_proforma_doc(tender_id, tender_owner_token)
     # create bids
     bidder_data = deepcopy(test_tender_below_supplier)
 

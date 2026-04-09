@@ -7,7 +7,7 @@ from openprocurement.tender.openua.tests.base import BaseTenderUAContentWebTest
 
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest, TenderDocumentResourceTestMixin):
-    pass
+    should_add_contract_proforma_doc = False
 
 
 def suite():

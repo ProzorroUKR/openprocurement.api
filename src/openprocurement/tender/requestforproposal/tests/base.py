@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.tests.base import BaseWebTest, test_signer_info
+from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
@@ -51,13 +51,11 @@ test_tender_rfp_organization = test_tender_rfp_base_organization.copy()
 test_tender_rfp_organization["scale"] = "micro"
 
 test_tender_rfp_supplier = test_tender_rfp_organization.copy()
-test_tender_rfp_supplier["signerInfo"] = test_signer_info
 
 test_tender_rfp_author = test_tender_rfp_base_organization.copy()
 
 test_tender_rfp_procuring_entity = test_tender_rfp_base_organization.copy()
 test_tender_rfp_procuring_entity["kind"] = "general"
-test_tender_rfp_procuring_entity["signerInfo"] = test_signer_info
 
 test_tender_rfp_buyer = test_tender_rfp_procuring_entity.copy()
 test_tender_rfp_buyer.pop("contactPoint")
@@ -193,7 +191,6 @@ test_tender_rfp_data = {
     "procurementMethodType": "requestForProposal",
     "milestones": test_tender_rfp_milestones,
     "funders": [funder],
-    "contractTemplateName": "00000000.0002.01",
 }
 
 if SANDBOX_MODE:

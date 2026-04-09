@@ -4,6 +4,7 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 from uuid import uuid4
 
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -46,6 +47,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     def setUp(self):
         super().setUp()
         self.setUpMock()
+        contract_owner_required_from_patcher = patch(
+            "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+            get_now() - timedelta(days=1),
+        )
+        contract_owner_required_from_patcher.start()
+        self.addCleanup(contract_owner_required_from_patcher.stop)
 
     def tearDown(self):
         self.tearDownMock()
@@ -96,6 +103,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             self.app.get("/brokers")
 
         # try to create tender with broker1
+        tender_data["contractTemplateName"] = "00000000.0002.01"
+        tender_data["procuringEntity"]["signerInfo"] = test_signer_info
         tender_data["procuringEntity"]["contract_owner"] = "broker1"
         with open(TARGET_DIR + "create-tender-broker-1-fail.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
@@ -130,6 +139,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         self.app.authorization = ("Basic", ("broker", ""))
         supplier = deepcopy(test_tender_pq_supplier)
         supplier["contract_owner"] = "broker6"
+        supplier["signerInfo"] = test_signer_info
         product = {"id": "1" * 32, "status": "active"}
         with patch(
             "openprocurement.api.utils.requests.get",

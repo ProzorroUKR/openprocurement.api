@@ -30,7 +30,6 @@ test_plan_central_data["procuringEntity"]["identifier"] = test_tender_openua_cen
 
 test_tender_openua_central_data["status"] = "draft"
 test_tender_openua_central_data["procuringEntity"]["kind"] = "central"
-del test_tender_openua_central_data["procuringEntity"]["signerInfo"]
 test_tender_openua_central_data["items"] = test_tender_openua_central_data["items"][:1]
 test_tender_openua_central_data["items"][0]["classification"]["id"] = test_plan_central_data["items"][0][
     "classification"
@@ -146,10 +145,32 @@ def test_fail_not_draft(app, plan):
     tender = response.json
 
     add_criteria(app, tender["data"]["id"], tender["access"]["token"])
-    uuid = uuid4().hex
-    doc_hash = "0" * 32
+
     signer = unwrap_app(app).registry.docservice_key
     keyid = signer.verify_key.encode(encoder=HexEncoder)[:8].decode()
+
+    uuid = uuid4().hex
+    doc_hash = "0" * 32
+    msg = "{}\0{}".format(uuid, doc_hash).encode()
+    signature = b64encode(signer.sign(msg).signature)
+    query = {"Signature": signature, "KeyID": keyid}
+    doc_url = "http://localhost/get/{}?{}".format(uuid, urlencode(query))
+    response = app.post_json(
+        f'/tenders/{tender["data"]["id"]}/documents?acc_token={tender["access"]["token"]}',
+        {
+            "data": {  # pass documents with the tender post request
+                "title": "name.doc",
+                "url": doc_url,
+                "hash": "md5:" + doc_hash,
+                "format": "application/msword",
+                "documentType": "contractProforma",
+            }
+        },
+    )
+    assert response.status == "201 Created"
+
+    uuid = uuid4().hex
+    doc_hash = "0" * 32
     msg = "{}\0{}".format(uuid, doc_hash).encode()
     signature = b64encode(signer.sign(msg).signature)
     query = {"Signature": signature, "KeyID": keyid}
@@ -160,7 +181,7 @@ def test_fail_not_draft(app, plan):
             "data": {
                 "title": "sign.p7s",
                 "url": doc_url,
-                "hash": "md5:" + "0" * 32,
+                "hash": "md5:" + doc_hash,
                 "format": "application/pdf",
                 "documentType": "notice",
             }

@@ -9,6 +9,7 @@ from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_auth = ("Basic", ("broker", ""))
     test_tender_confidential_documents = None
+    should_add_contract_proforma_doc = False
 
 
 def suite():

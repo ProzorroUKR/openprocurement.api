@@ -226,7 +226,7 @@ class TenderBidRequirementResponseEvidenceResourceTest(
     test_bids_data = test_tender_arma_bids
     initial_lots = test_tender_arma_lots
     initial_status = "active.tendering"
-    tender_auth = ("Basic", ("token", ""))
+    tender_auth = ("Basic", ("broker", ""))
 
 
 def suite():

@@ -492,7 +492,6 @@ def move_award_contract_to_contracting(self):
         "suppliers",
         "value",
         "buyer",
-        "contractTemplateName",
         "contractChangeRationaleTypes",
         "title",
         "title_en",

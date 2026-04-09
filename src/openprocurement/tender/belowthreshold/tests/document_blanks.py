@@ -76,7 +76,6 @@ def create_tender_document(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json, {"data": []})
     title = "$100_укр.doc"
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
@@ -103,8 +102,8 @@ def create_tender_document(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"][0]["id"])
-    self.assertEqual(title, response.json["data"][0]["title"])
+    self.assertEqual(doc_id, response.json["data"][-1]["id"])
+    self.assertEqual(title, response.json["data"][-1]["title"])
 
     response = self.app.get("/tenders/{}/documents/{}?download=some_id".format(self.tender_id, doc_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -217,14 +216,14 @@ def put_tender_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
-    self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"]["previousVersions"][-1]["dateModified"])
     self.assertNotEqual(response.json["data"]["datePublished"], datePublished)
 
     response = self.app.get("/tenders/{}/documents?all=true".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][-2]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][-1]["dateModified"])
 
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
@@ -246,8 +245,8 @@ def put_tender_document(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][-2]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][-1]["dateModified"])
 
     response = self.app.put_json(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),
@@ -588,8 +587,8 @@ def create_tender_document_json(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(doc_id, response.json["data"][0]["id"])
-    self.assertEqual("укр.doc", response.json["data"][0]["title"])
+    self.assertEqual(doc_id, response.json["data"][-1]["id"])
+    self.assertEqual("укр.doc", response.json["data"][-1]["title"])
 
     response = self.app.get("/tenders/{}/documents/{}?download=some_id".format(self.tender_id, doc_id), status=404)
     self.assertEqual(response.status, "404 Not Found")
@@ -657,8 +656,8 @@ def create_tender_document_json_bulk(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    doc_1 = response.json["data"][0]
-    doc_2 = response.json["data"][1]
+    doc_1 = response.json["data"][-2]
+    doc_2 = response.json["data"][-1]
 
     def assert_document(document, title):
         self.assertEqual(title, document["title"])
@@ -672,8 +671,8 @@ def create_tender_document_json_bulk(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    doc_1 = response.json["data"][0]
-    doc_2 = response.json["data"][1]
+    doc_1 = response.json["data"][-2]
+    doc_2 = response.json["data"][-1]
     assert_document(doc_1, "name1.doc")
     assert_document(doc_2, "name2.doc")
 
@@ -826,14 +825,14 @@ def put_tender_document_json(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     dateModified2 = response.json["data"]["dateModified"]
     self.assertTrue(dateModified < dateModified2)
-    self.assertEqual(dateModified, response.json["data"]["previousVersions"][0]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"]["previousVersions"][-1]["dateModified"])
     self.assertNotEqual(response.json["data"]["datePublished"], datePublished)
 
     response = self.app.get("/tenders/{}/documents?all=true".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][-2]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][-1]["dateModified"])
 
     response = self.app.post_json(
         "/tenders/{}/documents?acc_token={}".format(self.tender_id, self.tender_token),
@@ -855,8 +854,8 @@ def put_tender_document_json(self):
     response = self.app.get("/tenders/{}/documents".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(dateModified2, response.json["data"][0]["dateModified"])
-    self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
+    self.assertEqual(dateModified2, response.json["data"][-2]["dateModified"])
+    self.assertEqual(dateModified, response.json["data"][-1]["dateModified"])
 
     response = self.app.put_json(
         "/tenders/{}/documents/{}?acc_token={}".format(self.tender_id, doc_id, self.tender_token),

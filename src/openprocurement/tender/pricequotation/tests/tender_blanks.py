@@ -12,11 +12,11 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.utils import get_now
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
-    get_contract_template_name,
     set_bid_responses,
     set_tender_criteria,
 )
@@ -569,13 +569,11 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33611000-6"
-    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
-    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
     addit_classif = [
@@ -584,13 +582,11 @@ def create_tender_with_inn(self):
     ]
     data = self.initial_data["items"][0]["classification"]["id"]
     self.initial_data["items"][0]["classification"]["id"] = "33652000-5"
-    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
     self.initial_data["items"][0]["additionalClassifications"] = orig_addit_classif
     self.initial_data["items"][0]["classification"]["id"] = data
-    self.initial_data["contractTemplateName"] = get_contract_template_name(self.initial_data)
     self.assertEqual(response.status, "201 Created")
 
 
@@ -621,7 +617,6 @@ def create_tender_generated(self):
         "mainProcurementCategory",
         "value",
         "agreement",
-        "contractTemplateName",
         "contractChangeRationaleTypes",
         "milestones",
     ]
@@ -656,6 +651,8 @@ def create_tender_draft(self):
             'endDate': (get_now() + timedelta(days=1)).isoformat(),
             'startDate': tender["tenderPeriod"]["startDate"],
         }
+
+    self.add_contract_proforma_doc(tender["id"], token)
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
@@ -1291,6 +1288,9 @@ def tender_period_update(self):
 def tender_owner_can_change_in_draft(self):
     data = self.initial_data.copy()
     data.update({"status": "draft"})
+    data["contractTemplateName"] = "00000000.0002.01"
+    data["procuringEntity"]["signerInfo"] = test_signer_info
+    data["procuringEntity"]["contract_owner"] = "broker"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1326,7 +1326,7 @@ def tender_owner_can_change_in_draft(self):
         "awardCriteriaDetails_ru": "Test criteria 6",
     }
     buyer_id = uuid4().hex
-    buyer_signer_info = deepcopy(test_tender_pq_buyer["signerInfo"])
+    buyer_signer_info = deepcopy(test_signer_info)
     buyer_signer_info["name"] = "John Doe"
     items = deepcopy(tender["items"])
     items[0]["description"] = "New description"
@@ -1337,6 +1337,7 @@ def tender_owner_can_change_in_draft(self):
                 "name": "John Doe",
                 "identifier": {"scheme": "AE-DCCI", "id": "AE1"},
                 "signerInfo": buyer_signer_info,
+                "contract_owner": "broker",
             }
         ],
         "funders": [
@@ -2355,7 +2356,6 @@ def switch_draft_to_tendering_success(self):
             response.json["data"]["tenderPeriod"]["startDate"],
             tender_prev["tenderPeriod"]["startDate"],
         )
-        self.assertIn("contractTemplateName", response.json["data"])
 
         # check there are no extra market calls
         self.assertEqual(mock_get.call_count, 2)
@@ -2765,6 +2765,7 @@ def tender_activation_sign_docs(self):
 
     test_criteria = deepcopy(test_tender_pq_criteria)
     set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.add_contract_proforma_doc(tender["id"], token)
 
     pq_entity = deepcopy(tender["procuringEntity"])
     pq_entity["kind"] = "central"

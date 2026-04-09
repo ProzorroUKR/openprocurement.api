@@ -37,15 +37,7 @@ Content-Type: application/json
         "postalCode": "01220",
         "countryName": "Україна"
       },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
+      "kind": "general"
     },
     "status": "draft",
     "agreements": [

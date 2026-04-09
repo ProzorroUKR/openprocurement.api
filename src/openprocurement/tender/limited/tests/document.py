@@ -15,6 +15,7 @@ from openprocurement.tender.limited.tests.base import (
 
 class TenderDocumentResourceTest(BaseTenderContentWebTest, TenderDocumentResourceTestMixin):
     initial_data = test_tender_reporting_data
+    should_add_contract_proforma_doc = False
 
 
 class TenderNegotiationDocumentResourceTest(TenderDocumentResourceTest):

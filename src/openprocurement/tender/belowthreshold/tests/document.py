@@ -38,6 +38,8 @@ class TenderDocumentResourceTestMixin:
 
 
 class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTestMixin):
+    should_add_contract_proforma_doc = False
+
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
 
 

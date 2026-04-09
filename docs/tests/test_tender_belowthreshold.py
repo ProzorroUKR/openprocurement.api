@@ -89,6 +89,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual(response.status, "200 OK")
 
         # switch to 'active.enquiries'
+        self.add_contract_proforma_doc(tender["id"], owner_token)
         self.add_sign_doc(tender["id"], owner_token)
         with open(TARGET_DIR + "tutorial/tender-patch-2pc.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
@@ -175,6 +176,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "200 OK")
 
         # Tender activating
+        self.add_contract_proforma_doc(tender["id"], owner_token)
+
         with open(TARGET_DIR + "tutorial/notice-document-required.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -210,6 +213,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, "201 Created")
 
+        self.add_contract_proforma_doc(response.json["data"]["id"], response.json["access"]["token"])
         self.add_sign_doc(response.json["data"]["id"], response.json["access"]["token"])
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(response.json["data"]["id"], response.json["access"]["token"]),
@@ -246,6 +250,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
         self.assertEqual(response.status, "200 OK")
 
+        self.add_contract_proforma_doc(response.json["data"]["id"], tender_2_owner_token)
         self.add_sign_doc(response.json["data"]["id"], tender_2_owner_token)
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(response.json["data"]["id"], tender_2_owner_token),
@@ -805,6 +810,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         tender_wi_id = response.json["data"]["id"]
         owner_wi_token = response.json["access"]["token"]
 
+        self.add_contract_proforma_doc(tender_wi_id, owner_wi_token)
         self.add_sign_doc(tender_wi_id, owner_wi_token)
         response = self.app.patch_json(
             f"/tenders/{tender_wi_id}?acc_token={owner_wi_token}", {"data": {"status": "active.enquiries"}}
@@ -813,6 +819,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # PATCH inspector
 
+        self.add_contract_proforma_doc(tender_id, owner_token)
         self.add_sign_doc(tender_id, owner_token)
         response = self.app.patch_json(
             f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"status": "active.enquiries"}}

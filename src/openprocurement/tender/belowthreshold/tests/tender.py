@@ -47,7 +47,10 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_minimalstep_validation,
     required_field_deletion,
     set_buyers_signer_info,
+    set_buyers_contract_owner_required_by_edrpou,
+    set_buyers_contract_owner_consistent,
     set_procuring_entity_contract_owner,
+    set_procuring_entity_contract_owner_required_by_edrpou,
     set_procuring_entity_signer_info,
     tender_contract_change_rationale_types,
     tender_created_after_related_lot_is_required,
@@ -107,7 +110,12 @@ class TenderResourceTestMixin:
     test_contract_template_name_set = snitch(contract_template_name_set)
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
     test_set_buyers_signer_info = snitch(set_buyers_signer_info)
+    test_set_buyers_contract_owner_required_by_edrpou = snitch(set_buyers_contract_owner_required_by_edrpou)
+    test_set_buyers_contract_owner_consistent = snitch(set_buyers_contract_owner_consistent)
     test_set_procuring_entity_contract_owner = snitch(set_procuring_entity_contract_owner)
+    test_set_procuring_entity_contract_owner_required_by_edrpou = snitch(
+        set_procuring_entity_contract_owner_required_by_edrpou
+    )
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
     test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
     test_tender_contract_change_rationale_types = snitch(tender_contract_change_rationale_types)

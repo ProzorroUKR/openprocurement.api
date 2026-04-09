@@ -1,9 +1,8 @@
-import datetime
-
 from cornice.service import Service
 from pyramid.response import Response
 
 from openprocurement.api import constants_env
+from openprocurement.api.utils import json_dumps
 
 constants_service = Service(name="constants", path="/constants", renderer="json")
 
@@ -21,11 +20,15 @@ blacklist = (
 def get_constants(request):
     result = {}
     for k, v in constants_env.__dict__.items():
-        # Only include uppercase constants (standard naming convention)
-        # and exclude blacklisted items
-        if k.isupper() and k not in blacklist:
-            if isinstance(v, datetime.date):
-                result[k] = v.isoformat()
-            else:
-                result[k] = v
-    return Response(json_body=result)
+        # Exclude non-uppercase constants (standard naming convention)
+        if not k.isupper():
+            continue
+        # Exclude blacklisted items
+        if k in blacklist:
+            continue
+        # Include the constant in the result
+        result[k] = v
+    return Response(
+        text=json_dumps(result),
+        content_type="application/json",
+    )

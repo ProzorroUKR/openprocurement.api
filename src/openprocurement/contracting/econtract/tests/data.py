@@ -49,6 +49,7 @@ test_buyer["signerInfo"] = test_signer_info
 test_econtract_data.update({"buyer": test_buyer})
 
 test_tender_pq_e_supplier = deepcopy(test_tender_pq_supplier)
+test_tender_pq_e_supplier["signerInfo"] = test_signer_info
 test_tender_pq_e_supplier["contract_owner"] = "broker"
 
 test_tender_pq_e_bids = [
@@ -63,4 +64,6 @@ test_tender_pq_e_bids = [
 ]
 
 test_tender_pq_e_data = deepcopy(test_tender_pq_data)
+test_tender_pq_e_data["contractTemplateName"] = "00000000.0002.01"
+test_tender_pq_e_data["procuringEntity"]["signerInfo"] = test_signer_info
 test_tender_pq_e_data["procuringEntity"]["contract_owner"] = "broker"

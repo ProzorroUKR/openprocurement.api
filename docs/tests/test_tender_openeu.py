@@ -136,6 +136,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "201 Created")
 
         # Tender activating
+        self.add_contract_proforma_doc(tender["id"], owner_token)
+
         with open(TARGET_DIR + "notice-document-required.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -905,6 +907,20 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 f"/tenders/{self.tender_id}/criteria?acc_token={owner_token}", {"data": test_criteria_data}
             )
             self.assertEqual(response.status, "201 Created")
+
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/documents?acc_token={owner_token}",
+            {
+                "data": {  # pass documents with the tender post request
+                    "title": "name.doc",
+                    "url": self.generate_docservice_url(),
+                    "hash": "md5:" + "0" * 32,
+                    "format": "application/msword",
+                    "documentType": "contractProforma",
+                }
+            },
+        )
+        self.assertEqual(response.status, "201 Created")
 
         self.add_sign_doc(self.tender_id, owner_token)
 

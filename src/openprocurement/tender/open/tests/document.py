@@ -9,6 +9,7 @@ from openprocurement.tender.open.tests.base import BaseTenderUAContentWebTest
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest, TenderDocumentResourceTestMixin):
     initial_lots = test_tender_below_lots
+    should_add_contract_proforma_doc = False
 
 
 def suite():

@@ -353,6 +353,8 @@ def create_tender_invalid_agreement(self):
     self.tender_id, self.tender_token = tender_id, owner_token
     add_criteria(self)
 
+    self.add_contract_proforma_doc(tender_id, owner_token)
+
     # Invalid agreement type
     agreement = self.mongodb.agreements.get(self.agreement_id)
     agreement["agreementType"] = "invalid"

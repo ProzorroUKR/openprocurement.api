@@ -86,6 +86,8 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         )
         self.assertEqual(response.status, "201 Created")
 
+        self.add_contract_proforma_doc(tender["id"], owner_token)
+
         self.add_sign_doc(tender["id"], owner_token)
 
         response = self.app.patch_json(

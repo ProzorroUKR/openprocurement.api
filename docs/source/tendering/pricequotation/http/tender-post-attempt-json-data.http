@@ -25,15 +25,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "telephone": "+380950000000",
-        "email": "example@email.com",
-        "iban": "111111111111111",
-        "authorizedBy": "Статут компанії",
-        "position": "Генеральний директор"
-      }
+      "kind": "general"
     },
     "value": {
       "amount": 22000,
@@ -86,7 +78,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
-    "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -385,7 +376,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
   "data": {
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
-    "contractTemplateName": "00000000.0002.01",
     "title": "Комп’ютерне обладнання",
     "milestones": [
       {
@@ -458,15 +448,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
+      "kind": "general"
     },
     "items": [
       {

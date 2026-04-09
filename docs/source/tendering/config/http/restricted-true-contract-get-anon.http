@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/e0bae08660ee4cef9a394238de22bdae HTTP/1.0
+GET /api/2.5/contracts/0f2baa72dae04e6da560dfcaf6c2bd69 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -148,7 +148,7 @@ Content-Type: application/json
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "id": "e0bae08660ee4cef9a394238de22bdae"
+    "id": "0f2baa72dae04e6da560dfcaf6c2bd69"
   },
   "config": {
     "restricted": true

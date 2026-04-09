@@ -23,7 +23,6 @@ Content-Type: application/json
   },
   "context": {
     "tender": {
-      "contractTemplateName": "00000000.0002.01",
       "criteria": [
         {
           "id": "238e3531cbf34097a2bf86ccc9e05789",
@@ -941,6 +940,20 @@ Content-Type: application/json
       "dateCreated": "2023-10-10T01:00:00+03:00",
       "tenderID": "UA-2023-10-10-000001-a",
       "documents": [
+        {
+          "confidentiality": "public",
+          "documentType": "contractProforma",
+          "id": "ae63c9e4e3804a5cbbc2618f89406ebc",
+          "datePublished": "2023-10-10T01:00:00+03:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "name.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/482d58ec8cac44ea8adbcc00163c8315?Signature=YOxJWLVjgddrqvma4V1gfbiDCNVobblqOT2imQ8SEQRQbxkbqpvLi69vGXVGOSa5SJwoAaeXo9rvNQtxrT%2BmAA%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2023-10-10T01:00:00+03:00",
+          "author": "tender_owner",
+          "language": "uk"
+        },
         {
           "confidentiality": "public",
           "documentType": "notice",

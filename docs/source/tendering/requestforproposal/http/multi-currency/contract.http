@@ -110,7 +110,6 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "tender_id": "73862f0482bd4d22a4bf40cd491a2b20",
-    "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",

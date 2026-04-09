@@ -139,7 +139,6 @@ test_tender_openeu_data = {
     "tenderPeriod": {"endDate": (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()},
     "procurementMethodType": "aboveThresholdEU",
     "milestones": test_tender_openeu_milestones,
-    "contractTemplateName": "00000000.0002.01",
 }
 if SANDBOX_MODE:
     test_tender_openeu_data["procurementMethodDetails"] = "quick, accelerator=1440"
@@ -269,7 +268,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
 
     def setUp(self):
         super(BaseTenderUAWebTest, self).setUp()
-        self.app.authorization = self.initial_auth or ("Basic", ("token", ""))
+        self.app.authorization = self.initial_auth or ("Basic", ("broker", ""))
 
     def prepare_award(self):
         # switch to active.pre-qualification

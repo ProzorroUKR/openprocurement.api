@@ -26,6 +26,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "telephone": "+0440000000"
         },
         "scale": "micro",
+        "contract_owner": "broker6",
         "signerInfo": {
           "name": "Test Testovich",
           "telephone": "+380950000000",
@@ -33,8 +34,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "iban": "111111111111111",
           "authorizedBy": "Статут компанії",
           "position": "Генеральний директор"
-        },
-        "contract_owner": "broker6"
+        }
       }
     ],
     "value": {

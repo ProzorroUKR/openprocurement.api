@@ -158,8 +158,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "mainProcurementCategory": "services",
-    "contractTemplateName": "00000000.0002.01"
+    "mainProcurementCategory": "services"
   },
   "config": {
     "hasAuction": true,
@@ -197,7 +196,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
   "data": {
     "mainProcurementCategory": "services",
     "title_en": "Services in school canteens",
-    "contractTemplateName": "00000000.0002.01",
     "title": "Послуги шкільних їдалень",
     "milestones": [
       {

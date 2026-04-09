@@ -1634,8 +1634,6 @@ def contract_validate_signer_info(self):
     self.assertNotIn("items", response.json["data"])
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    del contract_doc['buyer']['signerInfo']
-    del contract_doc['suppliers'][0]['signerInfo']
     self.mongodb.contracts.save(contract_doc)
 
     # set contractTemplateName
@@ -1753,8 +1751,7 @@ def contract_activate(self):
     self.assertEqual(response.json["data"]["status"], "pending")
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    del contract_doc['buyer']['signerInfo']
-    del contract_doc['suppliers'][0]['signerInfo']
+    contract_doc['contractTemplateName'] = "test"
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.patch_json(

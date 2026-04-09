@@ -3,6 +3,7 @@ from copy import deepcopy
 from openprocurement.api.constants import GUARANTEE_ALLOWED_TENDER_TYPES
 from openprocurement.api.tests.base import change_auth
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.api.tests.base import test_signer_info
 from openprocurement.tender.core.tests.utils import (
     generate_req_response,
     set_bid_items,
@@ -191,6 +192,65 @@ def create_tender_bid_invalid(self):
                 "description": ["currency of bid should be identical to currency of value of tender"],
                 "location": "body",
                 "name": "value",
+            }
+        ],
+    )
+
+
+def contract_owner_required_in_bid_tenderers(self):
+    tender = self.mongodb.tenders.get(self.tender_id)
+    tender["contractTemplateName"] = "00000000.0002.01"
+    tender["procuringEntity"]["contract_owner"] = "broker"
+    tender["procuringEntity"]["signerInfo"] = test_signer_info
+    self.mongodb.tenders.save(tender)
+
+    request_path = f"/tenders/{self.tender_id}/bids"
+    bid_data = {
+        "tenderers": [deepcopy(test_tender_below_supplier)],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data)
+
+    bid_data["tenderers"][0].pop("contract_owner", None)
+    bid_data["tenderers"][0]["signerInfo"] = test_signer_info
+    response = self.app.post_json(request_path, {"data": bid_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "tenderers.0",
+                "description": {"contract_owner": "should be set when contract_owner is set on tender"},
+            }
+        ],
+    )
+
+    bid_data["tenderers"][0]["contract_owner"] = "broker"
+    response = self.app.post_json(request_path, {"data": bid_data})
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    bid_token = response.json["access"]["token"]
+
+    patched_tenderer = deepcopy(test_tender_below_supplier)
+    patched_tenderer["name"] = "updated tenderer"
+    patched_tenderer["signerInfo"] = test_signer_info
+    patched_tenderer.pop("contract_owner", None)
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
+        {"data": {"tenderers": [patched_tenderer]}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "tenderers.0",
+                "description": {"contract_owner": "should be set when contract_owner is set on tender"},
             }
         ],
     )

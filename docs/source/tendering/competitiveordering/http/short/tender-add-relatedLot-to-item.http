@@ -55,7 +55,6 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
-    "contractTemplateName": "00000000.0002.01",
     "title": "футляри до державних нагород",
     "agreements": [
       {

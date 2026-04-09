@@ -2227,6 +2227,9 @@ def lcc_criterion_valid(self):
     # add mandatory criteria
     add_criteria(self)
 
+    # add contract proforma doc
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
+
     # post lcc criteria 1 item
     lcc_criteria = deepcopy(test_lcc_tender_criteria)
     for criterion in lcc_criteria:

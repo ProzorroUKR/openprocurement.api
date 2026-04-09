@@ -261,7 +261,7 @@ Content-Type: application/json
       "location": "body",
       "name": "procuringEntity",
       "description": {
-        "contract_owner": "could be set only along with signerInfo and contractTemplateName"
+        "contract_owner": "could be set only along with contractTemplateName"
       }
     }
   ]

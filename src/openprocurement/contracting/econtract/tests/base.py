@@ -11,6 +11,7 @@ from openprocurement.contracting.econtract.tests.data import (
 class BaseEContractWebTest(BaseContractWebTest):
     initial_data = test_tender_pq_e_data
     initial_bids = test_tender_pq_e_bids
+    should_add_contract_proforma_doc = False
 
     def create_award(self):
         auth = self.app.authorization

@@ -2,7 +2,6 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_milestones,
@@ -90,13 +89,11 @@ test_tender_pq_organization = test_tender_pq_base_organization.copy()
 test_tender_pq_organization["scale"] = "micro"
 
 test_tender_pq_supplier = test_tender_pq_organization.copy()
-test_tender_pq_supplier["signerInfo"] = test_signer_info
 
 test_tender_pq_author = test_tender_pq_base_organization.copy()
 
 test_tender_pq_procuring_entity = test_tender_pq_base_organization.copy()
 test_tender_pq_procuring_entity["kind"] = "general"
-test_tender_pq_procuring_entity["signerInfo"] = test_signer_info
 test_tender_pq_procuring_entity["identifier"] = {"scheme": "UA-IPN", "id": "00037200", "uri": "http://www.dus.gov.ua/"}
 
 test_tender_pq_buyer = test_tender_pq_procuring_entity.copy()
@@ -145,7 +142,6 @@ test_tender_pq_data = {
     "procurementMethod": 'selective',
     "items": [test_tender_pq_item],
     "agreement": {"id": "0" * 32},
-    "contractTemplateName": "00000000.0002.01",
     "milestones": test_tender_pq_milestones,
 }
 

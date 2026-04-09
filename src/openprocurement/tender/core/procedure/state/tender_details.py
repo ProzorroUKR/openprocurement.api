@@ -80,11 +80,11 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_quantity,
     validate_doc_type_required,
+    validate_econtract_fields_tender,
     validate_edrpou_confidentiality_doc,
     validate_milestone_duration_days,
     validate_milestone_sums,
     validate_milestones_sequence_number,
-    validate_signer_info_container,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_full_date,
@@ -347,7 +347,7 @@ class BaseTenderDetailsMixing:
         super().on_patch(before, after)
 
     def always(self, data):
-        self.validate_signer_info(data)
+        self.validate_econtract_fields(data)
         self.validate_items_quantity(data)
         self.validate_items_profile(data)
         self.set_mode_test(data)
@@ -387,12 +387,8 @@ class BaseTenderDetailsMixing:
                 name="tenderPeriod",
             )
 
-    def validate_signer_info(self, after):
-        if buyers := after.get("buyers", []):
-            validate_signer_info_container(self.request, after, buyers, "buyers")
-        else:
-            procuring_entity = after.get("procuringEntity", {})
-            validate_signer_info_container(self.request, after, procuring_entity, "procuringEntity")
+    def validate_econtract_fields(self, after):
+        validate_econtract_fields_tender(self.request, after)
 
     def status_up(self, before, after, data):
         if after == "draft" and before != "draft":
