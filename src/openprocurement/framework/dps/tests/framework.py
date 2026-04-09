@@ -53,6 +53,7 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     min_submissions_number = 3
     min_submissions_number_days = 15
     min_submissions_number_working_days = False
+    min_qualification_duration = 365
 
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)

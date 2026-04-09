@@ -1075,7 +1075,7 @@ def patch_framework_draft_to_active(self):
 
 def patch_framework_draft_to_active_invalid(self):
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=364)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=self.min_qualification_duration - 1)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1102,7 +1102,7 @@ def patch_framework_draft_to_active_invalid(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "qualificationPeriod couldn't be less than 365 full calendar days long",
+                "description": f"qualificationPeriod couldn't be less than {self.min_qualification_duration} full calendar days long",
             }
         ],
     )
