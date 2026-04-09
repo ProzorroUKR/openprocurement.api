@@ -34,6 +34,11 @@ from openprocurement.framework.ifi.tests.base import (
     BaseFrameworkWebTest,
     test_framework_ifi_data,
 )
+from openprocurement.framework.ifi.tests.framework_blanks import (
+    ifi_change_period_recalculation,
+    ifi_enquiry_period_calendar_days,
+    ifi_period_calculation,
+)
 
 
 class FrameworkTest(BaseApiWebTest):
@@ -47,9 +52,10 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     initial_auth = ("Basic", ("broker", ""))
     allowed_proc_entity_kinds = KIND_FRAMEWORK_TYPE_MAPPING["internationalFinancialInstitutions"]
 
-    min_submissions_number = 3
-    min_submissions_number_days = 15
+    min_submissions_number = 1
+    min_submissions_number_days = 10
     min_submissions_number_working_days = False
+    min_qualification_duration = 40
 
     test_listing_changes = snitch(listing_changes)
     test_listing_draft = snitch(listing_draft)
@@ -76,6 +82,10 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_modify_framework_period = snitch(modify_framework_period)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
     test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
+
+    test_ifi_enquiry_period_calendar_days = snitch(ifi_enquiry_period_calendar_days)
+    test_ifi_period_calculation = snitch(ifi_period_calculation)
+    test_ifi_change_period_recalculation = snitch(ifi_change_period_recalculation)
 
 
 def suite():

@@ -95,14 +95,14 @@ Content-Type: application/json
     },
     "enquiryPeriod": {
       "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-25T00:00:00+03:00",
-      "clarificationsUntil": "2023-10-28T00:00:00+03:00"
+      "endDate": "2023-10-21T00:00:00+03:00",
+      "clarificationsUntil": "2023-10-26T00:00:00+03:00"
     },
     "period": {
       "startDate": "2023-10-10T01:00:00+03:00",
       "endDate": "2024-10-14T00:00:00+03:00"
     },
-    "next_check": "2023-10-26T00:00:00+03:00",
+    "next_check": "2023-10-21T00:00:00+03:00",
     "id": "932c7023588f40f4aec26aef109f4998"
   },
   "config": {

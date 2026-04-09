@@ -73,6 +73,8 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
     qualification_class = QualificationState
     submission_class = SubmissionState
     working_days = True
+    min_qualification_duration = MIN_QUALIFICATION_DURATION
+    enquiry_period_working_days = True
 
     def __init__(self, request):
         super().__init__(request)
@@ -125,7 +127,7 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
             self.validate_qualification_period_duration(
                 before,
                 after,
-                MIN_QUALIFICATION_DURATION,
+                self.min_qualification_duration,
                 MAX_QUALIFICATION_DURATION,
             )
 
@@ -242,7 +244,7 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
                 enquiry_period_start_date,
                 timedelta(days=ENQUIRY_PERIOD_DURATION),
                 framework=data,
-                working_days=True,
+                working_days=self.enquiry_period_working_days,
                 ceil=True,
             )
 

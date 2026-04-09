@@ -166,6 +166,7 @@ class BaseFrameworkCoreWebTest(BaseWebTest, FrameworkActionsTestMixin):
     initial_status = None
 
     framework_id = None
+    min_qualification_duration = 365
 
     periods = None
     now = None
