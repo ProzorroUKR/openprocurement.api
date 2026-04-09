@@ -228,6 +228,29 @@ BasicValue
 
     |ocdsDescription| Валюта у трибуквенному форматі ISO 4217.
 
+.. _EstimatedValue:
+
+EstimatedValue
+==============
+
+Схема
+-----
+
+:amount:
+    float
+
+    |ocdsDescription| Кількість як число.
+
+    Повинно бути додатнім.
+
+:currency:
+    рядок, обов’язковий, за замовчуванням = `UAH`
+
+    |ocdsDescription| Валюта у трибуквенному форматі ISO 4217.
+
+:valueAddedTaxIncluded:
+    bool, обов’язково
+
 
 .. _BankAccount:
 

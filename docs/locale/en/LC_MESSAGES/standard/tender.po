@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-04 19:04+0200\n"
+"POT-Creation-Date: 2026-04-09 13:55+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -11,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Tender"
 msgstr "Tender"
@@ -85,14 +86,26 @@ msgstr ""
 msgid "рядок, генерується автоматично"
 msgstr "string, auto-generated"
 
+msgid "`open`"
+msgstr ""
+
+msgid "Відкрита процедура"
+msgstr ""
+
+msgid "`selective`"
+msgstr ""
+
+msgid "Вибіркова процедура"
+msgstr ""
+
 msgid "`limited`"
+msgstr ""
+
+msgid "Обмежена процедура"
 msgstr ""
 
 msgid "Метод закупівлі тендеру."
 msgstr "Procurement Method of the Tender."
-
-msgid "Тільки у :ref:`limited`"
-msgstr "Only in :ref:`limited`"
 
 msgid "procurementMethodType"
 msgstr ""
@@ -178,11 +191,38 @@ msgstr ""
 msgid "`competitiveDialogueUA.stage2`"
 msgstr ""
 
+msgid "awardCriteria"
+msgstr ""
+
+msgid "рядок, обов’язково"
+msgstr "string, required"
+
+msgid "`lowestCost`"
+msgstr ""
+
+msgid "Найнижча ціна (за замовчуванням)"
+msgstr ""
+
+msgid "`lifeCycleCost`"
+msgstr ""
+
+msgid "Вартість життєвого циклу"
+msgstr ""
+
+msgid "Критерій визначення переможця."
+msgstr ""
+
+msgid "awardCriteriaDetails"
+msgstr ""
+
+msgid "Детальна інформація про критерії визначення переможця."
+msgstr ""
+
 msgid "value"
 msgstr ""
 
-msgid ":ref:`value`, обов’язково"
-msgstr ":ref:`value`, required"
+msgid ":ref:`EstimatedValue`, обов’язково"
+msgstr ""
 
 msgid "Повний доступний бюджет закупівлі. Пропозиції, що більші за ``value`` будуть відхилені."
 msgstr "Total available tender budget. Bids greater then ``value`` will be rejected."
@@ -201,6 +241,30 @@ msgstr ""
 
 msgid "Забезпечення тендерної пропозиції"
 msgstr "Bid guarantee"
+
+msgid "submissionMethod"
+msgstr ""
+
+msgid "`electronicAuction`"
+msgstr ""
+
+msgid "Електронний аукціон"
+msgstr ""
+
+msgid "Метод подання пропозицій."
+msgstr ""
+
+msgid "submissionMethodDetails"
+msgstr ""
+
+msgid "Детальна інформація про метод подання."
+msgstr ""
+
+msgid "eligibilityCriteria"
+msgstr ""
+
+msgid "Опис критеріїв відповідності для потенційних учасників."
+msgstr ""
 
 msgid "date"
 msgstr ""
@@ -274,8 +338,8 @@ msgstr "|ocdsDescription| A list of all the companies who entered submissions fo
 msgid "minimalStep"
 msgstr ""
 
-msgid ":ref:`value`, обов'язково для безлотових закупівель з аукціоном"
-msgstr ":ref:`value`, required for non-lots tenders with auction"
+msgid ":ref:`EstimatedValue`, обов'язково для безлотових закупівель з аукціоном"
+msgstr ""
 
 msgid "Мінімальний крок аукціону (редукціону). Правила валідації:"
 msgstr "The minimal step of auction (reduction). Validation rules:"
@@ -346,6 +410,12 @@ msgstr "``invalidationDate`` - date of the last tender conditions modification, 
 msgid "``clarificationsUntil``- час, до якого можна давати відповіді на зернення та вимоги, після якого блокується процедура."
 msgstr "``clarificationsUntil`` - time before which answers for questions and claims can be provided. After this time the procedure will be blocked."
 
+msgid "dateCreated"
+msgstr ""
+
+msgid "Дата створення закупівлі."
+msgstr ""
+
 msgid "dateModified"
 msgstr ""
 
@@ -376,20 +446,20 @@ msgstr "|ocdsDescription| Period when qualification can be submitted with stand 
 msgid "Тільки у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`"
 msgstr "Only in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`"
 
+msgid "complaintPeriod"
+msgstr ""
+
+msgid ":ref:`period`, лише для читання"
+msgstr ":ref:`period`, read-only"
+
+msgid "Період оскарження умов закупівлі."
+msgstr ""
+
 msgid "auctionPeriod"
 msgstr ""
 
 msgid "Період, коли проводиться аукціон."
 msgstr "Period when Auction is conducted."
-
-msgid "auctionUrl"
-msgstr ""
-
-msgid "url-адреса"
-msgstr "url"
-
-msgid "Веб-адреса для перегляду аукціону."
-msgstr "A web address for view auction."
 
 msgid "awardPeriod"
 msgstr ""
@@ -443,6 +513,12 @@ msgid "Список об’єктів :ref:`PlanRelation`."
 msgstr "List of :ref:`PlanRelation` objects."
 
 msgid "status"
+msgstr ""
+
+msgid "`draft`"
+msgstr ""
+
+msgid "Чернетка закупівлі"
 msgstr ""
 
 msgid "`active.enquiries`"
@@ -511,12 +587,6 @@ msgstr "Active tender (default)"
 msgid "Завершений тендер"
 msgstr "Completed tender"
 
-msgid "Відмінена закупівля (відмінена)"
-msgstr "Cancelled tender"
-
-msgid "Закупівля не відбулась (не відбулась)"
-msgstr "Unsuccessful tender"
-
 msgid "Відмінності в :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):"
 msgstr "Different in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (EU):"
 
@@ -541,9 +611,6 @@ msgstr "Different in :ref:`cfaua`:"
 msgid "Пре-кваліфікаційній період (пре-кваліфікація)"
 msgstr "Pre-qualification period (pre-qualification)"
 
-msgid "Кваліфікація переможця (кваліфікація)"
-msgstr "Winners qualification (qualification)"
-
 msgid "`active.qualification.stand-still`"
 msgstr ""
 
@@ -552,9 +619,6 @@ msgstr ""
 
 msgid "Відмінності :ref:`cfaselectionua`:"
 msgstr "Different in :ref:`cfaselectionua`:"
-
-msgid "`draft`"
-msgstr ""
 
 msgid "ProcuringEntity creats draft of procedure, where should be specified procurementMethodType - closeFrameworkAgreementSelectionUA, procurementMethod - selective. One lot structure procedure. Also ProcuringEntity should specify agreement:id, items, title, description and features, if needed."
 msgstr ""
@@ -598,6 +662,9 @@ msgstr "Only in :ref:`cfaua`"
 msgid "maxAwardsCount"
 msgstr ""
 
+msgid "ціле число, обов’язковий"
+msgstr ""
+
 msgid "Maximum number of required Awards"
 msgstr ""
 
@@ -624,6 +691,39 @@ msgstr "Contains 1 object with `active` status in case of cancelled Tender."
 
 msgid "Об’єкт :ref:`cancellation` описує причину скасування закупівлі та надає відповідні документи, якщо такі є."
 msgstr "The :ref:`cancellation` object describes the reason of tender cancellation contains accompanying documents  if any."
+
+msgid "criteria"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Criterion`."
+msgstr ""
+
+msgid "Критерії кваліфікації учасників."
+msgstr ""
+
+msgid "inspector"
+msgstr ""
+
+msgid ":ref:`organization`"
+msgstr ""
+
+msgid "Інспектор закупівлі. Може бути вказаний лише за наявності ``funders``."
+msgstr ""
+
+msgid "reviewRequests"
+msgstr ""
+
+msgid "Список об’єктів ReviewRequest, лише для читання"
+msgstr ""
+
+msgid "Запити на перевірку."
+msgstr ""
+
+msgid "contractTemplateName"
+msgstr ""
+
+msgid "Назва шаблону договору."
+msgstr ""
 
 msgid "funders"
 msgstr ""
@@ -678,6 +778,9 @@ msgstr "Causes for using reporting, negotiation or negotiation.quick procedures.
 
 msgid "Можливі значення зберігаються у довіднику `підстави <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_."
 msgstr "Possible values in `tender causes <https://prozorroukr.github.io/standards/codelists/tender/tender_cause.json>`_ dictionaries."
+
+msgid "Тільки у :ref:`limited`"
+msgstr "Only in :ref:`limited`"
 
 msgid "causeDescription"
 msgstr ""
@@ -834,4 +937,3 @@ msgstr "Tender workflow :ref:`limited`"
 
 msgid "\\* позначає початковий стан"
 msgstr "\\* marks initial state"
-
