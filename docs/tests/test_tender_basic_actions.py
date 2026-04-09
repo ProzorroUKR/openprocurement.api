@@ -4233,6 +4233,13 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         tech_criteria[0]["relatesTo"] = "tenderer"
 
     def test_tender_contract_template_name(self):
+        contract_owner_required_from_patcher = patch(
+            "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+            get_now() - timedelta(days=1),
+        )
+        contract_owner_required_from_patcher.start()
+        self.addCleanup(contract_owner_required_from_patcher.stop)
+
         self.app.authorization = ("Basic", ("broker", ""))
 
         data = deepcopy(self.initial_data)
@@ -4391,6 +4398,13 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         test_tender_pq_category,
     )
     def test_tender_contract_owner(self):
+        contract_owner_required_from_patcher = patch(
+            "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+            get_now() - timedelta(days=1),
+        )
+        contract_owner_required_from_patcher.start()
+        self.addCleanup(contract_owner_required_from_patcher.stop)
+
         tender_data = deepcopy(test_tender_pq_data)
         tender_data["procuringEntity"]["identifier"]["id"] = "00037257"
         self.app.authorization = ("Basic", ("broker", ""))

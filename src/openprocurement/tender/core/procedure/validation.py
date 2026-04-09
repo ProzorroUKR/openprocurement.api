@@ -1627,19 +1627,31 @@ def validate_contract_owner(request, tender, organization, field_name, field_ind
 
 
 def validate_contract_owner_required(request, tender, organization, field_name, field_index=None) -> None:
+    contract_owner = organization.get("contract_owner")
+    field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
+    mode = tender.get("mode")
+    contract_template_name = tender.get("contractTemplateName")
+
     edrpou_id = organization.get("identifier", {}).get("id")
     edrpou_from = CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU.get(edrpou_id) if edrpou_id else None
     required_from = edrpou_from or CONTRACT_OWNER_REQUIRED_FROM
 
     # For test mode, we don't require contract owner, it is optional
-    if not tender_created_after(required_from) and tender.get("mode") == "test":
+    if mode == "test":
         return
 
-    # For other modes, we require contract owner if contractTemplateName is set
-    contract_owner = organization.get("contract_owner")
-    contract_template_name = tender.get("contractTemplateName")
-    field_path = f"{field_name}.{field_index}" if field_index is not None else field_name
+    # For old tenders, it is forbidden to set contract owner unless it is test mode tender
+    if tender_created_before(required_from):
+        if contract_owner is not None:
+            raise_operation_error(
+                request,
+                {"contract_owner": "Rogue field"},
+                name=field_path,
+                status=422,
+            )
+        return
 
+    # Otherwise, we require contract owner if contractTemplateName is set
     if contract_owner is None and contract_template_name:
         raise_operation_error(
             request,

@@ -47,6 +47,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     def setUp(self):
         super().setUp()
         self.setUpMock()
+        contract_owner_required_from_patcher = patch(
+            "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
+            get_now() - timedelta(days=1),
+        )
+        contract_owner_required_from_patcher.start()
+        self.addCleanup(contract_owner_required_from_patcher.stop)
 
     def tearDown(self):
         self.tearDownMock()
