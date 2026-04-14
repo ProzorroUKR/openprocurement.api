@@ -28,6 +28,7 @@ from openprocurement.tender.cfaua.tests.award_blanks import (
     award_complaint_document_in_active_qualification,
     bot_patch_tender_award_complaint,
     bot_patch_tender_award_complaint_forbidden,
+    create_acceptance_report_award_document_active_awarded,
     create_tender_award_claim,
     create_tender_award_complaint,
     create_tender_award_complaint_not_active,
@@ -244,11 +245,28 @@ class TenderAwardDocumentResourceTest(BaseTenderContentWebTest):
     test_create_tender_award_document_json_bulk = snitch(create_tender_award_document_json_bulk)
 
 
+class TenderAwardAcceptanceReportDocumentResourceTest(BaseTenderContentWebTest):
+    initial_auth = ("Basic", ("broker", ""))
+    initial_status = "active.qualification"
+    initial_bids = test_tender_cfaua_bids
+    initial_lots = test_tender_cfaua_lots
+
+    def setUp(self):
+        super().setUp()
+        response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+        self.award_id = response.json["data"][0]["id"]
+
+    test_create_acceptance_report_award_document_active_awarded = snitch(
+        create_acceptance_report_award_document_active_awarded
+    )
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardAcceptanceReportDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardBidsOverMaxAwardsResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))

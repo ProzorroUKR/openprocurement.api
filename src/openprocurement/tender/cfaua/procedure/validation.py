@@ -21,7 +21,11 @@ def validate_award_document_tender_not_in_allowed_status(request, **_):
             "active.qualification",
         )
     else:
-        allowed_tender_statuses = ("active.qualification",)
+        allowed_tender_statuses = ["active.qualification"]
+        data = request.validated["data"]
+        documents = data if isinstance(data, list) else [data]
+        if all(doc.get("documentType") == "acceptanceReport" for doc in documents):
+            allowed_tender_statuses.append("active.awarded")
 
     status = request.validated["tender"]["status"]
     if status not in allowed_tender_statuses:

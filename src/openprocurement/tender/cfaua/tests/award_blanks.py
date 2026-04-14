@@ -2171,3 +2171,39 @@ def patch_tender_lot_award_lots_none(self):
     self.assertEqual(
         response.json["errors"], [{"location": "body", "name": "lots", "description": [["This field is required."]]}]
     )
+
+
+def create_acceptance_report_award_document_active_awarded(self):
+    # Transition to active.awarded
+    self.set_status("active.awarded")
+
+    # Upload acceptanceReport as award document - should succeed
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "title": "acceptance_report.p7s",
+                "documentType": "acceptanceReport",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")
+
+    # Upload regular document type as award doc in active.awarded - should fail
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "title": "other.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")

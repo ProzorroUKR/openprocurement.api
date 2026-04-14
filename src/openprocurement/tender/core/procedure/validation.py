@@ -623,6 +623,11 @@ def validate_award_document_tender_not_in_allowed_status_base(request, allowed_b
     allowed_tender_statuses = ["active.qualification"]
     if request.authenticated_role == "bots":
         allowed_tender_statuses.extend(allowed_bot_statuses)
+    else:
+        data = request.validated["data"]
+        documents = data if isinstance(data, list) else [data]
+        if all(doc.get("documentType") == "acceptanceReport" for doc in documents):
+            allowed_tender_statuses.append("active.awarded")
     status = request.validated["tender"]["status"]
     if status not in allowed_tender_statuses:
         raise_operation_error(
@@ -801,8 +806,8 @@ def validate_document_operation_in_allowed_tender_statuses(allowed_statuses):
             data = request.validated["data"]
             documents = data if isinstance(data, list) else [data]
 
-            # Check if all documents are evaluation reports (sign docs)
-            if all(doc.get("documentType") == "evaluationReports" for doc in documents):
+            # Check if all documents are evaluation reports or acceptance reports (sign docs)
+            if all(doc.get("documentType") in ("evaluationReports", "acceptanceReport") for doc in documents):
                 # If it's only sign docs, then we can allow operation in pre-qualification status
                 valid_statuses.append("active.pre-qualification")
 
