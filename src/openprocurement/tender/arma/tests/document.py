@@ -1,6 +1,14 @@
 import unittest
 
-from openprocurement.tender.arma.tests.base import BaseTenderContentWebTest
+from openprocurement.api.tests.base import snitch
+from openprocurement.tender.arma.tests.base import (
+    BaseTenderContentWebTest,
+    test_tender_arma_bids,
+    test_tender_arma_lots,
+)
+from openprocurement.tender.arma.tests.document_blanks import (
+    create_acceptance_report_document_pre_qualification,
+)
 from openprocurement.tender.belowthreshold.tests.document import (
     TenderDocumentResourceTestMixin,
 )
@@ -16,9 +24,13 @@ class TenderDraftDocumentResourceTest(TenderDocumentResourceTest):
     initial_auth = ("Basic", ("broker", ""))
 
 
-class TenderPreQualificationDocumentResourceTest(TenderDocumentResourceTest):
+class TenderPreQualificationDocumentResourceTest(BaseTenderContentWebTest):
     initial_status = "active.pre-qualification"
+    initial_bids = test_tender_arma_bids
+    initial_lots = test_tender_arma_lots
     initial_auth = ("Basic", ("broker", ""))
+
+    test_create_acceptance_report_document = snitch(create_acceptance_report_document_pre_qualification)
 
 
 def suite():

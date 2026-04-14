@@ -814,3 +814,24 @@ def award_sign(self):
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
         {"data": {"status": "active", "qualified": True, "eligible": True}},
     )
+
+
+def create_acceptance_report_award_document_active_awarded(self):
+    # Transition to active.awarded
+    self.set_status("active.awarded")
+
+    # Upload acceptanceReport as award document - should succeed
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "title": "acceptance_report.p7s",
+                "documentType": "acceptanceReport",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")

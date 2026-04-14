@@ -45,6 +45,7 @@ class DocumentTypes(StrEnum):
     contractSignature = "contractSignature"
     violationReportSignature = "violationReportSignature"
     violationReportEvidence = "violationReportEvidence"
+    acceptanceReport = "acceptanceReport"
 
 
 class DocumentLanguage(StrEnum):

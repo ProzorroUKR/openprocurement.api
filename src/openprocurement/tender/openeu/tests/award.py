@@ -27,6 +27,7 @@ from openprocurement.tender.open.tests.award_blanks import (
 )
 from openprocurement.tender.openeu.tests.award_blanks import (
     check_tender_award_complaint_period_dates,
+    create_acceptance_report_award_document_active_awarded,
     create_tender_2lot_award,
     create_tender_2lot_award_complaint_document,
     create_tender_award_invalid,
@@ -350,6 +351,33 @@ class Tender2LotAwardDocumentResourceTest(BaseTenderContentWebTest, Tender2LotAw
         self.award_id = award["id"]
 
 
+class TenderAwardAcceptanceReportDocumentResourceTest(BaseTenderContentWebTest):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_openeu_bids
+    initial_auth = ("Basic", ("broker", ""))
+
+    def setUp(self):
+        super().setUp()
+        # Create award
+        with change_auth(self.app, ("Basic", ("token", ""))):
+            response = self.app.post_json(
+                "/tenders/{}/awards".format(self.tender_id),
+                {
+                    "data": {
+                        "suppliers": [test_tender_below_supplier],
+                        "status": "pending",
+                        "bid_id": self.initial_bids[0]["id"],
+                    }
+                },
+            )
+        award = response.json["data"]
+        self.award_id = award["id"]
+
+    test_create_acceptance_report_award_document_active_awarded = snitch(
+        create_acceptance_report_award_document_active_awarded
+    )
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(Tender2LotAwardComplaintDocumentResourceTest))
@@ -359,6 +387,7 @@ def suite():
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardAcceptanceReportDocumentResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderLotAwardResourceTest))
     return suite
 
