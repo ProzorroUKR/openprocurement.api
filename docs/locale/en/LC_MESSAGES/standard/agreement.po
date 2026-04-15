@@ -112,7 +112,7 @@ msgstr "Agreement in :ref:`cfaua`"
 msgid "agreementNumber"
 msgstr ""
 
-msgid "string, value: `cfaua`"
+msgid "string, value: `closeFrameworkAgreementUA`"
 msgstr ""
 
 msgid "changes"
@@ -166,19 +166,13 @@ msgstr "List of :ref:`Item` objects"
 msgid "Період чинності угоди. Щонайбільше 4 роки."
 msgstr "The timeframe when agreement is in force. Maximum 4 years."
 
-msgid "clarificationsUntil"
-msgstr ""
-
-msgid "Крайній термін подання документів з цінами учасниками"
-msgstr "Deadline for participants to submit price documents"
-
 msgid "`pending` - угода в процесі підписання між замовником та :ref:`Contract`"
 msgstr "`pending` - the agreement is under signing between procuring entity and :ref:`Contract`"
 
 msgid "`unsuccessful` - угода між замовником та :ref:`Contract` не було підписано"
 msgstr "`unsuccessful` - the agreement has not been signed between procuring entity and :ref:`Contract`"
 
-msgid "active` - угода між замовником та :ref:`Contract` підписана"
+msgid "`active` - угода між замовником та :ref:`Contract` підписана"
 msgstr "`active` - the agreement is signed between procuring entity and :ref:`Contract`"
 
 msgid "`cancelled` - підписання угоди скасовано через відміну закупівлі/лоту."
@@ -225,4 +219,37 @@ msgstr "Workflow in :ref:`agreementcfaua`"
 
 msgid "\\* позначає початковий статус"
 msgstr "\\* marks initial state"
+
+msgid "frameworkID"
+msgstr ""
+
+msgid "terminationDetails"
+msgstr ""
+
+msgid "dateCreated"
+msgstr ""
+
+msgid "Дата створення реєстру."
+msgstr "The date of the agreement creation."
+
+msgid "features"
+msgstr ""
+
+msgid "Список об'єктів :ref:`Feature`"
+msgstr "List of :ref:`Feature` objects"
+
+msgid "milestones"
+msgstr ""
+
+msgid "Список об'єктів :ref:`milestone`"
+msgstr "List of :ref:`milestone` objects"
+
+msgid "numberOfContracts"
+msgstr ""
+
+msgid "ціле число, генерується автоматично, лише для читання"
+msgstr "integer, auto-generated, read-only"
+
+msgid "Кількість активних контрактів в угоді."
+msgstr "Number of active contracts in the agreement."
 
