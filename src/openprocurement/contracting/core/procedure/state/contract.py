@@ -34,6 +34,7 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.contracting.core.procedure.utils import (
+    get_tender_award_by_contract,
     is_bid_owner,
     is_contract_owner,
 )
@@ -316,15 +317,17 @@ class ContractStateMixing:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
 
     def contract_on_patch(self, before: dict, after: dict):
+        tender = self.request.validated["tender"]
         if before["status"] != after["status"]:
             self.contract_status_up(before["status"], after["status"], after)
         if before["status"] != "active" and after["status"] == "active":
             self.validate_activate_contract(after)
+            award = get_tender_award_by_contract(tender, after)
             self.validate_activate_contract_with_review_request(
                 self.request,
-                self.request.validated["tender"],
+                tender,
                 after,
-                self.request.validated["award"].get("lotID"),
+                award.get("lotID"),
             )
         if after["status"] == "active" and after.get("dateSigned", None) is None:
             after["dateSigned"] = get_request_now().isoformat()
@@ -808,11 +811,9 @@ class ContractState(
             self.validate_required_fields_before_activation(data)
 
     def validate_contract_patch(self, request, before: dict, after: dict) -> None:
-        tender = get_tender()
-
         self.validate_value(after.get("value", {}))
-        self.validate_dateSigned(request, tender, before, after)
-        self.validate_update_contract_status(request, tender, before, after)
+        self.validate_dateSigned(request, before, after)
+        self.validate_update_contract_status(request, before, after)
         self.validate_patch_contract_items(request, before, after)
         self.validate_milestones(request, before, after)
         self.validate_update_contract_value(request, before, after)
@@ -868,7 +869,7 @@ class ContractState(
         if tender_type in ("negotiation", "negotiation.quick"):
             self.validate_limited_contract_with_cancellations(before, after)
 
-        award = request.validated["award"]
+        award = get_tender_award_by_contract(tender, after)
         self.validate_cancellation_blocks(request, tender, lot_id=award.get("lotID"))
         self.validate_update_contract_value_with_award(request, tender, before, after)
 
@@ -887,12 +888,12 @@ class ContractState(
         value = after.get("value", {})
         if value and (before.get("value") != after.get("value") or before.get("status") != after.get("status")):
             if self.is_percentage_value(value):
-                self._validate_contract_value_amountPercentage(request, value)
+                self._validate_contract_value_amountPercentage(request, tender, before, after, value)
             else:
                 self._validate_contract_value_amount(request, tender, before, after, value)
 
     def _validate_contract_value_amount(self, request, tender, before, after, value):
-        award = request.validated["award"]
+        award = get_tender_award_by_contract(tender, after)
         contracts_ids = [
             i["id"]
             for i in tender.get("contracts", [])
@@ -939,8 +940,8 @@ class ContractState(
                     name="value",
                 )
 
-    def _validate_contract_value_amountPercentage(self, request, value):
-        award = request.validated["award"]
+    def _validate_contract_value_amountPercentage(self, request, tender, before, after, value):
+        award = get_tender_award_by_contract(tender, after)
         if value.get("amountPercentage") > award.get("value", {}).get("amountPercentage"):
             raise_operation_error(
                 request,
@@ -988,11 +989,13 @@ class ContractState(
                 status=422,
             )
 
-    def validate_dateSigned(self, request, tender, before: dict, after: dict) -> None:
+    def validate_dateSigned(self, request, before: dict, after: dict) -> None:
+        tender = request.validated["tender"]
+
         if before.get("dateSigned", "") == after.get("dateSigned", ""):
             return
 
-        award = request.validated["award"]
+        award = get_tender_award_by_contract(tender, after)
         date_signed = dt_from_iso(after["dateSigned"])
 
         if award.get("complaintPeriod"):
@@ -1036,7 +1039,9 @@ class ContractState(
             )
 
     @classmethod
-    def validate_update_contract_status(cls, request, tender: dict, before: dict, after: dict) -> None:
+    def validate_update_contract_status(cls, request, before: dict, after: dict) -> None:
+        tender = request.validated["tender"]
+
         status_map = {
             "pending": ("pending.winner-signing", "active"),
             "pending.winner-signing": ("pending", "active"),
@@ -1102,7 +1107,6 @@ class ContractState(
         return tender.get("config", {}).get("hasAwardComplaints") is False
 
     def add_esco_contract_duration_to_period(self, before, after):
-        request = get_request()
         tender = get_tender()
         if tender["procurementMethodType"] != "esco":
             return
@@ -1110,7 +1114,7 @@ class ContractState(
         if not (period := after.get("period")) or before.get("period") == period:
             return
 
-        award = request.validated["award"]
+        award = get_tender_award_by_contract(tender, after)
         bid = next((bid for bid in tender["bids"] if bid["id"] == award["bid_id"]), None)
         if not bid:
             return
