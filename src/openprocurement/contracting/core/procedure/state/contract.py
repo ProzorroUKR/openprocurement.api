@@ -31,6 +31,7 @@ from openprocurement.api.utils import (
     get_first_revision_date,
     get_now,
     raise_operation_error,
+    request_fetch_root_tender_for_tender,
 )
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.contracting.core.procedure.utils import (
@@ -768,7 +769,10 @@ class ContractState(
         for milestone in milestones_after:
             validate_milestone_duration_days(get_tender(), milestone)
 
-        if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM):
+        request_fetch_root_tender_for_tender(request, after.get("tender_id"), raise_error=False)
+        root_tender = request.validated.get("root_tender") or request.validated["tender"]
+
+        if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM, root_tender):
             validate_milestones_sequence_number(milestones_after)
 
         validate_milestone_sums(milestones_after)

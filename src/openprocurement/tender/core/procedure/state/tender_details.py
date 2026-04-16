@@ -43,6 +43,7 @@ from openprocurement.api.utils import (
     get_tender_category,
     get_tender_profile,
     raise_operation_error,
+    request_fetch_root_tender_for_tender,
 )
 from openprocurement.contracting.core.procedure.serializers.contract import (
     get_change_rationale_types,
@@ -285,7 +286,7 @@ class BaseTenderDetailsMixing:
 
         self.validate_contract_template_name(after, before=before)
         self.validate_procurement_method(after, before=before)
-        self.validate_milestones(after)
+        self.validate_milestones(after, before=before)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_duration(after)
         self.validate_tender_period_after_enquiry_period(after)
@@ -520,20 +521,29 @@ class BaseTenderDetailsMixing:
         if tender.get("mode") == "test":
             set_mode_test_titles(tender)
 
-    def validate_milestones(self, tender):
+    def validate_milestones(self, tender, before=None):
         grouped_data = defaultdict(list)
-        tender_milestones = tender.get("milestones", [])
         related_lot_exists = False
 
-        for milestone in tender_milestones:
+        milestones_before = before.get("milestones", []) if before else []
+        milestones_after = tender.get("milestones", [])
+
+        if milestones_before == milestones_after:
+            return
+
+        request_fetch_root_tender_for_tender(self.request, tender["_id"], raise_error=False)
+        root_tender = self.request.validated.get("root_tender") or self.request.validated["tender"]
+
+        for milestone in tender.get("milestones", []):
             validate_milestone_duration_days(tender, milestone)
 
-            grouped_data[milestone.get("relatedLot")].append(milestone)
+            related_lot = milestone.get("relatedLot")
+            grouped_data[related_lot].append(milestone)
 
-            if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM) and milestone.get("relatedLot"):
+            if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM, root_tender) and related_lot:
                 related_lot_exists = True
 
-        if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM):
+        if tender_created_after(MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM, root_tender):
             for lot, milestones in grouped_data.items():
                 for milestone in milestones:
                     if related_lot_exists and not milestone.get("relatedLot"):
@@ -552,7 +562,7 @@ class BaseTenderDetailsMixing:
                     "Field should contain incrementing sequence numbers starting from 1 for tender/lot separately",
                 )
 
-        validate_milestone_sums(tender_milestones)
+        validate_milestone_sums(milestones_after)
 
     def validate_tender_lots(self, tender: dict, before=None) -> None:
         """Validate tender lots

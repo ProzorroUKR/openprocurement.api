@@ -1,9 +1,8 @@
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.utils import (
-    get_tender_by_id,
+    request_fetch_tender,
     request_init_contract,
-    request_init_tender,
 )
 from openprocurement.api.views.base import BaseResource
 from openprocurement.contracting.core.procedure.state.contract import ContractState
@@ -42,5 +41,4 @@ class ContractBaseResource(BaseResource):
                 request_init_contract(request, contract_doc)
 
                 if request.method not in ("GET", "HEAD"):
-                    tender_doc = get_tender_by_id(request, contract_doc["tender_id"])
-                    request_init_tender(request, tender_doc)
+                    request_fetch_tender(request, contract_doc["tender_id"])

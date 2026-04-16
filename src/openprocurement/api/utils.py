@@ -176,6 +176,15 @@ def request_init_tender(request, tender, tender_src=None, raise_error=True):
     )
 
 
+def request_init_root_tender(request, tender, tender_src=None, raise_error=True):
+    return request_init_object(
+        request,
+        "root_tender",
+        tender,
+        obj_src=tender_src,
+    )
+
+
 def request_init_contract(request, contract, contract_src=None, raise_error=True):
     return request_init_object(
         request,
@@ -242,6 +251,12 @@ def request_fetch_tender(request, tender_id, raise_error=True, force=False):
         request_init_tender(request, tender)
 
 
+def request_fetch_root_tender(request, tender_id, raise_error=True, force=False):
+    if should_fetch_object(request, "root_tender", force=force):
+        tender = get_tender_by_id(request, tender_id, raise_error=raise_error)
+        request_init_root_tender(request, tender)
+
+
 def request_fetch_contract(request, contract_id, raise_error=True, force=False):
     if should_fetch_object(request, "contract", force=force):
         contract = get_contract_by_id(request, contract_id, raise_error=raise_error)
@@ -270,6 +285,31 @@ def request_fetch_agreement(request, agreement_id, raise_error=True, force=False
     if should_fetch_object(request, "agreement", force=force):
         agreement = get_agreement_by_id(request, agreement_id, raise_error=raise_error)
         request_init_agreement(request, agreement)
+
+
+def request_fetch_root_tender_for_tender(request, tender_id, raise_error=True, force=False):
+    request_fetch_tender(request, tender_id, raise_error=raise_error, force=force)
+    tender = request.validated["tender"]
+    root_tender_id = None
+
+    if tender.get("procurementMethodType") == "closeFrameworkAgreementSelectionUA":
+        # Fetching root (closeFrameworkAgreementUA) tender
+        tender_agreements = tender.get("agreements", [{}])
+        agreement = tender_agreements[0]
+        root_tender_id = agreement.get("tender_id")
+
+    elif tender.get("procurementMethodType") == "competitiveDialogueEU.stage2":
+        # Fetching root (competitiveDialogueEU) tender
+        pass  # TODO: implement
+
+    elif tender.get("procurementMethodType") == "competitiveDialogueUA.stage2":
+        # Fetching root (competitiveDialogueUA) tender
+        pass  # TODO: implement
+
+    if not root_tender_id:
+        return
+
+    request_fetch_root_tender(request, root_tender_id, raise_error=raise_error, force=force)
 
 
 def should_fetch_object(request, obj_name, force=False):
