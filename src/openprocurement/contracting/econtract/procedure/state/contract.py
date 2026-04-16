@@ -57,10 +57,7 @@ class EContractState(BaseContractState):
         self.validate_cancellation_reason_type(before)
         self.validate_econtract(after)
         self.validate_contract_changes(before, after)
-        tender = get_request().validated["tender"]
-        award = [award for award in tender.get("awards", []) if award.get("id") == after.get("awardID")][0]
-        self.request.validated["award"] = award
-        self.validate_dateSigned(self.request, tender, before, after)
+        self.validate_dateSigned(self.request, before, after)
         self.validate_patch_contract_items(self.request, before, after)
         self.validate_milestones(self.request, before, after)
         self.validate_update_contract_value(self.request, before, after)

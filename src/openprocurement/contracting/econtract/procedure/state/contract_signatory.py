@@ -5,6 +5,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import (
     ContractState as BaseContractState,
 )
+from openprocurement.contracting.core.procedure.utils import get_tender_award_by_contract
 
 
 class SignatoryState(BaseContractState):
@@ -56,6 +57,7 @@ class SignatoryState(BaseContractState):
     def validate_contract_is_ready_for_activation(self):
         tender = self.request.validated["tender"]
         contract = self.request.validated["contract"]
+        award = get_tender_award_by_contract(tender, contract)
         contract["id"] = contract["_id"]
         contract_after = deepcopy(contract)
         self.set_object_status(contract_after, "active")
@@ -68,7 +70,7 @@ class SignatoryState(BaseContractState):
             self.request,
             tender,
             contract_after,
-            self.request.validated["award"].get("lotID"),
+            award.get("lotID"),
         )
 
     def activate_contract_if_all_signed(self, data):

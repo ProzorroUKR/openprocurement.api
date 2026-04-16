@@ -6,7 +6,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import ContractState
-from openprocurement.contracting.core.procedure.utils import is_contract_owner
+from openprocurement.contracting.core.procedure.utils import get_tender_award_by_contract, is_contract_owner
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_before
@@ -25,7 +25,8 @@ CONFIDENTIAL_DOCS_CAUSES = (
 class ContractDocumentState(BaseDocumentStateMixing, ContractState):
     def validate_document_post(self, data):
         tender = self.request.validated["tender"]
-        award = self.request.validated["award"]
+        contract = self.request.validated["contract"]
+        award = get_tender_award_by_contract(tender, contract)
         self.validate_cancellation_blocks(self.request, tender, lot_id=award.get("lotID"))
 
     def validate_confidentiality(self, data):
@@ -63,7 +64,8 @@ class ContractDocumentState(BaseDocumentStateMixing, ContractState):
 
     def validate_document_patch(self, before, after):
         tender = self.request.validated["tender"]
-        award = self.request.validated["award"]
+        contract = self.request.validated["contract"]
+        award = get_tender_award_by_contract(tender, contract)
         self.validate_cancellation_blocks(self.request, tender, lot_id=award.get("lotID"))
 
     def document_always(self, data):

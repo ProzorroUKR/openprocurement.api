@@ -61,3 +61,7 @@ def is_bid_owner(request, contract):
     return is_owner_by_fields(request, contract, role=AccessRole.SUPPLIER) or is_owner_by_fields(
         request, contract, role=AccessRole.BID
     )
+
+
+def get_tender_award_by_contract(tender, contract):
+    return next((award for award in tender.get("awards", []) if award.get("id") == contract.get("awardID")), None)
