@@ -297,6 +297,11 @@ def request_fetch_root_tender_for_tender(request, tender_id, raise_error=True, f
         tender_agreements = tender.get("agreements", [{}])
         agreement = tender_agreements[0]
         root_tender_id = agreement.get("tender_id")
+        agreement_id = agreement.get("id")
+        if not root_tender_id and agreement_id:
+            request_fetch_agreement(request, agreement_id, raise_error=raise_error, force=force)
+            agreement = request.validated.get("agreement", {})
+            root_tender_id = agreement.get("tender_id")
 
     elif tender.get("procurementMethodType") == "competitiveDialogueEU.stage2":
         # Fetching root (competitiveDialogueEU) tender
