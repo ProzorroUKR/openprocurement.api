@@ -19,6 +19,7 @@ CONFIDENTIAL_DOCS_CAUSES = (
     "UZ",
     "defencePurchase",
     "stateDebtServices",
+    "energyCrisisRecovery",
 )
 
 

@@ -9,6 +9,7 @@ from openprocurement.contracting.core.tests.document_blanks import (
     create_contract_document_json_invalid,
     create_contract_transaction_document_json,
     limited_contract_confidential_document,
+    limited_contract_confidential_document_energy_crisis,
     not_found,
     patch_contract_document,
     put_contract_document,
@@ -27,6 +28,7 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
     test_put_contract_document_json = snitch(put_contract_document_json)
     test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
     test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
+    test_limited_contract_confidential_document_energy_crisis = snitch(limited_contract_confidential_document_energy_crisis)
 
 
 def suite():
