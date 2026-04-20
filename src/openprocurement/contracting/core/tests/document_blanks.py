@@ -1136,7 +1136,7 @@ def limited_contract_confidential_document(self):
     response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
     self.assertIn("url", response.json["data"])
 
-    
+
 @patch(
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
