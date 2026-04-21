@@ -17,8 +17,7 @@
         ],
         "unit": {
             "name": "item",
-            "code": "KGM",
-            "value": {"amount": 6}
+            "code": "KGM"
         },
         "quantity": 5,
         "deliveryAddress": {

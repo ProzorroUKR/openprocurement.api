@@ -121,7 +121,7 @@ test_tender_openeu_data = {
                     "description": "папір і картон гофровані, паперова й картонна тара",
                 }
             ],
-            "unit": {"name": "item", "code": "KGM", "value": {"amount": 6}},
+            "unit": {"name": "item", "code": "KGM"},
             "quantity": 5,
             "deliveryDate": {
                 "startDate": (now + timedelta(days=2)).isoformat(),

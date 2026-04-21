@@ -521,15 +521,11 @@ def patch_tender_currency(self):
     self.assertEqual(lot["value"]["currency"], "UAH")
 
     # update tender currency
-    items = deepcopy(self.initial_data["items"])
-    for i in items:
-        i["unit"]["value"]["currency"] = "GBP"
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "value": {"currency": "GBP", "amount": 1000},
-                "items": items,
             }
         },
     )
@@ -631,15 +627,11 @@ def patch_tender_vat(self):
     self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
 
     # update tender VAT
-    items = deepcopy(self.initial_data["items"])
-    for i in items:
-        i["unit"]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
-                "items": items,
             }
         },
     )
@@ -1370,9 +1362,13 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    patch_bid_data = {
+        "lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]
+    }
+    set_bid_items(self, patch_bid_data, bid_data["items"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]}},
+        {"data": patch_bid_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

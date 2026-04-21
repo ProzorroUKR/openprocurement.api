@@ -10,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues, set_tender_lots
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2_with_docs,
@@ -466,22 +466,27 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Registering bid
         bids_access = {}
         bid_data = deepcopy(test_docs_bid_draft)
-        bid_data["items"] = [
+        set_bid_lotvalues(bid_data, tender_lots)
+
+        bid_items = [
             {
                 "quantity": 5,
                 "description": "папір",
                 "id": items[0]["id"],
-                "unit": {
-                    "code": "KGM",
-                    "value": {"amount": 1500, "currency": "UAH", "valueAddedTaxIncluded": False},
-                },
             }
         ]
-        set_bid_lotvalues(bid_data, tender_lots)
+        set_bid_items(self, bid_data, bid_items)
+
+        bid_data["items"][0]["unit"]["value"]["amount"] = bid_data["items"][0]["unit"]["value"]["amount"] + 1
         with open(TARGET_DIR + "tutorial/register-bidder-invalid.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Total amount of unit values must be no more than bid.lotValues.value.amount and no less than net bid.lotValues amount",
+            )
 
-        bid_data["items"][0]["unit"]["value"]["amount"] = 0.6
+        set_bid_items(self, bid_data, bid_items)
+
         with open(TARGET_DIR + "tutorial/register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             bid1_id = response.json["data"]["id"]
@@ -559,17 +564,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid_with_docs = deepcopy(test_docs_bid2_with_docs)
         bid_with_docs["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_with_docs, tender_lots)
-        bid_with_docs["items"] = [
+
+        bid_items = [
             {
                 "quantity": 5,
                 "description": "папір",
                 "id": items[0]["id"],
-                "unit": {
-                    "code": "KGM",
-                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": False},
-                },
             }
         ]
+        set_bid_items(self, bid_with_docs, bid_items)
+
         with open(TARGET_DIR + "tutorial/register-2nd-bidder.http", "w") as self.app.file_obj:
             for document in bid_with_docs["documents"]:
                 document["url"] = self.generate_docservice_url()

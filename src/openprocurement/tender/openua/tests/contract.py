@@ -38,7 +38,7 @@ class TenderContractResourceTest(BaseTenderUAContentWebTest):
                     "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": self.initial_data["value"],
+                    "value": self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value"),
                 }
             },
         )

@@ -11,6 +11,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
+from openprocurement.tender.core.tests.utils import set_items_unit
 
 # TenderBidResourceTest
 
@@ -258,6 +259,9 @@ def create_tender_bidder(self):
 
 
 def patch_tender_bidder(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+
     bid_data = deepcopy(test_tender_openeu_bids[0])
     lot_id = self.initial_lots[0]["id"]
     bid_data.pop("value", None)
@@ -267,13 +271,17 @@ def patch_tender_bidder(self):
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot_id}],
         }
     )
+    set_bid_items(self, bid_data, tender["items"])
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
     lot_values = bid["lotValues"]
     lot_values[0]["value"]["amount"] = 600
 
+    items = bid_data["items"]
+    set_items_unit(items, lot_values[0]["value"])
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": lot_values}},
+        {"data": {"lotValues": lot_values, "items": items}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -305,9 +313,10 @@ def patch_tender_bidder(self):
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values[0]["value"]["amount"] = 500
+    set_items_unit(items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": lot_values, "tenderers": self.test_bids_data[0]["tenderers"]}},
+        {"data": {"lotValues": lot_values, "tenderers": self.test_bids_data[0]["tenderers"], "items": items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -317,6 +326,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values[0]["value"]["amount"] = 440
+    set_items_unit(items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {
@@ -324,6 +334,7 @@ def patch_tender_bidder(self):
                 "lotValues": lot_values,
                 "value": None,
                 "parameters": None,
+                "items": items,
             }
         },
     )
@@ -396,18 +407,21 @@ def patch_tender_draft_bidder(self):
     bid_token = response.json["access"]["token"]
     lot_values = bid["lotValues"]
     lot_values[0]["value"]["amount"] = 499
+    bid_items = bid["items"]
+    set_items_unit(bid_items, lot_values[0]["value"])
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "draft", "lotValues": lot_values}},
+        {"data": {"status": "draft", "lotValues": lot_values, "items": bid_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
     lot_values[0]["value"]["amount"] = 498
+    set_items_unit(bid_items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "draft", "lotValues": lot_values}},
+        {"data": {"status": "draft", "lotValues": lot_values, "items": bid_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -936,12 +950,14 @@ def bids_invalidation_on_tender_change(self):
     # submit valid bid
     data = deepcopy(self.test_bids_data[0])
     data["lotValues"][0]["value"]["amount"] = 499
+    set_bid_items(self, data)
     bid, valid_bid_token = self.create_bid(self.tender_id, data, "pending")
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
 
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["lotValues"][0]["value"]["amount"] = 441
+    set_bid_items(self, bid_data)
 
     for i in range(1, self.min_bids_number):
         bid_data.update({"tenderers": self.test_bids_data[i]["tenderers"]})

@@ -1379,7 +1379,7 @@ def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"
     # Legacy validation rules
     if not vat_aware_validation:
         # Upper bound only.
-        if not (int(units_amount_sum) <= int(obj_amount)):
+        if not (int(units_amount_sum) <= int(obj_amount)):  # pylint: disable=unnecessary-negation
             raise_operation_error(
                 get_request(),
                 f"Total amount of unit values can't be greater than {obj_name}.value.amount",

@@ -7,9 +7,8 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues, set_bid_items
 from openprocurement.tender.core.utils import calculate_tender_full_date
-
 # TenderResourceTest
 
 
@@ -965,8 +964,12 @@ def multiple_bidders_tender(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     set_bid_lotvalues(bid_data, tender["lots"])
+
+    set_bid_items(self, bid_data)
+    print(bid_data)
     self.create_bid(tender_id, bid_data, "pending")
 
+    set_bid_items(self, bid_data)
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid["id"]
 

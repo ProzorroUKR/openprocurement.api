@@ -242,11 +242,18 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
         set_bid_items(self, bid_data, items=tender["items"])
         with patch_market_product(test_bid_pq_product):
-            # validation sum of item.quantity * item.unit.value not more than 20% of bid.value
-            bid_data["items"][0]["quantity"] = 3  # 3 * 100 < 469 more than 20%
+            quantity = bid_data["items"][0]["quantity"]
+
+            # validation sum of item.quantity * item.unit.value
+            bid_data["items"][0]["quantity"] = quantity - 1
             with open(TARGET_DIR + "register-bidder-invalid-unit-value.http", "w") as self.app.file_obj:
-                self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
-            bid_data["items"][0]["quantity"] = 4  # 4 * 100 < 469 not more than 20%
+                response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+                self.assertEqual(
+                    response.json["errors"][0]["description"],
+                    "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
+                )
+
+            bid_data["items"][0]["quantity"] = quantity
             with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
                 response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
                 bid1_id = response.json["data"]["id"]
@@ -256,7 +263,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             with open(TARGET_DIR + "patch-bidder.http", "w") as self.app.file_obj:
                 response = self.app.patch_json(
                     "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                    {"data": {"value": {"amount": 459}}},
+                    {"data": {"value": {"amount": bid_data["value"]["amount"] + 1}}},
                 )
                 self.assertEqual(response.status, "200 OK")
 
@@ -321,7 +328,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bid_with_docs_data = deepcopy(test_tender_pq_bids_with_docs)
             bid_with_docs_data["requirementResponses"] = set_bid_responses(tender["criteria"])
             set_bid_items(self, bid_with_docs_data, items=tender["items"])
-            bid_with_docs_data["items"][0]["quantity"] = 4
             for document in bid_with_docs_data["documents"]:
                 document["url"] = self.generate_docservice_url()
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_with_docs_data})

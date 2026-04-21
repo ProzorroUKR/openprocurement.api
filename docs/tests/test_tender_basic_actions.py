@@ -23,6 +23,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
     change_auth,
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
@@ -4124,26 +4125,37 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         del bid_items[0]["profile"]
 
         set_bid_lotvalues(bid_data, [lot])
-        bid_data["items"] = bid_items
+        set_bid_items(self, bid_data, bid_items)
+
+        for item in bid_data["items"]:
+            item["unit"]["value"]["valueAddedTaxIncluded"] = True
 
         with open(
             TARGET_DIR + "bid-items-localization/unsuccessful-create-bid-with-items-VAT.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "valueAddedTaxIncluded of bid unit should be False",
+            )
 
         for item in bid_data["items"]:
             item["unit"]["value"]["valueAddedTaxIncluded"] = False
-        tender_item_id = bid_items[0]["id"]
-        bid_items[0]["id"] = "e" * 32
+        tender_item_id = bid_data["items"][0]["id"]
+        bid_data["items"][0]["id"] = "e" * 32
 
         with open(
             TARGET_DIR + "bid-items-localization/unsuccessful-create-bid-with-items.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Bid items ids should be on tender items ids for current lot",
+            )
 
-        bid_items[0]["id"] = tender_item_id
+        bid_data["items"][0]["id"] = tender_item_id
 
         with open(
             TARGET_DIR + "bid-items-localization/successfuly-create-bid-with-items.http", "w"
@@ -4154,8 +4166,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]
 
-        bid_data["items"][0]["unit"]["value"]["amount"] = 7
-        bid_data["items"][0]["quantity"] = 4
+        bid_items = deepcopy(bid_data["items"])
+        bid_items[0]["quantity"] = bid_items[0]["quantity"] + 1
+        set_bid_items(self, bid_data, bid_items)
 
         with open(TARGET_DIR + "bid-items-localization/update-bid-items.http", "w") as self.app.file_obj:
             response = self.app.patch_json(

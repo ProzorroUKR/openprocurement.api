@@ -242,5 +242,5 @@ def patch_econtract_multi_currency(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Total amount of unit values can't be greater than contract.value.amount",
+        "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
     )

@@ -38,7 +38,7 @@ test_tender_open_data["items"] = [
         "additionalClassifications": [
             {"scheme": "ДКПП", "id": "17.21.1", "description": "папір і картон гофровані, паперова й картонна тара"}
         ],
-        "unit": {"name": "item", "code": "KGM", "value": {"amount": 6}},
+        "unit": {"name": "item", "code": "KGM"},
         "quantity": 5,
         "deliveryDate": {
             "startDate": (now + timedelta(days=2)).isoformat(),

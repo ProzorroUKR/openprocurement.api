@@ -10,6 +10,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.contracting.core.tests.utils import create_contract
+from openprocurement.tender.core.tests.utils import set_items_unit
 
 
 def empty_listing(self):
@@ -1112,17 +1113,15 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["title"], "New Title")
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = value["amount"] - 1
+    value["amountNet"] = value["amountNet"] - 10
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
+
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {
-            "data": {
-                "value": {
-                    **self.contract["value"],
-                    "amount": self.contract["value"]["amount"] - 1,
-                    "amountNet": self.contract["value"]["amountNet"] - 10,
-                }
-            }
-        },
+        {"data": {"value": value, "items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1344,9 +1343,15 @@ def patch_tender_contract_value_amount(self):
         "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
     )
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 428
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
+
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"value": {"amount": 445, "amountNet": 428}}},
+        {"data": {"value": value, "items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -1489,9 +1494,15 @@ def patch_tender_contract_wo_amount_net(self):
         [{"description": {"amountNet": "This field is required."}, "location": "body", "name": "value"}],
     )
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
+
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"value": {"amount": 445, "amountNet": 440}}},
+        {"data": {"value": value, "items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 

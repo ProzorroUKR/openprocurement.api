@@ -162,7 +162,6 @@ test_tender_rfp_item = {
     "unit": {
         "name": "кг",
         "code": "KGM",
-        "value": {"amount": 6},
     },
     "quantity": 5,
     "deliveryDate": {

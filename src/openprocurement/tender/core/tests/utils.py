@@ -302,32 +302,96 @@ def set_bid_items(self, bid, items=None, tender_id=None):
         tender = response.json["data"]
         items = tender["items"]
 
-    valueAddedTaxIncluded = False
-    bid_items = []
-    related_lot_ids = {lot_value["relatedLot"] for lot_value in bid.get("lotValues") or []}
+    value = bid.get("value")
+    lot_values = bid.get("lotValues") or []
+
+    # group lot values by related lot
+    lot_values_by_related_lot = {}
+    if lot_values:
+        for lot_value in lot_values:
+            related_lot_id = lot_value.get("relatedLot")
+            lot_values_by_related_lot[related_lot_id] = lot_value.get("value")
+    else:
+        lot_values_by_related_lot[None] = value
+
+    # filter items if related lot if related lot is not exists in tender items
+    filtered_items = []
     for item in items:
-        if "relatedLot" in item and item["relatedLot"] not in related_lot_ids:
-            continue
-        bid_data = {
-            "quantity": 4.0,
-            "description": "футляри до державних нагород",
-            "id": item['id'],
-            "unit": {
-                "name": "кг",
-                "code": "KGM",
-                "value": {
-                    "amount": 110.0 / len(items),
-                    "currency": "UAH",
-                    "valueAddedTaxIncluded": valueAddedTaxIncluded,
-                },
-            },
-        }
-        if self.bid_item_product_required and item.get("category"):
-            bid_data["product"] = uuid4().hex
-        bid_items.append(bid_data)
-    if bid_items:
-        bid["items"] = bid_items
+        if not item.get("relatedLot") or item.get("relatedLot") in lot_values_by_related_lot:
+            filtered_items.append(deepcopy(item))
+    items = filtered_items
+
+    # fill related lot for items if not set
+    if lot_values:
+        for item in items:
+            item["relatedLot"] = item.get("relatedLot") or lot_values[0].get("relatedLot")
+
+    # group items by related lot
+    items_by_related_lot = {}
+    for item in items:
+        related_lot_id = item.get("relatedLot")
+        items_by_related_lot.setdefault(related_lot_id, []).append(item)
+
+    # update bid items units
+    for related_lot_id, lot_items in items_by_related_lot.items():
+        value = lot_values_by_related_lot.get(related_lot_id)
+        set_items_unit(lot_items, value)
+
+    # update bid items
+    for item in items:
+        # set product
+        if self.bid_item_product_required:
+            if item.get("category") or item.get("profile"):
+                item["product"] = uuid4().hex
+
+        # remove tender item stuff
+        item.pop("deliveryAddress", None)
+        item.pop("deliveryDate", None)
+        item.pop("category", None)
+        item.pop("classification", None)
+        item.pop("additionalClassifications", None)
+        item.pop("profile", None)
+        item.pop("category", None)
+        item.pop("relatedBuyer", None)
+
+    # set bid items
+    if items:
+        bid["items"] = items
+
     return bid
+
+
+def set_items_unit(items, value):
+    items = items or []
+
+    total_quantity = 0
+    for item in items:
+        item["quantity"] = item.get("quantity", 4.0)
+        total_quantity += item["quantity"]
+
+    for item in items:
+        # set unit
+        item["unit"] = item.get("unit", {})
+        item["unit"]["name"] = item["unit"].get("name", "кг")
+        item["unit"]["code"] = item["unit"].get("code", "KGM")
+
+        # get data from bid value if set
+        currency = (value or {}).get("currency", "UAH")
+        amount = (value or {}).get("amount", 0)
+
+        if not amount:
+            continue
+
+        # set unit value
+        item["unit"]["value"] = item.get("unit", {}).get("value", {})
+        item["unit"]["value"]["currency"] = currency  # from bid value or default
+        item["unit"]["value"]["valueAddedTaxIncluded"] = False  # always false
+
+        # set unit value amount
+        if item["quantity"] == 0:
+            item["unit"]["value"]["amount"] = 0
+        elif total_quantity:
+            item["unit"]["value"]["amount"] = amount / total_quantity
 
 
 def generate_req_response(req):
@@ -473,6 +537,13 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
     )
     self.assertEqual(response.status, "200 OK")
 
+    response = self.app.get(f"/contracts/{contract_id}")
+    contract = response.json["data"]
+
+    value = deepcopy(contract.get("value", {}))
+    items = deepcopy(contract.get("items"))
+    set_items_unit(items, value)
+
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={tender_token}",
         {
@@ -483,6 +554,7 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
                     "startDate": "2023-03-18T18:47:47.155143+02:00",
                     "endDate": "2023-05-18T18:47:47.155143+02:00",
                 },
+                "items": items
             }
         },
     )

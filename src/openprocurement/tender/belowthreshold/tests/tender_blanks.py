@@ -2893,7 +2893,6 @@ def lost_contract_for_active_award(self):
     second_item["id"] = uuid4().hex
     second_item["description"] = "телевізори"
     second_item["quantity"] = 0
-    second_item["unit"]["value"]["amount"] = 0
     items.append(second_item)
     self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"items": items}})
     # switch to active.tendering
@@ -2901,16 +2900,8 @@ def lost_contract_for_active_award(self):
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}
-
-    keys_to_remove = {"deliveryDate", "deliveryAddress", "classification", "additionalClassifications"}
-
-    for item in items:
-        for key in list(item.keys()):
-            if key in keys_to_remove:
-                item.pop(key, None)
-        item["unit"]["value"]["valueAddedTaxIncluded"] = False
-
-    bid_data["items"] = items
+    set_bid_items(self, bid_data, items)
+    print(bid_data)
     _, bid_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
