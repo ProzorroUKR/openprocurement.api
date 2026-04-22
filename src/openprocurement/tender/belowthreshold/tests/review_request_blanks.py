@@ -48,7 +48,7 @@ def create_review_request(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}])
+    self.assertEqual(response.json["errors"], [{"location": "url", "name": "permission", "description": "Forbidden"}])
 
     auth = self.app.authorization
     self.app.authorization = ("Basic", ("broker2", ""))
@@ -59,7 +59,7 @@ def create_review_request(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}])
+    self.assertEqual(response.json["errors"], [{"location": "url", "name": "permission", "description": "Forbidden"}])
 
     self.app.authorization = auth
 
@@ -416,7 +416,7 @@ def activate_contract_with_without_approve(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Can\'t update contract to active till inspector approve",
+                "description": "Can't update contract to active till inspector approve",
             }
         ],
     )
@@ -438,7 +438,7 @@ def activate_contract_with_without_approve(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Can\'t update contract to active till inspector approve",
+                "description": "Can't update contract to active till inspector approve",
             }
         ],
     )
@@ -464,7 +464,7 @@ def activate_contract_with_without_approve(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Can\'t update contract to active till inspector approve",
+                "description": "Can't update contract to active till inspector approve",
             }
         ],
     )

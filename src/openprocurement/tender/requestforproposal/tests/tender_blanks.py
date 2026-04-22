@@ -46,7 +46,7 @@ def create_tender_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{"description": 'Expecting value: line 1 column 1 (char 0)', "location": "body", "name": "data"}],
+        [{"description": "Expecting value: line 1 column 1 (char 0)", "location": "body", "name": "data"}],
     )
 
     response = self.app.post_json(request_path, "data", status=422)
@@ -340,9 +340,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -1209,9 +1209,9 @@ def create_tender_without_estimated_value(self):
         response.json["errors"],
         [
             {
-                'description': 'hasValueRestriction should be False',
-                'location': 'body',
-                'name': 'config.hasValueRestriction',
+                "description": "hasValueRestriction should be False",
+                "location": "body",
+                "name": "config.hasValueRestriction",
             }
         ],
     )
@@ -1224,9 +1224,9 @@ def create_tender_without_estimated_value(self):
         response.json["errors"],
         [
             {
-                'description': "Rogue field",
-                'location': 'body',
-                'name': 'value.amount',
+                "description": "Rogue field",
+                "location": "body",
+                "name": "value.amount",
             }
         ],
     )
@@ -1239,9 +1239,9 @@ def create_tender_without_estimated_value(self):
         response.json["errors"],
         [
             {
-                'description': "Value amount should not be passed if tender does not have estimated value",
-                'location': 'body',
-                'name': 'lots.value.amount',
+                "description": "Value amount should not be passed if tender does not have estimated value",
+                "location": "body",
+                "name": "lots.value.amount",
             }
         ],
     )

@@ -344,10 +344,10 @@ def create_tender_contract_document_by_others(self):
 
     doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
-        if 'complaintPeriod' in i:
+        if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
-        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    if "value" in doc["contracts"][0] and doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
+        doc["contracts"][0]["value"]["amountNet"] = str(float(doc["contracts"][0]["value"]["amount"]) - 1)
     self.mongodb.tenders.save(doc)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
@@ -366,7 +366,7 @@ def create_tender_contract_document_by_others(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     # Bid owner
     response = self.app.post_json(
@@ -522,10 +522,10 @@ def put_tender_contract_document_by_others(self):
     self.assertEqual(response.json["data"]["status"], "pending")
     doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
-        if 'complaintPeriod' in i:
+        if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    if 'value' in doc['contracts'][0] and doc['contracts'][0]['value']['valueAddedTaxIncluded']:
-        doc['contracts'][0]['value']['amountNet'] = str(float(doc['contracts'][0]['value']['amount']) - 1)
+    if "value" in doc["contracts"][0] and doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
+        doc["contracts"][0]["value"]["amountNet"] = str(float(doc["contracts"][0]["value"]["amount"]) - 1)
     self.mongodb.tenders.save(doc)
     bid_id = jmespath.search("awards[?id=='{}'].bid_id".format(contract["awardID"]), doc)[0]
     bid_token = jmespath.search("bids[?id!='{}'].owner_token".format(bid_id), doc)[0]
@@ -537,7 +537,7 @@ def put_tender_contract_document_by_others(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     # Bid owner
     response = self.app.post(
@@ -546,7 +546,7 @@ def put_tender_contract_document_by_others(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
 
 def contract_termination(self):
@@ -576,7 +576,7 @@ def create_tender_contract_document(self):
     for i in doc.get("awards", []):
         if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
-    if 'value' in doc["contracts"][0] and doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
+    if "value" in doc["contracts"][0] and doc["contracts"][0]["value"]["valueAddedTaxIncluded"]:
         doc["contracts"][0]["value"]["amountNet"] = str(float(doc["contracts"][0]["value"]["amount"]) - 1)
     self.mongodb.tenders.save(doc)
 

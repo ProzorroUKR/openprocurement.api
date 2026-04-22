@@ -373,9 +373,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -1220,7 +1220,7 @@ def first_bid_tender(self):
     # set award as unsuccessful
     self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     if "milestones" in response.json["data"][0]:
         milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
@@ -1255,7 +1255,7 @@ def first_bid_tender(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1317,7 +1317,7 @@ def lost_contract_for_active_award(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1416,7 +1416,7 @@ def create_tender_with_criteria_lcc(self):
     )
     response = self.app.patch_json(tender_request_path, {"data": {"awardCriteria": "lifeCycleCost"}}, status=403)
     self.assertEqual(
-        [{"location": "body", "name": "awardCriteria", "description": "Can\'t change awardCriteria"}],
+        [{"location": "body", "name": "awardCriteria", "description": "Can't change awardCriteria"}],
         response.json["errors"],
     )
 
@@ -1506,7 +1506,6 @@ def create_tender_with_criteria_lcc(self):
 
 
 def tender_items_category_profile(self):
-
     response_404 = Mock()
     response_404.status_code = 404
 

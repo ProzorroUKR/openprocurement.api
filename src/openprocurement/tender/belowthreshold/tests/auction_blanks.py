@@ -587,7 +587,7 @@ def post_tender_lots_auction(self):
     # self.assertEqual(response.json['errors'][0]["description"], [{u'lotValues': [{u'relatedLot': [u'relatedLot should be one of lots of bid']}]}])
     self.assertEqual(
         response.json["errors"][0]["description"],
-        ['Auction bid.lotValues should be identical to the tender bid.lotValues'],
+        ["Auction bid.lotValues should be identical to the tender bid.lotValues"],
     )
 
     num = 0
@@ -730,9 +730,9 @@ def patch_tender_lots_auction(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'lots',
-                'description': ['Number of lots did not match the number of tender lots'],
+                "location": "body",
+                "name": "lots",
+                "description": ["Number of lots did not match the number of tender lots"],
             }
         ],
     )

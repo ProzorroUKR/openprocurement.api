@@ -339,27 +339,27 @@ def put_transaction_to_contract(self):
     )
 
     self.assertEqual(
-        response.json['data']['implementation']['transactions'],
+        response.json["data"]["implementation"]["transactions"],
         [
             {
-                'status': 'successful',
-                'payer': {
+                "status": "successful",
+                "payer": {
                     "bankAccount": {
                         "id": "789",
                         "scheme": "IBAN",
                     },
                     "name": "payer1",
                 },
-                'value': {'currency': 'UAH', 'amount': 500.0},
-                'payee': {
+                "value": {"currency": "UAH", "amount": 500.0},
+                "payee": {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
                     "name": "payee1",
                 },
-                'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345',
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "id": "12345",
             }
         ],
     )
@@ -391,27 +391,27 @@ def put_transaction_to_contract(self):
     self.assertEqual(response.status, "200 OK")
 
     self.assertEqual(
-        response.json['data']['implementation']['transactions'],
+        response.json["data"]["implementation"]["transactions"],
         [
             {
-                'status': 'new_status_123',
-                'payer': {
+                "status": "new_status_123",
+                "payer": {
                     "bankAccount": {
                         "id": "789",
                         "scheme": "IBAN",
                     },
                     "name": "payer1",
                 },
-                'value': {'currency': 'UAH', 'amount': 500.0},
-                'payee': {
+                "value": {"currency": "UAH", "amount": 500.0},
+                "payee": {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
                     "name": "payee1",
                 },
-                'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345',
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "id": "12345",
             }
         ],
     )
@@ -443,47 +443,47 @@ def put_transaction_to_contract(self):
     self.assertEqual(response.status, "200 OK")
 
     self.assertEqual(
-        response.json['data']['implementation']['transactions'],
+        response.json["data"]["implementation"]["transactions"],
         [
             {
-                'status': 'new_status_123',
-                'payer': {
+                "status": "new_status_123",
+                "payer": {
                     "bankAccount": {
                         "id": "789",
                         "scheme": "IBAN",
                     },
                     "name": "payer1",
                 },
-                'value': {'currency': 'UAH', 'amount': 500.0},
-                'payee': {
+                "value": {"currency": "UAH", "amount": 500.0},
+                "payee": {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
                     "name": "payee1",
                 },
-                'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345',
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "id": "12345",
             },
             {
-                'status': 'canceled',
-                'payer': {
+                "status": "canceled",
+                "payer": {
                     "bankAccount": {
                         "id": "78999",
                         "scheme": "IBAN",
                     },
                     "name": "payer2",
                 },
-                'value': {'currency': 'UAH', 'amount': 14500.5},
-                'payee': {
+                "value": {"currency": "UAH", "amount": 14500.5},
+                "payee": {
                     "bankAccount": {
                         "id": "199000",
                         "scheme": "IBAN",
                     },
-                    'name': 'payee2',
+                    "name": "payee2",
                 },
-                'date': '2020-06-10T10:47:47.136678+02:00',
-                'id': '90800777',
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "id": "90800777",
             },
         ],
     )
@@ -506,9 +506,9 @@ def put_transaction_to_contract(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'description': ['This field is required.'], 'location': 'body', 'name': 'payer'},
-            {'description': ['This field is required.'], 'location': 'body', 'name': 'payee'},
-            {'description': ['This field is required.'], 'location': 'body', 'name': 'status'},
+            {"description": ["This field is required."], "location": "body", "name": "payer"},
+            {"description": ["This field is required."], "location": "body", "name": "payee"},
+            {"description": ["This field is required."], "location": "body", "name": "status"},
         ],
     )
 
@@ -537,11 +537,11 @@ def put_transaction_to_contract(self):
         response.json["errors"],
         [
             {
-                'description': [
-                    'Please use a mapping for this field or OrganizationReference instance instead of str.'
+                "description": [
+                    "Please use a mapping for this field or OrganizationReference instance instead of str."
                 ],
-                'location': 'body',
-                'name': 'payee',
+                "location": "body",
+                "name": "payee",
             }
         ],
     )
@@ -549,54 +549,54 @@ def put_transaction_to_contract(self):
     self.assertEqual(response.status, "200 OK")
 
     self.assertEqual(
-        response.json['data']['implementation']['transactions'],
+        response.json["data"]["implementation"]["transactions"],
         [
             {
-                'status': 'new_status_123',
-                'payer': {
+                "status": "new_status_123",
+                "payer": {
                     "bankAccount": {
                         "id": "789",
                         "scheme": "IBAN",
                     },
                     "name": "payer1",
                 },
-                'value': {'currency': 'UAH', 'amount': 500.0},
-                'payee': {
+                "value": {"currency": "UAH", "amount": 500.0},
+                "payee": {
                     "bankAccount": {
                         "id": "888",
                         "scheme": "IBAN",
                     },
                     "name": "payee1",
                 },
-                'date': '2020-05-20T18:47:47.136678+02:00',
-                'id': '12345',
+                "date": "2020-05-20T18:47:47.136678+02:00",
+                "id": "12345",
             },
             {
-                'status': 'canceled',
-                'payer': {
+                "status": "canceled",
+                "payer": {
                     "bankAccount": {
                         "id": "78999",
                         "scheme": "IBAN",
                     },
                     "name": "payer2",
                 },
-                'value': {'currency': 'UAH', 'amount': 14500.5},
-                'payee': {
+                "value": {"currency": "UAH", "amount": 14500.5},
+                "payee": {
                     "bankAccount": {
                         "id": "199000",
                         "scheme": "IBAN",
                     },
                     "name": "payee2",
                 },
-                'date': '2020-06-10T10:47:47.136678+02:00',
-                'id': '90800777',
+                "date": "2020-06-10T10:47:47.136678+02:00",
+                "id": "90800777",
             },
         ],
     )
     response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{2222222}", status=404)
     self.assertEqual(response.status, "404 Not Found")
     self.assertEqual(
-        response.json["errors"], [{'description': 'Not Found', 'location': 'url', 'name': 'transaction_id'}]
+        response.json["errors"], [{"description": "Not Found", "location": "url", "name": "transaction_id"}]
     )
 
     response = self.app.put_json(
@@ -623,40 +623,40 @@ def put_transaction_to_contract(self):
         response.json["errors"],
         [
             {
-                'description': {'bankAccount': {'scheme': ["Value must be one of ['IBAN']."]}},
-                'location': 'body',
-                'name': 'payer',
+                "description": {"bankAccount": {"scheme": ["Value must be one of ['IBAN']."]}},
+                "location": "body",
+                "name": "payer",
             },
             {
-                'description': {'bankAccount': {'scheme': ["This field is required."]}},
-                'location': 'body',
-                'name': 'payee',
+                "description": {"bankAccount": {"scheme": ["This field is required."]}},
+                "location": "body",
+                "name": "payee",
             },
         ],
     )
 
     response = self.app.get(f"/contracts/{self.contract['id']}/transactions/{12345}")
     self.assertEqual(
-        response.json['data'],
+        response.json["data"],
         {
-            'status': 'new_status_123',
-            'payer': {
+            "status": "new_status_123",
+            "payer": {
                 "bankAccount": {
                     "id": "789",
                     "scheme": "IBAN",
                 },
-                'name': 'payer1',
+                "name": "payer1",
             },
-            'value': {'currency': 'UAH', 'amount': 500.0},
-            'payee': {
+            "value": {"currency": "UAH", "amount": 500.0},
+            "payee": {
                 "bankAccount": {
                     "id": "888",
                     "scheme": "IBAN",
                 },
-                'name': 'payee1',
+                "name": "payee1",
             },
-            'date': '2020-05-20T18:47:47.136678+02:00',
-            'id': '12345',
+            "date": "2020-05-20T18:47:47.136678+02:00",
+            "id": "12345",
         },
     )
 
@@ -1077,12 +1077,12 @@ def contract_update_add_remove_items(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{"location": "body", "name": "items", "description": ['Please provide at least 1 item.']}],
+        [{"location": "body", "name": "items", "description": ["Please provide at least 1 item."]}],
     )
 
     # try to add item
     new_item = deepcopy(items[0])
-    new_item['id'] = "new_id"
+    new_item["id"] = "new_id"
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
         {
@@ -1139,7 +1139,7 @@ def patch_tender_contract(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Rogue field', 'location': 'body', 'name': 'amountPaid'}],
+        [{"description": "Rogue field", "location": "body", "name": "amountPaid"}],
     )
 
     custom_period_start_date = get_now().isoformat()
@@ -1311,7 +1311,7 @@ def patch_tender_contract_identical(self):
 
 def patch_tender_contract_without_value(self):
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    del contract_doc['value']
+    del contract_doc["value"]
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.patch_json(
@@ -1391,7 +1391,7 @@ def patch_tender_contract_period(self):
     }
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc['period'] = previous_period
+    contract_doc["period"] = previous_period
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.patch_json(
@@ -1554,11 +1554,11 @@ def contract_administrator_change(self):
         },
         status=422,
     )
-    self.assertIn({'description': 'Rogue field', 'location': 'body', 'name': 'owner'}, response.json["errors"])
-    self.assertIn({'description': 'Rogue field', 'location': 'body', 'name': 'value'}, response.json["errors"])
-    self.assertIn({'description': 'Rogue field', 'location': 'body', 'name': 'dateSigned'}, response.json["errors"])
-    self.assertIn({'description': 'Rogue field', 'location': 'body', 'name': 'contractID'}, response.json["errors"])
-    self.assertIn({'description': 'Rogue field', 'location': 'body', 'name': 'id'}, response.json["errors"])
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "owner"}, response.json["errors"])
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "value"}, response.json["errors"])
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "dateSigned"}, response.json["errors"])
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "contractID"}, response.json["errors"])
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "id"}, response.json["errors"])
 
     response = self.app.get(f"/contracts/{self.contract['id']}")
     self.assertEqual(response.json["data"]["value"]["amount"], self.contract["value"]["amount"])
@@ -1663,9 +1663,9 @@ def contract_validate_signer_info(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'data',
-                'description': 'signerInfo field for buyer and suppliers is required for contract in `active` status',
+                "location": "body",
+                "name": "data",
+                "description": "signerInfo field for buyer and suppliers is required for contract in `active` status",
             }
         ],
     )
@@ -1686,9 +1686,9 @@ def contract_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
@@ -1762,7 +1762,7 @@ def contract_activate(self):
     self.assertEqual(response.json["data"]["status"], "pending")
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc['contractTemplateName'] = "test"
+    contract_doc["contractTemplateName"] = "test"
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.patch_json(

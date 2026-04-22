@@ -138,7 +138,7 @@ test_tender_pq_data = {
     "value": {"amount": 22000, "currency": "UAH"},
     "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
     "procurementMethodType": PQ,
-    "procurementMethod": 'selective',
+    "procurementMethod": "selective",
     "items": [test_tender_pq_item],
     "agreement": {"id": "0" * 32},
     "milestones": test_tender_pq_milestones,
@@ -167,16 +167,16 @@ test_tender_pq_bids = [
 test_tender_pq_bids_with_docs = deepcopy(test_tender_pq_bids[1])
 test_tender_pq_bids_with_docs["documents"] = [
     {
-        'title': 'Proposal_part1.pdf',
-        'url': "http://broken1.ds",
-        'hash': 'md5:' + '0' * 32,
-        'format': 'application/pdf',
+        "title": "Proposal_part1.pdf",
+        "url": "http://broken1.ds",
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pdf",
     },
     {
-        'title': 'Proposal_part2.pdf',
-        'url': "http://broken2.ds",
-        'hash': 'md5:' + '0' * 32,
-        'format': 'application/pdf',
+        "title": "Proposal_part2.pdf",
+        "url": "http://broken2.ds",
+        "hash": "md5:" + "0" * 32,
+        "format": "application/pdf",
     },
 ]
 
@@ -365,7 +365,7 @@ test_tender_pq_criteria_1 = [
                 "version": "2020-04-19",
                 "identifier": {
                     "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "legalName": 'Закон України "Про публічні закупівлі"',
                     "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
                 },
                 "type": "NATIONAL_LEGISLATION",
@@ -417,7 +417,7 @@ test_tender_pq_criteria_2 = [
                 "version": "2020-04-19",
                 "identifier": {
                     "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "legalName": 'Закон України "Про публічні закупівлі"',
                     "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
                 },
                 "type": "NATIONAL_LEGISLATION",
@@ -467,7 +467,7 @@ test_tender_pq_criteria_3 = [
                 "version": "2020-04-19",
                 "identifier": {
                     "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "legalName": 'Закон України "Про публічні закупівлі"',
                     "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
                 },
                 "type": "NATIONAL_LEGISLATION",
@@ -525,7 +525,7 @@ test_tender_pq_criteria_4 = [
                 "version": "2020-04-19",
                 "identifier": {
                     "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "legalName": 'Закон України "Про публічні закупівлі"',
                     "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
                 },
                 "type": "NATIONAL_LEGISLATION",

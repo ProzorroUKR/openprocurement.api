@@ -1263,9 +1263,9 @@ def create_tender_lot(self):
         response.json["errors"],
         [
             {
-                'description': 'Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).',
-                'location': 'body',
-                'name': 'data',
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1325,7 +1325,7 @@ def create_tender_lot(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'body', 'name': 'data', 'description': 'Lots count in tender cannot be more than 1 items'}],
+        [{"location": "body", "name": "data", "description": "Lots count in tender cannot be more than 1 items"}],
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1351,7 +1351,7 @@ def create_tender_lot(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'body', 'name': 'data', 'description': 'Lots count in tender cannot be more than 1 items'}],
+        [{"location": "body", "name": "data", "description": "Lots count in tender cannot be more than 1 items"}],
     )
 
 

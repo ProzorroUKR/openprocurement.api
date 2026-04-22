@@ -238,7 +238,6 @@ class SubmissionContentWebTest(BaseSubmissionContentWebTest):
 
 
 class BaseAgreementContentWebTest(SubmissionContentWebTest):
-
     def check_chronograph(self, data=None):
         with change_auth(self.app, ("Basic", ("chronograph", ""))):
             url = "/agreements/{}".format(self.agreement_id)

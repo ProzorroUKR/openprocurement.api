@@ -419,7 +419,7 @@ def get_tender_lot_auction(self):
     auction = response.json["data"]
     self.assertNotEqual(auction, self.initial_data)
     self.assertIn("dateModified", auction)
-    self.assertIn("minimalStep", auction['lots'][0])  # PY3_QUESTION
+    self.assertIn("minimalStep", auction["lots"][0])  # PY3_QUESTION
     self.assertIn("lots", auction)
     self.assertNotIn("tenderers", auction["bids"][0])
     self.assertEqual(

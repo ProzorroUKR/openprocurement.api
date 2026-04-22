@@ -260,8 +260,8 @@ def create_tender_bid_invalid(self):
     self.assertEqual(
         response.json,
         {
-            'status': 'error',
-            'errors': [{'location': 'body', 'name': 'data', 'description': "Bid is not a member of agreement"}],
+            "status": "error",
+            "errors": [{"location": "body", "name": "data", "description": "Bid is not a member of agreement"}],
         },
     )
 
@@ -284,13 +284,13 @@ def create_tender_bid_invalid(self):
 
 def create_tender_bid(self):
     data = self.mongodb.tenders.get(self.tender_id)
-    criteria = data.pop('criteria')
+    criteria = data.pop("criteria")
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
     # Revert tender to draft status
-    data['status'] = 'draft'
+    data["status"] = "draft"
     self.mongodb.tenders.save(data)
 
     bid_data = {
@@ -305,7 +305,7 @@ def create_tender_bid(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
-        response.json['errors'],
+        response.json["errors"],
         [
             {
                 "location": "body",
@@ -316,8 +316,8 @@ def create_tender_bid(self):
     )
 
     # Restore tender to 'active' status
-    data['status'] = "active.tendering"
-    data['criteria'] = criteria
+    data["status"] = "active.tendering"
+    data["criteria"] = criteria
     self.mongodb.tenders.save(data)
 
     rrs = set_bid_responses(tender["criteria"])
@@ -401,7 +401,7 @@ def requirement_response_validation_multiple_requirements(self):
     self.assertEqual(response.content_type, "application/json")
     test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[0]['values'] = ['ivalid']
+    test_response[0]["values"] = ["ivalid"]
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {
@@ -414,24 +414,24 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
 
     test_response = deepcopy(test_tender_pq_response_1)
     copy_criteria_req_id(tender["criteria"], test_response)
-    test_response[1]['value'] = '4'
+    test_response[1]["value"] = "4"
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {
@@ -444,20 +444,20 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [
+                "description": [
                     'Value 4 is lower then minimal required 5 '
                     f'in requirement {test_response[1]["requirement"]["id"]}'
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -477,7 +477,7 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
     missed_criterion = None
@@ -487,17 +487,17 @@ def requirement_response_validation_multiple_requirements(self):
                 if req["id"] == missed_response["requirement"]["id"]:
                     missed_criterion = criterion
                     break
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [
+                "description": [
                     "Responses are required for all requirements in a requirement group, "
                     f"failed for criteria {missed_criterion['id']}"
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -517,17 +517,17 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [{"value": "Response required at least one of field [\"value\", \"values\"]"}],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [{"value": 'Response required at least one of field ["value", "values"]'}],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -547,17 +547,17 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [{"value": "Field 'value' conflicts with 'values'"}],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [{"value": "Field 'value' conflicts with 'values'"}],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -577,20 +577,20 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [
+                "description": [
                     f'Count of items higher then maximum required 3 '
                     f'in requirement {test_response[2]["requirement"]["id"]}'
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -610,17 +610,17 @@ def requirement_response_validation_multiple_requirements(self):
         },
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [f'Values are not in requirement {test_response[2]["requirement"]["id"]}'],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [f'Values are not in requirement {test_response[2]["requirement"]["id"]}'],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -640,9 +640,9 @@ def requirement_response_value_validation_for_expected_values(self):
 
     test_additional_criteria = deepcopy(test_tech_feature_criteria)
     set_tender_criteria(test_additional_criteria, tender.get("lots", []), tender.get("items", []))
-    test_additional_criteria[0]["classification"][
-        "id"
-    ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+    test_additional_criteria[0]["classification"]["id"] = (
+        "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+    )
     test_additional_criteria[0]["requirementGroups"][0]["requirements"] = [
         {
             "dataType": "string",
@@ -661,7 +661,7 @@ def requirement_response_value_validation_for_expected_values(self):
     self.add_contract_proforma_doc(tender["id"], tender_token)
 
     # switch to tendering and add criteria with expectedValues array
-    self.add_sign_doc(tender['id'], tender_token)
+    self.add_sign_doc(tender["id"], tender_token)
     response = self.app.patch_json(
         f"/tenders/{tender['id']}?acc_token={tender_token}",
         {
@@ -677,11 +677,11 @@ def requirement_response_value_validation_for_expected_values(self):
     # try to response value on expectedValues
     rr = set_bid_responses(tender["criteria"])
     rr[-2] = {
-        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']},
+        "requirement": {"id": tender["criteria"][-1]["requirementGroups"][0]["requirements"][0]["id"]},
         "value": "Розчин для інфузій",
     }
     rr[-1] = {
-        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']},
+        "requirement": {"id": tender["criteria"][-1]["requirementGroups"][0]["requirements"][1]["id"]},
         "values": [5, 7, 6],
     }
 
@@ -698,20 +698,20 @@ def requirement_response_value_validation_for_expected_values(self):
     )
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': f"only 'values' allowed in response for requirement {tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']}",
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": f"only 'values' allowed in response for requirement {tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']}",
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
 
     rr[-2] = {
-        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][0]['id']},
+        "requirement": {"id": tender["criteria"][-1]["requirementGroups"][0]["requirements"][0]["id"]},
         "values": ["Розчин для інфузій"],
     }
 
@@ -728,20 +728,20 @@ def requirement_response_value_validation_for_expected_values(self):
     )
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': f"only 'value' allowed in response for requirement {tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']}",
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": f"only 'value' allowed in response for requirement {tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']}",
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
 
     rr[-1] = {
-        "requirement": {"id": tender['criteria'][-1]['requirementGroups'][0]['requirements'][1]['id']},
+        "requirement": {"id": tender["criteria"][-1]["requirementGroups"][0]["requirements"][1]["id"]},
         "value": 5,
     }
 
@@ -755,7 +755,7 @@ def requirement_response_value_validation_for_expected_values(self):
 
     # invalid value in response
     test_response = deepcopy(rr)
-    test_response[-2]['values'] = ['ivalid']
+    test_response[-2]["values"] = ["ivalid"]
 
     bid_data["status"] = "active"
     bid_data["requirementResponses"] = test_response
@@ -766,14 +766,14 @@ def requirement_response_value_validation_for_expected_values(self):
     )
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -800,17 +800,17 @@ def requirement_response_validation_multiple_groups(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [
+                "description": [
                     "Responses are allowed for only one group of requirements per criterion, "
                     f"failed for criteria {criteria[0]['id']}"
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -837,17 +837,17 @@ def requirement_response_validation_multiple_groups_multiple_requirements(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [
+                "description": [
                     "Responses are allowed for only one group of requirements per criterion, "
                     f"failed for criteria {criteria[0]['id']}"
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -871,24 +871,24 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         {"data": bid_data},
         status=422,
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     data = response.json
-    self.assertEqual(data['status'], "error")
+    self.assertEqual(data["status"], "error")
     self.assertEqual(
-        data['errors'],
+        data["errors"],
         [
             {
-                'description': [f'Values are not in requirement {rr[0]["requirement"]["id"]}'],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [f'Values are not in requirement {rr[0]["requirement"]["id"]}'],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
 
     rr = deepcopy(test_tender_pq_response_4)
     copy_criteria_req_id(tender["criteria"], rr)
-    rr[0]['values'] = ['Розчин']
+    rr[0]["values"] = ["Розчин"]
     bid_data["requirementResponses"] = rr
     bid_data["status"] = "draft"
     response = self.app.post_json(
@@ -1304,7 +1304,7 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
         {"data": {"status": "pending"}},
     )
 
-    self.set_status("active.tendering", 'end')
+    self.set_status("active.tendering", "end")
     self.check_chronograph()
     response = self.app.get(f"/tenders/{self.tender_id}/bids")
     self.assertEqual(response.json["data"][0]["status"], "invalid")
@@ -1366,9 +1366,9 @@ def bid_items_unit_value_validations(self):
     )
 
     # quantity * value.amount is not less than bid net amount
-    bid_data["items"][0]["unit"]["value"][
-        "amount"
-    ] = 104.165  # 104.165 * 4 = 416.66, and amount net of bid 416 - it is in 20% delta
+    bid_data["items"][0]["unit"]["value"]["amount"] = (
+        104.165  # 104.165 * 4 = 416.66, and amount net of bid 416 - it is in 20% delta
+    )
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1377,7 +1377,7 @@ def bid_items_unit_value_validations(self):
 
     # bid value with VAT
     data = self.mongodb.tenders.get(self.tender_id)
-    data['value']['valueAddedTaxIncluded'] = False
+    data["value"]["valueAddedTaxIncluded"] = False
     self.mongodb.tenders.save(data)
     bid_data["value"]["valueAddedTaxIncluded"] = False
     # items sum 104.165 * 4 = 416.66, as bid.value doesn't include VAT we will see an error
@@ -1391,9 +1391,9 @@ def bid_items_unit_value_validations(self):
         "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
     )
 
-    bid_data["items"][0]["unit"]["value"][
-        "amount"
-    ] = 125.15  # 125.15 * 4 = 500.6, and amount of bid 500 (without coins it is valid items unit value)
+    bid_data["items"][0]["unit"]["value"]["amount"] = (
+        125.15  # 125.15 * 4 = 500.6, and amount of bid 500 (without coins it is valid items unit value)
+    )
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},

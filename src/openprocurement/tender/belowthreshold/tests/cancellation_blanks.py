@@ -182,7 +182,7 @@ def create_tender_cancellation_before_19_04_2020(self):
         response.json["errors"],
         [
             {
-                "description": ['Rogue field'],
+                "description": ["Rogue field"],
                 "location": "body",
                 "name": "reasonType",
             }
@@ -992,7 +992,7 @@ def patch_tender_cancellation_2020_04_19(self):
         if reasonType_choice != cancellation["reasonType"]:
             response = self.app.patch_json(
                 "/tenders/{}/cancellations/{}?acc_token={}".format(
-                    self.tender_id, cancellation['id'], self.tender_token
+                    self.tender_id, cancellation["id"], self.tender_token
                 ),
                 {"data": {"reasonType": reasonType_choice}},
             )

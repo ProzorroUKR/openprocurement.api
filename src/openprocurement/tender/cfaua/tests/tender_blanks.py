@@ -254,9 +254,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
-                'location': 'body',
-                'name': 'data',
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -331,9 +331,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -754,9 +754,9 @@ def patch_tender(self):
         response.json["errors"],
         [
             {
-                'description': "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
-                'location': 'body',
-                'name': 'data',
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -2040,63 +2040,63 @@ def create_tender_with_required_unit(self):
         response.json["errors"],
         [
             {
-                'description': [{'unit': ['This field is required.'], 'quantity': ['This field is required.']}],
-                'location': 'body',
-                'name': 'items',
+                "description": [{"unit": ["This field is required."], "quantity": ["This field is required."]}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
-    tender_data["items"][0]['quantity'] = _quantity
+    tender_data["items"][0]["quantity"] = _quantity
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{'description': [{'unit': ['This field is required.']}], 'location': 'body', 'name': 'items'}],
+        [{"description": [{"unit": ["This field is required."]}], "location": "body", "name": "items"}],
     )
-    tender_data["items"][0]['unit'] = _unit
+    tender_data["items"][0]["unit"] = _unit
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
-    self.assertIn("quantity", response.json["data"]['items'][0])
-    self.assertIn("unit", response.json["data"]['items'][0])
+    self.assertIn("quantity", response.json["data"]["items"][0])
+    self.assertIn("unit", response.json["data"]["items"][0])
 
     _unit_code = tender_data["items"][0]["unit"].pop("code")
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
-        [{'description': [{'unit': {'code': ['This field is required.']}}], 'location': 'body', 'name': 'items'}],
+        [{"description": [{"unit": {"code": ["This field is required."]}}], "location": "body", "name": "items"}],
     )
-    tender_data["items"][0]['unit']['code'] = _unit_code
-    tender_data["items"][0]['unit']['value'] = {"currency": "USD", "valueAddedTaxIncluded": False}
+    tender_data["items"][0]["unit"]["code"] = _unit_code
+    tender_data["items"][0]["unit"]["value"] = {"currency": "USD", "valueAddedTaxIncluded": False}
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json['errors'],
+        response.json["errors"],
         [
             {
-                'description': [{'unit': {'value': {'amount': ['This field is required.']}}}],
-                'location': 'body',
-                'name': 'items',
+                "description": [{"unit": {"value": {"amount": ["This field is required."]}}}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
-    tender_data["items"][0]['unit']['value']['amount'] = 100
+    tender_data["items"][0]["unit"]["value"]["amount"] = 100
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     resp = response.json["data"]
-    self.assertEqual('USD', resp["items"][0]['unit']['value']['currency'])
-    self.assertEqual(False, resp["items"][0]['unit']['value']['valueAddedTaxIncluded'])
+    self.assertEqual("USD", resp["items"][0]["unit"]["value"]["currency"])
+    self.assertEqual(False, resp["items"][0]["unit"]["value"]["valueAddedTaxIncluded"])
 
     tender_data["items"][0]["unit"]["code"] = "unknown_code"
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json['errors'],
+        response.json["errors"],
         [
             {
-                'description': [{'unit': {'code': ['Code should be one of valid unit codes.']}}],
-                'location': 'body',
-                'name': 'items',
+                "description": [{"unit": {"code": ["Code should be one of valid unit codes."]}}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )

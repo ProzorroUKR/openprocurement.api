@@ -509,7 +509,7 @@ def patch_tender_award_active(self):
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
     self.app.authorization = ("Basic", ("broker", ""))
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
@@ -581,7 +581,7 @@ def patch_tender_award_unsuccessful(self):
     self.assertIn("Location", response.headers)
     self.app.authorization = ("Basic", ("broker", ""))
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -592,7 +592,7 @@ def patch_tender_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -1073,7 +1073,7 @@ def last_award_unsuccessful_next_check(self):
 
     response = self.app.get("/tenders/{}/awards".format(self.tender_id))
     self.assertEqual(len(response.json["data"]), 2)
-    self.assertEqual(['unsuccessful', 'unsuccessful'], [a["status"] for a in response.json["data"]])
+    self.assertEqual(["unsuccessful", "unsuccessful"], [a["status"] for a in response.json["data"]])
 
     # next_check
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1417,7 +1417,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
 
     self.app.authorization = auth
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
@@ -1443,7 +1443,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.app.authorization = ("Basic", ("broker", ""))
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
@@ -1455,7 +1455,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.app.authorization = ("Basic", ("broker", ""))
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
@@ -1965,7 +1965,7 @@ def patch_tender_award_complaint(self):
         )
         self.assertEqual(
             response.json["errors"],
-            [{"location": "body", "name": "data", "description": "Can\'t change complaint author id"}],
+            [{"location": "body", "name": "data", "description": "Can't change complaint author id"}],
         )
 
     if get_now() > RELEASE_2020_04_19:
@@ -3098,7 +3098,7 @@ def create_award_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "{}?acc_token={}".format(base_request_path, "some_random_phrase"),
@@ -3109,7 +3109,7 @@ def create_award_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         request_path,
@@ -3132,9 +3132,9 @@ def create_award_requirement_response(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
+                "location": "body",
                 "name": "requirementResponses.0",
-                "description": {"value": "Response required at least one of field [\"value\", \"values\"]"},
+                "description": {"value": 'Response required at least one of field ["value", "values"]'},
             },
         ],
     )
@@ -3151,7 +3151,7 @@ def create_award_requirement_response(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
+            {"location": "body", "name": "requirement", "description": ["This field is required."]},
         ],
     )
 
@@ -3203,7 +3203,7 @@ def patch_award_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "{}?acc_token={}".format(base_request_path, "some_random_token"),
@@ -3214,7 +3214,7 @@ def patch_award_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         request_path,
@@ -3229,9 +3229,9 @@ def patch_award_requirement_response(self):
         response.json["errors"],
         [
             {
-                'description': ['Must be either true or false.'],
-                'location': 'body',
-                'name': 'value',
+                "description": ["Must be either true or false."],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -3305,7 +3305,7 @@ def create_award_requirement_response_evidence(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "{}?acc_token={}".format(base_request_path, "some_test_token"),
@@ -3316,7 +3316,7 @@ def create_award_requirement_response_evidence(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(request_path, {"data": {"description": "some description"}}, status=422)
 
@@ -3325,7 +3325,7 @@ def create_award_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['type should be one of eligibleEvidences types'], 'location': 'body', 'name': 'type'}],
+        [{"description": ["type should be one of eligibleEvidences types"], "location": "body", "name": "type"}],
     )
 
     response = self.app.post_json(
@@ -3345,7 +3345,7 @@ def create_award_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['This field is required.'], 'location': 'body', 'name': 'relatedDocument'}],
+        [{"description": ["This field is required."], "location": "body", "name": "relatedDocument"}],
     )
 
     response = self.app.post_json(
@@ -3371,9 +3371,9 @@ def create_award_requirement_response_evidence(self):
         response.json["errors"],
         [
             {
-                'description': ['relatedDocument.id should be one of award documents'],
-                'location': 'body',
-                'name': 'relatedDocument',
+                "description": ["relatedDocument.id should be one of award documents"],
+                "location": "body",
+                "name": "relatedDocument",
             }
         ],
     )
@@ -3667,7 +3667,7 @@ def prolongation_award(self):
     # check prolongation
     due_date = response.json["data"]["dueDate"]
     response = self.app.get(
-        f'/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}',
+        f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
     )
     period_start = dt_from_iso(response.json["data"]["period"]["startDate"])
     new_period_end = calculate_tender_full_date(
@@ -3687,7 +3687,7 @@ def prolongation_award(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"][0],
-        {'milestones': ["There can be only one 'extensionPeriod' milestone"]},
+        {"milestones": ["There can be only one 'extensionPeriod' milestone"]},
     )
 
     # add document for prolongation

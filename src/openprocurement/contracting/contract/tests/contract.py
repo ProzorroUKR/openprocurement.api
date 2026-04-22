@@ -94,7 +94,7 @@ class ContractResource4BrokersTestMultipleItems(BaseContractContentWebTest):
     def setUp(self):
         super().setUp()
         contract_doc = self.mongodb.contracts.get(self.contract_id)
-        contract_doc['items'].append(test_contract_data_second_item)
+        contract_doc["items"].append(test_contract_data_second_item)
         self.mongodb.contracts.save(contract_doc)
 
     test_contract_update_add_remove_items = snitch(contract_update_add_remove_items)
@@ -108,7 +108,7 @@ class ContractWOItemsResource4BrokersTest(BaseContractContentWebTest):
     def setUp(self):
         super().setUp()
         contract_doc = self.mongodb.contracts.get(self.contract_id)
-        del contract_doc['items']
+        del contract_doc["items"]
         self.mongodb.contracts.save(contract_doc)
 
     test_contract_wo_items_status_change = snitch(contract_wo_items_status_change)
@@ -121,7 +121,7 @@ class ContractWOAmountNetResource4BrokersTest(BaseContractContentWebTest):
     def setUp(self):
         super().setUp()
         contract_doc = self.mongodb.contracts.get(self.contract_id)
-        del contract_doc['value']['amountNet']
+        del contract_doc["value"]["amountNet"]
         self.mongodb.contracts.save(contract_doc)
 
     test_patch_tender_contract = snitch(patch_tender_contract_wo_amount_net)

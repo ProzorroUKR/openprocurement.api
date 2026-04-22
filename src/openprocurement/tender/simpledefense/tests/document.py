@@ -11,7 +11,6 @@ from openprocurement.tender.simpledefense.tests.base import BaseSimpleDefContent
 
 
 class TenderDocumentResourceTest(BaseSimpleDefContentWebTest):
-
     test_create_tender_document_json_invalid = snitch(create_tender_document_json_invalid)
     test_create_tender_document_json = snitch(create_tender_document_json)
     test_create_tender_document_json_bulk = snitch(create_tender_document_json_bulk)

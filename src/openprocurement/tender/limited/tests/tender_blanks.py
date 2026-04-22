@@ -422,9 +422,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -834,7 +834,7 @@ def patch_tender(self):
         {"data": award_data},
     )
     award_id = response.json["data"]["id"]
-    self.add_sign_doc(tender['id'], owner_token, docs_url=f"/awards/{award_id}/documents")
+    self.add_sign_doc(tender["id"], owner_token, docs_url=f"/awards/{award_id}/documents")
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender["id"], award_id, owner_token),
         {"data": {"status": "active", "qualified": True}},
@@ -1449,8 +1449,9 @@ def tender_cause_quick(self):
     constant_target_1 = "openprocurement.tender.limited.procedure.state.tender_details.QUICK_CAUSE_REQUIRED_FROM"
     constant_target_2 = "openprocurement.tender.limited.procedure.state.tender_details.CAUSE_DETAILS_REQUIRED_FROM"
 
-    with mock.patch(constant_target_1, get_now() + timedelta(days=1)), mock.patch(
-        constant_target_2, get_now() + timedelta(days=1)
+    with (
+        mock.patch(constant_target_1, get_now() + timedelta(days=1)),
+        mock.patch(constant_target_2, get_now() + timedelta(days=1)),
     ):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
 
@@ -1792,11 +1793,11 @@ def tender_cause_reporting(self):
     self.assertEqual(
         response.json["data"]["causeDetails"],
         {
-            'code': 'stateLegalServices',
-            'scheme': 'DECREE1178',
-            'description': 'foo',
-            'title': 'Підпункт 10 пункту 13',
-            'title_en': 'Subparagraph 10 of paragraph 13',
+            "code": "stateLegalServices",
+            "scheme": "DECREE1178",
+            "description": "foo",
+            "title": "Підпункт 10 пункту 13",
+            "title_en": "Subparagraph 10 of paragraph 13",
         },
     )
 

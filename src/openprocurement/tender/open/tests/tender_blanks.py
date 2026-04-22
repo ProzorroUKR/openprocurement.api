@@ -443,9 +443,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -1507,7 +1507,7 @@ def create_tender_with_criteria_lcc(self):
     )
     response = self.app.patch_json(tender_request_path, {"data": {"awardCriteria": "lifeCycleCost"}}, status=403)
     self.assertEqual(
-        [{"location": "body", "name": "awardCriteria", "description": "Can\'t change awardCriteria"}],
+        [{"location": "body", "name": "awardCriteria", "description": "Can't change awardCriteria"}],
         response.json["errors"],
     )
 

@@ -233,7 +233,7 @@ def two_lot_1bid_0com_1can(self):
     # set award as unsuccessful
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -315,7 +315,7 @@ def two_lot_1bid_2com_1win(self):
         # set award as active
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         patch_data = {"status": "active", "qualified": True}
-        if self.initial_data['procurementMethodType'] != "simple.defense":
+        if self.initial_data["procurementMethodType"] != "simple.defense":
             patch_data["eligible"] = True
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -398,7 +398,7 @@ def two_lot_1bid_0com_0win(self):
         # set award as unsuccessful
         self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
         patch_data = {"status": "unsuccessful", "qualified": False}
-        if self.initial_data['procurementMethodType'] != "simple.defense":
+        if self.initial_data["procurementMethodType"] != "simple.defense":
             patch_data["eligible"] = False
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -482,7 +482,7 @@ def two_lot_1bid_1com_1win(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -511,7 +511,7 @@ def two_lot_1bid_1com_1win(self):
     # set award as unsuccessful
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -656,7 +656,7 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -687,7 +687,7 @@ def two_lot_2bid_on_first_and_1_on_second_awarding(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),

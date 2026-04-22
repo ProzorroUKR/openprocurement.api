@@ -221,7 +221,7 @@ def check_tender_award_complaint_period_dates(self):
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     try:
         self.app.patch_json(  # set eligible for procedures where it exists
-            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award['id'], self.tender_token),
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
             {"data": {"eligible": False}},
         )
     except AppError:

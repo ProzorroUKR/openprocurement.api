@@ -34,7 +34,7 @@ class TenderEcontractResourceTestMixin:
         # prepare contract for activating
         doc = self.mongodb.tenders.get(self.tender_id)
         for i in doc.get("awards", []):
-            if 'complaintPeriod' in i:
+            if "complaintPeriod" in i:
                 i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
         self.mongodb.tenders.save(doc)
 

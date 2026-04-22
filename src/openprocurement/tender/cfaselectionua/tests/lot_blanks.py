@@ -1206,18 +1206,14 @@ def patch_tender_bid(self):
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": bid_patch_data
-        },
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
-    bid_patch_data = {
-        "lotValues": [{**lot, "value": {"amount": 440}, "relatedLot": lot_id}]
-    }
+    bid_patch_data = {"lotValues": [{**lot, "value": {"amount": 440}, "relatedLot": lot_id}]}
     set_bid_items(self, bid_patch_data)
 
     response = self.app.patch_json(
@@ -1276,9 +1272,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1303,9 +1297,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1330,9 +1322,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1363,9 +1353,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1390,9 +1378,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1412,9 +1398,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1434,9 +1418,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1466,9 +1448,7 @@ def create_tender_bid_invalid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1502,9 +1482,7 @@ def create_tender_bid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1528,9 +1506,7 @@ def create_tender_bid_feature(self):
 
     response = self.app.post_json(
         request_path,
-        {
-            "data": bid_data
-        },
+        {"data": bid_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

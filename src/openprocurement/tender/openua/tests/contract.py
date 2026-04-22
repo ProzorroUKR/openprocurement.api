@@ -76,7 +76,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
         response = self.app.post_json(
-            f'/tenders/{self.tender_id}/awards',
+            f"/tenders/{self.tender_id}/awards",
             {
                 "data": {
                     "suppliers": [test_tender_below_supplier],

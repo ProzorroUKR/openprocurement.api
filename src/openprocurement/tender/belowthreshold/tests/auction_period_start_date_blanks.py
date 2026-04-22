@@ -15,7 +15,7 @@ def tender_collection_put_auction_period_in_active_tendering(self):
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
     )
-    self.assertIn(new_start, response.json['startDate'])
+    self.assertIn(new_start, response.json["startDate"])
 
 
 def tender_collection_put_auction_period_in_active_auction(self):
@@ -27,7 +27,7 @@ def tender_collection_put_auction_period_in_active_auction(self):
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
     )
-    self.assertIn(new_start, response.json['startDate'])
+    self.assertIn(new_start, response.json["startDate"])
 
 
 def tender_put_auction_period_permission_error(self):
@@ -70,7 +70,7 @@ def tender_lot_put_auction_period_in_active_tendering(self):
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/lots/{lot_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
     )
-    self.assertIn(new_start, response.json['startDate'])
+    self.assertIn(new_start, response.json["startDate"])
 
 
 def tender_lot_put_auction_period_in_active_auction(self):
@@ -81,4 +81,4 @@ def tender_lot_put_auction_period_in_active_auction(self):
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/lots/{lot_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
     )
-    self.assertIn(new_start, response.json['startDate'])
+    self.assertIn(new_start, response.json["startDate"])

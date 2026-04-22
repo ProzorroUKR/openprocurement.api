@@ -24,7 +24,7 @@ from openprocurement.tender.core.tests.utils import (
 
 
 def clean_requirement_responses(rrs: list):
-    serialized_fields = {'unit', 'classification', 'requirement.title'}
+    serialized_fields = {"unit", "classification", "requirement.title"}
     for rr in rrs:
         for field in serialized_fields:
             if field == "requirement.title":
@@ -393,7 +393,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], bid["lotValues"][0]["date"])
 
@@ -1388,12 +1388,12 @@ def tender_bidder_confidential_document(self):
     self.assertEqual(
         response.json,
         {
-            'status': 'error',
-            'errors': [
+            "status": "error",
+            "errors": [
                 {
-                    'description': ['confidentialityRationale is required'],
-                    'location': 'body',
-                    'name': 'confidentialityRationale',
+                    "description": ["confidentialityRationale is required"],
+                    "location": "body",
+                    "name": "confidentialityRationale",
                 }
             ],
         },
@@ -1409,12 +1409,12 @@ def tender_bidder_confidential_document(self):
     self.assertEqual(
         response.json,
         {
-            'status': 'error',
-            'errors': [
+            "status": "error",
+            "errors": [
                 {
-                    'description': ['confidentialityRationale should contain at least 30 characters'],
-                    'location': 'body',
-                    'name': 'confidentialityRationale',
+                    "description": ["confidentialityRationale should contain at least 30 characters"],
+                    "location": "body",
+                    "name": "confidentialityRationale",
                 }
             ],
         },
@@ -1440,9 +1440,9 @@ def tender_bidder_confidential_document(self):
     self.assertEqual(
         response.json["errors"][0],
         {
-            'location': 'body',
-            'name': 'confidentialityRationale',
-            'description': ['confidentialityRationale should contain at least 30 characters'],
+            "location": "body",
+            "name": "confidentialityRationale",
+            "description": ["confidentialityRationale should contain at least 30 characters"],
         },
     )
 
@@ -1465,23 +1465,23 @@ def tender_bidder_confidential_document(self):
         self.assertEqual(
             response.json["errors"][0],
             {
-                'location': 'body',
-                'name': 'confidentialityRationale',
-                'description': ['confidentialityRationale should contain at least 30 characters'],
+                "location": "body",
+                "name": "confidentialityRationale",
+                "description": ["confidentialityRationale should contain at least 30 characters"],
             },
         )
     except AssertionError:  # "before refactoring" format
         self.assertEqual(
             response.json["errors"][0],
             {
-                'location': 'body',
-                'name': 'bids',
-                'description': [
+                "location": "body",
+                "name": "bids",
+                "description": [
                     {
-                        'documents': [
+                        "documents": [
                             {
-                                'confidentialityRationale': [
-                                    'confidentialityRationale should contain at least 30 characters'
+                                "confidentialityRationale": [
+                                    "confidentialityRationale should contain at least 30 characters"
                                 ]
                             }
                         ]
@@ -1559,12 +1559,12 @@ def tender_bidder_confidential_document(self):
     # trying to update confidentiality
     request_data["confidentiality"] = "public"
     expected_error = {
-        'status': 'error',
-        'errors': [
+        "status": "error",
+        "errors": [
             {
-                'description': "Can't update document confidentiality in current (active.awarded) tender status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update document confidentiality in current (active.awarded) tender status",
+                "location": "body",
+                "name": "data",
             }
         ],
     }
@@ -1611,7 +1611,7 @@ def create_bid_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "{}?acc_token={}".format(base_request_path, self.tender_token),
@@ -1622,7 +1622,7 @@ def create_bid_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         request_path,
@@ -1636,7 +1636,7 @@ def create_bid_requirement_response(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
+            {"location": "body", "name": "requirement", "description": ["This field is required."]},
         ],
     )
 
@@ -1658,9 +1658,9 @@ def create_bid_requirement_response(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
+                "location": "body",
                 "name": "requirementResponses",
-                "description": [{"value": "Response required at least one of field [\"value\", \"values\"]"}],
+                "description": [{"value": 'Response required at least one of field ["value", "values"]'}],
             },
         ],
     )
@@ -1714,7 +1714,7 @@ def patch_bid_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "{}?acc_token={}".format(base_request_path, self.tender_token),
@@ -1725,7 +1725,7 @@ def patch_bid_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     self.app.authorization = auth
     response = self.app.patch_json(
@@ -1739,9 +1739,9 @@ def patch_bid_requirement_response(self):
         response.json["errors"],
         [
             {
-                'description': ['Must be either true or false.'],
-                'location': 'body',
-                'name': 'value',
+                "description": ["Must be either true or false."],
+                "location": "body",
+                "name": "value",
             }
         ],
     )
@@ -1850,7 +1850,7 @@ def create_bid_requirement_response_evidence(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "{}?acc_token={}".format(base_request_path, self.tender_token),
@@ -1861,7 +1861,7 @@ def create_bid_requirement_response_evidence(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
 
 def patch_bid_requirement_response_evidence(self):
@@ -2000,12 +2000,12 @@ def bid_activate(self):
             response.json["errors"],
             [
                 {
-                    'description': [
+                    "description": [
                         "Responses are required for all criteria with source tenderer/winner, "
                         f"failed for criteria {', '.join(criteria_ids + [guarantee_criterion['id']])}"
                     ],
-                    'location': 'body',
-                    'name': 'requirementResponses',
+                    "location": "body",
+                    "name": "requirementResponses",
                 }
             ],
         )
@@ -2020,7 +2020,6 @@ def bid_activate(self):
         self.assertEqual(response.status, "201 Created")
 
     else:
-
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(response.content_type, "application/json")
         self.assertIn("errors", response.json)
@@ -2028,12 +2027,12 @@ def bid_activate(self):
             response.json["errors"],
             [
                 {
-                    'description': [
+                    "description": [
                         "Responses are required for all criteria with source tenderer/winner, "
                         f"failed for criteria {', '.join(criteria_ids)}"
                     ],
-                    'location': 'body',
-                    'name': 'requirementResponses',
+                    "location": "body",
+                    "name": "requirementResponses",
                 }
             ],
         )
@@ -2065,12 +2064,12 @@ def bid_activate(self):
         response.json["errors"],
         [
             {
-                'description': [
+                "description": [
                     "Responses are required for all requirements in a requirement group, "
                     f"failed for criteria {multiple_req_criteria['id']}"
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -2096,12 +2095,12 @@ def bid_activate(self):
         response.json["errors"],
         [
             {
-                'description': [
+                "description": [
                     "Responses are allowed for only one group of requirements per criterion, "
                     f"failed for criteria {multiple_req_criteria['id']}"
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -2142,9 +2141,9 @@ def bid_activate(self):
         response.json["errors"],
         [
             {
-                'description': [{'requirement': ['Requirement should be one of criteria requirements']}],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "description": [{"requirement": ["Requirement should be one of criteria requirements"]}],
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )
@@ -2203,12 +2202,12 @@ def bid_activate_with_cancelled_tenderer_criterion(self):
         response.json["errors"],
         [
             {
-                'description': [
+                "description": [
                     'Responses are required for all criteria with source tenderer/winner, '
                     f'failed for criteria {criteria[-1]["id"]}'
                 ],
-                'location': 'body',
-                'name': 'requirementResponses',
+                "location": "body",
+                "name": "requirementResponses",
             }
         ],
     )

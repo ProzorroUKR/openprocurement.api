@@ -436,7 +436,7 @@ def lot_patch_tender_qualifications_lots_none(self):
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
     )
     self.assertIn(
-        {"location": "body", "name": "items", "description": [{'relatedLot': ['relatedLot should be one of lots']}]},
+        {"location": "body", "name": "items", "description": [{"relatedLot": ["relatedLot should be one of lots"]}]},
         response.json["errors"],
     )
 
@@ -3503,7 +3503,7 @@ def create_qualification_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "{}?acc_token={}".format(base_request_path, "some_random_token"),
@@ -3514,7 +3514,7 @@ def create_qualification_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         request_path,
@@ -3537,9 +3537,9 @@ def create_qualification_requirement_response(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
+                "location": "body",
                 "name": "requirementResponses.0",
-                "description": {"value": "Response required at least one of field [\"value\", \"values\"]"},
+                "description": {"value": 'Response required at least one of field ["value", "values"]'},
             },
         ],
     )
@@ -3556,7 +3556,7 @@ def create_qualification_requirement_response(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'location': 'body', 'name': 'requirement', 'description': ['This field is required.']},
+            {"location": "body", "name": "requirement", "description": ["This field is required."]},
         ],
     )
 
@@ -3625,7 +3625,7 @@ def patch_qualification_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "{}?acc_token={}".format(base_request_path, "some_random_token"),
@@ -3636,7 +3636,7 @@ def patch_qualification_requirement_response(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     self.app.authorization = auth
     response = self.app.patch_json(request_path, {"data": updated_data}, status=422)
@@ -3645,7 +3645,7 @@ def patch_qualification_requirement_response(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['Must be either true or false.'], 'location': 'body', 'name': 'value'}],
+        [{"description": ["Must be either true or false."], "location": "body", "name": "value"}],
     )
 
 
@@ -3724,7 +3724,7 @@ def create_qualification_requirement_response_evidence(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "{}?acc_token={}".format(base_request_path, "some_random_token"),
@@ -3735,7 +3735,7 @@ def create_qualification_requirement_response_evidence(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("errors", response.json)
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     self.app.authorization = auth
     response = self.app.post_json(
@@ -3754,7 +3754,7 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['type should be one of eligibleEvidences types'], 'location': 'body', 'name': 'type'}],
+        [{"description": ["type should be one of eligibleEvidences types"], "location": "body", "name": "type"}],
     )
 
     response = self.app.post_json(
@@ -3774,7 +3774,7 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{'description': ['This field is required.'], 'location': 'body', 'name': 'relatedDocument'}],
+        [{"description": ["This field is required."], "location": "body", "name": "relatedDocument"}],
     )
 
     response = self.app.post_json(
@@ -3800,9 +3800,9 @@ def create_qualification_requirement_response_evidence(self):
         response.json["errors"],
         [
             {
-                'description': ['relatedDocument.id should be one of qualification documents'],
-                'location': 'body',
-                'name': 'relatedDocument',
+                "description": ["relatedDocument.id should be one of qualification documents"],
+                "location": "body",
+                "name": "relatedDocument",
             }
         ],
     )

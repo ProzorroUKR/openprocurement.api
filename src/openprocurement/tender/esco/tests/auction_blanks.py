@@ -220,7 +220,7 @@ def patch_tender_auction(self):
 
     self.set_status("active.auction")
 
-    lot_id = self.initial_bids[-1]['lotValues'][0]['relatedLot']
+    lot_id = self.initial_bids[-1]["lotValues"][0]["relatedLot"]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/auction/{lot_id}",
         {"data": {"bids": [{"invalid_field": "invalid_value"}]}},

@@ -120,7 +120,7 @@ def create_change(self):
         ],
     )
 
-    self.activate_change(change['id'])
+    self.activate_change(change["id"])
     response = self.app.get(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
     )
@@ -151,7 +151,7 @@ def create_change(self):
     )
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc.pop('contractChangeRationaleTypes', None)
+    contract_doc.pop("contractChangeRationaleTypes", None)
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.post_json(
@@ -626,7 +626,7 @@ def cancellation_of_change(self):
     change_2 = response.json["data"]
     self.assertEqual(change_2["status"], "pending")
 
-    self.activate_change(change_2['id'])
+    self.activate_change(change_2["id"])
     response = self.app.get(
         f"/contracts/{self.contract['id']}/changes/{change_2['id']}?acc_token={self.contract_token}",
     )
@@ -855,7 +855,7 @@ def change_contract_period(self):
     }
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc['period'] = previous_period
+    contract_doc["period"] = previous_period
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.post_json(
@@ -878,7 +878,7 @@ def change_contract_period(self):
         change["modifications"]["period"]["startDate"],
         previous_period["startDate"],
     )
-    self.activate_change(change['id'])
+    self.activate_change(change["id"])
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
@@ -900,7 +900,7 @@ def change_contract_period(self):
         change_2["modifications"]["period"]["endDate"],
         previous_period["endDate"],
     )
-    self.activate_change(change_2['id'])
+    self.activate_change(change_2["id"])
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
@@ -1001,9 +1001,9 @@ def contract_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )

@@ -42,7 +42,7 @@ def switch_to_unsuccessful(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
@@ -53,7 +53,7 @@ def switch_to_unsuccessful(self):
     award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
@@ -136,7 +136,7 @@ def switch_to_unsuccessful_lot(self):
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         patch_data = {"status": "unsuccessful", "qualified": False}
-        if self.initial_data['procurementMethodType'] != "simple.defense":
+        if self.initial_data["procurementMethodType"] != "simple.defense":
             patch_data["eligible"] = False
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),

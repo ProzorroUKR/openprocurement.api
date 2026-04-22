@@ -21,7 +21,7 @@ def create_tender_bidder(self):
             "items": [
                 {
                     "description": "футляри до державних нагород",
-                    "id": items[0]['id'],
+                    "id": items[0]["id"],
                     "quantity": 4,
                     "unit": {
                         "name": "Item",

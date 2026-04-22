@@ -368,7 +368,6 @@ def activate_qualification_for_submission_with_docs(self):
 def patch_submission_pending_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
@@ -382,7 +381,6 @@ def patch_submission_pending_config_restricted(self):
 
     # Create and activate submission
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
 
@@ -394,7 +392,6 @@ def patch_submission_pending_config_restricted(self):
 
     # Fail to modify qualification (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
-
         response = self.app.patch_json(
             f"/qualifications/{self.qualification_id}?acc_token={self.framework_token}",
             {"data": {}},
@@ -416,7 +413,6 @@ def patch_submission_pending_config_restricted(self):
 
     # Activate qualification
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         expected_config = {
             "restricted": True,
             "qualificationComplainDuration": 0,
@@ -450,7 +446,6 @@ def patch_submission_pending_config_restricted(self):
 
     # Check access
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         # Check object
         response = self.app.get("/qualifications/{}".format(qualification_id))
         self.assertEqual(response.status, "200 OK")
@@ -501,7 +496,6 @@ def patch_submission_pending_config_restricted(self):
 
     # Check access (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
-
         # Check object
         response = self.app.get("/qualifications/{}".format(qualification_id))
         self.assertEqual(response.status, "200 OK")
@@ -513,7 +507,6 @@ def patch_submission_pending_config_restricted(self):
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
-
         # Check object
         response = self.app.get("/qualifications/{}".format(qualification_id))
         self.assertEqual(response.status, "200 OK")
@@ -663,9 +656,9 @@ def patch_qualification_active(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update qualification in current (active) status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update qualification in current (active) status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -687,9 +680,9 @@ def patch_qualification_active(self):
         response.json["errors"],
         [
             {
-                'description': "Can't add document in current (active) qualification status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't add document in current (active) qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -703,9 +696,9 @@ def patch_qualification_active(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update document in current (active) qualification status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update document in current (active) qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -754,9 +747,9 @@ def patch_qualification_unsuccessful(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update qualification in current (unsuccessful) status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update qualification in current (unsuccessful) status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -778,9 +771,9 @@ def patch_qualification_unsuccessful(self):
         response.json["errors"],
         [
             {
-                'description': "Can't add document in current (unsuccessful) qualification status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't add document in current (unsuccessful) qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -794,9 +787,9 @@ def patch_qualification_unsuccessful(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update document in current (unsuccessful) qualification status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update document in current (unsuccessful) qualification status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1144,13 +1137,13 @@ def qualification_token_invalid(self):
         "/qualifications/{}?acc_token={}".format(qualification_id, self.submission_token), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, ""), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, "токен з кирилицею"),
@@ -1162,9 +1155,9 @@ def qualification_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
@@ -1222,7 +1215,7 @@ def create_qualification_document_forbidden(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
+        [{"description": "Forbidden", "location": "url", "name": "permission"}],
     )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
@@ -1234,7 +1227,7 @@ def create_qualification_document_forbidden(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
+            [{"description": "Forbidden", "location": "url", "name": "permission"}],
         )
 
 
