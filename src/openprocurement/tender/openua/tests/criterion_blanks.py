@@ -87,9 +87,9 @@ def create_tender_criteria_valid(self):
     except KeyError:
         pass
     else:
-        criterion["classification"][
-            "id"
-        ] = 'CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION'
+        criterion["classification"]["id"] = (
+            "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+        )
         criterion2 = deepcopy(criterion)
         criterion["relatesTo"] = "lot"
         criterion["relatedItem"] = lot_id
@@ -118,7 +118,7 @@ def create_tender_criteria_valid(self):
 
     existed_id = response.json["data"][0]["id"]
 
-    criterion["classification"]["id"] = 'CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT'
+    criterion["classification"]["id"] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
     criterion["id"] = existed_id
     response = self.app.post_json(request_path, {"data": [criterion]}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -127,9 +127,9 @@ def create_tender_criteria_valid(self):
         response.json["errors"],
         [
             {
-                'description': 'Criterion id should be uniq for all criterions',
-                'location': 'body',
-                'name': 'data',
+                "description": "Criterion id should be uniq for all criterions",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -137,7 +137,7 @@ def create_tender_criteria_valid(self):
     # Try to create criterion without legislation
 
     invalid_criteria = deepcopy(test_exclusion_criteria)
-    legislation = invalid_criteria[0].pop('legislation')
+    legislation = invalid_criteria[0].pop("legislation")
     response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -231,14 +231,14 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'requirementGroups',
-                'description': [
+                "location": "body",
+                "name": "requirementGroups",
+                "description": [
                     {
-                        'requirements': [
+                        "requirements": [
                             {
-                                'relatedFeature': ['relatedFeature should be one of features'],
-                                'expectedValue': ['Must be either true or false.'],
+                                "relatedFeature": ["relatedFeature should be one of features"],
+                                "expectedValue": ["Must be either true or false."],
                             }
                         ]
                     }
@@ -259,8 +259,8 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'requirementGroups',
+                "location": "body",
+                "name": "requirementGroups",
                 "description": [
                     {
                         "requirements": [
@@ -302,9 +302,9 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'requirementGroups',
-                'description': [
+                "location": "body",
+                "name": "requirementGroups",
+                "description": [
                     {"eligibleEvidences": ["This field is forbidden for current criterion"]},
                 ],
             }
@@ -319,7 +319,7 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
-        response.json["errors"], [{'location': 'body', 'name': 'relatesTo', 'description': ['This field is required.']}]
+        response.json["errors"], [{"location": "body", "name": "relatesTo", "description": ["This field is required."]}]
     )
 
 
@@ -404,9 +404,9 @@ def patch_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update exclusion ecriteria objects",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update exclusion ecriteria objects",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -535,12 +535,12 @@ def activate_tender(self):
             response.json["errors"],
             [
                 {
-                    'description': (
+                    "description": (
                         f"Tender must contain all required criteria: "
                         f"{', '.join(sorted(self.required_criteria - tender_criteria))}"
                     ),
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -574,12 +574,12 @@ def activate_tender(self):
             response.json["errors"],
             [
                 {
-                    'description': (
+                    "description": (
                         f"Tender must contain all required criteria: "
                         f"{', '.join(sorted(self.required_criteria - tender_criteria))}"
                     ),
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -598,9 +598,9 @@ def activate_tender(self):
                 response.json["errors"],
                 [
                     {
-                        'description': 'Criteria are not unique',
-                        'location': 'body',
-                        'name': 'data',
+                        "description": "Criteria are not unique",
+                        "location": "body",
+                        "name": "data",
                     }
                 ],
             )
@@ -624,12 +624,12 @@ def activate_tender(self):
             response.json["errors"],
             [
                 {
-                    'description': (
+                    "description": (
                         f"Tender must contain all required criteria: "
                         f"{', '.join(sorted(self.required_criteria - tender_criteria))}"
                     ),
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -645,7 +645,6 @@ def activate_tender(self):
 
     article_16_criteria_required = getattr(self, "article_16_criteria_required", False)
     if article_16_criteria_required:
-
         response = self.app.patch_json(
             request_path,
             {"data": {"status": self.primary_tender_status}},
@@ -658,9 +657,9 @@ def activate_tender(self):
             response.json["errors"],
             [
                 {
-                    'description': (f"Tender must contain one of article 16 criteria: {', '.join(sorted(ARTICLE_16))}"),
-                    'location': 'body',
-                    'name': 'data',
+                    "description": (f"Tender must contain one of article 16 criteria: {', '.join(sorted(ARTICLE_16))}"),
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -895,9 +894,9 @@ def patch_criteria_rg(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update exclusion ecriteria objects",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update exclusion ecriteria objects",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1496,7 +1495,7 @@ def put_rg_requirement_valid(self):
                 "description": "Довідка в довільній формі",
                 "type": "document",
                 "title": "Документальне підтвердження",
-                'id': '32cd3841bf59486c85d7fbfa0b756872',
+                "id": "32cd3841bf59486c85d7fbfa0b756872",
             }
         ]
     }
@@ -1526,13 +1525,13 @@ def put_rg_requirement_valid(self):
                 "description": "changed",
                 "type": "document",
                 "title": "changed",
-                'id': '32cd3841bf59486c85d7fbfa0b756872',
+                "id": "32cd3841bf59486c85d7fbfa0b756872",
             },
             {
                 "description": "Довідка в довільній формі",
                 "type": "document",
                 "title": "Документальне підтвердження",
-                'id': '32cd3841bf59486c85d7fbfa0b756845',
+                "id": "32cd3841bf59486c85d7fbfa0b756845",
             },
         ]
     }
@@ -1629,7 +1628,6 @@ def put_rg_requirement_valid_value_change(self):
     put_url = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}"
 
     for classification_id in ("CRITERION.OTHER.BID.VALIDITY_PERIOD", CRITERION_TECHNICAL_FEATURES):
-
         doc = self.mongodb.tenders.get(self.tender_id)
 
         if classification_id == CRITERION_TECHNICAL_FEATURES:
@@ -1650,7 +1648,6 @@ def put_rg_requirement_valid_value_change(self):
         self.mongodb.tenders.save(doc)
 
         for field in ("minValue", "maxValue", "expectedValue"):
-
             # 0 -> 1
 
             test_requirement_data = {
@@ -1840,7 +1837,7 @@ def put_rg_requirement_invalid(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
+            [{"description": "Forbidden", "location": "body", "name": "data"}],
         )
 
     with patch(
@@ -2087,10 +2084,10 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in "
+                    "description": "Can't delete object if tender not in "
                     "['draft', 'draft.pending', 'draft.stage2'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -2111,10 +2108,10 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in "
+                    "description": "Can't delete object if tender not in "
                     "['draft', 'draft.pending', 'draft.stage2', 'active.tendering'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -2134,10 +2131,10 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in "
+                    "description": "Can't delete object if tender not in "
                     "['draft', 'draft.pending', 'draft.stage2'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -2204,9 +2201,9 @@ def validate_requirement_evidence_document(self):
         response.json["errors"],
         [
             {
-                'description': ['relatedDocument.id should be one of tender documents'],
-                'location': 'body',
-                'name': 'relatedDocument',
+                "description": ["relatedDocument.id should be one of tender documents"],
+                "location": "body",
+                "name": "relatedDocument",
             }
         ],
     )
@@ -2518,7 +2515,6 @@ def tech_feature_criterion(self):
     category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
 )
 def criterion_from_market_profile(self):
-
     def activate_tender(status=200):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -2869,7 +2865,6 @@ def criterion_from_market_profile(self):
     category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
 )
 def criterion_from_market_category(self):
-
     def activate_tender(status=200):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
@@ -3023,7 +3018,6 @@ def criterion_from_market_category(self):
             Mock(return_value={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": [], "status": "general"}),
         ),
     ):
-
         # no expectedValue in tender requirement
         new_req = {
             "title": "Req 2",

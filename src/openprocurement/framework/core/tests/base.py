@@ -51,7 +51,6 @@ class BaseFrameworkTest(BaseApiWebTest):
 
 
 class FrameworkActionsTestMixin:
-
     def get_auth(self, role=None):
         if role:
             return ("Basic", (role, ""))

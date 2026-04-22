@@ -1188,7 +1188,7 @@ def proc_1lot_2bid(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1320,7 +1320,7 @@ def proc_1lot_3bid_1un(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1652,7 +1652,7 @@ def proc_2lot_1bid_1com_1win(self):
     response = self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
-    tender = response.json['data']
+    tender = response.json["data"]
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(test_tender_openua_bids[0])
@@ -1772,7 +1772,7 @@ def proc_2lot_2bid_2com_2win(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1801,7 +1801,7 @@ def proc_2lot_2bid_2com_2win(self):
     # set award as unsuccessful
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1815,7 +1815,7 @@ def proc_2lot_2bid_2com_2win(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),

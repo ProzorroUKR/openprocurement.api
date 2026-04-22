@@ -266,7 +266,6 @@ def set_tender_criteria(criteria, lots, items):
     Set tender criteria relatedItem for lot and item
     """
     for i, criterion in enumerate(criteria):
-
         # fill missing data
         fill_criterion(criterion)
 
@@ -554,7 +553,7 @@ def activate_contract(self, tender_id, contract_id, tender_token, bid_token):
                     "startDate": "2023-03-18T18:47:47.155143+02:00",
                     "endDate": "2023-05-18T18:47:47.155143+02:00",
                 },
-                "items": items
+                "items": items,
             }
         },
     )

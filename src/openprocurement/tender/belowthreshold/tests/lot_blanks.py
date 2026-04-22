@@ -183,7 +183,7 @@ def create_tender_lot_invalid(self):
     response = self.app.get(request_path)
     self.assertEqual(response.content_type, "application/json")
     lots = response.json["data"]
-    self.assertEqual(len(lots), 1 + len(getattr(self, 'initial_lots', None) or []))
+    self.assertEqual(len(lots), 1 + len(getattr(self, "initial_lots", None) or []))
     self.assertEqual(lots[-1]["minimalStep"]["currency"], "UAH")
     self.assertEqual(lots[-1]["minimalStep"]["amount"], 15)
 
@@ -1362,9 +1362,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
-    patch_bid_data = {
-        "lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]
-    }
+    patch_bid_data = {"lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]}
     set_bid_items(self, patch_bid_data, bid_data["items"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),

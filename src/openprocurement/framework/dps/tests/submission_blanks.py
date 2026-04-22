@@ -377,9 +377,9 @@ def create_submission_draft_invalid(self):
         response.json["errors"],
         [
             {
-                'description': ['frameworkID must be one of exists frameworks'],
-                'location': 'body',
-                'name': 'frameworkID',
+                "description": ["frameworkID must be one of exists frameworks"],
+                "location": "body",
+                "name": "frameworkID",
             }
         ],
     )
@@ -396,15 +396,15 @@ def create_submission_draft_invalid(self):
         response.json["errors"],
         [
             {
-                'description': [
+                "description": [
                     {
-                        'address': ['This field is required.'],
-                        'contactPoint': ['This field is required.'],
-                        'name': ['This field is required.'],
+                        "address": ["This field is required."],
+                        "contactPoint": ["This field is required."],
+                        "name": ["This field is required."],
                     }
                 ],
-                'location': 'body',
-                'name': 'tenderers',
+                "location": "body",
+                "name": "tenderers",
             }
         ],
     )
@@ -424,18 +424,18 @@ def create_submission_draft_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'tenderers',
-                'description': [
+                "location": "body",
+                "name": "tenderers",
+                "description": [
                     {
-                        'address': {
-                            'postalCode': ['This field is required.'],
-                            'region': ['This field is required.'],
-                            'streetAddress': ['This field is required.'],
-                            'locality': ['This field is required.'],
+                        "address": {
+                            "postalCode": ["This field is required."],
+                            "region": ["This field is required."],
+                            "streetAddress": ["This field is required."],
+                            "locality": ["This field is required."],
                         },
-                        'contactPoint': {
-                            'email': ['This field is required.'],
+                        "contactPoint": {
+                            "email": ["This field is required."],
                         },
                     }
                 ],
@@ -478,7 +478,6 @@ def create_submission_draft(self):
 def create_submission_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
@@ -493,7 +492,6 @@ def create_submission_config_restricted(self):
 
     # Fail to create submission (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
-
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
 
@@ -514,7 +512,6 @@ def create_submission_config_restricted(self):
 
     # Create submission with restricted False
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         expected_config = {"restricted": False}
 
         config = deepcopy(self.initial_submission_config)
@@ -537,7 +534,6 @@ def create_submission_config_restricted(self):
 
     # Create submission
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         expected_config = {"restricted": True}
 
         config = deepcopy(self.initial_submission_config)
@@ -552,7 +548,6 @@ def create_submission_config_restricted(self):
 
     # Fail to modify submission (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
-
         response = self.app.patch_json(
             f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
             {"data": {}},
@@ -574,7 +569,6 @@ def create_submission_config_restricted(self):
 
     # Activate submission
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         response = self.app.post_json(
             "/submissions/{}/documents?acc_token={}".format(self.submission_id, self.submission_token),
             {
@@ -603,7 +597,6 @@ def create_submission_config_restricted(self):
 
     # Check access
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         # Check object
         response = self.app.get("/submissions/{}".format(submission["id"]))
         self.assertEqual(response.status, "200 OK")
@@ -669,7 +662,6 @@ def create_submission_config_restricted(self):
 
     # Check access (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
-
         # Check object
         response = self.app.get("/submissions/{}".format(submission["id"]))
         self.assertEqual(response.status, "200 OK")
@@ -685,7 +677,6 @@ def create_submission_config_restricted(self):
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
-
         # Check object
         response = self.app.get("/submissions/{}".format(submission["id"]))
         self.assertEqual(response.status, "200 OK")
@@ -951,9 +942,9 @@ def patch_submission_draft_to_active_invalid(self):
         response.json["errors"],
         [
             {
-                'description': 'Tenderer already have active submission for framework %s' % self.framework_id,
-                'location': 'body',
-                'name': 'data',
+                "description": "Tenderer already have active submission for framework %s" % self.framework_id,
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -995,9 +986,9 @@ def patch_submission_active(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update submission in current (active) status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update submission in current (active) status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1016,9 +1007,9 @@ def patch_submission_active(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't update submission in current (active) status",
-                    'location': 'body',
-                    'name': 'data',
+                    "description": "Can't update submission in current (active) status",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -1126,9 +1117,9 @@ def patch_submission_deleted(self):
         response.json["errors"],
         [
             {
-                'description': "Can't update submission in current (deleted) status",
-                'location': 'body',
-                'name': 'data',
+                "description": "Can't update submission in current (deleted) status",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1147,9 +1138,9 @@ def patch_submission_deleted(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't update submission in current (deleted) status",
-                    'location': 'body',
-                    'name': 'data',
+                    "description": "Can't update submission in current (deleted) status",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -1195,9 +1186,9 @@ def patch_submission_complete(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't update submission in current (complete) status",
-                    'location': 'body',
-                    'name': 'data',
+                    "description": "Can't update submission in current (complete) status",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -1449,7 +1440,7 @@ def submission_token_invalid(self):
         "/submissions/{}?acc_token={}".format(submission_id, "fake token"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "/submissions/{}?acc_token={}".format(submission_id, "токен з кирилицею"),
@@ -1461,9 +1452,9 @@ def submission_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
@@ -1496,7 +1487,7 @@ def create_submission_document_forbidden(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
+        [{"description": "Forbidden", "location": "url", "name": "permission"}],
     )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
@@ -1508,7 +1499,7 @@ def create_submission_document_forbidden(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
+            [{"description": "Forbidden", "location": "url", "name": "permission"}],
         )
 
 

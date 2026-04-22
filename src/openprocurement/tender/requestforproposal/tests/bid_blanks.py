@@ -161,7 +161,7 @@ def post_tender_bid_with_disabled_value_currency_equality(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "KGM",
@@ -189,7 +189,7 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "KGM",
@@ -235,7 +235,7 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "DMQ",
@@ -260,7 +260,7 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "KGM",
@@ -309,7 +309,7 @@ def post_bid_multi_currency(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "KGM",
@@ -370,7 +370,7 @@ def patch_bid_multi_currency(self):
         {
             "quantity": 7,
             "description": "футляри до державних нагород",
-            "id": items[0]['id'],
+            "id": items[0]["id"],
             "unit": {
                 "name": "Item",
                 "code": "KGM",

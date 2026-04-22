@@ -19,17 +19,17 @@ def switch_to_qualification(self):
     )
 
     bid_id = bid["id"]
-    self.set_status("active.tendering", 'end')
+    self.set_status("active.tendering", "end")
 
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.qualification")
     self.assertEqual(len(response.json["data"]["awards"]), 1)
-    self.assertEqual(response.json["data"]["awards"][0]['bid_id'], bid_id)
+    self.assertEqual(response.json["data"]["awards"][0]["bid_id"], bid_id)
 
 
 # TenderSwitchUnsuccessfulResourceTest
 def switch_to_unsuccessful(self):
-    self.set_status("active.tendering", 'end')
+    self.set_status("active.tendering", "end")
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
     if self.initial_lots:

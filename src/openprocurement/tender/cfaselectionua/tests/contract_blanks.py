@@ -173,12 +173,12 @@ def patch_contract_single_item_unit_value(self):
     # prepare contract
     doc = self.mongodb.tenders.get(self.tender_id)
     for i in doc.get("awards", []):
-        if 'complaintPeriod' in i:
+        if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
     doc = self.mongodb.contracts.get(contract_id)
-    if doc['value']['valueAddedTaxIncluded']:
-        doc['value']['amountNet'] = str(float(doc['value']['amount']) - 1)
+    if doc["value"]["valueAddedTaxIncluded"]:
+        doc["value"]["amountNet"] = str(float(doc["value"]["amount"]) - 1)
     self.mongodb.contracts.save(doc)
 
     response = self.app.patch_json(

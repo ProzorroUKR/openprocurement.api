@@ -79,7 +79,6 @@ class ContractChangesMixin:
 
 
 class ContractChangesResourceTest(ContractChangesMixin, BaseEContractContentWebTest):
-
     test_not_found = snitch(not_found)
     test_get_change = snitch(get_change)
     test_create_change_invalid = snitch(create_change_invalid)

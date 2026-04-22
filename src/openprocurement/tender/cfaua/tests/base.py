@@ -402,7 +402,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
             "date": self.now.isoformat(),
             "contracts": [],
             "status": "pending",
-            "milestones": self.tender_document.get("milestones", [])
+            "milestones": self.tender_document.get("milestones", []),
         }
         unit_prices = [
             {

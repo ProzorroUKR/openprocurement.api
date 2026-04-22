@@ -15,7 +15,6 @@ from openprocurement.tender.openuadefense.tests.base import BaseTenderUAContentW
 
 
 class TenderDocumentResourceTest(BaseTenderUAContentWebTest):
-
     test_not_found = snitch(not_found)
     test_create_tender_document = snitch(create_tender_document)
     test_put_tender_document = snitch(put_tender_document)

@@ -20,7 +20,7 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
         result = get_currency_rates(request_obj)
 
         requests_mock.get.assert_called_once_with(
-            'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20070102&json'
+            "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20070102&json"
         )
         result_mock = requests_mock.get.return_value
         result_mock.json.assert_called_once_with()
@@ -36,8 +36,8 @@ class GetCurrencyRatesTestCase(unittest.TestCase):
         get_currency_rates(request_obj)
 
         requests_mock.get.assert_called_once_with(
-            'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json',
-            proxies={'http': 'http://hide-my-ip.com', 'https': 'http://hide-my-ip.com'},
+            "https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date=20211231&json",
+            proxies={"http": "http://hide-my-ip.com", "https": "http://hide-my-ip.com"},
         )
 
     @patch("openprocurement.api.utils.raise_operation_error")

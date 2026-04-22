@@ -48,7 +48,7 @@ class SubmissionResourceTest(SubmissionContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
     initial_submission_config = test_submission_config
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_listing = snitch(listing)
     test_listing_draft = snitch(listing_draft)
@@ -92,7 +92,7 @@ class TestSubmissionDocumentGet(SubmissionContentWebTest):
 class TestDocumentsCreate(SubmissionContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_submission_document_forbidden = snitch(create_submission_document_forbidden)
     test_create_submission_documents = snitch(create_submission_documents)

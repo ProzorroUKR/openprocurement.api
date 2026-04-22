@@ -314,13 +314,6 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
-    "src/openprocurement/api/tests",
-    "src/openprocurement/contracting/*/tests",
-    "src/openprocurement/framework/*/tests",
-    "src/openprocurement/historical/*/tests",
-    "src/openprocurement/planning/api/tests",
-    "src/openprocurement/relocation/api/tests",
-    "src/openprocurement/tender/*/tests",
 ]
 
 # Same as Black.
@@ -336,6 +329,15 @@ target-version = "py311"
 # McCabe complexity (`C901`) by default.
 select = ["E4", "E7", "E9", "F", "I"]
 ignore = []
+exclude = [
+    "src/openprocurement/api/tests/**",
+    "src/openprocurement/contracting/*/tests/**",
+    "src/openprocurement/framework/*/tests/**",
+    "src/openprocurement/historical/*/tests/**",
+    "src/openprocurement/planning/api/tests/**",
+    "src/openprocurement/relocation/api/tests/**",
+    "src/openprocurement/tender/*/tests/**",
+]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

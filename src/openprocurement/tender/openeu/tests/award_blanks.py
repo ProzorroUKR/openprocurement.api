@@ -296,7 +296,7 @@ def patch_tender_award_active(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
@@ -512,7 +512,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -536,7 +536,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -547,7 +547,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(

@@ -53,7 +53,6 @@ class BaseEContractWebTest(BaseContractWebTest):
 
 
 class BaseEContractContentWebTest(BaseEContractWebTest):
-
     def activate_contract(self):
         # validate signatory without contractSignature document
         response = self.app.post_json(

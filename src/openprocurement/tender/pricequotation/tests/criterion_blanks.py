@@ -37,14 +37,14 @@ def create_tender_criteria_multi_profile(self):
     response = self.app.patch_json(
         f"/tenders/{tender['id']}?acc_token={self.tender_token}", {"data": {"criteria": criteria}}, status=422
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": {"relatedItem": ['Hash value is wrong length.']},
+                "description": {"relatedItem": ["Hash value is wrong length."]},
                 "location": "body",
                 "name": "criteria",
             }
@@ -56,14 +56,14 @@ def create_tender_criteria_multi_profile(self):
     response = self.app.patch_json(
         f"/tenders/{tender['id']}?acc_token={self.tender_token}", {"data": {"criteria": criteria}}, status=422
     )
-    self.assertEqual(response.status, '422 Unprocessable Entity')
+    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
         [
             {
-                "description": [{"relatedItem": ['relatedItem should be one of items']}],
+                "description": [{"relatedItem": ["relatedItem should be one of items"]}],
                 "location": "body",
                 "name": "criteria",
             }
@@ -98,9 +98,9 @@ def create_tender_criteria_multi_profile(self):
 
 def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_tender_pq_criteria)
-    invalid_criteria[0]["classification"][
-        "id"
-    ] = "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+    invalid_criteria[0]["classification"]["id"] = (
+        "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+    )
     invalid_criteria[0]["relatesTo"] = "lot"
     invalid_criteria[0]["requirementGroups"][0]["requirements"][0] = {
         "dataType": "number",
@@ -188,8 +188,8 @@ def create_tender_criteria_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'requirementGroups',
+                "location": "body",
+                "name": "requirementGroups",
                 "description": [
                     {
                         "requirements": [
@@ -257,7 +257,7 @@ def put_rg_requirement_valid(self):
     )
 
     response = self.app.put_json(put_url, {"data": test_put_data}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
@@ -274,7 +274,7 @@ def put_rg_requirement_valid(self):
     self.set_status("active.tendering")
 
     response = self.app.put_json(put_url, {"data": test_put_data}, status=403)
-    self.assertEqual(response.status, '403 Forbidden')
+    self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
@@ -341,9 +341,9 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in " "['draft'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "description": "Can't delete object if tender not in " "['draft'] statuses",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -365,9 +365,9 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in " "['draft'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "description": "Can't delete object if tender not in " "['draft'] statuses",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )

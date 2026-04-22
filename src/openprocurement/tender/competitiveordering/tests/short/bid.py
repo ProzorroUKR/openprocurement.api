@@ -121,7 +121,6 @@ class TenderBidRequirementResponseTestMixin:
 
 
 class TenderBidRequirementResponseEvidenceTestMixin:
-
     test_create_bid_requirement_response_evidence = snitch(create_bid_requirement_response_evidence)
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)

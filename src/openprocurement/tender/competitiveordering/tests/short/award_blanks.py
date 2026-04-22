@@ -139,7 +139,7 @@ def qualified_eligible_awards(self):
             status=422,
         )
         self.assertEqual(
-            response.json["errors"][0], {'location': 'body', 'name': 'eligible', 'description': 'Rogue field'}
+            response.json["errors"][0], {"location": "body", "name": "eligible", "description": "Rogue field"}
         )
 
         # successful setting unsuccessful

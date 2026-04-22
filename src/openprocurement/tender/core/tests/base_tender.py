@@ -47,13 +47,16 @@ class TestTenderMilestones(unittest.TestCase):
         super().__init__(*args, **kwargs)
 
     def test_validate_without_milestones(self):
-        with patch(
-            "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
-            get_now() - timedelta(days=1),
-        ), patch(
-            "openprocurement.tender.core.procedure.models.tender."
-            "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
-            get_now() + timedelta(days=1),
+        with (
+            patch(
+                "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
+                get_now() - timedelta(days=1),
+            ),
+            patch(
+                "openprocurement.tender.core.procedure.models.tender."
+                "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
+                get_now() + timedelta(days=1),
+            ),
         ):
             tender = create_tender_instance(Tender, self.initial_tender_data)
             data = tender.serialize()
@@ -63,13 +66,16 @@ class TestTenderMilestones(unittest.TestCase):
             self.assertEqual(e.exception.messages, {"milestones": ["Tender should contain at least one milestone"]})
 
     def test_regression_milestones(self):
-        with patch(
-            "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
-            get_now() + timedelta(days=1),
-        ), patch(
-            "openprocurement.tender.core.procedure.models.tender."
-            "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
-            get_now() + timedelta(days=1),
+        with (
+            patch(
+                "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
+                get_now() + timedelta(days=1),
+            ),
+            patch(
+                "openprocurement.tender.core.procedure.models.tender."
+                "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
+                get_now() + timedelta(days=1),
+            ),
         ):
             tender = create_tender_instance(Tender, self.initial_tender_data)
             tender.validate()
@@ -99,7 +105,7 @@ class TestTenderMilestones(unittest.TestCase):
                         "title": ["This field is required."],
                         "code": ["This field is required."],
                         "duration": ["This field is required."],
-                        'percentage': ['This field is required.'],
+                        "percentage": ["This field is required."],
                         "type": ["This field is required."],
                         "sequenceNumber": ["This field is required."],
                     }
