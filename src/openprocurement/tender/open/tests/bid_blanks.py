@@ -341,6 +341,7 @@ def patch_tender_bidder(self):
     bid_patch_data["status"] = "pending"
     bid_patch_data["lotValues"] = bid["lotValues"]
     bid_patch_data["lotValues"][0]["value"]["amount"] = 450
+    set_bid_items(self, bid_patch_data)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
@@ -364,6 +365,7 @@ def patch_tender_bidder(self):
     )
 
     bid_patch_data["lotValues"][0]["value"]["amount"] = 440
+    set_bid_items(self, bid_patch_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": bid_patch_data},
@@ -428,6 +430,7 @@ def patch_tender_draft_bidder(self):
     bid_data["lotValues"] = response.json["data"]["lotValues"]
 
     bid_data["lotValues"][0]["value"]["amount"] = 499
+    set_bid_items(self, bid_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": bid_data},
@@ -436,6 +439,7 @@ def patch_tender_draft_bidder(self):
     self.assertEqual(response.content_type, "application/json")
 
     bid_data["lotValues"][0]["value"]["amount"] = 498
+    set_bid_items(self, bid_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": bid_data},
@@ -2661,9 +2665,15 @@ def patch_tender_bid_with_disabled_value_restriction(self):
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
 
+    bid_patch_data = {
+        "status": "pending",
+        "value": {"amount": 705}
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"status": "pending", "value": {"amount": 705}}},
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -2674,10 +2684,14 @@ def bid_items_quantity(self):
     lots = tender.get("lots")
 
     set_bid_lotvalues(bid, lots)
-    set_bid_items(self, bid)
+
+    item = tender["items"][0]
+    items = [item]
+    set_bid_items(self, bid, items)
 
     bid["items"][0]["quantity"] = 0
-    bid["items"][0]["unit"]["value"]["amount"] = 0
+    del bid["items"][0]["unit"]["value"]
+
     response = self.app.post_json(
         "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": bid},
@@ -2700,17 +2714,20 @@ def bid_items_quantity(self):
     item_2 = deepcopy(item)
     item_2["quantity"] = 5
     item_2.pop("id")
+    items = [item, item_2]
+
     response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": [item, item_2]}}
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": items}}
     )
     self.assertEqual(response.status, "200 OK")
 
     set_bid_items(self, bid)
 
     bid["items"][0]["quantity"] = 0
-    bid["items"][0]["unit"]["value"]["amount"] = 0
+    del bid["items"][0]["unit"]["value"]
     bid["items"][1]["quantity"] = 0
-    bid["items"][1]["unit"]["value"]["amount"] = 0
+    del bid["items"][1]["unit"]["value"]
+
     response = self.app.post_json(
         "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": bid},
@@ -2728,8 +2745,8 @@ def bid_items_quantity(self):
         ],
     )
 
-    bid["items"][1]["quantity"] = 5
-    bid["items"][1]["unit"]["value"]["amount"] = 55
+    set_bid_items(self, bid)
+
     response = self.app.post_json(
         "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token), {"data": bid}
     )
@@ -2748,7 +2765,8 @@ def bid_items_quantity(self):
     set_bid_items(self, bid)
 
     bid["items"][-1]["quantity"] = 0
-    bid["items"][-1]["unit"]["value"]["amount"] = 0
+    del bid["items"][-1]["unit"]["value"]
+
     response = self.app.post_json(
         "/tenders/{}/bids?acc_token={}".format(self.tender_id, self.tender_token),
         {"data": bid},

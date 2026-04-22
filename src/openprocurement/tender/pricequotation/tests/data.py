@@ -113,7 +113,6 @@ test_tender_pq_item = {
     "unit": {
         "name": "кг",
         "code": "KGM",
-        "value": {"amount": 100},
     },
     "deliveryAddress": {
         "countryName": "Україна",

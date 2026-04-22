@@ -49,10 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "unit": {
           "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6
-          }
+          "code": "KGM"
         },
         "quantity": 5,
         "deliveryDate": {
@@ -84,10 +81,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "unit": {
           "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6
-          }
+          "code": "KGM"
         },
         "quantity": 5,
         "deliveryDate": {
@@ -119,10 +113,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "unit": {
           "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6
-          }
+          "code": "KGM"
         },
         "quantity": 5,
         "deliveryDate": {
@@ -379,11 +370,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
         "description": "телевізори",
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 5.0,
@@ -417,11 +403,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
         "description": "портфелі",
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 5.0,
@@ -455,11 +436,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
         "description": "портфелі",
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 5.0,

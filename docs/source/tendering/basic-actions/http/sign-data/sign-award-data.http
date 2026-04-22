@@ -174,31 +174,35 @@ Content-Type: application/json
           "items": [
             {
               "id": "2b4bbbc0e9d34d9995677a3f38081ed1",
-              "description": "футляри до державних нагород",
+              "description": "Послуги шкільних їдалень",
+              "description_en": "Services in school canteens",
               "unit": {
-                "name": "кг",
+                "name": "кілограм",
                 "value": {
-                  "amount": 55.0,
+                  "amount": 249.5,
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false
                 },
                 "code": "KGM"
               },
-              "quantity": 4.0
+              "quantity": 1.0,
+              "relatedLot": "5b0412bd862347cfb29c8de0b4736b58"
             },
             {
               "id": "d34a8337b82c4e46a16379ba280df117",
-              "description": "футляри до державних нагород",
+              "description": "Послуги шкільних їдалень",
+              "description_en": "Services in school canteens",
               "unit": {
-                "name": "кг",
+                "name": "упаковка",
                 "value": {
-                  "amount": 55.0,
+                  "amount": 249.5,
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false
                 },
-                "code": "KGM"
+                "code": "PK"
               },
-              "quantity": 4.0
+              "quantity": 1.0,
+              "relatedLot": "5b0412bd862347cfb29c8de0b4736b58"
             }
           ],
           "lotValues": [
@@ -449,11 +453,6 @@ Content-Type: application/json
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "кілограм",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
             "code": "KGM"
           },
           "quantity": 1.0,
@@ -488,11 +487,6 @@ Content-Type: application/json
           "description": "Послуги шкільних їдалень",
           "unit": {
             "name": "упаковка",
-            "value": {
-              "amount": 6.0,
-              "currency": "UAH",
-              "valueAddedTaxIncluded": true
-            },
             "code": "PK"
           },
           "quantity": 1.0,

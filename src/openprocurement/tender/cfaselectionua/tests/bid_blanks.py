@@ -354,20 +354,21 @@ def patch_tender_bid(self):
     token = response.json["access"]["token"]
     lot_values = response.json["data"]["lotValues"]
 
+    bid_patch_data = {
+        "lotValues": [
+            {
+                **lot_values[0],
+                "value": {"amount": 700},
+                "subcontractingDetails": "test_details",
+                "relatedLot": self.initial_lots[0]["id"],
+            }
+        ]
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "lotValues": [
-                    {
-                        **lot_values[0],
-                        "value": {"amount": 700},
-                        "subcontractingDetails": "test_details",
-                        "relatedLot": self.initial_lots[0]["id"],
-                    }
-                ]
-            }
-        },
+        {"data": bid_patch_data},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -386,14 +387,16 @@ def patch_tender_bid(self):
 
     tenderer = deepcopy(test_tender_cfaselectionua_supplier)
     tenderer["name"] = "Державне управління управлінням справами"
+
+    bid_patch_data = {
+        "tenderers": [tenderer],
+        "subcontractingDetails": "test_details",
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "tenderers": [tenderer],
-                "subcontractingDetails": "test_details",
-            }
-        },
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -401,27 +404,41 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["subcontractingDetails"], "test_details")
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    bid_patch_data = {
+        "lotValues": [
+            {
+                **lot_values[0],
+                "value": {"amount": 500},
+                "relatedLot": self.initial_lots[0]["id"],
+            }
+        ],
+        "tenderers": [test_tender_cfaselectionua_supplier],
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}],
-                "tenderers": [test_tender_cfaselectionua_supplier],
-            }
-        },
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    bid_patch_data = {
+        "lotValues": [
+            {
+                **lot_values[0],
+                "value": {"amount": 440},
+                "relatedLot": self.initial_lots[0]["id"],
+            }
+        ]
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "lotValues": [{**lot_values[0], "value": {"amount": 440}, "relatedLot": self.initial_lots[0]["id"]}]
-            }
-        },
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -468,13 +485,20 @@ def patch_tender_bid(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
 
+    bid_patch_data = {
+        "lotValues": [
+            {
+                **lot_values[0],
+                "value": {"amount": 400},
+                "relatedLot": self.initial_lots[0]["id"],
+            }
+        ]
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "lotValues": [{**lot_values[0], "value": {"amount": 400}, "relatedLot": self.initial_lots[0]["id"]}]
-            }
-        },
+        {"data": bid_patch_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

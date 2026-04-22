@@ -77,11 +77,6 @@ Content-Type: application/json
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "unit": {
           "name": "item",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         }
       }

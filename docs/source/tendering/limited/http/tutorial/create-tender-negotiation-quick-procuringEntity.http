@@ -33,10 +33,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "KGM",
-          "name": "папір",
-          "value": {
-            "amount": 10
-          }
+          "name": "папір"
         },
         "quantity": 1,
         "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
@@ -267,11 +264,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,

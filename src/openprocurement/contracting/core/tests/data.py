@@ -2,6 +2,7 @@ from hashlib import sha512
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.utils import set_items_unit
 
 test_tender_token = uuid4().hex
 test_contract_data = {
@@ -31,7 +32,6 @@ test_contract_data = {
             "unit": {
                 "code": "KGM",
                 "name": "кг",
-                "value": {"currency": "UAH", "amount": 40.8, "valueAddedTaxIncluded": False},
             },
             "quantity": 5,
         }
@@ -78,6 +78,7 @@ test_contract_data = {
     "access": [{"role": "tender", "token": sha512(test_tender_token.encode()).hexdigest(), "owner": "broker"}],
 }
 test_contract_data["contractTemplateName"] = "00000000-0.0002.01"
+set_items_unit(test_contract_data["items"], test_contract_data["value"])
 
 documents = [
     {
@@ -138,7 +139,6 @@ test_contract_data_second_item = {
     "unit": {
         "code": "KGM",
         "name": "кг",
-        "value": {"currency": "UAH", "amount": 40.8, "valueAddedTaxIncluded": True},
     },
     "quantity": 5,
 }

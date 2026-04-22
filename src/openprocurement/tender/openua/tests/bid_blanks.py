@@ -17,6 +17,7 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
+    set_items_unit,
 )
 
 # TenderBidResourceTest
@@ -321,6 +322,7 @@ def patch_tender_bidder(self):
     set_bid_lotvalues(bid_data, self.initial_lots)
     bid_data.update({"status": "draft"})
     set_bid_items(self, bid_data, tender["items"])
+    bid_items = bid_data["items"]
 
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -332,6 +334,7 @@ def patch_tender_bidder(self):
     bid_token = response.json["access"]["token"]
     lot_values = bid["lotValues"]
     lot_values[0]["value"]["amount"] = 600
+    set_items_unit(bid_items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {
@@ -339,6 +342,7 @@ def patch_tender_bidder(self):
                 "status": "pending",
                 "lotValues": lot_values,
                 "parameters": None,
+                "items": bid_items,
             }
         },
         status=422,
@@ -358,9 +362,10 @@ def patch_tender_bidder(self):
     )
 
     lot_values[0]["value"]["amount"] = 500
+    set_items_unit(bid_items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "pending", "lotValues": lot_values}},
+        {"data": {"status": "pending", "lotValues": lot_values, "items": bid_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -380,9 +385,10 @@ def patch_tender_bidder(self):
     )
 
     lot_values[0]["value"]["amount"] = 440
+    set_items_unit(bid_items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"lotValues": lot_values}},
+        {"data": {"lotValues": lot_values, "items": bid_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2369,12 +2375,12 @@ def bids_related_product(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
     tender_item_1 = tender["items"][0]
-    bid_data = self.test_bids_data[0].copy()
+    bid_data = deepcopy(self.test_bids_data[0])
     if tender.get("lots"):
         set_bid_lotvalues(bid_data, self.initial_lots)
 
     related_product_id = "1" * 32
-    bid_data["items"] = [
+    items = [
         {
             "quantity": 4,
             "description": "футляри до державних нагород",
@@ -2382,11 +2388,11 @@ def bids_related_product(self):
             "unit": {
                 "name": "Item",
                 "code": "KGM",
-                "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
             },
-            "product": related_product_id,
         },
     ]
+    set_bid_items(self, bid_data, items)
+    bid_data["items"][0]["product"] = related_product_id
 
     response_404 = Mock()
     response_404.status_code = 404
@@ -2434,31 +2440,29 @@ def bids_related_product(self):
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]
 
-    items = bid_data["items"].copy()
-    items[0]["quantity"] = 9
-    items[0]["unit"]["value"]["amount"] = 50
+    bid_data["items"][0]["description"] = "new description"
 
     with patch(
         "requests.get",
         Mock(return_value=response_404),
     ):
         response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": {"items": items}}
+            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": bid_data}
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["items"][0]["product"], related_product_id)
+        self.assertEqual(response.json["data"]["items"][0]["description"], "new description")
 
     related_product_id = "2" * 32
-    items = bid_data["items"].copy()
-    items[0]["product"] = related_product_id
+    bid_data["items"][0]["product"] = related_product_id
 
     with patch(
         "requests.get",
         Mock(return_value=response_404),
     ):
         response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": {"items": items}}, status=404
+            f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}", {"data": bid_data}, status=404
         )
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(response.content_type, "application/json")
@@ -2597,19 +2601,20 @@ def patch_bid_during_qualification_with_24h_milestone(self):
         {
             "location": "body",
             "name": "items",
-            "description": "Total amount of unit values can't be greater than bid.value.amount",
+            "description": "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
         },
     )
 
     # successfully change unit.value.amount and subcontractingDetails
-    items[0]["unit"]["value"]["amount"] = 105
+    set_items_unit(items, bids[0]["value"])
+    expected_unit_value_amount = items[0]["unit"]["value"]["amount"]
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
         {"data": {"items": items, "subcontractingDetails": "foo"}},
     )
     self.assertEqual(response.json["data"]["status"], "active")
     self.assertEqual(response.json["data"]["subcontractingDetails"], "foo")
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 105)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], expected_unit_value_amount)
 
     # try to change tenderers fields which are forbidden to patch during qualification
     tenderers = deepcopy(bids[0]["tenderers"])

@@ -56,7 +56,7 @@ class TenderStage2EUContractResourceTest(BaseCompetitiveDialogEUStage2ContentWeb
                     "suppliers": [self.supplier_info],
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
-                    "value": self.initial_data["value"],
+                    "value": self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value"),
                     "items": self.initial_data["items"],
                     "lotID": self.initial_lots[0]["id"],
                 }
@@ -102,7 +102,7 @@ class TenderStage2UAContractResourceTest(BaseCompetitiveDialogUAStage2ContentWeb
                     "suppliers": [test_tender_cd_tenderer],
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
-                    "value": self.initial_data["value"],
+                    "value": self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value"),
                     "items": self.initial_data["items"],
                     "lotID": self.initial_lots[0]["id"],
                 }
@@ -146,6 +146,7 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
     def create_award(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
+        value = self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value")
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
             {
@@ -154,8 +155,8 @@ class TenderContractVATNotIncludedResourceTest(BaseCompetitiveDialogUAStage2Cont
                     "status": "pending",
                     "bid_id": self.bids[0]["id"],
                     "value": {
-                        "amount": self.initial_data["value"]["amount"],
-                        "currency": self.initial_data["value"]["currency"],
+                        "amount": value["amount"],
+                        "currency": value["currency"],
                         "valueAddedTaxIncluded": False,
                     },
                     "lotID": self.initial_lots[0]["id"],

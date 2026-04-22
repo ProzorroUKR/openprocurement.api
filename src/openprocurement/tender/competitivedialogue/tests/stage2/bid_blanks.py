@@ -62,9 +62,11 @@ def delete_tender_bidder_eu(self):
     self.assertEqual(response.content_type, "application/json")
 
     bid_data["lotValues"][0]["value"] = {"amount": 498}
+    set_bid_items(self, bid_data)
     self.create_bid(self.tender_id, bid_data)
 
     bid_data["lotValues"][0]["value"] = {"amount": 499}
+    set_bid_items(self, bid_data)
     self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification

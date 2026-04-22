@@ -185,11 +185,6 @@ Content-Type: application/json
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,

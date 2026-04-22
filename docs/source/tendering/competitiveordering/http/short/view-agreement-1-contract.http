@@ -128,11 +128,6 @@ Content-Type: application/json
         },
         "unit": {
           "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         }
       }

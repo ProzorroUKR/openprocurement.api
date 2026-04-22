@@ -174,11 +174,6 @@ Content-Type: application/json
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,
@@ -213,11 +208,6 @@ Content-Type: application/json
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "упаковка",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "PK"
         },
         "quantity": 1.0,

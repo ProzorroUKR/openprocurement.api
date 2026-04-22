@@ -109,7 +109,7 @@ class CreateActiveAwardMixin:
                     "suppliers": [test_tender_rfp_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": self.initial_data["value"],
+                    "value": self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value"),
                 }
             },
         )
@@ -155,6 +155,7 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
     def create_award(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
+        value = self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value")
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards",
             {
@@ -164,8 +165,8 @@ class TenderContractVATNotIncludedResourceTest(TenderContentWebTest):
                     "bid_id": self.initial_bids[0]["id"],
                     "items": self.initial_data["items"],
                     "value": {
-                        "amount": self.initial_data["value"]["amount"],
-                        "currency": self.initial_data["value"]["currency"],
+                        "amount": value["amount"],
+                        "currency": value["currency"],
                         "valueAddedTaxIncluded": False,
                     },
                 }

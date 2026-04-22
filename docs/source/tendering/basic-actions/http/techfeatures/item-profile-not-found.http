@@ -59,10 +59,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "unit": {
           "name": "кілограм",
-          "code": "KGM",
-          "value": {
-            "amount": 6
-          }
+          "code": "KGM"
         },
         "quantity": 5
       },
@@ -85,10 +82,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "unit": {
           "name": "кілограм",
-          "code": "KGM",
-          "value": {
-            "amount": 6
-          }
+          "code": "KGM"
         },
         "quantity": 5,
         "profile": "655360-30230000-889652-40000777",

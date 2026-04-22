@@ -244,11 +244,6 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         }
       }

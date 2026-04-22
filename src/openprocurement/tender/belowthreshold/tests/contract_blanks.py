@@ -6,6 +6,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
 from openprocurement.tender.core.procedure.utils import prepare_tender_item_for_contract
+from openprocurement.tender.core.tests.utils import set_items_unit
 
 
 def patch_tender_multi_contracts(self):
@@ -26,9 +27,13 @@ def patch_tender_multi_contracts(self):
     self.assertEqual(contract_1["value"]["valueAddedTaxIncluded"], True)
     self.assertEqual(contract_2["value"]["valueAddedTaxIncluded"], True)
 
+    contract_1_value = {"amount": 200, "amountNet": 201, "currency": "UAH"}
+    contract_1_items = deepcopy(contract_1["items"])
+    set_items_unit(contract_1_items, contract_1_value)
+
     response = self.app.patch_json(
         f"/contracts/{contract_1['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 200, "amountNet": 201, "currency": "UAH"}}},
+        {"data": {"value": contract_1_value, "items": contract_1_items}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -43,19 +48,28 @@ def patch_tender_multi_contracts(self):
             }
         ],
     )
+
     # patch 1st contract
+    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_1_items = deepcopy(contract_1["items"])
+    set_items_unit(contract_1_items, contract_1_value)
+
     response = self.app.patch_json(
         f"/contracts/{contract_1['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 200, "amountNet": 195, "currency": "UAH"}}},
+        {"data": {"value": contract_1_value, "items": contract_1_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 200)
     self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
 
     # patch 2nd contract
+    contract_2_value = {"amount": 400, "amountNet": 390, "currency": "UAH"}
+    contract_2_items = deepcopy(contract_2["items"])
+    set_items_unit(contract_2_items, contract_2_value)
+
     response = self.app.patch_json(
         f"/contracts/{contract_2['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 400, "amountNet": 390, "currency": "UAH"}}},
+        {"data": {"value": contract_2_value, "items": contract_2_items}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -66,13 +80,12 @@ def patch_tender_multi_contracts(self):
     )
 
     # 1st contract.value + 2nd contract.value <= award.amount.value
-    contract_2["items"][0]["quantity"] = 4
-    contract_2["items"][0]["unit"]["value"]["amount"] = 20
-    contract_2["items"][1]["quantity"] = 4
-    contract_2["items"][1]["unit"]["value"]["amount"] = 20
+    contract_2_value = {"amount": 190, "amountNet": 185, "currency": "UAH"}
+    contract_2_items = deepcopy(contract_2["items"])
+    set_items_unit(contract_2_items, contract_2_value)
     response = self.app.patch_json(
         f"/contracts/{contract_2['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 190, "amountNet": 185, "currency": "UAH"}, "items": contract_2["items"]}},
+        {"data": {"value": contract_2_value, "items": contract_2_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 190)
@@ -219,10 +232,18 @@ def patch_tender_multi_contracts_cancelled_with_one_activated(self):
     contracts = contracts_response.json["data"]
     self.assertEqual(len(contracts), 2)
 
+    response = self.app.get(f"/contracts/{contracts[0]['id']}")
+    contract_1 = response.json["data"]
+    response = self.app.get(f"/contracts/{contracts[1]['id']}")
+    contract_2 = response.json["data"]
+
     # patch 1st contract
+    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_1_items = deepcopy(contract_1["items"])
+    set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
         f"/contracts/{contracts[0]['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 200, "amountNet": 195, "currency": "UAH"}}},
+        {"data": {"value": contract_1_value, "items": contract_1_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 200)
@@ -284,19 +305,30 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
     contracts = contracts_response.json["data"]
     self.assertEqual(len(contracts), 2)
 
+    response = self.app.get(f"/contracts/{contracts[0]['id']}")
+    contract_1 = response.json["data"]
+    response = self.app.get(f"/contracts/{contracts[1]['id']}")
+    contract_2 = response.json["data"]
+
     # patch 2nd contract
+    contract_2_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_2_items = deepcopy(contract_2["items"])
+    set_items_unit(contract_2_items, contract_2_value)
     response = self.app.patch_json(
         f"/contracts/{contracts[1]['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 200, "amountNet": 195, "currency": "UAH"}}},
+        {"data": {"value": contract_2_value, "items": contract_2_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 200)
     self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
 
     # patch 1st contract
+    contract_1_value = {"amount": 400, "amountNet": 395, "currency": "UAH"}
+    contract_1_items = deepcopy(contract_1["items"])
+    set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
         f"/contracts/{contracts[0]['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 400, "amountNet": 395, "currency": "UAH"}}},
+        {"data": {"value": contract_1_value, "items": contract_1_items}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -315,9 +347,12 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
 
     # patch 1st contract (2nd attempt)
     # should success because 2nd contract value does not taken into account (now its cancelled)
+    contract_1_value = {"amount": 400, "amountNet": 395, "currency": "UAH"}
+    contract_1_items = deepcopy(contract_1["items"])
+    set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
         f"/contracts/{contracts[0]['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 400, "amountNet": 395, "currency": "UAH"}}},
+        {"data": {"value": contract_1_value, "items": contract_1_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 400)
@@ -752,9 +787,9 @@ def patch_contract_single_item_unit_value(self):
     contract = response.json["data"]
     contract_id = contract["id"]
     self.assertEqual(len(contract["items"]), len(self.initial_data["items"]))
-    expected_item_unit_currency = contract["items"][0]["unit"]["value"]["currency"]  # "UAH"
 
     new_items = deepcopy(contract["items"])
+    set_items_unit(new_items, contract["value"])
     new_items[0]["unit"]["value"]["amount"] = 2000
     new_items[0]["unit"]["value"]["currency"] = "GBP"
     response = self.app.patch_json(
@@ -781,10 +816,13 @@ def patch_contract_single_item_unit_value(self):
     self.mongodb.tenders.save(doc)
     doc = self.mongodb.contracts.get(contract_id)
 
-    if doc['value']['valueAddedTaxIncluded']:
-        doc['value']['amountNet'] = str(float(doc['value']['amount']) - 1)
-        doc["items"][0]["unit"]["value"]["amount"] = 2000
-    self.mongodb.contracts.save(doc)
+    new_items = deepcopy(contract["items"])
+    set_items_unit(new_items, contract["value"])
+    new_items[0]["unit"]["value"]["amount"] = 2000
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": new_items}},
+    )
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -804,7 +842,7 @@ def patch_contract_single_item_unit_value(self):
         response.json["errors"],
         [
             {
-                "description": "Total amount of unit values can't be greater than contract.value.amount",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
                 "location": "body",
                 "name": "items",
             }
@@ -812,13 +850,14 @@ def patch_contract_single_item_unit_value(self):
     )
 
     new_items = deepcopy(contract["items"])
-    new_items[0]["unit"]["value"]["amount"] = 15
+    set_items_unit(new_items, contract["value"])
+    expected_unit_value_amount = new_items[0]["unit"]["value"]["amount"]
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"items": new_items}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 15.0)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], expected_unit_value_amount)
 
     if "contractTemplateName" in self.initial_data:
         # set signerInfo for buyer
@@ -852,9 +891,6 @@ def patch_contract_single_item_unit_value(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "active")
 
-    new_items = deepcopy(contract["items"])
-    new_items[0]["unit"]["value"]["amount"] = 555555
-
 
 def patch_contract_single_item_unit_value_with_status(self):
     response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
@@ -863,6 +899,7 @@ def patch_contract_single_item_unit_value_with_status(self):
     self.assertEqual(len(contract["items"]), len(self.initial_data["items"]))
 
     new_items = deepcopy(contract["items"])
+    set_items_unit(new_items, contract["value"])
     new_items[0]["unit"]["value"]["amount"] = 2000
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -900,7 +937,7 @@ def patch_contract_single_item_unit_value_with_status(self):
         response.json["errors"],
         [
             {
-                "description": "Total amount of unit values can't be greater than contract.value.amount",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
                 "location": "body",
                 "name": "items",
             }
@@ -922,8 +959,14 @@ def patch_contract_single_item_unit_value_with_status(self):
         )
         self.assertEqual(response.status, "200 OK")
 
+    value = deepcopy(contract["value"])
+    value["amount"] = value["amount"] / 2
+    value["amountNet"] = value["amount"]
+
     new_items = deepcopy(contract["items"])
-    new_items[0]["unit"]["value"]["amount"] = 15
+    set_items_unit(new_items, value)
+    new_unit_value_amount = new_items[0]["unit"]["value"]["amount"]
+
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {
@@ -934,12 +977,13 @@ def patch_contract_single_item_unit_value_with_status(self):
                     "startDate": "2016-03-18T18:47:47.155143+02:00",
                     "endDate": "2016-05-18T18:47:47.155143+02:00",
                 },
+                "value": value,
                 "items": new_items,
             }
         },
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 15.0)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], new_unit_value_amount)
     self.assertEqual(response.json["data"]["status"], "active")
 
 
@@ -1011,7 +1055,6 @@ def patch_contract_multi_items_unit_value(self):
     for i in range(3):
         item = deepcopy(self.initial_data["items"][0])
         item['id'] = str(i + 1) * 10
-        del item['unit']['value']
         contract_items.append(item)
 
     contract_items[0]['quantity'] = 10
@@ -1070,7 +1113,6 @@ def patch_contract_multi_items_unit_value(self):
 
     new_items = deepcopy(contract["items"])
     new_items[2]["unit"]["value"]["amount"] = 0
-    # new_items[1]["unit"]["value"] = {"amount": 1}
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"items": new_items}},
@@ -1096,7 +1138,7 @@ def patch_contract_multi_items_unit_value(self):
         response.json["errors"],
         [
             {
-                "description": "Total amount of unit values can't be greater than contract.value.amount",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
                 "location": "body",
                 "name": "items",
             }
@@ -1118,13 +1160,19 @@ def patch_contract_multi_items_unit_value(self):
         )
         self.assertEqual(response.status, "200 OK")
 
-    new_items[0]["unit"]["value"]["amount"] = 7.56345
+    old_unit_amount = new_items[0]["unit"]["value"]["amount"]
+    new_items[0]["quantity"] = new_items[0]["quantity"] + 1
+    new_items_with_unit_value = [item for item in new_items if item.get("unit", {}).get("value", {})]
+    set_items_unit(new_items_with_unit_value, contract["value"])
+    new_unit_amount = new_items[0]["unit"]["value"]["amount"]
+    self.assertNotEqual(old_unit_amount, new_unit_amount)
+
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"items": new_items}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json['data']['items'][0]["unit"]["value"]["amount"], 7.56345)
+    self.assertEqual(response.json['data']['items'][0]["unit"]["value"]["amount"], new_unit_amount)
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -1151,7 +1199,8 @@ def patch_contract_multi_items_unit_value(self):
         ],
     )
 
-    new_items[1]["unit"]["value"] = {"amount": 10, "currency": "EUR", "valueAddedTaxIncluded": False}
+    set_items_unit(new_items, contract["value"])
+    new_items[1]["unit"]["value"]["currency"] = "EUR"
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"items": new_items}},
@@ -1168,7 +1217,7 @@ def patch_contract_multi_items_unit_value(self):
         ],
     )
 
-    new_items[1]["unit"]["value"] = {"amount": 10, "currency": "UAH", "valueAddedTaxIncluded": True}
+    set_items_unit(new_items, contract["value"])
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {"data": {"items": new_items}},
@@ -1317,9 +1366,12 @@ def patch_multiple_contracts_in_contracting(self):
         ],
     )
     # patch 1st contract
+    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_1_items = deepcopy(contract1["items"])
+    set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
         f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
-        {"data": {"value": {**contract1["value"], "amount": 200, "amountNet": 195, "currency": "UAH"}}},
+        {"data": {"value": contract_1_value, "items": contract_1_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 200)
@@ -1339,18 +1391,12 @@ def patch_multiple_contracts_in_contracting(self):
     )
 
     # 1st contract.value + 2nd contract.value <= award.amount.value
-    contract2["items"][0]["quantity"] = 4
-    contract2["items"][0]["unit"]["value"]["amount"] = 20
-    contract2["items"][1]["quantity"] = 4
-    contract2["items"][1]["unit"]["value"]["amount"] = 20
+    contract_2_value = {"amount": 190, "amountNet": 185, "currency": "UAH"}
+    contract_2_items = deepcopy(contract2["items"])
+    set_items_unit(contract_2_items, contract_2_value)
     response = self.app.patch_json(
         f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
-        {
-            "data": {
-                "value": {**contract2["value"], "amount": 190, "amountNet": 185, "currency": "UAH"},
-                "items": contract2["items"],
-            }
-        },
+        {"data": {"value": contract_2_value, "items": contract_2_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 190)

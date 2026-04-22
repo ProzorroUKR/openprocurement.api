@@ -6,6 +6,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
 )
+from openprocurement.tender.core.tests.utils import set_items_unit
 
 
 def patch_tender_contract(self):
@@ -26,12 +27,14 @@ def patch_tender_contract(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
 
-    items = deepcopy(contract["items"])
     value = contract["value"]
     value["amountNet"] = value["amount"] - 1
+    items = deepcopy(contract["items"])
+    set_items_unit(items, value)
+
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
-        {"data": {"value": value}},
+        {"data": {"value": value, "items": items}},
     )
     self.assertEqual(response.status, "200 OK")
 
@@ -132,8 +135,14 @@ def patch_contract_single_item_unit_value(self):
     contract_id = contract["id"]
     self.assertEqual(len(contract["items"]), 1)
 
+    value = deepcopy(contract["value"])
+    value["amount"] = value["amount"] / 2
+    value["amountNet"] = value["amount"]
+
     new_items = deepcopy(contract["items"])
-    new_items[0]["unit"]["value"]["amount"] = 100
+    set_items_unit(new_items, value)
+    new_unit_value_amount = new_items[0]["unit"]["value"]["amount"]
+
     new_items[0]["unit"]["value"]["currency"] = "GBP"
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -158,7 +167,7 @@ def patch_contract_single_item_unit_value(self):
         {"data": {"items": new_items}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 100.0)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], new_unit_value_amount)
     self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["currency"], "UAH")
 
     # prepare contract
@@ -190,20 +199,19 @@ def patch_contract_single_item_unit_value(self):
         response.json["errors"],
         [
             {
-                "description": "Total amount of unit values can't be greater than contract.value.amount",
+                "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
                 "location": "body",
                 "name": "items",
             }
         ],
     )
 
-    new_items[0]["unit"]["value"]["amount"] = 10
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
-        {"data": {"items": new_items}},
+        {"data": {"items": new_items, "value": value}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 10.0)
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], new_unit_value_amount)
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",

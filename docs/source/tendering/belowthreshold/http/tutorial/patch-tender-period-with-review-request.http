@@ -281,11 +281,6 @@ Content-Type: application/json
         "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 5.0,

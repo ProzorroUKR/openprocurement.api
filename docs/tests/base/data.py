@@ -307,7 +307,6 @@ test_docs_items = [
         "unit": {
             "name": "кілограм",
             "code": "KGM",
-            "value": {"amount": 6},
         },
         "quantity": 5,
     }
@@ -333,7 +332,6 @@ test_docs_items_en = [
         "unit": {
             "code": "KGM",
             "name": "кілограм",
-            "value": {"amount": 6},
         },
         "quantity": 1,
     },
@@ -345,7 +343,6 @@ test_docs_items_en = [
         "unit": {
             "code": "PK",
             "name": "упаковка",
-            "value": {"amount": 6},
         },
         "quantity": 1,
         "deliveryDate": {
@@ -378,7 +375,10 @@ test_docs_items_ua = [
             "streetAddress": "вул. Банкова 1",
         },
         "classification": {"description": "Послуги з харчування у школах", "id": "55523100-3", "scheme": "ДК021"},
-        "unit": {"code": "KGM", "name": "папір", "value": {"amount": 10}},
+        "unit": {
+            "code": "KGM",
+            "name": "папір",
+        },
         "quantity": 1,
     }
 ]
@@ -399,7 +399,10 @@ test_docs_items_open = [
             "streetAddress": "вул. Банкова 1",
         },
         "classification": {"description": "Послуги з харчування у школах", "id": "55523100-3", "scheme": "ДК021"},
-        "unit": {"code": "KGM", "name": "папір", "value": {"amount": 10}},
+        "unit": {
+            "code": "KGM",
+            "name": "папір",
+        },
         "quantity": 1,
     },
     {
@@ -421,7 +424,6 @@ test_docs_items_open = [
         "unit": {
             "code": "KGM",
             "name": "кілограм",
-            "value": {"amount": 6},
         },
         "quantity": 1,
     },
@@ -437,7 +439,6 @@ test_docs_items_dps = [
         "unit": {
             "name": "кг",
             "code": "KGM",
-            "value": {"amount": 6},
         },
         "quantity": 5,
         "deliveryDate": {

@@ -23,7 +23,7 @@ class BaseEContractWebTest(BaseContractWebTest):
                     "suppliers": [test_tender_pq_e_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": {"currency": "UAH", "amount": 450.0, "valueAddedTaxIncluded": True},
+                    "value": self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value"),
                 }
             },
         )

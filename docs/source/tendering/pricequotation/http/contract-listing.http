@@ -16,10 +16,10 @@ Content-Type: application/json
       "contractID": "UA-2024-01-01-000001-a-1",
       "title": "Комп’ютерне обладнання",
       "value": {
-        "amount": 459.0,
+        "amount": 470.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true,
-        "amountNet": 459.0
+        "amountNet": 470.0
       }
     },
     {

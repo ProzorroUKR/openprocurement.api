@@ -82,14 +82,16 @@ Content-Type: application/json
         "id": "ffffffffffffffffffffffffffffffff",
         "description": "папір",
         "unit": {
+          "name": "кг",
           "value": {
-            "amount": 0.6,
+            "amount": 100.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0
+        "quantity": 5.0,
+        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
       }
     ],
     "submissionDate": "2023-10-16T01:14:06+03:00"

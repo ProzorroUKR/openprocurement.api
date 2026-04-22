@@ -1819,6 +1819,7 @@ def patch_tender_bidder(self):
     lot_values = bid["lotValues"]
     lot_values[0]["value"]["amount"] = 600
     bid_data["lotValues"] = lot_values
+    set_bid_items(self, bid_data)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}, status=422
@@ -1851,6 +1852,7 @@ def patch_tender_bidder(self):
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     bid_data["lotValues"][0]["value"]["amount"] = initial_bids[0]["lotValues"][0]["value"]["amount"]
+    set_bid_items(self, bid_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}
     )
@@ -1861,6 +1863,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     bid_data["lotValues"][0]["value"]["amount"] = 440
+    set_bid_items(self, bid_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}
     )

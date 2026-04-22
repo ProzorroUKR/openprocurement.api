@@ -358,7 +358,7 @@ def activate_contract_with_without_approve(self):
                 "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "bid_id": self.initial_bids[0]["id"],
-                "value": {"amount": 500},
+                "value": {"amount": self.initial_bids[0]["lotValues"][0]["value"]["amount"]},
                 "lotID": self.initial_lots[0]["id"],
             }
         },

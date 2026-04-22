@@ -1143,6 +1143,7 @@ def first_bid_tender(self):
     # create tender
     data = deepcopy(self.initial_data)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # switch to active.tendering
@@ -1151,11 +1152,13 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.initial_bids[0])
     bid_data["lotValues"][0]["value"] = {"amount": 450}
+    set_bid_items(self, bid_data, tender["items"])
     bid, bid1_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data["lotValues"][0]["value"] = {"amount": 475}
+    set_bid_items(self, bid_data, tender["items"])
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
