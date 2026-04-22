@@ -498,7 +498,7 @@ test_docs_procuring_entity_en = {
 }
 
 test_docs_procuring_entity_ua = {
-    "kind": "special",
+    "kind": "general",
     "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",
@@ -610,6 +610,7 @@ test_docs_tender_stage2_multiple_lots = {
     "owner": "broker",
     "procuringEntity": test_docs_procuring_entity_en,
     "items": test_docs_items_en,
+    "milestones": test_tender_below_milestones,
 }
 
 test_docs_tender_stage2EU = {
@@ -624,6 +625,7 @@ test_docs_tender_stage2EU = {
     "owner": "broker",
     "procuringEntity": test_docs_procuring_entity_en,
     "items": test_docs_items_en,
+    "milestones": test_tender_below_milestones,
 }
 
 test_docs_tender_stage2UA = {
@@ -636,6 +638,7 @@ test_docs_tender_stage2UA = {
     "owner": "broker",
     "procuringEntity": test_docs_procuring_entity_ua,
     "items": test_docs_items_ua,
+    "milestones": test_tender_below_milestones,
 }
 
 test_docs_tender_limited = {

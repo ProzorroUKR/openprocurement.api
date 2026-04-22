@@ -6,6 +6,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
@@ -100,6 +101,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         bids_access = {}
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, self.initial_lots)
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid1_id = response.json["data"]["id"]
         bids_access[bid1_id] = response.json["access"]["token"]
@@ -136,6 +138,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         bid2_data = deepcopy(bid2)
         bid2_data["status"] = "draft"
         set_bid_lotvalues(bid2_data, self.initial_lots)
+        set_bid_items(self, bid2_data, tender["items"])
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_data})
         bid2_id = response.json["data"]["id"]
         bids_access[bid2_id] = response.json["access"]["token"]
@@ -286,6 +289,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         bid1["tenderers"][0]["signerInfo"]["name"] = "Бойко Микола Миколайович>"
         bid1["tenderers"][0]["signerInfo"]["iban"] = "111111111222222"
         bid1["lotValues"][0]["subcontractingDetails"] = "ДП «Орфей»"
+        set_bid_items(self, bid1, bid1["items"])
         with open(TARGET_DIR + "24hours/patch-bid.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid_id, bid_token),
@@ -294,6 +298,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
                         "subcontractingDetails": "ДП «Орфей»",
                         "tenderers": bid1["tenderers"],
                         "lotValues": bid1["lotValues"],
+                        "items": bid1["items"],
                     }
                 },
                 status=200,

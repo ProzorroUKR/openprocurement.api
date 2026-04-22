@@ -641,7 +641,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                             "rationale_en": "change cause en",
                             "rationaleTypes": ["durationExtension"],
                             "modifications": {
-                                "period": {"endDate": "2027-01-01T00:00:00+02:00"},
+                                "period": {"endDate": (get_now() + timedelta(days=365)).isoformat()},
                             },
                         }
                     },

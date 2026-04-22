@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-10 11:30+0200\n"
+"POT-Creation-Date: 2026-04-23 15:53+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -11,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Мультивалютність"
 msgstr "Multi currency"
@@ -46,14 +47,14 @@ msgstr "For each nomenclature (items), the participant indicates the price per u
 msgid "Вимоги до реєстрації пропозицій:"
 msgstr "The requirements for bid registration:"
 
-msgid "Значення Валюта для кожної ціни за одиницю: може бути різним, значення може НЕ співпадати зі значенням Валюта для загальної цінової пропозиції та може НЕ бути однаковим на рівні лоту; значення може НЕ відповідати значенням Валюта, яке вказав замовник в тендері у очікуваній вартості закупівлі"
-msgstr "The `currency` value for each unit price: may be different, the value may NOT match the Currency value for the overall quote and may NOT be the same at the lot level; the value may NOT correspond to the value of the Currency specified by the customer in the tender in the expected purchase price"
+msgid "Значення Валюта для кожної ціни за одиницю має відповідати значенню Валюта для загальної ціни пропозиції"
+msgstr "The `currency` value for each unit price must match the `currency` value of the total bid price"
 
 msgid "Загальна вартість цін за одиницю на рівні лоту може НЕ дорівнювати загальній ціні пропозиції"
 msgstr "The total cost of Lot-level Unit Prices may NOT equal the total bid price"
 
-msgid "Значення ПДВ повинно відповідати значенню, вказаному замовником у тендері"
-msgstr "The value of VAT must correspond to the value specified by the customer in the tender"
+msgid "Значення ПДВ у ціні за одиницю повинно мати значення False"
+msgstr "The VAT value in the unit price must be False"
 
 msgid "Якщо учасник планує зробити замовнику так звану знижку, він може для певних номенклатур у значенні ціна за одиницю вказати значення 0"
 msgstr "If the participant plans to give the customer a so-called discount, he can specify the value 0 for certain items in the Price per unit value"
@@ -81,4 +82,3 @@ msgstr "Let's patch contract values:"
 
 msgid "Далі активуємо контракт, щоб перевірити, чи можна змінити загальну суму цін за одиницю більше, ніж ми маємо в контрактній вартості:"
 msgstr "Then let's activate contract to check whether it is possible to change general sum of unit values greater than we have in contract value:"
-

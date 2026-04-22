@@ -876,38 +876,32 @@ class TenderResourceTest(
             self.app.get(f"/tenders/{tender_id}")
 
         # Registering bid
+        bid_data = {
+            "status": "draft",
+            "tenderers": test_docs_bid_draft["tenderers"],
+            "lotValues": [
+                {"value": {"amount": 600, "currency": "USD"}, "relatedLot": lot_id1},
+                {"value": {"amount": 700, "currency": "EUR"}, "relatedLot": lot_id2},
+            ],
+            "items": [
+                {
+                    "quantity": 5,
+                    "description": "папір",
+                    "id": items[0]["id"],
+                    "relatedLot": lot_id1,
+                },
+                {
+                    "quantity": 1,
+                    "description": "степлер",
+                    "id": items[1]["id"],
+                    "relatedLot": lot_id2,
+                },
+            ],
+        }
+        set_bid_items(self, bid_data, bid_data["items"])
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "status": "draft",
-                    "tenderers": test_docs_bid_draft["tenderers"],
-                    "lotValues": [
-                        {"value": {"amount": 600, "currency": "USD"}, "relatedLot": lot_id1},
-                        {"value": {"amount": 700, "currency": "EUR"}, "relatedLot": lot_id2},
-                    ],
-                    "items": [
-                        {
-                            "quantity": 5,
-                            "description": "папір",
-                            "id": items[0]["id"],
-                            "unit": {
-                                "code": "KGM",
-                                "value": {"amount": 0.6, "currency": "USD", "valueAddedTaxIncluded": False},
-                            },
-                        },
-                        {
-                            "quantity": 1,
-                            "description": "степлер",
-                            "id": items[1]["id"],
-                            "unit": {
-                                "code": "KGM",
-                                "value": {"amount": 0, "currency": "EUR", "valueAddedTaxIncluded": False},
-                            },
-                        },
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         self.add_sign_doc(
@@ -935,125 +929,146 @@ class TenderResourceTest(
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(response.json["errors"][0]["name"], "items")
+            self.assertEqual(response.json["errors"][0]["description"], "This field is required.")
 
         # post bid without unit values in items for tender with funders
         with open(TARGET_DIR + "multi-currency/post-bid-without-values-in-unit-items.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid_draft["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
+                ],
+                "items": [
+                    {
+                        "quantity": 5,
+                        "description": "папір",
+                        "id": items[0]["id"],
+                        "relatedLot": lot_id1,
+                    },
+                    {
+                        "quantity": 1,
+                        "description": "степлер",
+                        "id": items[1]["id"],
+                        "relatedLot": lot_id2,
+                    },
+                ],
+            }
+            set_bid_items(self, bid_data, bid_data["items"])
+            for item in bid_data["items"]:
+                del item["unit"]["value"]
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid_draft["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
-                            {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
-                        ],
-                        "items": [
-                            {
-                                "quantity": 5,
-                                "description": "папір",
-                                "id": items[0]["id"],
-                                "unit": {"code": "KGM"},
-                            },
-                            {
-                                "quantity": 1,
-                                "description": "степлер",
-                                "id": items[1]["id"],
-                            },
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(response.json["errors"][0]["name"], "items")
+            self.assertEqual(
+                response.json["errors"][0]["description"], "items.unit.value is required for tender with funders"
+            )
 
         # post bid with items related to another lot than bid
         with open(
             TARGET_DIR + "multi-currency/post-bid-with-items-related-to-another-lot.http", "w"
         ) as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid_draft["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
+                ],
+                "items": [
+                    {
+                        "quantity": 5,
+                        "description": "папір",
+                        "id": items[0]["id"],
+                        "relatedLot": lot_id1,
+                    },
+                    {
+                        "quantity": 5,
+                        "description": "папір",
+                        "id": items[1]["id"],
+                        "relatedLot": lot_id2,
+                    },
+                ],
+            }
+            set_bid_items(self, bid_data, bid_data["items"])
+            del bid_data["lotValues"][1]
+            del bid_data["items"][0]
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid_draft["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
-                        ],
-                        "items": [
-                            {
-                                "quantity": 5,
-                                "description": "папір",
-                                "id": items[1]["id"],
-                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
-                            },
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(response.json["errors"][0]["name"], "data")
+            self.assertEqual(
+                response.json["errors"][0]["description"], "Bid items ids should be on tender items ids for current lot"
+            )
 
         # post bid with items quantity less than items in tender
         with open(TARGET_DIR + "multi-currency/post-bid-with-items-less-than-in-tender.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid_draft["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
+                ],
+                "items": [
+                    {
+                        "quantity": 5,
+                        "description": "папір",
+                        "id": items[0]["id"],
+                        "relatedLot": lot_id1,
+                    },
+                ],
+            }
+            set_bid_items(self, bid_data, bid_data["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid_draft["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
-                            {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
-                        ],
-                        "items": [
-                            {
-                                "quantity": 5,
-                                "description": "папір",
-                                "id": items[0]["id"],
-                                "unit": {"code": "KGM", "value": {"amount": 0.2, "currency": "EUR"}},
-                            },
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(response.json["errors"][0]["name"], "data")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Bid items ids should include all tender items ids for current lot",
+            )
 
         # Register second bid
         with open(TARGET_DIR + "multi-currency/post-add-valid-bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid_draft["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
+                ],
+                "items": [
+                    {
+                        "quantity": 5,
+                        "description": "папір",
+                        "id": items[0]["id"],
+                        "relatedLot": lot_id1,
+                    },
+                    {
+                        "quantity": 1,
+                        "description": "степлер",
+                        "id": items[1]["id"],
+                        "relatedLot": lot_id2,
+                    },
+                ],
+            }
+            set_bid_items(self, bid_data, bid_data["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid_draft["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 200, "currency": "USD"}, "relatedLot": lot_id1},
-                            {"value": {"amount": 400, "currency": "EUR"}, "relatedLot": lot_id2},
-                        ],
-                        "items": [
-                            {
-                                "quantity": 5,
-                                "description": "папір",
-                                "id": items[0]["id"],
-                                "unit": {
-                                    "code": "KGM",
-                                    "value": {"amount": 0.2, "currency": "USD", "valueAddedTaxIncluded": False},
-                                },
-                            },
-                            {
-                                "quantity": 1,
-                                "description": "степлер",
-                                "id": items[1]["id"],
-                                "unit": {
-                                    "code": "KGM",
-                                    "value": {"amount": 0, "currency": "EUR", "valueAddedTaxIncluded": False},
-                                },
-                            },
-                        ],
-                    }
-                },
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "201 Created")
         self.add_sign_doc(
@@ -1066,37 +1081,37 @@ class TenderResourceTest(
         bid2_id = response.json["data"]["id"]
         bid2_token = response.json["access"]["token"]
 
-        # patch bid with unit VAT different from tender VAT
+        # patch bid with unit VAT True
         with open(TARGET_DIR + "multi-currency/patch-invalid-bid-unit.http", "w") as self.app.file_obj:
+            bid_patch_data = {
+                "lotValues": bid_data["lotValues"],
+                "items": [
+                    {
+                        "quantity": 5,
+                        "description": "папір",
+                        "id": items[0]["id"],
+                        "relatedLot": lot_id1,
+                    },
+                    {
+                        "quantity": 1,
+                        "description": "степлер",
+                        "id": items[1]["id"],
+                        "relatedLot": lot_id2,
+                    },
+                ],
+            }
+            set_bid_items(self, bid_patch_data, bid_patch_data["items"])
+            bid_patch_data["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = True
             response = self.app.patch_json(
                 f"/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}",
-                {
-                    "data": {
-                        "items": [
-                            {
-                                "quantity": 5,
-                                "description": "папір",
-                                "id": items[0]["id"],
-                                "unit": {
-                                    "code": "KGM",
-                                    "value": {"amount": 0.6, "currency": "USD", "valueAddedTaxIncluded": True},
-                                },
-                            },
-                            {
-                                "quantity": 1,
-                                "description": "степлер",
-                                "id": items[1]["id"],
-                                "unit": {
-                                    "code": "KGM",
-                                    "value": {"amount": 0, "currency": "EUR", "valueAddedTaxIncluded": False},
-                                },
-                            },
-                        ]
-                    }
-                },
+                {"data": bid_patch_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(response.json["errors"][0]["name"], "items")
+            self.assertEqual(
+                response.json["errors"][0]["description"], "valueAddedTaxIncluded of bid unit should be False"
+            )
 
         # Auction
         self.tick(timedelta(days=30))
@@ -1204,6 +1219,8 @@ class TenderResourceTest(
                 {"data": tender_data, "config": self.initial_config},
             )
             self.assertEqual(response.status, "201 Created")
+
+            tender = response.json["data"]
             self.tender_id = tender_id = response.json["data"]["id"]
             owner_token = response.json["access"]["token"]
 
@@ -1213,18 +1230,12 @@ class TenderResourceTest(
         self.assertEqual(response.status, "201 Created")
         lot_id = response.json["data"]["id"]
 
-        test_data_wi_id = deepcopy(test_tender_data)
-        test_data_wi_id["minimalStep"] = {"amount": 15, "currency": "UAH"}
-        response = self.app.post_json(
-            "/tenders?opt_pretty=1",
-            {"data": test_data_wi_id, "config": self.initial_config},
-        )
-        self.assertEqual(response.status, "201 Created")
-        tender_wi_id = response.json["data"]["id"]
-        owner_wi_token = response.json["access"]["token"]
-
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
         response = self.app.patch_json(
-            f"/tenders/{tender_wi_id}?acc_token={owner_wi_token}", {"data": {"status": "active.enquiries"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
         self.assertEqual(response.status, "200 OK")
 

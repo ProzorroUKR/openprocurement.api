@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
 from openprocurement.tender.open.tests.base import test_tender_open_criteria
 from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
@@ -313,22 +313,22 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         #### Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
         with open(TARGET_DIR + "bid-lot1.http", "w") as self.app.file_obj:
+            bid_data = {
+                "selfQualified": True,
+                "status": "draft",
+                "tenderers": bid["tenderers"],
+                "lotValues": [
+                    {
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        "relatedLot": lot_id1,
+                    }
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "selfQualified": True,
-                        "status": "draft",
-                        "tenderers": bid["tenderers"],
-                        "lotValues": [
-                            {
-                                "subcontractingDetails": "ДКП «Орфей», Україна",
-                                "value": {"amount": 500},
-                                "relatedLot": lot_id1,
-                            }
-                        ],
-                    }
-                },
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "201 Created")
             bid1_token = response.json["access"]["token"]
@@ -415,24 +415,21 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
 
         #### Registering bid 2
         with open(TARGET_DIR + "bid-lot2.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "selfQualified": True,
-                        "status": "draft",
-                        "tenderers": test_docs_bid2["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 500}, "relatedLot": lot_id1},
-                            {
-                                "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                                "value": {"amount": 500},
-                                "relatedLot": lot_id2,
-                            },
-                        ],
-                    }
-                },
-            )
+            bid_data = {
+                "selfQualified": True,
+                "status": "draft",
+                "tenderers": test_docs_bid2["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 500}, "relatedLot": lot_id1},
+                    {
+                        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                        "value": {"amount": 500},
+                        "relatedLot": lot_id2,
+                    },
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
+            response = self.app.post_json(f"/tenders/{tender_id}/bids", {"data": bid_data})
             self.assertEqual(response.status, "201 Created")
             bid2_id = response.json["data"]["id"]
             bid2_token = response.json["access"]["token"]
@@ -476,14 +473,14 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
             }
         )
         with open(TARGET_DIR + "bid-lot1-update-view.http", "w") as self.app.file_obj:
+            bid_patch_data = {
+                "lotValues": [lot_values[0]],
+                "status": "pending",
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.patch_json(
                 "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid1_id, bid1_token),
-                {
-                    "data": {
-                        "lotValues": [lot_values[0]],
-                        "status": "pending",
-                    }
-                },
+                {"data": bid_patch_data},
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -498,14 +495,14 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         lot_values[0].update({"value": {"amount": 500}, "relatedLot": lot_id1})
         lot_values[1].update({"relatedLot": lot_id2})
         with open(TARGET_DIR + "bid-lot2-update-view.http", "w") as self.app.file_obj:
+            bid_patch_data = {
+                "lotValues": lot_values,
+                "status": "pending",
+            }
+            set_bid_items(self, bid_patch_data, tender["items"])
             response = self.app.patch_json(
                 f"/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}",
-                {
-                    "data": {
-                        "lotValues": lot_values,
-                        "status": "pending",
-                    }
-                },
+                {"data": bid_patch_data},
             )
             self.assertEqual(response.status, "200 OK")
 

@@ -217,11 +217,13 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
 
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {
-            "tenderers": [test_tender_rfp_supplier],
-            "value": {"amount": 600, "currency": "USD"},
-            "items": items,
-        }},
+        {
+            "data": {
+                "tenderers": [test_tender_rfp_supplier],
+                "value": {"amount": 600, "currency": "USD"},
+                "items": items,
+            }
+        },
     )
     self.assertEqual(response.status, "200 OK")
     self.assertNotEqual(tender["value"]["currency"], response.json["data"]["value"]["currency"])
@@ -255,8 +257,12 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
     ]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
     self.assertEqual(response.status, "201 Created")
-    self.assertNotEqual(tender["lots"][0]["value"]["currency"], response.json["data"]["lotValues"][0]["value"]["currency"])
-    self.assertNotEqual(tender["lots"][0]["value"]["currency"], response.json["data"]["items"][0]["unit"]["value"]["currency"])
+    self.assertNotEqual(
+        tender["lots"][0]["value"]["currency"], response.json["data"]["lotValues"][0]["value"]["currency"]
+    )
+    self.assertNotEqual(
+        tender["lots"][0]["value"]["currency"], response.json["data"]["items"][0]["unit"]["value"]["currency"]
+    )
 
 
 def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
@@ -307,8 +313,12 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
         {"data": bid},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertNotEqual(tender["lots"][0]["value"]["currency"], response.json["data"]["lotValues"][0]["value"]["currency"])
-    self.assertNotEqual(tender["lots"][0]["value"]["currency"], response.json["data"]["items"][0]["unit"]["value"]["currency"])
+    self.assertNotEqual(
+        tender["lots"][0]["value"]["currency"], response.json["data"]["lotValues"][0]["value"]["currency"]
+    )
+    self.assertNotEqual(
+        tender["lots"][0]["value"]["currency"], response.json["data"]["items"][0]["unit"]["value"]["currency"]
+    )
 
 
 @mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))

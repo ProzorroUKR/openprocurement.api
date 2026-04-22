@@ -12,6 +12,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
@@ -127,16 +128,17 @@ class CDStage2Mixin:
 
         self.set_status("active.tendering")
 
+        bid_data = {
+            "status": "draft",
+            "selfQualified": True,
+            "tenderers": bid["tenderers"],
+            "lotValues": [{"subcontractingDetails": "ДКП «Орфей», Україна", "relatedLot": lot_id}],
+        }
+        set_bid_items(self, bid_data, tender["items"])
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "status": "draft",
-                    "selfQualified": True,
-                    "tenderers": bid["tenderers"],
-                    "lotValues": [{"subcontractingDetails": "ДКП «Орфей», Україна", "relatedLot": lot_id}],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid1_token = response.json["access"]["token"]
@@ -149,18 +151,17 @@ class CDStage2Mixin:
         ).json["data"]["id"]
         self.set_responses(tender_id, response.json, "pending")
 
+        bid2_data = {
+            "status": "draft",
+            "selfQualified": True,
+            "tenderers": bid2["tenderers"],
+            "lotValues": [{"relatedLot": lot_id}],
+        }
+        set_bid_items(self, bid2_data, tender["items"])
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "status": "draft",
-                    "selfQualified": True,
-                    "tenderers": bid2["tenderers"],
-                    "lotValues": [
-                        {"relatedLot": lot_id},
-                    ],
-                }
-            },
+            {"data": bid2_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -173,18 +174,17 @@ class CDStage2Mixin:
         ).json["data"]["id"]
         self.set_responses(tender_id, response.json, "pending")
 
+        bid3_data = {
+            "status": "draft",
+            "selfQualified": True,
+            "tenderers": bid3["tenderers"],
+            "lotValues": [{"relatedLot": lot_id}],
+        }
+        set_bid_items(self, bid3_data, tender["items"])
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "status": "draft",
-                    "selfQualified": True,
-                    "tenderers": bid3["tenderers"],
-                    "lotValues": [
-                        {"relatedLot": lot_id},
-                    ],
-                }
-            },
+            {"data": bid3_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid3_id = response.json["data"]["id"]
@@ -242,6 +242,15 @@ class CDStage2Mixin:
         response = self.app.patch_json("/tenders/{}/credentials?acc_token={}".format(self.tender_id, owner_token), {})
         self.assertEqual(response.status, "200 OK")
         owner_token = response.json["access"]["token"]
+
+        # TODO: this should be in docs text
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
+            {"data": {"milestones": tender.get("milestones")}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["milestones"], tender.get("milestones"))
+
         return tender, owner_token, lot_id
 
 
@@ -549,6 +558,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         bids_access = {}
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, tender_lots)
+        set_bid_items(self, bid_data, tender["items"])
         with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             bid1_id = response.json["data"]["id"]
@@ -732,6 +742,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             bid2_draft = deepcopy(bid2)
             bid2_draft["status"] = "draft"
             set_bid_lotvalues(bid2_draft, tender_lots)
+            set_bid_items(self, bid2_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_draft})
             bid2_id = response.json["data"]["id"]
             bids_access[bid2_id] = response.json["access"]["token"]
@@ -749,6 +760,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             bid3_draft = deepcopy(bid3)
             bid3_draft["status"] = "draft"
             set_bid_lotvalues(bid3_draft, tender_lots)
+            set_bid_items(self, bid3_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_draft})
             bid3_id = response.json["data"]["id"]
             bids_access[bid3_id] = response.json["access"]["token"]
@@ -776,6 +788,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         with open(TARGET_DIR + "register-4rd-bidder.http", "w") as self.app.file_obj:
             set_bid_lotvalues(bid4_with_docs_draft, tender_lots)
+            set_bid_items(self, bid4_with_docs_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid4_with_docs_draft})
             bid4_id = response.json["data"]["id"]
             bids_access[bid4_id] = response.json["access"]["token"]
@@ -905,7 +918,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             ):
                 response = self.app.patch_json(
                     "/tenders/{}?acc_token={}".format(new_tender_id, self.new_tender_token),
-                    {"data": {"status": "active.tendering"}},
+                    {"data": {"status": "active.tendering", "milestones": tender.get("milestones")}},
                 )
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.json["data"]["status"], "active.tendering")
@@ -953,7 +966,8 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         # Tender activating
         with open(TARGET_DIR + "stage2/EU/tender-activate.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token), {"data": {"status": "active.tendering"}}
+                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
+                {"data": {"status": "active.tendering", "milestones": tender.get("milestones")}},
             )
 
         response = self.app.get("/tenders")
@@ -1120,11 +1134,13 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR + "stage2/EU/try-register-bidder.http", "w") as self.app.file_obj:
             bid_data = deepcopy(bid_with_bad_participant)
             set_bid_lotvalues(bid_data, tender_lots)
+            set_bid_items(self, bid_data, tender["items"])
             self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
 
         with open(TARGET_DIR + "stage2/EU/register-bidder.http", "w") as self.app.file_obj:
             bid_data_2 = deepcopy(bid2_stage2)
             set_bid_lotvalues(bid_data_2, tender_lots)
+            set_bid_items(self, bid_data_2, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data_2})
             bid1_id = response.json["data"]["id"]
             bids_access[bid1_id] = response.json["access"]["token"]
@@ -1337,6 +1353,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR + "stage2/EU/register-2nd-bidder.http", "w") as self.app.file_obj:
             bid2_draft = deepcopy(bid2_stage2)
             set_bid_lotvalues(bid2_draft, tender_lots)
+            set_bid_items(self, bid2_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_draft})
             bid2_id = response.json["data"]["id"]
             bids_access[bid2_id] = response.json["access"]["token"]
@@ -1370,6 +1387,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         with open(TARGET_DIR + "stage2/EU/register-3rd-bidder.http", "w") as self.app.file_obj:
             set_bid_lotvalues(bid3_with_docs_st2, tender_lots)
+            set_bid_items(self, bid3_with_docs_st2, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_with_docs_st2})
             bid3_id = response.json["data"]["id"]
             bids_access[bid3_id] = response.json["access"]["token"]
@@ -1695,6 +1713,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 "/tenders/{}?acc_token={}".format(tender_id, owner_token), {"data": {"items": items}}
             )
             self.assertEqual(response.status, "200 OK")
+            tender = response.json["data"]
 
         self.set_status("active.tendering")
 
@@ -1709,16 +1728,16 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         self.app.authorization = ("Basic", ("broker", ""))
         with open(TARGET_DIR_MULTIPLE + "bid-lot1.http", "w") as self.app.file_obj:
+            bid1_data = {
+                "status": "draft",
+                "selfQualified": True,
+                "tenderers": bid["tenderers"],
+                "lotValues": [{"subcontractingDetails": "ДКП «Орфей», Україна", "relatedLot": lot_id1}],
+            }
+            set_bid_items(self, bid1_data, tender["items"])
             response = self.app.post_json(
                 "/tenders/{}/bids".format(tender_id),
-                {
-                    "data": {
-                        "status": "draft",
-                        "selfQualified": True,
-                        "tenderers": bid["tenderers"],
-                        "lotValues": [{"subcontractingDetails": "ДКП «Орфей», Україна", "relatedLot": lot_id1}],
-                    }
-                },
+                {"data": bid1_data},
             )
             self.assertEqual(response.status, "201 Created")
             bid1_token = response.json["access"]["token"]
@@ -1732,19 +1751,19 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         self.set_responses(tender_id, response.json, "pending")
 
         with open(TARGET_DIR_MULTIPLE + "bid-lot2.http", "w") as self.app.file_obj:
+            bid2_data = {
+                "status": "draft",
+                "selfQualified": True,
+                "tenderers": bid2["tenderers"],
+                "lotValues": [
+                    {"relatedLot": lot_id1},
+                    {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid2_data, tender["items"])
             response = self.app.post_json(
                 "/tenders/{}/bids".format(tender_id),
-                {
-                    "data": {
-                        "status": "draft",
-                        "selfQualified": True,
-                        "tenderers": bid2["tenderers"],
-                        "lotValues": [
-                            {"relatedLot": lot_id1},
-                            {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid2_data},
             )
             self.assertEqual(response.status, "201 Created")
             bid2_id = response.json["data"]["id"]
@@ -1757,19 +1776,19 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         ).json["data"]["id"]
         self.set_responses(tender_id, response.json, "pending")
 
+        bid3_data = {
+            "status": "draft",
+            "selfQualified": True,
+            "tenderers": bid3["tenderers"],
+            "lotValues": [
+                {"relatedLot": lot_id1},
+                {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
+            ],
+        }
+        set_bid_items(self, bid3_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "status": "draft",
-                    "selfQualified": True,
-                    "tenderers": bid3["tenderers"],
-                    "lotValues": [
-                        {"relatedLot": lot_id1},
-                        {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
-                    ],
-                }
-            },
+            {"data": bid3_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid3_id = response.json["data"]["id"]
@@ -1842,32 +1861,31 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             doc_id=doc3_id,
         )
         with open(TARGET_DIR_MULTIPLE + "bid-lot3-update-view.http", "w") as self.app.file_obj:
+            bid3_patch_data = {
+                "lotValues": [
+                    {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
+                    {"relatedLot": lot_id1},
+                ],
+                "status": "pending",
+            }
+            set_bid_items(self, bid3_patch_data, tender["items"])
             response = self.app.patch_json(
                 "/tenders/{}/bids/{}?acc_token={}".format(tender_id, bid3_id, bid3_token),
-                {
-                    "data": {
-                        "lotValues": [
-                            {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
-                            {"relatedLot": lot_id1},
-                        ],
-                        "status": "pending",
-                    }
-                },
+                {"data": bid3_patch_data},
             )
 
             self.assertEqual(response.status, "200 OK")
+
+        bid4_data = {
+            "status": "draft",
+            "selfQualified": True,
+            "tenderers": bid4["tenderers"],
+            "lotValues": [{"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2}],
+        }
+        set_bid_items(self, bid4_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "status": "draft",
-                    "selfQualified": True,
-                    "tenderers": bid4["tenderers"],
-                    "lotValues": [
-                        {"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2},
-                    ],
-                }
-            },
+            {"data": bid4_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid4_id = response.json["data"]["id"]
@@ -2001,7 +2019,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + "tender_stage2_modify_status.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(new_tender_id, self.new_tender_token),
-                {"data": {"status": "active.tendering"}},
+                {"data": {"status": "active.tendering", "milestones": tender.get("milestones")}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active.tendering")
@@ -2034,22 +2052,22 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         # user can create bid
         with open(TARGET_DIR_MULTIPLE + "register_ok_bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "selfQualified": True,
+                "tenderers": bid["tenderers"],
+                "lotValues": [
+                    {
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 500},
+                        "relatedLot": lot_id1,
+                    }
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 "/tenders/{}/bids".format(new_tender_id),
-                {
-                    "data": {
-                        "status": "draft",
-                        "selfQualified": True,
-                        "tenderers": bid["tenderers"],
-                        "lotValues": [
-                            {
-                                "subcontractingDetails": "ДКП «Орфей», Україна",
-                                "value": {"amount": 500},
-                                "relatedLot": lot_id1,
-                            }
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=201,
             )
         self.add_sign_doc(
@@ -2062,22 +2080,22 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         # user can't create bid on lot which he wasn't allowed
         with open(TARGET_DIR_MULTIPLE + "register_bad_not_allowed_lot.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "selfQualified": True,
+                "tenderers": bid["tenderers"],
+                "lotValues": [
+                    {
+                        "subcontractingDetails": "ДКП «Орфей», Україна",
+                        "value": {"amount": 300},
+                        "relatedLot": lot_id2,
+                    }
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 "/tenders/{}/bids".format(new_tender_id),
-                {
-                    "data": {
-                        "status": "draft",
-                        "selfQualified": True,
-                        "tenderers": bid["tenderers"],
-                        "lotValues": [
-                            {
-                                "subcontractingDetails": "ДКП «Орфей», Україна",
-                                "value": {"amount": 300},
-                                "relatedLot": lot_id2,
-                            }
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=403,
             )
 
@@ -2143,7 +2161,8 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
         # Tender activating
         with open(TARGET_DIR + "stage2/UA/tender-activate.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
-                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token), {"data": {"status": "active.tendering"}}
+                "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
+                {"data": {"status": "active.tendering", "milestones": tender.get("milestones")}},
             )
 
         with open(TARGET_DIR + "stage2/UA/tender-listing-after-patch.http", "w") as self.app.file_obj:
@@ -2297,6 +2316,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
         bids_access = {}
         bid_data = deepcopy(bid_with_bad_participant)
         set_bid_lotvalues(bid_data, tender_lots)
+        set_bid_items(self, bid_data, tender["items"])
 
         with open(TARGET_DIR + "stage2/UA/try-register-bidder.http", "w") as self.app.file_obj:
             self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
@@ -2304,6 +2324,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
         with open(TARGET_DIR + "stage2/UA/register-bidder.http", "w") as self.app.file_obj:
             bid_data_2 = deepcopy(bid2_stage2)
             set_bid_lotvalues(bid_data_2, tender_lots)
+            set_bid_items(self, bid_data_2, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data_2})
             bid1_id = response.json["data"]["id"]
             bids_access[bid1_id] = response.json["access"]["token"]
@@ -2413,6 +2434,7 @@ class TenderResourceTestStage2UA(BaseCompetitiveDialogUAWebTest, MockWebTestMixi
 
         bid2_with_docs["documents"] = [bid_document]
         set_bid_lotvalues(bid2_with_docs_st2, tender_lots)
+        set_bid_items(self, bid2_with_docs_st2, tender["items"])
         for document in bid2_with_docs["documents"]:
             document["url"] = self.generate_docservice_url()
         with open(TARGET_DIR + "stage2/UA/register-2nd-bidder.http", "w") as self.app.file_obj:
