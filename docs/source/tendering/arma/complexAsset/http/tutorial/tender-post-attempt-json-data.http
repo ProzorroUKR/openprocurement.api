@@ -64,10 +64,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "KGM",
-          "name": "кілограм",
-          "value": {
-            "amount": 6
-          }
+          "name": "кілограм"
         },
         "quantity": 1
       },
@@ -88,10 +85,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "PK",
-          "name": "упаковка",
-          "value": {
-            "amount": 6
-          }
+          "name": "упаковка"
         },
         "quantity": 1,
         "deliveryDate": {
@@ -196,11 +190,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,
@@ -234,11 +223,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "PK"
         },
         "quantity": 1.0,

@@ -38,27 +38,29 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "quantity": 5,
-        "description": "папір",
-        "id": "ffffffffffffffffffffffffffffffff",
-        "unit": {
-          "code": "KGM",
-          "value": {
-            "amount": 0.6,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          }
-        }
-      }
-    ],
     "lotValues": [
       {
         "value": {
           "amount": 500
         },
         "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
+      }
+    ],
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14",
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 100.0
+          }
+        }
       }
     ]
   }
@@ -121,14 +123,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fa2e9cbf88314cb6
         "id": "ffffffffffffffffffffffffffffffff",
         "description": "папір",
         "unit": {
+          "name": "кг",
           "value": {
-            "amount": 0.6,
+            "amount": 100.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0
+        "quantity": 5.0,
+        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
       }
     ],
     "id": "4733aa8525304b52bccee93b11ea1c1c",

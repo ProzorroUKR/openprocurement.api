@@ -43,11 +43,6 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "deliveryAddress": {
@@ -82,11 +77,6 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "упаковка",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "PK"
         },
         "deliveryAddress": {

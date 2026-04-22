@@ -1101,11 +1101,6 @@ Content-Type: application/json
         "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "classification": {
@@ -1140,11 +1135,6 @@ Content-Type: application/json
         "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "PK"
         },
         "classification": {

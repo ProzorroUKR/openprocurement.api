@@ -57,10 +57,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 100
-          }
+          "code": "KGM"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -94,10 +91,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 100
-          }
+          "code": "KGM"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -376,11 +370,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b4005
         ],
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         }
       },
@@ -415,11 +404,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b4005
         ],
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         }
       }

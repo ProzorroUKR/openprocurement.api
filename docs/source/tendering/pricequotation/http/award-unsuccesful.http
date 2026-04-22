@@ -21,7 +21,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
     "status": "unsuccessful",
     "date": "2024-01-01T00:00:01+02:00",
     "value": {
-      "amount": 459.0,
+      "amount": 470.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },

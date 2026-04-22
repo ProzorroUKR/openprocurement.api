@@ -61,10 +61,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "unit": {
           "name": "кг",
-          "code": "KGM",
-          "value": {
-            "amount": 6
-          }
+          "code": "KGM"
         },
         "quantity": 5,
         "deliveryDate": {
@@ -132,11 +129,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/e2c427b62ce74
         },
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         }
       }

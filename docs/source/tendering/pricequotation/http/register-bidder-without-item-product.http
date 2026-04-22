@@ -115,11 +115,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
           "code": "KGM"
         },
         "quantity": 5.0

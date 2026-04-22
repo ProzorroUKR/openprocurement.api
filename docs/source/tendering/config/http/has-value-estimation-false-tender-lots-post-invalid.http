@@ -67,10 +67,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "KGM",
-          "name": "папір",
-          "value": {
-            "amount": 10
-          }
+          "name": "папір"
         },
         "quantity": 1
       },
@@ -102,10 +99,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "KGM",
-          "name": "кілограм",
-          "value": {
-            "amount": 6
-          }
+          "name": "кілограм"
         },
         "quantity": 1
       }

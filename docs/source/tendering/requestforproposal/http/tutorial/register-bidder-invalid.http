@@ -38,27 +38,29 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "quantity": 5,
-        "description": "папір",
-        "id": "ffffffffffffffffffffffffffffffff",
-        "unit": {
-          "code": "KGM",
-          "value": {
-            "amount": 1500,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          }
-        }
-      }
-    ],
     "lotValues": [
       {
         "value": {
           "amount": 500
         },
         "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+      }
+    ],
+    "items": [
+      {
+        "quantity": 5,
+        "description": "папір",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040",
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 101.0
+          }
+        }
       }
     ]
   }
@@ -74,7 +76,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values can't be greater than bid.lotValues.value.amount"
+      "description": "Total amount of unit values must be no more than bid.lotValues.value.amount and no less than net bid.lotValues amount"
     }
   ]
 }

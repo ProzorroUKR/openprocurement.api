@@ -55,14 +55,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
+          "code": "KGM",
           "value": {
-            "amount": 6.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
+            "valueAddedTaxIncluded": false,
+            "amount": 100.0
+          }
         },
-        "quantity": 5.0
+        "quantity": 5.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873"
       }
     ]
   }
@@ -130,13 +131,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 6.0,
+            "amount": 100.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0
+        "quantity": 5.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873"
       }
     ],
     "id": "1dfb6963bdda42449ce4ef465342892a",

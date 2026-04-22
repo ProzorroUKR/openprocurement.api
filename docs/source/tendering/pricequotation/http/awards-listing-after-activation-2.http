@@ -13,7 +13,7 @@ Content-Type: application/json
       "status": "cancelled",
       "date": "2024-01-01T00:00:01+02:00",
       "value": {
-        "amount": 459.0,
+        "amount": 470.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true
       },
@@ -67,7 +67,7 @@ Content-Type: application/json
       "status": "unsuccessful",
       "date": "2024-01-01T00:00:01+02:00",
       "value": {
-        "amount": 459.0,
+        "amount": 470.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": true
       },
