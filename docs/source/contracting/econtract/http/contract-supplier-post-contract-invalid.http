@@ -6,11 +6,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "awardID": "f10947246ab44416ab8f1f75df484ded",
-    "contractID": "UA-2023-10-10-000002-a-1",
+    "contractID": "UA-2027-01-01-000002-a-1",
     "title": "Комп’ютерне обладнання",
     "period": {
-      "startDate": "2023-10-15T00:00:00+03:00",
-      "endDate": "2023-12-31T23:59:59+03:00"
+      "startDate": "2027-01-06T00:00:00+02:00",
+      "endDate": "2027-12-31T23:59:59+02:00"
     },
     "value": {
       "amount": 500.0,
@@ -52,8 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -112,8 +112,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],

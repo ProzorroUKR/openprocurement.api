@@ -245,8 +245,42 @@ Content-Type: application/json
     "status": "invalid",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "ba20f70bc7a74738820a155064861ddd",
-    "date": "2023-10-10T01:00:00+03:00",
-    "submissionDate": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "submissionDate": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "250cc46de56c4db09829514bd9519438",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 250.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+      },
+      {
+        "id": "1b412c42470341e88f0e771e074ecf5c",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 250.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -256,7 +290,7 @@ Content-Type: application/json
         },
         "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -264,13 +298,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "978884613c1549d3b7cf58520bd28d16",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cbc72109233241b9aea96edfc20e8da1?Signature=mT5THG0rO0Mi%2BZoKAZKhRqN79D1tpTJXq4r4zPrxySqL7sIWcHk0Jeo8IbGaf0RMJfdDLjZ%2FKUTa93hfvotdAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       }
     ],

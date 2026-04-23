@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-26T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-17T00:00:00+02:00"
     }
   }
 }
@@ -18,10 +18,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -127,30 +127,30 @@ Content-Type: application/json
       "amount": 500.0,
       "valueAddedTaxIncluded": true
     },
-    "next_check": "2023-10-26T01:00:00+03:00",
+    "next_check": "2027-01-17T00:00:00+02:00",
     "minimalStep": {
       "currency": "UAH",
       "amount": 5.0,
       "valueAddedTaxIncluded": true
     },
     "auctionPeriod": {
-      "startDate": "2023-10-27T12:22:15.236000+03:00",
-      "shouldStartAfter": "2023-10-27T00:00:00+03:00"
+      "startDate": "2027-01-18T12:22:15.236000+02:00",
+      "shouldStartAfter": "2027-01-17T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-24T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-14T00:00:00+02:00"
     },
     "status": "active.tendering",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-23T00:00:00+03:00",
-      "clarificationsUntil": "2023-10-26T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-26T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-17T00:00:00+02:00"
     },
     "procurementMethodType": "aboveThresholdUA.defense",
     "procuringEntity": {
@@ -205,8 +205,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

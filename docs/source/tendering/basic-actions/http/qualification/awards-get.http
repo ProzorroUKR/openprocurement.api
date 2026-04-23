@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "8850d78aa8a94c148d6d245907f40d3e",
       "status": "pending",
-      "date": "2023-10-10T01:00:00+03:00",
+      "date": "2027-01-01T00:00:00+02:00",
       "value": {
         "amount": 499.0,
         "currency": "UAH",
@@ -52,8 +52,8 @@ Content-Type: application/json
       "bid_id": "103392b1764c41fd86ea8723e67f203d",
       "lotID": "5b0412bd862347cfb29c8de0b4736b58",
       "period": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2023-10-18T00:00:00+03:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-01-08T00:00:00+02:00"
       }
     }
   ]

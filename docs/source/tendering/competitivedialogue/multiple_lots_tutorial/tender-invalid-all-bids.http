@@ -23,7 +23,7 @@ Content-Type: application/json
     "description": "Опис Лот №2",
     "status": "active",
     "id": "ab754f91fa1a4efdb9b978d10a93e1b3",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,

@@ -19,7 +19,7 @@ Content-Type: application/json
   "data": {
     "id": "a65a1a9a8adc42a297e2339e146ecb45",
     "status": "active",
-    "date": "2023-10-10T01:03:00+03:00",
+    "date": "2027-01-01T00:03:00+02:00",
     "suppliers": [
       {
         "name": "Школяр",
@@ -51,20 +51,20 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "ef0971758a37450aa370656ad75645cb",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a6b0ff3ec70841abb1b99860cd5d9b17?Signature=lKg5g8fm1FbOS2cCH69s%2BbFBKG9AXzZtFuB8DeqhjVgANXQ3RSpV6HfqgH%2Bijz1sBCC3251C2OVkQ6Dbza0cBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:03:00+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true,

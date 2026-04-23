@@ -18,7 +18,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b4005
   "data": {
     "id": "f10947246ab44416ab8f1f75df484ded",
     "status": "cancelled",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -61,13 +61,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b4005
         "confidentiality": "public",
         "documentType": "notice",
         "id": "dd8bc4ce12f642f7ae8f1f8bc7186ede",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86bc318502e343a59c58137933cd1af0?Signature=hsltR%2BvlMEkWC%2FYGw3BxRGC2fe9YODIu8lrnHVBW1hH6OIcxnEy6JCOCxu9p62rOUREo7qYfN8t2LtrPDngpDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }

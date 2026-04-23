@@ -8,13 +8,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-10-10-000001",
+    "agreementID": "UA-2027-01-01-000001",
     "frameworkID": "18368c155064411d9da262831819698a",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-12-03T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-02-25T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -87,17 +87,17 @@ Content-Type: application/json
             "id": "9b7f9b8fa75b4cf08661bbe8b59f1c18",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-12-03T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
+            "dueDate": "2028-02-25T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "owner": "broker",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "b17159b00e1743a281bc4bb384af273f",
@@ -116,8 +116,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -132,8 +132,8 @@ Content-Type: application/json
         }
       }
     ],
-    "next_check": "2024-12-03T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "next_check": "2028-02-25T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
     "id": "5fc0128d227246bb93babd98a94f0ba0"
   },
   "config": {

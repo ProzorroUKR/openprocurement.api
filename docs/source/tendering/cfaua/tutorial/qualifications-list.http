@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "1e80a37413cd4c3b850c40467310b5b7",
       "status": "pending",
-      "date": "2023-10-10T01:02:01+03:00",
+      "date": "2027-01-01T00:02:01+02:00",
       "value": {
         "amount": 485.0,
         "currency": "UAH",
@@ -48,17 +48,17 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "9b8db91e489f4dfd90e93f54c20c2ae1",
+      "bid_id": "73eeb29f403b4570b3fac666e19a6e67",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
-        "startDate": "2023-10-10T01:02:01+03:00",
-        "endDate": "2023-10-18T00:00:00+03:00"
+        "startDate": "2027-01-01T00:02:01+02:00",
+        "endDate": "2027-01-09T00:00:00+02:00"
       }
     },
     {
       "id": "aab58cf3b7de4bac9ac5688d86ae9664",
       "status": "pending",
-      "date": "2023-10-10T01:02:01+03:00",
+      "date": "2027-01-01T00:02:01+02:00",
       "value": {
         "amount": 499.0,
         "currency": "UAH",
@@ -96,17 +96,17 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "361b9178e1fa4f8ba3c51630af9771b6",
+      "bid_id": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
-        "startDate": "2023-10-10T01:02:01+03:00",
-        "endDate": "2023-10-18T00:00:00+03:00"
+        "startDate": "2027-01-01T00:02:01+02:00",
+        "endDate": "2027-01-09T00:00:00+02:00"
       }
     },
     {
       "id": "78d515dc838042639b8557e1d9b8bf89",
       "status": "pending",
-      "date": "2023-10-10T01:02:01+03:00",
+      "date": "2027-01-01T00:02:01+02:00",
       "value": {
         "amount": 500.0,
         "currency": "UAH",
@@ -144,11 +144,11 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "91c7aa33638e4680980085954fdc33a8",
+      "bid_id": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
-        "startDate": "2023-10-10T01:02:01+03:00",
-        "endDate": "2023-10-18T00:00:00+03:00"
+        "startDate": "2027-01-01T00:02:01+02:00",
+        "endDate": "2027-01-09T00:00:00+02:00"
       }
     }
   ]

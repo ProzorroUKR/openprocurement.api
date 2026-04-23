@@ -84,14 +84,14 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T00:00:00+02:00",
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "endDate": "2023-10-17T00:00:00+02:00",
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00"
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
     },
     "items": [
       {
@@ -118,11 +118,11 @@ Content-Type: application/json
         ]
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -180,11 +180,11 @@ Content-Type: application/json
       }
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2023-10-25T00:00:00+03:00",
-      "startDate": "2023-10-25T13:09:55.701000+03:00"
+      "shouldStartAfter": "2027-01-15T00:00:00+02:00",
+      "startDate": "2027-01-15T13:09:55.701000+02:00"
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "fa2e9cbf88314cb6ae4f240dacbb041f"
   },
   "config": {

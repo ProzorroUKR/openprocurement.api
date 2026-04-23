@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2023-10-25T00:00:00+02:00"
+      "endDate": "2027-01-16T00:00:00+02:00"
     },
     "title": "футляри до державних нагород",
     "procurementMethodType": "competitiveOrdering",
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 500
     },
     "procuringEntity": {
-      "kind": "special",
+      "kind": "general",
       "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",
@@ -54,8 +54,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -242,7 +242,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24f7ca95c9174dbe
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
-      "kind": "special",
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -273,18 +273,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24f7ca95c9174dbe
           "amount": 5.0,
           "valueAddedTaxIncluded": true
         },
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-26T00:00:00+03:00",
-          "startDate": "2023-10-26T13:09:55.701000+03:00"
+          "shouldStartAfter": "2027-01-16T00:00:00+02:00",
+          "startDate": "2027-01-18T13:09:55.701000+02:00"
         }
       }
     ],
     "status": "draft",
     "procurementMethodType": "competitiveOrdering",
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-25T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
     },
     "items": [
       {
@@ -309,8 +309,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24f7ca95c9174dbe
         ],
         "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -321,20 +321,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24f7ca95c9174dbe
         }
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00",
-      "clarificationsUntil": "2023-10-25T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00"
     },
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -391,8 +391,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24f7ca95c9174dbe
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "24f7ca95c9174dbeb2c12241865695a7"
   },
   "config": {

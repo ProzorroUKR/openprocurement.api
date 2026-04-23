@@ -46,7 +46,7 @@ Content-Type: application/json
                   "name": "день"
                 },
                 "minValue": 90,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -92,7 +92,7 @@ Content-Type: application/json
                   "spa"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -141,7 +141,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -162,7 +162,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -207,7 +207,7 @@ Content-Type: application/json
                   }
                 ],
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -263,7 +263,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "a625e965511e4658a6330460dafc6ce0",
@@ -278,7 +278,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -299,7 +299,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -358,7 +358,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -414,7 +414,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -435,7 +435,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -480,7 +480,7 @@ Content-Type: application/json
                   }
                 ],
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -526,7 +526,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -574,7 +574,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -620,7 +620,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -641,7 +641,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -687,7 +687,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -708,7 +708,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "61ef807109d345b6901ba81128a71426",
@@ -722,7 +722,7 @@ Content-Type: application/json
                   "Особливості діяльності під час воєнного стану"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "f026e7b9cc7a42f3a3bdb82ceb741129",
@@ -734,7 +734,7 @@ Content-Type: application/json
                   "name": "одиниця"
                 },
                 "minValue": 0.0,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -773,7 +773,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -794,7 +794,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -843,7 +843,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -857,7 +857,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -913,17 +913,17 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:02:01+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:02:01+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "questions": [
       {
         "id": "8ca25de8b52d4d8086c56b6cac568cc8",
@@ -932,10 +932,10 @@ Content-Type: application/json
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2023-10-10T01:00:00+03:00"
+        "dateAnswered": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -943,13 +943,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "contractProforma",
         "id": "ecbdeffdef6f4c95bf456671bf76acf0",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4745180de5224b98aa1fb7747c9907b6?Signature=WqVnMym96tHmg0egtvDQazqeYE7yVP7DxpiFFjDs33kJcc89IW2Sb2XhK8Tg4wKluc8Gv5DJDT5ccJUyknLNCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -957,52 +957,52 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "bddd09e655f84e15aa516015b70a9e13",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b43465c8868348f6a09900f433c96294?Signature=x2Oh7KvlHiUmjCNdfhaEvCy6Z8K4HfZDOYVoZjQVsc0IiqognuUIr3nBrTQTa4lxuNUeNGV7rZUYfv32nQaTBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "id": "f041ed05cb1741f2acdb315d685f8097",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bed8dcbd27644f418f3d0645d955859a?Signature=rUPaknresad6bbE9Uyj4%2BRsOll6sIUGtE2H8LbpSCSoNrQp%2FjuEBLjZ508gni%2FrvsYdei5iZYziHHJYwLnaSCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "id": "f6225b07e8094774b69d16b987ee7456",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/48945373accd4d29ba34ccdf21d9804a?Signature=dtFQLv5TKbz93MSTiLycIpU6Vp973zOt3pHctoDYshoAymhytDzuvcqmc0T97XQSE%2BLChoz753t%2B6cgdUgmUCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "id": "f6225b07e8094774b69d16b987ee7456",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b685322d12b4938a1485f15d7b8055c?Signature=Gqk57hUOrPwtwykDL1i7JDzVqpuQJOvTiHQ3vw9152GolAqDD10cXonoHkNGN%2Byv054UsWYfd33%2Bgze1Mo3EDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -1011,7 +1011,7 @@ Content-Type: application/json
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1127,7 +1127,7 @@ Content-Type: application/json
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
-      "kind": "special",
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -1146,14 +1146,14 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-11T15:28:52.219000+03:00",
+    "next_check": "2027-01-04T15:28:52.219000+02:00",
     "lots": [
       {
         "title": "lot title",
         "description": "lot description",
         "status": "active",
         "id": "1a0da17891e04af7a0eda87d40a4a290",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -1165,27 +1165,27 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-11T15:28:52.219000+03:00",
-          "shouldStartAfter": "2023-10-11T00:00:00+03:00"
+          "startDate": "2027-01-04T15:28:52.219000+02:00",
+          "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/afbae9188b434d3bb77426b13e9a5165_1a0da17891e04af7a0eda87d40a4a290"
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-09-25T01:00:00+03:00",
-      "endDate": "2023-10-14T00:00:00+03:00"
+      "startDate": "2026-12-17T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
     },
     "status": "active.auction",
     "procurementMethodType": "aboveThresholdUA",
     "enquiryPeriod": {
-      "startDate": "2023-09-24T01:02:01+03:00",
-      "endDate": "2023-10-07T01:02:01+03:00",
-      "clarificationsUntil": "2023-10-12T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:01:00+03:00"
+      "startDate": "2026-12-16T00:02:01+02:00",
+      "endDate": "2026-12-29T00:02:01+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:01:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-09-24T01:02:01+03:00",
-      "endDate": "2023-10-10T01:02:01+03:00"
+      "startDate": "2026-12-16T00:02:01+02:00",
+      "endDate": "2027-01-01T00:02:01+02:00"
     },
     "items": [
       {
@@ -1210,8 +1210,8 @@ Content-Type: application/json
         ],
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

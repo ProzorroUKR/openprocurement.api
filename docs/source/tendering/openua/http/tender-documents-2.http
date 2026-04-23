@@ -12,13 +12,13 @@ Content-Type: application/json
       "confidentiality": "public",
       "documentType": "contractProforma",
       "id": "ecbdeffdef6f4c95bf456671bf76acf0",
-      "datePublished": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "name.doc",
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4745180de5224b98aa1fb7747c9907b6?Signature=WqVnMym96tHmg0egtvDQazqeYE7yVP7DxpiFFjDs33kJcc89IW2Sb2XhK8Tg4wKluc8Gv5DJDT5ccJUyknLNCA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner",
       "language": "uk"
     },
@@ -26,13 +26,13 @@ Content-Type: application/json
       "confidentiality": "public",
       "documentType": "notice",
       "id": "bddd09e655f84e15aa516015b70a9e13",
-      "datePublished": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "sign.p7s",
       "format": "application/pkcs7-signature",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b43465c8868348f6a09900f433c96294?Signature=x2Oh7KvlHiUmjCNdfhaEvCy6Z8K4HfZDOYVoZjQVsc0IiqognuUIr3nBrTQTa4lxuNUeNGV7rZUYfv32nQaTBQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner",
       "language": "uk"
     },
@@ -45,8 +45,8 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "f041ed05cb1741f2acdb315d685f8097",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner"
     },
     {
@@ -58,8 +58,8 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "f6225b07e8094774b69d16b987ee7456",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner"
     }
   ]

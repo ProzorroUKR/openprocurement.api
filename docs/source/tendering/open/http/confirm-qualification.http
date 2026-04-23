@@ -20,15 +20,15 @@ Content-Type: application/json
     "milestones": [
       {
         "id": "c37a4bd3da7040989541c64a41bc6c0e",
-        "dueDate": "2023-10-09T01:06:00+03:00",
+        "dueDate": "2026-12-31T00:06:00+02:00",
         "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
-        "date": "2023-10-10T01:06:00+03:00",
+        "date": "2027-01-01T00:06:00+02:00",
         "code": "alp"
       }
     ],
     "id": "365de78bba1341989d83627a367a376c",
     "status": "active",
-    "date": "2023-10-10T01:06:00+03:00",
+    "date": "2027-01-01T00:06:00+02:00",
     "value": {
       "amount": 250.0,
       "currency": "UAH",
@@ -73,26 +73,26 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "f4dcffa04aab4dcc9d2918c537540b79",
-        "datePublished": "2023-10-10T01:06:00+03:00",
+        "datePublished": "2027-01-01T00:06:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ebc2849caddf44afb2332de41f267fb7?Signature=h16iJ5N%2Bmql7TOmjuydsVdlVKMpPDn4M%2BOGornqVOUSTCSJ5ePNSDvXZOUumb11MMh9no3t4B5%2F9jzIb4z5tCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:06:00+03:00",
+        "dateModified": "2027-01-01T00:06:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:06:00+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
+      "startDate": "2027-01-01T00:06:00+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true,
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:06:00+03:00",
-      "endDate": "2023-10-16T00:00:00+03:00"
+      "startDate": "2027-01-01T00:06:00+02:00",
+      "endDate": "2027-01-07T00:00:00+02:00"
     }
   }
 }

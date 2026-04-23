@@ -61,10 +61,10 @@ Content-Type: application/json
         }
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "status": "active.enquiries",
     "owner": "broker",
     "title": "футляри до державних нагород",
@@ -92,7 +92,7 @@ Content-Type: application/json
       }
     },
     "procurementMethod": "open",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -223,8 +223,8 @@ Content-Type: application/json
       "amount": 500.0
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T00:00:00+02:00",
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "lots": [
       {
@@ -232,7 +232,7 @@ Content-Type: application/json
         "description": "lot description",
         "status": "active",
         "id": "a22bd0578dd3446fa1717fee9d688b77",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -244,16 +244,16 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-25T12:22:15.236000+03:00",
-          "shouldStartAfter": "2023-10-25T00:00:00+03:00"
+          "startDate": "2027-01-15T12:22:15.236000+02:00",
+          "shouldStartAfter": "2027-01-15T00:00:00+02:00"
         }
       }
     ],
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-22T00:00:00+03:00",
-      "endDate": "2023-10-17T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "items": [
       {
@@ -277,7 +277,8 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "a22bd0578dd3446fa1717fee9d688b77"
       }
     ],
     "id": "20570f0f6c354a03b0ff0062f3cd1524"

@@ -9,11 +9,11 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "f10947246ab44416ab8f1f75df484ded",
-    "contractID": "UA-2023-10-10-000002-a-1",
+    "contractID": "UA-2027-01-01-000002-a-1",
     "title": "Комп’ютерне обладнання",
     "period": {
-      "startDate": "2023-10-15T00:00:00+03:00",
-      "endDate": "2023-12-31T23:59:59+03:00"
+      "startDate": "2027-01-06T00:00:00+02:00",
+      "endDate": "2027-12-31T23:59:59+02:00"
     },
     "value": {
       "amount": 500.0,
@@ -55,8 +55,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -115,8 +115,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],
@@ -312,13 +312,13 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents/6275a28d9e274758a944bcbbb9b6c103?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
         "id": "6275a28d9e274758a944bcbbb9b6c103",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
       }
     ],
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "37d2cea7a3564774858ad5c8681f57b1"
   },
   "config": {

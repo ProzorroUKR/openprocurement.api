@@ -192,8 +192,32 @@ Content-Type: application/json
       }
     ],
     "id": "6df778e10f1c41b2a438c5e8908fc02e",
-    "date": "2023-10-10T01:03:00+03:00",
-    "submissionDate": "2023-10-10T01:03:00+03:00",
+    "date": "2027-01-01T00:03:00+02:00",
+    "submissionDate": "2027-01-01T00:03:00+02:00",
+    "items": [
+      {
+        "id": "df38969eb8ad4d558dda2cd874f14ac4",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+      },
+      {
+        "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+      }
+    ],
     "tenderers": [
       {
         "name": "Школяр",
@@ -230,7 +254,7 @@ Content-Type: application/json
       {
         "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "status": "pending",
-        "date": "2023-10-10T01:03:00+03:00"
+        "date": "2027-01-01T00:03:00+02:00"
       }
     ],
     "documents": [
@@ -238,13 +262,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "03c42c3cf0b04c00adefbdda06535e0a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       },
@@ -252,26 +276,26 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "03c42c3cf0b04c00adefbdda06535e0a",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8bc99af3284943cda1dcf1d362c36767?Signature=cdisunJhbJoADi9HRJLyrFEjfgKtlaXa6zLM3FyLWQkj3hskZssC%2BaYkpYcQ05FUee54Xy7JveLugXQME0rpAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       },
       {
         "confidentiality": "buyerOnly",
         "id": "0d145399f916419c821a3ae83b8cd8c2",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "DescriptiveProposal.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/6df778e10f1c41b2a438c5e8908fc02e/documents/0d145399f916419c821a3ae83b8cd8c2?download=8b781eec9f744181a275c6919de639dc",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk",
         "isDescriptionDecision": true
       },
@@ -279,13 +303,13 @@ Content-Type: application/json
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "id": "fef11a18a16a473bac225d24c7bc79db",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/6df778e10f1c41b2a438c5e8908fc02e/documents/fef11a18a16a473bac225d24c7bc79db?download=21c9ff3dd5e646208c8dd44b5853a9c0",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       },
@@ -293,13 +317,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "03c42c3cf0b04c00adefbdda06535e0a",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0eab55a0c40b4b3a97e1db7f62a34a23?Signature=A5IWOVFgw1Zgo1CEoaoUIradWlwtZd6JW5BD32pcBsKExW45ZGqtruU6h2c%2FhikIPQypBak7fipOldRm7RDQAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       }

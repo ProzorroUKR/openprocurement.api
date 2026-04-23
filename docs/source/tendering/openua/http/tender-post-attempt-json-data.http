@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2023-11-10T00:00:00+02:00"
+      "endDate": "2027-02-01T00:00:00+02:00"
     },
     "title": "футляри до державних нагород",
     "procurementMethodType": "aboveThresholdUA",
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 500
     },
     "procuringEntity": {
-      "kind": "special",
+      "kind": "general",
       "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",
@@ -54,8 +54,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -210,7 +210,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
-      "kind": "special",
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -228,8 +228,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
     "status": "draft",
     "procurementMethodType": "aboveThresholdUA",
     "tenderPeriod": {
-      "startDate": "2023-10-21T01:03:02+03:00",
-      "endDate": "2023-11-10T00:00:00+02:00"
+      "startDate": "2027-01-12T00:03:02+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
     },
     "items": [
       {
@@ -253,8 +253,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -265,20 +265,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
         }
       }
     ],
-    "tenderID": "UA-2023-10-21-000001-a",
+    "tenderID": "UA-2027-01-12-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
-      "startDate": "2023-10-21T01:03:02+03:00",
-      "endDate": "2023-10-31T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+      "startDate": "2027-01-12T00:03:02+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-21T01:03:02+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
+      "startDate": "2027-01-12T00:03:02+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
     },
-    "date": "2023-10-21T01:03:02+03:00",
+    "date": "2027-01-12T00:03:02+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -336,11 +336,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
       }
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2023-11-10T00:00:00+02:00",
-      "startDate": "2023-11-10T13:01:01.441000+02:00"
+      "shouldStartAfter": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-02-01T13:01:01.441000+02:00"
     },
-    "dateCreated": "2023-10-21T01:03:02+03:00",
-    "dateModified": "2023-10-21T01:03:02+03:00",
+    "dateCreated": "2027-01-12T00:03:02+02:00",
+    "dateModified": "2027-01-12T00:03:02+02:00",
     "id": "a338571a254a4b06b96e54f5022c312f"
   },
   "config": {

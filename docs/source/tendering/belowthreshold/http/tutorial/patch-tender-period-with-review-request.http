@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2023-10-20T01:00:00+03:00",
-      "endDate": "2023-10-25T01:00:00+03:00"
+      "startDate": "2027-01-11T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
     }
   }
 }
@@ -42,22 +42,22 @@ Content-Type: application/json
         }
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "contractProforma",
         "id": "57ec6455c8e14a2c88419461aa345117",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ea699ebe0b514402b689a7de934b624e?Signature=uMnJB0MSEmilYU2iEtUvagspCXbkoRbAxVo1yrQaWAWFVTe8LyC9pS%2FrgTB22XWPYf8F8lQfjHASwNmxGdWmCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -65,13 +65,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "63b244c1edda49be9782a1a1d6cd74e9",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4cc80c85cdf34dafa08dfd8de75e140f?Signature=ddSYTnDGc3txj6YO4fWI%2Fvb2C23vDx0nfS0AytIV%2BlSZZLFa1B6poQS3pUIN2RYpXw6gD0DT1vt5YUcJ4Fk3Cw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -106,11 +106,11 @@ Content-Type: application/json
       {
         "id": "6b0f5c1e8c1641348b8107d2c3ec1e06",
         "tenderStatus": "active.enquiries",
-        "dateCreated": "2023-10-10T01:00:00+03:00"
+        "dateCreated": "2027-01-01T00:00:00+02:00"
       }
     ],
     "procurementMethod": "open",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -241,8 +241,8 @@ Content-Type: application/json
       "amount": 500.0
     },
     "tenderPeriod": {
-      "startDate": "2023-10-20T01:00:00+03:00",
-      "endDate": "2023-10-25T01:00:00+03:00"
+      "startDate": "2027-01-11T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
     },
     "lots": [
       {
@@ -250,7 +250,7 @@ Content-Type: application/json
         "description": "lot description",
         "status": "active",
         "id": "0116dcb82cd54b2189a51557e2013ca4",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -262,16 +262,16 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-26T12:04:26.072000+03:00",
-          "shouldStartAfter": "2023-10-26T00:00:00+03:00"
+          "startDate": "2027-01-18T12:29:40.230000+02:00",
+          "shouldStartAfter": "2027-01-16T00:00:00+02:00"
         }
       }
     ],
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00",
-      "endDate": "2023-10-17T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "items": [
       {
@@ -295,7 +295,8 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "relatedLot": "0116dcb82cd54b2189a51557e2013ca4"
       }
     ],
     "id": "077223cc9d234cd09abefbc8daf4c6d9"

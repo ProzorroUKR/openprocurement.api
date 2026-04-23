@@ -14,7 +14,31 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
       }
     ],
-    "status": "pending"
+    "status": "pending",
+    "items": [
+      {
+        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "description_en": "Services in school canteens"
+      }
+    ]
   }
 }
 
@@ -25,8 +49,32 @@ Content-Type: application/json
 {
   "data": {
     "id": "fbcde53fd1f94b558c1111bc3303f29c",
-    "date": "2023-10-10T01:01:00+03:00",
-    "submissionDate": "2023-10-10T01:01:00+03:00",
+    "date": "2027-01-01T00:01:00+02:00",
+    "submissionDate": "2027-01-01T00:01:00+02:00",
+    "items": [
+      {
+        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+      },
+      {
+        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+      }
+    ],
     "tenderers": [
       {
         "name": "«Снігур»",
@@ -63,12 +111,12 @@ Content-Type: application/json
         "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00"
+        "date": "2027-01-01T00:01:00+02:00"
       },
       {
         "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00"
+        "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "documents": [
@@ -76,13 +124,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "fa97d12c407545ef8ffc2e4921539b6f",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0d8284c993714be48e2151db18b081ad?Signature=jPUo4aE2Ou9Tihij1mSod9UxYx4CdqoqlzLn%2FfkDgDU8wvS9kmmoR%2F8RtA96d3jImGupPvCSbfc9uoB7BmFoDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       },
@@ -90,13 +138,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "fa97d12c407545ef8ffc2e4921539b6f",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fb072ee0e97645fe8d97143dd01bfd39?Signature=sG1sjsKWlvQONxTqKmJR4HKP6syZNOk0iAmkuvy5VqzLCq9OxmGI%2BCbIPCgzdpJe7QVn5w9eLajd0%2Fb16o0PBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       }

@@ -11,8 +11,8 @@ Content-Type: application/json
     "id": "78fd8d7877d74b0dbc9c605462545e1c",
     "status": "cancelled",
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
-    "date": "2023-10-10T01:00:00+03:00",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "date": "2027-01-01T00:00:00+02:00",
+    "contractID": "UA-2027-01-01-000001-a-1",
     "title": "Комп’ютерне обладнання",
     "value": {
       "amount": 238.0,

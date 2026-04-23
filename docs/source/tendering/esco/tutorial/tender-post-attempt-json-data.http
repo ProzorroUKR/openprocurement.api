@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2023-11-10T00:00:00+02:00"
+      "endDate": "2027-02-01T00:00:00+02:00"
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
@@ -306,26 +306,26 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
       }
     ],
     "tenderPeriod": {
-      "endDate": "2023-11-10T00:00:00+02:00",
-      "startDate": "2023-10-10T01:00:00+03:00"
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-31T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
     },
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "startDate": "2023-11-10T00:00:00+02:00",
-      "endDate": "2023-12-08T00:00:00+02:00"
+      "startDate": "2027-02-01T00:00:00+02:00",
+      "endDate": "2027-02-27T00:00:00+02:00"
     },
     "contractChangeRationaleTypes": {
       "durationExtension": {
@@ -384,11 +384,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
       }
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2023-12-08T00:00:00+02:00",
-      "startDate": "2023-12-08T13:09:55.701000+02:00"
+      "shouldStartAfter": "2027-02-27T00:00:00+02:00",
+      "startDate": "2027-03-01T13:09:55.701000+02:00"
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "d083afc12b7747e5bd81d1d72a477b24"
   },
   "config": {

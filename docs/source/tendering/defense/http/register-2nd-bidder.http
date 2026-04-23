@@ -93,7 +93,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2ccf978cbbe4d59
     "selfEligible": true,
     "selfQualified": true,
     "id": "a9c9e08bc0da4ec397fbb274093d95d0",
-    "date": "2023-10-10T01:00:01+03:00"
+    "date": "2027-01-01T00:00:01+02:00"
   },
   "access": {
     "token": "68b31c13ba344ffaa1a0dbbe20f044c6",

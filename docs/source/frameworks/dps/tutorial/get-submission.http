@@ -36,8 +36,8 @@ Content-Type: application/json
     "status": "draft",
     "submissionType": "dynamicPurchasingSystem",
     "owner": "broker",
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -47,8 +47,8 @@ Content-Type: application/json
         "language": "uk",
         "confidentiality": "public",
         "id": "1655f2ede7344a8a89fcae1d7c7f32d7",
-        "datePublished": "2023-10-26T01:00:00+03:00",
-        "dateModified": "2023-10-26T01:00:00+03:00"
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "dateModified": "2027-01-17T00:00:00+02:00"
       },
       {
         "documentType": "technicalSpecifications",
@@ -59,8 +59,8 @@ Content-Type: application/json
         "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
         "confidentiality": "buyerOnly",
         "id": "95897799b92c4866b2e932206f8cf013",
-        "datePublished": "2023-10-26T01:00:00+03:00",
-        "dateModified": "2023-10-26T01:00:00+03:00"
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "dateModified": "2027-01-17T00:00:00+02:00"
       }
     ],
     "id": "da4552d132e14fd19dc2d64f1438a0d1"

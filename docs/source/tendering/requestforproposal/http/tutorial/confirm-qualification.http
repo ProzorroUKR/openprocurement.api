@@ -18,7 +18,7 @@ Content-Type: application/json
   "data": {
     "id": "d7753a57912a4547ac35509b690cd6d3",
     "status": "active",
-    "date": "2023-10-16T01:15:06+03:00",
+    "date": "2027-01-07T00:15:06+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -59,13 +59,13 @@ Content-Type: application/json
     "bid_id": "eda8b77c847a4109b458fe197906eeaf",
     "lotID": "31ec05e9aa3b44eeae2a94279b1e3040",
     "period": {
-      "startDate": "2023-10-16T01:15:06+03:00",
-      "endDate": "2023-10-24T00:00:00+03:00"
+      "startDate": "2027-01-07T00:15:06+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "qualified": true,
     "complaintPeriod": {
-      "startDate": "2023-10-16T01:15:06+03:00",
-      "endDate": "2023-10-19T00:00:00+03:00"
+      "startDate": "2027-01-07T00:15:06+02:00",
+      "endDate": "2027-01-12T00:00:00+02:00"
     }
   }
 }

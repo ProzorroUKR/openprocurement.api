@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/657003e35de54e92b62b7411d988d0a9?acc_token=24dc8c334efb4aa79e2a32a07d493143 HTTP/1.0
+PATCH /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/9dd4fb4f9744467da45e0c9f4081374d?acc_token=83f92bda690946688278a68cf744bee4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -24,7 +24,7 @@ Content-Type: application/json
         },
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -50,21 +50,39 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
-    "id": "657003e35de54e92b62b7411d988d0a9",
-    "date": "2023-10-10T01:00:00+03:00",
+    "id": "9dd4fb4f9744467da45e0c9f4081374d",
+    "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "e044f75804f8499b930234974905263e",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/18ea12dfc4e94e6c9943de2c76ac7697?Signature=rN3qahSbbx73%2B0CMO%2BYD4OARhMUPYJM4fIyW7RptCN4eeutRJvzaYJ%2FhNzO9OaPdx2pn0EE5w89kxd2Jb5KnCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
+      }
+    ],
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 100.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "parameters": [
@@ -77,7 +95,7 @@ Content-Type: application/json
         "value": 0.1
       }
     ],
-    "submissionDate": "2023-10-10T01:00:00+03:00"
+    "submissionDate": "2027-01-01T00:00:00+02:00"
   }
 }
 

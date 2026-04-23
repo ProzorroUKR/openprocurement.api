@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "qualificationPeriod": {
-      "endDate": "2024-11-13T01:00:00+03:00"
+      "endDate": "2028-02-05T00:00:00+02:00"
     },
     "items": [
       {
@@ -65,8 +65,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2023-10-12T00:00:00+02:00",
-          "endDate": "2023-10-15T00:00:00+02:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",

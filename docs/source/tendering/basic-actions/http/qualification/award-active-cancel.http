@@ -18,7 +18,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
   "data": {
     "id": "22538da636d84b5b88ad4598942e3823",
     "status": "cancelled",
-    "date": "2023-10-10T01:00:03+03:00",
+    "date": "2027-01-01T00:00:03+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -59,28 +59,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
     "bid_id": "3088275f136046dab34594e16227bb54",
     "lotID": "5b0412bd862347cfb29c8de0b4736b58",
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:03+03:00",
-      "endDate": "2023-10-10T01:00:03+03:00"
+      "startDate": "2027-01-01T00:00:03+02:00",
+      "endDate": "2027-01-01T00:00:03+02:00"
     },
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
         "id": "b5345c82222b443a91dfb2a471654fe3",
-        "datePublished": "2023-10-10T01:00:03+03:00",
+        "datePublished": "2027-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/279112f8106a4601b7775f4630e91f34?Signature=1eX%2BsMr0dE7YzBIzXW0sy2DrCuxZUeAyNStlBqH0dMGF8Driq5Jp%2BErhA4H0sB2zwY%2Fm9WEvPZe0KdBJzutJAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:03+03:00",
+        "dateModified": "2027-01-01T00:00:03+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:00:03+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:03+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
     "complaints": [
@@ -139,9 +139,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
           }
         ],
         "id": "10aeed2903274f948f849677e2828230",
-        "date": "2023-10-10T01:00:03+03:00",
+        "date": "2027-01-01T00:00:03+02:00",
         "bid_id": "3088275f136046dab34594e16227bb54",
-        "complaintID": "UA-2023-10-10-000001-a.11",
+        "complaintID": "UA-2027-01-01-000001-a.11",
         "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
         "value": {
           "amount": 3000,
@@ -150,8 +150,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
       },
       {
         "id": "6f59138349ed44bb82f5d16eb7d6a392",
-        "complaintID": "UA-2023-10-10-000001-a.12",
-        "date": "2023-10-10T01:00:03+03:00",
+        "complaintID": "UA-2027-01-01-000001-a.12",
+        "date": "2027-01-01T00:00:03+02:00",
         "status": "mistaken",
         "type": "complaint",
         "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",

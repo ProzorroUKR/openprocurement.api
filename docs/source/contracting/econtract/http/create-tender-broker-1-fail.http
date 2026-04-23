@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
@@ -52,8 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "unit": {
           "name": "кг",
@@ -86,8 +86,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "profile": "655360-30230000-889652-40000777",
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "unit": {
           "name": "кг",

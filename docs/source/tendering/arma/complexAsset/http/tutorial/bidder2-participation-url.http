@@ -34,7 +34,31 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "df99d252198c4688997da7d2968f57f3",
-    "date": "2023-10-10T01:03:00+03:00",
+    "date": "2027-01-01T00:03:00+02:00",
+    "items": [
+      {
+        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      },
+      {
+        "id": "deef5391f86241b0b0a89b4257997238",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -42,7 +66,7 @@ Content-Type: application/json
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
         "status": "active",
-        "date": "2023-10-10T01:03:00+03:00",
+        "date": "2027-01-01T00:03:00+02:00",
         "initialValue": {
           "amountPercentage": 50.0
         },
@@ -54,18 +78,18 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "5fc617aa6d3b4586b9b2464182f824d1",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73669a2c620c45d9912b60e02682b356?Signature=G1IfJGmwE2PH7pvnTcgNxDWGXWwqTOwQ0Uk9JdR3CoiSC%2FKVQiwMpqzCaWnIHPY%2FIYIqUpslikqaGQx98KgwAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
       }
     ],
     "selfQualified": true,
-    "submissionDate": "2023-10-10T01:03:00+03:00"
+    "submissionDate": "2027-01-01T00:03:00+02:00"
   }
 }
 

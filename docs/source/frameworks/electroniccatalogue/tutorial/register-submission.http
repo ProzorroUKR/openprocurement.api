@@ -68,8 +68,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/279fcb35af57
     "status": "draft",
     "submissionType": "electronicCatalogue",
     "owner": "broker",
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
     "id": "279fcb35af574cc388bdef2edadaccec"
   },
   "access": {

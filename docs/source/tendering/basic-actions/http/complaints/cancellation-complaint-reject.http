@@ -18,8 +18,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "5afe3cf697ab41a18765fa6a5006a8b4",
-    "complaintID": "UA-2023-10-10-000001-a.3",
-    "date": "2023-10-10T01:00:00+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.3",
+    "date": "2027-01-01T00:00:00+02:00",
     "status": "invalid",
     "type": "complaint",
     "author": {
@@ -45,7 +45,7 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-10-10T01:00:00+03:00",
+    "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
         "id": "b16efdde272c4d8e8276894a8ef6c672",
@@ -80,7 +80,7 @@ Content-Type: application/json
       "currency": "UAH"
     },
     "rejectReason": "tenderCancelled",
-    "dateDecision": "2023-10-10T01:00:00+03:00",
+    "dateDecision": "2027-01-01T00:00:00+02:00",
     "acceptance": false
   }
 }

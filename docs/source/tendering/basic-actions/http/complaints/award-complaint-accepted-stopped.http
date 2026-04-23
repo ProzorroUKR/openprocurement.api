@@ -18,8 +18,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "c0980cb100b14dbc91be74239f686f25",
-    "complaintID": "UA-2023-10-10-000001-a.6",
-    "date": "2023-10-10T01:00:03+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.6",
+    "date": "2027-01-01T00:00:03+02:00",
     "status": "stopped",
     "type": "complaint",
     "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -47,7 +47,7 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-10-10T01:00:03+03:00",
+    "dateSubmitted": "2027-01-01T00:00:03+02:00",
     "objections": [
       {
         "id": "b43c60dd1384429497bc4d21f5aaa80b",
@@ -78,16 +78,16 @@ Content-Type: application/json
     ],
     "decision": "Тендер скасовується замовником",
     "acceptance": true,
-    "dateAccepted": "2023-10-10T01:00:03+03:00",
-    "reviewDate": "2023-10-10T01:00:03+03:00",
+    "dateAccepted": "2027-01-01T00:00:03+02:00",
+    "reviewDate": "2027-01-01T00:00:03+02:00",
     "reviewPlace": "Place of review",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
     "rejectReason": "tenderCancelled",
-    "dateDecision": "2023-10-10T01:00:03+03:00",
-    "dateCanceled": "2023-10-10T01:00:03+03:00"
+    "dateDecision": "2027-01-01T00:00:03+02:00",
+    "dateCanceled": "2027-01-01T00:00:03+02:00"
   }
 }
 

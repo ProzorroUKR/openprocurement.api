@@ -12,13 +12,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-10-17T00:00:00+02:00"
+        "startDate": "2027-01-08T00:00:00+02:00"
       }
     },
     "items": [
       {
         "deliveryDate": {
-          "endDate": "2023-10-25T00:00:00+02:00"
+          "endDate": "2027-01-16T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -112,8 +112,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "id": "12303111000-2",
       "description": "budget_description",
       "period": {
-        "startDate": "2023-01-01T00:00:00",
-        "endDate": "2023-12-31T00:00:00"
+        "startDate": "2027-01-01T00:00:00",
+        "endDate": "2027-12-31T00:00:00"
       },
       "breakdown": [
         {
@@ -163,7 +163,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/d1b27c777c30402190
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-10-17T00:00:00+02:00"
+        "startDate": "2027-01-08T00:00:00+02:00"
       }
     },
     "budget": {
@@ -177,8 +177,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/d1b27c777c30402190
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2023-01-01T00:00:00+02:00",
-        "endDate": "2023-12-31T00:00:00+02:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
@@ -232,7 +232,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/d1b27c777c30402190
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-25T00:00:00+02:00"
+          "endDate": "2027-01-16T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       }
@@ -266,17 +266,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/d1b27c777c30402190
     ],
     "rationale": {
       "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-10-10T01:00:00+03:00"
+      "date": "2027-01-01T00:00:00+02:00"
     },
     "project": {
       "title": "DREAMs come true",
       "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"
     },
-    "planID": "UA-P-2023-10-10-000001-a",
+    "planID": "UA-P-2027-01-01-000001-a",
     "owner": "broker",
-    "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "d1b27c777c30402190752796d48859fd"
   },
   "access": {

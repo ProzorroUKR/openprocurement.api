@@ -16,8 +16,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "df7c7ebd3f064715a685f19964eecb85",
-    "complaintID": "UA-2023-10-10-000001-a.4",
-    "date": "2023-10-10T01:00:00+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.4",
+    "date": "2027-01-01T00:00:00+02:00",
     "status": "pending",
     "type": "complaint",
     "author": {
@@ -75,7 +75,7 @@ Content-Type: application/json
       "amount": 2000.0,
       "currency": "UAH"
     },
-    "dateSubmitted": "2023-10-10T01:00:00+03:00"
+    "dateSubmitted": "2027-01-01T00:00:00+02:00"
   }
 }
 

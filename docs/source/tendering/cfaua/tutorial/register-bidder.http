@@ -47,14 +47,48 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "selfQualified": true
+    "selfQualified": true,
+    "items": [
+      {
+        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "description": "футляри до державних нагород",
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 50.0
+          }
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
+        "description_en": "Cases for state awards"
+      },
+      {
+        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "description": "футляри до державних нагород",
+        "unit": {
+          "name": "item",
+          "code": "GRM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 50.0
+          }
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
+        "description_en": "Cases for state awards"
+      }
+    ]
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/91c7aa33638e4680980085954fdc33a8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/6635c3c3fd2a42e5bcdac5aa9882fdf2
 
 {
   "data": {
@@ -100,17 +134,51 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "1045105100a341998426114b17a5c1ff",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 50.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
+      },
+      {
+        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 50.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "GRM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
+      }
+    ],
     "selfQualified": true,
-    "id": "91c7aa33638e4680980085954fdc33a8",
-    "date": "2023-10-10T01:00:00+03:00"
+    "id": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "8e071dd39f464632a4bbfec1d3158ff9",
-    "transfer": "7fb3938dfd9c4083bb09afe814b56656"
+    "token": "ace4a353c5094bfaa3c4d20485941548",
+    "transfer": "0bd52ae3b4e343b0a33300c98ed54875"
   }
 }
 

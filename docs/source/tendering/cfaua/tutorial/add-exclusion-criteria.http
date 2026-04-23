@@ -784,7 +784,7 @@ Content-Type: application/json
                 "name": "день"
               },
               "minValue": 90,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -830,7 +830,7 @@ Content-Type: application/json
                 "spa"
               ],
               "expectedMinItems": 1,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -879,7 +879,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -900,7 +900,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -945,7 +945,7 @@ Content-Type: application/json
                 }
               ],
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1001,7 +1001,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
               "id": "7880dbeaad424cfdbf544ae68795b42e",
@@ -1016,7 +1016,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -1037,7 +1037,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1096,7 +1096,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1152,7 +1152,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -1173,7 +1173,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1218,7 +1218,7 @@ Content-Type: application/json
                 }
               ],
               "status": "active",
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1264,7 +1264,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1312,7 +1312,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1358,7 +1358,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -1379,7 +1379,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1425,7 +1425,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -1446,7 +1446,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
               "id": "1344e51b39c84ff0a56926768e0075ee",
@@ -1460,7 +1460,7 @@ Content-Type: application/json
                 "Особливості діяльності під час воєнного стану"
               ],
               "expectedMinItems": 1,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
               "id": "7a2c214084eb46e6812caa3aa250052a",
@@ -1472,7 +1472,7 @@ Content-Type: application/json
                 "name": "одиниця"
               },
               "minValue": 0.0,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1511,7 +1511,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -1532,7 +1532,7 @@ Content-Type: application/json
               ],
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }
@@ -1581,7 +1581,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         },
@@ -1595,7 +1595,7 @@ Content-Type: application/json
               "dataType": "boolean",
               "status": "active",
               "expectedValue": true,
-              "datePublished": "2023-10-10T01:00:00+03:00"
+              "datePublished": "2027-01-01T00:00:00+02:00"
             }
           ]
         }

@@ -61,18 +61,18 @@ Content-Type: application/json
     "bidID": "ef42c34a1fcb4be48c34c300c43a6330",
     "lotID": "9590da1827aa411aad734a5d73a5546d",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "id": "40f2874474594e1390612049d7e883fb",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c0e9ce2d85214717a9a8c36a8b8ead0e?Signature=wvbBm%2F5ovppg8BizL%2FmRQ1N5zsdTrC4p1vL%2FbZ5gGWdUSvfpnyw3jbH1FpYdqAEonMC%2FFLjWUPSi5dLPNvbcAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }

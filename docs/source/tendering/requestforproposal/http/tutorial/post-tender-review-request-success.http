@@ -15,7 +15,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/20570f0f6c354a03
 {
   "data": {
     "id": "0b98081079674cf1834f21d5e0e3d3ac",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderStatus": "active.enquiries"
   }
 }

@@ -15,10 +15,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
@@ -134,8 +134,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -156,17 +156,17 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "id": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-12T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-02T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-12T00:00:00+03:00",
-      "endDate": "2023-10-15T00:00:00+03:00"
+      "startDate": "2027-01-02T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
     },
     "id": "42d9343086154eaf83080514ecd42ff6"
   },

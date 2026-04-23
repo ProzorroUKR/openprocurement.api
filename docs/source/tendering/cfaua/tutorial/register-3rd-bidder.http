@@ -85,14 +85,48 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "selfQualified": true,
-    "status": "draft"
+    "status": "draft",
+    "items": [
+      {
+        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "description": "футляри до державних нагород",
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 48.5
+          }
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
+        "description_en": "Cases for state awards"
+      },
+      {
+        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "description": "футляри до державних нагород",
+        "unit": {
+          "name": "item",
+          "code": "GRM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 48.5
+          }
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
+        "description_en": "Cases for state awards"
+      }
+    ]
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/92abbea07b734eaca4e7be1a7d59266e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/a57e9556a7ef4cc6a771bb404e1ae9f1
 
 {
   "data": {
@@ -136,7 +170,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "1045105100a341998426114b17a5c1ff",
-        "date": "2023-10-10T01:02:01+03:00"
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "status": "draft",
@@ -149,9 +183,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dfbdec7ce7c24848bb2621e5cfe8c6f5?Signature=8LKeVeanO7QbW5eEL%2Fmg1pwChCWsErlFKBYo0viJiWTWptdcHetQM92StSbH%2FTycMEz6%2Fhtk8qbZpTVpsx9DDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "885f4eb368b844689e56c8f4bf21c5d6",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "id": "fa90fa610102416da5c9755343fafffd",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       },
       {
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
@@ -161,9 +195,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "c94c9a8d812248fdac4750cf88c3d10a",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "id": "35b860951e004aaea2cb7f4cddafedd6",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "financialDocuments": [
@@ -175,9 +209,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1001108016934fb88a03979d3b5449f5?Signature=t1%2FDJlpvpj9NDhlX8NkLS5BxwZTH26SZWa5MlVjG4QaiTTOMnkMjd0mSoo9T5kvZHP0zS%2BHQzDhJtq%2FCXXfLDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "9e28bd72b78743ddae21df8981a8e668",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "id": "1252e5a38f854a439a34dec14819233b",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -189,9 +223,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d5c3054d43e9429bbf179ca8464942d7?Signature=R95GR0bnAluG%2BWuQPmayphiig7efQTp%2BLdXsQbJu3VBAmwPJmv4nm%2FbDnrqMaYYcYS%2FiigqnSOCdf2pDmNJuAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "72c9e2113ca848a99539d604a4773514",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "id": "092db5cd17cf4bfe95a96b24bccb059a",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -203,18 +237,52 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d551e07fbb2c4eddb19744089b53efc3?Signature=4s99fuZVIMHdiAtlNGdtpeKLXjinm31MlfPWV25oxFKdYwPq%2BPOfFaUogp%2FyewHGUXwwAKfOvjah67aUjXJXAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8b55c2317b9041cab668f8b655e6b1e5",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "id": "ea26ca0673a84cae8a962c61c5e39ca6",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
+      }
+    ],
+    "items": [
+      {
+        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 48.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
+      },
+      {
+        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 48.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "GRM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
     "selfQualified": true,
-    "id": "92abbea07b734eaca4e7be1a7d59266e",
-    "date": "2023-10-10T01:02:01+03:00"
+    "id": "a57e9556a7ef4cc6a771bb404e1ae9f1",
+    "date": "2027-01-01T00:02:01+02:00"
   },
   "access": {
-    "token": "70f5d9e3f0e9401a8087af7ac6d8d40c",
-    "transfer": "b5aa05c7c7c549c9abb193648b6b33df"
+    "token": "c50d9652068e41f6b7c79296fcee2a79",
+    "transfer": "b8f3ddf61792455f90dbe6efb611b5d9"
   }
 }
 

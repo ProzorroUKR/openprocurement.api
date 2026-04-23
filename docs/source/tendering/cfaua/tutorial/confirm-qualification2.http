@@ -19,7 +19,7 @@ Content-Type: application/json
   "data": {
     "id": "38b196e95ad147f9aa09040a36a54964",
     "status": "active",
-    "date": "2023-10-10T01:02:01+03:00",
+    "date": "2027-01-01T00:02:01+02:00",
     "value": {
       "amount": 485.0,
       "currency": "UAH",
@@ -56,27 +56,27 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "9b8db91e489f4dfd90e93f54c20c2ae1",
+    "bid_id": "73eeb29f403b4570b3fac666e19a6e67",
     "lotID": "1045105100a341998426114b17a5c1ff",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
         "id": "3e946fc358314a6aacf72d8402620769",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4156406367fb480e89aeb0b9c054db99?Signature=z5b%2FEQl8%2BR8%2Fbd1Tc50pDv3iUZtNc97I0TVMtNS6Ebdwjs3QegOBaE921f2D%2Bsit9bGigDnJ96Jcxu1%2F5Cm2DA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:02:01+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
+      "startDate": "2027-01-01T00:02:01+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true

@@ -113,6 +113,30 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
       }
     ],
+    "items": [
+      {
+        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
+      },
+      {
+        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
+      }
+    ],
     "status": "draft"
   }
 }
@@ -167,8 +191,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         "documentOf": "tender",
         "language": "uk",
         "id": "edfde414a4c24169a08ee1b413571c43",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       },
       {
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
@@ -179,8 +203,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         "documentOf": "tender",
         "language": "uk",
         "id": "8ad8d4ef913c4f999d47cd0320eafb95",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "financialDocuments": [
@@ -193,8 +217,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         "documentOf": "tender",
         "language": "uk",
         "id": "e36e8e8a6e774da1bef5c675a4df2802",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -207,8 +231,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         "documentOf": "tender",
         "language": "uk",
         "id": "97559ad3255f4a5cb41b3f23513a6cf7",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -221,11 +245,35 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         "documentOf": "tender",
         "language": "uk",
         "id": "d11493a8b9a444c0819aa1fb81075a80",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       }
     ],
     "selfQualified": true,
+    "items": [
+      {
+        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      },
+      {
+        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -261,14 +309,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
             "years": 13,
             "days": 40
           },
-          "amountPerformance": 633.2,
-          "amount": 9036.83
+          "amountPerformance": 562.72,
+          "amount": 8505.28
         },
-        "date": "2023-10-10T01:02:01+03:00"
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "id": "1bbdb78635404edb8b83d0d4848a3e14",
-    "date": "2023-10-10T01:02:01+03:00"
+    "date": "2027-01-01T00:02:01+02:00"
   },
   "access": {
     "token": "317a03389ad5472d86582da0dc515724",

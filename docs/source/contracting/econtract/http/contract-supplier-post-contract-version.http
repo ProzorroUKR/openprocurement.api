@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "awardID": "f10947246ab44416ab8f1f75df484ded",
-    "contractID": "UA-2023-10-10-000002-a-1",
+    "contractID": "UA-2027-01-01-000002-a-1",
     "title": "Комп’ютерне обладнання",
     "period": {
       "startDate": "2022-01-01",
@@ -52,8 +52,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -112,8 +112,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],
@@ -310,7 +310,7 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "f10947246ab44416ab8f1f75df484ded",
-    "contractID": "UA-2023-10-10-000002-a-2",
+    "contractID": "UA-2027-01-01-000002-a-2",
     "title": "Комп’ютерне обладнання",
     "period": {
       "startDate": "2022-01-01T00:00:00+02:00",
@@ -356,8 +356,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -416,8 +416,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],
@@ -605,7 +605,7 @@ Content-Type: application/json
     },
     "status": "pending",
     "author": "supplier",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
@@ -615,13 +615,13 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/d71a69be5f1a437abf5134881f4c4b98/documents/ba34cbd977c84a82a2261261c72db7ec?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
         "id": "ba34cbd977c84a82a2261261c72db7ec",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
       }
     ],
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "d71a69be5f1a437abf5134881f4c4b98"
   },
   "config": {

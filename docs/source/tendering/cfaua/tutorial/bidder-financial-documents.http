@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/91c7aa33638e4680980085954fdc33a8/financial_documents?acc_token=8e071dd39f464632a4bbfec1d3158ff9 HTTP/1.0
+GET /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/6635c3c3fd2a42e5bcdac5aa9882fdf2/financial_documents?acc_token=ace4a353c5094bfaa3c4d20485941548 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -17,8 +17,8 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "aec95f47c7054490a0606cacb9f2e87d",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00"
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00"
     },
     {
       "confidentiality": "public",
@@ -29,8 +29,8 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "1a86bc80dbf04f0c936ba39e4e661aaa",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00"
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00"
     }
   ]
 }

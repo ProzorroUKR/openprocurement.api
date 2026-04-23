@@ -206,7 +206,25 @@ Content-Type: application/json
     ],
     "status": "invalid",
     "id": "4967f311ee134508b5c6ec52866ce77d",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "b3e469b2996e45c887e7157e96f465e3",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -217,7 +235,7 @@ Content-Type: application/json
         "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -225,18 +243,18 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "8a5abb537bc847c79eefdb8304a8ef1d",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d644ac4f5bff41d398d677edf0af99f2?Signature=Jute8tbrJ%2FCKCJKdUl39TJ1JFsUO4WTcG%2BflW2Re4aNjSia1fSf%2FFUhPA8qBq2WzheaB5nt%2FlglABjvJVsHYAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       }
     ],
     "selfQualified": true,
-    "submissionDate": "2023-10-10T01:00:00+03:00"
+    "submissionDate": "2027-01-01T00:00:00+02:00"
   }
 }
 

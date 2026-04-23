@@ -19,7 +19,7 @@ Content-Type: application/json
   "data": {
     "id": "1b35963e1c2747a9be9996afec5b8ca4",
     "status": "active",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2027-01-01T00:00:01+02:00",
     "value": {
       "amount": 500.0,
       "currency": "UAH",
@@ -63,26 +63,26 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "d2898a453d6444caaa1e10ee5d21ee58",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7f23e532e8e34c7fbc1b353dc3888e1a?Signature=1TecQqDBb9aOLyke4G922qR01FdltTcXFCzRnKqwXIXTghqmi9vcAwXRQiVoc%2FXtCt%2FBMka5PgUBjplF0w3lBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "dateModified": "2027-01-01T00:00:01+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:00:01+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:01+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
     "eligible": true,
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:01+03:00",
-      "endDate": "2023-10-17T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:01+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00"
     }
   }
 }

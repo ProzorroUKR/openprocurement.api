@@ -50,7 +50,41 @@ Content-Type: application/json
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "5abe81cd14f742cb8d4cf0903585d320",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "c575e9311900483bace962c5b56d80f3",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 250.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
+      },
+      {
+        "id": "98fb0d9fbf4a435ebd18145b5a2bc372",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 250.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -60,20 +94,20 @@ Content-Type: application/json
         },
         "relatedLot": "1d0c518aa10648b596d5bb3ed6731476",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
       {
         "confidentiality": "public",
         "id": "b4d31b1e52b24a019beb89f0a43f9c9a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eca1451a57d142f394808a9f0953822a?Signature=A5icXgC%2BjDHMUEXaX29uygDBZX9J6M9cqFFJ2zo16OfslBgPmX65qOyR9HdbASPCIYc%2Fgu5Rv6JBLxngz5v1Aw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       }
     ],

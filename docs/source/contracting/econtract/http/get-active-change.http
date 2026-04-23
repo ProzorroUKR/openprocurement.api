@@ -23,7 +23,7 @@ Content-Type: application/json
     },
     "id": "a0a23a4028a6428fa088098d0d137d71",
     "status": "active",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
     "documents": [
       {
@@ -34,8 +34,8 @@ Content-Type: application/json
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/a0a23a4028a6428fa088098d0d137d71/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "id": "88962047c28144d99916ae75c9a2a38a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
       },
       {
@@ -47,8 +47,8 @@ Content-Type: application/json
         "documentOf": "change",
         "documentType": "contractSignature",
         "id": "647c84c6617a4d14b7b1a5f7aa17a79d",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "supplier"
       },
       {
@@ -60,8 +60,8 @@ Content-Type: application/json
         "documentOf": "change",
         "documentType": "contractSignature",
         "id": "215698f490f544de97d8a8644e03094a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "supplier"
       },
       {
@@ -73,22 +73,22 @@ Content-Type: application/json
         "documentOf": "change",
         "documentType": "contractSignature",
         "id": "4790f9f49c7b411092bac790f15b00ea",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "buyer"
       }
     ],
     "signatories": [
       {
         "role": "supplier",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "role": "buyer",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "dateSigned": "2023-10-10T01:00:00+03:00"
+    "dateSigned": "2027-01-01T00:00:00+02:00"
   }
 }
 

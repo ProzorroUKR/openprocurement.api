@@ -25,8 +25,32 @@ Content-Type: application/json
 {
   "data": {
     "id": "95f91577d82e445b9aff9338e0d5c97a",
-    "date": "2023-10-10T01:01:00+03:00",
-    "submissionDate": "2023-10-10T01:01:00+03:00",
+    "date": "2027-01-01T00:01:00+02:00",
+    "submissionDate": "2027-01-01T00:01:00+02:00",
+    "items": [
+      {
+        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+      },
+      {
+        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -63,13 +87,13 @@ Content-Type: application/json
       {
         "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00"
+        "date": "2027-01-01T00:01:00+02:00"
       },
       {
         "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00"
+        "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "documents": [
@@ -77,13 +101,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "fdbf77ae9d634732bf386887079a8393",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d1d76b0f8e3445e8a31e61f979f5573?Signature=E%2B5Iw8ryJ2jRjXPfJS8xzQxu55MCOlUOHWHlnqW1GrqI6U336XLU7%2F4AK2MTYW9FZQk%2BuH9z20shoiVWONzyAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       },
@@ -91,13 +115,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "fdbf77ae9d634732bf386887079a8393",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9d78f7768a524fdbb67399d5f45f3f7d?Signature=%2FQ%2BpbvHU267Zu%2BQ6Eg3es4klQ5xVF5YQN5CK9KAwJdNmSYZNmAWiocqkemox3XmQ7RuhPe1KwFcuTHVldWuUAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       }

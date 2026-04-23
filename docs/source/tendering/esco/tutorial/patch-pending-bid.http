@@ -257,20 +257,20 @@ Content-Type: application/json
     "status": "invalid",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "df6178558a0f488a8b2fe13bc75b4856",
-    "date": "2023-10-10T01:00:00+03:00",
-    "submissionDate": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "submissionDate": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "740fd0e0458a4bff98acf57d7ff39014",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae0c53200a7648d78aa29fe7272cb394?Signature=RfmJgfeXJgecc7zcTq%2FlmtGlDvU5QJbK2%2FuutO3DcwJpTozCctrJW%2FvIO4ZwWSmzADJ484%2BRoPEivE4XdbOQAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       }
     ],
@@ -278,12 +278,12 @@ Content-Type: application/json
       {
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
-          "amount": 9430.27,
+          "amount": 8734.93,
           "valueAddedTaxIncluded": true,
-          "amountPerformance": 864.98,
+          "amountPerformance": 801.01,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
             500,
@@ -315,7 +315,31 @@ Content-Type: application/json
         }
       }
     ],
-    "selfQualified": true
+    "selfQualified": true,
+    "items": [
+      {
+        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      },
+      {
+        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      }
+    ]
   }
 }
 

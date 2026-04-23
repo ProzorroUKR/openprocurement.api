@@ -45,6 +45,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
       }
+    ],
+    "items": [
+      {
+        "id": "7f368a9d7bf7418999079584b4ba5f34",
+        "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
+        "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 499.0
+          }
+        }
+      }
     ]
   }
 }
@@ -89,6 +107,24 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "7f368a9d7bf7418999079584b4ba5f34",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 499.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -98,12 +134,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "id": "3830395bb34b46c0b479d7fe1ece5e17",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "b1c427c0dde44172887ecf0d51eb210a",

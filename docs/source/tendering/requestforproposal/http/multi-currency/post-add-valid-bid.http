@@ -59,12 +59,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 5,
         "description": "папір",
         "id": "991761a10cb14c239cf05842c4cfa729",
+        "relatedLot": "e932e2282dd44ca38478282c9b65d683",
         "unit": {
+          "name": "кг",
           "code": "KGM",
           "value": {
-            "amount": 0.2,
             "currency": "USD",
-            "valueAddedTaxIncluded": false
+            "valueAddedTaxIncluded": false,
+            "amount": 40.0
           }
         }
       },
@@ -72,12 +74,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 1,
         "description": "степлер",
         "id": "d97b0743145b4e4d89e908039a069506",
+        "relatedLot": "ffecdd78783d41ea8db264ed749853d9",
         "unit": {
+          "name": "кг",
           "code": "KGM",
           "value": {
-            "amount": 0,
             "currency": "EUR",
-            "valueAddedTaxIncluded": false
+            "valueAddedTaxIncluded": false,
+            "amount": 400.0
           }
         }
       }
@@ -133,7 +137,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/73862f0482bd4d22
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "e932e2282dd44ca38478282c9b65d683",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "status": "pending",
@@ -143,7 +147,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/73862f0482bd4d22
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "ffecdd78783d41ea8db264ed749853d9",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
@@ -152,31 +156,35 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/73862f0482bd4d22
         "id": "991761a10cb14c239cf05842c4cfa729",
         "description": "папір",
         "unit": {
+          "name": "кг",
           "value": {
-            "amount": 0.2,
+            "amount": 40.0,
             "currency": "USD",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0
+        "quantity": 5.0,
+        "relatedLot": "e932e2282dd44ca38478282c9b65d683"
       },
       {
         "id": "d97b0743145b4e4d89e908039a069506",
         "description": "степлер",
         "unit": {
+          "name": "кг",
           "value": {
-            "amount": 0.0,
+            "amount": 400.0,
             "currency": "EUR",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 1.0
+        "quantity": 1.0,
+        "relatedLot": "ffecdd78783d41ea8db264ed749853d9"
       }
     ],
     "id": "29e82c95c11444ffa82e0b58ef1de086",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "1467d27f344048078986666d6af3355e",

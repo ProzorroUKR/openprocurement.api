@@ -28,17 +28,17 @@
         "auctionPeriod": {},
         "awardCriteria": "lowestCost",
         "awardPeriod": {
-            "startDate": "2023-10-10T01:00:00+03:00"
+            "startDate": "2027-01-01T00:00:00+02:00"
         },
         "awards": [
             {
                 "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "id": "45661e84097445e784c31e2d96566832",
                 "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
                 "period": {
-                    "endDate": "2023-10-18T00:00:00+03:00",
-                    "startDate": "2023-10-10T01:00:00+03:00"
+                    "endDate": "2027-01-08T00:00:00+02:00",
+                    "startDate": "2027-01-01T00:00:00+02:00"
                 },
                 "status": "pending",
                 "suppliers": [
@@ -81,12 +81,12 @@
             },
             {
                 "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "id": "866d796c99b14e0991b5504bad98f827",
                 "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
                 "period": {
-                    "endDate": "2023-10-18T00:00:00+03:00",
-                    "startDate": "2023-10-10T01:00:00+03:00"
+                    "endDate": "2027-01-08T00:00:00+02:00",
+                    "startDate": "2027-01-01T00:00:00+02:00"
                 },
                 "status": "pending",
                 "suppliers": [
@@ -129,12 +129,12 @@
             },
             {
                 "bid_id": "33aec5588bb84aecbaf28ee83b356bad",
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "id": "ecee25eaafaf448e990c851d316c1a1b",
                 "lotID": "ffb255f57e054aaa9f45701dbce47420",
                 "period": {
-                    "endDate": "2023-10-18T00:00:00+03:00",
-                    "startDate": "2023-10-10T01:00:00+03:00"
+                    "endDate": "2027-01-08T00:00:00+02:00",
+                    "startDate": "2027-01-01T00:00:00+02:00"
                 },
                 "status": "pending",
                 "suppliers": [
@@ -177,12 +177,12 @@
             },
             {
                 "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "id": "d03dc7cdd195486ba0f0fd8351c0c9ad",
                 "lotID": "ffb255f57e054aaa9f45701dbce47420",
                 "period": {
-                    "endDate": "2023-10-18T00:00:00+03:00",
-                    "startDate": "2023-10-10T01:00:00+03:00"
+                    "endDate": "2027-01-08T00:00:00+02:00",
+                    "startDate": "2027-01-01T00:00:00+02:00"
                 },
                 "status": "pending",
                 "suppliers": [
@@ -226,12 +226,12 @@
         ],
         "bids": [
             {
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "documents": [
                     {
                         "confidentiality": "public",
-                        "dateModified": "2023-10-10T01:00:00+03:00",
-                        "datePublished": "2023-10-10T01:00:00+03:00",
+                        "dateModified": "2027-01-01T00:00:00+02:00",
+                        "datePublished": "2027-01-01T00:00:00+02:00",
                         "documentOf": "tender",
                         "documentType": "proposal",
                         "format": "application/pkcs7-signature",
@@ -239,13 +239,46 @@
                         "id": "e3899d998f4d4394bbac7d6e0df0dd38",
                         "language": "uk",
                         "title": "sign.p7s",
-                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/bc450a6d43b14b4dad4c637a4249fa81?Signature=qIPStyUKMYUE5z2SgR8BWM%2FdMNJ8agbOKr0I7g37Cxn7COPw5NFMYCuKruuSGoCummfqgDd0D3Fh2Dz2gWRLCQ%3D%3D&KeyID=a8968c46"
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d19dd6757d8b43f3a47a607420cd232e?Signature=x3aWZS%2Fe61Uxeb3lDmlmDHzqunnVPMaUjvPZens1N4J0L5o7TXTwXZQD7sdHfAincMNEFbAgkfXdoSAt67F1Cw%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "id": "4b2f22ec008b4f4e88f2f69ea174242c",
+                "items": [
+                    {
+                        "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
+                        "id": "c5b0023de71046108dde1a721e00de87",
+                        "quantity": 1.0,
+                        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+                        "unit": {
+                            "code": "KGM",
+                            "name": "\u043f\u0430\u043f\u0456\u0440",
+                            "value": {
+                                "amount": 300.0,
+                                "currency": "UAH",
+                                "valueAddedTaxIncluded": false
+                            }
+                        }
+                    },
+                    {
+                        "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
+                        "description_en": "Services in school canteens",
+                        "id": "5cacba5cf95a40b580cedfb21df309ba",
+                        "quantity": 1.0,
+                        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                        "unit": {
+                            "code": "KGM",
+                            "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c",
+                            "value": {
+                                "amount": 500.0,
+                                "currency": "UAH",
+                                "valueAddedTaxIncluded": false
+                            }
+                        }
+                    }
+                ],
                 "lotValues": [
                     {
-                        "date": "2023-10-10T01:00:00+03:00",
+                        "date": "2027-01-01T00:00:00+02:00",
                         "initialValue": {
                             "amount": 300.0,
                             "currency": "UAH",
@@ -260,7 +293,7 @@
                         }
                     },
                     {
-                        "date": "2023-10-10T01:00:00+03:00",
+                        "date": "2027-01-01T00:00:00+02:00",
                         "initialValue": {
                             "amount": 500.0,
                             "currency": "UAH",
@@ -476,7 +509,7 @@
                     }
                 ],
                 "status": "active",
-                "submissionDate": "2023-10-10T01:00:00+03:00",
+                "submissionDate": "2027-01-01T00:00:00+02:00",
                 "tenderers": [
                     {
                         "address": {
@@ -511,12 +544,12 @@
                 ]
             },
             {
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "documents": [
                     {
                         "confidentiality": "public",
-                        "dateModified": "2023-10-10T01:00:00+03:00",
-                        "datePublished": "2023-10-10T01:00:00+03:00",
+                        "dateModified": "2027-01-01T00:00:00+02:00",
+                        "datePublished": "2027-01-01T00:00:00+02:00",
                         "documentOf": "tender",
                         "documentType": "proposal",
                         "format": "application/pkcs7-signature",
@@ -524,13 +557,46 @@
                         "id": "c4a5427de3d04afca7b9a450030a5f5f",
                         "language": "uk",
                         "title": "sign.p7s",
-                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fb01413f75834ce39e130e160c2a5a11?Signature=hrrYEAaIVvCefHo0Jv2dLu9U0Hz90QYjsELNEL6NDEOVtqFY4XM%2FkTgAkq0bDtZe3rE%2BrNOs6Pisw85xABkzDw%3D%3D&KeyID=a8968c46"
+                        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/57dc148c5b0e4e43ae80adf112301648?Signature=wJMWrM46PjHChwlVyQHr4pLT6AOlrd252GDxHDSyIjy2cwoAHWnH9uuuJNdmn3HGiwnmseNSr2qF57ixp4dzDw%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "id": "33aec5588bb84aecbaf28ee83b356bad",
+                "items": [
+                    {
+                        "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
+                        "id": "c5b0023de71046108dde1a721e00de87",
+                        "quantity": 1.0,
+                        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+                        "unit": {
+                            "code": "KGM",
+                            "name": "\u043f\u0430\u043f\u0456\u0440",
+                            "value": {
+                                "amount": 500.0,
+                                "currency": "UAH",
+                                "valueAddedTaxIncluded": false
+                            }
+                        }
+                    },
+                    {
+                        "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
+                        "description_en": "Services in school canteens",
+                        "id": "5cacba5cf95a40b580cedfb21df309ba",
+                        "quantity": 1.0,
+                        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                        "unit": {
+                            "code": "KGM",
+                            "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c",
+                            "value": {
+                                "amount": 400.0,
+                                "currency": "UAH",
+                                "valueAddedTaxIncluded": false
+                            }
+                        }
+                    }
+                ],
                 "lotValues": [
                     {
-                        "date": "2023-10-10T01:00:00+03:00",
+                        "date": "2027-01-01T00:00:00+02:00",
                         "initialValue": {
                             "amount": 500.0,
                             "currency": "UAH",
@@ -545,7 +611,7 @@
                         }
                     },
                     {
-                        "date": "2023-10-10T01:00:00+03:00",
+                        "date": "2027-01-01T00:00:00+02:00",
                         "initialValue": {
                             "amount": 400.0,
                             "currency": "UAH",
@@ -761,7 +827,7 @@
                     }
                 ],
                 "status": "active",
-                "submissionDate": "2023-10-10T01:00:00+03:00",
+                "submissionDate": "2027-01-01T00:00:00+02:00",
                 "tenderers": [
                     {
                         "address": {
@@ -880,7 +946,7 @@
                         "requirements": [
                             {
                                 "dataType": "integer",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "id": "22cd239f9fe34a0682b8a33ad6d14f79",
                                 "minValue": 90,
                                 "status": "active",
@@ -924,7 +990,7 @@
                             {
                                 "dataSchema": "ISO 639-3",
                                 "dataType": "string",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedMinItems": 1,
                                 "expectedValues": [
                                     "ukr",
@@ -969,7 +1035,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "8558cf5fb87046c99e6c8229b491770f",
@@ -1024,7 +1090,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "27319bc085a149669102f82cb63f7906",
@@ -1039,7 +1105,7 @@
                             },
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "6efc184fe8e049778d7dc6766dd68e80",
@@ -1060,7 +1126,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "dd56a8b7b04b45359ad11b1f3e6970d3",
@@ -1126,7 +1192,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "f6de5ef1633c45789f1a0c4d07d8f6eb",
                                 "status": "active",
@@ -1175,7 +1241,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "1bca3d45dd4940ee99a9148ad40b7611",
@@ -1196,7 +1262,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "c87481d0a49045d69cad3c7a483a727b",
@@ -1242,7 +1308,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "f0219a43a03d4a359092e385f06e6c6a",
@@ -1287,7 +1353,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "462057b1d26f4936acc1e2099a07d1b2",
@@ -1333,7 +1399,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "a9f0ec05330e483095bb1f9d4c8248ef",
                                 "status": "active",
@@ -1347,7 +1413,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "a106c851d94347268d94cc9c7219070d",
                                 "status": "active",
@@ -1395,7 +1461,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "36fcef69ead54963b21a735d65dfd301",
                                 "status": "active",
@@ -1434,7 +1500,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "a8b1451b79ac4a1b91a048a361a93f45",
@@ -1455,7 +1521,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "958307ea5121402f81312e4ab826e6f3",
@@ -1501,7 +1567,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "8ccefdb1b63343cd83a3e1d22c258e10",
@@ -1522,7 +1588,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "6abee29920b547cab6ed06cb335b18d3",
@@ -1537,7 +1603,7 @@
                             },
                             {
                                 "dataType": "string",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedMinItems": 1,
                                 "expectedValues": [
                                     "\u0412\u0456\u0434\u0441\u0443\u0442\u043d\u0456\u0441\u0442\u044c \u043a\u043e\u0448\u0442\u0456\u0432",
@@ -1551,7 +1617,7 @@
                             },
                             {
                                 "dataType": "number",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "id": "5815dfbc93174758af3ea981eb1d4062",
                                 "minValue": 0.0,
                                 "status": "active",
@@ -1594,7 +1660,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "c0cf76062e234535b584049b4eb15cd7",
                                 "status": "active",
@@ -1608,7 +1674,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "475a7d406c584b5286d2db954ca061ef",
@@ -1664,7 +1730,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "243454c247a844ac92059a1a512a2505",
                                 "status": "active",
@@ -1678,7 +1744,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "64441f19c07e4c0e8ef37cedc5430e17",
                                 "status": "active",
@@ -1727,7 +1793,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "9895853717754ff2a2003bfc722bdcb9",
                                 "status": "active",
@@ -1741,7 +1807,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "5a614f935c794f649bebb236b61de7fc",
@@ -1787,7 +1853,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
                                 "id": "6d601885600943ae965b827693107934",
                                 "status": "active",
@@ -1836,7 +1902,7 @@
                         "requirements": [
                             {
                                 "dataType": "boolean",
-                                "datePublished": "2023-10-10T01:00:00+03:00",
+                                "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
                                         "id": "43a615b168244231b7ddc489b273c6fd",
@@ -1856,15 +1922,15 @@
                 "title": "\u041d\u0430\u044f\u0432\u043d\u0456\u0441\u0442\u044c \u043e\u0431\u043b\u0430\u0434\u043d\u0430\u043d\u043d\u044f, \u043c\u0430\u0442\u0435\u0440\u0456\u0430\u043b\u044c\u043d\u043e-\u0442\u0435\u0445\u043d\u0456\u0447\u043d\u043e\u0457 \u0431\u0430\u0437\u0438 \u0442\u0430 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0456\u0439"
             }
         ],
-        "date": "2023-10-10T01:00:00+03:00",
-        "dateCreated": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateCreated": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documents": [
             {
                 "author": "tender_owner",
                 "confidentiality": "public",
-                "dateModified": "2023-10-10T01:00:00+03:00",
-                "datePublished": "2023-10-10T01:00:00+03:00",
+                "dateModified": "2027-01-01T00:00:00+02:00",
+                "datePublished": "2027-01-01T00:00:00+02:00",
                 "documentOf": "tender",
                 "documentType": "notice",
                 "format": "application/pkcs7-signature",
@@ -1876,9 +1942,9 @@
             }
         ],
         "enquiryPeriod": {
-            "clarificationsUntil": "2023-10-22T00:00:00+03:00",
-            "endDate": "2023-10-07T01:00:00+03:00",
-            "startDate": "2023-10-02T01:00:00+03:00"
+            "clarificationsUntil": "2027-01-12T00:00:00+02:00",
+            "endDate": "2026-12-29T00:00:00+02:00",
+            "startDate": "2026-12-24T00:00:00+02:00"
         },
         "id": "38bca89f7ba4477d97f553d576fd6994",
         "items": [
@@ -1903,8 +1969,8 @@
                     "streetAddress": "\u0432\u0443\u043b. \u0411\u0430\u043d\u043a\u043e\u0432\u0430 1"
                 },
                 "deliveryDate": {
-                    "endDate": "2023-11-29T00:00:00+02:00",
-                    "startDate": "2023-10-30T00:00:00+02:00"
+                    "endDate": "2027-02-20T00:00:00+02:00",
+                    "startDate": "2027-01-21T00:00:00+02:00"
                 },
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                 "id": "c5b0023de71046108dde1a721e00de87",
@@ -1936,8 +2002,8 @@
                     "streetAddress": "\u0432\u0443\u043b. \u0411\u0430\u043d\u043a\u043e\u0432\u0430 1"
                 },
                 "deliveryDate": {
-                    "endDate": "2023-11-29T00:00:00+02:00",
-                    "startDate": "2023-10-30T00:00:00+02:00"
+                    "endDate": "2027-02-20T00:00:00+02:00",
+                    "startDate": "2027-01-21T00:00:00+02:00"
                 },
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                 "description_en": "Services in school canteens",
@@ -1953,11 +2019,11 @@
         "lots": [
             {
                 "auctionPeriod": {
-                    "endDate": "2023-10-10T01:00:00+03:00",
-                    "startDate": "2023-10-10T01:00:00+03:00"
+                    "endDate": "2027-01-01T00:00:00+02:00",
+                    "startDate": "2027-01-01T00:00:00+02:00"
                 },
                 "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6",
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "d7afc0eb4f6d42549557d7b3226417e6",
                 "minimalStep": {
@@ -1975,11 +2041,11 @@
             },
             {
                 "auctionPeriod": {
-                    "endDate": "2023-10-10T01:00:00+03:00",
-                    "startDate": "2023-10-10T01:00:00+03:00"
+                    "endDate": "2027-01-01T00:00:00+02:00",
+                    "startDate": "2027-01-01T00:00:00+02:00"
                 },
                 "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_ffb255f57e054aaa9f45701dbce47420",
-                "date": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "ffb255f57e054aaa9f45701dbce47420",
                 "minimalStep": {
@@ -2038,7 +2104,7 @@
                 "type": "financing"
             }
         ],
-        "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+        "noticePublicationDate": "2027-01-01T00:00:00+02:00",
         "owner": "broker",
         "procurementMethod": "open",
         "procurementMethodType": "requestForProposal",
@@ -2076,8 +2142,8 @@
                 "author": {
                     "hash": "a982ed89e9643cfa85c688c3a7ec233d"
                 },
-                "date": "2023-10-10T01:00:00+03:00",
-                "dateAnswered": "2023-10-10T01:00:00+03:00",
+                "date": "2027-01-01T00:00:00+02:00",
+                "dateAnswered": "2027-01-01T00:00:00+02:00",
                 "description": "\u041f\u0440\u043e\u0441\u0438\u043c\u043e \u0434\u043e\u0434\u0430\u0442\u0438 \u0442\u0430\u0431\u043b\u0438\u0446\u044e \u043f\u043e\u0442\u0440\u0456\u0431\u043d\u043e\u0457 \u043a\u0430\u043b\u043e\u0440\u0456\u0439\u043d\u043e\u0441\u0442\u0456 \u0445\u0430\u0440\u0447\u0443\u0432\u0430\u043d\u043d\u044f",
                 "id": "dd1bc19ba9794bf6bf9f285a834a3c28",
                 "questionOf": "tender",
@@ -2086,10 +2152,10 @@
         ],
         "status": "active.qualification",
         "submissionMethod": "electronicAuction",
-        "tenderID": "UA-2023-10-10-000001-a",
+        "tenderID": "UA-2027-01-01-000001-a",
         "tenderPeriod": {
-            "endDate": "2023-10-10T01:00:00+03:00",
-            "startDate": "2023-10-02T01:00:00+03:00"
+            "endDate": "2027-01-01T00:00:00+02:00",
+            "startDate": "2026-12-24T00:00:00+02:00"
         },
         "title": "\u0444\u0443\u0442\u043b\u044f\u0440\u0438 \u0434\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u0438\u0445 \u043d\u0430\u0433\u043e\u0440\u043e\u0434",
         "value": {

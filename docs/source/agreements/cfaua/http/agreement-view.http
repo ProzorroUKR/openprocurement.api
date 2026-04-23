@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-10-10-000001-a-ea4a5ba075dd404db964b580ae32918c1",
+    "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
     "status": "active",
     "owner": "broker",
     "agreementType": "closeFrameworkAgreementUA",
@@ -52,7 +52,7 @@ Content-Type: application/json
         ],
         "awardID": "011e63208de240c896e459f6bcb39725",
         "bidID": "2b11d016d9234ec2b719df7659304750",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "id": "b0403401034942fe9e4317ee69e69f8d",
@@ -94,7 +94,7 @@ Content-Type: application/json
         ],
         "awardID": "1e4ce39ccc9d44f694f3311d124f43d9",
         "bidID": "668d4247367842bc867d5e415519e115",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "id": "ff0b7237e5e74871a348807ea6591bb6",
@@ -136,7 +136,7 @@ Content-Type: application/json
         ],
         "awardID": "0f7d7962750e47f3bc7deadc3e1e4071",
         "bidID": "5205692aa028408abb67b23cdb8ecab6",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "items": [
@@ -227,7 +227,7 @@ Content-Type: application/json
       }
     ],
     "numberOfContracts": 3,
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "8887db77f71c4a0496b39ac2c4eea78c"
   },
   "config": {

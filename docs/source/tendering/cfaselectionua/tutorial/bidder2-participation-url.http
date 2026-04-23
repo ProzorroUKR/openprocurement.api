@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/951dd3334aa14810b4653410311d30df?acc_token=690d827a0aad4d4ba676a22beea0957d HTTP/1.0
+GET /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/570a8e1d582b45db9b79dcd3f2553c1b?acc_token=c14459cfcd3e4101b2bb1f83f04d0047 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -17,13 +17,13 @@ Content-Type: application/json
         },
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "status": "active",
-        "date": "2023-10-10T01:01:00+03:00",
+        "date": "2027-01-01T00:01:00+02:00",
         "initialValue": {
           "amount": 499.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/b4bcd8f9ee82480fb413c261d6cea972_66bd7aa82b7d403cb3626390997acbaf?key_for_bid=951dd3334aa14810b4653410311d30df"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/b4bcd8f9ee82480fb413c261d6cea972_66bd7aa82b7d403cb3626390997acbaf?key_for_bid=570a8e1d582b45db9b79dcd3f2553c1b"
       }
     ],
     "tenderers": [
@@ -49,45 +49,63 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "951dd3334aa14810b4653410311d30df",
-    "date": "2023-10-10T01:01:00+03:00",
+    "id": "570a8e1d582b45db9b79dcd3f2553c1b",
+    "date": "2027-01-01T00:01:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "425e7d104b924133ab450921f6bee101",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "id": "7858cb309ac945909ba275cccee11ba6",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fa6d35497f649faafdc2dba7dcdecd5?Signature=wQyre6x8c9J%2BhDgF6s0ErHWpfTvY69rKWh0zTeBuAV%2FRCG3ULxdMVg0A3neC1CYwgROArxgXYK6efVfhOxzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
-        "id": "fb786e9012cb4ffea7db872ec055164f",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "id": "fd192eba9b2c4ce6b8928b22ee62aec1",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df847d0a972a47449fdbcfb6d0552db4?Signature=3Eg3y4sxqiCqbOiXdkha%2B6Yi%2BZm4mqrMqTB14pCZ8FRRMuk%2FyL2JMzmSEP3jkVfF%2FWRTTOeUjlfC29X8UShQDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "c446b7244daf476ab324254cd5c4185c",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/04dcde65a16a413cbbaad61ad365ed37?Signature=qpHQFzOpnM8y7H60FpnEJJJA9uhiPgI%2FuMzCKEJvxl7EOM9eCts6BufVb8fCe7dGxLmof6jPU2V4zE6YL%2FanBA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk"
+      }
+    ],
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 99.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "parameters": [
@@ -100,7 +118,7 @@ Content-Type: application/json
         "value": 0.1
       }
     ],
-    "submissionDate": "2023-10-10T01:01:00+03:00"
+    "submissionDate": "2027-01-01T00:01:00+02:00"
   }
 }
 

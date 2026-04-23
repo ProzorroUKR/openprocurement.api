@@ -8,22 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 100,
       "amountNet": 95
-    }
-  }
-}
-
-
-HTTP/1.0 200 OK
-Content-Type: application/json
-
-{
-  "data": {
-    "buyerID": "11111111111111111111111111111111",
-    "awardID": "8facda3d30224909895aa678c5ecbdac",
-    "contractID": "UA-2023-10-10-000001-a-1",
-    "title": "футляри до державних нагород",
-    "dateModified": "2023-10-10T01:00:01+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    },
     "items": [
       {
         "id": "00c5669133c948399aa9a6c4dd45b2fb",
@@ -43,6 +28,11 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
           "code": "KGM"
         },
         "deliveryAddress": {
@@ -53,8 +43,63 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "relatedBuyer": "11111111111111111111111111111111"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "buyerID": "11111111111111111111111111111111",
+    "awardID": "8facda3d30224909895aa678c5ecbdac",
+    "contractID": "UA-2027-01-01-000001-a-1",
+    "title": "футляри до державних нагород",
+    "dateModified": "2027-01-01T00:00:01+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "00c5669133c948399aa9a6c4dd45b2fb",
+        "description": "телевізори",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "relatedBuyer": "11111111111111111111111111111111"
       }

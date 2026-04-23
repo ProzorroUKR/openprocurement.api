@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "status": "active",
-    "dateSigned": "2023-10-10T01:00:00+03:00"
+    "dateSigned": "2027-01-01T00:00:00+02:00"
   }
 }
 
@@ -24,8 +24,8 @@ Content-Type: application/json
     ],
     "id": "eb794cf51a174e5ab8caa0dd717624a5",
     "status": "active",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateSigned": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateSigned": "2027-01-01T00:00:00+02:00"
   }
 }
 

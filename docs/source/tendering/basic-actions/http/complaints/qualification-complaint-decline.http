@@ -16,8 +16,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "f0a26052227c4771a525fb434cf0eeee",
-    "complaintID": "UA-2023-10-10-000001-a.3",
-    "date": "2023-10-10T01:00:01+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.3",
+    "date": "2027-01-01T00:00:01+02:00",
     "status": "declined",
     "type": "complaint",
     "relatedLot": "6010c37920ed40da8e5b29fd7e32bd0f",
@@ -45,7 +45,7 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-10-10T01:00:01+03:00",
+    "dateSubmitted": "2027-01-01T00:00:01+02:00",
     "objections": [
       {
         "id": "7ce21320b6d548d2837a397b820a4e9f",
@@ -75,14 +75,14 @@ Content-Type: application/json
       }
     ],
     "acceptance": true,
-    "dateAccepted": "2023-10-10T01:00:01+03:00",
-    "reviewDate": "2023-10-10T01:00:01+03:00",
+    "dateAccepted": "2027-01-01T00:00:01+02:00",
+    "reviewDate": "2027-01-01T00:00:01+02:00",
     "reviewPlace": "Place of review",
     "value": {
       "amount": 3000.0,
       "currency": "UAH"
     },
-    "dateDecision": "2023-10-10T01:00:01+03:00"
+    "dateDecision": "2027-01-01T00:00:01+02:00"
   }
 }
 

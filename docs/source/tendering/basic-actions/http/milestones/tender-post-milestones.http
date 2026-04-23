@@ -63,16 +63,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 5,
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2023-10-17T01:00:00+03:00"
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "milestones": [
@@ -84,7 +84,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 5,
           "type": "banking"
         },
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "percentage": 45.55
       },
       {
@@ -95,7 +95,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 7,
           "type": "calendar"
         },
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "percentage": 54.45
       },
       {
@@ -159,7 +159,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
           "days": 5,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "3158ad6b45c44e8f9e48991053ebc67c",
@@ -171,7 +171,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
           "days": 7,
           "type": "calendar"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 2
       },
       {
         "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
@@ -221,14 +221,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T01:00:00+03:00",
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "endDate": "2023-10-17T01:00:00+03:00",
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00"
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
     },
     "items": [
       {
@@ -254,16 +254,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -321,11 +321,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9ced6e51f9094343
       }
     },
     "auctionPeriod": {
-      "shouldStartAfter": "2023-10-25T00:00:00+03:00",
-      "startDate": "2023-10-25T13:09:55.701000+03:00"
+      "shouldStartAfter": "2027-01-15T00:00:00+02:00",
+      "startDate": "2027-01-15T13:09:55.701000+02:00"
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "9ced6e51f90943439764928675f07e53"
   },
   "config": {

@@ -19,8 +19,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
         "deliveryDate": {
-          "startDate": "2023-10-30T01:00:00+03:00",
-          "endDate": "2023-11-10T01:00:00+03:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-01T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

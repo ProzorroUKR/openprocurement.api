@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "modifications": {
       "qualificationPeriod": {
-        "endDate": "2023-12-15T01:00:00+03:00"
+        "endDate": "2027-03-08T00:00:00+02:00"
       }
     },
     "rationaleType": "noDemandFramework",
@@ -26,18 +26,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79215d0ea54f4
     "rationaleType": "noDemandFramework",
     "modifications": {
       "qualificationPeriod": {
-        "endDate": "2023-12-15T01:00:00+03:00"
+        "endDate": "2027-03-08T00:00:00+02:00"
       }
     },
     "id": "ebfecaa7b5e549afaa31883a22e390f3",
     "previous": {
       "qualificationPeriod": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2024-11-13T01:00:00+03:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2028-02-05T00:00:00+02:00"
       }
     },
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00"
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00"
   }
 }
 

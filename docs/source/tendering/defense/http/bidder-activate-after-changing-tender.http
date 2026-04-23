@@ -55,37 +55,37 @@ Content-Type: application/json
     "status": "pending",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "11234e730d0942acaea212b0b93d8ead",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2027-01-01T00:00:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "id": "335007d5e7bc459388e9fa2cc9cf5e5f",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3be837e3115f465aa712df8bcef14439?Signature=MI9PnY2SNEsdQCyz7pxKIZAs3mXQJ0Hz%2BZLPkgbTlgq2QhPIBWeixbkL1BjXHfmZh37uwWqvQ3BdV8J6DmLyAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "dateModified": "2027-01-01T00:00:01+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "b41baa0a63d04e708260d1ad5c57ec73",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9634883a9da24297a5a87fabf6979948?Signature=jed7W6fMpXckfllIJVX8SHRkYQyIssWl%2BW0EWjH95q6T0vg71OXCrYhuXCW%2B1%2B%2FawNGB0NlsBUvI3%2F7RjTxEBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "dateModified": "2027-01-01T00:00:01+02:00",
         "language": "uk"
       }
     ],
     "selfEligible": true,
     "selfQualified": true,
-    "submissionDate": "2023-10-10T01:00:01+03:00"
+    "submissionDate": "2027-01-01T00:00:01+02:00"
   }
 }
 

@@ -11,17 +11,17 @@ Content-Type: application/json
     "reasonType": "noDemand",
     "reason": "cancellation reason",
     "id": "13e041023703472b8bcec84943058bc3",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "cancellationOf": "tender",
     "status": "draft"
   },
   "context": {
     "tender": {
       "title_en": "Services in school canteens",
-      "date": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
-      "dateCreated": "2023-10-10T01:00:00+03:00",
-      "tenderID": "UA-2023-10-10-000001-a",
+      "date": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "dateCreated": "2027-01-01T00:00:00+02:00",
+      "tenderID": "UA-2027-01-01-000001-a",
       "owner": "broker",
       "title": "Послуги шкільних їдалень",
       "mainProcurementCategory": "services",
@@ -133,7 +133,7 @@ Content-Type: application/json
           "description": "Опис Лот №1",
           "status": "active",
           "id": "68c9fd66159b4fa3938dd4dcc3ab6402",
-          "date": "2023-10-10T01:00:00+03:00",
+          "date": "2027-01-01T00:00:00+02:00",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": true,
@@ -145,14 +145,14 @@ Content-Type: application/json
             "amount": 5.0
           },
           "auctionPeriod": {
-            "startDate": "2023-12-08T12:22:15.236000+02:00",
-            "shouldStartAfter": "2023-12-08T00:00:00+02:00"
+            "startDate": "2027-03-01T12:22:15.236000+02:00",
+            "shouldStartAfter": "2027-02-27T00:00:00+02:00"
           }
         }
       ],
       "qualificationPeriod": {
-        "startDate": "2023-11-10T00:00:00+02:00",
-        "endDate": "2023-12-08T00:00:00+02:00"
+        "startDate": "2027-02-01T00:00:00+02:00",
+        "endDate": "2027-02-27T00:00:00+02:00"
       },
       "procurementMethodType": "aboveThresholdEU",
       "procuringEntity": {
@@ -190,13 +190,13 @@ Content-Type: application/json
       },
       "status": "active.tendering",
       "enquiryPeriod": {
-        "startDate": "2023-10-09T01:00:00+03:00",
-        "endDate": "2023-10-31T01:00:00+02:00",
-        "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+        "startDate": "2026-12-31T00:00:00+02:00",
+        "endDate": "2027-01-22T00:00:00+02:00",
+        "clarificationsUntil": "2027-01-27T00:00:00+02:00"
       },
       "tenderPeriod": {
-        "startDate": "2023-10-09T01:00:00+03:00",
-        "endDate": "2023-11-10T01:00:00+02:00"
+        "startDate": "2026-12-31T00:00:00+02:00",
+        "endDate": "2027-02-01T00:00:00+02:00"
       },
       "items": [
         {
@@ -221,8 +221,8 @@ Content-Type: application/json
           ],
           "relatedLot": "68c9fd66159b4fa3938dd4dcc3ab6402",
           "deliveryDate": {
-            "startDate": "2023-10-30T00:00:00+02:00",
-            "endDate": "2023-11-29T00:00:00+02:00"
+            "startDate": "2027-01-21T00:00:00+02:00",
+            "endDate": "2027-02-20T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",
@@ -255,8 +255,8 @@ Content-Type: application/json
           ],
           "relatedLot": "68c9fd66159b4fa3938dd4dcc3ab6402",
           "deliveryDate": {
-            "startDate": "2023-10-30T00:00:00+02:00",
-            "endDate": "2023-11-29T00:00:00+02:00"
+            "startDate": "2027-01-21T00:00:00+02:00",
+            "endDate": "2027-02-20T00:00:00+02:00"
           },
           "deliveryAddress": {
             "streetAddress": "вул. Банкова 1",
@@ -269,20 +269,20 @@ Content-Type: application/json
         }
       ],
       "complaintPeriod": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2023-11-06T00:00:00+02:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-01-28T00:00:00+02:00"
       },
       "cancellations": [
         {
           "reasonType": "noDemand",
           "reason": "cancellation reason",
           "id": "13e041023703472b8bcec84943058bc3",
-          "date": "2023-10-10T01:00:00+03:00",
+          "date": "2027-01-01T00:00:00+02:00",
           "cancellationOf": "tender",
           "status": "draft"
         }
       ],
-      "next_check": "2023-11-10T01:00:00+02:00",
+      "next_check": "2027-02-01T00:00:00+02:00",
       "id": "4687f36b2f3d45ae9974b4ca238948a4"
     }
   }

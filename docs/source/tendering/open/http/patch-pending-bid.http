@@ -244,21 +244,38 @@ Content-Type: application/json
     ],
     "status": "invalid",
     "id": "26bd5b9cfa8f49f8b655b790775944ec",
-    "date": "2023-10-10T01:00:00+03:00",
-    "submissionDate": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "submissionDate": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "212bcfbd99c64b11b3e307c491e3f69a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/007f2443c3a84c95a8b906812a7f4c76?Signature=bAmJSt86l1KvrgQG02em7Sf%2BHXyKm2PCX4EBMumdLI%2FwYlUvcPiOUWrJLH5TMUsx2POF8%2FSsxWSt2CD2MGD9Bw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
+      }
+    ],
+    "items": [
+      {
+        "id": "d64a1883d2944b8999dcbfca8fd261b4",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
       }
     ],
     "selfQualified": true,
@@ -272,7 +289,7 @@ Content-Type: application/json
         "relatedLot": "acb82db513f64825a62e3caaa29cc025",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ]
   }

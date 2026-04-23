@@ -12,8 +12,8 @@ Content-Type: application/json
     "submissionID": "21673ec1685e4d62a9540052cc59428f",
     "qualificationType": "dynamicPurchasingSystem",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "hash": "md5:00000000000000000000000000000000",
@@ -22,8 +22,8 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7b79a13cee8a432da99736d71b78fa04?Signature=uOzXHXf5MxZKG2NuP5QrTcPN8Ruj5bNoTZrSKemffFpnet8SkfmZHAa040aYXPjuzkKhatCU71v%2BzZEZv6RwCQ%3D%3D&KeyID=a8968c46",
         "language": "uk",
         "id": "9f0693da64a646a1bbf193907cd005d8",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "id": "8e3a5dc35d454c998240d46d1abc2579"

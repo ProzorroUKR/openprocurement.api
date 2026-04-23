@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/92abbea07b734eaca4e7be1a7d59266e?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+GET /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/a57e9556a7ef4cc6a771bb404e1ae9f1?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -210,58 +210,58 @@ Content-Type: application/json
       }
     ],
     "status": "unsuccessful",
-    "id": "92abbea07b734eaca4e7be1a7d59266e",
+    "id": "a57e9556a7ef4cc6a771bb404e1ae9f1",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "885f4eb368b844689e56c8f4bf21c5d6",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "id": "fa90fa610102416da5c9755343fafffd",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/dfbdec7ce7c24848bb2621e5cfe8c6f5?Signature=8LKeVeanO7QbW5eEL%2Fmg1pwChCWsErlFKBYo0viJiWTWptdcHetQM92StSbH%2FTycMEz6%2Fhtk8qbZpTVpsx9DDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "id": "c94c9a8d812248fdac4750cf88c3d10a",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "id": "35b860951e004aaea2cb7f4cddafedd6",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/92abbea07b734eaca4e7be1a7d59266e/documents/c94c9a8d812248fdac4750cf88c3d10a?download=d8ada98b00e8489994f4f7f4039d099b",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/a57e9556a7ef4cc6a771bb404e1ae9f1/documents/35b860951e004aaea2cb7f4cddafedd6?download=d8ada98b00e8489994f4f7f4039d099b",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "8db7d7ab84ec425cbb625a2c63cd0d2c",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/70ec141e7455474094d3e2ff5328fadf?Signature=HxTMVtDQsn7%2F6ZxlmJ1xIuSZ7uCGCkZUkAxvq2l4fzy%2F9Hqk%2BafJNwGgvQx48JOFoiU1tnpFrEjUe0Nt%2FrkmBA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
       }
     ],
     "eligibilityDocuments": [
       {
         "confidentiality": "public",
-        "id": "72c9e2113ca848a99539d604a4773514",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "id": "092db5cd17cf4bfe95a96b24bccb059a",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d5c3054d43e9429bbf179ca8464942d7?Signature=R95GR0bnAluG%2BWuQPmayphiig7efQTp%2BLdXsQbJu3VBAmwPJmv4nm%2FbDnrqMaYYcYS%2FiigqnSOCdf2pDmNJuAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
       }
     ],

@@ -27,8 +27,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -49,10 +49,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -172,7 +172,7 @@ Content-Type: application/json
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
-      "kind": "special",
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -193,7 +193,7 @@ Content-Type: application/json
         "description": "lot description",
         "status": "active",
         "id": "1a0da17891e04af7a0eda87d40a4a290",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -205,25 +205,25 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-11-10T12:22:15.236000+02:00",
-          "shouldStartAfter": "2023-11-10T00:00:00+02:00"
+          "startDate": "2027-02-01T12:22:15.236000+02:00",
+          "shouldStartAfter": "2027-02-01T00:00:00+02:00"
         }
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
     },
     "status": "draft",
     "procurementMethodType": "aboveThresholdUA",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-31T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-10T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
     },
     "items": [
       {
@@ -248,8 +248,8 @@ Content-Type: application/json
         ],
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",

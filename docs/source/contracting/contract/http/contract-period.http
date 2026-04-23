@@ -6,8 +6,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-10-09T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-01-01T00:00:00+02:00"
     }
   }
 }
@@ -19,11 +19,11 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractID": "UA-2027-01-01-000001-a-1",
     "title": "Комп’ютерне обладнання",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateSigned": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "5b122642e8964f00a1535be1d2b2270a",
@@ -58,8 +58,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -118,8 +118,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],
@@ -127,8 +127,8 @@ Content-Type: application/json
     "owner": "broker",
     "status": "pending",
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-10-09T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-01-01T00:00:00+02:00"
     },
     "buyer": {
       "name": "Державне управління справами",

@@ -35,11 +35,11 @@ Content-Type: application/json
       ],
       "frameworkID": "2e17a7116854417a9ce9709b87369783",
       "status": "complete",
-      "dateCreated": "2023-10-26T01:00:00+03:00",
-      "dateModified": "2023-10-26T01:00:00+03:00",
-      "date": "2023-10-26T01:00:00+03:00",
+      "dateCreated": "2027-01-17T00:00:00+02:00",
+      "dateModified": "2027-01-17T00:00:00+02:00",
+      "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "6fce332a98dc49939a6a6f0dc2fa33c6",
-      "datePublished": "2023-10-26T01:00:00+03:00",
+      "datePublished": "2027-01-17T00:00:00+02:00",
       "id": "3b382cf2e93241ecbc760c66c18bcfd6"
     },
     {
@@ -69,18 +69,18 @@ Content-Type: application/json
       ],
       "frameworkID": "2e17a7116854417a9ce9709b87369783",
       "status": "complete",
-      "dateCreated": "2023-10-26T01:00:00+03:00",
-      "dateModified": "2023-10-26T01:00:00+03:00",
-      "date": "2023-10-26T01:00:00+03:00",
+      "dateCreated": "2027-01-17T00:00:00+02:00",
+      "dateModified": "2027-01-17T00:00:00+02:00",
+      "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "2efd8f11d2914763ab331e36e358d306",
-      "datePublished": "2023-10-26T01:00:00+03:00",
+      "datePublished": "2027-01-17T00:00:00+02:00",
       "id": "df5dc7536f7d45ff992315d32ec972a0"
     }
   ],
   "next_page": {
-    "offset": "1698271200.0.2.a2e1c3162dc61529ff0cf45f734d4d45",
-    "path": "/api/2.5/submissions?offset=1698271200.0.2.a2e1c3162dc61529ff0cf45f734d4d45",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1698271200.0.2.a2e1c3162dc61529ff0cf45f734d4d45"
+    "offset": "1800136800.0.2.a2e1c3162dc61529ff0cf45f734d4d45",
+    "path": "/api/2.5/submissions?offset=1800136800.0.2.a2e1c3162dc61529ff0cf45f734d4d45",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.a2e1c3162dc61529ff0cf45f734d4d45"
   }
 }
 

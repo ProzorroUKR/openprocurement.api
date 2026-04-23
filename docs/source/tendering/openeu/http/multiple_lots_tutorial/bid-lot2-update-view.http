@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/5429c1a3494f4034839597408f6cde96/bids/5d71ec3b1d3f4e029f1df8a36dd8ddba?acc_token=19c5ea09514f45bd8285348bb3838335 HTTP/1.0
+PATCH /api/2.5/tenders/5429c1a3494f4034839597408f6cde96/bids/4a592d21eb654f789fe95af01b02c81f?acc_token=3296bb4ab91d435a8668ec01f972223f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,11 +12,29 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 500
         },
         "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "subcontractingDetails": "ДКП «Орфей»"
       }
     ],
-    "status": "pending"
+    "status": "pending",
+    "items": [
+      {
+        "id": "b3e469b2996e45c887e7157e96f465e3",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 500.0
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
+        "description_en": "Services in school canteens"
+      }
+    ]
   }
 }
 
@@ -223,9 +241,27 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
-    "id": "5d71ec3b1d3f4e029f1df8a36dd8ddba",
-    "date": "2023-10-10T01:01:00+03:00",
-    "submissionDate": "2023-10-10T01:01:00+03:00",
+    "id": "4a592d21eb654f789fe95af01b02c81f",
+    "date": "2027-01-01T00:01:00+02:00",
+    "submissionDate": "2027-01-01T00:01:00+02:00",
+    "items": [
+      {
+        "id": "b3e469b2996e45c887e7157e96f465e3",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -236,7 +272,7 @@ Content-Type: application/json
         "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
         "subcontractingDetails": "ДКП «Орфей»",
         "status": "pending",
-        "date": "2023-10-10T01:01:00+03:00"
+        "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "documents": [
@@ -244,26 +280,26 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "43550569624148fcbd6ded165e94e856",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c4839b8b9d6b4f4282b1735206b48620?Signature=rbTiF2T7Wed8TUNjEKaSRkrkHkG8aFVfUIrJoH67Q6akLTv0r1HhLlpCjM9vpIFkN32RpjgHRQSvTViVqLQBDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "43550569624148fcbd6ded165e94e856",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/05398b0657dd455e97c33b2808297307?Signature=47Vvi5sS7JG2Yh1Z6gLZza9qJ03kKKaRC6bzqBaKY4cq9DYBp01wTTP4DcatjvwKFPKRUELv0LlvU3x7noD9Bg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk"
       }
     ],
