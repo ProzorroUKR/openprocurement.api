@@ -14,7 +14,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM",
           "value": {
             "amount": 0.6,
-            "currency": "EUR",
+            "currency": "USD",
             "valueAddedTaxIncluded": true
           }
         }
@@ -27,7 +27,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM",
           "value": {
             "amount": 0,
-            "currency": "USD",
+            "currency": "EUR",
             "valueAddedTaxIncluded": false
           }
         }

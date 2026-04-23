@@ -113,85 +113,133 @@ class BidState(BaseState):
 
     def validate_bid_unit_value(self, data):
         tender = get_tender()
-        items_for_lot = False
         tender_items_id = {}
         tender_lot_id = {}
 
         tender_items = tender.get("items", [])
-        if lot_values := data.get("lotValues"):
-            tender_lot_id = {item["id"]: item["relatedLot"] for item in tender_items if item.get("relatedLot")}
+        bid_items = data.get("items", [])
+        bid_value = data.get("value")
+        lot_values = data.get("lotValues")
+
+        # Build helper dictionaries for multi-lot validation
+        if lot_values:
+            # Mlti-lot
+            tender_lot_id = {}
+            for tender_item in tender_items:
+                related_lot = tender_item.get("relatedLot")
+                if related_lot:
+                    tender_lot_id[tender_item["id"]] = related_lot
+
             items_unit_value_amount = defaultdict(lambda: [])
             lot_values_by_id = {}
             for lot_value in lot_values:
-                tender_items_id[lot_value["relatedLot"]] = {
-                    tender_item["id"]
-                    for tender_item in tender_items
-                    if tender_item.get("relatedLot") == lot_value["relatedLot"]
-                }
-                lot_values_by_id[lot_value["relatedLot"]] = lot_value
-            items_for_lot = True
+                related_lot_id = lot_value["relatedLot"]
+                item_ids_for_lot = set()
+                for tender_item in tender_items:
+                    if tender_item.get("relatedLot") == related_lot_id:
+                        item_ids_for_lot.add(tender_item["id"])
+                tender_items_id[related_lot_id] = item_ids_for_lot
+                lot_values_by_id[related_lot_id] = lot_value
         else:
+            # No-lot
             items_unit_value_amount = []
 
-        if data.get("items"):
-            for item in data["items"]:
-                if value := item.get("unit", {}).get("value"):
-                    if tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM):
-                        if value.get("valueAddedTaxIncluded"):
-                            self.raise_items_error(
-                                "valueAddedTaxIncluded of bid unit should be False",
-                            )
-                    elif items_for_lot:
-                        lot_id = tender_lot_id.get(item["id"])
-                        if (lot_value := lot_values_by_id.get(lot_id)) and lot_value.get("value"):
-                            if lot_value["value"].get("valueAddedTaxIncluded") is not None and lot_value["value"].get(
-                                "valueAddedTaxIncluded"
-                            ) != value.get("valueAddedTaxIncluded"):
-                                self.raise_items_error(
-                                    "valueAddedTaxIncluded of bid unit should be identical "
-                                    "to valueAddedTaxIncluded of bid lotValues",
-                                )
-                    elif bid_value := data.get("value", {}):
-                        if bid_value.get("valueAddedTaxIncluded") is not None and bid_value.get(
+        # Check bid items presence
+        items_unit_value_required = self.items_unit_value_required_for_funders and tender.get("funders")
+        if not bid_items:
+            # Validate required
+            if items_unit_value_required:
+                self.raise_items_error("items is required for tender with funders")
+            # Or skip
+            return
+
+        # Validate items unit value
+        for item in bid_items:
+            value = item.get("unit", {}).get("value")
+
+            # Check if item unit value is present
+            if not value:
+                # Validate required
+                if items_unit_value_required:
+                    self.raise_items_error("items.unit.value is required for tender with funders")
+                # Or skip
+                continue
+
+            # Validate vat included
+            if tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM):
+                # New behavior, vat included is required to be False
+                if value.get("valueAddedTaxIncluded"):
+                    self.raise_items_error(
+                        "valueAddedTaxIncluded of bid unit should be False",
+                    )
+            else:
+                # Old behavior
+                if lot_values:
+                    # Mlti-lot
+                    lot_id = tender_lot_id.get(item["id"])
+                    lot_value = lot_values_by_id.get(lot_id)
+                    if lot_value and lot_value.get("value"):
+                        lot_value_vat_included = lot_value["value"].get("valueAddedTaxIncluded")
+                        if lot_value_vat_included is not None and lot_value_vat_included != value.get(
                             "valueAddedTaxIncluded"
-                        ) != value.get("valueAddedTaxIncluded"):
+                        ):
                             self.raise_items_error(
                                 "valueAddedTaxIncluded of bid unit should be identical "
-                                "to valueAddedTaxIncluded of bid value",
+                                "to valueAddedTaxIncluded of bid lotValues",
                             )
+                elif bid_value:
+                    # No-lot
+                    bid_value_vat_included = bid_value.get("valueAddedTaxIncluded")
+                    if bid_value_vat_included is not None and bid_value_vat_included != value.get(
+                        "valueAddedTaxIncluded"
+                    ):
+                        self.raise_items_error(
+                            "valueAddedTaxIncluded of bid unit should be identical "
+                            "to valueAddedTaxIncluded of bid value",
+                        )
 
-                    if tender_value := tender.get("value", {}):
-                        if tender["config"]["valueCurrencyEquality"] is True and tender_value.get(
-                            "currency"
-                        ) != value.get("currency"):
-                            self.raise_items_error(
-                                "currency of bid unit should be identical to currency of tender value"
+            # Validate currency
+            if lot_values:
+                # Mlti-lot
+                lot_id = tender_lot_id.get(item["id"])
+                lot_value = lot_values_by_id.get(lot_id)
+                if lot_value and lot_value.get("value"):
+                    lot_value_currency = lot_value.get("value", {}).get("currency")
+                    if lot_value_currency is not None and value.get("currency") != lot_value_currency:
+                        self.raise_items_error(
+                            "currency of bid unit should be identical to currency of bid lotValues",
+                        )
+            elif bid_value:
+                # No-lot
+                bid_value_currency = bid_value.get("currency")
+                if bid_value_currency is not None and value.get("currency") != bid_value_currency:
+                    self.raise_items_error(
+                        "currency of bid unit should be identical to currency of bid value",
+                    )
+
+            # Validate quantity
+            if item.get("quantity") is not None:
+                if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
+                    self.raise_items_error("Item.unit.value.amount should be updated to 0 if item.quantity equal to 0")
+
+                # Calculate items unit value amount
+                if lot_values:
+                    # Mlti-lot
+                    for lot_id, items_ids in tender_items_id.items():
+                        if item["id"] in items_ids:
+                            unit_value_amount = to_decimal(item["quantity"]) * to_decimal(
+                                item["unit"]["value"]["amount"]
                             )
-                    if item.get("quantity") is not None:
-                        if item["quantity"] == 0 and item["unit"]["value"]["amount"] != 0:
-                            self.raise_items_error(
-                                "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0"
-                            )
-                        if items_for_lot:
-                            for lot_id, items_ids in tender_items_id.items():
-                                if item["id"] in items_ids:
-                                    items_unit_value_amount[lot_id].append(
-                                        to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
-                                    )
-                                    break
-                        else:
-                            items_unit_value_amount.append(
-                                to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
-                            )
+                            items_unit_value_amount[lot_id].append(unit_value_amount)
+                            break
+                else:
+                    # No-lot
+                    unit_value_amount = to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
+                    items_unit_value_amount.append(unit_value_amount)
 
-                elif self.items_unit_value_required_for_funders and tender.get("funders"):
-                    self.raise_items_error("items.unit.value is required for tender with funders")
-
-        elif self.items_unit_value_required_for_funders and tender.get("funders"):
-            self.raise_items_error("items is required for tender with funders")
-
+        # Validate items unit value amount
         if self.check_item_unit_amount:
-            if items_for_lot:
+            if lot_values:
                 for lot_id, amounts in items_unit_value_amount.items():
                     validate_items_unit_amount(amounts, lot_values_by_id[lot_id], obj_name="bid.lotValues")
             else:
@@ -202,40 +250,51 @@ class BidState(BaseState):
             return
 
         tender = get_tender()
-        items_for_lot = False
         tender_items_id = {}
 
         tender_items = tender.get("items", [])
-        if lot_values := data.get("lotValues"):
+        bid_items = data.get("items", [])
+        lot_values = data.get("lotValues")
+
+        # Build helper dictionaries for multi-lot validation
+        if lot_values:
+            # Mlti-lot
             items_with_quantity = defaultdict(lambda: [])
             for lot_value in lot_values:
-                tender_items_id[lot_value["relatedLot"]] = {
-                    tender_item["id"]
-                    for tender_item in tender_items
-                    if tender_item.get("relatedLot") == lot_value["relatedLot"]
-                }
-            items_for_lot = True
+                related_lot_id = lot_value["relatedLot"]
+                item_ids_for_lot = set()
+                for tender_item in tender_items:
+                    if tender_item.get("relatedLot") == related_lot_id:
+                        item_ids_for_lot.add(tender_item["id"])
+                tender_items_id[related_lot_id] = item_ids_for_lot
         else:
+            # No-lot
             items_with_quantity = []
 
-        if data.get("items"):
-            for item in data["items"]:
-                if items_for_lot:
-                    for lot_id, items_ids in tender_items_id.items():
-                        if item["id"] in items_ids:
-                            items_with_quantity.setdefault(lot_id, [])
-                            if item.get("quantity") not in (None, 0):
-                                items_with_quantity[lot_id].append(item)
-                elif item.get("quantity") not in (None, 0):
+        if not bid_items:
+            return
+
+        # Validate items quantity
+        for item in bid_items:
+            if lot_values:
+                # Mlti-lot
+                for lot_id, items_ids in tender_items_id.items():
+                    if item["id"] in items_ids:
+                        items_with_quantity.setdefault(lot_id, [])
+                        if item.get("quantity") not in (None, 0):
+                            items_with_quantity[lot_id].append(item)
+            else:
+                # No-lot
+                if item.get("quantity") not in (None, 0):
                     items_with_quantity.append(item)
 
-            if not items_with_quantity:
-                self.raise_items_error("At least one item should be with not empty quantity")
+        if not items_with_quantity:
+            self.raise_items_error("At least one item should be with not empty quantity")
 
-            if items_for_lot:
-                for lot_id, items_ids in items_with_quantity.items():
-                    if not items_ids:
-                        self.raise_items_error(f"At least one item should be with not empty quantity for lot {lot_id}")
+        if lot_values:
+            for lot_id, items_ids in items_with_quantity.items():
+                if not items_ids:
+                    self.raise_items_error(f"At least one item should be with not empty quantity for lot {lot_id}")
 
     def validate_proposal_doc_required(self, bid):
         if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":
@@ -354,20 +413,24 @@ class BidState(BaseState):
                     raise_operation_error(self.request, "Can't post inconsistent bid")
 
     def validate_items_id(self, after: dict) -> None:
-        items_for_lot = False
         tender_items = self.request.validated["tender"].get("items", [])
-        if lot_values := after.get("lotValues"):
+        lot_values = after.get("lotValues")
+        bid_items = after.get("items", [])
+
+        if lot_values:
+            # Mlti-lot
             lot_ids = {lot_value["relatedLot"] for lot_value in lot_values}
             tender_items_id = {item["id"] for item in tender_items if item.get("relatedLot") in lot_ids}
-            items_for_lot = True
         else:
+            # No-lot
             tender_items_id = {i["id"] for i in tender_items}
-        bid_items_id = {i["id"] for i in after.get("items", "")}
+
+        bid_items_id = {i["id"] for i in bid_items}
 
         if bid_items_id - tender_items_id:
             raise_operation_error(
                 self.request,
-                f"Bid items ids should be on tender items ids{' for current lot' if items_for_lot else ''}",
+                f"Bid items ids should be on tender items ids{' for current lot' if lot_values else ''}",
                 status=422,
             )
 
@@ -378,7 +441,7 @@ class BidState(BaseState):
         if check_all_tender_items and tender_items_id - bid_items_id:
             raise_operation_error(
                 self.request,
-                f"Bid items ids should include all tender items ids{' for current lot' if items_for_lot else ''}",
+                f"Bid items ids should include all tender items ids{' for current lot' if lot_values else ''}",
                 status=422,
             )
 
