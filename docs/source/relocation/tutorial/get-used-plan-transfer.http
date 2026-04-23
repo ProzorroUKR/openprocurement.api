@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "usedFor": "/plans/5e6819d2385c4c6a8a7877b87488074c",
     "id": "6681cf91ab4c4f1e919c18d368a16c25"
   }

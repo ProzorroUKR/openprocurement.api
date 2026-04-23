@@ -46,7 +46,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH"
         },
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "status": "pending",
@@ -55,7 +55,26 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "USD"
         },
         "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 100.0
+          }
+        },
+        "quantity": 5.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ]
   }

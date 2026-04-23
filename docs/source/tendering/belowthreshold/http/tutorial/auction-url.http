@@ -32,22 +32,22 @@ Content-Type: application/json
         }
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-16T01:15:06+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-07T00:15:06+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "contractProforma",
         "id": "9efcbe5d4c364b2a851f9f8796b07674",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/03a139af718d4f44a208c07ac60d32c8?Signature=IE09GTizTTvK%2BR6AGPOIRBPtrjRNA5UrUnRhM5kz9Yia%2FcTwnsojgrKgkFSZPk4zA%2FVXpqGExUX%2FahUOdmWgAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -55,13 +55,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "b4de033f25694a918858177ebb83f878",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/28ead5b46c074f4faf2188518029eeda?Signature=yz3QviIT0rhmN2R%2FoW%2FuouBXwElCrPboBXdHQFBjPrl77FrI1u1zRIUG3NwxoIPM9OjspxObxfANznaO5nkACA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -72,13 +72,13 @@ Content-Type: application/json
         "description_en": "document description modified",
         "relatedItem": "ffffffffffffffffffffffffffffffff",
         "id": "58b2fdef4de941e495d97e767cd155a7",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/325d0d7a8e034710bf0f2fdfb91712c5?Signature=iiX0fHzPf9KaOdu%2FjOWJEQLrGxiuLxf34yzcBvHEQu5zF0wQauBfsYPexgAZx7V940YScpEO%2BObVJJx1RkDmDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "item",
-        "dateModified": "2023-10-10T01:03:03+03:00",
+        "dateModified": "2027-01-01T00:03:03+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -91,8 +91,8 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "d3a4c33f1c314257999a16bc6753c440",
-        "datePublished": "2023-10-10T01:06:04+03:00",
-        "dateModified": "2023-10-10T01:06:04+03:00",
+        "datePublished": "2027-01-01T00:06:04+02:00",
+        "dateModified": "2027-01-01T00:06:04+02:00",
         "author": "tender_owner"
       },
       {
@@ -100,13 +100,13 @@ Content-Type: application/json
         "description": "Нова версія AwardCriteria документу",
         "description_en": "new version of the AwardCriteria document",
         "id": "d3a4c33f1c314257999a16bc6753c440",
-        "datePublished": "2023-10-10T01:10:05+03:00",
+        "datePublished": "2027-01-01T00:10:05+02:00",
         "hash": "md5:11111111111111111111111111111111",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/50ef0208169a47979218f1f8919a46c6?Signature=epfCSA6FbFLil0mdrT2fGD9HH1Cb6YvKWDe025wBAAKayzHMzuAiy5fycJgQXHuU1ASOy6QroiPWtGNgiyjWBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:10:05+03:00",
+        "dateModified": "2027-01-01T00:10:05+02:00",
         "author": "tender_owner",
         "language": "en"
       }
@@ -116,7 +116,7 @@ Content-Type: application/json
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "goods",
     "procurementMethod": "open",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -250,10 +250,10 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-16T02:45:06+03:00",
+    "next_check": "2027-01-07T01:45:06+02:00",
     "tenderPeriod": {
-      "startDate": "2023-10-09T01:15:06+03:00",
-      "endDate": "2023-10-16T01:15:06+03:00"
+      "startDate": "2026-12-31T00:15:06+02:00",
+      "endDate": "2027-01-07T00:15:06+02:00"
     },
     "lots": [
       {
@@ -261,7 +261,7 @@ Content-Type: application/json
         "description": "lot description",
         "status": "active",
         "id": "16b57ad88e0c4726ae34f727f1b9ba14",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -273,16 +273,16 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-16T01:15:06+03:00"
+          "startDate": "2027-01-07T00:15:06+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/fa2e9cbf88314cb6ae4f240dacbb041f_16b57ad88e0c4726ae34f727f1b9ba14"
       }
     ],
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "startDate": "2023-10-01T01:15:06+03:00",
-      "clarificationsUntil": "2023-10-10T01:15:06+03:00",
-      "endDate": "2023-10-09T01:15:06+03:00"
+      "startDate": "2026-12-23T00:15:06+02:00",
+      "clarificationsUntil": "2027-01-01T00:15:06+02:00",
+      "endDate": "2026-12-31T00:15:06+02:00"
     },
     "items": [
       {
@@ -318,10 +318,10 @@ Content-Type: application/json
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2023-10-10T01:10:05+03:00",
+        "date": "2027-01-01T00:10:05+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2023-10-10T01:10:05+03:00"
+        "dateAnswered": "2027-01-01T00:10:05+02:00"
       }
     ],
     "auctionPeriod": {},

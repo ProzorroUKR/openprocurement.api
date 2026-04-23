@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-21T01:10:05+03:00"
+      "endDate": "2027-01-12T00:10:05+02:00"
     }
   }
 }
@@ -45,10 +45,10 @@ Content-Type: application/json
         }
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-16T01:14:06+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-07T00:14:06+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "questions": [
       {
         "id": "1d89d93355e44ffab8ae3545109d7bd1",
@@ -57,10 +57,10 @@ Content-Type: application/json
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
-        "date": "2023-10-10T01:10:05+03:00",
+        "date": "2027-01-01T00:10:05+02:00",
         "answer": "Таблицю додано в файлі \"Kalorijnist.xslx\"",
         "questionOf": "tender",
-        "dateAnswered": "2023-10-10T01:10:05+03:00"
+        "dateAnswered": "2027-01-01T00:10:05+02:00"
       }
     ],
     "documents": [
@@ -71,26 +71,26 @@ Content-Type: application/json
         "description_en": "document description modified",
         "relatedItem": "ffffffffffffffffffffffffffffffff",
         "id": "6a7a9cebe2704f2ab6258c8d8a7789e2",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d990d4897b1a47a19bf707544e0c8c39?Signature=Odg7g4lnQq9K23uhoeviII9%2BTeGyK%2BZebhgl5aO%2FJj1M4qGN5N%2Fq0TCVhB39EYEVdlWkc0V%2B3rnS%2FDb4w%2Fd7Bg%3D%3D&KeyID=a8968c46",
         "documentOf": "item",
-        "dateModified": "2023-10-10T01:03:03+03:00",
+        "dateModified": "2027-01-01T00:03:03+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
-        "datePublished": "2023-10-10T01:06:04+03:00",
+        "datePublished": "2027-01-01T00:06:04+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=QDxTKt%2F6a6o%2F969%2BED3IcEBTGuad5zzNYo28gOuxadXnyR0axXnzhPWvrEHCP4VwkSewBFtL2VvUFUHm%2FE9PBw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:06:04+03:00",
+        "dateModified": "2027-01-01T00:06:04+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -99,13 +99,13 @@ Content-Type: application/json
         "description": "Нова версія AwardCriteria документу",
         "description_en": "new version of the AwardCriteria document",
         "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
-        "datePublished": "2023-10-10T01:10:05+03:00",
+        "datePublished": "2027-01-01T00:10:05+02:00",
         "hash": "md5:11111111111111111111111111111111",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=%2Bq%2F%2FE5Sml8snWliS1olYK%2Bk9P5xg%2Bp0PVGPhAjQOELiMK882BsSWbDnohWwS9zCChlXkEgWdayK5lb2oDaVeBA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:10:05+03:00",
+        "dateModified": "2027-01-01T00:10:05+02:00",
         "author": "tender_owner",
         "language": "en"
       }
@@ -120,7 +120,7 @@ Content-Type: application/json
       }
     ],
     "procurementMethod": "selective",
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -254,10 +254,10 @@ Content-Type: application/json
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2023-10-21T01:10:05+03:00",
+    "next_check": "2027-01-12T00:10:05+02:00",
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:10:05+03:00",
-      "endDate": "2023-10-21T01:10:05+03:00"
+      "startDate": "2027-01-01T00:10:05+02:00",
+      "endDate": "2027-01-12T00:10:05+02:00"
     },
     "lots": [
       {
@@ -265,7 +265,7 @@ Content-Type: application/json
         "description": "lot description",
         "status": "active",
         "id": "31ec05e9aa3b44eeae2a94279b1e3040",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -277,17 +277,17 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-23T15:30:29.282000+03:00",
-          "shouldStartAfter": "2023-10-22T00:00:00+03:00"
+          "startDate": "2027-01-13T15:30:29.282000+02:00",
+          "shouldStartAfter": "2027-01-13T00:00:00+02:00"
         }
       }
     ],
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
-      "startDate": "2023-09-30T01:10:05+03:00",
-      "clarificationsUntil": "2023-10-15T00:00:00+03:00",
-      "endDate": "2023-10-10T01:10:05+03:00",
-      "invalidationDate": "2023-10-16T01:14:06+03:00"
+      "startDate": "2026-12-22T00:10:05+02:00",
+      "clarificationsUntil": "2027-01-06T00:00:00+02:00",
+      "endDate": "2027-01-01T00:10:05+02:00",
+      "invalidationDate": "2027-01-07T00:14:06+02:00"
     },
     "items": [
       {

@@ -49,7 +49,7 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040",
-        "date": "2023-10-16T01:15:06+03:00",
+        "date": "2027-01-07T00:15:06+02:00",
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/513a5729b98b4078a5e0c1ffb39e3c9a_31ec05e9aa3b44eeae2a94279b1e3040?key_for_bid=e61f83d91e0445e289f962ea2e03fb4e"
       }
     ],
@@ -64,8 +64,8 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "4fea67d599df4670a064819b54296bd7",
-        "datePublished": "2023-10-16T01:15:06+03:00",
-        "dateModified": "2023-10-16T01:15:06+03:00"
+        "datePublished": "2027-01-07T00:15:06+02:00",
+        "dateModified": "2027-01-07T00:15:06+02:00"
       },
       {
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
@@ -77,8 +77,8 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "8d0915767b85447a899c79d61d949fe0",
-        "datePublished": "2023-10-16T01:15:06+03:00",
-        "dateModified": "2023-10-16T01:15:06+03:00"
+        "datePublished": "2027-01-07T00:15:06+02:00",
+        "dateModified": "2027-01-07T00:15:06+02:00"
       }
     ],
     "items": [
@@ -99,7 +99,7 @@ Content-Type: application/json
       }
     ],
     "id": "e61f83d91e0445e289f962ea2e03fb4e",
-    "date": "2023-10-16T01:15:06+03:00"
+    "date": "2027-01-07T00:15:06+02:00"
   }
 }
 

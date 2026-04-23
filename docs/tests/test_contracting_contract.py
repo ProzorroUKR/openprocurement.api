@@ -18,7 +18,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.mock import patch_market
-from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.core.tests.utils import set_bid_items, set_items_unit, set_tender_criteria
 from openprocurement.tender.pricequotation.tests.base import BaseTenderWebTest
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
@@ -129,6 +129,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                             "code": "KGM",
                             "value": {"amount": 40, "valueAddedTaxIncluded": False},
                         },
+                        "product": uuid4().hex,
                     },
                     {
                         "id": tender_items[1]["id"],
@@ -139,6 +140,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                             "code": "KGM",
                             "value": {"amount": 10, "valueAddedTaxIncluded": False},
                         },
+                        "product": uuid4().hex,
                     },
                 ],
             },
@@ -697,17 +699,30 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
             self.assertEqual(response.status, "200 OK")
         contracts = response.json["data"]
 
+        response = self.app.get(f"/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}")
+        contract_1 = response.json["data"]
+        response = self.app.get(f"/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}")
+        contract_2 = response.json["data"]
+
         self.app.authorization = ("Basic", ("broker", ""))
+        new_value = {"amount": 100, "amountNet": 95}
+        new_items = deepcopy(contract_1["items"])
+        set_items_unit(new_items, new_value)
+
         with open(TARGET_DIR + "patch-1st-contract-value.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f'/contracts/{contracts[0]["id"]}?acc_token={self.owner_token}',
-                {"data": {"value": {"amount": 100, "amountNet": 95}}},
+                {"data": {"value": new_value, "items": new_items}},
             )
             self.assertEqual(response.status, "200 OK")
+
+        new_value = {"amount": 200, "amountNet": 190}
+        new_items = deepcopy(contract_2["items"])
+        set_items_unit(new_items, new_value)
         with open(TARGET_DIR + "patch-2nd-contract-value.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f'/contracts/{contracts[1]["id"]}?acc_token={self.owner_token}',
-                {"data": {"value": {"amount": 200, "amountNet": 190}}},
+                {"data": {"value": new_value, "items": new_items}},
             )
             self.assertEqual(response.status, "200 OK")
 
@@ -856,12 +871,18 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
             "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
         )
         self.assertIn("auctionPeriod", response.json["data"])
+        tender = response.json["data"]
 
         # create bid
         self.app.authorization = ("Basic", ("broker", ""))
+        bid_data = {
+            "tenderers": [test_tender_below_supplier],
+            "value": {"amount": 500},
+        }
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(self.tender_id),
-            {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 500}}},
+            {"data": bid_data},
         )
         self.bid_id = response.json["data"]["id"]
         self.bid_token = response.json["access"]["token"]

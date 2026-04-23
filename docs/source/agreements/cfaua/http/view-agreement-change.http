@@ -11,7 +11,7 @@ Content-Type: application/json
     "status": "pending",
     "rationale": "Опис причини змін егріменту",
     "rationale_en": "Agreement change cause",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "rationaleType": "taxRate",
     "id": "763394fc5c714348b33cea25674f6916"
   }

@@ -20,7 +20,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1716d96d03e04c77
   "data": {
     "id": "5fdcc53ba3914bb3bedf7115ab3477f3",
     "status": "unsuccessful",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "value": {
       "amount": 479.0,
       "currency": "UAH",
@@ -55,20 +55,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1716d96d03e04c77
         "confidentiality": "public",
         "documentType": "notice",
         "id": "68784b3ff37c41b8882a58cde3134fb1",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f9981afb09474e808264938d9ac5b3ce?Signature=2kUpDgCkuhTgsNZaHoyQeuQ1YDug7JxQXiM9ieQSzBZ2n3itmhKiVPyGiAa1AeJuoFbYCDB2JbIdckaHOdAyBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-18T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "qualified": false,
     "eligible": false

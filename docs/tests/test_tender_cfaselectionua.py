@@ -10,6 +10,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_bids,
     test_tender_cfaselectionua_data,
 )
+from openprocurement.tender.core.tests.utils import set_bid_items
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_features,
@@ -293,15 +294,17 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.app.authorization = ("Basic", ("broker", ""))
         bids_access = {}
 
-        bid["parameters"] = test_docs_parameters
-        bid["lotValues"][0]["relatedLot"] = lot["id"]
+        bid_data = deepcopy(bid)
+        bid_data["parameters"] = test_docs_parameters
+        bid_data["lotValues"][0]["relatedLot"] = lot["id"]
+        set_bid_items(self, bid_data, tender["items"])
         with open(TARGET_DIR + "register-bidder-invalid.http", "w") as self.app.file_obj:
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=403)
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=403)
             self.assertEqual(response.status, "403 Forbidden")
 
-        bid["tenderers"] = tender["agreements"][0]["contracts"][0]["suppliers"]
+        bid_data["tenderers"] = tender["agreements"][0]["contracts"][0]["suppliers"]
         with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             bid1_id = response.json["data"]["id"]
             bids_access[bid1_id] = response.json["access"]["token"]
             self.assertEqual(response.status, "201 Created")
@@ -376,13 +379,15 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Second bid registration with documents
 
-        bid2["parameters"] = test_docs_parameters
-        bid2["lotValues"][0]["relatedLot"] = lot["id"]
-        bid2["tenderers"] = tender["agreements"][0]["contracts"][1]["suppliers"]
+        bid2_data = deepcopy(bid2)
+        bid2_data["parameters"] = test_docs_parameters
+        bid2_data["lotValues"][0]["relatedLot"] = lot["id"]
+        bid2_data["tenderers"] = tender["agreements"][0]["contracts"][1]["suppliers"]
+        set_bid_items(self, bid2_data, tender["items"])
         with open(TARGET_DIR + "register-2nd-bidder.http", "w") as self.app.file_obj:
-            for document in bid2["documents"]:
+            for document in bid2_data["documents"]:
                 document["url"] = self.generate_docservice_url()
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2})
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_data})
             bid2_id = response.json["data"]["id"]
             bids_access[bid2_id] = response.json["access"]["token"]
             self.assertEqual(response.status, "201 Created")
@@ -396,11 +401,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
         self.set_responses(self.tender_id, response.json)
 
-        bid3 = deepcopy(bid2)
-        bid3["tenderers"] = tender["agreements"][0]["contracts"][3]["suppliers"]
-        for document in bid3["documents"]:
+        bid3_data = deepcopy(bid2_data)
+        bid3_data["tenderers"] = tender["agreements"][0]["contracts"][3]["suppliers"]
+        for document in bid3_data["documents"]:
             document["url"] = self.generate_docservice_url()
-        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3})
+        set_bid_items(self, bid3_data, tender["items"])
+        response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_data})
         bid3_id = response.json["data"]["id"]
         bids_access[bid3_id] = response.json["access"]["token"]
         self.assertEqual(response.status, "201 Created")

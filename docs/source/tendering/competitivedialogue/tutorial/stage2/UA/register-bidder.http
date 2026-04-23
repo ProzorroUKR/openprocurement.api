@@ -45,6 +45,40 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "10098f084434468aa19a0bb3524d5517"
       }
+    ],
+    "items": [
+      {
+        "id": "a5fc00cd288946f5a835cfe3f612bf73",
+        "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 249.5
+          }
+        }
+      },
+      {
+        "id": "ae7f8fba51254242b200e4b8a602f0ea",
+        "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 249.5
+          }
+        }
+      }
     ]
   }
 }
@@ -89,6 +123,40 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/78eb313fd0774c05
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "a5fc00cd288946f5a835cfe3f612bf73",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517"
+      },
+      {
+        "id": "ae7f8fba51254242b200e4b8a602f0ea",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -98,12 +166,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/78eb313fd0774c05
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "10098f084434468aa19a0bb3524d5517",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "id": "0aa1a62722fe4847afa9b70f7a18fbb7",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "020478c21ae24a1e8677c088dc7584e5",

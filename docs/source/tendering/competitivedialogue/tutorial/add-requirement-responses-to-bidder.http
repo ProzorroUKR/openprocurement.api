@@ -279,7 +279,31 @@ Content-Type: application/json
       }
     ],
     "id": "6df778e10f1c41b2a438c5e8908fc02e",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "df38969eb8ad4d558dda2cd874f14ac4",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+      },
+      {
+        "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -316,7 +340,7 @@ Content-Type: application/json
       {
         "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",

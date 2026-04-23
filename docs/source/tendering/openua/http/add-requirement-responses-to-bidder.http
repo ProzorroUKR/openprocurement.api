@@ -287,7 +287,7 @@ Content-Type: application/json
         },
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -325,7 +325,24 @@ Content-Type: application/json
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "f4f4958a25d641dc903708cc957eab58",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "d58c1dbb41c040b1b5acea8abccea15a",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+      }
+    ],
     "selfQualified": true
   }
 }

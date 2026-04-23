@@ -118,7 +118,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
@@ -142,7 +142,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
       }
     ],
     "id": "1dfb6963bdda42449ce4ef465342892a",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "bef671829e384d009a69a2baaa3a9e29",

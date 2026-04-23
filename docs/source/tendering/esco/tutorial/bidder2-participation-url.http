@@ -218,19 +218,19 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "211ad5e38e1549b7ac3152cb585f4968",
-    "date": "2023-10-10T01:02:01+03:00",
+    "date": "2027-01-01T00:02:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "d3e84c31978c4289b69eaceeb57de93a",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/288225e2c5904171889a94deaaaf723b?Signature=V3kgdV9HW4Rgvs%2FyKCH3FrWjWtp5tiU4OzA5nmeVI1292nEiYYNOrlTPHHwnvY32WLsPjhuDn6VY7HfjGckbAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
       }
     ],
@@ -238,12 +238,12 @@ Content-Type: application/json
       {
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
         "status": "active",
-        "date": "2023-10-10T01:02:01+03:00",
+        "date": "2027-01-01T00:02:01+02:00",
         "value": {
           "currency": "UAH",
-          "amount": 9767.32,
+          "amount": 9176.27,
           "valueAddedTaxIncluded": true,
-          "amountPerformance": 801.83,
+          "amountPerformance": 713.59,
           "yearlyPaymentsPercentage": 0.85,
           "annualCostsReduction": [
             400,
@@ -275,9 +275,9 @@ Content-Type: application/json
         },
         "initialValue": {
           "currency": "UAH",
-          "amount": 9767.32,
+          "amount": 9176.27,
           "valueAddedTaxIncluded": true,
-          "amountPerformance": 801.83,
+          "amountPerformance": 713.59,
           "yearlyPaymentsPercentage": 0.85,
           "annualCostsReduction": [
             400,
@@ -311,7 +311,31 @@ Content-Type: application/json
       }
     ],
     "selfQualified": true,
-    "submissionDate": "2023-10-10T01:02:01+03:00"
+    "items": [
+      {
+        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      },
+      {
+        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      }
+    ],
+    "submissionDate": "2027-01-01T00:02:01+02:00"
   }
 }
 

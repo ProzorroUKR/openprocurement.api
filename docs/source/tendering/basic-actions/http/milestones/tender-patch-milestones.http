@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 5,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "3158ad6b45c44e8f9e48991053ebc67c",
@@ -28,7 +28,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 7,
           "type": "calendar"
         },
-        "sequenceNumber": 1,
+        "sequenceNumber": 2,
         "description": "Підозрілий опис"
       },
       {
@@ -53,10 +53,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "status": "draft",
     "owner": "broker",
     "title": "футляри до державних нагород",
@@ -129,7 +129,7 @@ Content-Type: application/json
           "days": 5,
           "type": "banking"
         },
-        "sequenceNumber": 0
+        "sequenceNumber": 1
       },
       {
         "id": "3158ad6b45c44e8f9e48991053ebc67c",
@@ -142,7 +142,7 @@ Content-Type: application/json
           "days": 7,
           "type": "calendar"
         },
-        "sequenceNumber": 1
+        "sequenceNumber": 2
       },
       {
         "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
@@ -193,18 +193,18 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T01:00:00+03:00",
-      "endDate": "2023-10-24T01:00:00+03:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "startDate": "2023-10-25T13:09:55.701000+03:00",
-      "shouldStartAfter": "2023-10-25T00:00:00+03:00"
+      "startDate": "2027-01-15T13:09:55.701000+02:00",
+      "shouldStartAfter": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00",
-      "endDate": "2023-10-17T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "items": [
       {
@@ -230,8 +230,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       }
     ],

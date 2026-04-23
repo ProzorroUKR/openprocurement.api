@@ -16,8 +16,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -42,7 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "procurementMethodType": "reporting",
     "status": "draft",
     "procuringEntity": {
-      "kind": "special",
+      "kind": "general",
       "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",

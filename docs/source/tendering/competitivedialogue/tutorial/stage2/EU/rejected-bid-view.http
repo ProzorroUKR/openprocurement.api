@@ -227,39 +227,39 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "id": "9d288608e94c4a91bed0d2c66e15f040",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2bb75de80c514b19b1f38e1ca72079e5?Signature=OXTsXZs%2FXhK8vVGOM7ssY%2FQZhn0MTf6wgF7%2BoT2TxPVVVKF7%2BK3X%2FczC5XbV8BieQBAeSLEkFRbWfehIs3z8CA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
         "id": "e959280105e54f2fa3de0be10df94530",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
         "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/ca3c463082bd46d4a9309e5fbef60741/documents/e959280105e54f2fa3de0be10df94530?download=52f5d8e868fa4fc48e433bd1bb2861f1",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "592815b492ec4aaca39cb6c9267fb5fb",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ae6cabb8591649e491cca97805548ef1?Signature=ja6%2FTpWOmnrhW2RTc1BTG2dKA%2FEyTYgT%2FM4IBbBXqHQ5GiDdjtsV0IJHIHvuXYatMqPSQVgzX23tmIO0Llp%2FCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
       }
     ],
@@ -267,13 +267,13 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "id": "1c0836f76fce405493d23238cfce6679",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f9005257360b4b35a1f69e9c55536354?Signature=PCMQVibeK8Og45h3Z3m8kil%2BGjsgXz3XWypCEUb5T0axhY4SZWPsU8uIhiRJJIR0Gy%2BpFWByx%2FpuL7WOxBaeAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
       }
     ],

@@ -17,21 +17,21 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "30bb1b7847a048dd89e0c78d77a9ab2d",
-      "datePublished": "2023-10-10T01:02:01+03:00",
-      "dateModified": "2023-10-10T01:02:01+03:00"
+      "datePublished": "2027-01-01T00:02:01+02:00",
+      "dateModified": "2027-01-01T00:02:01+02:00"
     },
     {
       "confidentiality": "public",
       "title_en": "Title of Document",
       "description_en": "Description of Document",
       "id": "65fcf9dfd3104b80adcced87180bc3c5",
-      "datePublished": "2023-10-10T01:02:01+03:00",
+      "datePublished": "2027-01-01T00:02:01+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "agreement_second_document.doc",
       "format": "application/msdoc",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b86c18d8ffe4836af041e14fe4337dd?Signature=OQ27UsW1yVx2dUOATRGqk5APhXGCyM3%2FBTwM%2BM72JoCkTDNlGuxjmz1DaQymNzGtEBCd6ZLr02Avrgpw5O4NCg%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2023-10-10T01:02:01+03:00",
+      "dateModified": "2027-01-01T00:02:01+02:00",
       "language": "en"
     }
   ]

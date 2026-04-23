@@ -67,7 +67,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "items is required for tender with funders"
+      "description": "This field is required."
     }
   ]
 }

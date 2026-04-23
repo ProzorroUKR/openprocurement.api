@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "6ca341317b4f4b3cabda3a8f39db58e2",
-    "complaintID": "UA-2023-10-10-000001-a.1",
-    "date": "2023-10-10T01:00:00+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.1",
+    "date": "2027-01-01T00:00:00+02:00",
     "status": "satisfied",
     "type": "complaint",
     "author": {
@@ -36,7 +36,7 @@ Content-Type: application/json
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-    "dateSubmitted": "2023-10-10T01:00:00+03:00",
+    "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
         "id": "373c64e0a86f48808d3af370dbcf384c",
@@ -66,14 +66,14 @@ Content-Type: application/json
       }
     ],
     "acceptance": true,
-    "dateAccepted": "2023-10-10T01:00:00+03:00",
-    "reviewDate": "2023-10-10T01:00:00+03:00",
+    "dateAccepted": "2027-01-01T00:00:00+02:00",
+    "reviewDate": "2027-01-01T00:00:00+02:00",
     "reviewPlace": "Place of review",
     "value": {
       "amount": 2000.0,
       "currency": "UAH"
     },
-    "dateDecision": "2023-10-10T01:00:00+03:00",
+    "dateDecision": "2027-01-01T00:00:00+02:00",
     "appeals": [
       {
         "id": "efae0bce199b49b5a609ca0b66969e79",
@@ -82,13 +82,13 @@ Content-Type: application/json
           {
             "confidentiality": "public",
             "id": "94a2a62a51424b6b925f866770509be7",
-            "datePublished": "2023-10-10T01:00:00+03:00",
+            "datePublished": "2027-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "name.doc",
             "format": "application/msword",
             "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c40b88933aa34b83827c2e6d3c688c18/complaints/6ca341317b4f4b3cabda3a8f39db58e2/appeals/efae0bce199b49b5a609ca0b66969e79/documents/94a2a62a51424b6b925f866770509be7?download=20514262a4564559910de135ff1f0d3e",
             "documentOf": "tender",
-            "dateModified": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2027-01-01T00:00:00+02:00",
             "author": "complaint_owner",
             "language": "uk"
           }
@@ -108,14 +108,14 @@ Content-Type: application/json
           "article": "18.23"
         },
         "author": "complaint_owner",
-        "dateCreated": "2023-10-10T01:00:00+03:00",
-        "datePublished": "2023-10-10T01:00:00+03:00"
+        "dateCreated": "2027-01-01T00:00:00+02:00",
+        "datePublished": "2027-01-01T00:00:00+02:00"
       },
       {
         "description": "Test appeal",
         "id": "6e6780a519214ca5b05c54806fbc7c70",
-        "dateCreated": "2023-10-10T01:00:00+03:00",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "dateCreated": "2027-01-01T00:00:00+02:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "legislation": {
           "version": "2020-04-19",
           "type": "NATIONAL_LEGISLATION",
@@ -137,8 +137,8 @@ Content-Type: application/json
             "documentOf": "tender",
             "language": "uk",
             "id": "2dbc80ae9141427b96c5c11edc4e538b",
-            "datePublished": "2023-10-10T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00",
             "author": "tender_owner"
           }
         ]

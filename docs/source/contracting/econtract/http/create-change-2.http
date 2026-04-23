@@ -12,7 +12,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "modifications": {
       "period": {
-        "endDate": "2027-01-01T00:00:00+02:00"
+        "endDate": "2028-01-01T00:00:00+02:00"
       }
     }
   }
@@ -31,13 +31,13 @@ Content-Type: application/json
     ],
     "modifications": {
       "period": {
-        "endDate": "2027-01-01T00:00:00+02:00",
-        "startDate": "2023-10-15T00:00:00+03:00"
+        "endDate": "2028-01-01T00:00:00+02:00",
+        "startDate": "2027-01-06T00:00:00+02:00"
       }
     },
     "id": "9fb8feb2bc8f48ffa5d277c93f044523",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
     "documents": [
       {
@@ -48,8 +48,8 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/9fb8feb2bc8f48ffa5d277c93f044523/documents/9471624212664412824822e912a743df?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "id": "9471624212664412824822e912a743df",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
       }
     ]

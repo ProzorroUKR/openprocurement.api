@@ -19,12 +19,12 @@ Content-Type: application/json
 {
   "data": {
     "id": "f6e683bc45f347049d9b9c740170828c",
-    "datePublished": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2027-01-01T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2365a5fbfc964de2a60ddfb175a6cc42?Signature=EQ2YakEGQeWMwX3tiOKOcxsLShIUEa%2B7bB6wmpMCqaC99IWYdRUihRRIElynMe9Ko105jWenrapYnCDSRhGfDw%3D%3D&KeyID=a8968c46",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "language": "uk"
   }
 }

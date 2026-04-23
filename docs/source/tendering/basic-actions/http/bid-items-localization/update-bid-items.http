@@ -84,7 +84,7 @@ Content-Type: application/json
         },
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -122,7 +122,7 @@ Content-Type: application/json
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "1dfb6963bdda42449ce4ef465342892a",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",

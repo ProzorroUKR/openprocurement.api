@@ -67,10 +67,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2023-10-17T00:00:00+02:00"
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "requestForProposal",
     "mode": "test",
@@ -163,7 +163,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "lot description",
         "status": "active",
         "id": "85459ec7097d4e0489bc373a9f039e7a",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true,
@@ -293,14 +293,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
       "amount": 500.0
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T00:00:00+02:00",
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "lots": [
       {
         "title": "lot title",
         "description": "lot description",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "id": "85459ec7097d4e0489bc373a9f039e7a",
         "status": "active",
         "value": {
@@ -314,8 +314,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
-          "startDate": "2023-10-25T12:29:40.230000+03:00"
+          "shouldStartAfter": "2027-01-15T00:00:00+02:00",
+          "startDate": "2027-01-15T12:29:40.230000+02:00"
         }
       }
     ],
@@ -362,9 +362,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
     ],
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
-      "endDate": "2023-10-17T00:00:00+02:00",
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-22T00:00:00+03:00"
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
     },
     "items": [
       {
@@ -392,11 +392,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
         "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
       }
     ],
-    "tenderID": "UA-2023-10-10-000002-a",
+    "tenderID": "UA-2027-01-01-000002-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -453,8 +453,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "24e30973cba241bc938d89bfc74cd200"
   },
   "config": {

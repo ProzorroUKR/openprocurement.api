@@ -21,13 +21,13 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractID": "UA-2027-01-01-000001-a-1",
     "contractNumber": "contract #13111",
     "title": "Комп’ютерне обладнання",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateSigned": "2027-01-01T00:00:00+02:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "5b122642e8964f00a1535be1d2b2270a",
@@ -62,8 +62,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -122,8 +122,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         }
       },
       {
@@ -159,8 +159,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "attributes": [
           {
@@ -191,8 +191,8 @@ Content-Type: application/json
     "owner": "broker",
     "status": "terminated",
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-09T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-31T00:00:00+02:00"
     },
     "buyer": {
       "name": "Державне управління справами",
@@ -255,8 +255,8 @@ Content-Type: application/json
         ],
         "id": "eb794cf51a174e5ab8caa0dd717624a5",
         "status": "active",
-        "date": "2023-10-09T22:00:00",
-        "dateSigned": "2023-10-10T01:00:00+03:00"
+        "date": "2026-12-31T22:00:00",
+        "dateSigned": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -268,8 +268,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/434095e42ea546f0994b6d0eedf9ed76?download=3ef4769b01194c3fb9b85667d21a1307",
         "documentOf": "contract",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -279,8 +279,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/4c26e5cbbc3247deaa337a70dcc5dbdc?download=fc53e793a7ae423e9d0b454a353d6e3e",
         "documentOf": "contract",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -291,8 +291,8 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/8287e847137047e982ef13a48b3d8807?download=8951da71589746199cc3c8345d51fe37",
         "documentOf": "change",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -302,8 +302,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/2fbed46a899e494894f6224492348ac6?download=d2dfb81496b645a9ad5080512e3c40f4",
         "documentOf": "contract",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -313,8 +313,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/a888cf00603840d1abb56cc931b8e6a4?download=ef2fb5872c82422ca7d0ece4f4a3e8ed",
         "documentOf": "contract",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -324,8 +324,8 @@ Content-Type: application/json
         "format": "application/pdf",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/a888cf00603840d1abb56cc931b8e6a4?download=a9311975ab314480acfbb59c2e09b9a8",
         "documentOf": "contract",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "amountPaid": {

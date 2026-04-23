@@ -9,12 +9,12 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "58db49c04f694106a0637db5f0601b89",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractID": "UA-2027-01-01-000001-a-1",
     "contractNumber": "contract #13111",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "dateModified": "2023-11-09T00:00:00+02:00",
-    "dateCreated": "2023-11-09T00:00:00+02:00",
+    "dateModified": "2027-01-31T00:00:00+02:00",
+    "dateCreated": "2027-01-31T00:00:00+02:00",
     "items": [
       {
         "id": "991761a10cb14c239cf05842c4cfa729",
@@ -33,6 +33,7 @@ Content-Type: application/json
           }
         ],
         "unit": {
+          "name": "кг",
           "value": {
             "amount": 5000.0,
             "currency": "USD",
@@ -48,8 +49,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "relatedLot": "e932e2282dd44ca38478282c9b65d683"
       }
@@ -58,8 +59,8 @@ Content-Type: application/json
     "owner": "broker",
     "status": "active",
     "period": {
-      "startDate": "2023-01-01T00:00:00+02:00",
-      "endDate": "2023-12-31T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-12-31T00:00:00+02:00"
     },
     "buyer": {
       "name": "Державне управління справами",
@@ -215,8 +216,8 @@ Content-Type: application/json
         "status": "scheduled"
       }
     ],
-    "date": "2023-11-09T00:00:00+02:00",
-    "dateSigned": "2023-11-09T00:00:00+02:00",
+    "date": "2027-01-31T00:00:00+02:00",
+    "dateSigned": "2027-01-31T00:00:00+02:00",
     "id": "6cd2067778794a42b0a045eb9cff49f7"
   },
   "config": {

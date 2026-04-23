@@ -8,22 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 200,
       "amountNet": 190
-    }
-  }
-}
-
-
-HTTP/1.0 200 OK
-Content-Type: application/json
-
-{
-  "data": {
-    "buyerID": "22222222222222222222222222222222",
-    "awardID": "8facda3d30224909895aa678c5ecbdac",
-    "contractID": "UA-2023-10-10-000001-a-2",
-    "title": "футляри до державних нагород",
-    "dateModified": "2023-10-10T01:00:01+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    },
     "items": [
       {
         "id": "24116e2d04d54836b7915292bc0aaecd",
@@ -43,6 +28,11 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
           "code": "KGM"
         },
         "deliveryAddress": {
@@ -53,8 +43,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "relatedBuyer": "22222222222222222222222222222222"
       },
@@ -76,6 +66,11 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
           "code": "KGM"
         },
         "deliveryAddress": {
@@ -86,8 +81,101 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "buyerID": "22222222222222222222222222222222",
+    "awardID": "8facda3d30224909895aa678c5ecbdac",
+    "contractID": "UA-2027-01-01-000001-a-2",
+    "title": "футляри до державних нагород",
+    "dateModified": "2027-01-01T00:00:01+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "24116e2d04d54836b7915292bc0aaecd",
+        "description": "портфелі",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "relatedBuyer": "22222222222222222222222222222222"
+      },
+      {
+        "id": "08b71213150947bb873b39f0fd29af3c",
+        "description": "портфелі",
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 20.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "relatedBuyer": "22222222222222222222222222222222"
       }

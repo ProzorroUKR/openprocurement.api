@@ -12,8 +12,8 @@ Content-Type: application/json
     "submissionID": "39f4e30e72c846039972b697c874c995",
     "qualificationType": "internationalFinancialInstitutions",
     "status": "pending",
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
     "id": "61da52d3fbea49129c50b9171ce98c39"
   },
   "config": {

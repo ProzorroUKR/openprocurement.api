@@ -38,6 +38,30 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
+    ],
+    "items": [
+      {
+        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      },
+      {
+        "id": "deef5391f86241b0b0a89b4257997238",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
     ]
   }
 }
@@ -74,6 +98,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      },
+      {
+        "id": "deef5391f86241b0b0a89b4257997238",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -81,12 +129,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
           "amountPercentage": 50.0
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
-        "date": "2023-10-10T01:03:00+03:00"
+        "date": "2027-01-01T00:03:00+02:00"
       }
     ],
     "selfQualified": true,
     "id": "df99d252198c4688997da7d2968f57f3",
-    "date": "2023-10-10T01:03:00+03:00"
+    "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
     "token": "300dff68efc647b495a30c9bf76ed796",

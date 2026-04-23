@@ -200,7 +200,7 @@ Content-Type: application/json
         },
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
         "status": "pending",
-        "date": "2023-10-10T01:02:01+03:00"
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "tenderers": [
@@ -238,47 +238,64 @@ Content-Type: application/json
     "status": "pending",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "f4f4958a25d641dc903708cc957eab58",
-    "date": "2023-10-10T01:02:01+03:00",
-    "submissionDate": "2023-10-10T01:02:01+03:00",
+    "date": "2027-01-01T00:02:01+02:00",
+    "submissionDate": "2027-01-01T00:02:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "f6d308fd314744d791181f79f7ba754c",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e98ff4ebc6424cfba4838b5e790e1366?Signature=fOkU3ELmyYVvsahAhcRBc7yC874TjzHPh5cYUAHPJd4t9ojzcEf%2FMi8YRSSL7rX%2BSaDC1SYS%2Bh7h%2FXQRDaHCAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "f6d308fd314744d791181f79f7ba754c",
-        "datePublished": "2023-10-10T01:01:00+03:00",
+        "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f8b6d73df0a4dbf850b517d1b20fd0c?Signature=znlW6U0kgw83w1XpDSYyaGxnxwEcG3cR5RBmXGoMwAEIFQMW4ewZH8TV2RDhqLpyiES33wpy6xaHw9npYLKbCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:01:00+03:00",
+        "dateModified": "2027-01-01T00:01:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "f6d308fd314744d791181f79f7ba754c",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa3039b9cbed480ebe98934784336ace?Signature=ZRJ2K4JUu8I9Ym04cRtPiU%2FtAz6zFVvUte5U4nymmsDXSjNqj%2B9rtZzrMZ3Fxm7tR98I%2BTWVA8Thn47WswAXAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
+      }
+    ],
+    "items": [
+      {
+        "id": "d58c1dbb41c040b1b5acea8abccea15a",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
       }
     ],
     "selfQualified": true

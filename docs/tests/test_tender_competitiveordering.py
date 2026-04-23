@@ -26,7 +26,7 @@ from openprocurement.tender.competitiveordering.tests.short.base import (
     test_tender_co_short_criteria,
 )
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender_co
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
@@ -274,22 +274,22 @@ class TenderrCOShortResourceTest(
 
         # Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
+        bid_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": [bid_tenderer],
+            "lotValues": [
+                {
+                    "subcontractingDetails": "ДКП «Орфей», Україна",
+                    "value": {"amount": 500},
+                    "relatedLot": lot["id"],
+                }
+            ],
+        }
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": [bid_tenderer],
-                    "lotValues": [
-                        {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
-                            "value": {"amount": 500},
-                            "relatedLot": lot["id"],
-                        }
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid1_token = response.json["access"]["token"]
@@ -314,16 +314,16 @@ class TenderrCOShortResourceTest(
         self.assertEqual(response.status, "200 OK")
 
         # Registering bid 2
+        bid2_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": [bid_tenderer],
+            "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
+        }
+        set_bid_items(self, bid2_data, tender["items"])
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": [bid_tenderer],
-                    "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
-                }
-            },
+            {"data": bid2_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -339,14 +339,13 @@ class TenderrCOShortResourceTest(
         lot_values = response.json["data"]["lotValues"]
 
         # Bids confirmation
+        bid2_patch_data = {
+            "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot["id"]}],
+            "status": "pending",
+        }
         response = self.app.patch_json(
             f"/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}",
-            {
-                "data": {
-                    "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot["id"]}],
-                    "status": "pending",
-                }
-            },
+            {"data": bid2_patch_data},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -354,17 +353,17 @@ class TenderrCOShortResourceTest(
         agreement = self.mongodb.agreements.get(self.agreement_id)
         tenderer = deepcopy(bid_tenderer)
         tenderer["identifier"]["id"] = agreement["contracts"][1]["suppliers"][0]["identifier"]["id"]
+        bid3_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": [tenderer],
+            "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
+        }
+        set_bid_items(self, bid3_data, tender["items"])
         with open(TARGET_SHORT_DIR + "register-third-bid.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "selfQualified": True,
-                        "status": "draft",
-                        "tenderers": [tenderer],
-                        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
-                    }
-                },
+                {"data": bid3_data},
             )
             self.assertEqual(response.status, "201 Created")
         bid3_id = response.json["data"]["id"]
@@ -772,22 +771,22 @@ class TenderrCOLongResourceTest(
 
         # Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
+        bid_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": [bid_tenderer],
+            "lotValues": [
+                {
+                    "subcontractingDetails": "ДКП «Орфей», Україна",
+                    "value": {"amount": 500},
+                    "relatedLot": lot["id"],
+                }
+            ],
+        }
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": [bid_tenderer],
-                    "lotValues": [
-                        {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
-                            "value": {"amount": 500},
-                            "relatedLot": lot["id"],
-                        }
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid1_token = response.json["access"]["token"]
@@ -812,16 +811,16 @@ class TenderrCOLongResourceTest(
         self.assertEqual(response.status, "200 OK")
 
         # Registering bid 2
+        bid2_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": [bid_tenderer],
+            "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
+        }
+        set_bid_items(self, bid2_data, tender["items"])
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": [bid_tenderer],
-                    "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
-                }
-            },
+            {"data": bid2_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -837,14 +836,14 @@ class TenderrCOLongResourceTest(
         lot_values = response.json["data"]["lotValues"]
 
         # Bids confirmation
+        bid2_patch_data = {
+            "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot["id"]}],
+            "status": "pending",
+        }
+        set_bid_items(self, bid2_patch_data, tender["items"])
         response = self.app.patch_json(
             f"/tenders/{tender_id}/bids/{bid2_id}?acc_token={bid2_token}",
-            {
-                "data": {
-                    "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot["id"]}],
-                    "status": "pending",
-                }
-            },
+            {"data": bid2_patch_data},
         )
         self.assertEqual(response.status, "200 OK")
 
@@ -853,16 +852,16 @@ class TenderrCOLongResourceTest(
         tenderer = deepcopy(bid_tenderer)
         tenderer["identifier"]["id"] = agreement["contracts"][1]["suppliers"][0]["identifier"]["id"]
         with open(TARGET_LONG_DIR + "register-third-bid.http", "w") as self.app.file_obj:
+            bid3_data = {
+                "selfQualified": True,
+                "status": "draft",
+                "tenderers": [tenderer],
+                "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
+            }
+            set_bid_items(self, bid3_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "selfQualified": True,
-                        "status": "draft",
-                        "tenderers": [tenderer],
-                        "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
-                    }
-                },
+                {"data": bid3_data},
             )
             self.assertEqual(response.status, "201 Created")
         bid3_id = response.json["data"]["id"]

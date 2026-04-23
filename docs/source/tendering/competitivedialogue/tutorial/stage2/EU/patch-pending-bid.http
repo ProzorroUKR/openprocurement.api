@@ -256,8 +256,26 @@ Content-Type: application/json
     ],
     "status": "invalid",
     "id": "3830395bb34b46c0b479d7fe1ece5e17",
-    "date": "2023-10-10T01:00:00+03:00",
-    "submissionDate": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "submissionDate": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "7f368a9d7bf7418999079584b4ba5f34",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 499.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -267,7 +285,7 @@ Content-Type: application/json
         },
         "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -275,13 +293,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "953ebb9fbe2647da8c884b0d4c0d0bd8",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/13b7a37e7fcb4e3c89c6012bb35fbe35?Signature=%2BVgDpYFt8ROko6jp3pcCiLuavdVU0ACe67dPgUWQn98xSPsF1jSvtjv0kZBtfwA7RzZ97Nv%2BW9RzSArbzTflBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       }
     ],

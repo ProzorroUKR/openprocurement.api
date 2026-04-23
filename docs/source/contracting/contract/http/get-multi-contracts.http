@@ -12,8 +12,8 @@ Content-Type: application/json
       "id": "790377c1e17d4a10956295b8430efb4a",
       "status": "pending",
       "awardID": "35d712ce71d44d0581150ef3f9cbfa3f",
-      "date": "2023-10-10T01:00:00+03:00",
-      "contractID": "UA-2023-10-10-000001-a-1",
+      "date": "2027-01-01T00:00:00+02:00",
+      "contractID": "UA-2027-01-01-000001-a-1",
       "title": "футляри до державних нагород",
       "value": {
         "amount": 0,
@@ -26,8 +26,8 @@ Content-Type: application/json
       "id": "ccced68340f74973894bcfbbac2d355b",
       "status": "pending",
       "awardID": "35d712ce71d44d0581150ef3f9cbfa3f",
-      "date": "2023-10-10T01:00:00+03:00",
-      "contractID": "UA-2023-10-10-000001-a-2",
+      "date": "2027-01-01T00:00:00+02:00",
+      "contractID": "UA-2027-01-01-000001-a-2",
       "title": "футляри до державних нагород",
       "value": {
         "amount": 0,

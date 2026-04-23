@@ -8,10 +8,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
@@ -411,7 +411,7 @@ Content-Type: application/json
         "title_en": "[TESTING] ",
         "title_ru": "[ТЕСТИРОВАНИЕ] ",
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "mode": "test",
         "numberOfContracts": 3,
         "owner": "broker",
@@ -463,8 +463,8 @@ Content-Type: application/json
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -485,7 +485,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "id": "66bd7aa82b7d403cb3626390997acbaf",
         "value": {
           "amount": 500.56,
@@ -498,8 +498,8 @@ Content-Type: application/json
           "valueAddedTaxIncluded": true
         },
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-15T00:00:00+03:00",
-          "startDate": "2023-10-16T13:09:55.701000+03:00"
+          "shouldStartAfter": "2027-01-05T00:00:00+02:00",
+          "startDate": "2027-01-05T13:09:55.701000+02:00"
         }
       }
     ],
@@ -509,12 +509,12 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-12T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-02T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-12T00:00:00+03:00",
-      "endDate": "2023-10-15T00:00:00+03:00"
+      "startDate": "2027-01-02T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
     },
     "features": [
       {
@@ -557,7 +557,7 @@ Content-Type: application/json
         ]
       }
     ],
-    "next_check": "2023-10-12T00:00:00+03:00",
+    "next_check": "2027-01-02T00:00:00+02:00",
     "id": "42d9343086154eaf83080514ecd42ff6"
   },
   "config": {

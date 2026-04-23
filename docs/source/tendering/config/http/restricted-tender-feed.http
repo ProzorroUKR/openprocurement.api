@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "procuringEntity": {
         "name": "ЗОСШ #10 м.Вінниці",
         "identifier": {
@@ -29,7 +29,7 @@ Content-Type: application/json
           "telephone": "+380432465302",
           "url": "http://sch10.edu.vn.ua/"
         },
-        "kind": "special",
+        "kind": "general",
         "signerInfo": {
           "name": "Test Testovich",
           "email": "example@email.com",
@@ -42,7 +42,7 @@ Content-Type: application/json
       "id": "38bca89f7ba4477d97f553d576fd6994"
     },
     {
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "procuringEntity": {
         "name": "ЗОСШ #10 м.Вінниці",
         "identifier": {
@@ -62,7 +62,7 @@ Content-Type: application/json
           "telephone": "+380432465302",
           "url": "http://sch10.edu.vn.ua/"
         },
-        "kind": "special",
+        "kind": "general",
         "signerInfo": {
           "name": "Test Testovich",
           "email": "example@email.com",
@@ -76,9 +76,9 @@ Content-Type: application/json
     }
   ],
   "next_page": {
-    "offset": "1696888800.0.2.c9e589b703dacf9b5ed4833357465084",
-    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0.2.c9e589b703dacf9b5ed4833357465084",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1696888800.0.2.c9e589b703dacf9b5ed4833357465084"
+    "offset": "1798754400.0.2.c9e589b703dacf9b5ed4833357465084",
+    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1798754400.0.2.c9e589b703dacf9b5ed4833357465084",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1798754400.0.2.c9e589b703dacf9b5ed4833357465084"
   }
 }
 

@@ -53,6 +53,39 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "6670a4933d854a00afa53a2979728a6d"
       }
+    ],
+    "items": [
+      {
+        "id": "c5b0023de71046108dde1a721e00de87",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "currency": "USD",
+            "valueAddedTaxIncluded": false,
+            "amount": 300.0
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      },
+      {
+        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "USD",
+            "valueAddedTaxIncluded": false,
+            "amount": 300.0
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
     ]
   }
 }
@@ -105,7 +138,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "status": "pending",
@@ -115,12 +148,45 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "6670a4933d854a00afa53a2979728a6d",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "c5b0023de71046108dde1a721e00de87",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 300.0,
+            "currency": "USD",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      },
+      {
+        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 300.0,
+            "currency": "USD",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
     "id": "4b2f22ec008b4f4e88f2f69ea174242c",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "46869872f67449aabbe1a2bfe87200fb",

@@ -207,6 +207,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.initial_bids = deepcopy(self.initial_bids)
         for bid in self.initial_bids:
             set_bid_lotvalues(bid, tender_lots)
+            set_bid_items(self, bid, tender["items"])
         with open(TARGET_DIR + "tutorial/create-tender-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders?opt_pretty=1", {"data": test_tender_data_maximum, "config": self.initial_config}
@@ -797,6 +798,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "201 Created")
             self.tender_id = tender_id = response.json["data"]["id"]
             owner_token = response.json["access"]["token"]
+            tender = response.json["data"]
 
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": test_tender_below_lots[0]}
@@ -804,20 +806,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual(response.status, "201 Created")
         lot_id = response.json["data"]["id"]
 
-        test_data_wi_id = deepcopy(test_tender_data)
-        test_data_wi_id["minimalStep"] = {"amount": 5, "currency": "UAH"}
-        response = self.app.post_json(
-            "/tenders?opt_pretty=1",
-            {"data": test_data_wi_id, "config": self.initial_config},
-        )
-        self.assertEqual(response.status, "201 Created")
-        tender_wi_id = response.json["data"]["id"]
-        owner_wi_token = response.json["access"]["token"]
-
-        self.add_contract_proforma_doc(tender_wi_id, owner_wi_token)
-        self.add_sign_doc(tender_wi_id, owner_wi_token)
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = response.json["data"]["id"]
         response = self.app.patch_json(
-            f"/tenders/{tender_wi_id}?acc_token={owner_wi_token}", {"data": {"status": "active.enquiries"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
         self.assertEqual(response.status, "200 OK")
 

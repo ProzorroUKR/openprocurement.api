@@ -46,6 +46,23 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
       }
+    ],
+    "items": [
+      {
+        "id": "d58c1dbb41c040b1b5acea8abccea15a",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 499.0
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+      }
     ]
   }
 }
@@ -98,13 +115,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
-        "date": "2023-10-10T01:02:01+03:00"
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "d58c1dbb41c040b1b5acea8abccea15a",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 499.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+      }
+    ],
     "selfQualified": true,
     "id": "8f7b7813c3d04628a37093d1a351d354",
-    "date": "2023-10-10T01:02:01+03:00"
+    "date": "2027-01-01T00:02:01+02:00"
   },
   "access": {
     "token": "e7296312eaf94104950ea2ccd976f154",

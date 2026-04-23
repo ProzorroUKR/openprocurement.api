@@ -58,6 +58,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "code": "OCDS-123454-YEARS",
         "value": 0.1
       }
+    ],
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "quantity": 5.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
+        "unit": {
+          "name": "item",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 99.8
+          }
+        }
+      }
     ]
   }
 }
@@ -65,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/951dd3334aa14810b4653410311d30df
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/570a8e1d582b45db9b79dcd3f2553c1b
 
 {
   "data": {
@@ -100,7 +118,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "date": "2023-10-10T01:01:00+03:00"
+        "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "status": "draft",
@@ -113,9 +131,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fa6d35497f649faafdc2dba7dcdecd5?Signature=wQyre6x8c9J%2BhDgF6s0ErHWpfTvY69rKWh0zTeBuAV%2FRCG3ULxdMVg0A3neC1CYwgROArxgXYK6efVfhOxzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "425e7d104b924133ab450921f6bee101",
-        "datePublished": "2023-10-10T01:01:00+03:00",
-        "dateModified": "2023-10-10T01:01:00+03:00"
+        "id": "7858cb309ac945909ba275cccee11ba6",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "dateModified": "2027-01-01T00:01:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -125,9 +143,27 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df847d0a972a47449fdbcfb6d0552db4?Signature=3Eg3y4sxqiCqbOiXdkha%2B6Yi%2BZm4mqrMqTB14pCZ8FRRMuk%2FyL2JMzmSEP3jkVfF%2FWRTTOeUjlfC29X8UShQDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "fb786e9012cb4ffea7db872ec055164f",
-        "datePublished": "2023-10-10T01:01:00+03:00",
-        "dateModified": "2023-10-10T01:01:00+03:00"
+        "id": "fd192eba9b2c4ce6b8928b22ee62aec1",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "dateModified": "2027-01-01T00:01:00+02:00"
+      }
+    ],
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 99.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "parameters": [
@@ -140,12 +176,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "value": 0.1
       }
     ],
-    "id": "951dd3334aa14810b4653410311d30df",
-    "date": "2023-10-10T01:01:00+03:00"
+    "id": "570a8e1d582b45db9b79dcd3f2553c1b",
+    "date": "2027-01-01T00:01:00+02:00"
   },
   "access": {
-    "token": "690d827a0aad4d4ba676a22beea0957d",
-    "transfer": "f66ddee94aea4619b4fd4e65d5e2ad67"
+    "token": "c14459cfcd3e4101b2bb1f83f04d0047",
+    "transfer": "47bde89e410f46efbf09a354b531427d"
   }
 }
 

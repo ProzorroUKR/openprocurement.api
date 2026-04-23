@@ -47,6 +47,30 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
       }
+    ],
+    "items": [
+      {
+        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "description_en": "Services in school canteens"
+      }
     ]
   }
 }
@@ -58,6 +82,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed8
 
 {
   "data": {
+    "items": [
+      {
+        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+      },
+      {
+        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -94,19 +142,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed8
       {
         "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       },
       {
         "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "selfQualified": true,
     "status": "draft",
     "id": "95f91577d82e445b9aff9338e0d5c97a",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "e4b02cd63c0043b797c182e47876a189",

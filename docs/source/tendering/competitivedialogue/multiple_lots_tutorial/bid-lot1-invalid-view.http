@@ -9,7 +9,20 @@ Content-Type: application/json
 {
   "data": {
     "id": "b936dea48982483fa0dca16cbbabd262",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -47,7 +60,7 @@ Content-Type: application/json
         "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "documents": [
@@ -55,20 +68,20 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "0b17f63be39e4e11a82c96161059d0f4",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b252822257244ad88043516442077d2?Signature=q4ewE%2Bk5MUJVcLtUZr8D7LewQqIszknTKJFfg0mLJv42T3ZO6RoqkicMjyneSmsbtz%2BMqXevRZ81Lk%2BfAEfPDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk",
         "isDescriptionDecision": false
       }
     ],
     "selfQualified": true,
     "status": "invalid",
-    "submissionDate": "2023-10-10T01:00:00+03:00"
+    "submissionDate": "2027-01-01T00:00:00+02:00"
   }
 }
 

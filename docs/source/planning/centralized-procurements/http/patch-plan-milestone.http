@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "status": "met",
     "description": "Доповнений опис відповіді",
-    "dueDate": "2023-10-10T01:00:07+03:00"
+    "dueDate": "2027-01-01T00:00:07+02:00"
   }
 }
 
@@ -22,7 +22,7 @@ Content-Type: application/json
     "title": "Підготовка до проведення процедури",
     "description": "Доповнений опис відповіді",
     "type": "approval",
-    "dueDate": "2023-10-10T01:00:07+03:00",
+    "dueDate": "2027-01-01T00:00:07+02:00",
     "author": {
       "id": "17b0a4f99ca24834b22e585424fbea1f",
       "name": "ЦЗО №1",
@@ -40,9 +40,9 @@ Content-Type: application/json
       },
       "kind": "central"
     },
-    "dateModified": "2023-10-10T01:00:06+03:00",
+    "dateModified": "2027-01-01T00:00:06+02:00",
     "owner": "broker",
-    "dateMet": "2023-10-10T01:00:06+03:00"
+    "dateMet": "2027-01-01T00:00:06+02:00"
   }
 }
 

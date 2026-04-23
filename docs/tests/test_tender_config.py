@@ -66,6 +66,7 @@ from openprocurement.tender.core.constants import DEFAULT_WORKING_DAYS_CONFIG
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING_OPTIMIZED
 from openprocurement.tender.core.tests.base import test_default_criteria
 from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
     set_tender_lots,
@@ -607,27 +608,27 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
     def register_bids(self, tender_id, owner_token, lot_id1, lot_id2):
         #### Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
+        bid_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": test_docs_bid["tenderers"],
+            "lotValues": [
+                {
+                    "subcontractingDetails": "ДКП «Орфей», Україна",
+                    "value": {"amount": 500},
+                    "relatedLot": lot_id1,
+                },
+                {
+                    "subcontractingDetails": "ДКП «Орфей», Україна",
+                    "value": {"amount": 500},
+                    "relatedLot": lot_id2,
+                },
+            ],
+        }
+        set_bid_items(self, bid_data, tender_id=tender_id)
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": test_docs_bid["tenderers"],
-                    "lotValues": [
-                        {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
-                            "value": {"amount": 500},
-                            "relatedLot": lot_id1,
-                        },
-                        {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
-                            "value": {"amount": 500},
-                            "relatedLot": lot_id2,
-                        },
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid1_token = response.json["access"]["token"]
@@ -641,27 +642,27 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
         self.set_responses(tender_id, response.json, "pending")
 
         #### Registering bid 2
+        bid_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": test_docs_bid2["tenderers"],
+            "lotValues": [
+                {
+                    "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                    "value": {"amount": 500},
+                    "relatedLot": lot_id1,
+                },
+                {
+                    "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                    "value": {"amount": 500},
+                    "relatedLot": lot_id2,
+                },
+            ],
+        }
+        set_bid_items(self, bid_data, tender_id=tender_id)
         response = self.app.post_json(
             f"/tenders/{tender_id}/bids",
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": test_docs_bid2["tenderers"],
-                    "lotValues": [
-                        {
-                            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                            "value": {"amount": 500},
-                            "relatedLot": lot_id1,
-                        },
-                        {
-                            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                            "value": {"amount": 500},
-                            "relatedLot": lot_id2,
-                        },
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -733,6 +734,7 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
                 {"value": {"amount": 500}, "relatedLot": lot_id2},
             ],
         }
+        set_bid_items(self, bid_data, tender_id=tender_id)
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         self.assertEqual(response.status, "201 Created")
         bid1_id = response.json["data"]["id"]
@@ -747,6 +749,7 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
 
         bid_data["lotValues"][0]["value"]["amount"] = 500
         bid_data["lotValues"][1]["value"]["amount"] = 400
+        set_bid_items(self, bid_data, tender_id=tender_id)
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -1151,6 +1154,7 @@ class HasAwardingTenderConfigTest(TenderConfigBaseTest):
             self.app.authorization = ("Basic", ("broker", ""))
             bid_data = {"status": "draft", "tenderers": test_docs_bid["tenderers"], "value": {"amount": 500 - idx}}
             set_bid_lotvalues(bid_data, lots)
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             self.assertEqual(response.status, "201 Created")
             bids.append(response.json["data"]["id"])
@@ -1501,18 +1505,18 @@ class HasValueRestrictionTenderConfigTest(TenderConfigBaseTest):
 
         #### Registering bid
         with open(TARGET_DIR + "has-value-restriction-true-tender-lots-add-invalid-bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 600}, "relatedLot": lot_id1},
+                    {"value": {"amount": 500}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 600}, "relatedLot": lot_id1},
-                            {"value": {"amount": 500}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1528,18 +1532,18 @@ class HasValueRestrictionTenderConfigTest(TenderConfigBaseTest):
             )
 
         with open(TARGET_DIR + "has-value-restriction-true-tender-lots-add-valid-bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 500}, "relatedLot": lot_id1},
+                    {"value": {"amount": 500}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 500}, "relatedLot": lot_id1},
-                            {"value": {"amount": 500}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "201 Created")
             bid_token = response.json["access"]["token"]
@@ -1548,18 +1552,18 @@ class HasValueRestrictionTenderConfigTest(TenderConfigBaseTest):
         lot_values = response.json["data"]["lotValues"]
 
         with open(TARGET_DIR + "has-value-restriction-true-tender-lots-patch-bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "active",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id1},
+                    {**lot_values[1], "value": {"amount": 700}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.patch_json(
                 f"/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}",
-                {
-                    "data": {
-                        "status": "active",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id1},
-                            {**lot_values[1], "value": {"amount": 700}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1632,18 +1636,18 @@ class HasValueRestrictionTenderConfigTest(TenderConfigBaseTest):
 
         #### Registering bid
         with open(TARGET_DIR + "has-value-restriction-false-tender-lots-add-valid-bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 600}, "relatedLot": lot_id1},
+                    {"value": {"amount": 700}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 600}, "relatedLot": lot_id1},
-                            {"value": {"amount": 700}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "201 Created")
 
@@ -1715,18 +1719,18 @@ class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
         with open(
             TARGET_DIR + "value-currency-equality-true-tender-lots-add-invalid-bid.http", "w"
         ) as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 600, "currency": "USD"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 600, "currency": "USD"}, "relatedLot": lot_id1},
-                            {"value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1742,18 +1746,18 @@ class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
             )
 
         with open(TARGET_DIR + "value-currency-equality-true-tender-lots-add-valid-bid.http", "w") as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id1},
-                            {"value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "201 Created")
             bid_token = response.json["access"]["token"]
@@ -1762,18 +1766,18 @@ class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
         lot_values = response.json["data"]["lotValues"]
 
         with open(TARGET_DIR + "value-currency-equality-true-tender-lots-patch-bid.http", "w") as self.app.file_obj:
+            bid_patch_data = {
+                "status": "active",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {**lot_values[0], "value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id1},
+                    {**lot_values[1], "value": {"amount": 700, "currency": "USD"}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_patch_data, tender["items"])
             response = self.app.patch_json(
                 f"/tenders/{tender_id}/bids/{bid_id}?acc_token={bid_token}",
-                {
-                    "data": {
-                        "status": "active",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {**lot_values[0], "value": {"amount": 500, "currency": "UAH"}, "relatedLot": lot_id1},
-                            {**lot_values[1], "value": {"amount": 700, "currency": "USD"}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_patch_data},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1853,18 +1857,18 @@ class ValueCurrencyEqualityTenderConfigTest(TenderConfigBaseTest):
         with open(
             TARGET_DIR + "value-currency-equality-false-tender-lots-add-valid-bid.http", "w"
         ) as self.app.file_obj:
+            bid_data = {
+                "status": "draft",
+                "tenderers": test_docs_bid["tenderers"],
+                "lotValues": [
+                    {"value": {"amount": 600, "currency": "USD"}, "relatedLot": lot_id1},
+                    {"value": {"amount": 700, "currency": "EUR"}, "relatedLot": lot_id2},
+                ],
+            }
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json(
                 f"/tenders/{tender_id}/bids",
-                {
-                    "data": {
-                        "status": "draft",
-                        "tenderers": test_docs_bid["tenderers"],
-                        "lotValues": [
-                            {"value": {"amount": 600, "currency": "USD"}, "relatedLot": lot_id1},
-                            {"value": {"amount": 700, "currency": "EUR"}, "relatedLot": lot_id2},
-                        ],
-                    }
-                },
+                {"data": bid_data},
             )
             self.assertEqual(response.status, "201 Created")
 
@@ -1962,6 +1966,7 @@ class MinBidsNumberTenderConfigTest(TenderConfigBaseTest):
         bid_data = {"status": "draft", "tenderers": test_docs_bid["tenderers"], "lotValues": []}
         for idx, lot_id in enumerate(lot_ids):
             bid_data["lotValues"].append({"value": {"amount": idx * 100 + initial_amount}, "relatedLot": lot_id})
+        set_bid_items(self, bid_data, tender_id=tender_id)
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         self.assertEqual(response.status, "201 Created")
         self.add_sign_doc(
@@ -2350,7 +2355,7 @@ class HasPreSelectionAgreementTenderConfigTest(TenderConfigBaseTest, FrameworkAc
         framework_data["qualificationPeriod"] = {
             "endDate": (get_request_now() + datetime.timedelta(days=420)).isoformat()
         }
-        self.create_framework(data=test_framework_dps_data, config=test_framework_dps_config)
+        self.create_framework(data=framework_data, config=test_framework_dps_config)
         self.activate_framework()
 
         submission_data_1 = deepcopy(test_submission_data)
@@ -2522,26 +2527,26 @@ class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
         self.assertEqual(response.status, "200 OK")
 
         # Registering bids
+        bid_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": bid["tenderers"],
+            "lotValues": [
+                {
+                    "subcontractingDetails": "ДКП «Орфей», Україна",
+                    "value": {
+                        "annualCostsReduction": [200] + [1000] * 20,
+                        "yearlyPaymentsPercentage": 0.87,
+                        "contractDuration": {"years": 7},
+                    },
+                    "relatedLot": lot_id1,
+                }
+            ],
+        }
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": bid["tenderers"],
-                    "lotValues": [
-                        {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
-                            "value": {
-                                "annualCostsReduction": [200] + [1000] * 20,
-                                "yearlyPaymentsPercentage": 0.87,
-                                "contractDuration": {"years": 7},
-                            },
-                            "relatedLot": lot_id1,
-                        }
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid1_token = response.json["access"]["token"]
@@ -2554,34 +2559,34 @@ class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
         )
         self.set_responses(tender_id, response.json, "pending")
 
+        bid2_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": bid2["tenderers"],
+            "lotValues": [
+                {
+                    "value": {
+                        "annualCostsReduction": [700] + [1600] * 20,
+                        "yearlyPaymentsPercentage": 0.9,
+                        "contractDuration": {"years": 7},
+                    },
+                    "relatedLot": lot_id1,
+                },
+                {
+                    "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                    "value": {
+                        "annualCostsReduction": [600] + [1200] * 20,
+                        "yearlyPaymentsPercentage": 0.96,
+                        "contractDuration": {"years": 9},
+                    },
+                    "relatedLot": lot_id2,
+                },
+            ],
+        }
+        set_bid_items(self, bid2_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": bid2["tenderers"],
-                    "lotValues": [
-                        {
-                            "value": {
-                                "annualCostsReduction": [700] + [1600] * 20,
-                                "yearlyPaymentsPercentage": 0.9,
-                                "contractDuration": {"years": 7},
-                            },
-                            "relatedLot": lot_id1,
-                        },
-                        {
-                            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                            "value": {
-                                "annualCostsReduction": [600] + [1200] * 20,
-                                "yearlyPaymentsPercentage": 0.96,
-                                "contractDuration": {"years": 9},
-                            },
-                            "relatedLot": lot_id2,
-                        },
-                    ],
-                }
-            },
+            {"data": bid2_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -2711,26 +2716,26 @@ class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
         self.assertEqual(response.status, "200 OK")
 
         # Registering bids
+        bid_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": bid["tenderers"],
+            "lotValues": [
+                {
+                    "subcontractingDetails": "ДКП «Орфей», Україна",
+                    "value": {
+                        "annualCostsReduction": [200] + [1000] * 20,
+                        "yearlyPaymentsPercentage": 0.87,
+                        "contractDuration": {"years": 7},
+                    },
+                    "relatedLot": lot_id1,
+                }
+            ],
+        }
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": bid["tenderers"],
-                    "lotValues": [
-                        {
-                            "subcontractingDetails": "ДКП «Орфей», Україна",
-                            "value": {
-                                "annualCostsReduction": [200] + [1000] * 20,
-                                "yearlyPaymentsPercentage": 0.87,
-                                "contractDuration": {"years": 7},
-                            },
-                            "relatedLot": lot_id1,
-                        }
-                    ],
-                }
-            },
+            {"data": bid_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid1_token = response.json["access"]["token"]
@@ -2743,34 +2748,34 @@ class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
         )
         self.set_responses(tender_id, response.json, "pending")
 
+        bid2_data = {
+            "selfQualified": True,
+            "status": "draft",
+            "tenderers": bid2["tenderers"],
+            "lotValues": [
+                {
+                    "value": {
+                        "annualCostsReduction": [700] + [1600] * 20,
+                        "yearlyPaymentsPercentage": 0.9,
+                        "contractDuration": {"years": 7},
+                    },
+                    "relatedLot": lot_id1,
+                },
+                {
+                    "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+                    "value": {
+                        "annualCostsReduction": [600] + [1200] * 20,
+                        "yearlyPaymentsPercentage": 0.96,
+                        "contractDuration": {"years": 9},
+                    },
+                    "relatedLot": lot_id2,
+                },
+            ],
+        }
+        set_bid_items(self, bid2_data, tender["items"])
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {
-                "data": {
-                    "selfQualified": True,
-                    "status": "draft",
-                    "tenderers": bid2["tenderers"],
-                    "lotValues": [
-                        {
-                            "value": {
-                                "annualCostsReduction": [700] + [1600] * 20,
-                                "yearlyPaymentsPercentage": 0.9,
-                                "contractDuration": {"years": 7},
-                            },
-                            "relatedLot": lot_id1,
-                        },
-                        {
-                            "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-                            "value": {
-                                "annualCostsReduction": [600] + [1200] * 20,
-                                "yearlyPaymentsPercentage": 0.96,
-                                "contractDuration": {"years": 9},
-                            },
-                            "relatedLot": lot_id2,
-                        },
-                    ],
-                }
-            },
+            {"data": bid2_data},
         )
         self.assertEqual(response.status, "201 Created")
         bid2_id = response.json["data"]["id"]
@@ -3127,6 +3132,7 @@ class AwardComplainDurationTenderConfigTest(TenderConfigBaseTest):
             self.app.authorization = ("Basic", ("broker", ""))
             bid_data = {"status": "draft", "tenderers": test_docs_bid["tenderers"], "value": {"amount": 500 - idx}}
             set_bid_lotvalues(bid_data, lots)
+            set_bid_items(self, bid_data, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             self.assertEqual(response.status, "201 Created")
             bids.append(response.json["data"]["id"])

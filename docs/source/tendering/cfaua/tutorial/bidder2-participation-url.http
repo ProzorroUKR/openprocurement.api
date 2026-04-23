@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/361b9178e1fa4f8ba3c51630af9771b6?acc_token=5429981d3d09469bb18246bc26731a1c HTTP/1.0
+GET /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/d4ca8cf01fcb46c48c640cbd19b8e1c4?acc_token=98806e658582441582fca4428e21836a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -181,8 +181,8 @@ Content-Type: application/json
         },
         "relatedLot": "1045105100a341998426114b17a5c1ff",
         "status": "active",
-        "date": "2023-10-10T01:02:01+03:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/ae2274f0782747918bb1e96f34787c24_1045105100a341998426114b17a5c1ff?key_for_bid=361b9178e1fa4f8ba3c51630af9771b6"
+        "date": "2027-01-01T00:02:01+02:00",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/ae2274f0782747918bb1e96f34787c24_1045105100a341998426114b17a5c1ff?key_for_bid=d4ca8cf01fcb46c48c640cbd19b8e1c4"
       }
     ],
     "tenderers": [
@@ -218,25 +218,59 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "361b9178e1fa4f8ba3c51630af9771b6",
-    "date": "2023-10-10T01:02:01+03:00",
+    "id": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
+    "date": "2027-01-01T00:02:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "dc53dddcd6f440cba239256ad842758f",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f94fda23042345ca957b305cd0c20330?Signature=H%2F3rDW3YWqAWDlWuuNR9DiQ1nMXn%2F8NQ8bbVKVysNH9vtQVyN3g7%2FLwnG8xu26g9Y%2Bb0STlPAQtikCblq7eiDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
       }
     ],
+    "items": [
+      {
+        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 49.9,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
+      },
+      {
+        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 49.9,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "GRM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
+      }
+    ],
     "selfQualified": true,
-    "submissionDate": "2023-10-10T01:02:01+03:00"
+    "submissionDate": "2027-01-01T00:02:01+02:00"
   }
 }
 

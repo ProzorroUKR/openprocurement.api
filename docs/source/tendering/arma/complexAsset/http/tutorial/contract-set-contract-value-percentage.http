@@ -18,11 +18,11 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "a65a1a9a8adc42a297e2339e146ecb45",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractID": "UA-2027-01-01-000001-a-1",
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "dateModified": "2023-10-10T01:03:00+03:00",
-    "dateCreated": "2023-10-10T01:03:00+03:00",
+    "dateModified": "2027-01-01T00:03:00+02:00",
+    "dateCreated": "2027-01-01T00:03:00+02:00",
     "items": [
       {
         "id": "c11a79964fb8409586e9d9ee9b32a048",
@@ -53,8 +53,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
@@ -87,8 +87,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }

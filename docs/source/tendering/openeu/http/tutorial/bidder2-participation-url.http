@@ -206,7 +206,41 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "317e5711549a4f41a8ebee089db0884a",
-    "date": "2023-10-10T01:03:00+03:00",
+    "date": "2027-01-01T00:03:00+02:00",
+    "items": [
+      {
+        "id": "250cc46de56c4db09829514bd9519438",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+      },
+      {
+        "id": "1b412c42470341e88f0e771e074ecf5c",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -216,7 +250,7 @@ Content-Type: application/json
         },
         "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
         "status": "active",
-        "date": "2023-10-10T01:03:00+03:00",
+        "date": "2027-01-01T00:03:00+02:00",
         "initialValue": {
           "amount": 499.0,
           "currency": "UAH",
@@ -230,18 +264,18 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "43519e1f1eed4b07ac7397e3e0f6afad",
-        "datePublished": "2023-10-10T01:03:00+03:00",
+        "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4882f1c3bd074a34b44466eed88d9bcd?Signature=d1dkorWHjvO9mTuxnIdM75Fh8Zpe5ob8kfn92eFwKFFx4tXnzuhw2reNSmQxZLbYfdrRSlRwnjlt5rXXERvMDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:03:00+03:00",
+        "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
       }
     ],
     "selfQualified": true,
-    "submissionDate": "2023-10-10T01:03:00+03:00"
+    "submissionDate": "2027-01-01T00:03:00+02:00"
   }
 }
 

@@ -294,7 +294,24 @@ Content-Type: application/json
     ],
     "status": "draft",
     "id": "26bd5b9cfa8f49f8b655b790775944ec",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "items": [
+      {
+        "id": "d64a1883d2944b8999dcbfca8fd261b4",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
+      }
+    ],
     "selfQualified": true,
     "lotValues": [
       {
@@ -306,7 +323,7 @@ Content-Type: application/json
         "relatedLot": "acb82db513f64825a62e3caaa29cc025",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ]
   }

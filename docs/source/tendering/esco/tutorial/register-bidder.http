@@ -74,6 +74,30 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
       }
+    ],
+    "items": [
+      {
+        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
+      },
+      {
+        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
+      }
     ]
   }
 }
@@ -120,6 +144,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
     ],
     "status": "draft",
     "selfQualified": true,
+    "items": [
+      {
+        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      },
+      {
+        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -155,14 +203,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
             "years": 10,
             "days": 74
           },
-          "amountPerformance": 864.98,
-          "amount": 9430.27
+          "amountPerformance": 801.01,
+          "amount": 8734.93
         },
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "id": "df6178558a0f488a8b2fe13bc75b4856",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "a1a7061a72454b65848560ebd6d99bbc",

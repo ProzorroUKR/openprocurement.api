@@ -246,14 +246,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
         "description": "Опис Лот №1",
         "id": "66bd7aa82b7d403cb3626390997acbaf",
         "status": "active",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "tenderID": "UA-2023-10-10-000002-a",
+    "tenderID": "UA-2027-01-01-000002-a",
     "owner": "broker",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -310,8 +310,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "8df554f83b464a2e952391aa6a518771"
   },
   "config": {

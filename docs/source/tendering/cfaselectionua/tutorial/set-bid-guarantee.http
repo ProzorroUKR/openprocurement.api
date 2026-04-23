@@ -21,7 +21,7 @@ Content-Type: application/json
     "title": "Лот №1",
     "description": "Опис Лот №1",
     "status": "active",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "id": "66bd7aa82b7d403cb3626390997acbaf",
     "value": {
       "currency": "UAH",
@@ -38,8 +38,8 @@ Content-Type: application/json
       "currency": "USD"
     },
     "auctionPeriod": {
-      "startDate": "2023-10-26T12:29:40.230000+03:00",
-      "shouldStartAfter": "2023-10-26T00:00:00+03:00"
+      "startDate": "2027-01-18T12:29:40.230000+02:00",
+      "shouldStartAfter": "2027-01-17T00:00:00+02:00"
     }
   }
 }

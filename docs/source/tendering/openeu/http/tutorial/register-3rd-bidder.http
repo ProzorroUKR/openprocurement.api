@@ -84,6 +84,40 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
       }
+    ],
+    "items": [
+      {
+        "id": "250cc46de56c4db09829514bd9519438",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 249.5
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "description_en": "Services in school canteens"
+      },
+      {
+        "id": "1b412c42470341e88f0e771e074ecf5c",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 249.5
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "description_en": "Services in school canteens"
+      }
     ]
   }
 }
@@ -128,6 +162,40 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "250cc46de56c4db09829514bd9519438",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+      },
+      {
+        "id": "1b412c42470341e88f0e771e074ecf5c",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -137,7 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-        "date": "2023-10-10T01:03:00+03:00"
+        "date": "2027-01-01T00:03:00+02:00"
       }
     ],
     "documents": [
@@ -150,8 +218,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "documentOf": "tender",
         "language": "uk",
         "id": "34e648fb35a444a8a122a9ff2c129cdf",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       },
       {
         "confidentiality": "public",
@@ -162,8 +230,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "documentOf": "tender",
         "language": "uk",
         "id": "161c52b7eede489ca5d85fb7a88d858b",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "financialDocuments": [
@@ -176,8 +244,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "documentOf": "tender",
         "language": "uk",
         "id": "266cb5572e4e4fe2af6b7b119bdb30e2",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -190,8 +258,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "documentOf": "tender",
         "language": "uk",
         "id": "3900a7c4de384543b39f746b3bdd3123",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -204,13 +272,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "documentOf": "tender",
         "language": "uk",
         "id": "10324c156f9f425cb12dc8ceacce9ea6",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "selfQualified": true,
     "id": "3e4cddf56dd9467088292c70b86d87b4",
-    "date": "2023-10-10T01:03:00+03:00"
+    "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
     "token": "8d605d670e734c7aaf4ea53706060b5e",

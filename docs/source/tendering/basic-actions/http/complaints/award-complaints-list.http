@@ -9,33 +9,33 @@ Content-Type: application/json
   "data": [
     {
       "id": "8a7c767d454f4235862798c08b8818b9",
-      "complaintID": "UA-2023-10-10-000001-a.2",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.2",
+      "date": "2027-01-01T00:00:03+02:00",
       "status": "satisfied",
       "documents": [
         {
           "confidentiality": "public",
           "id": "0d73331e01a145e8be598726490c7664",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/387779db79c3467fa8b929a750b5dbc6?Signature=%2B61%2FzHlwM2Do1rNjoS4OBZ2LnROIdHfx8JQuqiiwO%2FJNdUgC7MihOoc4rOQr7yJi7Ik%2BME2t4mPeEsuBYZRKCg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2023-10-10T01:00:03+03:00",
+          "dateModified": "2027-01-01T00:00:03+02:00",
           "author": "complaint_owner",
           "language": "uk"
         },
         {
           "confidentiality": "public",
           "id": "753e4c8ff0d04861938f6c407d1689f0",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0907c76b4dbe46c79c1f0b9e752f1e49?Signature=7npSXwqz4bLWUO4uIv6FF2Tob%2FAPHc82WdB0mbzSOxF0RSKTA7cgmMqqNJ%2FAzR2CQmxeQnyRU4cKw2WbZ6XBBQ%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2023-10-10T01:00:03+03:00",
+          "dateModified": "2027-01-01T00:00:03+02:00",
           "author": "aboveThresholdReviewers",
           "language": "uk"
         }
@@ -66,7 +66,7 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "objections": [
         {
           "id": "ddbd2fd5858f489395e974595bd0ef18",
@@ -96,19 +96,19 @@ Content-Type: application/json
         }
       ],
       "acceptance": true,
-      "dateAccepted": "2023-10-10T01:00:03+03:00",
-      "reviewDate": "2023-10-10T01:00:03+03:00",
+      "dateAccepted": "2027-01-01T00:00:03+02:00",
+      "reviewDate": "2027-01-01T00:00:03+02:00",
       "reviewPlace": "Place of review",
       "value": {
         "amount": 3000.0,
         "currency": "UAH"
       },
-      "dateDecision": "2023-10-10T01:00:03+03:00"
+      "dateDecision": "2027-01-01T00:00:03+02:00"
     },
     {
       "id": "75a502de5378460db158500a3a4fd162",
-      "complaintID": "UA-2023-10-10-000001-a.3",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.3",
+      "date": "2027-01-01T00:00:03+02:00",
       "status": "invalid",
       "type": "complaint",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -136,7 +136,7 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "objections": [
         {
           "id": "b423b5fccdb34ee0b3f95604fedb7a21",
@@ -170,13 +170,13 @@ Content-Type: application/json
         "currency": "UAH"
       },
       "rejectReason": "alreadyExists",
-      "dateDecision": "2023-10-10T01:00:03+03:00",
+      "dateDecision": "2027-01-01T00:00:03+02:00",
       "acceptance": false
     },
     {
       "id": "56a9e4419573457289e7cbd85f7dcf8a",
-      "complaintID": "UA-2023-10-10-000001-a.4",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.4",
+      "date": "2027-01-01T00:00:03+02:00",
       "status": "declined",
       "type": "complaint",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -204,7 +204,7 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "objections": [
         {
           "id": "08122a3b9716494c89e02d34eaf30fc3",
@@ -234,19 +234,19 @@ Content-Type: application/json
         }
       ],
       "acceptance": true,
-      "dateAccepted": "2023-10-10T01:00:03+03:00",
-      "reviewDate": "2023-10-10T01:00:03+03:00",
+      "dateAccepted": "2027-01-01T00:00:03+02:00",
+      "reviewDate": "2027-01-01T00:00:03+02:00",
       "reviewPlace": "Place of review",
       "value": {
         "amount": 3000.0,
         "currency": "UAH"
       },
-      "dateDecision": "2023-10-10T01:00:03+03:00"
+      "dateDecision": "2027-01-01T00:00:03+02:00"
     },
     {
       "id": "aaf607b8181e4f099651a8edca4a6283",
-      "complaintID": "UA-2023-10-10-000001-a.5",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.5",
+      "date": "2027-01-01T00:00:03+02:00",
       "status": "accepted",
       "type": "complaint",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -274,7 +274,7 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "objections": [
         {
           "id": "e9e512e42795441ba848f3d7b47e6e49",
@@ -303,19 +303,19 @@ Content-Type: application/json
           "sequenceNumber": 1
         }
       ],
-      "reviewDate": "2023-10-10T01:00:03+03:00",
+      "reviewDate": "2027-01-01T00:00:03+02:00",
       "reviewPlace": "Place of review",
       "value": {
         "amount": 3000.0,
         "currency": "UAH"
       },
-      "dateAccepted": "2023-10-10T01:00:03+03:00",
+      "dateAccepted": "2027-01-01T00:00:03+02:00",
       "acceptance": true
     },
     {
       "id": "c0980cb100b14dbc91be74239f686f25",
-      "complaintID": "UA-2023-10-10-000001-a.6",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.6",
+      "date": "2027-01-01T00:00:03+02:00",
       "status": "stopped",
       "type": "complaint",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -343,7 +343,7 @@ Content-Type: application/json
       },
       "title": "Недостатньо інформації",
       "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "objections": [
         {
           "id": "b43c60dd1384429497bc4d21f5aaa80b",
@@ -374,21 +374,21 @@ Content-Type: application/json
       ],
       "decision": "Тендер скасовується замовником",
       "acceptance": true,
-      "dateAccepted": "2023-10-10T01:00:03+03:00",
-      "reviewDate": "2023-10-10T01:00:03+03:00",
+      "dateAccepted": "2027-01-01T00:00:03+02:00",
+      "reviewDate": "2027-01-01T00:00:03+02:00",
       "reviewPlace": "Place of review",
       "value": {
         "amount": 3000.0,
         "currency": "UAH"
       },
       "rejectReason": "tenderCancelled",
-      "dateDecision": "2023-10-10T01:00:03+03:00",
-      "dateCanceled": "2023-10-10T01:00:03+03:00"
+      "dateDecision": "2027-01-01T00:00:03+02:00",
+      "dateCanceled": "2027-01-01T00:00:03+02:00"
     },
     {
       "id": "e76a5cbbf76445cd88ecb58c67dae3f9",
-      "complaintID": "UA-2023-10-10-000001-a.7",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.7",
+      "date": "2027-01-01T00:00:03+02:00",
       "author": {
         "name": "ДКП «Школяр»",
         "identifier": {
@@ -415,8 +415,8 @@ Content-Type: application/json
       "status": "answered",
       "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
       "resolutionType": "resolved",
-      "dateAnswered": "2023-10-10T01:00:03+03:00",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateAnswered": "2027-01-01T00:00:03+02:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "satisfied": true,
       "type": "claim",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -424,8 +424,8 @@ Content-Type: application/json
     },
     {
       "id": "cc1907ef0f9548fcb68fc976228a4564",
-      "complaintID": "UA-2023-10-10-000001-a.8",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.8",
+      "date": "2027-01-01T00:00:03+02:00",
       "author": {
         "name": "ДКП «Школяр»",
         "identifier": {
@@ -452,8 +452,8 @@ Content-Type: application/json
       "status": "answered",
       "resolution": "Вимога не відповідає предмету закупівлі",
       "resolutionType": "invalid",
-      "dateAnswered": "2023-10-10T01:00:03+03:00",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateAnswered": "2027-01-01T00:00:03+02:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "satisfied": false,
       "type": "claim",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -461,8 +461,8 @@ Content-Type: application/json
     },
     {
       "id": "e864aaff4baf438c9ceae52d7a88e8b5",
-      "complaintID": "UA-2023-10-10-000001-a.9",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.9",
+      "date": "2027-01-01T00:00:03+02:00",
       "status": "pending",
       "type": "complaint",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
@@ -522,7 +522,7 @@ Content-Type: application/json
         "amount": 3000.0,
         "currency": "UAH"
       },
-      "dateSubmitted": "2023-10-10T01:00:03+03:00",
+      "dateSubmitted": "2027-01-01T00:00:03+02:00",
       "posts": [
         {
           "title": "Уточнення по вимозі",
@@ -530,7 +530,7 @@ Content-Type: application/json
           "recipient": "complaint_owner",
           "relatedObjection": "3c563c722aed424586cb68ca5ab51801",
           "id": "ce68ba39074843058375566ebddbdfbb",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "author": "aboveThresholdReviewers"
         },
         {
@@ -540,7 +540,7 @@ Content-Type: application/json
           "relatedPost": "ce68ba39074843058375566ebddbdfbb",
           "relatedObjection": "3c563c722aed424586cb68ca5ab51801",
           "id": "3254f8261f1f40b1acfd10d96ebca573",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "author": "complaint_owner"
         },
         {
@@ -549,7 +549,7 @@ Content-Type: application/json
           "recipient": "tender_owner",
           "relatedObjection": "3c563c722aed424586cb68ca5ab51801",
           "id": "cdd30d80a8874d32a4da4eb496d06d1b",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "author": "aboveThresholdReviewers"
         },
         {
@@ -559,7 +559,7 @@ Content-Type: application/json
           "relatedPost": "cdd30d80a8874d32a4da4eb496d06d1b",
           "relatedObjection": "3c563c722aed424586cb68ca5ab51801",
           "id": "2d8557339bbb4afeb3cc32388e47cd46",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "author": "tender_owner"
         },
         {
@@ -567,7 +567,7 @@ Content-Type: application/json
           "description": "Була така необхідність",
           "relatedObjection": "3c563c722aed424586cb68ca5ab51801",
           "id": "73a050c0e15f4c4ba90b68bc9d703bf0",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "author": "tender_owner"
         }
       ],
@@ -582,27 +582,27 @@ Content-Type: application/json
           "language": "uk",
           "id": "c266deed222b4eea8b3ca90a7160ddf2",
           "documentOf": "post",
-          "datePublished": "2023-10-10T01:00:03+03:00",
-          "dateModified": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
+          "dateModified": "2027-01-01T00:00:03+02:00",
           "author": "tender_owner"
         }
       ]
     },
     {
       "id": "1efc524f70f34b9ca655d8717ebd4d69",
-      "complaintID": "UA-2023-10-10-000001-a.10",
-      "date": "2023-10-10T01:00:03+03:00",
+      "complaintID": "UA-2027-01-01-000001-a.10",
+      "date": "2027-01-01T00:00:03+02:00",
       "documents": [
         {
           "confidentiality": "public",
           "id": "a591858968254dae8983f014dbb77a64",
-          "datePublished": "2023-10-10T01:00:03+03:00",
+          "datePublished": "2027-01-01T00:00:03+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/63b4b2815fe645caa2df84462953d6c6?Signature=xLuRNc84UZJp3AGfGhgufLwoOawxeAAJ%2FXRIM1blUyCYvFxEbd%2Bv8EIEyg9FniPs6JkHb1FIEYs%2BrSUqEd%2FQDg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
-          "dateModified": "2023-10-10T01:00:03+03:00",
+          "dateModified": "2027-01-01T00:00:03+02:00",
           "author": "complaint_owner",
           "language": "uk"
         }
@@ -634,7 +634,7 @@ Content-Type: application/json
       "type": "claim",
       "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
       "bid_id": "3088275f136046dab34594e16227bb54",
-      "dateSubmitted": "2023-10-10T01:00:03+03:00"
+      "dateSubmitted": "2027-01-01T00:00:03+02:00"
     }
   ]
 }

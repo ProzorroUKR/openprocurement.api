@@ -59,11 +59,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 5,
         "description": "папір",
         "id": "991761a10cb14c239cf05842c4cfa729",
+        "relatedLot": "e932e2282dd44ca38478282c9b65d683",
         "unit": {
+          "name": "кг",
           "code": "KGM",
           "value": {
-            "amount": 0.2,
-            "currency": "EUR"
+            "currency": "USD",
+            "valueAddedTaxIncluded": false,
+            "amount": 40.0
           }
         }
       }
@@ -80,8 +83,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "items",
-      "description": "valueAddedTaxIncluded of bid unit should be False"
+      "name": "data",
+      "description": "Bid items ids should include all tender items ids for current lot"
     }
   ]
 }

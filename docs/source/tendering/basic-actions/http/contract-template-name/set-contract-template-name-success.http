@@ -45,22 +45,22 @@ Content-Type: application/json
 {
   "data": {
     "contractTemplateName": "00000000.0002.01",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "tenderNotice",
         "id": "3a4612764dd24e679913791d31931bcf",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/005d993382014f54baf676364786c270?Signature=vgB8nIMRx4dLli%2F8lP5ThhcDkMUXRTXJWE2CY90ayPAT9Umz2jczWMJx2gBSbtSFPvmFv%2BfMyxU87NLK2c%2FLBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -201,18 +201,18 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T00:00:00+02:00",
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "auctionPeriod": {
-      "startDate": "2023-10-25T13:09:55.701000+03:00",
-      "shouldStartAfter": "2023-10-25T00:00:00+03:00"
+      "startDate": "2027-01-15T13:09:55.701000+02:00",
+      "shouldStartAfter": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "belowThreshold",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-19T00:00:00+03:00",
-      "endDate": "2023-10-17T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "items": [
       {

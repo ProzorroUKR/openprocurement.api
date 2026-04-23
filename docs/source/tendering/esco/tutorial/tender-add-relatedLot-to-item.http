@@ -69,10 +69,10 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -220,7 +220,7 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "id": "16dcfa2a699842d3a0f9b9553db58532",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "minValue": {
           "currency": "UAH",
           "valueAddedTaxIncluded": true
@@ -229,8 +229,8 @@ Content-Type: application/json
         "fundingKind": "other",
         "yearlyPaymentsPercentageRange": 0.8,
         "auctionPeriod": {
-          "startDate": "2023-12-08T12:22:15.236000+02:00",
-          "shouldStartAfter": "2023-12-08T00:00:00+02:00"
+          "startDate": "2027-03-01T12:22:15.236000+02:00",
+          "shouldStartAfter": "2027-02-27T00:00:00+02:00"
         }
       }
     ],
@@ -289,21 +289,21 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-10T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-31T00:00:00+02:00",
-      "clarificationsUntil": "2023-11-03T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
     },
     "qualificationPeriod": {
-      "startDate": "2023-11-10T00:00:00+02:00",
-      "endDate": "2023-12-08T00:00:00+02:00"
+      "startDate": "2027-02-01T00:00:00+02:00",
+      "endDate": "2027-02-27T00:00:00+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-11-06T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
     },
     "id": "d083afc12b7747e5bd81d1d72a477b24"
   },

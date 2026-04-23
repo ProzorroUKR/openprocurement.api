@@ -61,8 +61,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "tenderPeriod": {
-      "endDate": "2023-10-09T01:00:00+03:00",
-      "startDate": "2023-09-30T01:00:00+03:00"
+      "endDate": "2026-12-31T00:00:00+02:00",
+      "startDate": "2026-12-22T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -97,8 +97,8 @@ Content-Type: application/json
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -131,8 +131,8 @@ Content-Type: application/json
           "id": "44617100-9"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -191,7 +191,7 @@ Content-Type: application/json
                   "Розчин для інфузій"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "d78e77dcf94746f7a05676259be5e721",
@@ -203,7 +203,7 @@ Content-Type: application/json
                   "name": "кілограми"
                 },
                 "minValue": 5,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "74ebd0c7845b4c499df49341d5c313b0",
@@ -218,16 +218,16 @@ Content-Type: application/json
                 ],
                 "expectedMinItems": 1,
                 "expectedMaxItems": 3,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -314,15 +314,15 @@ Content-Type: application/json
         "title_uk": "Підпункт 11 пункту 19 Постанови Кабміну Міністрів України від 12.10.2022 № 1178 \"Про затвердження особливостей здійснення публічних закупівель товарів, робіт і послуг для замовників, передбачених Законом України \"Про публічні закупівлі\", на період дії правового режиму воєнного стану в Україні та протягом 90 днів з дня його припинення або скасування\""
       }
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "auctionPeriod": {
-      "startDate": "2023-10-20T01:00:00+03:00"
+      "startDate": "2027-01-11T00:00:00+02:00"
     },
     "bids": [
       {
         "id": "4fad3f089b0e45e2bf3084042d4995ba",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "tenderers": [
           {
             "name": "Державне управління справами",
@@ -411,7 +411,8 @@ Content-Type: application/json
               },
               "code": "KGM"
             },
-            "quantity": 10.0
+            "quantity": 10.0,
+            "product": "751320e8d0a44820a701fcacfec2bc65"
           },
           {
             "id": "ce44a97bd43a49069c1cb60ef789199e",
@@ -425,10 +426,11 @@ Content-Type: application/json
               },
               "code": "KGM"
             },
-            "quantity": 5.0
+            "quantity": 5.0,
+            "product": "7df6b178a3554ca5884a0d1d2405f53e"
           }
         ],
-        "submissionDate": "2023-10-10T01:00:00+03:00",
+        "submissionDate": "2027-01-01T00:00:00+02:00",
         "initialValue": {
           "amount": 500.0,
           "currency": "UAH",
@@ -437,13 +439,13 @@ Content-Type: application/json
       }
     ],
     "awardPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "awards": [
       {
         "id": "765d1e83c038413ab7717ec5e820fdfd",
         "status": "active",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -477,13 +479,13 @@ Content-Type: application/json
             "confidentiality": "public",
             "documentType": "notice",
             "id": "89a52f9b67d64f839607fda7214df3c4",
-            "datePublished": "2023-10-10T01:00:00+03:00",
+            "datePublished": "2027-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
             "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19490ea9427f4458b9607cd94d20b5e3?Signature=yCoELtqowpqESVTm03OLr9Gm%2B9kkSxZUiUcpD3rkM7e6gsTbJJd0t1YVxjXL3eWFweY%2B0Ocl48YHMi6cJCJPDQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
-            "dateModified": "2023-10-10T01:00:00+03:00",
+            "dateModified": "2027-01-01T00:00:00+02:00",
             "author": "tender_owner",
             "language": "uk"
           }
@@ -493,7 +495,7 @@ Content-Type: application/json
       {
         "id": "2c31244c27874e13b5e97bdab8a6b7e0",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -523,8 +525,8 @@ Content-Type: application/json
         ],
         "bid_id": "4fad3f089b0e45e2bf3084042d4995ba",
         "period": {
-          "startDate": "2023-10-10T01:00:00+03:00",
-          "endDate": "2023-10-13T00:00:00+03:00"
+          "startDate": "2027-01-01T00:00:00+02:00",
+          "endDate": "2027-01-05T00:00:00+02:00"
         }
       }
     ],
@@ -533,8 +535,8 @@ Content-Type: application/json
         "id": "78fd8d7877d74b0dbc9c605462545e1c",
         "status": "active",
         "awardID": "765d1e83c038413ab7717ec5e820fdfd",
-        "date": "2023-10-10T01:00:00+03:00",
-        "contractID": "UA-2023-10-10-000001-a-1",
+        "date": "2027-01-01T00:00:00+02:00",
+        "contractID": "UA-2027-01-01-000001-a-1",
         "title": "Комп’ютерне обладнання",
         "title_en": null,
         "description": null,

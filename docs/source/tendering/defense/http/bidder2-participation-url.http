@@ -49,7 +49,7 @@ Content-Type: application/json
     "selfEligible": true,
     "selfQualified": true,
     "id": "a9c9e08bc0da4ec397fbb274093d95d0",
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2027-01-01T00:00:01+02:00",
     "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/b2ccf978cbbe4d5998adc7057db41ca4?key_for_bid=a9c9e08bc0da4ec397fbb274093d95d0"
   }
 }

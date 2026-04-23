@@ -8,14 +8,14 @@ Content-Type: application/json
 {
   "data": [
     {
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "id": "fa2e9cbf88314cb6ae4f240dacbb041f"
     }
   ],
   "next_page": {
-    "offset": "1696888800.0.1.0c83243cbf195ce42c53e8755e94dcd3",
-    "path": "/api/2.5/tenders?offset=1696888800.0.1.0c83243cbf195ce42c53e8755e94dcd3",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=1696888800.0.1.0c83243cbf195ce42c53e8755e94dcd3"
+    "offset": "1798754400.0.1.0c83243cbf195ce42c53e8755e94dcd3",
+    "path": "/api/2.5/tenders?offset=1798754400.0.1.0c83243cbf195ce42c53e8755e94dcd3",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?offset=1798754400.0.1.0c83243cbf195ce42c53e8755e94dcd3"
   }
 }
 

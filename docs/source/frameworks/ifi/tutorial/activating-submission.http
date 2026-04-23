@@ -41,12 +41,12 @@ Content-Type: application/json
     ],
     "frameworkID": "932c7023588f40f4aec26aef109f4998",
     "status": "active",
-    "dateModified": "2023-10-26T01:00:00+03:00",
-    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
+    "date": "2027-01-17T00:00:00+02:00",
     "owner": "broker",
     "submissionType": "internationalFinancialInstitutions",
     "qualificationID": "61da52d3fbea49129c50b9171ce98c39",
-    "datePublished": "2023-10-26T01:00:00+03:00",
+    "datePublished": "2027-01-17T00:00:00+02:00",
     "id": "39f4e30e72c846039972b697c874c995"
   },
   "config": {

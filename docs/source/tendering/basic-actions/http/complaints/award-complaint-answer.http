@@ -18,8 +18,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "e76a5cbbf76445cd88ecb58c67dae3f9",
-    "complaintID": "UA-2023-10-10-000001-a.7",
-    "date": "2023-10-10T01:00:03+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.7",
+    "date": "2027-01-01T00:00:03+02:00",
     "author": {
       "name": "ДКП «Школяр»",
       "identifier": {
@@ -46,11 +46,11 @@ Content-Type: application/json
     "status": "answered",
     "resolution": "Умови виправлено, вибір переможня буде розгянуто повторно",
     "resolutionType": "resolved",
-    "dateSubmitted": "2023-10-10T01:00:03+03:00",
+    "dateSubmitted": "2027-01-01T00:00:03+02:00",
     "type": "claim",
     "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
     "bid_id": "3088275f136046dab34594e16227bb54",
-    "dateAnswered": "2023-10-10T01:00:03+03:00"
+    "dateAnswered": "2027-01-01T00:00:03+02:00"
   }
 }
 

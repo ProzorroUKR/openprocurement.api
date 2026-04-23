@@ -17,7 +17,7 @@ Content-Type: application/json
         },
         "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040",
         "status": "active",
-        "date": "2023-10-16T01:15:06+03:00",
+        "date": "2027-01-07T00:15:06+02:00",
         "initialValue": {
           "amount": 500.0,
           "currency": "UAH",
@@ -60,33 +60,33 @@ Content-Type: application/json
     ],
     "status": "active",
     "id": "eda8b77c847a4109b458fe197906eeaf",
-    "date": "2023-10-16T01:15:06+03:00",
-    "submissionDate": "2023-10-16T01:15:06+03:00",
+    "date": "2027-01-07T00:15:06+02:00",
+    "submissionDate": "2027-01-07T00:15:06+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "9a85f6f9aae8488ba2eebe8e0f745e09",
-        "datePublished": "2023-10-16T01:14:06+03:00",
+        "datePublished": "2027-01-07T00:14:06+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5c71e77b5c4344afa249eff83eb2046d?Signature=mWEqhX%2F7YsxhdfRWkHvHdwsFa%2B61jCZs1gVkMw8%2B92yOflmMhScqIZpGJFJkVNhT8LBti97QRNtFHRIMJ%2F2ECQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-16T01:14:06+03:00",
+        "dateModified": "2027-01-07T00:14:06+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
         "id": "9a85f6f9aae8488ba2eebe8e0f745e09",
-        "datePublished": "2023-10-16T01:15:06+03:00",
+        "datePublished": "2027-01-07T00:15:06+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/p7s",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/beed7b02edc24dbf9f72bce75e009ad7?Signature=L17afSUKK3YF%2FTFyzF56a5vBiol8qeXZ%2BkUZHbCYyT5WZbokFbsgzlGp7GOA3KJ%2BVX2auOahFaRF%2FEAUjM6FDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-16T01:15:06+03:00",
+        "dateModified": "2027-01-07T00:15:06+02:00",
         "language": "uk"
       }
     ],

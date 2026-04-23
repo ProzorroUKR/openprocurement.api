@@ -16,9 +16,9 @@ Content-Type: application/json
 {
   "data": {
     "id": "9ed77f9be3594c058f334504330db2a0",
-    "agreementID": "UA-2023-10-10-000001-a-aca99b8fbaae4bd2bae56e4fda098aba1",
-    "date": "2023-10-21T01:04:05+03:00",
-    "dateSigned": "2023-10-10T01:03:03+03:00",
+    "agreementID": "UA-2027-01-01-000001-a-aca99b8fbaae4bd2bae56e4fda098aba1",
+    "date": "2027-01-12T00:04:05+02:00",
+    "dateSigned": "2027-01-01T00:03:03+02:00",
     "items": [
       {
         "id": "413de2ea9c9c44b9828522f05507c3bd",
@@ -90,8 +90,8 @@ Content-Type: application/json
       }
     ],
     "period": {
-      "startDate": "2023-10-10T01:03:03+03:00",
-      "endDate": "2027-10-09T01:03:03+03:00"
+      "startDate": "2027-01-01T00:03:03+02:00",
+      "endDate": "2030-12-31T00:03:03+02:00"
     },
     "status": "unsuccessful",
     "contracts": [
@@ -140,8 +140,8 @@ Content-Type: application/json
           }
         ],
         "awardID": "38b196e95ad147f9aa09040a36a54964",
-        "bidID": "9b8db91e489f4dfd90e93f54c20c2ae1",
-        "date": "2023-10-10T01:02:01+03:00"
+        "bidID": "73eeb29f403b4570b3fac666e19a6e67",
+        "date": "2027-01-01T00:02:01+02:00"
       },
       {
         "id": "cb426592555249f6b5d11db1dd95d037",
@@ -189,8 +189,8 @@ Content-Type: application/json
           }
         ],
         "awardID": "36b9fc7fa38d41d9990670956f8f12f8",
-        "bidID": "361b9178e1fa4f8ba3c51630af9771b6",
-        "date": "2023-10-10T01:02:01+03:00"
+        "bidID": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
+        "date": "2027-01-01T00:02:01+02:00"
       },
       {
         "id": "962f56827dfc4fefa1366e9451f2a0ba",
@@ -238,8 +238,8 @@ Content-Type: application/json
           }
         ],
         "awardID": "afa433c494e44739930128fe436e711d",
-        "bidID": "91c7aa33638e4680980085954fdc33a8",
-        "date": "2023-10-10T01:02:01+03:00"
+        "bidID": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "milestones": [
@@ -278,21 +278,21 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "30bb1b7847a048dd89e0c78d77a9ab2d",
-        "datePublished": "2023-10-10T01:02:01+03:00",
-        "dateModified": "2023-10-10T01:02:01+03:00"
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "dateModified": "2027-01-01T00:02:01+02:00"
       },
       {
         "confidentiality": "public",
         "title_en": "Title of Document",
         "description_en": "Description of Document",
         "id": "65fcf9dfd3104b80adcced87180bc3c5",
-        "datePublished": "2023-10-10T01:02:01+03:00",
+        "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_second_document.doc",
         "format": "application/msdoc",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6b86c18d8ffe4836af041e14fe4337dd?Signature=OQ27UsW1yVx2dUOATRGqk5APhXGCyM3%2FBTwM%2BM72JoCkTDNlGuxjmz1DaQymNzGtEBCd6ZLr02Avrgpw5O4NCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:02:01+03:00",
+        "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "en"
       }
     ]

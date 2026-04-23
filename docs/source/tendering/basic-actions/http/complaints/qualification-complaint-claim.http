@@ -16,19 +16,19 @@ Content-Type: application/json
 {
   "data": {
     "id": "4c6bfc2306cc4625befe2983e28dbb50",
-    "complaintID": "UA-2023-10-10-000001-a.9",
-    "date": "2023-10-10T01:00:01+03:00",
+    "complaintID": "UA-2027-01-01-000001-a.9",
+    "date": "2027-01-01T00:00:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "id": "46183441ed6348dfab5e53cee75996cb",
-        "datePublished": "2023-10-10T01:00:01+03:00",
+        "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ea69ce019cf43a2927f2fb24b82a8cb?Signature=%2FwfXwZM%2FboF0fBgZ0TDAL9gbjis5dDFs1a3lnMi2rTGvnzcbLUz22Mpstmjf9yN6OnPUru5zRBuk6SSNyZOdCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:01+03:00",
+        "dateModified": "2027-01-01T00:00:01+02:00",
         "author": "complaint_owner",
         "language": "uk"
       }
@@ -39,7 +39,7 @@ Content-Type: application/json
     "type": "claim",
     "relatedLot": "6010c37920ed40da8e5b29fd7e32bd0f",
     "bid_id": "27eddc20a94644c7af620395f1147d70",
-    "dateSubmitted": "2023-10-10T01:00:01+03:00"
+    "dateSubmitted": "2027-01-01T00:00:01+02:00"
   }
 }
 

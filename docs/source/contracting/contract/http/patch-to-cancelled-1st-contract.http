@@ -17,10 +17,10 @@ Content-Type: application/json
   "data": {
     "buyerID": "11111111111111111111111111111111",
     "awardID": "35d712ce71d44d0581150ef3f9cbfa3f",
-    "contractID": "UA-2023-10-10-000001-a-1",
+    "contractID": "UA-2027-01-01-000001-a-1",
     "title": "футляри до державних нагород",
-    "dateModified": "2023-10-10T01:00:01+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:01+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "7f4d7abd9ed043b8a43235190fb4cc09",
@@ -40,6 +40,11 @@ Content-Type: application/json
         ],
         "unit": {
           "name": "кг",
+          "value": {
+            "amount": 33.333333333333336,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
           "code": "KGM"
         },
         "deliveryAddress": {
@@ -50,8 +55,8 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "relatedBuyer": "11111111111111111111111111111111"
       }
@@ -198,7 +203,7 @@ Content-Type: application/json
         "status": "scheduled"
       }
     ],
-    "date": "2023-10-10T01:00:01+03:00",
+    "date": "2027-01-01T00:00:01+02:00",
     "id": "790377c1e17d4a10956295b8430efb4a"
   },
   "config": {

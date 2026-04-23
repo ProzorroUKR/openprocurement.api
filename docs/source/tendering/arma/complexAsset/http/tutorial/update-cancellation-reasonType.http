@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "e96d3a80f51e4be1a4c72a031db1a4b4",
     "status": "draft",
-    "date": "2023-10-10T01:03:00+03:00",
+    "date": "2027-01-01T00:03:00+02:00",
     "reasonType": "unFixable",
     "reason": "cancellation reason",
     "cancellationOf": "tender"

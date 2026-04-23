@@ -17,8 +17,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "id": "12303111000-2",
       "description": "budget_description",
       "period": {
-        "startDate": "2023-01-01T00:00:00",
-        "endDate": "2023-12-31T00:00:00"
+        "startDate": "2027-01-01T00:00:00",
+        "endDate": "2027-12-31T00:00:00"
       },
       "breakdown": [
         {

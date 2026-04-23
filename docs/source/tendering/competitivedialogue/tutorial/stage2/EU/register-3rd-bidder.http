@@ -84,6 +84,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
       }
+    ],
+    "items": [
+      {
+        "id": "7f368a9d7bf7418999079584b4ba5f34",
+        "description": "Послуги шкільних їдалень",
+        "quantity": 1.0,
+        "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 5.0
+          }
+        }
+      }
     ]
   }
 }
@@ -127,6 +145,24 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
       }
     ],
     "status": "draft",
+    "items": [
+      {
+        "id": "7f368a9d7bf7418999079584b4ba5f34",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 5.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
+      }
+    ],
     "lotValues": [
       {
         "status": "pending",
@@ -136,7 +172,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
           "valueAddedTaxIncluded": true
         },
         "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
-        "date": "2023-10-10T01:03:00+03:00"
+        "date": "2027-01-01T00:03:00+02:00"
       }
     ],
     "documents": [
@@ -149,8 +185,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
         "documentOf": "tender",
         "language": "uk",
         "id": "9d288608e94c4a91bed0d2c66e15f040",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       },
       {
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
@@ -161,8 +197,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
         "documentOf": "tender",
         "language": "uk",
         "id": "e959280105e54f2fa3de0be10df94530",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "financialDocuments": [
@@ -175,8 +211,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
         "documentOf": "tender",
         "language": "uk",
         "id": "c5be6de6cfdc44ecb47b1065e4c33eae",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "eligibilityDocuments": [
@@ -189,8 +225,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
         "documentOf": "tender",
         "language": "uk",
         "id": "1c0836f76fce405493d23238cfce6679",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "qualificationDocuments": [
@@ -203,13 +239,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440ed
         "documentOf": "tender",
         "language": "uk",
         "id": "42d5e5daa2b4421d94de29bd3e96b5b7",
-        "datePublished": "2023-10-10T01:03:00+03:00",
-        "dateModified": "2023-10-10T01:03:00+03:00"
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "selfQualified": true,
     "id": "ca3c463082bd46d4a9309e5fbef60741",
-    "date": "2023-10-10T01:03:00+03:00"
+    "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
     "token": "a70d93bb84324df2afa5ea40653e47ff",
