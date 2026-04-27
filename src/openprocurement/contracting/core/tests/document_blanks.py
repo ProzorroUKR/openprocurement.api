@@ -1229,8 +1229,6 @@ def limited_contract_confidential_document_energy_crisis(self):
         response.json,
         {
             "status": "error",
-            "errors": [
-                {"location": "body", "name": "confidentiality", "description": "Document should be public"}
-            ],
+            "errors": [{"location": "body", "name": "confidentiality", "description": "Document should be public"}],
         },
     )

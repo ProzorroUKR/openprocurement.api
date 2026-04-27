@@ -28,7 +28,9 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
     test_put_contract_document_json = snitch(put_contract_document_json)
     test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
     test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
-    test_limited_contract_confidential_document_energy_crisis = snitch(limited_contract_confidential_document_energy_crisis)
+    test_limited_contract_confidential_document_energy_crisis = snitch(
+        limited_contract_confidential_document_energy_crisis
+    )
 
 
 def suite():

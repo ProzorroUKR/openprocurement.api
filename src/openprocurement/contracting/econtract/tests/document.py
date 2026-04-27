@@ -25,7 +25,9 @@ class ContractDocumentResourceTest(BaseEContractContentWebTest):
     test_create_contract_document_json = snitch(create_contract_document_json)
     test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
     test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
-    test_limited_contract_confidential_document_energy_crisis = snitch(limited_contract_confidential_document_energy_crisis)
+    test_limited_contract_confidential_document_energy_crisis = snitch(
+        limited_contract_confidential_document_energy_crisis
+    )
     test_sign_pending_contract = snitch(sign_pending_contract)
     test_sign_active_contract = snitch(sign_active_contract)
     test_activate_contract_after_signatures_and_document_upload = snitch(
