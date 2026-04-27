@@ -1135,3 +1135,102 @@ def limited_contract_confidential_document(self):
     # get directly as public
     response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
     self.assertIn("url", response.json["data"])
+
+
+@patch(
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+)
+def limited_contract_confidential_document_energy_crisis(self):
+    tender_data = deepcopy(test_tender_reporting_data)
+    tender_data["causeDetails"] = {"code": "energyCrisisRecovery", "description": "Energy crisis cause"}
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": test_tender_reporting_config})
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    self.app.patch_json(f"/tenders/{tender_id}?acc_token={tender_token}", {"data": {"status": "active"}})
+
+    response = self.app.post_json(
+        f"/tenders/{tender_id}/awards?acc_token={tender_token}",
+        {
+            "data": {
+                "suppliers": [test_tender_below_supplier],
+                "subcontractingDetails": "Details",
+                "status": "pending",
+                "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+            }
+        },
+    )
+    award_id = response.json["data"]["id"]
+    self.app.patch_json(
+        f"/tenders/{tender_id}/awards/{award_id}?acc_token={tender_token}",
+        {"data": {"status": "active", "qualified": True}},
+    )
+
+    contract_id = self.app.get(f"/tenders/{tender_id}/contracts").json["data"][0]["id"]
+    contract_token = self.app.patch_json(
+        f"/contracts/{contract_id}/credentials?acc_token={tender_token}",
+        {"data": {}},
+    ).json["access"]["token"]
+
+    request_data = {
+        "title": "name.doc",
+        "url": self.generate_docservice_url(),
+        "hash": "md5:" + "0" * 32,
+        "format": "application/msword",
+        "documentType": "contractSigned",
+    }
+
+    # contractSigned без confidentiality — помилка
+    request_data["confidentiality"] = "public"
+    response = self.app.post_json(
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
+        {"data": request_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [
+                {"location": "body", "name": "confidentiality", "description": "Document should be confidential"}
+            ],
+        },
+    )
+
+    # contractSigned з buyerOnly — успіх
+    request_data["confidentiality"] = "buyerOnly"
+    request_data["confidentialityRationale"] = "coz it is hidden because of the law"
+    response = self.app.post_json(
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
+        {"data": request_data},
+        status=201,
+    )
+    self.assertEqual(response.json["data"]["confidentiality"], "buyerOnly")
+
+    # contractAnnexe з buyerOnly — успіх
+    request_data["documentType"] = "contractAnnexe"
+    request_data["url"] = self.generate_docservice_url()
+    response = self.app.post_json(
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
+        {"data": request_data},
+        status=201,
+    )
+    self.assertEqual(response.json["data"]["confidentiality"], "buyerOnly")
+
+    # інший documentType з buyerOnly — помилка
+    request_data["documentType"] = "notice"
+    request_data["url"] = self.generate_docservice_url()
+    response = self.app.post_json(
+        f"/contracts/{contract_id}/documents?acc_token={contract_token}",
+        {"data": request_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json,
+        {
+            "status": "error",
+            "errors": [
+                {"location": "body", "name": "confidentiality", "description": "Document should be public"}
+            ],
+        },
+    )
