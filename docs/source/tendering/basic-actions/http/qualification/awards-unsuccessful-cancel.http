@@ -86,7 +86,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
     "complaints": [
       {
         "id": "a0525437c42144a38a4f35ac26600e7e",
-        "complaintID": "UA-2027-01-01-000001-a.13",
+        "complaintID": "UA-2027-01-01-000001-a.a13",
         "date": "2027-01-01T00:00:03+02:00",
         "author": {
           "name": "ДКП «Школяр»",

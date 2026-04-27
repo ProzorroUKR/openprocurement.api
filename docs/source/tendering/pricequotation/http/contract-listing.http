@@ -13,7 +13,7 @@ Content-Type: application/json
       "status": "cancelled",
       "awardID": "b1c41ec4a4d84cdb82270c0795928bfd",
       "date": "2024-01-01T00:00:01+02:00",
-      "contractID": "UA-2024-01-01-000001-a-1",
+      "contractID": "UA-2024-01-01-000001-a-a1",
       "title": "Комп’ютерне обладнання",
       "value": {
         "amount": 470.0,
@@ -27,7 +27,7 @@ Content-Type: application/json
       "status": "pending",
       "awardID": "d2ac59c439604dd29f5e5d6c0be61dbd",
       "date": "2024-01-01T00:00:01+02:00",
-      "contractID": "UA-2024-01-01-000001-a-2",
+      "contractID": "UA-2024-01-01-000001-a-a2",
       "title": "Комп’ютерне обладнання",
       "value": {
         "amount": 479.0,

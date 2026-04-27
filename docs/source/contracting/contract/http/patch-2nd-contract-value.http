@@ -98,7 +98,7 @@ Content-Type: application/json
   "data": {
     "buyerID": "22222222222222222222222222222222",
     "awardID": "8facda3d30224909895aa678c5ecbdac",
-    "contractID": "UA-2027-01-01-000001-a-2",
+    "contractID": "UA-2027-01-01-000001-a-a2",
     "title": "футляри до державних нагород",
     "dateModified": "2027-01-01T00:00:01+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",

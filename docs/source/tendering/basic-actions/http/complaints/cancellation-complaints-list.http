@@ -9,7 +9,7 @@ Content-Type: application/json
   "data": [
     {
       "id": "8cce7bd9ccb24ff2a53cd0f8d6e354be",
-      "complaintID": "UA-2027-01-01-000001-a.1",
+      "complaintID": "UA-2027-01-01-000001-a.a1",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "resolved",
       "documents": [
@@ -107,7 +107,7 @@ Content-Type: application/json
     },
     {
       "id": "09267aa1e7ef496bba2cd3f114945742",
-      "complaintID": "UA-2027-01-01-000001-a.2",
+      "complaintID": "UA-2027-01-01-000001-a.a2",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "declined",
       "type": "complaint",
@@ -175,7 +175,7 @@ Content-Type: application/json
     },
     {
       "id": "5afe3cf697ab41a18765fa6a5006a8b4",
-      "complaintID": "UA-2027-01-01-000001-a.3",
+      "complaintID": "UA-2027-01-01-000001-a.a3",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "invalid",
       "type": "complaint",
@@ -242,7 +242,7 @@ Content-Type: application/json
     },
     {
       "id": "6e6fec2da28e40878baadea14b0a8dba",
-      "complaintID": "UA-2027-01-01-000001-a.4",
+      "complaintID": "UA-2027-01-01-000001-a.a4",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "stopped",
       "type": "complaint",
@@ -313,7 +313,7 @@ Content-Type: application/json
     },
     {
       "id": "cfc68577df1349a9bae6534a820dc43d",
-      "complaintID": "UA-2027-01-01-000001-a.5",
+      "complaintID": "UA-2027-01-01-000001-a.a5",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "stopped",
       "type": "complaint",

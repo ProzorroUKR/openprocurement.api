@@ -131,7 +131,6 @@ def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
 
 
 def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award, contract_milestones):
-    server_id = get_request().registry.server_id
     contract_number = len(tender.get("contracts", "")) + 1
     if "contracts" not in tender:
         tender["contracts"] = []
@@ -149,7 +148,7 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "status": "pending",
         "awardID": award["id"],
         "date": get_request_now().isoformat(),
-        "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
+        "contractID": f"{tender['tenderID']}-a{contract_number}",
     }
 
     if lot:

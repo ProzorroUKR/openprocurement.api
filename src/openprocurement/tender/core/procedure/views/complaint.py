@@ -106,7 +106,7 @@ class BaseComplaintWriteResource(BaseComplaintResource):
         access = set_ownership(complaint, self.request)
 
         claim_number = calculate_total_complaints(tender) + 1
-        complaint["complaintID"] = f"{tender['tenderID']}.{self.request.registry.server_id}{claim_number}"
+        complaint["complaintID"] = f"{tender['tenderID']}.a{claim_number}"
 
         self.state.validate_complaint_on_post(complaint)
         if "complaints" not in context:

@@ -16,7 +16,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "cc1907ef0f9548fcb68fc976228a4564",
-    "complaintID": "UA-2027-01-01-000001-a.8",
+    "complaintID": "UA-2027-01-01-000001-a.a8",
     "date": "2027-01-01T00:00:03+02:00",
     "author": {
       "name": "ДКП «Школяр»",

@@ -1,7 +1,6 @@
 import os
 import unittest
 from copy import deepcopy
-from uuid import uuid4
 
 from jsonpointer import resolve_pointer
 from pyramid import testing
@@ -106,7 +105,6 @@ class HistoricalResourceTestCase(unittest.TestCase):
         self.config = testing.setUp()
         self.config.add_renderer("jsonp", JSONP(param_name="callback"))
         self.config.include("cornice")
-        self.config.registry.server_id = uuid4().hex
         self.config.add_request_method(check_accreditations)
         self.authz_policy = ACLAuthorizationPolicy()
         self.config.set_authorization_policy(self.authz_policy)

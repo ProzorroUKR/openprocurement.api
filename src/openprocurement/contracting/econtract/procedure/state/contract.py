@@ -128,13 +128,12 @@ class EContractState(BaseContractState):
 
     def on_post(self, before, after):
         tender = get_request().validated["tender"]
-        server_id = get_request().registry.server_id
         contract_number = len(tender.get("contracts", "")) + 1
         after.update(
             {
                 "id": uuid4().hex,
                 "date": get_request_now().isoformat(),
-                "contractID": f"{tender['tenderID']}-{server_id}{contract_number}",
+                "contractID": f"{tender['tenderID']}-a{contract_number}",
             }
         )
 

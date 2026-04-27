@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "data": {
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
-    "contractID": "UA-2027-01-01-000001-a-1",
+    "contractID": "UA-2027-01-01-000001-a-a1",
     "contractNumber": "contract #13111",
     "title": "Комп’ютерне обладнання",
     "dateSigned": "2027-01-01T00:00:00+02:00",
