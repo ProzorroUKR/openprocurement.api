@@ -15,7 +15,6 @@ class BaseResource:
     def __init__(self, request, context=None):
         self.context = context
         self.request = request
-        self.server_id = request.registry.server_id
         self.LOGGER = getLogger(type(self).__module__)
 
         set_request(request)

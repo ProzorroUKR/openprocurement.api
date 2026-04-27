@@ -9,7 +9,7 @@ Content-Type: application/json
   "data": [
     {
       "id": "8a7c767d454f4235862798c08b8818b9",
-      "complaintID": "UA-2027-01-01-000001-a.2",
+      "complaintID": "UA-2027-01-01-000001-a.a2",
       "date": "2027-01-01T00:00:03+02:00",
       "status": "satisfied",
       "documents": [
@@ -107,7 +107,7 @@ Content-Type: application/json
     },
     {
       "id": "75a502de5378460db158500a3a4fd162",
-      "complaintID": "UA-2027-01-01-000001-a.3",
+      "complaintID": "UA-2027-01-01-000001-a.a3",
       "date": "2027-01-01T00:00:03+02:00",
       "status": "invalid",
       "type": "complaint",
@@ -175,7 +175,7 @@ Content-Type: application/json
     },
     {
       "id": "56a9e4419573457289e7cbd85f7dcf8a",
-      "complaintID": "UA-2027-01-01-000001-a.4",
+      "complaintID": "UA-2027-01-01-000001-a.a4",
       "date": "2027-01-01T00:00:03+02:00",
       "status": "declined",
       "type": "complaint",
@@ -245,7 +245,7 @@ Content-Type: application/json
     },
     {
       "id": "aaf607b8181e4f099651a8edca4a6283",
-      "complaintID": "UA-2027-01-01-000001-a.5",
+      "complaintID": "UA-2027-01-01-000001-a.a5",
       "date": "2027-01-01T00:00:03+02:00",
       "status": "accepted",
       "type": "complaint",
@@ -314,7 +314,7 @@ Content-Type: application/json
     },
     {
       "id": "c0980cb100b14dbc91be74239f686f25",
-      "complaintID": "UA-2027-01-01-000001-a.6",
+      "complaintID": "UA-2027-01-01-000001-a.a6",
       "date": "2027-01-01T00:00:03+02:00",
       "status": "stopped",
       "type": "complaint",
@@ -387,7 +387,7 @@ Content-Type: application/json
     },
     {
       "id": "e76a5cbbf76445cd88ecb58c67dae3f9",
-      "complaintID": "UA-2027-01-01-000001-a.7",
+      "complaintID": "UA-2027-01-01-000001-a.a7",
       "date": "2027-01-01T00:00:03+02:00",
       "author": {
         "name": "ДКП «Школяр»",
@@ -424,7 +424,7 @@ Content-Type: application/json
     },
     {
       "id": "cc1907ef0f9548fcb68fc976228a4564",
-      "complaintID": "UA-2027-01-01-000001-a.8",
+      "complaintID": "UA-2027-01-01-000001-a.a8",
       "date": "2027-01-01T00:00:03+02:00",
       "author": {
         "name": "ДКП «Школяр»",
@@ -461,7 +461,7 @@ Content-Type: application/json
     },
     {
       "id": "e864aaff4baf438c9ceae52d7a88e8b5",
-      "complaintID": "UA-2027-01-01-000001-a.9",
+      "complaintID": "UA-2027-01-01-000001-a.a9",
       "date": "2027-01-01T00:00:03+02:00",
       "status": "pending",
       "type": "complaint",
@@ -590,7 +590,7 @@ Content-Type: application/json
     },
     {
       "id": "1efc524f70f34b9ca655d8717ebd4d69",
-      "complaintID": "UA-2027-01-01-000001-a.10",
+      "complaintID": "UA-2027-01-01-000001-a.a10",
       "date": "2027-01-01T00:00:03+02:00",
       "documents": [
         {

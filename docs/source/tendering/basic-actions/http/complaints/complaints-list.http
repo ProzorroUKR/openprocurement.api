@@ -23,7 +23,7 @@ Content-Type: application/json
     },
     {
       "id": "92b6e0e14e6e487f89a03734052877b5",
-      "complaintID": "UA-2027-01-01-000001-a.2",
+      "complaintID": "UA-2027-01-01-000001-a.a2",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "declined",
       "documents": [
@@ -119,7 +119,7 @@ Content-Type: application/json
     },
     {
       "id": "df7c7ebd3f064715a685f19964eecb85",
-      "complaintID": "UA-2027-01-01-000001-a.4",
+      "complaintID": "UA-2027-01-01-000001-a.a4",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "resolved",
       "documents": [
@@ -204,7 +204,7 @@ Content-Type: application/json
     },
     {
       "id": "45bc84a248274517b799f411816e05b0",
-      "complaintID": "UA-2027-01-01-000001-a.5",
+      "complaintID": "UA-2027-01-01-000001-a.a5",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "stopped",
       "type": "complaint",
@@ -275,7 +275,7 @@ Content-Type: application/json
     },
     {
       "id": "4728a3c579784e62ab51566e30f9bc10",
-      "complaintID": "UA-2027-01-01-000001-a.6",
+      "complaintID": "UA-2027-01-01-000001-a.a6",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "accepted",
       "type": "complaint",
@@ -342,7 +342,7 @@ Content-Type: application/json
     },
     {
       "id": "a4a856276f2f489fa0f0a6b5518025e6",
-      "complaintID": "UA-2027-01-01-000001-a.7",
+      "complaintID": "UA-2027-01-01-000001-a.a7",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "invalid",
       "type": "complaint",
@@ -408,7 +408,7 @@ Content-Type: application/json
     },
     {
       "id": "662d27197e774cb28ac705b27e0ace01",
-      "complaintID": "UA-2027-01-01-000001-a.8",
+      "complaintID": "UA-2027-01-01-000001-a.a8",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "mistaken",
       "type": "complaint",
@@ -471,7 +471,7 @@ Content-Type: application/json
     },
     {
       "id": "87323fb969f9439a8921fdd9bb6e1c26",
-      "complaintID": "UA-2027-01-01-000001-a.9",
+      "complaintID": "UA-2027-01-01-000001-a.a9",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "pending",
       "type": "complaint",

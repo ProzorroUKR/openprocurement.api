@@ -244,7 +244,7 @@ Content-Type: application/json
       "complaints": [
         {
           "id": "7f1cbe4e0b494eb4a684bdebed0360fb",
-          "complaintID": "UA-2027-01-01-000001-a.1",
+          "complaintID": "UA-2027-01-01-000001-a.a1",
           "date": "2027-01-01T00:00:00+02:00",
           "author": {
             "name": "ДКП «Школяр»",

@@ -2428,7 +2428,7 @@ Content-Type: application/json
         "status": "cancelled",
         "awardID": "a082a2bddc5e43e098b8f1e881391478",
         "date": "2027-01-12T00:04:05+02:00",
-        "contractID": "UA-2027-01-01-000001-a-1",
+        "contractID": "UA-2027-01-01-000001-a-a1",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "value": {

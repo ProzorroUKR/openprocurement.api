@@ -18,7 +18,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "5afe3cf697ab41a18765fa6a5006a8b4",
-    "complaintID": "UA-2027-01-01-000001-a.3",
+    "complaintID": "UA-2027-01-01-000001-a.a3",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "invalid",
     "type": "complaint",

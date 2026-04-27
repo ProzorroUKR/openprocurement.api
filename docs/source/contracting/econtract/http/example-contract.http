@@ -12,7 +12,7 @@ Content-Type: application/json
     "status": "pending",
     "awardID": "f10947246ab44416ab8f1f75df484ded",
     "date": "2027-01-01T00:00:00+02:00",
-    "contractID": "UA-2027-01-01-000002-a-1",
+    "contractID": "UA-2027-01-01-000002-a-a1",
     "title": "Комп’ютерне обладнання",
     "value": {
       "amount": 500.0,
