@@ -843,7 +843,7 @@ def validate_enquiry_period(self):
         "endDate": tender_valid_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
@@ -948,8 +948,6 @@ def validate_tender_period(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"tenderPeriod": period}}, status=422
     )
-
-    self.initial_data["tenderPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
