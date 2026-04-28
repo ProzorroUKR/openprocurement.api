@@ -119,13 +119,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
         "relatesTo": "item",
         "legislation": [
           {
-            "version": "2024-04-19",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -135,7 +135,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "article": "22.2.3"
           },
           {
-            "version": "2024-04-19",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -247,13 +247,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Учасник процедури закупівлі є особою, до якої застосовано санкцію у виді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
         "source": "tenderer",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
         "relatesTo": "tender",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -290,13 +290,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Замовник може прийняти рішення про відмову учаснику в участі у процедурі закупівлі та може відхилити тендерну пропозицію учасника в разі, якщо учасник процедури закупівлі не виконав свої зобов’язання за раніше укладеним договором про закупівлю з цим самим замовником, що призвело до його дострокового розірвання, і було застосовано санкції у вигляді штрафів та/або відшкодування збитків - протягом трьох років з дати дострокового розірвання такого договору. Учасник процедури закупівлі, що перебуває в обставинах, зазначених у частині другій цієї статті, може надати підтвердження вжиття заходів для доведення своєї надійності, незважаючи на наявність відповідної підстави для відмови в участі у процедурі закупівлі. Для цього учасник (суб’єкт господарювання) повинен довести, що він сплатив або зобов’язався сплатити відповідні зобов’язання та відшкодування завданих збитків. Якщо замовник вважає таке підтвердження достатнім, учаснику не може бути відмовлено в участі в процедурі закупівлі",
         "source": "winner",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
         "relatesTo": "tender",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -491,13 +491,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "relatesTo": "item",
         "relatedItem": "30c4edcb5705460a9ca5fd7985bfe56c",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
         "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
         "legislation": [
           {
-            "version": "2024-04-19",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -507,7 +507,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
             "article": "22.2.3"
           },
           {
-            "version": "2024-04-19",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -647,13 +647,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
         "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -695,13 +695,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
         "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",

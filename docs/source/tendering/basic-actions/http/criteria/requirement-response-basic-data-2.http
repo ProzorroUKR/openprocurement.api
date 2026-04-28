@@ -84,7 +84,7 @@ Content-Type: application/json
         "value": true,
         "id": "693f4be811d74ffda4a25b91e49c07d9",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         }
       },
@@ -107,7 +107,7 @@ Content-Type: application/json
         "value": true,
         "id": "30ba61f34bc84e1c875bf6702c243fab",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         }
       },
@@ -130,7 +130,7 @@ Content-Type: application/json
         "value": true,
         "id": "413c71e08ce84a37bf4bf2007d7d65e8",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         }
       }

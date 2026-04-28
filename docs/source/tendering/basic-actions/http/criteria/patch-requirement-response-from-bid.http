@@ -68,7 +68,7 @@ Content-Type: application/json
         "value": true,
         "id": "074077c0a7b34a069c4cb020b73683ee",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         }
       },
@@ -91,7 +91,7 @@ Content-Type: application/json
         "value": true,
         "id": "fad2e285ce694f06bc5d066dcb56cbc2",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
         }
       }

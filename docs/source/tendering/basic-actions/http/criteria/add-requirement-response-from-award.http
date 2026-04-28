@@ -68,7 +68,7 @@ Content-Type: application/json
         "value": true,
         "id": "87cbb1d7b6564e1bad233970729a4512",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         }
       },
@@ -91,7 +91,7 @@ Content-Type: application/json
         "value": true,
         "id": "4436a03c557d429b9cd1a7c61080dc2e",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         }
       }

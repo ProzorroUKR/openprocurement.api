@@ -52,7 +52,7 @@ Content-Type: application/json
         "value": false,
         "id": "3a45f6e1ade4405daee2951da44f491b",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         }
       }

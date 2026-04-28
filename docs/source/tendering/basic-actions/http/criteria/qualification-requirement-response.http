@@ -35,7 +35,7 @@ Content-Type: application/json
     "value": false,
     "id": "708d926b1c76493ba891ed00052c9c6c",
     "classification": {
-      "scheme": "ESPD211",
+      "scheme": "LAW922",
       "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
     }
   }

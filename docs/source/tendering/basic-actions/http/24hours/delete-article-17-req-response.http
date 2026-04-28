@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba/bids/75914cdd9ee240558ae42ebaa6400c31/requirement_responses/00bc7d356cc04f339b1cda48f2d95b48?acc_token=c62253cf3f364c0eac1ff2fff02c69a6 HTTP/1.0
+DELETE /api/2.5/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba/bids/75914cdd9ee240558ae42ebaa6400c31/requirement_responses/eefbcad71ca647efa1b0abd822155c5d?acc_token=c62253cf3f364c0eac1ff2fff02c69a6 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -9,13 +9,13 @@ Content-Type: application/json
 {
   "data": {
     "requirement": {
-      "id": "a747a1ae52274ff7a874cc50410f9fa9",
+      "id": "3506ba3442fb40e9b70ddb0a634ed91d",
       "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
     },
     "value": true,
-    "id": "00bc7d356cc04f339b1cda48f2d95b48",
+    "id": "eefbcad71ca647efa1b0abd822155c5d",
     "classification": {
-      "scheme": "ESPD211",
+      "scheme": "LAW922",
       "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
     }
   }

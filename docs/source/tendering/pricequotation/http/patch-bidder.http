@@ -59,7 +59,7 @@ Content-Type: application/json
           "name": "дюйм"
         },
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -73,7 +73,7 @@ Content-Type: application/json
         ],
         "id": "6fbb8ed38855448db53299b6e612af77",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -87,7 +87,7 @@ Content-Type: application/json
         ],
         "id": "bc9cb2f23a8749ea9f656166f60dd413",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -103,7 +103,7 @@ Content-Type: application/json
           "name": "кд/м²"
         },
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -117,7 +117,7 @@ Content-Type: application/json
         ],
         "id": "b352e5e3c11f483596953570a3554342",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -133,7 +133,7 @@ Content-Type: application/json
           "name": "штук"
         },
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -149,7 +149,7 @@ Content-Type: application/json
           "name": "штук"
         },
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -163,7 +163,7 @@ Content-Type: application/json
         ],
         "id": "c4f74b5d2fe34933af4849d846e3a171",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -179,7 +179,7 @@ Content-Type: application/json
           "name": "місяців"
         },
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         }
       },
@@ -191,7 +191,7 @@ Content-Type: application/json
         "value": true,
         "id": "d5a248a28cd34659a8b8f335eef85cad",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         }
       },
@@ -203,7 +203,7 @@ Content-Type: application/json
         "value": true,
         "id": "40b0679fbc694badb9192d759643cdce",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         }
       }

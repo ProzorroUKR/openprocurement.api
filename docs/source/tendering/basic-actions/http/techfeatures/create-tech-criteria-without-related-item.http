@@ -10,13 +10,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
       "source": "tenderer",
       "classification": {
-        "scheme": "ESPD211",
+        "scheme": "LAW922",
         "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
       },
       "relatesTo": "tenderer",
       "legislation": [
         {
-          "version": "2024-04-19",
+          "version": "2025-10-31",
           "identifier": {
             "id": "922-VIII",
             "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -26,7 +26,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "article": "22.2.3"
         },
         {
-          "version": "2024-04-19",
+          "version": "2025-10-31",
           "identifier": {
             "id": "922-VIII",
             "legalName": "Закон України \"Про публічні закупівлі\"",

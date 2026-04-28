@@ -229,13 +229,13 @@ Content-Type: application/json
         "relatesTo": "item",
         "relatedItem": "30c4edcb5705460a9ca5fd7985bfe56c",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
         "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
         "legislation": [
           {
-            "version": "2024-04-19",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -245,7 +245,7 @@ Content-Type: application/json
             "article": "22.2.3"
           },
           {
-            "version": "2024-04-19",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -385,13 +385,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
         "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -433,13 +433,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
         "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",

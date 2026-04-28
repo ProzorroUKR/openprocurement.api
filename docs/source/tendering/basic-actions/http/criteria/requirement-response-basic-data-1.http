@@ -52,7 +52,7 @@ Content-Type: application/json
         "value": true,
         "id": "059a6d3eeace47d79d48256454561181",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         }
       }

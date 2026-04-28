@@ -14,13 +14,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
         },
         "title": "Строк дії тендерної пропозиції",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -57,13 +57,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
         "title": "Мова (мови) тендерної пропозиції",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -103,13 +103,13 @@ Content-Type: application/json
         "source": "procuringEntity",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
         "title": "Наявність впливу на прийняття рішення замовника",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -148,13 +148,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
         "title": "Вчинення корупційних правопорушень",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -164,7 +164,7 @@ Content-Type: application/json
             "article": "17.1.2"
           },
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -240,13 +240,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
         "title": "Вчинення економічних правопорушень",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -299,13 +299,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
         "title": "Вчинення кримінальних правопорушень",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -315,7 +315,7 @@ Content-Type: application/json
             "article": "17.1.5"
           },
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -376,13 +376,13 @@ Content-Type: application/json
         "source": "procuringEntity",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
         "title": "Наявність зв'язку учасника з іншими учасниками процедури або замовником",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -421,13 +421,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
         "title": "Порушення справи про банкрутство",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -467,13 +467,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
         "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -515,13 +515,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
         "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -582,13 +582,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
         "title": "Наявність заборгованості зі сплати податків і зборів",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -675,13 +675,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
         "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -735,13 +735,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
         "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
