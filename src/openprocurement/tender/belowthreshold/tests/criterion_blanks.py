@@ -3,11 +3,11 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import test_criteria_article_17
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
 
 def patch_tender_criteria_invalid(self):
-    criteria_data = deepcopy(test_criteria_article_17)
+    criteria_data = deepcopy(test_exclusion_criteria)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
 
     response = self.app.post_json(
