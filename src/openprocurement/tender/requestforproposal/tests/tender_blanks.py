@@ -727,19 +727,24 @@ def patch_enquiry_tender_periods(self):
 
 @mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def validate_tender_period(self):
+    data = deepcopy(self.initial_data)
     now = get_now()
 
-    enquiry_start_date = now + timedelta(days=7)
-    enquiry_end_date = calculate_tender_full_date(
-        enquiry_start_date, timedelta(days=3), tender=self.initial_data, working_days=True
-    )
+    enquiry_start_date = now + timedelta(hours=1)
+    enquiry_end_date = calculate_tender_full_date(enquiry_start_date, timedelta(days=3), tender=data, working_days=True)
 
     valid_start_date = enquiry_end_date
     valid_end_date = calculate_tender_full_date(
-        valid_start_date, timedelta(days=4), tender=self.initial_data, working_days=True
+        valid_start_date,
+        timedelta(days=4),
+        tender=data,
+        working_days=True,
     ).isoformat()
     invalid_end_date = calculate_tender_full_date(
-        valid_start_date, timedelta(days=1), tender=self.initial_data, working_days=True
+        valid_start_date,
+        timedelta(days=1),
+        tender=data,
+        working_days=True,
     ).isoformat()
 
     enquiry_start_date = enquiry_start_date.isoformat()
@@ -747,18 +752,17 @@ def validate_tender_period(self):
     valid_start_date = valid_start_date.isoformat()
 
     request_path = "/tenders"
-    data = self.initial_data["tenderPeriod"]
-    self.initial_data["tenderPeriod"] = {
+
+    data["tenderPeriod"] = {
         "startDate": valid_start_date,
         "endDate": invalid_end_date,
     }
-    self.initial_data["enquiryPeriod"] = {
+    data["enquiryPeriod"] = {
         "startDate": enquiry_start_date,
         "endDate": enquiry_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["tenderPeriod"] = data
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -773,12 +777,12 @@ def validate_tender_period(self):
         ],
     )
 
-    self.initial_data["tenderPeriod"] = {"startDate": valid_start_date, "endDate": valid_end_date}
-    self.initial_data["enquiryPeriod"] = {
+    data["tenderPeriod"] = {"startDate": valid_start_date, "endDate": valid_end_date}
+    data["enquiryPeriod"] = {
         "startDate": enquiry_start_date,
         "endDate": enquiry_end_date,
     }
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
@@ -789,8 +793,6 @@ def validate_tender_period(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"tenderPeriod": period}}, status=422
     )
-
-    self.initial_data["tenderPeriod"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -805,6 +807,7 @@ def validate_tender_period(self):
         ],
     )
 
+    period = tender["tenderPeriod"]
     period["endDate"] = valid_end_date
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
@@ -1113,32 +1116,37 @@ def validate_pre_selection_agreement(self):
 
 @mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def validate_enquiry_period(self):
-    self.initial_data.pop("procurementMethodDetails", None)
+    data = deepcopy(self.initial_data)
+    data.pop("procurementMethodDetails", None)
 
     request_path = "/tenders"
-    data = self.initial_data["enquiryPeriod"]
     now = get_now()
 
-    valid_start_date = now + timedelta(days=7)
+    valid_start_date = now + timedelta(hours=1)
     valid_end_date = calculate_tender_full_date(
-        valid_start_date, timedelta(days=3), tender=self.initial_data
+        valid_start_date,
+        timedelta(days=3),
+        tender=data,
     ).isoformat()
     invalid_end_date = calculate_tender_full_date(
-        valid_start_date, timedelta(days=2), tender=self.initial_data
+        valid_start_date,
+        timedelta(days=2),
+        tender=data,
     ).isoformat()
     tender_valid_end_date = calculate_tender_full_date(
-        valid_start_date, timedelta(days=8), tender=self.initial_data
+        valid_start_date,
+        timedelta(days=8),
+        tender=data,
     ).isoformat()
 
     valid_start_date = valid_start_date.isoformat()
 
-    self.initial_data["enquiryPeriod"] = {
+    data["enquiryPeriod"] = {
         "startDate": valid_start_date,
         "endDate": invalid_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["enquiryPeriod"] = data
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
@@ -1153,15 +1161,15 @@ def validate_enquiry_period(self):
         ],
     )
 
-    self.initial_data["enquiryPeriod"] = {
+    data["enquiryPeriod"] = {
         "startDate": valid_start_date,
         "endDate": valid_end_date,
     }
-    self.initial_data["tenderPeriod"] = {
+    data["tenderPeriod"] = {
         "endDate": tender_valid_end_date,
     }
 
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
