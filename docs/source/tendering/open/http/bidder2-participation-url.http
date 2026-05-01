@@ -269,7 +269,6 @@ Content-Type: application/json
         "relatedLot": "529f0da7929f4dbbb94b70eb6f8d2771"
       }
     ],
-    "selfQualified": true,
     "lotValues": [
       {
         "value": {

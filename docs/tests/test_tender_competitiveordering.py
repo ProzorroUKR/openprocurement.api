@@ -275,7 +275,6 @@ class TenderrCOShortResourceTest(
         # Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
         bid_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": [bid_tenderer],
             "lotValues": [
@@ -315,7 +314,6 @@ class TenderrCOShortResourceTest(
 
         # Registering bid 2
         bid2_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": [bid_tenderer],
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
@@ -354,7 +352,6 @@ class TenderrCOShortResourceTest(
         tenderer = deepcopy(bid_tenderer)
         tenderer["identifier"]["id"] = agreement["contracts"][1]["suppliers"][0]["identifier"]["id"]
         bid3_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": [tenderer],
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
@@ -772,7 +769,6 @@ class TenderrCOLongResourceTest(
         # Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
         bid_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": [bid_tenderer],
             "lotValues": [
@@ -812,7 +808,6 @@ class TenderrCOLongResourceTest(
 
         # Registering bid 2
         bid2_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": [bid_tenderer],
             "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],
@@ -853,7 +848,6 @@ class TenderrCOLongResourceTest(
         tenderer["identifier"]["id"] = agreement["contracts"][1]["suppliers"][0]["identifier"]["id"]
         with open(TARGET_LONG_DIR + "register-third-bid.http", "w") as self.app.file_obj:
             bid3_data = {
-                "selfQualified": True,
                 "status": "draft",
                 "tenderers": [tenderer],
                 "lotValues": [{"value": {"amount": 500}, "relatedLot": lot["id"]}],

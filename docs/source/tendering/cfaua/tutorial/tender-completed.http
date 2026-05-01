@@ -1248,8 +1248,7 @@ Content-Type: application/json
             "quantity": 5.0,
             "relatedLot": "1045105100a341998426114b17a5c1ff"
           }
-        ],
-        "selfQualified": true
+        ]
       },
       {
         "requirementResponses": [
@@ -1512,7 +1511,6 @@ Content-Type: application/json
             "relatedLot": "1045105100a341998426114b17a5c1ff"
           }
         ],
-        "selfQualified": true,
         "submissionDate": "2027-01-01T00:02:01+02:00"
       },
       {
@@ -1771,8 +1769,7 @@ Content-Type: application/json
             "dateModified": "2027-01-01T00:02:01+02:00",
             "language": "uk"
           }
-        ],
-        "selfQualified": true
+        ]
       },
       {
         "requirementResponses": [
@@ -2100,7 +2097,6 @@ Content-Type: application/json
             "relatedLot": "1045105100a341998426114b17a5c1ff"
           }
         ],
-        "selfQualified": true,
         "submissionDate": "2027-01-01T00:02:01+02:00"
       }
     ],

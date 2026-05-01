@@ -16,7 +16,6 @@ from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
     test_docs_bid_draft,
-    test_docs_qualified,
     test_docs_subcontracting,
     test_docs_tender_openua,
 )
@@ -28,9 +27,7 @@ test_tender_ua_data = deepcopy(test_docs_tender_openua)
 bid = deepcopy(test_docs_bid_draft)
 bid2 = deepcopy(test_docs_bid2)
 
-bid2.update(test_docs_qualified)
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
 
 
 class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):

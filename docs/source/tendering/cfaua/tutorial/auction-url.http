@@ -1668,8 +1668,7 @@ Content-Type: application/json
             "dateModified": "2027-01-01T00:02:01+02:00",
             "language": "uk"
           }
-        ],
-        "selfQualified": true
+        ]
       },
       {
         "requirementResponses": [

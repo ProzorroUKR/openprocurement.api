@@ -68,7 +68,6 @@ test_tender_openuadefense_features_data["items"][0]["deliveryAddress"] = test_te
 
 test_tender_openuadefense_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_openuadefense_bids:
-    bid["selfQualified"] = True
     bid["selfEligible"] = True
 
 test_tender_openuadefense_config = {

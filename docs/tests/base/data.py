@@ -279,7 +279,6 @@ test_docs_complaint = {
     "author": test_docs_complaint_author,
 }
 
-test_docs_qualified = {"selfQualified": True}
 
 test_docs_subcontracting = {"subcontractingDetails": "ДКП «Орфей», Україна"}
 

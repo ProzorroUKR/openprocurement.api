@@ -40,7 +40,7 @@ class PatchQualificationBid(PatchBid):
 
 class PostBid(BasePostBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
     lotValues = ListType(ModelType(PostLotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
@@ -51,7 +51,7 @@ class PostBid(BasePostBid, BidResponsesMixin):
 
 class Bid(BaseBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
     lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 

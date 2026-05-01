@@ -1389,7 +1389,6 @@ def create_tender_feature_bid_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": self.test_bids_data[0]["tenderers"],
                 "lotValues": [{"value": self.test_bids_data[0]["value"]}],
             }

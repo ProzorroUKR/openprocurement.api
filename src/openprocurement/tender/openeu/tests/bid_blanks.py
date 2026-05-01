@@ -112,7 +112,6 @@ def create_tender_biddder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.insert(
@@ -149,7 +148,6 @@ def create_tender_biddder_invalid(self):
                 "location": "body",
                 "name": "tenderers",
             },
-            {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
             {"description": ["Value must be one of [True]."], "location": "body", "name": "selfEligible"},
         ],
     )
@@ -585,7 +583,7 @@ def get_tender_bidder(self):
         response = self.app.get("/tenders/{}/bids".format(self.tender_id))
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), self.min_bids_number)
-    assert_keys = ["date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate", "items"]
+    assert_keys = ["date", "status", "id", "lotValues", "tenderers", "submissionDate", "items"]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_keys.append("selfEligible")
     for b in response.json["data"]:
@@ -1110,14 +1108,12 @@ def features_bidder(self):
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "tenderers": self.test_bids_data[0]["tenderers"],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
         },
         {
             "status": "pending",
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
             "tenderers": self.test_bids_data[1]["tenderers"],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
         },
     ]
 
@@ -1709,11 +1705,10 @@ def get_tender_bidder_document(self):
         "eligibilityDocuments",
         "qualificationDocuments",
         "financialDocuments",
-        "selfQualified",
         "submissionDate",
         "items",
     ]
-    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate", "items"]
+    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "submissionDate", "items"]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.append("selfEligible")
         assert_data_less.append("selfEligible")
@@ -3756,11 +3751,10 @@ def get_tender_bidder_document_ds(self):
         "eligibilityDocuments",
         "qualificationDocuments",
         "financialDocuments",
-        "selfQualified",
         "submissionDate",
         "items",
     ]
-    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate", "items"]
+    assert_data_less = ["date", "status", "id", "lotValues", "tenderers", "submissionDate", "items"]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.append("selfEligible")
         assert_data_less.append("selfEligible")

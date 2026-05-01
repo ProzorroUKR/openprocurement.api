@@ -42,14 +42,10 @@ class TenderSameValueAuctionResourceTest(BaseSimpleDefContentWebTest):
         {
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
+            "selfEligible": True,
         }
         for i in range(3)
     ]
-    bid_update_data = {"selfEligible": True}
-
-    for i in initial_bids:
-        i.update(bid_update_data)
 
     test_post_tender_auction_not_changed = snitch(post_tender_auction_not_changed)
 
@@ -69,20 +65,15 @@ class TenderFeaturesAuctionResourceTest(BaseSimpleDefContentWebTest):
             "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_below_features_data["features"]],
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
+            "selfEligible": True,
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]],
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
+            "selfEligible": True,
         },
     ]
-
-    bid_update_data = {"selfEligible": True}
-
-    for i in initial_bids:
-        i.update(bid_update_data)
 
     test_get_tender_auction = snitch(get_tender_auction_feature)
     test_post_tender_auction = snitch(post_tender_auction_feature)

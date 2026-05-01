@@ -837,7 +837,6 @@ def unsuccessful_after_prequalification_tender(self):
         "id",
         "status",
         "tenderers",
-        "selfQualified",
         "lotValues",
     }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:

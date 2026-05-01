@@ -158,7 +158,6 @@ def bids_on_tender_cancellation_in_qualification(self):
         "documents",
         "tenderers",
         "id",
-        "selfQualified",
         "eligibilityDocuments",
         "lotValues",
         "date",
@@ -193,7 +192,6 @@ def bids_on_tender_cancellation_in_qualification(self):
         "id",
         "status",
         "tenderers",
-        "selfQualified",
         "lotValues",
     }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
@@ -249,7 +247,6 @@ def bids_on_tender_cancellation_in_awarded(self):
         "documents",
         "tenderers",
         "id",
-        "selfQualified",
         "eligibilityDocuments",
         "lotValues",
         "date",

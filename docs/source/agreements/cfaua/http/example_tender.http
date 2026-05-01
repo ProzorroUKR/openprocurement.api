@@ -223,7 +223,6 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "selfQualified": true,
         "tenderers": [
           {
             "contactPoint": {
@@ -266,7 +265,6 @@ Content-Type: application/json
         "status": "active"
       },
       {
-        "selfQualified": true,
         "tenderers": [
           {
             "contactPoint": {
@@ -309,7 +307,6 @@ Content-Type: application/json
         "status": "active"
       },
       {
-        "selfQualified": true,
         "tenderers": [
           {
             "contactPoint": {

@@ -48,7 +48,6 @@ Content-Type: application/json
     ],
     "status": "draft",
     "selfEligible": true,
-    "selfQualified": true,
     "id": "11234e730d0942acaea212b0b93d8ead",
     "date": "2027-01-01T00:00:01+02:00",
     "documents": [

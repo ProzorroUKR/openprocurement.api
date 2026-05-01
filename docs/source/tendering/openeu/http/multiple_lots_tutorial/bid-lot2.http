@@ -5,7 +5,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "selfQualified": true,
     "status": "draft",
     "tenderers": [
       {
@@ -188,7 +187,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "selfQualified": true,
     "id": "4a592d21eb654f789fe95af01b02c81f",
     "date": "2027-01-01T00:00:00+02:00"
   },

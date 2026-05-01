@@ -39,7 +39,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "selfQualified": true,
     "lotValues": [
       {
         "value": {

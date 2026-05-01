@@ -40,7 +40,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 499
     },
-    "selfQualified": true,
     "selfEligible": true
   }
 }
@@ -91,7 +90,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b2ccf978cbbe4d59
     ],
     "status": "draft",
     "selfEligible": true,
-    "selfQualified": true,
     "id": "a9c9e08bc0da4ec397fbb274093d95d0",
     "date": "2027-01-01T00:00:01+02:00"
   },

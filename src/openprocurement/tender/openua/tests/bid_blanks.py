@@ -95,7 +95,7 @@ def create_tender_biddder_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [{"identifier": "invalid_value"}]}},
+        {"data": {"selfEligible": True, "tenderers": [{"identifier": "invalid_value"}]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -116,7 +116,7 @@ def create_tender_biddder_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [{"identifier": {}}]}},
+        {"data": {"selfEligible": True, "tenderers": [{"identifier": {}}]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -146,7 +146,6 @@ def create_tender_biddder_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}],
             }
         },
@@ -290,6 +289,21 @@ def create_tender_bidder(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't add bid in current (complete) tender status")
+
+
+def create_tender_bidder_with_selfQualified(self):
+    bid_data = deepcopy(self.test_bids_data[0])
+    bid_data["selfQualified"] = True
+    bid_data.update({"parameters": None, "documents": None})
+    set_bid_items(self, bid_data)
+
+    response = self.app.post_json(
+        "/tenders/{}/bids".format(self.tender_id),
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertTrue(response.json["data"]["selfQualified"])
 
 
 def patch_tender_bidder_decimal_problem(self):

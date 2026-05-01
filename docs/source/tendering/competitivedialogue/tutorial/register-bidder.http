@@ -39,7 +39,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "selfQualified": true,
     "lotValues": [
       {
         "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
@@ -143,7 +142,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "selfQualified": true,
     "status": "draft",
     "id": "6df778e10f1c41b2a438c5e8908fc02e",
     "date": "2027-01-01T00:00:00+02:00"

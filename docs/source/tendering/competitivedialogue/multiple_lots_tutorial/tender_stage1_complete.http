@@ -101,7 +101,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active"
       },
       {
@@ -207,7 +206,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active"
       },
       {
@@ -312,7 +310,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active"
       },
       {
@@ -386,7 +383,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active",
         "submissionDate": "2027-01-01T00:01:00+02:00"
       }

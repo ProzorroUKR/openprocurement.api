@@ -36,7 +36,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       }
     ],
-    "selfQualified": true,
     "documents": [
       {
         "title": "Proposal_part1.pdf",
@@ -183,7 +182,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "selfQualified": true,
     "status": "draft",
     "id": "0ce39bcffe1a47339657aad5a006f3fb",
     "date": "2027-01-01T00:03:00+02:00"

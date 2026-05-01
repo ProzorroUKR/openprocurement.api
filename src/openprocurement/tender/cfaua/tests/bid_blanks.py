@@ -1667,7 +1667,6 @@ def create_tender_biddder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.append({"description": ["This field is required."], "location": "body", "name": "selfEligible"})
@@ -1695,7 +1694,6 @@ def create_tender_biddder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
         {"description": ["Value must be one of [True]."], "location": "body", "name": "selfEligible"},
     ]
 
@@ -1728,7 +1726,6 @@ def create_tender_biddder_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": initial_bids[0]["tenderers"],
                 "lotValues": [
                     {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
@@ -1762,7 +1759,6 @@ def create_tender_biddder_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": initial_bids[0]["tenderers"],
                 "lotValues": [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.initial_lots[0]["id"]}],
             }
@@ -2749,12 +2745,11 @@ def get_tender_bidder_document_ds(self):
         "eligibilityDocuments",
         "qualificationDocuments",
         "financialDocuments",
-        "selfQualified",
         "submissionDate",
         "items",
     }
 
-    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate", "items"}
+    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "submissionDate", "items"}
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data_1.add("selfEligible")
@@ -2868,7 +2863,6 @@ def get_tender_bidder_document_ds(self):
             "eligibilityDocuments",
             "qualificationDocuments",
             "financialDocuments",
-            "selfQualified",
             "submissionDate",
             "items",
         }
@@ -2882,7 +2876,6 @@ def get_tender_bidder_document_ds(self):
             "id",
             "lotValues",
             "tenderers",
-            "selfQualified",
             "submissionDate",
             "items",
         }
@@ -3313,7 +3306,7 @@ def view_bid_in_qualification_st_st(self):  # CS-5342
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification.stand-still")
     bids = response.json["data"]["bids"]
-    expected_keys = {"id", "status", "selfQualified", "lotValues", "tenderers", "date", "submissionDate", "items"}
+    expected_keys = {"id", "status", "lotValues", "tenderers", "date", "submissionDate", "items"}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         expected_keys.add("selfEligible")
     self.assertEqual(set(bids[0].keys()), expected_keys)

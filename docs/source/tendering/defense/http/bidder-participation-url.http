@@ -77,7 +77,6 @@ Content-Type: application/json
       }
     ],
     "selfEligible": true,
-    "selfQualified": true,
     "submissionDate": "2027-01-01T00:00:01+02:00",
     "initialValue": {
       "amount": 500.0,

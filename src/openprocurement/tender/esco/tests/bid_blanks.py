@@ -455,7 +455,6 @@ def create_tender_bid_invalid_funding_kind_budget(self):
 
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = {
-        "selfQualified": True,
         "tenderers": [self.test_bids_data[0]["tenderers"][0]],
         "lotValues": [
             {

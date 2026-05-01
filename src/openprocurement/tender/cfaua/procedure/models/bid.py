@@ -29,10 +29,10 @@ class PatchQualificationBid(PatchObjResponsesMixin, BasePatchQualificationBid):
 
 
 class PostBid(BidResponsesMixin, BasePostBid):
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
     selfEligible = BooleanType(choices=[True])
 
 
 class Bid(BidResponsesMixin, BaseBid):
     weightedValue = ModelType(WeightedValue)
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
