@@ -1761,8 +1761,7 @@ Content-Type: application/json
             "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
             "status": "unsuccessful"
           }
-        ],
-        "selfQualified": true
+        ]
       }
     ],
     "questions": [

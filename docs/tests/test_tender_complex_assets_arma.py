@@ -13,7 +13,6 @@ from tests.base.data import (
     test_docs_bid3_with_docs,
     test_docs_bid_draft,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_complex_assets_arma,
@@ -28,9 +27,6 @@ bid2 = deepcopy(test_docs_bid2)
 bid3 = deepcopy(test_docs_bid3_with_docs)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 # clear eContract fields
 for b in [bid, bid2, bid3]:

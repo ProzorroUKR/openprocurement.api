@@ -57,7 +57,6 @@ if SANDBOX_MODE:
 
 test_tender_co_long_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_co_long_bids:
-    bid["selfQualified"] = True
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
 
@@ -66,7 +65,6 @@ test_tender_co_long_three_bids.append(
     {
         "tenderers": [test_tender_below_supplier],
         "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
-        "selfQualified": True,
     }
 )
 

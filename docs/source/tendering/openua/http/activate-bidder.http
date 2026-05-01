@@ -271,7 +271,6 @@ Content-Type: application/json
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
       }
     ],
-    "selfQualified": true,
     "submissionDate": "2027-01-01T00:00:00+02:00"
   }
 }

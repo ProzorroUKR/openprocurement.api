@@ -39,7 +39,7 @@ class PatchQualificationBid(BasePatchQualificationBid, PatchObjResponsesMixin):
 
 class PostBid(BasePostBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
     def validate_value(self, data, value):
@@ -49,7 +49,7 @@ class PostBid(BasePostBid, BidResponsesMixin):
 
 class Bid(BaseBid, BidResponsesMixin):
     selfEligible = BooleanType(choices=[True])
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
     def validate_value(self, data, value):

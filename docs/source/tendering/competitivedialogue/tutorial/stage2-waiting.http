@@ -1246,7 +1246,6 @@ Content-Type: application/json
           }
         ],
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "selfQualified": true,
         "status": "active"
       },
       {
@@ -1507,7 +1506,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active",
         "submissionDate": "2027-01-01T00:03:00+02:00"
       },
@@ -1742,7 +1740,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "unsuccessful"
       },
       {
@@ -2028,7 +2025,6 @@ Content-Type: application/json
             "isDescriptionDecision": false
           }
         ],
-        "selfQualified": true,
         "status": "active",
         "submissionDate": "2027-01-01T00:03:00+02:00"
       }

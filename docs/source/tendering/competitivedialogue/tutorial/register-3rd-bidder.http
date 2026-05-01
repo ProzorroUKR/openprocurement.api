@@ -36,7 +36,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       }
     ],
-    "selfQualified": true,
     "status": "draft",
     "lotValues": [
       {
@@ -139,7 +138,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "selfQualified": true,
     "status": "draft",
     "id": "45d3430d817c4eef922421c639cfd895",
     "date": "2027-01-01T00:03:00+02:00"

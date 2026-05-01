@@ -344,7 +344,6 @@ Content-Type: application/json
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "selfQualified": true,
     "status": "draft"
   }
 }

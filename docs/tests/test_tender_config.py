@@ -116,7 +116,6 @@ from tests.base.data import (
     test_docs_claim,
     test_docs_items_open,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_co,
@@ -609,7 +608,6 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
         #### Registering bid
         self.app.authorization = ("Basic", ("broker", ""))
         bid_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": test_docs_bid["tenderers"],
             "lotValues": [
@@ -643,7 +641,6 @@ class HasAuctionTenderConfigTest(TenderConfigBaseTest):
 
         #### Registering bid 2
         bid_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": test_docs_bid2["tenderers"],
             "lotValues": [
@@ -2441,9 +2438,6 @@ class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
         bid3 = deepcopy(test_docs_bid3_with_docs)
 
         bid.update(test_docs_subcontracting)
-        bid.update(test_docs_qualified)
-        bid2.update(test_docs_qualified)
-        bid3.update(test_docs_qualified)
 
         bid.update(
             {
@@ -2528,7 +2522,6 @@ class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
 
         # Registering bids
         bid_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": bid["tenderers"],
             "lotValues": [
@@ -2560,7 +2553,6 @@ class QualificationComplainDurationTenderConfigTest(TenderConfigBaseTest):
         self.set_responses(tender_id, response.json, "pending")
 
         bid2_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": bid2["tenderers"],
             "lotValues": [
@@ -2717,7 +2709,6 @@ class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
 
         # Registering bids
         bid_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": bid["tenderers"],
             "lotValues": [
@@ -2749,7 +2740,6 @@ class QualificationDurationTenderConfigTest(TenderConfigBaseTest):
         self.set_responses(tender_id, response.json, "pending")
 
         bid2_data = {
-            "selfQualified": True,
             "status": "draft",
             "tenderers": bid2["tenderers"],
             "lotValues": [

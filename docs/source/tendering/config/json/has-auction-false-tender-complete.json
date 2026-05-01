@@ -458,7 +458,6 @@
                         "value": true
                     }
                 ],
-                "selfQualified": true,
                 "status": "active",
                 "submissionDate": "2027-01-01T00:00:00+02:00",
                 "tenderers": [
@@ -779,7 +778,6 @@
                         "value": true
                     }
                 ],
-                "selfQualified": true,
                 "status": "active",
                 "submissionDate": "2027-01-01T00:00:00+02:00",
                 "tenderers": [

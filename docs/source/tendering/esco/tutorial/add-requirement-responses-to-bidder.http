@@ -355,7 +355,6 @@ Content-Type: application/json
         }
       }
     ],
-    "selfQualified": true,
     "items": [
       {
         "id": "f0139735d90e4febb8eb0e42b4d85026",

@@ -62,7 +62,6 @@ from tests.base.data import (
     test_docs_criterion_data,
     test_docs_eligible_evidence_data,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_requirement_data,
     test_docs_requirement_group_data,
     test_docs_subcontracting,
@@ -82,9 +81,6 @@ bid2 = deepcopy(test_docs_bid2)
 bid3 = deepcopy(test_docs_bid3_with_docs)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 test_lots[0]["value"] = test_tender_data["value"]
 test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
@@ -4197,7 +4193,6 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         # Create bid with items
 
         bid_data = deepcopy(bid)
-        del bid_data["selfQualified"]
 
         bid_items = deepcopy(tender["items"])
 

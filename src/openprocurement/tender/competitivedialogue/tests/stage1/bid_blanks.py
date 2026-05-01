@@ -170,7 +170,6 @@ def create_tender_bidder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.insert(
@@ -201,7 +200,6 @@ def create_tender_bidder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
     ]
     bid_data = {"tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}]}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
@@ -842,7 +840,6 @@ def features_bidder(self):
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "tenderers": self.test_bids_data[0]["tenderers"],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
             "selfEligible": True,
         },
         {
@@ -850,7 +847,6 @@ def features_bidder(self):
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
             "tenderers": self.test_bids_data[1]["tenderers"],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
-            "selfQualified": True,
             "selfEligible": True,
         },
     ]

@@ -42,7 +42,6 @@ class TenderSameValueAuctionResourceTest(BaseTenderUAContentWebTest):
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfEligible": True,
-            "selfQualified": True,
         }
         for i in range(3)
     ]
@@ -68,14 +67,12 @@ class TenderFeaturesAuctionResourceTest(BaseTenderUAContentWebTest):
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfEligible": True,
-            "selfQualified": True,
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_below_features_data["features"]],
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfEligible": True,
-            "selfQualified": True,
         },
     ]
 

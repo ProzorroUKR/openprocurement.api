@@ -307,8 +307,7 @@ Content-Type: application/json
         "quantity": 5.0,
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
-    ],
-    "selfQualified": true
+    ]
   }
 }
 

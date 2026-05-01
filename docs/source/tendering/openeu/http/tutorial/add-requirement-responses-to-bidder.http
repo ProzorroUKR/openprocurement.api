@@ -341,8 +341,7 @@ Content-Type: application/json
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }
-    ],
-    "selfQualified": true
+    ]
   }
 }
 

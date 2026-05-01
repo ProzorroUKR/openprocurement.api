@@ -21,7 +21,6 @@ from tests.base.data import (
     test_docs_lot_bid2,
     test_docs_lot_bid3_with_docs,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
 )
@@ -37,9 +36,6 @@ test_tender_data = deepcopy(test_tender_cfaua_data)
 test_lots = deepcopy(test_docs_lots)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/source/tendering/cfaua/"
 TARGET_DIR = BASE_DIR + "tutorial/"

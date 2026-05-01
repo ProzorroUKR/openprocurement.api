@@ -21,7 +21,6 @@ from tests.base.data import (
     test_docs_bid_document2,
     test_docs_bid_draft,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_esco,
@@ -38,9 +37,6 @@ bid_document = deepcopy(test_docs_bid_document)
 bid_document2 = deepcopy(test_docs_bid_document2)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 bid.update(
     {

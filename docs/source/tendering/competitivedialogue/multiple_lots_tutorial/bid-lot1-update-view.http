@@ -107,7 +107,6 @@ Content-Type: application/json
         "isDescriptionDecision": false
       }
     ],
-    "selfQualified": true,
     "status": "pending"
   }
 }

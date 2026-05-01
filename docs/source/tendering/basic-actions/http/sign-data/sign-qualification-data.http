@@ -1469,8 +1469,7 @@ Content-Type: application/json
               "quantity": 1.0,
               "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
             }
-          ],
-          "selfQualified": true
+          ]
         },
         {
           "requirementResponses": [
@@ -1722,7 +1721,6 @@ Content-Type: application/json
               "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
             }
           ],
-          "selfQualified": true,
           "submissionDate": "2027-01-01T00:00:00+02:00"
         }
       ],

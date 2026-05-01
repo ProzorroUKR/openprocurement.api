@@ -589,7 +589,7 @@ def create_tender_biddder_invalid_ua(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [{"identifier": "invalid_value"}]}},
+        {"data": {"selfEligible": True, "tenderers": [{"identifier": "invalid_value"}]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -610,7 +610,7 @@ def create_tender_biddder_invalid_ua(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [{"identifier": {}}]}},
+        {"data": {"selfEligible": True, "tenderers": [{"identifier": {}}]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -640,7 +640,6 @@ def create_tender_biddder_invalid_ua(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}],
             }
         },

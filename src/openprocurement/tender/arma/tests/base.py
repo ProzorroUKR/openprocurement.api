@@ -44,12 +44,10 @@ test_tender_arma_bids = [
     {
         "tenderers": [copy.deepcopy(test_tender_arma_supplier)],
         "value": {"amountPercentage": 38},
-        "selfQualified": True,
     },
     {
         "tenderers": [copy.deepcopy(test_tender_arma_supplier)],
         "value": {"amountPercentage": 39},
-        "selfQualified": True,
     },
 ]
 
@@ -62,7 +60,6 @@ test_tender_arma_three_bids.append(
     {
         "tenderers": [test_tender_arma_supplier.copy()],
         "value": {"amountPercentage": 50},
-        "selfQualified": True,
     }
 )
 for bid in test_tender_arma_three_bids:

@@ -403,7 +403,6 @@ def two_lot_3bid_3com_3win(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[0]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots],
                 }
@@ -569,7 +568,6 @@ def one_lot_2bid(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[x]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[x]["value"], "relatedLot": lot_id}],
                 }
@@ -721,7 +719,6 @@ def one_lot_3bid_1del(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[0]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}],
                 }
@@ -878,7 +875,6 @@ def one_lot_3bid_1un(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[0]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}],
                 }
@@ -1048,7 +1044,6 @@ def two_lot_3bid_1win_bug(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[x]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[x]["value"], "relatedLot": lot_id} for lot_id in lots],
                 }
@@ -1061,7 +1056,6 @@ def two_lot_3bid_1win_bug(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": self.test_bids_data[self.min_bids_number - 1]["tenderers"],
                 "lotValues": [
                     {"value": self.test_bids_data[self.min_bids_number - 1]["value"], "relatedLot": lot_id}

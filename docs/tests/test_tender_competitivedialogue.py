@@ -30,7 +30,6 @@ from tests.base.data import (
     test_docs_bid_document5_qualification,
     test_docs_bid_draft,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_stage1,
@@ -61,19 +60,8 @@ bid_document = deepcopy(test_docs_bid_document)
 bid_document2 = deepcopy(test_docs_bid_document2)
 
 bid_stage2.update(test_docs_subcontracting)
-bid_stage2.update(test_docs_qualified)
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
 bid_with_bad_participant.update(test_docs_subcontracting)
-bid_with_bad_participant.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid2_stage2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
-bid4.update(test_docs_qualified)
-bid2_with_docs.update(test_docs_qualified)
-bid2_with_docs_st2.update(test_docs_qualified)
-bid4_with_docs.update(test_docs_qualified)
-bid3_with_docs_st2.update(test_docs_qualified)
 
 del bid["value"]
 del bid2["value"]
@@ -130,7 +118,6 @@ class CDStage2Mixin:
 
         bid_data = {
             "status": "draft",
-            "selfQualified": True,
             "tenderers": bid["tenderers"],
             "lotValues": [{"subcontractingDetails": "ДКП «Орфей», Україна", "relatedLot": lot_id}],
         }
@@ -153,7 +140,6 @@ class CDStage2Mixin:
 
         bid2_data = {
             "status": "draft",
-            "selfQualified": True,
             "tenderers": bid2["tenderers"],
             "lotValues": [{"relatedLot": lot_id}],
         }
@@ -176,7 +162,6 @@ class CDStage2Mixin:
 
         bid3_data = {
             "status": "draft",
-            "selfQualified": True,
             "tenderers": bid3["tenderers"],
             "lotValues": [{"relatedLot": lot_id}],
         }
@@ -1730,7 +1715,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + "bid-lot1.http", "w") as self.app.file_obj:
             bid1_data = {
                 "status": "draft",
-                "selfQualified": True,
                 "tenderers": bid["tenderers"],
                 "lotValues": [{"subcontractingDetails": "ДКП «Орфей», Україна", "relatedLot": lot_id1}],
             }
@@ -1753,7 +1737,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + "bid-lot2.http", "w") as self.app.file_obj:
             bid2_data = {
                 "status": "draft",
-                "selfQualified": True,
                 "tenderers": bid2["tenderers"],
                 "lotValues": [
                     {"relatedLot": lot_id1},
@@ -1778,7 +1761,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         bid3_data = {
             "status": "draft",
-            "selfQualified": True,
             "tenderers": bid3["tenderers"],
             "lotValues": [
                 {"relatedLot": lot_id1},
@@ -1878,7 +1860,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
 
         bid4_data = {
             "status": "draft",
-            "selfQualified": True,
             "tenderers": bid4["tenderers"],
             "lotValues": [{"subcontractingDetails": "ДКП «Укр Прінт», Україна", "relatedLot": lot_id2}],
         }
@@ -2036,7 +2017,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
                 {
                     "data": {
                         "status": "draft",
-                        "selfQualified": True,
                         "tenderers": bid_with_bad_participant["tenderers"],
                         "lotValues": [
                             {
@@ -2054,7 +2034,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + "register_ok_bid.http", "w") as self.app.file_obj:
             bid_data = {
                 "status": "draft",
-                "selfQualified": True,
                 "tenderers": bid["tenderers"],
                 "lotValues": [
                     {
@@ -2082,7 +2061,6 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + "register_bad_not_allowed_lot.http", "w") as self.app.file_obj:
             bid_data = {
                 "status": "draft",
-                "selfQualified": True,
                 "tenderers": bid["tenderers"],
                 "lotValues": [
                     {

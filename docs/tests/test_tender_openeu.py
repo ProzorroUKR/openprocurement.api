@@ -17,7 +17,6 @@ from tests.base.data import (
     test_docs_bid3_with_docs,
     test_docs_bid_draft,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_openeu,
@@ -32,9 +31,6 @@ bid2 = deepcopy(test_docs_bid2)
 bid3 = deepcopy(test_docs_bid3_with_docs)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 test_lots[0]["value"] = test_tender_data["value"]
 test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
@@ -946,7 +942,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.app.authorization = ("Basic", ("broker", ""))
         with open(TARGET_DIR_MULTI + "bid-lot1.http", "w") as self.app.file_obj:
             bid_data = {
-                "selfQualified": True,
                 "status": "draft",
                 "tenderers": bid["tenderers"],
                 "lotValues": [
@@ -975,7 +970,6 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         with open(TARGET_DIR_MULTI + "bid-lot2.http", "w") as self.app.file_obj:
             bid_data = {
-                "selfQualified": True,
                 "status": "draft",
                 "tenderers": bid2["tenderers"],
                 "lotValues": [

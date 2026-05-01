@@ -405,7 +405,6 @@ Content-Type: application/json
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_16dcfa2a699842d3a0f9b9553db58532?key_for_bid=df6178558a0f488a8b2fe13bc75b4856"
       }
     ],
-    "selfQualified": true,
     "items": [
       {
         "id": "f0139735d90e4febb8eb0e42b4d85026",

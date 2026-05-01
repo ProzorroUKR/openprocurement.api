@@ -79,7 +79,7 @@ def create_tender_biddder_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [{"identifier": "invalid_value"}]}},
+        {"data": {"selfEligible": True, "tenderers": [{"identifier": "invalid_value"}]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -100,7 +100,7 @@ def create_tender_biddder_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"selfEligible": True, "selfQualified": True, "tenderers": [{"identifier": {}}]}},
+        {"data": {"selfEligible": True, "tenderers": [{"identifier": {}}]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -130,7 +130,6 @@ def create_tender_biddder_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": [{"name": "name", "identifier": {"uri": "invalid_value"}}],
             }
         },
@@ -2642,7 +2641,7 @@ def patch_tender_with_bids_lots_none(self):
 
 
 def post_tender_bid_with_disabled_value_restriction(self):
-    bid_data = {"selfQualified": True, "tenderers": [test_tender_below_supplier], "value": {"amount": 700}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 700}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(
@@ -2653,7 +2652,7 @@ def post_tender_bid_with_disabled_value_restriction(self):
 
 
 def patch_tender_bid_with_disabled_value_restriction(self):
-    bid_data = {"selfQualified": True, "tenderers": [test_tender_below_supplier], "value": {"amount": 450}}
+    bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 450}}
     set_bid_items(self, bid_data)
 
     response = self.app.post_json(

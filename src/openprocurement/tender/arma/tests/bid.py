@@ -199,7 +199,6 @@ class TenderBidBatchDocumentsResourceTest(BaseTenderContentWebTest):
         self.bid_data_wo_docs = {
             "tenderers": [test_tender_below_supplier],
             "value": {"amountPercentage": 50},
-            "selfQualified": True,
             "documents": [],
         }
         if get_now() < RELEASE_ECRITERIA_ARTICLE_17:

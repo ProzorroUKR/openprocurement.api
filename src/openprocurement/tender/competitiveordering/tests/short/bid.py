@@ -276,7 +276,6 @@ class TenderBidderBatchDocumentResourceTest(BaseTenderCOShortContentWebTest):
         "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
         "selfEligible": True,
-        "selfQualified": True,
         "documents": [],
     }
 

@@ -1609,7 +1609,6 @@ Content-Type: application/json
             "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
           }
         ],
-        "selfQualified": true,
         "lotValues": [
           {
             "value": {
@@ -1930,7 +1929,6 @@ Content-Type: application/json
             "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
           }
         ],
-        "selfQualified": true,
         "lotValues": [
           {
             "value": {
