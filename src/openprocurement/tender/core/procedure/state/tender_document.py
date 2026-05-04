@@ -26,6 +26,7 @@ class TenderDocumentState(BaseDocumentState):
             validate_doc_type_quantity(tender_docs)
         if tender_created_after(EVALUATION_REPORTS_DOC_REQUIRED_FROM):
             validate_doc_type_quantity(tender_docs, document_type="evaluationReports")
+        validate_doc_type_quantity(tender_docs, document_type="acceptanceReport")
 
     def document_always(self, data: dict) -> None:
         self.validate_sign_documents_already_exists(data)

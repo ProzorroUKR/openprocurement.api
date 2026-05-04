@@ -816,11 +816,8 @@ def award_sign(self):
     )
 
 
-def create_acceptance_report_award_document_active_awarded(self):
-    # Transition to active.awarded
-    self.set_status("active.awarded")
-
-    # Upload acceptanceReport as award document - should succeed
+def create_acceptance_report_award_document(self):
+    # POST in active.qualification succeeds
     response = self.app.post_json(
         "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {
@@ -835,3 +832,42 @@ def create_acceptance_report_award_document_active_awarded(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")
+    doc_id = response.json["data"]["id"]
+
+    # Second acceptanceReport on the same award is rejected
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
+        {
+            "data": {
+                "title": "acceptance_report_2.p7s",
+                "documentType": "acceptanceReport",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "acceptanceReport document in award should be only one",
+    )
+
+    # PUT ignores changes to documentType and format
+    response = self.app.put_json(
+        "/tenders/{}/awards/{}/documents/{}?acc_token={}".format(
+            self.tender_id, self.award_id, doc_id, self.tender_token
+        ),
+        {
+            "data": {
+                "title": "acceptance_report_v2.p7s",
+                "documentType": "biddingDocuments",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")
+    self.assertEqual(response.json["data"]["format"], "application/pkcs7-signature")
