@@ -38,6 +38,7 @@ from openprocurement.api.constants_env import (
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
     CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
+    ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -71,6 +72,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after_2020_rules,
     tender_created_before,
 )
+from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -1343,7 +1345,10 @@ def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"
         # Skip. Nothing to comare
         return
 
-    vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
+    vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM)
+    if get_tender().get("procurementMethodType") == PQ:
+        vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM)
+
     units_amount_sum = sum(items_unit_value_amount)
     obj_amount = to_decimal(obj_value["amount"])
 
