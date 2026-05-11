@@ -566,11 +566,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                     },
                     status=422,
                 )
+
+            change_value = {"amount": 450, "amountNet": 450}
+            current_contract = self.app.get(f"/contracts/{self.contract_id}").json["data"]
+            change_items = deepcopy(current_contract["items"])
+            set_items_unit(change_items, change_value)
             with open(TARGET_DIR + "create-change.http", "w") as self.app.file_obj:
-                change_value = {"amount": 450, "amountNet": 450}
-                current_contract = self.app.get(f"/contracts/{self.contract_id}").json["data"]
-                change_items = deepcopy(current_contract["items"])
-                set_items_unit(change_items, change_value)
                 response = self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                     {

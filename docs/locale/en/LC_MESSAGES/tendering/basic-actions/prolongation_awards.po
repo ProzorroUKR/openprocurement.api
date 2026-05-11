@@ -41,7 +41,6 @@ msgstr "Only one document with type `extensionReport` could be in award:"
 msgid "Тепер подивимося на авард, в ньому змінилося поле `period.endDate` з 5 робочих днів до 20 робочих днів від дати початку розгляду:"
 msgstr "Now look at award, we will see that field `period.endDate` has been changed from 5 working days to 20 working days from award creation date:"
 
-#, fuzzy
 msgid "Для :ref:`pricequotation` є 2 робочі дні на прийняття рішення та можна подовжити строк розгляду аварду до 5 робочих днів з майлстоуном `extensionPeriod`."
 msgstr "For :ref:`pricequotation` there are 2 working days for making decision and there is a possibility to extend this period to 5 working days with milestone `extensionPeriod`."
 
