@@ -76,7 +76,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values must be no more than bid.lotValues.value.amount and no less than net bid.lotValues amount"
+      "description": "Total amount of unit values should be equal bid.lotValues.value.amount if VAT is not included in bid.lotValues"
     }
   ]
 }

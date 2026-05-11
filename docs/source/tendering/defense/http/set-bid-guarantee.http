@@ -125,7 +125,7 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "amount": 500.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "guarantee": {
       "amount": 8.0,
@@ -135,7 +135,7 @@ Content-Type: application/json
     "minimalStep": {
       "currency": "UAH",
       "amount": 5.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "auctionPeriod": {
       "startDate": "2027-01-18T12:22:15.236000+02:00",

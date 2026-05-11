@@ -138,7 +138,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                         "unit": {
                             "name": "кг",
                             "code": "KGM",
-                            "value": {"amount": 10, "valueAddedTaxIncluded": False},
+                            "value": {"amount": 20, "valueAddedTaxIncluded": False},
                         },
                         "product": uuid4().hex,
                     },
@@ -202,8 +202,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Modifying pending contract
 
-        contract["value"]["amount"] = 238
-        contract["value"]["amountNet"] = 230
+        contract["value"]["amount"] = 220
+        contract["value"]["amountNet"] = 220
 
         ####  Set contract value
 
@@ -212,7 +212,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 f"/contracts/{contract_id}?acc_token={tender_token}", {"data": {"value": contract["value"]}}
             )
         self.assertEqual(response.status, "200 OK")
-        self.assertEqual(response.json["data"]["value"]["amount"], 238)
+        self.assertEqual(response.json["data"]["value"]["amount"], 220)
 
         #### Set contact.item.unit value
 
@@ -332,8 +332,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         contract_document = self.mongodb.contracts.get(contract_id)
         contract_document["status"] = "pending"
-        # to correct sum of items not be less than 20% of contract.value
-        contract_document["items"][0]["unit"]["value"]["amount"] = 18
+        # keep sum of items equal to contract.value.amount (VAT not included)
+        contract_document["items"][0]["unit"]["value"]["amount"] = 12
         self.mongodb.contracts.save(contract_document)
 
         # Set contractTemplateName
@@ -486,7 +486,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
                 f"/contracts/{contract_id}?acc_token={tender_token}",
                 {
                     "data": {
-                        "value": {"amount": 240, "amountNet": 200},
+                        "value": {"amount": 220, "amountNet": 220},
                         "period": {"startDate": custom_period_start_date, "endDate": custom_period_end_date},
                     }
                 },
@@ -501,7 +501,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
             response = self.app.patch_json(
                 f"/contracts/{contract_id}?acc_token={tender_token}",
                 {
-                    "data": {"items": contract["items"]},
+                    "data": {"value": {"amount": 280, "amountNet": 280}, "items": contract["items"]},
                 },
             )
             self.assertEqual(response.status, "200 OK")
@@ -705,7 +705,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         contract_2 = response.json["data"]
 
         self.app.authorization = ("Basic", ("broker", ""))
-        new_value = {"amount": 100, "amountNet": 95}
+        new_value = {"amount": 100, "amountNet": 100}
         new_items = deepcopy(contract_1["items"])
         set_items_unit(new_items, new_value)
 
@@ -716,7 +716,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "200 OK")
 
-        new_value = {"amount": 200, "amountNet": 190}
+        new_value = {"amount": 200, "amountNet": 200}
         new_items = deepcopy(contract_2["items"])
         set_items_unit(new_items, new_value)
         with open(TARGET_DIR + "patch-2nd-contract-value.http", "w") as self.app.file_obj:

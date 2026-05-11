@@ -250,7 +250,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
                 self.assertEqual(
                     response.json["errors"][0]["description"],
-                    "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
+                    "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
                 )
 
             bid_data["items"][0]["quantity"] = quantity
@@ -261,9 +261,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 self.assertEqual(response.status, "201 Created")
 
             with open(TARGET_DIR + "patch-bidder.http", "w") as self.app.file_obj:
+                new_bid_value = {"amount": bid_data["value"]["amount"] + 1}
+                bid_data["value"] = {**bid_data["value"], **new_bid_value}
+                set_bid_items(self, bid_data, items=tender["items"])
                 response = self.app.patch_json(
                     "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                    {"data": {"value": {"amount": bid_data["value"]["amount"] + 1}}},
+                    {"data": {"value": new_bid_value, "items": bid_data["items"]}},
                 )
                 self.assertEqual(response.status, "200 OK")
 

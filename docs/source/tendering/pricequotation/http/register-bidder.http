@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 469,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "requirementResponses": [
@@ -161,7 +161,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
     "value": {
       "amount": 469.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "requirementResponses": [
       {

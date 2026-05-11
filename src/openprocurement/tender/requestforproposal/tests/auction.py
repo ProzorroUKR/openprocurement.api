@@ -119,7 +119,7 @@ class TenderSameValueAuctionResourceTest(TenderContentWebTest):
     initial_bids = [
         {
             "tenderers": [test_tender_rfp_supplier],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
         }
         for i in range(3)
     ]
@@ -155,12 +155,12 @@ class TenderFeaturesAuctionResourceTest(TenderContentWebTest):
         {
             "parameters": [{"code": i["code"], "value": 0.1} for i in test_tender_rfp_features_data["features"]],
             "tenderers": [test_tender_rfp_supplier],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in test_tender_rfp_features_data["features"]],
             "tenderers": [test_tender_rfp_supplier],
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
     ]
 

@@ -27,6 +27,7 @@ def patch_contract(self):
 
     value = contract["value"]
     items = deepcopy(contract["items"])
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -553,6 +554,7 @@ def contract_termination(self):
     response = self.app.get(f"/tenders/{self.tender_id}/contracts")
     contract = response.json["data"][0]
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -714,6 +716,7 @@ def patch_tender_contract_datesigned(self):
     self.mongodb.tenders.save(tender)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",

@@ -15,7 +15,7 @@ Content-Type: application/json
     "value": {
       "amount": 200.0,
       "currency": "USD",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amountNet": 200.0
     },
     "items": [

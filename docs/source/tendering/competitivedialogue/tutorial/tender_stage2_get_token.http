@@ -17,7 +17,7 @@ Content-Type: application/json
     "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
     "lots": [
@@ -30,12 +30,12 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 500.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "currency": "UAH",
           "amount": 5.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "shouldStartAfter": "2027-02-27T00:00:00+02:00",

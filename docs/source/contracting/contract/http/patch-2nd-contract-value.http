@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "value": {
       "amount": 200,
-      "amountNet": 190
+      "amountNet": 200
     },
     "items": [
       {
@@ -222,8 +222,8 @@ Content-Type: application/json
     "value": {
       "amount": 200.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 190.0
+      "valueAddedTaxIncluded": false,
+      "amountNet": 200.0
     },
     "contractChangeRationaleTypes": {
       "durationExtension": {

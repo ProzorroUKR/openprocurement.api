@@ -1166,7 +1166,7 @@ Content-Type: application/json
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 1000.0
     },
     "tenderPeriod": {
@@ -1182,12 +1182,12 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 500.0
         },
         "minimalStep": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 5.0
         },
         "auctionPeriod": {
@@ -1204,12 +1204,12 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 500.0
         },
         "minimalStep": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 5.0
         },
         "auctionPeriod": {
@@ -1516,7 +1516,7 @@ Content-Type: application/json
             "value": {
               "amount": 300.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
@@ -1524,14 +1524,14 @@ Content-Type: application/json
             "initialValue": {
               "amount": 300.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
             "value": {
               "amount": 500.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
             "status": "active",
@@ -1539,7 +1539,7 @@ Content-Type: application/json
             "initialValue": {
               "amount": 500.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -1834,7 +1834,7 @@ Content-Type: application/json
             "value": {
               "amount": 500.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
             "status": "active",
@@ -1842,14 +1842,14 @@ Content-Type: application/json
             "initialValue": {
               "amount": 500.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
             "value": {
               "amount": 400.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
             "status": "active",
@@ -1857,7 +1857,7 @@ Content-Type: application/json
             "initialValue": {
               "amount": 400.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -1959,7 +1959,7 @@ Content-Type: application/json
         "value": {
           "amount": 300.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "suppliers": [
           {
@@ -2007,7 +2007,7 @@ Content-Type: application/json
         "value": {
           "amount": 400.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "suppliers": [
           {

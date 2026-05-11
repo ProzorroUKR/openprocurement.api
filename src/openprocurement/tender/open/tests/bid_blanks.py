@@ -778,6 +778,10 @@ def draft2_bids(self):
     "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
     mock.Mock(return_value={}),
 )
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def bids_invalidation_on_tender_change(self):
     bids_access = {}
 

@@ -396,7 +396,7 @@ def create_tender_bid_invalid(self):
         "contractDuration": {"years": 12},
         "annualCostsReduction": [100] * 21,
         "currency": "UAH",
-        "valueAddedTaxIncluded": False,
+        "valueAddedTaxIncluded": True,
     }
     response = self.app.post_json(
         request_path,
@@ -763,7 +763,7 @@ def patch_tender_bid(self):
     )
 
     lot_values[0]["value"] = deepcopy(self.test_bids_data[0]["lotValues"])[0]["value"]
-    lot_values[0]["value"]["valueAddedTaxIncluded"] = False
+    lot_values[0]["value"]["valueAddedTaxIncluded"] = True
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),

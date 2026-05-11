@@ -180,7 +180,7 @@ def create_tender_invalid(self):
     )
 
     data = {"amount": 15, "currency": "UAH"}
-    initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+    initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": True}
     response = self.app.post_json(request_path, {"data": initial_data, "config": self.initial_config}, status=422)
     initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")

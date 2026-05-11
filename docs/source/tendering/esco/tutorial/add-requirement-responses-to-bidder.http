@@ -322,7 +322,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 8734.93,
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amountPerformance": 801.01,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [

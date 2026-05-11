@@ -186,7 +186,7 @@ Content-Type: application/json
     "value": {
       "amount": 22000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "tenderPeriod": {
       "startDate": "2024-01-01T00:00:01+02:00",

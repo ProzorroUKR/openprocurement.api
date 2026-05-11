@@ -122,12 +122,12 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "amount": 500.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "minimalStep": {
       "currency": "UAH",
       "amount": 5.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "auctionPeriod": {
       "startDate": "2027-01-27T13:09:55.701000+02:00",

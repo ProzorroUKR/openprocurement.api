@@ -17,7 +17,7 @@ Content-Type: application/json
     "value": {
       "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amountNet": 500.0
     }
   }

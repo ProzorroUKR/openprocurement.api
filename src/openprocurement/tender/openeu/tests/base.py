@@ -50,11 +50,11 @@ test_tender_openeu_supplier = {
 test_tender_openeu_bids = [
     {
         "tenderers": [copy.deepcopy(test_tender_openeu_supplier)],
-        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
     {
         "tenderers": [copy.deepcopy(test_tender_openeu_supplier)],
-        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
 ]
 
@@ -66,7 +66,7 @@ test_tender_openeu_three_bids = copy.deepcopy(test_tender_openeu_bids)
 test_tender_openeu_three_bids.append(
     {
         "tenderers": [test_tender_openeu_supplier.copy()],
-        "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 489, "currency": "UAH", "valueAddedTaxIncluded": False},
     }
 )
 for bid in test_tender_openeu_three_bids:

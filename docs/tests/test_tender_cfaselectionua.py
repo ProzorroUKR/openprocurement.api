@@ -349,10 +349,12 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # lot_values = deepcopy(bid["lotValues"])
         lot_values[0]["value"]["amount"] = 510
+        bid_data["lotValues"] = lot_values
+        set_bid_items(self, bid_data, tender["items"])
         with open(TARGET_DIR + "patch-pending-bid.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid1_id, bids_access[bid1_id]),
-                {"data": {"lotValues": lot_values}},
+                {"data": {"lotValues": lot_values, "items": bid_data["items"]}},
             )
             self.assertEqual(response.status, "200 OK")
 

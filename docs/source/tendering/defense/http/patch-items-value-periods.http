@@ -125,13 +125,13 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "amount": 500.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "next_check": "2027-01-17T00:00:00+02:00",
     "minimalStep": {
       "currency": "UAH",
       "amount": 5.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "auctionPeriod": {
       "startDate": "2027-01-18T12:22:15.236000+02:00",

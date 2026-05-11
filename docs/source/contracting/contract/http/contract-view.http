@@ -13,7 +13,7 @@ Content-Type: application/json
     "value": {
       "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amountNet": 500.0
     },
     "items": [
@@ -96,7 +96,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },

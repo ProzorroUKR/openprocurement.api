@@ -23,6 +23,9 @@ from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest;
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
+    create_tender_lot_min_value_vat_included_validation,
+    create_tender_min_value_vat_included_validation,
+    create_tender_min_value_vat_included_validation_before_constant,
     create_tender_without_estimated_value,
     invalid_bid_tender_features,
     patch_tender,
@@ -66,6 +69,13 @@ class TenderESCOTest(BaseESCOWebTest):
     test_tender_fundingKind_default = snitch(tender_fundingKind_default)
     test_tender_noticePublicationDate = snitch(tender_noticePublicationDate)
     test_tender_milestones_not_required = snitch(tender_milestones_not_required)
+    test_create_tender_min_value_vat_included_validation = snitch(create_tender_min_value_vat_included_validation)
+    test_create_tender_lot_min_value_vat_included_validation = snitch(
+        create_tender_lot_min_value_vat_included_validation
+    )
+    test_create_tender_min_value_vat_included_validation_before_constant = snitch(
+        create_tender_min_value_vat_included_validation_before_constant
+    )
 
 
 class TestTenderEU(BaseESCOContentWebTest, TenderResourceTestMixin, TenderUAResourceTestMixin):

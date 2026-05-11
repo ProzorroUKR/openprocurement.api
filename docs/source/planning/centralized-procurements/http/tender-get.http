@@ -124,7 +124,7 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "amount": 500.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "procurementMethodType": "aboveThresholdUA",

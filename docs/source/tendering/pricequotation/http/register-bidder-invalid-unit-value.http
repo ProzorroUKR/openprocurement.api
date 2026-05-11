@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 469,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "requirementResponses": [
@@ -139,7 +139,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount"
+      "description": "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid"
     }
   ]
 }

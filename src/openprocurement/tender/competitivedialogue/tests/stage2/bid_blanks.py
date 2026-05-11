@@ -686,7 +686,7 @@ def create_tender_biddder_invalid_ua(self):
         [{"description": [{"value": ["This field is required."]}], "location": "body", "name": "lotValues"}],
     )
 
-    bid_data["lotValues"][0]["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
+    bid_data["lotValues"][0]["value"] = {"amount": 500, "valueAddedTaxIncluded": True}
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

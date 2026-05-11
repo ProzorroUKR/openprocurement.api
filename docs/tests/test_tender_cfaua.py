@@ -869,7 +869,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 unit_prices.append(
                     {
                         "relatedItem": unit_price["relatedItem"],
-                        "value": {"amount": j, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": j, "currency": "UAH", "valueAddedTaxIncluded": False},
                     }
                 )
             with open(TARGET_DIR + "agreement-contract-unitprices{}.http".format(i), "w") as self.app.file_obj:

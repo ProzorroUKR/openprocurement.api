@@ -73,7 +73,7 @@ class BaseContractWebTest(BaseContractTest):
 
         response = self.app.patch_json(
             f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
-            {"data": {"value": {**self.contract["value"], "amountNet": 440}}},
+            {"data": {"value": {**self.contract["value"], "amountNet": 440, "valueAddedTaxIncluded": True}}},
         )
         self.contract = response.json["data"]
 

@@ -242,7 +242,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 9176.27,
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amountPerformance": 713.59,
           "yearlyPaymentsPercentage": 0.85,
           "annualCostsReduction": [
@@ -276,7 +276,7 @@ Content-Type: application/json
         "initialValue": {
           "currency": "UAH",
           "amount": 9176.27,
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amountPerformance": 713.59,
           "yearlyPaymentsPercentage": 0.85,
           "annualCostsReduction": [

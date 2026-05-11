@@ -608,6 +608,10 @@ def patch_tender_currency(self):
     self.assertEqual(lot["minimalStep"]["currency"], "GBP")
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender_vat(self):
     tender = self.initial_data
     # set tender VAT
@@ -1225,7 +1229,7 @@ def create_tender_bid_invalid(self):
             "data": {
                 "tenderers": [test_tender_below_supplier],
                 "lotValues": [
-                    {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+                    {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
                 ],
             }
         },
@@ -1466,7 +1470,7 @@ def create_tender_bid_invalid_feature(self):
         {
             "data": {
                 "tenderers": [test_tender_below_supplier],
-                "lotValues": [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}],
+                "lotValues": [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}],
             }
         },
         status=422,

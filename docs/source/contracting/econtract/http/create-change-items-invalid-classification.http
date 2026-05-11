@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 40.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -91,7 +91,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 20.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -127,7 +127,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 40.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },

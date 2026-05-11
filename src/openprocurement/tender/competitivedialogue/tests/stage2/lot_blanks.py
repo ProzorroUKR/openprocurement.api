@@ -310,6 +310,10 @@ def patch_tender_currency(self):
     )
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender_vat(self):
     # set tender VAT
     data = deepcopy(self.initial_data)
@@ -663,6 +667,9 @@ def create_tender_bidder_invalid(self):
     request_path = "/tenders/{}/bids".format(self.tender_id)
     bid_data = deepcopy(self.test_bids_data[0])
     del bid_data["value"]
+    tenderers = bid_data["tenderers"]
+    tenderers[0]["identifier"]["id"] = self.initial_data["shortlistedFirms"][0]["identifier"]["id"]
+    tenderers[0]["identifier"]["scheme"] = self.initial_data["shortlistedFirms"][0]["identifier"]["scheme"]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -737,7 +744,7 @@ def create_tender_bidder_invalid(self):
     )
 
     bid_data["lotValues"] = [
-        {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lots[0]["id"]}
+        {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lots[0]["id"]}
     ]
     response = self.app.post_json(
         request_path,
@@ -875,7 +882,7 @@ def create_tender_with_features_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -1181,6 +1188,7 @@ def one_lot_2bid(self):
             "lotValues": [{"value": {"amount": 475}, "relatedLot": self.lots_id[0]}],
         }
     )
+    set_bid_items(self, bid_data)
     self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.time_shift("active.pre-qualification")
@@ -2177,6 +2185,7 @@ def one_lot_2bid_ua(self):
             "lotValues": [{"value": {"amount": 475}, "relatedLot": self.lots_id[0]}],
         }
     )
+    set_bid_items(self, bid_data)
     self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")

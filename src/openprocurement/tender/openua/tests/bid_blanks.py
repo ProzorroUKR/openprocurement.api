@@ -477,17 +477,21 @@ def patch_tender_draft_bidder(self):
     self.assertEqual(response.json, None)
 
     lot_values[0]["value"]["amount"] = 499
+    bid_items = deepcopy(bid["items"])
+    set_items_unit(bid_items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "draft", "lotValues": lot_values}},
+        {"data": {"status": "draft", "lotValues": lot_values, "items": bid_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
     lot_values[0]["value"]["amount"] = 498
+    bid_items = deepcopy(bid["items"])
+    set_items_unit(bid_items, lot_values[0]["value"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-        {"data": {"status": "draft", "lotValues": lot_values}},
+        {"data": {"status": "draft", "lotValues": lot_values, "items": bid_items}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2614,7 +2618,7 @@ def patch_bid_during_qualification_with_24h_milestone(self):
         {
             "location": "body",
             "name": "items",
-            "description": "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount",
+            "description": "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
         },
     )
 

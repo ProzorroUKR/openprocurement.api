@@ -170,7 +170,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
         "date": "2027-01-01T00:00:00+02:00"
@@ -180,7 +180,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "aef5c67828b748e0b88c758d31fe70de",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",

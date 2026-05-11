@@ -17,6 +17,7 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tender_period_extra = TENDERING_EXTRA_PERIOD
     tender_period_extra_working_days = False
     should_validate_notice_doc_required = True
+    should_validate_vat_not_included = True
     contract_template_required = True
 
     contract_template_name_patch_statuses = ("draft", "active.tendering")

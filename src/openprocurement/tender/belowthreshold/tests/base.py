@@ -183,11 +183,11 @@ test_tender_below_features_data["features"] = [
 test_tender_below_bids = [
     {
         "tenderers": [deepcopy(test_tender_below_supplier)],
-        "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
     {
         "tenderers": [deepcopy(test_tender_below_supplier)],
-        "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
 ]
 test_tender_below_lots = [

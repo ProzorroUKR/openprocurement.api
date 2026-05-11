@@ -13,6 +13,23 @@ def patch_tender_multi_contracts(self):
     contracts_response = self.app.get("/tenders/{}/contracts".format(self.tender_id))
     contracts = contracts_response.json["data"]
 
+    # award value VAT must be True so that the validator produces the canonical
+    # "Amount should be less or equal to awarded amount" message; there is no API
+    # to flip award value VAT after award creation
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    for award in tender_doc.get("awards", []):
+        if award.get("value"):
+            award["value"]["valueAddedTaxIncluded"] = True
+    self.mongodb.tenders.save(tender_doc)
+
+    # set valueAddedTaxIncluded=True on each contract so that subsequent patches
+    # with amount != amountNet (within 20%) hit the VAT=True validator branch
+    for c in contracts:
+        self.app.patch_json(
+            f"/contracts/{c['id']}?acc_token={self.tender_token}",
+            {"data": {"value": {**c["value"], "valueAddedTaxIncluded": True}}},
+        )
+
     response = self.app.get(f"/contracts/{contracts[0]['id']}")
     contract_1 = response.json["data"]
     response = self.app.get(f"/contracts/{contracts[1]['id']}")
@@ -27,7 +44,7 @@ def patch_tender_multi_contracts(self):
     self.assertEqual(contract_1["value"]["valueAddedTaxIncluded"], True)
     self.assertEqual(contract_2["value"]["valueAddedTaxIncluded"], True)
 
-    contract_1_value = {"amount": 200, "amountNet": 201, "currency": "UAH"}
+    contract_1_value = {"amount": 200, "amountNet": 201, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_1_items = deepcopy(contract_1["items"])
     set_items_unit(contract_1_items, contract_1_value)
 
@@ -50,7 +67,7 @@ def patch_tender_multi_contracts(self):
     )
 
     # patch 1st contract
-    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_1_items = deepcopy(contract_1["items"])
     set_items_unit(contract_1_items, contract_1_value)
 
@@ -63,7 +80,7 @@ def patch_tender_multi_contracts(self):
     self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
 
     # patch 2nd contract
-    contract_2_value = {"amount": 400, "amountNet": 390, "currency": "UAH"}
+    contract_2_value = {"amount": 400, "amountNet": 390, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_2_items = deepcopy(contract_2["items"])
     set_items_unit(contract_2_items, contract_2_value)
 
@@ -80,7 +97,7 @@ def patch_tender_multi_contracts(self):
     )
 
     # 1st contract.value + 2nd contract.value <= award.amount.value
-    contract_2_value = {"amount": 190, "amountNet": 185, "currency": "UAH"}
+    contract_2_value = {"amount": 190, "amountNet": 185, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_2_items = deepcopy(contract_2["items"])
     set_items_unit(contract_2_items, contract_2_value)
     response = self.app.patch_json(
@@ -232,13 +249,30 @@ def patch_tender_multi_contracts_cancelled_with_one_activated(self):
     contracts = contracts_response.json["data"]
     self.assertEqual(len(contracts), 2)
 
+    # award value VAT must be True so that the validator produces the canonical
+    # "Amount should be less or equal to awarded amount" message; there is no API
+    # to flip award value VAT after award creation
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    for award in tender_doc.get("awards", []):
+        if award.get("value"):
+            award["value"]["valueAddedTaxIncluded"] = True
+    self.mongodb.tenders.save(tender_doc)
+
+    # set valueAddedTaxIncluded=True on each contract so that subsequent patches
+    # with amount != amountNet (within 20%) hit the VAT=True validator branch
+    for c in contracts:
+        self.app.patch_json(
+            f"/contracts/{c['id']}?acc_token={self.tender_token}",
+            {"data": {"value": {**c["value"], "valueAddedTaxIncluded": True}}},
+        )
+
     response = self.app.get(f"/contracts/{contracts[0]['id']}")
     contract_1 = response.json["data"]
     response = self.app.get(f"/contracts/{contracts[1]['id']}")
     contract_2 = response.json["data"]
 
     # patch 1st contract
-    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_1_items = deepcopy(contract_1["items"])
     set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
@@ -305,13 +339,30 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
     contracts = contracts_response.json["data"]
     self.assertEqual(len(contracts), 2)
 
+    # award value VAT must be True so that the validator produces the canonical
+    # "Amount should be less or equal to awarded amount" message; there is no API
+    # to flip award value VAT after award creation
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    for award in tender_doc.get("awards", []):
+        if award.get("value"):
+            award["value"]["valueAddedTaxIncluded"] = True
+    self.mongodb.tenders.save(tender_doc)
+
+    # set valueAddedTaxIncluded=True on each contract so that subsequent patches
+    # with amount != amountNet (within 20%) hit the VAT=True validator branch
+    for c in contracts:
+        self.app.patch_json(
+            f"/contracts/{c['id']}?acc_token={self.tender_token}",
+            {"data": {"value": {**c["value"], "valueAddedTaxIncluded": True}}},
+        )
+
     response = self.app.get(f"/contracts/{contracts[0]['id']}")
     contract_1 = response.json["data"]
     response = self.app.get(f"/contracts/{contracts[1]['id']}")
     contract_2 = response.json["data"]
 
     # patch 2nd contract
-    contract_2_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_2_value = {"amount": 200, "amountNet": 195, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_2_items = deepcopy(contract_2["items"])
     set_items_unit(contract_2_items, contract_2_value)
     response = self.app.patch_json(
@@ -323,7 +374,7 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
     self.assertEqual(response.json["data"]["value"]["amountNet"], 195)
 
     # patch 1st contract
-    contract_1_value = {"amount": 400, "amountNet": 395, "currency": "UAH"}
+    contract_1_value = {"amount": 400, "amountNet": 395, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_1_items = deepcopy(contract_1["items"])
     set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
@@ -347,7 +398,7 @@ def patch_tender_multi_contracts_cancelled_validate_amount(self):
 
     # patch 1st contract (2nd attempt)
     # should success because 2nd contract value does not taken into account (now its cancelled)
-    contract_1_value = {"amount": 400, "amountNet": 395, "currency": "UAH"}
+    contract_1_value = {"amount": 400, "amountNet": 395, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_1_items = deepcopy(contract_1["items"])
     set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
@@ -604,6 +655,7 @@ def patch_tender_contract_rationale_simple(self):
     self.assertEqual(contract["value"]["amount"], contract["value"]["amountNet"])
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -654,7 +706,15 @@ def patch_tender_contract_value(self):
     response = self.app.get(f"/tenders/{self.tender_id}/contracts")
     contract = response.json["data"][0]
 
-    value = {"amount": 501, "amountNet": 501, "currency": "UAH"}
+    # ensure the awarded value has valueAddedTaxIncluded=True so that the validator
+    # produces the canonical "Amount should be less or equal to awarded amount" error
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    for award in tender_doc.get("awards", []):
+        if award.get("value"):
+            award["value"]["valueAddedTaxIncluded"] = True
+    self.mongodb.tenders.save(tender_doc)
+
+    value = {"amount": 501, "amountNet": 501, "currency": "UAH", "valueAddedTaxIncluded": True}
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
@@ -710,7 +770,7 @@ def patch_tender_contract_value(self):
     value["amountNet"] = 85
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
-        {"data": {"value": {"amount": 100, "amountNet": 85, "currency": "UAH"}}},
+        {"data": {"value": {"amount": 100, "amountNet": 85, "currency": "UAH", "valueAddedTaxIncluded": True}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["value"]["amount"], 100)
@@ -786,6 +846,23 @@ def patch_contract_single_item_unit_value(self):
     response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
     contract = response.json["data"]
     contract_id = contract["id"]
+
+    # set contract value VAT=True with amountNet < amount so the
+    # "must be no more than ... no less than net" path is hit on activation
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "value": {
+                    **contract["value"],
+                    "valueAddedTaxIncluded": True,
+                    "amountNet": float(contract["value"]["amount"]) - 1,
+                }
+            }
+        },
+    )
+    contract = response.json["data"]
+
     self.assertEqual(len(contract["items"]), len(self.initial_data["items"]))
 
     new_items = deepcopy(contract["items"])
@@ -814,7 +891,6 @@ def patch_contract_single_item_unit_value(self):
         if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
-    doc = self.mongodb.contracts.get(contract_id)
 
     new_items = deepcopy(contract["items"])
     set_items_unit(new_items, contract["value"])
@@ -896,6 +972,23 @@ def patch_contract_single_item_unit_value_with_status(self):
     response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
     contract = response.json["data"]
     contract_id = contract["id"]
+
+    # set contract value VAT=True with amountNet < amount so the
+    # "must be no more than ... no less than net" path is hit on activation
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "value": {
+                    **contract["value"],
+                    "valueAddedTaxIncluded": True,
+                    "amountNet": float(contract["value"]["amount"]) - 1,
+                }
+            }
+        },
+    )
+    contract = response.json["data"]
+
     self.assertEqual(len(contract["items"]), len(self.initial_data["items"]))
 
     new_items = deepcopy(contract["items"])
@@ -913,11 +1006,6 @@ def patch_contract_single_item_unit_value_with_status(self):
         if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
-
-    doc = self.mongodb.contracts.get(contract_id)
-    if doc["value"]["valueAddedTaxIncluded"]:
-        doc["value"]["amountNet"] = str(float(doc["value"]["amount"]) - 1)
-    self.mongodb.contracts.save(doc)
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -1082,16 +1170,36 @@ def patch_contract_multi_items_unit_value(self):
         if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
-    doc = self.mongodb.contracts.get(contract_id)
-    if doc["value"]["valueAddedTaxIncluded"]:
-        doc["value"]["amountNet"] = str(float(doc["value"]["amount"]) - 1)
-        doc["items"] = contract_items
-    self.mongodb.contracts.save(doc)
+
+    self.app.authorization = auth
 
     response = self.app.get(f"/contracts/{contract_id}")
     contract = response.json["data"]
 
+    # set contract value VAT=True with amountNet < amount via API
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "value": {
+                    **contract["value"],
+                    "valueAddedTaxIncluded": True,
+                    "amountNet": float(contract["value"]["amount"]) - 1,
+                }
+            }
+        },
+    )
+
+    # replace items via DB write — the API forbids changing item ids, but this
+    # test seeds three brand-new items to exercise the multi-item activation rules
+    self.app.authorization = ("Basic", ("token", ""))
+    doc = self.mongodb.contracts.get(contract_id)
+    doc["items"] = contract_items
+    self.mongodb.contracts.save(doc)
     self.app.authorization = auth
+
+    response = self.app.get(f"/contracts/{contract_id}")
+    contract = response.json["data"]
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
@@ -1334,6 +1442,25 @@ def cancelling_award_contract_sync(self):
 
 
 def patch_multiple_contracts_in_contracting(self):
+    # award value VAT must be True so that the validator produces the canonical
+    # "Amount should be less or equal to awarded amount" message; there is no API
+    # to flip award value VAT after award creation
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    for award in tender_doc.get("awards", []):
+        if award.get("value"):
+            award["value"]["valueAddedTaxIncluded"] = True
+    self.mongodb.tenders.save(tender_doc)
+
+    # set valueAddedTaxIncluded=True on each contract so that subsequent patches
+    # with amount != amountNet (within 20%) hit the VAT=True validator branch
+    for c_id in self.contracts_ids:
+        response = self.app.get(f"/contracts/{c_id}")
+        c = response.json["data"]
+        self.app.patch_json(
+            f"/contracts/{c_id}?acc_token={self.tender_token}",
+            {"data": {"value": {**c["value"], "valueAddedTaxIncluded": True}}},
+        )
+
     response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
     contract1 = response.json["data"]
     response = self.app.get(f"/contracts/{self.contracts_ids[1]}")
@@ -1350,7 +1477,7 @@ def patch_multiple_contracts_in_contracting(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contracts_ids[0]}?acc_token={self.tender_token}",
-        {"data": {"value": {**contract1["value"], "amount": 200, "currency": "UAH"}}},
+        {"data": {"value": {**contract1["value"], "amount": 200, "currency": "UAH", "valueAddedTaxIncluded": True}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1366,7 +1493,7 @@ def patch_multiple_contracts_in_contracting(self):
         ],
     )
     # patch 1st contract
-    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH"}
+    contract_1_value = {"amount": 200, "amountNet": 195, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_1_items = deepcopy(contract1["items"])
     set_items_unit(contract_1_items, contract_1_value)
     response = self.app.patch_json(
@@ -1380,7 +1507,17 @@ def patch_multiple_contracts_in_contracting(self):
     # patch 2nd contract
     response = self.app.patch_json(
         f"/contracts/{self.contracts_ids[1]}?acc_token={self.tender_token}",
-        {"data": {"value": {**contract2["value"], "amount": 400, "amountNet": 390, "currency": "UAH"}}},
+        {
+            "data": {
+                "value": {
+                    **contract2["value"],
+                    "amount": 400,
+                    "amountNet": 390,
+                    "currency": "UAH",
+                    "valueAddedTaxIncluded": True,
+                }
+            }
+        },
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -1391,7 +1528,7 @@ def patch_multiple_contracts_in_contracting(self):
     )
 
     # 1st contract.value + 2nd contract.value <= award.amount.value
-    contract_2_value = {"amount": 190, "amountNet": 185, "currency": "UAH"}
+    contract_2_value = {"amount": 190, "amountNet": 185, "currency": "UAH", "valueAddedTaxIncluded": True}
     contract_2_items = deepcopy(contract2["items"])
     set_items_unit(contract_2_items, contract_2_value)
     response = self.app.patch_json(

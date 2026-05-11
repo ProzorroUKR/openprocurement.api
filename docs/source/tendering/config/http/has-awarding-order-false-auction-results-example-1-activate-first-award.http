@@ -22,7 +22,7 @@ Content-Type: application/json
     "value": {
       "amount": 498.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "suppliers": [
       {

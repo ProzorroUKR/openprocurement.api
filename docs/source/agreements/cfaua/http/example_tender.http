@@ -39,7 +39,7 @@ Content-Type: application/json
     "awardCriteria": "lowestCost",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
     "procurementMethodType": "closeFrameworkAgreementUA",
@@ -115,12 +115,12 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 500.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "currency": "UAH",
           "amount": 15.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
@@ -254,7 +254,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 469.0,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "date": "2026-11-09T00:00:01+02:00"
@@ -296,7 +296,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 470.0,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "date": "2026-11-09T00:00:02+02:00"
@@ -338,7 +338,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 471.0,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "date": "2026-11-09T00:00:03+02:00"
@@ -423,7 +423,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 469,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "date": "2026-12-16T00:00:00+02:00",
         "id": "011e63208de240c896e459f6bcb39725",
@@ -464,7 +464,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 470,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "date": "2026-12-16T00:00:00+02:00",
         "id": "1e4ce39ccc9d44f694f3311d124f43d9",
@@ -505,7 +505,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 471,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "date": "2026-12-16T00:00:00+02:00",
         "id": "0f7d7962750e47f3bc7deadc3e1e4071",
@@ -592,7 +592,7 @@ Content-Type: application/json
                 "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 93
                 }
               }
@@ -634,7 +634,7 @@ Content-Type: application/json
                 "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 93
                 }
               }
@@ -676,7 +676,7 @@ Content-Type: application/json
                 "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 93
                 }
               }

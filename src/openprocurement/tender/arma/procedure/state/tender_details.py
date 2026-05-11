@@ -18,6 +18,7 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
     tender_period_extra = TENDERING_EXTRA_PERIOD
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     contract_template_required = False
+    should_validate_vat_not_included = False
 
     working_days_config = WORKING_DAYS_CONFIG
 

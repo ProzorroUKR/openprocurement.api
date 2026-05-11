@@ -64,7 +64,7 @@ test_tender_co_short_three_bids = deepcopy(test_tender_co_short_bids)
 test_tender_co_short_three_bids.append(
     {
         "tenderers": [test_tender_below_supplier],
-        "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 489.0, "currency": "UAH", "valueAddedTaxIncluded": False},
     }
 )
 

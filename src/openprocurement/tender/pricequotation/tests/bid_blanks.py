@@ -196,7 +196,7 @@ def create_tender_bid_invalid(self):
         {
             "data": {
                 "tenderers": [test_tender_pq_supplier],
-                "value": {"amount": 500, "valueAddedTaxIncluded": False},
+                "value": {"amount": 500, "valueAddedTaxIncluded": True},
                 "requirementResponses": rrs,
             }
         },
@@ -356,6 +356,7 @@ def create_tender_bid(self):
             "requirementResponses": rrs,
         }
     )
+    set_bid_items(self, bid_data, items=tender["items"])
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": bid_data},
@@ -1311,6 +1312,12 @@ def invalidate_not_agreement_member_bid_via_chronograph(self):
 
 
 def bid_items_unit_value_validations(self):
+    # Force tender value VAT=True via direct mongo write, bypassing the should_validate_vat_not_included
+    # validator. The test verifies bid item validation for both VAT-included and VAT-excluded paths.
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    tender_doc["value"]["valueAddedTaxIncluded"] = True
+    self.mongodb.tenders.save(tender_doc)
+
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
@@ -1318,7 +1325,7 @@ def bid_items_unit_value_validations(self):
 
     bid_data = {
         "tenderers": [test_tender_pq_supplier],
-        "value": {"amount": 500},
+        "value": {"amount": 500, "valueAddedTaxIncluded": True},
         "requirementResponses": rrs,
     }
     set_bid_items(self, bid_data)

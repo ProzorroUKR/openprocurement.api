@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 0.5,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         }
       },
       {
@@ -19,7 +19,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 0.5,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         }
       }
     ]
@@ -63,7 +63,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 0.5,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         }
       },
       {
@@ -71,7 +71,7 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 0.5,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         }
       }
     ],

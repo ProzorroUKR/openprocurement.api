@@ -156,7 +156,7 @@ def create_tender_bid_invalid(self):
         {
             "data": {
                 "tenderers": [test_tender_below_supplier],
-                "value": {"amount": 500, "valueAddedTaxIncluded": False},
+                "value": {"amount": 500, "valueAddedTaxIncluded": True},
             }
         },
         status=422,
@@ -1112,13 +1112,13 @@ def features_bid(self):
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "status": "pending",
             "tenderers": [test_tender_below_supplier],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
             "tenderers": [test_tender_below_supplier],
             "status": "draft",
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
     ]
     for i in test_features_bids:
@@ -1136,7 +1136,7 @@ def features_bid(self):
 def features_bid_invalid(self):
     data = {
         "tenderers": [test_tender_below_supplier],
-        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
     }
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")

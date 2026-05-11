@@ -37,6 +37,7 @@ from openprocurement.api.constants_env import (
     CONTRACT_OWNER_REQUIRED_FROM,
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
     CRITERION_REQUIREMENT_STATUSES_FROM,
+    EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
@@ -1777,3 +1778,14 @@ def validate_milestones_sequence_number(
                 status=422,
                 name="milestones",
             )
+
+
+def validate_value_vat_disabled(request, value, field_name):
+    if tender_created_after(EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM) and value.get("valueAddedTaxIncluded") is True:
+        raise_operation_error(
+            request,
+            "valueAddedTaxIncluded should be false",
+            status=422,
+            location="body",
+            name=f"{field_name}.valueAddedTaxIncluded",
+        )

@@ -45,7 +45,7 @@ Content-Type: application/json
             "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
+              "valueAddedTaxIncluded": false,
               "amount": 93
             }
           }
@@ -87,7 +87,7 @@ Content-Type: application/json
             "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
+              "valueAddedTaxIncluded": false,
               "amount": 93
             }
           }
@@ -129,7 +129,7 @@ Content-Type: application/json
             "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
             "value": {
               "currency": "UAH",
-              "valueAddedTaxIncluded": true,
+              "valueAddedTaxIncluded": false,
               "amount": 93
             }
           }

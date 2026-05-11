@@ -135,7 +135,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "value": {
           "amount": 600.0,
           "currency": "USD",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
         "date": "2027-01-01T00:00:00+02:00"
@@ -145,7 +145,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "value": {
           "amount": 700.0,
           "currency": "EUR",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "6670a4933d854a00afa53a2979728a6d",
         "date": "2027-01-01T00:00:00+02:00"

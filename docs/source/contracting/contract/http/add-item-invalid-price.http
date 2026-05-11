@@ -85,7 +85,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -176,7 +176,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount"
+      "description": "Total amount of unit values should be equal contract.value.amount if VAT is not included in contract"
     }
   ]
 }

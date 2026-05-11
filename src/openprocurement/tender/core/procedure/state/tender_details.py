@@ -86,6 +86,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_milestone_duration_days,
     validate_milestone_sums,
     validate_milestones_sequence_number,
+    validate_value_vat_disabled,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_full_date,
@@ -231,6 +232,7 @@ class BaseTenderDetailsMixing:
     tender_period_extra_working_days = False
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
+    should_validate_vat_not_included = False
 
     calendar = WORKING_DAYS
 
@@ -669,6 +671,10 @@ class BaseTenderDetailsMixing:
                 location="body",
                 name="lots.minimalStep.valueAddedTaxIncluded",
             )
+
+        # CS-21518 - for some tenders we need to validate that lot has valueAddedTaxIncluded False
+        if self.should_validate_vat_not_included:
+            validate_value_vat_disabled(self.request, lot_value, "lots.value")
 
         lot_min_step_amount = lot_min_step.get("amount")
 
@@ -1202,6 +1208,10 @@ class BaseTenderDetailsMixing:
                 location="body",
                 name="minimalStep.valueAddedTaxIncluded",
             )
+
+        # CS-21518 - for some tenders we need to validate that tender has valueAddedTaxIncluded False
+        if self.should_validate_vat_not_included:
+            validate_value_vat_disabled(self.request, tender_value, "value")
 
         tender_min_step_amount = tender_min_step.get("amount")
 

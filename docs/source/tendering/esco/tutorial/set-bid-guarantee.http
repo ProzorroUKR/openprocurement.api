@@ -1056,7 +1056,7 @@ Content-Type: application/json
     "status": "active.tendering",
     "minValue": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",
@@ -1106,7 +1106,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "minValue": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStepPercentage": 0.006,
         "fundingKind": "other",

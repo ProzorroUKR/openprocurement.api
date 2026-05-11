@@ -17,10 +17,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false,
-            "amount": 83.33333333333333
+            "amount": 50.0
           }
         },
-        "quantity": 6.0,
+        "quantity": 10.0,
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "22222222222222222222222222222222"
       }
@@ -39,7 +39,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "status": "pending",
@@ -91,13 +91,13 @@ Content-Type: application/json
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 83.33333333333333,
+            "amount": 50.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 6.0,
+        "quantity": 10.0,
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "22222222222222222222222222222222"
       }
