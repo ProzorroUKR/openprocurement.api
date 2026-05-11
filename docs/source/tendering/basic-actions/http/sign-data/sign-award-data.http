@@ -14,7 +14,7 @@ Content-Type: application/json
     "value": {
       "amount": 499.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "suppliers": [
       {
@@ -139,7 +139,7 @@ Content-Type: application/json
               "value": {
                 "amount": 500.0,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               },
               "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
               "status": "active",
@@ -147,7 +147,7 @@ Content-Type: application/json
               "initialValue": {
                 "amount": 500.0,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             }
           ],
@@ -243,7 +243,7 @@ Content-Type: application/json
               "value": {
                 "amount": 499.0,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               },
               "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
               "status": "active",
@@ -251,7 +251,7 @@ Content-Type: application/json
               "initialValue": {
                 "amount": 499.0,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             }
           ],
@@ -376,7 +376,7 @@ Content-Type: application/json
       "awardCriteria": "lowestCost",
       "value": {
         "currency": "UAH",
-        "valueAddedTaxIncluded": true,
+        "valueAddedTaxIncluded": false,
         "amount": 500.0
       },
       "lots": [
@@ -388,12 +388,12 @@ Content-Type: application/json
           "date": "2027-01-01T00:00:00+02:00",
           "value": {
             "currency": "UAH",
-            "valueAddedTaxIncluded": true,
+            "valueAddedTaxIncluded": false,
             "amount": 500.0
           },
           "minimalStep": {
             "currency": "UAH",
-            "valueAddedTaxIncluded": true,
+            "valueAddedTaxIncluded": false,
             "amount": 5.0
           },
           "auctionPeriod": {
@@ -565,7 +565,7 @@ Content-Type: application/json
           "value": {
             "amount": 499.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "suppliers": [
             {

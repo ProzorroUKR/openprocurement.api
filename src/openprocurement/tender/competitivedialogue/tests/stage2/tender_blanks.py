@@ -1410,6 +1410,7 @@ def first_bid_tender(self):
     bid_id = bid["id"]
     # create second bid
     bid_data["value"] = {"amount": 475}
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     _, bid2_token = self.create_bid(tender_id, bid_data)

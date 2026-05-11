@@ -368,6 +368,7 @@ def set_items_unit(items, value):
         item["quantity"] = item.get("quantity", 4.0)
         total_quantity += item["quantity"]
 
+    items_with_amount = []
     for item in items:
         # set unit
         item["unit"] = item.get("unit", {})
@@ -391,6 +392,18 @@ def set_items_unit(items, value):
             item["unit"]["value"]["amount"] = 0
         elif total_quantity:
             item["unit"]["value"]["amount"] = amount / total_quantity
+            items_with_amount.append(item)
+
+    # adjust last item's unit value amount to compensate float precision loss
+    # so the sum of (quantity * unit_value_amount) exactly equals the total amount
+    if items_with_amount and (value or {}).get("amount"):
+        amount = value["amount"]
+        running_total = 0
+        for item in items_with_amount[:-1]:
+            running_total += item["quantity"] * item["unit"]["value"]["amount"]
+        last_item = items_with_amount[-1]
+        if last_item["quantity"]:
+            last_item["unit"]["value"]["amount"] = (amount - running_total) / last_item["quantity"]
 
 
 def generate_req_response(req):

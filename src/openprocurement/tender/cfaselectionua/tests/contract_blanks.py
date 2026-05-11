@@ -28,6 +28,7 @@ def patch_tender_contract(self):
     tender = self.mongodb.tenders.get(self.tender_id)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     items = deepcopy(contract["items"])
     set_items_unit(items, value)
@@ -176,10 +177,19 @@ def patch_contract_single_item_unit_value(self):
         if "complaintPeriod" in i:
             i["complaintPeriod"]["endDate"] = i["complaintPeriod"]["startDate"]
     self.mongodb.tenders.save(doc)
-    doc = self.mongodb.contracts.get(contract_id)
-    if doc["value"]["valueAddedTaxIncluded"]:
-        doc["value"]["amountNet"] = str(float(doc["value"]["amount"]) - 1)
-    self.mongodb.contracts.save(doc)
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "value": {
+                    **contract["value"],
+                    "valueAddedTaxIncluded": True,
+                    "amountNet": float(contract["value"]["amount"]) - 1,
+                }
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",

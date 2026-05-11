@@ -1334,7 +1334,7 @@ def patch_tender_contract_value_amount(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
-        {"data": {"value": {"amount": 445, "amountNet": 100}}},
+        {"data": {"value": {"amount": 445, "amountNet": 100, "valueAddedTaxIncluded": True}}},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")

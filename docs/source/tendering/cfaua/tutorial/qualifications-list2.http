@@ -15,7 +15,7 @@ Content-Type: application/json
       "value": {
         "amount": 485.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       },
       "suppliers": [
         {
@@ -80,7 +80,7 @@ Content-Type: application/json
       "value": {
         "amount": 499.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       },
       "suppliers": [
         {
@@ -146,7 +146,7 @@ Content-Type: application/json
       "value": {
         "amount": 500.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       },
       "suppliers": [
         {
@@ -212,7 +212,7 @@ Content-Type: application/json
       "value": {
         "amount": 485.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       },
       "suppliers": [
         {

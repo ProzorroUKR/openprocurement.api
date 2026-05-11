@@ -80,7 +80,7 @@ Content-Type: application/json
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
     "tenderPeriod": {
@@ -232,12 +232,12 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "amount": 500.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "currency": "UAH",
           "amount": 5.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {

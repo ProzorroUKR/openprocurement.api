@@ -479,6 +479,8 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    contract = response.json["data"]
+
     contract_fields = {
         "id",
         "awardID",
@@ -541,12 +543,17 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    value = contract["value"]
+    value["amountNet"] = value["amount"] - 1
+    value["valueAddedTaxIncluded"] = True
+
     item["unit"]["value"] = {"amount": 10, "currency": "UAH", "valueAddedTaxIncluded": False}
 
     response = self.app.patch_json(
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {
             "data": {
+                "value": value,
                 "items": [item],
                 "status": "active",
                 "contractNumber": "123",
@@ -569,6 +576,7 @@ def move_award_contract_to_contracting(self):
         f"/contracts/{contract_id}?acc_token={self.tender_token}",
         {
             "data": {
+                "value": value,
                 "items": [item],
                 "status": "active",
                 "contractNumber": "123",

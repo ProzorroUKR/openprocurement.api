@@ -232,7 +232,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed8
     "value": {
       "currency": "UAH",
       "amount": 500.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",

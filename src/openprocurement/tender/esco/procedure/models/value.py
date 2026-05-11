@@ -32,7 +32,7 @@ class BasicESCOValue(BasicValue):
 
 
 class ESCOValue(BasicESCOValue):
-    valueAddedTaxIncluded = BooleanType(required=True, default=True)
+    valueAddedTaxIncluded = BooleanType(required=True, default=False)
     # Calculated energy service contract performance indicator
     amountPerformance = DecimalType(required=False, precision=-2)
     # The percentage of annual payments in favor of Bidder

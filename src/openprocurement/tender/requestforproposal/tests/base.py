@@ -251,11 +251,11 @@ test_tender_rfp_features_data["features"] = [
 test_tender_rfp_bids = [
     {
         "tenderers": [test_tender_rfp_supplier],
-        "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469.0, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
     {
         "tenderers": [test_tender_rfp_supplier],
-        "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 479.0, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
 ]
 test_tender_rfp_lots = [

@@ -46,7 +46,7 @@ Content-Type: application/json
         "value": {
           "amount": 499.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040",
         "date": "2027-01-07T00:15:06+02:00",

@@ -230,7 +230,7 @@ Content-Type: application/json
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 100.0
                 }
               }
@@ -241,7 +241,7 @@ Content-Type: application/json
             "value": {
               "amount": 500.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
@@ -284,7 +284,7 @@ Content-Type: application/json
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 100.111
                 }
               }
@@ -295,7 +295,7 @@ Content-Type: application/json
             "value": {
               "amount": 500.56,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
@@ -338,7 +338,7 @@ Content-Type: application/json
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 100.111
                 }
               }
@@ -349,7 +349,7 @@ Content-Type: application/json
             "value": {
               "amount": 500.56,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
@@ -392,7 +392,7 @@ Content-Type: application/json
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
                 "value": {
                   "currency": "UAH",
-                  "valueAddedTaxIncluded": true,
+                  "valueAddedTaxIncluded": false,
                   "amount": 100.0
                 }
               }
@@ -403,7 +403,7 @@ Content-Type: application/json
             "value": {
               "amount": 500.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -490,12 +490,12 @@ Content-Type: application/json
         "value": {
           "amount": 500.56,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "amount": 2.5,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "shouldStartAfter": "2027-01-05T00:00:00+02:00",
@@ -506,7 +506,7 @@ Content-Type: application/json
     "value": {
       "amount": 500.56,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",

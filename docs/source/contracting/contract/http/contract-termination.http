@@ -108,7 +108,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -335,10 +335,10 @@ Content-Type: application/json
       "valueAddedTaxIncluded": true
     },
     "value": {
-      "amount": 240.0,
+      "amount": 280.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 200.0
+      "valueAddedTaxIncluded": false,
+      "amountNet": 280.0
     },
     "contractChangeRationaleTypes": {
       "durationExtension": {

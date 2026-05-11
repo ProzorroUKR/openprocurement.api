@@ -103,7 +103,7 @@ Content-Type: application/json
     "value": {
       "amount": 0.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amountNet": 0.0
     },
     "contractChangeRationaleTypes": {

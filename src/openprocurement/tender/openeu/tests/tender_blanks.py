@@ -204,7 +204,7 @@ def create_tender_invalid(self):
     )
 
     data = {"amount": 15, "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": True}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -874,6 +874,8 @@ def one_qualificated_bid_tender(self):
     self.create_bid(tender_id, bid_data, "pending")
 
     bid_data["lotValues"][0]["value"] = self.test_bids_data[1]["value"]
+    set_bid_items(self, bid_data)
+
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})

@@ -196,7 +196,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
         "status": "pending",

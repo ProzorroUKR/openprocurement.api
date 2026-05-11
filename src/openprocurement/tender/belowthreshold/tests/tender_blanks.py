@@ -547,7 +547,7 @@ def create_tender_invalid(self):
     del self.initial_data["auctionPeriod"]
 
     data = {"amount": 15, "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": True}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1230,7 +1230,7 @@ def create_tender_with_required_unit(self):
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     for item in response.json["data"]["items"]:
         self.assertEqual(item["unit"]["value"]["currency"], "UAH")
-        self.assertEqual(item["unit"]["value"]["valueAddedTaxIncluded"], True)
+        self.assertEqual(item["unit"]["value"]["valueAddedTaxIncluded"], False)
 
     tender_data["items"][0]["unit"]["code"] = "unknown_code"
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
@@ -2789,6 +2789,7 @@ def first_bid_tender(self):
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 475}}
+    set_bid_items(self, bid_data)
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")

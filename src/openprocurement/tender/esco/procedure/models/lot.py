@@ -55,7 +55,7 @@ class PostTenderLot(PostLot, TenderLotMixin):
     minValue = ModelType(  # TODO: probably this shouldn't be in this procedure type
         PostEstimatedValue,
         required=False,
-        default={"currency": "UAH", "valueAddedTaxIncluded": True},
+        default={"currency": "UAH", "valueAddedTaxIncluded": False},
     )
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
 

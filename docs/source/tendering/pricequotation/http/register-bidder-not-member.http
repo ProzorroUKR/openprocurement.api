@@ -28,9 +28,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "value": {
-      "amount": 469,
+      "amount": 470,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "requirementResponses": [
@@ -120,10 +120,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false,
-            "amount": 93.8
+            "amount": 94.0
           }
         },
-        "product": "320701ea170c4dd0ade069195433631b"
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ]
   }

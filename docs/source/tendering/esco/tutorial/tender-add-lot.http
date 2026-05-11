@@ -33,7 +33,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
     "fundingKind": "other",
     "minValue": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     }
   }
 }

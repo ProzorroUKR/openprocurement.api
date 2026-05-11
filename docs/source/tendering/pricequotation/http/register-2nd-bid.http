@@ -28,9 +28,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "value": {
-      "amount": 469,
+      "amount": 470,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "requirementResponses": [
@@ -120,10 +120,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false,
-            "amount": 93.8
+            "amount": 94.0
           }
         },
-        "product": "320701ea170c4dd0ade069195433631b"
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ]
   }
@@ -159,9 +159,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       }
     ],
     "value": {
-      "amount": 469.0,
+      "amount": 470.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "requirementResponses": [
       {
@@ -333,14 +333,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 93.8,
+            "amount": 94.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
         "quantity": 5.0,
-        "product": "320701ea170c4dd0ade069195433631b"
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ],
     "id": "290b70b2968f43c086e52adf17aea0f9",

@@ -123,7 +123,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 0.5,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
@@ -131,7 +131,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 0.5,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -172,7 +172,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 0.5,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
@@ -180,7 +180,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 0.5,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -221,7 +221,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 0.5,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           },
           {
@@ -229,7 +229,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "amount": 0.5,
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],

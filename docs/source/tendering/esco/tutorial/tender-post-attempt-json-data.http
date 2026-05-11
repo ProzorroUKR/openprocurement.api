@@ -216,7 +216,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
     "status": "draft",
     "minValue": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "NBUdiscountRate": 0.22986,
     "fundingKind": "other",

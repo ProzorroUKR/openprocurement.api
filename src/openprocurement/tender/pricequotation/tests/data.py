@@ -156,11 +156,11 @@ test_tender_pq_multi_buyers_data = set_tender_multi_buyers(
 test_tender_pq_bids = [
     {
         "tenderers": [test_tender_pq_supplier],
-        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
     {
         "tenderers": [test_tender_pq_supplier],
-        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
 ]
 
@@ -337,7 +337,7 @@ test_tender_pq_short_profile = {
     "relatedCategory": "655360-30230000-889652",
     "unit": {"code": "H87", "name": "штук"},
     "criteria": deepcopy(test_profile_tech_features_criteria),
-    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": False},
     "status": "active",
     "agreementID": "2e14a78a2074952d5a2d256c3c004dda",
 }

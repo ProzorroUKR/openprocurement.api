@@ -85,7 +85,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },

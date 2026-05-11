@@ -7,7 +7,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "value": {
       "amount": 470
-    }
+    },
+    "items": [
+      {
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
+        "unit": {
+          "name": "кг",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 94.0
+          }
+        },
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
+      }
+    ]
   }
 }
 
@@ -44,7 +61,7 @@ Content-Type: application/json
     "value": {
       "amount": 470.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "requirementResponses": [
       {
@@ -216,14 +233,14 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 93.8,
+            "amount": 94.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
         "quantity": 5.0,
-        "product": "320701ea170c4dd0ade069195433631b"
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ]
   }

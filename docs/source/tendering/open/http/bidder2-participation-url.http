@@ -274,7 +274,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "acb82db513f64825a62e3caaa29cc025",
         "subcontractingDetails": "ДКП «Орфей»",
@@ -283,7 +283,7 @@ Content-Type: application/json
         "initialValue": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/896f80313bfc43d2aa3f0f44fc56a513_acb82db513f64825a62e3caaa29cc025?key_for_bid=4898931e7e894938aa7a06a23f01e2d9"
       }

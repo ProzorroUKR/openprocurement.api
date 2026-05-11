@@ -116,14 +116,14 @@ Content-Type: application/json
               "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
               "value": {
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             },
             {
               "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
               "value": {
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             }
           ],
@@ -163,14 +163,14 @@ Content-Type: application/json
               "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
               "value": {
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             },
             {
               "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
               "value": {
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             }
           ],
@@ -210,14 +210,14 @@ Content-Type: application/json
               "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
               "value": {
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             },
             {
               "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
               "value": {
                 "currency": "UAH",
-                "valueAddedTaxIncluded": true
+                "valueAddedTaxIncluded": false
               }
             }
           ],

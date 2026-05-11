@@ -73,6 +73,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
 
     should_validate_pre_selection_agreement = False
+    should_validate_vat_not_included = True
 
     working_days_config = WORKING_DAYS_CONFIG
 

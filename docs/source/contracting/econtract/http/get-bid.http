@@ -44,7 +44,7 @@ Content-Type: application/json
     "value": {
       "amount": 500.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "requirementResponses": [
       {

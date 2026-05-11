@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.procedure.utils import parse_date
@@ -44,6 +45,7 @@ def tender_min_value(self):
     self.assertIn("minValue", response.json["data"])
     self.assertEqual(response.json["data"]["minValue"].get("amount"), None)
     self.assertEqual(response.json["data"]["minValue"]["currency"], "UAH")
+    self.assertFalse(response.json["data"]["minValue"]["valueAddedTaxIncluded"])
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -1252,3 +1254,80 @@ def patch_tender_draft(self):
     self.assertEqual(len(tender["features"]), 1)
     self.assertEqual(tender["features"][0]["title"], "test feature")
     self.assertEqual(tender["features"][0]["enum"][0]["value"], 0.1)
+
+
+def create_tender_min_value_vat_included_validation(self):
+    data = deepcopy(self.initial_data)
+    data["minValue"] = {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    # tender with minValue.valueAddedTaxIncluded=True should be rejected
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "minValue.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded should be false",
+            }
+        ],
+    )
+
+    # tender with minValue.valueAddedTaxIncluded=False should be accepted
+    data["minValue"]["valueAddedTaxIncluded"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertFalse(response.json["data"]["minValue"]["valueAddedTaxIncluded"])
+
+
+def create_tender_lot_min_value_vat_included_validation(self):
+    data = deepcopy(self.initial_data)
+    data["minValue"] = {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": False}
+
+    lot_id = uuid4().hex
+    lots = deepcopy(self.initial_lots)
+    lots[0]["id"] = lot_id
+    lots[0]["minValue"] = {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True}
+    data["lots"] = lots
+    for item in data["items"]:
+        item["relatedLot"] = lot_id
+    for milestone in data.get("milestones", []):
+        milestone["relatedLot"] = lot_id
+
+    # lot with minValue.valueAddedTaxIncluded=True should be rejected
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "lots.minValue.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded should be false",
+            }
+        ],
+    )
+
+    # lot with minValue.valueAddedTaxIncluded=False should be accepted
+    data["lots"][0]["minValue"]["valueAddedTaxIncluded"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
+def create_tender_min_value_vat_included_validation_before_constant(self):
+    data = deepcopy(self.initial_data)
+    data["minValue"] = {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True}
+    # lots also need valueAddedTaxIncluded=True for this test
+    # (before constant date, both tender and lot level should be allowed)
+    for lot in data.get("lots", []):
+        lot["minValue"] = {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    # before constant date, minValue.valueAddedTaxIncluded=True should be allowed
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertTrue(response.json["data"]["minValue"]["valueAddedTaxIncluded"])

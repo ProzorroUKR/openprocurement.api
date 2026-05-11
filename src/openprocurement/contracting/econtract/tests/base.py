@@ -47,9 +47,16 @@ class BaseEContractWebTest(BaseContractWebTest):
         self.contract = response.json["data"]
         self.bid_token = self.initial_bids_tokens[self.award["bid_id"]]
 
+        # eContract has no PATCH route on /contracts/{id} (the patch handler is
+        # commented out on EContractResource), so the contract value cannot be
+        # mutated through the API here — fall back to a direct DB write.
         contract_doc = self.mongodb.contracts.get(self.contract["id"])
         contract_doc["value"]["amountNet"] = 440
+        contract_doc["value"]["valueAddedTaxIncluded"] = True
         self.mongodb.contracts.save(contract_doc)
+
+        response = self.app.get(f"/contracts/{self.contract_id}")
+        self.contract = response.json["data"]
 
 
 class BaseEContractContentWebTest(BaseEContractWebTest):

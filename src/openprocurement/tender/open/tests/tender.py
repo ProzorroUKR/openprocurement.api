@@ -27,6 +27,9 @@ from openprocurement.tender.open.tests.tender_blanks import (
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
+    create_tender_lot_vat_not_included_validation,
+    create_tender_vat_not_included_validation,
+    create_tender_vat_not_included_validation_before_constant,
     create_tender_with_criteria_lcc,
     empty_listing,
     first_bid_tender,
@@ -87,6 +90,11 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_get_ocds_schema = snitch(get_ocds_schema)
     test_tender_created_before_related_lot_constant = snitch(tender_created_before_related_lot_constant)
+    test_create_tender_vat_not_included_validation = snitch(create_tender_vat_not_included_validation)
+    test_create_tender_lot_vat_not_included_validation = snitch(create_tender_lot_vat_not_included_validation)
+    test_create_tender_vat_not_included_validation_before_constant = snitch(
+        create_tender_vat_not_included_validation_before_constant
+    )
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

@@ -166,12 +166,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 500.0
         },
         "minimalStep": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 15.0
         }
       }
@@ -289,7 +289,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
     "tenderPeriod": {
@@ -306,12 +306,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
         "value": {
           "currency": "UAH",
           "amount": 500.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "currency": "UAH",
           "amount": 15.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "shouldStartAfter": "2027-01-15T00:00:00+02:00",

@@ -91,6 +91,7 @@ def bids_invalidation_on_tender_change(self):
     # and submit valid bid
     data = initial_bids[0]
     data["lotValues"][0]["value"]["amount"] = 499
+    set_bid_items(self, data)
     bid, valid_bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
@@ -1728,7 +1729,7 @@ def create_tender_biddder_invalid(self):
                 "selfEligible": True,
                 "tenderers": initial_bids[0]["tenderers"],
                 "lotValues": [
-                    {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+                    {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
                 ],
             }
         },
@@ -1915,14 +1916,14 @@ def features_bidder(self):
     test_features_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]
     test_features_bids[0]["lotValues"] = [
         {
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]
     test_features_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]]
     test_features_bids[1]["lotValues"] = [
         {
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]
@@ -1952,7 +1953,7 @@ def features_bidder_invalid(self):
     del bid_data["value"]
     bid_data["lotValues"] = [
         {
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]

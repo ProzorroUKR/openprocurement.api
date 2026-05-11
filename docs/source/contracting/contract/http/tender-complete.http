@@ -58,7 +58,7 @@ Content-Type: application/json
     "value": {
       "amount": 22000.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "tenderPeriod": {
       "endDate": "2026-12-31T00:00:00+02:00",
@@ -348,7 +348,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "requirementResponses": [
           {
@@ -420,7 +420,7 @@ Content-Type: application/json
             "unit": {
               "name": "кг",
               "value": {
-                "amount": 10.0,
+                "amount": 20.0,
                 "currency": "UAH",
                 "valueAddedTaxIncluded": false
               },
@@ -434,7 +434,7 @@ Content-Type: application/json
         "initialValue": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         }
       }
     ],
@@ -449,7 +449,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "suppliers": [
           {
@@ -499,7 +499,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "suppliers": [
           {
@@ -542,10 +542,10 @@ Content-Type: application/json
         "description": null,
         "description_en": null,
         "value": {
-          "amount": 238.0,
+          "amount": 220.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
-          "amountNet": 230.0
+          "valueAddedTaxIncluded": false,
+          "amountNet": 220.0
         }
       }
     ],

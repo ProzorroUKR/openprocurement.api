@@ -158,7 +158,7 @@ def create_tender_bid_invalid(self):
             "data": {
                 "tenderers": [test_tender_cfaselectionua_supplier],
                 "lotValues": [
-                    {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+                    {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
                 ],
             }
         },
@@ -690,7 +690,7 @@ def features_bid(self):
             "tenderers": [test_tender_cfaselectionua_supplier],
             "lotValues": [
                 {
-                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": False},
                     "relatedLot": self.initial_lots[0]["id"],
                 }
             ],
@@ -701,7 +701,7 @@ def features_bid(self):
             "status": "draft",
             "lotValues": [
                 {
-                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": False},
                     "relatedLot": self.initial_lots[0]["id"],
                 }
             ],
@@ -734,7 +734,7 @@ def features_bid(self):
         "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [
             {
-                "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "relatedLot": self.initial_lots[0]["id"],
             }
         ],
@@ -757,7 +757,7 @@ def features_bid_invalid(self):
         "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [
             {
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "relatedLot": self.initial_lots[0]["id"],
             }
         ],
@@ -834,7 +834,7 @@ def patch_features_bid_invalid(self):
         "tenderers": [test_tender_cfaselectionua_supplier],
         "lotValues": [
             {
-                "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "relatedLot": self.initial_lots[0]["id"],
             }
         ],

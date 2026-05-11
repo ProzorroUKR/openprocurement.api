@@ -483,7 +483,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
             self.assertEqual(
                 response.json["errors"][0]["description"],
-                "Total amount of unit values must be no more than bid.lotValues.value.amount and no less than net bid.lotValues amount",
+                "Total amount of unit values should be equal bid.lotValues.value.amount if VAT is not included in bid.lotValues",
             )
 
         set_bid_items(self, bid_data, bid_items)

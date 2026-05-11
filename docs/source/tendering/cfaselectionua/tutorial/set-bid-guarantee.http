@@ -25,13 +25,13 @@ Content-Type: application/json
     "id": "66bd7aa82b7d403cb3626390997acbaf",
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 600.67
     },
     "minimalStep": {
       "amount": 2.5,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "guarantee": {
       "amount": 8.0,

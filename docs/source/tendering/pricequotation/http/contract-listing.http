@@ -18,7 +18,7 @@ Content-Type: application/json
       "value": {
         "amount": 470.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true,
+        "valueAddedTaxIncluded": false,
         "amountNet": 470.0
       }
     },
@@ -32,7 +32,7 @@ Content-Type: application/json
       "value": {
         "amount": 479.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true,
+        "valueAddedTaxIncluded": false,
         "amountNet": 479.0
       }
     }

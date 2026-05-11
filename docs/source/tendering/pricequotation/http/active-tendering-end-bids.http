@@ -52,7 +52,7 @@ Content-Type: application/json
       "value": {
         "amount": 470.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       },
       "requirementResponses": [
         {
@@ -224,20 +224,20 @@ Content-Type: application/json
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 93.8,
+              "amount": 94.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
             "code": "KGM"
           },
           "quantity": 5.0,
-          "product": "320701ea170c4dd0ade069195433631b"
+          "product": "a1a8ab99dc9244f1bba8d83b39543926"
         }
       ],
       "initialValue": {
         "amount": 470.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       }
     },
     {
@@ -294,7 +294,7 @@ Content-Type: application/json
       "value": {
         "amount": 479.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       },
       "requirementResponses": [
         {
@@ -480,7 +480,7 @@ Content-Type: application/json
       "initialValue": {
         "amount": 479.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true
+        "valueAddedTaxIncluded": false
       }
     },
     {

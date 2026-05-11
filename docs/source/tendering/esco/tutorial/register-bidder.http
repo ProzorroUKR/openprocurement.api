@@ -172,7 +172,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "yearlyPaymentsPercentage": 0.9,
           "annualCostsReduction": [
             500,

@@ -248,7 +248,7 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
         "status": "active",
@@ -256,7 +256,7 @@ Content-Type: application/json
         "initialValue": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32d3b5becccb479ea62a23dc50237f60_d1d81f5863c1460c8a7d2e9c9dfeb30d?key_for_bid=ba20f70bc7a74738820a155064861ddd"
       }

@@ -281,7 +281,7 @@ def create_tender_bidder_invalid(self):
     )
 
     bid_data["lotValues"] = [
-        {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+        {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
     ]
     response = self.app.post_json(
         request_path,
@@ -495,7 +495,7 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -736,6 +736,7 @@ def one_lot_2bid_1unqualified(self):
     for i in range(self.min_bids_number):
         bid_data["tenderers"] = self.test_bids_data[i]["tenderers"]
         bid_data["lotValues"] = [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id}]
+        set_bid_items(self, bid_data)
         self.create_bid(tender_id, bid_data, "pending")
 
     # switch to active.pre-qualification
@@ -808,6 +809,7 @@ def one_lot_2bid(self):
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id}]
+    set_bid_items(self, bid_data)
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.auction
@@ -998,6 +1000,7 @@ def two_lot_2bid_1lot_del(self):
             "lotValues": [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots],
         }
     )
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -1485,6 +1488,7 @@ def two_lot_2bid_0com_1can(self):
                 "lotValues": [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id} for lot_id in lots],
             }
         )
+        set_bid_items(self, bid_data)
         self.create_bid(tender_id, bid_data, "pending")
 
     set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
@@ -1579,6 +1583,7 @@ def two_lot_2bid_2com_2win(self):
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     _, bid2_token = self.create_bid(tender_id, bid_data, "pending")
@@ -1767,6 +1772,7 @@ def two_lot_3bid_1win_bug(self):
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     _, bid2_token = self.create_bid(tender_id, bid_data, "pending")

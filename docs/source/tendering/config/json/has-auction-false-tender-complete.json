@@ -98,7 +98,7 @@
                 "value": {
                     "amount": 500.0,
                     "currency": "UAH",
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 }
             },
             {
@@ -168,7 +168,7 @@
                 "value": {
                     "amount": 500.0,
                     "currency": "UAH",
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 }
             }
         ],
@@ -230,7 +230,7 @@
                         "initialValue": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         },
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
@@ -238,7 +238,7 @@
                         "value": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         }
                     },
                     {
@@ -246,7 +246,7 @@
                         "initialValue": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         },
                         "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
                         "status": "active",
@@ -254,7 +254,7 @@
                         "value": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         }
                     }
                 ],
@@ -550,7 +550,7 @@
                         "initialValue": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         },
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "status": "active",
@@ -558,7 +558,7 @@
                         "value": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         }
                     },
                     {
@@ -566,7 +566,7 @@
                         "initialValue": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         },
                         "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
                         "status": "active",
@@ -574,7 +574,7 @@
                         "value": {
                             "amount": 500.0,
                             "currency": "UAH",
-                            "valueAddedTaxIncluded": true
+                            "valueAddedTaxIncluded": false
                         }
                     }
                 ],
@@ -919,7 +919,7 @@
                     "amount": 500.0,
                     "amountNet": 500.0,
                     "currency": "UAH",
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 }
             },
             {
@@ -936,7 +936,7 @@
                     "amount": 500.0,
                     "amountNet": 500.0,
                     "currency": "UAH",
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 }
             }
         ],
@@ -2063,7 +2063,7 @@
                 "value": {
                     "amount": 500.0,
                     "currency": "UAH",
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 }
             },
             {
@@ -2075,7 +2075,7 @@
                 "value": {
                     "amount": 500.0,
                     "currency": "UAH",
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 }
             }
         ],
@@ -2164,7 +2164,7 @@
         "value": {
             "amount": 1000.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
         }
     }
 }

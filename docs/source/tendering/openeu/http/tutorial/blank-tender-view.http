@@ -53,7 +53,7 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "amount": 500.0,
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "procurementMethodType": "aboveThresholdEU",
     "procuringEntity": {

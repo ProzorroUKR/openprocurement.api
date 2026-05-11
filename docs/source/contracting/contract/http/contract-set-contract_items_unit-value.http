@@ -27,7 +27,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "amount": 12,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
@@ -85,7 +85,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -198,7 +198,7 @@ Content-Type: application/json
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 10.0,
+            "amount": 20.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
@@ -255,10 +255,10 @@ Content-Type: application/json
       }
     ],
     "value": {
-      "amount": 238.0,
+      "amount": 220.0,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amountNet": 230.0
+      "valueAddedTaxIncluded": false,
+      "amountNet": 220.0
     },
     "contractChangeRationaleTypes": {
       "durationExtension": {

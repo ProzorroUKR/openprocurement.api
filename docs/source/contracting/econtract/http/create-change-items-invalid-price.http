@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 40.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -91,7 +91,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 20.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -111,7 +111,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         {
           "description": "Додаткове комп’ютерне обладнання",
-          "quantity": 20,
+          "quantity": 15,
           "classification": {
             "description": "Cartons",
             "scheme": "ДК021",
@@ -183,7 +183,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount"
+      "description": "Total amount of unit values should be equal contract.value.amount if VAT is not included in contract"
     }
   ]
 }

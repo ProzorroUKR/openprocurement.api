@@ -132,7 +132,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
         "subcontractingDetails": "ДКП «Орфей», Україна",

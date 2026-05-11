@@ -1133,7 +1133,7 @@ def create_tender_bid_invalid(self):
                 "contractDuration": {"years": 12},
                 "annualCostsReduction": [100] * 21,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": False,
+                "valueAddedTaxIncluded": True,
             },
             "relatedLot": self.initial_lots[0]["id"],
         }
@@ -1229,7 +1229,7 @@ def patch_tender_bid(self):
     )
 
     lot_values[0]["value"]["currency"] = old_currency
-    lot_values[0]["value"]["valueAddedTaxIncluded"] = False
+    lot_values[0]["value"]["valueAddedTaxIncluded"] = True
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"lotValues": lot_values}},

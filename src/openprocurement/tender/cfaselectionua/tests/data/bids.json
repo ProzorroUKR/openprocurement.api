@@ -3,14 +3,14 @@
         "value": {
             "amount": 469,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
         }
     },
     {
         "value": {
             "amount": 479,
             "currency": "UAH",
-            "valueAddedTaxIncluded": true
+            "valueAddedTaxIncluded": false
         }
     }
 ]

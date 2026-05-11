@@ -164,7 +164,7 @@ def create_tender_biddder_invalid(self):
     )
 
     bid_data = deepcopy(self.test_bids_data[0])
-    bid_data["lotValues"][0]["value"] = {"amount": 500, "valueAddedTaxIncluded": False}
+    bid_data["lotValues"][0]["value"] = {"amount": 500, "valueAddedTaxIncluded": True}
     response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -680,6 +680,7 @@ def create_tender_bid_no_scale_invalid(self):
 def delete_tender_bidder(self):
     bid_data = deepcopy(self.test_bids_data[0])
     bid_data["lotValues"][0]["value"] = {"amount": 500}
+    set_bid_items(self, bid_data)
     bid, bid_token = self.create_bid(self.tender_id, bid_data, "pending")
 
     response = self.app.delete("/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token))
@@ -722,6 +723,7 @@ def delete_tender_bidder(self):
 
     for i in range(self.min_bids_number):
         bid_data["lotValues"][0]["value"] = {"amount": 500 - i}
+        set_bid_items(self, bid_data)
         self.create_bid(self.tender_id, bid_data, "pending")
 
     # switch to active.pre-qualification
@@ -1107,13 +1109,13 @@ def features_bidder(self):
             # "status": "pending",
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "tenderers": self.test_bids_data[0]["tenderers"],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
         {
             "status": "pending",
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
             "tenderers": self.test_bids_data[1]["tenderers"],
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
     ]
 

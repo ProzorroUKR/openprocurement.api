@@ -1177,7 +1177,7 @@ Content-Type: application/json
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
     "tenderPeriod": {
@@ -1193,12 +1193,12 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 500.0
         },
         "minimalStep": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 15.0
         }
       }
@@ -1457,7 +1457,7 @@ Content-Type: application/json
             "value": {
               "amount": 300.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             },
             "relatedLot": "13e393636d614660a90f07fa8b4feea6",
             "status": "active",
@@ -1465,7 +1465,7 @@ Content-Type: application/json
             "initialValue": {
               "amount": 300.0,
               "currency": "UAH",
-              "valueAddedTaxIncluded": true
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -1552,7 +1552,7 @@ Content-Type: application/json
         "value": {
           "amount": 300.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "suppliers": [
           {
