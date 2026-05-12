@@ -684,9 +684,9 @@ def create_plan_invalid(self):
         },
     )
 
-    initial_data["budget"]["project"][
-        "name"
-    ] = "1.3. Відновлення набору на державну службу з урахуванням професійних компетентностей"
+    initial_data["budget"]["project"]["name"] = (
+        "1.3. Відновлення набору на державну службу з урахуванням професійних компетентностей"
+    )
     del initial_data["budget"]["project"]["name_en"]
     response = self.app.post_json("/plans", {"data": initial_data}, status=422)
     self.assertEqual(response.json["status"], "error")
@@ -726,7 +726,7 @@ def create_plan_invalid_procurement_method_type(self):
         response.json["errors"],
         [
             {
-                "description": {'procurementMethodType': ["Value must be one of ('centralizedProcurement',)."]},
+                "description": {"procurementMethodType": ["Value must be one of ('centralizedProcurement',)."]},
                 "location": "body",
                 "name": "tender",
             }
@@ -745,7 +745,7 @@ def create_plan_invalid_procurement_method_type(self):
         response.json["errors"],
         [
             {
-                "description": {'procurementMethodType': ["Value must be one of ('centralizedProcurement',)."]},
+                "description": {"procurementMethodType": ["Value must be one of ('centralizedProcurement',)."]},
                 "location": "body",
                 "name": "tender",
             }
@@ -753,15 +753,15 @@ def create_plan_invalid_procurement_method_type(self):
     )
 
     with mock.patch(
-        'openprocurement.planning.api.procedure.models.tender.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+        "openprocurement.planning.api.procedure.models.tender.PLAN_ADDRESS_KIND_REQUIRED_FROM",
         get_now() + timedelta(seconds=1000),
     ):
         with mock.patch(
-            'openprocurement.planning.api.procedure.state.plan.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+            "openprocurement.planning.api.procedure.state.plan.PLAN_ADDRESS_KIND_REQUIRED_FROM",
             get_now() + timedelta(seconds=1000),
         ):
-            response = self.app.post_json('/plans', {"data": initial_data})
-            self.assertEqual(response.content_type, 'application/json')
+            response = self.app.post_json("/plans", {"data": initial_data})
+            self.assertEqual(response.content_type, "application/json")
             self.assertEqual(response.status, "201 Created")
 
             initial_data = deepcopy(self.initial_data)
@@ -812,7 +812,7 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                "description": {'address': ['This field is required.']},
+                "description": {"address": ["This field is required."]},
                 "location": "body",
                 "name": "procuringEntity",
             }
@@ -830,7 +830,7 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                "description": {'address': {'countryName': ['This field is required.']}},
+                "description": {"address": {"countryName": ["This field is required."]}},
                 "location": "body",
                 "name": "procuringEntity",
             }
@@ -848,7 +848,7 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                "description": {'address': {'invalid_field': 'Rogue field'}},
+                "description": {"address": {"invalid_field": "Rogue field"}},
                 "location": "body",
                 "name": "procuringEntity",
             }
@@ -866,7 +866,7 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                'description': {'kind': ['This field is required.']},
+                "description": {"kind": ["This field is required."]},
                 "location": "body",
                 "name": "procuringEntity",
             }
@@ -887,7 +887,7 @@ def create_plan_invalid_procuring_entity(self):
         [
             {
                 "description": {
-                    'kind': [
+                    "kind": [
                         "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
                     ]
                 },
@@ -913,15 +913,15 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                'description': 'procuringEntity with general kind cannot publish this type '
-                'of procedure. Procurement method types allowed for this '
-                'kind: centralizedProcurement, belowThreshold, '
-                'aboveThreshold, aboveThresholdUA, aboveThresholdEU, '
-                'competitiveDialogueUA, competitiveDialogueEU, esco, '
-                'closeFrameworkAgreementUA, requestForProposal, '
-                'priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.',
-                'location': 'body',
-                'name': 'kind',
+                "description": "procuringEntity with general kind cannot publish this type "
+                "of procedure. Procurement method types allowed for this "
+                "kind: centralizedProcurement, belowThreshold, "
+                "aboveThreshold, aboveThresholdUA, aboveThresholdEU, "
+                "competitiveDialogueUA, competitiveDialogueEU, esco, "
+                "closeFrameworkAgreementUA, requestForProposal, "
+                "priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.",
+                "location": "body",
+                "name": "kind",
             }
         ],
     )
@@ -950,15 +950,15 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                'description': 'procuringEntity with general kind cannot publish this type '
-                'of procedure. Procurement method types allowed for this '
-                'kind: centralizedProcurement, belowThreshold, '
-                'aboveThreshold, aboveThresholdUA, aboveThresholdEU, '
-                'competitiveDialogueUA, competitiveDialogueEU, esco, '
-                'closeFrameworkAgreementUA, requestForProposal, '
-                'priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.',
-                'location': 'body',
-                'name': 'kind',
+                "description": "procuringEntity with general kind cannot publish this type "
+                "of procedure. Procurement method types allowed for this "
+                "kind: centralizedProcurement, belowThreshold, "
+                "aboveThreshold, aboveThresholdUA, aboveThresholdEU, "
+                "competitiveDialogueUA, competitiveDialogueEU, esco, "
+                "closeFrameworkAgreementUA, requestForProposal, "
+                "priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.",
+                "location": "body",
+                "name": "kind",
             }
         ],
     )
@@ -992,44 +992,44 @@ def create_plan_invalid_procuring_entity(self):
         response.json["errors"],
         [
             {
-                'description': 'procuringEntity with other kind cannot publish this type of procedure. '
-                'Procurement method types allowed for this kind: '
-                'belowThreshold, reporting, priceQuotation, requestForProposal, esco.',
-                'location': 'body',
-                'name': 'kind',
+                "description": "procuringEntity with other kind cannot publish this type of procedure. "
+                "Procurement method types allowed for this kind: "
+                "belowThreshold, reporting, priceQuotation, requestForProposal, esco.",
+                "location": "body",
+                "name": "kind",
             }
         ],
     )
 
     # ignore address, kind validation for old plans
     with mock.patch(
-        'openprocurement.planning.api.procedure.models.tender.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+        "openprocurement.planning.api.procedure.models.tender.PLAN_ADDRESS_KIND_REQUIRED_FROM",
         get_now() + timedelta(seconds=1000),
     ):
         with mock.patch(
-            'openprocurement.planning.api.procedure.models.organization.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+            "openprocurement.planning.api.procedure.models.organization.PLAN_ADDRESS_KIND_REQUIRED_FROM",
             get_now() + timedelta(seconds=1000),
         ):
             with mock.patch(
-                'openprocurement.planning.api.procedure.state.plan.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+                "openprocurement.planning.api.procedure.state.plan.PLAN_ADDRESS_KIND_REQUIRED_FROM",
                 get_now() + timedelta(seconds=1000),
             ):
-                response = self.app.post_json('/plans', {"data": initial_data})
-                self.assertEqual(response.content_type, 'application/json')
+                response = self.app.post_json("/plans", {"data": initial_data})
+                self.assertEqual(response.content_type, "application/json")
                 self.assertEqual(response.status, "201 Created")
 
                 address = initial_data["procuringEntity"].pop("address")
-                response = self.app.post_json('/plans', {"data": initial_data})
+                response = self.app.post_json("/plans", {"data": initial_data})
                 initial_data["procuringEntity"]["address"] = address
 
-                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.content_type, "application/json")
                 self.assertEqual(response.status, "201 Created")
 
                 kind = initial_data["procuringEntity"].pop("kind")
-                response = self.app.post_json('/plans', {"data": initial_data})
+                response = self.app.post_json("/plans", {"data": initial_data})
                 initial_data["procuringEntity"]["kind"] = kind
 
-                self.assertEqual(response.content_type, 'application/json')
+                self.assertEqual(response.content_type, "application/json")
                 self.assertEqual(response.status, "201 Created")
 
                 address = initial_data["procuringEntity"].pop("address")
@@ -1056,7 +1056,7 @@ def create_plan_invalid_procuring_entity(self):
 
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.content_type, "application/json")
-                procuring_entity = response.json['data']['procuringEntity']
+                procuring_entity = response.json["data"]["procuringEntity"]
                 procuring_entity.pop("id")
                 self.assertEqual(
                     procuring_entity,
@@ -1085,7 +1085,7 @@ def create_plan_invalid_procuring_entity(self):
                 initial_data["procuringEntity"]["kind"] = kind
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.content_type, "application/json")
-                procuring_entity = response.json['data']['procuringEntity']
+                procuring_entity = response.json["data"]["procuringEntity"]
                 procuring_entity.pop("id")
                 self.assertEqual(
                     procuring_entity,
@@ -1128,7 +1128,7 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                "description": [{'address': ['This field is required.']}],
+                "description": [{"address": ["This field is required."]}],
                 "location": "body",
                 "name": "buyers",
             }
@@ -1146,7 +1146,7 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                "description": [{'address': {'countryName': ['This field is required.']}}],
+                "description": [{"address": {"countryName": ["This field is required."]}}],
                 "location": "body",
                 "name": "buyers",
             }
@@ -1164,7 +1164,7 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                "description": {'address': {'invalid_field': 'Rogue field'}},
+                "description": {"address": {"invalid_field": "Rogue field"}},
                 "location": "body",
                 "name": "buyers",
             }
@@ -1182,7 +1182,7 @@ def create_plan_invalid_buyers(self):
         response.json["errors"],
         [
             {
-                'description': [{'kind': ['This field is required.']}],
+                "description": [{"kind": ["This field is required."]}],
                 "location": "body",
                 "name": "buyers",
             }
@@ -1204,7 +1204,7 @@ def create_plan_invalid_buyers(self):
             {
                 "description": [
                     {
-                        'kind': [
+                        "kind": [
                             "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
                         ]
                     }
@@ -1216,25 +1216,25 @@ def create_plan_invalid_buyers(self):
     )
 
     with mock.patch(
-        'openprocurement.planning.api.procedure.models.organization.PLAN_ADDRESS_KIND_REQUIRED_FROM',
+        "openprocurement.planning.api.procedure.models.organization.PLAN_ADDRESS_KIND_REQUIRED_FROM",
         get_now() + timedelta(seconds=1000),
     ):
-        response = self.app.post_json('/plans', {"data": initial_data})
-        self.assertEqual(response.content_type, 'application/json')
+        response = self.app.post_json("/plans", {"data": initial_data})
+        self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.status, "201 Created")
 
         address = initial_data["buyers"][0].pop("address")
-        response = self.app.post_json('/plans', {"data": initial_data})
+        response = self.app.post_json("/plans", {"data": initial_data})
         initial_data["buyers"][0]["address"] = address
 
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.status, "201 Created")
 
         kind = initial_data["buyers"][0].pop("kind")
-        response = self.app.post_json('/plans', {"data": initial_data})
+        response = self.app.post_json("/plans", {"data": initial_data})
         initial_data["buyers"][0]["kind"] = kind
 
-        self.assertEqual(response.content_type, 'application/json')
+        self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.status, "201 Created")
 
         address = initial_data["buyers"][0].pop("address")
@@ -1261,7 +1261,7 @@ def create_plan_invalid_buyers(self):
 
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        buyers = response.json['data']['buyers'][0]
+        buyers = response.json["data"]["buyers"][0]
         buyers.pop("id")
         self.assertEqual(
             buyers,
@@ -1291,7 +1291,7 @@ def create_plan_invalid_buyers(self):
         initial_data["buyers"][0]["kind"] = kind
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
-        buyers = response.json['data']['buyers'][0]
+        buyers = response.json["data"]["buyers"][0]
         buyers.pop("id")
         self.assertEqual(
             buyers,
@@ -1321,11 +1321,11 @@ def create_plan_generated(self):
     response = self.app.post_json("/plans", {"data": data}, status=422)
     self.assertEqual(len(response.json["errors"]), 2)
     self.assertIn(
-        {'description': 'Rogue field', 'location': 'body', 'name': 'doc_id'},
+        {"description": "Rogue field", "location": "body", "name": "doc_id"},
         response.json["errors"],
     )
     self.assertIn(
-        {'description': 'Rogue field', 'location': 'body', 'name': 'planID'},
+        {"description": "Rogue field", "location": "body", "name": "planID"},
         response.json["errors"],
     )
 
@@ -1608,9 +1608,9 @@ def patch_plan_to_simpledefense(self):
         response.json["errors"],
         [
             {
-                'description': "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
-                'location': 'body',
-                'name': 'tender',
+                "description": "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'aboveThresholdUA.defense'",
+                "location": "body",
+                "name": "tender",
             }
         ],
     )
@@ -1651,9 +1651,9 @@ def patch_plan_to_openuadefense(self):
         response.json["errors"],
         [
             {
-                'description': "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'simple.defense'",
-                'location': 'body',
-                'name': 'tender',
+                "description": "Plan tender.procurementMethodType can not be changed from 'belowThreshold' to 'simple.defense'",
+                "location": "body",
+                "name": "tender",
             }
         ],
     )
@@ -2316,9 +2316,9 @@ def create_plan_with_profile(self):
         response.json["errors"],
         [
             {
-                'description': [{'profile': ["The profile value doesn't match id pattern"]}],
-                'location': 'body',
-                'name': 'items',
+                "description": [{"profile": ["The profile value doesn't match id pattern"]}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
@@ -2352,9 +2352,9 @@ def plan_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
@@ -2598,7 +2598,7 @@ def plan_additional_classifications_based_on_breakdown(self):
     self.mongodb.plans.save(plan_doc)
 
     with mock.patch(
-        'openprocurement.planning.api.procedure.state.plan.UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM',
+        "openprocurement.planning.api.procedure.state.plan.UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM",
         get_now() + timedelta(seconds=1000),
     ):
         response = self.app.patch_json(

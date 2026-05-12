@@ -82,7 +82,7 @@ def switch_to_awarded(self):
     response = self.check_chronograph()
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
-    response = self.app.get(f'/tenders/{self.tender_id}')
+    response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(response.json["data"]["status"], "active.awarded")
     self.assertEqual(len(response.json["data"]["agreements"]), 1)
     self.app.authorization = ("Basic", ("broker", ""))

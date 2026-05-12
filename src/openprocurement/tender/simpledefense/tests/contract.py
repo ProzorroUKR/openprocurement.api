@@ -28,6 +28,7 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest):
     def create_award(self, value_vat_included=True):
         authorization = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
+        value = self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value")
         response = self.app.post_json(
             "/tenders/{}/awards".format(self.tender_id),
             {
@@ -36,8 +37,8 @@ class TenderContractResourceTest(BaseSimpleDefContentWebTest):
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
                     "value": {
-                        "amount": self.initial_data["value"]["amount"],
-                        "currency": self.initial_data["value"]["currency"],
+                        "amount": value["amount"],
+                        "currency": value["currency"],
                         "valueAddedTaxIncluded": value_vat_included,
                     },
                 }

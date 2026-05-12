@@ -16,10 +16,10 @@ Content-Type: application/json
 {
   "data": {
     "id": "3c314cb490a34293961ff666e4c278dc",
-    "bidID": "92abbea07b734eaca4e7be1a7d59266e",
+    "bidID": "a57e9556a7ef4cc6a771bb404e1ae9f1",
     "lotID": "1045105100a341998426114b17a5c1ff",
     "status": "unsuccessful",
-    "date": "2023-10-10T01:02:01+03:00",
+    "date": "2027-01-01T00:02:01+02:00",
     "qualified": false,
     "eligible": false
   }

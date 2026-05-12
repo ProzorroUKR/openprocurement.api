@@ -7,9 +7,8 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues, set_bid_items
 from openprocurement.tender.core.utils import calculate_tender_full_date
-
 # TenderResourceTest
 
 
@@ -205,7 +204,7 @@ def create_tender_invalid(self):
     )
 
     data = {"amount": 15, "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": True}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -309,9 +308,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -838,7 +837,6 @@ def unsuccessful_after_prequalification_tender(self):
         "id",
         "status",
         "tenderers",
-        "selfQualified",
         "lotValues",
     }
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
@@ -876,6 +874,8 @@ def one_qualificated_bid_tender(self):
     self.create_bid(tender_id, bid_data, "pending")
 
     bid_data["lotValues"][0]["value"] = self.test_bids_data[1]["value"]
+    set_bid_items(self, bid_data)
+
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
@@ -965,8 +965,12 @@ def multiple_bidders_tender(self):
 
     self.app.authorization = ("Basic", ("broker", ""))
     set_bid_lotvalues(bid_data, tender["lots"])
+
+    set_bid_items(self, bid_data)
+    print(bid_data)
     self.create_bid(tender_id, bid_data, "pending")
 
+    set_bid_items(self, bid_data)
     bid, bid_token = self.create_bid(tender_id, bid_data, "pending")
     bid_id = bid["id"]
 

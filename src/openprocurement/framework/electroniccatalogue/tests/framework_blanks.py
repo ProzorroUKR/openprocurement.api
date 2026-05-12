@@ -17,13 +17,13 @@ def create_framework_draft_invalid_kind(self):
         response.json["errors"],
         [
             {
-                'description': {
-                    'kind': [
+                "description": {
+                    "kind": [
                         "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
                     ]
                 },
-                'location': 'body',
-                'name': 'procuringEntity',
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -43,9 +43,9 @@ def cpb_standard_status(self):
         response.json["errors"],
         [
             {
-                'description': {'identifier': ["Can't create framework for inactive cpb"]},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"identifier": ["Can't create framework for inactive cpb"]},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )

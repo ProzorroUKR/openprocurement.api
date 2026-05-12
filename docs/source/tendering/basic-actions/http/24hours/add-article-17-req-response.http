@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "requirement": {
-      "id": "bea56bfc9f1c4d34a03a7f7951027405"
+      "id": "ea7ac4688e0f403e8d9f20d8ca1d30b8"
     },
     "value": true
   }
@@ -20,13 +20,13 @@ Content-Type: application/json
   "data": [
     {
       "requirement": {
-        "id": "bea56bfc9f1c4d34a03a7f7951027405",
+        "id": "ea7ac4688e0f403e8d9f20d8ca1d30b8",
         "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       },
       "value": true,
       "id": "3410016d837b44a4902ed3d1aebf3c50",
       "classification": {
-        "scheme": "ESPD211",
+        "scheme": "LAW922",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
       }
     }

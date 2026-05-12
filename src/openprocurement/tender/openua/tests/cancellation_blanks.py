@@ -516,7 +516,7 @@ def create_cancellation_with_tender_complaint(self):
     owner_token = response.json["access"]["token"]
 
     auth = self.app.authorization
-    self.app.authorization = ('Basic', ('bot', ''))
+    self.app.authorization = ("Basic", ("bot", ""))
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, tender_complaint["id"], owner_token),
@@ -542,7 +542,7 @@ def create_cancellation_with_tender_complaint(self):
     )
 
     auth = self.app.authorization
-    self.app.authorization = ('Basic', ('reviewer', ''))
+    self.app.authorization = ("Basic", ("reviewer", ""))
 
     response = self.app.patch_json(
         "/tenders/{}/complaints/{}?acc_token={}".format(self.tender_id, tender_complaint["id"], owner_token),
@@ -593,7 +593,7 @@ def create_cancellation_with_award_complaint(self):
 
     self.set_all_awards_complaint_period_end()
 
-    with change_auth(self.app, ('Basic', ('bot', ''))):
+    with change_auth(self.app, ("Basic", ("bot", ""))):
         response = self.app.patch_json(
             "/tenders/{}/awards/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, award_id, award_complaint["id"], owner_token
@@ -674,7 +674,7 @@ def patch_tender_cancellation_2020_04_19(self):
         if reasonType_choice != cancellation["reasonType"]:
             response = self.app.patch_json(
                 "/tenders/{}/cancellations/{}?acc_token={}".format(
-                    self.tender_id, cancellation['id'], self.tender_token
+                    self.tender_id, cancellation["id"], self.tender_token
                 ),
                 {"data": {"reasonType": reasonType_choice}},
             )
@@ -799,7 +799,7 @@ def patch_tender_cancellation_2020_04_19(self):
         response.json["errors"],
         [
             {
-                "description": "Can\'t switch cancellation status from pending to unsuccessful",
+                "description": "Can't switch cancellation status from pending to unsuccessful",
                 "location": "body",
                 "name": "data",
             }
@@ -1126,7 +1126,7 @@ def access_create_tender_cancellation_complaint(self):
         award = response.json["data"]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),

@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "value": {
       "amount": 469,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "requirementResponses": [
@@ -111,19 +111,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "quantity": 3,
-        "description": "футляри до державних нагород",
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "description": "Комп’ютерне обладнання",
+        "quantity": 4.0,
         "unit": {
           "name": "кг",
           "code": "KGM",
           "value": {
-            "amount": 110.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": false
+            "valueAddedTaxIncluded": false,
+            "amount": 93.8
           }
         },
-        "product": "bee4548f9f344b8db47807229189394f"
+        "product": "320701ea170c4dd0ade069195433631b"
       }
     ]
   }
@@ -139,7 +139,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "items",
-      "description": "Total amount of unit values must be no more than bid.value.amount and no less than net bid amount"
+      "description": "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid"
     }
   ]
 }

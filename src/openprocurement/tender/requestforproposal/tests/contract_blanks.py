@@ -1,7 +1,7 @@
 def patch_econtract_multi_currency(self):
     response = self.app.get(f"/contracts/{self.contracts_ids[0]}")
     contract = response.json["data"]
-    self.assertEqual(contract["value"]["amount"], 500)
+    self.assertEqual(contract["value"]["amount"], 469.0)
     self.assertEqual(contract["value"]["currency"], "UAH")
 
     # try to change contract value VAT

@@ -13,7 +13,7 @@ class EstimatedValue(Value):
 
 
 class PostEstimatedValue(EstimatedValue):
-    valueAddedTaxIncluded = BooleanType(required=True, default=True)
+    valueAddedTaxIncluded = BooleanType(required=True, default=False)
 
 
 class WeightedValue(BasicValue):

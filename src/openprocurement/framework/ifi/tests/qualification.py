@@ -70,7 +70,7 @@ class QualificationResourceTest(SubmissionContentWebTest):
 
     initial_data = test_framework_ifi_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TestMockedQualificationResourceTest(QualificationContentWebTest):
@@ -83,10 +83,10 @@ class TestMockedQualificationResourceTest(QualificationContentWebTest):
     def setUp(self):
         patched_schema_properties = {
             "qualificationComplainDuration": {
-                'type': 'integer',
-                'minimum': 5,
-                'maximum': 5,
-                'default': 5,
+                "type": "integer",
+                "minimum": 5,
+                "maximum": 5,
+                "default": 5,
             }
         }
 
@@ -95,7 +95,7 @@ class TestMockedQualificationResourceTest(QualificationContentWebTest):
             schema["properties"].update(patched_schema_properties)
             return schema
 
-        patch_path = 'openprocurement.framework.core.procedure.state.framework.FRAMEWORK_CONFIG_JSONSCHEMAS'
+        patch_path = "openprocurement.framework.core.procedure.state.framework.FRAMEWORK_CONFIG_JSONSCHEMAS"
         with patch(patch_path) as patched_schemas:
             patched_schemas.get = patched_schemas_get
 
@@ -115,7 +115,7 @@ class TestQualificationDocumentGet(QualificationContentWebTest):
 class TestQualificationDocumentsCreate(QualificationContentWebTest):
     initial_data = test_framework_ifi_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_qualification_document_forbidden = snitch(create_qualification_document_forbidden)
     test_create_qualification_document = snitch(create_qualification_document)

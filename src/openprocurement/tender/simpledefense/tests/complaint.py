@@ -87,7 +87,6 @@ class TenderCancellationComplaintObjectionResourceTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-
     def setUp(self):
         super().setUp()
         self.set_complaint_period_end()

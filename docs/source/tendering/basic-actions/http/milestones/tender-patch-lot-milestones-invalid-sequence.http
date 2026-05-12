@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 5,
           "type": "banking"
         },
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "relatedLot": "00c2559f4fcb4104964eb69b22e5c112"
       },
       {
@@ -43,7 +43,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "days": 2,
           "type": "calendar"
         },
-        "sequenceNumber": 3
+        "sequenceNumber": 4,
+        "relatedLot": "00c2559f4fcb4104964eb69b22e5c112"
       }
     ]
   }

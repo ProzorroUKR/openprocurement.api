@@ -29,17 +29,18 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) sou
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) source
 
-.PHONY: help clean html changes linkcheck doctest gettext locale lang
+.PHONY: help clean html changes linkcheck doctest gettext locale lang locale-update locale-build locale-check-fuzzy
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
-	@echo "  clean            to clean build files"
-	@echo "  html             to make standalone HTML files"
-	@echo "  gettext          to make PO message catalogs"
-	@echo "  changes          to make an overview of all changed/added/deprecated items"
-	@echo "  linkcheck        to check all external links for integrity"
-	@echo "  locale-update    to update specified language’s po files from pot, yo can set LANG, e.g. make locale-update LANG=en"
-	@echo "  locale-build     to build specified language’s mo files, yo can set LANG, e.g. make locale-build LANG=en"
+	@echo "  clean               to clean build files"
+	@echo "  html                to make standalone HTML files"
+	@echo "  gettext             to make PO message catalogs"
+	@echo "  changes             to make an overview of all changed/added/deprecated items"
+	@echo "  linkcheck           to check all external links for integrity"
+	@echo "  locale-update       to update PO from POT (no fuzzy flags; uses scripts/locale_update.py + Babel)"
+	@echo "  locale-build        to build specified language’s mo files, yo can set LANG, e.g. make locale-build LANG=en"
+	@echo "  locale-check-fuzzy  to fail if any PO has fuzzy flags on non-header messages (polib; skips msgid \"\" header)"
 
 clean:
 	rm -rf $(BUILDDIR)/*
@@ -67,3 +68,6 @@ locale-update:
 
 locale-build:
 	$(SPHINXINTL) build -l $(LANG)
+
+locale-check-fuzzy:
+	@uv run python scripts/check_fuzzy.py

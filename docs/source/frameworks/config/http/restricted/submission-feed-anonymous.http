@@ -11,26 +11,26 @@ Content-Type: application/json
       "documents": [
         {
           "id": "fc56a1844f4c4b78b9fdbe1dc5a382d8",
-          "datePublished": "2023-10-10T01:00:00+03:00",
+          "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Приховано",
           "format": "application/msword",
           "url": "Приховано",
-          "dateModified": "2023-10-10T01:00:00+03:00",
+          "dateModified": "2027-01-01T00:00:00+02:00",
           "language": "uk",
           "confidentiality": "public"
         }
       ],
       "frameworkID": "928167e4da604e73a055125a4616babe",
       "status": "active",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "id": "21673ec1685e4d62a9540052cc59428f"
     }
   ],
   "next_page": {
-    "offset": "1696888800.0.1.784d44bebbee482288965e2473bc80da",
-    "path": "/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0.1.784d44bebbee482288965e2473bc80da",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1696888800.0.1.784d44bebbee482288965e2473bc80da"
+    "offset": "1798754400.0.1.784d44bebbee482288965e2473bc80da",
+    "path": "/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1798754400.0.1.784d44bebbee482288965e2473bc80da",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?opt_fields=documents%2CframeworkID%2Cstatus&offset=1798754400.0.1.784d44bebbee482288965e2473bc80da"
   }
 }
 

@@ -49,7 +49,6 @@ test_tender_simpledefense_features_data["items"][0]["deliveryAddress"] = test_te
 
 test_tender_simpledefense_bids = deepcopy(test_tender_below_bids)
 for bid in test_tender_simpledefense_bids:
-    bid["selfQualified"] = True
     bid["selfEligible"] = True
 
 test_tender_simpledefense_multi_buyers_data = set_tender_multi_buyers(

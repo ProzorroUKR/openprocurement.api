@@ -65,24 +65,24 @@ Content-Type: application/json
     "documents": [
       {
         "id": "1655f2ede7344a8a89fcae1d7c7f32d7",
-        "datePublished": "2023-10-26T01:00:00+03:00",
+        "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "submission_docs.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/46a9cf8cd1034d57b7e550b1c7bb0339?Signature=CV6toqmVNh7aYzT8Sn0JjsdtsYR66FqDDLdqXszr49BvU7fkKFV59qITAmgwNxHwaNZ3mGH6rZH5LtzNFshCAQ%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk",
         "confidentiality": "public"
       },
       {
         "documentType": "technicalSpecifications",
         "id": "95897799b92c4866b2e932206f8cf013",
-        "datePublished": "2023-10-26T01:00:00+03:00",
+        "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "specs.doc",
         "format": "application/msword",
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/da4552d132e14fd19dc2d64f1438a0d1/documents/95897799b92c4866b2e932206f8cf013?download=abddfc43e82f4085a26ecce77f495ef7",
-        "dateModified": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Дуже конфіденційний файл, треба приховати"
@@ -90,8 +90,8 @@ Content-Type: application/json
     ],
     "frameworkID": "79215d0ea54f4a04b04d7fadf4090ca1",
     "status": "draft",
-    "dateModified": "2023-10-26T01:00:00+03:00",
-    "date": "2023-10-26T01:00:00+03:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
+    "date": "2027-01-17T00:00:00+02:00",
     "owner": "broker",
     "submissionType": "dynamicPurchasingSystem",
     "id": "da4552d132e14fd19dc2d64f1438a0d1"

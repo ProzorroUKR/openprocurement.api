@@ -27,10 +27,10 @@ class BaseContractOwnershipChangeTest(BaseWebTest):
 
     def create_contract(self):
         data = deepcopy(self.initial_data)
-        data['id'] = uuid4().hex
+        data["id"] = uuid4().hex
         self.bid_token = uuid4().hex
         data["owner"] = self.first_owner
-        data['access'] = [
+        data["access"] = [
             {
                 "role": "bid",
                 "token": self.bid_token,
@@ -136,7 +136,7 @@ class ContractOwnershipChangeTest(BaseContractOwnershipChangeTest):
         data = deepcopy(self.initial_data)
         data["id"] = uuid4().hex
         data["owner"] = self.first_owner
-        data['access'] = [
+        data["access"] = [
             {
                 "role": "tender",
                 "token": self.tender_token,

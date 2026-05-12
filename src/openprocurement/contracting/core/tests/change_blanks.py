@@ -232,7 +232,7 @@ def create_change(self):
     )
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc.pop('contractChangeRationaleTypes', None)
+    contract_doc.pop("contractChangeRationaleTypes", None)
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.post_json(

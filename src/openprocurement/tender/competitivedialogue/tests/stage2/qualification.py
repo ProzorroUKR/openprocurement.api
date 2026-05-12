@@ -101,7 +101,6 @@ class TenderStage2EU2LotQualificationResourceTest(TenderQualificationBaseTestCas
 
 
 class TenderStage2EUQualificationDocumentResourceTest(TenderQualificationBaseTestCase):
-
     def setUp(self):
         super().setUp()
         # list qualifications

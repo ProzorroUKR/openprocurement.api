@@ -21,7 +21,7 @@ from openprocurement.tender.core.procedure.validation import validate_bid_value
 
 class PostBid(BasePostBid):
     selfEligible = BooleanType(choices=[True], required=True)
-    selfQualified = BooleanType(choices=[True], required=True)
+    selfQualified = BooleanType(choices=[True])
     lotValues = ListType(ModelType(PostLotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 
@@ -43,7 +43,7 @@ class PatchQualificationBid(PatchBid):
 
 class Bid(BaseBid):
     selfEligible = BooleanType(choices=[True], required=True)
-    selfQualified = BooleanType(choices=[True], required=True)
+    selfQualified = BooleanType(choices=[True])
     lotValues = ListType(ModelType(LotValue, required=True))
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
 

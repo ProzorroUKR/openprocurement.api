@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "8fdaed08e00c49468fa9bf713248ee91",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "reasonType": "unFixable",
     "reason": "cancellation reason",
     "cancellationOf": "tender",
@@ -26,26 +26,26 @@ Content-Type: application/json
         "confidentiality": "public",
         "description": "Changed description",
         "id": "1defad85f65d4723893b8be57866151c",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7fa03a13dbf6411795e3b66e2f7edf25?Signature=L8SCr%2FQ%2BxxunDlxi3Bq%2BUtFIUxx0O64ZDT0CDN%2BVjXJX4YMajFNydQodnZ%2F2RTRx8kB9WuR0Jhm39R%2BxEEzRBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       },
       {
         "confidentiality": "public",
         "description": "Changed description",
         "id": "1defad85f65d4723893b8be57866151c",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a0c4427300e148f7bab7da9806571de4?Signature=kwgA3NvPJw6GLrFsRHLPM49MrvPlxM0kC0wiQLr4bU85CH5WU7lLd3tU9xSBEdelARDXQNbJxoAEOjPhP%2BC5DQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
       },
       {
@@ -58,13 +58,13 @@ Content-Type: application/json
         "documentOf": "tender",
         "language": "uk",
         "id": "9bdd53a6034d40299c38152e4089c439",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-21T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-11T00:00:00+02:00"
     }
   }
 }

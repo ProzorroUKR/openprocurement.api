@@ -23,6 +23,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import (
     change_auth,
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
@@ -61,7 +62,6 @@ from tests.base.data import (
     test_docs_criterion_data,
     test_docs_eligible_evidence_data,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_requirement_data,
     test_docs_requirement_group_data,
     test_docs_subcontracting,
@@ -81,9 +81,6 @@ bid2 = deepcopy(test_docs_bid2)
 bid3 = deepcopy(test_docs_bid3_with_docs)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 test_lots[0]["value"] = test_tender_data["value"]
 test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
@@ -870,6 +867,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, [lot])
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]
@@ -890,6 +888,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
+        set_bid_items(self, bid_data_2, tender["items"])
         self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
@@ -1468,12 +1467,14 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
+        tender = response.json["data"]
         self.assertEqual(response.status, "200 OK")
 
         self.set_status("active.tendering")
 
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, [lot])
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]
@@ -1501,10 +1502,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
+        set_bid_items(self, bid_data_2, tender["items"])
         _, bid_token_2 = self.create_bid(self.tender_id, bid_data_2)
-        # response = self.app.post_json(
-        #     '/tenders/{}/bids'.format(self.tender_id),
-        #     {'data': bid2})
 
         # Pre-qualification
         self.set_status("active.pre-qualification", {"id": self.tender_id, "status": "active.tendering"})
@@ -2265,7 +2264,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         claim_data = {"data": claim.copy()}
         claim_data["data"]["status"] = "claim"
         response = self.app.post_json(
-            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token_2), claim_data
+            "/tenders/{}/awards/{}/complaints?acc_token={}".format(self.tender_id, award_id, bid_token), claim_data
         )
         self.assertEqual(response.status, "201 Created")
 
@@ -2648,7 +2647,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_tender_criteria_article_17(self):
         self.app.authorization = ("Basic", ("broker", ""))
         tender_data = deepcopy(test_tender_data)
-        tender_data["minimalStep"] = {"amount": 15, "currency": "UAH"}
         tender_data.update({"status": "draft"})
 
         response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
@@ -2658,6 +2656,24 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         owner_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
 
+        # add lot
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # create criteria
         other_criteria = deepcopy(test_criterion_data)
         classification_id = (
             "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES"
@@ -2678,13 +2694,32 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdUA
         test_data_ua = deepcopy(test_docs_tender_openua)
-        test_data_ua["minimalStep"] = {"amount": 15, "currency": "UAH"}
         response = self.app.post_json(
             "/tenders?opt_pretty=1", {"data": test_data_ua, "config": test_tender_openua_config}
         )
         self.assertEqual(response.status, "201 Created")
         tender_ua_id = response.json["data"]["id"]
         tender_ua_owner_token = response.json["access"]["token"]
+        tender_ua = response.json["data"]
+
+        # add lot
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender_ua_id, tender_ua_owner_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items_ua = deepcopy(tender_ua["items"])
+        for item in items_ua:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender_ua_id, tender_ua_owner_token), {"data": {"items": items_ua}}
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdUA
         self.add_contract_proforma_doc(tender_ua_id, tender_ua_owner_token)
         self.add_sign_doc(tender_ua_id, tender_ua_owner_token)
         with open(
@@ -2697,9 +2732,9 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "403 Forbidden")
 
+        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdEU
         self.add_contract_proforma_doc(self.tender_id, owner_token)
         self.add_sign_doc(self.tender_id, owner_token)
-        # Try to update tender from `draft` to `active.tendering` without EXCLUSION criteria aboveThresholdEU
         with open(
             TARGET_DIR + "criteria/update-tender-status-without-exclusion-criteria-open.http", "wb"
         ) as self.app.file_obj:
@@ -3019,7 +3054,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     def test_tender_criteria_article_16(self):
         self.app.authorization = ("Basic", ("broker", ""))
         tender_data = deepcopy(test_tender_data)
-        tender_data["minimalStep"] = {"amount": 15, "currency": "UAH"}
         tender_data.update({"status": "draft"})
 
         response = self.app.post_json("/tenders?opt_pretty=1", {"data": tender_data, "config": self.initial_config})
@@ -3029,6 +3063,24 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         owner_token = response.json["access"]["token"]
         self.tender_id = tender["id"]
 
+        # add lot
+        response = self.app.post_json(
+            "/tenders/{}/lots?acc_token={}".format(tender["id"], owner_token), {"data": test_lots[0]}
+        )
+        self.assertEqual(response.status, "201 Created")
+        lot = response.json["data"]
+        lot_id = lot["id"]
+
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        for item in items:
+            item["relatedLot"] = lot_id
+        response = self.app.patch_json(
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        # create criteria
         test_criteria_data = deepcopy(test_tender_openeu_criteria[:-1])
         set_tender_criteria(test_criteria_data, tender.get("lots", []), tender.get("items", []))
         with open(TARGET_DIR + "criteria/bulk-create-exclusion-criteria.http", "wb") as self.app.file_obj:
@@ -3104,6 +3156,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, [lot])
+        set_bid_items(self, bid_data, tender["items"])
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]
@@ -3356,6 +3409,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data = deepcopy(bid)
         bid_data["status"] = "draft"
         set_bid_lotvalues(bid_data, [lot])
+        set_bid_items(self, bid_data, tender["items"])
 
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid_id = response.json["data"]["id"]
@@ -3376,6 +3430,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
+        set_bid_items(self, bid_data_2, tender["items"])
         self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
@@ -3445,15 +3500,6 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         self.assertEqual(response.status, "201 Created")
 
         doc_id = response.json["data"]["id"]
-
-        # response = self.app.patch_json(
-        #     '/tenders/{}/awards/{}?acc_token={}'.format(self.tender_id, award_id, owner_token),
-        #     {"data": {
-        #         "status": "active",
-        #         "qualified": True,
-        #         "eligible": True
-        #     }})
-        # self.assertEqual(response.status, '200 OK')
 
         evidence_data = {
             "title": "Requirement response",
@@ -3640,6 +3686,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data = deepcopy(bid)
         bid_data["status"] = "draft"
         set_bid_lotvalues(bid_data, [lot])
+        set_bid_items(self, bid_data, tender["items"])
 
         response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
         bid_id = response.json["data"]["id"]
@@ -3661,6 +3708,7 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         bid_data_2 = deepcopy(bid2)
         bid_data_2["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_data_2, [lot])
+        set_bid_items(self, bid_data_2, tender["items"])
         self.create_bid(self.tender_id, bid_data_2)
 
         # Pre-qualification
@@ -3888,7 +3936,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 "code": "prepayment",
                 "type": "financing",
                 "duration": {"days": 5, "type": "banking"},
-                "sequenceNumber": 0,
+                "sequenceNumber": 1,
                 "percentage": 45.55,
             },
             {
@@ -3896,7 +3944,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 "code": "postpayment",
                 "type": "financing",
                 "duration": {"days": 7, "type": "calendar"},
-                "sequenceNumber": 1,
+                "sequenceNumber": 2,
                 "percentage": 54.45,
             },
             {
@@ -3936,6 +3984,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         milestones[0]["relatedLot"] = lot["id"]
         milestones[1]["relatedLot"] = lot["id"]
+        milestones[2]["relatedLot"] = lot["id"]
         with open(TARGET_DIR + "milestones/tender-patch-lot-milestones.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"milestones": milestones}}
@@ -3952,8 +4001,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
             [{"location": "body", "name": "data", "description": "Cannot delete lot with related milestones"}],
         )
 
-        milestones[0]["sequenceNumber"] = 0
+        milestones[0]["sequenceNumber"] = 1
         milestones[1]["sequenceNumber"] = 3
+        milestones[2]["sequenceNumber"] = 4
         with open(
             TARGET_DIR + "milestones/tender-patch-lot-milestones-invalid-sequence.http", "w"
         ) as self.app.file_obj:
@@ -3967,10 +4017,25 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                     status=422,
                 )
                 self.assertEqual(response.status, "422 Unprocessable Entity")
+                self.assertEqual(
+                    response.json["errors"],
+                    [
+                        {
+                            "location": "body",
+                            "name": "milestones",
+                            "description": [
+                                {
+                                    "sequenceNumber": "Field should contain incrementing sequence numbers starting from 1 for tender/lot separately"
+                                }
+                            ],
+                        }
+                    ],
+                )
 
         milestones[0]["sequenceNumber"] = 1
         milestones[1]["sequenceNumber"] = 2
-        milestones[1].pop("relatedLot")
+        milestones[2]["sequenceNumber"] = 1
+        milestones[2].pop("relatedLot")
         with open(
             TARGET_DIR + "milestones/tender-patch-lot-milestones-invalid-relation.http", "w"
         ) as self.app.file_obj:
@@ -3984,6 +4049,20 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                     status=422,
                 )
                 self.assertEqual(response.status, "422 Unprocessable Entity")
+                self.assertEqual(
+                    response.json["errors"],
+                    [
+                        {
+                            "location": "body",
+                            "name": "milestones",
+                            "description": [
+                                {
+                                    "relatedLot": "Related lot must be set in all milestones or all milestones should be related to tender"
+                                }
+                            ],
+                        }
+                    ],
+                )
 
     def test_docs_technical_features(self):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -4114,7 +4193,6 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         # Create bid with items
 
         bid_data = deepcopy(bid)
-        del bid_data["selfQualified"]
 
         bid_items = deepcopy(tender["items"])
 
@@ -4124,26 +4202,37 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         del bid_items[0]["profile"]
 
         set_bid_lotvalues(bid_data, [lot])
-        bid_data["items"] = bid_items
+        set_bid_items(self, bid_data, bid_items)
+
+        for item in bid_data["items"]:
+            item["unit"]["value"]["valueAddedTaxIncluded"] = True
 
         with open(
             TARGET_DIR + "bid-items-localization/unsuccessful-create-bid-with-items-VAT.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "valueAddedTaxIncluded of bid unit should be False",
+            )
 
         for item in bid_data["items"]:
             item["unit"]["value"]["valueAddedTaxIncluded"] = False
-        tender_item_id = bid_items[0]["id"]
-        bid_items[0]["id"] = "e" * 32
+        tender_item_id = bid_data["items"][0]["id"]
+        bid_data["items"][0]["id"] = "e" * 32
 
         with open(
             TARGET_DIR + "bid-items-localization/unsuccessful-create-bid-with-items.http", "w"
         ) as self.app.file_obj:
             response = self.app.post_json(f"/tenders/{self.tender_id}/bids", {"data": bid_data}, status=422)
             self.assertEqual(response.status, "422 Unprocessable Entity")
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Bid items ids should be on tender items ids for current lot",
+            )
 
-        bid_items[0]["id"] = tender_item_id
+        bid_data["items"][0]["id"] = tender_item_id
 
         with open(
             TARGET_DIR + "bid-items-localization/successfuly-create-bid-with-items.http", "w"
@@ -4154,8 +4243,10 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]
 
-        bid_data["items"][0]["unit"]["value"]["amount"] = 7
-        bid_data["items"][0]["quantity"] = 4
+        bid_items = deepcopy(bid_data["items"])
+        # keep quantity divisible by amount so unit values divide cleanly under VAT=False
+        bid_items[0]["quantity"] = bid_items[0]["quantity"] + 5
+        set_bid_items(self, bid_data, bid_items)
 
         with open(TARGET_DIR + "bid-items-localization/update-bid-items.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
@@ -4167,8 +4258,9 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         # Create
 
         product = {"id": "1" * 32, "status": "hidden", "relatedCategory": "0" * 32}
-        bid_data["items"][0]["product"] = product["id"]
         set_bid_lotvalues(bid_data, [lot])
+        set_bid_items(self, bid_data, bid_items)
+        bid_data["items"][0]["product"] = product["id"]
 
         with (
             patch("openprocurement.api.utils.requests.get", Mock(return_value=Mock(status_code=404))),
@@ -4497,7 +4589,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                             "unit": {
                                 "name": "кг",
                                 "code": "KGM",
-                                "value": {"amount": 10, "valueAddedTaxIncluded": False},
+                                "value": {"amount": 20, "valueAddedTaxIncluded": False},
                             },
                             "product": product["id"],
                         },

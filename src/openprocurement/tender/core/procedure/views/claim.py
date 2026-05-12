@@ -73,7 +73,7 @@ class BaseClaimResource(TenderBaseResource):
         access = set_ownership(claim, self.request)
 
         claim_number = calculate_total_complaints(tender) + 1
-        claim["complaintID"] = f"{tender['tenderID']}.{self.request.registry.server_id}{claim_number}"
+        claim["complaintID"] = f"{tender['tenderID']}.a{claim_number}"
 
         self.state.validate_claim_on_post(claim)
         if "complaints" not in context:

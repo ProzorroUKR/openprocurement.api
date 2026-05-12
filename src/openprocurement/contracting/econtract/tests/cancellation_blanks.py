@@ -24,7 +24,7 @@ def create_cancellation_by_buyer(self):
             {
                 "location": "body",
                 "name": "reasonType",
-                'description': ["Value must be one of ['requiresChanges', 'signingRefusal']."],
+                "description": ["Value must be one of ['requiresChanges', 'signingRefusal']."],
             }
         ],
     )

@@ -79,7 +79,6 @@ class patch_market(ContextDecorator):
 
 class MockMarketMixin:
     def setUp(self):
-
         # profile
         patch_obj = patch_multiple(get_tender_profile_targets, Mock(return_value=test_tender_pq_short_profile))
         patch_obj.start()

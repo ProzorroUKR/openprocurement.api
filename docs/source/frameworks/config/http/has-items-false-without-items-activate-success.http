@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "prettyID": "UA-F-2023-10-10-000002",
+    "prettyID": "UA-F-2027-01-01-000002",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
     "status": "active",
@@ -32,12 +32,12 @@ Content-Type: application/json
       }
     ],
     "owner": "brokerr",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-11-13T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-02-05T00:00:00+02:00"
     },
     "frameworkType": "dynamicPurchasingSystem",
     "procuringEntity": {
@@ -62,15 +62,15 @@ Content-Type: application/json
       "kind": "general"
     },
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-25T00:00:00+03:00",
-      "clarificationsUntil": "2023-10-28T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-20T00:00:00+02:00"
     },
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-10-14T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-01-06T00:00:00+02:00"
     },
-    "next_check": "2023-10-26T00:00:00+03:00",
+    "next_check": "2027-01-16T00:00:00+02:00",
     "id": "fcd268abac2544a3a34d666a06ffe66b"
   },
   "config": {

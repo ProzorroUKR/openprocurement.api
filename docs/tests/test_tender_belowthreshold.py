@@ -10,7 +10,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_lots,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues, set_tender_lots
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2_with_docs,
@@ -207,6 +207,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.initial_bids = deepcopy(self.initial_bids)
         for bid in self.initial_bids:
             set_bid_lotvalues(bid, tender_lots)
+            set_bid_items(self, bid, tender["items"])
         with open(TARGET_DIR + "tutorial/create-tender-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders?opt_pretty=1", {"data": test_tender_data_maximum, "config": self.initial_config}
@@ -466,22 +467,27 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Registering bid
         bids_access = {}
         bid_data = deepcopy(test_docs_bid_draft)
-        bid_data["items"] = [
+        set_bid_lotvalues(bid_data, tender_lots)
+
+        bid_items = [
             {
                 "quantity": 5,
                 "description": "папір",
                 "id": items[0]["id"],
-                "unit": {
-                    "code": "KGM",
-                    "value": {"amount": 1500, "currency": "UAH", "valueAddedTaxIncluded": False},
-                },
             }
         ]
-        set_bid_lotvalues(bid_data, tender_lots)
+        set_bid_items(self, bid_data, bid_items)
+
+        bid_data["items"][0]["unit"]["value"]["amount"] = bid_data["items"][0]["unit"]["value"]["amount"] + 1
         with open(TARGET_DIR + "tutorial/register-bidder-invalid.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+            self.assertEqual(
+                response.json["errors"][0]["description"],
+                "Total amount of unit values should be equal bid.lotValues.value.amount if VAT is not included in bid.lotValues",
+            )
 
-        bid_data["items"][0]["unit"]["value"]["amount"] = 0.6
+        set_bid_items(self, bid_data, bid_items)
+
         with open(TARGET_DIR + "tutorial/register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             bid1_id = response.json["data"]["id"]
@@ -559,17 +565,16 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bid_with_docs = deepcopy(test_docs_bid2_with_docs)
         bid_with_docs["tenderers"][0]["identifier"]["scheme"] = "UA-IPN"
         set_bid_lotvalues(bid_with_docs, tender_lots)
-        bid_with_docs["items"] = [
+
+        bid_items = [
             {
                 "quantity": 5,
                 "description": "папір",
                 "id": items[0]["id"],
-                "unit": {
-                    "code": "KGM",
-                    "value": {"amount": 0.6, "currency": "UAH", "valueAddedTaxIncluded": False},
-                },
             }
         ]
+        set_bid_items(self, bid_with_docs, bid_items)
+
         with open(TARGET_DIR + "tutorial/register-2nd-bidder.http", "w") as self.app.file_obj:
             for document in bid_with_docs["documents"]:
                 document["url"] = self.generate_docservice_url()
@@ -793,6 +798,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "201 Created")
             self.tender_id = tender_id = response.json["data"]["id"]
             owner_token = response.json["access"]["token"]
+            tender = response.json["data"]
 
         response = self.app.post_json(
             "/tenders/{}/lots?acc_token={}".format(tender_id, owner_token), {"data": test_tender_below_lots[0]}
@@ -800,20 +806,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.assertEqual(response.status, "201 Created")
         lot_id = response.json["data"]["id"]
 
-        test_data_wi_id = deepcopy(test_tender_data)
-        test_data_wi_id["minimalStep"] = {"amount": 5, "currency": "UAH"}
-        response = self.app.post_json(
-            "/tenders?opt_pretty=1",
-            {"data": test_data_wi_id, "config": self.initial_config},
-        )
-        self.assertEqual(response.status, "201 Created")
-        tender_wi_id = response.json["data"]["id"]
-        owner_wi_token = response.json["access"]["token"]
-
-        self.add_contract_proforma_doc(tender_wi_id, owner_wi_token)
-        self.add_sign_doc(tender_wi_id, owner_wi_token)
+        # add relatedLot for item
+        items = deepcopy(tender["items"])
+        items[0]["relatedLot"] = response.json["data"]["id"]
         response = self.app.patch_json(
-            f"/tenders/{tender_wi_id}?acc_token={owner_wi_token}", {"data": {"status": "active.enquiries"}}
+            "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
         )
         self.assertEqual(response.status, "200 OK")
 

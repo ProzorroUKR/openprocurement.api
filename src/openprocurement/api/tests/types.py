@@ -128,7 +128,7 @@ class TestIsoDateTimeType(unittest.TestCase):
     def test_to_native_string_with_not_default_tz(self):
         dt_str = "2020-01-01T12:00:00-05:00"
         dt_result = IsoDateTimeType().to_native(dt_str)
-        dt_expected = timezone('US/Eastern').localize(datetime(2020, 1, 1, 12, 0, 0))
+        dt_expected = timezone("US/Eastern").localize(datetime(2020, 1, 1, 12, 0, 0))
         self.assertEqual(dt_result, dt_expected)
 
     def test_to_native_string_invalid_format(self):
@@ -171,7 +171,7 @@ def test_decimal_type_conversion(raw_input, expected_conversion_error):
         Poket({"money": raw_input})
     except ModelConversionError as e:
         assert expected_conversion_error is True
-        assert e.args[0] == {'money': [f"Number '{raw_input}' failed to convert to a decimal."]}
+        assert e.args[0] == {"money": [f"Number '{raw_input}' failed to convert to a decimal."]}
     else:
         assert expected_conversion_error is False
 

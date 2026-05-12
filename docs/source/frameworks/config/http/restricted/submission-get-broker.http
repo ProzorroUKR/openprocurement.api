@@ -35,24 +35,24 @@ Content-Type: application/json
     "documents": [
       {
         "id": "fc56a1844f4c4b78b9fdbe1dc5a382d8",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "укр.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/881d14f2c96d4d3f969444e886f17d19?Signature=%2BYSWeyuhx29OQCi9wPrrL402c21EiQtIUycwntSEUhH%2FmLNV53qa8lfDWokPNdAUo8tDJOuw1CH2BX58%2Be34AQ%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk",
         "confidentiality": "public"
       }
     ],
     "frameworkID": "928167e4da604e73a055125a4616babe",
     "status": "active",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "owner": "brokerr",
     "submissionType": "dynamicPurchasingSystem",
     "qualificationID": "8e3a5dc35d454c998240d46d1abc2579",
-    "datePublished": "2023-10-10T01:00:00+03:00",
+    "datePublished": "2027-01-01T00:00:00+02:00",
     "id": "21673ec1685e4d62a9540052cc59428f"
   },
   "config": {

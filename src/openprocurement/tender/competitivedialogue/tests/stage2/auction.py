@@ -224,7 +224,6 @@ class TenderStage2UASameValueAuctionResourceTest(BaseCompetitiveDialogUAStage2Co
             "tenderers": [test_tender_cd_tenderer],
             "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
             "selfEligible": True,
-            "selfQualified": True,
         }
         for i in range(3)
     ]

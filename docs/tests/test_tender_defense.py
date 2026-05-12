@@ -11,7 +11,6 @@ from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid,
     test_docs_bid2,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_defense,
@@ -24,8 +23,6 @@ bid = deepcopy(test_docs_bid)
 bid2 = deepcopy(test_docs_bid2)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
 bid.update({"selfEligible": True})
 bid2.update({"selfEligible": True})
 
@@ -521,7 +518,6 @@ test_bids.append(bid_3)
 
 for i in test_bids:
     i["selfEligible"] = True
-    i["selfQualified"] = True
 
 
 class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestMixin):

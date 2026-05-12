@@ -27,7 +27,6 @@ from openprocurement.tender.open.tests.post import (
 class TenderCompetitiveDialogUAComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-
     def setUp(self):
         super().setUp()
         objection_data = deepcopy(test_tender_open_complaint_objection)
@@ -49,7 +48,6 @@ class TenderCompetitiveDialogUAComplaintPostResourceTest(
 class TenderCompetitiveDialogEUComplaintPostResourceTest(
     BaseCompetitiveDialogEUContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-
     def setUp(self):
         super().setUp()
         objection_data = deepcopy(test_tender_open_complaint_objection)
@@ -253,7 +251,6 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
         super().setUp()

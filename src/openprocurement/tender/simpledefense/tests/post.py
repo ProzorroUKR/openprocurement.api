@@ -24,7 +24,6 @@ from openprocurement.tender.simpledefense.tests.base import (
 class TenderComplaintPostResourceTest(
     BaseSimpleDefContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-
     def setUp(self):
         super().setUp()
         objection_data = deepcopy(test_tender_open_complaint_objection)
@@ -97,7 +96,6 @@ class TenderAwardComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseSimpleDefContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-
     def setUp(self):
         super().setUp()
         self.set_complaint_period_end()

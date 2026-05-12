@@ -28,9 +28,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "value": {
-      "amount": 469,
+      "amount": 470,
       "currency": "UAH",
-      "valueAddedTaxIncluded": true
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "requirementResponses": [
@@ -111,19 +111,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "quantity": 4,
-        "description": "футляри до державних нагород",
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "description": "Комп’ютерне обладнання",
+        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "code": "KGM",
           "value": {
-            "amount": 110.0,
             "currency": "UAH",
-            "valueAddedTaxIncluded": false
+            "valueAddedTaxIncluded": false,
+            "amount": 94.0
           }
         },
-        "product": "bee4548f9f344b8db47807229189394f"
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ]
   }

@@ -91,6 +91,7 @@ def bids_invalidation_on_tender_change(self):
     # and submit valid bid
     data = initial_bids[0]
     data["lotValues"][0]["value"]["amount"] = 499
+    set_bid_items(self, data)
     bid, valid_bid_token = self.create_bid(self.tender_id, data)
     valid_bid_id = bid["id"]
     valid_bid_date = bid["date"]
@@ -1667,7 +1668,6 @@ def create_tender_biddder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
     ]
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data.append({"description": ["This field is required."], "location": "body", "name": "selfEligible"})
@@ -1695,7 +1695,6 @@ def create_tender_biddder_invalid(self):
             "location": "body",
             "name": "tenderers",
         },
-        {"description": ["This field is required."], "location": "body", "name": "selfQualified"},
         {"description": ["Value must be one of [True]."], "location": "body", "name": "selfEligible"},
     ]
 
@@ -1728,10 +1727,9 @@ def create_tender_biddder_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": initial_bids[0]["tenderers"],
                 "lotValues": [
-                    {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+                    {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
                 ],
             }
         },
@@ -1762,7 +1760,6 @@ def create_tender_biddder_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": initial_bids[0]["tenderers"],
                 "lotValues": [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.initial_lots[0]["id"]}],
             }
@@ -1819,6 +1816,7 @@ def patch_tender_bidder(self):
     lot_values = bid["lotValues"]
     lot_values[0]["value"]["amount"] = 600
     bid_data["lotValues"] = lot_values
+    set_bid_items(self, bid_data)
 
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}, status=422
@@ -1851,6 +1849,7 @@ def patch_tender_bidder(self):
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     bid_data["lotValues"][0]["value"]["amount"] = initial_bids[0]["lotValues"][0]["value"]["amount"]
+    set_bid_items(self, bid_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}
     )
@@ -1861,6 +1860,7 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     bid_data["lotValues"][0]["value"]["amount"] = 440
+    set_bid_items(self, bid_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token), {"data": bid_data}
     )
@@ -1916,14 +1916,14 @@ def features_bidder(self):
     test_features_bids[0]["parameters"] = [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]]
     test_features_bids[0]["lotValues"] = [
         {
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]
     test_features_bids[1]["parameters"] = [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]]
     test_features_bids[1]["lotValues"] = [
         {
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]
@@ -1953,7 +1953,7 @@ def features_bidder_invalid(self):
     del bid_data["value"]
     bid_data["lotValues"] = [
         {
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
             "relatedLot": self.initial_lots[0]["id"],
         }
     ]
@@ -2746,12 +2746,11 @@ def get_tender_bidder_document_ds(self):
         "eligibilityDocuments",
         "qualificationDocuments",
         "financialDocuments",
-        "selfQualified",
         "submissionDate",
         "items",
     }
 
-    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "selfQualified", "submissionDate", "items"}
+    assert_data_2 = {"date", "status", "id", "lotValues", "tenderers", "submissionDate", "items"}
 
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         assert_data_1.add("selfEligible")
@@ -2865,7 +2864,6 @@ def get_tender_bidder_document_ds(self):
             "eligibilityDocuments",
             "qualificationDocuments",
             "financialDocuments",
-            "selfQualified",
             "submissionDate",
             "items",
         }
@@ -2879,7 +2877,6 @@ def get_tender_bidder_document_ds(self):
             "id",
             "lotValues",
             "tenderers",
-            "selfQualified",
             "submissionDate",
             "items",
         }
@@ -3310,7 +3307,7 @@ def view_bid_in_qualification_st_st(self):  # CS-5342
     response = self.app.get("/tenders/{}".format(self.tender_id))
     self.assertEqual(response.json["data"]["status"], "active.qualification.stand-still")
     bids = response.json["data"]["bids"]
-    expected_keys = {"id", "status", "selfQualified", "lotValues", "tenderers", "date", "submissionDate", "items"}
+    expected_keys = {"id", "status", "lotValues", "tenderers", "date", "submissionDate", "items"}
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         expected_keys.add("selfEligible")
     self.assertEqual(set(bids[0].keys()), expected_keys)

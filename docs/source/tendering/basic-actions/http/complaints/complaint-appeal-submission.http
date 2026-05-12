@@ -35,14 +35,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c40b88933aa34b83
         "documentOf": "tender",
         "language": "uk",
         "id": "94a2a62a51424b6b925f866770509be7",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "complaint_owner"
       }
     ],
     "id": "efae0bce199b49b5a609ca0b66969e79",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "datePublished": "2027-01-01T00:00:00+02:00",
     "legislation": {
       "version": "2020-04-19",
       "type": "NATIONAL_LEGISLATION",

@@ -33,3 +33,4 @@ class AwardDocumentState(BaseDocumentState):
             validate_doc_type_quantity(award_docs, obj_name="award")
         validate_doc_type_quantity(award_docs, document_type="extensionReport", obj_name="award")
         validate_doc_type_quantity(award_docs, document_type="deviationReport", obj_name="award")
+        validate_doc_type_quantity(award_docs, document_type="acceptanceReport", obj_name="award")

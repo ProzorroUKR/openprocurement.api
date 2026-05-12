@@ -693,7 +693,7 @@ def patch_active_not_qualified(self):
     )
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        response.json["errors"][0]["description"], ["Can\'t update award to active status with not qualified"]
+        response.json["errors"][0]["description"], ["Can't update award to active status with not qualified"]
     )
 
 
@@ -3752,5 +3752,5 @@ def prolongation_award_is_forbidden(self):
     )
     self.assertEqual(
         response.json["errors"][0]["description"],
-        [{'milestones': ['Forbidden to add milestone with code extensionPeriod']}],
+        [{"milestones": ["Forbidden to add milestone with code extensionPeriod"]}],
     )

@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "usedFor": "/tenders/e331845136c14af1a03b59e13c030ae1",
     "id": "efa43e6ae91e40e3bf1cc9e7c08a51c5"
   }

@@ -28,7 +28,6 @@ from openprocurement.tender.open.tests.post import (
 class TenderComplaintPostResourceTest(
     BaseESCOContentWebTest, ComplaintPostResourceMixin, TenderComplaintPostResourceMixin
 ):
-
     def setUp(self):
         super().setUp()
         objection_data = deepcopy(test_tender_open_complaint_objection)
@@ -166,7 +165,6 @@ class TenderAwardComplaintPostResourceTest(
 class TenderCancellationComplaintPostResourceTest(
     BaseESCOContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-
     @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
     def setUp(self):
         super().setUp()

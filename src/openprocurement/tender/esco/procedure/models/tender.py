@@ -104,7 +104,7 @@ class PostTender(TenderMilestoneMixin, PostBaseTender):
     submissionMethodDetails_ru = StringType()
     procurementMethodType = StringType(choices=[ESCO], default=ESCO)
     status = StringType(choices=["draft"], default="draft")
-    minValue = ModelType(PostEstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": True})
+    minValue = ModelType(PostEstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": False})
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     yearlyPaymentsPercentageRange = DecimalType(
         min_value=Decimal("0"),

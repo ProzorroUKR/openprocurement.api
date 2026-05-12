@@ -15,6 +15,7 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing):
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
 
     should_validate_notice_doc_required = True
+    should_validate_vat_not_included = True
 
 
 class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):

@@ -1,6 +1,6 @@
 [project]
 name = "openprocurement.api"
-version = "2.7.23"
+version = "2.7.28-rc.2"
 description = "Prozorro Central Database API"
 readme = "README.md"
 license = { text = "Apache License 2.0" }
@@ -68,6 +68,7 @@ dev = [
     "docutils<0.19",
     "sphinx>=7.1.0",
     "sphinx-intl>=2.1.0",
+    "polib==1.2.0",
     "sphinx-rtd-theme>=1.0.0",
     "sphinxcontrib-httpdomain>=1.8.0",
     "coverage==7.8.1",
@@ -138,7 +139,7 @@ esculator = { git = "https://github.com/ProzorroUKR/esculator.git", rev = "0.0.2
 dateorro = { git = "https://github.com/ProzorroUKR/dateorro.git", rev = "0.0.3" }
 jsonpatch = { git = "https://github.com/ProzorroUKR/python-json-patch.git", rev = "1.14+jsondiff.unicode.replacefix.0" }
 barbecue = { git = "https://github.com/ProzorroUKR/barbecue.git", rev = "0.2" }
-standards = { git = "https://github.com/ProzorroUKR/standards.git", rev = "1.0.243" }
+standards = { git = "https://github.com/ProzorroUKR/standards.git", rev = "1.0.251" }
 
 [tool.pytest.ini_options]
 minversion = "6.0"
@@ -314,13 +315,6 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
-    "src/openprocurement/api/tests",
-    "src/openprocurement/contracting/*/tests",
-    "src/openprocurement/framework/*/tests",
-    "src/openprocurement/historical/*/tests",
-    "src/openprocurement/planning/api/tests",
-    "src/openprocurement/relocation/api/tests",
-    "src/openprocurement/tender/*/tests",
 ]
 
 # Same as Black.
@@ -336,6 +330,15 @@ target-version = "py311"
 # McCabe complexity (`C901`) by default.
 select = ["E4", "E7", "E9", "F", "I"]
 ignore = []
+exclude = [
+    "src/openprocurement/api/tests/**",
+    "src/openprocurement/contracting/*/tests/**",
+    "src/openprocurement/framework/*/tests/**",
+    "src/openprocurement/historical/*/tests/**",
+    "src/openprocurement/planning/api/tests/**",
+    "src/openprocurement/relocation/api/tests/**",
+    "src/openprocurement/tender/*/tests/**",
+]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]

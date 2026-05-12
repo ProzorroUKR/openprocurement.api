@@ -45,7 +45,7 @@ Content-Type: application/json
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-10-17T00:00:00+02:00"
+        "startDate": "2027-01-08T00:00:00+02:00"
       }
     },
     "budget": {
@@ -59,8 +59,8 @@ Content-Type: application/json
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2023-01-01T00:00:00+02:00",
-        "endDate": "2023-12-31T00:00:00+02:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
@@ -86,7 +86,7 @@ Content-Type: application/json
         "description": "Поточні видатки"
       }
     ],
-    "planID": "UA-P-2023-10-10-000001-a",
+    "planID": "UA-P-2027-01-01-000001-a",
     "items": [
       {
         "id": "2b13ae33978148fb9b77de4996cda2d3",
@@ -115,7 +115,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-25T00:00:00+02:00"
+          "endDate": "2027-01-16T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -146,7 +146,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-26T00:00:00+02:00"
+          "endDate": "2027-01-17T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -177,7 +177,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-27T00:00:00+02:00"
+          "endDate": "2027-01-18T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -211,16 +211,16 @@ Content-Type: application/json
     ],
     "rationale": {
       "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-10-10T01:00:00+03:00"
+      "date": "2027-01-01T00:00:00+02:00"
     },
     "project": {
       "title": "DREAMs come true",
       "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"
     },
     "owner": "broker",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "datePublished": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "datePublished": "2027-01-01T00:00:00+02:00",
     "id": "cccb8928810c4bda97b1eabb9c4c4f9b"
   }
 }

@@ -298,7 +298,7 @@ def create_tender_invalid(self):
     )
 
     data = {"amount": 15, "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": True}
 
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
 
@@ -443,9 +443,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -656,6 +656,10 @@ def patch_draft_invalid_json(self):
     )
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
@@ -1212,6 +1216,7 @@ def first_bid_tender(self):
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data["lotValues"][0]["value"] = {"amount": 475}
+    set_bid_items(self, bid_data)
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
@@ -1507,7 +1512,7 @@ def create_tender_with_criteria_lcc(self):
     )
     response = self.app.patch_json(tender_request_path, {"data": {"awardCriteria": "lifeCycleCost"}}, status=403)
     self.assertEqual(
-        [{"location": "body", "name": "awardCriteria", "description": "Can\'t change awardCriteria"}],
+        [{"location": "body", "name": "awardCriteria", "description": "Can't change awardCriteria"}],
         response.json["errors"],
     )
 
@@ -1633,3 +1638,76 @@ def tender_created_before_related_lot_constant(self):
         response.json["errors"],
         [{"location": "body", "name": "item.relatedLot", "description": "This field is required"}],
     )
+
+
+def create_tender_vat_not_included_validation(self):
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    # tender with valueAddedTaxIncluded=True should be rejected
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "value.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded should be false",
+            }
+        ],
+    )
+
+    # tender with valueAddedTaxIncluded=False should be accepted
+    data["value"]["valueAddedTaxIncluded"] = False
+    data["minimalStep"] = {"amount": 15, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertFalse(response.json["data"]["value"]["valueAddedTaxIncluded"])
+
+
+def create_tender_lot_vat_not_included_validation(self):
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+    lot_id = uuid4().hex
+    data["lots"] = [
+        {
+            "id": lot_id,
+            "title": "lot title",
+            "description": "lot description",
+            "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "minimalStep": {"amount": 15, "currency": "UAH", "valueAddedTaxIncluded": True},
+        }
+    ]
+    for item in data["items"]:
+        item["relatedLot"] = lot_id
+    for milestone in data.get("milestones", []):
+        milestone["relatedLot"] = lot_id
+
+    # lot with valueAddedTaxIncluded=True should be rejected
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertIn("valueAddedTaxIncluded should be false", response.json["errors"][0]["description"])
+
+    # lot with valueAddedTaxIncluded=False should be accepted
+    data["value"]["valueAddedTaxIncluded"] = False
+    data["minimalStep"] = {"amount": 15, "currency": "UAH", "valueAddedTaxIncluded": False}
+    data["lots"][0]["value"]["valueAddedTaxIncluded"] = False
+    data["lots"][0]["minimalStep"]["valueAddedTaxIncluded"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertFalse(response.json["data"]["lots"][0]["value"]["valueAddedTaxIncluded"])
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
+def create_tender_vat_not_included_validation_before_constant(self):
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    # before constant date, valueAddedTaxIncluded=True should be allowed
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertTrue(response.json["data"]["value"]["valueAddedTaxIncluded"])

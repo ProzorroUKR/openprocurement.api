@@ -58,7 +58,7 @@ class QualificationContentWebTest(BaseQualificationContentWebTest):
 class TestAgreementCreation(QualificationContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_agreement = snitch(create_agreement)
     test_create_agreement_config_restricted = snitch(create_agreement_config_restricted)
@@ -67,7 +67,7 @@ class TestAgreementCreation(QualificationContentWebTest):
 class TestAgreementChanges(AgreementContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_change_agreement = snitch(change_agreement)
     test_patch_contract_suppliers = snitch(patch_contract_suppliers)
@@ -77,7 +77,7 @@ class TestAgreementChanges(AgreementContentWebTest):
 class TestAgreementResource(AgreementContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     # Chronograph
     test_agreement_chronograph_milestones = snitch(agreement_chronograph_milestones)
@@ -90,7 +90,7 @@ class TestAgreementResource(AgreementContentWebTest):
 class TestAgreementMilestoneResource(AgreementContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_patch_activation_milestone = snitch(patch_activation_milestone)
     test_post_milestone_invalid = snitch(post_milestone_invalid)
@@ -116,7 +116,7 @@ class TestMilestoneCreate(MilestoneContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
     initial_milestone_data = ban_milestone_data_with_documents
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_patch_ban_milestone = snitch(patch_ban_milestone)
 
@@ -134,7 +134,7 @@ class TestMilestoneCreate(MilestoneContentWebTest):
 class TestAgreementSearchByClassification(AgreementContentWebTest):
     initial_data = test_framework_dps_data
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_search_by_classification = snitch(search_by_classification)
     test_search_by_classification_injection = snitch(search_by_classification_injection)

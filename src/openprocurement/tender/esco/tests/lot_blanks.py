@@ -1133,7 +1133,7 @@ def create_tender_bid_invalid(self):
                 "contractDuration": {"years": 12},
                 "annualCostsReduction": [100] * 21,
                 "currency": "UAH",
-                "valueAddedTaxIncluded": False,
+                "valueAddedTaxIncluded": True,
             },
             "relatedLot": self.initial_lots[0]["id"],
         }
@@ -1201,7 +1201,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token)
     doc_id = response.json["data"]["documents"][-1]["id"]
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
@@ -1229,7 +1229,7 @@ def patch_tender_bid(self):
     )
 
     lot_values[0]["value"]["currency"] = old_currency
-    lot_values[0]["value"]["valueAddedTaxIncluded"] = False
+    lot_values[0]["value"]["valueAddedTaxIncluded"] = True
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
         {"data": {"lotValues": lot_values}},
@@ -1277,7 +1277,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
     lot_values[0].update(
@@ -1296,7 +1296,7 @@ def patch_tender_bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    response = self.activate_bid(self.tender_id, bid['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bid["id"], bid_token, doc_id)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["amount"], self.expected_bid_amount)
     self.assertNotEqual(
         response.json["data"]["lotValues"][0]["value"]["amountPerformance"], self.expected_bid_amount_performance
@@ -1389,7 +1389,6 @@ def create_tender_feature_bid_invalid(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": self.test_bids_data[0]["tenderers"],
                 "lotValues": [{"value": self.test_bids_data[0]["value"]}],
             }

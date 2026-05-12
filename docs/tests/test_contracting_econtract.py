@@ -11,7 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_multi_buyers_data,
 )
 from openprocurement.tender.core.tests.mock import patch_market
-from openprocurement.tender.core.tests.utils import change_auth, set_tender_criteria
+from openprocurement.tender.core.tests.utils import change_auth, set_items_unit, set_tender_criteria
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest as BasePQWebTest,
 )
@@ -462,7 +462,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         "rationale": "причина зміни укр",
                         "rationale_en": "change cause en",
                         "rationaleTypes": ["priceReductionWithoutQuantity"],
-                        "modifications": {"value": {"amount": 235, "amountNet": 200}},
+                        "modifications": {"value": {"amount": 235, "amountNet": 235}},
                     }
                 },
                 status=403,
@@ -560,12 +560,17 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                             "rationale_en": "change cause en",
                             "rationaleTypes": ["priceReduction"],
                             "modifications": {
-                                "value": {"amount": 535, "amountNet": 490},
+                                "value": {"amount": 535, "amountNet": 535},
                             },
                         }
                     },
                     status=422,
                 )
+
+            change_value = {"amount": 450, "amountNet": 450}
+            current_contract = self.app.get(f"/contracts/{self.contract_id}").json["data"]
+            change_items = deepcopy(current_contract["items"])
+            set_items_unit(change_items, change_value)
             with open(TARGET_DIR + "create-change.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
@@ -575,7 +580,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                             "rationale_en": "change cause en",
                             "rationaleTypes": ["priceReductionWithoutQuantity"],
                             "modifications": {
-                                "value": {"amount": 535, "amountNet": 490},
+                                "value": change_value,
+                                "items": change_items,
                             },
                         }
                     },
@@ -641,7 +647,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                             "rationale_en": "change cause en",
                             "rationaleTypes": ["durationExtension"],
                             "modifications": {
-                                "period": {"endDate": "2027-01-01T00:00:00+02:00"},
+                                "period": {"endDate": (get_now() + timedelta(days=365)).isoformat()},
                             },
                         }
                     },
@@ -681,6 +687,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             )
 
         items = deepcopy(response.json["data"]["items"])
+        # logical contract state after change_id (value=450 balanced across items)
+        set_items_unit(items, change_value)
         new_item = deepcopy(items[0])
         new_item["classification"] = {
             "id": "22992000-0",
@@ -707,7 +715,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         new_item["classification"] = items[0]["classification"]
         new_item["unit"]["value"]["amount"] = 2
-        new_item["quantity"] = 20
+        new_item["quantity"] = 15
         new_item["description"] = "Додаткове комп’ютерне обладнання"
 
         with open(TARGET_DIR + "create-change-items-invalid-price.http", "w") as self.app.file_obj:

@@ -114,9 +114,8 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                                 ),
                             }
                         )
-                server_id = get_request().registry.server_id
                 data = {
-                    "agreementID": f"{tender['tenderID']}-{server_id}{len(tender.get('agreements', '')) + 1}",
+                    "agreementID": f"{tender['tenderID']}-a{len(tender.get('agreements', '')) + 1}",
                     "date": get_request_now().isoformat(),
                     "contracts": contracts,
                     "items": items,

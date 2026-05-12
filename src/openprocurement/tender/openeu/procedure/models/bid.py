@@ -32,7 +32,7 @@ class PostBid(BasePostBid):
     eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
 
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
     selfEligible = BooleanType(choices=[True])
 
 
@@ -46,4 +46,4 @@ class Bid(BaseBid):
     eligibilityDocuments = ListType(ModelType(Document, required=True))
     qualificationDocuments = ListType(ModelType(Document, required=True))
 
-    selfQualified = BooleanType(required=True, choices=[True])
+    selfQualified = BooleanType(choices=[True])
