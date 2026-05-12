@@ -93,7 +93,7 @@ def create_tender_cancellation(self):
     )
 
     response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
         {"data": {"status": "active"}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -123,8 +123,8 @@ def create_tender_cancellation(self):
 
 
 def patch_tender_cancellation(self):
-    tender = self.app.get('/tenders/{}'.format(self.tender_id)).json['data']
-    status = tender['status']
+    tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+    status = tender["status"]
 
     response = self.app.post_json(
         "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
@@ -145,7 +145,7 @@ def patch_tender_cancellation(self):
         if reasonType_choice != cancellation["reasonType"]:
             response = self.app.patch_json(
                 "/tenders/{}/cancellations/{}?acc_token={}".format(
-                    self.tender_id, cancellation['id'], self.tender_token
+                    self.tender_id, cancellation["id"], self.tender_token
                 ),
                 {"data": {"reasonType": reasonType_choice}},
             )
@@ -165,7 +165,7 @@ def patch_tender_cancellation(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "cancelled")
-    if status == 'active.tendering':
+    if status == "active.tendering":
         self.assertNotIn("bids", response.json["data"])
 
     response = self.app.patch_json(
@@ -218,7 +218,7 @@ def tender_cancellation_activation_sign_docs(self):
 
     # activate cancellation for kind central without sign docs
     response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
         {"data": {"status": "active"}},
         status=422,
     )
@@ -239,7 +239,7 @@ def tender_cancellation_activation_sign_docs(self):
 
     # activate cancellation for kind central without sign docs
     response = self.app.patch_json(
-        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation['id'], self.tender_token),
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation["id"], self.tender_token),
         {"data": {"status": "active"}},
     )
 

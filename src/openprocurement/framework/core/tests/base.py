@@ -30,7 +30,6 @@ test_framework_item_data = {
     "unit": {
         "name": "кг",
         "code": "KGM",
-        "value": {"amount": 6},
     },
     "quantity": 5,
     "deliveryDate": {
@@ -52,7 +51,6 @@ class BaseFrameworkTest(BaseApiWebTest):
 
 
 class FrameworkActionsTestMixin:
-
     def get_auth(self, role=None):
         if role:
             return ("Basic", (role, ""))

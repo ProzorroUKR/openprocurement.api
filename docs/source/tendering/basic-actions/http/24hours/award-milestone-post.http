@@ -20,8 +20,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c3e76b8d9cc43d0
     "description": "One ring to bring them all and in the darkness bind them",
     "code": "24h",
     "id": "510f2ca2c88545ff9c7b8f58373c5c86",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dueDate": "2023-10-11T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00",
+    "dueDate": "2027-01-02T00:00:00+02:00"
   }
 }
 

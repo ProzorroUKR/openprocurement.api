@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
@@ -32,17 +33,12 @@ def patch_tender_currency(self):
     lot = response.json["data"]
     self.assertEqual(lot["value"]["currency"], "UAH")
 
-    items = deepcopy(self.initial_data["items"])
-    for i in items:
-        i["unit"]["value"]["currency"] = "GBP"
-
     # update tender currency
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "value": {"currency": "GBP", "amount": self.initial_data["value"]["amount"]},
-                "items": items,
             }
         },
     )
@@ -137,6 +133,10 @@ def patch_tender_currency(self):
     self.assertEqual(response.content_type, "application/json")
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender_vat(self):
     # set tender VAT
     response = self.app.patch_json(
@@ -156,14 +156,11 @@ def patch_tender_vat(self):
     self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
 
     # update tender VAT
-    for i in items:
-        i["unit"]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "value": {"valueAddedTaxIncluded": False, "amount": lot["value"]["amount"]},
-                "items": items,
             }
         },
     )
@@ -593,7 +590,7 @@ def create_tender_bidder_invalid(self):
     )
 
     bid_data["lotValues"] = [
-        {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+        {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
     ]
     response = self.app.post_json(
         request_path,
@@ -698,9 +695,20 @@ def patch_tender_bidder(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bidder["tenderers"][0]["name"])
 
+    bid_patch_data = {
+        "lotValues": [
+            {
+                **lot_values[0],
+                "value": {"amount": 440},
+                "relatedLot": lot_id,
+            }
+        ]
+    }
+    set_bid_items(self, bid_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"lotValues": [{**lot_values[0], "value": {"amount": 440}, "relatedLot": lot_id}]}},
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -714,9 +722,19 @@ def patch_tender_bidder(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
 
+    bid_patch_data = {
+        "lotValues": [
+            {
+                **lot_values[0],
+                "value": {"amount": 500},
+                "relatedLot": lot_id,
+            }
+        ]
+    }
+    set_bid_items(self, bid_patch_data)
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], owner_token),
-        {"data": {"lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}]}},
+        {"data": bid_patch_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -785,7 +803,7 @@ def create_tender_bidder_feature_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -1083,6 +1101,7 @@ def proc_1lot_2bid(self):
     self.app.authorization = ("Basic", ("broker", ""))
 
     bid_data["lotValues"] = [{"value": {"amount": 475}, "relatedLot": lot_id}]
+    set_bid_items(self, bid_data)
 
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction

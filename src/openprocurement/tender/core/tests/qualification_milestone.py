@@ -15,7 +15,6 @@ from openprocurement.tender.core.utils import (
 
 
 class BaseTenderMilestone24HMixin:
-
     context_name = None
     initial_bids_tokens = {}
     context_id = None
@@ -67,7 +66,7 @@ class BaseTenderMilestone24HMixin:
             status=422,
         )
         if get_now() > RELEASE_2020_04_19:
-            milestones_codes = ['24h', 'extensionPeriod'] if self.context_name == 'award' else ['24h']
+            milestones_codes = ["24h", "extensionPeriod"] if self.context_name == "award" else ["24h"]
             self.assertEqual(
                 response.json,
                 {
@@ -180,8 +179,9 @@ class BaseTenderMilestone24HMixin:
                 "errors": [
                     {
                         "description": (
-                            "Can't change status to 'active' "
-                            "until milestone.dueDate: {}".format(created_milestone["dueDate"])
+                            "Can't change status to 'active' " "until milestone.dueDate: {}".format(
+                                created_milestone["dueDate"]
+                            )
                         ),
                         "location": "body",
                         "name": "data",
@@ -488,7 +488,6 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
 
 class BaseTenderAwardMilestoneALPMixin:
-
     initial_status = "active.auction"
     initial_bids_tokens = {}
     context_id = None
@@ -615,14 +614,14 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         self.assertEqual(
             response.json,
             {
-                'status': 'error',
-                'errors': [
+                "status": "error",
+                "errors": [
                     {
-                        'description': "Can't change status to 'unsuccessful' until milestone.dueDate: {}".format(
+                        "description": "Can't change status to 'unsuccessful' until milestone.dueDate: {}".format(
                             expected_due_date.isoformat()
                         ),
-                        'location': 'body',
-                        'name': 'data',
+                        "location": "body",
+                        "name": "data",
                     }
                 ],
             },

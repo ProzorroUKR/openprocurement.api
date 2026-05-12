@@ -53,6 +53,25 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "6670a4933d854a00afa53a2979728a6d"
       }
+    ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "USD",
+            "valueAddedTaxIncluded": false,
+            "amount": 120.0
+          }
+        },
+        "quantity": 5.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
     ]
   }
 }

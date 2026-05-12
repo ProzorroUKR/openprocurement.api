@@ -69,7 +69,7 @@
             "id": "0e72e6a3db64418ab614421c39e90811",
             "description": "Тестова назва предмета закупівлі",
             "description_en": "Procurement item test name",
-            "quantity": 1,
+            "quantity": 50,
             "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
             "classification": {
                 "description": "Промислова техніка",

@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "id": "763394fc5c714348b33cea25674f6916",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "rationale": "Друга і третя поставка має бути розфасована",
     "rationale_en": "Agreement change cause",
     "rationaleType": "taxRate"

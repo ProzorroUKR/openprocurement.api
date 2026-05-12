@@ -55,14 +55,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
+          "code": "KGM",
           "value": {
-            "amount": 7,
             "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
+            "valueAddedTaxIncluded": false,
+            "amount": 50.0
+          }
         },
-        "quantity": 4,
+        "quantity": 10.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "11111111111111111111111111111111"
       }
     ]
@@ -115,10 +116,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
@@ -131,18 +132,19 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 7.0,
+            "amount": 50.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 4.0,
+        "quantity": 10.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "11111111111111111111111111111111"
       }
     ],
     "id": "0b5eacc064854705858ff66a63e13eb5",
-    "date": "2023-10-10T01:00:00+03:00"
+    "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
     "token": "ff6730da09934236872ed1e539db26d1",

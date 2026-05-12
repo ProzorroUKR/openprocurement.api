@@ -48,7 +48,7 @@ Content-Type: application/json
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "2023-10-17T00:00:00+02:00"
+        "startDate": "2027-01-08T00:00:00+02:00"
       }
     },
     "budget": {
@@ -62,8 +62,8 @@ Content-Type: application/json
         "name": "proj_name"
       },
       "period": {
-        "startDate": "2023-01-01T00:00:00+02:00",
-        "endDate": "2023-12-31T00:00:00+02:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-12-31T00:00:00+02:00"
       },
       "breakdown": [
         {
@@ -89,7 +89,7 @@ Content-Type: application/json
         "description": "Поточні видатки"
       }
     ],
-    "planID": "UA-P-2023-10-11-000002-a",
+    "planID": "UA-P-2027-01-02-000002-a",
     "items": [
       {
         "id": "bbc03c520ecb49f08ebd90262484d8c8",
@@ -118,7 +118,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-25T00:00:00+02:00"
+          "endDate": "2027-01-16T00:00:00+02:00"
         },
         "description": "Насіння гірчиці"
       },
@@ -149,7 +149,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-26T00:00:00+02:00"
+          "endDate": "2027-01-17T00:00:00+02:00"
         },
         "description": "Насіння соняшнику"
       },
@@ -180,7 +180,7 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "deliveryDate": {
-          "endDate": "2023-10-27T00:00:00+02:00"
+          "endDate": "2027-01-18T00:00:00+02:00"
         },
         "description": "Насіння бавовнику"
       }
@@ -216,20 +216,20 @@ Content-Type: application/json
       "reason": "Підстава для скасування",
       "status": "active",
       "id": "69f03e5b5e7c4b919bd13bbc0a68558e",
-      "date": "2023-10-11T02:00:33+03:00"
+      "date": "2027-01-02T01:00:33+02:00"
     },
     "rationale": {
       "description": "Недостатньо змістовне обгрунтування",
-      "date": "2023-10-11T02:00:33+03:00"
+      "date": "2027-01-02T01:00:33+02:00"
     },
     "project": {
       "title": "DREAMs come true",
       "uri": "https://dream.gov.ua/ua/project/DREAM-UA-030524-EE48E08C/profile"
     },
     "owner": "broker",
-    "dateCreated": "2023-10-11T02:00:33+03:00",
-    "dateModified": "2023-10-11T02:00:33+03:00",
-    "datePublished": "2023-10-11T02:00:33+03:00",
+    "dateCreated": "2027-01-02T01:00:33+02:00",
+    "dateModified": "2027-01-02T01:00:33+02:00",
+    "datePublished": "2027-01-02T01:00:33+02:00",
     "id": "6701056dc6fd4e12a83fcb4a6b9e8c02"
   }
 }

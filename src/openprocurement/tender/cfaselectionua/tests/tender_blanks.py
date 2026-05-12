@@ -568,7 +568,7 @@ def switch_tender_to_draft_pending(self):
                 "version": "2020-04-19",
                 "identifier": {
                     "id": "922-VIII",
-                    "legalName": "Закон України \"Про публічні закупівлі\"",
+                    "legalName": 'Закон України "Про публічні закупівлі"',
                     "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
                 },
                 "type": "NATIONAL_LEGISLATION",
@@ -840,7 +840,7 @@ def create_tender_from_agreement_with_invalid_changes(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        {'location': 'body', 'name': 'changes', 'description': ['Input for polymorphic field did not match any model']},
+        {"location": "body", "name": "changes", "description": ["Input for polymorphic field did not match any model"]},
         response.json["errors"][0],
     )
 
@@ -2310,7 +2310,7 @@ def edit_tender_in_active_enquiries(self):
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active.auction"}}, status=422
     )
     self.assertEqual(response.json["errors"][0]["name"], "status")
-    for status in ('draft', 'draft.pending'):
+    for status in ("draft", "draft.pending"):
         response = self.app.patch_json(
             "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": status}}, status=403
         )
@@ -2438,5 +2438,5 @@ def milestones_mismatch(self):
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertCountEqual(
         response.json["data"]["unsuccessfulReason"],
-        ['Agreement milestones does not match tender milestones'],
+        ["Agreement milestones does not match tender milestones"],
     )

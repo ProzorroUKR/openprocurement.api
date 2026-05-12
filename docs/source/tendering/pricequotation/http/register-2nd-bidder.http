@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 POST /api/2.5/tenders/3f38940af1314712ac29867b3e4eced4/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json

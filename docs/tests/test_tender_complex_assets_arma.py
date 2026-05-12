@@ -6,14 +6,13 @@ from uuid import uuid4
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
     test_docs_bid3_with_docs,
     test_docs_bid_draft,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_complex_assets_arma,
@@ -28,9 +27,6 @@ bid2 = deepcopy(test_docs_bid2)
 bid3 = deepcopy(test_docs_bid3_with_docs)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 # clear eContract fields
 for b in [bid, bid2, bid3]:
@@ -295,6 +291,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         bids_access = {}
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, lots)
+        set_bid_items(self, bid_data, tender["items"])
         with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             bid1_id = response.json["data"]["id"]
@@ -517,6 +514,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bid2_draft = deepcopy(bid2)
             bid2_draft["status"] = "draft"
             set_bid_lotvalues(bid2_draft, lots)
+            set_bid_items(self, bid2_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_draft})
             bid2_id = response.json["data"]["id"]
             bids_access[bid2_id] = response.json["access"]["token"]
@@ -542,6 +540,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             bid3_draft = deepcopy(bid3)
             bid3_draft["status"] = "draft"
             set_bid_lotvalues(bid3_draft, lots)
+            set_bid_items(self, bid3_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_draft})
             bid3_id = response.json["data"]["id"]
             bids_access[bid3_id] = response.json["access"]["token"]

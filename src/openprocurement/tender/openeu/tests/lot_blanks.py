@@ -281,7 +281,7 @@ def create_tender_bidder_invalid(self):
     )
 
     bid_data["lotValues"] = [
-        {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+        {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
     ]
     response = self.app.post_json(
         request_path,
@@ -360,49 +360,53 @@ def patch_tender_bidder(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.activate_bid(self.tender_id, bidder['id'], bid_token)
+    response = self.activate_bid(self.tender_id, bidder["id"], bid_token)
     doc_id = response.json["data"]["documents"][-1]["id"]
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertNotEqual(response.json["data"]["tenderers"][0]["name"], bidder["tenderers"][0]["name"])
 
+    tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+
+    bid_patch_data = {
+        "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}],
+        "tenderers": self.test_bids_data[0]["tenderers"],
+    }
+    set_bid_items(self, bid_patch_data, tender["items"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {
-            "data": {
-                "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}],
-                "tenderers": self.test_bids_data[0]["tenderers"],
-            }
-        },
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.activate_bid(self.tender_id, bidder['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bidder["id"], bid_token, doc_id)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bidder["tenderers"][0]["name"])
 
+    bid_patch_data = {"lotValues": [{**lot_values[0], "value": {"amount": 440}, "relatedLot": lot_id}]}
+    set_bid_items(self, bid_patch_data, tender["items"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {"data": {"lotValues": [{**lot_values[0], "value": {"amount": 440}, "relatedLot": lot_id}]}},
+        {"data": bid_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    response = self.activate_bid(self.tender_id, bidder['id'], bid_token, doc_id)
+    response = self.activate_bid(self.tender_id, bidder["id"], bid_token, doc_id)
     self.assertEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 440)
     self.assertNotEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
 
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
 
+    bid_patch_data = {
+        "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}],
+        "status": "active",
+    }
+    set_bid_items(self, bid_patch_data, tender["items"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bidder["id"], bid_token),
-        {
-            "data": {
-                "lotValues": [{**lot_values[0], "value": {"amount": 500}, "relatedLot": lot_id}],
-                "status": "active",
-            }
-        },
+        {"data": bid_patch_data},
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
@@ -491,7 +495,7 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},
@@ -732,6 +736,7 @@ def one_lot_2bid_1unqualified(self):
     for i in range(self.min_bids_number):
         bid_data["tenderers"] = self.test_bids_data[i]["tenderers"]
         bid_data["lotValues"] = [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id}]
+        set_bid_items(self, bid_data)
         self.create_bid(tender_id, bid_data, "pending")
 
     # switch to active.pre-qualification
@@ -804,6 +809,7 @@ def one_lot_2bid(self):
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id}]
+    set_bid_items(self, bid_data)
     self.app.authorization = ("Basic", ("broker", ""))
     self.create_bid(tender_id, bid_data, "pending")
     # switch to active.auction
@@ -994,6 +1000,7 @@ def two_lot_2bid_1lot_del(self):
             "lotValues": [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots],
         }
     )
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(
@@ -1481,6 +1488,7 @@ def two_lot_2bid_0com_1can(self):
                 "lotValues": [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id} for lot_id in lots],
             }
         )
+        set_bid_items(self, bid_data)
         self.create_bid(tender_id, bid_data, "pending")
 
     set_complaint_period_end = getattr(self, "set_complaint_period_end", None)
@@ -1575,6 +1583,7 @@ def two_lot_2bid_2com_2win(self):
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     _, bid2_token = self.create_bid(tender_id, bid_data, "pending")
@@ -1763,6 +1772,7 @@ def two_lot_3bid_1win_bug(self):
     # create second bid
     bid_data["tenderers"] = self.test_bids_data[1]["tenderers"]
     bid_data["lotValues"] = [{"value": self.test_bids_data[1]["value"], "relatedLot": lot_id} for lot_id in lots]
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     _, bid2_token = self.create_bid(tender_id, bid_data, "pending")

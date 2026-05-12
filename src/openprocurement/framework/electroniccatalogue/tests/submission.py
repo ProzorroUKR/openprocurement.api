@@ -69,7 +69,7 @@ class SubmissionResourceTest(SubmissionContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
     initial_submission_data = test_submission_data
     initial_submission_config = test_submission_config
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
 
 class TestSubmissionDocumentGet(SubmissionContentWebTest):
@@ -91,7 +91,7 @@ class TestDocumentsCreate(SubmissionContentWebTest):
     initial_data = test_framework_electronic_catalogue_data
     initial_config = test_framework_electronic_catalogue_config
     initial_submission_data = test_submission_data
-    initial_auth = ('Basic', ('broker', ''))
+    initial_auth = ("Basic", ("broker", ""))
 
     test_create_submission_document_forbidden = snitch(create_submission_document_forbidden)
     test_create_submission_documents = snitch(create_submission_documents)

@@ -205,7 +205,7 @@ def create_contract_document(self):
         {
             "location": "body",
             "name": "data",
-            "description": "Can\'t add sign document in current (active) contract status",
+            "description": "Can't add sign document in current (active) contract status",
         },
     )
 

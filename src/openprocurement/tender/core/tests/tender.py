@@ -80,7 +80,6 @@ class TenderEmptyResourceTest(BaseWebTest):
 
 
 class TenderResourceListingTest(BaseWebTest):
-
     def create_items_without_duplicates(self, seconds: int = 1734252009):
         documents = [
             {

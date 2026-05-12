@@ -8,6 +8,7 @@ from openprocurement.api.utils import get_now, raise_operation_error
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
@@ -18,7 +19,6 @@ from tests.base.data import (
     test_docs_bid2,
     test_docs_bid_draft,
     test_docs_complaint,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_openua,
@@ -30,9 +30,7 @@ test_tender_ua_data = deepcopy(test_docs_tender_openua)
 bid = deepcopy(test_docs_bid_draft)
 bid2 = deepcopy(test_docs_bid2)
 
-bid2.update(test_docs_qualified)
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
 
 BASE_DIR = "docs/source/tendering/openua/"
 TARGET_DIR = BASE_DIR + "http/"
@@ -309,6 +307,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         bids_access = {}
         bid_data = deepcopy(bid)
         set_bid_lotvalues(bid_data, self.initial_lots)
+        set_bid_items(self, bid_data, tender["items"])
         with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data})
             bid1_id = response.json["data"]["id"]
@@ -422,6 +421,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         bid2_data = deepcopy(bid2)
         bid2_data["status"] = "draft"
         set_bid_lotvalues(bid2_data, self.initial_lots)
+        set_bid_items(self, bid2_data, tender["items"])
         with open(TARGET_DIR + "register-2nd-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_data})
             bid2_id = response.json["data"]["id"]
@@ -717,11 +717,16 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
         self.tender_id = tender_id = response.json["data"]["id"]
         self.tender_token = tender_token = response.json["access"]["token"]
         self.set_status("active.tendering")
+        tender = response.json["data"]
 
         # Create bid
+        bid_data = deepcopy(self.initial_bids[0])
+        set_bid_lotvalues(bid_data, self.initial_lots)
+        set_bid_items(self, bid_data, tender["items"])
+
         response = self.app.post_json(
             "/tenders/{}/bids".format(tender_id),
-            {"data": self.initial_bids[0]},
+            {"data": bid_data},
         )
         bid_id = response.json["data"]["id"]
         bid_token = response.json["access"]["token"]

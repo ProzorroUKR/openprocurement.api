@@ -12,9 +12,108 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "modifications": {
       "value": {
-        "amount": 535,
-        "amountNet": 490
-      }
+        "amount": 450,
+        "amountNet": 450
+      },
+      "items": [
+        {
+          "id": "29cbde01600848de837efe5448e726fb",
+          "description": "Комп’ютерне обладнання для біда",
+          "quantity": 10.0,
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "INN",
+              "id": "17.21.1",
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 30.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": false
+            },
+            "code": "KGM"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          },
+          "deliveryDate": {
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
+          },
+          "attributes": [
+            {
+              "name": "Форма випуску",
+              "values": [
+                "Розчин для інфузій"
+              ]
+            },
+            {
+              "name": "Доза діючої речовини",
+              "unit": {
+                "name": "кілограми",
+                "code": "KGM"
+              },
+              "value": 5
+            },
+            {
+              "name": "Форма випуску 1",
+              "values": [
+                "Відповідь1",
+                "Відповідь2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "24726f3002834ed287ec1c07b91606cf",
+          "description": "Комп’ютерне обладнання",
+          "quantity": 5.0,
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "INN",
+              "id": "17.21.1",
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 30.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": false
+            },
+            "code": "KGM"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          },
+          "deliveryDate": {
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
+          }
+        }
+      ]
     }
   }
 }
@@ -32,15 +131,114 @@ Content-Type: application/json
     ],
     "modifications": {
       "value": {
-        "amount": 535.0,
+        "amount": 450.0,
         "currency": "UAH",
-        "valueAddedTaxIncluded": true,
-        "amountNet": 490.0
-      }
+        "valueAddedTaxIncluded": false,
+        "amountNet": 450.0
+      },
+      "items": [
+        {
+          "id": "29cbde01600848de837efe5448e726fb",
+          "description": "Комп’ютерне обладнання для біда",
+          "quantity": 10.0,
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "INN",
+              "id": "17.21.1",
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 30.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": false
+            },
+            "code": "KGM"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          },
+          "deliveryDate": {
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
+          },
+          "attributes": [
+            {
+              "name": "Форма випуску",
+              "values": [
+                "Розчин для інфузій"
+              ]
+            },
+            {
+              "name": "Доза діючої речовини",
+              "unit": {
+                "name": "кілограми",
+                "code": "KGM"
+              },
+              "value": 5
+            },
+            {
+              "name": "Форма випуску 1",
+              "values": [
+                "Відповідь1",
+                "Відповідь2"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "24726f3002834ed287ec1c07b91606cf",
+          "description": "Комп’ютерне обладнання",
+          "quantity": 5.0,
+          "classification": {
+            "description": "Cartons",
+            "scheme": "ДК021",
+            "id": "44617100-9"
+          },
+          "additionalClassifications": [
+            {
+              "scheme": "INN",
+              "id": "17.21.1",
+              "description": "папір і картон гофровані, паперова й картонна тара"
+            }
+          ],
+          "unit": {
+            "name": "кг",
+            "value": {
+              "amount": 30.0,
+              "currency": "UAH",
+              "valueAddedTaxIncluded": false
+            },
+            "code": "KGM"
+          },
+          "deliveryAddress": {
+            "streetAddress": "вул. Банкова 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "79000",
+            "countryName": "Україна"
+          },
+          "deliveryDate": {
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
+          }
+        }
+      ]
     },
     "id": "a0a23a4028a6428fa088098d0d137d71",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
     "documents": [
       {
@@ -51,8 +249,8 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/a0a23a4028a6428fa088098d0d137d71/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "id": "88962047c28144d99916ae75c9a2a38a",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
       }
     ]

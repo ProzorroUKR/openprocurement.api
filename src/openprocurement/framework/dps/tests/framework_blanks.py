@@ -480,9 +480,9 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'address': {'region': ['field address:region not exist in ua_regions catalog']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"address": {"region": ["field address:region not exist in ua_regions catalog"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -495,13 +495,13 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {
-                    'contactPoint': {
-                        'telephone': ['wrong telephone format (could be missed +)'],
+                "description": {
+                    "contactPoint": {
+                        "telephone": ["wrong telephone format (could be missed +)"],
                     }
                 },
-                'location': 'body',
-                'name': 'procuringEntity',
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -516,13 +516,13 @@ def create_framework_draft_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {
-                    'contactPoint': {
-                        'email': ['This field is required.'],
+                "description": {
+                    "contactPoint": {
+                        "email": ["This field is required."],
                     }
                 },
-                'location': 'body',
-                'name': 'procuringEntity',
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -541,13 +541,13 @@ def create_framework_draft_invalid_kind(self):
         response.json["errors"],
         [
             {
-                'description': {
-                    'kind': [
+                "description": {
+                    "kind": [
                         "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
                     ]
                 },
-                'location': 'body',
-                'name': 'procuringEntity',
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -586,9 +586,9 @@ def create_framework_draft_url_validation(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'url': ["Not a well formed URL."]}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"url": ["Not a well formed URL."]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -775,7 +775,6 @@ def create_framework_config_restricted(self):
         )
 
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         response = self.app.post_json(
             "/frameworks",
             {
@@ -1075,7 +1074,9 @@ def patch_framework_draft_to_active(self):
 
 def patch_framework_draft_to_active_invalid(self):
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=self.min_qualification_duration - 1)).isoformat()
+    data["qualificationPeriod"]["endDate"] = (
+        get_now() + timedelta(days=self.min_qualification_duration - 1)
+    ).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1480,7 +1481,7 @@ def framework_token_invalid(self):
         "/frameworks/{}?acc_token={}".format(framework_id, "fake token"), {"data": {}}, status=403
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework_id, "токен з кирилицею"),
@@ -1492,9 +1493,9 @@ def framework_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
@@ -2032,7 +2033,7 @@ def modify_framework_period(self):
         status=403,
     )
     self.assertEqual(response.status, "403 Forbidden")
-    self.assertEqual(response.json["errors"], [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}])
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
 
     response = self.app.post_json(
         "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, token),

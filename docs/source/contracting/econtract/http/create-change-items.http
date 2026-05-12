@@ -31,7 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 40.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -45,8 +45,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "countryName": "Україна"
           },
           "deliveryDate": {
-            "startDate": "2023-10-12T01:00:00+03:00",
-            "endDate": "2023-10-15T01:00:00+03:00"
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
           },
           "attributes": [
             {
@@ -91,7 +91,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 20.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -105,13 +105,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "countryName": "Україна"
           },
           "deliveryDate": {
-            "startDate": "2023-10-12T01:00:00+03:00",
-            "endDate": "2023-10-15T01:00:00+03:00"
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
           }
         },
         {
           "description": "Додаткове комп’ютерне обладнання",
-          "quantity": 20,
+          "quantity": 15,
           "classification": {
             "description": "Cartons",
             "scheme": "ДК021",
@@ -141,8 +141,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "countryName": "Україна"
           },
           "deliveryDate": {
-            "startDate": "2023-10-12T01:00:00+03:00",
-            "endDate": "2023-10-15T01:00:00+03:00"
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
           },
           "attributes": [
             {
@@ -205,7 +205,7 @@ Content-Type: application/json
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 40.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -219,8 +219,8 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "deliveryDate": {
-            "startDate": "2023-10-12T01:00:00+03:00",
-            "endDate": "2023-10-15T01:00:00+03:00"
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
           },
           "attributes": [
             {
@@ -265,7 +265,7 @@ Content-Type: application/json
           "unit": {
             "name": "кг",
             "value": {
-              "amount": 20.0,
+              "amount": 30.0,
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             },
@@ -279,14 +279,14 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "deliveryDate": {
-            "startDate": "2023-10-12T01:00:00+03:00",
-            "endDate": "2023-10-15T01:00:00+03:00"
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
           }
         },
         {
           "id": "7065cc13b8934418b9afd9579ca3f9de",
           "description": "Додаткове комп’ютерне обладнання",
-          "quantity": 20.0,
+          "quantity": 15.0,
           "classification": {
             "description": "Cartons",
             "scheme": "ДК021",
@@ -316,8 +316,8 @@ Content-Type: application/json
             "countryName": "Україна"
           },
           "deliveryDate": {
-            "startDate": "2023-10-12T01:00:00+03:00",
-            "endDate": "2023-10-15T01:00:00+03:00"
+            "startDate": "2027-01-03T00:00:00+02:00",
+            "endDate": "2027-01-06T00:00:00+02:00"
           },
           "attributes": [
             {
@@ -347,7 +347,7 @@ Content-Type: application/json
     },
     "id": "0172df9f74c4411ea204ba83946371ff",
     "status": "pending",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
     "documents": [
       {
@@ -358,8 +358,8 @@ Content-Type: application/json
         "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/0172df9f74c4411ea204ba83946371ff/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "id": "0cb36779b6aa4253ac5e76601c1ad586",
-        "datePublished": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
       }
     ]

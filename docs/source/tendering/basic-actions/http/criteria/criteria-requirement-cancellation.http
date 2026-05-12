@@ -20,15 +20,15 @@ Content-Type: application/json
       "title": "Updated title",
       "dataType": "boolean",
       "expectedValue": false,
-      "datePublished": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
       "status": "cancelled",
-      "dateModified": "2023-10-10T01:00:00+03:00"
+      "dateModified": "2027-01-01T00:00:00+02:00"
     },
     {
       "id": "cd22373e1d0741728b2dde371094a3da",
-      "datePublished": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
       "status": "cancelled",
-      "dateModified": "2023-10-10T01:00:00+03:00"
+      "dateModified": "2027-01-01T00:00:00+02:00"
     }
   ]
 }

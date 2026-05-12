@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import TZ
@@ -55,6 +56,10 @@ def patch_tender_period(self):
     self.assertEqual(response.json["data"]["enquiryPeriod"]["endDate"], enquiry_period_end_date.isoformat())
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")

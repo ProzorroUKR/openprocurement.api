@@ -20,13 +20,13 @@ Content-Type: application/json
   "data": {
     "confidentiality": "public",
     "id": "4b239698bd5843089f0497720a38d97d",
-    "datePublished": "2023-10-10T01:00:01+03:00",
+    "datePublished": "2027-01-01T00:00:01+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "укр.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ccdd5e33a07472fa361b9bf49077a08?Signature=093R9T0mC9oiefs3eDa9dciA%2FqzDdyVuBNqCROS4WW8hUlPaTmGBefr3syY5%2Bt6YypZt7mkORSYs1vhxQ1bjCw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-10-10T01:00:01+03:00",
+    "dateModified": "2027-01-01T00:00:01+02:00",
     "language": "uk"
   }
 }

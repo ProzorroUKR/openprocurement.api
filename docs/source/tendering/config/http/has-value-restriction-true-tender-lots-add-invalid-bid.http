@@ -51,6 +51,39 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "relatedLot": "6670a4933d854a00afa53a2979728a6d"
       }
+    ],
+    "items": [
+      {
+        "id": "c5b0023de71046108dde1a721e00de87",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 300.0
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      },
+      {
+        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 300.0
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
     ]
   }
 }

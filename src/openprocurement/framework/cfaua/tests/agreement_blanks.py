@@ -856,9 +856,9 @@ def agreement_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
@@ -881,9 +881,9 @@ def generate_credentials_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )

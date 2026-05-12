@@ -6,7 +6,7 @@ from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.tests.award_blanks import (
     award_sign,
-    create_acceptance_report_award_document_active_awarded,
+    create_acceptance_report_award_document,
     create_tender_2lot_award,
     create_tender_award_invalid,
     create_tender_lot_award,
@@ -198,9 +198,7 @@ class TenderAwardAcceptanceReportDocumentResourceTest(BaseTenderContentWebTest):
         award = response.json["data"]
         self.award_id = award["id"]
 
-    test_create_acceptance_report_award_document_active_awarded = snitch(
-        create_acceptance_report_award_document_active_awarded
-    )
+    test_create_acceptance_report_award_document = snitch(create_acceptance_report_award_document)
 
 
 def suite():

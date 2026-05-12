@@ -90,6 +90,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
     def create_award(self):
         auth = self.app.authorization
         self.app.authorization = ("Basic", ("token", ""))
+        value = self.initial_bids[0]["lotValues"][0]["value"]
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards",
             {
@@ -99,8 +100,8 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderUAContentWebTest):
                     "bid_id": self.initial_bids[0]["id"],
                     "lotID": self.initial_lots[0]["id"],
                     "value": {
-                        "amount": self.initial_bids[0]["lotValues"][0]["value"]["amount"],
-                        "currency": self.initial_bids[0]["lotValues"][0]["value"]["currency"],
+                        "amount": value["amount"],
+                        "currency": value["currency"],
                         "valueAddedTaxIncluded": False,
                     },
                 }

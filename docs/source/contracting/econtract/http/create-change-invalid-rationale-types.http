@@ -13,7 +13,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "modifications": {
       "value": {
         "amount": 535,
-        "amountNet": 490
+        "amountNet": 535
       }
     }
   }

@@ -3,11 +3,11 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.tests.base import test_criteria_article_17
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 
 
 def patch_tender_criteria_invalid(self):
-    criteria_data = deepcopy(test_criteria_article_17)
+    criteria_data = deepcopy(test_exclusion_criteria)
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
 
     response = self.app.post_json(
@@ -166,9 +166,9 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in ['draft'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "description": "Can't delete object if tender not in ['draft'] statuses",
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -190,9 +190,9 @@ def delete_requirement_evidence(self):
                 response.json["errors"],
                 [
                     {
-                        'description': "Can't delete object if tender not in ['draft', 'active.enquiries'] statuses",
-                        'location': 'body',
-                        'name': 'data',
+                        "description": "Can't delete object if tender not in ['draft', 'active.enquiries'] statuses",
+                        "location": "body",
+                        "name": "data",
                     }
                 ],
             )
@@ -212,9 +212,9 @@ def delete_requirement_evidence(self):
                     response.json["errors"],
                     [
                         {
-                            'description': "Can't delete object if tender not in ['draft'] statuses",
-                            'location': 'body',
-                            'name': 'data',
+                            "description": "Can't delete object if tender not in ['draft'] statuses",
+                            "location": "body",
+                            "name": "data",
                         }
                     ],
                 )
@@ -245,7 +245,7 @@ def put_rg_requirement_invalid(self):
         self.assertEqual(response.json["status"], "error")
         self.assertEqual(
             response.json["errors"],
-            [{'description': 'Forbidden', 'location': 'body', 'name': 'data'}],
+            [{"description": "Forbidden", "location": "body", "name": "data"}],
         )
 
     with mock.patch(
@@ -357,7 +357,7 @@ def put_rg_requirement_valid(self):
                 "description": "Довідка в довільній формі",
                 "type": "document",
                 "title": "Документальне підтвердження",
-                'id': '32cd3841bf59486c85d7fbfa0b756872',
+                "id": "32cd3841bf59486c85d7fbfa0b756872",
             }
         ]
     }
@@ -390,13 +390,13 @@ def put_rg_requirement_valid(self):
                 "description": "changed",
                 "type": "document",
                 "title": "changed",
-                'id': '32cd3841bf59486c85d7fbfa0b756872',
+                "id": "32cd3841bf59486c85d7fbfa0b756872",
             },
             {
                 "description": "Довідка в довільній формі",
                 "type": "document",
                 "title": "Документальне підтвердження",
-                'id': '32cd3841bf59486c85d7fbfa0b756845',
+                "id": "32cd3841bf59486c85d7fbfa0b756845",
             },
         ]
     }

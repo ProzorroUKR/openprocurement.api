@@ -25,6 +25,7 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
 
     should_validate_notice_doc_required = True
+    should_validate_vat_not_included = True
     agreement_allowed_types = [DPS_TYPE]
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")

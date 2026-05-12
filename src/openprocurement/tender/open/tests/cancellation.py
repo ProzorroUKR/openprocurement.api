@@ -51,7 +51,6 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
 
 
 class TenderCancellationComplaintResourceTestMixin:
-
     test_create_tender_cancellation_complaint = snitch(create_tender_cancellation_complaint)
     test_patch_tender_cancellation_complaint = snitch(patch_tender_cancellation_complaint)
     test_get_tender_cancellation_complaints = snitch(get_tender_cancellation_complaints)

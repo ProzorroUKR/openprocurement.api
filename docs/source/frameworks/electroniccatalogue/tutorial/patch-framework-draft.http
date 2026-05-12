@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "prettyID": "UA-F-2023-10-10-000001",
+    "prettyID": "UA-F-2027-01-01-000001",
     "title": "updated in draft status",
     "description": "Назва предмета закупівлі",
     "status": "draft",
@@ -37,11 +37,11 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "qualificationPeriod": {
-      "endDate": "2024-11-13T01:00:00+03:00"
+      "endDate": "2028-02-05T00:00:00+02:00"
     },
     "frameworkType": "electronicCatalogue",
     "procuringEntity": {

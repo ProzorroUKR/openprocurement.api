@@ -18,10 +18,10 @@ Content-Type: application/json
     "agreementID": "UA-2018-07-30-000001-afe4b1ed046845bcae5d675b0b8ca5aa1",
     "status": "active",
     "terminationDetails": "broker3 now can change the contract",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "owner": "broker3",
     "agreementType": "closeFrameworkAgreementUA",
-    "dateSigned": "2023-10-10T01:00:00+03:00",
+    "dateSigned": "2027-01-01T00:00:00+02:00",
     "contracts": [
       {
         "id": "d6cd8c3188d74e1481a9cebb57fd9329",

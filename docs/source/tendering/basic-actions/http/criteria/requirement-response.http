@@ -35,7 +35,7 @@ Content-Type: application/json
     "value": false,
     "id": "d397dabf99c54c5aafecc6ebaa9716c5",
     "classification": {
-      "scheme": "ESPD211",
+      "scheme": "LAW922",
       "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
     }
   }

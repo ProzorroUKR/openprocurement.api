@@ -12,22 +12,22 @@ Content-Type: application/json
     "rationaleType": "noDemandFramework",
     "modifications": {
       "qualificationPeriod": {
-        "endDate": "2023-12-15T01:00:00+03:00"
+        "endDate": "2027-03-08T00:00:00+02:00"
       }
     },
     "id": "35e6d8e24a3d411d9db74f984fecbbd9",
     "previous": {
       "qualificationPeriod": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2024-11-13T01:00:00+03:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2028-02-05T00:00:00+02:00"
       }
     },
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00"
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00"
   },
   "context": {
     "framework": {
-      "prettyID": "UA-F-2023-10-10-000001",
+      "prettyID": "UA-F-2027-01-01-000001",
       "title": "updated in draft status",
       "description": "Назва предмета закупівлі1",
       "status": "active",
@@ -46,54 +46,54 @@ Content-Type: application/json
       "documents": [
         {
           "id": "e99f835519da48e18d0d73857a65d70c",
-          "datePublished": "2023-10-10T01:00:00+03:00",
+          "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "framework.doc",
           "format": "application/msword",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3d4ffdd9cb3e4b17a82a3c4ff17b9d36?Signature=tIDXH8wnBO3JBgUN3GoSoE4sW4BjxGNxkWSyxNiflNyarXJhL52k9CgC3cpQRNCO0JoJ2nrhXfCkIhHQJVVSCg%3D%3D&KeyID=a8968c46",
-          "dateModified": "2023-10-10T01:00:00+03:00",
+          "dateModified": "2027-01-01T00:00:00+02:00",
           "language": "uk"
         },
         {
           "id": "f6e683bc45f347049d9b9c740170828c",
-          "datePublished": "2023-10-10T01:00:00+03:00",
+          "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "framework_additional_docs.doc",
           "format": "application/msword",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a3b4750dd6e84c9ba06bcca72560bf2d?Signature=vCJf2VCGiuPf5SeqwD1awYCS9ZTLVHvhV3fzbpHLLC3w3Pr0UVL8oVBxYX8H7abDCBGS%2FLg7mix%2BK8hsWPTgAA%3D%3D&KeyID=a8968c46",
-          "dateModified": "2023-10-10T01:00:00+03:00",
+          "dateModified": "2027-01-01T00:00:00+02:00",
           "language": "uk"
         },
         {
           "id": "f6e683bc45f347049d9b9c740170828c",
-          "datePublished": "2023-10-10T01:00:00+03:00",
+          "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "framework_additional_docs.doc",
           "format": "application/msword",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2365a5fbfc964de2a60ddfb175a6cc42?Signature=EQ2YakEGQeWMwX3tiOKOcxsLShIUEa%2B7bB6wmpMCqaC99IWYdRUihRRIElynMe9Ko105jWenrapYnCDSRhGfDw%3D%3D&KeyID=a8968c46",
-          "dateModified": "2023-10-10T01:00:00+03:00",
+          "dateModified": "2027-01-01T00:00:00+02:00",
           "language": "uk"
         }
       ],
       "agreementID": "4860703af9044dc19e30f45f4e537fb9",
       "owner": "broker",
-      "date": "2023-10-10T01:00:00+03:00",
-      "dateCreated": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-26T01:00:00+03:00",
+      "date": "2027-01-01T00:00:00+02:00",
+      "dateCreated": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-17T00:00:00+02:00",
       "period": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2023-11-15T00:00:00+02:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-02-06T00:00:00+02:00"
       },
       "qualificationPeriod": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2023-12-15T01:00:00+03:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-03-08T00:00:00+02:00"
       },
       "enquiryPeriod": {
-        "startDate": "2023-10-10T01:00:00+03:00",
-        "endDate": "2023-10-21T00:00:00+03:00",
-        "clarificationsUntil": "2023-10-26T00:00:00+03:00"
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-01-11T00:00:00+02:00",
+        "clarificationsUntil": "2027-01-14T00:00:00+02:00"
       },
-      "next_check": "2023-10-21T00:00:00+03:00",
+      "next_check": "2027-01-11T00:00:00+02:00",
       "frameworkType": "internationalFinancialInstitutions",
       "procuringEntity": {
         "name": "Державне управління справами",
@@ -122,18 +122,18 @@ Content-Type: application/json
           "rationaleType": "noDemandFramework",
           "modifications": {
             "qualificationPeriod": {
-              "endDate": "2023-12-15T01:00:00+03:00"
+              "endDate": "2027-03-08T00:00:00+02:00"
             }
           },
           "id": "35e6d8e24a3d411d9db74f984fecbbd9",
           "previous": {
             "qualificationPeriod": {
-              "startDate": "2023-10-10T01:00:00+03:00",
-              "endDate": "2024-11-13T01:00:00+03:00"
+              "startDate": "2027-01-01T00:00:00+02:00",
+              "endDate": "2028-02-05T00:00:00+02:00"
             }
           },
-          "date": "2023-10-26T01:00:00+03:00",
-          "dateModified": "2023-10-26T01:00:00+03:00"
+          "date": "2027-01-17T00:00:00+02:00",
+          "dateModified": "2027-01-17T00:00:00+02:00"
         }
       ],
       "id": "932c7023588f40f4aec26aef109f4998"

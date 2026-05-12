@@ -8,13 +8,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "agreementID": "UA-2023-10-10-000001",
+    "agreementID": "UA-2027-01-01-000001",
     "frameworkID": "f1ee996a087848558040d1856f61951c",
     "agreementType": "internationalFinancialInstitutions",
     "status": "active",
     "period": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2024-12-03T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-02-25T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -87,12 +87,12 @@ Content-Type: application/json
             "id": "00464c7636ce464bb05b8504af6f9d9b",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-12-03T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
+            "dueDate": "2028-02-25T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "id": "71493e93a3804e8b8c23cfcc21d838cf",
@@ -131,12 +131,12 @@ Content-Type: application/json
             "id": "f09b253e29ee403a93db4be0fc9c4d54",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-12-03T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
+            "dueDate": "2028-02-25T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "id": "a4ff7ab0a7794f20af93e8f54678b8f6",
@@ -175,19 +175,19 @@ Content-Type: application/json
             "id": "6cb16718fd5c44beb4a3d0fc3a6323ed",
             "status": "scheduled",
             "type": "activation",
-            "dueDate": "2024-12-03T01:00:00+03:00",
-            "dateModified": "2023-10-10T01:00:00+03:00"
+            "dueDate": "2028-02-25T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
           }
         ],
-        "date": "2023-10-10T01:00:00+03:00",
-        "dateModified": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ],
     "owner": "broker",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "date": "2023-10-10T01:00:00+03:00",
-    "next_check": "2024-12-03T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "next_check": "2028-02-25T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
     "id": "144de8e79e64488a967c57cebaacb0d3"
   },
   "config": {

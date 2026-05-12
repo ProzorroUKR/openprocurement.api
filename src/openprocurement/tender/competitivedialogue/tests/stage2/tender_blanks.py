@@ -908,26 +908,26 @@ def create_tender_with_non_required_unit(self):
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("unit", response.json["data"]['items'][0])
+    self.assertNotIn("unit", response.json["data"]["items"][0])
 
     _quantity = tender_data["items"][0].pop("quantity")
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertNotIn("quantity", response.json["data"]['items'][0])
-    self.assertNotIn("unit", response.json["data"]['items'][0])
+    self.assertNotIn("quantity", response.json["data"]["items"][0])
+    self.assertNotIn("unit", response.json["data"]["items"][0])
 
     tender_data["items"][0]["unit"] = _unit
     tender_data["items"][0]["unit"]["code"] = "unknown_code"
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json['errors'],
+        response.json["errors"],
         [
             {
-                'description': [{'unit': {'code': ['Code should be one of valid unit codes.']}}],
-                'location': 'body',
-                'name': 'items',
+                "description": [{"unit": {"code": ["Code should be one of valid unit codes."]}}],
+                "location": "body",
+                "name": "items",
             }
         ],
     )
@@ -1410,6 +1410,7 @@ def first_bid_tender(self):
     bid_id = bid["id"]
     # create second bid
     bid_data["value"] = {"amount": 475}
+    set_bid_items(self, bid_data)
 
     self.app.authorization = ("Basic", ("broker", ""))
     _, bid2_token = self.create_bid(tender_id, bid_data)

@@ -183,7 +183,7 @@ def create_tender_lot_invalid(self):
     response = self.app.get(request_path)
     self.assertEqual(response.content_type, "application/json")
     lots = response.json["data"]
-    self.assertEqual(len(lots), 1 + len(getattr(self, 'initial_lots', None) or []))
+    self.assertEqual(len(lots), 1 + len(getattr(self, "initial_lots", None) or []))
     self.assertEqual(lots[-1]["minimalStep"]["currency"], "UAH")
     self.assertEqual(lots[-1]["minimalStep"]["amount"], 15)
 
@@ -521,15 +521,11 @@ def patch_tender_currency(self):
     self.assertEqual(lot["value"]["currency"], "UAH")
 
     # update tender currency
-    items = deepcopy(self.initial_data["items"])
-    for i in items:
-        i["unit"]["value"]["currency"] = "GBP"
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "value": {"currency": "GBP", "amount": 1000},
-                "items": items,
             }
         },
     )
@@ -612,6 +608,10 @@ def patch_tender_currency(self):
     self.assertEqual(lot["minimalStep"]["currency"], "GBP")
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender_vat(self):
     tender = self.initial_data
     # set tender VAT
@@ -631,15 +631,11 @@ def patch_tender_vat(self):
     self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
 
     # update tender VAT
-    items = deepcopy(self.initial_data["items"])
-    for i in items:
-        i["unit"]["value"]["valueAddedTaxIncluded"] = False
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
         {
             "data": {
                 "value": {"valueAddedTaxIncluded": False, "amount": tender["value"]["amount"]},
-                "items": items,
             }
         },
     )
@@ -1233,7 +1229,7 @@ def create_tender_bid_invalid(self):
             "data": {
                 "tenderers": [test_tender_below_supplier],
                 "lotValues": [
-                    {"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.initial_lots[0]["id"]}
+                    {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
                 ],
             }
         },
@@ -1370,9 +1366,11 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["lotValues"][0]["date"], lot["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    patch_bid_data = {"lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]}
+    set_bid_items(self, patch_bid_data, bid_data["items"])
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {"data": {"lotValues": [{**lot, "value": {"amount": 450}, "relatedLot": lot_id}]}},
+        {"data": patch_bid_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -1472,7 +1470,7 @@ def create_tender_bid_invalid_feature(self):
         {
             "data": {
                 "tenderers": [test_tender_below_supplier],
-                "lotValues": [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}],
+                "lotValues": [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}],
             }
         },
         status=422,

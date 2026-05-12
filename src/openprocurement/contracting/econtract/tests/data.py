@@ -55,11 +55,11 @@ test_tender_pq_e_supplier["contract_owner"] = "broker"
 test_tender_pq_e_bids = [
     {
         "tenderers": [test_tender_pq_e_supplier],
-        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
     {
         "tenderers": [test_tender_pq_e_supplier],
-        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
     },
 ]
 

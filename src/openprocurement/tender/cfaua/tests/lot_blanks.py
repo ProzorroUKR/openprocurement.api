@@ -1,4 +1,6 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest import mock
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -256,6 +258,10 @@ def patch_tender_lot(self):
     )
 
 
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender_vat(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
@@ -403,7 +409,6 @@ def two_lot_3bid_3com_3win(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[0]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id} for lot_id in lots],
                 }
@@ -569,7 +574,6 @@ def one_lot_2bid(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[x]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[x]["value"], "relatedLot": lot_id}],
                 }
@@ -721,7 +725,6 @@ def one_lot_3bid_1del(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[0]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}],
                 }
@@ -878,7 +881,6 @@ def one_lot_3bid_1un(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[0]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[0]["value"], "relatedLot": lot_id}],
                 }
@@ -1048,7 +1050,6 @@ def two_lot_3bid_1win_bug(self):
             {
                 "data": {
                     "selfEligible": True,
-                    "selfQualified": True,
                     "tenderers": self.test_bids_data[x]["tenderers"],
                     "lotValues": [{"value": self.test_bids_data[x]["value"], "relatedLot": lot_id} for lot_id in lots],
                 }
@@ -1061,7 +1062,6 @@ def two_lot_3bid_1win_bug(self):
         {
             "data": {
                 "selfEligible": True,
-                "selfQualified": True,
                 "tenderers": self.test_bids_data[self.min_bids_number - 1]["tenderers"],
                 "lotValues": [
                     {"value": self.test_bids_data[self.min_bids_number - 1]["value"], "relatedLot": lot_id}
@@ -1263,9 +1263,9 @@ def create_tender_lot(self):
         response.json["errors"],
         [
             {
-                'description': 'Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).',
-                'location': 'body',
-                'name': 'data',
+                "description": "Minimal step value must be between 0.5% and 3% of value (with 2 digits precision).",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -1325,7 +1325,7 @@ def create_tender_lot(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'body', 'name': 'data', 'description': 'Lots count in tender cannot be more than 1 items'}],
+        [{"location": "body", "name": "data", "description": "Lots count in tender cannot be more than 1 items"}],
     )
 
     response = self.app.get("/tenders/{}".format(self.tender_id))
@@ -1351,7 +1351,7 @@ def create_tender_lot(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'body', 'name': 'data', 'description': 'Lots count in tender cannot be more than 1 items'}],
+        [{"location": "body", "name": "data", "description": "Lots count in tender cannot be more than 1 items"}],
     )
 
 
@@ -1783,6 +1783,7 @@ def one_lot_2bid_1unqualified(self):
     for i in range(self.min_bids_number):
         bid_data["lotValues"] = [{"value": self.test_bids_data[i]["value"], "relatedLot": lot_id}]
         bid_data["tenderers"] = self.test_bids_data[i]["tenderers"]
+        set_bid_items(self, bid_data)
         self.create_bid(self.tender_id, bid_data)
 
     # switch to active.pre-qualification
@@ -1939,7 +1940,7 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": False}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
         request_path,
         {"data": bid_data},

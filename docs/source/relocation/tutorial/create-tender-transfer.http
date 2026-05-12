@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "id": "efa43e6ae91e40e3bf1cc9e7c08a51c5"
   },
   "access": {

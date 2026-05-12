@@ -18,6 +18,7 @@ def patch_tender_contract_datesigned(self):
     self.mongodb.tenders.save(tender)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -242,5 +243,5 @@ def patch_econtract_multi_currency(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "Total amount of unit values can't be greater than contract.value.amount",
+        "Total amount of unit values must be no more than contract.value.amount and no less than net contract amount",
     )

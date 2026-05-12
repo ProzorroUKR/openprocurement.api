@@ -26,7 +26,7 @@ def create_framework_document_forbidden(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(
         response.json["errors"],
-        [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
+        [{"description": "Forbidden", "location": "url", "name": "permission"}],
     )
 
     with change_auth(self.app, ("Basic", ("broker1", ""))):
@@ -38,7 +38,7 @@ def create_framework_document_forbidden(self):
         self.assertEqual(response.status, "403 Forbidden")
         self.assertEqual(
             response.json["errors"],
-            [{'description': 'Forbidden', 'location': 'url', 'name': 'permission'}],
+            [{"description": "Forbidden", "location": "url", "name": "permission"}],
         )
 
 

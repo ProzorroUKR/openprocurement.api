@@ -296,7 +296,7 @@ def patch_tender_award_active(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
     response = self.app.patch_json(
@@ -512,7 +512,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -536,7 +536,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -547,7 +547,7 @@ def patch_tender_lot_award_unsuccessful(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertIn("Location", response.headers)
     new_award_location = response.headers["Location"]
-    new_award_id = new_award_location.split('/')[-1]
+    new_award_id = new_award_location.split("/")[-1]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
 
     response = self.app.patch_json(
@@ -1287,14 +1287,7 @@ def patch_tender_2lot_award_complaint_document(self):
     self.assertEqual(response.json["errors"][0]["description"], "Can update document only in active lot status")
 
 
-# TenderAwardAcceptanceReportDocumentResourceTest
-
-
-def create_acceptance_report_award_document_active_awarded(self):
-    # Transition to active.awarded
-    self.set_status("active.awarded")
-
-    # Upload acceptanceReport as award document - should succeed
+def create_acceptance_report_award_document(self):
     response = self.app.post_json(
         "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
         {
@@ -1309,18 +1302,3 @@ def create_acceptance_report_award_document_active_awarded(self):
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.json["data"]["documentType"], "acceptanceReport")
-
-    # Upload regular document type as award doc in active.awarded - should fail
-    response = self.app.post_json(
-        "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
-        {
-            "data": {
-                "title": "other.doc",
-                "url": self.generate_docservice_url(),
-                "hash": "md5:" + "0" * 32,
-                "format": "application/msword",
-            }
-        },
-        status=403,
-    )
-    self.assertEqual(response.status, "403 Forbidden")

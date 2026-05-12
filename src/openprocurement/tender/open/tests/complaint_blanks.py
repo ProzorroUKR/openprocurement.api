@@ -1141,7 +1141,7 @@ def objection_related_item_equals_related_lot(self):
     complaint_data["relatedLot"] = self.initial_data["lots"][0]["id"]
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
     invalid_objection_data["relatesTo"] = "lot"
-    invalid_objection_data["relatedItem"] = self.initial_data['lots'][1]['id']
+    invalid_objection_data["relatedItem"] = self.initial_data["lots"][1]["id"]
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1149,7 +1149,7 @@ def objection_related_item_equals_related_lot(self):
         response.json["errors"][0]["description"],
         "Complaint's objection must relate to the same lot id as mentioned in complaint's relatedLot",
     )
-    invalid_objection_data["relatedItem"] = self.initial_data['lots'][0]['id']
+    invalid_objection_data["relatedItem"] = self.initial_data["lots"][0]["id"]
     response = self.create_complaint(complaint_data)
     self.assertEqual(response.status, "201 Created")
 
@@ -1172,7 +1172,7 @@ def objection_related_item_equals_related_lot(self):
 
     # relatesTo = lot and relatedLot is not mentioned
     invalid_objection_data["relatesTo"] = "lot"
-    invalid_objection_data["relatedItem"] = self.initial_data['lots'][1]['id']
+    invalid_objection_data["relatedItem"] = self.initial_data["lots"][1]["id"]
     complaint_data["objections"] = [invalid_objection_data]
     response = self.create_complaint(complaint_data, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
