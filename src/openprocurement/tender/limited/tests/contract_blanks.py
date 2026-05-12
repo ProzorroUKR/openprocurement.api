@@ -349,7 +349,7 @@ def activate_contract_cancelled_lot(self):
     )
     self.assertEqual(
         resp.json["errors"],
-        [{'location': 'body', 'name': 'data', 'description': "Can't perform action due to a pending cancellation"}],
+        [{"location": "body", "name": "data", "description": "Can't perform action due to a pending cancellation"}],
     )
 
     # update value by admin

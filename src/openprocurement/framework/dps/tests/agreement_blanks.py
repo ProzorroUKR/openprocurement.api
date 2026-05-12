@@ -75,7 +75,6 @@ def create_agreement(self):
 def create_agreement_config_restricted(self):
     # Create framework
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         data = deepcopy(self.initial_data)
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
@@ -89,7 +88,6 @@ def create_agreement_config_restricted(self):
 
     # Create and activate submission
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         config = deepcopy(self.initial_submission_config)
         config["restricted"] = True
 
@@ -101,7 +99,6 @@ def create_agreement_config_restricted(self):
 
     # Activate qualification
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         expected_config = {
             "restricted": True,
         }
@@ -140,7 +137,6 @@ def create_agreement_config_restricted(self):
 
     # Check access
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
-
         # Check object
         response = self.app.get("/agreements/{}".format(agreement_id))
         self.assertEqual(response.status, "200 OK")
@@ -168,7 +164,6 @@ def create_agreement_config_restricted(self):
 
     # Check access (no accreditation for restricted)
     with change_auth(self.app, ("Basic", ("broker", ""))):
-
         # Check object
         response = self.app.get("/agreements/{}".format(agreement_id))
         self.assertEqual(response.status, "200 OK")
@@ -180,7 +175,6 @@ def create_agreement_config_restricted(self):
 
     # Check access (anonymous)
     with change_auth(self.app, ("Basic", ("", ""))):
-
         # Check object
         response = self.app.get("/agreements/{}".format(agreement_id))
         self.assertEqual(response.status, "200 OK")
@@ -479,10 +473,10 @@ def patch_contract_active_status(self):
         response.json["errors"],
         [
             {
-                'description': "Tenderer can't activate submission with active/suspended contract "
-                f'in agreement for framework {self.framework_id}',
-                'location': 'body',
-                'name': 'data',
+                "description": "Tenderer can't activate submission with active/suspended contract "
+                f"in agreement for framework {self.framework_id}",
+                "location": "body",
+                "name": "data",
             }
         ],
     )
@@ -638,7 +632,7 @@ def agreement_chronograph_milestones(self):
         agreement = response.json["data"]
 
     milestone_statuses = [i["status"] for i in agreement["contracts"][0]["milestones"]]
-    self.assertEqual(milestone_statuses, ['scheduled', 'met', 'scheduled'])  # CS-20115 milestone statuses stay the same
+    self.assertEqual(milestone_statuses, ["scheduled", "met", "scheduled"])  # CS-20115 milestone statuses stay the same
     self.assertNotIn("next_check", agreement)
 
 

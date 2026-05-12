@@ -19,7 +19,7 @@ Content-Type: application/json
     "id": "0958deead91749b38d7139de1cfabab7",
     "qualified": true,
     "status": "active",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "value": {
       "amount": 475000.0,
       "valueAddedTaxIncluded": false,
@@ -62,21 +62,21 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "8129181e0e0d4bac9a978ed9b5ee84e6",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fdffde85b9524bf78549ab895e02e990?Signature=GcceZGUxgak3beXSrAOS4IjSV2JjlGzoesuRihD2Dnx6aMNxu4jKDUS4NWJHv2mKhO93mtTZjc1RweDpknU5CQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
     ],
     "lotID": "3492d7514b1c430291582eba0c49c4f1",
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-16T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-06T00:00:00+02:00"
     }
   }
 }

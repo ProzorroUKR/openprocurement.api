@@ -142,7 +142,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
     @property
     def tender_token(self):
         data = self.mongodb.tenders.get(self.tender_id)
-        return data['owner_token']
+        return data["owner_token"]
 
     @tender_token.setter
     def tender_token(self, value):

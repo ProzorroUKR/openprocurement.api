@@ -162,8 +162,6 @@ def make_app(global_config, **settings):
         if key:
             config.registry.keyring[key[:8]] = VerifyKey(key, encoder=HexEncoder)
 
-    config.registry.server_id = settings.get("id", "")
-
     config.registry.health_threshold = float(settings.get("health_threshold", 512))
     config.registry.health_threshold_func = settings.get("health_threshold_func", "all")
     config.registry.update_after = asbool(settings.get("update_after", True))

@@ -36,8 +36,7 @@ def ifi_enquiry_period_calendar_days(self):
     self.assertLessEqual(
         diff_days,
         11,
-        "enquiryPeriod should use calendar days (10-11 days), "
-        "not working days (14+ days)",
+        "enquiryPeriod should use calendar days (10-11 days), " "not working days (14+ days)",
     )
 
 

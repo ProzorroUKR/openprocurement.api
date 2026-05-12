@@ -6,6 +6,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
     validate_field,
 )
+from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
 from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState as BaseTenderDetailsState,
@@ -73,6 +74,10 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
                 name="minValue.amount",
             )
 
+        # CS-21518 - for ESCO tenders we need to validate that minValue has valueAddedTaxIncluded False
+        if self.should_validate_vat_not_included:
+            validate_value_vat_disabled(self.request, tender_min_value, "minValue")
+
     def validate_tender_lots(self, tender: dict, before=None) -> None:
         """Validate lot minValue.
 
@@ -107,6 +112,11 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
                     status=422,
                     name="lots.minValue.amount",
                 )
+
+            # CS-21518 - for ESCO tenders we need to validate that lot minValue has valueAddedTaxIncluded False
+            if self.should_validate_vat_not_included:
+                validate_value_vat_disabled(self.request, lot_min_value, "lots.minValue")
+
             self.set_tender_lot_data(tender, lot)
             self.validate_lot_minimal_step(lot, before)
 

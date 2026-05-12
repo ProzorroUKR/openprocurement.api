@@ -109,7 +109,10 @@ def parse_key_date_pairs(value):
 
 
 def get_constant(config, constant, section=DEFAULTSECT, parse_func=parse_date):
-    return parse_func(os.environ.get("{}_{}".format(section, constant)) or config.get(section, constant))
+    env_value = os.environ.get("{}_{}".format(section, constant))
+    if env_value is None and section == DEFAULTSECT:
+        env_value = os.environ.get(constant)
+    return parse_func(env_value or config.get(section, constant))
 
 
 # classifiers

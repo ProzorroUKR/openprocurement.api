@@ -107,7 +107,7 @@ def generate_access(self):
     )
     self.assertEqual(
         response.json["errors"],
-        [{'location': 'url', 'name': 'permission', 'description': 'Forbidden'}],
+        [{"location": "url", "name": "permission", "description": "Forbidden"}],
     )
 
     # try to patch contract with buyer_token_2

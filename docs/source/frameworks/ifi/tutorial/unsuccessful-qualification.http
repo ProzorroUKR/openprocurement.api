@@ -18,31 +18,31 @@ Content-Type: application/json
     "documents": [
       {
         "id": "ed3c1836c7c94d9aa02adbe5d6b2ed99",
-        "datePublished": "2023-10-26T01:00:00+03:00",
+        "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5b3f7bd6512745f8aa676efc89dbeb46?Signature=HafRwGFXL%2BvgAl%2FkDMzxbaOpoWh3YjZb58%2BkOf6OKFH9XNyUQt7JFWJ0Diz2UNYkRW%2BO%2BlpGTu0uOQ9c2OwsAg%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk"
       },
       {
         "documentType": "evaluationReports",
         "id": "9f87b10607744a04b926ba01aab3ba85",
-        "datePublished": "2023-10-26T01:00:00+03:00",
+        "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c301888666eb496b836650f2f0c2ff8a?Signature=wKR0t9cwE1N4k7CgKYjrDNjhHfhkSwDWNFdaLN5QOAD0197N2NUvOTJJBHG0%2Bj3JEauJ3W%2F0kZrt2%2F6F7PIfCA%3D%3D&KeyID=a8968c46",
-        "dateModified": "2023-10-26T01:00:00+03:00",
+        "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk"
       }
     ],
     "submissionID": "39f4e30e72c846039972b697c874c995",
     "frameworkID": "932c7023588f40f4aec26aef109f4998",
     "status": "unsuccessful",
-    "date": "2023-10-26T01:00:00+03:00",
-    "dateModified": "2023-10-26T01:00:00+03:00",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
     "qualificationType": "internationalFinancialInstitutions",
     "id": "61da52d3fbea49129c50b9171ce98c39"
   },

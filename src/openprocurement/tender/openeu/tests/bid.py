@@ -82,7 +82,7 @@ class CreateBidMixin:
         super().setUp()
         # Create bid
         auth = self.app.authorization
-        self.app.authorization = ('Basic', ('broker', ''))
+        self.app.authorization = ("Basic", ("broker", ""))
         bid_data = self.test_bids_data[0].copy()
         bid_data["status"] = self.base_bid_status
         set_bid_items(self, bid_data)
@@ -216,7 +216,6 @@ class TenderBidBatchDocumentsResourceTest(BaseTenderContentWebTest):
         self.bid_data_wo_docs = {
             "tenderers": [test_tender_below_supplier],
             "value": {"amount": 500},
-            "selfQualified": True,
             "documents": [],
         }
         if get_now() < RELEASE_ECRITERIA_ARTICLE_17:

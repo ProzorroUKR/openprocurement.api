@@ -40,7 +40,7 @@ class BaseContractTest(BaseCoreWebTest):
                     "suppliers": [test_tender_pq_supplier],
                     "status": "pending",
                     "bid_id": self.initial_bids[0]["id"],
-                    "value": {"currency": "UAH", "amount": 450.0, "valueAddedTaxIncluded": True},
+                    "value": self.initial_bids[0].get("value") or self.initial_bids[0].get("lotValues")[0].get("value"),
                 }
             },
         )
@@ -73,7 +73,7 @@ class BaseContractWebTest(BaseContractTest):
 
         response = self.app.patch_json(
             f"/contracts/{self.contract_id}?acc_token={self.tender_token}",
-            {"data": {"value": {**self.contract["value"], "amountNet": 440}}},
+            {"data": {"value": {**self.contract["value"], "amountNet": 440, "valueAddedTaxIncluded": True}}},
         )
         self.contract = response.json["data"]
 

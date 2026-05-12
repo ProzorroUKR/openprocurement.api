@@ -96,7 +96,7 @@ class CreateAwardComplaintMixin:
 
         with change_auth(self.app, ("Basic", ("token", ""))):
             patch_data = {"status": "active", "qualified": True}
-            if self.initial_data['procurementMethodType'] != "simple.defense":
+            if self.initial_data["procurementMethodType"] != "simple.defense":
                 patch_data["eligible"] = True
             self.app.patch_json(
                 f"/tenders/{self.tender_id}/awards/{self.award_id}",
@@ -132,7 +132,6 @@ class TenderCancellationComplaintObjectionResourceTest(
     TenderCancellationComplaintObjectionMixin,
     ComplaintObjectionMixin,
 ):
-
     def setUp(self):
         super().setUp()
         self.create_cancellation()

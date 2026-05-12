@@ -279,7 +279,6 @@ test_docs_complaint = {
     "author": test_docs_complaint_author,
 }
 
-test_docs_qualified = {"selfQualified": True}
 
 test_docs_subcontracting = {"subcontractingDetails": "ДКП «Орфей», Україна"}
 
@@ -307,7 +306,6 @@ test_docs_items = [
         "unit": {
             "name": "кілограм",
             "code": "KGM",
-            "value": {"amount": 6},
         },
         "quantity": 5,
     }
@@ -333,7 +331,6 @@ test_docs_items_en = [
         "unit": {
             "code": "KGM",
             "name": "кілограм",
-            "value": {"amount": 6},
         },
         "quantity": 1,
     },
@@ -345,7 +342,6 @@ test_docs_items_en = [
         "unit": {
             "code": "PK",
             "name": "упаковка",
-            "value": {"amount": 6},
         },
         "quantity": 1,
         "deliveryDate": {
@@ -378,7 +374,10 @@ test_docs_items_ua = [
             "streetAddress": "вул. Банкова 1",
         },
         "classification": {"description": "Послуги з харчування у школах", "id": "55523100-3", "scheme": "ДК021"},
-        "unit": {"code": "KGM", "name": "папір", "value": {"amount": 10}},
+        "unit": {
+            "code": "KGM",
+            "name": "папір",
+        },
         "quantity": 1,
     }
 ]
@@ -399,7 +398,10 @@ test_docs_items_open = [
             "streetAddress": "вул. Банкова 1",
         },
         "classification": {"description": "Послуги з харчування у школах", "id": "55523100-3", "scheme": "ДК021"},
-        "unit": {"code": "KGM", "name": "папір", "value": {"amount": 10}},
+        "unit": {
+            "code": "KGM",
+            "name": "папір",
+        },
         "quantity": 1,
     },
     {
@@ -421,7 +423,6 @@ test_docs_items_open = [
         "unit": {
             "code": "KGM",
             "name": "кілограм",
-            "value": {"amount": 6},
         },
         "quantity": 1,
     },
@@ -437,7 +438,6 @@ test_docs_items_dps = [
         "unit": {
             "name": "кг",
             "code": "KGM",
-            "value": {"amount": 6},
         },
         "quantity": 5,
         "deliveryDate": {
@@ -497,7 +497,7 @@ test_docs_procuring_entity_en = {
 }
 
 test_docs_procuring_entity_ua = {
-    "kind": "special",
+    "kind": "general",
     "address": {
         "countryName": "Україна",
         "locality": "м. Вінниця",
@@ -609,6 +609,7 @@ test_docs_tender_stage2_multiple_lots = {
     "owner": "broker",
     "procuringEntity": test_docs_procuring_entity_en,
     "items": test_docs_items_en,
+    "milestones": test_tender_below_milestones,
 }
 
 test_docs_tender_stage2EU = {
@@ -623,6 +624,7 @@ test_docs_tender_stage2EU = {
     "owner": "broker",
     "procuringEntity": test_docs_procuring_entity_en,
     "items": test_docs_items_en,
+    "milestones": test_tender_below_milestones,
 }
 
 test_docs_tender_stage2UA = {
@@ -635,6 +637,7 @@ test_docs_tender_stage2UA = {
     "owner": "broker",
     "procuringEntity": test_docs_procuring_entity_ua,
     "items": test_docs_items_ua,
+    "milestones": test_tender_below_milestones,
 }
 
 test_docs_tender_limited = {

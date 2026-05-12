@@ -10,7 +10,7 @@
                 "value": {
                     "currency": "UAH",
                     "amount": 100,
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 },
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
             }],
@@ -44,7 +44,7 @@
                 "value": {
                     "currency": "UAH",
                     "amount": 100.111,
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 },
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
             }],
@@ -79,7 +79,7 @@
                 "value": {
                     "currency": "UAH",
                     "amount": 100.111,
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 },
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
             }],
@@ -114,7 +114,7 @@
                 "value": {
                     "currency": "UAH",
                     "amount": 100,
-                    "valueAddedTaxIncluded": true
+                    "valueAddedTaxIncluded": false
                 },
                 "relatedItem": "1662b0e1d59f4e2f8e2c5bd48e03a7bc"
             }],

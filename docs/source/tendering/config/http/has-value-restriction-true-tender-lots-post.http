@@ -50,8 +50,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
         ],
         "description": "Послуги шкільних їдалень",
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -67,10 +67,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "KGM",
-          "name": "папір",
-          "value": {
-            "amount": 10
-          }
+          "name": "папір"
         },
         "quantity": 1,
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
@@ -91,8 +88,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "scheme": "ДК021"
         },
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -103,20 +100,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "unit": {
           "code": "KGM",
-          "name": "кілограм",
-          "value": {
-            "amount": 6
-          }
+          "name": "кілограм"
         },
         "quantity": 1,
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "enquiryPeriod": {
-      "endDate": "2023-10-17T00:00:00+02:00"
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "procurementMethodType": "requestForProposal",
     "milestones": [
@@ -298,12 +292,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 1000.0
     },
     "tenderPeriod": {
-      "startDate": "2023-10-17T00:00:00+02:00",
-      "endDate": "2023-10-24T00:00:00+02:00"
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "lots": [
       {
@@ -314,17 +308,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "value": {
           "currency": "UAH",
           "amount": 500.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "currency": "UAH",
           "amount": 5.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
-          "startDate": "2023-10-25T13:09:55.701000+03:00"
+          "shouldStartAfter": "2027-01-15T00:00:00+02:00",
+          "startDate": "2027-01-15T13:09:55.701000+02:00"
         }
       },
       {
@@ -335,25 +329,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "value": {
           "currency": "UAH",
           "amount": 500.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
           "currency": "UAH",
           "amount": 5.0,
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
-          "shouldStartAfter": "2023-10-25T00:00:00+03:00",
-          "startDate": "2023-10-25T12:22:15.236000+03:00"
+          "shouldStartAfter": "2027-01-15T00:00:00+02:00",
+          "startDate": "2027-01-15T12:22:15.236000+02:00"
         }
       }
     ],
     "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
-      "endDate": "2023-10-17T00:00:00+02:00",
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "clarificationsUntil": "2023-10-22T00:00:00+03:00"
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
     },
     "items": [
       {
@@ -361,11 +355,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,
@@ -382,8 +371,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -400,11 +389,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
-          "value": {
-            "amount": 6.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,
@@ -421,8 +405,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           }
         ],
         "deliveryDate": {
-          "startDate": "2023-10-30T00:00:00+02:00",
-          "endDate": "2023-11-29T00:00:00+02:00"
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -434,11 +418,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
-    "tenderID": "UA-2023-10-10-000001-a",
+    "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -495,8 +479,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "title_uk": "Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
       }
     },
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
     "id": "38bca89f7ba4477d97f553d576fd6994"
   },
   "config": {

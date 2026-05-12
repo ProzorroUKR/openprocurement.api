@@ -15,6 +15,7 @@ def patch_tender_contract_datesigned(self):
     self.mongodb.tenders.save(tender)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -78,6 +79,7 @@ def patch_tender_contract(self):
     self.mongodb.tenders.save(tender)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",

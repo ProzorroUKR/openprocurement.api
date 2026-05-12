@@ -11,7 +11,7 @@ from openprocurement.tender.cfaua.tests.base import (
 )
 from openprocurement.tender.cfaua.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid_document,
@@ -21,7 +21,6 @@ from tests.base.data import (
     test_docs_lot_bid2,
     test_docs_lot_bid3_with_docs,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
 )
@@ -37,9 +36,6 @@ test_tender_data = deepcopy(test_tender_cfaua_data)
 test_lots = deepcopy(test_docs_lots)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/source/tendering/cfaua/"
 TARGET_DIR = BASE_DIR + "tutorial/"
@@ -295,8 +291,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         bids_access = {}
         with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
-            bid["lotValues"][0]["relatedLot"] = lot["id"]
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
+            bid1_data = deepcopy(bid)
+            bid1_data["lotValues"][0]["relatedLot"] = lot["id"]
+            set_bid_items(self, bid1_data, tender["items"])
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid1_data})
             bid1_id = response.json["data"]["id"]
             bids_access[bid1_id] = response.json["access"]["token"]
             self.assertEqual(response.status, "201 Created")
@@ -532,9 +530,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "200 OK")
 
         with open(TARGET_DIR + "register-2nd-bidder.http", "w") as self.app.file_obj:
-            bid2["lotValues"][0]["relatedLot"] = lot["id"]
-            bid2["status"] = "draft"
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2})
+            bid2_data = deepcopy(bid2)
+            bid2_data["lotValues"][0]["relatedLot"] = lot["id"]
+            bid2_data["status"] = "draft"
+            set_bid_items(self, bid2_data, tender["items"])
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_data})
             bid2_id = response.json["data"]["id"]
             bids_access[bid2_id] = response.json["access"]["token"]
             self.assertEqual(response.status, "201 Created")
@@ -565,8 +565,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             document["url"] = self.generate_docservice_url()
 
         with open(TARGET_DIR + "register-3rd-bidder.http", "w") as self.app.file_obj:
-            bid3["status"] = "draft"
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3})
+            bid3_draft = deepcopy(bid3)
+            bid3_draft["status"] = "draft"
+            set_bid_items(self, bid3_draft, tender["items"])
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_draft})
             bid3_id = response.json["data"]["id"]
             bids_access[bid3_id] = response.json["access"]["token"]
             self.assertEqual(response.status, "201 Created")
@@ -579,7 +581,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         self.set_responses(self.tender_id, response.json, "pending")
 
         with open(TARGET_DIR + "register-4rd-bidder.http", "w") as self.app.file_obj:
-            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3})
+            response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_draft})
             bid4_id = response.json["data"]["id"]
             bids_access[bid4_id] = response.json["access"]["token"]
             self.assertEqual(response.status, "201 Created")
@@ -867,7 +869,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 unit_prices.append(
                     {
                         "relatedItem": unit_price["relatedItem"],
-                        "value": {"amount": j, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": j, "currency": "UAH", "valueAddedTaxIncluded": False},
                     }
                 )
             with open(TARGET_DIR + "agreement-contract-unitprices{}.http".format(i), "w") as self.app.file_obj:

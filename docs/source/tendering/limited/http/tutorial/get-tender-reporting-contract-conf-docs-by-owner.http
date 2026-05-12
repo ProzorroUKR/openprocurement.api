@@ -17,8 +17,8 @@ Content-Type: application/json
     "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents/64d727edf7a24a9d89031cf8fc890238?download=6867c78ea3ec4ca68a9bf8c374110b6a",
     "documentOf": "contract",
     "id": "64d727edf7a24a9d89031cf8fc890238",
-    "datePublished": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00"
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00"
   }
 }
 

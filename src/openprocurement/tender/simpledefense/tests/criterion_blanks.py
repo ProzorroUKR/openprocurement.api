@@ -63,10 +63,10 @@ def delete_requirement_evidence(self):
             response.json["errors"],
             [
                 {
-                    'description': "Can't delete object if tender not in "
+                    "description": "Can't delete object if tender not in "
                     "['draft', 'draft.pending', 'draft.stage2'] statuses",
-                    'location': 'body',
-                    'name': 'data',
+                    "location": "body",
+                    "name": "data",
                 }
             ],
         )
@@ -88,10 +88,10 @@ def delete_requirement_evidence(self):
                 response.json["errors"],
                 [
                     {
-                        'description': "Can't delete object if tender not in "
+                        "description": "Can't delete object if tender not in "
                         "['draft', 'draft.pending', 'draft.stage2'] statuses",
-                        'location': 'body',
-                        'name': 'data',
+                        "location": "body",
+                        "name": "data",
                     }
                 ],
             )
@@ -111,10 +111,10 @@ def delete_requirement_evidence(self):
                     response.json["errors"],
                     [
                         {
-                            'description': "Can't delete object if tender not in "
+                            "description": "Can't delete object if tender not in "
                             "['draft', 'draft.pending', 'draft.stage2'] statuses",
-                            'location': 'body',
-                            'name': 'data',
+                            "location": "body",
+                            "name": "data",
                         }
                     ],
                 )

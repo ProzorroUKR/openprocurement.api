@@ -22,7 +22,7 @@ class BasicValue(Model):
 
 
 class Value(BasicValue):
-    valueAddedTaxIncluded = BooleanType(required=True, default=True)
+    valueAddedTaxIncluded = BooleanType(required=True, default=False)
 
 
 class EstimatedValue(Value):

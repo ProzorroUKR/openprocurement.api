@@ -276,7 +276,7 @@ def create_tender_invalid(self):
     )
 
     data = {"amount": 15, "currency": "UAH"}
-    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": False}
+    self.initial_data["minimalStep"] = {"amount": "100.0", "valueAddedTaxIncluded": True}
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.initial_data["minimalStep"] = data
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -373,9 +373,9 @@ def create_tender_invalid(self):
         response.json["errors"],
         [
             {
-                'description': {'contactPoint': {'telephone': ['wrong telephone format (could be missed +)']}},
-                'location': 'body',
-                'name': 'procuringEntity',
+                "description": {"contactPoint": {"telephone": ["wrong telephone format (could be missed +)"]}},
+                "location": "body",
+                "name": "procuringEntity",
             }
         ],
     )
@@ -605,6 +605,10 @@ def patch_draft_invalid_json(self):
     )
 
 
+@patch(
+    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def patch_tender(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
@@ -1143,6 +1147,7 @@ def first_bid_tender(self):
     # create tender
     data = deepcopy(self.initial_data)
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender = response.json["data"]
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
     # switch to active.tendering
@@ -1151,11 +1156,13 @@ def first_bid_tender(self):
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data = deepcopy(self.initial_bids[0])
     bid_data["lotValues"][0]["value"] = {"amount": 450}
+    set_bid_items(self, bid_data, tender["items"])
     bid, bid1_token = self.create_bid(self.tender_id, bid_data)
     bid_id = bid["id"]
     # create second bid
     self.app.authorization = ("Basic", ("broker", ""))
     bid_data["lotValues"][0]["value"] = {"amount": 475}
+    set_bid_items(self, bid_data, tender["items"])
     _, bid2_token = self.create_bid(self.tender_id, bid_data)
     # switch to active.auction
     self.set_status("active.auction")
@@ -1217,7 +1224,7 @@ def first_bid_tender(self):
     # set award as unsuccessful
     self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "unsuccessful", "qualified": False}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = False
     if "milestones" in response.json["data"][0]:
         milestone_due_date = dt_from_iso(response.json["data"][0]["milestones"][0]["dueDate"])
@@ -1252,7 +1259,7 @@ def first_bid_tender(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1314,7 +1321,7 @@ def lost_contract_for_active_award(self):
     # set award as active
     self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
     patch_data = {"status": "active", "qualified": True}
-    if self.initial_data['procurementMethodType'] != "simple.defense":
+    if self.initial_data["procurementMethodType"] != "simple.defense":
         patch_data["eligible"] = True
     self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(tender_id, award_id, owner_token),
@@ -1413,7 +1420,7 @@ def create_tender_with_criteria_lcc(self):
     )
     response = self.app.patch_json(tender_request_path, {"data": {"awardCriteria": "lifeCycleCost"}}, status=403)
     self.assertEqual(
-        [{"location": "body", "name": "awardCriteria", "description": "Can\'t change awardCriteria"}],
+        [{"location": "body", "name": "awardCriteria", "description": "Can't change awardCriteria"}],
         response.json["errors"],
     )
 
@@ -1503,7 +1510,6 @@ def create_tender_with_criteria_lcc(self):
 
 
 def tender_items_category_profile(self):
-
     response_404 = Mock()
     response_404.status_code = 404
 

@@ -12,13 +12,13 @@ Content-Type: application/json
       "confidentiality": "public",
       "documentType": "proposal",
       "id": "f6d308fd314744d791181f79f7ba754c",
-      "datePublished": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal.p7s",
       "format": "sign/p7s",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e98ff4ebc6424cfba4838b5e790e1366?Signature=fOkU3ELmyYVvsahAhcRBc7yC874TjzHPh5cYUAHPJd4t9ojzcEf%2FMi8YRSSL7rX%2BSaDC1SYS%2Bh7h%2FXQRDaHCAA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "language": "uk"
     }
   ]

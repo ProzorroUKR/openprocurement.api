@@ -156,7 +156,7 @@ def create_tender_bid_invalid(self):
         {
             "data": {
                 "tenderers": [test_tender_below_supplier],
-                "value": {"amount": 500, "valueAddedTaxIncluded": False},
+                "value": {"amount": 500, "valueAddedTaxIncluded": True},
             }
         },
         status=422,
@@ -382,16 +382,18 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
+    bit_patch_data = {
+        "value": {"amount": 450},
+        "lotValues": None,
+        "parameters": None,
+        "subcontractingDetails": "test",
+        "tenderers": [test_tender_below_supplier],
+    }
+    set_bid_items(self, bit_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "value": {"amount": 450},
-                "lotValues": None,
-                "parameters": None,
-                "subcontractingDetails": "test",
-            }
-        },
+        {"data": bit_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -399,14 +401,15 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["subcontractingDetails"], "test")
     self.assertEqual(response.json["data"]["date"], bid["date"])
 
+    bit_patch_data = {
+        "status": "draft",
+        "value": {"amount": 440},
+    }
+    set_bid_items(self, bit_patch_data)
+
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
-        {
-            "data": {
-                "status": "draft",
-                "value": {"amount": 440},
-            }
-        },
+        {"data": bit_patch_data},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -861,7 +864,7 @@ def post_tender_bid_with_another_currency(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        "currency of bid unit should be identical to currency of tender value",
+        "currency of bid unit should be identical to currency of bid lotValues",
     )
 
 
@@ -1109,13 +1112,13 @@ def features_bid(self):
             "parameters": [{"code": i["code"], "value": 0.1} for i in self.initial_data["features"]],
             "status": "pending",
             "tenderers": [test_tender_below_supplier],
-            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
         {
             "parameters": [{"code": i["code"], "value": 0.15} for i in self.initial_data["features"]],
             "tenderers": [test_tender_below_supplier],
             "status": "draft",
-            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": True},
+            "value": {"amount": 479, "currency": "UAH", "valueAddedTaxIncluded": False},
         },
     ]
     for i in test_features_bids:
@@ -1133,7 +1136,7 @@ def features_bid(self):
 def features_bid_invalid(self):
     data = {
         "tenderers": [test_tender_below_supplier],
-        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+        "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
     }
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -2824,6 +2827,7 @@ def patch_tender_bid_with_disabled_lot_values_restriction(self):
     # patch lotValue with exceeded amount
     value["amount"] = 600
     bid["lotValues"] = [{**lot_values[0], "value": value, "relatedLot": lots[0]["id"]}]
+    set_bid_items(self, bid)
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
         {"data": bid},
@@ -2857,8 +2861,11 @@ def patch_tender_bid_with_disabled_value_restriction(self):
     bid_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
 
+    bit_patch_data = {"tenderers": [test_tender_below_supplier], "value": {"amount": 750}}
+    set_bid_items(self, bit_patch_data)
+
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={token}",
-        {"data": {"tenderers": [test_tender_below_supplier], "value": {"amount": 750}}},
+        {"data": bit_patch_data},
     )
     self.assertEqual(response.status, "200 OK")

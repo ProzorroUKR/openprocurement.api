@@ -59,14 +59,21 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 5,
         "description": "папір",
         "id": "991761a10cb14c239cf05842c4cfa729",
+        "relatedLot": "e932e2282dd44ca38478282c9b65d683",
         "unit": {
+          "name": "кг",
           "code": "KGM"
         }
       },
       {
         "quantity": 1,
         "description": "степлер",
-        "id": "d97b0743145b4e4d89e908039a069506"
+        "id": "d97b0743145b4e4d89e908039a069506",
+        "relatedLot": "ffecdd78783d41ea8db264ed749853d9",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        }
       }
     ]
   }

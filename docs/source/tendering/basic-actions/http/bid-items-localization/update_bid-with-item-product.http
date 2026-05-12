@@ -13,14 +13,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
+          "code": "KGM",
           "value": {
-            "amount": 7,
             "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
+            "valueAddedTaxIncluded": false,
+            "amount": 50.0
+          }
         },
-        "quantity": 4,
+        "quantity": 10.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "22222222222222222222222222222222"
       }
     ]
@@ -38,11 +39,11 @@ Content-Type: application/json
         "value": {
           "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": true
+          "valueAddedTaxIncluded": false
         },
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "status": "pending",
-        "date": "2023-10-10T01:00:00+03:00"
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderers": [
@@ -80,7 +81,7 @@ Content-Type: application/json
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "1dfb6963bdda42449ce4ef465342892a",
-    "date": "2023-10-10T01:00:00+03:00",
+    "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -90,13 +91,14 @@ Content-Type: application/json
         "unit": {
           "name": "кілограм",
           "value": {
-            "amount": 7.0,
+            "amount": 50.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 4.0,
+        "quantity": 10.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "22222222222222222222222222222222"
       }
     ]

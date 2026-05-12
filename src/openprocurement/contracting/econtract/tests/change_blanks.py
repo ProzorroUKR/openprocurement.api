@@ -7,6 +7,7 @@ from openprocurement.api.constants import (
     RATIONALE_TYPES_DECREE_1178,
 )
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.utils import set_items_unit
 
 
 def not_found(self):
@@ -119,7 +120,7 @@ def create_change(self):
         ],
     )
 
-    self.activate_change(change['id'])
+    self.activate_change(change["id"])
     response = self.app.get(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
     )
@@ -150,7 +151,7 @@ def create_change(self):
     )
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc.pop('contractChangeRationaleTypes', None)
+    contract_doc.pop("contractChangeRationaleTypes", None)
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.post_json(
@@ -373,6 +374,11 @@ def patch_change(self):
 
 
 def activation_of_change(self):
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -380,7 +386,7 @@ def activation_of_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 440}},
+                "modifications": {"value": value, "items": items},
             }
         },
     )
@@ -510,6 +516,11 @@ def activation_of_change(self):
 
 
 def cancellation_of_change(self):
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -517,7 +528,7 @@ def cancellation_of_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 440}},
+                "modifications": {"value": value, "items": items},
             }
         },
     )
@@ -595,6 +606,11 @@ def cancellation_of_change(self):
     )
     self.assertEqual(response.status, "405 Method Not Allowed")
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440.5
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -602,7 +618,7 @@ def cancellation_of_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 440.5}},
+                "modifications": {"value": value, "items": items},
             }
         },
     )
@@ -610,7 +626,7 @@ def cancellation_of_change(self):
     change_2 = response.json["data"]
     self.assertEqual(change_2["status"], "pending")
 
-    self.activate_change(change_2['id'])
+    self.activate_change(change_2["id"])
     response = self.app.get(
         f"/contracts/{self.contract['id']}/changes/{change_2['id']}?acc_token={self.contract_token}",
     )
@@ -639,6 +655,11 @@ def cancellation_of_change(self):
 
 
 def change_contract_wo_amount_net(self):
+    value = deepcopy(self.contract["value"])
+    value["amount"] = self.contract["value"]["amount"] - 1
+    del value["amountNet"]
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -646,7 +667,7 @@ def change_contract_wo_amount_net(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"currency": "UAH", "amount": self.contract["value"]["amount"] - 1}},
+                "modifications": {"value": value, "items": items},
             }
         },
         status=422,
@@ -657,6 +678,11 @@ def change_contract_wo_amount_net(self):
         [{"description": {"amountNet": "This field is required."}, "location": "body", "name": "value"}],
     )
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -664,7 +690,7 @@ def change_contract_wo_amount_net(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 440}},
+                "modifications": {"value": value, "items": items},
             }
         },
     )
@@ -672,6 +698,11 @@ def change_contract_wo_amount_net(self):
 
 
 def change_contract_value_amount(self):
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 447
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -679,7 +710,7 @@ def change_contract_value_amount(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {**self.contract["value"], "amount": 445, "amountNet": 447}},
+                "modifications": {"value": value, "items": items},
             }
         },
         status=403,
@@ -690,6 +721,11 @@ def change_contract_value_amount(self):
         "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
     )
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 100
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -697,7 +733,7 @@ def change_contract_value_amount(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 100}},
+                "modifications": {"value": value, "items": items},
             }
         },
         status=403,
@@ -708,6 +744,11 @@ def change_contract_value_amount(self):
         "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
     )
 
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -715,7 +756,7 @@ def change_contract_value_amount(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 440}},
+                "modifications": {"value": value, "items": items},
             }
         },
     )
@@ -735,15 +776,21 @@ def change_contract_value_vat_change(self):
         True,
     )
 
+    #  prepare data for change
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 238
+    value["amountNet"] = 238
+    value["valueAddedTaxIncluded"] = False
+
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
+
     # check contract.items.unit.value.valueAddedTaxIncluded is False
-    for item in self.contract["items"]:
+    for item in items:
         self.assertEqual(
             item["unit"]["value"]["valueAddedTaxIncluded"],
             False,
         )
-    contract_items = deepcopy(self.contract["items"])
-    contract_items[0]["unit"]["value"]["amount"] = 21.64
-    contract_items[0]["quantity"] = 11  # 11 * 21.64 = 238.04
 
     # change contract.value.valueAddedTaxIncluded from True to False
     response = self.app.post_json(
@@ -753,11 +800,8 @@ def change_contract_value_vat_change(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {
-                    "value": {"valueAddedTaxIncluded": False, "amount": 238, "amountNet": 238},
-                    "items": contract_items,
-                },
-            },
+                "modifications": {"value": value, "items": items},
+            }
         },
     )
     contract_modifications = response.json["data"]["modifications"]
@@ -811,7 +855,7 @@ def change_contract_period(self):
     }
 
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
-    contract_doc['period'] = previous_period
+    contract_doc["period"] = previous_period
     self.mongodb.contracts.save(contract_doc)
 
     response = self.app.post_json(
@@ -834,7 +878,7 @@ def change_contract_period(self):
         change["modifications"]["period"]["startDate"],
         previous_period["startDate"],
     )
-    self.activate_change(change['id'])
+    self.activate_change(change["id"])
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
@@ -856,7 +900,7 @@ def change_contract_period(self):
         change_2["modifications"]["period"]["endDate"],
         previous_period["endDate"],
     )
-    self.activate_change(change_2['id'])
+    self.activate_change(change_2["id"])
 
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
@@ -957,15 +1001,20 @@ def contract_token_invalid(self):
         response.json["errors"],
         [
             {
-                'location': 'body',
-                'name': 'UnicodeEncodeError',
-                'description': "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
+                "location": "body",
+                "name": "UnicodeEncodeError",
+                "description": "'latin-1' codec can't encode characters in position 10-14: ordinal not in range(256)",
             }
         ],
     )
 
 
 def change_documents(self):
+    value = deepcopy(self.contract["value"])
+    value["amount"] = 445
+    value["amountNet"] = 440
+    items = deepcopy(self.contract["items"])
+    set_items_unit(items, value)
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {
@@ -973,7 +1022,7 @@ def change_documents(self):
                 "rationale": "причина зміни укр",
                 "rationale_en": "change cause en",
                 "rationaleTypes": ["priceReductionWithoutQuantity"],
-                "modifications": {"value": {"amount": 445, "amountNet": 440}},
+                "modifications": {"value": value, "items": items},
             }
         },
     )

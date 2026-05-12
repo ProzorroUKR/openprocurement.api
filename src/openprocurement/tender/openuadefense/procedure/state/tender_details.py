@@ -17,6 +17,7 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
     tender_period_extra = TENDERING_EXTRA_PERIOD
     tender_period_extra_working_days = True
     should_validate_notice_doc_required = False
+    should_validate_vat_not_included = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 

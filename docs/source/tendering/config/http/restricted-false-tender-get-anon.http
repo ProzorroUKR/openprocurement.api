@@ -14,13 +14,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
         },
         "title": "Строк дії тендерної пропозиції",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -45,7 +45,7 @@ Content-Type: application/json
                   "name": "день"
                 },
                 "minValue": 90,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -57,13 +57,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.OTHER.BID.LANGUAGE"
         },
         "title": "Мова (мови) тендерної пропозиції",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -91,7 +91,7 @@ Content-Type: application/json
                   "spa"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -103,13 +103,13 @@ Content-Type: application/json
         "source": "procuringEntity",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         },
         "title": "Наявність впливу на прийняття рішення замовника",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -136,7 +136,7 @@ Content-Type: application/json
                   }
                 ],
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -148,13 +148,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
         },
         "title": "Вчинення корупційних правопорушень",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -164,7 +164,7 @@ Content-Type: application/json
             "article": "17.1.2"
           },
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -192,7 +192,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "ccc629c76e6e4d54a4cc91a31d2144e6",
@@ -207,7 +207,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -228,7 +228,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -240,13 +240,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
         },
         "title": "Вчинення економічних правопорушень",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -287,7 +287,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -299,13 +299,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
         },
         "title": "Вчинення кримінальних правопорушень",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -315,7 +315,7 @@ Content-Type: application/json
             "article": "17.1.5"
           },
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -343,7 +343,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -364,7 +364,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -376,13 +376,13 @@ Content-Type: application/json
         "source": "procuringEntity",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
         },
         "title": "Наявність зв'язку учасника з іншими учасниками процедури або замовником",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -409,7 +409,7 @@ Content-Type: application/json
                   }
                 ],
                 "status": "active",
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -421,13 +421,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
         },
         "title": "Порушення справи про банкрутство",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -455,7 +455,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -467,13 +467,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
         "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -503,7 +503,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -515,13 +515,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
         },
         "title": "Вчинення правопорушень, пов'язаних з використанням дитячої праці чи будь-якими формами торгівлі людьми",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -549,7 +549,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -570,7 +570,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -582,13 +582,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
         },
         "title": "Наявність заборгованості зі сплати податків і зборів",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -616,7 +616,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -637,7 +637,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "8a1bd504fc2a4b8cb1967350683fa22a",
@@ -651,7 +651,7 @@ Content-Type: application/json
                   "Особливості діяльності під час воєнного стану"
                 ],
                 "expectedMinItems": 1,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
                 "id": "200a11522c9a43a4878682716998a10d",
@@ -663,7 +663,7 @@ Content-Type: application/json
                   "name": "одиниця"
                 },
                 "minValue": 0.0,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -675,13 +675,13 @@ Content-Type: application/json
         "source": "winner",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
         "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -702,7 +702,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -723,7 +723,7 @@ Content-Type: application/json
                 ],
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
@@ -735,13 +735,13 @@ Content-Type: application/json
         "source": "tenderer",
         "relatesTo": "tender",
         "classification": {
-          "scheme": "ESPD211",
+          "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
         },
         "title": "Наявність інших підстав для відмови в участі у процедурі закупівлі",
         "legislation": [
           {
-            "version": "2024-10-23",
+            "version": "2025-10-31",
             "identifier": {
               "id": "922-VIII",
               "legalName": "Закон України \"Про публічні закупівлі\"",
@@ -772,7 +772,7 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           },
@@ -786,29 +786,29 @@ Content-Type: application/json
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
-                "datePublished": "2023-10-10T01:00:00+03:00"
+                "datePublished": "2027-01-01T00:00:00+02:00"
               }
             ]
           }
         ]
       }
     ],
-    "date": "2023-10-10T01:00:00+03:00",
-    "dateModified": "2023-10-10T01:00:00+03:00",
-    "dateCreated": "2023-10-10T01:00:00+03:00",
-    "tenderID": "UA-2023-10-10-000001-a",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "tenderID": "UA-2027-01-01-000001-a",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "contractProforma",
         "id": "d36c85e688f540b4803d634f663b4dd0",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a5737ca8b48e4ad782a8a01422d302c0?Signature=OSlChSl0ur3pYDpplmugf%2BvGvfOOA9KQecOlg5aohwWuQwu5cLGvRQ%2F8ay2GEWS6EEGKQ9Y3l6bzWQlwHRl8BA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       },
@@ -816,13 +816,13 @@ Content-Type: application/json
         "confidentiality": "public",
         "documentType": "notice",
         "id": "e3899d998f4d4394bbac7d6e0df0dd38",
-        "datePublished": "2023-10-10T01:00:00+03:00",
+        "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a76041aab0b3490d850f9b57029a4c6b?Signature=gbN7ujOPv07BjjO3GCu1Ew%2BVApHs2wv%2FfQTq3syTVLjAdExDKOQMbQHl6AaFwIF9jADp2C4vK%2FZBNy72EykyAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2023-10-10T01:00:00+03:00",
+        "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
         "language": "uk"
       }
@@ -954,7 +954,7 @@ Content-Type: application/json
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/"
       },
-      "kind": "special",
+      "kind": "general",
       "signerInfo": {
         "name": "Test Testovich",
         "email": "example@email.com",
@@ -966,7 +966,7 @@ Content-Type: application/json
     },
     "value": {
       "currency": "UAH",
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
     "lots": [
@@ -975,38 +975,38 @@ Content-Type: application/json
         "description": "Опис Лот №1",
         "status": "active",
         "id": "2b1b594948f547af9eff49515789e928",
-        "date": "2023-10-10T01:00:00+03:00",
+        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 500.0
         },
         "minimalStep": {
           "currency": "UAH",
-          "valueAddedTaxIncluded": true,
+          "valueAddedTaxIncluded": false,
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2023-10-26T13:09:55.701000+03:00",
-          "shouldStartAfter": "2023-10-26T00:00:00+03:00"
+          "startDate": "2027-01-18T13:09:55.701000+02:00",
+          "shouldStartAfter": "2027-01-16T00:00:00+02:00"
         }
       }
     ],
     "complaintPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00"
     },
     "status": "active.tendering",
     "procurementMethodType": "competitiveOrdering",
     "enquiryPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-22T00:00:00+03:00",
-      "clarificationsUntil": "2023-10-25T00:00:00+03:00",
-      "invalidationDate": "2023-10-10T01:00:00+03:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2023-10-10T01:00:00+03:00",
-      "endDate": "2023-10-25T00:00:00+02:00"
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
     },
     "items": [
       {
@@ -1014,11 +1014,6 @@ Content-Type: application/json
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
-          "value": {
-            "amount": 10.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": true
-          },
           "code": "KGM"
         },
         "quantity": 1.0,
@@ -1036,8 +1031,8 @@ Content-Type: application/json
         ],
         "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
-          "startDate": "2023-10-12T01:00:00+03:00",
-          "endDate": "2023-10-15T01:00:00+03:00"
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -1048,8 +1043,8 @@ Content-Type: application/json
         }
       }
     ],
-    "noticePublicationDate": "2023-10-10T01:00:00+03:00",
-    "next_check": "2023-10-25T00:00:00+02:00",
+    "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "next_check": "2027-01-16T00:00:00+02:00",
     "id": "38bca89f7ba4477d97f553d576fd6994"
   },
   "config": {

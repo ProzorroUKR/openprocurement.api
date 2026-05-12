@@ -9,14 +9,14 @@ Content-Type: application/json
 {
   "data": [
     {
-      "dateModified": "2023-10-26T01:00:00+03:00",
+      "dateModified": "2027-01-17T00:00:00+02:00",
       "id": "79215d0ea54f4a04b04d7fadf4090ca1"
     }
   ],
   "next_page": {
-    "offset": "1698271200.0.1.7dc43bf19eebf6067fbefcaeda130c7e",
-    "path": "/api/2.5/frameworks?offset=1698271200.0.1.7dc43bf19eebf6067fbefcaeda130c7e",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/frameworks?offset=1698271200.0.1.7dc43bf19eebf6067fbefcaeda130c7e"
+    "offset": "1800136800.0.1.7dc43bf19eebf6067fbefcaeda130c7e",
+    "path": "/api/2.5/frameworks?offset=1800136800.0.1.7dc43bf19eebf6067fbefcaeda130c7e",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/frameworks?offset=1800136800.0.1.7dc43bf19eebf6067fbefcaeda130c7e"
   }
 }
 

@@ -891,11 +891,11 @@ def patch_tender_agreement_contract(self):
                 "unitPrices": [
                     {
                         "relatedItem": related_item,
-                        "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
                     },
                     {
                         "relatedItem": uuid4().hex,
-                        "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": False},
                     },
                 ]
             }
@@ -922,7 +922,7 @@ def patch_tender_agreement_contract(self):
                 "unitPrices": [
                     {
                         "relatedItem": uuid4().hex,
-                        "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": 1, "currency": "UAH", "valueAddedTaxIncluded": False},
                     }
                 ]
             }
@@ -984,7 +984,7 @@ def patch_tender_agreement_contract(self):
             "data": {
                 "unitPrices": [
                     {
-                        "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False},
+                        "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
                         "relatedItem": related_item,
                     }
                 ]
@@ -1011,7 +1011,7 @@ def patch_tender_agreement_contract(self):
             "data": {
                 "unitPrices": [
                     {
-                        "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False},
                         "relatedItem": related_item,
                     }
                 ]
@@ -1068,7 +1068,7 @@ def patch_lots_agreement_contract_unit_prices(self):
             "data": {
                 "unitPrices": [
                     {
-                        "value": {"amount": 79.968, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": 79.968, "currency": "UAH", "valueAddedTaxIncluded": False},
                         "relatedItem": related_item,
                     }
                 ]
@@ -1092,7 +1092,7 @@ def patch_lots_agreement_contract_unit_prices(self):
             "data": {
                 "unitPrices": [
                     {
-                        "value": {"amount": 79.97, "currency": "UAH", "valueAddedTaxIncluded": True},
+                        "value": {"amount": 79.97, "currency": "UAH", "valueAddedTaxIncluded": False},
                         "relatedItem": related_item,
                     }
                 ]

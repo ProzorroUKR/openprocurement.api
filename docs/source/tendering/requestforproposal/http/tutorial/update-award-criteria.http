@@ -25,13 +25,13 @@ Content-Type: application/json
     "description": "Нова версія AwardCriteria документу",
     "description_en": "new version of the AwardCriteria document",
     "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
-    "datePublished": "2023-10-10T01:10:05+03:00",
+    "datePublished": "2027-01-01T00:10:05+02:00",
     "hash": "md5:11111111111111111111111111111111",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=%2Bq%2F%2FE5Sml8snWliS1olYK%2Bk9P5xg%2Bp0PVGPhAjQOELiMK882BsSWbDnohWwS9zCChlXkEgWdayK5lb2oDaVeBA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
-    "dateModified": "2023-10-10T01:10:05+03:00",
+    "dateModified": "2027-01-01T00:10:05+02:00",
     "author": "tender_owner",
     "language": "en"
   }

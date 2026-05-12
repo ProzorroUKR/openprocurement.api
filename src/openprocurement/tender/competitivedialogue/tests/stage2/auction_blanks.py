@@ -54,8 +54,8 @@ def patch_tender_with_lots_auction(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {'location': 'body', 'name': 'auctionUrl', 'description': 'Rogue field'},
-            {'location': 'body', 'name': 'bids', 'description': {'participationUrl': 'Rogue field'}},
+            {"location": "body", "name": "auctionUrl", "description": "Rogue field"},
+            {"location": "body", "name": "bids", "description": {"participationUrl": "Rogue field"}},
         ],
     )
 

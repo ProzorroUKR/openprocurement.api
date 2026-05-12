@@ -131,7 +131,6 @@ class TenderBidRequirementResponseTestMixin:
 
 
 class TenderBidRequirementResponseEvidenceTestMixin:
-
     test_create_bid_requirement_response_evidence = snitch(create_bid_requirement_response_evidence)
     test_patch_bid_requirement_response_evidence = snitch(patch_bid_requirement_response_evidence)
     test_get_bid_requirement_response_evidence = snitch(get_bid_requirement_response_evidence)
@@ -285,7 +284,6 @@ class TenderBidderBatchDocumentResourceTest(BaseTenderCOLongContentWebTest):
         "tenderers": [test_tender_below_supplier],
         "value": {"amount": 500},
         "selfEligible": True,
-        "selfQualified": True,
         "documents": [],
     }
 

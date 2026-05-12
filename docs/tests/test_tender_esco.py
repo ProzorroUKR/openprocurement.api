@@ -5,6 +5,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
+    set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
@@ -20,7 +21,6 @@ from tests.base.data import (
     test_docs_bid_document2,
     test_docs_bid_draft,
     test_docs_lots,
-    test_docs_qualified,
     test_docs_question,
     test_docs_subcontracting,
     test_docs_tender_esco,
@@ -37,9 +37,6 @@ bid_document = deepcopy(test_docs_bid_document)
 bid_document2 = deepcopy(test_docs_bid_document2)
 
 bid.update(test_docs_subcontracting)
-bid.update(test_docs_qualified)
-bid2.update(test_docs_qualified)
-bid3.update(test_docs_qualified)
 
 bid.update(
     {
@@ -355,6 +352,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
 
         bids_access = {}
         set_bid_lotvalues(bid, self.initial_lots)
+        set_bid_items(self, bid, tender["items"])
         with open(TARGET_DIR + "register-bidder.http", "w") as self.app.file_obj:
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid})
             bid1_id = response.json["data"]["id"]
@@ -583,6 +581,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
             bid2_draft = deepcopy(bid2)
             bid2_draft["status"] = "draft"
             set_bid_lotvalues(bid2_draft, self.initial_lots)
+            set_bid_items(self, bid2_draft, tender["items"])
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid2_draft})
             bid2_id = response.json["data"]["id"]
             bids_access[bid2_id] = response.json["access"]["token"]
@@ -614,6 +613,7 @@ class TenderResourceTest(BaseESCOWebTest, MockWebTestMixin, TenderConfigCSVMixin
         with open(TARGET_DIR + "register-3rd-bidder.http", "w") as self.app.file_obj:
             bid3_draft = deepcopy(bid3)
             set_bid_lotvalues(bid3_draft, self.initial_lots)
+            set_bid_items(self, bid3_draft, tender["items"])
             bid3_draft["status"] = "draft"
             response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid3_draft})
             bid3_id = response.json["data"]["id"]

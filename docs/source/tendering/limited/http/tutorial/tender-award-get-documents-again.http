@@ -17,8 +17,8 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "a69d18bbdd1445ff9e86b7b004187d58",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner"
     },
     {
@@ -30,8 +30,8 @@ Content-Type: application/json
       "documentOf": "tender",
       "language": "uk",
       "id": "fb2b3503a8fa4e279396e2c047d2aa6c",
-      "datePublished": "2023-10-10T01:00:00+03:00",
-      "dateModified": "2023-10-10T01:00:00+03:00",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
       "author": "tender_owner"
     }
   ]

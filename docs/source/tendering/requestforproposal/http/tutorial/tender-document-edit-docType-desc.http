@@ -26,13 +26,13 @@ Content-Type: application/json
     "description_en": "document description modified",
     "relatedItem": "ffffffffffffffffffffffffffffffff",
     "id": "6a7a9cebe2704f2ab6258c8d8a7789e2",
-    "datePublished": "2023-10-10T01:00:01+03:00",
+    "datePublished": "2027-01-01T00:00:01+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.doc",
     "format": "application/msword",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d990d4897b1a47a19bf707544e0c8c39?Signature=Odg7g4lnQq9K23uhoeviII9%2BTeGyK%2BZebhgl5aO%2FJj1M4qGN5N%2Fq0TCVhB39EYEVdlWkc0V%2B3rnS%2FDb4w%2Fd7Bg%3D%3D&KeyID=a8968c46",
     "documentOf": "item",
-    "dateModified": "2023-10-10T01:03:03+03:00",
+    "dateModified": "2027-01-01T00:03:03+02:00",
     "author": "tender_owner",
     "language": "uk"
   }
