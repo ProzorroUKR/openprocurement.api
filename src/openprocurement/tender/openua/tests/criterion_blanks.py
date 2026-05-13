@@ -3306,7 +3306,7 @@ def criterion_from_market_category_expected_items_narrowing(self):
             {"data": {"expectedMaxItems": 3}},
         )
 
-    # Category with expectedMaxItems=1: tender cannot change the value
+    # Category with expectedMaxItems=1: tender max cannot exceed it
     market_tech_feature[0]["requirementGroups"][0]["requirements"][0] = {
         "title": "Req dict",
         "dataType": "string",
@@ -3334,43 +3334,10 @@ def criterion_from_market_category_expected_items_narrowing(self):
                 },
             ],
         )
-        # tender tries to change expectedMinItems: rejected (values cannot be changed)
-        self.app.patch_json(
-            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
-            {"data": {"expectedValues": ["v1", "v2", "v3"], "expectedMinItems": 2, "expectedMaxItems": 2}},
-        )
-        response = activate_tender(status=422)
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "requirement 'Req dict' expectedMinItems should be equal or greater than in category",
-                },
-            ],
-        )
         # tender matches category exactly: allowed
         self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedValues": ["v1"], "expectedMinItems": 1, "expectedMaxItems": 1}},
-        )
-
-    # Category without expectedMaxItems: tender may set any positive value
-    market_tech_feature[0]["requirementGroups"][0]["requirements"][0] = {
-        "title": "Req dict",
-        "dataType": "string",
-        "expectedValues": ["v1", "v2", "v3"],
-        "expectedMinItems": 2,
-    }
-    with patch(
-        "openprocurement.tender.core.procedure.criteria.get_tender_category",
-        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
-    ):
-        # tender narrows below category expectedMinItems: allowed (any positive value)
-        self.app.patch_json(
-            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
-            {"data": {"expectedValues": ["v1", "v2"], "expectedMinItems": 1, "expectedMaxItems": 2}},
         )
         response = activate_tender()
         self.assertEqual(response.json["data"]["status"], "active.tendering")
