@@ -335,48 +335,37 @@ class TenderCriterionMixin:
 
         # Validate expectedMinItems / expectedMaxItems narrowing
         if (
-            field in ("expectedMinItems", "expectedMaxItems")
+            field == "expectedMinItems"
             and not requirements_from_profile
             and tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM)
         ):
-            # When category expectedMaxItems is absent, tender may set any positive value.
-            market_max = market_req.get("expectedMaxItems")
-            if market_max is None:
-                return
+            market_min = market_req.get("expectedMinItems")
+            tender_min = tender_req.get("expectedMinItems")
 
-            if field == "expectedMinItems":
-                market_min = market_req.get("expectedMinItems")
-                tender_min = tender_req.get("expectedMinItems")
-                # When category expectedMaxItems=1, tender values cannot be changed.
-                if market_max == 1:
-                    if tender_min != market_min:
-                        raise_operation_error(
-                            self.request,
-                            f"requirement '{market_req['title']}' expectedMinItems should be equal or greater than in category",
-                            status=422,
-                        )
-                elif market_min is not None and (tender_min is None or tender_min < market_min):
-                    raise_operation_error(
-                        self.request,
-                        f"requirement '{market_req['title']}' expectedMinItems should be equal or greater than in category",
-                        status=422,
-                    )
-            else:
-                tender_max = tender_req.get("expectedMaxItems")
-                # When category expectedMaxItems=1, tender values cannot be changed.
-                if market_max == 1:
-                    if tender_max != market_max:
-                        raise_operation_error(
-                            self.request,
-                            f"requirement '{market_req['title']}' expectedMaxItems should be equal or less than in category",
-                            status=422,
-                        )
-                elif tender_max is None or tender_max > market_max:
-                    raise_operation_error(
-                        self.request,
-                        f"requirement '{market_req['title']}' expectedMaxItems should be equal or less than in category",
-                        status=422,
-                    )
+            if market_min is not None and (tender_min is None or tender_min < market_min):
+                raise_operation_error(
+                    self.request,
+                    f"requirement '{market_req['title']}' expectedMinItems should be equal or greater than in category",
+                    status=422,
+                )
+
+            return
+
+        if (
+            field == "expectedMaxItems"
+            and not requirements_from_profile
+            and tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM)
+        ):
+            tender_max = tender_req.get("expectedMaxItems")
+            market_max = market_req.get("expectedMaxItems")
+
+            if market_max is not None and (tender_max is None or tender_max > market_max):
+                raise_operation_error(
+                    self.request,
+                    f"requirement '{market_req['title']}' expectedMaxItems should be equal or less than in category",
+                    status=422,
+                )
+
             return
 
         # Convert number fields
