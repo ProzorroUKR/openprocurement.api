@@ -401,7 +401,12 @@ class BidResponsesMixin(ObjResponseMixin):
 
             # Find relation to lot through item
             if criteria.get("relatesTo") == "item":
-                item = [item for item in tender.get("items", "") if item["id"] == criteria["relatedItem"]][0]
+                items = tender.get("items", [])
+                item = next((item for item in items if item["id"] == criteria["relatedItem"]), None)
+                if item is None:
+                    # Non existing item: skip criteria
+                    # Should not happen in theory, but happens in practice (i.e. item was deleted)
+                    continue
                 related_lot = item.get("relatedLot")
 
             # Skip criteria of lots in which bid is not participating
