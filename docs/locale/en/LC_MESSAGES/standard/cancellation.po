@@ -77,8 +77,8 @@ msgstr "Documents accompanying the Cancellation: Protocol of Tender Committee wi
 msgid "date"
 msgstr ""
 
-msgid "рядок, :ref:`date`"
-msgstr "string, :ref:`date`"
+msgid "рядок, :ref:`date`, генерується автоматично, лише для читання"
+msgstr "string, :ref:`date`, auto-generated, read-only"
 
 msgid "Дата скасування"
 msgstr "Cancellation date."
@@ -86,8 +86,8 @@ msgstr "Cancellation date."
 msgid "cancellationOf"
 msgstr ""
 
-msgid "string, обов’язковий, за замовчуванням `tender`"
-msgstr "string, required, default `tender`"
+msgid "рядок, генерується автоматично, лише для читання"
+msgstr "string, auto-generated, read-only"
 
 msgid "`tender` - закупівля"
 msgstr "`tender`"
@@ -152,8 +152,11 @@ msgstr ""
 msgid "`dateViolation`"
 msgstr ""
 
-msgid "Моживі причини скасування для `aboveThresholdUA.defense` та `aboveThresholdUA.defense`:"
-msgstr "Possible types for `belowThreshold` and `aboveThresholdUA.defense`:"
+msgid "Порушення строків здійснення закупівлі."
+msgstr "Violation of procurement deadlines."
+
+msgid "Моживі причини скасування для `aboveThresholdUA.defense` та `simple.defense`:"
+msgstr "Possible types for `aboveThresholdUA.defense` and `simple.defense`:"
 
 msgid "complaintPeriod"
 msgstr ""
