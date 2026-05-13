@@ -26,6 +26,7 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     invalidate_not_agreement_member_bid_via_chronograph,
     patch_tender_bid,
     patch_tender_bid_document,
+    requirement_response_dictionary_expected_items_match,
     requirement_response_validation_multiple_groups,
     requirement_response_validation_multiple_groups_multiple_requirements,
     requirement_response_validation_multiple_requirements,
@@ -77,6 +78,7 @@ class TenderBidCriteriaTest(MockMarketMixin, TenderContentWebTest):
 
     test_multiple_requirements = snitch(requirement_response_validation_multiple_requirements)
     test_expected_values_format = snitch(requirement_response_value_validation_for_expected_values)
+    test_dictionary_expected_items_match = snitch(requirement_response_dictionary_expected_items_match)
 
 
 class TenderBidCriteriaGroupTest(TenderContentWebTest):

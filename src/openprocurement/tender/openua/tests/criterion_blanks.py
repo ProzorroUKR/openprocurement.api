@@ -1278,6 +1278,53 @@ def validate_rg_requirement_strict_rules(self):
         self.app.post_json(request_path, {"data": requirement_data})
 
 
+def validate_rg_requirement_expected_items_not_zero(self):
+    # Schema-level check only applies to tender body. Market category data is
+    # consumed as raw dicts (see get_tender_category) and is not validated
+    # through this schema.
+    request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
+        self.tender_id, self.criteria_id, self.rg_id, self.tender_token
+    )
+    base_data = {
+        "title": "Характеристика довідник",
+        "description": "?",
+        "dataType": "string",
+        "expectedValues": ["Foo", "Bar"],
+    }
+
+    # expectedMinItems=0 rejected at schema level
+    requirement_data = dict(base_data, expectedMinItems=0, expectedMaxItems=2)
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "expectedMinItems",
+                "description": ["Int value should be greater than 1."],
+            }
+        ],
+    )
+
+    # expectedMaxItems=0 rejected at schema level
+    requirement_data = dict(base_data, expectedMinItems=1, expectedMaxItems=0)
+    response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "expectedMaxItems",
+                "description": ["Int value should be greater than 1."],
+            }
+        ],
+    )
+
+    # baseline: positive values accepted
+    requirement_data = dict(base_data, expectedMinItems=1, expectedMaxItems=2)
+    self.app.post_json(request_path, {"data": requirement_data})
+
+
 def validate_rg_requirement_data_schema(self):
     self.set_status("draft")
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
@@ -3046,21 +3093,6 @@ def criterion_from_market_category(self):
 
         self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
-            {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 1}},
-        )
-        response = activate_tender(status=422)
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "data",
-                    "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement for category 00000000000000000000000000000000",
-                },
-            ],
-        )
-        self.app.patch_json(
-            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 2}},
         )
 
@@ -3140,6 +3172,205 @@ def criterion_from_market_category(self):
         self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}?acc_token={self.tender_token}",
             {"data": {"requirements": [req_data]}},
+        )
+        response = activate_tender()
+        self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+
+@patch_market(
+    profile={"id": "1" * 32, "relatedCategory": "0" * 32, "criteria": test_tech_feature_criteria},
+    category={"id": "0" * 32, "criteria": test_tech_feature_criteria},
+)
+def criterion_from_market_category_expected_items_narrowing(self):
+    def activate_tender(status=200):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active.tendering"}},
+            status=status,
+        )
+        return response
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    items = tender["items"]
+    tech_item = items[0].copy()
+    tech_item["category"] = "0" * 32
+    del tech_item["id"]
+    items.append(tech_item)
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    items = response.json["data"]["items"]
+
+    criteria_ids = self.required_criteria
+    test_criteria = deepcopy(test_criteria_all)
+    test_criteria = get_criteria_by_ids(test_criteria, criteria_ids)
+    set_tender_criteria(test_criteria, tender.get("lots", []), tender.get("items", []))
+    self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": test_criteria},
+    )
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
+    market_tech_feature = deepcopy(test_tech_feature_criteria)
+    market_tech_feature[0]["requirementGroups"] = [
+        {
+            "description": "Діагонaль екрану",
+            "requirements": [
+                {
+                    "title": "Req dict",
+                    "dataType": "string",
+                    "expectedValues": ["v1", "v2", "v3", "v4"],
+                    "expectedMinItems": 2,
+                    "expectedMaxItems": 3,
+                },
+            ],
+        }
+    ]
+
+    criteria_data = deepcopy(test_tech_feature_criteria)
+    set_tender_criteria(criteria_data, tender["lots"], items)
+    criteria_data[0]["relatedItem"] = items[1]["id"]
+    criteria_data[0]["requirementGroups"][0]["requirements"] = [
+        {
+            "title": "Req dict",
+            "dataType": "string",
+            "expectedValues": ["v1", "v2", "v3", "v4"],
+            "expectedMinItems": 2,
+            "expectedMaxItems": 3,
+        },
+    ]
+
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/criteria?acc_token={self.tender_token}",
+            {"data": criteria_data[0]},
+        )
+        tech_criteria_id = response.json["data"][0]["id"]
+        rg_id = response.json["data"][0]["requirementGroups"][0]["id"]
+        req_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+
+        # tender narrows expectedMinItems above category: allowed (2 >= 2; 3 >= 2)
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMinItems": 3}},
+        )
+
+        # tender tries to widen expectedMinItems below category: rejected
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMinItems": 1}},
+        )
+        response = activate_tender(status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "requirement 'Req dict' expectedMinItems should be equal or greater than in category",
+                },
+            ],
+        )
+
+        # tender narrows expectedMaxItems below category: allowed (2 <= 3)
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMinItems": 2, "expectedMaxItems": 2}},
+        )
+
+        # tender tries to widen expectedMaxItems above category: rejected
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMaxItems": 4}},
+        )
+        response = activate_tender(status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "requirement 'Req dict' expectedMaxItems should be equal or less than in category",
+                },
+            ],
+        )
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedMaxItems": 3}},
+        )
+
+    # Category with expectedMaxItems=1: tender cannot change the value
+    market_tech_feature[0]["requirementGroups"][0]["requirements"][0] = {
+        "title": "Req dict",
+        "dataType": "string",
+        "expectedValues": ["v1", "v2", "v3"],
+        "expectedMinItems": 1,
+        "expectedMaxItems": 1,
+    }
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        # tender tries to widen expectedMaxItems: rejected
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["v1", "v2", "v3"], "expectedMinItems": 1, "expectedMaxItems": 2}},
+        )
+        response = activate_tender(status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "requirement 'Req dict' expectedMaxItems should be equal or less than in category",
+                },
+            ],
+        )
+        # tender tries to change expectedMinItems: rejected (values cannot be changed)
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["v1", "v2", "v3"], "expectedMinItems": 2, "expectedMaxItems": 2}},
+        )
+        response = activate_tender(status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "requirement 'Req dict' expectedMinItems should be equal or greater than in category",
+                },
+            ],
+        )
+        # tender matches category exactly: allowed
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["v1"], "expectedMinItems": 1, "expectedMaxItems": 1}},
+        )
+
+    # Category without expectedMaxItems: tender may set any positive value
+    market_tech_feature[0]["requirementGroups"][0]["requirements"][0] = {
+        "title": "Req dict",
+        "dataType": "string",
+        "expectedValues": ["v1", "v2", "v3"],
+        "expectedMinItems": 2,
+    }
+    with patch(
+        "openprocurement.tender.core.procedure.criteria.get_tender_category",
+        Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
+    ):
+        # tender narrows below category expectedMinItems: allowed (any positive value)
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
+            {"data": {"expectedValues": ["v1", "v2"], "expectedMinItems": 1, "expectedMaxItems": 2}},
         )
         response = activate_tender()
         self.assertEqual(response.json["data"]["status"], "active.tendering")

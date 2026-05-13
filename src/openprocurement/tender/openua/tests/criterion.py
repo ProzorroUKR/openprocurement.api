@@ -22,6 +22,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
     create_tender_criteria_invalid,
     create_tender_criteria_valid,
     criterion_from_market_category,
+    criterion_from_market_category_expected_items_narrowing,
     criterion_from_market_profile,
     delete_requirement_evidence,
     delete_tender_criteria,
@@ -42,6 +43,7 @@ from openprocurement.tender.openua.tests.criterion_blanks import (  # Requiremen
     tech_feature_criterion,
     validate_requirement_evidence_document,
     validate_rg_requirement_data_schema,
+    validate_rg_requirement_expected_items_not_zero,
     validate_rg_requirement_strict_rules,
 )
 
@@ -106,6 +108,7 @@ class TenderCriteriaRGRequirementTestMixin(TenderCriteriaBaseTestMixin):
     test_get_rg_requirement = snitch(get_rg_requirement)
     test_validate_rg_requirement_strict_rules = snitch(validate_rg_requirement_strict_rules)
     test_validate_rg_requirement_data_schema = snitch(validate_rg_requirement_data_schema)
+    test_validate_rg_requirement_expected_items_not_zero = snitch(validate_rg_requirement_expected_items_not_zero)
 
     test_requirement_data = {
         "title": "Фізична особа, яка є учасником процедури закупівлі, ",
@@ -141,6 +144,9 @@ class TenderTechFeatureCriteriaTestMixin:
     test_tech_feature_criterion = snitch(tech_feature_criterion)
     test_criterion_from_market_profile = snitch(criterion_from_market_profile)
     test_criterion_from_market_category = snitch(criterion_from_market_category)
+    test_criterion_from_market_category_expected_items_narrowing = snitch(
+        criterion_from_market_category_expected_items_narrowing
+    )
     test_delete_tender_criteria = snitch(delete_tender_criteria)
 
 
