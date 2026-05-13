@@ -1,17 +1,18 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-26 12:55+0300\n"
+"POT-Creation-Date: 2026-05-12 10:08+0800\n"
 "PO-Revision-Date: 2021-10-26 13:05+0300\n"
+"Last-Translator: \n"
+"Language: en\n"
+"Language-Team: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.9.0\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: en\n"
-"X-Generator: Poedit 2.4.2\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Agreement in :ref:`frameworks_electroniccatalogue`"
 msgstr ""
@@ -37,11 +38,14 @@ msgstr ""
 msgid "рядок, генерується автоматично, значення: `electronicCatalogue`, лише для читання"
 msgstr "string, auto-generated, value: `electronicCatalogue`, read-only"
 
+msgid "frameworkID"
+msgstr ""
+
 msgid "status"
 msgstr ""
 
-msgid "рядок"
-msgstr "string"
+msgid "рядок, обов'язково"
+msgstr "string, required"
 
 msgid "Актуальний статус реєстру. Можливі значення:"
 msgstr "The current status of agreement. Possible values are:"
@@ -51,6 +55,12 @@ msgstr ""
 
 msgid "`terminated`"
 msgstr ""
+
+msgid "terminationDetails"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
 
 msgid "date"
 msgstr ""
@@ -66,6 +76,12 @@ msgstr ""
 
 msgid "Дата зміни реєстру."
 msgstr "The date of the agreement change."
+
+msgid "dateCreated"
+msgstr ""
+
+msgid "Дата створення реєстру."
+msgstr "The date of the agreement creation."
 
 msgid "procuringEntity"
 msgstr ""
@@ -103,6 +119,12 @@ msgstr ""
 msgid "Список об'єктів :ref:`Contract`"
 msgstr "List of :ref:`Contract` objects"
 
+msgid "items"
+msgstr ""
+
+msgid "Список об'єктів :ref:`Item`"
+msgstr "List of :ref:`Item` objects"
+
 msgid "frameworkDetails"
 msgstr ""
 
@@ -112,7 +134,7 @@ msgstr "Agreement in :ref:`cfaua`"
 msgid "agreementNumber"
 msgstr ""
 
-msgid "string, value: `cfaua`"
+msgid "string, value: `closeFrameworkAgreementUA`"
 msgstr ""
 
 msgid "changes"
@@ -157,20 +179,20 @@ msgstr "List of :ref:`Document` objects"
 msgid "|ocdsDescription| Всі документи і додатки, що стосуються угоди, в тому числі будь-які сповіщення."
 msgstr "|ocdsDescription| All documents and attachments related to the agreement, including any notices."
 
-msgid "items"
+msgid "features"
 msgstr ""
 
-msgid "Список об'єктів :ref:`Item`"
-msgstr "List of :ref:`Item` objects"
+msgid "Список об'єктів :ref:`Feature`"
+msgstr "List of :ref:`Feature` objects"
+
+msgid "milestones"
+msgstr ""
+
+msgid "Список об'єктів :ref:`milestone`"
+msgstr "List of :ref:`milestone` objects"
 
 msgid "Період чинності угоди. Щонайбільше 4 роки."
 msgstr "The timeframe when agreement is in force. Maximum 4 years."
-
-msgid "clarificationsUntil"
-msgstr ""
-
-msgid "Крайній термін подання документів з цінами учасниками"
-msgstr "Deadline for participants to submit price documents"
 
 msgid "`pending` - угода в процесі підписання між замовником та :ref:`Contract`"
 msgstr "`pending` - the agreement is under signing between procuring entity and :ref:`Contract`"
@@ -178,7 +200,7 @@ msgstr "`pending` - the agreement is under signing between procuring entity and 
 msgid "`unsuccessful` - угода між замовником та :ref:`Contract` не було підписано"
 msgstr "`unsuccessful` - the agreement has not been signed between procuring entity and :ref:`Contract`"
 
-msgid "active` - угода між замовником та :ref:`Contract` підписана"
+msgid "`active` - угода між замовником та :ref:`Contract` підписана"
 msgstr "`active` - the agreement is signed between procuring entity and :ref:`Contract`"
 
 msgid "`cancelled` - підписання угоди скасовано через відміну закупівлі/лоту."
@@ -193,11 +215,17 @@ msgstr "`active` - the agreement is active and can be used for creating `selecti
 msgid "`terminated` - угода не може бути використана для створення `selection` процедури"
 msgstr "`terminated` - the agreement is cannot be used, for creating `selection` procedure"
 
-msgid "title"
+msgid "numberOfContracts"
 msgstr ""
 
-msgid "рядок, обов'язково"
-msgstr "string, required"
+msgid "ціле число, генерується автоматично, лише для читання"
+msgstr "integer, auto-generated, read-only"
+
+msgid "Кількість активних контрактів в угоді."
+msgstr "Number of active contracts in the agreement."
+
+msgid "title"
+msgstr ""
 
 msgid "Назва угоди"
 msgstr "Agreement title"
@@ -208,15 +236,6 @@ msgstr ""
 msgid "title_en"
 msgstr ""
 
-msgid "Agreement в :ref:`pricequotation`"
-msgstr "Agreement in :ref:`pricequotation`"
-
-msgid "uid, обов'язково"
-msgstr "uid, required"
-
-msgid "ID пов’язаної угоди з :ref:`frameworks_electroniccatalogue`"
-msgstr "ID for related Agreement from :ref:`frameworks_electroniccatalogue`"
-
 msgid "Послідовність дій"
 msgstr "Workflow"
 
@@ -225,4 +244,13 @@ msgstr "Workflow in :ref:`agreementcfaua`"
 
 msgid "\\* позначає початковий статус"
 msgstr "\\* marks initial state"
+
+msgid "Agreement в :ref:`pricequotation`"
+msgstr "Agreement in :ref:`pricequotation`"
+
+msgid "uid, обов’язково"
+msgstr "uid, required"
+
+msgid "ID пов’язаної угоди з :ref:`frameworks_electroniccatalogue`"
+msgstr "ID for related Agreement from :ref:`frameworks_electroniccatalogue`"
 
