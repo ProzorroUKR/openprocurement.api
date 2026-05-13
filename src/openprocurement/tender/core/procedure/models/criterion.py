@@ -197,8 +197,8 @@ class BaseRequirement(Model):
     expectedValue = BaseType()
 
     expectedValues = ListType(BaseType(required=True), min_size=1)
-    expectedMinItems = IntType(min_value=0)
-    expectedMaxItems = IntType(min_value=0)
+    expectedMinItems = IntType(min_value=1)
+    expectedMaxItems = IntType(min_value=1)
 
 
 class PostRequirement(ValidateIdMixing, BaseRequirement):
@@ -331,8 +331,8 @@ class PatchTechnicalFeatureRequirement(Model):
     expectedValue = BaseType()
 
     expectedValues = ListType(BaseType(required=True), min_size=1)
-    expectedMinItems = IntType(min_value=0)
-    expectedMaxItems = IntType(min_value=0)
+    expectedMinItems = IntType(min_value=1)
+    expectedMaxItems = IntType(min_value=1)
 
 
 class PutRequirement(PatchRequirement):

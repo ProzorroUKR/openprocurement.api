@@ -6,6 +6,7 @@ from pyramid.request import Request
 from openprocurement.api.constants import CRITERIA_LIST
 from openprocurement.api.constants_env import (
     CRITERIA_CLASSIFICATION_VALIDATION_FROM,
+    MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM,
     NEW_REQUIREMENTS_RULES_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
@@ -135,6 +136,7 @@ class TenderCriterionMixin:
     def validate_criteria_requirement_from_market(self, data: Union[dict, list]) -> None:
         if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
             return
+
         tender = get_tender()
         if not isinstance(data, list):
             data = [data]
@@ -146,116 +148,254 @@ class TenderCriterionMixin:
 
         for tender_criterion in data:
             # check only localization and tech criteria, because only these are in market
-            if tender_criterion["classification"]["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
-                market_obj = {}
-                requirements_from_profile = False
-                profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
-                if profile_id:
-                    profile = get_tender_profile(self.request, profile_id)
-                    if profile.get("status", "active") == "active":
-                        requirements_from_profile = True
-                        market_obj = profile
-                # check requirements from category only if there is no profile in item or profile is general
-                if not requirements_from_profile and category_id:
-                    market_obj = get_tender_category(self.request, category_id)
+            market_criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
+            if tender_criterion["classification"]["id"] not in market_criteria_ids:
+                continue
 
-                for market_criterion in market_obj.get("criteria", []):
-                    if market_criterion.get("classification", {}).get("id") == tender_criterion["classification"]["id"]:
-                        market_requirements = {
-                            req["title"]: req
-                            for rg in market_criterion.get("requirementGroups", "")
-                            for req in rg.get("requirements", "")
-                            if not req.get("isArchived", False)
-                        }
-                        tender_requirements = {
-                            req["title"]: req
-                            for rg in tender_criterion.get("requirementGroups", "")
-                            for req in rg.get("requirements", "")
-                            if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
-                        }
-                        if set(tender_requirements.keys()) - set(market_requirements.keys()):
-                            raise_operation_error(
-                                self.request,
-                                f"For criterion {tender_criterion['classification']['id']} there are "
-                                f"requirements that don't exist in {'profile' if requirements_from_profile else 'category'} "
-                                f"{market_obj['id']} or archived: {set(tender_requirements.keys()) - set(market_requirements.keys())}",
-                                status=422,
-                            )
-                        market_requirements_ids = set(market_requirements.keys())
-                        tender_requirements_ids = set(tender_requirements.keys())
-                        if (
-                            tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM)
-                            and not self.should_validate_required_market_criteria
-                        ):
-                            pass
-                        elif (
-                            requirements_from_profile
-                            or tender_criterion["classification"]["id"] == CRITERION_LOCALIZATION
-                        ):
-                            if market_requirements_ids - tender_requirements_ids:
-                                raise_operation_error(
-                                    self.request,
-                                    f"Criterion {tender_criterion['classification']['id']} lacks requirements from "
-                                    f"{'profile' if requirements_from_profile else 'category'} {market_obj['id']} {market_requirements_ids - tender_requirements_ids}",
-                                    status=422,
-                                )
-                        elif not tender_requirements_ids.intersection(market_requirements_ids):
-                            raise_operation_error(
-                                self.request,
-                                f"Criterion {tender_criterion['classification']['id']} should have at least "
-                                f"one requirement from category {market_obj['id']}",
-                                status=422,
-                            )
-                        for market_req in list(market_requirements.values()):
-                            if tender_req := tender_requirements.get(market_req["title"]):
-                                fields = [
-                                    "title",
-                                    "unit",
-                                    "dataType",
-                                    "expectedMinItems",
-                                    "expectedMaxItems",
-                                    "dataSchema",
-                                ]
-                                if requirements_from_profile:
-                                    fields.extend(["expectedValue", "expectedValues", "minValue", "maxValue"])
-                                for field in fields:
-                                    if field == "expectedValues" and market_req.get(field):
-                                        # Counter works like set but check the length of lists too
-                                        if Counter(tender_req.get(field)) != Counter(market_req[field]):
-                                            raise_operation_error(
-                                                self.request,
-                                                f"Field '{field}' for '{market_req['title']}' should have the same values in tender and market requirement for "
-                                                f"{'profile' if requirements_from_profile else 'category'} {market_obj['id']}",
-                                                status=422,
-                                            )
-                                    else:
-                                        market_field = market_req.get(field)
-                                        # there are different types in DB for number in market and CBD (float/decimal)
-                                        if (
-                                            market_req.get("dataType") == "number"
-                                            and field in ("expectedValue", "minValue", "maxValue")
-                                            and market_field is not None
-                                        ):
-                                            market_field = to_decimal(market_req[field])
-                                        if market_field != tender_req.get(field):
-                                            raise_operation_error(
-                                                self.request,
-                                                f"Field '{field}' for '{market_req['title']}' should be equal in tender and market requirement for "
-                                                f"{'profile' if requirements_from_profile else 'category'} {market_obj['id']}",
-                                                status=422,
-                                            )
-                                if not requirements_from_profile and (
-                                    expected_values := market_req.get("expectedValues")
-                                ):
-                                    if not tender_req.get("expectedValues") or set(
-                                        tender_req["expectedValues"]
-                                    ).difference(set(expected_values)):
-                                        raise_operation_error(
-                                            self.request,
-                                            f"Requirement '{tender_req['title']}' expectedValues should have values "
-                                            f"from category {market_obj['id']} requirement",
-                                            status=422,
-                                        )
+            # find market object: profile or category
+            market_obj = {}
+            requirements_from_profile = False
+            profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
+            if profile_id:
+                profile = get_tender_profile(self.request, profile_id)
+                if profile.get("status", "active") == "active":
+                    requirements_from_profile = True
+                    market_obj = profile
+
+            # check requirements from category only if there is no profile in item or profile is general
+            if not requirements_from_profile and category_id:
+                market_obj = get_tender_category(self.request, category_id)
+
+            market_id = market_obj["id"]
+
+            # Search for matching market criterion
+            market_criterion = None
+            for market_criterion_item in market_obj.get("criteria", []):
+                market_criterion_id = market_criterion_item.get("classification", {}).get("id")
+                tender_criterion_id = tender_criterion["classification"]["id"]
+                if market_criterion_id == tender_criterion_id:
+                    market_criterion = market_criterion_item
+                    break
+
+            # Skip validation if no market criterion is found
+            if not market_criterion:
+                continue
+
+            # Validate tender criterion requirements against market criterion
+            self._validate_market_criterion_requirements(
+                tender_criterion=tender_criterion,
+                market_criterion=market_criterion,
+                market_id=market_id,
+                requirements_from_profile=requirements_from_profile,
+            )
+
+    def _validate_market_criterion_requirements(
+        self,
+        tender_criterion: dict,
+        market_criterion: dict,
+        market_id: str,
+        requirements_from_profile: bool,
+    ) -> None:
+        market_ref = "profile" if requirements_from_profile else "category"
+        market_requirements = {
+            req["title"]: req
+            for rg in market_criterion.get("requirementGroups", "")
+            for req in rg.get("requirements", "")
+            if not req.get("isArchived", False)
+        }
+        tender_requirements = {
+            req["title"]: req
+            for rg in tender_criterion.get("requirementGroups", "")
+            for req in rg.get("requirements", "")
+            if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+        }
+        market_requirements_ids = set(market_requirements.keys())
+        tender_requirements_ids = set(tender_requirements.keys())
+
+        # Validate that tender requirements exist in market
+        if tender_requirements_ids - market_requirements_ids:
+            raise_operation_error(
+                self.request,
+                f"For criterion {tender_criterion['classification']['id']} there are "
+                f"requirements that don't exist in {market_ref} "
+                f"{market_id} or archived: {tender_requirements_ids - market_requirements_ids}",
+                status=422,
+            )
+
+        # Check if validation enabled
+        if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and not self.should_validate_required_market_criteria:
+            pass
+
+        elif requirements_from_profile or tender_criterion["classification"]["id"] == CRITERION_LOCALIZATION:
+            if market_requirements_ids - tender_requirements_ids:
+                raise_operation_error(
+                    self.request,
+                    f"Criterion {tender_criterion['classification']['id']} lacks requirements from "
+                    f"{market_ref} {market_id} {market_requirements_ids - tender_requirements_ids}",
+                    status=422,
+                )
+        elif not tender_requirements_ids.intersection(market_requirements_ids):
+            raise_operation_error(
+                self.request,
+                f"Criterion {tender_criterion['classification']['id']} should have at least "
+                f"one requirement from category {market_id}",
+                status=422,
+            )
+
+        # Validate each market requirement against tender requirement
+        for market_req in list(market_requirements.values()):
+            tender_req = tender_requirements.get(market_req["title"])
+
+            if not tender_req:
+                continue
+
+            self._validate_market_requirement_fields(
+                tender_req=tender_req,
+                market_req=market_req,
+                market_id=market_id,
+                requirements_from_profile=requirements_from_profile,
+            )
+
+    def _validate_market_requirement_fields(
+        self,
+        tender_req: dict,
+        market_req: dict,
+        market_id: str,
+        requirements_from_profile: bool,
+    ) -> None:
+        base_fields = [
+            "title",
+            "unit",
+            "dataType",
+            "dataSchema",
+            "expectedMinItems",
+            "expectedMaxItems",
+            "expectedValues",
+        ]
+        profile_only_fields = [
+            "expectedValue",
+            "minValue",
+            "maxValue",
+        ]
+        fields = base_fields + (profile_only_fields if requirements_from_profile else [])
+
+        for field in fields:
+            self._validate_market_requirement_field(
+                field=field,
+                tender_req=tender_req,
+                market_req=market_req,
+                market_id=market_id,
+                requirements_from_profile=requirements_from_profile,
+            )
+
+    def _validate_market_requirement_field(
+        self,
+        field: str,
+        tender_req: dict,
+        market_req: dict,
+        market_id: str,
+        requirements_from_profile: bool,
+    ) -> None:
+        market_ref = "profile" if requirements_from_profile else "category"
+
+        same_ref_error = (
+            f"Field '{{field}}' for '{market_req['title']}' should have the same values in "
+            f"tender and market requirement for {market_ref} {market_id}"
+        )
+        equal_ref_error = (
+            f"Field '{{field}}' for '{market_req['title']}' should be equal in tender and market "
+            f"requirement for {market_ref} {market_id}"
+        )
+
+        # Validate expectedValues for profile
+        if field == "expectedValues" and requirements_from_profile:
+            market_expected_values = market_req.get("expectedValues") or []
+            tender_expected_values = tender_req.get("expectedValues") or []
+            # Counter is multiset-aware; also treats list length.
+            if Counter(tender_expected_values) != Counter(market_expected_values):
+                raise_operation_error(
+                    self.request,
+                    same_ref_error.format(field=field),
+                    status=422,
+                )
+            return
+
+        # Validate expectedValues for category
+        if field == "expectedValues" and not requirements_from_profile:
+            market_expected_values = market_req.get("expectedValues") or []
+            tender_expected_values = tender_req.get("expectedValues") or []
+            if set(tender_expected_values).difference(set(market_expected_values)):
+                raise_operation_error(
+                    self.request,
+                    f"Requirement '{tender_req['title']}' expectedValues should have values "
+                    f"from category {market_id} requirement",
+                    status=422,
+                )
+            return
+
+        # Validate expectedMinItems / expectedMaxItems narrowing
+        if (
+            field in ("expectedMinItems", "expectedMaxItems")
+            and not requirements_from_profile
+            and tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM)
+        ):
+            # When category expectedMaxItems is absent, tender may set any positive value.
+            market_max = market_req.get("expectedMaxItems")
+            if market_max is None:
+                return
+
+            if field == "expectedMinItems":
+                market_min = market_req.get("expectedMinItems")
+                tender_min = tender_req.get("expectedMinItems")
+                # When category expectedMaxItems=1, tender values cannot be changed.
+                if market_max == 1:
+                    if tender_min != market_min:
+                        raise_operation_error(
+                            self.request,
+                            f"requirement '{market_req['title']}' expectedMinItems should be equal or greater than in category",
+                            status=422,
+                        )
+                elif market_min is not None and (tender_min is None or tender_min < market_min):
+                    raise_operation_error(
+                        self.request,
+                        f"requirement '{market_req['title']}' expectedMinItems should be equal or greater than in category",
+                        status=422,
+                    )
+            else:
+                tender_max = tender_req.get("expectedMaxItems")
+                # When category expectedMaxItems=1, tender values cannot be changed.
+                if market_max == 1:
+                    if tender_max != market_max:
+                        raise_operation_error(
+                            self.request,
+                            f"requirement '{market_req['title']}' expectedMaxItems should be equal or less than in category",
+                            status=422,
+                        )
+                elif tender_max is None or tender_max > market_max:
+                    raise_operation_error(
+                        self.request,
+                        f"requirement '{market_req['title']}' expectedMaxItems should be equal or less than in category",
+                        status=422,
+                    )
+            return
+
+        # Convert number fields
+        market_field = market_req.get(field)
+        if (
+            market_req.get("dataType") == "number"
+            and field in ("expectedValue", "minValue", "maxValue")
+            and market_field is not None
+        ):
+            # Market and CBD may store numbers as different types (e.g. float vs decimal).
+            market_field = to_decimal(market_field)
+
+        # Default validation - exact match
+        if market_field != tender_req.get(field):
+            raise_operation_error(
+                self.request,
+                equal_ref_error.format(field=field),
+                status=422,
+            )
 
     def validate_criteria_classification(self, data: Union[dict, list]) -> None:
         if not tender_created_after(CRITERIA_CLASSIFICATION_VALIDATION_FROM):
@@ -268,7 +408,7 @@ class TenderCriterionMixin:
             if tender_criterion["classification"]["id"] not in CRITERIA_LIST:
                 raise_operation_error(
                     self.request,
-                    f'Criteria classification {tender_criterion["classification"]["id"]} not from standards',
+                    f"Criteria classification {tender_criterion['classification']['id']} not from standards",
                     status=422,
                     name="criteria",
                 )

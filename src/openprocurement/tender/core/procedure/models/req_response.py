@@ -9,6 +9,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
+    MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
 )
 from openprocurement.api.procedure.context import get_tender
@@ -259,6 +260,19 @@ class MatchResponseValue:
         expected_values = requirement.get("expectedValues", [])
         expected_values = {datatype.to_native(i) for i in expected_values}
 
+        if tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
+            unique_values = {datatype.to_native(v) for v in values}
+
+            if expected_min_items is not None:
+                matched = unique_values & expected_values
+                if len(matched) < expected_min_items:
+                    raise ValidationError(f"Values are not in requirement {requirement['id']}")
+
+            if expected_max_items is not None and len(unique_values) > expected_max_items:
+                raise ValidationError(f"Values are not in requirement {requirement['id']}")
+            return
+
+        # Old behaviour when new market criteria validation are disabled
         if expected_min_items is not None and expected_min_items > len(values):
             raise ValidationError(
                 f"Count of items lower then minimal required {expected_min_items} "
