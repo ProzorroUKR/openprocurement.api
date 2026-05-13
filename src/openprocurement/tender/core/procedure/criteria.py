@@ -359,7 +359,7 @@ class TenderCriterionMixin:
             tender_max = tender_req.get("expectedMaxItems")
             market_max = market_req.get("expectedMaxItems")
 
-            if tender_max is None or tender_max > market_max:
+            if market_max is not None and (tender_max is None or tender_max > market_max):
                 raise_operation_error(
                     self.request,
                     f"requirement '{market_req['title']}' expectedMaxItems should be equal or less than in category",
