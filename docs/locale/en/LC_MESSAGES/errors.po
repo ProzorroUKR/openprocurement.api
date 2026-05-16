@@ -1,0 +1,183 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Responses"
+msgstr ""
+
+msgid "After processing API always provides response, reporting either success or failure."
+msgstr ""
+
+msgid "Status Codes"
+msgstr ""
+
+msgid "In all cases, the API should return an `HTTP Status Code <http://en.wikipedia.org/wiki/List_of_HTTP_status_codes>`_ that indicates the nature of the failure (see below), with a response body in JSON format containing additional information."
+msgstr ""
+
+msgid "200"
+msgstr ""
+
+msgid "Success. If data was requested, it will be available in the `data` field at the top level of the response body."
+msgstr ""
+
+msgid "201"
+msgstr ""
+
+msgid "Success (for object creation). Its information is available in the `data` field at the top level of the response body.  The API URL where the object can be retrieved is also returned in the `Location` header of the response."
+msgstr ""
+
+msgid "400"
+msgstr ""
+
+msgid "Invalid request. This usually occurs because of a missing or malformed parameter.  Check the documentation and the syntax of your request and try again."
+msgstr ""
+
+msgid "401"
+msgstr ""
+
+msgid "No authorization. A valid API key was not provided with the request, so the API could not associate a user with the request."
+msgstr ""
+
+msgid "403"
+msgstr ""
+
+msgid "Forbidden. The API key and request syntax was valid but the server is refusing to complete the request.  This can happen if you are trying to read or write to objects or properties that you do not have access to."
+msgstr ""
+
+msgid "404"
+msgstr ""
+
+msgid "Not found. Either the request method and path supplied do not specify a known action in the API, or the object specified by the request does not exist."
+msgstr ""
+
+msgid "409"
+msgstr ""
+
+msgid "Document update conflict. The request could not be completed due to a conflict with the current state of the target resource. Please repeat your request."
+msgstr ""
+
+msgid "410"
+msgstr ""
+
+msgid "Archived. The resource requested is not and will not be available."
+msgstr ""
+
+msgid "412"
+msgstr ""
+
+msgid "Precondition Failed. See :ref:`API in cluster mode <cluster>`."
+msgstr ""
+
+msgid "422"
+msgstr ""
+
+msgid "Unprocessable Entity. This status code means the server understands the content type of the request entity. For example, this error condition may occur if a JSON request body contains well-formed (i.e., syntactically correct), but semantically erroneous, JSON instructions."
+msgstr ""
+
+msgid "429"
+msgstr ""
+
+msgid "Rate Limit Enforced. See :ref:`Rate control <performance>`."
+msgstr ""
+
+msgid "500"
+msgstr ""
+
+msgid "Server error. There was a problem on OpenProcurement's end."
+msgstr ""
+
+msgid "501"
+msgstr ""
+
+msgid "Not Implemented. The server either does not recognize the request method, or it lacks the ability to fulfill the request. Re-check the request consistency."
+msgstr ""
+
+msgid "502"
+msgstr ""
+
+msgid "Bad Gateway. The server received an invalid response or backend is not ready to handle requests. Repeat request for repeatable operations or check object data with interval 1-5 min."
+msgstr ""
+
+msgid "503"
+msgstr ""
+
+msgid "Service Unavailable. The server is currently unavailable (because it is overloaded or down for maintenance). Generally, this is a temporary state."
+msgstr ""
+
+msgid "504"
+msgstr ""
+
+msgid "Gateway Time-out. The server did not receive a timely response. Repeat request for repeatable operations or check object data with interval 1-5 min."
+msgstr ""
+
+msgid "505"
+msgstr ""
+
+msgid "HTTP Version Not Supported. The server does not support the HTTP protocol version used in the request. Re-check the request consistency."
+msgstr ""
+
+msgid "Success Response"
+msgstr ""
+
+msgid "Every successful get, create, update, replace request results in response that contains `data` attribute.  That `data` attribute contains full JSON object representation after the operation.  If some data were generated in the result of processing (like new object IDs, or `modified` date) they are present in the respose."
+msgstr ""
+
+msgid "The listing requests result in similar responses, but instead of single object in `data` attribute, the JSON response contains collection of objects."
+msgstr ""
+
+msgid "Example Succes Response"
+msgstr ""
+
+msgid "Here is a response that describes tender"
+msgstr ""
+
+msgid "Error Response"
+msgstr ""
+
+msgid "In the event of an error, the response body will contain an `errors` field at the top level.  It contains an array of at least one error object, described below:"
+msgstr ""
+
+msgid "location"
+msgstr ""
+
+msgid "Part of the request causing the error. Possible values are `header` and `body`."
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "Specific header name that caused the problem (in case of `header` location)"
+msgstr ""
+
+msgid "The field name causing the error (in case of `body` location)"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "Verbose (human readable) description of the error."
+msgstr ""
+
+msgid "Example Error Response"
+msgstr ""
+
+msgid "Sample below indicates incomplete request."
+msgstr ""
+

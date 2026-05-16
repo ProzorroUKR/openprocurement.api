@@ -39,6 +39,7 @@
    cdb/errors
    cdb/masking
    cdb/logging
+   cdb/feed_ordering
    cdb/documentation
    cdb/tests
    cdb/ci

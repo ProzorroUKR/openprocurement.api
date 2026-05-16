@@ -57,6 +57,15 @@ type_registry = TypeRegistry(
 codec_options = CodecOptions(type_registry=type_registry)
 
 
+# How many seconds behind "now" the forward feed lags.
+# Prevents race conditions where $$NOW is captured at operation start,
+# not at commit time — concurrent writes can commit out-of-order and
+# permanently disappear from the feed for crawlers.
+# Uses MongoDB's own $$NOW to avoid clock drift between API and DB servers.
+# See: docs/source/developers/projects/cdb/feed_ordering.rst
+FEED_WATERMARK_SECONDS = int(os.environ.get("FEED_WATERMARK_SECONDS", "1"))
+
+
 def get_public_modified():
     public_modified = {"$divide": [{"$toLong": "$$NOW"}, 1000]}
     return public_modified
@@ -252,6 +261,34 @@ class MongodbStore:
             suffix = "e" if inclusive_filter else ""
             operator = "$lt" if descending else "$gt"
             filters[offset_field] = {operator + suffix: offset_value}
+
+        if offset_field == "public_modified" and FEED_WATERMARK_SECONDS > 0 and (not descending or not offset_value):
+            # Watermark: exclude records newer than FEED_WATERMARK_SECONDS.
+            # $$NOW is evaluated by MongoDB itself — no cross-server clock drift.
+            # Skipped when FEED_WATERMARK_SECONDS=0 (e.g. in tests via monkeypatch).
+            #
+            # Applied to:
+            #   - forward feed (not descending): always, to prevent crawlers from
+            #     advancing past records that haven't committed yet.
+            #   - descending feed WITHOUT offset (first page only): to guarantee that
+            #     pm_max used as a forward-sync starting point is old enough that all
+            #     concurrent writes with $$NOW <= pm_max have already committed.
+            #     Without this, backward→forward sync can permanently miss records
+            #     that were in-flight during the initial descending read.
+            #   - descending WITH offset: skipped — paginating through historical data,
+            #     no race condition possible for already-committed old records.
+            filters["$expr"] = {
+                "$lte": [
+                    f"${offset_field}",
+                    {
+                        "$subtract": [
+                            {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                            FEED_WATERMARK_SECONDS,
+                        ]
+                    },
+                ]
+            }
+
         results = list(
             collection.find(
                 filter=filters,

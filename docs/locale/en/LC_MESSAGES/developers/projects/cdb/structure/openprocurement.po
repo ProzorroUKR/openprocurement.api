@@ -1,0 +1,177 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-23 12:01+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Синхронний підпроект: ``openprocurement``"
+msgstr ""
+
+msgid "Стек: **Pyramid + pymongo + schematics**. Основний продакшн API із повною функціональністю."
+msgstr ""
+
+msgid "Коренева директорія: ``src/openprocurement/``"
+msgstr ""
+
+msgid "Інфраструктурний пакет ``api/``"
+msgstr ""
+
+msgid "Містить увесь базовий рівень, від якого успадковуються всі доменні пакети."
+msgstr ""
+
+msgid "Файл / директорія"
+msgstr ""
+
+msgid "Призначення"
+msgstr ""
+
+msgid "``app.py``"
+msgstr ""
+
+msgid "Ініціалізація Pyramid-додатку; підключення всіх includeme"
+msgstr ""
+
+msgid "``database.py``"
+msgstr ""
+
+msgid "``MongodbStore``, ``BaseCollection``, ``atomic_transaction``; логіка фіду (``list()``), ``save_data()``, watermark"
+msgstr ""
+
+msgid "``context.py``"
+msgstr ""
+
+msgid "Thread-local контекст запиту (``get_request``, ``set_request_now``, ``get_db_session``)"
+msgstr ""
+
+msgid "``auth.py``"
+msgstr ""
+
+msgid "Автентифікація брокерів і сервісних токенів"
+msgstr ""
+
+msgid "``constants.py`` / ``constants_env.py``"
+msgstr ""
+
+msgid "Бізнес-константи та константи з env-змінних (``FEED_WATERMARK_SECONDS`` тощо)"
+msgstr ""
+
+msgid "``utils.py``"
+msgstr ""
+
+msgid "Спільні утиліти: ``context_unpack``, ``raise_operation_error``, ``json_view``, ``update_logging_context``"
+msgstr ""
+
+msgid "``validation.py``"
+msgstr ""
+
+msgid "Декоратори валідації запитів"
+msgstr ""
+
+msgid "``middlewares.py``"
+msgstr ""
+
+msgid "WSGI-middleware (таймінги, логування)"
+msgstr ""
+
+msgid "``views/base.py``"
+msgstr ""
+
+msgid "``BaseResource``, ``MongodbResourceListing``; парсинг та формування offset; логіка пагінації фіду"
+msgstr ""
+
+msgid "``procedure/models/``"
+msgstr ""
+
+msgid "Базові schematics-моделі: ``Address``, ``Document``, ``Organization``, ``Period``, ``Value`` тощо"
+msgstr ""
+
+msgid "``procedure/state/base.py``"
+msgstr ""
+
+msgid "``BaseState``: хуки ``on_post`` / ``on_patch`` / ``always``; ``status_up``"
+msgstr ""
+
+msgid "``procedure/serializers/``"
+msgstr ""
+
+msgid "Базові серіалізатори відповідей"
+msgstr ""
+
+msgid "``procedure/views/``"
+msgstr ""
+
+msgid "*(порожньо на рівні api; конкретні views — в доменних пакетах)*"
+msgstr ""
+
+msgid "``migrations/``"
+msgstr ""
+
+msgid "Базова інфраструктура міграцій (``base.py``, ``rename.py``)"
+msgstr ""
+
+msgid "``tests/``"
+msgstr ""
+
+msgid "Базові утиліти для тестів: ``base.py``, ``mock.py``, ``utils.py``"
+msgstr ""
+
+msgid "Глобальні pytest-фікстури: ``src/openprocurement/conftest.py``"
+msgstr ""
+
+msgid "Доменні пакети"
+msgstr ""
+
+msgid "Кожен домен — окремий пакет: ``tender/``, ``contracting/``, ``framework/``, ``planning/``, ``relocation/``, ``historical/``."
+msgstr ""
+
+msgid "Всередині кожного домену:"
+msgstr ""
+
+msgid "``core/`` — спільна логіка для всіх типів процедур домену"
+msgstr ""
+
+msgid "Конкретні типи процедур (``belowthreshold/``, ``open/``, ``contract/`` тощо)"
+msgstr ""
+
+msgid "Структура всередині кожного типу процедури:"
+msgstr ""
+
+msgid "Правила розміщення коду"
+msgstr ""
+
+msgid "**Бізнес-логіка** → ``procedure/state/``; state-класи не роблять запити до БД напряму"
+msgstr ""
+
+msgid "**Запити до БД** → лише з ``procedure/views/`` (через ``request.registry.mongodb.<collection>``)"
+msgstr ""
+
+msgid "**Валідація вхідних даних** → ``procedure/models/`` (schematics) і ``validation.py``"
+msgstr ""
+
+msgid "**Серіалізація відповіді** → ``procedure/serializers/``"
+msgstr ""
+
+msgid "**Зміна схеми / даних у БД** → ``migrations/`` (не в коді ініціалізації)"
+msgstr ""
+
+msgid "**Спільні утиліти домену** → ``<domain>/core/``"
+msgstr ""
+
+msgid "**Глобальні константи з часовою прив'язкою** → ``constants_env.py`` (читаються з env або ``constants.ini``)"
+msgstr ""
+

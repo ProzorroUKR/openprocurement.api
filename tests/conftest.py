@@ -65,3 +65,15 @@ def generate_test_doc_url(sub_app, doc_hash=None):
     signature = b64encode(signer.sign(msg).signature)
     query = {"Signature": signature, "KeyID": keyid}
     return "{}/{}?{}".format(sub_app.doc_storage_config.service_url, doc_id, urlencode(query))
+
+
+@pytest.fixture(autouse=True)
+def disable_feed_watermark(monkeypatch):
+    """
+    Disable the feed watermark delay for tests.
+    Without this, freshly created documents are filtered out of the forward feed
+    (public_modified < NOW - FEED_WATERMARK_SECONDS), causing feed listing tests to fail.
+    """
+    import prozorro_cdb.api.database.store as db_module
+
+    monkeypatch.setattr(db_module, "FEED_WATERMARK_SECONDS", 0)

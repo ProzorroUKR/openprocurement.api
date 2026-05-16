@@ -19,3 +19,5 @@
    context
    serializers
    migrations
+   openprocurement
+   prozorro_cdb
