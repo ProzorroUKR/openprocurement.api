@@ -352,7 +352,7 @@ def create_tender_invalid(self):
             response.json["errors"],
             [
                 {
-                    "description": ["CPV class of items (4461) should be identical to agreement CPV class (9999)"],
+                    "description": ["CPV group of items (446) should be identical to agreement CPV group (999)"],
                     "location": "body",
                     "name": "items",
                 }
