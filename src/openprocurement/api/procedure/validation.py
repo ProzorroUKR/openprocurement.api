@@ -1,7 +1,7 @@
 from copy import deepcopy
 
 from openprocurement.api.auth import AccreditationPermission
-from openprocurement.api.constants import CPV_PREFIX_LENGTH_TO_NAME
+from openprocurement.api.constants import CPV_DEFAULT_PREFIX_LENGTH, CPV_PREFIX_LENGTH_TO_NAME
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.utils import (
@@ -367,6 +367,7 @@ def validate_items_classifications_prefixes(
     items_classifications,
     root_classification=None,
     root_name="root",
+    default_prefix_length=CPV_DEFAULT_PREFIX_LENGTH,
 ):
     """
     Validate that all CPV codes have the same prefix
@@ -379,10 +380,10 @@ def validate_items_classifications_prefixes(
     """
     if root_classification:
         classifications = items_classifications + [root_classification]
-        prefix_length = get_cpv_prefix_length([root_classification])
+        prefix_length = get_cpv_prefix_length([root_classification], default_prefix_length)
     else:
         classifications = items_classifications
-        prefix_length = get_cpv_prefix_length(classifications)
+        prefix_length = get_cpv_prefix_length(classifications, default_prefix_length)
 
     prefix_name = CPV_PREFIX_LENGTH_TO_NAME[prefix_length]
     items_prefixes = get_cpv_uniq_prefixes(items_classifications, prefix_length)
