@@ -1296,6 +1296,7 @@ class BaseTenderDetailsMixing:
             classifications,
             root_classification=agreement["classification"],
             root_name="agreement",
+            default_prefix_length=CPV_GROUP_PREFIX_LENGTH,
         )
 
     def validate_items_with_agreement(self, tender):

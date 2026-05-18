@@ -186,7 +186,7 @@ def set_item(parent, key, uid, value):
         raise AssertionError(f"Item with id {uid} unexpectedly not found")
 
 
-def get_cpv_prefix_length(classifications):
+def get_cpv_prefix_length(classifications, default_prefix_length=CPV_DEFAULT_PREFIX_LENGTH):
     """
     For pharm products we should use 3 digits prefix
     and usually 4 digits prefix for other products
@@ -195,7 +195,7 @@ def get_cpv_prefix_length(classifications):
         if classification["id"].startswith(CPV_PHARM_PREFIX):
             return CPV_PHARM_PREFIX_LENGTH
 
-    return CPV_DEFAULT_PREFIX_LENGTH
+    return default_prefix_length
 
 
 def get_cpv_uniq_prefixes(classifications, prefix_length):
