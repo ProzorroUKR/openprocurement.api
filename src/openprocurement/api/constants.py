@@ -378,6 +378,11 @@ AUCTION_TIME_SLOTS_NUMBER = (AUCTION_DAY_END.hour - AUCTION_DAY_START.hour) * 2
 # Plan of Ukraine
 PLAN_OF_UKRAINE = standards.load("classifiers/plan_of_ukraine.json")
 
+# CS-21350 Donor programs
+PLAN_OF_UKRAINE_SCHEME = "plan_of_ukraine"
+FUNDER_PROGRAM_SCHEME = "funder_program"
+FUNDER_PROGRAMS = {item["id"]: item for item in standards.load("codelists/plans/funder_program.json")}
+
 # Language codes
 LANGUAGE_CODES = standards.load("classifiers/languages.json").keys()
 

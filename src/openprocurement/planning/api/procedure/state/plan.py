@@ -4,6 +4,8 @@ from itertools import chain
 from dateorro import calc_working_datetime
 
 from openprocurement.api.constants import (
+    FUNDER_PROGRAM_SCHEME,
+    FUNDER_PROGRAMS,
     KATOTTG_SCHEME,
     KPK_SCHEME,
     KPK_SCHEMES,
@@ -86,6 +88,7 @@ class PlanState(BaseState):
         self._validate_tender_procurement_method_type(after)
         self._validate_items_classification_prefix(after)
         self.validate_required_breakdown_classifications(after)
+        self._validate_budget_project_scheme_immutable(before, after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
@@ -94,6 +97,7 @@ class PlanState(BaseState):
         self._validate_tender_plan_procurement_method_type(tender, plan)
         self._validate_tender_matches_plan(tender, plan)
         self._validate_plan_budget_breakdown(plan)
+        self._validate_tender_funder_matches_plan_program(plan, tender)
 
     def tender_plan_validate_on_post(self, plan, tender):
         self._validate_procurement_kind_is_central(plan, tender)
@@ -103,6 +107,7 @@ class PlanState(BaseState):
         self._validate_plan_budget_breakdown(plan)
         self._validate_tender_data(tender)
         self._validate_tender_matches_plan(tender, plan)
+        self._validate_tender_funder_matches_plan_program(plan, tender)
 
     def _check_field_change_events(self, before, after):
         src_identifier = before["procuringEntity"]["identifier"]
@@ -245,6 +250,44 @@ class PlanState(BaseState):
             if request.errors:
                 request.errors.status = 422
                 raise error_handler(request)
+
+    def _validate_tender_funder_matches_plan_program(self, plan, tender):
+        project = (plan.get("budget") or {}).get("project") or {}
+        if project.get("scheme") != FUNDER_PROGRAM_SCHEME:
+            return
+        program = FUNDER_PROGRAMS.get(project.get("id"))
+        if not program:
+            # Unknown program id is already rejected by BudgetProject.validate_id
+            # at plan creation/patch time; skip to surface the original error.
+            return
+        expected_scheme = program["funder"]["scheme"]
+        expected_id = program["funder"]["id"]
+        tender_funders = tender.get("funders") or []
+        if not any(
+            (f.get("identifier") or {}).get("scheme") == expected_scheme
+            and (f.get("identifier") or {}).get("id") == expected_id
+            for f in tender_funders
+        ):
+            raise_operation_error(
+                self.request,
+                (
+                    f"Tender funders must include the donor organization of the plan's program "
+                    f"{project['id']}: scheme={expected_scheme}, id={expected_id}"
+                ),
+                status=422,
+                name="funders",
+            )
+
+    def _validate_budget_project_scheme_immutable(self, before, after):
+        before_scheme = ((before.get("budget") or {}).get("project") or {}).get("scheme")
+        after_scheme = ((after.get("budget") or {}).get("project") or {}).get("scheme")
+        if before_scheme and before_scheme != after_scheme:
+            raise_operation_error(
+                self.request,
+                "Can't change or remove budget.project.scheme once set",
+                status=422,
+                name="budget.project.scheme",
+            )
 
     def _validate_plan_scheduled(self, plan):
         status = plan.get("status")

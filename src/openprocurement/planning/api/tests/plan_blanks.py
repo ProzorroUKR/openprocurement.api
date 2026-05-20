@@ -702,6 +702,199 @@ def create_plan_invalid(self):
     )
 
 
+def create_plan_with_funder_program(self):
+    initial_data = deepcopy(self.initial_data)
+    initial_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "scheme": "funder_program",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["budget"]["project"]["scheme"], "funder_program")
+    self.assertEqual(response.json["data"]["budget"]["project"]["id"], "interreg-vi-b-next-black-sea")
+
+    # The same legal organization (RO-CUI/26369185) backs Romania Interreg VI-A NEXT too;
+    # creating a second plan with a different programme must also succeed.
+    initial_data["budget"]["project"] = {
+        "id": "interreg-vi-a-next-romania",
+        "scheme": "funder_program",
+        "name": "Програма Румунії Interreg VI-A NEXT",
+        "name_en": "Interreg Program VI-A NEXT Romania",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["budget"]["project"]["id"], "interreg-vi-a-next-romania")
+
+
+def create_plan_with_plan_of_ukraine_scheme(self):
+    initial_data = deepcopy(self.initial_data)
+    initial_data["budget"]["project"] = {
+        "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "scheme": "plan_of_ukraine",
+        "name": "1.3. Відновлення набору на державну службу з урахуванням професійних компетентностей",
+        "name_en": "1.3. Reinstating merit-based recruitment in the civil service",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["budget"]["project"]["scheme"], "plan_of_ukraine")
+    self.assertEqual(
+        response.json["data"]["budget"]["project"]["id"],
+        "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+    )
+
+
+def create_plan_invalid_budget_project_scheme(self):
+    initial_data = deepcopy(self.initial_data)
+    initial_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "scheme": "non_existent_scheme",
+        "name": "anything",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertIn("Value must be one of", response.json["errors"][0]["description"]["project"]["scheme"][0])
+
+    initial_data["budget"]["project"] = {
+        "id": "no-such-program",
+        "scheme": "funder_program",
+        "name": "anything",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"project": {"id": ["funder_program id not found in standards"]}},
+    )
+
+    initial_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "scheme": "funder_program",
+        "name": "wrong name",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"project": {"name": ["Value should be from funder_program dictionary for interreg-vi-b-next-black-sea"]}},
+    )
+
+    initial_data["budget"]["project"]["name"] = "Програма Басейну Чорного моря Interreg VI-B NEXT"
+    initial_data["budget"]["project"]["name_en"] = "wrong English"
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"project": {"name_en": ["Value should be from funder_program dictionary for interreg-vi-b-next-black-sea"]}},
+    )
+
+    # Strict mode for plan_of_ukraine: id outside the classifier must be rejected when scheme is set.
+    initial_data["budget"]["project"] = {
+        "id": "00000000-0000-0000-0000-000000000000",
+        "scheme": "plan_of_ukraine",
+        "name": "anything",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"project": {"id": ["plan_of_ukraine id not found in standards"]}},
+    )
+
+
+def create_plan_invalid_funder_program_archived(self):
+    archived_program = {
+        "id": "interreg-vi-b-next-black-sea",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+        "archive": True,
+        "funder": {"id": "26369185", "scheme": "RO-CUI"},
+    }
+    with mock.patch.dict(
+        "openprocurement.planning.api.procedure.models.budget.FUNDER_PROGRAMS",
+        {"interreg-vi-b-next-black-sea": archived_program},
+        clear=False,
+    ):
+        initial_data = deepcopy(self.initial_data)
+        initial_data["budget"]["project"] = {
+            "id": "interreg-vi-b-next-black-sea",
+            "scheme": "funder_program",
+            "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+            "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+        }
+        response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+        self.assertEqual(
+            response.json["errors"][0]["description"],
+            {"project": {"id": ["funder_program program is archived"]}},
+        )
+
+
+def patch_plan_budget_project_scheme_immutable(self):
+    initial_data = deepcopy(self.initial_data)
+    initial_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "scheme": "funder_program",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    plan = response.json["data"]
+    acc_token = response.json["access"]["token"]
+
+    # Switching to a different scheme is forbidden once set.
+    budget = deepcopy(plan["budget"])
+    budget["project"] = {
+        "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "scheme": "plan_of_ukraine",
+        "name": "1.3. Відновлення набору на державну службу з урахуванням професійних компетентностей",
+        "name_en": "1.3. Reinstating merit-based recruitment in the civil service",
+    }
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"budget": budget}},
+        status=422,
+    )
+    self.assertIn(
+        {
+            "description": "Can't change or remove budget.project.scheme once set",
+            "location": "body",
+            "name": "budget.project.scheme",
+        },
+        response.json["errors"],
+    )
+
+    # Patching the project without the scheme key removes the scheme on merge,
+    # which must be rejected because the plan already has a scheme set.
+    budget = deepcopy(plan["budget"])
+    budget["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"budget": budget}},
+        status=422,
+    )
+    self.assertIn(
+        {
+            "description": "Can't change or remove budget.project.scheme once set",
+            "location": "body",
+            "name": "budget.project.scheme",
+        },
+        response.json["errors"],
+    )
+
+    # Patches that keep the scheme as-is must continue to work.
+    budget = deepcopy(plan["budget"])
+    budget["project"]["name_ru"] = "Чорне море"
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], acc_token),
+        {"data": {"budget": budget}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["budget"]["project"]["scheme"], "funder_program")
+    self.assertEqual(response.json["data"]["budget"]["project"]["name_ru"], "Чорне море")
+
+
 def create_plan_invalid_procurement_method_type(self):
     request_path = "/plans"
     initial_data = deepcopy(self.initial_data)

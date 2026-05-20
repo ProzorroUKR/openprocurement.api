@@ -14,7 +14,9 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     create_plan_budget_year,
     create_plan_generated,
     create_plan_invalid,
+    create_plan_invalid_budget_project_scheme,
     create_plan_invalid_buyers,
+    create_plan_invalid_funder_program_archived,
     create_plan_invalid_procurement_method_type,
     create_plan_invalid_procuring_entity,
     create_plan_with_breakdown,
@@ -25,6 +27,8 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     create_plan_with_delivery_address,
     create_plan_with_delivery_address_required_fields,
     create_plan_with_delivery_address_validations,
+    create_plan_with_funder_program,
+    create_plan_with_plan_of_ukraine_scheme,
     create_plan_with_profile,
     create_plan_with_two_buyers,
     create_plan_without_buyers,
@@ -39,6 +43,7 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     listing,
     listing_moves_from_dts,
     patch_plan,
+    patch_plan_budget_project_scheme_immutable,
     patch_plan_budget_year,
     patch_plan_item_quantity,
     patch_plan_to_openuadefense,
@@ -83,6 +88,11 @@ class PlanResourceTest(BasePlanTest):
     test_create_plan_invalid_procurement_method_type = snitch(create_plan_invalid_procurement_method_type)
     test_create_plan_invalid_procuring_entity = snitch(create_plan_invalid_procuring_entity)
     test_create_plan_invalid_buyers = snitch(create_plan_invalid_buyers)
+    test_create_plan_with_funder_program = snitch(create_plan_with_funder_program)
+    test_create_plan_with_plan_of_ukraine_scheme = snitch(create_plan_with_plan_of_ukraine_scheme)
+    test_create_plan_invalid_budget_project_scheme = snitch(create_plan_invalid_budget_project_scheme)
+    test_create_plan_invalid_funder_program_archived = snitch(create_plan_invalid_funder_program_archived)
+    test_patch_plan_budget_project_scheme_immutable = snitch(patch_plan_budget_project_scheme_immutable)
     test_create_plan_generated = snitch(create_plan_generated)
     test_create_plan = snitch(create_plan)
     test_get_plan = snitch(get_plan)
