@@ -95,7 +95,21 @@ class EContractState(BaseContractState):
             )
             if f not in private_fields and before.get(f) != v:
                 updated_contract_data[f] = v
-        item_patch_fields = [
+        self.validate_field_changes(
+            before,
+            after,
+            after["author"],
+            fields=list(updated_contract_data.keys()),
+        )
+
+    def validate_field_changes(
+        self,
+        before: dict,
+        after: dict,
+        author: str,
+        fields: list[str],
+    ) -> None:
+        patch_fields = [
             "items",
             "value",
             "period",
@@ -106,13 +120,13 @@ class EContractState(BaseContractState):
             "dateSigned",
             "milestones",
         ]
-        if after["author"] == "buyer":
-            item_patch_fields.append("buyer")
+        if author == "buyer":
+            patch_fields.append("buyer")
         else:
-            item_patch_fields.append("suppliers")
+            patch_fields.append("suppliers")
 
-        for field_name in updated_contract_data.keys():
-            validate_field_change(before, after, field_name, item_patch_fields, "contract")
+        for field_name in fields:
+            validate_field_change(before, after, field_name, patch_fields, "contract")
 
             if field_name == "buyer":
                 after_obj = after.get(field_name, {})

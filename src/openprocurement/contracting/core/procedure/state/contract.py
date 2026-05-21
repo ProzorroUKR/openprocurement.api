@@ -34,6 +34,7 @@ from openprocurement.api.utils import (
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.contracting.core.procedure.models.access import ContractRole
 from openprocurement.contracting.core.procedure.utils import (
     get_tender_award_by_contract,
     is_bid_owner,
@@ -636,8 +637,6 @@ class ContractState(
                 validate_field(value, "amount")
 
     def validate_patch_contract_items(self, request, before: dict, after: dict) -> None:
-        # TODO: Remove this logic later with adding new endpoint for items in contract
-
         after_status = after.get("status", "active")
         if after_status == "active":
             self.validate_patch_active_contract_items(request, before, after)
@@ -1141,14 +1140,17 @@ class ContractState(
             end_date = calculate_full_date(parse_date(start_date), delta, ceil=True)
             period["endDate"] = end_date.isoformat()
 
-    def set_author_of_object(self, data, field_name="author"):
+    def get_author_of_object(self) -> ContractRole:
         contract = self.request.validated["contract"]
         if is_bid_owner(self.request, contract):
-            data[field_name] = "supplier"
-        elif is_contract_owner(self.request, contract):
-            data[field_name] = "buyer"
-        else:
-            raise_operation_error(
-                self.request,
-                "Role isn't found, check auth and token",
-            )
+            return ContractRole.SUPPLIER
+        if is_contract_owner(self.request, contract):
+            return ContractRole.BUYER
+        raise_operation_error(
+            self.request,
+            "Role isn't found, check auth and token",
+        )
+
+    def set_author_of_object(self, data, field_name="author"):
+        author = self.get_author_of_object()
+        data[field_name] = author.value
