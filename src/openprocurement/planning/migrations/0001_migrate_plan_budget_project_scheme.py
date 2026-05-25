@@ -140,5 +140,5 @@ class Migration(PymongoCollectionMigration):
 
 
 if __name__ == "__main__":
-    # python src/openprocurement/api/migrations/0003_migrate_plan_budget_project_scheme.py -p <path to service.ini>
+    # python src/openprocurement/planning/migrations/0001_migrate_plan_budget_project_scheme.py -p <path to service.ini>
     migrate_collection(Migration)
