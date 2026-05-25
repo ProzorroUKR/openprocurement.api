@@ -13,9 +13,15 @@ from openprocurement.api.constants import (
     CPV_DEFAULT_PREFIX_LENGTH,
     CPV_PHARM_PREFIX,
     CPV_PHARM_PREFIX_LENGTH,
+    FUNDER_PROGRAM_SCHEME,
+    FUNDER_PROGRAMS,
 )
 from openprocurement.api.context import get_request_now
-from openprocurement.api.utils import context_unpack, handle_store_exceptions
+from openprocurement.api.utils import (
+    context_unpack,
+    handle_store_exceptions,
+    raise_operation_error,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -221,3 +227,34 @@ def to_decimal(value):
         return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)
+
+
+def validate_funders_match_funder_program(request, plan, tender):
+    """When the plan's budget.project points to a funder_program, tender.funders
+    must include that program's donor organization. No-op for plans without a
+    (known) funder_program project."""
+    project = (plan.get("budget") or {}).get("project") or {}
+    if project.get("scheme") != FUNDER_PROGRAM_SCHEME:
+        return
+    program = FUNDER_PROGRAMS.get(project.get("id"))
+    if not program:
+        # Unknown program id is already rejected by BudgetProject.validate_id
+        # at plan creation/patch time; skip to surface the original error.
+        return
+    expected_scheme = program["funder"]["scheme"]
+    expected_id = program["funder"]["id"]
+    tender_funders = tender.get("funders") or []
+    if not any(
+        (f.get("identifier") or {}).get("scheme") == expected_scheme
+        and (f.get("identifier") or {}).get("id") == expected_id
+        for f in tender_funders
+    ):
+        raise_operation_error(
+            request,
+            (
+                f"Tender funders must include the donor organization of the plan's program "
+                f"{project['id']}: scheme={expected_scheme}, id={expected_id}"
+            ),
+            status=422,
+            name="funders",
+        )

@@ -317,6 +317,73 @@ def test_plan_tender_no_funder_check_without_funder_program_scheme(app):
     assert response.status == "201 Created"
 
 
+def test_plan_tender_funder_program_link_patch(app):
+    """tender.funders stays editable, but for a tender linked to a funder_program
+    plan a PATCH must keep the program's donor organisation present."""
+    app.authorization = ("Basic", ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "scheme": "funder_program",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = app.post_json("/plans", {"data": request_plan_data})
+    plan = response.json
+
+    program_funder = deepcopy(test_tender_below_base_organization)
+    program_funder["identifier"]["scheme"] = "RO-CUI"
+    program_funder["identifier"]["id"] = "26369185"
+    wrong_funder = deepcopy(test_tender_below_base_organization)
+    wrong_funder["identifier"]["scheme"] = "XM-DAC"
+    wrong_funder["identifier"]["id"] = "47015"
+
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["funders"] = [program_funder, wrong_funder]
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {"data": request_tender_data, "config": test_tender_below_config},
+    )
+    assert response.status == "201 Created"
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    expected_error = {
+        "location": "body",
+        "name": "funders",
+        "description": (
+            "Tender funders must include the donor organization of the plan's program "
+            "interreg-vi-b-next-black-sea: scheme=RO-CUI, id=26369185"
+        ),
+    }
+
+    # Removing all funders drops the program's donor → rejected.
+    response = app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, token),
+        {"data": {"funders": None}},
+        status=422,
+    )
+    assert expected_error in response.json["errors"]
+
+    # Replacing the donor with another (allowed) funder → rejected.
+    response = app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, token),
+        {"data": {"funders": [wrong_funder]}},
+        status=422,
+    )
+    assert expected_error in response.json["errors"]
+
+    # Dropping the extra funder but keeping the donor → allowed.
+    response = app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, token),
+        {"data": {"funders": [program_funder]}},
+    )
+    assert response.status == "200 OK"
+    funder_ids = [(f["identifier"]["scheme"], f["identifier"]["id"]) for f in response.json["data"]["funders"]]
+    assert funder_ids == [("RO-CUI", "26369185")]
+
+
 def test_procurement_method_cpb_01101100(app):
     app.authorization = ("Basic", ("broker", "broker"))
 

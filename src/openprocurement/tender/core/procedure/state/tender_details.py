@@ -35,6 +35,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
+from openprocurement.api.procedure.utils import validate_funders_match_funder_program
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
@@ -240,6 +241,15 @@ class BaseTenderDetailsMixing:
         request = get_request()
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
+        self.validate_funders_match_plan_program(request, before, after)
+
+    def validate_funders_match_plan_program(self, request, before, after):
+        if before.get("funders") == after.get("funders"):
+            return
+        for plan_ref in after.get("plans") or before.get("plans") or []:
+            plan = request.registry.mongodb.plans.get(plan_ref["id"])
+            if plan:
+                validate_funders_match_funder_program(request, plan, after)
 
     def on_post(self, tender):
         self.validate_enquiry_period(tender)

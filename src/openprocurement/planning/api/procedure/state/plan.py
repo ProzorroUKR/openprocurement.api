@@ -4,8 +4,6 @@ from itertools import chain
 from dateorro import calc_working_datetime
 
 from openprocurement.api.constants import (
-    FUNDER_PROGRAM_SCHEME,
-    FUNDER_PROGRAMS,
     KATOTTG_SCHEME,
     KPK_SCHEME,
     KPK_SCHEMES,
@@ -20,7 +18,10 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.procedure.utils import is_obj_const_active
+from openprocurement.api.procedure.utils import (
+    is_obj_const_active,
+    validate_funders_match_funder_program,
+)
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
@@ -252,31 +253,7 @@ class PlanState(BaseState):
                 raise error_handler(request)
 
     def _validate_tender_funder_matches_plan_program(self, plan, tender):
-        project = (plan.get("budget") or {}).get("project") or {}
-        if project.get("scheme") != FUNDER_PROGRAM_SCHEME:
-            return
-        program = FUNDER_PROGRAMS.get(project.get("id"))
-        if not program:
-            # Unknown program id is already rejected by BudgetProject.validate_id
-            # at plan creation/patch time; skip to surface the original error.
-            return
-        expected_scheme = program["funder"]["scheme"]
-        expected_id = program["funder"]["id"]
-        tender_funders = tender.get("funders") or []
-        if not any(
-            (f.get("identifier") or {}).get("scheme") == expected_scheme
-            and (f.get("identifier") or {}).get("id") == expected_id
-            for f in tender_funders
-        ):
-            raise_operation_error(
-                self.request,
-                (
-                    f"Tender funders must include the donor organization of the plan's program "
-                    f"{project['id']}: scheme={expected_scheme}, id={expected_id}"
-                ),
-                status=422,
-                name="funders",
-            )
+        validate_funders_match_funder_program(self.request, plan, tender)
 
     def _validate_budget_project_scheme_immutable(self, before, after):
         before_scheme = ((before.get("budget") or {}).get("project") or {}).get("scheme")
