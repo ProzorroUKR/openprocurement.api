@@ -21,6 +21,10 @@ from openprocurement.api.procedure.models.reference import (
 )
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_list_uniq_factory
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+)
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
@@ -254,7 +258,7 @@ class MatchResponseValue:
             )
 
     @classmethod
-    def _match_expected_values(cls, datatype, requirement, values):
+    def _match_expected_values(cls, datatype, requirement, values, allow_extra_values=False):
         expected_min_items = requirement.get("expectedMinItems")
         expected_max_items = requirement.get("expectedMaxItems")
         expected_values = requirement.get("expectedValues", [])
@@ -262,15 +266,20 @@ class MatchResponseValue:
 
         if tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
             unique_values = {datatype.to_native(v) for v in values}
+            overlapping_values = unique_values & expected_values
 
-            if expected_min_items is not None:
-                matched = unique_values & expected_values
-                if len(matched) < expected_min_items:
-                    raise ValidationError(f"Values are not in requirement {requirement['id']}")
+            if expected_min_items is not None and len(overlapping_values) < expected_min_items:
+                raise ValidationError(f"Not enough overlapping values in requirement {requirement['id']}")
 
             if expected_max_items is not None and len(unique_values) > expected_max_items:
-                raise ValidationError(f"Values are not in requirement {requirement['id']}")
-            return
+                raise ValidationError(f"Too many values in requirement {requirement['id']}")
+
+            if not allow_extra_values and expected_values and unique_values - expected_values:
+                raise ValidationError(
+                    f"All values from tenders are not included into bid with requirement {requirement['id']}"
+                )
+
+            return  # Skip old behaviour if new market criteria validation is enabled
 
         # Old behaviour when new market criteria validation are disabled
         if expected_min_items is not None and expected_min_items > len(values):
@@ -289,8 +298,8 @@ class MatchResponseValue:
             raise ValidationError(f"Values are not in requirement {requirement['id']}")
 
     @classmethod
-    def match(cls, response):
-        requirement, *_ = get_requirement_obj(response["requirement"]["id"])
+    def match(cls, response, parent_data=None):
+        requirement, _, criterion = get_requirement_obj(response["requirement"]["id"])
 
         datatype = TYPEMAP[requirement["dataType"]]
 
@@ -312,7 +321,29 @@ class MatchResponseValue:
             for value in values:
                 cls._match_expected_value(datatype, requirement, value)
                 cls._match_min_max_value(datatype, requirement, value)
-            cls._match_expected_values(datatype, requirement, values)
+            cls._match_expected_values(
+                datatype,
+                requirement,
+                values,
+                allow_extra_values=cls._extra_values_allowed(criterion, parent_data),
+            )
+
+    @classmethod
+    def _extra_values_allowed(cls, criterion, parent_data):
+        if not criterion or not parent_data:
+            return False
+
+        classification = criterion.get("classification") or {}
+        if classification.get("id") not in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
+            return False
+
+        related_item_id = criterion.get("relatedItem")
+        if not related_item_id:
+            return False
+
+        return any(
+            item.get("id") == related_item_id and item.get("product") for item in (parent_data.get("items") or [])
+        )
 
 
 # --- Validations
@@ -358,7 +389,7 @@ class ObjResponseMixin(PatchObjResponsesMixin):
     ) -> None:
         for response in requirement_responses:
             validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
-            MatchResponseValue.match(response)
+            MatchResponseValue.match(response, parent_data=data)
             validate_req_response_related_tenderer(data, response)
             validate_req_response_evidences_relatedDocument(data, response, parent_obj_name=parent_obj_name)
 

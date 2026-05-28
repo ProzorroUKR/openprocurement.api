@@ -563,6 +563,44 @@ test_tender_pq_criteria_4 = [
     }
 ]
 
+test_tender_pq_criteria_dictionary_ab = [
+    {
+        "description": "Letter choice",
+        "id": "400496-0010",
+        "source": "tenderer",
+        "relatesTo": "item",
+        "classification": {"scheme": "ESPD211", "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"},
+        "legislation": [
+            {
+                "version": "2020-04-19",
+                "identifier": {
+                    "id": "922-VIII",
+                    "legalName": 'Закон України "Про публічні закупівлі"',
+                    "uri": "https://zakon.rada.gov.ua/laws/show/922-19",
+                },
+                "type": "NATIONAL_LEGISLATION",
+            }
+        ],
+        "requirementGroups": [
+            {
+                "description": "Letter choice",
+                "id": "400496-0010-001",
+                "requirements": [
+                    {
+                        "dataType": "string",
+                        "expectedValues": ["A", "B"],
+                        "expectedMinItems": 1,
+                        "expectedMaxItems": 2,
+                        "id": "400496-0010-001-01",
+                        "title": "Letter",
+                    },
+                ],
+            },
+        ],
+        "title": "Letter choice",
+    },
+]
+
 test_tender_pq_response_1 = [
     {"requirement": {"id": "400496-0001-001-01"}, "values": ["Розчин для інфузій"]},
     {"requirement": {"id": "400496-0002-001-02"}, "value": 5},

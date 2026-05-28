@@ -27,6 +27,7 @@ from openprocurement.tender.pricequotation.tests.bid_blanks import (
     patch_tender_bid,
     patch_tender_bid_document,
     requirement_response_dictionary_expected_items_match,
+    requirement_response_dictionary_extra_value_exceeds_max,
     requirement_response_validation_multiple_groups,
     requirement_response_validation_multiple_groups_multiple_requirements,
     requirement_response_validation_multiple_requirements,
@@ -40,6 +41,7 @@ from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_criteria_2,
     test_tender_pq_criteria_3,
     test_tender_pq_criteria_4,
+    test_tender_pq_criteria_dictionary_ab,
     test_tender_pq_supplier,
 )
 from openprocurement.tender.pricequotation.tests.utils import criteria_drop_uuids
@@ -97,6 +99,14 @@ class TenderBidCriteriaMultipleGroupTest(TenderContentWebTest):
     test_multiple_groups_multiple_requirements = snitch(
         requirement_response_validation_multiple_groups_multiple_requirements
     )
+
+
+class TenderBidCriteriaDictionaryExtraValueTest(MockMarketMixin, MockCriteriaIDMixin, TenderContentWebTest):
+    initial_status = "active.tendering"
+    initial_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_dictionary_ab))
+    initial_profile = {"id": "1" * 32, "relatedCategory": "655360-30230000-889652", "criteria": initial_criteria}
+
+    test_extra_value_exceeds_max = snitch(requirement_response_dictionary_extra_value_exceeds_max)
 
 
 class TenderBidCriteriaOneGroupMultipleRequirementsTest(MockMarketMixin, TenderContentWebTest):
