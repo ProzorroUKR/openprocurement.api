@@ -24,7 +24,6 @@ from openprocurement.api.procedure.utils import is_const_active
 from openprocurement.api.validation import validate_uniq_id
 from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 
-# scheme -> (classifier, key for the Ukrainian name inside each classifier entry)
 _BUDGET_PROJECT_CLASSIFIERS: dict[str, tuple[dict, str]] = {
     FUNDER_PROGRAM_SCHEME: (FUNDER_PROGRAMS, "name"),
     PLAN_OF_UKRAINE_SCHEME: (PLAN_OF_UKRAINE, "name_uk"),
@@ -35,11 +34,6 @@ BUDGET_PROJECT_SCHEMES: tuple[str, ...] = tuple(_BUDGET_PROJECT_CLASSIFIERS)
 def _budget_project_classifier_entry(
     data: dict,
 ) -> tuple[str | None, dict | None, str | None]:
-    """Return (scheme, classifier entry, uk-name-key) when budget.project name
-    fields should be cross-checked against the classifier, else
-    (None, None, None). Legacy plans without an explicit scheme still get
-    cross-checked against plan_of_ukraine when the id matches a UUID there."""
-
     scheme = data.get("scheme")
 
     if scheme is None and data.get("id") in PLAN_OF_UKRAINE:

@@ -44,6 +44,7 @@ from openprocurement.api.utils import (
     get_tender_category,
     get_tender_profile,
     raise_operation_error,
+    request_fetch_plan,
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.contracting.core.procedure.serializers.contract import (
@@ -247,7 +248,7 @@ class BaseTenderDetailsMixing:
         if before.get("funders") == after.get("funders"):
             return
         for plan_ref in after.get("plans") or before.get("plans") or []:
-            plan = request.registry.mongodb.plans.get(plan_ref["id"])
+            plan = request_fetch_plan(request, plan_ref["id"], raise_error=False, force=True)
             if plan:
                 validate_funders_match_funder_program(request, plan, after)
 
