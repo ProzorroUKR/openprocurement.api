@@ -15,6 +15,10 @@ from openprocurement.contracting.core.procedure.models.item import Item
 from openprocurement.contracting.core.procedure.models.milestone import (
     ContractMilestone,
 )
+from openprocurement.contracting.core.procedure.models.organization import (
+    Buyer,
+    Supplier,
+)
 from openprocurement.contracting.econtract.procedure.models.cancellation import (
     Cancellation,
 )
@@ -32,6 +36,8 @@ class Modifications(Model):
 
     items = ListType(ModelType(Item, required=True))
     contractNumber = StringType()
+    buyer = ModelType(Buyer)
+    suppliers = ListType(ModelType(Supplier), min_size=1, max_size=1)
     # amountPaid ???
     milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
 

@@ -4,20 +4,20 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.change import (
     ContractChangeStateMixin,
 )
-from openprocurement.contracting.core.procedure.state.contract import (
-    ContractState as BaseContractState,
+from openprocurement.contracting.econtract.procedure.state.contract import (
+    EContractState,
 )
 from openprocurement.tender.core.procedure.contracting import (
     upload_contract_change_pdf_document,
 )
 
 
-class EChangeState(BaseContractState, ContractChangeStateMixin):
+class EChangeState(EContractState, ContractChangeStateMixin):
     def change_on_post(self, data):
         tender = self.request.validated["tender"]
         self.validate_change_rationale_types(data, tender)
-        self.validate_change(data)
         self.set_author_of_object(data)
+        self.validate_change(data)
         contract = self.request.validated["contract"]
         upload_contract_change_pdf_document(data, contract, tender)
 
@@ -27,26 +27,30 @@ class EChangeState(BaseContractState, ContractChangeStateMixin):
         contract = deepcopy(self.request.validated["contract"])
         self.apply_previous_changes(contract)
         self.validate_modifications(contract, data)
-        data_for_validation = deepcopy(data["modifications"])
-        if "items" in data_for_validation:
-            self.validate_patch_contract_items(self.request, contract, data_for_validation)
-        if "milestones" in data_for_validation:
-            self.validate_milestones(self.request, contract, data_for_validation)
-        self.validate_update_contract_value(self.request, contract, data_for_validation)
-        self.validate_update_contract_value_net_required(self.request, contract, data_for_validation)
-        self.validate_update_contract_value_amount(self.request, contract, data_for_validation)
+        modifications = deepcopy(data["modifications"])
+        self.validate_field_changes_by_modifications(contract, modifications, data["author"])
+
+        if "items" in modifications:
+            self.validate_patch_contract_items(self.request, contract, modifications)
+
+        if "milestones" in modifications:
+            self.validate_milestones(self.request, contract, modifications)
+
+        self.validate_update_contract_value(self.request, contract, modifications)
+        self.validate_update_contract_value_net_required(self.request, contract, modifications)
+        self.validate_update_contract_value_amount(self.request, contract, modifications)
 
         # for next validations we must have these fields for comparing
         for field_name in ("value", "amountPaid", "period", "items"):
-            if field_name not in data_for_validation:
-                data_for_validation[field_name] = contract.get(field_name)
+            if field_name not in modifications:
+                modifications[field_name] = contract.get(field_name)
 
-        self.validate_contract_active_patch(self.request, contract, data_for_validation)
-        self.validate_activate_contract(data_for_validation)
+        self.validate_contract_active_patch(self.request, contract, modifications)
+        self.validate_activate_contract(modifications)
 
         # in validate_period empty fields filled from contract, we need them to have full period in change.modifications
         if "period" in data["modifications"]:
-            data["modifications"]["period"] = data_for_validation["period"]
+            data["modifications"]["period"] = modifications["period"]
 
         # synchronize real data["modifications"], not copy for previous validations
         self.synchronize_items_unit_value(data["modifications"], contract.get("value"))
@@ -76,3 +80,13 @@ class EChangeState(BaseContractState, ContractChangeStateMixin):
                 "No changes detected between contract and current modifications",
                 status=422,
             )
+
+    def validate_field_changes_by_modifications(self, contract_before: dict, modifications: dict, author: str) -> None:
+        contract_after = deepcopy(contract_before)
+        contract_after.update(modifications)
+        self.validate_field_changes(
+            contract_before,
+            contract_after,
+            author,
+            fields=list(modifications.keys()),
+        )

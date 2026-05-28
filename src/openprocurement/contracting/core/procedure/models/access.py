@@ -5,13 +5,17 @@ from schematics.types import StringType
 from openprocurement.api.procedure.models.base import Model
 
 
-class AccessRole(StrEnum):
+class ContractRole(StrEnum):
     BUYER = "buyer"
     SUPPLIER = "supplier"
-    # deprecated
-    TENDER = "tender"
-    BID = "bid"
-    CONTRACT = "contract"
+
+
+class AccessRole(StrEnum):
+    BUYER = ContractRole.BUYER.value
+    SUPPLIER = ContractRole.SUPPLIER.value
+    TENDER = "tender"  # deprecated
+    BID = "bid"  # deprecated
+    CONTRACT = "contract"  # deprecated
 
 
 ACCESS_ROLE_CHOICES = [

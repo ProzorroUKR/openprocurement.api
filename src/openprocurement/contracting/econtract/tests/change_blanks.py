@@ -373,6 +373,146 @@ def patch_change(self):
     self.assertEqual(response.status, "405 Method Not Allowed")
 
 
+def change_contract_supplier_signer_info(self):
+    supplier_name_before = self.contract["suppliers"][0].get("name")
+    suppliers = deepcopy(self.contract["suppliers"])
+    suppliers[0]["name"] = "new name"
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"suppliers": suppliers},
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": (
+                    "Updated could be only ('signerInfo',) in suppliers, name change forbidden: "
+                    f"{supplier_name_before} -> new name"
+                ),
+            }
+        ],
+    )
+
+    suppliers = deepcopy(self.contract["suppliers"])
+    suppliers[0]["signerInfo"].update({"email": "buyer@gmail.com"})
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"suppliers": suppliers},
+            }
+        },
+        status=422,
+    )
+    self.assertIn("suppliers change forbidden", response.json["errors"][0]["description"])
+
+    suppliers = deepcopy(self.contract["suppliers"])
+    suppliers[0]["signerInfo"].update(
+        {
+            "email": "new@gmail.com",
+            "name": "New supplier",
+        }
+    )
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"suppliers": suppliers},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    change = response.json["data"]
+    self.assertEqual(change["modifications"]["suppliers"][0]["signerInfo"]["email"], "new@gmail.com")
+    self.assertEqual(change["author"], "supplier")
+
+
+def change_contract_buyer_signer_info(self):
+    buyer_name_before = self.contract["buyer"].get("name")
+    buyer = deepcopy(self.contract["buyer"])
+    buyer["name"] = "new buyer name"
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"buyer": buyer},
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": (
+                    "Updated could be only ('signerInfo',) in buyer, name change forbidden: "
+                    f"{buyer_name_before} -> new buyer name"
+                ),
+            }
+        ],
+    )
+
+    buyer = deepcopy(self.contract["buyer"])
+    buyer["signerInfo"].update({"email": "supplier@gmail.com"})
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"buyer": buyer},
+            }
+        },
+        status=422,
+    )
+    self.assertIn("buyer change forbidden", response.json["errors"][0]["description"])
+
+    buyer = deepcopy(self.contract["buyer"])
+    buyer["signerInfo"].update(
+        {
+            "email": "new-buyer@gmail.com",
+            "name": "New buyer",
+        }
+    )
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"buyer": buyer},
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    change = response.json["data"]
+    self.assertEqual(change["modifications"]["buyer"]["signerInfo"]["email"], "new-buyer@gmail.com")
+    self.assertEqual(change["author"], "buyer")
+
+
 def activation_of_change(self):
     value = deepcopy(self.contract["value"])
     value["amount"] = 445
