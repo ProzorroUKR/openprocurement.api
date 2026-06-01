@@ -29,6 +29,7 @@ test_tender_negotiation_data["procurementMethodType"] = "negotiation"
 test_tender_negotiation_data["causeDetails"] = {
     "code": "additionalConstruction",
     "description": "chupacabra",
+    "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20251031#n1717",
 }
 if SANDBOX_MODE:
     test_tender_negotiation_data["procurementMethodDetails"] = "quick, accelerator=1440"
@@ -44,6 +45,7 @@ test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick
 test_tender_negotiation_quick_data["causeDetails"] = {
     "code": "additionalConstruction",
     "description": "chupacabra",
+    "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20251031#n1717",
 }
 if SANDBOX_MODE:
     test_tender_negotiation_quick_data["procurementMethodDetails"] = "quick, accelerator=1440"

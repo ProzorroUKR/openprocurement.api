@@ -13,13 +13,15 @@ def set_cause_details_from_dictionary(obj):
     if cause_code := obj["causeDetails"].get("code"):
         if cause_code not in CAUSE_DETAILS_MAPPING_ALL[procurement_method_type]:
             return prev_obj
-        obj["causeDetails"].update(
-            {
-                "scheme": CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]["scheme"],
-                "title": CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]["title_uk"],
-                "title_en": CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]["title_en"],
-            }
-        )
+        mapping_entry = CAUSE_DETAILS_MAPPING_ALL[procurement_method_type][cause_code]
+        update_fields = {
+            "scheme": mapping_entry["scheme"],
+            "title": mapping_entry["title_uk"],
+            "title_en": mapping_entry["title_en"],
+        }
+        if "uri" in mapping_entry:
+            update_fields["uri"] = mapping_entry["uri"]
+        obj["causeDetails"].update(update_fields)
     return obj
 
 

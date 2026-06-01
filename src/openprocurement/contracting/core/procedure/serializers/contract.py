@@ -30,7 +30,7 @@ def get_change_rationale_types_frozen(tender):
     # New causeDetails.scheme logic
     cause_details = tender.get("causeDetails", {})
     cause_scheme = cause_details.get("scheme")
-    if cause_scheme == "DECREE1178":
+    if cause_scheme in ("DECREE1178", "DECREE1275"):
         return FROZEN_RATIONALE_TYPES_DECREE_1178
     if cause_scheme == "LAW922":
         return FROZEN_RATIONALE_TYPES_LAW_922
@@ -47,7 +47,7 @@ def get_change_rationale_types(tender):
     # New causeDetails.scheme logic
     cause_details = tender.get("causeDetails", {})
     cause_scheme = cause_details.get("scheme")
-    if cause_scheme == "DECREE1178":
+    if cause_scheme in ("DECREE1178", "DECREE1275"):
         return RATIONALE_TYPES_DECREE_1178
     if cause_scheme == "LAW922":
         return RATIONALE_TYPES_LAW_922

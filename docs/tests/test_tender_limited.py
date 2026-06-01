@@ -24,12 +24,14 @@ test_tender_negotiation_data["causeDetails"] = {
     "code": "lastHope",
     "description": "оригінальний тендер не вдався двічі",
     "description_en": "the original tender failed twice",
+    "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20251031#n1717",
 }
 test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick"
 test_tender_negotiation_quick_data["causeDetails"] = {
     "code": "lastHope",
     "description": "оригінальний тендер не вдався двічі",
     "description_en": "the original tender failed twice",
+    "uri": "https://zakon.rada.gov.ua/laws/show/922-19/ed20251031#n1717",
 }
 test_lots[0]["value"] = test_tender_negotiation_data["value"]
 
@@ -126,6 +128,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         reporting_data["causeDetails"] = {
             "code": "defencePurchase",
             "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426",
         }
 
         with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:

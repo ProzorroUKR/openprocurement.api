@@ -2,6 +2,7 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import CAUSE_DETAILS_MAPPING
 from openprocurement.api.constants_env import (
     CAUSE_DETAILS_REQUIRED_FROM,
+    CAUSE_DETAILS_URI_REQUIRED_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
 from openprocurement.api.utils import raise_operation_error
@@ -97,13 +98,33 @@ class CauseDetailsMixing:
                     name="causeDetails",
                 )
             cause_code = cause_details["code"]
-            cause_details.update(
-                {
-                    "scheme": CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]["scheme"],
-                    "title": CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]["title_uk"],
-                    "title_en": CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]["title_en"],
-                }
-            )
+            mapping_entry = CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]
+            expected_uri = mapping_entry.get("uri")
+            if tender_created_after(CAUSE_DETAILS_URI_REQUIRED_FROM):
+                if not cause_details.get("uri"):
+                    raise_operation_error(
+                        self.request,
+                        {"uri": ["This field is required."]},
+                        status=422,
+                        location="body",
+                        name="causeDetails",
+                    )
+            if cause_details.get("uri") and cause_details["uri"] != expected_uri:
+                raise_operation_error(
+                    self.request,
+                    {"uri": ["Value does not match the standards dictionary."]},
+                    status=422,
+                    location="body",
+                    name="causeDetails",
+                )
+            update_fields = {
+                "scheme": mapping_entry["scheme"],
+                "title": mapping_entry["title_uk"],
+                "title_en": mapping_entry["title_en"],
+            }
+            if expected_uri:
+                update_fields["uri"] = expected_uri
+            cause_details.update(update_fields)
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):

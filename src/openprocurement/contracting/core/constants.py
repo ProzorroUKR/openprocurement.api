@@ -56,6 +56,8 @@ FROZEN_RATIONALE_TYPES_LAW_922 = {
         "title_uk": 'Пункт 1 частини 5 статті 41 Закону України від 25.12.2015 № 922-VIII "Про публічні закупівлі"',
     },
 }
+for _entry in FROZEN_RATIONALE_TYPES_LAW_922.values():
+    _entry["scheme"] = "LAW922"
 
 FROZEN_RATIONALE_TYPES_DECREE_1178 = {
     "durationExtension": {
@@ -143,3 +145,5 @@ FROZEN_RATIONALE_TYPES_DECREE_1178 = {
         "title_uk": 'Підпункт 11 пункту 19 Постанови Кабміну Міністрів України від 12.10.2022 № 1178 "Про затвердження особливостей здійснення публічних закупівель товарів, робіт і послуг для замовників, передбачених Законом України "Про публічні закупівлі", на період дії правового режиму воєнного стану в Україні та протягом 90 днів з дня його припинення або скасування"',
     },
 }
+for _entry in FROZEN_RATIONALE_TYPES_DECREE_1178.values():
+    _entry["scheme"] = "DECREE1178"
