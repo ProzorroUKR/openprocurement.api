@@ -423,9 +423,7 @@ def requirement_response_validation_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [
-                    f'Not enough overlapping values in requirement {test_response[0]["requirement"]["id"]}'
-                ],
+                "description": [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -588,7 +586,40 @@ def requirement_response_validation_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Too many values in requirement {test_response[2]["requirement"]["id"]}'],
+                "description": [
+                    f'Count of items higher then maximum required 3 '
+                    f'in requirement {test_response[2]["requirement"]["id"]}'
+                ],
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+    test_response = deepcopy(test_tender_pq_response_1)
+    copy_criteria_req_id(tender["criteria"], test_response)
+    test_response[2]["values"] = ["Відповідь1", "Відповідь2", "Відповідь5"]
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {
+            "data": {
+                "status": "active",
+                "tenderers": [test_tender_pq_supplier],
+                "value": {"amount": 500},
+                "requirementResponses": test_response,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data["status"], "error")
+    self.assertEqual(
+        data["errors"],
+        [
+            {
+                "description": [f'Values are not in requirement {test_response[2]["requirement"]["id"]}'],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -741,9 +772,7 @@ def requirement_response_value_validation_for_expected_values(self):
         data["errors"],
         [
             {
-                "description": [
-                    f'Not enough overlapping values in requirement {test_response[-2]["requirement"]["id"]}'
-                ],
+                "description": [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -762,13 +791,10 @@ def requirement_response_value_validation_for_expected_values(self):
         status=422,
     )
     self.assertEqual(
-        response.json["errors"],
+        data["errors"],
         [
             {
-                "description": [
-                    f"All values from tenders are not included into bid with requirement "
-                    f"{test_response[-2]['requirement']['id']}"
-                ],
+                "description": [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -876,7 +902,7 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Not enough overlapping values in requirement {rr[0]["requirement"]["id"]}'],
+                "description": [f'Not enough overlapping values for requirement {rr[0]["requirement"]["id"]}'],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -933,7 +959,7 @@ def requirement_response_dictionary_expected_items_match(self):
         response.json["errors"],
         [
             {
-                "description": [f"Not enough overlapping values in requirement {dictionary_requirement_id}"],
+                "description": [f"Not enough overlapping values for requirement {dictionary_requirement_id}"],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -949,7 +975,7 @@ def requirement_response_dictionary_expected_items_match(self):
         response.json["errors"],
         [
             {
-                "description": [f"Too many values in requirement {dictionary_requirement_id}"],
+                "description": [f"Too many values for requirement {dictionary_requirement_id}"],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -995,7 +1021,7 @@ def requirement_response_dictionary_extra_value_exceeds_max(self):
         response.json["errors"],
         [
             {
-                "description": [f"Too many values in requirement {requirement_id}"],
+                "description": [f"Too many values for requirement {requirement_id}"],
                 "location": "body",
                 "name": "requirementResponses",
             }

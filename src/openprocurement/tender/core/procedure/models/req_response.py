@@ -263,39 +263,32 @@ class MatchResponseValue:
         expected_max_items = requirement.get("expectedMaxItems")
         expected_values = requirement.get("expectedValues", [])
         expected_values = {datatype.to_native(i) for i in expected_values}
+        unique_values = set(values)
 
-        if tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
-            unique_values = {datatype.to_native(v) for v in values}
+        if allow_extra_values:
             overlapping_values = unique_values & expected_values
 
             if expected_min_items is not None and len(overlapping_values) < expected_min_items:
-                raise ValidationError(f"Not enough overlapping values in requirement {requirement['id']}")
+                raise ValidationError(f"Not enough overlapping values for requirement {requirement['id']}")
 
             if expected_max_items is not None and len(unique_values) > expected_max_items:
-                raise ValidationError(f"Too many values in requirement {requirement['id']}")
+                raise ValidationError(f"Too many values for requirement {requirement['id']}")
 
-            if not allow_extra_values and expected_values and unique_values - expected_values:
+        else:
+            if expected_min_items is not None and expected_min_items > len(unique_values):
                 raise ValidationError(
-                    f"All values from tenders are not included into bid with requirement {requirement['id']}"
+                    f"Count of items lower then minimal required {expected_min_items} "
+                    f"in requirement {requirement['id']}"
                 )
 
-            return  # Skip old behaviour if new market criteria validation is enabled
+            if expected_max_items is not None and expected_max_items < len(unique_values):
+                raise ValidationError(
+                    f"Count of items higher then maximum required {expected_max_items} "
+                    f"in requirement {requirement['id']}"
+                )
 
-        # Old behaviour when new market criteria validation are disabled
-        if expected_min_items is not None and expected_min_items > len(values):
-            raise ValidationError(
-                f"Count of items lower then minimal required {expected_min_items} "
-                f"in requirement {requirement['id']}"
-            )
-
-        if expected_max_items is not None and expected_max_items < len(values):
-            raise ValidationError(
-                f"Count of items higher then maximum required {expected_max_items} "
-                f"in requirement {requirement['id']}"
-            )
-
-        if expected_values and not set(values).issubset(set(expected_values)):
-            raise ValidationError(f"Values are not in requirement {requirement['id']}")
+            if expected_values and not set(unique_values).issubset(set(expected_values)):
+                raise ValidationError(f"Values are not in requirement {requirement['id']}")
 
     @classmethod
     def match(cls, response, parent_data=None):
@@ -331,6 +324,9 @@ class MatchResponseValue:
     @classmethod
     def _extra_values_allowed(cls, criterion, parent_data):
         if not criterion or not parent_data:
+            return False
+
+        if not tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
             return False
 
         classification = criterion.get("classification") or {}
