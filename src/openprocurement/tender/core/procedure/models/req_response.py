@@ -250,11 +250,11 @@ class MatchResponseValue:
 
         if min_value is not None and value < datatype.to_native(min_value):
             raise ValidationError(
-                f"Value {value} is lower then minimal required {min_value} in requirement {requirement['id']}"
+                f"Value {value} is lower than minimal required {min_value} in requirement {requirement['id']}"
             )
         if max_value is not None and value > datatype.to_native(max_value):
             raise ValidationError(
-                f"Value {value} is higher then required {max_value} in requirement {requirement['id']}"
+                f"Value {value} is higher than required {max_value} in requirement {requirement['id']}"
             )
 
     @classmethod
@@ -267,26 +267,28 @@ class MatchResponseValue:
 
         if expected_max_items is not None and expected_max_items < len(unique_values):
             raise ValidationError(
-                f"Count of items higher then maximum required {expected_max_items} "
-                f"in requirement {requirement['id']}"
+                f"Count of values is higher than maximum of {expected_max_items} "
+                f"for requirement {requirement['id']}"
             )
 
         if allow_extra_values:
             if expected_min_items is not None and expected_min_items > len(unique_values & expected_values):
                 raise ValidationError(
-                    f"Count of matching items lower then minimal required {expected_min_items} "
-                    f"in requirement {requirement['id']}"
+                    f"Count of matching values is less than minimum of {expected_min_items} "
+                    f"for requirement {requirement['id']}"
                 )
 
         else:
             if expected_min_items is not None and expected_min_items > len(unique_values):
                 raise ValidationError(
-                    f"Count of items lower then minimal required {expected_min_items} "
-                    f"in requirement {requirement['id']}"
+                    f"Count of values is less than minimum of {expected_min_items} "
+                    f"for requirement {requirement['id']}"
                 )
 
             if expected_values and not set(unique_values).issubset(set(expected_values)):
-                raise ValidationError(f"Values are not in requirement {requirement['id']}")
+                raise ValidationError(
+                    f"One or more values are not among expected values for requirement {requirement['id']}"
+                )
 
     @classmethod
     def match(cls, response, parent_data=None):

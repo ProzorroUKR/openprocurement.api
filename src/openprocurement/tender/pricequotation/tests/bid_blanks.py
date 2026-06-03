@@ -423,7 +423,9 @@ def requirement_response_validation_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[0]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -454,7 +456,7 @@ def requirement_response_validation_multiple_requirements(self):
         [
             {
                 "description": [
-                    'Value 4 is lower then minimal required 5 '
+                    'Value 4 is lower than minimal required 5 '
                     f'in requirement {test_response[1]["requirement"]["id"]}'
                 ],
                 "location": "body",
@@ -587,8 +589,8 @@ def requirement_response_validation_multiple_requirements(self):
         [
             {
                 "description": [
-                    f'Count of items higher then maximum required 3 '
-                    f'in requirement {test_response[2]["requirement"]["id"]}'
+                    f'Count of values is higher than maximum of 3 '
+                    f'for requirement {test_response[2]["requirement"]["id"]}'
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -619,7 +621,9 @@ def requirement_response_validation_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[2]["requirement"]["id"]}'],
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[2]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -772,7 +776,9 @@ def requirement_response_value_validation_for_expected_values(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[-2]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -794,7 +800,9 @@ def requirement_response_value_validation_for_expected_values(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[-2]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -903,8 +911,8 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         [
             {
                 "description": [
-                    f'Count of matching items lower then minimal required 1 '
-                    f'in requirement {rr[0]["requirement"]["id"]}'
+                    f'Count of matching values is less than minimum of 1 '
+                    f'for requirement {rr[0]["requirement"]["id"]}'
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -963,8 +971,8 @@ def requirement_response_dictionary_expected_items_match(self):
         [
             {
                 "description": [
-                    f"Count of matching items lower then minimal required 1 "
-                    f"in requirement {dictionary_requirement_id}"
+                    f"Count of matching values is less than minimum of 1 "
+                    f"for requirement {dictionary_requirement_id}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -982,7 +990,7 @@ def requirement_response_dictionary_expected_items_match(self):
         [
             {
                 "description": [
-                    f"Count of items higher then maximum required 3 " f"in requirement {dictionary_requirement_id}"
+                    f"Count of values is higher than maximum of 3 for requirement {dictionary_requirement_id}"
                 ],
                 "location": "body",
                 "name": "requirementResponses",
@@ -1029,7 +1037,7 @@ def requirement_response_dictionary_extra_value_exceeds_max(self):
         response.json["errors"],
         [
             {
-                "description": [f"Count of items higher then maximum required 2 in requirement {requirement_id}"],
+                "description": [f"Count of values is higher than maximum of 2 for requirement {requirement_id}"],
                 "location": "body",
                 "name": "requirementResponses",
             }

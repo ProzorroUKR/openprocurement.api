@@ -66,7 +66,7 @@ class TestMatchExpectedValuesSubset(unittest.TestCase):
     def test_subset_enforced_when_not_allowed(self):
         with self.assertRaises(ValidationError) as ctx:
             self._match(["A", "C"], allow_extra_values=False)
-        self.assertIn("Values are not in requirement", str(ctx.exception))
+        self.assertIn("One or more values are not among expected values for requirement", str(ctx.exception))
 
     def test_extra_value_allowed_when_allowed(self):
         self._match(["A", "C"], allow_extra_values=True)
@@ -77,24 +77,24 @@ class TestMatchExpectedValuesSubset(unittest.TestCase):
     def test_min_items_enforced_even_when_allowed(self):
         with self.assertRaises(ValidationError) as ctx:
             self._match(["C", "D"], allow_extra_values=True)
-        self.assertIn("Count of matching items lower then minimal required", str(ctx.exception))
+        self.assertIn("Count of matching values is less than minimum of", str(ctx.exception))
 
     def test_min_items_enforced_when_not_allowed(self):
         with self.assertRaises(ValidationError) as ctx:
             self._match([], allow_extra_values=False)
-        self.assertIn("Count of items lower then minimal required", str(ctx.exception))
+        self.assertIn("Count of values is less than minimum of", str(ctx.exception))
 
     def test_max_items_enforced_even_when_allowed(self):
         requirement = {"id": "r1", "expectedValues": ["A", "B", "C"], "expectedMinItems": 1, "expectedMaxItems": 2}
         with self.assertRaises(ValidationError) as ctx:
             self._match(["A", "B", "C"], allow_extra_values=True, requirement=requirement)
-        self.assertIn("Count of items higher then maximum required", str(ctx.exception))
+        self.assertIn("Count of values is higher than maximum of", str(ctx.exception))
 
     def test_max_items_enforced_when_not_allowed(self):
         requirement = {"id": "r1", "expectedValues": ["A", "B", "C"], "expectedMinItems": 1, "expectedMaxItems": 2}
         with self.assertRaises(ValidationError) as ctx:
             self._match(["A", "B", "C"], allow_extra_values=False, requirement=requirement)
-        self.assertIn("Count of items higher then maximum required", str(ctx.exception))
+        self.assertIn("Count of values is higher than maximum of", str(ctx.exception))
 
     def test_duplicates_dont_count_against_max(self):
         requirement = {"id": "r1", "expectedValues": ["A", "B"], "expectedMinItems": 1, "expectedMaxItems": 2}
@@ -109,7 +109,7 @@ class TestMatchExpectedValuesSubset(unittest.TestCase):
         requirement = {"id": "r1", "expectedValues": ["A", "B"], "expectedMinItems": 1, "expectedMaxItems": 3}
         with self.assertRaises(ValidationError) as ctx:
             self._match(["A", "B", "C"], allow_extra_values=False, requirement=requirement)
-        self.assertIn("Values are not in requirement", str(ctx.exception))
+        self.assertIn("One or more values are not among expected values for requirement", str(ctx.exception))
 
     def test_no_expected_values_skips_subset_check(self):
         # Requirement carries no expectedValues (e.g. boolean/numeric requirement) — the subset
