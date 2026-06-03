@@ -423,7 +423,9 @@ def requirement_response_validation_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[0]["requirement"]["id"]}'],
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[0]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -454,7 +456,7 @@ def requirement_response_validation_multiple_requirements(self):
         [
             {
                 "description": [
-                    'Value 4 is lower then minimal required 5 '
+                    'Value 4 is lower than minimal required 5 '
                     f'in requirement {test_response[1]["requirement"]["id"]}'
                 ],
                 "location": "body",
@@ -586,7 +588,42 @@ def requirement_response_validation_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[2]["requirement"]["id"]}'],
+                "description": [
+                    f'Count of values is higher than maximum of 3 '
+                    f'for requirement {test_response[2]["requirement"]["id"]}'
+                ],
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+    test_response = deepcopy(test_tender_pq_response_1)
+    copy_criteria_req_id(tender["criteria"], test_response)
+    test_response[2]["values"] = ["Відповідь1", "Відповідь2", "Відповідь5"]
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {
+            "data": {
+                "status": "active",
+                "tenderers": [test_tender_pq_supplier],
+                "value": {"amount": 500},
+                "requirementResponses": test_response,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    data = response.json
+    self.assertEqual(data["status"], "error")
+    self.assertEqual(
+        data["errors"],
+        [
+            {
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[2]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -739,7 +776,33 @@ def requirement_response_value_validation_for_expected_values(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {test_response[-2]["requirement"]["id"]}'],
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[-2]["requirement"]["id"]}'
+                ],
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+    # Subset check is enforced because the additional criterion is
+    # CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT
+    # (not TECHNICAL_FEATURES / LOCAL_ORIGIN_LEVEL) -> allow_extra_values=False.
+    test_response = deepcopy(rr)
+    test_response[-2]["values"] = ["Розчин для інфузій", "ExtraValue"]
+    bid_data["requirementResponses"] = test_response
+    response = self.app.post_json(
+        f"/tenders/{tender['id']}/bids",
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        data["errors"],
+        [
+            {
+                "description": [
+                    f'One or more values are not among expected values for requirement {test_response[-2]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -847,7 +910,10 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Values are not in requirement {rr[0]["requirement"]["id"]}'],
+                "description": [
+                    f'Count of matching values is less than minimum of 1 '
+                    f'for requirement {rr[0]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -868,11 +934,13 @@ def requirement_response_validation_one_group_multiple_requirements(self):
 
 
 def requirement_response_dictionary_expected_items_match(self):
-    # Verify new matching rules for dictionary-type (dataType=string + expectedValues) requirements:
+    # Verify matching rules for dictionary-type (dataType=string + expectedValues) requirements:
     #   * common values between response and requirement.expectedValues must be >= expectedMinItems;
     #   * count of unique response values must be <= expectedMaxItems (when it is set);
-    #   * response values that are NOT in requirement.expectedValues are allowed as long
-    #     as the two rules above pass (old "Values are not in requirement" subset check dropped).
+    #   * response values outside requirement.expectedValues are tolerated only when the response
+    #     is on a TECHNICAL_FEATURES / LOCAL_ORIGIN_LEVEL criterion AND the related bid item has
+    #     a linked product. PQ bid items always have a linked product (bid_item_product_required),
+    #     so the subset check is relaxed here.
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
     rr_template = deepcopy(test_tender_pq_response_1)
@@ -894,7 +962,7 @@ def requirement_response_dictionary_expected_items_match(self):
             status=status,
         )
 
-    # Too few common values: matched count (0) < expectedMinItems (1) -> rejected.
+    # Too few common values: overlap count (0) < expectedMinItems (1) -> rejected.
     responses = deepcopy(rr_template)
     responses[2]["values"] = ["UnknownValue1", "UnknownValue2"]
     response = post_bid(responses, status=422)
@@ -902,7 +970,10 @@ def requirement_response_dictionary_expected_items_match(self):
         response.json["errors"],
         [
             {
-                "description": [f"Values are not in requirement {dictionary_requirement_id}"],
+                "description": [
+                    f"Count of matching values is less than minimum of 1 "
+                    f"for requirement {dictionary_requirement_id}"
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -918,19 +989,76 @@ def requirement_response_dictionary_expected_items_match(self):
         response.json["errors"],
         [
             {
-                "description": [f"Values are not in requirement {dictionary_requirement_id}"],
+                "description": [
+                    f"Count of values is higher than maximum of 3 for requirement {dictionary_requirement_id}"
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
         ],
     )
 
-    # Values include one outside tender's expectedValues but enough match expectedMinItems
-    # and don't exceed expectedMaxItems - allowed under new rules (subset check removed).
-    # Duplicates also collapse to unique set for expectedMaxItems check.
+    # Values include one outside tender's expectedValues, but the response is on a
+    # TECHNICAL_FEATURES criterion and the bid item has a linked product, so the
+    # subset check is relaxed; min/max constraints still hold.
+    # Duplicates also collapse to unique set for the max-items check.
     responses = deepcopy(rr_template)
     responses[2]["values"] = ["Відповідь1", "Відповідь1", "UnknownValue"]
     post_bid(responses)
+
+
+def requirement_response_dictionary_extra_value_exceeds_max(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
+    requirement_id = tender["criteria"][0]["requirementGroups"][0]["requirements"][0]["id"]
+
+    rr = [
+        {
+            "requirement": {"id": requirement_id},
+            "values": ["A", "B", "C"],
+        }
+    ]
+
+    bid_data = {
+        "status": "pending",
+        "tenderers": [test_tender_pq_supplier],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [f"Count of values is higher than maximum of 2 for requirement {requirement_id}"],
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+    rr[0]["values"] = ["A", "C"]
+    bid_data["requirementResponses"] = rr
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    rr[0]["values"] = ["A", "B"]
+    bid_data["requirementResponses"] = rr
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
 
 
 def patch_tender_bid(self):

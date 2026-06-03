@@ -59,7 +59,7 @@ class BaseReqResponseState(BaseState):
 
     def validate_req_response_data(self, parent: dict, req_response: dict) -> None:
         validate_req_response_requirement(req_response, self.parent_obj_name)
-        MatchResponseValue.match(req_response)
+        MatchResponseValue.match(req_response, parent_data=parent)
         validate_req_response_related_tenderer(parent, req_response)
         validate_req_response_evidences_relatedDocument(parent, req_response, self.parent_obj_name)
         if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:

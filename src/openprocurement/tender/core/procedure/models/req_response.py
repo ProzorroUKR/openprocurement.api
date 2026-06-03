@@ -21,6 +21,10 @@ from openprocurement.api.procedure.models.reference import (
 )
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_list_uniq_factory
+from openprocurement.tender.core.constants import (
+    CRITERION_LOCALIZATION,
+    CRITERION_TECHNICAL_FEATURES,
+)
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
@@ -246,51 +250,49 @@ class MatchResponseValue:
 
         if min_value is not None and value < datatype.to_native(min_value):
             raise ValidationError(
-                f"Value {value} is lower then minimal required {min_value} in requirement {requirement['id']}"
+                f"Value {value} is lower than minimal required {min_value} in requirement {requirement['id']}"
             )
         if max_value is not None and value > datatype.to_native(max_value):
             raise ValidationError(
-                f"Value {value} is higher then required {max_value} in requirement {requirement['id']}"
+                f"Value {value} is higher than required {max_value} in requirement {requirement['id']}"
             )
 
     @classmethod
-    def _match_expected_values(cls, datatype, requirement, values):
+    def _match_expected_values(cls, datatype, requirement, values, allow_extra_values=False):
         expected_min_items = requirement.get("expectedMinItems")
         expected_max_items = requirement.get("expectedMaxItems")
         expected_values = requirement.get("expectedValues", [])
         expected_values = {datatype.to_native(i) for i in expected_values}
+        unique_values = set(values)
 
-        if tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
-            unique_values = {datatype.to_native(v) for v in values}
-
-            if expected_min_items is not None:
-                matched = unique_values & expected_values
-                if len(matched) < expected_min_items:
-                    raise ValidationError(f"Values are not in requirement {requirement['id']}")
-
-            if expected_max_items is not None and len(unique_values) > expected_max_items:
-                raise ValidationError(f"Values are not in requirement {requirement['id']}")
-            return
-
-        # Old behaviour when new market criteria validation are disabled
-        if expected_min_items is not None and expected_min_items > len(values):
+        if expected_max_items is not None and expected_max_items < len(unique_values):
             raise ValidationError(
-                f"Count of items lower then minimal required {expected_min_items} "
-                f"in requirement {requirement['id']}"
+                f"Count of values is higher than maximum of {expected_max_items} "
+                f"for requirement {requirement['id']}"
             )
 
-        if expected_max_items is not None and expected_max_items < len(values):
-            raise ValidationError(
-                f"Count of items higher then maximum required {expected_max_items} "
-                f"in requirement {requirement['id']}"
-            )
+        if allow_extra_values:
+            if expected_min_items is not None and expected_min_items > len(unique_values & expected_values):
+                raise ValidationError(
+                    f"Count of matching values is less than minimum of {expected_min_items} "
+                    f"for requirement {requirement['id']}"
+                )
 
-        if expected_values and not set(values).issubset(set(expected_values)):
-            raise ValidationError(f"Values are not in requirement {requirement['id']}")
+        else:
+            if expected_min_items is not None and expected_min_items > len(unique_values):
+                raise ValidationError(
+                    f"Count of values is less than minimum of {expected_min_items} "
+                    f"for requirement {requirement['id']}"
+                )
+
+            if expected_values and not set(unique_values).issubset(set(expected_values)):
+                raise ValidationError(
+                    f"One or more values are not among expected values for requirement {requirement['id']}"
+                )
 
     @classmethod
-    def match(cls, response):
-        requirement, *_ = get_requirement_obj(response["requirement"]["id"])
+    def match(cls, response, parent_data=None):
+        requirement, _, criterion = get_requirement_obj(response["requirement"]["id"])
 
         datatype = TYPEMAP[requirement["dataType"]]
 
@@ -312,7 +314,32 @@ class MatchResponseValue:
             for value in values:
                 cls._match_expected_value(datatype, requirement, value)
                 cls._match_min_max_value(datatype, requirement, value)
-            cls._match_expected_values(datatype, requirement, values)
+            cls._match_expected_values(
+                datatype,
+                requirement,
+                values,
+                allow_extra_values=cls._extra_values_allowed(criterion, parent_data),
+            )
+
+    @classmethod
+    def _extra_values_allowed(cls, criterion, parent_data):
+        if not criterion or not parent_data:
+            return False
+
+        if not tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
+            return False
+
+        classification = criterion.get("classification") or {}
+        if classification.get("id") not in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
+            return False
+
+        related_item_id = criterion.get("relatedItem")
+        if not related_item_id:
+            return False
+
+        return any(
+            item.get("id") == related_item_id and item.get("product") for item in (parent_data.get("items") or [])
+        )
 
 
 # --- Validations
@@ -358,7 +385,7 @@ class ObjResponseMixin(PatchObjResponsesMixin):
     ) -> None:
         for response in requirement_responses:
             validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
-            MatchResponseValue.match(response)
+            MatchResponseValue.match(response, parent_data=data)
             validate_req_response_related_tenderer(data, response)
             validate_req_response_evidences_relatedDocument(data, response, parent_obj_name=parent_obj_name)
 
