@@ -89,7 +89,6 @@ class PlanState(BaseState):
         self._validate_tender_procurement_method_type(after)
         self._validate_items_classification_prefix(after)
         self.validate_required_breakdown_classifications(after)
-        self._validate_budget_project_scheme_immutable(before, after)
 
     def plan_tender_validate_on_post(self, plan, tender):
         self._validate_plan_scheduled(plan)
@@ -254,17 +253,6 @@ class PlanState(BaseState):
 
     def _validate_tender_funder_matches_plan_program(self, plan, tender):
         validate_funders_match_funder_program(self.request, plan, tender)
-
-    def _validate_budget_project_scheme_immutable(self, before, after):
-        before_scheme = ((before.get("budget") or {}).get("project") or {}).get("scheme")
-        after_scheme = ((after.get("budget") or {}).get("project") or {}).get("scheme")
-        if before_scheme and before_scheme != after_scheme:
-            raise_operation_error(
-                self.request,
-                "Can't change or remove budget.project.scheme once set",
-                status=422,
-                name="budget.project.scheme",
-            )
 
     def _validate_plan_scheduled(self, plan):
         status = plan.get("status")

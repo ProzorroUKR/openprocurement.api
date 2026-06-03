@@ -43,7 +43,6 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     listing,
     listing_moves_from_dts,
     patch_plan,
-    patch_plan_budget_project_scheme_immutable,
     patch_plan_budget_year,
     patch_plan_item_quantity,
     patch_plan_to_openuadefense,
@@ -92,7 +91,6 @@ class PlanResourceTest(BasePlanTest):
     test_create_plan_with_plan_of_ukraine_scheme = snitch(create_plan_with_plan_of_ukraine_scheme)
     test_create_plan_invalid_budget_project_scheme = snitch(create_plan_invalid_budget_project_scheme)
     test_create_plan_invalid_funder_program_archived = snitch(create_plan_invalid_funder_program_archived)
-    test_patch_plan_budget_project_scheme_immutable = snitch(patch_plan_budget_project_scheme_immutable)
     test_create_plan_generated = snitch(create_plan_generated)
     test_create_plan = snitch(create_plan)
     test_get_plan = snitch(get_plan)
