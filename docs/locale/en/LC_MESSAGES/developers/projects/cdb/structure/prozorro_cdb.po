@@ -1,0 +1,222 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-23 12:01+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Асинхронний підпроект: ``prozorro_cdb``"
+msgstr ""
+
+msgid "Стек: **aiohttp + motor (async pymongo) + pydantic**. Новий асинхронний API, що розробляється паралельно з ``openprocurement``."
+msgstr ""
+
+msgid "Коренева директорія: ``src/prozorro_cdb/``"
+msgstr ""
+
+msgid "Підпроект є функціональним дзеркалом ``openprocurement``. При внесенні глобальних змін (БД, фід, auth, middleware) — їх треба вносити **в обидва підпроекти**."
+msgstr ""
+
+msgid "Інфраструктурний пакет ``api/``"
+msgstr ""
+
+msgid "Файл / директорія"
+msgstr ""
+
+msgid "Призначення"
+msgstr ""
+
+msgid "``application.py``"
+msgstr ""
+
+msgid "Ініціалізація aiohttp-додатку; підключення middleware і routes"
+msgstr ""
+
+msgid "``database/store.py``"
+msgstr ""
+
+msgid "``MongodbStore`` (async/motor), ``BaseCollection``, ``atomic_transaction_async``; логіка фіду (``list()``), ``save_data()``, watermark"
+msgstr ""
+
+msgid "``database/schema/``"
+msgstr ""
+
+msgid "Pydantic-схеми для документів у MongoDB: ``common.py``, ``document.py``, ``organization.py``"
+msgstr ""
+
+msgid "``context.py``"
+msgstr ""
+
+msgid "Контекст запиту на базі ``contextvars`` (``get_now_async``, ``url_to_absolute``)"
+msgstr ""
+
+msgid "``auth.py``"
+msgstr ""
+
+msgid "Автентифікація брокерів і сервісних токенів (async)"
+msgstr ""
+
+msgid "``handlers/base.py``"
+msgstr ""
+
+msgid "``BaseView`` (PydanticView), ``parse_offset``, ``compose_offset``; логіка пагінації фіду"
+msgstr ""
+
+msgid "``handlers/schema/``"
+msgstr ""
+
+msgid "Pydantic-схеми для запитів і відповідей: ``feed.py``, ``document.py``, ``common.py``"
+msgstr ""
+
+msgid "``serializers/``"
+msgstr ""
+
+msgid "Серіалізатори відповідей (``base.py``, ``document.py``, ``organization.py``)"
+msgstr ""
+
+msgid "``state/base.py``"
+msgstr ""
+
+msgid "``BaseState``: хук ``create_document_objects``; бізнес-логіка переходів"
+msgstr ""
+
+msgid "``middlewares.py``"
+msgstr ""
+
+msgid "aiohttp-middleware (таймінги, логування, сесія БД)"
+msgstr ""
+
+msgid "``migrations/utils.py``"
+msgstr ""
+
+msgid "Утиліти для написання міграцій"
+msgstr ""
+
+msgid "``settings.py``"
+msgstr ""
+
+msgid "Конфігурація додатку (читається з env / ini)"
+msgstr ""
+
+msgid "``storage.py``"
+msgstr ""
+
+msgid "Завантаження документів у Document Storage"
+msgstr ""
+
+msgid "Глобальні pytest-фікстури (при появі тестів): ``src/prozorro_cdb/conftest.py``"
+msgstr ""
+
+msgid "Доменні пакети"
+msgstr ""
+
+msgid "Кожен домен — окремий пакет: ``tender/``, ``contracting/``, ``framework/``, ``violation_report/``."
+msgstr ""
+
+msgid "Структура всередині кожного домену:"
+msgstr ""
+
+msgid "``violation_report`` — найбільш повно реалізований домен і є зразком для нових доменів."
+msgstr ""
+
+msgid "Відповідності з ``openprocurement``"
+msgstr ""
+
+msgid "``openprocurement``"
+msgstr ""
+
+msgid "``prozorro_cdb``"
+msgstr ""
+
+msgid "Різниця"
+msgstr ""
+
+msgid "``api/database.py``"
+msgstr ""
+
+msgid "``api/database/store.py``"
+msgstr ""
+
+msgid "async/motor"
+msgstr ""
+
+msgid "``procedure/views/``"
+msgstr ""
+
+msgid "``handlers/``"
+msgstr ""
+
+msgid "PydanticView замість Pyramid"
+msgstr ""
+
+msgid "``procedure/models/`` (schematics)"
+msgstr ""
+
+msgid "``database/schema/`` + ``handlers/schema/`` (pydantic)"
+msgstr ""
+
+msgid "розділені DB-схема і API-схема"
+msgstr ""
+
+msgid "``procedure/state/``"
+msgstr ""
+
+msgid "``state/``"
+msgstr ""
+
+msgid "async методи"
+msgstr ""
+
+msgid "``procedure/serializers/``"
+msgstr ""
+
+msgid "аналогічно"
+msgstr ""
+
+msgid "``api/views/base.py``"
+msgstr ""
+
+msgid "``api/handlers/base.py``"
+msgstr ""
+
+msgid "аналогічна логіка offset/пагінації"
+msgstr ""
+
+msgid "Правила розміщення коду"
+msgstr ""
+
+msgid "**Бізнес-логіка** → ``state/``; state-класи не роблять запити до БД напряму"
+msgstr ""
+
+msgid "**Запити до БД** → лише з ``handlers/`` (через ``MongodbStore.get_instance().<collection>``)"
+msgstr ""
+
+msgid "**Схема вхідних даних (API)** → ``handlers/schema/`` (pydantic)"
+msgstr ""
+
+msgid "**Схема документа в БД** → ``database/schema/`` (pydantic)"
+msgstr ""
+
+msgid "**Серіалізація відповіді** → ``serializers/``"
+msgstr ""
+
+msgid "**Реєстрація колекції** → ``<domain>/core/initialize.py`` (викликається при старті aiohttp)"
+msgstr ""
+
+msgid "**Зміна схеми / даних у БД** → ``migrations/`` (нумеровані файли)"
+msgstr ""
+

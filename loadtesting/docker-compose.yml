@@ -1,6 +1,4 @@
 ---
-version: '3'
-
 services:
   master:
     image: locustio/locust
@@ -9,7 +7,7 @@ services:
       - "5557:5557"
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/plans.py --master --host http://host.docker.internal:8000
+    command: -f /mnt/locust/feed_ordering.py --headless -u 21 -r 2 -t 20m --master --host http://host.docker.internal:8000
 #    command: -f /mnt/locust/plans.py --headless --master -u 200 -r 10 -t 2m --host https://lb-api-mongo.prozorro.gov.ua
 #    command: -f /mnt/locust/plans.py --headless --master -u 100 -r 10 -t 10m --host https://public.api.openprocurement.org
 
@@ -17,16 +15,16 @@ services:
     image: locustio/locust
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/plans.py --worker --master-host=master
+    command: -f /mnt/locust/feed_ordering.py --worker --master-host=master
 
   worker2:
     image: locustio/locust
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/plans.py --worker --master-host=master
+    command: -f /mnt/locust/feed_ordering.py --worker --master-host=master
 
   worker3:
     image: locustio/locust
     volumes:
       - ./:/mnt/locust
-    command: -f /mnt/locust/plans.py --worker --master-host=master
+    command: -f /mnt/locust/feed_ordering.py --worker --master-host=master

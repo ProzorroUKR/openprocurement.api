@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Centralized procurements"
+msgstr ""
+
+msgid "Creating plan procurement"
+msgstr ""
+
+msgid "Buyer creates a plan. He should specify himself in `buyers` list and point at one of the central procurement organizations in `procuringEntity` field:"
+msgstr ""
+
+msgid "Creating approve milestone"
+msgstr ""
+
+msgid "As central procurement organization sees itself as `procuringEntity` of a plan, it can post milestones to this plan:"
+msgstr ""
+
+msgid "Only if the access token from the response is provided, the milestone can be changed later:"
+msgstr ""
+
+msgid "The fields you can update depend on current milestone status:"
+msgstr ""
+
+msgid "`dueDate` can only be updated at `scheduled` milestone status"
+msgstr ""
+
+msgid "`description` - either at `scheduled` or `met`"
+msgstr ""
+
+msgid "Posting documents is also require the milestone access token (as well as changing documents using PATCH/PUT methods):"
+msgstr ""
+
+msgid "Creating tender"
+msgstr ""
+
+msgid "The central procurement organization creates an aggregated tender in `draft` status and specifies all the buyer organizations using `buyers` list of :ref:`PlanOrganization`:"
+msgstr ""
+
+msgid "Connecting plans to the tender"
+msgstr ""
+
+msgid "The central procurement organization connects the plan to the tender. If there are many plans, they should be connected one by one."
+msgstr ""
+
+msgid "As a result the plan is moved to \"complete\" status"
+msgstr ""
+
+msgid "The tender `plans` field contains all the plan ids"
+msgstr ""
+
+msgid "Aggregate contracts"
+msgstr ""
+
+msgid "All operations with aggregated contracts moved to :ref:`base-contracting`"
+msgstr ""
+

@@ -1,0 +1,267 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-23 12:01+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Гарантія порядку в API фіді"
+msgstr ""
+
+msgid "Use case"
+msgstr ""
+
+msgid "API надає фід — посторінковий перелік об'єктів (тендерів, договорів тощо), відсортованих від старіших до новіших або навпаки. Зовнішні системи (crawler-и, databridge-и) синхронізуються через цей фід: кожен клієнт зберігає власний ``offset`` і з ним повертається до API за наступною порцією даних."
+msgstr ""
+
+msgid "Відповідь містить ``next_page`` з ``offset`` для наступного запиту:"
+msgstr ""
+
+msgid "Offset кодує значення поля ``public_modified`` останнього елемента сторінки + кількість і хеш елементів з таким самим значенням (для обробки колізій). Наступний запит повертає тільки об'єкти з ``public_modified`` більшим за цей offset."
+msgstr ""
+
+msgid "Поле ``public_modified`` встановлюється при кожному записі об'єкта в БД через MongoDB aggregation pipeline:"
+msgstr ""
+
+msgid "``$$NOW`` — системна змінна MongoDB, що повертає поточний час **на початку операції** (в мілісекундах)."
+msgstr ""
+
+msgid "Проблема: race condition в порядку public_modified"
+msgstr ""
+
+msgid "``$$NOW`` фіксує час на початку операції, а не в момент її коміту в базу. При паралельних записах операції можуть закомітитись не в тому порядку, в якому вони стартували."
+msgstr ""
+
+msgid "**Приклад:**"
+msgstr ""
+
+msgid "Клієнт читає фід між T=490ms і T=495ms:"
+msgstr ""
+
+msgid "бачить об'єкт B з ``public_modified = 1778583600.490``"
+msgstr ""
+
+msgid "отримує ``next_page offset = 1778583600.490``"
+msgstr ""
+
+msgid "об'єкт A ще не закомітився → не потрапляє на сторінку"
+msgstr ""
+
+msgid "Після T=495ms об'єкт A з'являється в базі з ``public_modified = 1778583600.489``. Але клієнт вже має ``offset = 1778583600.490``, а наступний запит фільтрує ``public_modified > 1778583600.490``. Об'єкт A (``0.489 < 0.490``) **назавжди пропускається** клієнтом."
+msgstr ""
+
+msgid "Причини чому операції комітять не по порядку:"
+msgstr ""
+
+msgid "різна тривалість обробки (більше вкладених документів, валідацій)"
+msgstr ""
+
+msgid "очікування на lock іншого документа"
+msgstr ""
+
+msgid "read preference secondary + replication lag"
+msgstr ""
+
+msgid "Поле ``public_ts``, яке встановлюється через ``$$CLUSTER_TIME``, має **ту саму проблему**: ``$$CLUSTER_TIME`` так само фіксується на початку операції, а не при коміті. Монотонний порядок видимості гарантує лише oplog ``ts``, але отримати його у рамках того ж запису неможливо."
+msgstr ""
+
+msgid "Рішення: Watermark delay"
+msgstr ""
+
+msgid "Фід не видає об'єкти, ``public_modified`` яких молодший за ``N`` секунд від поточного часу MongoDB. За цей час усі паралельні транзакції зі схожими timestamps встигають закомітитись і стати видимими."
+msgstr ""
+
+msgid "Ключовий момент: watermark рахується за допомогою ``$$NOW`` **самої MongoDB**, а не ``time.time()`` на API сервері. Це виключає проблему розсинхронізації годинників між API сервером і MongoDB."
+msgstr ""
+
+msgid "**Реалізація в** ``src/openprocurement/api/database.py``, метод ``list()``:"
+msgstr ""
+
+msgid "Watermark застосовується у двох випадках:"
+msgstr ""
+
+msgid "**Forward feed** (без ``descending``) — завжди. Не дає crawler-у просунути offset за записи, що ще не закомітились."
+msgstr ""
+
+msgid "**Descending без offset** (перша сторінка) — щоб offset першої сторінки, який клієнт використовує як точку розвороту для forward sync, був достатньо старим. Всі паралельні записи, чий ``$$NOW`` менший за цей offset, встигають закомітитись за час watermark. Без цього backward→forward sync може назавжди пропустити записи, що були in-flight під час початкового descending-читання."
+msgstr ""
+
+msgid "**Descending з offset** — watermark **не застосовується**. Клієнт пагінує по історичних даних, там race condition неможливий."
+msgstr ""
+
+msgid "Значення ``FEED_WATERMARK_SECONDS`` має бути більшим за максимально можливу затримку між стартом і комітом операції запису. Рекомендоване значення: **1 секунда**."
+msgstr ""
+
+msgid "``$$NOW`` фіксується вже на стороні MongoDB — мережева затримка між API сервером і MongoDB на race window не впливає. Реальний race window визначається лише MongoDB-internal затримками:"
+msgstr ""
+
+msgid "lock contention на стороні MongoDB"
+msgstr ""
+
+msgid "replication latency до secondary-реплік (majority write concern)"
+msgstr ""
+
+msgid "За результатами навантажувального тесту максимальна затримка між ``$$NOW`` і комітом склала **37 мс**. 1 секунда дає ~27-кратний запас відносно реально спостережуваного максимуму. Значущі перевищення можливі лише під час MongoDB election (failover), коли writes можуть затримуватись на секунди — але в такому сценарії клієнти і так отримують помилки з'єднання."
+msgstr ""
+
+msgid "Значення можна перевизначити через змінну середовища ``FEED_WATERMARK_SECONDS``."
+msgstr ""
+
+msgid "Альтернатива: Change Streams як pull feed"
+msgstr ""
+
+msgid "MongoDB Change Streams — це API поверх oplog, що дозволяє отримувати події змін (insert, update, delete) у гарантованому порядку коміту. Кожна подія має **resume token** — непрозорий вказівник на позицію в oplog. Він стає offset-ом клієнта замість ``public_modified``."
+msgstr ""
+
+msgid "Реалізація на стороні API — при кожному запиті відкривається change stream з ``resumeAfter: <token>``, читається ``limit`` подій, повертаються документи і новий token:"
+msgstr ""
+
+msgid "Порядок гарантований: resume token базується на oplog ``ts``, який є монотонним і відповідає реальному порядку коміту. Проблема race condition відсутня — якщо операція A закомітилась після B, її token буде більшим за token B."
+msgstr ""
+
+msgid "**Обмеження підходу:**"
+msgstr ""
+
+msgid "**Немає descending**: oplog читається лише вперед. Зворотний порядок потребує окремого механізму."
+msgstr ""
+
+msgid "**Oplog window**: resume token стає недійсним, якщо oplog вже \"прокрутився\" (capped collection). Клієнт, що давно не синхронізувався, втрачає позицію і мусить починати з початку."
+msgstr ""
+
+msgid "**Події, а не стан**: якщо об'єкт оновлювався 10 разів між двома запитами клієнта, він отримає 10 подій з ``full_document`` на кожну. При ``updateLookup`` документ підвантажується окремим запитом до колекції, що підвищує навантаження."
+msgstr ""
+
+msgid "**Відкриття stream на кожен HTTP запит**: change stream — це persistent cursor в MongoDB. Відкривати і закривати його на кожен запит дорого. Потребує або server-sent events / websockets, або кешування курсора між запитами."
+msgstr ""
+
+msgid "Альтернатива: Oplog Tailer"
+msgstr ""
+
+msgid "Окремий сервіс слідкує за oplog через change stream і проставляє кожному документу поле ``committed_ts`` — реальний oplog ``ts`` моменту коміту. Це єдине поле, що відображає справжній порядок видимості в БД."
+msgstr ""
+
+msgid "Фід API сортує і фільтрує по ``committed_ts``. Порядок гарантований — ``committed_ts`` присвоюється вже після коміту і збігається з порядком oplog."
+msgstr ""
+
+msgid "**Затримка між записом і видимістю у фіді**: документ з'являється у фіді лише після того, як tailer обробив подію і проставив ``committed_ts``. Зазвичай це десятки мілісекунд, але при відставанні tailer-а може зрости."
+msgstr ""
+
+msgid "**Додатковий write на кожну зміну**: tailer робить ``update_one`` для кожного запису в колекції, що вдвічі збільшує кількість writes."
+msgstr ""
+
+msgid "**Окремий сервіс**: потребує деплою, моніторингу, обробки падінь і відновлення позиції після рестарту (збереження resume token)."
+msgstr ""
+
+msgid "**Але**: descending підтримується, oplog window не є проблемою (документ вже має ``committed_ts``), клієнти використовують звичайний ``find()`` по індексу."
+msgstr ""
+
+msgid "**Циклічний update.** ``update_one`` від tailer-а сам потрапляє в oplog і генерує нову подію в change stream, яку tailer знову обробляє — і так до нескінченності. Перед реалізацією необхідно передбачити розрив циклу, наприклад через фільтр у watch pipeline що ігнорує події де змінилось тільки ``committed_ts``, або через винесення ``committed_ts`` в окрему колекцію ``tenders_feed``."
+msgstr ""
+
+msgid "Порівняння підходів"
+msgstr ""
+
+msgid "Підхід"
+msgstr ""
+
+msgid "Гарантія порядку"
+msgstr ""
+
+msgid "Descending"
+msgstr ""
+
+msgid "Складність"
+msgstr ""
+
+msgid "``public_modified`` без watermark"
+msgstr ""
+
+msgid "Ні (race condition)"
+msgstr ""
+
+msgid "Так"
+msgstr ""
+
+msgid "—"
+msgstr ""
+
+msgid "``public_modified`` + watermark (``$$NOW``)"
+msgstr ""
+
+msgid "Практична (~100%)"
+msgstr ""
+
+msgid "Мінімальна"
+msgstr ""
+
+msgid "Change streams як pull feed"
+msgstr ""
+
+msgid "Ні"
+msgstr ""
+
+msgid "Висока"
+msgstr ""
+
+msgid "Oplog tailer + ``committed_ts``"
+msgstr ""
+
+msgid "Висока (окремий сервіс)"
+msgstr ""
+
+msgid "Watermark через ``$$NOW`` MongoDB обрано як прагматичне рішення: воно вирішує проблему race condition без зміни архітектури і без додаткових сервісів."
+msgstr ""
+
+msgid "Підтвердження проблеми: результати навантажувального тесту"
+msgstr ""
+
+msgid "Проблему підтверджено експериментально. Навантажувальний тест знаходиться в ``loadtesting/feed_ordering.py``."
+msgstr ""
+
+msgid "**Умови тесту:**"
+msgstr ""
+
+msgid "Тривалість: ~4.5 хвилини"
+msgstr ""
+
+msgid "70 малих тендерів (1 item) + 70 великих тендерів (10 items з довгими описами)"
+msgstr ""
+
+msgid "Інтенсивність оновлень: ~72 PATCH/сек (36.8 small + 35.2 large)"
+msgstr ""
+
+msgid "Загальна кількість оновлень: ~12 700 small + ~11 900 large = ~24 600 patches"
+msgstr ""
+
+msgid "Перевірок фіду: 488"
+msgstr ""
+
+msgid "**Результати:**"
+msgstr ""
+
+msgid "11 з 488 перевірок зафіксували тендери, які з'явились всередині вже відпрацьованого вікна ``public_modified`` — тобто були б назавжди пропущені реальним crawler-ом."
+msgstr ""
+
+msgid "**Величина затримки** (``pm_max - late_arrival.public_modified``):"
+msgstr ""
+
+msgid "Тобто достатньо щоб одна транзакція випередила іншу лише на **1–37 мілісекунд**, щоб об'єкт назавжди випав з фіду. При навантаженні 72 оновлень/сек такі колізії виникають регулярно."
+msgstr ""
+
+msgid "**Приклад зафіксованої аномалії:**"
+msgstr ""
+

@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-15 12:11+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Authentication"
+msgstr ""
+
+msgid "Some of the API requests (especially the ones that are read-only GET requests) do not require any authentication.  The other ones, that modify data into the database, require broker authentication via API key.  Additionally, owner tokens are issued to facilitate multiple actor roles upon object creation."
+msgstr ""
+
+msgid "API keys"
+msgstr ""
+
+msgid "Basic Authenication"
+msgstr ""
+
+msgid "API key is username to use with Basic Authentication scheme (see :rfc:`2617#section-2`)."
+msgstr ""
+
+msgid "Bearer Authenication"
+msgstr ""
+
+msgid "API key is token to use with Bearer Authentication scheme"
+msgstr ""
+
+msgid "Owner tokens"
+msgstr ""
+
+msgid "Getting token"
+msgstr ""
+
+msgid "The token is issued when object is created in the database:"
+msgstr ""
+
+msgid "You can see the `access` with `token` in response.  Its value can be used to modify objects further under \"Owner role\"."
+msgstr ""
+
+msgid "Using token"
+msgstr ""
+
+msgid "You can pass access token in the following ways:"
+msgstr ""
+
+msgid "`acc_token` URL query string parameter"
+msgstr ""
+
+msgid "`X-Access-Token` HTTP request header"
+msgstr ""
+
+msgid "`access.token` in the body of POST/PUT/PATCH request"
+msgstr ""
+
+msgid "See the example of the action with token passed as URL query string:"
+msgstr ""
+
