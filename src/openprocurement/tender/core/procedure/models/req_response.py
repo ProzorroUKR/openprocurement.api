@@ -265,25 +265,23 @@ class MatchResponseValue:
         expected_values = {datatype.to_native(i) for i in expected_values}
         unique_values = set(values)
 
+        if expected_max_items is not None and expected_max_items < len(unique_values):
+            raise ValidationError(
+                f"Count of items higher then maximum required {expected_max_items} "
+                f"in requirement {requirement['id']}"
+            )
+
         if allow_extra_values:
-            overlapping_values = unique_values & expected_values
-
-            if expected_min_items is not None and len(overlapping_values) < expected_min_items:
-                raise ValidationError(f"Not enough overlapping values for requirement {requirement['id']}")
-
-            if expected_max_items is not None and len(unique_values) > expected_max_items:
-                raise ValidationError(f"Too many values for requirement {requirement['id']}")
+            if expected_min_items is not None and expected_min_items > len(unique_values & expected_values):
+                raise ValidationError(
+                    f"Count of matching items lower then minimal required {expected_min_items} "
+                    f"in requirement {requirement['id']}"
+                )
 
         else:
             if expected_min_items is not None and expected_min_items > len(unique_values):
                 raise ValidationError(
                     f"Count of items lower then minimal required {expected_min_items} "
-                    f"in requirement {requirement['id']}"
-                )
-
-            if expected_max_items is not None and expected_max_items < len(unique_values):
-                raise ValidationError(
-                    f"Count of items higher then maximum required {expected_max_items} "
                     f"in requirement {requirement['id']}"
                 )
 

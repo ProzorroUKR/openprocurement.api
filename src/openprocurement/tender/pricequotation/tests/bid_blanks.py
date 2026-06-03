@@ -902,7 +902,10 @@ def requirement_response_validation_one_group_multiple_requirements(self):
         data["errors"],
         [
             {
-                "description": [f'Not enough overlapping values for requirement {rr[0]["requirement"]["id"]}'],
+                "description": [
+                    f'Count of matching items lower then minimal required 1 '
+                    f'in requirement {rr[0]["requirement"]["id"]}'
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -959,7 +962,10 @@ def requirement_response_dictionary_expected_items_match(self):
         response.json["errors"],
         [
             {
-                "description": [f"Not enough overlapping values for requirement {dictionary_requirement_id}"],
+                "description": [
+                    f"Count of matching items lower then minimal required 1 "
+                    f"in requirement {dictionary_requirement_id}"
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -975,7 +981,9 @@ def requirement_response_dictionary_expected_items_match(self):
         response.json["errors"],
         [
             {
-                "description": [f"Too many values for requirement {dictionary_requirement_id}"],
+                "description": [
+                    f"Count of items higher then maximum required 3 " f"in requirement {dictionary_requirement_id}"
+                ],
                 "location": "body",
                 "name": "requirementResponses",
             }
@@ -1021,7 +1029,7 @@ def requirement_response_dictionary_extra_value_exceeds_max(self):
         response.json["errors"],
         [
             {
-                "description": [f"Too many values for requirement {requirement_id}"],
+                "description": [f"Count of items higher then maximum required 2 in requirement {requirement_id}"],
                 "location": "body",
                 "name": "requirementResponses",
             }
