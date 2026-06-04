@@ -2,6 +2,7 @@ from datetime import timedelta
 
 import pytest
 
+import openprocurement.api.database as db_module
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.state import framework
 from openprocurement.tender.core.procedure.state import tender
@@ -30,6 +31,4 @@ def disable_feed_watermark(monkeypatch):
     (not just made a no-op), so this fixture is safe even for MongoDB versions
     that don't support $$NOW in find/$expr.
     """
-    import openprocurement.api.database as db_module
-
     monkeypatch.setattr(db_module, "FEED_WATERMARK_SECONDS", 0)
