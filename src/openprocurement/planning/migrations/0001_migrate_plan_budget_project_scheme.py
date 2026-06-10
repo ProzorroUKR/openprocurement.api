@@ -121,13 +121,6 @@ class Migration(PymongoCollectionMigration):
                             }
                         },
                         {"$set": {"_rev": ANY}},
-                        {"$set": {"dateModified": ANY}},
-                        {
-                            "$set": {
-                                "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
-                                "public_ts": "$$CLUSTER_TIME",
-                            }
-                        },
                     ],
                     None,
                     None,
