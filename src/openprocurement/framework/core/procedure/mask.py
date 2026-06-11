@@ -6,6 +6,22 @@ from openprocurement.api.mask import (
 )
 
 SUBMISSION_MASK_MAPPING_RAW = {
+    # tenderers
+    "$.tenderers[*].name": MASK_STRING,
+    "$.tenderers[*].name_en": MASK_STRING_EN,
+    "$.tenderers[*].name_ru": MASK_STRING,
+    # tenderers.identifier
+    "$.tenderers[*].identifier.id": MASK_STRING,
+    "$.tenderers[*].identifier.legalName": MASK_STRING,
+    "$.tenderers[*].identifier.legalName_en": MASK_STRING_EN,
+    "$.tenderers[*].identifier.legalName_ru": MASK_STRING,
+    "$.tenderers[*].identifier.uri": MASK_STRING,
+    # tenderers.additionalIdentifiers
+    "$.tenderers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.tenderers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.tenderers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.tenderers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.tenderers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # tenderers.address
     "$.tenderers[*].address.streetAddress": MASK_STRING,
     "$.tenderers[*].address.locality": MASK_STRING,
@@ -22,6 +38,14 @@ SUBMISSION_MASK_MAPPING_RAW = {
     "$.tenderers[*].contactPoint.name": MASK_STRING,
     "$.tenderers[*].contactPoint.name_en": MASK_STRING_EN,
     "$.tenderers[*].contactPoint.name_ru": MASK_STRING,
+    # bids.tenderers.additionalContactPoints
+    "$.tenderers[*].additionalContactPoints[*].telephone": MASK_STRING,
+    "$.tenderers[*].additionalContactPoints[*].email": MASK_STRING,
+    "$.tenderers[*].additionalContactPoints[*].faxNumber": MASK_STRING,
+    "$.tenderers[*].additionalContactPoints[*].url": MASK_STRING,
+    "$.tenderers[*].additionalContactPoints[*].name": MASK_STRING,
+    "$.tenderers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
+    "$.tenderers[*].additionalContactPoints[*].name_ru": MASK_STRING,
     # documents
     "$.documents[*].title": MASK_STRING,
     "$.documents[*].url": MASK_STRING,
@@ -38,6 +62,22 @@ QUALIFICATION_MASK_MAPPING_RAW = {
 QUALIFICATION_MASK_MAPPING = compile_mask_mapping(QUALIFICATION_MASK_MAPPING_RAW)
 
 AGREEMENT_MASK_MAPPING_RAW = {
+    # contracts.suppliers
+    "$.contracts[*].suppliers[*].name": MASK_STRING,
+    "$.contracts[*].suppliers[*].name_en": MASK_STRING_EN,
+    "$.contracts[*].suppliers[*].name_ru": MASK_STRING,
+    # contracts.suppliers.identifier
+    "$.contracts[*].suppliers[*].identifier.id": MASK_STRING,
+    "$.contracts[*].suppliers[*].identifier.legalName": MASK_STRING,
+    "$.contracts[*].suppliers[*].identifier.legalName_en": MASK_STRING_EN,
+    "$.contracts[*].suppliers[*].identifier.legalName_ru": MASK_STRING,
+    "$.contracts[*].suppliers[*].identifier.uri": MASK_STRING,
+    # contracts.suppliers.additionalIdentifiers
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # contracts.suppliers.address
     "$.contracts[*].suppliers[*].address.streetAddress": MASK_STRING,
     "$.contracts[*].suppliers[*].address.locality": MASK_STRING,
