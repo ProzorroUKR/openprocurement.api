@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 
 from openprocurement.api.tests.mock import ContextDecorator, patch_multiple
 from openprocurement.api.utils import get_now
+from openprocurement.tender.core.tests.utils import generate_product_responses
 from openprocurement.tender.pricequotation.tests.data import (
     test_bid_pq_product,
     test_tender_pq_category,
@@ -89,8 +90,15 @@ class MockMarketMixin:
         patch_obj.start()
         self.addCleanup(patch_obj.stop)
 
-        # product
-        patch_obj = patch_multiple(get_bid_product_targets, Mock(return_value=test_bid_pq_product))
+        # product (requirementResponses mirror the canonical bid responses for product-related
+        # criteria, so pending bids pass validate_rrs_to_product_rrs - CS-18252)
+        product = {
+            **test_bid_pq_product,
+            "requirementResponses": generate_product_responses(
+                (getattr(self, "initial_profile", None) or {}).get("criteria") or []
+            ),
+        }
+        patch_obj = patch_multiple(get_bid_product_targets, Mock(return_value=product))
         patch_obj.start()
         self.addCleanup(patch_obj.stop)
 
