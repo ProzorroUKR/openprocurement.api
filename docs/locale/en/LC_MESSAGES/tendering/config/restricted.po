@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 17:16+0300\n"
+"POT-Creation-Date: 2026-06-11 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "restricted"
 msgstr ""
@@ -77,6 +78,27 @@ msgstr ""
 msgid "value"
 msgstr ""
 
+msgid "$.items[*].description"
+msgstr ""
+
+msgid "Приховано"
+msgstr ""
+
+msgid "$.items[*].description_en"
+msgstr ""
+
+msgid "Hidden"
+msgstr ""
+
+msgid "$.items[*].description_ru"
+msgstr ""
+
+msgid "$.items[*].quantity"
+msgstr ""
+
+msgid "0.0"
+msgstr ""
+
 msgid "$.items[*].deliveryDate.startDate"
 msgstr ""
 
@@ -87,9 +109,6 @@ msgid "$.items[*].deliveryDate.endDate"
 msgstr ""
 
 msgid "$.items[*].deliveryAddress.streetAddress"
-msgstr ""
-
-msgid "Приховано"
 msgstr ""
 
 msgid "$.items[*].deliveryAddress.locality"
@@ -107,22 +126,13 @@ msgstr ""
 msgid "$.items[*].deliveryAddress.countryName_en"
 msgstr ""
 
-msgid "Hidden"
-msgstr ""
-
 msgid "$.items[*].deliveryAddress.countryName_ru"
 msgstr ""
 
-msgid "$.documents[?(@.documentType=='notice')].url"
+msgid "$.documents[*].title"
 msgstr ""
 
-msgid "$.documents[?(@.documentType=='notice')].title"
-msgstr ""
-
-msgid "$.documents[?(@.title=='sign.p7s')].url"
-msgstr ""
-
-msgid "$.documents[?(@.title=='sign.p7s')].title"
+msgid "$.documents[*].url"
 msgstr ""
 
 msgid "$.bids[*].tenderers[*].name"
@@ -144,6 +154,24 @@ msgid "$.bids[*].tenderers[*].identifier.legalName_en"
 msgstr ""
 
 msgid "$.bids[*].tenderers[*].identifier.legalName_ru"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].identifier.uri"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].additionalIdentifiers[*].uri"
 msgstr ""
 
 msgid "$.bids[*].tenderers[*].address.streetAddress"
@@ -209,7 +237,22 @@ msgstr ""
 msgid "$.bids[*].tenderers[*].additionalContactPoints[*].name_ru"
 msgstr ""
 
-msgid "$.bids[*].tenderers[*].scale"
+msgid "$.bids[*].tenderers[*].signerInfo.name"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].signerInfo.email"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].signerInfo.telephone"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].signerInfo.iban"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].signerInfo.position"
+msgstr ""
+
+msgid "$.bids[*].tenderers[*].signerInfo.authorizedBy"
 msgstr ""
 
 msgid "$.bids[*].participationUrl"
@@ -243,6 +286,24 @@ msgid "$.awards[*].suppliers[*].identifier.legalName_en"
 msgstr ""
 
 msgid "$.awards[*].suppliers[*].identifier.legalName_ru"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].identifier.uri"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].additionalIdentifiers[*].uri"
 msgstr ""
 
 msgid "$.awards[*].suppliers[*].address.streetAddress"
@@ -308,7 +369,34 @@ msgstr ""
 msgid "$.awards[*].suppliers[*].additionalContactPoints[*].name_ru"
 msgstr ""
 
-msgid "$.awards[*].suppliers[*].scale"
+msgid "$.awards[*].suppliers[*].signerInfo.name"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].signerInfo.email"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].signerInfo.telephone"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].signerInfo.iban"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].signerInfo.position"
+msgstr ""
+
+msgid "$.awards[*].suppliers[*].signerInfo.authorizedBy"
+msgstr ""
+
+msgid "$.contracts[*].items[*].description"
+msgstr ""
+
+msgid "$.contracts[*].items[*].description_en"
+msgstr ""
+
+msgid "$.contracts[*].items[*].description_ru"
+msgstr ""
+
+msgid "$.contracts[*].items[*].quantity"
 msgstr ""
 
 msgid "$.contracts[*].items[*].deliveryDate.startDate"
@@ -341,9 +429,6 @@ msgstr ""
 msgid "$.contracts[*].items[*].deliveryLocation.latitude"
 msgstr ""
 
-msgid "0.0"
-msgstr ""
-
 msgid "$.contracts[*].items[*].deliveryLocation.longitude"
 msgstr ""
 
@@ -366,6 +451,24 @@ msgid "$.contracts[*].suppliers[*].identifier.legalName_en"
 msgstr ""
 
 msgid "$.contracts[*].suppliers[*].identifier.legalName_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].identifier.uri"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].uri"
 msgstr ""
 
 msgid "$.contracts[*].suppliers[*].address.streetAddress"
@@ -431,7 +534,16 @@ msgstr ""
 msgid "$.contracts[*].suppliers[*].additionalContactPoints[*].name_ru"
 msgstr ""
 
-msgid "$.contracts[*].suppliers[*].scale"
+msgid "$.bids[*].items[*].description"
+msgstr ""
+
+msgid "$.bids[*].items[*].description_en"
+msgstr ""
+
+msgid "$.bids[*].items[*].description_ru"
+msgstr ""
+
+msgid "$.bids[*].items[*].quantity"
 msgstr ""
 
 msgid "$.bids[*].documents[*].title"
@@ -510,6 +622,24 @@ msgid "$.questions[*].author.identifier.legalName_en"
 msgstr ""
 
 msgid "$.questions[*].author.identifier.legalName_ru"
+msgstr ""
+
+msgid "$.questions[*].author.identifier.uri"
+msgstr ""
+
+msgid "$.questions[*].author.additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.questions[*].author.additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.questions[*].author.additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.questions[*].author.additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.questions[*].author.additionalIdentifiers[*].uri"
 msgstr ""
 
 msgid "$.questions[*].author.address.streetAddress"
@@ -1205,6 +1335,24 @@ msgstr ""
 msgid "$.suppliers[*].identifier.legalName_ru"
 msgstr ""
 
+msgid "$.suppliers[*].identifier.uri"
+msgstr ""
+
+msgid "$.suppliers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.suppliers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.suppliers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.suppliers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.suppliers[*].additionalIdentifiers[*].uri"
+msgstr ""
+
 msgid "$.suppliers[*].address.streetAddress"
 msgstr ""
 
@@ -1268,9 +1416,6 @@ msgstr ""
 msgid "$.suppliers[*].additionalContactPoints[*].name_ru"
 msgstr ""
 
-msgid "$.suppliers[*].scale"
-msgstr ""
-
 msgid "$.suppliers[*].signerInfo.name"
 msgstr ""
 
@@ -1296,12 +1441,6 @@ msgid "$.changes[*].rationale_ru"
 msgstr ""
 
 msgid "$.changes[*].rationale_en"
-msgstr ""
-
-msgid "$.documents[*].title"
-msgstr ""
-
-msgid "$.documents[*].url"
 msgstr ""
 
 msgid "$.implementation.transactions[*].documents[*].title"
