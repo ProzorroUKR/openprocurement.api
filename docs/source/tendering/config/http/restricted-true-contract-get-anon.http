@@ -18,8 +18,8 @@ Content-Type: application/json
     "items": [
       {
         "id": "c6c6e8ed4b1542e4bf13d3f98ec5ab59",
-        "description": "футляри до державних нагород",
-        "quantity": 5.0,
+        "description": "Приховано",
+        "quantity": 0.0,
         "classification": {
           "description": "Cartons",
           "scheme": "CPV",
@@ -75,7 +75,7 @@ Content-Type: application/json
         "identifier": {
           "scheme": "UA-EDR",
           "id": "Приховано",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "Приховано"
         },
         "address": {
           "streetAddress": "Приховано",

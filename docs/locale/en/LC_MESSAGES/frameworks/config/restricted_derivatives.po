@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-21 17:16+0300\n"
+"POT-Creation-Date: 2026-06-11 16:06+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "restrictedDerivatives"
 msgstr ""
@@ -128,10 +129,52 @@ msgstr ""
 msgid "value"
 msgstr ""
 
-msgid "$.tenderers[*].address.streetAddress"
+msgid "$.tenderers[*].name"
 msgstr ""
 
 msgid "Приховано"
+msgstr ""
+
+msgid "$.tenderers[*].name_en"
+msgstr ""
+
+msgid "Hidden"
+msgstr ""
+
+msgid "$.tenderers[*].name_ru"
+msgstr ""
+
+msgid "$.tenderers[*].identifier.id"
+msgstr ""
+
+msgid "$.tenderers[*].identifier.legalName"
+msgstr ""
+
+msgid "$.tenderers[*].identifier.legalName_en"
+msgstr ""
+
+msgid "$.tenderers[*].identifier.legalName_ru"
+msgstr ""
+
+msgid "$.tenderers[*].identifier.uri"
+msgstr ""
+
+msgid "$.tenderers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.tenderers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.tenderers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.tenderers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.tenderers[*].additionalIdentifiers[*].uri"
+msgstr ""
+
+msgid "$.tenderers[*].address.streetAddress"
 msgstr ""
 
 msgid "$.tenderers[*].address.locality"
@@ -147,9 +190,6 @@ msgid "$.tenderers[*].address.countryName"
 msgstr ""
 
 msgid "$.tenderers[*].address.countryName_en"
-msgstr ""
-
-msgid "Hidden"
 msgstr ""
 
 msgid "$.tenderers[*].address.countryName_ru"
@@ -176,6 +216,27 @@ msgstr ""
 msgid "$.tenderers[*].contactPoint.name_ru"
 msgstr ""
 
+msgid "$.tenderers[*].additionalContactPoints[*].telephone"
+msgstr ""
+
+msgid "$.tenderers[*].additionalContactPoints[*].email"
+msgstr ""
+
+msgid "$.tenderers[*].additionalContactPoints[*].faxNumber"
+msgstr ""
+
+msgid "$.tenderers[*].additionalContactPoints[*].url"
+msgstr ""
+
+msgid "$.tenderers[*].additionalContactPoints[*].name"
+msgstr ""
+
+msgid "$.tenderers[*].additionalContactPoints[*].name_en"
+msgstr ""
+
+msgid "$.tenderers[*].additionalContactPoints[*].name_ru"
+msgstr ""
+
 msgid "$.documents[*].title"
 msgstr ""
 
@@ -187,6 +248,45 @@ msgstr ""
 
 msgid "Правила маскування угод:"
 msgstr "Rules for agreement masking:"
+
+msgid "$.contracts[*].suppliers[*].name"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].name_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].name_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].identifier.id"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].identifier.legalName"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].identifier.legalName_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].identifier.legalName_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].identifier.uri"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.contracts[*].suppliers[*].additionalIdentifiers[*].uri"
+msgstr ""
 
 msgid "$.contracts[*].suppliers[*].address.streetAddress"
 msgstr ""
