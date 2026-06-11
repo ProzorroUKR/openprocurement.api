@@ -8,6 +8,11 @@ from openprocurement.api.mask import (
 )
 
 CONTRACT_MASK_MAPPING_RAW = {
+    # items
+    "$.items[*].description": MASK_STRING,
+    "$.items[*].description_en": MASK_STRING_EN,
+    "$.items[*].description_ru": MASK_STRING,
+    "$.items[*].quantity": MASK_NUMBER,
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
@@ -31,6 +36,13 @@ CONTRACT_MASK_MAPPING_RAW = {
     "$.suppliers[*].identifier.legalName": MASK_STRING,
     "$.suppliers[*].identifier.legalName_en": MASK_STRING_EN,
     "$.suppliers[*].identifier.legalName_ru": MASK_STRING,
+    "$.suppliers[*].identifier.uri": MASK_STRING,
+    # suppliers.additionalIdentifiers
+    "$.suppliers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.suppliers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.suppliers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.suppliers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.suppliers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # suppliers.address
     "$.suppliers[*].address.streetAddress": MASK_STRING,
     "$.suppliers[*].address.locality": MASK_STRING,
@@ -55,8 +67,6 @@ CONTRACT_MASK_MAPPING_RAW = {
     "$.suppliers[*].additionalContactPoints[*].name": MASK_STRING,
     "$.suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$.suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
-    # suppliers.scale
-    "$.suppliers[*].scale": MASK_STRING,
     # suppliers.signerInfo
     "$.suppliers[*].signerInfo.name": MASK_STRING,
     "$.suppliers[*].signerInfo.email": MASK_STRING,

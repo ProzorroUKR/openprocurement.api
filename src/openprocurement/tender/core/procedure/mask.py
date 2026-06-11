@@ -8,6 +8,11 @@ from openprocurement.api.mask import (
 )
 
 TENDER_MASK_MAPPING_RAW = {
+    # items
+    "$.items[*].description": MASK_STRING,
+    "$.items[*].description_en": MASK_STRING_EN,
+    "$.items[*].description_ru": MASK_STRING,
+    "$.items[*].quantity": MASK_NUMBER,
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
@@ -20,13 +25,8 @@ TENDER_MASK_MAPPING_RAW = {
     "$.items[*].deliveryAddress.countryName_en": MASK_STRING_EN,
     "$.items[*].deliveryAddress.countryName_ru": MASK_STRING,
     # documents
-    # Note: title should be masked last, so we can still use it to identify the document
-    # documents - notice
-    "$.documents[?(@.documentType=='notice')].url": MASK_STRING,
-    "$.documents[?(@.documentType=='notice')].title": MASK_STRING,
-    # documents - sign.p7s
-    "$.documents[?(@.title=='sign.p7s')].url": MASK_STRING,
-    "$.documents[?(@.title=='sign.p7s')].title": MASK_STRING,
+    "$.documents[*].title": MASK_STRING,
+    "$.documents[*].url": MASK_STRING,
     # bids.tenderers
     "$.bids[*].tenderers[*].name": MASK_STRING,
     "$.bids[*].tenderers[*].name_en": MASK_STRING_EN,
@@ -36,6 +36,13 @@ TENDER_MASK_MAPPING_RAW = {
     "$.bids[*].tenderers[*].identifier.legalName": MASK_STRING,
     "$.bids[*].tenderers[*].identifier.legalName_en": MASK_STRING_EN,
     "$.bids[*].tenderers[*].identifier.legalName_ru": MASK_STRING,
+    "$.bids[*].tenderers[*].identifier.uri": MASK_STRING,
+    # bids.tenderers.additionalIdentifiers
+    "$.bids[*].tenderers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.bids[*].tenderers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.bids[*].tenderers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # bids.tenderers.address
     "$.bids[*].tenderers[*].address.streetAddress": MASK_STRING,
     "$.bids[*].tenderers[*].address.locality": MASK_STRING,
@@ -60,8 +67,13 @@ TENDER_MASK_MAPPING_RAW = {
     "$.bids[*].tenderers[*].additionalContactPoints[*].name": MASK_STRING,
     "$.bids[*].tenderers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$.bids[*].tenderers[*].additionalContactPoints[*].name_ru": MASK_STRING,
-    # bids.tenderers.scale
-    "$.bids[*].tenderers[*].scale": MASK_STRING,
+    # bids.tenderers.signerInfo
+    "$.bids[*].tenderers[*].signerInfo.name": MASK_STRING,
+    "$.bids[*].tenderers[*].signerInfo.email": MASK_STRING,
+    "$.bids[*].tenderers[*].signerInfo.telephone": MASK_STRING,
+    "$.bids[*].tenderers[*].signerInfo.iban": MASK_STRING,
+    "$.bids[*].tenderers[*].signerInfo.position": MASK_STRING,
+    "$.bids[*].tenderers[*].signerInfo.authorizedBy": MASK_STRING,
     # bids.participationUrl
     "$.bids[*].participationUrl": MASK_STRING,
     "$.bids[*].lotValues[*].participationUrl": MASK_STRING,
@@ -77,6 +89,13 @@ TENDER_MASK_MAPPING_RAW = {
     "$.awards[*].suppliers[*].identifier.legalName": MASK_STRING,
     "$.awards[*].suppliers[*].identifier.legalName_en": MASK_STRING_EN,
     "$.awards[*].suppliers[*].identifier.legalName_ru": MASK_STRING,
+    "$.awards[*].suppliers[*].identifier.uri": MASK_STRING,
+    # awards.suppliers.additionalIdentifiers
+    "$.awards[*].suppliers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.awards[*].suppliers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.awards[*].suppliers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # awards.suppliers.address
     "$.awards[*].suppliers[*].address.streetAddress": MASK_STRING,
     "$.awards[*].suppliers[*].address.locality": MASK_STRING,
@@ -101,8 +120,18 @@ TENDER_MASK_MAPPING_RAW = {
     "$.awards[*].suppliers[*].additionalContactPoints[*].name": MASK_STRING,
     "$.awards[*].suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$.awards[*].suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
-    # bids.tenderers.scale
-    "$.awards[*].suppliers[*].scale": MASK_STRING,
+    # awards.suppliers.signerInfo
+    "$.awards[*].suppliers[*].signerInfo.name": MASK_STRING,
+    "$.awards[*].suppliers[*].signerInfo.email": MASK_STRING,
+    "$.awards[*].suppliers[*].signerInfo.telephone": MASK_STRING,
+    "$.awards[*].suppliers[*].signerInfo.iban": MASK_STRING,
+    "$.awards[*].suppliers[*].signerInfo.position": MASK_STRING,
+    "$.awards[*].suppliers[*].signerInfo.authorizedBy": MASK_STRING,
+    # contracts.items
+    "$.contracts[*].items[*].description": MASK_STRING,
+    "$.contracts[*].items[*].description_en": MASK_STRING_EN,
+    "$.contracts[*].items[*].description_ru": MASK_STRING,
+    "$.contracts[*].items[*].quantity": MASK_NUMBER,
     # contracts.items.deliveryDate
     "$.contracts[*].items[*].deliveryDate.startDate": MASK_DATE,
     "$.contracts[*].items[*].deliveryDate.endDate": MASK_DATE,
@@ -126,6 +155,13 @@ TENDER_MASK_MAPPING_RAW = {
     "$.contracts[*].suppliers[*].identifier.legalName": MASK_STRING,
     "$.contracts[*].suppliers[*].identifier.legalName_en": MASK_STRING_EN,
     "$.contracts[*].suppliers[*].identifier.legalName_ru": MASK_STRING,
+    "$.contracts[*].suppliers[*].identifier.uri": MASK_STRING,
+    # contracts.suppliers.additionalIdentifiers
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.contracts[*].suppliers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # contracts.suppliers.address
     "$.contracts[*].suppliers[*].address.streetAddress": MASK_STRING,
     "$.contracts[*].suppliers[*].address.locality": MASK_STRING,
@@ -150,8 +186,11 @@ TENDER_MASK_MAPPING_RAW = {
     "$.contracts[*].suppliers[*].additionalContactPoints[*].name": MASK_STRING,
     "$.contracts[*].suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$.contracts[*].suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
-    # contracts.suppliers.scale
-    "$.contracts[*].suppliers[*].scale": MASK_STRING,
+    # bids.items
+    "$.bids[*].items[*].description": MASK_STRING,
+    "$.bids[*].items[*].description_en": MASK_STRING_EN,
+    "$.bids[*].items[*].description_ru": MASK_STRING,
+    "$.bids[*].items[*].quantity": MASK_NUMBER,
     # bids.documents
     "$.bids[*].documents[*].title": MASK_STRING,
     "$.bids[*].documents[*].url": MASK_STRING,
@@ -187,6 +226,13 @@ TENDER_MASK_MAPPING_RAW = {
     "$.questions[*].author.identifier.legalName": MASK_STRING,
     "$.questions[*].author.identifier.legalName_en": MASK_STRING_EN,
     "$.questions[*].author.identifier.legalName_ru": MASK_STRING,
+    "$.questions[*].author.identifier.uri": MASK_STRING,
+    # questions.author.additionalIdentifiers
+    "$.questions[*].author.additionalIdentifiers[*].id": MASK_STRING,
+    "$.questions[*].author.additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.questions[*].author.additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.questions[*].author.additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.questions[*].author.additionalIdentifiers[*].uri": MASK_STRING,
     # questions.author.address
     "$.questions[*].author.address.streetAddress": MASK_STRING,
     "$.questions[*].author.address.locality": MASK_STRING,
@@ -195,7 +241,7 @@ TENDER_MASK_MAPPING_RAW = {
     "$.questions[*].author.address.countryName": MASK_STRING,
     "$.questions[*].author.address.countryName_en": MASK_STRING_EN,
     "$.questions[*].author.address.countryName_ru": MASK_STRING,
-    # complaints.author.contactPoint
+    # questions.author.contactPoint
     "$.questions[*].author.contactPoint.telephone": MASK_STRING,
     "$.questions[*].author.contactPoint.email": MASK_STRING,
     "$.questions[*].author.contactPoint.faxNumber": MASK_STRING,
@@ -203,7 +249,7 @@ TENDER_MASK_MAPPING_RAW = {
     "$.questions[*].author.contactPoint.name": MASK_STRING,
     "$.questions[*].author.contactPoint.name_en": MASK_STRING_EN,
     "$.questions[*].author.contactPoint.name_ru": MASK_STRING,
-    # complaints.author.additionalContactPoints
+    # questions.author.additionalContactPoints
     "$.questions[*].author.additionalContactPoints[*].telephone": MASK_STRING,
     "$.questions[*].author.additionalContactPoints[*].email": MASK_STRING,
     "$.questions[*].author.additionalContactPoints[*].faxNumber": MASK_STRING,
@@ -245,6 +291,13 @@ TENDER_MASK_MAPPING_RAW = {
     "$..complaints[*].author.identifier.legalName": MASK_STRING,
     "$..complaints[*].author.identifier.legalName_en": MASK_STRING_EN,
     "$..complaints[*].author.identifier.legalName_ru": MASK_STRING,
+    "$..complaints[*].author.identifier.uri": MASK_STRING,
+    # complaints.author.additionalIdentifiers
+    "$..complaints[*].author.additionalIdentifiers[*].id": MASK_STRING,
+    "$..complaints[*].author.additionalIdentifiers[*].legalName": MASK_STRING,
+    "$..complaints[*].author.additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$..complaints[*].author.additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$..complaints[*].author.additionalIdentifiers[*].uri": MASK_STRING,
     # complaints.author.address
     "$..complaints[*].author.address.streetAddress": MASK_STRING,
     "$..complaints[*].author.address.locality": MASK_STRING,
