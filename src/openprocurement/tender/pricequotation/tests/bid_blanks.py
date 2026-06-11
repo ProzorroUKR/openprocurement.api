@@ -5,6 +5,7 @@ from unittest.mock import patch
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
+from openprocurement.tender.core.tests.mock import patch_market_product
 from openprocurement.tender.core.tests.utils import (
     set_bid_items,
     set_bid_responses,
@@ -998,20 +999,32 @@ def requirement_response_dictionary_expected_items_match(self):
         ],
     )
 
-    # Values include one outside tender's expectedValues, but the response is on a
-    # TECHNICAL_FEATURES criterion and the bid item has a linked product, so the
-    # subset check is relaxed; min/max constraints still hold.
-    # Duplicates also collapse to unique set for the max-items check.
+    # Values include one outside tender's expectedValues. The model-level subset check is relaxed
+    # for TECHNICAL_FEATURES criteria with a linked product, but CS-18252 now requires the response
+    # to match the product's declared response exactly, so "UnknownValue" (absent from the product)
+    # is rejected at the product check.
     responses = deepcopy(rr_template)
     responses[2]["values"] = ["Відповідь1", "Відповідь1", "UnknownValue"]
-    post_bid(responses)
+    response = post_bid(responses, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": 'Requirement "Форма випуску 1" response does not match related product response',
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
 
 
 def requirement_response_dictionary_extra_value_exceeds_max(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     tender = response.json["data"]
 
-    requirement_id = tender["criteria"][0]["requirementGroups"][0]["requirements"][0]["id"]
+    requirement = tender["criteria"][0]["requirementGroups"][0]["requirements"][0]
+    requirement_id = requirement["id"]
+    requirement_title = requirement["title"]
 
     rr = [
         {
@@ -1027,6 +1040,8 @@ def requirement_response_dictionary_extra_value_exceeds_max(self):
         "requirementResponses": rr,
     }
     set_bid_items(self, bid_data, items=tender["items"])
+
+    # exceeds expectedMaxItems -> rejected by the model before the product check
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": bid_data},
@@ -1044,7 +1059,8 @@ def requirement_response_dictionary_extra_value_exceeds_max(self):
         ],
     )
 
-    rr[0]["values"] = ["A", "C"]
+    # matches the product's declared response (mocked product: "Letter" -> ["A"]) -> accepted
+    rr[0]["values"] = ["A"]
     bid_data["requirementResponses"] = rr
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
@@ -1052,13 +1068,157 @@ def requirement_response_dictionary_extra_value_exceeds_max(self):
     )
     self.assertEqual(response.status, "201 Created")
 
+    # model-valid subset, but "B" is not declared by the product -> rejected by CS-18252 check
     rr[0]["values"] = ["A", "B"]
     bid_data["requirementResponses"] = rr
     response = self.app.post_json(
         f"/tenders/{self.tender_id}/bids",
         {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": f'Requirement "{requirement_title}" response does not match related product response',
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+
+def _pq_product_with_responses(responses):
+    return {"status": "active", "requirementResponses": responses}
+
+
+def requirement_response_product_modified_value(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    rr = deepcopy(test_tender_pq_response_1)
+    copy_criteria_req_id(tender["criteria"], rr)
+
+    product = _pq_product_with_responses(
+        [
+            {"requirement": "Форма випуску", "values": ["Розчин для інфузій"]},
+            {"requirement": "Доза діючої речовини", "value": 5},
+            {"requirement": "Форма випуску 1", "values": ["Відповідь1"]},
+        ]
+    )
+
+    bid_data = {
+        "status": "pending",
+        "tenderers": [test_tender_pq_supplier],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
+    with patch_market_product(product):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/bids",
+            {"data": bid_data},
+            status=422,
+        )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": 'Requirement "Форма випуску 1" response does not match related product response',
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+
+def requirement_response_product_missing_response(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    rr = deepcopy(test_tender_pq_response_1)
+    copy_criteria_req_id(tender["criteria"], rr)
+
+    # product omits "Форма випуску 1" entirely
+    product = _pq_product_with_responses(
+        [
+            {"requirement": "Форма випуску", "values": ["Розчин для інфузій"]},
+            {"requirement": "Доза діючої речовини", "value": 5},
+        ]
+    )
+
+    bid_data = {
+        "status": "pending",
+        "tenderers": [test_tender_pq_supplier],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
+    with patch_market_product(product):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/bids",
+            {"data": bid_data},
+            status=422,
+        )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": 'Requirement "Форма випуску 1" response not found in related product',
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
+    )
+
+
+def requirement_response_product_match(self):
+    # Responses matching the product exactly are accepted - on POST to pending and on
+    # PATCH draft -> pending (status_up).
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+    rr = deepcopy(test_tender_pq_response_1)
+    copy_criteria_req_id(tender["criteria"], rr)
+
+    product = _pq_product_with_responses(
+        [
+            {"requirement": "Форма випуску", "values": ["Розчин для інфузій"]},
+            {"requirement": "Доза діючої речовини", "value": 5},
+            {"requirement": "Форма випуску 1", "values": ["Відповідь1", "Відповідь2"]},
+        ]
+    )
+
+    # POST straight to pending
+    bid_data = {
+        "status": "pending",
+        "tenderers": [test_tender_pq_supplier],
+        "value": {"amount": 500},
+        "requirementResponses": rr,
+    }
+    set_bid_items(self, bid_data, items=tender["items"])
+    with patch_market_product(product):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/bids",
+            {"data": bid_data},
+        )
+    self.assertEqual(response.status, "201 Created")
+
+    # PATCH draft -> pending
+    draft_data = deepcopy(bid_data)
+    draft_data["status"] = "draft"
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": draft_data},
     )
     self.assertEqual(response.status, "201 Created")
+    bid = response.json["data"]
+    token = response.json["access"]["token"]
+
+    with patch_market_product(product):
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={token}",
+            {"data": {"status": "pending"}},
+        )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
 
 
 def patch_tender_bid(self):

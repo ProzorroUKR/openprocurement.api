@@ -153,8 +153,28 @@ class BaseTenderWebTest(BaseCoreWebTest):
             super().create_tender()
 
     def create_bid(self, tender_id, bid_data, status=None):
-        with patch_market_product(test_bid_pq_product):
+        with patch_market_product(self.build_market_product(tender_id, bid_data)):
             return super().create_bid(tender_id, bid_data, status)
+
+    def build_market_product(self, tender_id, bid_data):
+        tender = self.mongodb.tenders.get(tender_id) or {}
+        titles = {
+            req["id"]: req["title"]
+            for criterion in tender.get("criteria") or []
+            for group in criterion.get("requirementGroups") or []
+            for req in group.get("requirements") or []
+        }
+        responses = []
+        for rr in bid_data.get("requirementResponses") or []:
+            title = titles.get((rr.get("requirement") or {}).get("id"))
+            if title is None:
+                continue
+            product_rr = {"requirement": title}
+            for field in ("value", "values"):
+                if field in rr:
+                    product_rr[field] = rr[field]
+            responses.append(product_rr)
+        return {**test_bid_pq_product, "requirementResponses": responses}
 
 
 class TenderContentWebTest(BaseTenderWebTest):

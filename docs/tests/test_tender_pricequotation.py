@@ -10,6 +10,7 @@ from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.tests.mock import patch_market, patch_market_product
 from openprocurement.tender.core.tests.utils import (
+    generate_product_responses,
     set_bid_items,
     set_bid_responses,
     set_tender_criteria,
@@ -241,7 +242,11 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         with open(TARGET_DIR + "register-bidder-without-item-product.http", "w") as self.app.file_obj:
             self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
         set_bid_items(self, bid_data, items=tender["items"])
-        with patch_market_product(test_bid_pq_product):
+        bid_product = {
+            **test_bid_pq_product,
+            "requirementResponses": generate_product_responses(test_tender_pq_short_profile["criteria"]),
+        }
+        with patch_market_product(bid_product):
             quantity = bid_data["items"][0]["quantity"]
 
             # validation sum of item.quantity * item.unit.value

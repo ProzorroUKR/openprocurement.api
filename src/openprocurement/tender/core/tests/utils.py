@@ -452,6 +452,23 @@ def set_bid_responses(criteria):
     return rrs
 
 
+def generate_product_responses(criteria):
+    rrs = []
+    for criterion in criteria:
+        if criterion["source"] not in ("tenderer", "winner"):
+            continue
+
+        for req in criterion["requirementGroups"][0]["requirements"]:
+            resp = generate_req_response({**req, "id": req.get("id", "")})
+            product_rr = {"requirement": req["title"]}
+            if "values" in resp:
+                product_rr["values"] = resp["values"]
+            elif "value" in resp:
+                product_rr["value"] = resp["value"]
+            rrs.append(product_rr)
+    return rrs
+
+
 def set_bid_lotvalues(bid, lots):
     try:
         value = bid.pop("value", None) or bid["lotValues"][0]["value"]

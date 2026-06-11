@@ -32,6 +32,7 @@ from openprocurement.tender.core.procedure.utils import (
     validate_allowed_field_change_in_list,
 )
 from openprocurement.tender.core.procedure.validation import (
+    TYPEMAP,
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_econtract_fields_bid,
@@ -63,6 +64,8 @@ class BidState(BaseState):
     def status_up(self, before, after, data):
         if before in ("draft", "invalid") and after == "pending":
             self.validate_proposal_doc_required(data)
+            self.validate_rrs_to_product_rrs(data)
+
         super().status_up(before, after, data)
 
     def on_post(self, data):
@@ -373,6 +376,7 @@ class BidState(BaseState):
             raise error_handler(self.request)
         if status == "pending":
             self.validate_proposal_doc_required(data)
+            self.validate_rrs_to_product_rrs(data)
 
     def validate_bid_vs_agreement(self, data):
         tender = get_tender()
@@ -528,3 +532,55 @@ class BidState(BaseState):
                     field_name=field_name,
                     nested_field_names=allowed_nested_fields,
                 )
+
+    def validate_rrs_to_product_rrs(self, data: dict) -> None:
+        """
+        Every product-related response must correspond - by requirement title - to a response
+        declared on the product the bid item references, with values matching exactly.
+        """
+        bid_item_products = {item["id"]: item["product"] for item in data.get("items") or [] if item.get("product")}
+        if not bid_item_products:
+            return
+
+        tender = get_tender()
+        requirement_index = {
+            req["id"]: (criterion.get("relatedItem"), req["title"], req["dataType"])
+            for criterion in tender.get("criteria") or []
+            for group in criterion.get("requirementGroups") or []
+            for req in group.get("requirements") or []
+        }
+
+        for response in data.get("requirementResponses") or []:
+            requirement_id = (response.get("requirement") or {}).get("id")
+            item_id, title, data_type = requirement_index.get(requirement_id, (None, None, None))
+            product_id = bid_item_products.get(item_id)
+            if not product_id:
+                continue
+
+            product = get_tender_product(get_request(), product_id)
+
+            datatype = TYPEMAP[data_type]
+            product_rr = next(
+                (rr for rr in product.get("requirementResponses") or [] if rr.get("requirement") == title),
+                None,
+            )
+            if product_rr is None:
+                self._raise_rr_to_product_error(f'Requirement "{title}" response not found in related product')
+            elif self._rr_response_values(response, datatype) != self._rr_response_values(product_rr, datatype):
+                self._raise_rr_to_product_error(
+                    f'Requirement "{title}" response does not match related product response'
+                )
+
+    def _rr_response_values(self, rr: dict, datatype) -> set:
+        value = rr.get("value")
+        raw = [value] if value is not None else (rr.get("values") or [])
+        return {datatype.to_native(v) for v in raw}
+
+    def _raise_rr_to_product_error(self, message: str) -> None:
+        raise_operation_error(
+            self.request,
+            message,
+            status=422,
+            location="body",
+            name="requirementResponses",
+        )
