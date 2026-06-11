@@ -33,14 +33,7 @@ class DPSFrameworkConfigMixin(FrameworkConfigMixin):
         is_defense = data.get("procuringEntity", {}).get("kind") == ProcuringEntityKind.DEFENSE
         restricted_derivatives = config.get("restrictedDerivatives")
 
-        if is_defense and restricted_derivatives is False:
-            raise_operation_error(
-                self.request,
-                ["restrictedDerivatives must be true for defense procuring entity"],
-                status=422,
-                name="config.restrictedDerivatives",
-            )
-        elif not is_defense and restricted_derivatives is True:
+        if not is_defense and restricted_derivatives is True:
             raise_operation_error(
                 self.request,
                 ["restrictedDerivatives must be false for non-defense procuring entity"],
