@@ -703,10 +703,7 @@ def create_framework_config_restricted(self):
         config["restrictedDerivatives"] = True
         response = self.app.post_json(
             "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
+            {"data": data, "config": config},
             status=422,
         )
         self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -723,41 +720,41 @@ def create_framework_config_restricted(self):
             ],
         )
 
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
         data["procuringEntity"]["kind"] = "defense"
         config["restrictedDerivatives"] = False
         response = self.app.post_json(
             "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
-            status=422,
+            {"data": data, "config": config},
+            status=201,
         )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": ["restrictedDerivatives must be true for defense procuring entity"],
-                    "location": "body",
-                    "name": "config.restrictedDerivatives",
-                }
-            ],
-        )
+        framework = response.json["data"]
+        self.assertEqual(framework["procuringEntity"]["kind"], "defense")
+        self.assertFalse(response.json["config"]["restrictedDerivatives"])
 
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
+        data["procuringEntity"]["kind"] = "defense"
+        config["restrictedDerivatives"] = True
+        response = self.app.post_json(
+            "/frameworks",
+            {"data": data, "config": config},
+            status=201,
+        )
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        framework = response.json["data"]
+        self.assertEqual(framework["procuringEntity"]["kind"], "defense")
+        self.assertTrue(response.json["config"]["restrictedDerivatives"])
+
+    with change_auth(self.app, ("Basic", ("broker", ""))):
         data["procuringEntity"]["kind"] = "defense"
         config = deepcopy(self.initial_config)
         config["restrictedDerivatives"] = True
-
-    with change_auth(self.app, ("Basic", ("broker", ""))):
         response = self.app.post_json(
             "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
+            {"data": data, "config": config},
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
@@ -775,12 +772,12 @@ def create_framework_config_restricted(self):
         )
 
     with change_auth(self.app, ("Basic", ("brokerr", ""))):
+        data["procuringEntity"]["kind"] = "defense"
+        config = deepcopy(self.initial_config)
+        config["restrictedDerivatives"] = True
         response = self.app.post_json(
             "/frameworks",
-            {
-                "data": data,
-                "config": config,
-            },
+            {"data": data, "config": config},
         )
 
         framework = response.json["data"]
