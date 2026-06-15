@@ -107,7 +107,7 @@ class AwardStateMixing:
         award["date"] = now
 
     def award_status_up_from_pending_to_active(self, award, tender):
-        if tender["config"]["hasAwardingOrder"] is False:
+        if tender["config"]["hasAwardingOrder"] is False and not tender["config"].get("hasMultiSourcing"):
             self.check_active_awards(award, tender)
         self.set_award_complaint_period(award)
         self.request.validated["contracts_added"] = add_contracts(self.request, award)

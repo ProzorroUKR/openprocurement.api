@@ -22,3 +22,4 @@ hasEnquiries,true,true,
 minEnquiriesDuration,3,3,working
 enquiryPeriodRegulation,0,0,
 restricted,false,false,
+hasMultiSourcing,false,false,

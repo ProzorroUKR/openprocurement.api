@@ -885,7 +885,7 @@ class TenderResourceTest(
             ],
             "items": [
                 {
-                    "quantity": 5,
+                    "quantity": 1,
                     "description": "папір",
                     "id": items[0]["id"],
                     "relatedLot": lot_id1,
@@ -1052,7 +1052,7 @@ class TenderResourceTest(
                 ],
                 "items": [
                     {
-                        "quantity": 5,
+                        "quantity": 1,
                         "description": "папір",
                         "id": items[0]["id"],
                         "relatedLot": lot_id1,

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.esco 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 18:46+0200\n"
+"POT-Creation-Date: 2026-05-15 20:43+0300\n"
 "PO-Revision-Date: 2018-09-12 11:57+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -136,6 +136,9 @@ msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"
+msgstr ""
+
+msgid "hasMultiSourcing"
 msgstr ""
 
 msgid "Ви можете ознайомитись з деталями в секції :ref:`config`."

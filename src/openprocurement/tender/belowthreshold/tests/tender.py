@@ -10,6 +10,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     BaseTenderWebTest,
     test_tender_below_data,
     test_tender_below_lots,
+    TenderContentWebTest,
+    test_tender_below_config,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     check_minimal_step_during_activation,
@@ -79,6 +81,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     validate_procurement_entity_kind_patch,
     validate_tender_period,
 )
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
 
 
 class TenderResourceTestMixin:
@@ -175,11 +178,20 @@ class TenderProcessTest(BaseTenderWebTest):
     test_lost_contract_for_active_award = snitch(lost_contract_for_active_award)
 
 
+class TenderBelowThresholdMultiSourcingTest(MultiSourcingTestMixin, TenderContentWebTest):
+    multi_sourcing_pmt = "belowThreshold"
+    initial_status = None
+    initial_data = test_tender_below_data
+    initial_config = test_tender_below_config
+    award_activation_data = {"status": "active", "qualified": True}
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderBelowThresholdMultiSourcingTest))
     return suite
 
 

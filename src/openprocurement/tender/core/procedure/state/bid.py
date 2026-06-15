@@ -78,6 +78,7 @@ class BidState(BaseState):
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
         self.validate_items_quantity(data)
+        self.validate_items_quantity_against_tender({}, data)
         self.validate_items_related_product(data, {})
         self.validate_proposal_docs(data)
         self.validate_req_responses(data)
@@ -99,6 +100,7 @@ class BidState(BaseState):
         self.update_date_for_new_lot_values(after, before)
         self.validate_items_id(after)
         self.validate_items_quantity(after)
+        self.validate_items_quantity_against_tender(before, after)
         self.validate_items_related_product(after, before)
         self.validate_proposal_docs(after, before)
         self.invalidate_pending_bid_after_patch(after, before)
@@ -298,6 +300,45 @@ class BidState(BaseState):
             for lot_id, items_ids in items_with_quantity.items():
                 if not items_ids:
                     self.raise_items_error(f"At least one item should be with not empty quantity for lot {lot_id}")
+
+    def validate_items_quantity_against_tender(self, before, after):
+        if after.get("status") != "pending":
+            return
+        if "status" in before and before.get("status") not in ("draft", "invalid"):
+            return
+
+        tender_items_by_id = {i["id"]: i for i in get_tender().get("items", []) if i.get("id")}
+        tender_src = get_object("tender_src") or {}
+        has_multi_sourcing = tender_src.get("config", {}).get("hasMultiSourcing")
+
+        for bid_item in after.get("items", []):
+            tender_item = tender_items_by_id.get(bid_item.get("id"))
+            if tender_item is None:
+                continue
+
+            bid_qty = bid_item.get("quantity")
+            tender_qty = tender_item.get("quantity")
+            if bid_qty is not None and tender_qty is not None:
+                if has_multi_sourcing:
+                    if bid_qty > tender_qty:
+                        self.raise_items_error(
+                            f"bid item.quantity ({bid_qty}) should be less than or equal to "
+                            f"tender item.quantity ({tender_qty}) for item {bid_item['id']}"
+                        )
+                else:
+                    if bid_qty != tender_qty:
+                        self.raise_items_error(
+                            f"bid item.quantity ({bid_qty}) should be equal to "
+                            f"tender item.quantity ({tender_qty}) for item {bid_item['id']}"
+                        )
+
+            bid_unit_code = (bid_item.get("unit") or {}).get("code")
+            tender_unit_code = (tender_item.get("unit") or {}).get("code")
+            if bid_unit_code and tender_unit_code and bid_unit_code != tender_unit_code:
+                self.raise_items_error(
+                    f"bid item.unit.code ({bid_unit_code!r}) should be equal to "
+                    f"tender item.unit.code ({tender_unit_code!r}) for item {bid_item['id']}"
+                )
 
     def validate_proposal_doc_required(self, bid):
         if bid["tenderers"][0].get("identifier", {}).get("scheme") == "UA-EDR":

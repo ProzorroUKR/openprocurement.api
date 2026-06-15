@@ -24,6 +24,8 @@ from openprocurement.tender.openeu.tests.base import (
     test_tender_openeu_bids,
     test_tender_openeu_data,
     test_tender_openeu_lots,
+    BaseTenderContentWebTest,
+    test_tender_openeu_config,
 )
 from openprocurement.tender.openeu.tests.tender_blanks import (
     create_tender_generated,
@@ -43,6 +45,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     create_tender_with_criteria_lcc,
     tender_with_main_procurement_category,
 )
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
 
 
 class TenderTest(BaseTenderWebTest):
@@ -101,12 +104,20 @@ class TenderGuarantee(BaseTenderWebTest):
     test_activate_bid_guarantee_multilot = snitch(activate_bid_guarantee_multilot)
 
 
+class TenderOpenEUMultiSourcingTest(MultiSourcingTestMixin, BaseTenderContentWebTest):
+    multi_sourcing_pmt = "aboveThresholdEU"
+    initial_status = None
+    initial_data = test_tender_openeu_data
+    initial_config = test_tender_openeu_config
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderProcessTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderResourceTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderGuarantee))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenEUMultiSourcingTest))
     return suite
 
 

@@ -165,8 +165,10 @@ class ContractStateMixing:
                 )
                 self.set_object_status(lot, "unsuccessful")
                 continue
-            elif (awarding_order_enabled and last_award["status"] == "active") or (
-                awarding_order_enabled is False and awards_statuses.intersection({"active"})
+            elif (
+                (tender.get("config", {}).get("hasMultiSourcing") and awards_statuses.intersection({"active"}))
+                or (awarding_order_enabled and last_award["status"] == "active")
+                or (awarding_order_enabled is False and awards_statuses.intersection({"active"}))
             ):
                 if (
                     "agreements" in tender
@@ -174,7 +176,7 @@ class ContractStateMixing:
                 ):
                     allow_complete_lot = any(a["status"] == "active" for a in tender.get("agreements", []))
                 else:
-                    if awarding_order_enabled is False:
+                    if awarding_order_enabled is False or tender.get("config", {}).get("hasMultiSourcing"):
                         active_award_ids = {award["id"] for award in lot_awards if award["status"] == "active"}
                         contracts = [
                             contract

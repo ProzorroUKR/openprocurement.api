@@ -1281,8 +1281,8 @@ def patch_tender_bid(self):
     self.assertEqual(response.json["data"]["date"], bid["date"])
     self.assertEqual(response.json["data"]["tenderers"][0]["name"], bid["tenderers"][0]["name"])
 
-    bid["items"][0]["quantity"] = 4  # items values 4 * 100
-    bid["items"][0]["unit"]["value"]["amount"] = 100
+    bid["items"][0]["quantity"] = 5  # items values 5 * 80
+    bid["items"][0]["unit"]["value"]["amount"] = 80
     response = self.app.patch_json(
         "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], token),
         {"data": {"value": {"amount": 400}, "items": bid["items"]}},
@@ -1290,7 +1290,7 @@ def patch_tender_bid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["value"]["amount"], 400)
-    self.assertEqual(response.json["data"]["items"][0]["quantity"], 4)
+    self.assertEqual(response.json["data"]["items"][0]["quantity"], 5)
     self.assertEqual(response.json["data"]["date"], bid["date"])
 
     response = self.app.patch_json(
@@ -1661,16 +1661,16 @@ def bid_items_unit_value_validations(self):
 
     bid_data["items"][0].update(
         {
-            "quantity": 4,
+            "quantity": 5,
             "unit": {
                 "name": "Item",
                 "code": "KGM",
-                "value": {"amount": 99.0, "currency": "UAH", "valueAddedTaxIncluded": False},
+                "value": {"amount": 80.0, "currency": "UAH", "valueAddedTaxIncluded": False},
             },
         }
     )
 
-    # quantity * value.amount is less than bid net amount 500/1.2 = 416, 396 < 416
+    # quantity * value.amount is less than bid net amount 500/1.2 = 416, 400 < 416
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1695,7 +1695,7 @@ def bid_items_unit_value_validations(self):
 
     # quantity * value.amount is not less than bid net amount
     bid_data["items"][0]["unit"]["value"]["amount"] = (
-        104.165  # 104.165 * 4 = 416.66, and amount net of bid 416 - it is in 20% delta
+        83.33  # 83.33 * 5 = 416.65, and amount net of bid 416 - it is in 20% delta
     )
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
@@ -1708,7 +1708,7 @@ def bid_items_unit_value_validations(self):
     data["value"]["valueAddedTaxIncluded"] = False
     self.mongodb.tenders.save(data)
     bid_data["value"]["valueAddedTaxIncluded"] = False
-    # items sum 104.165 * 4 = 416.66, as bid.value doesn't include VAT we will see an error
+    # items sum 83.33 * 5 = 416.65, as bid.value doesn't include VAT we will see an error
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
@@ -1720,7 +1720,7 @@ def bid_items_unit_value_validations(self):
     )
 
     bid_data["items"][0]["unit"]["value"]["amount"] = (
-        125.15  # 125.15 * 4 = 500.6, and amount of bid 500 (without coins it is valid items unit value)
+        100.12  # 100.12 * 5 = 500.6, and amount of bid 500 (without coins it is valid items unit value)
     )
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),

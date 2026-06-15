@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.competitivedialoue 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-28 22:14+0200\n"
+"POT-Creation-Date: 2026-05-15 20:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,6 +133,9 @@ msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"
+msgstr ""
+
+msgid "hasMultiSourcing"
 msgstr ""
 
 msgid "Набір можливих значень конфігурації для :`competitiveDialogueUA`"

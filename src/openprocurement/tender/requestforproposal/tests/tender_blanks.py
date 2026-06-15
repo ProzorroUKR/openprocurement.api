@@ -1307,6 +1307,48 @@ def create_tender_invalid_config(self):
     )
 
 
+def patch_tender_has_multi_sourcing_is_immutable(self):
+    response = self.app.post_json(
+        "/tenders",
+        {"data": self.initial_data, "config": deepcopy(self.initial_config)},
+        status=201,
+    )
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+    original = response.json["config"]["hasMultiSourcing"]
+
+    self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"description": "patched"}, "config": {"hasMultiSourcing": not original}},
+    )
+    response = self.app.get(f"/tenders/{tender_id}")
+    self.assertEqual(response.json["config"]["hasMultiSourcing"], original)
+
+
+def create_tender_has_multi_sourcing_with_auction(self):
+    config = deepcopy(self.initial_config)
+    config.update({"hasMultiSourcing": True, "hasAuction": True})
+    response = self.app.post_json(
+        "/tenders",
+        {"data": self.initial_data, "config": config},
+        status=201,
+    )
+    self.assertEqual(response.json["config"]["hasMultiSourcing"], True)
+    self.assertEqual(response.json["config"]["hasAuction"], True)
+
+    data = deepcopy(self.initial_data)
+    for lot in data.get("lots") or []:
+        lot.pop("minimalStep", None)
+    config["hasAuction"] = False
+    response = self.app.post_json(
+        "/tenders",
+        {"data": data, "config": config},
+        status=201,
+    )
+    self.assertEqual(response.json["config"]["hasMultiSourcing"], True)
+    self.assertEqual(response.json["config"]["hasAuction"], False)
+
+
 def tender_finance_milestones(self):
     data = deepcopy(self.initial_data)
 

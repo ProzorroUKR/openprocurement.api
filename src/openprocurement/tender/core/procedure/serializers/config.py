@@ -85,6 +85,10 @@ def tender_config_enquiry_period_regulation_migrate_value(tender):
     return tender_config_default_value(tender, "enquiryPeriodRegulation")
 
 
+def tender_config_has_multi_sourcing_migrate_value(tender):
+    return False
+
+
 class TenderConfigSerializer(BaseConfigSerializer):
     serializers = {
         "hasAuction": tender_config_default_serializer("hasAuction"),
@@ -122,4 +126,8 @@ class TenderConfigSerializer(BaseConfigSerializer):
             migration_func=tender_config_enquiry_period_regulation_migrate_value,
         ),
         "restricted": tender_config_default_serializer("restricted"),
+        "hasMultiSourcing": tender_config_default_serializer(
+            "hasMultiSourcing",
+            migration_func=tender_config_has_multi_sourcing_migrate_value,
+        ),
     }

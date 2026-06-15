@@ -33,6 +33,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 10,
     "restricted": False,
+    "hasMultiSourcing": False,
 }
 STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
@@ -58,6 +59,7 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 10,
     "restricted": False,
+    "hasMultiSourcing": False,
 }
 
 STAGE_1_EU_WORKING_DAYS_CONFIG = {

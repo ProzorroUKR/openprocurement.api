@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-11 15:57+0200\n"
+"POT-Creation-Date: 2026-05-15 20:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -125,6 +125,9 @@ msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"
+msgstr ""
+
+msgid "hasMultiSourcing"
 msgstr ""
 
 msgid "Ви можете ознайомитись з деталями в секції :ref:`config`."
@@ -492,3 +495,4 @@ msgstr ""
 
 msgid "Закупівля теж змінить свій статус на `cancelled`, замовнику забороняються всі дії по закупівлі."
 msgstr ""
+

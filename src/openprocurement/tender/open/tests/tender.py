@@ -21,6 +21,8 @@ from openprocurement.tender.open.tests.base import (
     BaseTenderUAWebTest,
     test_tender_open_bids,
     test_tender_open_data,
+    BaseTenderUAContentWebTest,
+    test_tender_open_config,
 )
 from openprocurement.tender.open.tests.tender_blanks import (
     activate_bid_after_adding_lot,
@@ -47,6 +49,7 @@ from openprocurement.tender.open.tests.tender_blanks import (
     tender_finance_milestones,
     tender_with_main_procurement_category,
 )
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
 
 
 class TenderUAResourceTestMixin:
@@ -112,10 +115,18 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
 
 
+class TenderOpenMultiSourcingTest(MultiSourcingTestMixin, BaseTenderUAContentWebTest):
+    multi_sourcing_pmt = "aboveThreshold"
+    initial_status = None
+    initial_data = test_tender_open_data
+    initial_config = test_tender_open_config
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAProcessTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderUAResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderOpenMultiSourcingTest))
     return suite
 
 
