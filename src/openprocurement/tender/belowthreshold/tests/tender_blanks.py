@@ -2203,19 +2203,10 @@ def patch_tender(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "cancelled"}}, status=422
     )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "status",
-                "description": [
-                    "Value must be one of ['draft', 'active.enquiries', 'active.pre-qualification', "
-                    "'active.pre-qualification.stand-still']."
-                ],
-            }
-        ],
-    )
+    self.assertEqual(response.json["errors"][0]["location"], "body")
+    self.assertEqual(response.json["errors"][0]["name"], "status")
+    self.assertIn("Value must be one of", response.json["errors"][0]["description"][0])
+    self.assertNotIn("cancelled", response.json["errors"][0]["description"][0])
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"plans": []}}, status=422

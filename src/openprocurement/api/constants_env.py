@@ -216,6 +216,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_RESTRICTED_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "hasMultiSourcing": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_HAS_MULTI_SOURCING_OPTIONAL",
+        parse_func=parse_bool,
+    ),
 }
 
 # Related lot is required

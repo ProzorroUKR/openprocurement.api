@@ -107,6 +107,7 @@ test_tender_co_short_config = {
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 0,
     "restricted": False,
+    "hasMultiSourcing": False,
 }
 
 test_tender_co_short_required_criteria_ids = {

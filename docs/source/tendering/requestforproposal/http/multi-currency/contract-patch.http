@@ -14,7 +14,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "991761a10cb14c239cf05842c4cfa729",
         "description": "папір",
-        "quantity": 5.0,
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
@@ -68,7 +68,7 @@ Content-Type: application/json
       {
         "id": "991761a10cb14c239cf05842c4cfa729",
         "description": "папір",
-        "quantity": 5.0,
+        "quantity": 1.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",

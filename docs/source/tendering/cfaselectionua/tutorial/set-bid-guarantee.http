@@ -26,7 +26,7 @@ Content-Type: application/json
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": false,
-      "amount": 600.67
+      "amount": 1001.11
     },
     "minimalStep": {
       "amount": 2.5,

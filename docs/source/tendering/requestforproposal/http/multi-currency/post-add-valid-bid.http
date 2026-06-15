@@ -56,7 +56,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "quantity": 5,
+        "quantity": 1,
         "description": "папір",
         "id": "991761a10cb14c239cf05842c4cfa729",
         "relatedLot": "e932e2282dd44ca38478282c9b65d683",
@@ -66,7 +66,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "currency": "USD",
             "valueAddedTaxIncluded": false,
-            "amount": 40.0
+            "amount": 200.0
           }
         }
       },
@@ -158,13 +158,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/73862f0482bd4d22
         "unit": {
           "name": "кг",
           "value": {
-            "amount": 40.0,
+            "amount": 200.0,
             "currency": "USD",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
+        "quantity": 1.0,
         "relatedLot": "e932e2282dd44ca38478282c9b65d683"
       },
       {

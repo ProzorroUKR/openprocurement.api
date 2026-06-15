@@ -24,6 +24,8 @@ from openprocurement.tender.competitiveordering.tests.short.base import (
     BaseTenderCOShortWebTest,
     test_tender_co_short_bids,
     test_tender_co_short_data,
+    BaseTenderCOShortContentWebTest,
+    test_tender_co_short_config,
 )
 from openprocurement.tender.competitiveordering.tests.short.tender_blanks import (
     create_tender_forbidden_complaints,
@@ -50,6 +52,7 @@ from openprocurement.tender.open.tests.tender_blanks import (
     tender_finance_milestones,
     tender_with_main_procurement_category,
 )
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
 
 
 class TenderCOResourceTestMixin:
@@ -115,10 +118,20 @@ class TenderCOProcessTest(BaseTenderCOShortWebTest, TenderCOProcessTestMixin):
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
 
 
+class TenderCOShortMultiSourcingTest(MultiSourcingTestMixin, BaseTenderCOShortContentWebTest):
+    multi_sourcing_pmt = "competitiveOrdering"
+    multi_sourcing_co_keys = ["competitiveOrdering.short", "competitiveOrdering.long"]
+    initial_status = None
+    initial_data = test_tender_co_short_data
+    initial_config = test_tender_co_short_config
+    award_activation_data = {"status": "active", "qualified": True}
+
+
 def suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOProcessTest))
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCOShortMultiSourcingTest))
     return suite
 
 

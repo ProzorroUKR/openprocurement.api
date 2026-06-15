@@ -3434,3 +3434,37 @@ class EnquiryPeriodRegulationTenderConfigTest(TenderConfigBaseTest):
             config_name="enquiryPeriodRegulation",
             file_path=TARGET_CSV_DIR + "enquiry-period-regulation-values.csv",
         )
+
+
+class HasMultiSourcingTenderConfigTest(TenderConfigBaseTest):
+    initial_config = test_tender_rfp_config
+
+    def test_docs_has_multi_sourcing_values_csv(self):
+        self.write_config_values_csv(
+            config_name="hasMultiSourcing",
+            file_path=TARGET_CSV_DIR + "has-multi-sourcing-values.csv",
+        )
+
+    def test_docs_has_multi_sourcing_true(self):
+        config = deepcopy(self.initial_config)
+        config["hasAuction"] = False
+        config["hasMultiSourcing"] = True
+
+        test_tender_data = deepcopy(test_docs_tender_rfp)
+
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        with open(TARGET_DIR + "has-multi-sourcing-true-tender-post.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": test_tender_data, "config": config})
+            self.assertEqual(response.status, "201 Created")
+
+    def test_docs_has_multi_sourcing_false(self):
+        config = deepcopy(self.initial_config)
+        config["hasMultiSourcing"] = False
+
+        test_tender_data = deepcopy(test_docs_tender_rfp)
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        with open(TARGET_DIR + "has-multi-sourcing-false-tender-post.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": test_tender_data, "config": config})
+            self.assertEqual(response.status, "201 Created")

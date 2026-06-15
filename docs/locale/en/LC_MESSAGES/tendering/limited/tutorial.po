@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 18:46+0200\n"
+"POT-Creation-Date: 2026-05-15 20:43+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -111,6 +111,9 @@ msgid "enquiryPeriodRegulation"
 msgstr ""
 
 msgid "restricted"
+msgstr ""
+
+msgid "hasMultiSourcing"
 msgstr ""
 
 msgid "Набір можливих значень конфігурації для `negotiation`:"

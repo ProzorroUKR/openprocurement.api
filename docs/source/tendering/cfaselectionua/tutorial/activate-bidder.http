@@ -75,13 +75,13 @@ Content-Type: application/json
         "unit": {
           "name": "item",
           "value": {
-            "amount": 100.0,
+            "amount": 50.0,
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           },
           "code": "KGM"
         },
-        "quantity": 5.0,
+        "quantity": 10.0,
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],

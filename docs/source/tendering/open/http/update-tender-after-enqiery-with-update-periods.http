@@ -1252,7 +1252,8 @@ Content-Type: application/json
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 3,
-    "restricted": false
+    "restricted": false,
+    "hasMultiSourcing": false
   }
 }
 

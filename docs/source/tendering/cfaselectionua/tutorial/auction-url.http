@@ -240,7 +240,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
-              "amount": 600.0
+              "amount": 1000.0
             }
           },
           {
@@ -294,7 +294,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
-              "amount": 600.666
+              "amount": 1001.11
             }
           },
           {
@@ -348,7 +348,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
-              "amount": 600.666
+              "amount": 1001.11
             }
           },
           {
@@ -402,7 +402,7 @@ Content-Type: application/json
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
-              "amount": 600.0
+              "amount": 1000.0
             }
           }
         ],
@@ -449,7 +449,7 @@ Content-Type: application/json
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
-        "quantity": 6.0,
+        "quantity": 10.0,
         "classification": {
           "description": "New Cartons",
           "scheme": "ДК021",
@@ -490,12 +490,12 @@ Content-Type: application/json
         "value": {
           "currency": "UAH",
           "valueAddedTaxIncluded": false,
-          "amount": 600.666
+          "amount": 1001.11
         },
         "minimalStep": {
           "currency": "UAH",
           "valueAddedTaxIncluded": false,
-          "amount": 3.0033300000000005
+          "amount": 5.00555
         },
         "guarantee": {
           "amount": 8.0,
@@ -558,7 +558,7 @@ Content-Type: application/json
       "endDate": "2026-12-28T00:01:00+02:00"
     },
     "value": {
-      "amount": 600.666,
+      "amount": 1001.11,
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
@@ -636,7 +636,8 @@ Content-Type: application/json
     "hasEnquiries": true,
     "minEnquiriesDuration": 1,
     "enquiryPeriodRegulation": 0,
-    "restricted": false
+    "restricted": false,
+    "hasMultiSourcing": false
   }
 }
 

@@ -2399,7 +2399,7 @@ def bids_related_product(self):
     related_product_id = "1" * 32
     items = [
         {
-            "quantity": 4,
+            "quantity": tender_item_1["quantity"],
             "description": "футляри до державних нагород",
             "id": tender_item_1["id"],
             "unit": {

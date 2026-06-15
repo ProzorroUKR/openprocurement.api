@@ -4244,8 +4244,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         bid_token = response.json["access"]["token"]
 
         bid_items = deepcopy(bid_data["items"])
-        # keep quantity divisible by amount so unit values divide cleanly under VAT=False
-        bid_items[0]["quantity"] = bid_items[0]["quantity"] + 5
+        bid_items[0]["description_en"] = "Localized description"
         set_bid_items(self, bid_data, bid_items)
 
         with open(TARGET_DIR + "bid-items-localization/update-bid-items.http", "w") as self.app.file_obj:
@@ -4506,6 +4505,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         # create tender
         tender_data["items"].append(deepcopy(tender_data["items"][0]))
+        tender_data["items"][0]["quantity"] = 10
         for item in tender_data["items"]:
             item["id"] = uuid4().hex
             item["deliveryDate"] = {

@@ -340,6 +340,7 @@ test_tender_rfp_config = {
     "minEnquiriesDuration": 3,
     "enquiryPeriodRegulation": 3,
     "restricted": False,
+    "hasMultiSourcing": False,
 }
 
 test_tender_rfp_required_criteria_ids = set()

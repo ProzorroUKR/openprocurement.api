@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Комп’ютерне обладнання",
         "category": "655360-30230000-889652",
         "profile": "655360-30230000-889652-40000777",
-        "quantity": 5,
+        "quantity": 10,
         "deliveryDate": {
           "startDate": "2027-01-03T00:00:00+02:00",
           "endDate": "2027-01-06T00:00:00+02:00"
@@ -344,7 +344,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
         "category": "655360-30230000-889652",
         "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
+        "quantity": 10.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -595,7 +595,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 0,
-    "restricted": false
+    "restricted": false,
+    "hasMultiSourcing": false
   },
   "access": {
     "token": "bc2c53d84c3f49b9816b1a423fa253ea",

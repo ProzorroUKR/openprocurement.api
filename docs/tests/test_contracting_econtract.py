@@ -76,6 +76,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
 
         # create tender
         tender_data["items"].append(deepcopy(tender_data["items"][0]))
+        tender_data["items"][0]["quantity"] = 10
         for item in tender_data["items"]:
             item["id"] = uuid4().hex
             item["deliveryDate"] = {

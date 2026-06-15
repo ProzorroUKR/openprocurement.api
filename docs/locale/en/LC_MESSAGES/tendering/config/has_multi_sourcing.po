@@ -1,0 +1,397 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-14 18:40+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "hasMultiSourcing"
+msgstr ""
+
+msgid "Поле `hasMultiSourcing` є булевим полем, яке дозволяє укласти більше одного контракту в межах одного тендеру/лоту."
+msgstr ""
+
+msgid "Можливі значення для поля `hasMultiSourcing` залежать від поля `procurementMethodType`. Наразі підтримується для `requestForProposal` та `competitiveOrdering`."
+msgstr ""
+
+msgid "procurementMethodType"
+msgstr ""
+
+msgid "values"
+msgstr ""
+
+msgid "default"
+msgstr ""
+
+msgid "aboveThreshold"
+msgstr ""
+
+msgid "false"
+msgstr ""
+
+msgid "competitiveOrdering"
+msgstr ""
+
+msgid "true / false"
+msgstr ""
+
+msgid "competitiveOrdering.short"
+msgstr ""
+
+msgid "competitiveOrdering.long"
+msgstr ""
+
+msgid "aboveThresholdEU"
+msgstr ""
+
+msgid "aboveThresholdUA.defense"
+msgstr ""
+
+msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "closeFrameworkAgreementUA"
+msgstr ""
+
+msgid "competitiveDialogueEU"
+msgstr ""
+
+msgid "competitiveDialogueEU.stage2"
+msgstr ""
+
+msgid "competitiveDialogueUA"
+msgstr ""
+
+msgid "competitiveDialogueUA.stage2"
+msgstr ""
+
+msgid "esco"
+msgstr ""
+
+msgid "negotiation"
+msgstr ""
+
+msgid "negotiation.quick"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "reporting"
+msgstr ""
+
+msgid "simple.defense"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
+msgid "hasMultiSourcing встановлено у `true`"
+msgstr ""
+
+msgid "Створимо тендер з `hasMultiSourcing` встановленим у `true`:"
+msgstr ""
+
+msgid "Логіка авардингу"
+msgstr ""
+
+msgid "У межах тендеру/лоту може бути визначено більше ніж одного переможця. Активація аварди створює відповідний контракт у статусі `pending`."
+msgstr ""
+
+msgid "Як саме генеруються аварди залежить від `hasAwardingOrder`:"
+msgstr ""
+
+msgid "**`hasAwardingOrder: true`** (послідовний розгляд) — аварди створюються по одній. Після активації аварди система автоматично генерує наступну аварду у статусі `pending`, поки не вичерпано усі нерозглянуті пропозиції. У будь-який момент існує одна `pending`-аварда (якщо ще лишилися пропозиції)."
+msgstr ""
+
+msgid "**`hasAwardingOrder: false`** (одночасний розгляд) — усі аварди для відповідних пропозицій створюються одночасно у статусі `pending` при переході тендеру у `active.qualification`. Замовник може активувати їх у будь-якому порядку. Нові аварди генеруються лише у разі скасування (`cancelled`) однієї з існуючих авард."
+msgstr ""
+
+msgid "В обох випадках **замовник сам вирішує, скільки переможців він хоче** — для цього він активує потрібну кількість авард і потім підписує відповідні контракти. Pending-аварди, які замовник не активував, не блокують завершення тендеру."
+msgstr ""
+
+msgid "Переходи статусу тендера"
+msgstr ""
+
+msgid "Поки існує хоча б одна `pending`-аварда — тендер залишається у `active.qualification`."
+msgstr ""
+
+msgid "Коли усі аварди мають термінальні статуси (`active` або `unsuccessful`) — тендер переходить у `active.awarded`."
+msgstr ""
+
+msgid "Тендер переходить у `complete` після активації останнього контракту лоту/тендеру."
+msgstr ""
+
+msgid "**Якщо замовник зупиняє розгляд раніше** (тобто не активує останню pending-аварду), при активації останнього контракту тендер переходить безпосередньо з `active.qualification` у `complete` — статус `active.awarded` пропускається. Незавершені pending-аварди не блокують завершення тендеру."
+msgstr ""
+
+msgid "Скарги"
+msgstr ""
+
+msgid "Логіка блокування скаргами — на рівні лоту. Невирішені скарги у межах лоту (як на сам лот, так і на будь-яку з його авард) блокують підписання контрактів усіх авард цього лоту, поки скарги не буде розглянуто. Це не залежить від `hasMultiSourcing` і працює так само як для звичайних тендерів."
+msgstr ""
+
+msgid "Покроковий приклад"
+msgstr ""
+
+msgid "Розглянемо повний цикл мультисорсингового тендеру для типового сценарію: замовник хоче укласти контракти з декількома постачальниками, але не зобов'язаний розглядати всіх."
+msgstr ""
+
+msgid "**Сценарій.** Замовник публікує `competitiveOrdering` тендер з `hasMultiSourcing: true`, отримує 4 пропозиції, але хоче обрати лише 2 переможців."
+msgstr ""
+
+msgid "**Крок 1. Створення тендеру.**"
+msgstr ""
+
+msgid "**Крок 2. Активація 1-ї аварди.** Система автоматично створює відповідний контракт у статусі `pending`. З `hasAwardingOrder: true` також генерується наступна pending-аварда для розгляду."
+msgstr ""
+
+msgid "Після цієї операції стан тендеру:"
+msgstr ""
+
+msgid "`tender.status = active.qualification` (залишається, бо є pending-аварди);"
+msgstr ""
+
+msgid "`awards`: `[active(1), pending(2)]` (нова pending-аварда автоматично згенерована);"
+msgstr ""
+
+msgid "`contracts`: `[pending(C1)]` (для активованої аварди)."
+msgstr ""
+
+msgid "**Крок 3. Активація 2-ї аварди.** Аналогічно — створюється новий контракт, генерується наступна pending-аварда (якщо ще є пропозиції):"
+msgstr ""
+
+msgid "`awards`: `[active(1), active(2), pending(3)]`;"
+msgstr ""
+
+msgid "`contracts`: `[pending(C1), pending(C2)]`;"
+msgstr ""
+
+msgid "`tender.status = active.qualification` (досі є pending-аварда)."
+msgstr ""
+
+msgid "**Крок 4. Підписання контрактів.**"
+msgstr ""
+
+msgid "Після підписання `contract_1`:"
+msgstr ""
+
+msgid "`contracts`: `[active(C1), pending(C2)]`;"
+msgstr ""
+
+msgid "`lot.status = active` (бо `contract_2` ще pending);"
+msgstr ""
+
+msgid "`tender.status = active.qualification` (бо є pending-аварда)."
+msgstr ""
+
+msgid "**Крок 5. Підписання останнього контракту.** Активація **останнього** pending-контракту лоту тригерить завершення лоту й тендеру."
+msgstr ""
+
+msgid "Після підписання `contract_2`:"
+msgstr ""
+
+msgid "`contracts`: `[active(C1), active(C2)]`;"
+msgstr ""
+
+msgid "`lot.status = complete` (усі контракти лоту активні);"
+msgstr ""
+
+msgid "`tender.status = complete` (усі лоти у термінальному статусі);"
+msgstr ""
+
+msgid "`award_3` залишається у `pending` — це нормально, не блокує завершення."
+msgstr ""
+
+msgid "Альтернативний хід подій"
+msgstr ""
+
+msgid "Якщо замовник хоче розглянути **усі** аварди:"
+msgstr ""
+
+msgid "активує по черзі всі pending-аварди (або відхиляє їх через `status: unsuccessful`);"
+msgstr ""
+
+msgid "коли pending-авард більше не залишається, тендер автоматично переходить у `active.awarded`;"
+msgstr ""
+
+msgid "потім — активація контрактів, останній тригерить `tender.status = complete`."
+msgstr ""
+
+msgid "Послідовність статусів у цьому випадку: `active.qualification → active.awarded → complete`."
+msgstr ""
+
+msgid "Стандартний хід (замовник зупинився на K переможцях) пропускає `active.awarded` і йде напряму: `active.qualification → complete`."
+msgstr ""
+
+msgid "hasMultiSourcing встановлено у `false`"
+msgstr ""
+
+msgid "Тепер створимо тендер з `hasMultiSourcing` встановленим у `false`."
+msgstr ""
+
+msgid "Поведінка тендеру не відрізняється від звичайної: обирається один переможець в межах тендеру/лоту, після чого публікується один контракт."
+msgstr ""
+
+#~ msgid "У межах тендеру/лоту може бути визначено більше ніж одного переможця через активацію декількох авард одну за одною. Після активації кожної аварди автоматично створюється відповідний контракт у статусі `pending`. Тендер залишається в статусі `active.qualification`, поки не буде обрано достатньо переможців."
+#~ msgstr ""
+
+#~ msgid "Закриття фази кваліфікації відбувається вручну — через PATCH на тендер зі статусом `active.awarded`:"
+#~ msgstr ""
+
+#~ msgid "Тіло запиту має містити лише поле `status` — будь-які додаткові поля призведуть до помилки. Під час закриття фази кваліфікації аварди в статусі `pending` автоматично переводяться в `unsuccessful` та виставляється `awardPeriod.endDate`. Закрити фазу можна тільки якщо є щонайменше одна активна аварда, інакше повертається помилка:"
+#~ msgstr ""
+
+#~ msgid "Тендер можна повернути у фазу кваліфікації для зміни рішення, поки жоден контракт не вийшов із статусу `pending`:"
+#~ msgstr ""
+
+#~ msgid "Якщо хоча б один контракт вже активований, повернення відхиляється:"
+#~ msgstr ""
+
+#~ msgid "Зміни в правилах подання пропозиції: `bid.items.quantity` повинна бути більшою або рівною `tender.items.quantity`. Якщо значення в пропозиції менше за значення в тендері, повертається помилка:"
+#~ msgstr ""
+
+#~ msgid "Наявність невирішених скарг на одну з авард не блокує підписання контрактів за іншими авардами. Лише скарги на ту саму аварду, контракт якої підписується, блокують підписання її контракту."
+#~ msgstr ""
+
+#~ msgid "Тендер переходить у статус `complete` автоматично після активації останнього контракту."
+#~ msgstr ""
+
+#~ msgid "Різниця для тендеру з `hasMultiSourcing` встановленим у `true` порівняно з `false` є:"
+#~ msgstr ""
+
+#~ msgid "`awardPeriod.endDate` виставляється не автоматично, а вручну через PATCH `status` → `active.awarded`;"
+#~ msgstr ""
+
+#~ msgid "можливе повернення з `active.awarded` назад у `active.qualification` (поки жоден контракт не активований);"
+#~ msgstr ""
+
+#~ msgid "для `bid.items.quantity` діє правило «більше або рівне» замість строгої рівності;"
+#~ msgstr ""
+
+#~ msgid "Можливі значення для поля `hasMultiSourcing` залежать від поля `procurementMethodType`."
+#~ msgstr ""
+
+#~ msgid "Створимо тендер з `hasMultiSourcing` встановленим у `true`. Для такого тендеру обов'язково `hasAuction: false`."
+#~ msgstr ""
+
+#~ msgid "У межах тендеру/лоту може бути визначено більше ніж одного переможця. Кожна аварда активується незалежно — при активації аварди автоматично створюється відповідний контракт у статусі `pending`. Тендер залишається у статусі `active.qualification`, поки існують аварди у статусі `pending`."
+#~ msgstr ""
+
+#~ msgid "Як тільки всі аварди в межах лоту переходять у термінальні статуси (`active` або `unsuccessful`), тендер автоматично переходить у статус `active.awarded` і `awardPeriod.endDate` виставляється системою. Жодних ручних переходів статусу не передбачено."
+#~ msgstr ""
+
+#~ msgid "Якщо одночасно встановити `hasMultiSourcing: true` та `hasAuction: true`, створення тендеру буде відхилено:"
+#~ msgstr ""
+
+#~ msgid "Правила подання пропозиції для `hasMultiSourcing: true`:"
+#~ msgstr ""
+
+#~ msgid "`bid.items.unit.code` повинна збігатися з `tender.items.unit.code`. Інакше повертається помилка::"
+#~ msgstr ""
+
+#~ msgid "можливо мати більше ніж одну активну аварду в межах тендеру/лоту;"
+#~ msgstr ""
+
+#~ msgid "`bid.items.unit.code` повинна збігатися з `tender.items.unit.code`;"
+#~ msgstr ""
+
+#~ msgid "`hasAuction` може бути встановленим як у `true`, так і у `false` — мультисорсинг сумісний з електронним аукціоном."
+#~ msgstr ""
+
+#~ msgid "У межах тендеру/лоту може бути визначено більше ніж одного переможця. Після активації кожної аварди:"
+#~ msgstr ""
+
+#~ msgid "автоматично створюється відповідний контракт у статусі `pending`;"
+#~ msgstr ""
+
+#~ msgid "система автоматично генерує наступну аварду у статусі `pending` (якщо ще є нерозглянуті пропозиції)."
+#~ msgstr ""
+
+#~ msgid "Це означає, що завжди буде існувати pending-аварда, поки не вичерпано усі пропозиції. **Замовник сам вирішує, скільки переможців він хоче** — для цього він активує потрібну кількість авард і потім підписує відповідні контракти."
+#~ msgstr ""
+
+#~ msgid "**Якщо замовник зупиняє розгляд раніше** (тобто не активує останню pending-аварду), при активації останнього контракту тендер переходить безпосередньо з `active.qualification` у `complete` — статус `active.awarded` пропускається. Це відповідає правилу «дивимося тільки на контракти»: незавершені pending-аварди не блокують завершення тендеру."
+#~ msgstr ""
+
+#~ msgid "Наявність невирішених скарг на одну з авард не блокує підписання контрактів за іншими авардами того ж лоту. Лише скарги на ту саму аварду, контракт якої підписується, блокують підписання її контракту."
+#~ msgstr ""
+
+#~ msgid "Поведінка тендеру не відрізняється від звичайної: обирається один переможець в межах тендеру/лоту, після чого публікується один контракт. Це значення за замовчуванням для всіх процедур."
+#~ msgstr ""
+
+#~ msgid "Різниця"
+#~ msgstr ""
+
+#~ msgid "Різниця для тендеру з `hasMultiSourcing` встановленим у `true` порівняно з `false`:"
+#~ msgstr ""
+
+#~ msgid "може бути більше ніж одна активна аварда в межах тендеру/лоту;"
+#~ msgstr ""
+
+#~ msgid "створюється стільки контрактів, скільки активних авард;"
+#~ msgstr ""
+
+#~ msgid "система автоматично генерує наступну pending-аварду після кожної активації;"
+#~ msgstr ""
+
+#~ msgid "завершення тендеру/лоту відбувається при активації **останнього контракту**, а не після рішення за всіма авардами — pending-аварди не блокують завершення;"
+#~ msgstr ""
+
+#~ msgid "для `bid.items.quantity` діє правило «менше або рівне» замість строгої рівності;"
+#~ msgstr ""
+
+#~ msgid "якщо вказано на обох сторонах, `bid.items.unit.code` повинна збігатися з `tender.items.unit.code`;"
+#~ msgstr ""
+
+#~ msgid "невирішені скарги на одну аварду не блокують контракти за іншими авардами того ж лоту."
+#~ msgstr ""
+
+#~ msgid "**Крок 2. Активація 1-ї аварди.** Замовник активує одну з pending-авард — система автоматично створює відповідний контракт у статусі `pending`. Під `hasAwardingOrder: true` також генерується наступна pending-аварда для розгляду:"
+#~ msgstr ""
+
+#~ msgid "**Крок 4. Підписання контрактів.** Замовник готує контракти до підписання та активує їх. Активація **не останнього** контракту залишає лот у `active`:"
+#~ msgstr ""
+
+#~ msgid "**Крок 5. Підписання останнього контракту.** Це ключовий момент — активація **останнього** pending-контракту лоту тригерить завершення:"
+#~ msgstr ""
+
+#~ msgid "Правила подання пропозиції"
+#~ msgstr ""
+
+#~ msgid "`bid.items.quantity` повинна бути меншою або рівною `tender.items.quantity`. Інакше повертається помилка::"
+#~ msgstr ""
+
+#~ msgid "Якщо обидва поля визначено, `bid.items.unit.code` повинна збігатися з `tender.items.unit.code`. Інакше повертається помилка::"
+#~ msgstr ""
+
+#~ msgid "Розглянемо повний цикл мультисорсингового тендеру для типового сценарію: замовник хоче укласти контракти з декількома постачальниками, але не зобов'язаний приймати всіх."
+#~ msgstr ""
+
+#~ msgid "**Крок 2. Активація 1-ї аварди.** Замовник `PATCH /tenders/{tender_id}/awards/{award_id}` з тілом `{\"data\": {\"status\": \"active\", \"qualified\": true, \"eligible\": true}}` для однієї з pending-авард. Система автоматично створює відповідний контракт у статусі `pending`. Під `hasAwardingOrder: true` також генерується наступна pending-аварда для розгляду."
+#~ msgstr ""
+
+#~ msgid "**Крок 4. Підписання контрактів.** Замовник готує контракти до підписання (`PUT .../buyer/signer_info`, `PUT .../suppliers/signer_info`, `PATCH .../contracts/{id}` з `period` і `status: active`). Активація **не останнього** контракту залишає лот у `active`."
+#~ msgstr ""
+
+#~ msgid "**Крок 5. Підписання останнього контракту.** Це ключовий момент — активація **останнього** pending-контракту лоту тригерить завершення лоту й тендеру."
+#~ msgstr ""
+
+#~ msgid "**Підсумок.** Замовник активував 2 з 4 авард, підписав 2 контракти і завершив тендер. Третя аварда залишилась у `pending` назавжди — це коректний результат, оскільки `hasMultiSourcing` дозволяє замовнику самому вибрати кількість переможців."
+#~ msgstr ""
+

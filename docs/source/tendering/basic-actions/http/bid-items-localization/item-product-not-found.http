@@ -51,7 +51,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "ffffffffffffffffffffffffffffffff",
         "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
+        "description_en": "Localized description",
         "description_ru": "футляры к государственным наградам",
         "unit": {
           "name": "кілограм",
@@ -59,10 +59,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false,
-            "amount": 50.0
+            "amount": 100.0
           }
         },
-        "quantity": 10.0,
+        "quantity": 5.0,
         "relatedLot": "c877d1255cf64f17b141859249e3b873",
         "product": "11111111111111111111111111111111"
       }

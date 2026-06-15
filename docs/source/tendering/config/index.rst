@@ -12,6 +12,7 @@
 
    has_auction
    has_awarding_order
+   has_multi_sourcing
    has_value_restriction
    value_currency_equality
    min_bids_number

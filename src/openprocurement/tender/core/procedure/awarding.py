@@ -87,10 +87,12 @@ class TenderStateAwardingMixing:
         if "startDate" not in award_period:
             award_period["startDate"] = get_request_now().isoformat()
 
+        # if hasAwardingOrder is False, we need to generate awards all together
         if tender["config"]["hasAwardingOrder"] is False:
             self.generate_awards_without_awarding_order(tender)
             return
 
+        # if hasAwardingOrder is True, we need to add awards one by one
         lots = tender.get("lots")
         if lots:
             statuses = set()
@@ -99,9 +101,15 @@ class TenderStateAwardingMixing:
                     continue
 
                 lot_awards = tuple(a for a in tender.get("awards", "") if a["lotID"] == lot["id"])
-                if lot_awards and lot_awards[-1]["status"] in ["pending", "active"]:
-                    statuses.add(lot_awards[-1]["status"])
-                    continue
+
+                if lot_awards:
+                    exclude_statuses = ["pending"]
+                    if not tender.get("config", {}).get("hasMultiSourcing"):
+                        # for MultiSourcing, continue adding award even if last award was activated
+                        exclude_statuses.append("active")
+                    if lot_awards[-1]["status"] in exclude_statuses:
+                        statuses.add(lot_awards[-1]["status"])
+                        continue
 
                 all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=lot["id"])
 
@@ -128,8 +136,12 @@ class TenderStateAwardingMixing:
                 stays_at_qualification=statuses.difference({"unsuccessful", "active"}),
             )
         else:
+            exclude_statuses = ["pending"]
+            if not tender.get("config", {}).get("hasMultiSourcing"):
+                exclude_statuses.append("active")
+
             awards = tender.get("awards", [])
-            if not awards or awards[-1]["status"] not in ("pending", "active"):
+            if not awards or awards[-1]["status"] not in exclude_statuses:
                 all_bids = self.prepare_bids_for_awarding(tender, tender.get("bids", []), lot_id=None)
                 bids = self.exclude_unsuccessful_awarded_bids(tender, all_bids, lot_id=None)
                 if bids:
@@ -182,7 +194,10 @@ class TenderStateAwardingMixing:
                 else:
                     self.set_object_status(lot, "unsuccessful")
 
-                if awards_statuses.difference({"unsuccessful", "cancelled"}) and "active" not in awards_statuses:
+                if tender.get("config", {}).get("hasMultiSourcing"):
+                    if "pending" in awards_statuses:
+                        stays_at_qualification = True
+                elif awards_statuses.difference({"unsuccessful", "cancelled"}) and "active" not in awards_statuses:
                     stays_at_qualification = True
 
             self.recalculate_period_and_change_tender_status(tender, stays_at_qualification)
@@ -204,9 +219,12 @@ class TenderStateAwardingMixing:
                     )
                     awards_statuses.add("pending")
 
-            stays_at_qualification = (
-                awards_statuses.difference({"unsuccessful", "cancelled"}) and "active" not in awards_statuses
-            )
+            if tender.get("config", {}).get("hasMultiSourcing"):
+                stays_at_qualification = "pending" in awards_statuses
+            else:
+                stays_at_qualification = bool(
+                    awards_statuses.difference({"unsuccessful", "cancelled"}) and "active" not in awards_statuses
+                )
             self.recalculate_period_and_change_tender_status(tender, stays_at_qualification)
 
     def recalculate_period_and_change_tender_status(self, tender, stays_at_qualification):
@@ -301,7 +319,8 @@ class TenderStateAwardingMixing:
     def exclude_unsuccessful_awarded_bids(self, tender, bids, lot_id):
         # all awards in case of non-lot tender
         lot_awards = (i for i in tender.get("awards", "") if i.get("lotID") == lot_id)
-        ignore_bid_ids = tuple(b["bid_id"] for b in lot_awards if b["status"] == "unsuccessful")
+        exclude_statuses = ["unsuccessful", "active"]
+        ignore_bid_ids = tuple(b["bid_id"] for b in lot_awards if b["status"] in exclude_statuses)
         bids = tuple(b for b in bids if b["id"] not in ignore_bid_ids)
         return bids
 

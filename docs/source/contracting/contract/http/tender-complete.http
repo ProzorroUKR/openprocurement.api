@@ -90,7 +90,7 @@ Content-Type: application/json
         "category": "655360-30230000-889652",
         "id": "5b122642e8964f00a1535be1d2b2270a",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
+        "quantity": 10.0,
         "classification": {
           "description": "Cartons",
           "scheme": "ДК021",
@@ -574,7 +574,8 @@ Content-Type: application/json
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 0,
-    "restricted": false
+    "restricted": false,
+    "hasMultiSourcing": false
   }
 }
 

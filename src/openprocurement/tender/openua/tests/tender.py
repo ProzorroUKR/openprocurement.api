@@ -22,6 +22,8 @@ from openprocurement.tender.openua.tests.base import (
     BaseTenderUAWebTest,
     test_tender_openua_bids,
     test_tender_openua_data,
+    BaseTenderUAContentWebTest,
+    test_tender_openua_config,
 )
 from openprocurement.tender.openua.tests.tender_blanks import (
     activate_bid_after_adding_lot,
@@ -43,6 +45,7 @@ from openprocurement.tender.openua.tests.tender_blanks import (
     tender_items_category_profile,
     tender_with_main_procurement_category,
 )
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
 
 
 class TenderUAResourceTestMixin:
@@ -96,6 +99,13 @@ class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):
     test_invalid1_and_1draft_bids_tender = snitch(invalid1_and_1draft_bids_tender)
     test_activate_bid_after_adding_lot = snitch(activate_bid_after_adding_lot)
     test_tender_items_category_profile = snitch(tender_items_category_profile)
+
+
+class TenderOpenUAMultiSourcingTest(MultiSourcingTestMixin, BaseTenderUAContentWebTest):
+    multi_sourcing_pmt = "aboveThresholdUA"
+    initial_status = None
+    initial_data = test_tender_openua_data
+    initial_config = test_tender_openua_config
 
 
 def suite():

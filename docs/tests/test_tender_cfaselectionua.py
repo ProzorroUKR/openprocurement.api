@@ -175,7 +175,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
         items = deepcopy(response.json["data"]["items"])
-        items[0]["quantity"] = 6
+        items[0]["quantity"] = 10
         with open(TARGET_DIR + "patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -191,6 +191,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.content_type, "application/json")
+            tender = response.json["data"]
 
         with open(TARGET_DIR + "tender-listing-after-patch.http", "w") as self.app.file_obj:
             self.app.authorization = None

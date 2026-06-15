@@ -79,6 +79,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
 
         # create tender
         test_tender_data["items"].append(deepcopy(test_tender_data["items"][0]))
+        test_tender_data["items"][0]["quantity"] = 10
         for item in test_tender_data["items"]:
             item["id"] = uuid4().hex
             item["deliveryDate"] = {

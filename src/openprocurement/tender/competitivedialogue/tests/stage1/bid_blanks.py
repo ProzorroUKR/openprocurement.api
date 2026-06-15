@@ -22,7 +22,7 @@ def create_tender_bidder(self):
                 {
                     "description": "футляри до державних нагород",
                     "id": items[0]["id"],
-                    "quantity": 4,
+                    "quantity": items[0]["quantity"],
                     "unit": {
                         "name": "Item",
                         "code": "KGM",

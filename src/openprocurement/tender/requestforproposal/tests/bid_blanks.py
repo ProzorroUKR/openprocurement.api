@@ -159,7 +159,7 @@ def post_tender_bid_with_disabled_value_currency_equality(self):
     items = tender.get("items")
     items = [
         {
-            "quantity": 7,
+            "quantity": 5,
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
@@ -189,7 +189,7 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
     items = tender.get("items")
     items = [
         {
-            "quantity": 7,
+            "quantity": 5,
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
@@ -245,7 +245,7 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
     bid["items"] = [
         {
-            "quantity": 7,
+            "quantity": 5,
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
@@ -276,7 +276,7 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
     bid["lotValues"] = [{"value": value, "relatedLot": lots[0]["id"]}]
     bid["items"] = [
         {
-            "quantity": 7,
+            "quantity": 5,
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
@@ -343,7 +343,7 @@ def post_bid_multi_currency(self):
     bid["lotValues"] = [{"value": value, "relatedLot": tender["lots"][0]["id"]}]
     bid["items"] = [
         {
-            "quantity": 7,
+            "quantity": 5,
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
@@ -364,7 +364,7 @@ def post_bid_multi_currency(self):
     )
 
     # try to post bid with items for another lot
-    bid["items"][0]["quantity"] = 7
+    bid["items"][0]["quantity"] = 5
     bid["lotValues"][0]["relatedLot"] = tender["lots"][1]["id"]
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -413,7 +413,7 @@ def patch_bid_multi_currency(self):
     # try to change valueAddedTaxIncluded different from lot
     bid["items"] = [
         {
-            "quantity": 7,
+            "quantity": 5,
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
