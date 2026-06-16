@@ -2816,12 +2816,11 @@ def criterion_from_market_profile(self):
             ],
         )
 
-        self.app.patch_json(
+        response = self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 1}},
+            status=422,
         )
-        response = activate_tender(status=422)
-
         self.assertEqual(
             response.json["errors"],
             [
@@ -2834,7 +2833,7 @@ def criterion_from_market_profile(self):
         )
         self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
-            {"data": {"expectedMaxItems": 2}},
+            {"data": {"expectedValues": ["value1", "value2"], "expectedMaxItems": 2}},
         )
 
         new_req = {
@@ -2862,12 +2861,12 @@ def criterion_from_market_profile(self):
         )
         cancel_requirement(rg_id, req_id_3)
 
-        # try to patch requirement via requirements endpoint
-        self.app.patch_json(
+        # patching Req 2 to a wrong expectedMaxItems via the requirements endpoint is rejected immediately
+        response = self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedMaxItems": 1}},
+            status=422,
         )
-        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -2877,10 +2876,6 @@ def criterion_from_market_profile(self):
                     "description": "Field 'expectedMaxItems' for 'Req 2' should be equal in tender and market requirement for profile 11111111111111111111111111111111",
                 },
             ],
-        )
-        self.app.patch_json(
-            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
-            {"data": {"expectedMaxItems": 2}},
         )
 
         # try to patch criteria via tender endpoint
@@ -3262,12 +3257,12 @@ def criterion_from_market_category_expected_items_narrowing(self):
             {"data": {"expectedMinItems": 3}},
         )
 
-        # tender tries to widen expectedMinItems below category: rejected
-        self.app.patch_json(
+        # tender tries to widen expectedMinItems below category: rejected on the requirement endpoint
+        response = self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedMinItems": 1}},
+            status=422,
         )
-        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -3285,12 +3280,12 @@ def criterion_from_market_category_expected_items_narrowing(self):
             {"data": {"expectedMinItems": 2, "expectedMaxItems": 2}},
         )
 
-        # tender tries to widen expectedMaxItems above category: rejected
-        self.app.patch_json(
+        # tender tries to widen expectedMaxItems above category: rejected on the requirement endpoint
+        response = self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedMaxItems": 4}},
+            status=422,
         )
-        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -3318,12 +3313,12 @@ def criterion_from_market_category_expected_items_narrowing(self):
         "openprocurement.tender.core.procedure.criteria.get_tender_category",
         Mock(return_value={"id": "0" * 32, "criteria": market_tech_feature}),
     ):
-        # tender tries to widen expectedMaxItems: rejected
-        self.app.patch_json(
+        # tender tries to widen expectedMaxItems: rejected on the requirement endpoint
+        response = self.app.patch_json(
             f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}",
             {"data": {"expectedValues": ["v1", "v2", "v3"], "expectedMinItems": 1, "expectedMaxItems": 2}},
+            status=422,
         )
-        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -3341,6 +3336,35 @@ def criterion_from_market_category_expected_items_narrowing(self):
         )
         response = activate_tender()
         self.assertEqual(response.json["data"]["status"], "active.tendering")
+
+        # after activation the requirement endpoint must keep enforcing the category limits:
+        # widening expectedMaxItems beyond the category via PUT is rejected (the reported bug)
+        put_url = (
+            f"/tenders/{self.tender_id}/criteria/{tech_criteria_id}"
+            f"/requirement_groups/{rg_id}/requirements/{req_id}?acc_token={self.tender_token}"
+        )
+        response = self.app.put_json(
+            put_url,
+            {"data": {"expectedValues": ["v1", "v2"], "expectedMinItems": 1, "expectedMaxItems": 2}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": "requirement 'Req dict' expectedMaxItems should be equal or less than in category",
+                },
+            ],
+        )
+        # a PUT within the category limits is accepted
+        response = self.app.put_json(
+            put_url,
+            {"data": {"expectedValues": ["v1", "v2", "v3"], "expectedMinItems": 1, "expectedMaxItems": 1}},
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"][0]["expectedMaxItems"], 1)
 
 
 @patch_market(
