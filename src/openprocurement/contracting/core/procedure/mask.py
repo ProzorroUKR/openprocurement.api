@@ -96,6 +96,7 @@ CONTRACT_MASK_MAPPING_RAW = {
 CONTRACT_MASK_MAPPING_REPLACEMENT_RULES = {
     "$..documents": [
         "$.documents",
+        "$.changes[*].documents[*]",
         "$.implementation.transactions[*].documents",
     ],
 }

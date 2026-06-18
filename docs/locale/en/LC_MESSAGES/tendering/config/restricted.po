@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-18 10:27+0300\n"
+"POT-Creation-Date: 2026-06-18 15:43+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1678,6 +1678,12 @@ msgid "$.changes[*].rationale_ru"
 msgstr ""
 
 msgid "$.changes[*].rationale_en"
+msgstr ""
+
+msgid "$.changes[*].documents[*][*].title"
+msgstr ""
+
+msgid "$.changes[*].documents[*][*].url"
 msgstr ""
 
 msgid "$.implementation.transactions[*].documents[*].title"

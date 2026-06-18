@@ -114,5 +114,7 @@ $.changes[*].rationale_ru,Приховано
 $.changes[*].rationale_en,Приховано
 $.documents[*].title,Приховано
 $.documents[*].url,Приховано
+$.changes[*].documents[*][*].title,Приховано
+$.changes[*].documents[*][*].url,Приховано
 $.implementation.transactions[*].documents[*].title,Приховано
 $.implementation.transactions[*].documents[*].url,Приховано
