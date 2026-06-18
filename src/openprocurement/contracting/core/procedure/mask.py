@@ -7,7 +7,7 @@ from openprocurement.api.mask import (
     optimize_tender_mask_mapping,
 )
 
-CONTRACT_MASK_MAPPING_RAW = {
+CONTRACT_MASK_MAPPING_BASE_RAW = {
     # items
     "$.items[*].description": MASK_STRING,
     "$.items[*].description_en": MASK_STRING_EN,
@@ -74,6 +74,16 @@ CONTRACT_MASK_MAPPING_RAW = {
     "$.suppliers[*].signerInfo.iban": MASK_STRING,
     "$.suppliers[*].signerInfo.position": MASK_STRING,
     "$.suppliers[*].signerInfo.authorizedBy": MASK_STRING,
+}
+
+CONTRACT_MASK_MAPPING_BASE_MODIFICATIONS_RAW = {}
+for key, value in CONTRACT_MASK_MAPPING_BASE_RAW.items():
+    modifications_key = key.replace("$.", "$.changes[*].modifications[*].")
+    CONTRACT_MASK_MAPPING_BASE_MODIFICATIONS_RAW[modifications_key] = value
+
+CONTRACT_MASK_MAPPING_RAW = {
+    **CONTRACT_MASK_MAPPING_BASE_RAW,
+    **CONTRACT_MASK_MAPPING_BASE_MODIFICATIONS_RAW,
     # changes
     "$.changes[*].rationale": MASK_STRING,
     "$.changes[*].rationale_ru": MASK_STRING,

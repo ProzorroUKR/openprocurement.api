@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-06-18 03:07+0300\n"
+"POT-Creation-Date: 2026-06-18 10:27+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1504,6 +1504,171 @@ msgid "$.suppliers[*].signerInfo.position"
 msgstr ""
 
 msgid "$.suppliers[*].signerInfo.authorizedBy"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].description"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].description_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].description_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].quantity"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryDate.startDate"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryDate.endDate"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.streetAddress"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.locality"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.region"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.postalCode"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.countryName"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.countryName_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryAddress.countryName_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryLocation.latitude"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].items[*].deliveryLocation.longitude"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].name"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].name_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].name_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].identifier.id"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].identifier.legalName"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].identifier.legalName_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].identifier.legalName_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].identifier.uri"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalIdentifiers[*].id"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalIdentifiers[*].legalName"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalIdentifiers[*].legalName_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalIdentifiers[*].legalName_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalIdentifiers[*].uri"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.streetAddress"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.locality"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.region"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.postalCode"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.countryName"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.countryName_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].address.countryName_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.telephone"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.email"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.faxNumber"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.url"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.name"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.name_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].contactPoint.name_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].telephone"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].email"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].faxNumber"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].url"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].name"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].name_en"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].additionalContactPoints[*].name_ru"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].signerInfo.name"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].signerInfo.email"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].signerInfo.telephone"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].signerInfo.iban"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].signerInfo.position"
+msgstr ""
+
+msgid "$.changes[*].modifications[*].suppliers[*].signerInfo.authorizedBy"
 msgstr ""
 
 msgid "$.changes[*].rationale"
