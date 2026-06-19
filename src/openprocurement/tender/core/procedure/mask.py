@@ -16,6 +16,9 @@ TENDER_MASK_MAPPING_RAW = {
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
+    # items.deliveryLocation
+    "$.items[*].deliveryLocation.latitude": MASK_NUMBER,
+    "$.items[*].deliveryLocation.longitude": MASK_NUMBER,
     # items.deliveryAddress
     "$.items[*].deliveryAddress.streetAddress": MASK_STRING,
     "$.items[*].deliveryAddress.locality": MASK_STRING,

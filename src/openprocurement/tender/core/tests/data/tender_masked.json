@@ -6,7 +6,7 @@
     "description_en": "Eum ratione perferendis laboriosam adipisci quos ea ea sit quisquam eos.",
     "description_ru": "Квуёдам йн ыпикурэи дыфяниэбаж нык одео тальэ вяш оффекйяж брутэ.",
     "date": "2021-11-08T16:59:10.235391+02:00",
-    "dateModified": "2026-06-12T01:12:44.368005+03:00",
+    "dateModified": "2026-06-19T13:40:49.791690+03:00",
     "documents": [
         {
             "id": "602efa3d8ffe418f85e15166c3c0715e",
@@ -244,8 +244,8 @@
                 "id": "33632100-0"
             },
             "deliveryLocation": {
-                "latitude": 48.506347,
-                "longitude": 35.0762495
+                "latitude": 0.0,
+                "longitude": 0.0
             },
             "unit": {
                 "name": "упаковка",
@@ -853,6 +853,6 @@
         "currency": "UAH"
     },
     "procurementMethodType": "belowThreshold",
-    "dateCreated": "2026-06-12T01:12:44.287679+03:00",
+    "dateCreated": "2026-06-19T13:40:49.746782+03:00",
     "id": "069e04c3c5fb4c6fbf7b6dbb3b19c7d0"
 }
