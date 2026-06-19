@@ -56,13 +56,13 @@ Content-Type: application/json
         "status": "active",
         "suppliers": [
           {
-            "name": "ДКП «Школяр»",
+            "name": "Приховано",
             "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
-              "id": "00137256",
-              "uri": "http://www.sc.gov.ua/",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+              "id": "Приховано",
+              "uri": "Приховано",
+              "legalName": "Приховано"
             },
             "address": {
               "countryName": "Приховано",

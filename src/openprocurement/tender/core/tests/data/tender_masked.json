@@ -6,14 +6,14 @@
     "description_en": "Eum ratione perferendis laboriosam adipisci quos ea ea sit quisquam eos.",
     "description_ru": "Квуёдам йн ыпикурэи дыфяниэбаж нык одео тальэ вяш оффекйяж брутэ.",
     "date": "2021-11-08T16:59:10.235391+02:00",
-    "dateModified": "2024-02-12T14:31:57.819539+02:00",
+    "dateModified": "2026-06-19T13:40:49.791690+03:00",
     "documents": [
         {
             "id": "602efa3d8ffe418f85e15166c3c0715e",
             "hash": "md5:996cec35362f9f00a7ab7dbcd7ddb4de",
-            "title": "d-6eae07c9eiusuCIbNX.doc",
+            "title": "Приховано",
             "format": "text/plain",
-            "url": "http://ds.k8s.prozorro.gov.ua/get/cfd8d5c53d934a2b9cf9ad50dd01b996?Signature=%2Fv2NOgrZEOBXgl99sQ2QxaBwCFDEMMyQ6Rh2RiMJWHFCq0ZNOGAzIVnETm6o9FDWbUALt9Gsogx93Bdj9j5LBg%3D%3D&KeyID=a8968c46",
+            "url": "Приховано",
             "datePublished": "2021-11-08T16:55:38.669219+02:00",
             "dateModified": "2021-11-08T16:55:38.669231+02:00",
             "author": "tender_owner",
@@ -208,9 +208,9 @@
     "items": [
         {
             "id": "a7f8f276319f4d0690afc84af1fa6d8e",
-            "description": "i-c005ff33: Протизапальний та протиревматичний засіб Ібупрофен",
-            "description_en": "i-c0114ec0: Anti-inflammatory and antirheumatic agent Ibuprofen",
-            "description_ru": "i-0234b919: Противовоспалительное и противоревматическое средство Ибупрофен",
+            "description": "Приховано",
+            "description_en": "Hidden",
+            "description_ru": "Приховано",
             "additionalClassifications": [
                 {
                     "scheme": "INN",
@@ -223,7 +223,7 @@
                     "description": "ibuprofen"
                 }
             ],
-            "quantity": 136.2,
+            "quantity": 0.0,
             "deliveryDate": {
                 "startDate": "1970-01-01T03:00:00+03:00",
                 "endDate": "1970-01-01T03:00:00+03:00"
@@ -244,8 +244,8 @@
                 "id": "33632100-0"
             },
             "deliveryLocation": {
-                "latitude": 48.506347,
-                "longitude": 35.0762495
+                "latitude": 0.0,
+                "longitude": 0.0
             },
             "unit": {
                 "name": "упаковка",
@@ -271,9 +271,9 @@
         "endDate": "2021-11-08T16:56:00.738020+02:00"
     },
     "qualificationPeriod": {
-       "startDate": "2021-11-08T16:54:45.165403+02:00",
-       "endDate": "2021-11-08T16:56:00.738020+02:00",
-       "reportingDatePublication": "2021-11-08T16:56:00.738020+02:00"
+        "startDate": "2021-11-08T16:54:45.165403+02:00",
+        "endDate": "2021-11-08T16:56:00.738020+02:00",
+        "reportingDatePublication": "2021-11-08T16:56:00.738020+02:00"
     },
     "bids": [
         {
@@ -301,7 +301,7 @@
                         "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
-                    "scale": "Приховано"
+                    "scale": "mid"
                 }
             ],
             "lotValues": [
@@ -353,10 +353,6 @@
             "requirementResponses": [
                 {
                     "id": "8d2e2ee1656e432fa772e8131a25f8aa",
-                    "classification": {
-                        "scheme": "ESPD211",
-                        "id": "CRITERION.OTHER.BID.GUARANTEE"
-                    },
                     "requirement": {
                         "id": "fa101545e82d493690951c7149a42abc",
                         "title": "Вид та умови надання забезпечення тендерних пропозицій"
@@ -372,19 +368,23 @@
                             }
                         }
                     ],
-                    "value": true
+                    "value": true,
+                    "classification": {
+                        "scheme": "ESPD211",
+                        "id": "CRITERION.OTHER.BID.GUARANTEE"
+                    }
                 },
                 {
                     "id": "30bd153da6f846499dd31bbcf27191a7",
-                    "classification": {
-                        "scheme": "ESPD211",
-                        "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
-                    },
                     "requirement": {
                         "id": "8cd44b01978f47fc9f470cdcedfef6b6",
                         "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
-                    "value": true
+                    "value": true,
+                    "classification": {
+                        "scheme": "ESPD211",
+                        "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+                    }
                 }
             ]
         },
@@ -413,7 +413,7 @@
                         "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
-                    "scale": "Приховано"
+                    "scale": "large"
                 }
             ],
             "lotValues": [
@@ -445,10 +445,6 @@
             "requirementResponses": [
                 {
                     "id": "799e735059b14cfba92c70c5699b8d3b",
-                    "classification": {
-                        "scheme": "ESPD211",
-                        "id": "CRITERION.OTHER.BID.GUARANTEE"
-                    },
                     "requirement": {
                         "id": "fa101545e82d493690951c7149a42abc",
                         "title": "Вид та умови надання забезпечення тендерних пропозицій"
@@ -464,19 +460,23 @@
                             }
                         }
                     ],
-                    "value": true
+                    "value": true,
+                    "classification": {
+                        "scheme": "ESPD211",
+                        "id": "CRITERION.OTHER.BID.GUARANTEE"
+                    }
                 },
                 {
                     "id": "9c443e23673249bc8d394619e3feb5be",
-                    "classification": {
-                        "scheme": "ESPD211",
-                        "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
-                    },
                     "requirement": {
                         "id": "8cd44b01978f47fc9f470cdcedfef6b6",
                         "title": "розмір та умови надання забезпечення виконання договору про закупівлю"
                     },
-                    "value": true
+                    "value": true,
+                    "classification": {
+                        "scheme": "ESPD211",
+                        "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+                    }
                 }
             ]
         }
@@ -538,7 +538,7 @@
                         "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
-                    "scale": "Приховано"
+                    "scale": "mid"
                 }
             ],
             "documents": [
@@ -594,7 +594,7 @@
                         "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
-                    "scale": "Приховано"
+                    "scale": "mid"
                 }
             ],
             "documents": [
@@ -647,7 +647,7 @@
                         "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
-                    "scale": "Приховано"
+                    "scale": "mid"
                 }
             ],
             "date": "2021-11-08T16:55:57.765449+02:00",
@@ -661,9 +661,9 @@
             "items": [
                 {
                     "id": "a7f8f276319f4d0690afc84af1fa6d8e",
-                    "description": "i-c005ff33: Протизапальний та протиревматичний засіб Ібупрофен",
-                    "description_en": "i-c0114ec0: Anti-inflammatory and antirheumatic agent Ibuprofen",
-                    "description_ru": "i-0234b919: Противовоспалительное и противоревматическое средство Ибупрофен",
+                    "description": "Приховано",
+                    "description_en": "Hidden",
+                    "description_ru": "Приховано",
                     "additionalClassifications": [
                         {
                             "scheme": "INN",
@@ -676,7 +676,7 @@
                             "description": "ibuprofen"
                         }
                     ],
-                    "quantity": 136.2,
+                    "quantity": 0.0,
                     "deliveryDate": {
                         "startDate": "1970-01-01T03:00:00+03:00",
                         "endDate": "1970-01-01T03:00:00+03:00"
@@ -740,7 +740,7 @@
                         "faxNumber": "Приховано",
                         "url": "Приховано"
                     },
-                    "scale": "Приховано"
+                    "scale": "mid"
                 }
             ],
             "date": "2021-11-08T16:59:10.235391+02:00",
@@ -766,9 +766,9 @@
             "items": [
                 {
                     "id": "a7f8f276319f4d0690afc84af1fa6d8e",
-                    "description": "i-c005ff33: Протизапальний та протиревматичний засіб Ібупрофен",
-                    "description_en": "i-c0114ec0: Anti-inflammatory and antirheumatic agent Ibuprofen",
-                    "description_ru": "i-0234b919: Противовоспалительное и противоревматическое средство Ибупрофен",
+                    "description": "Приховано",
+                    "description_en": "Hidden",
+                    "description_ru": "Приховано",
                     "additionalClassifications": [
                         {
                             "scheme": "INN",
@@ -781,7 +781,7 @@
                             "description": "ibuprofen"
                         }
                     ],
-                    "quantity": 136.2,
+                    "quantity": 0.0,
                     "deliveryDate": {
                         "startDate": "1970-01-01T03:00:00+03:00",
                         "endDate": "1970-01-01T03:00:00+03:00"
@@ -853,6 +853,6 @@
         "currency": "UAH"
     },
     "procurementMethodType": "belowThreshold",
-    "dateCreated": "2024-02-12T14:31:57.801459+02:00",
+    "dateCreated": "2026-06-19T13:40:49.746782+03:00",
     "id": "069e04c3c5fb4c6fbf7b6dbb3b19c7d0"
 }

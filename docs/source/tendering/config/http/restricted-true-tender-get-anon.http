@@ -804,9 +804,9 @@ Content-Type: application/json
         "id": "c4a5427de3d04afca7b9a450030a5f5f",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "name.doc",
+        "title": "Приховано",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/23519e7fa7b04330b6e39916f0e7438f?Signature=TO7fZ%2Bi4Aren0I16%2Fu2AuYt%2FnxwYch%2FSG4BH83uS537hXp9Vx5mVJcl3ltjbnETt0sguL4zWeF%2FdXdnlLPNtAQ%3D%3D&KeyID=a8968c46",
+        "url": "Приховано",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -842,9 +842,9 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
-        "title": "description.pdf",
+        "title": "Приховано",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b834c3e8e129430c9a296191d05644f9?Signature=wkMCM5QmC9eqlvLbLfWeumOpQHIlSAabTtIc6CIqlZpCxOy4EQsW49kNUyfGvqogBVANc8XBpySmmNBhO9g8Ag%3D%3D&KeyID=a8968c46",
+        "url": "Приховано",
         "documentOf": "tender",
         "language": "uk",
         "id": "5a767248d80d4631938ca7a90952d99b",
@@ -1037,12 +1037,12 @@ Content-Type: application/json
     "items": [
       {
         "id": "0e77ac7ddcc2484e81cb0bfdf2bd2637",
-        "description": "Послуги шкільних їдалень",
+        "description": "Приховано",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
-        "quantity": 1.0,
+        "quantity": 0.0,
         "classification": {
           "description": "Послуги з харчування у школах",
           "scheme": "ДК021",

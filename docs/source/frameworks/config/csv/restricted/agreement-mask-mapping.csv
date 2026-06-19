@@ -1,4 +1,17 @@
 path,value
+$.contracts[*].suppliers[*].name,Приховано
+$.contracts[*].suppliers[*].name_en,Hidden
+$.contracts[*].suppliers[*].name_ru,Приховано
+$.contracts[*].suppliers[*].identifier.id,Приховано
+$.contracts[*].suppliers[*].identifier.legalName,Приховано
+$.contracts[*].suppliers[*].identifier.legalName_en,Hidden
+$.contracts[*].suppliers[*].identifier.legalName_ru,Приховано
+$.contracts[*].suppliers[*].identifier.uri,Приховано
+$.contracts[*].suppliers[*].additionalIdentifiers[*].id,Приховано
+$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName,Приховано
+$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_en,Hidden
+$.contracts[*].suppliers[*].additionalIdentifiers[*].legalName_ru,Приховано
+$.contracts[*].suppliers[*].additionalIdentifiers[*].uri,Приховано
 $.contracts[*].suppliers[*].address.streetAddress,Приховано
 $.contracts[*].suppliers[*].address.locality,Приховано
 $.contracts[*].suppliers[*].address.region,Приховано

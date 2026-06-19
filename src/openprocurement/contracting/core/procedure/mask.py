@@ -7,7 +7,12 @@ from openprocurement.api.mask import (
     optimize_tender_mask_mapping,
 )
 
-CONTRACT_MASK_MAPPING_RAW = {
+CONTRACT_MASK_MAPPING_BASE_RAW = {
+    # items
+    "$.items[*].description": MASK_STRING,
+    "$.items[*].description_en": MASK_STRING_EN,
+    "$.items[*].description_ru": MASK_STRING,
+    "$.items[*].quantity": MASK_NUMBER,
     # items.deliveryDate
     "$.items[*].deliveryDate.startDate": MASK_DATE,
     "$.items[*].deliveryDate.endDate": MASK_DATE,
@@ -31,6 +36,13 @@ CONTRACT_MASK_MAPPING_RAW = {
     "$.suppliers[*].identifier.legalName": MASK_STRING,
     "$.suppliers[*].identifier.legalName_en": MASK_STRING_EN,
     "$.suppliers[*].identifier.legalName_ru": MASK_STRING,
+    "$.suppliers[*].identifier.uri": MASK_STRING,
+    # suppliers.additionalIdentifiers
+    "$.suppliers[*].additionalIdentifiers[*].id": MASK_STRING,
+    "$.suppliers[*].additionalIdentifiers[*].legalName": MASK_STRING,
+    "$.suppliers[*].additionalIdentifiers[*].legalName_en": MASK_STRING_EN,
+    "$.suppliers[*].additionalIdentifiers[*].legalName_ru": MASK_STRING,
+    "$.suppliers[*].additionalIdentifiers[*].uri": MASK_STRING,
     # suppliers.address
     "$.suppliers[*].address.streetAddress": MASK_STRING,
     "$.suppliers[*].address.locality": MASK_STRING,
@@ -55,8 +67,6 @@ CONTRACT_MASK_MAPPING_RAW = {
     "$.suppliers[*].additionalContactPoints[*].name": MASK_STRING,
     "$.suppliers[*].additionalContactPoints[*].name_en": MASK_STRING_EN,
     "$.suppliers[*].additionalContactPoints[*].name_ru": MASK_STRING,
-    # suppliers.scale
-    "$.suppliers[*].scale": MASK_STRING,
     # suppliers.signerInfo
     "$.suppliers[*].signerInfo.name": MASK_STRING,
     "$.suppliers[*].signerInfo.email": MASK_STRING,
@@ -64,6 +74,16 @@ CONTRACT_MASK_MAPPING_RAW = {
     "$.suppliers[*].signerInfo.iban": MASK_STRING,
     "$.suppliers[*].signerInfo.position": MASK_STRING,
     "$.suppliers[*].signerInfo.authorizedBy": MASK_STRING,
+}
+
+CONTRACT_MASK_MAPPING_BASE_MODIFICATIONS_RAW = {}
+for key, value in CONTRACT_MASK_MAPPING_BASE_RAW.items():
+    modifications_key = key.replace("$.", "$.changes[*].modifications[*].")
+    CONTRACT_MASK_MAPPING_BASE_MODIFICATIONS_RAW[modifications_key] = value
+
+CONTRACT_MASK_MAPPING_RAW = {
+    **CONTRACT_MASK_MAPPING_BASE_RAW,
+    **CONTRACT_MASK_MAPPING_BASE_MODIFICATIONS_RAW,
     # changes
     "$.changes[*].rationale": MASK_STRING,
     "$.changes[*].rationale_ru": MASK_STRING,
@@ -76,6 +96,7 @@ CONTRACT_MASK_MAPPING_RAW = {
 CONTRACT_MASK_MAPPING_REPLACEMENT_RULES = {
     "$..documents": [
         "$.documents",
+        "$.changes[*].documents[*]",
         "$.implementation.transactions[*].documents",
     ],
 }
