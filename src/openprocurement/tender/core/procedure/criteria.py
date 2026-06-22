@@ -1,5 +1,5 @@
 from collections import Counter
-from typing import Any, Union
+from typing import Any, Optional, Tuple, Union
 
 from pyramid.request import Request
 
@@ -133,53 +133,55 @@ class TenderCriterionMixin:
                     if data_type in validation_rules:
                         validation_rules[data_type](req, tender_criterion.get("classification", {}).get("id"))
 
-    def validate_criteria_requirement_from_market(self, data: Union[dict, list]) -> None:
-        if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
-            return
+    def _resolve_market_criterion(self, tender_criterion: dict) -> Optional[Tuple[dict, str, bool]]:
+        # check only localization and tech criteria, because only these are in market
+        market_criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
+        if tender_criterion["classification"]["id"] not in market_criteria_ids:
+            return None
 
         tender = get_tender()
-        if not isinstance(data, list):
-            data = [data]
-
-        # get profile and category for each tender item
         tender_items_market_objects = {
             item["id"]: (item.get("profile"), item.get("category")) for item in tender.get("items", [])
         }
 
+        # find market object: profile or category
+        market_obj: dict = {}
+        requirements_from_profile = False
+        profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
+        if profile_id:
+            profile = get_tender_profile(self.request, profile_id)
+            if profile.get("status", "active") == "active":
+                requirements_from_profile = True
+                market_obj = profile
+
+        # check requirements from category only if there is no profile in item or profile is general
+        if not requirements_from_profile and category_id:
+            market_obj = get_tender_category(self.request, category_id)
+
+        if not market_obj:
+            return None
+
+        market_id = market_obj["id"]
+
+        # Search for matching market criterion
+        for market_criterion in market_obj.get("criteria", []):
+            if market_criterion.get("classification", {}).get("id") == tender_criterion["classification"]["id"]:
+                return market_criterion, market_id, requirements_from_profile
+
+        return None
+
+    def validate_criteria_requirement_from_market(self, data: Union[dict, list]) -> None:
+        if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
+            return
+
+        if not isinstance(data, list):
+            data = [data]
+
         for tender_criterion in data:
-            # check only localization and tech criteria, because only these are in market
-            market_criteria_ids = (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION)
-            if tender_criterion["classification"]["id"] not in market_criteria_ids:
+            resolved = self._resolve_market_criterion(tender_criterion)
+            if resolved is None:
                 continue
-
-            # find market object: profile or category
-            market_obj = {}
-            requirements_from_profile = False
-            profile_id, category_id = tender_items_market_objects[tender_criterion["relatedItem"]]
-            if profile_id:
-                profile = get_tender_profile(self.request, profile_id)
-                if profile.get("status", "active") == "active":
-                    requirements_from_profile = True
-                    market_obj = profile
-
-            # check requirements from category only if there is no profile in item or profile is general
-            if not requirements_from_profile and category_id:
-                market_obj = get_tender_category(self.request, category_id)
-
-            market_id = market_obj["id"]
-
-            # Search for matching market criterion
-            market_criterion = None
-            for market_criterion_item in market_obj.get("criteria", []):
-                market_criterion_id = market_criterion_item.get("classification", {}).get("id")
-                tender_criterion_id = tender_criterion["classification"]["id"]
-                if market_criterion_id == tender_criterion_id:
-                    market_criterion = market_criterion_item
-                    break
-
-            # Skip validation if no market criterion is found
-            if not market_criterion:
-                continue
+            market_criterion, market_id, requirements_from_profile = resolved
 
             # Validate tender criterion requirements against market criterion
             self._validate_market_criterion_requirements(
@@ -188,6 +190,38 @@ class TenderCriterionMixin:
                 market_id=market_id,
                 requirements_from_profile=requirements_from_profile,
             )
+
+    def validate_requirement_from_market(self, tender_criterion: dict, requirement: dict) -> None:
+        if not tender_created_after(NEW_REQUIREMENTS_RULES_FROM):
+            return
+
+        # cancelled / non-active requirements are validated against the market at activation
+        if requirement.get("status", ReqStatuses.DEFAULT) != ReqStatuses.ACTIVE:
+            return
+
+        resolved = self._resolve_market_criterion(tender_criterion)
+        if resolved is None:
+            return
+        market_criterion, market_id, requirements_from_profile = resolved
+
+        market_requirements = {
+            req["title"]: req
+            for rg in market_criterion.get("requirementGroups", "")
+            for req in rg.get("requirements", "")
+            if not req.get("isArchived", False)
+        }
+        market_req = market_requirements.get(requirement["title"])
+
+        # a requirement whose title is absent from the market is a composition concern (activation)
+        if not market_req:
+            return
+
+        self._validate_market_requirement_fields(
+            tender_req=requirement,
+            market_req=market_req,
+            market_id=market_id,
+            requirements_from_profile=requirements_from_profile,
+        )
 
     def _validate_market_criterion_requirements(
         self,
