@@ -1011,23 +1011,16 @@ def tender_funders(self):
     self.tender_id = tender["id"]
     token = response.json["access"]["token"]
 
+    # Funders may share the same identifier (e.g. several programs of one donor)
     tender_data["funders"].append(deepcopy(test_tender_cfaselectionua_base_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
-    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["Items should be unique by fields: identifier.scheme, identifier.id"],
-                "location": "body",
-                "name": "funders",
-            }
-        ],
-    )
+    self.assertEqual(len(response.json["data"]["funders"]), 2)
+    self.assertEqual(response.json["data"]["funders"][1]["identifier"]["id"], "44000")
+    self.assertEqual(response.json["data"]["funders"][1]["identifier"]["scheme"], "XM-DAC")
 
     tender_data["funders"][0]["identifier"]["id"] = "some id"
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)

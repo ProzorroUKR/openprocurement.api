@@ -41,7 +41,6 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
-    validate_funders_unique,
     validate_object_id_uniq,
 )
 
@@ -112,7 +111,7 @@ class CommonBaseTender(Model):
     procurementMethodRationale_ru = StringType()
     funders = ListType(
         ModelType(Organization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids],
+        validators=[validate_funders_ids],
     )
     is_masked = BooleanType()
 

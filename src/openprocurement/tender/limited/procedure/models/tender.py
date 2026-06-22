@@ -27,10 +27,7 @@ from openprocurement.tender.core.procedure.models.tender import (
     validate_items_related_lot,
 )
 from openprocurement.tender.core.procedure.models.tender_base import CommonBaseTender
-from openprocurement.tender.core.procedure.validation import (
-    validate_funders_ids,
-    validate_funders_unique,
-)
+from openprocurement.tender.core.procedure.validation import validate_funders_ids
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
     NEGOTIATION_QUICK,
@@ -86,7 +83,7 @@ class PostReportingTender(TenderMilestoneMixin, PostBaseTender):
 
     funders = ListType(
         ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids],
+        validators=[validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
@@ -118,7 +115,7 @@ class PatchReportingTender(CommonBaseTender):
 
     funders = ListType(
         ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids],
+        validators=[validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
@@ -143,7 +140,7 @@ class ReportingTender(TenderMilestoneMixin, BaseTender):
 
     funders = ListType(
         ModelType(ReportFundOrganization, required=True),
-        validators=[validate_funders_unique, validate_funders_ids],
+        validators=[validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()

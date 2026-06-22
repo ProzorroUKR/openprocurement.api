@@ -59,10 +59,7 @@ from openprocurement.api.utils import (
     is_ua_road_classification,
     raise_operation_error,
 )
-from openprocurement.api.validation import (
-    validate_list_uniq_factory,
-    validate_tender_first_revision_date,
-)
+from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
     find_lot,
@@ -1311,11 +1308,6 @@ def validate_ccce_ua(additional_classifications):
         raise ValidationError(
             f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"
         )
-
-
-def validate_funders_unique(funders, *args):
-    validation_func = validate_list_uniq_factory("identifier.scheme", "identifier.id")
-    validation_func([x for x in funders if x.identifier])
 
 
 def validate_funders_ids(funders, *args):

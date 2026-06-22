@@ -1724,23 +1724,16 @@ def tender_funders(self):
     tender = response.json["data"]
     token = response.json["access"]["token"]
 
+    # Funders may share the same identifier (e.g. several programs of one donor)
     tender_data["funders"].append(deepcopy(test_tender_below_base_organization))
     tender_data["funders"][1]["identifier"]["id"] = "44000"
     tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
-    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
-    self.assertEqual(response.status, "422 Unprocessable Entity")
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": ["Items should be unique by fields: identifier.scheme, identifier.id"],
-                "location": "body",
-                "name": "funders",
-            }
-        ],
-    )
+    self.assertEqual(len(response.json["data"]["funders"]), 2)
+    self.assertEqual(response.json["data"]["funders"][1]["identifier"]["id"], "44000")
+    self.assertEqual(response.json["data"]["funders"][1]["identifier"]["scheme"], "XM-DAC")
 
     tender_data["funders"][0]["identifier"]["id"] = "some id"
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
@@ -1778,6 +1771,75 @@ def tender_funders(self):
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"funders": None}})
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("funders", response.json["data"])
+
+
+def tender_funders_same_identifier(self):
+    # A donor organization may finance several programs, so two funders are
+    # allowed to share the same identifier (scheme + id) while differing in
+    # other fields (name, contactPoint, etc.).
+    tender_data = deepcopy(self.initial_data)
+    tender_data["funders"] = [
+        {
+            "name": "Програма Румунії Interreg VI-A NEXT",
+            "name_en": "Interreg Program VI-A NEXT Romania",
+            "address": {
+                "countryName": "Румунія",
+                "locality": "Бухарест",
+                "postalCode": "050706",
+                "region": "Валахія",
+                "streetAddress": "Bld.Libertatii nr. 16, Sector 5, Bucharest",
+            },
+            "identifier": {
+                "id": "26369185",
+                "scheme": "RO-CUI",
+                "legalName_en": "Ministry of Development, Public Works and Administration of Romania",
+                "legalName": "Міністерство розвитку, громадських робіт і державного управління Румунії",
+            },
+            "contactPoint": {
+                "email": "info@mdlpa.gov.ro",
+                "faxNumber": "+40372111332",
+                "telephone": "+40372111332",
+                "url": "https://www.mdlpa.ro/",
+                "name_en": "Iulia Hertzog",
+                "name": "Юлія Герцог",
+            },
+        },
+        {
+            "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+            "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+            "address": {
+                "countryName": "Румунія",
+                "locality": "Бухарест",
+                "postalCode": "050706",
+                "region": "Валахія",
+                "streetAddress": "Bld.Libertatii nr. 16, Sector 5, Bucharest",
+            },
+            "identifier": {
+                "id": "26369185",
+                "scheme": "RO-CUI",
+                "legalName_en": "Ministry of Development, Public Works and Administration of Romania",
+                "legalName": "Міністерство розвитку, громадських робіт і державного управління Румунії",
+            },
+            "contactPoint": {
+                "email": "blacksea-cbc@mdlpa.gov.ro",
+                "faxNumber": "+40372111323",
+                "telephone": "+40372111323",
+                "url": "https://www.mdlpa.ro/",
+                "name_en": "Iulia Hertzog",
+                "name": "Юлія Герцог",
+            },
+        },
+    ]
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    funders = response.json["data"]["funders"]
+    self.assertEqual(len(funders), 2)
+    self.assertEqual(funders[0]["identifier"]["scheme"], "RO-CUI")
+    self.assertEqual(funders[0]["identifier"]["id"], "26369185")
+    self.assertEqual(funders[1]["identifier"]["scheme"], "RO-CUI")
+    self.assertEqual(funders[1]["identifier"]["id"], "26369185")
+    self.assertNotEqual(funders[0]["contactPoint"]["email"], funders[1]["contactPoint"]["email"])
 
 
 def tender_fields(self):
