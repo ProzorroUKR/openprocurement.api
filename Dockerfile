@@ -12,7 +12,7 @@ RUN chown -R user:user ${APP_HOME}
 USER user
 
 # Install uv
-COPY --from=ghcr.io/astral-sh/uv:0.4 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11 /uv /uvx /bin/
 
 ARG UV_EXTRA_ARGS="--no-dev"
 
