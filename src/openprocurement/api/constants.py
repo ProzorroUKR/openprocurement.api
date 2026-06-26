@@ -135,9 +135,9 @@ CPV_PREFIX_LENGTH_TO_NAME = {
 }
 
 # Funders
-FUNDERS = [
-    (i["identifier"]["scheme"], i["identifier"]["id"]) for i in standards.load("codelists/tender/tender_funder.json")
-]
+FUNDERS = {
+    (i["identifier"]["scheme"], i["identifier"]["id"]): i for i in standards.load("codelists/tender/tender_funder.json")
+}
 
 # Codes
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]

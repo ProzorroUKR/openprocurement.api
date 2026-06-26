@@ -1316,6 +1316,36 @@ def validate_funders_ids(funders, *args):
             raise ValidationError("Funder identifier should be one of the values allowed")
 
 
+def validate_funders_match_dictionary(funders, *args):
+    for funder in funders:
+        if not funder.identifier:
+            continue
+        entry = FUNDERS.get((funder.identifier.scheme, funder.identifier.id))
+        if entry is None:
+            continue  # membership error is raised by validate_funders_ids
+        identifier = entry["identifier"]
+        # name and legalName (uk) are mandatory; the _en variants are validated only when provided
+        checks = (
+            ("name", funder.name, entry.get("name_uk"), True),
+            ("name_en", funder.name_en, entry.get("name_en"), False),
+            ("identifier.legalName", funder.identifier.legalName, identifier.get("legalName_uk"), True),
+            ("identifier.legalName_en", funder.identifier.legalName_en, identifier.get("legalName_en"), False),
+        )
+        for field, value, expected, required in checks:
+            if value is None:
+                if required:
+                    raise ValidationError(
+                        f"Funder {field} is required and should match tender_funder dictionary value for "
+                        f"{funder.identifier.scheme} {funder.identifier.id}"
+                    )
+                continue
+            if value != expected:
+                raise ValidationError(
+                    f"Funder {field} should match tender_funder dictionary value for "
+                    f"{funder.identifier.scheme} {funder.identifier.id}"
+                )
+
+
 def validate_object_id_uniq(objs, *_, obj_name=None):
     if objs:
         if not obj_name:

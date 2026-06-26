@@ -72,7 +72,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
     ],
     "period": {
       "startDate": "2027-01-01T00:01:00+02:00",
-      "endDate": "2027-01-09T00:00:00+02:00"
+      "endDate": "2027-01-01T00:06:00+02:00"
     },
     "qualified": false
   }

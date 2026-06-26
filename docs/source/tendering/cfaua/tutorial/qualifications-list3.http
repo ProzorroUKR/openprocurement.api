@@ -68,7 +68,7 @@ Content-Type: application/json
       ],
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       },
       "qualified": true,
       "eligible": true
@@ -134,7 +134,7 @@ Content-Type: application/json
       ],
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       },
       "qualified": true,
       "eligible": true
@@ -200,7 +200,7 @@ Content-Type: application/json
       ],
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       },
       "qualified": true,
       "eligible": true
@@ -265,7 +265,7 @@ Content-Type: application/json
       ],
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       },
       "qualified": false,
       "eligible": false
@@ -314,7 +314,7 @@ Content-Type: application/json
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       }
     },
     {
@@ -362,7 +362,7 @@ Content-Type: application/json
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       }
     },
     {
@@ -410,7 +410,7 @@ Content-Type: application/json
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",
-        "endDate": "2027-01-09T00:00:00+02:00"
+        "endDate": "2027-01-01T00:07:01+02:00"
       }
     }
   ]

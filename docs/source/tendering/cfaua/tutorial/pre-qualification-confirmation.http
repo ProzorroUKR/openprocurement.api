@@ -2035,6 +2035,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -2130,12 +2131,12 @@ Content-Type: application/json
     },
     "qualificationPeriod": {
       "startDate": "2027-01-01T00:02:01+02:00",
-      "endDate": "2027-01-07T00:00:00+02:00",
+      "endDate": "2027-01-01T00:07:01+02:00",
       "reportingDatePublication": "2027-01-01T00:02:01+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
+      "startDate": "2026-12-31T23:31:01+02:00",
+      "endDate": "2026-12-31T23:58:01+02:00"
     },
     "qualifications": [
       {
@@ -2148,7 +2149,7 @@ Content-Type: application/json
         "eligible": true,
         "complaintPeriod": {
           "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
+          "endDate": "2027-01-01T00:07:01+02:00"
         }
       },
       {
@@ -2161,7 +2162,7 @@ Content-Type: application/json
         "eligible": true,
         "complaintPeriod": {
           "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
+          "endDate": "2027-01-01T00:07:01+02:00"
         }
       },
       {
@@ -2174,7 +2175,7 @@ Content-Type: application/json
         "eligible": false,
         "complaintPeriod": {
           "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
+          "endDate": "2027-01-01T00:07:01+02:00"
         }
       },
       {
@@ -2187,7 +2188,7 @@ Content-Type: application/json
         "eligible": true,
         "complaintPeriod": {
           "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
+          "endDate": "2027-01-01T00:07:01+02:00"
         }
       }
     ],
@@ -2311,23 +2312,23 @@ Content-Type: application/json
           "currency": "USD"
         },
         "auctionPeriod": {
-          "startDate": "2027-01-07T12:29:40.230000+02:00",
-          "shouldStartAfter": "2027-01-07T00:00:00+02:00"
+          "startDate": "2027-01-04T12:29:40.230000+02:00",
+          "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         }
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
-      "endDate": "2026-12-22T00:02:01+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "startDate": "2026-12-31T23:31:01+02:00",
+      "endDate": "2026-12-31T23:52:01+02:00",
+      "clarificationsUntil": "2027-01-08T23:53:00+02:00",
       "invalidationDate": "2027-01-01T00:01:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
+      "startDate": "2026-12-31T23:31:01+02:00",
       "endDate": "2027-01-01T00:02:01+02:00"
     },
     "status": "active.pre-qualification.stand-still",
-    "next_check": "2027-01-07T00:00:00+02:00",
+    "next_check": "2027-01-01T00:07:01+02:00",
     "id": "ae2274f0782747918bb1e96f34787c24"
   },
   "config": {

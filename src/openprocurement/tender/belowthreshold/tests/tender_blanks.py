@@ -32,6 +32,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_claim,
     test_tender_below_data,
     test_tender_below_draft_claim,
+    test_tender_below_funder,
     test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.base import (
@@ -1712,9 +1713,7 @@ def create_tender(self):
 
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
-    tender_data["funders"] = [deepcopy(test_tender_below_base_organization)]
-    tender_data["funders"][0]["identifier"]["id"] = "44000"
-    tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+    tender_data["funders"] = [deepcopy(test_tender_below_funder)]
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1725,9 +1724,7 @@ def tender_funders(self):
     token = response.json["access"]["token"]
 
     # Funders may share the same identifier (e.g. several programs of one donor)
-    tender_data["funders"].append(deepcopy(test_tender_below_base_organization))
-    tender_data["funders"][1]["identifier"]["id"] = "44000"
-    tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
+    tender_data["funders"].append(deepcopy(test_tender_below_funder))
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1775,13 +1772,13 @@ def tender_funders(self):
 
 def tender_funders_same_identifier(self):
     # A donor organization may finance several programs, so two funders are
-    # allowed to share the same identifier (scheme + id) while differing in
-    # other fields (name, contactPoint, etc.).
+    # allowed to share the same identifier (scheme + id). Their name fields must
+    # match the tender_funder dictionary, so they differ only in contactPoint.
     tender_data = deepcopy(self.initial_data)
     tender_data["funders"] = [
         {
-            "name": "Програма Румунії Interreg VI-A NEXT",
-            "name_en": "Interreg Program VI-A NEXT Romania",
+            "name": "Міністерство розвитку, громадських робіт і державного управління Румунії",
+            "name_en": "Ministry of Development, Public Works and Administration of Romania",
             "address": {
                 "countryName": "Румунія",
                 "locality": "Бухарест",
@@ -1805,8 +1802,8 @@ def tender_funders_same_identifier(self):
             },
         },
         {
-            "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
-            "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+            "name": "Міністерство розвитку, громадських робіт і державного управління Румунії",
+            "name_en": "Ministry of Development, Public Works and Administration of Romania",
             "address": {
                 "countryName": "Румунія",
                 "locality": "Бухарест",
@@ -1842,6 +1839,64 @@ def tender_funders_same_identifier(self):
     self.assertNotEqual(funders[0]["contactPoint"]["email"], funders[1]["contactPoint"]["email"])
 
 
+def tender_funders_dictionary_validation(self):
+    # Funder name / legalName fields must match the tender_funder dictionary;
+    # name and legalName (uk) are mandatory, name_en / legalName_en are optional.
+
+    def post_funder(funder, status=201):
+        tender_data = deepcopy(self.initial_data)
+        tender_data["funders"] = [funder]
+        return self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=status)
+
+    # name does not match the dictionary → rejected.
+    funder = deepcopy(test_tender_below_funder)
+    funder["name"] = "шопопало"
+    response = post_funder(funder, status=422)
+    self.assertEqual(response.json["errors"][0]["name"], "funders")
+    self.assertIn(
+        "Funder name should match tender_funder dictionary value for XM-DAC 44000",
+        response.json["errors"][0]["description"],
+    )
+
+    # name_en does not match the dictionary → rejected.
+    funder = deepcopy(test_tender_below_funder)
+    funder["name_en"] = "wrong"
+    response = post_funder(funder, status=422)
+    self.assertIn(
+        "Funder name_en should match tender_funder dictionary value for XM-DAC 44000",
+        response.json["errors"][0]["description"],
+    )
+
+    # legalName mismatch → rejected.
+    funder = deepcopy(test_tender_below_funder)
+    funder["identifier"]["legalName"] = "wrong"
+    response = post_funder(funder, status=422)
+    self.assertIn(
+        "Funder identifier.legalName should match tender_funder dictionary value for XM-DAC 44000",
+        response.json["errors"][0]["description"],
+    )
+
+    # legalName omitted → rejected (it is mandatory).
+    funder = deepcopy(test_tender_below_funder)
+    del funder["identifier"]["legalName"]
+    response = post_funder(funder, status=422)
+    self.assertIn(
+        "Funder identifier.legalName is required and should match tender_funder dictionary value for XM-DAC 44000",
+        response.json["errors"][0]["description"],
+    )
+
+    # name_en / legalName_en omitted → allowed (optional fields).
+    funder = deepcopy(test_tender_below_funder)
+    del funder["name_en"]
+    del funder["identifier"]["legalName_en"]
+    response = post_funder(funder)
+    self.assertEqual(response.status, "201 Created")
+
+    # Fully matching funder → allowed.
+    response = post_funder(deepcopy(test_tender_below_funder))
+    self.assertEqual(response.status, "201 Created")
+
+
 def tender_fields(self):
     response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -1874,9 +1929,7 @@ def tender_fields(self):
 def tender_inspector(self):
     tender_data = deepcopy(self.initial_data)
     organization = deepcopy(test_tender_below_base_organization)
-    funder_organization = deepcopy(organization)
-    funder_organization["identifier"]["id"] = "44000"
-    funder_organization["identifier"]["scheme"] = "XM-DAC"
+    funder_organization = deepcopy(test_tender_below_funder)
 
     tender_data["inspector"] = organization
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)

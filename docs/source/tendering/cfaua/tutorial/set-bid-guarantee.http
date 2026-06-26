@@ -38,8 +38,8 @@ Content-Type: application/json
       "currency": "USD"
     },
     "auctionPeriod": {
-      "startDate": "2027-03-01T13:09:55.701000+02:00",
-      "shouldStartAfter": "2027-02-27T00:00:00+02:00"
+      "startDate": "2027-02-02T13:09:55.701000+02:00",
+      "shouldStartAfter": "2027-02-01T00:00:00+02:00"
     }
   }
 }

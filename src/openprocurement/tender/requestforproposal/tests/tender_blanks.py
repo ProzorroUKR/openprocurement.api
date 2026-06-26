@@ -904,8 +904,14 @@ def tender_inspector(self):
 def tender_funders(self):
     tender_data = deepcopy(self.initial_data)
     tender_data["funders"] = [deepcopy(test_tender_rfp_base_organization)]
-    tender_data["funders"][0]["identifier"]["id"] = "44000"
-    tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+    tender_data["funders"][0]["name"] = "Світовий Банк"
+    tender_data["funders"][0]["name_en"] = "World Bank"
+    tender_data["funders"][0]["identifier"] = {
+        "id": "44000",
+        "scheme": "XM-DAC",
+        "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+        "legalName_en": "International Bank for Reconstruction and Development (IBRD)",
+    }
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -917,8 +923,14 @@ def tender_funders(self):
 
     # Funders may share the same identifier (e.g. several programs of one donor)
     tender_data["funders"].append(deepcopy(test_tender_rfp_base_organization))
-    tender_data["funders"][1]["identifier"]["id"] = "44000"
-    tender_data["funders"][1]["identifier"]["scheme"] = "XM-DAC"
+    tender_data["funders"][1]["name"] = "Світовий Банк"
+    tender_data["funders"][1]["name_en"] = "World Bank"
+    tender_data["funders"][1]["identifier"] = {
+        "id": "44000",
+        "scheme": "XM-DAC",
+        "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+        "legalName_en": "International Bank for Reconstruction and Development (IBRD)",
+    }
     response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")

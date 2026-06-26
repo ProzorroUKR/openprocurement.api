@@ -20,7 +20,7 @@ from openprocurement.api.procedure.models.organization import ProcuringEntityKin
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import (
     is_obj_const_active,
-    validate_funders_match_funder_program,
+    validate_funders_match_plan_programs,
 )
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
@@ -252,7 +252,7 @@ class PlanState(BaseState):
                 raise error_handler(request)
 
     def _validate_tender_funder_matches_plan_program(self, plan, tender):
-        validate_funders_match_funder_program(self.request, plan, tender)
+        validate_funders_match_plan_programs(self.request, tender, [plan])
 
     def _validate_plan_scheduled(self, plan):
         status = plan.get("status")

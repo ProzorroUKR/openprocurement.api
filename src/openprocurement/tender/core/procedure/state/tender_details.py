@@ -35,7 +35,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
-from openprocurement.api.procedure.utils import validate_funders_match_funder_program
+from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
@@ -247,10 +247,12 @@ class BaseTenderDetailsMixing:
     def validate_funders_match_plan_program(self, request, before, after):
         if before.get("funders") == after.get("funders"):
             return
+        plans = []
         for plan_ref in after.get("plans") or before.get("plans") or []:
             plan = request_fetch_plan(request, plan_ref["id"], raise_error=False, force=True)
             if plan:
-                validate_funders_match_funder_program(request, plan, after)
+                plans.append(plan)
+        validate_funders_match_plan_programs(request, after, plans)
 
     def on_post(self, tender):
         self.validate_enquiry_period(tender)

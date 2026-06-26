@@ -58,7 +58,7 @@ Content-Type: application/json
       ],
       "period": {
         "startDate": "2024-01-01T00:00:01+02:00",
-        "endDate": "2024-01-04T00:00:00+02:00"
+        "endDate": "2024-01-01T00:02:01+02:00"
       },
       "qualified": true
     },
@@ -112,7 +112,7 @@ Content-Type: application/json
       ],
       "period": {
         "startDate": "2024-01-01T00:00:01+02:00",
-        "endDate": "2024-01-04T00:00:00+02:00"
+        "endDate": "2024-01-01T00:02:01+02:00"
       },
       "qualified": false
     },
@@ -150,7 +150,7 @@ Content-Type: application/json
       "bid_id": "f826cda730dc45ca83baa28d0755503d",
       "period": {
         "startDate": "2024-01-01T00:00:01+02:00",
-        "endDate": "2024-01-04T00:00:00+02:00"
+        "endDate": "2024-01-01T00:02:01+02:00"
       }
     }
   ]

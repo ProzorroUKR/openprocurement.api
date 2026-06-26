@@ -136,6 +136,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 100
       }
     ],
+    "procurementMethodDetails": "quick, accelerator=1440",
     "lots": [
       {
         "title": "Лот №1",
@@ -189,6 +190,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
   "data": {
     "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -337,8 +339,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         },
         "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
-          "shouldStartAfter": "2027-02-27T00:00:00+02:00",
-          "startDate": "2027-03-01T13:09:55.701000+02:00"
+          "shouldStartAfter": "2027-02-02T00:00:00+02:00",
+          "startDate": "2027-02-02T13:09:55.701000+02:00"
         }
       }
     ],
@@ -353,17 +355,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
+      "endDate": "2027-01-31T23:50:00+02:00",
+      "clarificationsUntil": "2027-01-31T23:53:00+02:00"
     },
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-28T00:00:00+02:00"
+      "endDate": "2027-01-31T23:56:00+02:00"
     },
     "date": "2027-01-01T00:00:00+02:00",
     "qualificationPeriod": {
       "startDate": "2027-02-01T00:00:00+02:00",
-      "endDate": "2027-02-27T00:00:00+02:00"
+      "endDate": "2027-02-01T00:20:00+02:00"
     },
     "contractChangeRationaleTypes": {
       "durationExtension": {

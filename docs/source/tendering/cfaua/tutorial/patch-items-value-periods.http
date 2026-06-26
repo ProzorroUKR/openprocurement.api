@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
+      "startDate": "2026-12-31T23:35:00+02:00",
       "endDate": "2027-01-31T00:00:10+02:00"
     }
   }
@@ -882,6 +882,7 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "open",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -974,11 +975,11 @@ Content-Type: application/json
     "next_check": "2027-01-31T00:00:10+02:00",
     "qualificationPeriod": {
       "startDate": "2027-01-31T00:00:10+02:00",
-      "endDate": "2027-02-27T00:00:00+02:00"
+      "endDate": "2027-01-31T00:20:10+02:00"
     },
     "complaintPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
-      "endDate": "2027-01-27T00:00:00+02:00"
+      "startDate": "2026-12-31T23:35:00+02:00",
+      "endDate": "2027-01-30T23:56:10+02:00"
     },
     "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
@@ -1096,19 +1097,19 @@ Content-Type: application/json
           "amount": 15.0
         },
         "auctionPeriod": {
-          "startDate": "2027-03-01T13:09:55.701000+02:00",
-          "shouldStartAfter": "2027-02-27T00:00:00+02:00"
+          "startDate": "2027-02-02T13:09:55.701000+02:00",
+          "shouldStartAfter": "2027-02-01T00:00:00+02:00"
         }
       }
     ],
     "enquiryPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
-      "endDate": "2027-01-21T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-26T00:00:00+02:00",
+      "startDate": "2026-12-31T23:35:00+02:00",
+      "endDate": "2027-01-30T23:50:10+02:00",
+      "clarificationsUntil": "2027-01-30T23:53:10+02:00",
       "invalidationDate": "2027-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
+      "startDate": "2026-12-31T23:35:00+02:00",
       "endDate": "2027-01-31T00:00:10+02:00"
     },
     "status": "active.tendering",

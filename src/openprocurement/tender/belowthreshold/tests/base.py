@@ -138,17 +138,29 @@ test_tender_below_data["tenderPeriod"] = {
     ).isoformat()
 }
 
-funder = deepcopy(test_tender_below_base_organization)
-funder["identifier"]["id"] = "44000"
-funder["identifier"]["scheme"] = "XM-DAC"
+# A valid funder must match the tender_funder.json dictionary by identifier
+# (scheme + id) and by name/name_en/legalName/legalName_en (World Bank here).
+test_tender_below_funder = deepcopy(test_tender_below_base_organization)
+test_tender_below_funder["name"] = "Світовий Банк"
+test_tender_below_funder["name_en"] = "World Bank"
+test_tender_below_funder["identifier"] = {
+    "scheme": "XM-DAC",
+    "id": "44000",
+    "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+    "legalName_en": "International Bank for Reconstruction and Development (IBRD)",
+}
+
+funder = deepcopy(test_tender_below_funder)
+
+inspector = deepcopy(test_tender_below_base_organization)
+inspector["identifier"]["id"] = "44000"
+inspector["identifier"]["scheme"] = "XM-DAC"
 
 test_tender_below_with_inspector_data = deepcopy(test_tender_below_data)
-test_tender_below_with_inspector_data.update({"funders": [funder], "inspector": funder})
+test_tender_below_with_inspector_data.update({"funders": [funder], "inspector": inspector})
 
 test_tender_below_data_no_auction = deepcopy(test_tender_below_data)
-test_tender_below_data_no_auction["funders"] = [deepcopy(test_tender_below_base_organization)]
-test_tender_below_data_no_auction["funders"][0]["identifier"]["id"] = "44000"
-test_tender_below_data_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+test_tender_below_data_no_auction["funders"] = [deepcopy(test_tender_below_funder)]
 
 test_tender_below_simple_data = deepcopy(test_tender_below_data)
 test_tender_below_simple_data["procurementMethodRationale"] = "simple"

@@ -10,12 +10,13 @@ Content-Type: application/json
   "data": {
     "funders": [
       {
-        "name": "Державне управління справами",
+        "name": "Світовий Банк",
+        "name_en": "World Bank",
         "identifier": {
           "scheme": "XM-DAC",
           "id": "44000",
-          "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/"
+          "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+          "legalName_en": "International Bank for Reconstruction and Development (IBRD)"
         },
         "address": {
           "streetAddress": "вул. Банкова, 11, корпус 1",

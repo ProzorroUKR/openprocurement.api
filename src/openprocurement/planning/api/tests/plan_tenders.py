@@ -133,6 +133,31 @@ test_below_tender_data["procuringEntity"]["identifier"] = test_plan_data["procur
 test_below_tender_data["items"] = test_below_tender_data["items"][:1]
 test_below_tender_data["items"][0]["classification"] = test_plan_data["items"][0]["classification"]
 
+# Donor organisation of the "interreg-vi-b-next-black-sea" funder_program; name and
+# legalName fields must match the tender_funder.json dictionary (RO-CUI 26369185).
+test_program_funder = deepcopy(test_tender_below_base_organization)
+test_program_funder["name"] = "Міністерство розвитку, громадських робіт і державного управління Румунії"
+test_program_funder["name_en"] = "Ministry of Development, Public Works and Administration of Romania"
+test_program_funder["identifier"] = {
+    "scheme": "RO-CUI",
+    "id": "26369185",
+    "legalName": "Міністерство розвитку, громадських робіт і державного управління Румунії",
+    "legalName_en": "Ministry of Development, Public Works and Administration of Romania",
+}
+
+# A valid dictionary funder (USAID) that is NOT the program's donor — used to test
+# the exclusivity rule. Its name fields match the dictionary so it passes
+# validate_funders_match_dictionary and only the program-link check rejects it.
+test_other_funder = deepcopy(test_tender_below_base_organization)
+test_other_funder["name"] = "Aгентство США з Міжнародного Розвитку"
+test_other_funder["name_en"] = "USAID"
+test_other_funder["identifier"] = {
+    "scheme": "XM-DAC",
+    "id": "47015",
+    "legalName": "Aгентство США з Міжнародного Розвитку",
+    "legalName_en": "United States Agency for International Development",
+}
+
 
 def test_fail_identifier_id_validation(app):
     app.authorization = ("Basic", ("broker", "broker"))
@@ -221,8 +246,8 @@ def test_procurement_method_type_cpb(app):
 
 
 def test_plan_tender_funder_program_link(app):
-    """When the plan picks a funder_program, the tender created from it must
-    declare the program's donor organisation in tender.funders."""
+    """When the plan picks a funder_program, the tender created from it may declare
+    ONLY that program's donor organisation in tender.funders (the "only" rule)."""
     app.authorization = ("Basic", ("broker", "broker"))
 
     request_plan_data = deepcopy(test_plan_data)
@@ -244,18 +269,13 @@ def test_plan_tender_funder_program_link(app):
     assert {
         "location": "body",
         "name": "funders",
-        "description": (
-            "Tender funders must include the donor organization of the plan's program "
-            "interreg-vi-b-next-black-sea: scheme=RO-CUI, id=26369185"
-        ),
+        "description": "Tender funders must include the plan program donor(s): [('RO-CUI', '26369185')]",
     } in response.json["errors"]
 
-    # Tender with the wrong funder (e.g. USAID) also fails.
+    # Tender with a different (but valid) funder, e.g. USAID, also fails — it is
+    # not the program's donor.
     request_tender_data = deepcopy(test_below_tender_data)
-    wrong_funder = deepcopy(test_tender_below_base_organization)
-    wrong_funder["identifier"]["scheme"] = "XM-DAC"
-    wrong_funder["identifier"]["id"] = "47015"
-    request_tender_data["funders"] = [wrong_funder]
+    request_tender_data["funders"] = [deepcopy(test_other_funder)]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {"data": request_tender_data, "config": test_tender_below_config},
@@ -264,26 +284,34 @@ def test_plan_tender_funder_program_link(app):
     assert {
         "location": "body",
         "name": "funders",
-        "description": (
-            "Tender funders must include the donor organization of the plan's program "
-            "interreg-vi-b-next-black-sea: scheme=RO-CUI, id=26369185"
-        ),
+        "description": "Tender funder XM-DAC 47015 does not match any linked plan's program donor",
     } in response.json["errors"]
 
-    # Tender that includes the matching donor organisation succeeds, even
-    # alongside another (allowed) funder.
+    # The matching donor alongside another organisation is rejected too — only the
+    # program's donor may be specified.
     request_tender_data = deepcopy(test_below_tender_data)
-    program_funder = deepcopy(test_tender_below_base_organization)
-    program_funder["identifier"]["scheme"] = "RO-CUI"
-    program_funder["identifier"]["id"] = "26369185"
-    request_tender_data["funders"] = [program_funder, wrong_funder]
+    request_tender_data["funders"] = [deepcopy(test_program_funder), deepcopy(test_other_funder)]
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {"data": request_tender_data, "config": test_tender_below_config},
+        status=422,
+    )
+    assert {
+        "location": "body",
+        "name": "funders",
+        "description": "Tender funder XM-DAC 47015 does not match any linked plan's program donor",
+    } in response.json["errors"]
+
+    # Exactly the program's donor organisation succeeds.
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["funders"] = [deepcopy(test_program_funder)]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {"data": request_tender_data, "config": test_tender_below_config},
     )
     assert response.status == "201 Created"
     funder_ids = [(f["identifier"]["scheme"], f["identifier"]["id"]) for f in response.json["data"]["funders"]]
-    assert ("RO-CUI", "26369185") in funder_ids
+    assert funder_ids == [("RO-CUI", "26369185")]
 
 
 def test_plan_tender_no_funder_check_without_funder_program_scheme(app):
@@ -332,15 +360,11 @@ def test_plan_tender_funder_program_link_patch(app):
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
 
-    program_funder = deepcopy(test_tender_below_base_organization)
-    program_funder["identifier"]["scheme"] = "RO-CUI"
-    program_funder["identifier"]["id"] = "26369185"
-    wrong_funder = deepcopy(test_tender_below_base_organization)
-    wrong_funder["identifier"]["scheme"] = "XM-DAC"
-    wrong_funder["identifier"]["id"] = "47015"
+    program_funder = deepcopy(test_program_funder)
+    other_funder = deepcopy(test_other_funder)
 
     request_tender_data = deepcopy(test_below_tender_data)
-    request_tender_data["funders"] = [program_funder, wrong_funder]
+    request_tender_data["funders"] = [program_funder]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {"data": request_tender_data, "config": test_tender_below_config},
@@ -349,13 +373,15 @@ def test_plan_tender_funder_program_link_patch(app):
     tender_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
 
-    expected_error = {
+    missing_donor_error = {
         "location": "body",
         "name": "funders",
-        "description": (
-            "Tender funders must include the donor organization of the plan's program "
-            "interreg-vi-b-next-black-sea: scheme=RO-CUI, id=26369185"
-        ),
+        "description": "Tender funders must include the plan program donor(s): [('RO-CUI', '26369185')]",
+    }
+    not_a_donor_error = {
+        "location": "body",
+        "name": "funders",
+        "description": "Tender funder XM-DAC 47015 does not match any linked plan's program donor",
     }
 
     # Removing all funders drops the program's donor → rejected.
@@ -364,17 +390,25 @@ def test_plan_tender_funder_program_link_patch(app):
         {"data": {"funders": None}},
         status=422,
     )
-    assert expected_error in response.json["errors"]
+    assert missing_donor_error in response.json["errors"]
 
     # Replacing the donor with another (allowed) funder → rejected.
     response = app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, token),
-        {"data": {"funders": [wrong_funder]}},
+        {"data": {"funders": [other_funder]}},
         status=422,
     )
-    assert expected_error in response.json["errors"]
+    assert not_a_donor_error in response.json["errors"]
 
-    # Dropping the extra funder but keeping the donor → allowed.
+    # Adding a second organisation alongside the donor → rejected (only rule).
+    response = app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, token),
+        {"data": {"funders": [program_funder, other_funder]}},
+        status=422,
+    )
+    assert not_a_donor_error in response.json["errors"]
+
+    # Keeping exactly the program's donor → allowed.
     response = app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, token),
         {"data": {"funders": [program_funder]}},

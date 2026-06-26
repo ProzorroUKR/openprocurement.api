@@ -11,6 +11,7 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",

@@ -11,6 +11,7 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -61,8 +62,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false
     },
     "tenderPeriod": {
-      "endDate": "2026-12-31T00:00:00+02:00",
-      "startDate": "2026-12-22T00:00:00+02:00"
+      "endDate": "2026-12-31T23:59:00+02:00",
+      "startDate": "2026-12-31T23:50:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -526,7 +527,7 @@ Content-Type: application/json
         "bid_id": "4fad3f089b0e45e2bf3084042d4995ba",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
-          "endDate": "2027-01-05T00:00:00+02:00"
+          "endDate": "2027-01-01T00:02:00+02:00"
         }
       }
     ],
