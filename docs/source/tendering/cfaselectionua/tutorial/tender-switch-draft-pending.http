@@ -22,7 +22,6 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -163,11 +162,11 @@ Content-Type: application/json
     ],
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-01T00:01:00+02:00"
+      "endDate": "2027-01-02T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:01:00+02:00",
-      "endDate": "2027-01-01T00:04:00+02:00"
+      "startDate": "2027-01-02T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
     },
     "id": "42d9343086154eaf83080514ecd42ff6"
   },

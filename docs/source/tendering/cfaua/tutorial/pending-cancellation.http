@@ -64,7 +64,7 @@ Content-Type: application/json
     ],
     "complaintPeriod": {
       "startDate": "2027-01-01T00:03:03+02:00",
-      "endDate": "2027-01-01T00:13:03+02:00"
+      "endDate": "2027-01-12T00:00:00+02:00"
     }
   }
 }

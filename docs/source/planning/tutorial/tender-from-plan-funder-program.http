@@ -1,19 +1,18 @@
-POST /api/2.5/tenders HTTP/1.0
+POST /api/2.5/plans/4a7c458e07784574b40bf4e1e09a0ec3/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "title": "футляри до державних нагород",
+    "title": "Насіння",
     "mainProcurementCategory": "goods",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/",
-        "legalName": "Державне управління справами"
+        "scheme": "UA-EDR",
+        "id": "111983",
+        "legalName": "ДП Державне Управління Справами"
       },
       "address": {
         "countryName": "Україна",
@@ -26,7 +25,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
-      "kind": "central"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
     },
     "value": {
       "amount": 500,
@@ -34,27 +41,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "description": "телевізори",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "Cartons"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 5,
         "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
+          "endDate": "2027-01-16T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -63,30 +51,28 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
-        "relatedBuyer": "11111111111111111111111111111111"
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
+          }
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Mustard seeds",
+          "id": "03111600-8"
+        },
+        "quantity": 1000,
+        "description": "Насіння гірчиці"
       },
       {
-        "description": "портфелі",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "Cartons"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 5,
         "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
+          "endDate": "2027-01-17T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -95,30 +81,28 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
-        "relatedBuyer": "22222222222222222222222222222222"
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.95",
+            "description": "Насіння соняшнику"
+          }
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Sunflower seeds",
+          "id": "03111300-5"
+        },
+        "quantity": 2000,
+        "description": "Насіння соняшнику"
       },
       {
-        "description": "портфелі",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "Cartons"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 5,
         "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
+          "endDate": "2027-01-18T00:00:00+02:00"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -127,9 +111,32 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "locality": "м. Київ",
           "streetAddress": "вул. Банкова 1"
         },
-        "relatedBuyer": "22222222222222222222222222222222"
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "01.11.84",
+            "description": "Насіння бавовнику"
+          }
+        ],
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        },
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Cotton seeds",
+          "id": "03111400-6"
+        },
+        "quantity": 3000,
+        "description": "Насіння бавовнику"
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2027-01-08T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
     "procurementMethodType": "belowThreshold",
     "milestones": [
       {
@@ -169,48 +176,32 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "enquiryPeriod": {
-      "endDate": "2027-01-08T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
-    "buyers": [
+    "status": "draft",
+    "funders": [
       {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/",
-          "legalName": "Державне управління справами"
-        },
+        "additionalIdentifiers": [],
         "address": {
-          "countryName": "Україна",
-          "postalCode": "01220",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова, 11, корпус 1"
+          "countryName": "Швейцарська Конфедерація",
+          "locality": "Geneva",
+          "postalCode": "1218",
+          "region": "Grand-Saconnex",
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40"
         },
-        "kind": "general",
-        "id": "11111111111111111111111111111111"
-      },
-      {
-        "name": "Державне управління справами",
+        "contactPoint": {
+          "email": "ccm@theglobalfund.org",
+          "faxNumber": "+41 44 580 6820",
+          "name": "",
+          "telephone": "+41587911700",
+          "url": "https://www.theglobalfund.org/en/"
+        },
         "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037254",
-          "uri": "http://www.dus.gov.ua/",
-          "legalName": "Державне управління справами"
+          "scheme": "XM-DAC",
+          "id": "47015",
+          "legalName": "Aгентство США з Міжнародного Розвитку",
+          "legalName_en": "United States Agency for International Development"
         },
-        "address": {
-          "countryName": "Україна",
-          "postalCode": "01220",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова, 11, корпус 1"
-        },
-        "kind": "general",
-        "id": "22222222222222222222222222222222"
+        "name": "Aгентство США з Міжнародного Розвитку",
+        "name_en": "USAID"
       }
     ]
   },
@@ -244,50 +235,38 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a8d27f28efdf755af
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb8a6c9c6330fcdb43
 
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "buyers": [
+    "funders": [
       {
-        "name": "Державне управління справами",
+        "name": "Aгентство США з Міжнародного Розвитку",
+        "name_en": "USAID",
         "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/"
+          "scheme": "XM-DAC",
+          "id": "47015",
+          "legalName": "Aгентство США з Міжнародного Розвитку",
+          "legalName_en": "United States Agency for International Development"
         },
-        "id": "11111111111111111111111111111111",
         "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
+          "streetAddress": "Global Health Campus, Chemin du Pommier 40",
+          "locality": "Geneva",
+          "region": "Grand-Saconnex",
+          "postalCode": "1218",
+          "countryName": "Швейцарська Конфедерація"
         },
-        "kind": "general"
-      },
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037254",
-          "legalName": "Державне управління справами",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "id": "22222222222222222222222222222222",
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "kind": "general"
+        "contactPoint": {
+          "name": "",
+          "email": "ccm@theglobalfund.org",
+          "telephone": "+41587911700",
+          "faxNumber": "+41 44 580 6820",
+          "url": "https://www.theglobalfund.org/en/"
+        }
       }
     ],
-    "title": "футляри до державних нагород",
+    "title": "Насіння",
     "status": "draft",
     "milestones": [
       {
@@ -331,10 +310,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName": "Державне управління справами",
-        "uri": "http://www.dus.gov.ua/"
+        "scheme": "UA-EDR",
+        "id": "111983",
+        "legalName": "ДП Державне Управління Справами"
       },
       "address": {
         "streetAddress": "вул. Банкова, 11, корпус 1",
@@ -347,7 +325,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
         "name": "Державне управління справами",
         "telephone": "+0440000000"
       },
-      "kind": "central"
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
     },
     "value": {
       "currency": "UAH",
@@ -366,28 +352,27 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     },
     "items": [
       {
-        "id": "7f4d7abd9ed043b8a43235190fb4cc09",
-        "description": "телевізори",
+        "id": "5414ee00e135412abe24aad4aca2c174",
+        "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
-        "quantity": 5.0,
+        "quantity": 1000.0,
         "classification": {
-          "description": "Cartons",
+          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "03111600-8"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "01.11.92",
+            "description": "Насіння гірчиці"
           }
         ],
         "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
+          "endDate": "2027-01-16T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -395,32 +380,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedBuyer": "11111111111111111111111111111111"
+        }
       },
       {
-        "id": "90a09024487e463c92878fea25654c47",
-        "description": "портфелі",
+        "id": "f2baea00683f450095b8ff92f0daaca8",
+        "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
-        "quantity": 5.0,
+        "quantity": 2000.0,
         "classification": {
-          "description": "Cartons",
+          "description": "Sunflower seeds",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "03111300-5"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "01.11.95",
+            "description": "Насіння соняшнику"
           }
         ],
         "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
+          "endDate": "2027-01-17T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -428,32 +411,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedBuyer": "22222222222222222222222222222222"
+        }
       },
       {
-        "id": "bf3ccdfdf3f64295b17dd0710fa2b1dd",
-        "description": "портфелі",
+        "id": "53eae0f3ec5b48158ae97dcfbc13e924",
+        "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
-        "quantity": 5.0,
+        "quantity": 3000.0,
         "classification": {
-          "description": "Cartons",
+          "description": "Cotton seeds",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "03111400-6"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "01.11.84",
+            "description": "Насіння бавовнику"
           }
         ],
         "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
+          "endDate": "2027-01-18T00:00:00+02:00"
         },
         "deliveryAddress": {
           "streetAddress": "вул. Банкова 1",
@@ -461,11 +442,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedBuyer": "22222222222222222222222222222222"
+        }
       }
     ],
-    "tenderID": "UA-2027-01-01-000001-a",
+    "tenderID": "UA-2027-01-01-000002-a",
     "owner": "broker",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
@@ -528,11 +508,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     },
     "auctionPeriod": {
       "shouldStartAfter": "2027-01-15T00:00:00+02:00",
-      "startDate": "2027-01-15T13:09:55.701000+02:00"
+      "startDate": "2027-01-15T12:22:15.236000+02:00"
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "aec95489636a475a8d27f28efdf755af"
+    "id": "7310367a870e48cb8a6c9c6330fcdb43",
+    "plans": [
+      {
+        "id": "4a7c458e07784574b40bf4e1e09a0ec3"
+      }
+    ]
   },
   "config": {
     "hasAuction": true,
@@ -561,8 +546,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     "hasMultiSourcing": false
   },
   "access": {
-    "token": "50c8dbad7b0c4fd49d4a96be7c4355af",
-    "transfer": "a88d15516aa948d68b5cba7058d07cb6"
+    "token": "63f9d966480a40df9f880ac8924d8f3e",
+    "transfer": "c6df0271a63b4224a9758fa9374f26c7"
   }
 }
 

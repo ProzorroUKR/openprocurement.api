@@ -74,7 +74,7 @@ Content-Type: application/json
     ],
     "period": {
       "startDate": "2027-01-01T00:02:01+02:00",
-      "endDate": "2027-01-01T00:07:01+02:00"
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": false,
     "eligible": false

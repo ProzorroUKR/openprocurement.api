@@ -156,7 +156,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "procurementMethodDetails": "quick, accelerator=1440",
     "criteria": [
       {
         "description": "Форма випуску",
@@ -257,7 +256,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
     "procurementMethod": "selective",
     "contractTemplateName": "00000000.0002.01",
     "title": "Комп’ютерне обладнання",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",

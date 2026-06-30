@@ -8,6 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "budget": {
       "project": {
         "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "scheme": "plan_of_ukraine",
         "name": "Project name"
       },
       "amount": 10000,

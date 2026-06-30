@@ -26,7 +26,6 @@ Content-Type: application/json
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",

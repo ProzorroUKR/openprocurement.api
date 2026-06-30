@@ -42,7 +42,7 @@ Content-Type: application/json
       "bid_id": "d948edc4cb6e40fda39035b61fd70ac6",
       "period": {
         "startDate": "2024-01-01T00:00:01+02:00",
-        "endDate": "2024-01-01T00:02:01+02:00"
+        "endDate": "2024-01-04T00:00:00+02:00"
       }
     }
   ]

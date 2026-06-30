@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:01:00+02:00",
+      "startDate": "2027-01-02T00:00:00+02:00",
       "endDate": "2027-01-16T00:00:10+02:00"
     },
     "items": [
@@ -61,7 +61,6 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -592,19 +591,19 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:01:00+02:00",
+      "startDate": "2027-01-02T00:00:00+02:00",
       "endDate": "2027-01-16T00:00:10+02:00"
     },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-01T00:01:00+02:00"
+      "endDate": "2027-01-02T00:00:00+02:00"
     },
     "value": {
       "amount": 1001.11,
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "next_check": "2027-01-01T00:01:00+02:00",
+    "next_check": "2027-01-02T00:00:00+02:00",
     "id": "b4bcd8f9ee82480fb413c261d6cea972"
   },
   "config": {
