@@ -134,20 +134,41 @@ msgstr "There is an endpoint that can show changes history of the certain fields
 msgid "На даний момент підтримується тільки поле ``rationale`` :"
 msgstr "At the moment only ``rationale`` is supported:"
 
+msgid "Проект Бюджету"
+msgstr "Budget Project"
+
+msgid "Якщо зазначено джерело фінансування, Замовник може зазначати джерело походження видатків (донорську програму або пункт Плану України) в полі `budget.project`. Поле `budget.project.scheme` визначає довідник, з якого обирається значення:"
+msgstr "If the source of financing is indicated, the Customer may specify the origin of the expenditure (a donor program or an item of the Plan of Ukraine) in `budget.project`. The `budget.project.scheme` field defines the dictionary the value is taken from:"
+
+msgid "``funder_program`` — донорська програма з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_;"
+msgstr "``funder_program`` — a donor program from the `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_ dictionary;"
+
+msgid "``plan_of_ukraine`` — пункт `Плану України <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_."
+msgstr "``plan_of_ukraine`` — an item of the `Plan of Ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_."
+
+msgid "Значення `project.id` має існувати у відповідному довіднику, а поля `name` та `name_en` — відповідати назвам з цього довідника."
+msgstr "The `project.id` value must exist in the corresponding dictionary, and the `name` and `name_en` fields must match the names from that dictionary."
+
+msgid "Донорський проект"
+msgstr "Donor project"
+
+msgid "Якщо `scheme` рівне ``funder_program``, то в `project.id` вказується ідентифікатор неархівної донорської програми з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_:"
+msgstr "If `scheme` equals ``funder_program``, `project.id` contains the identifier of a non-archived donor program from the `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_ dictionary:"
+
+msgid "Кожна донорська програма у довіднику прив'язана до конкретної донорської організації (`funder`). При створенні тендера на основі такого плану донорська організація визначається за програмою: організація з відповідними `identifier.scheme` та `identifier.id` має бути зазначена у полі `funders` тендера."
+msgstr "Each donor program in the dictionary is linked to a specific donor organization (`funder`). When a tender is created from such a plan, the donor organization is determined by the program: the organization with the corresponding `identifier.scheme` and `identifier.id` must be specified in the tender's `funders` field."
+
+msgid "Спроба створити тендер без донорської організації програми завершиться помилкою:"
+msgstr "An attempt to create a tender without the program's donor organization fails:"
+
+msgid "Не можна зазначити й іншу організацію, що не відповідає обраній програмі:"
+msgstr "Specifying another organization that does not correspond to the selected program is not allowed either:"
+
+msgid "Тендер з донорською організацією обраної програми створюється успішно:"
+msgstr "A tender with the donor organization of the selected program is created successfully:"
+
 msgid "План України"
 msgstr "Plan of Ukraine"
-
-msgid "Якщо зазначено джерело фінансування, Замовник може зазначати джерело походження видатків (пункт Плану України або донорську програму) в полі `budget.project`. Поле `budget.project.scheme` визначає довідник, з якого обирається значення:"
-msgstr "If the source of financing is indicated, the Customer may specify the origin of the expenditure (an item of the Plan of Ukraine or a donor program) in `budget.project`. The `budget.project.scheme` field defines the dictionary the value is taken from:"
-
-msgid "``plan_of_ukraine`` — пункт `Плану України <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_;"
-msgstr "``plan_of_ukraine`` — an item of the `Plan of Ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_;"
-
-msgid "``funder_program`` — донорська програма з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_."
-msgstr "``funder_program`` — a donor program from the `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_ dictionary."
-
-msgid "Пункт Плану України"
-msgstr "Plan of Ukraine item"
 
 msgid "Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ (`scheme` рівне ``plan_of_ukraine``), то ми побачимо додаткові валідації на поля `name` та `name_en`:"
 msgstr "If `project.id` is from the `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ dictionary (`scheme` equals ``plan_of_ukraine``), then there are additional validations for `name` and `name_en` fields:"
