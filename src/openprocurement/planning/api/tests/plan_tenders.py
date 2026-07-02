@@ -418,6 +418,59 @@ def test_plan_tender_funder_program_link_patch(app):
     assert funder_ids == [("RO-CUI", "26369185")]
 
 
+def test_plan_tender_funder_program_link_direct_post(app):
+    """Direct POST /tenders with a "plans" reference is validated too, so the
+    program donor rule cannot be bypassed by avoiding the plan routes."""
+    app.authorization = ("Basic", ("broker", "broker"))
+
+    request_plan_data = deepcopy(test_plan_data)
+    request_plan_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "scheme": "funder_program",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = app.post_json("/plans", {"data": request_plan_data})
+    plan = response.json
+
+    # Tender referencing the plan but without the program's donor → rejected.
+    request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["plans"] = [{"id": plan["data"]["id"]}]
+    response = app.post_json(
+        "/tenders",
+        {"data": request_tender_data, "config": test_tender_below_config},
+        status=422,
+    )
+    assert {
+        "location": "body",
+        "name": "funders",
+        "description": "Tender funders must include the plan program donor(s): [('RO-CUI', '26369185')]",
+    } in response.json["errors"]
+
+    # A different (but valid) funder instead of the program's donor → rejected.
+    request_tender_data["funders"] = [deepcopy(test_other_funder)]
+    response = app.post_json(
+        "/tenders",
+        {"data": request_tender_data, "config": test_tender_below_config},
+        status=422,
+    )
+    assert {
+        "location": "body",
+        "name": "funders",
+        "description": "Tender funder XM-DAC 47015 does not match any linked plan's program donor",
+    } in response.json["errors"]
+
+    # The program's donor organisation → allowed.
+    request_tender_data["funders"] = [deepcopy(test_program_funder)]
+    response = app.post_json(
+        "/tenders",
+        {"data": request_tender_data, "config": test_tender_below_config},
+    )
+    assert response.status == "201 Created"
+    funder_ids = [(f["identifier"]["scheme"], f["identifier"]["id"]) for f in response.json["data"]["funders"]]
+    assert funder_ids == [("RO-CUI", "26369185")]
+
+
 def test_procurement_method_cpb_01101100(app):
     app.authorization = ("Basic", ("broker", "broker"))
 
