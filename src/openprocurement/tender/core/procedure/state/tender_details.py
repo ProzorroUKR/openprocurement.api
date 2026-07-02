@@ -257,7 +257,7 @@ class BaseTenderDetailsMixing:
         self.validate_enquiry_period(tender)
         self.update_tender_period(tender)
         self.validate_procurement_method(tender)
-        
+
         # tenders created via POST /plans/{id}/tenders get "plans" set after this runs
         # and are validated by PlanState; this covers direct POST /tenders with "plans"
         if tender.get("plans"):
