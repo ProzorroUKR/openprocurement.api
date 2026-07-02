@@ -666,6 +666,7 @@ def create_plan_invalid(self):
     initial_data = deepcopy(self.initial_data)
     initial_data["budget"]["project"] = {
         "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "scheme": "plan_of_ukraine",
         "name": "Щось тестове",
         "name_en": "1.3. Reinstating merit-based recruitment in the civil service",
     }
@@ -797,6 +798,40 @@ def create_plan_invalid_budget_project_scheme(self):
         response.json["errors"][0]["description"],
         {"project": {"id": ["plan_of_ukraine id not found in standards"]}},
     )
+
+
+def create_plan_missing_budget_project_scheme(self):
+    # A known funder_program id may not be supplied without its scheme,
+    # otherwise the tender donor-funder validation could be bypassed.
+    initial_data = deepcopy(self.initial_data)
+    initial_data["budget"]["project"] = {
+        "id": "interreg-vi-b-next-black-sea",
+        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"project": {"id": ["scheme is required for a known budget project id"]}},
+    )
+
+    # A known plan_of_ukraine id also requires its scheme.
+    initial_data["budget"]["project"] = {
+        "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+        "name": "1.3. Відновлення набору на державну службу з урахуванням професійних компетентностей",
+        "name_en": "1.3. Reinstating merit-based recruitment in the civil service",
+    }
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        {"project": {"id": ["scheme is required for a known budget project id"]}},
+    )
+
+    # A free-form project id (not in any dictionary) stays valid without a scheme.
+    initial_data["budget"]["project"] = {"id": "freeform-123", "name": "proj_name"}
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertNotIn("scheme", response.json["data"]["budget"]["project"])
 
 
 def create_plan_invalid_funder_program_archived(self):

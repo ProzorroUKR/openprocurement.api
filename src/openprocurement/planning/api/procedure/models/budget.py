@@ -57,6 +57,10 @@ class BudgetProject(Model):
     def validate_id(self, data: dict, value: str) -> None:
         scheme = data.get("scheme")
         if not scheme:
+            # scheme is mandatory once the id refers to a known program dictionary,
+            # so that a donor programme can't be smuggled in without its scheme.
+            if value in FUNDER_PROGRAMS or value in PLAN_OF_UKRAINE:
+                raise ValidationError("scheme is required for a known budget project id")
             return
         entry = _BUDGET_PROJECT_CLASSIFIERS[scheme][0].get(value)
         if entry is None:
