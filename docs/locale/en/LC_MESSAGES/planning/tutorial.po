@@ -184,6 +184,3 @@ msgstr "Let's add address, KATOTTG is required for `local` budget:"
 
 msgid "Тепер додамо `classification` разом з `address` для місцевого бюджету:"
 msgstr "Successful adding `classification` and `address` for `local` budget breakdown:"
-
-msgid "Донорська програма"
-msgstr "Donor program"
