@@ -24,7 +24,7 @@ from openprocurement.tender.core.tests.utils import (
 
 
 def clean_requirement_responses(rrs: list):
-    serialized_fields = {"unit", "classification", "requirement.title"}
+    serialized_fields = {"unit", "classification", "requirement.title", "dataSchema"}
     for rr in rrs:
         for field in serialized_fields:
             if field == "requirement.title":
@@ -1823,6 +1823,14 @@ def get_bid_requirement_response(self):
 
     rrs = response.json["data"]
     self.assertEqual(len(rrs), 14)
+
+    language_rrs = [rr for rr in rrs if rr["classification"]["id"] == "CRITERION.OTHER.BID.LANGUAGE"]
+    self.assertEqual(len(language_rrs), 1)
+    for rr in rrs:
+        if rr in language_rrs:
+            self.assertEqual(rr["dataSchema"], "ISO 639-3")
+        else:
+            self.assertNotIn("dataSchema", rr)
 
     clean_requirement_responses(rrs)
     for i, rr_data in enumerate(valid_data):
