@@ -963,7 +963,8 @@ Content-Type: application/json
             "classification": {
               "scheme": "LAW922",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
-            }
+            },
+            "dataSchema": "ISO 639-3"
           },
           {
             "requirement": {
@@ -1209,7 +1210,8 @@ Content-Type: application/json
             "classification": {
               "scheme": "LAW922",
               "id": "CRITERION.OTHER.BID.LANGUAGE"
-            }
+            },
+            "dataSchema": "ISO 639-3"
           },
           {
             "requirement": {
