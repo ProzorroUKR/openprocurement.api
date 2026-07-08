@@ -41,11 +41,6 @@ class EContractState(BaseContractState):
             )
 
     def prepare_contract(self, before, after):
-        if before is None:
-            raise_operation_error(
-                self.request,
-                "Previous version of pending contract with cancellations not found",
-            )
         for field_name in ("owner", "transfer_token", "access", "contractChangeRationaleTypes"):
             after[field_name] = before.get(field_name)
         if "id" not in after and "_id" not in after:

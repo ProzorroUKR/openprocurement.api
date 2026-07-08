@@ -214,10 +214,38 @@ def post_new_version_of_contract(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Previous version of pending contract with cancellations not found",
+                "description": (
+                    "Previous version of pending contract with cancellations not found "
+                    f"(awardID: {contract_data['awardID']})"
+                ),
             }
         ],
     )
+
+    # previous version not found: buyerID mismatch
+    contract_data["buyerID"] = uuid4().hex
+    response = self.app.post_json(
+        "/contracts",
+        {"data": contract_data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": (
+                    "Previous version of pending contract with cancellations not found "
+                    f"(awardID: {contract_data['awardID']}, buyerID: {contract_data['buyerID']})"
+                ),
+            }
+        ],
+    )
+    contract_data.pop("buyerID")
+    if "buyerID" in initial_contract_data:
+        contract_data["buyerID"] = initial_contract_data["buyerID"]
 
     # add cancellation by supplier
     response = self.app.post_json(
