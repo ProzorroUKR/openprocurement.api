@@ -1,6 +1,6 @@
 [project]
 name = "openprocurement.api"
-version = "2.7.33"
+version = "2.7.34"
 description = "Prozorro Central Database API"
 readme = "README.md"
 license = { text = "Apache License 2.0" }
