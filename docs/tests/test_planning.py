@@ -6,6 +6,7 @@ from openprocurement.planning.api.tests.base import BasePlanWebTest
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from tests.base.constants import DOCS_URL
 from tests.base.data import (
+    test_docs_funder,
     test_docs_plan_data,
     test_docs_tender_below,
     test_docs_tender_openeu,
@@ -124,7 +125,11 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         budget = deepcopy(test_docs_plan_data["budget"])
         budget["breakdown"] = test_breakdown
-        budget["project"] = {"id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6", "name": "Project name"}
+        budget["project"] = {
+            "id": "532ba4bc-e1a7-4334-8d8e-59646d5dcee6",
+            "scheme": "plan_of_ukraine",
+            "name": "Project name",
+        }
         with open(TARGET_DIR + "patch-plan-budget-project-name-invalid.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/plans/{}?acc_token={}".format(plan["id"], owner_token),
@@ -134,6 +139,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         budget["project"] = {
             "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
+            "scheme": "plan_of_ukraine",
             "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
             "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform",
         }
@@ -239,6 +245,71 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + "get-complete-plan.http", "w") as self.app.file_obj:
             response = self.app.get("/plans/{}".format(plan["id"]))
         self.assertEqual(response.json["data"]["status"], "complete")
+
+        # Donor programs (funder_program)
+        # A plan may reference a donor program in budget.project with scheme=funder_program.
+        program_plan_data = deepcopy(test_docs_plan_data)
+        program_plan_data["status"] = "draft"
+        program_plan_data["budget"]["project"] = {
+            "id": "usaid",
+            "scheme": "funder_program",
+            "name": "Програма США (USAID)",
+            "name_en": "USAID",
+        }
+        with open(TARGET_DIR + "create-plan-funder-program.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/plans?opt_pretty=1", {"data": program_plan_data})
+            self.assertEqual(response.status, "201 Created")
+        program_plan = response.json["data"]
+        program_token = response.json["access"]["token"]
+
+        self.app.patch_json(
+            "/plans/{}?acc_token={}".format(program_plan["id"], program_token),
+            {"data": {"status": "scheduled"}},
+        )
+
+        program_tender = deepcopy(test_docs_tender_below)
+        program_tender["items"] = test_docs_plan_data["items"]
+        program_tender["procuringEntity"]["identifier"] = test_docs_plan_data["procuringEntity"]["identifier"]
+        program_tender["title"] = "Насіння"
+        program_tender["status"] = "draft"
+        program_tender.pop("funders", None)
+
+        # The program's donor organisation must be present in the tender's funders.
+        with open(TARGET_DIR + "tender-from-plan-funder-program-missing.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/plans/{}/tenders".format(program_plan["id"]),
+                {"data": program_tender, "config": test_tender_below_config},
+                status=422,
+            )
+
+        # Only the program's donor may be specified — another funder is rejected.
+        program_tender_mismatch = deepcopy(program_tender)
+        program_tender_mismatch["funders"] = [test_docs_funder]
+        with open(TARGET_DIR + "tender-from-plan-funder-program-mismatch.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/plans/{}/tenders".format(program_plan["id"]),
+                {"data": program_tender_mismatch, "config": test_tender_below_config},
+                status=422,
+            )
+
+        # The program's donor organisation (USAID), matching the tender_funder dictionary, succeeds.
+        usaid_funder = deepcopy(test_docs_funder)
+        usaid_funder["name"] = "Aгентство США з Міжнародного Розвитку"
+        usaid_funder["name_en"] = "USAID"
+        usaid_funder["identifier"] = {
+            "scheme": "XM-DAC",
+            "id": "47015",
+            "legalName": "Aгентство США з Міжнародного Розвитку",
+            "legalName_en": "United States Agency for International Development",
+        }
+        program_tender_ok = deepcopy(program_tender)
+        program_tender_ok["funders"] = [usaid_funder]
+        with open(TARGET_DIR + "tender-from-plan-funder-program.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/plans/{}/tenders".format(program_plan["id"]),
+                {"data": program_tender_ok, "config": test_tender_below_config},
+            )
+            self.assertEqual(response.status, "201 Created")
 
         # update complete plan
         self.tick(delta=timedelta(days=1, hours=1, seconds=33))

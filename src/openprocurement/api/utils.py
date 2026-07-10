@@ -241,8 +241,9 @@ def request_init_transfer(request, transfer, transfer_src=None, raise_error=True
 
 def request_fetch_plan(request, plan_id, raise_error=True, force=False):
     if should_fetch_object(request, "plan", force=force):
-        plan = get_submission_by_id(request, plan_id, raise_error=raise_error)
+        plan = get_plan_by_id(request, plan_id, raise_error=raise_error)
         request_init_plan(request, plan)
+    return request.validated.get("plan")
 
 
 def request_fetch_tender(request, tender_id, raise_error=True, force=False):

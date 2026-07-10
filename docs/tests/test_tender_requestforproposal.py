@@ -799,8 +799,14 @@ class TenderResourceTest(
         test_tender_data = deepcopy(test_docs_tender_rfp)
         test_tender_data["items"] = test_docs_items_open
         test_tender_data["funders"] = [deepcopy(test_tender_rfp_base_organization)]
-        test_tender_data["funders"][0]["identifier"]["id"] = "44000"
-        test_tender_data["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+        test_tender_data["funders"][0]["name"] = "Світовий Банк"
+        test_tender_data["funders"][0]["name_en"] = "World Bank"
+        test_tender_data["funders"][0]["identifier"] = {
+            "id": "44000",
+            "scheme": "XM-DAC",
+            "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+            "legalName_en": "International Bank for Reconstruction and Development (IBRD)",
+        }
         test_lots = deepcopy(test_docs_lots)
         test_lots[0]["value"] = test_tender_data["value"]
         test_lots[1]["value"] = test_tender_data["value"]

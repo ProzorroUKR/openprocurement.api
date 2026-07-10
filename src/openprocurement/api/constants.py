@@ -135,9 +135,9 @@ CPV_PREFIX_LENGTH_TO_NAME = {
 }
 
 # Funders
-FUNDERS = [
-    (i["identifier"]["scheme"], i["identifier"]["id"]) for i in standards.load("codelists/tender/tender_funder.json")
-]
+FUNDERS = {
+    (i["identifier"]["scheme"], i["identifier"]["id"]): i for i in standards.load("codelists/tender/tender_funder.json")
+}
 
 # Codes
 ORA_CODES = [i["code"] for i in standards.load("organizations/identifier_scheme.json")["data"]]
@@ -377,6 +377,11 @@ AUCTION_TIME_SLOTS_NUMBER = (AUCTION_DAY_END.hour - AUCTION_DAY_START.hour) * 2
 
 # Plan of Ukraine
 PLAN_OF_UKRAINE = standards.load("classifiers/plan_of_ukraine.json")
+
+# CS-21350 Donor programs
+PLAN_OF_UKRAINE_SCHEME = "plan_of_ukraine"
+FUNDER_PROGRAM_SCHEME = "funder_program"
+FUNDER_PROGRAMS = {item["id"]: item for item in standards.load("codelists/plans/funder_program.json")}
 
 # Language codes
 LANGUAGE_CODES = standards.load("classifiers/languages.json").keys()

@@ -178,8 +178,14 @@ test_tender_rfp_item = {
 }
 
 funder = deepcopy(test_tender_rfp_base_organization)
-funder["identifier"]["id"] = "44000"
-funder["identifier"]["scheme"] = "XM-DAC"
+funder["name"] = "Світовий Банк"
+funder["name_en"] = "World Bank"
+funder["identifier"] = {
+    "id": "44000",
+    "scheme": "XM-DAC",
+    "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+    "legalName_en": "International Bank for Reconstruction and Development (IBRD)",
+}
 
 test_tender_rfp_data = {
     "title": "футляри до державних нагород",
@@ -214,9 +220,7 @@ test_tender_rfp_with_inspector_data = deepcopy(test_tender_rfp_data)
 test_tender_rfp_with_inspector_data.update({"funders": [funder], "inspector": funder})
 
 test_tender_rfp_data_no_auction = deepcopy(test_tender_rfp_data)
-test_tender_rfp_data_no_auction["funders"] = [deepcopy(test_tender_rfp_base_organization)]
-test_tender_rfp_data_no_auction["funders"][0]["identifier"]["id"] = "44000"
-test_tender_rfp_data_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+test_tender_rfp_data_no_auction["funders"] = [deepcopy(funder)]
 
 test_tender_rfp_simple_data = deepcopy(test_tender_rfp_data)
 test_tender_rfp_simple_data["procurementMethodRationale"] = "simple"

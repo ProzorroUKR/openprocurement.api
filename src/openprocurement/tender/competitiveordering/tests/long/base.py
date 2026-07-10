@@ -190,8 +190,14 @@ test_agreement_dps_raw_data = {
 
 test_tender_co_long_no_auction = deepcopy(test_tender_co_long_data)
 test_tender_co_long_no_auction["funders"] = [deepcopy(test_tender_below_base_organization)]
-test_tender_co_long_no_auction["funders"][0]["identifier"]["id"] = "44000"
-test_tender_co_long_no_auction["funders"][0]["identifier"]["scheme"] = "XM-DAC"
+test_tender_co_long_no_auction["funders"][0]["name"] = "Світовий Банк"
+test_tender_co_long_no_auction["funders"][0]["name_en"] = "World Bank"
+test_tender_co_long_no_auction["funders"][0]["identifier"] = {
+    "id": "44000",
+    "scheme": "XM-DAC",
+    "legalName": "Міжнародний банк реконструкції та розвитку (МБРР)",
+    "legalName_en": "International Bank for Reconstruction and Development (IBRD)",
+}
 
 
 class BaseApiWebTest(BaseWebTest):

@@ -4,7 +4,15 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, FloatType, IntType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import KPK, PLAN_OF_UKRAINE, TKPKMB, TKPKMB_SCHEME
+from openprocurement.api.constants import (
+    FUNDER_PROGRAM_SCHEME,
+    FUNDER_PROGRAMS,
+    KPK,
+    PLAN_OF_UKRAINE,
+    PLAN_OF_UKRAINE_SCHEME,
+    TKPKMB,
+    TKPKMB_SCHEME,
+)
 from openprocurement.api.constants_env import BUDGET_PERIOD_FROM
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
@@ -16,20 +24,59 @@ from openprocurement.api.procedure.utils import is_const_active
 from openprocurement.api.validation import validate_uniq_id
 from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 
+_BUDGET_PROJECT_CLASSIFIERS: dict[str, tuple[dict, str]] = {
+    FUNDER_PROGRAM_SCHEME: (FUNDER_PROGRAMS, "name"),
+    PLAN_OF_UKRAINE_SCHEME: (PLAN_OF_UKRAINE, "name_uk"),
+}
+BUDGET_PROJECT_SCHEMES: tuple[str, ...] = tuple(_BUDGET_PROJECT_CLASSIFIERS)
+
+
+def _budget_project_classifier_entry(
+    data: dict,
+) -> tuple[str | None, dict | None, str | None]:
+    scheme = data.get("scheme")
+
+    if scheme is None and data.get("id") in PLAN_OF_UKRAINE:
+        scheme = PLAN_OF_UKRAINE_SCHEME
+
+    if scheme not in _BUDGET_PROJECT_CLASSIFIERS:
+        return None, None, None
+
+    classifier, name_key = _BUDGET_PROJECT_CLASSIFIERS[scheme]
+
+    return scheme, classifier.get(data.get("id")), name_key
+
 
 class BudgetProject(Model):
     id = StringType(required=True)
     name = StringType(required=True)
     name_en = StringType()
     name_ru = StringType()
+    scheme = StringType(choices=BUDGET_PROJECT_SCHEMES)
 
-    def validate_name(self, data, value):
-        if data.get("id") in PLAN_OF_UKRAINE.keys() and value != PLAN_OF_UKRAINE[data["id"]]["name_uk"]:
-            raise ValidationError(f"Value should be from plan_of_ukraine dictionary for {data['id']}")
+    def validate_id(self, data: dict, value: str) -> None:
+        scheme = data.get("scheme")
+        if not scheme:
+            # scheme is mandatory once the id refers to a known program dictionary,
+            # so that a donor programme can't be smuggled in without its scheme.
+            if value in FUNDER_PROGRAMS or value in PLAN_OF_UKRAINE:
+                raise ValidationError("scheme is required for a known budget project id")
+            return
+        entry = _BUDGET_PROJECT_CLASSIFIERS[scheme][0].get(value)
+        if entry is None:
+            raise ValidationError(f"{scheme} id not found in standards")
+        if entry.get("archive"):
+            raise ValidationError(f"{scheme} program is archived")
 
-    def validate_name_en(self, data, value):
-        if data.get("id") in PLAN_OF_UKRAINE.keys() and value != PLAN_OF_UKRAINE[data["id"]]["name_en"]:
-            raise ValidationError(f"Value should be from plan_of_ukraine dictionary for {data['id']}")
+    def validate_name(self, data: dict, value: str) -> None:
+        scheme, entry, name_key = _budget_project_classifier_entry(data)
+        if entry and value != entry[name_key]:
+            raise ValidationError(f"Value should be from {scheme} dictionary for {data['id']}")
+
+    def validate_name_en(self, data: dict, value: str) -> None:
+        scheme, entry, _ = _budget_project_classifier_entry(data)
+        if entry and value != entry["name_en"]:
+            raise ValidationError(f"Value should be from {scheme} dictionary for {data['id']}")
 
 
 class BudgetPeriod(Period):

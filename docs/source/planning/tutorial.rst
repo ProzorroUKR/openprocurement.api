@@ -148,12 +148,45 @@
    :code:
 
 
+Проект Бюджету
+--------------
+
+Якщо зазначено джерело фінансування, Замовник може зазначати джерело походження видатків (донорську програму або пункт Плану України) в полі `budget.project`. Поле `budget.project.scheme` визначає довідник, з якого обирається значення:
+
+*  ``funder_program`` — донорська програма з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_;
+*  ``plan_of_ukraine`` — пункт `Плану України <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_.
+
+Значення `project.id` має існувати у відповідному довіднику, а поля `name` та `name_en` — відповідати назвам з цього довідника.
+
+Донорський проект
+~~~~~~~~~~~~~~~~~
+
+Якщо `scheme` рівне ``funder_program``, то в `project.id` вказується ідентифікатор неархівної донорської програми з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_:
+
+.. http:example:: tutorial/create-plan-funder-program.http
+   :code:
+
+Кожна донорська програма у довіднику прив'язана до конкретної донорської організації (`funder`). При створенні тендера на основі такого плану донорська організація визначається за програмою: організація з відповідними `identifier.scheme` та `identifier.id` має бути зазначена у полі `funders` тендера.
+
+Спроба створити тендер без донорської організації програми завершиться помилкою:
+
+.. http:example:: tutorial/tender-from-plan-funder-program-missing.http
+   :code:
+
+Не можна зазначити й іншу організацію, що не відповідає обраній програмі:
+
+.. http:example:: tutorial/tender-from-plan-funder-program-mismatch.http
+   :code:
+
+Тендер з донорською організацією обраної програми створюється успішно:
+
+.. http:example:: tutorial/tender-from-plan-funder-program.http
+   :code:
+
 План України
-------------
+~~~~~~~~~~~~
 
-Якщо зазначено джерело фінансування, Замовник може зазначати пункт Плану України в полі `budget.project`.
-
-Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_, то ми побачимо додаткові валідації на поля `name` та `name_en`:
+Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ (`scheme` рівне ``plan_of_ukraine``), то ми побачимо додаткові валідації на поля `name` та `name_en`:
 
 .. http:example:: tutorial/patch-plan-budget-project-name-invalid.http
    :code:
@@ -163,10 +196,10 @@
 .. http:example:: tutorial/patch-plan-breakdown.http
    :code:
 
-Ukraine facility
-----------------
+Обрання територіальної громади та/або статті видатків
+------------------------------------------------------
 
-Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовинк має вказати код з класифікаторів Ukraine facility в полі `budget.breakdown.classification` та `budget.breakdown.address.addressDetails`.
+Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовник має вказати код з класифікаторів "Обрання територіальної громади та/або статті видатків" в полі `budget.breakdown.classification` та `budget.breakdown.address.addressDetails`.
 
 *  Для державних бюджетів використовується класифікатор КПК. Він поділений на декілька довідників в залежності від року, наприклад `КПК-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_.
 *  Для місцевих бюджетів та бюджетів Автономної Республіки Крим використовуються класифікатори `КАТОТТГ <https://github.com/ProzorroUKR/standards/blob/master/classifiers/katottg.json>`_ та  `ТПКВКМБ <https://github.com/ProzorroUKR/standards/blob/master/classifiers/tkpkmb.json>`_

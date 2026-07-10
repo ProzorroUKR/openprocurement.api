@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-28 16:24+0300\n"
+"POT-Creation-Date: 2026-06-30 19:09+0300\n"
 "PO-Revision-Date: 2023-10-26 10:31+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -11,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Туторіал"
 msgstr "Tutorial"
@@ -133,23 +134,53 @@ msgstr "There is an endpoint that can show changes history of the certain fields
 msgid "На даний момент підтримується тільки поле ``rationale`` :"
 msgstr "At the moment only ``rationale`` is supported:"
 
+msgid "Проект Бюджету"
+msgstr "Budget Project"
+
+msgid "Якщо зазначено джерело фінансування, Замовник може зазначати джерело походження видатків (донорську програму або пункт Плану України) в полі `budget.project`. Поле `budget.project.scheme` визначає довідник, з якого обирається значення:"
+msgstr "If the source of financing is indicated, the Customer may specify the origin of the expenditure (a donor program or an item of the Plan of Ukraine) in `budget.project`. The `budget.project.scheme` field defines the dictionary the value is taken from:"
+
+msgid "``funder_program`` — донорська програма з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_;"
+msgstr "``funder_program`` — a donor program from the `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_ dictionary;"
+
+msgid "``plan_of_ukraine`` — пункт `Плану України <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_."
+msgstr "``plan_of_ukraine`` — an item of the `Plan of Ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_."
+
+msgid "Значення `project.id` має існувати у відповідному довіднику, а поля `name` та `name_en` — відповідати назвам з цього довідника."
+msgstr "The `project.id` value must exist in the corresponding dictionary, and the `name` and `name_en` fields must match the names from that dictionary."
+
+msgid "Донорський проект"
+msgstr "Donor project"
+
+msgid "Якщо `scheme` рівне ``funder_program``, то в `project.id` вказується ідентифікатор неархівної донорської програми з довідника `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_:"
+msgstr "If `scheme` equals ``funder_program``, `project.id` contains the identifier of a non-archived donor program from the `funder_program <https://prozorroukr.github.io/standards/codelists/plans/funder_program.json>`_ dictionary:"
+
+msgid "Кожна донорська програма у довіднику прив'язана до конкретної донорської організації (`funder`). При створенні тендера на основі такого плану донорська організація визначається за програмою: організація з відповідними `identifier.scheme` та `identifier.id` має бути зазначена у полі `funders` тендера."
+msgstr "Each donor program in the dictionary is linked to a specific donor organization (`funder`). When a tender is created from such a plan, the donor organization is determined by the program: the organization with the corresponding `identifier.scheme` and `identifier.id` must be specified in the tender's `funders` field."
+
+msgid "Спроба створити тендер без донорської організації програми завершиться помилкою:"
+msgstr "An attempt to create a tender without the program's donor organization fails:"
+
+msgid "Не можна зазначити й іншу організацію, що не відповідає обраній програмі:"
+msgstr "Specifying another organization that does not correspond to the selected program is not allowed either:"
+
+msgid "Тендер з донорською організацією обраної програми створюється успішно:"
+msgstr "A tender with the donor organization of the selected program is created successfully:"
+
 msgid "План України"
 msgstr "Plan of Ukraine"
 
-msgid "Якщо зазначено джерело фінансування, Замовник може зазначати пункт Плану України в полі `budget.project`."
-msgstr "If the source of financing is indicated, the Customer may indicate the item of the Plan of Ukraine in `budget.project`."
-
-msgid "Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_, то ми побачимо додаткові валідації на поля `name` та `name_en`:"
-msgstr "If item is from dictionary `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ than there are additional validations for `name` and `name_en` fields:"
+msgid "Якщо `project.id` вказано з довідника `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ (`scheme` рівне ``plan_of_ukraine``), то ми побачимо додаткові валідації на поля `name` та `name_en`:"
+msgstr "If `project.id` is from the `plan_of_ukraine <https://prozorroukr.github.io/standards/classifiers/plan_of_ukraine.json>`_ dictionary (`scheme` equals ``plan_of_ukraine``), then there are additional validations for `name` and `name_en` fields:"
 
 msgid "Успішне додавання джерела фінансування разом з проектом з Плану України:"
 msgstr "Successful adding project from plan of Ukraine:"
 
-msgid "Ukraine facility"
-msgstr ""
+msgid "Обрання територіальної громади та/або статті видатків"
+msgstr "Selecting a territorial community and/or expenditure item"
 
-msgid "Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовинк має вказати код з класифікаторів Ukraine facility в полі `budget.breakdown.classification` та `budget.breakdown.address.addressDetails`."
-msgstr "For `state`, `local` and `crimea` budgets, the Customer should indicate the code of Ukraine facility's classifiers in `budget.breakdown.classification` and `budget.breakdown.address.addressDetails`."
+msgid "Для державних, місцевих бюджетів та бюджетів Автономної Республіки Крим, Замовник має вказати код з класифікаторів \"Обрання територіальної громади та/або статті видатків\" в полі `budget.breakdown.classification` та `budget.breakdown.address.addressDetails`."
+msgstr "For `state`, `local` and `crimea` budgets, the Customer should indicate the code from the \"Selecting a territorial community and/or expenditure item\" classifiers in `budget.breakdown.classification` and `budget.breakdown.address.addressDetails`."
 
 msgid "Для державних бюджетів використовується класифікатор КПК. Він поділений на декілька довідників в залежності від року, наприклад `КПК-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_."
 msgstr "For `state` budgets KPK dictionaries are used. They are divided by year, e.g. `KPK-2025 <https://github.com/ProzorroUKR/standards/blob/master/classifiers/kpk_2025.json>`_."
@@ -174,4 +205,3 @@ msgstr "Let's add address, KATOTTG is required for `local` budget:"
 
 msgid "Тепер додамо `classification` разом з `address` для місцевого бюджету:"
 msgstr "Successful adding `classification` and `address` for `local` budget breakdown:"
-

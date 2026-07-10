@@ -64,6 +64,8 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_finance_milestones,
     tender_financing_milestones,
     tender_funders,
+    tender_funders_dictionary_validation,
+    tender_funders_same_identifier,
     tender_inspector,
     tender_item_related_lot_validation,
     tender_items_float_quantity,
@@ -101,6 +103,8 @@ class TenderResourceTestMixin:
     test_tender_not_found = snitch(tender_not_found)
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
+    test_tender_funders_dictionary_validation = snitch(tender_funders_dictionary_validation)
+    test_tender_funders_same_identifier = snitch(tender_funders_same_identifier)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)
     test_tender_token_invalid = snitch(tender_token_invalid)

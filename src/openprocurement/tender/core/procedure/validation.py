@@ -59,10 +59,7 @@ from openprocurement.api.utils import (
     is_ua_road_classification,
     raise_operation_error,
 )
-from openprocurement.api.validation import (
-    validate_list_uniq_factory,
-    validate_tender_first_revision_date,
-)
+from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
     find_lot,
@@ -1313,15 +1310,40 @@ def validate_ccce_ua(additional_classifications):
         )
 
 
-def validate_funders_unique(funders, *args):
-    validation_func = validate_list_uniq_factory("identifier.scheme", "identifier.id")
-    validation_func([x for x in funders if x.identifier])
-
-
 def validate_funders_ids(funders, *args):
     for funder in funders:
         if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
             raise ValidationError("Funder identifier should be one of the values allowed")
+
+
+def validate_funders_match_dictionary(funders, *args):
+    for funder in funders:
+        if not funder.identifier:
+            continue
+        entry = FUNDERS.get((funder.identifier.scheme, funder.identifier.id))
+        if entry is None:
+            continue  # membership error is raised by validate_funders_ids
+        identifier = entry["identifier"]
+        # name and legalName (uk) are mandatory; the _en variants are validated only when provided
+        checks = (
+            ("name", funder.name, entry.get("name_uk"), True),
+            ("name_en", funder.name_en, entry.get("name_en"), False),
+            ("identifier.legalName", funder.identifier.legalName, identifier.get("legalName_uk"), True),
+            ("identifier.legalName_en", funder.identifier.legalName_en, identifier.get("legalName_en"), False),
+        )
+        for field, value, expected, required in checks:
+            if value is None:
+                if required:
+                    raise ValidationError(
+                        f"Funder {field} is required and should match tender_funder dictionary value for "
+                        f"{funder.identifier.scheme} {funder.identifier.id}"
+                    )
+                continue
+            if value != expected:
+                raise ValidationError(
+                    f"Funder {field} should match tender_funder dictionary value for "
+                    f"{funder.identifier.scheme} {funder.identifier.id}"
+                )
 
 
 def validate_object_id_uniq(objs, *_, obj_name=None):

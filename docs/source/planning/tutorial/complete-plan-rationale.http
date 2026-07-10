@@ -59,7 +59,8 @@ Content-Type: application/json
       "project": {
         "id": "95f87658-ffa5-472e-89ee-6e9417aa8cbd",
         "name": "1.1. Набрання чинності законодавчими змінами щодо реформи оплати праці в державній службі",
-        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform"
+        "name_en": "1.1. Entry into force of the legislative changes to the civil service remuneration reform",
+        "scheme": "plan_of_ukraine"
       },
       "period": {
         "startDate": "2027-01-01T00:00:00+02:00",

@@ -13,9 +13,15 @@ from openprocurement.api.constants import (
     CPV_DEFAULT_PREFIX_LENGTH,
     CPV_PHARM_PREFIX,
     CPV_PHARM_PREFIX_LENGTH,
+    FUNDER_PROGRAM_SCHEME,
+    FUNDER_PROGRAMS,
 )
 from openprocurement.api.context import get_request_now
-from openprocurement.api.utils import context_unpack, handle_store_exceptions
+from openprocurement.api.utils import (
+    context_unpack,
+    handle_store_exceptions,
+    raise_operation_error,
+)
 
 LOGGER = getLogger(__name__)
 
@@ -221,3 +227,43 @@ def to_decimal(value):
         return Decimal(repr(value))
 
     raise TypeError("Unable to convert %s to Decimal" % value)
+
+
+def validate_funders_match_plan_programs(request, tender, plans):
+    """Funders must match the donor organizations of the linked plans' funder programs.
+
+    `plans` is an iterable of already-fetched plan dicts (each caller controls fetching).
+    - inclusion: each program's donor must be present among funders;
+    - exclusivity: every funder must be one of the program donors (the "only" rule).
+    No-op when no provided plan has a (known) funder_program project."""
+    allowed = set()
+    for plan in plans:
+        project = (plan.get("budget") or {}).get("project") or {}
+        if project.get("scheme") == FUNDER_PROGRAM_SCHEME:
+            program = FUNDER_PROGRAMS.get(project.get("id"))
+            if program:
+                allowed.add((program["funder"]["scheme"], program["funder"]["id"]))
+    if not allowed:
+        return
+
+    funders = tender.get("funders") or []
+    present = set()
+    for funder in funders:
+        identifier = funder.get("identifier") or {}
+        key = (identifier.get("scheme"), identifier.get("id"))
+        present.add(key)
+        if key not in allowed:
+            raise_operation_error(
+                request,
+                f"Tender funder {key[0]} {key[1]} does not match any linked plan's program donor",
+                status=422,
+                name="funders",
+            )
+    missing = allowed - present
+    if missing:
+        raise_operation_error(
+            request,
+            f"Tender funders must include the plan program donor(s): {sorted(missing)}",
+            status=422,
+            name="funders",
+        )

@@ -18,7 +18,10 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.procedure.utils import is_obj_const_active
+from openprocurement.api.procedure.utils import (
+    is_obj_const_active,
+    validate_funders_match_plan_programs,
+)
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
@@ -94,6 +97,7 @@ class PlanState(BaseState):
         self._validate_tender_plan_procurement_method_type(tender, plan)
         self._validate_tender_matches_plan(tender, plan)
         self._validate_plan_budget_breakdown(plan)
+        self._validate_tender_funder_matches_plan_program(plan, tender)
 
     def tender_plan_validate_on_post(self, plan, tender):
         self._validate_procurement_kind_is_central(plan, tender)
@@ -103,6 +107,7 @@ class PlanState(BaseState):
         self._validate_plan_budget_breakdown(plan)
         self._validate_tender_data(tender)
         self._validate_tender_matches_plan(tender, plan)
+        self._validate_tender_funder_matches_plan_program(plan, tender)
 
     def _check_field_change_events(self, before, after):
         src_identifier = before["procuringEntity"]["identifier"]
@@ -245,6 +250,9 @@ class PlanState(BaseState):
             if request.errors:
                 request.errors.status = 422
                 raise error_handler(request)
+
+    def _validate_tender_funder_matches_plan_program(self, plan, tender):
+        validate_funders_match_plan_programs(self.request, tender, [plan])
 
     def _validate_plan_scheduled(self, plan):
         status = plan.get("status")

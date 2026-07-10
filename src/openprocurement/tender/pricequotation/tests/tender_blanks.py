@@ -13,6 +13,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import test_signer_info
+from openprocurement.tender.belowthreshold.tests.base import test_tender_below_funder
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market
@@ -1340,14 +1341,7 @@ def tender_owner_can_change_in_draft(self):
                 "contract_owner": "broker",
             }
         ],
-        "funders": [
-            {
-                "name": "First funder",
-                "identifier": {"scheme": "XM-DAC", "id": "44000"},
-                "address": {"countryName": "Японія"},
-                "contactPoint": {"name": "Funder name", "email": "fake_japan_email@gmail.net"},
-            }
-        ],
+        "funders": [deepcopy(test_tender_below_funder)],
         "items": items,
     }
     status = {"status": "active.tendering"}

@@ -35,6 +35,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import ConfigMixin
+from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
@@ -43,6 +44,7 @@ from openprocurement.api.utils import (
     get_tender_category,
     get_tender_profile,
     raise_operation_error,
+    request_fetch_plan,
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.contracting.core.procedure.serializers.contract import (
@@ -240,11 +242,27 @@ class BaseTenderDetailsMixing:
         request = get_request()
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
+        if before.get("funders") != after.get("funders"):
+            self.validate_funders_match_plan_program(request, after)
+
+    def validate_funders_match_plan_program(self, request, tender):
+        plans = []
+        for plan_ref in tender.get("plans") or []:
+            plan = request_fetch_plan(request, plan_ref["id"], raise_error=False, force=True)
+            if plan:
+                plans.append(plan)
+        validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):
         self.validate_enquiry_period(tender)
         self.update_tender_period(tender)
         self.validate_procurement_method(tender)
+
+        # tenders created via POST /plans/{id}/tenders get "plans" set after this runs
+        # and are validated by PlanState; this covers direct POST /tenders with "plans"
+        if tender.get("plans"):
+            self.validate_funders_match_plan_program(get_request(), tender)
+
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
         self.validate_milestones(tender)
