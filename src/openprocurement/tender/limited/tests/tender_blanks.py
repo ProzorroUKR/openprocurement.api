@@ -1685,7 +1685,7 @@ def tender_cause_reporting(self):
             {
                 "location": "body",
                 "name": "causeDetails",
-                "description": {"scheme": ["Value must be one of ['DECREE1178', 'LAW922']."]},
+                "description": {"scheme": ["Value must be one of ['DECREE1178', 'LAW922', 'DECREE1275']."]},
             }
         ],
     )
@@ -1798,6 +1798,7 @@ def tender_cause_reporting(self):
             "description": "foo",
             "title": "Підпункт 10 пункту 13",
             "title_en": "Subparagraph 10 of paragraph 13",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426",
         },
     )
 
@@ -1911,10 +1912,14 @@ def tender_cause_change_rationale_types_update(self):
     self.assertEqual(response.json["data"]["causeDetails"]["code"], "hematopoieticStemCells")
     self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "LAW922")
 
-    self.assertEqual(
-        response.json["data"]["contractChangeRationaleTypes"].keys(),
-        RATIONALE_TYPES_LAW_922.keys(),
-    )
+    rationale_types = response.json["data"]["contractChangeRationaleTypes"]
+    self.assertEqual(rationale_types.keys(), RATIONALE_TYPES_LAW_922.keys())
+
+    rationale_type = rationale_types["durationExtension"]
+    rationale_type_expected = RATIONALE_TYPES_LAW_922["durationExtension"]
+    self.assertEqual(rationale_type.keys(), rationale_type_expected.keys())
+    self.assertEqual(rationale_type["scheme"], "LAW922")
+    self.assertEqual(rationale_type["uri"], rationale_type_expected["uri"])
 
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -1934,7 +1939,11 @@ def tender_cause_change_rationale_types_update(self):
     self.assertEqual(response.json["data"]["causeDetails"]["code"], "stateLegalServices")
     self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "DECREE1178")
 
-    self.assertEqual(
-        response.json["data"]["contractChangeRationaleTypes"].keys(),
-        RATIONALE_TYPES_DECREE_1178.keys(),
-    )
+    rationale_types = response.json["data"]["contractChangeRationaleTypes"]
+    self.assertEqual(rationale_types.keys(), RATIONALE_TYPES_DECREE_1178.keys())
+
+    rationale_type = rationale_types["durationExtension"]
+    rationale_type_expected = RATIONALE_TYPES_DECREE_1178["durationExtension"]
+    self.assertEqual(rationale_type.keys(), rationale_type_expected.keys())
+    self.assertEqual(rationale_type["scheme"], "DECREE1178")
+    self.assertEqual(rationale_type["uri"], rationale_type_expected["uri"])

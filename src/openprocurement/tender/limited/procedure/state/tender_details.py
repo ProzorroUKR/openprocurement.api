@@ -1,8 +1,9 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.constants import CAUSE_DETAILS_MAPPING
+from openprocurement.api.constants import (
+    PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING,
+)
 from openprocurement.api.constants_env import (
     CAUSE_DETAILS_REQUIRED_FROM,
-    CAUSE_DETAILS_URI_REQUIRED_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
 from openprocurement.api.utils import raise_operation_error
@@ -17,6 +18,10 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.limited.procedure.models.tender import (
     reporting_cause_is_required,
+)
+from openprocurement.tender.limited.procedure.serializers.cause import (
+    enrich_cause_details,
+    get_cause_details_reference,
 )
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
@@ -80,11 +85,12 @@ class CauseDetailsMixing:
 
     def set_cause_details_data(self, data):
         if cause_details := data.get("causeDetails"):
-            procurement_method_type = data["procurementMethodType"]
-            if cause_details.get("code") not in CAUSE_DETAILS_MAPPING[procurement_method_type]:
+            mapping = PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING
+            cause_details_reference = get_cause_details_reference(data, mapping)
+            if cause_details.get("code") not in cause_details_reference:
                 raise_operation_error(
                     self.request,
-                    {"code": [f"Value must be one of {list(CAUSE_DETAILS_MAPPING[procurement_method_type].keys())}."]},
+                    {"code": [f"Value must be one of {list(cause_details_reference.keys())}."]},
                     status=422,
                     location="body",
                     name="causeDetails",
@@ -97,34 +103,7 @@ class CauseDetailsMixing:
                     location="body",
                     name="causeDetails",
                 )
-            cause_code = cause_details["code"]
-            mapping_entry = CAUSE_DETAILS_MAPPING[procurement_method_type][cause_code]
-            expected_uri = mapping_entry.get("uri")
-            if tender_created_after(CAUSE_DETAILS_URI_REQUIRED_FROM):
-                if not cause_details.get("uri"):
-                    raise_operation_error(
-                        self.request,
-                        {"uri": ["This field is required."]},
-                        status=422,
-                        location="body",
-                        name="causeDetails",
-                    )
-            if cause_details.get("uri") and cause_details["uri"] != expected_uri:
-                raise_operation_error(
-                    self.request,
-                    {"uri": ["Value does not match the standards dictionary."]},
-                    status=422,
-                    location="body",
-                    name="causeDetails",
-                )
-            update_fields = {
-                "scheme": mapping_entry["scheme"],
-                "title": mapping_entry["title_uk"],
-                "title_en": mapping_entry["title_en"],
-            }
-            if expected_uri:
-                update_fields["uri"] = expected_uri
-            cause_details.update(update_fields)
+            data["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference, force=True)
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):

@@ -1,63 +1,26 @@
 import logging
-from datetime import datetime, timezone
 from typing import Any
-from unittest.mock import ANY
+from unittest.mock import ANY, MagicMock, patch
 
 from pymongo import UpdateOne
 
 from openprocurement.api.constants import (
+    CAUSE_TO_RATIONALE_TYPES_MAPPING_ALL,
     RATIONALE_TYPES_DECREE_1178,
     RATIONALE_TYPES_LAW_922,
-    TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178,
 )
 from openprocurement.api.migrations.base import MigrationResult, PymongoCollectionMigration, migrate_collection
+from openprocurement.contracting.core.procedure.serializers.rationale_types import (
+    enrich_contract_change_rationale_types,
+    get_change_rationale_types_reference,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
 
-DATE_BEFORE_TYPES_SPLITTING = datetime(year=2022, month=10, day=12, tzinfo=timezone.utc)
-
-
-def get_target_rationale_types(doc: dict) -> dict:
-    """Determine the correct contractChangeRationaleTypes dict for a tender."""
-    date_created_str = doc.get("dateCreated")
-    if date_created_str:
-        date_created = datetime.fromisoformat(date_created_str)
-        if date_created.tzinfo is None:
-            date_created = date_created.replace(tzinfo=timezone.utc)
-        if date_created < DATE_BEFORE_TYPES_SPLITTING:
-            return RATIONALE_TYPES_LAW_922
-
-    pmt = doc.get("procurementMethodType", "")
-    if pmt in TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178:
-        return RATIONALE_TYPES_DECREE_1178
-
-    if pmt == "reporting":
-        cause_scheme = doc.get("causeDetails", {}).get("scheme")
-        if cause_scheme in ("DECREE1178", "DECREE1275"):
-            return RATIONALE_TYPES_DECREE_1178
-
-    return RATIONALE_TYPES_LAW_922
-
-
-def _needs_update(current: dict, target: dict) -> bool:
-    """Return True if current contractChangeRationaleTypes differs from target."""
-    if sorted(current.keys()) != sorted(target.keys()):
-        return True
-    first_entry = next(iter(current.values()), {})
-    if "scheme" not in first_entry:
-        return True
-    target_entry: dict = next(iter(target.values()), {})
-    target_scheme = target_entry.get("scheme")
-    if first_entry.get("scheme") != target_scheme:
-        return True
-    return False
-
 
 class Migration(PymongoCollectionMigration):
-    """Add scheme field and refresh titles in contractChangeRationaleTypes for tenders and contracts."""
-
-    description = "Add scheme to contractChangeRationaleTypes entries (tasks III+IV)"
+    description = "Add scheme/uri to contractChangeRationaleTypes in tender/contract (tender main migration)"
 
     collection_name = "tenders"
 
@@ -95,7 +58,9 @@ class Migration(PymongoCollectionMigration):
         if not current:
             return None
 
-        target_types = get_target_rationale_types(doc)
+        mapping = CAUSE_TO_RATIONALE_TYPES_MAPPING_ALL
+        rationale_types_reference = get_change_rationale_types_reference(doc, mapping)
+        enriched = enrich_contract_change_rationale_types(current, rationale_types_reference)
 
         # Collect and update contracts for this tender
         contract_docs = []
@@ -111,13 +76,13 @@ class Migration(PymongoCollectionMigration):
                 contract_docs.append(contract_doc)
 
         if contract_docs:
-            result = self.sub_migration.process_bulk(contract_docs, context={"target_types": target_types})
+            result = self.sub_migration.process_bulk(contract_docs, context={"tender": doc})
             self.sub_result += result
 
-        if not _needs_update(current, target_types):
+        if not enriched or enriched == current:
             return None
 
-        doc["contractChangeRationaleTypes"] = dict(target_types)
+        doc["contractChangeRationaleTypes"] = enriched
         return doc
 
     def generate_base_pipeline_stages(self, doc: dict) -> list[dict]:
@@ -125,44 +90,89 @@ class Migration(PymongoCollectionMigration):
         return unset_pipeline + super().generate_base_pipeline_stages(doc)
 
     def run_test(self) -> None:
-        mock_collection = self.run_test_data(
-            [
-                {
-                    "_id": "aaa00000000000000000000000000001",
-                    "_rev": "1-aaa00000000000000000000000000001",
-                    "procurementMethodType": "negotiation",
-                    "dateCreated": "2024-01-01T00:00:00+00:00",
-                    "contractChangeRationaleTypes": {
-                        "durationExtension": {
-                            "title_uk": "old title",
-                            "title_en": "old title en",
-                            "description_uk": "desc",
-                            "description_en": "desc en",
-                        },
-                    },
-                    "contracts": [],
-                },
-                {
-                    "_id": "aaa00000000000000000000000000002",
-                    "_rev": "1-aaa00000000000000000000000000002",
-                    "procurementMethodType": "reporting",
-                    "dateCreated": "2024-01-01T00:00:00+00:00",
-                    "causeDetails": {"scheme": "DECREE1275"},
-                    "contractChangeRationaleTypes": {
-                        "durationExtension": {
-                            "title_uk": "old title",
-                            "title_en": "old title en",
-                            "description_uk": "desc",
-                            "description_en": "desc en",
-                        },
-                    },
-                    "contracts": [],
-                },
-            ],
-        )
-
+        old_entry = {
+            "title_uk": "old title",
+            "title_en": "old title en",
+            "description_uk": "desc",
+            "description_en": "desc en",
+        }
+        expected_law922_enriched = {
+            "durationExtension": {
+                **old_entry,
+                "scheme": RATIONALE_TYPES_LAW_922["durationExtension"]["scheme"],
+                "uri": RATIONALE_TYPES_LAW_922["durationExtension"]["uri"],
+            },
+        }
+        expected_decree1178_enriched = {
+            "durationExtension": {
+                **old_entry,
+                "scheme": RATIONALE_TYPES_DECREE_1178["durationExtension"]["scheme"],
+                "uri": RATIONALE_TYPES_DECREE_1178["durationExtension"]["uri"],
+            },
+        }
+        law922_without_uri = {
+            code: {key: value for key, value in entry.items() if key != "uri"}
+            for code, entry in RATIONALE_TYPES_LAW_922.items()
+        }
         expected_law922_types = dict(RATIONALE_TYPES_LAW_922)
-        expected_decree1178_types = dict(RATIONALE_TYPES_DECREE_1178)
+
+        contract_id = "bbb00000000000000000000000000001"
+        contract_doc = {
+            "_id": contract_id,
+            "_rev": "1-bbb00000000000000000000000000001",
+            "contractChangeRationaleTypes": {
+                "durationExtension": dict(old_entry),
+            },
+        }
+        mock_contracts_collection = MagicMock()
+        mock_contracts_collection.find_one.return_value = contract_doc
+
+        with patch.object(ContractSubMigration, "get_collection", return_value=mock_contracts_collection):
+            mock_collection = self.run_test_data(
+                [
+                    {
+                        "_id": "aaa00000000000000000000000000001",
+                        "_rev": "1-aaa00000000000000000000000000001",
+                        "procurementMethodType": "negotiation",
+                        "dateCreated": "2024-01-01T00:00:00+00:00",
+                        "contractChangeRationaleTypes": {
+                            "durationExtension": dict(old_entry),
+                        },
+                        "contracts": [],
+                    },
+                    {
+                        "_id": "aaa00000000000000000000000000002",
+                        "_rev": "1-aaa00000000000000000000000000002",
+                        "procurementMethodType": "reporting",
+                        "dateCreated": "2024-01-01T00:00:00+00:00",
+                        "causeDetails": {"scheme": "DECREE1275"},
+                        "contractChangeRationaleTypes": {
+                            "durationExtension": dict(old_entry),
+                        },
+                        "contracts": [],
+                    },
+                    {
+                        "_id": "aaa00000000000000000000000000003",
+                        "_rev": "1-aaa00000000000000000000000000003",
+                        "procurementMethodType": "negotiation.quick",
+                        "dateCreated": "2024-01-01T00:00:00+00:00",
+                        "causeDetails": {"scheme": "DECREE1178"},
+                        "contractChangeRationaleTypes": {
+                            "durationExtension": dict(old_entry),
+                        },
+                        "contracts": [{"id": contract_id}],
+                    },
+                    {
+                        "_id": "aaa00000000000000000000000000004",
+                        "_rev": "1-aaa00000000000000000000000000004",
+                        "procurementMethodType": "negotiation",
+                        "dateCreated": "2024-01-01T00:00:00+00:00",
+                        "causeDetails": {"scheme": "LAW922"},
+                        "contractChangeRationaleTypes": law922_without_uri,
+                        "contracts": [],
+                    },
+                ],
+            )
 
         mock_collection.bulk_write.assert_called_once_with(
             [
@@ -179,7 +189,7 @@ class Migration(PymongoCollectionMigration):
                                 "_rev": "1-aaa00000000000000000000000000001",
                                 "procurementMethodType": "negotiation",
                                 "dateCreated": "2024-01-01T00:00:00+00:00",
-                                "contractChangeRationaleTypes": expected_law922_types,
+                                "contractChangeRationaleTypes": expected_law922_enriched,
                                 "contracts": [],
                             }
                         },
@@ -200,7 +210,49 @@ class Migration(PymongoCollectionMigration):
                                 "procurementMethodType": "reporting",
                                 "dateCreated": "2024-01-01T00:00:00+00:00",
                                 "causeDetails": {"scheme": "DECREE1275"},
-                                "contractChangeRationaleTypes": expected_decree1178_types,
+                                "contractChangeRationaleTypes": expected_decree1178_enriched,
+                                "contracts": [],
+                            }
+                        },
+                        {"$set": {"_rev": ANY}},
+                    ],
+                ),
+                UpdateOne(
+                    {
+                        "_id": "aaa00000000000000000000000000003",
+                        "_rev": "1-aaa00000000000000000000000000003",
+                    },
+                    [
+                        {"$unset": "contractChangeRationaleTypes"},
+                        {
+                            "$set": {
+                                "_id": "aaa00000000000000000000000000003",
+                                "_rev": "1-aaa00000000000000000000000000003",
+                                "procurementMethodType": "negotiation.quick",
+                                "dateCreated": "2024-01-01T00:00:00+00:00",
+                                "causeDetails": {"scheme": "DECREE1178"},
+                                "contractChangeRationaleTypes": expected_decree1178_enriched,
+                                "contracts": [{"id": contract_id}],
+                            }
+                        },
+                        {"$set": {"_rev": ANY}},
+                    ],
+                ),
+                UpdateOne(
+                    {
+                        "_id": "aaa00000000000000000000000000004",
+                        "_rev": "1-aaa00000000000000000000000000004",
+                    },
+                    [
+                        {"$unset": "contractChangeRationaleTypes"},
+                        {
+                            "$set": {
+                                "_id": "aaa00000000000000000000000000004",
+                                "_rev": "1-aaa00000000000000000000000000004",
+                                "procurementMethodType": "negotiation",
+                                "dateCreated": "2024-01-01T00:00:00+00:00",
+                                "causeDetails": {"scheme": "LAW922"},
+                                "contractChangeRationaleTypes": expected_law922_types,
                                 "contracts": [],
                             }
                         },
@@ -210,11 +262,41 @@ class Migration(PymongoCollectionMigration):
             ]
         )
 
+        mock_contracts_collection.find_one.assert_called_once_with(
+            {"_id": contract_id},
+            {"_id": 1, "_rev": 1, "contractChangeRationaleTypes": 1},
+        )
+        mock_contracts_collection.bulk_write.assert_called_once_with(
+            [
+                UpdateOne(
+                    {
+                        "_id": contract_id,
+                        "_rev": "1-bbb00000000000000000000000000001",
+                    },
+                    [
+                        {"$unset": "contractChangeRationaleTypes"},
+                        {
+                            "$set": {
+                                "_id": contract_id,
+                                "_rev": "1-bbb00000000000000000000000000001",
+                                "contractChangeRationaleTypes": expected_decree1178_enriched,
+                            }
+                        },
+                        {"$set": {"_rev": ANY}},
+                        {
+                            "$set": {
+                                "public_modified": {"$divide": [{"$toLong": "$$NOW"}, 1000]},
+                                "public_ts": "$$CLUSTER_TIME",
+                            }
+                        },
+                    ],
+                ),
+            ]
+        )
+
 
 class ContractSubMigration(PymongoCollectionMigration):
-    """Migrate contractChangeRationaleTypes in contracts collection."""
-
-    description = "Add scheme to contractChangeRationaleTypes entries in contracts"
+    description = "Add scheme/uri to contractChangeRationaleTypes in tender/contract (contract sub migration)"
 
     collection_name = "contracts"
 
@@ -231,14 +313,17 @@ class ContractSubMigration(PymongoCollectionMigration):
         if not current:
             return None
 
-        target_types = (context or {}).get("target_types")
-        if not target_types:
+        tender = (context or {}).get("tender")
+        if not tender:
             return None
 
-        if not _needs_update(current, target_types):
+        mapping = CAUSE_TO_RATIONALE_TYPES_MAPPING_ALL
+        rationale_types_reference = get_change_rationale_types_reference(tender, mapping)
+        enriched = enrich_contract_change_rationale_types(current, rationale_types_reference)
+        if not enriched or enriched == current:
             return None
 
-        doc["contractChangeRationaleTypes"] = dict(target_types)
+        doc["contractChangeRationaleTypes"] = enriched
         return doc
 
     def generate_base_pipeline_stages(self, doc: dict) -> list[dict]:

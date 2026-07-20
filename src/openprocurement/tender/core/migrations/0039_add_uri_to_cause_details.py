@@ -3,13 +3,14 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
-from openprocurement.api.constants import CAUSE_DETAILS_MAPPING_ALL
+from openprocurement.api.deprecated.cause_details import PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
     NEGOTIATION_QUICK,
     REPORTING,
 )
+from openprocurement.tender.limited.procedure.serializers.cause import enrich_cause_details, get_cause_details_reference
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -43,19 +44,9 @@ class Migration(PymongoCollectionMigration):
 
     def update_document(self, doc, context=None):
         cause_details = doc.get("causeDetails")
-        if not cause_details:
-            return doc
-
-        procurement_method_type = doc["procurementMethodType"]
-        cause_code = cause_details.get("code")
-        if not cause_code:
-            return doc
-
-        mapping = CAUSE_DETAILS_MAPPING_ALL.get(procurement_method_type, {})
-        entry = mapping.get(cause_code)
-        if entry and entry.get("uri"):
-            doc["causeDetails"]["uri"] = entry["uri"]
-
+        mapping = PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL
+        cause_details_reference = get_cause_details_reference(doc, mapping)
+        doc["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference)
         return doc
 
     def run_test(self):
@@ -136,9 +127,8 @@ class Migration(PymongoCollectionMigration):
                                         "author": "migration",
                                         "changes": [
                                             {
-                                                "op": "add",
+                                                "op": "remove",
                                                 "path": "/causeDetails/uri",
-                                                "value": "https://zakon.rada.gov.ua/laws/show/922-19/ed20251031#n1717",
                                             },
                                         ],
                                         "rev": ANY,
@@ -184,9 +174,8 @@ class Migration(PymongoCollectionMigration):
                                         "author": "migration",
                                         "changes": [
                                             {
-                                                "op": "add",
+                                                "op": "remove",
                                                 "path": "/causeDetails/uri",
-                                                "value": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426",
                                             },
                                         ],
                                         "rev": ANY,

@@ -9,7 +9,9 @@ from requests import Session
 
 from openprocurement.api import constants_env
 from openprocurement.api.constants_utils import (
+    filter_archeved_items,
     load_criteria_rules,
+    load_rationale_types,
     parse_str_list,
     split_classifier_by_year,
 )
@@ -301,36 +303,23 @@ TENDER_CAUSE = {
     key for key, desc in standards.load("codelists/tender/tender_cause.json").items() if desc["archive"] is False
 }
 
-TENDER_CAUSE_REPORTING = {}
 TENDER_CAUSE_REPORTING_ALL = standards.load("codelists/tender/tender_cause_details/reporting.json")
+TENDER_CAUSE_REPORTING = filter_archeved_items(TENDER_CAUSE_REPORTING_ALL)
 
-for key, desc in TENDER_CAUSE_REPORTING_ALL.items():
-    if desc["archive"] is False:
-        TENDER_CAUSE_REPORTING[key] = desc
-
-TENDER_CAUSE_NEGOTIATION = {}
 TENDER_CAUSE_NEGOTIATION_ALL = standards.load("codelists/tender/tender_cause_details/negotiation.json")
+TENDER_CAUSE_NEGOTIATION = filter_archeved_items(TENDER_CAUSE_NEGOTIATION_ALL)
 
-for key, desc in TENDER_CAUSE_NEGOTIATION_ALL.items():
-    if desc["archive"] is False:
-        TENDER_CAUSE_NEGOTIATION[key] = desc
-
-TENDER_CAUSE_NEGOTIATION_QUICK = {}
 TENDER_CAUSE_NEGOTIATION_QUICK_ALL = standards.load("codelists/tender/tender_cause_details/negotiation.quick.json")
-
-for key, desc in TENDER_CAUSE_NEGOTIATION_QUICK_ALL.items():
-    if desc["archive"] is False:
-        TENDER_CAUSE_NEGOTIATION_QUICK[key] = desc
-
+TENDER_CAUSE_NEGOTIATION_QUICK = filter_archeved_items(TENDER_CAUSE_NEGOTIATION_QUICK_ALL)
 
 # only active causes
-CAUSE_DETAILS_MAPPING = {
+PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING = {
     "reporting": TENDER_CAUSE_REPORTING,
     "negotiation": TENDER_CAUSE_NEGOTIATION,
     "negotiation.quick": TENDER_CAUSE_NEGOTIATION_QUICK,
 }
 
-CAUSE_DETAILS_MAPPING_ALL = {
+PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING_ALL = {
     "reporting": TENDER_CAUSE_REPORTING_ALL,
     "negotiation": TENDER_CAUSE_NEGOTIATION_ALL,
     "negotiation.quick": TENDER_CAUSE_NEGOTIATION_QUICK_ALL,
@@ -395,19 +384,24 @@ BROKERS = {broker["name"]: broker["title"] for broker in standards.load("organiz
 KIND_PROCUREMENT_METHOD_TYPE_MAPPING = standards.load("organizations/kind_procurementMethodType_mapping.json")
 KIND_FRAMEWORK_TYPE_MAPPING = standards.load("organizations/kind_frameworkType_mapping.json")
 
-RATIONALE_TYPES = standards.load("codelists/contract_change_rationale_type.json")
-RATIONALE_TYPES_DECREE_1178 = {}
-for key, desc in standards.load("codelists/contract_change_rationale_type_decree_1178.json").items():
-    if desc["archive"] is False:
-        desc.pop("archive")
-        desc["scheme"] = "DECREE1178"
-        RATIONALE_TYPES_DECREE_1178[key] = desc
-RATIONALE_TYPES_LAW_922 = {}
-for key, desc in standards.load("codelists/contract_change_rationale_type_law_922.json").items():
-    if desc["archive"] is False:
-        desc.pop("archive")
-        desc["scheme"] = "LAW922"
-        RATIONALE_TYPES_LAW_922[key] = desc
+RATIONALE_TYPES_DECREE_1178_ALL = load_rationale_types("codelists/contract_change_rationale_type_decree_1178.json")
+RATIONALE_TYPES_DECREE_1178 = filter_archeved_items(RATIONALE_TYPES_DECREE_1178_ALL)
+
+RATIONALE_TYPES_LAW_922_ALL = load_rationale_types("codelists/contract_change_rationale_type_law_922.json")
+RATIONALE_TYPES_LAW_922 = filter_archeved_items(RATIONALE_TYPES_LAW_922_ALL)
+
+CAUSE_TO_RATIONALE_TYPES_MAPPING = {
+    "LAW922": RATIONALE_TYPES_LAW_922,
+    "DECREE1178": RATIONALE_TYPES_DECREE_1178,
+    "DECREE1275": RATIONALE_TYPES_DECREE_1178,
+}
+
+CAUSE_TO_RATIONALE_TYPES_MAPPING_ALL = {
+    "LAW922": RATIONALE_TYPES_LAW_922_ALL,
+    "DECREE1178": RATIONALE_TYPES_DECREE_1178_ALL,
+    "DECREE1275": RATIONALE_TYPES_DECREE_1178_ALL,
+}
+
 TENDERS_CONTRACT_CHANGE_BASED_ON_DECREE_1178 = (
     "aboveThreshold",
     "priceQuotation",
