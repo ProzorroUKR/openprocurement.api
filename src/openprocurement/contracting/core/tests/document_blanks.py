@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
+from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
@@ -1096,6 +1097,22 @@ def limited_contract_confidential_document(self):
             "errors": [{"location": "body", "name": "data", "description": "Document download forbidden."}],
         },
     )
+
+    with change_auth(self.app, ("Basic", ("test_sas", ""))):
+        response = self.app.get(f"/contracts/{contract_id}/documents")
+        self.assertEqual(len(response.json["data"]), 2)
+        for doc in response.json["data"]:
+            self.assertIn("url", doc)
+
+        response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
+        self.assertIn("url", response.json["data"])
+
+        response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?download=1")
+        self.assertEqual(response.status_code, 302)
+        self.assertIn("http://localhost/get/", response.location)
+        self.assertIn("Signature=", response.location)
+        self.assertIn("KeyID=", response.location)
+        self.assertIn("Expires=", response.location)
 
     # patch first doc documentType to confidential
     self.app.patch_json(

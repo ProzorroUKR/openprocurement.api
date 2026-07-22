@@ -1,6 +1,7 @@
 from hashlib import sha512
 
 from openprocurement.api.auth import extract_access_token
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.utils import (
     append_revision,
     get_revision_changes,
@@ -55,6 +56,12 @@ def is_contract_owner(request, contract):
         or is_owner_by_fields(request, contract, role=AccessRole.TENDER)
         or is_owner_by_fields(request, contract, role=AccessRole.CONTRACT)
     )
+
+
+def is_confidential_document_allowed(request, document):
+    if document.get("confidentiality", "") != ConfidentialityType.BUYER_ONLY:
+        return True
+    return request.authenticated_role == "sas" or is_contract_owner(request, request.validated["contract"])
 
 
 def is_bid_owner(request, contract):
