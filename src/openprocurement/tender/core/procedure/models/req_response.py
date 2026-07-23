@@ -9,7 +9,6 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
-    MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
 )
 from openprocurement.api.procedure.context import get_tender
@@ -324,9 +323,6 @@ class MatchResponseValue:
     @classmethod
     def _extra_values_allowed(cls, criterion, parent_data):
         if not criterion or not parent_data:
-            return False
-
-        if not tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM):
             return False
 
         classification = criterion.get("classification") or {}

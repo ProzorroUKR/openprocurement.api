@@ -6,7 +6,6 @@ from pyramid.request import Request
 from openprocurement.api.constants import CRITERIA_LIST
 from openprocurement.api.constants_env import (
     CRITERIA_CLASSIFICATION_VALIDATION_FROM,
-    MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM,
     NEW_REQUIREMENTS_RULES_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
@@ -368,11 +367,7 @@ class TenderCriterionMixin:
             return
 
         # Validate expectedMinItems / expectedMaxItems narrowing
-        if (
-            field == "expectedMinItems"
-            and not requirements_from_profile
-            and tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM)
-        ):
+        if field == "expectedMinItems" and not requirements_from_profile:
             market_min = market_req.get("expectedMinItems")
             tender_min = tender_req.get("expectedMinItems")
 
@@ -385,11 +380,7 @@ class TenderCriterionMixin:
 
             return
 
-        if (
-            field == "expectedMaxItems"
-            and not requirements_from_profile
-            and tender_created_after(MARKET_CRITERIA_EXPECTED_MIN_MAX_ITEMS_CHANGE_ALLOWED_FROM)
-        ):
+        if field == "expectedMaxItems" and not requirements_from_profile:
             tender_max = tender_req.get("expectedMaxItems")
             market_max = market_req.get("expectedMaxItems")
 
