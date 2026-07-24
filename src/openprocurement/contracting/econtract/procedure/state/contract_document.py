@@ -62,7 +62,14 @@ class EContractDocumentState(BaseContractDocumentState):
         # Get pdf file from ds
         pdf = load_document_content(doc)
         # Verify signature
-        verify_data = verify_signature_apisign(pdf, signature)
+        verify_data = verify_signature_apisign(
+            pdf,
+            signature,
+            context={
+                "sign_doc": doc_data,
+                "pdf_doc": pdf_doc,
+            },
+        )
         # Validate signature
         validate_apisign_signature_type(verify_data)
         validate_apisign_signature_cert(verify_data)

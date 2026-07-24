@@ -754,7 +754,7 @@ def is_boolean(value):
     return False
 
 
-def verify_signature_apisign(data, sign):
+def verify_signature_apisign(data, sign, context: dict = None):
     request = get_request()
 
     req_data = {
@@ -778,6 +778,21 @@ def verify_signature_apisign(data, sign):
             error_description = resp_data["errors"][0]["description"]
         except (KeyError, IndexError):
             error_description = resp.status_code
+
+        LOGGER.error(
+            f"Fail verifying signature: {error_description}.",
+            extra=context_unpack(
+                request,
+                {"MESSAGE_ID": "verify_signature_apisign_failed"},
+                {
+                    "CONTEXT": {
+                        **(context or {}),
+                        "request_data": req_data,
+                        "response_data": resp_data,
+                    }
+                },
+            ),
+        )
 
         raise_operation_error(
             request,
