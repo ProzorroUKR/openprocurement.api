@@ -6,6 +6,7 @@ from math import ceil, floor
 from pyramid.request import Request
 
 from openprocurement.api.constants import (
+    CAUSE_TO_RATIONALE_TYPES_MAPPING,
     CPV_GROUP_PREFIX_LENGTH,
     CPV_PHARM_PREFIX,
     CPV_PREFIX_LENGTH_TO_NAME,
@@ -47,8 +48,8 @@ from openprocurement.api.utils import (
     request_fetch_plan,
     request_fetch_root_tender_for_tender,
 )
-from openprocurement.contracting.core.procedure.serializers.contract import (
-    get_change_rationale_types,
+from openprocurement.contracting.core.procedure.serializers.rationale_types import (
+    get_change_rationale_types_reference,
 )
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
@@ -1688,8 +1689,9 @@ class BaseTenderDetailsMixing:
     def set_contract_change_rationale_types(self, data):
         if tender_created_before(CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM):
             return
-
-        data["contractChangeRationaleTypes"] = get_change_rationale_types(data)
+        mapping = CAUSE_TO_RATIONALE_TYPES_MAPPING
+        rationale_types_reference = get_change_rationale_types_reference(data, mapping)
+        data["contractChangeRationaleTypes"] = rationale_types_reference
 
 
 class TenderDetailsMixing(TenderConfigMixin, BaseTenderDetailsMixing):

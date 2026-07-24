@@ -122,3 +122,21 @@ def split_classifier_by_year(data, scheme_name):
         for year in item.get("years", []):
             result.setdefault(f"{scheme_name}-{year}", {})[item["code"]] = item
     return result
+
+
+def load_rationale_types(codelist_path):
+    result = {}
+    for key, item in standards.load(codelist_path).items():
+        result[key] = item
+    return result
+
+
+def filter_archeved_items(items):
+    if isinstance(items, dict):
+        result = {}
+        for key, item in items.items():
+            archive = item.pop("archive", False)
+            if archive is False:
+                result[key] = item
+        return result
+    raise ValueError()

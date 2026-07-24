@@ -4,19 +4,40 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
+from openprocurement.api.deprecated.cause_details import PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
     NEGOTIATION_QUICK,
     REPORTING,
 )
-from openprocurement.tender.limited.procedure.serializers.tender import (
-    convert_cause_to_cause_details,
-    set_cause_details_from_dictionary,
+from openprocurement.tender.limited.procedure.serializers.cause import (
+    enrich_cause_details,
+    get_cause_details_reference,
 )
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
+
+
+def convert_cause_to_cause_details(obj: dict[str, Any]) -> dict[str, Any]:
+    obj["causeDetails"] = {}
+    for field_name, field_alt_name in [
+        ("cause", "code"),
+        ("causeDescription", "description"),
+        ("causeDescription_en", "description_en"),
+    ]:
+        if obj.get(field_name):
+            obj["causeDetails"][field_alt_name] = obj[field_name]
+    return set_cause_details_from_dictionary(obj)
+
+
+def set_cause_details_from_dictionary(obj: dict[str, Any]) -> dict[str, Any]:
+    cause_details = obj.get("causeDetails")
+    mapping = PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL
+    cause_details_reference = get_cause_details_reference(obj, mapping)
+    obj["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference)
+    return obj
 
 
 class Migration(PymongoCollectionMigration):

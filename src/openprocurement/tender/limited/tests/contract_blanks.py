@@ -1,7 +1,10 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import (
+    PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING,
+    SANDBOX_MODE,
+)
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
@@ -16,6 +19,64 @@ from openprocurement.tender.core.tests.utils import set_tender_lots
 from openprocurement.tender.limited.tests.base import test_lots
 
 # TenderContractResourceTes
+
+
+def contract_change_rationale_types(self):
+    data = deepcopy(self.initial_data)
+    pmt = data["procurementMethodType"]
+    if not data.get("causeDetails"):
+        cause_code = next(iter(PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING[pmt]))
+        data["causeDetails"] = {
+            "code": cause_code,
+            "description": "test",
+        }
+    if pmt in ("negotiation", "negotiation.quick"):
+        set_tender_lots(data, test_lots)
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    tender_id = tender["id"]
+    owner_token = response.json["access"]["token"]
+    expected_rationale_types = tender["contractChangeRationaleTypes"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    award_data = {
+        "suppliers": [test_tender_below_supplier],
+        "status": "pending",
+        "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+    }
+    if data.get("lots"):
+        award_data["lotID"] = data["lots"][0]["id"]
+
+    response = self.app.post_json(
+        f"/tenders/{tender_id}/awards?acc_token={owner_token}",
+        {"data": award_data},
+    )
+    award_id = response.json["data"]["id"]
+    self.add_sign_doc(tender_id, owner_token, docs_url=f"/awards/{award_id}/documents")
+    self.app.patch_json(
+        f"/tenders/{tender_id}/awards/{award_id}?acc_token={owner_token}",
+        {"data": {"status": "active", "qualified": True}},
+    )
+
+    response = self.app.get(f"/tenders/{tender_id}/contracts")
+    contract_id = response.json["data"][0]["id"]
+
+    response = self.app.get(f"/contracts/{contract_id}")
+    self.assertEqual(response.status, "200 OK")
+
+    rationale_types = response.json["data"]["contractChangeRationaleTypes"]
+    self.assertEqual(rationale_types.keys(), expected_rationale_types.keys())
+
+    rationale_type = rationale_types["durationExtension"]
+    rationale_type_expected = expected_rationale_types["durationExtension"]
+    self.assertEqual(rationale_type, rationale_type_expected)
 
 
 def patch_tender_contract(self):

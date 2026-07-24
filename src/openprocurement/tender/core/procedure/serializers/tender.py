@@ -4,6 +4,9 @@ from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
+from openprocurement.contracting.core.procedure.serializers.rationale_types import (
+    ContractChangeRationaleTypesSerializer,
+)
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.core.procedure.serializers.cancellation import (
@@ -42,6 +45,7 @@ class TenderBaseSerializer(BaseUIDSerializer):
         "public_modified",
     }
     serializers = {
+        "contractChangeRationaleTypes": ContractChangeRationaleTypesSerializer,  # TODO: remove after migration
         "bids": ListSerializer(BidSerializer),
         "qualifications": ListSerializer(QualificationSerializer),
         "cancellations": ListSerializer(CancellationSerializer),

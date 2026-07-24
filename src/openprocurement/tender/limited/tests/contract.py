@@ -31,6 +31,7 @@ from openprocurement.tender.limited.tests.base import (
 )
 from openprocurement.tender.limited.tests.contract_blanks import (  # EContract
     activate_contract_cancelled_lot,
+    contract_change_rationale_types,
     patch_tender_contract,
     patch_tender_negotiation_econtract,
     sign_second_contract,
@@ -77,6 +78,7 @@ class TenderContractResourceTest(BaseTenderContentWebTest, CreateActiveAwardMixi
         super().setUp()
         self.create_award()
 
+    test_contract_change_rationale_types = snitch(contract_change_rationale_types)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_value = snitch(patch_tender_contract_value)
     test_tender_contract_signature_date = snitch(tender_contract_signature_date)

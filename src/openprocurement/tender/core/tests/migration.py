@@ -23,3 +23,11 @@ test_0036_migrate_old_complaints_doc = create_collection_migration_test(
 test_0038_migrate_milestones_to_cfa_agreements = create_collection_migration_test(
     "openprocurement.tender.core.migrations.0038_migrate_milestones_to_cfa_agreements.Migration"
 )
+
+test_0039_add_uri_to_cause_details = create_collection_migration_test(
+    "openprocurement.tender.core.migrations.0039_add_uri_to_cause_details.Migration"
+)
+
+test_0040_add_scheme_to_contract_change_rationale_types = create_collection_migration_test(
+    "openprocurement.tender.core.migrations.0040_add_scheme_to_contract_change_rationale_types.Migration"
+)
