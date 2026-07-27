@@ -25,7 +25,7 @@ from openprocurement.api.validation import validate_uniq_id
 from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
 
 _BUDGET_PROJECT_CLASSIFIERS: dict[str, tuple[dict, str]] = {
-    FUNDER_PROGRAM_SCHEME: (FUNDER_PROGRAMS, "name"),
+    FUNDER_PROGRAM_SCHEME: (FUNDER_PROGRAMS, "name_uk"),
     PLAN_OF_UKRAINE_SCHEME: (PLAN_OF_UKRAINE, "name_uk"),
 }
 BUDGET_PROJECT_SCHEMES: tuple[str, ...] = tuple(_BUDGET_PROJECT_CLASSIFIERS)

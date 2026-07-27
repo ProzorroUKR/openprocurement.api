@@ -837,7 +837,7 @@ def create_plan_missing_budget_project_scheme(self):
 def create_plan_invalid_funder_program_archived(self):
     archived_program = {
         "id": "interreg-vi-b-next-black-sea",
-        "name": "Програма Басейну Чорного моря Interreg VI-B NEXT",
+        "name_uk": "Програма Басейну Чорного моря Interreg VI-B NEXT",
         "name_en": "Interreg Program VI-B NEXT Black Sea Basin",
         "archive": True,
         "funder": {"id": "26369185", "scheme": "RO-CUI"},
