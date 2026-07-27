@@ -4,6 +4,7 @@
 node_modules
 temp/
 logs/*.log
+__pycache__/
 
 # Ignore sensitive files
 .venv
