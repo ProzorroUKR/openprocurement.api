@@ -3,7 +3,12 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import FloatType, StringType
 
-from openprocurement.api.constants import CCCE_UA, CCCE_UA_SCHEME
+from openprocurement.api.constants import (
+    CCCE_UA,
+    CCCE_UA_SCHEME,
+    UKTZED,
+    UKTZED_SCHEME,
+)
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import (
@@ -27,6 +32,8 @@ class AdditionalClassification(BaseClassification):
     def validate_id(self, data, value):
         if data["scheme"] == CCCE_UA_SCHEME and value not in CCCE_UA:
             raise ValidationError(f"{CCCE_UA_SCHEME} id not found in standards")
+        if data["scheme"] == UKTZED_SCHEME and value not in UKTZED:
+            raise ValidationError(f"{UKTZED_SCHEME} id not found in standards")
 
 
 class Item(Model):

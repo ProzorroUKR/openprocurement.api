@@ -4,6 +4,7 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
+from openprocurement.api.constants import UKTZED_SCHEME
 from openprocurement.api.constants_env import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
     PLAN_BUYERS_REQUIRED_FROM,
@@ -89,6 +90,7 @@ class PostPlan(Model):
     def validate_additionalClassifications(self, plan, classifications):
         if classifications is not None:
             validate_ccce_ua(classifications)
+            validate_uktzed_forbidden(classifications)
 
 
 class PatchPlan(Model):
@@ -156,11 +158,17 @@ class Plan(Model):
     def validate_additionalClassifications(self, plan, classifications):
         if classifications is not None:
             validate_ccce_ua(classifications)
+            validate_uktzed_forbidden(classifications)
 
 
 def validate_buyers(plan, buyers):
     if not buyers and is_obj_const_active(get_plan(), PLAN_BUYERS_REQUIRED_FROM):
         raise ValidationError("This field is required.")
+
+
+def validate_uktzed_forbidden(classifications):
+    if any(classification["scheme"] == UKTZED_SCHEME for classification in classifications):
+        raise ValidationError(f"Forbidden to add {UKTZED_SCHEME}. Should be added in items.additionalClassifications.")
 
 
 def validate_status(plan, status):
