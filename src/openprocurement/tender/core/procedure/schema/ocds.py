@@ -118,7 +118,7 @@ def convert_contracts(contracts, award_ids=None):
             "id": c["id"],
             "awardID": c["awardID"],
             "status": c["status"],
-            **({"value": value} if (value := convert_value(c.get("value"))) else {}),
+            "value": convert_value(c.get("value")),
             "items": convert_items(c["items"]) if "items" in c else None,
             "dateSigned": c.get("dateSigned"),
             "documents": convert_documents(c.get("documents", "")),
@@ -137,7 +137,7 @@ def convert_awards(awards, tender, lot_id=None):
             "description": a.get("description"),
             "status": a["status"],
             "date": a["date"],
-            **({"value": value} if (value := convert_value(a.get("value"))) else {}),
+            "value": convert_value(a["value"]),
             "suppliers": [
                 (
                     {
@@ -239,6 +239,7 @@ def prepare_release(plan, tender, lot=None):
                 "name": tender["procuringEntity"]["name"],
             },
             "items": convert_items(tender["items"], lot_id=lot_id),
+            "value": convert_value(lot.get("value") or tender.get("value")),
             # "minValue": tender["minValue"], TODO: hm?
             "procurementMethod": tender["procurementMethod"],
             # "procurementMethodDetails": tender.get("procurementMethodDetails", ""),
@@ -287,11 +288,6 @@ def prepare_release(plan, tender, lot=None):
         "awards": awards,
         "contracts": convert_contracts(tender.get("contracts", ""), award_ids=[a["id"] for a in awards]),
     }
-
-    lot_or_tender_value = lot.get("value") or tender.get("value")
-    if value := convert_value(lot_or_tender_value):
-        r["tender"]["value"] = value
-
     if plan:
         planning = {
             "project": plan.get("project"),
@@ -304,14 +300,11 @@ def prepare_release(plan, tender, lot=None):
             planning["budget"] = {
                 "id": plan["budget"]["id"],
                 "description": plan["budget"]["description"],
+                "amount": convert_value(plan["budget"]),
                 # "projectID": "The name of the project through which this contracting process is funded",
                 # "project": "An external identifier for the project",
                 # "uri": "A URI pointing directly to a machine-readable record about the budget..",
             }
-
-            if value := convert_value(budget):
-                planning["budget"]["amount"] = value
-
             project = budget.get("project")
             if project:
                 if project_id := project.get("id"):
@@ -369,6 +362,7 @@ def convert_bid(b, lot_id=None, tender=None):
             }
             for t in b.get("tenderers", "")
         ],
+        "value": convert_value(b.get("value")),
         "tenderers": [
             {
                 "id": b["id"],
@@ -377,10 +371,6 @@ def convert_bid(b, lot_id=None, tender=None):
             for t in b.get("tenderers", "")
         ],
     }
-
-    if value := convert_value(b.get("value")):
-        r["value"] = value
-
     # documents
     documents = []
     for key in (
