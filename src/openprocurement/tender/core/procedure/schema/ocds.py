@@ -304,11 +304,14 @@ def prepare_release(plan, tender, lot=None):
             planning["budget"] = {
                 "id": plan["budget"]["id"],
                 "description": plan["budget"]["description"],
-                "amount": convert_value(plan["budget"]),
                 # "projectID": "The name of the project through which this contracting process is funded",
                 # "project": "An external identifier for the project",
                 # "uri": "A URI pointing directly to a machine-readable record about the budget..",
             }
+
+            if value := convert_value(budget):
+                planning["budget"]["amount"] = value
+
             project = budget.get("project")
             if project:
                 if project_id := project.get("id"):
