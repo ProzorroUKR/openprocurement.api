@@ -118,7 +118,7 @@ def convert_contracts(contracts, award_ids=None):
             "id": c["id"],
             "awardID": c["awardID"],
             "status": c["status"],
-            "value": convert_value(c.get("value")),
+            **({"value": value} if (value := convert_value(c.get("value"))) else {}),
             "items": convert_items(c["items"]) if "items" in c else None,
             "dateSigned": c.get("dateSigned"),
             "documents": convert_documents(c.get("documents", "")),
@@ -137,7 +137,7 @@ def convert_awards(awards, tender, lot_id=None):
             "description": a.get("description"),
             "status": a["status"],
             "date": a["date"],
-            "value": convert_value(a["value"]),
+            **({"value": value} if (value := convert_value(a.get("value"))) else {}),
             "suppliers": [
                 (
                     {
@@ -239,7 +239,6 @@ def prepare_release(plan, tender, lot=None):
                 "name": tender["procuringEntity"]["name"],
             },
             "items": convert_items(tender["items"], lot_id=lot_id),
-            "value": convert_value(lot.get("value") or tender.get("value")),
             # "minValue": tender["minValue"], TODO: hm?
             "procurementMethod": tender["procurementMethod"],
             # "procurementMethodDetails": tender.get("procurementMethodDetails", ""),
@@ -288,6 +287,11 @@ def prepare_release(plan, tender, lot=None):
         "awards": awards,
         "contracts": convert_contracts(tender.get("contracts", ""), award_ids=[a["id"] for a in awards]),
     }
+
+    lot_or_tender_value = lot.get("value") or tender.get("value")
+    if value := convert_value(lot_or_tender_value):
+        r["tender"]["value"] = value
+
     if plan:
         planning = {
             "project": plan.get("project"),
@@ -362,7 +366,6 @@ def convert_bid(b, lot_id=None, tender=None):
             }
             for t in b.get("tenderers", "")
         ],
-        "value": convert_value(b.get("value")),
         "tenderers": [
             {
                 "id": b["id"],
@@ -371,6 +374,10 @@ def convert_bid(b, lot_id=None, tender=None):
             for t in b.get("tenderers", "")
         ],
     }
+
+    if value := convert_value(b.get("value")):
+        r["value"] = value
+
     # documents
     documents = []
     for key in (
@@ -417,6 +424,7 @@ def ocds_format_tender(*_, tender, tender_url, plan=None):
         "version": "1.1",
         "extensions": [
             "https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/master/extension.json",
+            "https://raw.githubusercontent.com/open-contracting-extensions/ocds_location_extension/master/extension.json",
             "https://raw.githubusercontent.com/open-contracting-extensions/ocds_project_extension/master/extension.json",
         ],
         "publisher": {
