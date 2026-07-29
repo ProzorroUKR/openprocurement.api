@@ -157,6 +157,7 @@ KEKV_UK = standards.load("classifiers/kekv_uk.json")
 KPK = split_classifier_by_year(standards.load("classifiers/kpk.json"), "КПК")
 KATOTTG = standards.load("classifiers/katottg.json")
 TKPKMB = standards.load("classifiers/tkpkmb.json")
+UKTZED = set(standards.load("classifiers/uktzed.json"))
 
 # Complaint objections classifications
 ARTICLE_16 = {criterion["classification"]["id"] for criterion in standards.load("criteria/article_16.json")}
@@ -200,6 +201,7 @@ KPK_SCHEME = "КПК"
 KPK_SCHEMES = KPK.keys()
 KATOTTG_SCHEME = "КАТОТТГ"
 TKPKMB_SCHEME = "ТПКВКМБ"
+UKTZED_SCHEME = "UKTZED"
 
 # Additional schemes
 ADDITIONAL_CLASSIFICATIONS_SCHEMES = [

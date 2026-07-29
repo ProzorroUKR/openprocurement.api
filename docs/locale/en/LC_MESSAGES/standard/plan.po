@@ -152,6 +152,12 @@ msgstr "Item with classification.id=33600000-6 have to contain exactly one addit
 msgid "Обов’язково мати принаймні один елемент з `ДКПП` як `scheme`."
 msgstr "It is mandatory to have at least one item with `ДКПП` as `scheme`."
 
+msgid "У `items[].additionalClassifications` можна додати необов’язковий класифікатор зі схемою `UKTZED`. Значення `id` повинно бути дійсним кодом з довідника `UKTZED <https://github.com/ProzorroUKR/standards/blob/master/classifiers/uktzed.json>`_."
+msgstr "An optional classifier with the `UKTZED` scheme can be added in `items[].additionalClassifications`. The `id` value has to be a valid code from the `UKTZED <https://github.com/ProzorroUKR/standards/blob/master/classifiers/uktzed.json>`_ dictionary."
+
+msgid "Схема `UKTZED` не допускається в `additionalClassifications` на рівні плану."
+msgstr "The `UKTZED` scheme is not allowed in `additionalClassifications` at the plan level."
+
 msgid "documents"
 msgstr ""
 

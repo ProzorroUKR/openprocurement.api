@@ -142,6 +142,12 @@ additionalClassifications
 
     Обов’язково мати принаймні один елемент з `ДКПП` як `scheme`.
 
+    У `items[].additionalClassifications` можна додати необов’язковий класифікатор зі схемою `UKTZED`.
+    Значення `id` повинно бути дійсним кодом з довідника
+    `UKTZED <https://github.com/ProzorroUKR/standards/blob/master/classifiers/uktzed.json>`_.
+
+    Схема `UKTZED` не допускається в `additionalClassifications` на рівні плану.
+
 documents
 ---------
    Список об’єктів :ref:`document`

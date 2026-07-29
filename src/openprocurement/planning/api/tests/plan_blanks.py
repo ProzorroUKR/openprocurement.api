@@ -2787,3 +2787,103 @@ def plan_additional_classifications_based_on_breakdown(self):
             }
         ],
     )
+
+
+def plan_item_uktzed_classification(self):
+    initial_data = deepcopy(self.initial_data)
+
+    # UKTZED is optional, the default payload has none and still creates fine
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+
+    # an id outside the standards dictionary is rejected
+    initial_data["items"][0]["additionalClassifications"].append(
+        {"scheme": "UKTZED", "id": "0000000000", "description": "Ослики живі"}
+    )
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [
+                    {"additionalClassifications": [{"id": ["UKTZED id not found in standards"]}]},
+                ],
+            }
+        ],
+    )
+
+    # a valid id is accepted alongside ДКПП, description is not cross-checked
+    initial_data["items"][0]["additionalClassifications"][-1]["id"] = "0101300000"
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(
+        response.json["data"]["items"][0]["additionalClassifications"][-1],
+        {"scheme": "UKTZED", "id": "0101300000", "description": "Ослики живі"},
+    )
+    plan = response.json["data"]
+    token = response.json["access"]["token"]
+
+    # and it survives a patch round-trip
+    items = deepcopy(plan["items"])
+    items[0]["additionalClassifications"][-1]["id"] = "0101210000"
+    response = self.app.patch_json("/plans/{}?acc_token={}".format(plan["id"], token), {"data": {"items": items}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["additionalClassifications"][-1]["id"], "0101210000")
+
+    # an invalid id is rejected on patch as well
+    items[0]["additionalClassifications"][-1]["id"] = "0000000000"
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], token),
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertIn("UKTZED id not found in standards", str(response.json["errors"][0]["description"]))
+
+
+def plan_root_uktzed_forbidden(self):
+    initial_data = deepcopy(self.initial_data)
+    initial_data["additionalClassifications"].append(
+        {"scheme": "UKTZED", "id": "0101300000", "description": "Ослики живі"}
+    )
+    response = self.app.post_json("/plans", {"data": initial_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "additionalClassifications",
+                "description": ["Forbidden to add UKTZED. Should be added in items.additionalClassifications."],
+            }
+        ],
+    )
+
+    # the same restriction applies on patch
+    initial_data = deepcopy(self.initial_data)
+    response = self.app.post_json("/plans", {"data": initial_data})
+    self.assertEqual(response.status, "201 Created")
+    plan = response.json["data"]
+    token = response.json["access"]["token"]
+
+    additional_classifications = deepcopy(plan["additionalClassifications"])
+    additional_classifications.append({"scheme": "UKTZED", "id": "0101300000", "description": "Ослики живі"})
+    response = self.app.patch_json(
+        "/plans/{}?acc_token={}".format(plan["id"], token),
+        {"data": {"additionalClassifications": additional_classifications}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "additionalClassifications",
+                "description": ["Forbidden to add UKTZED. Should be added in items.additionalClassifications."],
+            }
+        ],
+    )
