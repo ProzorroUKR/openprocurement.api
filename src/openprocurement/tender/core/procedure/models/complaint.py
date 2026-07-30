@@ -331,17 +331,3 @@ class Complaint(Model):
     # child structures
     posts = BaseType()
     appeals = BaseType()
-
-    def validate_reviewDate(self, data, value):
-        if (
-            data["status"]
-            in (
-                "resolved",
-                "declined",
-                "accepted",
-                "satisfied",
-                "stopped",
-            )
-            and value is None
-        ):
-            raise ValidationError("This field is required.")

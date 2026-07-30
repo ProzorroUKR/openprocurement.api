@@ -148,7 +148,29 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
         # auth role action scenario
         _, handler = self.get_patch_action_model_and_handler()
         handler(complaint)
+
+        self.validate_review_date(complaint)
         self.validate_objections(complaint)
+
+    def validate_review_date(self, complaint):
+        review_statuses = (
+            "declined",
+            "accepted",
+            "satisfied",
+            "stopped",
+        )
+        if (
+            self.request.authenticated_role == "aboveThresholdReviewers"
+            and complaint.get("status") in review_statuses
+            and not complaint.get("reviewDate")
+        ):
+            raise_operation_error(
+                self.request,
+                ["This field is required."],
+                status=422,
+                location="body",
+                name="reviewDate",
+            )
 
     def get_patch_data_model(self):
         model, _ = self.get_patch_action_model_and_handler()
