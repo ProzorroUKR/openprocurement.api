@@ -7,6 +7,7 @@ from urllib.parse import urlencode
 from uuid import uuid4
 
 import standards
+from jsonschema.validators import RefResolver
 from nacl.encoding import HexEncoder
 from requests.models import Response
 from webtest import AppError
@@ -39,6 +40,11 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(current_dir, "data", "lcc_lot_criteria.json")) as json_file:
     test_lcc_lot_criteria = json.load(json_file)
 
+
+with open(os.path.join(current_dir, "data", "release-package-schema.json")) as json_file:
+    ocds_release_schema = json.load(json_file)
+
+
 with open(os.path.join(current_dir, "data", "lcc_tender_criteria.json")) as json_file:
     test_lcc_tender_criteria = json.load(json_file)
 
@@ -50,6 +56,8 @@ def get_criteria_by_ids(criteria, ids):
 def get_criteria_by_ids_prefix(criteria, prefix):
     return [c for c in criteria if c["classification"]["id"].startswith(prefix)]
 
+
+ocds_resolver = RefResolver(base_uri=f"file://{os.path.join(current_dir, 'data')}/", referrer=ocds_release_schema)
 
 test_criteria_other = standards.load("criteria/other.json")
 test_criteria_article_16 = standards.load("criteria/article_16.json")

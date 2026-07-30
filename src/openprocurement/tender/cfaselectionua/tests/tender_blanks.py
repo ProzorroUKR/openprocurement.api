@@ -4,6 +4,8 @@ from datetime import timedelta
 from unittest import mock
 from uuid import uuid4
 
+from jsonschema import Draft4Validator
+
 from openprocurement.api.constants import ROUTE_PREFIX, SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
@@ -25,6 +27,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
 )
 from openprocurement.tender.cfaselectionua.tests.periods import ENQUIRY_PERIOD
 from openprocurement.tender.core.constants import AGREEMENT_IDENTIFIER_MESSAGE
+from openprocurement.tender.core.tests.base import ocds_release_schema, ocds_resolver
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_without_complaints_after_2020_04_19,
 )
@@ -1113,6 +1116,14 @@ def get_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertIn('{\n    "data": {\n        "', response.body.decode())
+
+    response = self.app.get(f"/tenders/{tender['id']}?opt_schema=ocds")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    validator = Draft4Validator(ocds_release_schema, resolver=ocds_resolver)
+    errors = list(validator.iter_errors(response.json))
+    self.assertFalse(errors, "\n".join(f"{'.'.join(str(p) for p in e.absolute_path)}: {e.message}" for e in errors))
 
 
 def tender_features_invalid(self):
