@@ -133,8 +133,8 @@ test_below_tender_data["procuringEntity"]["identifier"] = test_plan_data["procur
 test_below_tender_data["items"] = test_below_tender_data["items"][:1]
 test_below_tender_data["items"][0]["classification"] = test_plan_data["items"][0]["classification"]
 
-# Donor organisation of the "interreg-vi-b-next-black-sea" funder_program; name and
-# legalName fields must match the tender_funder.json dictionary (RO-CUI 26369185).
+# Donor organisation of the "interreg-vi-b-next-black-sea" funder_program
+# (RO-CUI 26369185, a valid tender_funder.json dictionary entry).
 test_program_funder = deepcopy(test_tender_below_base_organization)
 test_program_funder["name"] = "Міністерство розвитку, громадських робіт і державного управління Румунії"
 test_program_funder["name_en"] = "Ministry of Development, Public Works and Administration of Romania"
@@ -146,8 +146,8 @@ test_program_funder["identifier"] = {
 }
 
 # A valid dictionary funder (USAID) that is NOT the program's donor — used to test
-# the exclusivity rule. Its name fields match the dictionary so it passes
-# validate_funders_match_dictionary and only the program-link check rejects it.
+# the exclusivity rule: its identifier is a recognized dictionary entry, so only
+# the program-link check rejects it.
 test_other_funder = deepcopy(test_tender_below_base_organization)
 test_other_funder["name"] = "Aгентство США з Міжнародного Розвитку"
 test_other_funder["name_en"] = "USAID"
