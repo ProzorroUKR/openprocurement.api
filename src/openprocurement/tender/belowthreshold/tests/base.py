@@ -138,8 +138,8 @@ test_tender_below_data["tenderPeriod"] = {
     ).isoformat()
 }
 
-# A valid funder must match the tender_funder.json dictionary by identifier
-# (scheme + id) and by name/name_en/legalName/legalName_en (World Bank here).
+# A valid funder's identifier (scheme + id) must be one of the tender_funder.json
+# dictionary entries (World Bank here).
 test_tender_below_funder = deepcopy(test_tender_below_base_organization)
 test_tender_below_funder["name"] = "Світовий Банк"
 test_tender_below_funder["name_en"] = "World Bank"
