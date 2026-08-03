@@ -748,6 +748,16 @@ def tender_award_transitions(self):
     )
     self.assertEqual(response.status, "200 OK")
 
+    # the previously cancelled bidder gets re-evaluated one more time and also becomes unsuccessful
+    tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+    award_id = tender["awards"][-1]["id"]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
     # the procedure should become unsuccessful
     self.check_chronograph()
     tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
