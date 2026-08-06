@@ -47,6 +47,7 @@ from openprocurement.tender.open.tests.cancellation_blanks import (
     patch_tender_cancellation_before_19_04_2020,
     patch_tender_cancellation_complaint,
     permission_cancellation_pending,
+    create_tender_cancellation_before_localization,
 )
 
 
@@ -58,7 +59,7 @@ class TenderCancellationComplaintResourceTestMixin:
 
 
 class TenderCancellationResourceNewReleaseTestMixin:
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noOffer"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noOffer", "noLocalization"]
 
     test_create_tender_cancellation_before_19_04_2020 = snitch(create_tender_cancellation_before_19_04_2020)
     test_patch_tender_cancellation_before_19_04_2020 = snitch(patch_tender_cancellation_before_19_04_2020)
@@ -67,6 +68,7 @@ class TenderCancellationResourceNewReleaseTestMixin:
     test_patch_tender_cancellation_2020_04_19_to_pending = snitch(patch_tender_cancellation_2020_04_19_to_pending)
     test_permission_cancellation_pending = snitch(permission_cancellation_pending)
     test_create_cancellation_with_tender_complaint = snitch(create_cancellation_with_tender_complaint)
+    test_create_tender_cancellation_before_localization = snitch(create_tender_cancellation_before_localization)
 
 
 class TenderAwardsCancellationResourceTestMixin:

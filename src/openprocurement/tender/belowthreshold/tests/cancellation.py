@@ -42,7 +42,7 @@ class TenderCancellationResourceTestMixin:
 
 
 class TenderCancellationResourceNewReleaseTestMixin:
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noLocalization"]
 
     test_create_tender_cancellation_19_04_2020 = snitch(create_tender_cancellation_2020_04_19)
     test_patch_tender_cancellation_19_04_2020 = snitch(patch_tender_cancellation_2020_04_19)
@@ -62,7 +62,7 @@ class TenderCancellationResourceTest(
 ):
     initial_status = "active.tendering"
     initial_bids = test_tender_below_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut", "noLocalization"]
 
 
 class TenderLotCancellationResourceTest(TenderContentWebTest):

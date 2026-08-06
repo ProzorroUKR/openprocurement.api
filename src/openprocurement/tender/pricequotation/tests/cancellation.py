@@ -38,19 +38,19 @@ class TenderCancellationActiveTenderingResourceTest(
 ):
     initial_status = "active.tendering"
     initial_bids = test_tender_pq_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noLocalization"]
 
 
 class TenderCancellationActiveQualificationResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.qualification"
     initial_bids = test_tender_pq_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noLocalization"]
 
 
 class TenderCancellationActiveAwardedResourceTest(TenderCancellationActiveTenderingResourceTest):
     initial_status = "active.awarded"
     initial_bids = test_tender_pq_bids
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noLocalization"]
 
 
 class TenderCancellationDocumentResourceTest(TenderContentWebTest, TenderCancellationDocumentResourceTestMixin):

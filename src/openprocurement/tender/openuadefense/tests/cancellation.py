@@ -39,7 +39,7 @@ from openprocurement.tender.openuadefense.tests.base import (
 class TenderCancellationResourceTest(
     BaseTenderUAContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
-    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "expensesCut", "noLocalization"]
 
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
