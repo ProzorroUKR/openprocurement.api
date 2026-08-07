@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import timedelta
+from unittest import mock
 from unittest.mock import patch
 from uuid import uuid4
 
@@ -13,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_buyer,
     test_tender_below_supplier,
 )
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -342,6 +344,7 @@ def create_tender_generated(self):
             "date",
             "criteria",
             "status",
+            "minExpectedIncome",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1337,3 +1340,154 @@ def create_tender_with_required_unit(self):
     self.assertEqual(response.status, "201 Created")
     resp = response.json["data"]
     self.assertEqual("KGM", resp["items"][0]["unit"]["code"])
+
+
+@mock.patch(
+    "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
+    get_now() - timedelta(days=1),
+)
+def patch_tender_monthly_minimal_income(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    data.pop("minExpectedIncome", None)
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    self.assertNotIn("minExpectedIncome", response.json["data"])
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "UAH"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100000.0, "currency": "UAH"})
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "USD"}}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.json["errors"][0]["name"], "minExpectedIncome")
+
+    data_no_income = deepcopy(self.initial_data)
+    data_no_income["status"] = "draft"
+    data_no_income.pop("minExpectedIncome", None)
+    response = self.app.post_json("/tenders", {"data": data_no_income, "config": self.initial_config})
+    tender_id2 = response.json["data"]["id"]
+    token2 = response.json["access"]["token"]
+
+    add_criteria(self, tender_id2, token2)
+    self.app.post_json(
+        f"/tenders/{tender_id2}/documents?acc_token={token2}",
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "documentType": "contractProforma",
+            }
+        },
+    )
+    self.add_sign_doc(tender_id2, token2)
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id2}?acc_token={token2}",
+        {"data": {"status": "active.tendering"}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertIn(
+        {
+            "location": "body",
+            "name": "minExpectedIncome",
+            "description": "minExpectedIncome is required for tender activation",
+        },
+        response.json["errors"],
+    )
+
+    response = self.set_initial_status({"data": {"id": tender_id}, "access": {"token": token}})
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100000.0, "currency": "UAH"})
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 200000.00, "currency": "UAH"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 200000.0, "currency": "UAH"})
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.999, "currency": "UAH"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100001.0, "currency": "UAH"})
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": -1, "currency": "UAH"}}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertIn("minExpectedIncome", response.json["errors"][0]["name"])
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": None}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "minExpectedIncome",
+                "description": "minExpectedIncome cannot be removed",
+            }
+        ],
+    )
+    response = self.app.get(f"/tenders/{tender_id}?acc_token={token}")
+    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100001.0, "currency": "UAH"})
+
+    self.tender_id = tender_id
+    self.set_status("active.pre-qualification")
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 300000.00, "currency": "UAH"}}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "minExpectedIncome",
+                "description": "minExpectedIncome cannot be changed after tenderPeriod",
+            }
+        ],
+    )
+
+
+@mock.patch(
+    "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
+    get_now() + timedelta(days=1),
+)
+def patch_tender_monthly_minimal_income_before_date_gate(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    data.pop("minExpectedIncome", None)
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    response = self.set_initial_status({"data": {"id": tender_id}, "access": {"token": token}})
+    self.assertEqual(response.json["data"]["status"], "active.tendering")

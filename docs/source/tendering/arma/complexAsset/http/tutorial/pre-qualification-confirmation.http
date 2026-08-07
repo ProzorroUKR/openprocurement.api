@@ -632,6 +632,10 @@ Content-Type: application/json
         }
       }
     ],
+    "minExpectedIncome": {
+      "amount": 100000.0,
+      "currency": "UAH"
+    },
     "next_check": "2027-01-02T00:00:00+02:00",
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },

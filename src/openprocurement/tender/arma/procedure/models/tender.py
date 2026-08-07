@@ -10,6 +10,7 @@ from openprocurement.tender.arma.procedure.models.lot import (
     PostTenderLot,
 )
 from openprocurement.tender.arma.procedure.models.organization import ProcuringEntity
+from openprocurement.tender.arma.procedure.models.value import MinExpectedIncome
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.models.item import validate_classification_id
 from openprocurement.tender.core.procedure.models.milestone import (
@@ -45,6 +46,7 @@ class PostTender(BasePostTender):
     milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
+    minExpectedIncome = ModelType(MinExpectedIncome)
     contractTemplateName = None
     features = None
     minimalStep = None
@@ -79,6 +81,7 @@ class PatchTender(BasePatchTender):
     milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
+    minExpectedIncome = ModelType(MinExpectedIncome)
     contractTemplateName = None
     features = None
     minimalStep = None
@@ -120,6 +123,7 @@ class Tender(BaseTender):
     complaintPeriod = BaseType()
     awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
     lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
+    minExpectedIncome = ModelType(MinExpectedIncome)
     contractTemplateName = None
     features = None
     minimalStep = None

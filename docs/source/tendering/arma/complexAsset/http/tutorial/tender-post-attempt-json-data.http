@@ -102,6 +102,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
+    "minExpectedIncome": {
+      "amount": 100000.0,
+      "currency": "UAH"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -271,6 +275,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         }
       }
     ],
+    "minExpectedIncome": {
+      "amount": 100000.0,
+      "currency": "UAH"
+    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
