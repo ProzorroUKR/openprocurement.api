@@ -2,8 +2,8 @@ import asyncio
 import logging
 from typing import Any, Optional, Type
 
-from motor.motor_asyncio import AsyncIOMotorCollection
 from pymongo import UpdateOne
+from pymongo.asynchronous.collection import AsyncCollection
 
 from openprocurement.api.migrations.base import (
     CollectionMigration,
@@ -22,8 +22,8 @@ from prozorro_cdb.api.database.store import (
 logger = logging.getLogger(__name__)
 
 
-class AsyncIOMotorCollectionMigration(CollectionMigration):
-    """Async collection migration using motor (AsyncIOMotorCollection)."""
+class AsyncCollectionMigration(CollectionMigration):
+    """Async collection migration using pymongo's native async driver (AsyncCollection)."""
 
     description: str = "async mongodb collection migration"
 
@@ -38,7 +38,7 @@ class AsyncIOMotorCollectionMigration(CollectionMigration):
         super().__init__(settings, args)
         self.db_store = MongodbStore.create_instance(settings)
 
-    def get_collection(self) -> AsyncIOMotorCollection:
+    def get_collection(self) -> AsyncCollection:
         """Get MongoDB collection.
 
         :return: MongoDB collection
@@ -46,7 +46,7 @@ class AsyncIOMotorCollectionMigration(CollectionMigration):
         return self.db_store.database.get_collection(self.collection_name)
 
     @property
-    def collection(self) -> AsyncIOMotorCollection:
+    def collection(self) -> AsyncCollection:
         return self.get_collection()
 
     def update_document(self, doc: dict, context: dict = None) -> Optional[dict]:
@@ -68,7 +68,7 @@ class AsyncIOMotorCollectionMigration(CollectionMigration):
 
     async def bulk_update(self, batch: list) -> int:
         """Execute bulk write, return number of updated documents."""
-        async with await self.db_store.connection.start_session() as s:
+        async with self.db_store.connection.start_session() as s:
             token = set_db_session_async(s)
             try:
                 async with atomic_transaction_async() as session:
@@ -142,7 +142,7 @@ class AsyncIOMotorCollectionMigration(CollectionMigration):
 
 
 def migrate_collection(
-    migration: Type[AsyncIOMotorCollectionMigration],
+    migration: Type[AsyncCollectionMigration],
     parser: Type[CollectionMigrationArgumentParser] = CollectionMigrationArgumentParser,
 ):
     migration_instance = init_migration(migration, parser)

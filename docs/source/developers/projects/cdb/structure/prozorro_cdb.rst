@@ -3,7 +3,7 @@
 Асинхронний підпроект: ``prozorro_cdb``
 ========================================
 
-Стек: **aiohttp + motor (async pymongo) + pydantic**.
+Стек: **aiohttp + pymongo (async, ``AsyncMongoClient``) + pydantic**.
 Новий асинхронний API, що розробляється паралельно з ``openprocurement``.
 
 Коренева директорія: ``src/prozorro_cdb/``
@@ -25,7 +25,7 @@
    * - ``application.py``
      - Ініціалізація aiohttp-додатку; підключення middleware і routes
    * - ``database/store.py``
-     - ``MongodbStore`` (async/motor), ``BaseCollection``, ``atomic_transaction_async``; логіка фіду (``list()``), ``save_data()``, watermark
+     - ``MongodbStore`` (async/pymongo), ``BaseCollection``, ``atomic_transaction_async``; логіка фіду (``list()``), ``save_data()``, watermark
    * - ``database/schema/``
      - Pydantic-схеми для документів у MongoDB: ``common.py``, ``document.py``, ``organization.py``
    * - ``context.py``
@@ -88,7 +88,7 @@
      - Різниця
    * - ``api/database.py``
      - ``api/database/store.py``
-     - async/motor
+     - async/pymongo
    * - ``procedure/views/``
      - ``handlers/``
      - PydanticView замість Pyramid

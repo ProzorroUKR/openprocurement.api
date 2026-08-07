@@ -1,7 +1,7 @@
 from re import compile
 from typing import Callable
 
-from prozorro_cdb.api.migrations.utils import AsyncIOMotorCollectionMigration, migrate_collection
+from prozorro_cdb.api.migrations.utils import AsyncCollectionMigration, migrate_collection
 from prozorro_cdb.violation_report.database.collection import ViolationReportCollection
 
 URL_PATTERN = compile(r"(?P<base_url>.*)/documents/(\w+)\?download=(?P<download_key>.*)")
@@ -16,7 +16,7 @@ def fix_docs(docs: list[dict], fix_base_url: Callable = None):
             d["url"] = f"{base_url}/documents/{d['id']}?download={search_res.group('download_key')}"
 
 
-class Migration(AsyncIOMotorCollectionMigration):
+class Migration(AsyncCollectionMigration):
     description: str = "migrate doc urls"
 
     collection_name = ViolationReportCollection.collection_name
