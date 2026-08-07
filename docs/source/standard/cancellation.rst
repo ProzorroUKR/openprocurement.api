@@ -96,7 +96,7 @@ Cancellation
      :`dateViolation`:
        Порушення строків здійснення закупівлі.
 
-    Моживі причини скасування для `aboveThresholdUA.defense` та `simple.defense`:
+    Можливі причини скасування для `aboveThresholdUA.defense` та `simple.defense`:
 
      :`noDemand`:
        Відсутність подальшої потреби в закупівлі товарів, робіт і послуг.
@@ -106,6 +106,13 @@ Cancellation
 
      :`expensesCut`:
        Скорочення видатків на здійснення закупівлі товарів, робіт і послуг.
+
+    Для всіх процедур, створених після константи NO_LOCALIZATION_CANCELLATION_REASON_FROM, існує ще причина скасування:
+
+     :`noLocalization`:
+       Не визначено вимоги щодо відповідності предмета закупівлі встановленому ступеню локалізації виробництва для товарів.
+
+
 
 :complaintPeriod:
     :ref:`period`

@@ -634,6 +634,37 @@ def create_tender_cancellation_2020_04_19(self):
 
 
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.cancellation.NO_LOCALIZATION_CANCELLATION_REASON_FROM",
+    get_now() + timedelta(days=1),
+)
+def create_tender_cancellation_before_localization(self):
+    reasonType_choices = list(self.valid_reasonType_choices)
+    reasonType_choices.remove("noLocalization")
+
+    cancellation = deepcopy(test_tender_below_cancellation)
+
+    cancellation.update({"reasonType": "cancelled"})
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["Value must be one of %s" % reasonType_choices],
+                "location": "body",
+                "name": "reasonType",
+            }
+        ],
+    )
+
+
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 def create_cancellation_with_tender_complaint(self):
     # Create tender complaint
     complaint_data = deepcopy(test_tender_below_complaint)

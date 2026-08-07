@@ -64,7 +64,7 @@ one_lot_restriction = True
 class TenderCancellationResourceTest(
     BaseTenderContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
 ):
-    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut"]
+    valid_reasonType_choices = ["noDemand", "unFixable", "forceMajeure", "expensesCut", "noLocalization"]
 
     initial_auth = ("Basic", ("broker", ""))
 

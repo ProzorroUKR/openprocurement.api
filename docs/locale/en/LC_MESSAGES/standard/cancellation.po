@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-20 11:23+0200\n"
+"POT-Creation-Date: 2026-08-06 10:56+0300\n"
 "PO-Revision-Date: 2018-08-17 15:05+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Cancellation"
 msgstr "Cancellation"
@@ -155,8 +156,17 @@ msgstr ""
 msgid "Порушення строків здійснення закупівлі."
 msgstr "Violation of procurement deadlines."
 
-msgid "Моживі причини скасування для `aboveThresholdUA.defense` та `simple.defense`:"
+msgid "Можливі причини скасування для `aboveThresholdUA.defense` та `simple.defense`:"
 msgstr "Possible types for `aboveThresholdUA.defense` and `simple.defense`:"
+
+msgid "Для всіх процедур, створених після константи NO_LOCALIZATION_CANCELLATION_REASON_FROM, існує ще причина скасування:"
+msgstr "For all procedures created after the NO_LOCALIZATION_CANCELLATION_REASON_FROM constant, there is an additional cancellation reason:"
+
+msgid "`noLocalization`"
+msgstr ""
+
+msgid "Не визначено вимоги щодо відповідності предмета закупівлі встановленому ступеню локалізації виробництва для товарів."
+msgstr "Does not define requirements for compliance of the procurement item with the established degree of localization of production for goods."
 
 msgid "complaintPeriod"
 msgstr ""
@@ -178,4 +188,7 @@ msgstr "Cancellation workflow in :ref:`limited` and :ref:`openeu`"
 
 msgid "\\* позначає початковий стан"
 msgstr "\\* marks initial state"
+
+#~ msgid "Для всіх процедур, створених після константи існує ще причина скасуванни:"
+#~ msgstr ""
 
