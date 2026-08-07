@@ -108,7 +108,14 @@ class TenderNegotiationCancellationResourceTest(
         self.set_all_awards_complaint_period_end()
 
     initial_data = test_tender_negotiation_data
-    valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
+    valid_reasonType_choices = [
+        "noObjectiveness",
+        "unFixable",
+        "noDemand",
+        "expensesCut",
+        "dateViolation",
+        "noLocalization",
+    ]
 
     test_create_cancellation_on_lot = snitch(negotiation_create_cancellation_on_lot)
     test_activate_cancellation = snitch(activate_cancellation)
@@ -144,7 +151,14 @@ class TenderNegotiationQuickCancellationResourceTest(
         self.set_all_awards_complaint_period_end()
 
     initial_data = test_tender_negotiation_quick_data
-    valid_reasonType_choices = ["noObjectiveness", "unFixable", "noDemand", "expensesCut", "dateViolation"]
+    valid_reasonType_choices = [
+        "noObjectiveness",
+        "unFixable",
+        "noDemand",
+        "expensesCut",
+        "dateViolation",
+        "noLocalization",
+    ]
 
 
 class TenderCancellationDocumentResourceTest(BaseTenderContentWebTest, TenderCancellationDocumentResourceTestMixin):

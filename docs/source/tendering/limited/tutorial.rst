@@ -382,7 +382,7 @@
 
 Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`.
 
-При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`.
+При скасуванні, замовник має визначити один з п'яти типів reasonType: `noDemand`, `unFixable`, `forceMajeure`, `expensesCut` або `noLocalization`.
 
 `id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`.
 
@@ -397,7 +397,7 @@
 Формування запиту на скасування для `negotiation` та `negotiation.quick` процедури
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-При скасуванні, замовник має визначити один з п'яти типів reasonType: `noObjectiveness`,  `unFixable`, `noDemand`, `expensesCut` та `dateViolation`.
+При скасуванні, замовник має визначити один з шости типів reasonType: `noObjectiveness`,  `unFixable`, `noDemand`, `expensesCut`, `dateViolation` або `noLocalization`.
 
 .. http:example:: http/tutorial/negotiation-prepare-cancellation.http
    :code:

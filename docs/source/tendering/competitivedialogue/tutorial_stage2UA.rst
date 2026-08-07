@@ -301,7 +301,7 @@
 
 Для цього потрібно виконати наступні кроки:
 
-При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `forceMajeure` aбо `expensesCut`.
+При скасуванні, замовник має визначити один з п'яти типів reasonType: `noDemand`, `unFixable`, `forceMajeure`, `expensesCut` або `noLocalization`.
 
 `id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:
 

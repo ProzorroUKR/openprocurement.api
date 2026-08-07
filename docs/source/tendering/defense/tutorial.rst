@@ -317,7 +317,7 @@
 
 Ви повинні передати змінні `reason` та `reasonType`, `status` у стані `draft`.
 
-При скасуванні, замовник має визначити один з трьох типів reasonType: `noDemand`, `unFixable` aбо `expensesCut`.
+При скасуванні, замовник має визначити один з чотирьох типів reasonType: `noDemand`, `unFixable`, `expensesCut` або `noLocalization`.
 
 `id` генерується автоматично і повертається у додатковому заголовку відповіді `Location`:
 

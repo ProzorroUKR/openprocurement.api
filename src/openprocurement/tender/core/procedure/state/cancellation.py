@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants_env import (
     CANCELLATION_REPORT_DOC_REQUIRED_FROM,
+    NO_LOCALIZATION_CANCELLATION_REASON_FROM,
     RELEASE_2020_04_19,
 )
 from openprocurement.api.context import get_request_now
@@ -99,7 +100,9 @@ class CancellationStateMixing:
     def validate_possible_reason_types(self, request, tender, cancellation):
         reason_type = cancellation.get("reasonType")
         if tender_created_after_2020_rules():
-            choices = self._after_release_reason_types
+            choices = list(self._after_release_reason_types)
+            if tender_created_after(NO_LOCALIZATION_CANCELLATION_REASON_FROM):
+                choices.append("noLocalization")
             if not reason_type:
                 raise raise_operation_error(request, ["This field is required"], status=422, name="reasonType")
         else:
