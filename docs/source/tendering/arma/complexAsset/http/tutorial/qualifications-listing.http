@@ -293,6 +293,10 @@ Content-Type: application/json
         }
       }
     ],
+    "minExpectedIncome": {
+      "amount": 100000.0,
+      "currency": "UAH"
+    },
     "bids": [
       {
         "tenderers": [

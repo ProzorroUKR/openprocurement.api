@@ -129,6 +129,10 @@ Content-Type: application/json
         }
       }
     ],
+    "minExpectedIncome": {
+      "amount": 100000.0,
+      "currency": "UAH"
+    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",

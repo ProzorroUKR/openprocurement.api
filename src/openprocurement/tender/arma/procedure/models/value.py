@@ -1,15 +1,22 @@
+from decimal import Decimal
+
 from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import AmountPercentageValue
-from openprocurement.api.procedure.types import ModelType
+from openprocurement.api.procedure.types import ModelType, NormalizedDecimalType
 from openprocurement.tender.core.procedure.models.value import (
     AmountPercentageWeightedValue,
 )
 from openprocurement.tender.core.procedure.utils import find_lot
 from openprocurement.tender.core.procedure.validation import validate_related_lot
+
+
+class MinExpectedIncome(Model):
+    amount = NormalizedDecimalType(precision=-2, min_value=Decimal("0"), required=True)
+    currency = StringType(required=True, default="UAH", choices=["UAH"], max_length=3, min_length=3)
 
 
 class PostLotValue(Model):

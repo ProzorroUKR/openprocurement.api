@@ -1,10 +1,12 @@
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.constants_env import ARMA_MIN_EXPECTED_INCOME_FROM
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.arma.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.arma.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.utils import tender_created_before
 from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
 )
@@ -24,6 +26,7 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
 
     def on_patch(self, before, after):
         self.validate_items_classification_prefix_unchanged(before, after)
+        self.validate_min_expected_income(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
     @staticmethod
@@ -63,6 +66,38 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
                 "Minimal step value should be less than lot value",
                 status=422,
                 name="lots",
+            )
+
+    def validate_min_expected_income(self, before, after):
+        if tender_created_before(ARMA_MIN_EXPECTED_INCOME_FROM, after):
+            return
+        if before.get("status") not in ("draft", "active.tendering") and before.get("minExpectedIncome") != after.get(
+            "minExpectedIncome"
+        ):
+            raise_operation_error(
+                self.request,
+                "minExpectedIncome cannot be changed after tenderPeriod",
+                status=422,
+                name="minExpectedIncome",
+            )
+        if before.get("status") == "draft" and after.get("status") != "draft":
+            if after.get("minExpectedIncome") is None:
+                raise_operation_error(
+                    self.request,
+                    "minExpectedIncome is required for tender activation",
+                    status=422,
+                    name="minExpectedIncome",
+                )
+        if (
+            before.get("status") != "draft"
+            and before.get("minExpectedIncome") is not None
+            and after.get("minExpectedIncome") is None
+        ):
+            raise_operation_error(
+                self.request,
+                "minExpectedIncome cannot be removed",
+                status=422,
+                name="minExpectedIncome",
             )
 
     def validate_minimal_step_limits(self, tender: dict, value_amount: float, minimal_step_amount: float) -> None:
