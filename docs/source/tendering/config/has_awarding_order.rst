@@ -104,7 +104,7 @@ hasAwardingOrder встановлено у `false`
 
 4) Замовник скасовує своє рішення по award4
 
-В цьому випадку award1 залишається `cancelled`, award2 - `active`, award3 - `pending`, award4 - `cancelled` і генерується новий award5 в статусі `pending` через те, що award4 був скасований:
+Скасування рішення по award4 (`unsuccessful` → `cancelled`) каскадно скасовує також усі інші аварди цього лота, які ще перебувають у статусах `pending` чи `active`, оскільки кваліфікація по лоту розпочинається заново. В цьому випадку award1 залишається `cancelled`, award2 стає `cancelled` (був `active`), award3 стає `cancelled` (був `pending`), award4 стає `cancelled`, і для кожного з award2, award3, award4 генерується новий авард у статусі `pending`:
 
 .. http:example:: http/has-awarding-order-false-auction-results-example-4-results.http
    :code:
