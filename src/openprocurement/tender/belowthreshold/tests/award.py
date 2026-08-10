@@ -33,6 +33,8 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     patch_tender_award_complaint,
     patch_tender_award_complaint_document,
     patch_tender_award_document,
+    patch_tender_award_unsuccessful_to_cancelled,
+    patch_tender_award_unsuccessful_to_cancelled_forbidden_with_active_contract,
     patch_tender_lot_award,
     patch_tender_lot_award_complaint,
     patch_tender_lot_award_lots_none,
@@ -101,6 +103,11 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     initial_status = "active.qualification"
     initial_bids = test_tender_below_bids
     initial_lots = test_tender_below_lots
+
+    test_patch_tender_award_unsuccessful_to_cancelled = snitch(patch_tender_award_unsuccessful_to_cancelled)
+    test_patch_tender_award_unsuccessful_to_cancelled_forbidden_with_active_contract = snitch(
+        patch_tender_award_unsuccessful_to_cancelled_forbidden_with_active_contract
+    )
 
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):

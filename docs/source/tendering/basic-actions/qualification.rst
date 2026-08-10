@@ -104,6 +104,10 @@
  - competitiveDialogueUA.stage2
  - competitiveDialogueEU.stage2
  - esco
+ - belowThreshold
+ - closeFrameworkAgreementSelectionUA
+ - priceQuotation
+ - requestForProposal
 
 Відхилений авард:
 

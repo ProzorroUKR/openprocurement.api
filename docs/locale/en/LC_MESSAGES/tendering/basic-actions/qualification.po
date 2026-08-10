@@ -107,6 +107,18 @@ msgstr ""
 msgid "esco"
 msgstr ""
 
+msgid "belowThreshold"
+msgstr ""
+
+msgid "closeFrameworkAgreementSelectionUA"
+msgstr ""
+
+msgid "priceQuotation"
+msgstr ""
+
+msgid "requestForProposal"
+msgstr ""
+
 msgid "Відхилений авард:"
 msgstr "Unsuccessful award:"
 

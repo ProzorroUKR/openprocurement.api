@@ -340,6 +340,120 @@ def create_tender_award_no_scale_invalid(self):
     )
 
 
+def patch_tender_award_unsuccessful_to_cancelled(self):
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tender_below_supplier],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": {"amount": 500},
+                }
+            },
+        )
+    self.assertEqual(response.status, "201 Created")
+    award = response.json["data"]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # rejecting the first bid generates a new award for the next-ranked bid
+    next_bid_award_id = response.headers["Location"].split("/")[-1]
+
+    # tenderOwner: unsuccessful -> cancelled is allowed on own initiative (no complaint required)
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+    new_award_id = new_award_location.split("/")[-1]
+
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    awards = response.json["data"]
+    self.assertEqual(len(awards), 3)
+    self.assertEqual(awards[0]["id"], award["id"])
+    self.assertEqual(awards[0]["status"], "cancelled")
+    # the next-ranked bid's award is rolled back too, since qualification restarts from award[0]
+    self.assertEqual(awards[1]["id"], next_bid_award_id)
+    self.assertEqual(awards[1]["status"], "cancelled")
+    self.assertEqual(awards[2]["id"], new_award_id)
+    self.assertEqual(awards[2]["status"], "pending")
+
+    # the previously cancelled bidder gets re-evaluated one more time and also becomes unsuccessful
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award_id, self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+
+
+def patch_tender_award_unsuccessful_to_cancelled_forbidden_with_active_contract(self):
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tender_below_supplier],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": {"amount": 500},
+                }
+            },
+        )
+    self.assertEqual(response.status, "201 Created")
+    award = response.json["data"]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertIn("Location", response.headers)
+    new_award_location = response.headers["Location"]
+    new_award_id = new_award_location.split("/")[-1]
+
+    # activate the next award for the same lot, creating a contract for it
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award_id}/documents")
+    response = self.app.patch_json(
+        "{}?acc_token={}".format(new_award_location[-81:], self.tender_token),
+        {"data": {"status": "active", "qualified": True}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # simulate the contract being signed and activated
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    tender_doc["contracts"][0]["status"] = "active"
+    self.mongodb.tenders.save(tender_doc)
+
+    # the first (unsuccessful) award for the same lot can no longer be cancelled
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "cancelled"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"][0],
+        {"location": "body", "name": "data", "description": "Can't update award in current (unsuccessful) status"},
+    )
+
+
 # TenderLotAwardResourceTest
 
 
