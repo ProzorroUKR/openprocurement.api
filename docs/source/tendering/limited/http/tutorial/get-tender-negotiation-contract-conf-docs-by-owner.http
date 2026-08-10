@@ -1,0 +1,24 @@
+GET /api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents/64d727edf7a24a9d89031cf8fc890238?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель через 90 днів з дня припинення або скасування правового режиму воєнного стану в Україні відповідно до п 13, пп 21 Постанови 1178",
+    "confidentiality": "buyerOnly",
+    "documentType": "contractAnnexe",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "annexe.doc",
+    "format": "application/msword",
+    "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents/64d727edf7a24a9d89031cf8fc890238?download=1066f87343c8444996cc74fa9b08ed6e",
+    "documentOf": "contract",
+    "id": "64d727edf7a24a9d89031cf8fc890238",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00"
+  }
+}
+
