@@ -83,10 +83,12 @@ class CauseDetailsMixing:
                         name=field_name,
                     )
 
-    def set_cause_details_data(self, data):
-        if cause_details := data.get("causeDetails"):
+    def set_cause_details_data(self, after, before=None):
+        if before and before.get("causeDetails") == after.get("causeDetails"):
+            return
+        if cause_details := after.get("causeDetails"):
             mapping = PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING
-            cause_details_reference = get_cause_details_reference(data, mapping)
+            cause_details_reference = get_cause_details_reference(after, mapping)
             if cause_details.get("code") not in cause_details_reference:
                 raise_operation_error(
                     self.request,
@@ -103,7 +105,7 @@ class CauseDetailsMixing:
                     location="body",
                     name="causeDetails",
                 )
-            data["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference, force=True)
+            after["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference, force=True)
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
@@ -124,7 +126,7 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
-        self.set_cause_details_data(after)
+        self.set_cause_details_data(after, before)
         super().on_patch(before, after)
 
 
@@ -146,7 +148,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
-        self.set_cause_details_data(after)
+        self.set_cause_details_data(after, before)
         if before.get("awards"):
             raise_operation_error(
                 get_request(),
