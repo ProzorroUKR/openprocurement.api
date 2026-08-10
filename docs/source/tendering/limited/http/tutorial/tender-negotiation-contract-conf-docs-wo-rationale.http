@@ -1,0 +1,43 @@
+POST /api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "annexe.doc",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a150b81d16504ae88167cb5c3cec719f?Signature=%2FHNjmOyAxIbAMh127UziLYrtgWYyjQjuNPeyQCWfv29uMghJ7jnlr3qOS8y3W2mf58GIDfTRPWR4PXUvYpTADQ%3D%3D&KeyID=a8968c46",
+      "hash": "md5:00000000000000000000000000000000",
+      "format": "application/msword",
+      "documentType": "contractAnnexe",
+      "confidentiality": "buyerOnly"
+    },
+    {
+      "title": "schedule.doc",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b2e689a0efb48e09297e8f0781145df?Signature=uyIJ%2BTHvo4UBjeSRy0rzQ%2Fz8YImMzAjg8kZyCdYnrvb%2F5VI1CL55osX%2B43BuScH%2B85zRVCZXE%2BpWy5xfChT7AA%3D%3D&KeyID=a8968c46",
+      "hash": "md5:00000000000000000000000000000000",
+      "format": "application/msword",
+      "documentType": "contractSchedule",
+      "confidentiality": "public"
+    }
+  ]
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "confidentialityRationale",
+      "description": [
+        "confidentialityRationale is required"
+      ]
+    }
+  ]
+}
+

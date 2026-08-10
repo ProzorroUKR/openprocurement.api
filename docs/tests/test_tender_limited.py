@@ -21,15 +21,15 @@ test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 award_negotiation["value"]["valueAddedTaxIncluded"] = False
 test_tender_negotiation_data["procurementMethodType"] = "negotiation"
 test_tender_negotiation_data["causeDetails"] = {
-    "code": "lastHope",
-    "description": "оригінальний тендер не вдався двічі",
-    "description_en": "the original tender failed twice",
+    "code": "defenseNeeds",
+    "description": "Закупівля для нагальних потреб ЗСУ, військових формувань, ДСНС тощо (фортифікації, мобілізаційні завдання, територіальна оборона, договори з обмеженим доступом)",
+    "description_en": "Procurement for urgent needs of the Armed Forces, military formations, State Emergency Service, etc. (fortifications, mobilization tasks, territorial defense, restricted access contracts)",
 }
 test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick"
 test_tender_negotiation_quick_data["causeDetails"] = {
-    "code": "lastHope",
-    "description": "оригінальний тендер не вдався двічі",
-    "description_en": "the original tender failed twice",
+    "code": "tenderDecisionAppeal",
+    "description": "Нагальна потребаздійснити закупівлю, зокрема, але не виключно в разі: оскарження прийнятих рішень, дій чи бездіяльності замовника щодо відкритих торгів, що тривають після розгляду/оцінки тендерних пропозицій учасників, в обсязі, що не перевищує 20 відсотків очікуваної вартості відкритих торгів, без урахування податку на додану вартість, що оскаржуються",
+    "description_en": "An urgent need to make a purchase, in particular, but not limited to the following cases: appeals against the contracting authority’s decisions, actions, or inaction regarding open tenders that are ongoing after the review/evaluation of participants’ bids, in an amount not exceeding 20 percent of the expected value of the open tender, excluding value-added tax, which is being appealed",
 }
 test_lots[0]["value"] = test_tender_negotiation_data["value"]
 
@@ -441,6 +441,118 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             )
             self.assertEqual(response.status, "200 OK")
 
+        contract_id = self.app.get(f"/tenders/{self.tender_id}/contracts?acc_token={owner_token}").json["data"][0]["id"]
+
+        # add confidential doc as public
+        with open(
+            TARGET_DIR + "tutorial/tender-negotiation-contract-conf-docs-as-public.http", "w"
+        ) as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{contract_id}/documents?acc_token={owner_token}",
+                {
+                    "data": [
+                        {
+                            "title": "annexe.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractAnnexe",
+                            "confidentiality": "public",
+                        },
+                        {
+                            "title": "schedule.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractSchedule",
+                            "confidentiality": "public",
+                        },
+                    ]
+                },
+                status=422,
+            )
+        # add confidential doc without rationale
+        with open(
+            TARGET_DIR + "tutorial/tender-negotiation-contract-conf-docs-wo-rationale.http", "w"
+        ) as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{contract_id}/documents?acc_token={owner_token}",
+                {
+                    "data": [
+                        {
+                            "title": "annexe.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractAnnexe",
+                            "confidentiality": "buyerOnly",
+                        },
+                        {
+                            "title": "schedule.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractSchedule",
+                            "confidentiality": "public",
+                        },
+                    ]
+                },
+                status=422,
+            )
+        with open(TARGET_DIR + "tutorial/tender-negotiation-contract-conf-docs.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{contract_id}/documents?acc_token={owner_token}",
+                {
+                    "data": [
+                        {
+                            "title": "annexe.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractAnnexe",
+                            "confidentiality": "buyerOnly",
+                            "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель "
+                            "через 90 днів з дня припинення або скасування правового "
+                            "режиму воєнного стану в Україні відповідно до п 13, "
+                            "пп 21 Постанови 1178",
+                        },
+                        {
+                            "title": "schedule.doc",
+                            "url": self.generate_docservice_url(),
+                            "hash": "md5:" + "0" * 32,
+                            "format": "application/msword",
+                            "documentType": "contractSchedule",
+                        },
+                    ]
+                },
+            )
+            self.assertEqual(response.status, "201 Created")
+            doc_id = response.json["data"][0]["id"]
+
+        # get doc directly as tender owner
+        with open(
+            TARGET_DIR + "tutorial/get-tender-negotiation-contract-conf-docs-by-owner.http", "w"
+        ) as self.app.file_obj:
+            response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id}?acc_token={owner_token}")
+            self.assertIn("url", response.json["data"])
+
+        # get doc directly as public
+        with open(
+            TARGET_DIR + "tutorial/get-tender-negotiation-contract-conf-docs-by-public.http", "w"
+        ) as self.app.file_obj:
+            response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id}")
+            self.assertNotIn("url", response.json["data"])
+
+        # download as tender public
+        with open(
+            TARGET_DIR + "tutorial/upload-tender-negotiation-contract-conf-doc-by-public.http", "w"
+        ) as self.app.file_obj:
+            self.app.get(
+                f"/contracts/{contract_id}/documents/{doc_id}?download=1",
+                status=403,
+            )
+
+        # Cancellation of tender
         with open(TARGET_DIR + "tutorial/negotiation-prepare-cancellation.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, owner_token),

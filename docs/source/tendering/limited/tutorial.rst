@@ -309,9 +309,12 @@
    :code:
 
 Конфіденційні файли у контракті
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 Під час створення тендеру замовник з випадаючого списку підстав застосування звіту про договір про закупівлю у формі обирає один з пунктів (`causeDetails.code` в залежності від `procurementMethodType`). У випадку застосування однієї з наведених підстав, в такому звіті мають бути приховані файли (documents), які замовник завантажує до контракту та змін до договору (`"documentOf": "contract"` та `"documentOf": "change"`).
+
+Конфіденційні файли у звітах
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Документи мають бути конфіденційними якщо звіт має одну з перерахованих підстав (`causeDetails.code`):
 
@@ -357,6 +360,51 @@
 Ніхто окрім власника звіту не може викачати документ:
 
 .. http:example:: http/tutorial/upload-tender-reporting-contract-conf-doc-by-public.http
+   :code:
+
+Конфіденційні файли у переговорній процедурі
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Документи мають бути конфіденційними якщо переговорна процедура має одну з перерахованих підстав (`causeDetails.code`):
+
+    * criticalInfrastructure
+    * defenseNeeds
+
+і має один з перерахованих типів документів:
+
+    * contractSigned - Підписаний договір
+    * contractAnnexe - Додатки до договору
+
+Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`.
+
+Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:
+
+.. http:example:: http/tutorial/tender-negotiation-contract-conf-docs-as-public.http
+   :code:
+
+Змінимо `confidentiality` на `buyerOnly` і подивимося, що ми маємо:
+
+.. http:example:: http/tutorial/tender-negotiation-contract-conf-docs-wo-rationale.http
+   :code:
+
+Додамо поле обґрунтування `confidentialityRational`:
+
+.. http:example:: http/tutorial/tender-negotiation-contract-conf-docs.http
+   :code:
+
+Власник переговорної процедури бачить такі документи і може завантажиити їх:
+
+.. http:example:: http/tutorial/get-tender-negotiation-contract-conf-docs-by-owner.http
+   :code:
+
+Всі інші користувачі не можуть переглянути документ:
+
+.. http:example:: http/tutorial/get-tender-negotiation-contract-conf-docs-by-public.http
+   :code:
+
+Ніхто окрім власника переговорної процедур не може викачати документ:
+
+.. http:example:: http/tutorial/upload-tender-negotiation-contract-conf-doc-by-public.http
    :code:
 
 Скасування закупівлі
