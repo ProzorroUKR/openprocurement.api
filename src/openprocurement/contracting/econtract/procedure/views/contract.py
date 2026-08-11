@@ -66,7 +66,6 @@ class EContractPostResource(ContractBaseResource):
     )
     def post(self):
         contract = self.request.validated["data"]
-        request_init_contract(self.request, contract, contract_src={})
         tender = get_tender_by_id(self.request, contract.get("tender_id"), raise_error=True)
         request_init_tender(self.request, tender)
         prev_contract = None
@@ -80,6 +79,9 @@ class EContractPostResource(ContractBaseResource):
             ):
                 prev_contract = tender_contract
                 prev_contract["id"] = prev_contract["_id"]
+        if prev_contract is not None:
+            contract["config"] = deepcopy(prev_contract.get("config"))
+        request_init_contract(self.request, contract, contract_src={})
         self.state.validate_on_post(prev_contract, contract)
         self.state.on_post(prev_contract, contract)
         with atomic_transaction():

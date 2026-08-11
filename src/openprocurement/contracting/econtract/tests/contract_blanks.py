@@ -3,6 +3,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
+from openprocurement.api.mask import MASK_STRING
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.core.tests.utils import change_auth
 
@@ -480,6 +481,82 @@ def post_new_version_of_contract_test_mode(self):
     self.assertEqual(new_contract["status"], "pending")
     # Verify that mode "test" is propagated from the tender to the new contract
     self.assertEqual(new_contract["mode"], "test")
+
+
+def post_new_version_of_restricted_contract(self):
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    initial_contract_data = response.json["data"]
+    expected_supplier_name = initial_contract_data["suppliers"][0]["name"]
+    self.assertNotEqual(expected_supplier_name, MASK_STRING)
+    contract_data = deepcopy(initial_contract_data)
+    del contract_data["dateCreated"]
+    del contract_data["dateModified"]
+    del contract_data["id"]
+    contract_data["tender_id"] = self.tender_id
+    contract_data["value"]["amount"] = self.award["value"]["amount"]
+    contract_data["value"]["amountNet"] = contract_data["value"]["amount"]
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
+        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    contract_doc.setdefault("config", {})["restricted"] = True
+    self.mongodb.contracts.save(contract_doc)
+
+    pdf_data = {
+        "url": self.generate_docservice_url(),
+        "format": "application/pdf",
+        "hash": "md5:" + "0" * 32,
+        "title": "contract.pdf",
+    }
+
+    response = self.app.post_json(
+        f"/contracts?acc_token={self.supplier_token}",
+        {"data": contract_data},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "url",
+                "name": "accreditation",
+                "description": "Broker Accreditation level does not permit contract restricted data access",
+            }
+        ],
+    )
+
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    for access in contract_doc["access"]:
+        if access["role"] == "supplier":
+            access["owner"] = "brokerr6"
+    self.mongodb.contracts.save(contract_doc)
+
+    with change_auth(self.app, ("Basic", ("brokerr6", ""))):
+        with patch("openprocurement.tender.core.procedure.contracting.upload_contract_pdf") as mock_upload_contract_pdf:
+            mock_upload_contract_pdf.return_value = {"data": pdf_data}
+            response = self.app.post_json(
+                f"/contracts?acc_token={self.supplier_token}",
+                {"data": contract_data},
+            )
+            mock_upload_contract_pdf.assert_called_once()
+
+    self.assertEqual(response.status, "201 Created")
+    new_contract = response.json["data"]
+    self.assertEqual(new_contract["status"], "pending")
+    new_contract_id = new_contract["id"]
+    self.assertEqual(response.json["config"]["restricted"], True)
+
+    response = self.app.get(f"/contracts/{new_contract_id}")
+    self.assertEqual(response.json["config"]["restricted"], True)
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], MASK_STRING)
+
+    with change_auth(self.app, ("Basic", ("brokerr6", ""))):
+        response = self.app.get(f"/contracts/{new_contract_id}")
+    self.assertEqual(response.json["data"]["suppliers"][0]["name"], expected_supplier_name)
 
 
 def contract_cancellation_via_award(self):
