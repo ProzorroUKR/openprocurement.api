@@ -177,9 +177,6 @@ msgstr "In that case award1 still `cancelled`, award2 becomes `active`, and awar
 msgid "Замовник скасовує своє рішення по award4"
 msgstr "The customer cancel unsuccessful award4"
 
-msgid "Скасування рішення по award4 (`unsuccessful` → `cancelled`) каскадно скасовує також усі інші аварди цього лота, які ще перебувають у статусах `pending` чи `active`, оскільки кваліфікація по лоту розпочинається заново. В цьому випадку award1 залишається `cancelled`, award2 стає `cancelled` (був `active`), award3 стає `cancelled` (був `pending`), award4 стає `cancelled`, і для кожного з award2, award3, award4 генерується новий авард у статусі `pending`:"
-msgstr "Cancelling the decision on award4 (`unsuccessful` → `cancelled`) also cascades and cancels all other awards of this lot that are still in `pending` or `active` status, because qualification for the lot restarts from the beginning. In that case award1 stays `cancelled`, award2 becomes `cancelled` (was `active`), award3 becomes `cancelled` (was `pending`), award4 becomes `cancelled`, and for each of award2, award3, award4 a new award is generated in status `pending`:"
-
-#~ msgid "В цьому випадку award1 залишається `cancelled`, award2 - `active`, award3 - `pending`, award4 - `cancelled` і генерується новий award5 в статусі `pending` через те, що award4 був скасований:"
-#~ msgstr "In that case award1 still `cancelled`, award2 - `active`, and award3 - `pending`, award4 - `cancelled` and award5 is being generated in status `pending` due to cancellation of the award4:"
+msgid "В цьому випадку award1 залишається `cancelled`, award2 - `active`, award3 - `pending`, award4 - `cancelled` і генерується новий award5 в статусі `pending` через те, що award4 був скасований:"
+msgstr "In that case award1 still `cancelled`, award2 - `active`, and award3 - `pending`, award4 - `cancelled` and award5 is being generated in status `pending` due to cancellation of the award4:"
 
