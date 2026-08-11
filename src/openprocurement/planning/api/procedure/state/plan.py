@@ -78,7 +78,6 @@ class PlanState(BaseState):
     def validate_on_post(self, data):
         self._validate_plan_availability(data)
         self._validate_tender_procurement_method_type(data)
-        self._validate_items_classification_prefix(data)
         self.validate_required_breakdown_classifications(data)
 
     def validate_on_patch(self, before, after):
@@ -87,7 +86,6 @@ class PlanState(BaseState):
         self._validate_plan_status_update(before, after)
         self._validate_plan_with_tender(before, after)
         self._validate_tender_procurement_method_type(after)
-        self._validate_items_classification_prefix(after)
         self.validate_required_breakdown_classifications(after)
 
     def plan_tender_validate_on_post(self, plan, tender):
@@ -359,16 +357,6 @@ class PlanState(BaseState):
     def _validate_tender_in_draft(self, plan, tender):
         if tender["status"] != "draft":
             raise raise_operation_error(self.request, "Only allowed in draft tender status")
-
-    def _validate_items_classification_prefix(self, plan):
-        classifications = [item["classification"] for item in plan.get("items", [])]
-        if not classifications:
-            return
-        validate_items_classifications_prefixes(classifications)
-        validate_items_classifications_prefixes(
-            classifications,
-            root_classification=plan["classification"],
-        )
 
     def validate_required_breakdown_classifications(self, plan):
         if not is_obj_const_active(plan, UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM):
