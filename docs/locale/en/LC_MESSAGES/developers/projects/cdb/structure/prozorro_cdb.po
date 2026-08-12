@@ -220,9 +220,6 @@ msgstr ""
 msgid "**Зміна схеми / даних у БД** → ``migrations/`` (нумеровані файли)"
 msgstr ""
 
-#~ msgid "Стек: **aiohttp + motor (async pymongo) + pydantic**. Новий асинхронний API, що розробляється паралельно з ``openprocurement``."
-#~ msgstr ""
-
 #~ msgid "``MongodbStore`` (async/motor), ``BaseCollection``, ``atomic_transaction_async``; логіка фіду (``list()``), ``save_data()``, watermark"
 #~ msgstr ""
 
