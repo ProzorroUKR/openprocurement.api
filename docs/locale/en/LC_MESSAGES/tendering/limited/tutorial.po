@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-06 10:53+0300\n"
+"POT-Creation-Date: 2026-08-12 16:01+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -163,9 +163,6 @@ msgstr ""
 
 msgid "Набір можливих значень `procuringEntity.kind` для `negotiation`"
 msgstr "The set of possible `procuringEntity.kind` values for `negotiation`"
-
-msgid "\\-"
-msgstr ""
 
 msgid "Набір можливих значень `procuringEntity.kind` для `negotiation.quick`"
 msgstr "The set of possible `procuringEntity.kind` values for `negotiation.quick`"
@@ -532,4 +529,3 @@ msgstr "Activating the request and cancelling tender"
 
 msgid "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично змінює статус на `active`."
 msgstr "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
-
