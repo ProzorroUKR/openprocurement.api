@@ -114,7 +114,7 @@ class TenderNegotiationResourceTest(TenderResourceTest):
     initial_data = test_tender_negotiation_data
     initial_lots = test_lots_data = test_lots
     initial_config = test_tender_negotiation_config
-    allowed_proc_entity_kinds = []
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["negotiation"]
 
     test_field_relatedLot = snitch(field_relatedLot_negotiation)
     test_changing_tender_after_award = snitch(changing_tender_after_award)
@@ -127,6 +127,7 @@ class TenderNegotiationResourceTest(TenderResourceTest):
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
+    allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["negotiation.quick"]
 
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
 
