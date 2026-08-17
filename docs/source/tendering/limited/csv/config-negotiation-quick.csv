@@ -13,7 +13,7 @@ hasValueEstimation,true,true
 hasQualificationComplaints,false,false
 tenderComplainRegulation,0,0
 qualificationComplainDuration,0,0
-awardComplainDuration,5,5
+awardComplainDuration,3,3
 cancellationComplainDuration,10,10
 clarificationUntilDuration,0,0
 qualificationDuration,0,0

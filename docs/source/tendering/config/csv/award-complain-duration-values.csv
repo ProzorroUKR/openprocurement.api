@@ -14,8 +14,8 @@ competitiveDialogueEU.stage2,10,10
 competitiveDialogueUA,0,0
 competitiveDialogueUA.stage2,10,10
 esco,10,10
-negotiation,10,10
-negotiation.quick,5,5
+negotiation,5,5
+negotiation.quick,3,3
 priceQuotation,0,0
 reporting,0,0
 simple.defense,4,4

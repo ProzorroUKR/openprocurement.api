@@ -47,8 +47,8 @@ msgstr "Add award for lot №1:"
 msgid "Підтвердження визначення переможця:"
 msgstr "Award confirmation:"
 
-msgid "Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 10 днів та 5 днів для **переговорної процедури за нагальною потребою**"
-msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days and for **negotiation.quick** is 5 days."
+msgid "Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 5 днів та 3 днів для **переговорної процедури за нагальною потребою**"
+msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 5 days and for **negotiation.quick** is 3 days."
 
 msgid "Встановлення вартості угоди"
 msgstr "Setting contract value"
