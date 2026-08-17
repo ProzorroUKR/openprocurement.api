@@ -1435,10 +1435,10 @@ def tender_cause(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender_id, owner_token),
-        {"data": {"causeDetails": {"code": "stateLegalServices", "scheme": "LAW922", "description": "test"}}},
+        {"data": {"causeDetails": {"code": "defenseNeeds", "scheme": "LAW922", "description": "test"}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["causeDetails"]["code"], "stateLegalServices")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "defenseNeeds")
 
 
 def tender_cause_quick(self):
@@ -1468,7 +1468,7 @@ def tender_cause_quick(self):
         [{"description": "This field is required.", "location": "body", "name": "causeDetails"}],
     )
 
-    data["causeDetails"] = {"code": "additionalConstruction", "scheme": "LAW922", "description": "test"}
+    data["causeDetails"] = {"code": "tenderDecisionAppeal", "scheme": "LAW922", "description": "test"}
 
     with mock.patch(constant_target_1, get_now() - timedelta(days=1)):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -1777,7 +1777,7 @@ def tender_cause_reporting(self):
     # patch cause in draft
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"cause": "stateLegalServices", "causeDescription": "foo", "causeDescription_en": "bar"}},
+        {"data": {"cause": "criticalInfrastructure", "causeDescription": "foo", "causeDescription_en": "bar"}},
         status=422,
     )
     self.assertEqual(
@@ -1787,17 +1787,17 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"code": "stateLegalServices", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "criticalInfrastructure", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         response.json["data"]["causeDetails"],
         {
-            "code": "stateLegalServices",
+            "code": "criticalInfrastructure",
             "scheme": "DECREE1178",
             "description": "foo",
-            "title": "Підпункт 10 пункту 13",
-            "title_en": "Subparagraph 10 of paragraph 13",
+            "title": "Підпункт 13 пункту 13",
+            "title_en": "Subparagraph 13 of paragraph 13",
             "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426",
         },
     )

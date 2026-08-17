@@ -1,0 +1,60 @@
+POST /api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "title": "annexe.doc",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1066f87343c8444996cc74fa9b08ed6e?Signature=nrdrAU%2BGCtJZfGTetxtS6EdxdviOv9UXfUfAj4HtTqAMKTUvBghNtS3Bb4jHopJopORW94dMYa2gN%2BKGDcEbCw%3D%3D&KeyID=a8968c46",
+      "hash": "md5:00000000000000000000000000000000",
+      "format": "application/msword",
+      "documentType": "contractAnnexe",
+      "confidentiality": "buyerOnly",
+      "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель через 90 днів з дня припинення або скасування правового режиму воєнного стану в Україні відповідно до п 13, пп 21 Постанови 1178"
+    },
+    {
+      "title": "schedule.doc",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/406d025b64f04b06b7c226963c495758?Signature=JWkZ9wLsiUDWNqJpls1kj7VS%2F1Jp%2B2wkExSIs6jw1s80itwJZ1YRxdyJXWSEnkvgDPYP7eRJMfcXDO2v424KDg%3D%3D&KeyID=a8968c46",
+      "hash": "md5:00000000000000000000000000000000",
+      "format": "application/msword",
+      "documentType": "contractSchedule"
+    }
+  ]
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentialityRationale": "Файл буде оприлюднено в електронній системі закупівель через 90 днів з дня припинення або скасування правового режиму воєнного стану в Україні відповідно до п 13, пп 21 Постанови 1178",
+      "confidentiality": "buyerOnly",
+      "documentType": "contractAnnexe",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "annexe.doc",
+      "format": "application/msword",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/fcd03c2cc2be4b7693e4c710c31582e1/documents/64d727edf7a24a9d89031cf8fc890238?download=1066f87343c8444996cc74fa9b08ed6e",
+      "documentOf": "contract",
+      "id": "64d727edf7a24a9d89031cf8fc890238",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00"
+    },
+    {
+      "confidentiality": "public",
+      "documentType": "contractSchedule",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "schedule.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/406d025b64f04b06b7c226963c495758?Signature=LC8Q3dTbC0wavOf2OfyJzV3mLWJYIjD%2BX9wxIHyuMu4YZGzWQe15Hk4GepgwHCrcZQDdg6RgTnROKzriF7ThBg%3D%3D&KeyID=a8968c46",
+      "documentOf": "contract",
+      "id": "00bcedaec7994d1da8bb19ac66a52657",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00"
+    }
+  ]
+}
+

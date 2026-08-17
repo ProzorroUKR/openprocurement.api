@@ -8,6 +8,8 @@ from openprocurement.tender.belowthreshold.tests.base import test_tender_below_s
 from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
     test_tender_reporting_data,
+    test_tender_negotiation_data,
+    test_tender_negotiation_config,
 )
 
 
@@ -895,13 +897,39 @@ def create_contract_transaction_document_json(self):
     )
 
 
+confidential_documents_tender_params = [
+    (
+        "reporting tender",
+        test_tender_reporting_data,
+        test_tender_reporting_config,
+        {"code": "UZ", "description": "UZ cause"},
+    ),
+    (
+        "negotiation tender with causeDetails defenseNeeds",
+        test_tender_negotiation_data,
+        test_tender_negotiation_config,
+        {"code": "defenseNeeds", "description": "Закупівля для нагальних потреб ЗСУ"},
+    ),
+    (
+        "negotiation tender with causeDetails criticalInfrastructure",
+        test_tender_negotiation_data,
+        test_tender_negotiation_config,
+        {"code": "criticalInfrastructure", "description": "Товари, роботи і послуги для захисту"},
+    ),
+]
+
+
 @patch(
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
-def limited_contract_confidential_document(self):
-    tender_data = deepcopy(test_tender_reporting_data)
-    tender_data["causeDetails"] = {"code": "UZ", "description": "UZ cause"}
-    response = self.app.post_json("/tenders", {"data": tender_data, "config": test_tender_reporting_config})
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
+    get_now() + timedelta(days=1),
+)
+def limited_contract_confidential_document(self, _, init_tender_data, init_tender_config, cause_details_data):
+    tender_data = deepcopy(init_tender_data)
+    tender_data["causeDetails"] = cause_details_data
+    response = self.app.post_json("/tenders", {"data": tender_data, "config": init_tender_config})
     tender = response.json["data"]
     tender_id = tender["id"]
     tender_token = response.json["access"]["token"]

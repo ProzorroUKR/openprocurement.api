@@ -1,5 +1,7 @@
 import unittest
 
+from parameterized import parameterized
+
 from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.contract.tests.base import BaseContractContentWebTest
 from openprocurement.contracting.core.tests.document_blanks import (
@@ -14,6 +16,7 @@ from openprocurement.contracting.core.tests.document_blanks import (
     patch_contract_document,
     put_contract_document,
     put_contract_document_json,
+    confidential_documents_tender_params,
 )
 
 
@@ -27,7 +30,10 @@ class ContractDocumentResourceTest(BaseContractContentWebTest):
     test_create_contract_documnet_json = snitch(create_contract_document_json)
     test_put_contract_document_json = snitch(put_contract_document_json)
     test_create_contract_transaction_document_json = snitch(create_contract_transaction_document_json)
-    test_limited_contract_confidential_document = snitch(limited_contract_confidential_document)
+
+    test_limited_contract_confidential_document = parameterized.expand(confidential_documents_tender_params)(
+        snitch(limited_contract_confidential_document)
+    )
     test_limited_contract_confidential_document_energy_crisis = snitch(
         limited_contract_confidential_document_energy_crisis
     )
