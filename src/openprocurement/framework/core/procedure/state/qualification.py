@@ -22,6 +22,7 @@ LOGGER = getLogger(__name__)
 
 class QualificationState(FrameworkChronographEventsMixing, BaseState):
     working_days = True
+    evaluation_reports_doc_required = True
 
     def __init__(self, request, framework=None):
         super().__init__(request)
@@ -43,7 +44,8 @@ class QualificationState(FrameworkChronographEventsMixing, BaseState):
             )
 
         if before.get("status") != after.get("status"):
-            validate_doc_type_required(after.get("documents", []), document_type="evaluationReports")
+            if self.evaluation_reports_doc_required:
+                validate_doc_type_required(after.get("documents", []), document_type="evaluationReports")
             self.set_complain_period(after)
             self.framework.submission.set_complete_status()
 

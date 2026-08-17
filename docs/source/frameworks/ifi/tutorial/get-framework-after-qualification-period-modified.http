@@ -120,7 +120,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/894958610c6840238ceec5f7cb544a0c?Signature=HMPCR%2BXKqM3nPrpTkJ%2FyKDLZOgR%2BDx8EPTKvfykFgHWrtPf1hbGQQZGQBktK6D%2Bz5WK4iulCxJXyHgcHaPu0Bw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec07f6afeca649b3a960652cfabb5b92?Signature=Mrrs75btJeZAunoMdcHhddBaNf6JNq1ODe1bGxi%2F6qAINmtyZivPLUE0LGmDCHCLgYjdpnNVHT4mhnuxlomuDg%3D%3D&KeyID=a8968c46",
             "language": "uk",
             "id": "3fc3aab850b74e2ab3776d12df5ab437",
             "datePublished": "2027-01-17T00:00:00+02:00",

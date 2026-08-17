@@ -4,4 +4,4 @@ from openprocurement.framework.core.procedure.state.qualification import (
 
 
 class IFIQualificationState(QualificationState):
-    pass
+    evaluation_reports_doc_required = False

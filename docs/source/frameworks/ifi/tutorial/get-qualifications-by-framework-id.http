@@ -19,17 +19,6 @@ Content-Type: application/json
           "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/61da52d3fbea49129c50b9171ce98c39/documents/ed3c1836c7c94d9aa02adbe5d6b2ed99?download=5b3f7bd6512745f8aa676efc89dbeb46",
           "dateModified": "2027-01-17T00:00:00+02:00",
           "language": "uk"
-        },
-        {
-          "documentType": "evaluationReports",
-          "id": "9f87b10607744a04b926ba01aab3ba85",
-          "datePublished": "2027-01-17T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "sign.p7s",
-          "format": "application/pkcs7-signature",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/61da52d3fbea49129c50b9171ce98c39/documents/9f87b10607744a04b926ba01aab3ba85?download=c301888666eb496b836650f2f0c2ff8a",
-          "dateModified": "2027-01-17T00:00:00+02:00",
-          "language": "uk"
         }
       ],
       "submissionID": "39f4e30e72c846039972b697c874c995",
@@ -44,12 +33,12 @@ Content-Type: application/json
       "documents": [
         {
           "documentType": "evaluationReports",
-          "id": "5670c7a685cc4517bcb9a9215019e1e5",
+          "id": "9f87b10607744a04b926ba01aab3ba85",
           "datePublished": "2027-01-17T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/78d4a13a5f274438a568fb8e618862a7/documents/5670c7a685cc4517bcb9a9215019e1e5?download=ec07f6afeca649b3a960652cfabb5b92",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/78d4a13a5f274438a568fb8e618862a7/documents/9f87b10607744a04b926ba01aab3ba85?download=c301888666eb496b836650f2f0c2ff8a",
           "dateModified": "2027-01-17T00:00:00+02:00",
           "language": "uk"
         }
