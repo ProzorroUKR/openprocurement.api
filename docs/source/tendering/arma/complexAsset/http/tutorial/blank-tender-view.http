@@ -122,6 +122,11 @@ Content-Type: application/json
         "minimalStep": {
           "amountPercentage": 1.0
         },
+        "minExpectedIncome": {
+          "amount": 100000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
           "shouldStartAfter": "2027-02-13T00:00:00+02:00",
@@ -129,10 +134,6 @@ Content-Type: application/json
         }
       }
     ],
-    "minExpectedIncome": {
-      "amount": 100000.0,
-      "currency": "UAH"
-    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",

@@ -71,9 +71,11 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
     def validate_min_expected_income(self, before, after):
         if tender_created_before(ARMA_MIN_EXPECTED_INCOME_FROM, after):
             return
-        if before.get("status") not in ("draft", "active.tendering") and before.get("minExpectedIncome") != after.get(
-            "minExpectedIncome"
-        ):
+
+        before_income = self.get_lots_min_expected_income(before)
+        after_income = self.get_lots_min_expected_income(after)
+
+        if before.get("status") not in ("draft", "active.tendering") and before_income != after_income:
             raise_operation_error(
                 self.request,
                 "minExpectedIncome cannot be changed after tenderPeriod",
@@ -81,24 +83,20 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
                 name="minExpectedIncome",
             )
         if before.get("status") == "draft" and after.get("status") != "draft":
-            if after.get("minExpectedIncome") is None:
-                raise_operation_error(
-                    self.request,
-                    "minExpectedIncome is required for tender activation",
-                    status=422,
-                    name="minExpectedIncome",
-                )
-        if (
-            before.get("status") != "draft"
-            and before.get("minExpectedIncome") is not None
-            and after.get("minExpectedIncome") is None
-        ):
-            raise_operation_error(
-                self.request,
-                "minExpectedIncome cannot be removed",
-                status=422,
-                name="minExpectedIncome",
-            )
+            for lot in after.get("lots") or []:
+                if lot.get("status") == "cancelled":
+                    continue
+                if lot.get("minExpectedIncome") is None:
+                    raise_operation_error(
+                        self.request,
+                        "minExpectedIncome is required for tender activation",
+                        status=422,
+                        name="minExpectedIncome",
+                    )
+
+    @staticmethod
+    def get_lots_min_expected_income(tender: dict) -> dict:
+        return {lot["id"]: lot.get("minExpectedIncome") for lot in tender.get("lots") or [] if lot.get("id")}
 
     def validate_minimal_step_limits(self, tender: dict, value_amount: float, minimal_step_amount: float) -> None:
         # ARMA procedure does not have tender.minimalStep limits

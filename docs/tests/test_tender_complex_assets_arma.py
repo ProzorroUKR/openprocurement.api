@@ -37,8 +37,10 @@ for b in [bid, bid2, bid3]:
 
 test_lots[0]["value"] = {"amountPercentage": 50}
 test_lots[0]["minimalStep"] = {"amountPercentage": 1}
+test_lots[0]["minExpectedIncome"] = {"amount": 100000.00, "currency": "UAH", "valueAddedTaxIncluded": True}
 test_lots[1]["value"] = {"amountPercentage": 50}
 test_lots[1]["minimalStep"] = {"amountPercentage": 1}
+test_lots[1]["minExpectedIncome"] = {"amount": 200000.00, "currency": "UAH", "valueAddedTaxIncluded": False}
 
 BASE_DIR = "docs/source/tendering/arma/"
 TARGET_DIR = BASE_DIR + "complexAsset/http/tutorial/"

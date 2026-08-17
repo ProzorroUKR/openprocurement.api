@@ -15,6 +15,7 @@ from openprocurement.tender.arma.tests.lot_blanks import (
     create_tender_bidder_invalid,
     create_tender_lot_invalid,
     create_tender_lot_minimalstep_validation,
+    lot_min_expected_income,
     next_check_value_with_unanswered_claim,
     next_check_value_with_unanswered_question,
     one_lot_1bid,
@@ -64,6 +65,7 @@ class TenderLotResourceTest(BaseTenderContentWebTest, TenderLotResourceTestMixin
     test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
     test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
     test_create_tender_lot_invalid = snitch(create_tender_lot_invalid)
+    test_lot_min_expected_income = snitch(lot_min_expected_income)
     test_patch_tender_currency = None
     test_patch_tender_vat = None
 

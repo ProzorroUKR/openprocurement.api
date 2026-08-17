@@ -113,6 +113,7 @@ def create_tender_lot_invalid(self):
                 "description": "lot description",
                 "value": {"amountPercentage": 50},
                 "minimalStep": {"amountPercentage": 51},
+                "minExpectedIncome": {"amount": 100000.00, "currency": "UAH", "valueAddedTaxIncluded": True},
             }
         },
         status=422,
@@ -130,6 +131,7 @@ def create_tender_lot_invalid(self):
                 "description": "lot description",
                 "value": {"amountPercentage": 50},
                 "minimalStep": {"amountPercentage": 39},
+                "minExpectedIncome": {"amount": 100000.00, "currency": "UAH", "valueAddedTaxIncluded": True},
             }
         },
     )
@@ -1978,3 +1980,50 @@ def patch_tender_lot_minimalstep_validation(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.content_type, "application/json")
+
+
+@patch(
+    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    get_now() - timedelta(days=1),
+)
+def lot_min_expected_income(self):
+    lot_data = deepcopy(self.test_lots_data[0])
+    lot_data.pop("minExpectedIncome", None)
+
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": lot_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "minExpectedIncome",
+                "description": "minExpectedIncome is required for lot",
+            }
+        ],
+    )
+
+    lot_data["minExpectedIncome"] = {"amount": 500000.00, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": lot_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    lot_id = response.json["data"]["id"]
+    self.assertEqual(
+        response.json["data"]["minExpectedIncome"],
+        {"amount": 500000.0, "currency": "UAH", "valueAddedTaxIncluded": False},
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot_id, self.tender_token),
+        {"data": {"minExpectedIncome": {"amount": 600000.00, "currency": "UAH", "valueAddedTaxIncluded": True}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(
+        response.json["data"]["minExpectedIncome"],
+        {"amount": 600000.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    )

@@ -1,7 +1,7 @@
 from decimal import Decimal
 
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType
+from schematics.types import BooleanType, MD5Type, StringType
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
@@ -17,6 +17,7 @@ from openprocurement.tender.core.procedure.validation import validate_related_lo
 class MinExpectedIncome(Model):
     amount = NormalizedDecimalType(precision=-2, min_value=Decimal("0"), required=True)
     currency = StringType(required=True, default="UAH", choices=["UAH"], max_length=3, min_length=3)
+    valueAddedTaxIncluded = BooleanType(required=True)
 
 
 class PostLotValue(Model):

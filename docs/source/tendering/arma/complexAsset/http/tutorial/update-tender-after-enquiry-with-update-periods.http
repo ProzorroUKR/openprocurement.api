@@ -299,16 +299,17 @@ Content-Type: application/json
         "minimalStep": {
           "amountPercentage": 1.0
         },
+        "minExpectedIncome": {
+          "amount": 100000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "auctionPeriod": {
           "startDate": "2027-01-25T12:22:15.236000+02:00",
           "shouldStartAfter": "2027-01-23T00:00:00+02:00"
         }
       }
     ],
-    "minExpectedIncome": {
-      "amount": 100000.0,
-      "currency": "UAH"
-    },
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {

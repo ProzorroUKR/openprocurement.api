@@ -7,7 +7,7 @@ from uuid import uuid4
 from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.tests.base import test_signer_info
+from openprocurement.api.tests.base import change_auth, test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.belowthreshold.tests.base import (
@@ -344,7 +344,6 @@ def create_tender_generated(self):
             "date",
             "criteria",
             "status",
-            "minExpectedIncome",
         },
     )
     self.assertNotEqual(data["id"], tender["id"])
@@ -1346,36 +1345,80 @@ def create_tender_with_required_unit(self):
     "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
     get_now() - timedelta(days=1),
 )
-def patch_tender_monthly_minimal_income(self):
+@mock.patch(
+    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    get_now() - timedelta(days=1),
+)
+def patch_tender_lot_min_expected_income(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
-    data.pop("minExpectedIncome", None)
+    for lot in data["lots"]:
+        lot.pop("minExpectedIncome", None)
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     tender_id = response.json["data"]["id"]
     token = response.json["access"]["token"]
+    lot_id = response.json["data"]["lots"][0]["id"]
 
     self.assertNotIn("minExpectedIncome", response.json["data"])
+    self.assertNotIn("minExpectedIncome", response.json["data"]["lots"][0])
 
+    # minExpectedIncome is not a tender level field anymore
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "UAH"}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100000.0, "currency": "UAH"})
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "USD"}}},
+        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "UAH", "valueAddedTaxIncluded": True}}},
         status=422,
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "minExpectedIncome", "description": "Rogue field"}],
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "UAH"}}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "minExpectedIncome",
+                "description": {"valueAddedTaxIncluded": ["This field is required."]},
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "USD", "valueAddedTaxIncluded": True}}},
+        status=422,
+    )
     self.assertEqual(response.json["errors"][0]["name"], "minExpectedIncome")
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": -1, "currency": "UAH", "valueAddedTaxIncluded": True}}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["name"], "minExpectedIncome")
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.00, "currency": "UAH", "valueAddedTaxIncluded": True}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(
+        response.json["data"]["minExpectedIncome"],
+        {"amount": 100000.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    )
 
     data_no_income = deepcopy(self.initial_data)
     data_no_income["status"] = "draft"
-    data_no_income.pop("minExpectedIncome", None)
+    for lot in data_no_income["lots"]:
+        lot.pop("minExpectedIncome", None)
     response = self.app.post_json("/tenders", {"data": data_no_income, "config": self.initial_config})
     tender_id2 = response.json["data"]["id"]
     token2 = response.json["access"]["token"]
@@ -1412,57 +1455,72 @@ def patch_tender_monthly_minimal_income(self):
 
     response = self.set_initial_status({"data": {"id": tender_id}, "access": {"token": token}})
     self.assertEqual(response.json["data"]["status"], "active.tendering")
-    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100000.0, "currency": "UAH"})
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": {"amount": 200000.00, "currency": "UAH"}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 200000.0, "currency": "UAH"})
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": {"amount": 100000.999, "currency": "UAH"}}},
-    )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100001.0, "currency": "UAH"})
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": {"amount": -1, "currency": "UAH"}}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertIn("minExpectedIncome", response.json["errors"][0]["name"])
-
-    response = self.app.patch_json(
-        f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": None}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "location": "body",
-                "name": "minExpectedIncome",
-                "description": "minExpectedIncome cannot be removed",
-            }
-        ],
+        response.json["data"]["lots"][0]["minExpectedIncome"],
+        {"amount": 100000.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     )
-    response = self.app.get(f"/tenders/{tender_id}?acc_token={token}")
-    self.assertEqual(response.json["data"]["minExpectedIncome"], {"amount": 100001.0, "currency": "UAH"})
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 200000.00, "currency": "UAH", "valueAddedTaxIncluded": False}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(
+        response.json["data"]["minExpectedIncome"],
+        {"amount": 200000.0, "currency": "UAH", "valueAddedTaxIncluded": False},
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": {"amount": 100000.999, "currency": "UAH", "valueAddedTaxIncluded": True}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(
+        response.json["data"]["minExpectedIncome"],
+        {"amount": 100001.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    )
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"minExpectedIncome": None}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get(f"/tenders/{tender_id}")
+    self.assertEqual(
+        response.json["data"]["lots"][0]["minExpectedIncome"],
+        {"amount": 100001.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    )
+
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.get(f"/tenders/{tender_id}/billing")
+    self.assertNotIn("minExpectedIncome", response.json["data"])
+    self.assertEqual(
+        response.json["data"]["lots"][0]["minExpectedIncome"],
+        {"amount": 100001.0, "currency": "UAH", "valueAddedTaxIncluded": True},
+    )
 
     self.tender_id = tender_id
     self.set_status("active.pre-qualification")
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={token}",
-        {"data": {"minExpectedIncome": {"amount": 300000.00, "currency": "UAH"}}},
+        {
+            "data": {
+                "lots": [
+                    {
+                        "id": lot_id,
+                        "title": "lot title",
+                        "minExpectedIncome": {
+                            "amount": 300000.00,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": True,
+                        },
+                    }
+                ]
+            }
+        },
         status=422,
     )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
         [
@@ -1479,10 +1537,15 @@ def patch_tender_monthly_minimal_income(self):
     "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
     get_now() + timedelta(days=1),
 )
-def patch_tender_monthly_minimal_income_before_date_gate(self):
+@mock.patch(
+    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    get_now() + timedelta(days=1),
+)
+def patch_tender_lot_min_expected_income_before_date_gate(self):
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
-    data.pop("minExpectedIncome", None)
+    for lot in data["lots"]:
+        lot.pop("minExpectedIncome", None)
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")

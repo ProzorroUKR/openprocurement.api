@@ -618,6 +618,11 @@ Content-Type: application/json
         "minimalStep": {
           "amountPercentage": 1.0
         },
+        "minExpectedIncome": {
+          "amount": 100000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "auctionPeriod": {
           "startDate": "2027-01-04T15:28:52.219000+02:00",
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
@@ -625,10 +630,6 @@ Content-Type: application/json
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0c99535af6024017bcbdec7b4a5c49da_d9c1c86a51294d9f9e128b780416b344"
       }
     ],
-    "minExpectedIncome": {
-      "amount": 100000.0,
-      "currency": "UAH"
-    },
     "next_check": "2027-01-04T15:28:52.219000+02:00",
     "auctionPeriod": {},
     "id": "0c99535af6024017bcbdec7b4a5c49da"

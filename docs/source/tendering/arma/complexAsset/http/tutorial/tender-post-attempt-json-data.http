@@ -102,10 +102,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "minExpectedIncome": {
-      "amount": 100000.0,
-      "currency": "UAH"
-    },
     "lots": [
       {
         "title": "Лот №1",
@@ -115,6 +111,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "minimalStep": {
           "amountPercentage": 1
+        },
+        "minExpectedIncome": {
+          "amount": 100000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
         },
         "id": "d9c1c86a51294d9f9e128b780416b344"
       }
@@ -268,6 +269,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         "minimalStep": {
           "amountPercentage": 1.0
         },
+        "minExpectedIncome": {
+          "amount": 100000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
         "date": "2027-01-01T00:00:00+02:00",
         "auctionPeriod": {
           "shouldStartAfter": "2027-02-13T00:00:00+02:00",
@@ -275,10 +281,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         }
       }
     ],
-    "minExpectedIncome": {
-      "amount": 100000.0,
-      "currency": "UAH"
-    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
