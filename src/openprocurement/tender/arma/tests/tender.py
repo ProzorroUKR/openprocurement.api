@@ -19,8 +19,8 @@ from openprocurement.tender.arma.tests.tender_blanks import (
     one_qualificated_bid_tender,
     patch_tender,
     patch_tender_draft,
-    patch_tender_monthly_minimal_income,
-    patch_tender_monthly_minimal_income_before_date_gate,
+    patch_tender_lot_min_expected_income,
+    patch_tender_lot_min_expected_income_before_date_gate,
     set_buyers_signer_info,
     set_procuring_entity_signer_info,
     tender_delivery_milestones,
@@ -73,9 +73,9 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     )(snitch(set_buyers_signer_info))
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)
 
-    test_patch_tender_monthly_minimal_income = snitch(patch_tender_monthly_minimal_income)
-    test_patch_tender_monthly_minimal_income_before_date_gate = snitch(
-        patch_tender_monthly_minimal_income_before_date_gate
+    test_patch_tender_lot_min_expected_income = snitch(patch_tender_lot_min_expected_income)
+    test_patch_tender_lot_min_expected_income_before_date_gate = snitch(
+        patch_tender_lot_min_expected_income_before_date_gate
     )
 
     test_set_procuring_entity_contract_owner = None

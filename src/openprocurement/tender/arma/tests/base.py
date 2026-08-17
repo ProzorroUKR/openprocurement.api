@@ -126,7 +126,6 @@ test_tender_arma_data = {
     ],
     "tenderPeriod": {"endDate": (now + TENDERING_DURATION).isoformat()},
     "procurementMethodType": COMPLEX_ASSET_ARMA,
-    "minExpectedIncome": {"amount": 100000.00, "currency": "UAH"},
 }
 if SANDBOX_MODE:
     test_tender_arma_data["procurementMethodDetails"] = "quick, accelerator=1440"
@@ -138,6 +137,7 @@ test_tender_arma_lots = [
         "description": "lot description",
         "value": {"amountPercentage": 50},
         "minimalStep": {"amountPercentage": 1},
+        "minExpectedIncome": {"amount": 100000.00, "currency": "UAH", "valueAddedTaxIncluded": True},
     }
 ]
 

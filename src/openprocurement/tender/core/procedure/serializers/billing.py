@@ -40,5 +40,4 @@ class BillingTenderSerializer(BaseUIDSerializer):
         "awards",
         "contracts",
         "qualifications",
-        "minExpectedIncome",
     }

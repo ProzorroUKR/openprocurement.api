@@ -945,5 +945,4 @@ test_docs_tender_complex_assets_arma = {
     "procuringEntity": test_docs_arma_procuring_entity,
     "items": test_docs_items_en,
     "mainProcurementCategory": "services",
-    "minExpectedIncome": {"amount": 100000.00, "currency": "UAH"},
 }

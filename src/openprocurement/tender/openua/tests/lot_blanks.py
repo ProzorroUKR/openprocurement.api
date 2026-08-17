@@ -281,7 +281,7 @@ def get_tender_lot(self):
     result.pop("auctionPeriod", None)
     self.assertEqual(
         set(result),
-        {"status", "date", "description", "title", "minimalStep", "value", "id"},
+        {"status", "date", "id"} | set(self.test_lots_data[0]),
     )
 
     self.set_status("active.qualification")
@@ -322,7 +322,7 @@ def get_tender_lots(self):
     result.pop("auctionPeriod", None)
     self.assertEqual(
         set(result),
-        {"status", "description", "date", "title", "minimalStep", "value", "id"},
+        {"status", "date", "id"} | set(self.test_lots_data[0]),
     )
 
     self.set_status("active.qualification")

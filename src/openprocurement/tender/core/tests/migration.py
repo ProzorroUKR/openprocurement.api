@@ -31,3 +31,7 @@ test_0039_add_uri_to_cause_details = create_collection_migration_test(
 test_0040_add_scheme_to_contract_change_rationale_types = create_collection_migration_test(
     "openprocurement.tender.core.migrations.0040_add_scheme_to_contract_change_rationale_types.Migration"
 )
+
+test_0041_remove_arma_tender_min_expected_income = create_collection_migration_test(
+    "openprocurement.tender.core.migrations.0041_remove_arma_tender_min_expected_income.Migration"
+)
