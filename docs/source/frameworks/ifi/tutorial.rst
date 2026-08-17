@@ -262,17 +262,7 @@
 
 Рішення можливо відмінити лише у статусі `pending`.
 
-Перед відміною рішення необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час відміни, ми побачимо помилку:
-
-.. http:example:: tutorial/evaluation-reports-document-required-for-cancelling.http
-   :code:
-
-Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
-
-.. http:example:: tutorial/add-evaluation-reports-document-for-cancelling.http
-   :code:
-
-Тепер можна відмінити рішення по заявці:
+Для `internationalFinancialInstitutions` накладання підпису на рішення не є обов'язковим, тому файл підпису не вимагається і не блокує зміну статусу. Відмінити рішення по заявці можна одразу:
 
 .. http:example:: tutorial/unsuccessful-qualification.http
    :code:
@@ -289,12 +279,7 @@
 
 Рішення можливо погодити лише у статусі `pending`.
 
-Перед погодженням необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час активації, ми побачимо помилку:
-
-.. http:example:: tutorial/evaluation-reports-document-required.http
-   :code:
-
-Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:
+Для `internationalFinancialInstitutions` накладання підпису не є обов'язковим, але за бажанням замовник може додати файл підпису до рішення. Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`:
 
 .. http:example:: tutorial/add-evaluation-reports-document.http
    :code:

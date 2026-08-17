@@ -23,7 +23,6 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
     patch_qualification_unsuccessful,
     patch_submission_pending,
     put_qualification_document,
-    qualification_evaluation_reports_documents,
     qualification_fields,
     qualification_not_found,
     qualification_token_invalid,
@@ -34,6 +33,11 @@ from openprocurement.framework.ifi.tests.base import (
     test_framework_ifi_data,
     test_submission_config,
     test_submission_data,
+)
+from openprocurement.framework.ifi.tests.qualification_blanks import (
+    qualification_active_without_documents,
+    qualification_evaluation_reports_documents_quantity,
+    qualification_unsuccessful_without_documents,
 )
 
 test_mocked_framework_ifi_config = deepcopy(test_framework_ifi_config)
@@ -61,7 +65,11 @@ class QualificationResourceTest(SubmissionContentWebTest):
     test_get_qualification = snitch(get_qualification)
     test_qualification_fields = snitch(qualification_fields)
     test_active_qualification_changes_atomic = snitch(active_qualification_changes_atomic)
-    test_qualification_evaluation_reports_documents = snitch(qualification_evaluation_reports_documents)
+    test_qualification_active_without_documents = snitch(qualification_active_without_documents)
+    test_qualification_unsuccessful_without_documents = snitch(qualification_unsuccessful_without_documents)
+    test_qualification_evaluation_reports_documents_quantity = snitch(
+        qualification_evaluation_reports_documents_quantity
+    )
 
     test_date_qualification = snitch(date_qualification)
     test_dateModified_qualification = snitch(dateModified_qualification)

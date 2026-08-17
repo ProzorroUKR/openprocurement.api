@@ -229,14 +229,8 @@ msgstr "Canceled qualification"
 msgid "Рішення можливо відмінити лише у статусі `pending`."
 msgstr "Qualification can be cancelled only in `pending` status."
 
-msgid "Перед відміною рішення необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час відміни, ми побачимо помилку:"
-msgstr "Before cancelling qualification it is required to add sign document to qualification. If there is no sign document during cancelling, we will see an error:"
-
-msgid "Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`. Додамо такий документ:"
-msgstr "Sign document should have `documentType: evaluationReports` and `title: *.p7s`. Let's add such document:"
-
-msgid "Тепер можна відмінити рішення по заявці:"
-msgstr "Then it is allowed to cancel qualification:"
+msgid "Для `internationalFinancialInstitutions` накладання підпису на рішення не є обов'язковим, тому файл підпису не вимагається і не блокує зміну статусу. Відмінити рішення по заявці можна одразу:"
+msgstr "For `internationalFinancialInstitutions` signing the decision is not mandatory, so the sign document is not required and does not block the status change. Qualification can be cancelled right away:"
 
 msgid "Після відміни рішення, пов'язана завявка змінює статус з `active` на `complete`."
 msgstr "After cancelling qualification, related submission changed status from `active` to `complete`."
@@ -250,8 +244,8 @@ msgstr "Approve qualification"
 msgid "Рішення можливо погодити лише у статусі `pending`."
 msgstr "Qualification can be approved only in `pending` status."
 
-msgid "Перед погодженням необхідно додати файл підпису до кваліфікації. Якщо нема файлу підпису під час активації, ми побачимо помилку:"
-msgstr "Before activating qualification it is required to add sign document to qualification. If there is no sign document during activation, we will see an error:"
+msgid "Для `internationalFinancialInstitutions` накладання підпису не є обов'язковим, але за бажанням замовник може додати файл підпису до рішення. Файл підпису повинен мати `documentType: evaluationReports` та `title: *.p7s`:"
+msgstr "For `internationalFinancialInstitutions` signing is not mandatory, but the procuring entity may optionally add a sign document to the decision. The sign document should have `documentType: evaluationReports` and `title: *.p7s`:"
 
 msgid "Тепер можна підтвердити рішення по заявці:"
 msgstr "Then it is allowed to activate qualification:"
@@ -282,4 +276,3 @@ msgstr "Framework is completed automatically at `qualificationPeriod.endDate` mo
 
 msgid "PATCH запит з новим значенням `qualificationPeriod.endDate` дозволяє завершити фрейморк раніше запланованого часу, але не раніше 30 повних календарних днів з моменту зміни `qualificationPeriod.endDate`."
 msgstr "PATCH with new `qualificationPeriod.endDate` allow to complete framework earlier than was planned, but not earlier than 30 full calendar days from change moment."
-
