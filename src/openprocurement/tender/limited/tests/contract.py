@@ -123,7 +123,7 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderContentWebTest):
 
 class TenderNegotiationContractResourceTest(TenderContractResourceTest):
     initial_data = test_tender_negotiation_data
-    stand_still_period_days = 10
+    stand_still_period_days = 5
     initial_config = test_tender_negotiation_config
 
     test_patch_tender_contract = snitch(patch_tender_negotiation_econtract)
@@ -170,7 +170,7 @@ class TenderNegotiationLotContractResourceTest(TenderNegotiationLotMixin, Tender
     initial_status = "active"
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
-    stand_still_period_days = 10
+    stand_still_period_days = 5
     initial_lots = test_lots
 
     test_activate_contract_cancelled_lot = snitch(activate_contract_cancelled_lot)
@@ -244,7 +244,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
 class TenderNegotiationQuickContractResourceTest(TenderNegotiationContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
-    stand_still_period_days = 5
+    stand_still_period_days = 3
 
 
 class TenderNegotiationQuickLotContractResourceTest(
@@ -252,7 +252,7 @@ class TenderNegotiationQuickLotContractResourceTest(
 ):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
-    stand_still_period_days = 5
+    stand_still_period_days = 3
 
 
 class TenderContractMultiBuyersResourceTest(BaseTenderContentWebTest):
@@ -300,7 +300,7 @@ class TenderReportingEContractResourceTest(
 class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTest):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
-    stand_still_period_days = 10
+    stand_still_period_days = 5
 
     test_patch_tender_econtract = snitch(patch_tender_negotiation_econtract)
 
@@ -308,7 +308,7 @@ class TenderNegotiationEContractResourceTest(TenderReportingEContractResourceTes
 class TenderNegotiationQuickEContractResourceTest(TenderNegotiationEContractResourceTest):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
-    stand_still_period_days = 5
+    stand_still_period_days = 3
 
 
 class TenderReportingEContractMultiBuyersResourceTest(

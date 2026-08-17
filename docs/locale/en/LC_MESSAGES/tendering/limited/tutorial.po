@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-12 16:01+0300\n"
+"POT-Creation-Date: 2026-08-17 13:50+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -119,13 +119,16 @@ msgstr ""
 msgid "Набір можливих значень конфігурації для `negotiation`:"
 msgstr "The set of possible configuration values for `negotiation`:"
 
+msgid "5"
+msgstr ""
+
 msgid "10"
 msgstr ""
 
 msgid "Набір можливих значень конфігурації для `negotiation.quick`:"
 msgstr "The set of possible configuration values for `negotiation.quick`:"
 
-msgid "5"
+msgid "3"
 msgstr ""
 
 msgid "Ви можете ознайомитись з деталями в секції :ref:`config`."
@@ -356,14 +359,14 @@ msgstr "Sign document should have `documentType: notice` and `title: *.p7s`. Let
 msgid "Тепер замовник повинен підтвердити своє рішення про визначення переможця:"
 msgstr "Let's confirm **negotiation** procedure:"
 
-msgid "Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 10 днів."
-msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 10 days."
+msgid "Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 5 днів."
+msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 5 days."
 
 msgid "Підтвердження визначення переможця для **переговорної процедури за нагальною потребою** процедури:"
 msgstr "Award confirmation for **negotiation.quick** procedure:"
 
-msgid "Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної процедури за нагальною потребою** становить 5 днів."
-msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation.quick** is 5 days."
+msgid "Різниця між початковою ( ``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної процедури за нагальною потребою** становить 3 днів."
+msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation.quick** is 3 days."
 
 msgid "Налаштування угоди"
 msgstr "Setting Contract"
@@ -529,3 +532,4 @@ msgstr "Activating the request and cancelling tender"
 
 msgid "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично змінює статус на `active`."
 msgstr "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
+

@@ -76,7 +76,7 @@ Content-Type: application/json
     "lotID": "3492d7514b1c430291582eba0c49c4f1",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-06T00:00:00+02:00"
+      "endDate": "2027-01-04T00:00:00+02:00"
     }
   }
 }

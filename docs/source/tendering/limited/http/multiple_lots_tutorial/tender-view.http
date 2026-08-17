@@ -242,7 +242,7 @@ Content-Type: application/json
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
-    "awardComplainDuration": 5,
+    "awardComplainDuration": 3,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
