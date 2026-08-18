@@ -21,6 +21,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     create_tender,
     create_tender_central,
     create_tender_invalid_config,
+    create_tender_vat_inherited_from_dialogue,
     dateModified_tender,
     first_bid_tender,
     get_tender,
@@ -91,6 +92,7 @@ class CompetitiveDialogStage2EUResourceTest(BaseCompetitiveDialogEUStage2WebTest
     test_patch_not_author = snitch(patch_not_author)
     test_tender_funders = snitch(tender_funders)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
+    test_create_tender_vat_inherited_from_dialogue = snitch(create_tender_vat_inherited_from_dialogue)
 
 
 class TenderStage2UAResourceTest(BaseCompetitiveDialogUAStage2WebTest):

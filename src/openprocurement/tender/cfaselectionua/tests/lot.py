@@ -13,6 +13,7 @@ from openprocurement.tender.cfaselectionua.tests.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
     patch_lot_guarantee_on_active_enquiries,
+    patch_lot_vat_inherited_from_root_tender,
     patch_tender_bid,
     patch_tender_currency,
     patch_tender_lot,
@@ -144,6 +145,29 @@ class TenderLotProcessTest(BaseTenderWebTest, TenderLotProcessTestMixin):
     # test_proc_2lot_2bid_2com_2win = snitch(proc_2lot_2bid_2com_2win)
     # test_proc_2lot_1feature_2bid_2com_2win = snitch(proc_2lot_1feature_2bid_2com_2win)
     # test_proc_2lot_2diff_bids_check_auction = snitch(proc_2lot_2diff_bids_check_auction)
+
+
+class TenderLotVATInheritedFromRootTenderTest(TenderContentWebTest):
+    """Agreement signed on a pre-release cfaua tender carries valueAddedTaxIncluded=true
+    into this tender, where nobody can edit it anymore. See CS-21518."""
+
+    initial_status = "active.enquiries"
+    initial_lots = test_tender_cfaselectionua_lots
+
+    def calculate_agreement_contracts_value_amount(self, agreement, items):
+        super().calculate_agreement_contracts_value_amount(agreement, items)
+        self.root_tender_id = agreement["tender_id"]
+        for contract in agreement["contracts"]:
+            contract["value"]["valueAddedTaxIncluded"] = True
+
+    def set_root_tender_created(self, dt):
+        self.mongodb.tenders.collection.update_one(
+            {"_id": self.root_tender_id},
+            {"$set": {"revisions": [{"date": dt.isoformat()}]}},
+            upsert=True,
+        )
+
+    test_patch_lot_vat_inherited_from_root_tender = snitch(patch_lot_vat_inherited_from_root_tender)
 
 
 def suite():
