@@ -1,12 +1,14 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
+    CPV_GROUP_PREFIX_LENGTH,
     PROCUREMENT_METHOD_TYPE_TO_CAUSE_DETAILS_MAPPING,
 )
 from openprocurement.api.constants_env import (
     CAUSE_DETAILS_REQUIRED_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.procedure.validation import validate_items_classifications_prefixes
+from openprocurement.api.utils import get_tender_product, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -122,12 +124,36 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     def on_post(self, tender):
         self.validate_cause_required(tender)
         self.set_cause_details_data(tender)
+        self.validate_items_related_product(tender, {})
         super().on_post(tender)
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
         self.set_cause_details_data(after, before)
+        self.validate_items_related_product(after, before)
         super().on_patch(before, after)
+
+    def validate_items_related_product(self, after: dict, before: dict) -> None:
+        after_items_rps = {
+            item["id"]: (item["product"], item.get("classification", {}))
+            for item in after.get("items", "")
+            if "product" in item
+        }
+        before_items_rps = {
+            item["id"]: (item["product"], item.get("classification", {}))
+            for item in before.get("items", "")
+            if "product" in item
+        }
+
+        for item_id, after_rp in after_items_rps.items():
+            if not (before_rp := before_items_rps.get(item_id)) or before_rp != after_rp:
+                product = get_tender_product(get_request(), after_rp[0])
+                validate_items_classifications_prefixes(
+                    [after_rp[1]],
+                    root_classification=product.get("classification", {}),
+                    root_name="product",
+                    default_prefix_length=CPV_GROUP_PREFIX_LENGTH,
+                )
 
 
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
