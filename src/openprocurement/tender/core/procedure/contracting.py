@@ -346,16 +346,17 @@ def is_econtract(contract, buyer):
     return "contract_owner" in buyer and "contract_owner" in contract["suppliers"][0]
 
 
-def save_contracts_to_contracting(contracts, award=None):
+def prepare_contracts_to_contracting(contracts, award=None):
     tender = get_tender()
     if not award:
         award = get_award()
     request = get_request()
+    prepared = []
     for contract in deepcopy(contracts):
         buyer = get_buyer(tender, contract)
         additional_contract_data = get_additional_contract_data(request, contract, tender, award, buyer)
         if not additional_contract_data:
-            return
+            break
         contract.update(additional_contract_data)
         contract = PostContract(contract).serialize()
         contract["config"] = {
@@ -363,8 +364,20 @@ def save_contracts_to_contracting(contracts, award=None):
         }
         if is_econtract(contract, buyer):
             upload_contract_pdf_document(contract, tender)
+        prepared.append(contract)
+    return prepared
+
+
+def save_prepared_contracts_to_contracting(contracts):
+    request = get_request()
+    for contract in contracts:
         request_init_contract(request, contract, contract_src={})
         save_contract(request, insert=True)
+
+
+def save_contracts_to_contracting(contracts, award=None):
+    prepared = prepare_contracts_to_contracting(contracts, award)
+    save_prepared_contracts_to_contracting(prepared)
 
 
 def update_econtracts_statuses(contracts, status):
