@@ -8,13 +8,10 @@ from uuid import uuid4
 
 from bson.codec_options import CodecOptions, TypeCodec, TypeRegistry
 from bson.decimal128 import Decimal128
-from motor.motor_asyncio import (
-    AsyncIOMotorClient,
-    AsyncIOMotorClientSession,
-    AsyncIOMotorCollection,
-)
 from pydantic import BaseModel
-from pymongo import ASCENDING, DESCENDING, IndexModel, ReadPreference, ReturnDocument
+from pymongo import ASCENDING, DESCENDING, AsyncMongoClient, IndexModel, ReadPreference, ReturnDocument
+from pymongo.asynchronous.client_session import AsyncClientSession
+from pymongo.asynchronous.collection import AsyncCollection
 from pymongo.read_concern import ReadConcern
 from pymongo.write_concern import WriteConcern
 
@@ -106,7 +103,7 @@ class MongodbStore:
         )
         raw_w_concert = os.environ.get("WRITE_CONCERN", settings.get("mongodb.write_concern", "majority"))
         raw_r_concern = os.environ.get("READ_CONCERN", settings.get("mongodb.read_concern", "majority"))
-        self.connection = AsyncIOMotorClient(
+        self.connection = AsyncMongoClient(
             mongodb_uri,
             maxPoolSize=max_pool_size,
             minPoolSize=min_pool_size,
@@ -287,7 +284,7 @@ class MongodbStore:
         return obj
 
     @staticmethod
-    async def find(collection: AsyncIOMotorCollection, filters: Dict[str, Any]) -> List[Any]:
+    async def find(collection: AsyncCollection, filters: Dict[str, Any]) -> List[Any]:
         result = await collection.find(filter=filters, session=get_db_session_async()).to_list(None)
         return result
 
@@ -426,10 +423,10 @@ def get_mongodb() -> MongodbStore:
     return MongodbStore.get_instance()
 
 
-session_var: ContextVar[AsyncIOMotorClientSession] = ContextVar("session")
+session_var: ContextVar[AsyncClientSession] = ContextVar("session")
 
 
-def get_db_session_async() -> AsyncIOMotorClientSession:
+def get_db_session_async() -> AsyncClientSession:
     return session_var.get()
 
 
@@ -445,7 +442,7 @@ def reset_db_session_async(token: Token) -> None:
 async def atomic_transaction_async():
     db = get_mongodb().database
     session = get_db_session_async()
-    async with session.start_transaction(
+    async with await session.start_transaction(
         read_preference=db.read_preference,
         write_concern=db.write_concern,
         read_concern=db.read_concern,

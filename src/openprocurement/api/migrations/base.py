@@ -96,7 +96,7 @@ class BaseMigration:
 class CollectionMigration(BaseMigration):
     """Base class for database migrations with configurable collection, filter and update logic.
 
-    Abstract base for PymongoCollectionMigration (sync) and AsyncIOMotorCollectionMigration (async).
+    Abstract base for PymongoCollectionMigration (sync) and AsyncCollectionMigration (async).
 
     :ivar description: Description of the migration
     :ivar log_every: Log progress every N records

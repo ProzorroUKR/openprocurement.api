@@ -229,7 +229,7 @@ async def db_session_middleware(request, handler):
     cookie_name = "SESSION"
     warning = None
     mongodb = get_mongodb()
-    async with await mongodb.database.client.start_session(causal_consistency=True) as session:
+    async with mongodb.database.client.start_session(causal_consistency=True) as session:
         cookie = request.cookies.get(cookie_name)
         if cookie:
             try:
