@@ -20,8 +20,9 @@ get_tender_category_targets = [
     "openprocurement.tender.core.procedure.criteria.get_tender_category",
 ]
 
-get_bid_product_targets = [
+get_product_targets = [
     "openprocurement.tender.core.procedure.state.bid.get_tender_product",
+    "openprocurement.tender.limited.procedure.state.tender_details.get_tender_product",
 ]
 
 
@@ -54,7 +55,7 @@ class patch_market_product(ContextDecorator):
         self.product = product
 
     def __enter__(self):
-        self.patch = patch_multiple(get_bid_product_targets, Mock(return_value=self.product))
+        self.patch = patch_multiple(get_product_targets, Mock(return_value=self.product))
         return self.patch.__enter__()
 
     def __exit__(self, *exc_info):
@@ -98,7 +99,7 @@ class MockMarketMixin:
                 (getattr(self, "initial_profile", None) or {}).get("criteria") or []
             ),
         }
-        patch_obj = patch_multiple(get_bid_product_targets, Mock(return_value=product))
+        patch_obj = patch_multiple(get_product_targets, Mock(return_value=product))
         patch_obj.start()
         self.addCleanup(patch_obj.stop)
 

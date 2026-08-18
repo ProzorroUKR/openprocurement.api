@@ -27,15 +27,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "streetAddress": "вул. Банкова 1"
         },
         "classification": {
-          "description": "Послуги з харчування у школах",
-          "id": "55523100-3",
+          "description": "Продукти харчування різні",
+          "id": "15800000-6",
           "scheme": "ДК021"
         },
         "unit": {
           "code": "KGM",
           "name": "папір"
         },
-        "quantity": 1
+        "quantity": 1,
+        "product": "655360-30230000-889652-00000"
       }
     ],
     "procurementMethod": "limited",
@@ -243,9 +244,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
+          "description": "Продукти харчування різні",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "15800000-6"
         },
         "additionalClassifications": [
           {
@@ -264,7 +265,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "product": "655360-30230000-889652-00000"
       }
     ],
     "value": {
@@ -281,7 +283,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
       "title_en": "Subparagraph 21 of paragraph 13",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426"
     },
-    "tenderID": "UA-2027-01-01-000003-a",
+    "tenderID": "UA-2027-01-01-000004-a",
     "owner": "broker",
     "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {

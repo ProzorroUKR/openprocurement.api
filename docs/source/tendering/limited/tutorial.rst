@@ -82,7 +82,13 @@
 .. http:example:: http/tutorial/create-tender-reporting-cause-details-description-required.http
    :code:
 
-Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю:
+Також для процедури **звітування про укладений договір** є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product`.
+При цьому працює валідація на те, що товар існує в маркеті, а також валідація на співпадіння items.classification.id → product.classification.id - по 3му знаку:
+
+.. http:example:: http/tutorial/create-tender-reporting-items-with-invalid-classification.http
+   :code:
+
+Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю з посиланням на товар з маркету:
 
 .. http:example:: http/tutorial/create-tender-reporting-procuringEntity.http
    :code:

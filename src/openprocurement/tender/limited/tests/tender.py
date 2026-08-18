@@ -59,6 +59,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_set_fund_organizations,
     tender_status_change,
     tender_with_main_procurement_category,
+    tender_items_related_product,
 )
 from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing
@@ -76,6 +77,7 @@ class TenderTest(BaseTenderWebTest):
     test_tender_cause = snitch(tender_cause_reporting)
     test_reporting_contract_template_name_forbid = snitch(reporting_contract_template_name_forbid)
     test_tender_cause_change_rationale_types_update = snitch(tender_cause_change_rationale_types_update)
+    test_tender_items_related_product = snitch(tender_items_related_product)
 
 
 class TenderResourceTest(BaseTenderWebTest):

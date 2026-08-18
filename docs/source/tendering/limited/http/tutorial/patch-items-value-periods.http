@@ -15,9 +15,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 9,
         "classification": {
-          "description": "Послуги з харчування у школах",
+          "description": "Продукти харчування різні",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "15800000-6"
         },
         "additionalClassifications": [
           {
@@ -36,7 +36,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "product": "655360-30230000-889652-00000"
       }
     ]
   }
@@ -55,7 +56,7 @@ Content-Type: application/json
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
-    "tenderID": "UA-2027-01-01-000003-a",
+    "tenderID": "UA-2027-01-01-000004-a",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -252,9 +253,9 @@ Content-Type: application/json
         },
         "quantity": 9.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
+          "description": "Продукти харчування різні",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "15800000-6"
         },
         "additionalClassifications": [
           {
@@ -273,7 +274,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "product": "655360-30230000-889652-00000"
       }
     ],
     "value": {
