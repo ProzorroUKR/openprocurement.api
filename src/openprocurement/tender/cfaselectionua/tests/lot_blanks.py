@@ -2,6 +2,9 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from openprocurement.api.constants_env import (
+    EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
@@ -2840,3 +2843,35 @@ def patch_lot_guarantee_on_active_enquiries(self):
     self.assertEqual(response.status, "200 OK")
     self.assertIn("guarantee", response.json["data"])
     self.assertEqual(response.json["data"]["guarantee"], {"amount": 100500, "currency": "USD"})
+
+
+def patch_lot_vat_inherited_from_root_tender(self):
+    # value comes from the agreement, so the feature is checked against
+    # the cfaua tender the agreement was signed on, not this tender
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    lot = response.json["data"]["lots"][0]
+    self.assertTrue(lot["value"]["valueAddedTaxIncluded"])
+
+    self.set_root_tender_created(EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM - timedelta(days=1))
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+        {"data": {"guarantee": {"amount": 100500, "currency": "USD"}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    self.set_root_tender_created(EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM + timedelta(days=1))
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+        {"data": {"guarantee": {"amount": 100600, "currency": "USD"}}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "lots.value.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded should be false",
+            }
+        ],
+    )

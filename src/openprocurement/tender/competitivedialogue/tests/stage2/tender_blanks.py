@@ -5,7 +5,10 @@ from unittest import mock
 from freezegun import freeze_time
 
 from openprocurement.api.constants import ROUTE_PREFIX, TZ
-from openprocurement.api.constants_env import RELEASE_2020_04_19
+from openprocurement.api.constants_env import (
+    EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
+    RELEASE_2020_04_19,
+)
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_base_organization,
@@ -1500,3 +1503,34 @@ def first_bid_tender(self):
 def create_tender_central(self):
     with change_auth(self.app, ("Basic", ("token", ""))):
         create_tender_central_base(self)
+
+
+def create_tender_vat_inherited_from_dialogue(self):
+    # value is copied from stage1, so the feature has to be checked
+    # against the dialogue tender, not against this one
+    data = deepcopy(self.initial_data)
+    data["value"] = dict(data["value"], valueAddedTaxIncluded=True)
+
+    def set_dialogue_created(dt):
+        self.mongodb.tenders.collection.update_one(
+            {"_id": data["dialogueID"]},
+            {"$set": {"revisions": [{"date": dt.isoformat()}]}},
+            upsert=True,
+        )
+
+    set_dialogue_created(EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM - timedelta(days=1))
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+
+    set_dialogue_created(EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM + timedelta(days=1))
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "value.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded should be false",
+            }
+        ],
+    )

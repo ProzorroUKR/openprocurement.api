@@ -304,13 +304,9 @@ def request_fetch_root_tender_for_tender(request, tender_id, raise_error=True, f
             agreement = request.validated.get("agreement", {})
             root_tender_id = agreement.get("tender_id")
 
-    elif tender.get("procurementMethodType") == "competitiveDialogueEU.stage2":
-        # Fetching root (competitiveDialogueEU) tender
-        pass  # TODO: implement
-
-    elif tender.get("procurementMethodType") == "competitiveDialogueUA.stage2":
-        # Fetching root (competitiveDialogueUA) tender
-        pass  # TODO: implement
+    elif tender.get("procurementMethodType") in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
+        # Fetching root (competitiveDialogue) tender
+        root_tender_id = tender.get("dialogueID")
 
     if not root_tender_id:
         return
