@@ -20,6 +20,7 @@ CONFIDENTIAL_DOCS_CAUSES = (
     "defencePurchase",
     "stateDebtServices",
     "energyCrisisRecovery",
+    "criticalInfrastructureLifeSupportProtection",
     # negotiation
     "defenseNeeds",
 )
