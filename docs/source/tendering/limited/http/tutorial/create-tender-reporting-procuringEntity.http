@@ -121,8 +121,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "code": "defencePurchase",
-      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+      "code": "energyCrisisRecovery",
+      "description": "Здійснюється закупівля парових турбін, газопоршневих установок"
     }
   },
   "config": {
@@ -276,12 +276,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
     },
     "status": "draft",
     "causeDetails": {
-      "code": "defencePurchase",
-      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
+      "code": "energyCrisisRecovery",
+      "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
       "scheme": "DECREE1178",
-      "title": "Підпункт 21 пункту 13",
-      "title_en": "Subparagraph 21 of paragraph 13",
-      "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426"
+      "title": "Підпункт 1 пункту 9²",
+      "title_en": "Subparagraph 1 of paragraph 9²",
+      "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
     "tenderID": "UA-2027-01-01-000004-a",
     "owner": "broker",
