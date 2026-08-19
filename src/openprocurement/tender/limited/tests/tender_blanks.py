@@ -1675,7 +1675,7 @@ def tender_cause_reporting(self):
     )
 
     data["causeDetails"] = {
-        "code": "naturalGas",
+        "code": "energyCrisisRecovery",
         "scheme": "test",
     }
 
@@ -1706,7 +1706,7 @@ def tender_cause_reporting(self):
 
     # set both fields causeDetails and cause
     data["causeDetails"] = {
-        "code": "lastHope",
+        "code": "criticalInfrastructure",
         "description": "cause description",
     }
     data["cause"] = "naturalGas"
@@ -1729,7 +1729,7 @@ def tender_cause_reporting(self):
             ],
         )
 
-        data["cause"] = "lastHope"
+        data["cause"] = "criticalInfrastructure"
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         tender_id = response.json["data"]["id"]
@@ -1797,9 +1797,9 @@ def tender_cause_reporting(self):
             "code": "criticalInfrastructure",
             "scheme": "DECREE1178",
             "description": "foo",
-            "title": "Підпункт 13 пункту 13",
-            "title_en": "Subparagraph 13 of paragraph 13",
-            "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426",
+            "title": "Абзац 2 підпункту 2 пункту 9²",
+            "title_en": "Paragraph 2 of subparagraph 2 of paragraph 9²",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426",
         },
     )
 
@@ -1811,10 +1811,10 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"code": "additionalPurchase", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "legalAdvocacyServices", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["causeDetails"]["code"], "additionalPurchase")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "legalAdvocacyServices")
 
     # try to delete procurementMethodRationale in active tender without cause
     data = deepcopy(self.initial_data)
@@ -1927,7 +1927,7 @@ def tender_cause_change_rationale_types_update(self):
 
     update_data = {}
     update_data["causeDetails"] = {
-        "code": "stateLegalServices",
+        "code": "experimentalUnitNext",
         "scheme": "DECREE1178",
         "description": "test",
     }
@@ -1937,7 +1937,7 @@ def tender_cause_change_rationale_types_update(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["causeDetails"]["code"], "stateLegalServices")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "experimentalUnitNext")
     self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "DECREE1178")
 
     rationale_types = response.json["data"]["contractChangeRationaleTypes"]

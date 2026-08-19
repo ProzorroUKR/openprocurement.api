@@ -325,11 +325,8 @@
 Документи мають бути конфіденційними якщо звіт має одну з перерахованих підстав (`causeDetails.code`):
 
     * criticalInfrastructure
-    * civilProtection
-    * RNBO
-    * naturalGas
-    * UZ
-    * defencePurchase
+    * energyCrisisRecovery
+    * criticalInfrastructureLifeSupportProtection
 
 і має один з перерахованих типів документів:
 

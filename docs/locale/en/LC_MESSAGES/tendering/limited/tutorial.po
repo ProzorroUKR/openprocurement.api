@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-18 13:34+0300\n"
+"POT-Creation-Date: 2026-08-19 00:16+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -404,19 +404,10 @@ msgstr "Documents should be confidential if reporting has one ot the `causeDetai
 msgid "criticalInfrastructure"
 msgstr ""
 
-msgid "civilProtection"
+msgid "energyCrisisRecovery"
 msgstr ""
 
-msgid "RNBO"
-msgstr ""
-
-msgid "naturalGas"
-msgstr ""
-
-msgid "UZ"
-msgstr ""
-
-msgid "defencePurchase"
+msgid "criticalInfrastructureLifeSupportProtection"
 msgstr ""
 
 msgid "і має один з перерахованих типів документів:"
