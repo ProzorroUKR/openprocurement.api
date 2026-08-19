@@ -492,7 +492,7 @@ def handle_data_exceptions(request):
 
 
 @contextmanager
-def handle_store_exceptions(request, raise_error_handler=False):
+def handle_store_exceptions(request, raise_error_handler=True):
     try:
         yield
     except ModelValidationError as e:
