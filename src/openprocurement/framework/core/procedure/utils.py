@@ -106,7 +106,7 @@ def save_object(
     modified: bool = True,
     insert: bool = False,
     additional_obj_names="",
-    raise_error_handler=False,
+    raise_error_handler=True,
 ) -> bool:
     obj = request.validated[obj_name]
     obj_src = request.validated[f"{obj_name}_src"]

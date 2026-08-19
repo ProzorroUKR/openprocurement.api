@@ -91,7 +91,7 @@ def save_object(
     obj_name,
     modified: bool = True,
     insert: bool = False,
-    raise_error_handler=False,
+    raise_error_handler=True,
 ) -> bool:
     obj = request.validated[obj_name]
     old_date_modified = obj.get("dateModified", get_request_now().isoformat())
