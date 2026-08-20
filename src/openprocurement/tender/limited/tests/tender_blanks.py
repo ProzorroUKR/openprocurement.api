@@ -27,7 +27,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.limited.procedure.models.tender import (
-    VALUE_AMOUNT_THRESHOLD,
+    COMMON_VALUE_AMOUNT_THRESHOLD,
     cause_choices,
     cause_choices_new,
     cause_choices_quick,
@@ -1610,7 +1610,7 @@ def tender_cause_reporting(self):
     constant_target = "openprocurement.tender.limited.procedure.state.tender_details.CAUSE_DETAILS_REQUIRED_FROM"
     data = deepcopy(self.initial_data)
     del data["procurementMethodRationale"]
-    for category, value in VALUE_AMOUNT_THRESHOLD.items():
+    for category, value in COMMON_VALUE_AMOUNT_THRESHOLD.items():
         data["mainProcurementCategory"] = category
         data["value"]["amount"] = value
         with mock.patch(constant_target, get_now() + timedelta(days=1)):
@@ -1818,7 +1818,7 @@ def tender_cause_reporting(self):
 
     # try to delete procurementMethodRationale in active tender without cause
     data = deepcopy(self.initial_data)
-    data["value"]["amount"] = 100000
+    data["value"]["amount"] = 200000
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
