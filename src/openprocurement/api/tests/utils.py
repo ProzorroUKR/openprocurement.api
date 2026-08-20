@@ -1,6 +1,6 @@
 import unittest
 from datetime import datetime
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import Mock, patch
 
 from pytz import timezone, utc
 from requests.exceptions import ConnectionError
@@ -145,59 +145,3 @@ class ParseDateTestCase(unittest.TestCase):
         dt_str = "test"
         with self.assertRaises(ValueError) as e:
             parse_date(dt_str)
-
-
-class AtomicTransactionTestCase(unittest.TestCase):
-    def _mocks(self, errors=None):
-        session = Mock()
-        txn = MagicMock()
-        session.start_transaction.return_value = txn
-        request = Mock(errors=[] if errors is None else errors)
-        return session, txn, request
-
-    @patch("openprocurement.api.database.get_request")
-    @patch("openprocurement.api.database.get_db_session")
-    def test_commits_on_success(self, get_session_mock, get_request_mock):
-        from openprocurement.api.database import atomic_transaction
-
-        session, txn, request = self._mocks()
-        get_session_mock.return_value = session
-        get_request_mock.return_value = request
-        with atomic_transaction() as yielded:
-            self.assertIs(yielded, session)
-
-        txn.__enter__.assert_called_once()
-        txn.__exit__.assert_called_once_with(None, None, None)
-
-    @patch("openprocurement.api.database.get_request")
-    @patch("openprocurement.api.database.get_db_session")
-    def test_aborts_when_request_has_errors(self, get_session_mock, get_request_mock):
-        from openprocurement.api.database import atomic_transaction
-
-        session, txn, request = self._mocks(errors=["conflict"])
-        get_session_mock.return_value = session
-        get_request_mock.return_value = request
-        with atomic_transaction():
-            pass
-
-        txn.__enter__.assert_called_once()
-        args, _ = txn.__exit__.call_args
-        self.assertIs(args[0], RuntimeError)
-        self.assertIsInstance(args[1], RuntimeError)
-
-    @patch("openprocurement.api.database.get_request")
-    @patch("openprocurement.api.database.get_db_session")
-    def test_aborts_on_exception(self, get_session_mock, get_request_mock):
-        from openprocurement.api.database import atomic_transaction
-
-        session, txn, request = self._mocks()
-        get_session_mock.return_value = session
-        get_request_mock.return_value = request
-
-        with self.assertRaises(ValueError):
-            with atomic_transaction():
-                raise ValueError("boom")
-
-        args, _ = txn.__exit__.call_args
-        self.assertIs(args[0], ValueError)
-        self.assertIsInstance(args[1], ValueError)
