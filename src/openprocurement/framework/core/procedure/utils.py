@@ -100,14 +100,7 @@ def is_tender_owner(request, item):
 # --- ACL
 
 
-def save_object(
-    request,
-    obj_name,
-    modified: bool = True,
-    insert: bool = False,
-    additional_obj_names="",
-    raise_error_handler=True,
-) -> bool:
+def save_object(request, obj_name, modified: bool = True, insert: bool = False, additional_obj_names="") -> bool:
     obj = request.validated[obj_name]
     obj_src = request.validated[f"{obj_name}_src"]
 
@@ -122,13 +115,7 @@ def save_object(
         if i in request.validated:
             request.validated[i]["dateModified"] = get_request_now().isoformat()
 
-    return base_save_object(
-        request,
-        obj_name,
-        modified,
-        insert,
-        raise_error_handler,
-    )
+    return base_save_object(request, obj_name, modified, insert)
 
 
 def update_status_change_revision(obj, patch, date):
