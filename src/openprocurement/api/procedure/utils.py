@@ -86,16 +86,10 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
             changes.append(x)
 
 
-def save_object(
-    request,
-    obj_name,
-    modified: bool = True,
-    insert: bool = False,
-    raise_error_handler=True,
-) -> bool:
+def save_object(request, obj_name, modified: bool = True, insert: bool = False) -> bool:
     obj = request.validated[obj_name]
     old_date_modified = obj.get("dateModified", get_request_now().isoformat())
-    with handle_store_exceptions(request, raise_error_handler=raise_error_handler):
+    with handle_store_exceptions(request):
         collection = getattr(request.registry.mongodb, f"{obj_name}s")
         collection.save(obj, insert=insert, modified=modified)
         LOGGER.info(
