@@ -7,9 +7,8 @@ from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.contracting import (
-    prepare_contracts_to_contracting,
-    save_prepared_contracts_to_contracting,
-    update_econtracts_statuses,
+    prepare_tender_contracting_changes,
+    save_tender_contracting_changes,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.award import PostAward
@@ -132,19 +131,11 @@ class TenderAwardResource(TenderBaseResource):
             self.state.award_on_patch(award, updated)
             self.state.always(self.request.validated["tender"])
 
-            # HTTP (PDF render) must not run inside the Mongo transaction —
-            # an idle txn is aborted by the server (NoSuchTransaction).
-            prepared_contracts = None
-            if contracts_added := self.request.validated.get("contracts_added"):
-                prepared_contracts = prepare_contracts_to_contracting(contracts_added, award)
+            prepared_contracts = prepare_tender_contracting_changes(self.request, tender, award=award)
 
             with atomic_transaction():
                 if save_tender(self.request):
-                    if prepared_contracts:
-                        save_prepared_contracts_to_contracting(prepared_contracts)
-
-                    if contracts_cancelled := self.request.validated.get("contracts_cancelled"):
-                        update_econtracts_statuses(contracts_cancelled, "cancelled")
+                    save_tender_contracting_changes(self.request, prepared_contracts)
 
                     self.LOGGER.info(
                         "Updated tender award {}".format(award["id"]),
