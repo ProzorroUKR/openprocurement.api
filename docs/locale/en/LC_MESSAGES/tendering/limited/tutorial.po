@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-17 13:50+0300\n"
+"POT-Creation-Date: 2026-08-18 13:34+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -212,8 +212,11 @@ msgstr "Field `code` is required, that's why it is forbidden to add only `causeD
 msgid "І навпаки поле `description` обов'язкове для заповнення, якщо вказане `causeDetails.code`:"
 msgstr "Vice versa field `description` is required, if `causeDetails.code` is set:"
 
-msgid "Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю:"
-msgstr "Let's add `causeDetails` and then create a tender:"
+msgid "Також для процедури **звітування про укладений договір** є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product`. При цьому працює валідація на те, що товар існує в маркеті, а також валідація на співпадіння items.classification.id → product.classification.id - по 3му знаку:"
+msgstr "Also for **reporting** procedure there is a possibility to add product from market to item in `item.product`. At the same time, validation checks that the product exists in the marketplace, as well as validating that `items.classification.id` matches `product.classification.id` based on the third character:"
+
+msgid "Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю з посиланням на товар з маркету:"
+msgstr "Let's add `causeDetails` and then create a tender with item related on product from marketplace:"
 
 msgid "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - дату, що показує час, коли закупівля востаннє модифікувалась."
 msgstr "We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."

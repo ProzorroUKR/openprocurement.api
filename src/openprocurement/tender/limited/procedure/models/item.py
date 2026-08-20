@@ -1,4 +1,5 @@
 from schematics.exceptions import ValidationError
+from schematics.types import StringType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.address import Address
@@ -12,6 +13,8 @@ class Item(BaseItem):
 
 
 class ReportingItem(Item):
+    product = StringType()
+
     def validate_relatedLot(self, data, value):
         if value:
             raise ValidationError("This option is not available")
