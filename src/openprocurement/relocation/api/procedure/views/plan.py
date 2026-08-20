@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
@@ -59,16 +60,17 @@ class PlanResource(PlanBaseResource):
         transfer["usedFor"] = location
         self.request.validated["transfer"] = transfer
 
-        if save_transfer(self.request):
-            self.LOGGER.info(
-                "Updated transfer relation {}".format(transfer["_id"]),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "transfer_relation_update"}),
-            )
-
-            if save_plan(self.request):
+        with atomic_transaction():
+            if save_transfer(self.request):
                 self.LOGGER.info(
-                    "Updated ownership of plan {}".format(plan["_id"]),
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "plan_ownership_update"}),
+                    "Updated transfer relation {}".format(transfer["_id"]),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "transfer_relation_update"}),
                 )
 
-                return {"data": self.serializer_class(plan).data}
+                if save_plan(self.request):
+                    self.LOGGER.info(
+                        "Updated ownership of plan {}".format(plan["_id"]),
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "plan_ownership_update"}),
+                    )
+
+                    return {"data": self.serializer_class(plan).data}

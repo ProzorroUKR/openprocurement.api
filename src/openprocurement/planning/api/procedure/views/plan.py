@@ -6,6 +6,7 @@ from pyramid.security import Allow, Everyone
 
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -18,6 +19,7 @@ from openprocurement.api.utils import (
     context_unpack,
     json_error,
     json_view,
+    request_fetch_tender,
     request_init_plan,
     update_logging_context,
 )
@@ -27,7 +29,7 @@ from openprocurement.planning.api.procedure.models.tender import PreValidationTe
 from openprocurement.planning.api.procedure.serializers.plan import PlanSerializer
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
-from openprocurement.tender.core.procedure.utils import set_ownership
+from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 
 LOGGER = getLogger(__name__)
 
@@ -186,16 +188,18 @@ class PlanTendersResource(PlanBaseResource):
         tender_location = response.headers["Location"]
         tender_json = response.json
 
-        # update tender
-        tender = self.request.registry.mongodb.tenders.get(tender_id)
+        # update tender and plan atomically
+        request_fetch_tender(self.request, tender_id)
+        tender = self.request.validated["tender"]
         plans = [{"id": plan["_id"]}]
         tender["plans"] = plans
-        self.request.registry.mongodb.tenders.save(tender)
 
-        # save plan
         plan["tender_id"] = tender_id
         self.state.on_patch(self.request.validated["plan_src"], plan)
-        save_plan(self.request)
+
+        with atomic_transaction():
+            save_tender(self.request)
+            save_plan(self.request)
 
         self.request.response.status = 201
         self.request.response.headers["Location"] = tender_location
