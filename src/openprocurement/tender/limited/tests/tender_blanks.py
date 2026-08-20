@@ -1962,7 +1962,7 @@ def tender_items_related_product(self):
         "requests.get",
         Mock(return_value=response_404),
     ):
-        response = self.app.post_json(f"/tenders", {"data": data, "config": self.initial_config}, status=404)
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=404)
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(
             response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
@@ -1984,7 +1984,7 @@ def tender_items_related_product(self):
         "requests.get",
         Mock(return_value=response_200),
     ):
-        response = self.app.post_json(f"/tenders", {"data": data, "config": self.initial_config}, status=422)
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
         self.assertEqual(
             response.json["errors"],
             [
@@ -1997,7 +1997,7 @@ def tender_items_related_product(self):
         )
 
         data["items"][0]["classification"]["id"] = "33192230-3"
-        response = self.app.post_json(f"/tenders", {"data": data, "config": self.initial_config})
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.assertEqual(response.status, "201 Created")
         self.assertEqual(response.content_type, "application/json")
         self.assertEqual(response.json["data"]["items"][0]["product"], related_product_id)
