@@ -19,7 +19,6 @@ from openprocurement.api.views.base import (
 from openprocurement.tender.competitivedialogue.procedure.utils import (
     save_stage_2_tender,
 )
-from openprocurement.tender.core.procedure.contracting import save_tender_contracting_changes
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
 from openprocurement.tender.core.procedure.serializers.tender import (
@@ -157,7 +156,6 @@ class TendersResource(TenderBaseResource):
             self.state.on_patch(tender_src, tender)
             with atomic_transaction():
                 if save_tender(self.request):
-                    save_tender_contracting_changes(self.request)
                     if stage_2_tender := self.request.validated.get("stage_2_tender"):
                         save_stage_2_tender(stage_2_tender)
                         self.LOGGER.info(

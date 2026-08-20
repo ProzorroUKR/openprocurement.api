@@ -9,7 +9,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.contracting import add_contracts
+from openprocurement.tender.core.procedure.contracting import add_contracts, append_contracts_cancelled
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import (
@@ -190,10 +190,8 @@ class AwardStateMixing:
             if period and (not period.get("endDate") or period["endDate"] > now):
                 period["endDate"] = now
         self.set_object_status(award, "cancelled")
-
-        contracts_cancelled = self.request.validated.get("contracts_cancelled", [])
-        contracts_cancelled.extend(self.set_award_contracts_cancelled(award))
-        self.request.validated["contracts_cancelled"] = contracts_cancelled
+        contracts_cancelled = self.set_award_contracts_cancelled(award)
+        append_contracts_cancelled(self.request, contracts_cancelled)
 
     # helpers
     @classmethod

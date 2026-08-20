@@ -7,8 +7,10 @@ from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.contracting import (
-    prepare_tender_contracting_changes,
-    save_tender_contracting_changes,
+    create_contracting_contracts,
+    prepare_contracting_contracts_added,
+    prepare_contracting_contracts_cancelled,
+    save_contracting_contracts,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.award import PostAward
@@ -131,11 +133,13 @@ class TenderAwardResource(TenderBaseResource):
             self.state.award_on_patch(award, updated)
             self.state.always(self.request.validated["tender"])
 
-            prepared_contracts = prepare_tender_contracting_changes(self.request, tender, award=award)
+            prepared_contracts_added = prepare_contracting_contracts_added(self.request, tender, award=award)
+            prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
 
             with atomic_transaction():
                 if save_tender(self.request):
-                    save_tender_contracting_changes(self.request, prepared_contracts)
+                    create_contracting_contracts(prepared_contracts_added)
+                    save_contracting_contracts(prepared_contracts_cancelled)
 
                     self.LOGGER.info(
                         "Updated tender award {}".format(award["id"]),

@@ -346,7 +346,7 @@ def is_econtract(contract, buyer):
     return "contract_owner" in buyer and "contract_owner" in contract["suppliers"][0]
 
 
-def prepare_contracts_to_contracting(contracts, award=None):
+def prepare_contracts_added(contracts, award=None):
     tender = get_tender()
     if not award:
         award = get_award()
@@ -368,16 +368,21 @@ def prepare_contracts_to_contracting(contracts, award=None):
     return prepared
 
 
-def prepare_contracts_to_contracting_by_award(contracts, tender):
-    awards_by_id = {award["id"]: award for award in tender.get("awards", "")}
-    contracts_by_award = defaultdict(list)
-    for contract in contracts:
-        contracts_by_award[contract["awardID"]].append(contract)
+def prepare_contracts_cancelled(contracts):
+    request = get_request()
     prepared = []
-    for award_id, award_contracts in contracts_by_award.items():
-        award = awards_by_id.get(award_id)
-        if award:
-            prepared.extend(prepare_contracts_to_contracting(award_contracts, award))
+    for contract in contracts:
+        contract_src = get_contract_by_id(request, contract["id"], raise_error=False)
+        if not contract_src:
+            continue
+        contract_src = deepcopy(contract_src)
+        contract = deepcopy(contract_src)
+        for cancellation in contract.get("cancellations", []):
+            if cancellation["status"] == "pending" and cancellation["reasonType"] == "signingRefusal":
+                cancellation["status"] = "active"
+        contract["status"] = "cancelled"
+        contract["date"] = get_request_now().isoformat()
+        prepared.append((contract_src, contract))
     return prepared
 
 
@@ -393,46 +398,47 @@ def append_contracts_cancelled(request, contracts):
     request.validated["contracts_cancelled"] = contracts_cancelled
 
 
-def prepare_tender_contracting_changes(request, tender, award=None):
-    if contracts_added := request.validated.get("contracts_added"):
-        if award is not None:
-            return prepare_contracts_to_contracting(contracts_added, award)
-        return prepare_contracts_to_contracting_by_award(contracts_added, tender)
-    return None
+def prepare_contracting_contracts_added(request, tender, award=None):
+    contracts_added = request.validated.get("contracts_added")
+    if not contracts_added:
+        return None
+    if award is not None:
+        return prepare_contracts_added(contracts_added, award)
+    awards_by_id = {a["id"]: a for a in tender.get("awards", "")}
+    contracts_by_award = defaultdict(list)
+    for contract in contracts_added:
+        contracts_by_award[contract["awardID"]].append(contract)
+    prepared = []
+    for award_id, award_contracts in contracts_by_award.items():
+        if award := awards_by_id.get(award_id):
+            prepared.extend(prepare_contracts_added(award_contracts, award))
+    return prepared or None
 
 
-def save_tender_contracting_changes(request, prepared_contracts=None):
-    if prepared_contracts:
-        save_prepared_contracts_to_contracting(prepared_contracts)
-    if contracts_cancelled := request.validated.get("contracts_cancelled"):
-        update_econtracts_statuses(contracts_cancelled, "cancelled")
+def prepare_contracting_contracts_cancelled(request):
+    contracts_cancelled = request.validated.get("contracts_cancelled")
+    if not contracts_cancelled:
+        return None
+    prepared = prepare_contracts_cancelled(contracts_cancelled)
+    return prepared or None
 
 
-def save_prepared_contracts_to_contracting(contracts):
+def create_contracting_contracts(contracts):
+    if not contracts:
+        return
     request = get_request()
     for contract in contracts:
         request_init_contract(request, contract, contract_src={})
         save_contract(request, insert=True)
 
 
-def save_contracts_to_contracting(contracts, award=None):
-    prepared = prepare_contracts_to_contracting(contracts, award)
-    save_prepared_contracts_to_contracting(prepared)
-
-
-def update_econtracts_statuses(contracts, status):
+def save_contracting_contracts(contracts):
+    if not contracts:
+        return
     request = get_request()
-
-    for contract in contracts:
-        econtract = get_contract_by_id(request, contract["id"], raise_error=False)
-        if econtract:
-            request_init_contract(request, econtract, contract_src={})
-            for cancellation in econtract.get("cancellations", []):
-                if cancellation["status"] == "pending" and cancellation["reasonType"] == "signingRefusal":
-                    cancellation["status"] = "active"
-            econtract["status"] = status
-            econtract["date"] = get_request_now().isoformat()
-            save_contract(request)
+    for contract_src, contract in contracts:
+        request_init_contract(request, contract, contract_src=contract_src)
+        save_contract(request)
 
 
 def upload_contract_pdf_document(contract: dict, tender: dict):
