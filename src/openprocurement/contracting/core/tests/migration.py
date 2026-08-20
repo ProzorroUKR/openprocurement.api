@@ -11,3 +11,7 @@ test_0006_migrate_contract_template_name = create_collection_migration_test(
 test_0009_migrate_milestones_from_tender_to_contract = create_collection_migration_test(
     "openprocurement.contracting.core.migrations.0009_migrate_milestones_from_tender_to_contract.Migration"
 )
+
+test_0012_fix_cancelled_contract_revisions = create_collection_migration_test(
+    "openprocurement.contracting.core.migrations.0012_fix_cancelled_contract_revisions.Migration"
+)
