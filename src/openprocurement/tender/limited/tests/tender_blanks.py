@@ -1,6 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
+from unittest.mock import Mock
 from uuid import uuid4
 
 from openprocurement.api.constants import (
@@ -1947,3 +1948,117 @@ def tender_cause_change_rationale_types_update(self):
     self.assertEqual(rationale_type.keys(), rationale_type_expected.keys())
     self.assertEqual(rationale_type["scheme"], "DECREE1178")
     self.assertEqual(rationale_type["uri"], rationale_type_expected["uri"])
+
+
+def tender_items_related_product(self):
+    data = self.initial_data.copy()
+    related_product_id = "test"
+    data["items"][0]["product"] = related_product_id
+
+    response_404 = mock.Mock()
+    response_404.status_code = 404
+
+    with mock.patch(
+        "requests.get",
+        Mock(return_value=response_404),
+    ):
+        response = self.app.post_json(f"/tenders", {"data": data, "config": self.initial_config}, status=404)
+        self.assertEqual(response.status, "404 Not Found")
+        self.assertEqual(
+            response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
+        )
+
+    response_200 = Mock()
+    response_200.status_code = 200
+    response_200.json = Mock(
+        return_value={
+            "data": {
+                "id": related_product_id,
+                "classification": {"id": "33192230-3", "description": "Операційні столи", "scheme": "ДК021"},
+                "status": "hidden",  # doesn't matter which status profile has
+            }
+        }
+    )
+
+    with mock.patch(
+        "requests.get",
+        Mock(return_value=response_200),
+    ):
+        response = self.app.post_json(f"/tenders", {"data": data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "items",
+                    "description": ["CPV group of items (446) should be identical to product CPV group (331)"],
+                }
+            ],
+        )
+
+        data["items"][0]["classification"]["id"] = "33192230-3"
+        response = self.app.post_json(f"/tenders", {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["data"]["items"][0]["product"], related_product_id)
+        tender_id = response.json["data"]["id"]
+        owner_token = response.json["access"]["token"]
+        tender_items = response.json["data"]["items"]
+
+        # patch classification
+        tender_items[0]["classification"]["id"] = "09130000-9"
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}?acc_token={owner_token}",
+            {"data": {"items": tender_items}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "items",
+                    "description": ["CPV group of items (091) should be identical to product CPV group (331)"],
+                }
+            ],
+        )
+
+    # add second item without product (CBD shouldn't get object from Catalogue)
+    tender_items[0]["classification"]["id"] = "33192230-3"
+    second_item = deepcopy(tender_items[0])
+    second_item.pop("product")
+    second_item.pop("id")
+    self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={owner_token}",
+        {"data": {"items": tender_items + [second_item]}},
+    )
+
+    # add product to second item
+    with mock.patch(
+        "requests.get",
+        Mock(return_value=response_200),
+    ):
+        second_item["product"] = related_product_id
+        second_item["classification"]["id"] = "09130000-9"
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}?acc_token={owner_token}",
+            {"data": {"items": tender_items + [second_item]}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "items",
+                    "description": ["CPV group of items (091) should be identical to product CPV group (331)"],
+                }
+            ],
+        )
+
+        second_item["classification"]["id"] = "33192230-3"
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}?acc_token={owner_token}",
+            {"data": {"items": tender_items + [second_item]}},
+        )
+        self.assertEqual(response.status, "200 OK")

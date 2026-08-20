@@ -2,6 +2,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.tender.core.tests.mock import patch_market_product
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
@@ -128,11 +129,26 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
         }
 
-        with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}
-            )
-            self.assertEqual(response.status, "201 Created")
+        product_data = {
+            "classification": {"description": "Продукти харчування різні", "id": "15800000-6", "scheme": "ДК021"},
+            "id": "655360-30230000-889652-00000",
+        }
+        reporting_data["items"][0]["product"] = product_data["id"]
+        with patch_market_product(product_data):
+            with open(
+                TARGET_DIR + "tutorial/create-tender-reporting-items-with-invalid-classification.http", "w"
+            ) as self.app.file_obj:
+                self.app.post_json(
+                    "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
+                )
+
+            reporting_data["items"][0]["classification"] = product_data["classification"]
+
+            with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:
+                response = self.app.post_json(
+                    "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}
+                )
+                self.assertEqual(response.status, "201 Created")
 
         tender = response.json["data"]
         owner_token = response.json["access"]["token"]
