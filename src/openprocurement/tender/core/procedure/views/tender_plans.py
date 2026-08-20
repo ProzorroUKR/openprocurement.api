@@ -4,6 +4,7 @@ from logging import getLogger
 from cornice.resource import resource
 from schematics.exceptions import ModelValidationError, ValidationError
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
@@ -77,8 +78,8 @@ class TenderPlansResource(TenderBaseResource):
                 raise ModelValidationError({"plans": e})
 
         # save
-        save_tender(self.request)
-        if not self.request.errors:
+        with atomic_transaction():
+            save_tender(self.request)
             save_plan(self.request)
 
         data = [self.serializer_class(b).data for b in tender.get("plans", "")]
