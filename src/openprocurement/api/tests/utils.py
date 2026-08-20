@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, Mock, patch
 from pytz import timezone, utc
 from requests.exceptions import ConnectionError
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_currency_rates, get_uah_amount_from_value
 
@@ -158,8 +159,6 @@ class AtomicTransactionTestCase(unittest.TestCase):
     @patch("openprocurement.api.database.get_request")
     @patch("openprocurement.api.database.get_db_session")
     def test_commits_on_success(self, get_session_mock, get_request_mock):
-        from openprocurement.api.database import atomic_transaction
-
         session, txn, request = self._mocks()
         get_session_mock.return_value = session
         get_request_mock.return_value = request
@@ -172,8 +171,6 @@ class AtomicTransactionTestCase(unittest.TestCase):
     @patch("openprocurement.api.database.get_request")
     @patch("openprocurement.api.database.get_db_session")
     def test_aborts_when_request_has_errors(self, get_session_mock, get_request_mock):
-        from openprocurement.api.database import atomic_transaction
-
         session, txn, request = self._mocks(errors=["conflict"])
         get_session_mock.return_value = session
         get_request_mock.return_value = request
@@ -188,8 +185,6 @@ class AtomicTransactionTestCase(unittest.TestCase):
     @patch("openprocurement.api.database.get_request")
     @patch("openprocurement.api.database.get_db_session")
     def test_aborts_on_exception(self, get_session_mock, get_request_mock):
-        from openprocurement.api.database import atomic_transaction
-
         session, txn, request = self._mocks()
         get_session_mock.return_value = session
         get_request_mock.return_value = request
