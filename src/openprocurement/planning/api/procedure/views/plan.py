@@ -6,6 +6,7 @@ from pyramid.security import Allow, Everyone
 
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import ROUTE_PREFIX
+from openprocurement.api.context import get_db_session, set_db_session
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.validation import (
     unless_administrator,
@@ -179,7 +180,11 @@ class PlanTendersResource(PlanBaseResource):
             headers=headers,
         )
         sub_req.body = self.request.body
+
+        parent_db_session = get_db_session()
         response = self.request.invoke_subrequest(sub_req, use_tweens=True)
+        set_db_session(parent_db_session)
+
         if "errors" in response.json:
             self.request.response.status = response.status
             return response.json

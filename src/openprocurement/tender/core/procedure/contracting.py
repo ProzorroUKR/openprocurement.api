@@ -368,6 +368,46 @@ def prepare_contracts_to_contracting(contracts, award=None):
     return prepared
 
 
+def prepare_contracts_to_contracting_by_award(contracts, tender):
+    awards_by_id = {award["id"]: award for award in tender.get("awards", "")}
+    contracts_by_award = defaultdict(list)
+    for contract in contracts:
+        contracts_by_award[contract["awardID"]].append(contract)
+    prepared = []
+    for award_id, award_contracts in contracts_by_award.items():
+        award = awards_by_id.get(award_id)
+        if award:
+            prepared.extend(prepare_contracts_to_contracting(award_contracts, award))
+    return prepared
+
+
+def append_contracts_added(request, contracts):
+    contracts_added = request.validated.get("contracts_added", [])
+    contracts_added.extend(contracts)
+    request.validated["contracts_added"] = contracts_added
+
+
+def append_contracts_cancelled(request, contracts):
+    contracts_cancelled = request.validated.get("contracts_cancelled", [])
+    contracts_cancelled.extend(contracts)
+    request.validated["contracts_cancelled"] = contracts_cancelled
+
+
+def prepare_tender_contracting_changes(request, tender, award=None):
+    if contracts_added := request.validated.get("contracts_added"):
+        if award is not None:
+            return prepare_contracts_to_contracting(contracts_added, award)
+        return prepare_contracts_to_contracting_by_award(contracts_added, tender)
+    return None
+
+
+def save_tender_contracting_changes(request, prepared_contracts=None):
+    if prepared_contracts:
+        save_prepared_contracts_to_contracting(prepared_contracts)
+    if contracts_cancelled := request.validated.get("contracts_cancelled"):
+        update_econtracts_statuses(contracts_cancelled, "cancelled")
+
+
 def save_prepared_contracts_to_contracting(contracts):
     request = get_request()
     for contract in contracts:
