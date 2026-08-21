@@ -115,7 +115,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             )
 
         reporting_data["causeDetails"] = {
-            "code": "energyCrisisRecovery",
+            "code": "energyCrisisRecovery0109",
         }
         with open(
             TARGET_DIR + "tutorial/create-tender-reporting-cause-details-description-required.http", "w"
@@ -125,7 +125,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             )
 
         reporting_data["causeDetails"] = {
-            "code": "energyCrisisRecovery",
+            "code": "energyCrisisRecovery0109",
             "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
         }
 

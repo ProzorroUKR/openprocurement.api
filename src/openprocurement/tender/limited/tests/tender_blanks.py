@@ -1675,7 +1675,7 @@ def tender_cause_reporting(self):
     )
 
     data["causeDetails"] = {
-        "code": "energyCrisisRecovery",
+        "code": "energyCrisisRecovery0109",
         "scheme": "test",
     }
 

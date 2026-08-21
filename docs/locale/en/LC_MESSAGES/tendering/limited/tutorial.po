@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-19 00:16+0300\n"
+"POT-Creation-Date: 2026-08-21 11:37+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -149,9 +149,6 @@ msgstr ""
 msgid "social"
 msgstr ""
 
-msgid "central"
-msgstr ""
-
 msgid "general"
 msgstr ""
 
@@ -191,17 +188,32 @@ msgstr "Creating tender for reporting procedure"
 msgid "Щоб створити закупівлю за процедурою **звітування про укладений договір**, потрібно встановити значення ``reporting`` для ``procurementMethodType``."
 msgstr "To create tender for **reporting** procedure you should set ``reporting`` value for ``procurementMethodType``."
 
-msgid "Для процедури **звітування про укладений договір** додавання поля `causeDetails` до тендеру є обов’язковим, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:"
-msgstr "For **reporting** procedure there is required field `causeDetails`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than:"
+msgid "Для процедури **звітування про укладений договір** додавання поля `causeDetails` до тендеру є обов’язковим, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг."
+msgstr "For **reporting** procedure there is required field `causeDetails`. It is required if field `procurementMethodRationale` is empty, `procuringEntity.kind` is not other and tender value amount is bigger than threshold."
 
-msgid "100 000 для товарів,"
-msgstr "100 000 for goods,"
+msgid "Для замовників із kind: F —  authority, G —  social, А —  general, C —  defense:"
+msgstr "For customers with kind F —  authority, G —  social, А —  general, C —  defense:  "
+
+msgid "200 000 для товарів,"
+msgstr "200 000 for goods,"
 
 msgid "200 000 для послуг,"
 msgstr "200 000 for services,"
 
 msgid "1 500 000 для робіт."
 msgstr "1 500 000 for works."
+
+msgid "Для замовників із kind: B —  special:"
+msgstr "For customers with kind B —  special:"
+
+msgid "1 000 000 для товарів,"
+msgstr "1 000 000 for goods,"
+
+msgid "1 000 000 для послуг,"
+msgstr "1 000 000 for services,"
+
+msgid "5 000 000 для робіт."
+msgstr "5 000 000 for works."
 
 msgid "Спробуємо створити тендер з очікуваною вартістю більше ніж поріг та без поля `procurementMethodRationale`:"
 msgstr "Let's try to create tender with value amount bigger than threshold and without `procurementMethodRationale`:"
@@ -404,7 +416,28 @@ msgstr "Documents should be confidential if reporting has one ot the `causeDetai
 msgid "criticalInfrastructure"
 msgstr ""
 
+msgid "civilProtection"
+msgstr ""
+
+msgid "RNBO"
+msgstr ""
+
+msgid "naturalGas"
+msgstr ""
+
+msgid "UZ"
+msgstr ""
+
+msgid "defencePurchase"
+msgstr ""
+
 msgid "energyCrisisRecovery"
+msgstr ""
+
+msgid "criticalInfrastructure0109"
+msgstr ""
+
+msgid "energyCrisisRecovery0109"
 msgstr ""
 
 msgid "criticalInfrastructureLifeSupportProtection"
