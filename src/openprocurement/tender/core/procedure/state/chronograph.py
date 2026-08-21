@@ -9,8 +9,8 @@ from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
-    save_contracts_to_contracting,
-    update_econtracts_statuses,
+    append_contracts_added,
+    append_contracts_cancelled,
 )
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
@@ -318,7 +318,7 @@ class ChronographEventsMixing:
             request = get_request()
             contracts = add_contracts(request, award)
             self.add_next_award()
-            save_contracts_to_contracting(contracts, award)
+            append_contracts_added(request, contracts)
 
         return handler
 
@@ -861,7 +861,8 @@ class ChronographEventsMixing:
             if contract["status"] not in ("active", "cancelled"):
                 contracts_cancelled.append(contract)
                 self.set_object_status(contract, "cancelled")
-        update_econtracts_statuses(contracts_cancelled, "cancelled")
+        if contracts_cancelled:
+            append_contracts_cancelled(get_request(), contracts_cancelled)
 
     @staticmethod
     def remove_auction_period(obj):

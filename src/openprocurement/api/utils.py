@@ -492,7 +492,7 @@ def handle_data_exceptions(request):
 
 
 @contextmanager
-def handle_store_exceptions(request, raise_error_handler=True):
+def handle_store_exceptions(request):
     try:
         yield
     except ModelValidationError as e:
@@ -512,7 +512,7 @@ def handle_store_exceptions(request, raise_error_handler=True):
     except Exception as e:  # pragma: no cover
         LOGGER.exception(e)
         request.errors.add("body", "data", str(e))
-    if request.errors and raise_error_handler:
+    if request.errors:
         raise error_handler(request)
 
 

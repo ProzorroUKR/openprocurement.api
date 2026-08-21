@@ -1,8 +1,15 @@
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.constants import CHRONOGRAPH_PATCH_LOG_FIELDS
+from openprocurement.tender.core.procedure.contracting import (
+    create_contracting_contracts,
+    prepare_contracting_contracts_added,
+    prepare_contracting_contracts_cancelled,
+    save_contracting_contracts,
+)
 from openprocurement.tender.core.procedure.models.chronograph import (
     TenderChronographData,
 )
@@ -58,8 +65,15 @@ class TenderChronographResource(TenderBaseResource):
         else:
             self.state.always(tender)  # always updates next check and similar stuff
 
-        # 5 save
-        saved = save_tender(self.request)
+        prepared_contracts_added = prepare_contracting_contracts_added(self.request, tender)
+        prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
+
+        # 6 save
+        with atomic_transaction():
+            saved = save_tender(self.request)
+            if saved:
+                create_contracting_contracts(prepared_contracts_added)
+                save_contracting_contracts(prepared_contracts_cancelled)
 
         # prepare log context
         LOG_CONTEXT = {

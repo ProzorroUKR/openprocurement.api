@@ -2,6 +2,7 @@ from logging import getLogger
 
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
     unless_admins,
@@ -10,6 +11,10 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.core.procedure.contracting import (
+    prepare_contracting_contracts_cancelled,
+    save_contracting_contracts,
+)
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.cancellation import (
     Cancellation,
@@ -79,7 +84,14 @@ class BaseCancellationResource(TenderBaseResource):
 
         self.state.cancellation_on_post(cancellation)
 
-        if save_tender(self.request):
+        prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
+
+        with atomic_transaction():
+            saved = save_tender(self.request)
+            if saved:
+                save_contracting_contracts(prepared_contracts_cancelled)
+
+        if saved:
             LOGGER.info(
                 "Created tender cancellation {}".format(cancellation["id"]),
                 extra=context_unpack(
@@ -138,7 +150,15 @@ class BaseCancellationResource(TenderBaseResource):
                 updated,
             )
             self.state.cancellation_on_patch(cancellation, updated)
-            if save_tender(self.request):
+
+            prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
+
+            with atomic_transaction():
+                saved = save_tender(self.request)
+                if saved:
+                    save_contracting_contracts(prepared_contracts_cancelled)
+
+            if saved:
                 self.LOGGER.info(
                     f"Updated tender cancellation {cancellation['id']}",
                     extra=context_unpack(self.request, {"MESSAGE_ID": "tender_cancellation_patch"}),

@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.database import atomic_transaction
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.relocation.api.procedure.serializers.tender import (
     TransferredTenderSerializer,
@@ -60,16 +61,17 @@ class TenderResource(TenderBaseResource):
         transfer["usedFor"] = location
         self.request.validated["transfer"] = transfer
 
-        if save_transfer(self.request):
-            self.LOGGER.info(
-                "Updated transfer relation {}".format(transfer["_id"]),
-                extra=context_unpack(self.request, {"MESSAGE_ID": "transfer_relation_update"}),
-            )
-
-            if save_tender(self.request):
+        with atomic_transaction():
+            if save_transfer(self.request):
                 self.LOGGER.info(
-                    "Updated ownership of tender {}".format(tender["_id"]),
-                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_ownership_update"}),
+                    "Updated transfer relation {}".format(transfer["_id"]),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "transfer_relation_update"}),
                 )
 
-                return {"data": self.serializer_class(tender).data}
+                if save_tender(self.request):
+                    self.LOGGER.info(
+                        "Updated ownership of tender {}".format(tender["_id"]),
+                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_ownership_update"}),
+                    )
+
+                    return {"data": self.serializer_class(tender).data}

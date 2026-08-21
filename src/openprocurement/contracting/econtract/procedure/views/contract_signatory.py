@@ -34,17 +34,18 @@ class EContractsSignatoriesResource(ContractBaseResource):
     state_class = SignatoryState
 
     def save(self, **kwargs):
-        contract = self.request.validated["contract"]
-        if self.request.validated.get("contract_was_changed"):
-            if save_tender(self.request):
-                self.LOGGER.info(
-                    f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
-                    extra=context_unpack(
-                        self.request,
-                        {"MESSAGE_ID": "tender_contract_update_status"},
-                    ),
-                )
-        return save_contract(self.request, **kwargs)
+        with atomic_transaction():
+            contract = self.request.validated["contract"]
+            if self.request.validated.get("contract_was_changed"):
+                if save_tender(self.request):
+                    self.LOGGER.info(
+                        f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
+                        extra=context_unpack(
+                            self.request,
+                            {"MESSAGE_ID": "tender_contract_update_status"},
+                        ),
+                    )
+            return save_contract(self.request, **kwargs)
 
     @json_view(
         content_type="application/json",

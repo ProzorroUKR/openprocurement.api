@@ -175,7 +175,7 @@ def calculate_framework_full_date(
 def request_create_object(request, obj_name):
     if request.validated.get(obj_name) and not request.validated[f"{obj_name}_src"]:
         obj_id = request.validated[obj_name].get("_id") or request.validated[obj_name]["id"]
-        if save_object(request, obj_name, insert=True, raise_error_handler=True):
+        if save_object(request, obj_name, insert=True):
             LOGGER.info(
                 f"Created {obj_name} {obj_id}",
                 extra=context_unpack(
@@ -189,7 +189,7 @@ def request_create_object(request, obj_name):
 def request_update_object(request, obj_name):
     if request.validated.get(obj_name) and request.validated[f"{obj_name}_src"]:
         obj_id = request.validated[obj_name]["_id"]
-        if save_object(request, obj_name, raise_error_handler=True):
+        if save_object(request, obj_name):
             LOGGER.info(
                 f"Updated {obj_name} {obj_id}",
                 extra=context_unpack(request, {"MESSAGE_ID": f"{obj_name}_patch"}),

@@ -1,5 +1,4 @@
 import os
-import sys
 from contextlib import contextmanager
 from decimal import Decimal
 from logging import getLogger
@@ -488,22 +487,9 @@ class BaseCollection:
 def atomic_transaction():
     s = get_db_session()
     database = get_request().registry.mongodb.database
-    txn = s.start_transaction(
+    with s.start_transaction(
         # read_preference=database.read_preference,
         write_concern=database.write_concern,
         read_concern=database.read_concern,
-    )
-    txn.__enter__()
-    try:
+    ):
         yield s
-    except BaseException:
-        txn.__exit__(*sys.exc_info())
-        raise
-    else:
-        request = get_request()
-        if request is not None and request.errors:
-            # handle_store_exceptions may swallow a failed write; abort instead
-            # of commit to avoid NoSuchTransaction on an already-aborted txn.
-            txn.__exit__(RuntimeError, RuntimeError("transaction aborted"), None)
-        else:
-            txn.__exit__(None, None, None)
