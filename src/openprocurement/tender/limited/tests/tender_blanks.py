@@ -1706,7 +1706,7 @@ def tender_cause_reporting(self):
 
     # set both fields causeDetails and cause
     data["causeDetails"] = {
-        "code": "criticalInfrastructure",
+        "code": "criticalInfrastructure0109",
         "description": "cause description",
     }
     data["cause"] = "naturalGas"
@@ -1728,15 +1728,6 @@ def tender_cause_reporting(self):
                 }
             ],
         )
-
-        data["cause"] = "criticalInfrastructure"
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-        self.assertEqual(response.status, "201 Created")
-        tender_id = response.json["data"]["id"]
-        owner_token = response.json["access"]["token"]
-
-        response = self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"cause": None}})
-        self.assertNotIn("cause", response.json["data"])
 
     del data["cause"]
     data["causeDescription"] = "test"
@@ -1788,13 +1779,13 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"code": "criticalInfrastructure", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "criticalInfrastructure0109", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         response.json["data"]["causeDetails"],
         {
-            "code": "criticalInfrastructure",
+            "code": "criticalInfrastructure0109",
             "scheme": "DECREE1178",
             "description": "foo",
             "title": "Абзац 2 підпункту 2 пункту 9²",

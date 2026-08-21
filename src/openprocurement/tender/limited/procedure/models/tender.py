@@ -56,11 +56,11 @@ COMMON_VALUE_AMOUNT_THRESHOLD = {
 }
 
 VALUE_AMOUNT_THRESHOLD_MAPPING = {
-    ProcuringEntityKind.AUTHORITY.value: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.DEFENSE.value: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.GENERAL.value: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.SOCIAL.value: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.SPECIAL.value: {
+    ProcuringEntityKind.AUTHORITY: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.DEFENSE: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.GENERAL: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.SOCIAL: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.SPECIAL: {
         "goods": 1000000,
         "services": 1000000,
         "works": 5000000,
