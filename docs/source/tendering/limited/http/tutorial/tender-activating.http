@@ -251,7 +251,7 @@ Content-Type: application/json
     },
     "status": "active",
     "causeDetails": {
-      "code": "energyCrisisRecovery",
+      "code": "energyCrisisRecovery0109",
       "title": "Підпункт 1 пункту 9²",
       "title_en": "Subparagraph 1 of paragraph 9²",
       "scheme": "DECREE1178",

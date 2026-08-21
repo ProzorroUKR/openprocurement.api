@@ -121,8 +121,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "code": "defencePurchase",
-      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит"
+      "code": "energyCrisisRecovery0109",
+      "description": "Здійснюється закупівля парових турбін, газопоршневих установок"
     }
   },
   "config": {

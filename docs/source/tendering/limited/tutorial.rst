@@ -61,11 +61,20 @@
 
 Щоб створити закупівлю за процедурою **звітування про укладений договір**, потрібно встановити значення ``reporting`` для ``procurementMethodType``.
 
-Для процедури **звітування про укладений договір** додавання поля `causeDetails` до тендеру є обов’язковим, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг:
+Для процедури **звітування про укладений договір** додавання поля `causeDetails` до тендеру є обов’язковим, якщо поле `procurmentMethodRationale` пусте, в полі `procuringEntity.kind` вказано щось відмінне від `other` та очікувана вартість перевищує поріг.
 
-    * 100 000 для товарів,
+
+Для замовників із kind: F —  authority, G —  social, А —  general, C —  defense:
+
+    * 200 000 для товарів,
     * 200 000 для послуг,
     * 1 500 000 для робіт.
+
+Для замовників із kind: B —  special:
+
+    * 1 000 000 для товарів,
+    * 1 000 000 для послуг,
+    * 5 000 000 для робіт.
 
 Спробуємо створити тендер з очікуваною вартістю більше ніж поріг та без поля `procurementMethodRationale`:
 
@@ -325,7 +334,14 @@
 Документи мають бути конфіденційними якщо звіт має одну з перерахованих підстав (`causeDetails.code`):
 
     * criticalInfrastructure
+    * civilProtection
+    * RNBO
+    * naturalGas
+    * UZ
+    * defencePurchase
     * energyCrisisRecovery
+    * criticalInfrastructure0109
+    * energyCrisisRecovery0109
     * criticalInfrastructureLifeSupportProtection
 
 і має один з перерахованих типів документів:
