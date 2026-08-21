@@ -29,7 +29,7 @@ now = get_now()
 test_tender_open_data = test_tender_below_data.copy()
 test_tender_open_data["procurementMethodType"] = ABOVE_THRESHOLD
 del test_tender_open_data["enquiryPeriod"]
-test_tender_open_data["tenderPeriod"] = {"endDate": (now + timedelta(days=8)).isoformat()}
+test_tender_open_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_tender_open_data["items"] = [
     {
         "description": "футляри до державних нагород",
@@ -74,7 +74,7 @@ test_tender_open_three_bids.append(
 test_tender_open_features_data = test_tender_below_features_data.copy()
 test_tender_open_features_data["procurementMethodType"] = ABOVE_THRESHOLD
 del test_tender_open_features_data["enquiryPeriod"]
-test_tender_open_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=8)).isoformat()}
+test_tender_open_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
 test_tender_open_features_data["items"][0]["deliveryDate"] = test_tender_open_data["items"][0]["deliveryDate"]
 test_tender_open_features_data["items"][0]["deliveryAddress"] = test_tender_open_data["items"][0]["deliveryAddress"]
 
@@ -103,7 +103,7 @@ test_tender_open_config = {
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
-    "minTenderingDuration": 7,
+    "minTenderingDuration": 15,
     "hasEnquiries": False,
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 3,

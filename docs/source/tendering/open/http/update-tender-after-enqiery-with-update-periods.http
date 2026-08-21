@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "currency": "UAH"
     },
     "tenderPeriod": {
-      "startDate": "2026-12-25T00:00:00+02:00",
+      "startDate": "2026-12-17T00:00:00+02:00",
       "endDate": "2027-01-09T00:00:00+02:00"
     }
   }
@@ -1171,19 +1171,19 @@ Content-Type: application/json
       }
     ],
     "complaintPeriod": {
-      "startDate": "2026-12-25T00:00:00+02:00",
+      "startDate": "2026-12-17T00:00:00+02:00",
       "endDate": "2027-01-06T00:00:00+02:00"
     },
     "status": "active.tendering",
     "procurementMethodType": "aboveThreshold",
     "enquiryPeriod": {
-      "startDate": "2026-12-25T00:00:00+02:00",
+      "startDate": "2026-12-17T00:00:00+02:00",
       "endDate": "2027-01-06T00:00:00+02:00",
       "clarificationsUntil": "2027-01-09T00:00:00+02:00",
       "invalidationDate": "2027-01-01T00:00:00+02:00"
     },
     "tenderPeriod": {
-      "startDate": "2026-12-25T00:00:00+02:00",
+      "startDate": "2026-12-17T00:00:00+02:00",
       "endDate": "2027-01-09T00:00:00+02:00"
     },
     "items": [
@@ -1276,7 +1276,7 @@ Content-Type: application/json
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
     "qualificationDuration": 0,
-    "minTenderingDuration": 7,
+    "minTenderingDuration": 15,
     "hasEnquiries": false,
     "minEnquiriesDuration": 0,
     "enquiryPeriodRegulation": 3,
