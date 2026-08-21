@@ -712,7 +712,7 @@ def patch_tender(self):
             {
                 "location": "body",
                 "name": "tenderPeriod",
-                "description": ["tenderPeriod must be at least 7 full calendar days long"],
+                "description": ["tenderPeriod must be at least 15 full calendar days long"],
             }
         ],
     )

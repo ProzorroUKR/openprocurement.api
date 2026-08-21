@@ -1188,7 +1188,7 @@ Content-Type: application/json
     },
     "tenderPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-09T00:00:00+02:00"
+      "endDate": "2027-01-17T00:00:00+02:00"
     },
     "lots": [
       {

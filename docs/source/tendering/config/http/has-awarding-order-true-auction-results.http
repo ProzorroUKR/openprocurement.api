@@ -1188,7 +1188,7 @@ Content-Type: application/json
       "amount": 1000.0
     },
     "tenderPeriod": {
-      "startDate": "2026-12-24T00:00:00+02:00",
+      "startDate": "2026-12-16T00:00:00+02:00",
       "endDate": "2027-01-01T00:00:00+02:00"
     },
     "lots": [
