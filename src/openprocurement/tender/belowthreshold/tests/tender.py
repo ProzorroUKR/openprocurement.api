@@ -14,6 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_config,
 )
 from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+    block_switch_to_pre_qualification,
     check_minimal_step_during_activation,
     check_notice_doc_during_activation,
     contract_template_name_set,
@@ -138,6 +139,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
     test_guarantee = snitch(guarantee)
     test_tender_inspector = snitch(tender_inspector)
+    test_block_switch_to_pre_qualification = snitch(block_switch_to_pre_qualification)
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
     test_validate_enquiry_period = snitch(validate_enquiry_period)

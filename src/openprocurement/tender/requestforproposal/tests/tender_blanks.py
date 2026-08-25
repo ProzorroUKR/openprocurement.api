@@ -1421,3 +1421,78 @@ def tender_finance_milestones(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["milestones"][-1]["title"], new_title)
+
+
+def block_switch_to_pre_qualification_when_disabled(self):
+    # self.initial_config has hasPrequalification=False, so the status is never used at all
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["config"]["hasPrequalification"], False)
+    token = response.json["access"]["token"]
+    self.tender_id = response.json["data"]["id"]
+    self.set_status("active.enquiries")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={token}",
+        {"data": {"status": "active.pre-qualification"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't switch to 'active.pre-qualification' from active.enquiries",
+            }
+        ],
+    )
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")
+
+
+def block_switch_to_pre_qualification_when_enabled(self):
+    # hasPrequalification=True is allowed for this procedure, but switching to
+    # 'active.pre-qualification' is still up to the chronograph, which also creates qualifications
+    config = deepcopy(self.initial_config)
+    config["hasPrequalification"] = True
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["config"]["hasPrequalification"], True)
+    token = response.json["access"]["token"]
+    self.tender_id = response.json["data"]["id"]
+    self.set_status("active.enquiries")
+
+    expected_errors = [
+        {
+            "location": "body",
+            "name": "data",
+            "description": "Can't switch to 'active.pre-qualification' from active.enquiries",
+        }
+    ]
+
+    # enquiryPeriod/tenderPeriod are still open
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={token}",
+        {"data": {"status": "active.pre-qualification"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    # and when both periods are already over as well
+    self.set_status("active.pre-qualification", extra={"status": "active.enquiries"})
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={token}",
+        {"data": {"status": "active.pre-qualification"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")
+    self.assertNotIn("qualifications", response.json["data"])

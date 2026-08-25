@@ -840,6 +840,14 @@ class BaseTenderDetailsMixing:
                     get_request(),
                     "Can't switch to 'active.pre-qualification' before resolve all complaints",
                 )
+        elif after["status"] == "active.pre-qualification":
+            # tendering is ended by the chronograph (see tendering_end_handler), which gates on
+            # hasPrequalification/tenderPeriod.endDate and creates qualifications along the way,
+            # so the only manual switch to this status is the one from stand-still handled above
+            raise_operation_error(
+                get_request(),
+                f"Can't switch to 'active.pre-qualification' from {before['status']}",
+            )
 
     @staticmethod
     def all_bids_are_reviewed(tender):

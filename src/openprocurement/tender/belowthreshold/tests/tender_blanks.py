@@ -5291,3 +5291,33 @@ def tender_contract_change_rationale_types(self):
     ):
         response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
         self.assertNotIn("contractChangeRationaleTypes", response.json["data"])
+
+
+def block_switch_to_pre_qualification(self):
+    # belowThreshold has no prequalification at all (config.hasPrequalification is always False)
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["config"]["hasPrequalification"], False)
+    token = response.json["access"]["token"]
+    self.tender_id = response.json["data"]["id"]
+    self.set_status("active.enquiries")
+
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}?acc_token={token}",
+        {"data": {"status": "active.pre-qualification"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't switch to 'active.pre-qualification' from active.enquiries",
+            }
+        ],
+    )
+
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    self.assertEqual(response.json["data"]["status"], "active.enquiries")

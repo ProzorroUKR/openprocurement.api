@@ -63,6 +63,8 @@ from openprocurement.tender.requestforproposal.tests.base import (
     test_tender_rfp_lots,
 )
 from openprocurement.tender.requestforproposal.tests.tender_blanks import (
+    block_switch_to_pre_qualification_when_disabled,
+    block_switch_to_pre_qualification_when_enabled,
     check_notice_doc_during_activation,
     create_tender_has_multi_sourcing_with_auction,
     create_tender_invalid,
@@ -158,6 +160,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_create_tender_with_estimated_value = snitch(create_tender_with_estimated_value)
     test_create_tender_without_estimated_value = snitch(create_tender_without_estimated_value)
     test_check_notice_doc_during_activation = snitch(check_notice_doc_during_activation)
+    test_block_switch_to_pre_qualification_when_disabled = snitch(block_switch_to_pre_qualification_when_disabled)
+    test_block_switch_to_pre_qualification_when_enabled = snitch(block_switch_to_pre_qualification_when_enabled)
 
 
 @patch(
