@@ -23,7 +23,6 @@ class ViolationReportReason(StrEnum):
 class ViolationReportResolution(StrEnum):
     satisfied = "satisfied"
     declinedNoViolation = "declinedNoViolation"
-    declinedLackEvidence = "declinedLackEvidence"
 
 
 class DraftActiveObjectStatus(StrEnum):
