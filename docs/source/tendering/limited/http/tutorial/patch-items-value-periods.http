@@ -285,12 +285,12 @@ Content-Type: application/json
     },
     "status": "active",
     "causeDetails": {
-      "code": "defencePurchase",
-      "title": "Підпункт 21 пункту 13",
-      "title_en": "Subparagraph 21 of paragraph 13",
+      "code": "energyCrisisRecovery0109",
+      "title": "Підпункт 1 пункту 9²",
+      "title_en": "Subparagraph 1 of paragraph 9²",
       "scheme": "DECREE1178",
-      "description": "Задоволення нагальних потреб Збройних Сил, інших військових формувань та правоохоронних органів на їх запит",
-      "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426"
+      "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
+      "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
     "id": "3f2cabf45461412fa1b382f25474ef88"
   },

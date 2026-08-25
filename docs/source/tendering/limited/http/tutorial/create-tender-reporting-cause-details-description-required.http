@@ -120,7 +120,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "code": "defencePurchase"
+      "code": "energyCrisisRecovery0109"
     }
   },
   "config": {

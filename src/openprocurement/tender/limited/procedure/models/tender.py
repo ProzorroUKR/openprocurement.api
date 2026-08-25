@@ -8,6 +8,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_uniq_id
@@ -48,23 +49,38 @@ from openprocurement.tender.limited.procedure.models.organization import (
 )
 from openprocurement.tender.openua.procedure.models.item import Item
 
-VALUE_AMOUNT_THRESHOLD = {
-    "goods": 100000,
+COMMON_VALUE_AMOUNT_THRESHOLD = {
+    "goods": 200000,
     "services": 200000,
     "works": 1500000,
 }
 
+VALUE_AMOUNT_THRESHOLD_MAPPING = {
+    ProcuringEntityKind.AUTHORITY: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.DEFENSE: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.GENERAL: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.SOCIAL: COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.SPECIAL: {
+        "goods": 1000000,
+        "services": 1000000,
+        "works": 5000000,
+    },
+}
+
 
 def reporting_cause_is_required(data):
+    procedure_kind = data.get("procuringEntity", {}).get("kind")
     return all(
         [
-            data.get("procuringEntity", {}).get("kind") != "other",
+            procedure_kind != "other",
             not data.get("procurementMethodRationale"),
             (
                 data.get("value")
                 and data["value"].get("amount")
                 and data.get("mainProcurementCategory")
-                and data["value"]["amount"] >= VALUE_AMOUNT_THRESHOLD[data["mainProcurementCategory"]]
+                and VALUE_AMOUNT_THRESHOLD_MAPPING.get(procedure_kind)
+                and data["value"]["amount"]
+                >= VALUE_AMOUNT_THRESHOLD_MAPPING[procedure_kind][data["mainProcurementCategory"]]
             ),
         ]
     )

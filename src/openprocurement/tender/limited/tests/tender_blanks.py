@@ -27,7 +27,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.limited.procedure.models.tender import (
-    VALUE_AMOUNT_THRESHOLD,
+    COMMON_VALUE_AMOUNT_THRESHOLD,
     cause_choices,
     cause_choices_new,
     cause_choices_quick,
@@ -1610,7 +1610,7 @@ def tender_cause_reporting(self):
     constant_target = "openprocurement.tender.limited.procedure.state.tender_details.CAUSE_DETAILS_REQUIRED_FROM"
     data = deepcopy(self.initial_data)
     del data["procurementMethodRationale"]
-    for category, value in VALUE_AMOUNT_THRESHOLD.items():
+    for category, value in COMMON_VALUE_AMOUNT_THRESHOLD.items():
         data["mainProcurementCategory"] = category
         data["value"]["amount"] = value
         with mock.patch(constant_target, get_now() + timedelta(days=1)):
@@ -1675,7 +1675,7 @@ def tender_cause_reporting(self):
     )
 
     data["causeDetails"] = {
-        "code": "naturalGas",
+        "code": "energyCrisisRecovery0109",
         "scheme": "test",
     }
 
@@ -1706,7 +1706,7 @@ def tender_cause_reporting(self):
 
     # set both fields causeDetails and cause
     data["causeDetails"] = {
-        "code": "lastHope",
+        "code": "criticalInfrastructure0109",
         "description": "cause description",
     }
     data["cause"] = "naturalGas"
@@ -1728,15 +1728,6 @@ def tender_cause_reporting(self):
                 }
             ],
         )
-
-        data["cause"] = "lastHope"
-        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-        self.assertEqual(response.status, "201 Created")
-        tender_id = response.json["data"]["id"]
-        owner_token = response.json["access"]["token"]
-
-        response = self.app.patch_json(f"/tenders/{tender_id}?acc_token={owner_token}", {"data": {"cause": None}})
-        self.assertNotIn("cause", response.json["data"])
 
     del data["cause"]
     data["causeDescription"] = "test"
@@ -1788,18 +1779,18 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"code": "criticalInfrastructure", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "criticalInfrastructure0109", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(
         response.json["data"]["causeDetails"],
         {
-            "code": "criticalInfrastructure",
+            "code": "criticalInfrastructure0109",
             "scheme": "DECREE1178",
             "description": "foo",
-            "title": "Підпункт 13 пункту 13",
-            "title_en": "Subparagraph 13 of paragraph 13",
-            "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF#n426",
+            "title": "Абзац 2 підпункту 2 пункту 9²",
+            "title_en": "Paragraph 2 of subparagraph 2 of paragraph 9²",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426",
         },
     )
 
@@ -1811,14 +1802,14 @@ def tender_cause_reporting(self):
 
     response = self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
-        {"data": {"causeDetails": {"code": "additionalPurchase", "scheme": "LAW922", "description": "foo"}}},
+        {"data": {"causeDetails": {"code": "legalAdvocacyServices", "scheme": "LAW922", "description": "foo"}}},
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["causeDetails"]["code"], "additionalPurchase")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "legalAdvocacyServices")
 
     # try to delete procurementMethodRationale in active tender without cause
     data = deepcopy(self.initial_data)
-    data["value"]["amount"] = 100000
+    data["value"]["amount"] = 200000
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     tender_id = self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
@@ -1927,7 +1918,7 @@ def tender_cause_change_rationale_types_update(self):
 
     update_data = {}
     update_data["causeDetails"] = {
-        "code": "stateLegalServices",
+        "code": "experimentalUnitNext",
         "scheme": "DECREE1178",
         "description": "test",
     }
@@ -1937,7 +1928,7 @@ def tender_cause_change_rationale_types_update(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["causeDetails"]["code"], "stateLegalServices")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "experimentalUnitNext")
     self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "DECREE1178")
 
     rationale_types = response.json["data"]["contractChangeRationaleTypes"]

@@ -902,7 +902,7 @@ confidential_documents_tender_params = [
         "reporting tender",
         test_tender_reporting_data,
         test_tender_reporting_config,
-        {"code": "UZ", "description": "UZ cause"},
+        {"code": "energyCrisisRecovery0109", "description": "energyCrisisRecovery cause"},
     ),
     (
         "negotiation tender with causeDetails defenseNeeds",
@@ -1187,7 +1187,7 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
 )
 def limited_contract_confidential_document_energy_crisis(self):
     tender_data = deepcopy(test_tender_reporting_data)
-    tender_data["causeDetails"] = {"code": "energyCrisisRecovery", "description": "Energy crisis cause"}
+    tender_data["causeDetails"] = {"code": "energyCrisisRecovery0109", "description": "Energy crisis cause"}
     response = self.app.post_json("/tenders", {"data": tender_data, "config": test_tender_reporting_config})
     tender_id = response.json["data"]["id"]
     tender_token = response.json["access"]["token"]
