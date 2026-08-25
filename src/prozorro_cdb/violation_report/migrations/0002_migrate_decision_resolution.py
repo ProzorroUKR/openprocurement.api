@@ -1,11 +1,11 @@
-from prozorro_cdb.api.migrations.utils import AsyncIOMotorCollectionMigration, migrate_collection
+from prozorro_cdb.api.migrations.utils import AsyncCollectionMigration, migrate_collection
 from prozorro_cdb.violation_report.database.collection import ViolationReportCollection
 
 OLD_RESOLUTION = "declinedLackEvidence"
 NEW_RESOLUTION = "declinedNoViolation"
 
 
-class Migration(AsyncIOMotorCollectionMigration):
+class Migration(AsyncCollectionMigration):
     description: str = f"migrate decisions.resolution {OLD_RESOLUTION!r} to {NEW_RESOLUTION!r}"
 
     collection_name = ViolationReportCollection.collection_name
