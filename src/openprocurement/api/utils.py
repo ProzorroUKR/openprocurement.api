@@ -20,11 +20,13 @@ from jsonpointer import JsonPointerException
 from nacl.encoding import HexEncoder
 from pymongo.errors import DuplicateKeyError, OperationFailure
 from pytz import utc
+from requests.adapters import HTTPAdapter
 from schematics.exceptions import (
     ModelConversionError,
     ModelValidationError,
     ValidationError,
 )
+from urllib3.util.retry import Retry
 from webob.multidict import NestedMultiDict
 
 from openprocurement.api.constants import (
@@ -671,34 +673,50 @@ def get_catalogue_object(
     return data
 
 
-def upload_contract_pdf(request, data: dict):
-    resp = requests.post(
-        f"{request.registry.render_api_host}/api/1.0/contract/upload",
-        json={"data": data},
-        auth=(request.registry.render_api_username, request.registry.render_api_password),
+# (connect, read) timeouts, seconds.
+RENDER_API_TIMEOUT = (5, 25)
+
+_render_api_session = requests.Session()
+_render_api_retry_adapter = HTTPAdapter(
+    max_retries=Retry(
+        total=1,
+        backoff_factor=1,
+        status_forcelist=(502, 503, 504),
+        allowed_methods=("POST",),
     )
-    if resp.status_code != 200:
-        raise_operation_error(
-            request,
-            f"Fail uploading contract pdf: {resp.status_code} {resp.text}.",
-            status=422,
+)
+_render_api_session.mount("https://", _render_api_retry_adapter)
+_render_api_session.mount("http://", _render_api_retry_adapter)
+
+
+def _post_to_render_api(request, url, data, error_context):
+    try:
+        resp = _render_api_session.post(
+            url,
+            json={"data": data},
+            auth=(request.registry.render_api_username, request.registry.render_api_password),
+            timeout=RENDER_API_TIMEOUT,
         )
-    return resp.json()
+    except requests.exceptions.RequestException as e:
+        detail, status = e, 502
+    else:
+        if resp.status_code == 200:
+            return resp.json()
+        detail, status = f"{resp.status_code} {resp.text}", 422
+
+    raise_operation_error(request, f"Fail uploading {error_context}: {detail}.", status=status)
+
+
+def upload_contract_pdf(request, data: dict):
+    return _post_to_render_api(
+        request, f"{request.registry.render_api_host}/api/1.0/contract/upload", data, "contract pdf"
+    )
 
 
 def upload_contract_change_pdf(request, data: dict):
-    resp = requests.post(
-        f"{request.registry.render_api_host}/api/1.0/contract/change/upload",
-        json={"data": data},
-        auth=(request.registry.render_api_username, request.registry.render_api_password),
+    return _post_to_render_api(
+        request, f"{request.registry.render_api_host}/api/1.0/contract/change/upload", data, "contract change pdf"
     )
-    if resp.status_code != 200:
-        raise_operation_error(
-            request,
-            f"Fail uploading contract change pdf: {resp.status_code} {resp.text}.",
-            status=422,
-        )
-    return resp.json()
 
 
 def get_tender_profile(request, profile_id: str, validate_status: tuple | None = None) -> dict:
