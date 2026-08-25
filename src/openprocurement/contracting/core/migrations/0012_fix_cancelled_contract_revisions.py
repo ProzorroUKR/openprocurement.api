@@ -1,5 +1,8 @@
 import logging
 from copy import deepcopy
+from unittest.mock import ANY
+
+from pymongo import UpdateOne
 
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
 from openprocurement.api.procedure.utils import get_revision_changes
@@ -77,10 +80,6 @@ class Migration(PymongoCollectionMigration):
         ]
 
     def run_test(self):
-        from unittest.mock import ANY
-
-        from pymongo import UpdateOne
-
         contract_id = "03f2a22dfb8a4f1abefa11240c950406"
         contract = {
             "_id": contract_id,
