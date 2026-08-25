@@ -87,9 +87,12 @@ def convert_milestones(milestones, lot_id=None):
 
 def convert_value(v):
     if v:
-        r = {"currency": v["currency"]}
+        r = {}
         if v.get("amount"):  # if hasValueEstimation = False amount is empty
             r["amount"] = v["amount"]
+
+        if v.get("currency"):
+            r["currency"] = v["currency"]
         return r
 
 
@@ -414,6 +417,7 @@ def ocds_format_tender(*_, tender, tender_url, plan=None):
         "version": "1.1",
         "extensions": [
             "https://raw.githubusercontent.com/open-contracting-extensions/ocds_bid_extension/master/extension.json",
+            "https://raw.githubusercontent.com/open-contracting-extensions/ocds_location_extension/master/extension.json",
             "https://raw.githubusercontent.com/open-contracting-extensions/ocds_project_extension/master/extension.json",
         ],
         "publisher": {

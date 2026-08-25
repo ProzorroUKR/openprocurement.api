@@ -5,6 +5,7 @@ from unittest import mock
 from uuid import uuid4
 
 import pytest
+from jsonschema import Draft4Validator
 
 from openprocurement.api.constants import (
     DEFAULT_CONTRACT_TEMPLATE_KEY,
@@ -39,6 +40,8 @@ from openprocurement.tender.core.tests.base import (
     test_contract_guarantee_criteria,
     test_default_criteria,
     test_tender_guarantee_criteria,
+    ocds_release_schema,
+    ocds_resolver,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -2010,6 +2013,14 @@ def get_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotIn("owner_token", response.json["data"])
+
+    response = self.app.get(f"/tenders/{tender['id']}?opt_schema=ocds")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    validator = Draft4Validator(ocds_release_schema, resolver=ocds_resolver)
+    errors = list(validator.iter_errors(response.json))
+    self.assertFalse(errors, "\n".join(f"{'.'.join(str(p) for p in e.absolute_path)}: {e.message}" for e in errors))
 
 
 def tender_features_invalid(self):
