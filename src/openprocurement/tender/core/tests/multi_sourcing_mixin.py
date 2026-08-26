@@ -1,11 +1,11 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
 from openprocurement.api.constants import (
     TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
 )
+from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 
 
@@ -178,6 +178,54 @@ class MultiSourcingTestMixin:
         self.mongodb.tenders.save(tender)
         return "a" * 32, "c" * 32
 
+    def _seed_one_lot_three_bids_one_pending_award(self):
+        tender = self.mongodb.tenders.get(self.tender_id)
+        tender["status"] = "active.qualification"
+        lot_id = "1" * 32
+        tender["lots"] = [
+            {
+                "id": lot_id,
+                "title": "lot1",
+                "description": "lot1",
+                "value": tender["value"],
+                "status": "active",
+            }
+        ]
+        tender["items"][0]["relatedLot"] = lot_id
+        tender["bids"] = [
+            {
+                "id": bid_id,
+                "owner": "broker",
+                "owner_token": bid_id,
+                "tenderers": [deepcopy(test_tender_below_supplier)],
+                "status": "active",
+                "submissionDate": tender["dateModified"],
+                "lotValues": [
+                    {
+                        "relatedLot": lot_id,
+                        "value": tender["value"],
+                        "date": tender["dateModified"],
+                        "status": "active",
+                    }
+                ],
+            }
+            for bid_id in ("b" * 32, "d" * 32, "f" * 32)
+        ]
+        tender["awards"] = [
+            {
+                "id": "a" * 32,
+                "bid_id": "b" * 32,
+                "status": "pending",
+                "lotID": lot_id,
+                "suppliers": [deepcopy(test_tender_below_supplier)],
+                "items": [deepcopy(tender["items"][0])],
+                "value": tender["value"],
+                "date": tender["dateModified"],
+            }
+        ]
+        self.mongodb.tenders.save(tender)
+        return "a" * 32
+
     def test_create_tender_with_multi_sourcing(self):
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.assertEqual(response.status, "200 OK")
@@ -339,4 +387,78 @@ class MultiSourcingTestMixin:
             "should be less than or equal to",
             descriptions,
             f"Expected quantity validation error, got: {descriptions}",
+        )
+
+    def test_pending_award_cancelled_when_previous_active_award_cancelled(self):
+        award_id, next_bid_id = self._seed_one_lot_two_bids_one_pending_award()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
+            {"data": deepcopy(self.award_activation_data)},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        tender_after = self.mongodb.tenders.get(self.tender_id)
+        pending = [a for a in tender_after["awards"] if a["status"] == "pending"]
+        self.assertEqual(len(pending), 1, "system must auto-generate exactly one pending award after activation")
+        auto_pending_id = pending[0]["id"]
+        self.assertEqual(pending[0]["bid_id"], next_bid_id)
+
+        response = self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
+            {"data": {"status": "cancelled"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        tender_after = self.mongodb.tenders.get(self.tender_id)
+        awards_by_id = {a["id"]: a for a in tender_after["awards"]}
+        self.assertEqual(awards_by_id[award_id]["status"], "cancelled")
+        self.assertEqual(
+            awards_by_id[auto_pending_id]["status"],
+            "cancelled",
+            "auto-generated pending award must be cancelled when the previous decision is reverted",
+        )
+        self.assertEqual(
+            tender_after["status"],
+            "active.qualification",
+            "tender must stay in active.qualification (a fresh pending award is generated for reconsideration)",
+        )
+
+    def test_other_active_winner_preserved_when_previous_award_cancelled(self):
+        award_id = self._seed_one_lot_three_bids_one_pending_award()
+
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
+            {"data": deepcopy(self.award_activation_data)},
+        )
+        tender_after = self.mongodb.tenders.get(self.tender_id)
+        second_award_id = [a for a in tender_after["awards"] if a["status"] == "pending"][0]["id"]
+
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{second_award_id}/documents")
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{second_award_id}?acc_token={self.tender_token}",
+            {"data": deepcopy(self.award_activation_data)},
+        )
+        tender_after = self.mongodb.tenders.get(self.tender_id)
+        third_award_id = [a for a in tender_after["awards"] if a["status"] == "pending"][0]["id"]
+
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}",
+            {"data": {"status": "cancelled"}},
+        )
+
+        tender_after = self.mongodb.tenders.get(self.tender_id)
+        awards_by_id = {a["id"]: a for a in tender_after["awards"]}
+        self.assertEqual(awards_by_id[award_id]["status"], "cancelled")
+        self.assertEqual(
+            awards_by_id[third_award_id]["status"],
+            "cancelled",
+            "auto-generated pending award must be cancelled when a previous decision is reverted",
+        )
+        self.assertEqual(
+            awards_by_id[second_award_id]["status"],
+            "active",
+            "an independently activated winner must not be cancelled",
         )
