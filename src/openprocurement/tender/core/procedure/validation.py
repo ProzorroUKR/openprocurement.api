@@ -341,7 +341,7 @@ def validate_operation_ecriteria_on_tender_status(request, **_):
 
 def validate_operation_award_requirement_response(request, **kwargs):
     validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    valid_tender_statuses = ["active.qualification"]
+    valid_tender_statuses = ["active.qualification", "active"]
     base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
 
 

@@ -14,6 +14,7 @@ class Item(BaseItem):
 
 class ReportingItem(Item):
     product = StringType()
+    category = StringType()
 
     def validate_relatedLot(self, data, value):
         if value:

@@ -23,7 +23,7 @@ from openprocurement.tender.core.procedure.validation import (
 class BaseCriterionStateMixin:
     request: Request
 
-    tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+    tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering", "active"]
 
     def _validate_operation_criterion_in_tender_status(self) -> None:
         base_validate_operation_ecriteria_objects(self.request, self.tender_valid_statuses)
