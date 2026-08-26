@@ -603,9 +603,6 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "contractID": "UA-2027-01-01-000002-a-a1",
         "title": "Комп’ютерне обладнання",
-        "title_en": null,
-        "description": null,
-        "description_en": null,
         "value": {
           "amount": 500.0,
           "currency": "UAH",

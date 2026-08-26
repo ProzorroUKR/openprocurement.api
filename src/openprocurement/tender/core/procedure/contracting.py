@@ -130,6 +130,20 @@ def merge_items(bid_items: List[Dict], tender_items: List[Dict]) -> List[Dict]:
     return list(tender_item_by_id.values())
 
 
+def drop_none_values(data):
+    """Remove keys with None values recursively so missing fields stay omitted."""
+    if isinstance(data, dict):
+        for key, value in list(data.items()):
+            if value is None:
+                del data[key]
+            else:
+                drop_none_values(value)
+    elif isinstance(data, list):
+        for item in data:
+            drop_none_values(item)
+    return data
+
+
 def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, award, contract_milestones):
     contract_number = len(tender.get("contracts", "")) + 1
     if "contracts" not in tender:
@@ -151,24 +165,11 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         "contractID": f"{tender['tenderID']}-a{contract_number}",
     }
 
-    if lot:
-        base_contract_data.update(
-            {
-                "title": lot.get("title"),
-                "title_en": lot.get("title_en"),
-                "description": lot.get("description"),
-                "description_en": lot.get("description_en"),
-            }
-        )
-    else:
-        base_contract_data.update(
-            {
-                "title": tender.get("title"),
-                "title_en": tender.get("title_en"),
-                "description": tender.get("description"),
-                "description_en": tender.get("description_en"),
-            }
-        )
+    source = lot or tender
+    for field in ("title", "title_en", "description", "description_en"):
+        value = source.get(field)
+        if value is not None:
+            base_contract_data[field] = value
 
     if contract_value:
         base_contract_data["value"] = clean_contract_value(contract_value)
@@ -186,9 +187,8 @@ def add_contract_to_tender(tender, contract_items, contract_value, buyer_id, awa
         contract_data["contractTemplateName"] = tender["contractTemplateName"]
     contract_data.update(base_contract_data)
 
-    for k in contract_data.copy():
-        if contract_data[k] is None:
-            del contract_data[k]
+    drop_none_values(contract_data)
+    drop_none_values(base_contract_data)
 
     tender["contracts"].append(base_contract_data)
 
@@ -207,6 +207,7 @@ def clean_objs(objs: List[Dict], model, forbidden_fields=None):
         for field in set(obj.keys()):
             if field not in acceptable_fields or field in forbidden_fields:
                 obj.pop(field, None)
+        drop_none_values(obj)
     return objs
 
 
@@ -291,11 +292,13 @@ def get_additional_contract_data(request, contract, tender, award, buyer):
         bid = tender
 
     contract_data = {
-        "mode": tender.get("mode"),
         "buyer": buyer,
         "tender_id": tender["_id"],
         "owner": tender["owner"],
     }
+
+    if tender.get("mode"):
+        contract_data["mode"] = tender["mode"]
 
     if tender.get("contractChangeRationaleTypes"):
         contract_data["contractChangeRationaleTypes"] = tender["contractChangeRationaleTypes"]
@@ -358,7 +361,9 @@ def prepare_contracts_added(contracts, award=None):
         if not additional_contract_data:
             break
         contract.update(additional_contract_data)
+        drop_none_values(contract)
         contract = PostContract(contract).serialize()
+        drop_none_values(contract)
         contract["config"] = {
             "restricted": tender["config"]["restricted"],
         }
