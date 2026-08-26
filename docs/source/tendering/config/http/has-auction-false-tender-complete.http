@@ -2150,9 +2150,7 @@ Content-Type: application/json
         "date": "2027-01-31T00:00:00+02:00",
         "contractID": "UA-2027-01-01-000001-a-a1",
         "title": "Лот №1",
-        "title_en": null,
         "description": "Опис Лот №1",
-        "description_en": null,
         "value": {
           "amount": 500.0,
           "currency": "UAH",
@@ -2167,9 +2165,7 @@ Content-Type: application/json
         "date": "2027-01-31T00:00:00+02:00",
         "contractID": "UA-2027-01-01-000001-a-a2",
         "title": "Лот №1",
-        "title_en": null,
         "description": "Опис Лот №1",
-        "description_en": null,
         "value": {
           "amount": 500.0,
           "currency": "UAH",

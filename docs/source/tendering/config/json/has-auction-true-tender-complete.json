@@ -941,11 +941,9 @@
                 "contractID": "UA-2027-01-01-000001-a-a1",
                 "date": "2027-01-31T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
-                "description_en": null,
                 "id": "004df6a5c1684d67b044fafc238a2962",
                 "status": "active",
                 "title": "\u041b\u043e\u0442 \u21161",
-                "title_en": null,
                 "value": {
                     "amount": 500.0,
                     "amountNet": 500.0,
@@ -958,11 +956,9 @@
                 "contractID": "UA-2027-01-01-000001-a-a2",
                 "date": "2027-01-31T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
-                "description_en": null,
                 "id": "2bd25ecac7274f6e9f062904741ca519",
                 "status": "active",
                 "title": "\u041b\u043e\u0442 \u21161",
-                "title_en": null,
                 "value": {
                     "amount": 500.0,
                     "amountNet": 500.0,
