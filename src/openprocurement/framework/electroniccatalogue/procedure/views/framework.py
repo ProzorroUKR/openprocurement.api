@@ -61,7 +61,7 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
         content_type="application/json",
         validators=(
             unless_administrator_or_chronograph(validate_item_owner("framework")),
-            validate_input_data_from_resolved_model(),
+            validate_input_data_from_resolved_model(none_means_remove=True),
             validate_patch_data(Framework, item_name="framework"),
         ),
         permission="edit_framework",

@@ -3,6 +3,7 @@ import unittest
 from openprocurement.api.constants import KIND_FRAMEWORK_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.framework.dps.tests.framework_blanks import (
+    additional_classifications_deletion,
     complete_status,
     create_framework_draft,
     create_framework_draft_invalid,
@@ -68,6 +69,7 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_date_framework = snitch(date_framework)
     test_dateModified_framework = snitch(dateModified_framework)
     test_periods_deletion = snitch(periods_deletion)
+    test_additional_classifications_deletion = snitch(additional_classifications_deletion)
     test_framework_not_found = snitch(framework_not_found)
     test_framework_token_invalid = snitch(framework_token_invalid)
     test_framework_fields = snitch(framework_fields)
