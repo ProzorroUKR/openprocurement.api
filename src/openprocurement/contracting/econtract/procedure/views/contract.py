@@ -16,6 +16,7 @@ from openprocurement.api.utils import (
     get_contract_by_id,
     get_tender_by_id,
     json_view,
+    raise_operation_error,
     request_init_contract,
     request_init_tender,
 )
@@ -51,6 +52,33 @@ class EContractPostResource(ContractBaseResource):
     state_class = EContractState
     serializer_class = ContractBaseSerializer
 
+    def _find_previous_contract(self, tender, contract):
+        award_id = contract.get("awardID")
+        buyer_id = contract.get("buyerID")
+        tender_contracts = tender.get("contracts", [])
+        for tender_contract_data in tender_contracts:
+            if (
+                tender_contract_data.get("status") != "pending"
+                or tender_contract_data.get("awardID") != award_id
+                or tender_contract_data.get("buyerID") != buyer_id
+            ):
+                continue
+            tender_contract = get_contract_by_id(self.request, tender_contract_data["id"], raise_error=True)
+            if tender_contract.get("cancellations"):
+                tender_contract["id"] = tender_contract["_id"]
+                return tender_contract
+
+        if buyer_id or (tender_contracts and all(c.get("buyerID") for c in tender_contracts)):
+            raise_operation_error(
+                self.request,
+                f"Previous version of pending contract with cancellations not found "
+                f"(awardID: {award_id}, buyerID: {buyer_id})",
+            )
+        raise_operation_error(
+            self.request,
+            f"Previous version of pending contract with cancellations not found (awardID: {award_id})",
+        )
+
     @json_view(
         content_type="application/json",
         permission="edit_contract",
@@ -68,19 +96,8 @@ class EContractPostResource(ContractBaseResource):
         contract = self.request.validated["data"]
         tender = get_tender_by_id(self.request, contract.get("tender_id"), raise_error=True)
         request_init_tender(self.request, tender)
-        prev_contract = None
-        for tender_contract_data in tender.get("contracts", []):
-            tender_contract = get_contract_by_id(self.request, tender_contract_data["id"], raise_error=True)
-            if (
-                tender_contract.get("status") == "pending"
-                and tender_contract.get("awardID") == contract.get("awardID")
-                and tender_contract.get("buyerID") == contract.get("buyerID")
-                and tender_contract.get("cancellations")
-            ):
-                prev_contract = tender_contract
-                prev_contract["id"] = prev_contract["_id"]
-        if prev_contract is not None:
-            contract["config"] = deepcopy(prev_contract.get("config"))
+        prev_contract = self._find_previous_contract(tender, contract)
+        contract["config"] = deepcopy(prev_contract.get("config"))
         request_init_contract(self.request, contract, contract_src={})
         self.state.validate_on_post(prev_contract, contract)
         self.state.on_post(prev_contract, contract)
