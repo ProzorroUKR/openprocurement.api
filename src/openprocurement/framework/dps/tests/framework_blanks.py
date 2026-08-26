@@ -1355,6 +1355,47 @@ def periods_deletion(self):
     )
 
 
+def additional_classifications_deletion(self):
+    response = self.app.post_json(
+        "/frameworks",
+        {
+            "data": deepcopy(self.initial_data),
+            "config": self.initial_config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    framework = response.json["data"]
+    token = response.json["access"]["token"]
+    additional_classifications = framework["additionalClassifications"]
+
+    # an empty list deletes the value
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"additionalClassifications": []}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("additionalClassifications", response.json["data"])
+
+    # restore the value
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"additionalClassifications": additional_classifications}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["additionalClassifications"], additional_classifications)
+
+    # null deletes the value as well
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"additionalClassifications": None}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("additionalClassifications", response.json["data"])
+
+    response = self.app.get("/frameworks/{}".format(framework["id"]))
+    self.assertNotIn("additionalClassifications", response.json["data"])
+
+
 def date_framework(self):
     response = self.app.get("/frameworks")
     self.assertEqual(response.status, "200 OK")
