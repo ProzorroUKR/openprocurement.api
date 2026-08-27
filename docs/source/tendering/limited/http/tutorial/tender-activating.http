@@ -241,7 +241,8 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "product": "655360-30230000-889652-00000"
+        "product": "655360-30230000-889652-11111",
+        "category": "655360-30230000-889652-00000"
       }
     ],
     "value": {

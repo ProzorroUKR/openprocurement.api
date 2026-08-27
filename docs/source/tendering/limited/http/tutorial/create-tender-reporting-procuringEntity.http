@@ -36,7 +36,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "name": "папір"
         },
         "quantity": 1,
-        "product": "655360-30230000-889652-00000"
+        "product": "655360-30230000-889652-11111",
+        "category": "655360-30230000-889652-00000"
       }
     ],
     "procurementMethod": "limited",
@@ -266,7 +267,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "product": "655360-30230000-889652-00000"
+        "product": "655360-30230000-889652-11111",
+        "category": "655360-30230000-889652-00000"
       }
     ],
     "value": {

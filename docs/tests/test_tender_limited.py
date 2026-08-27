@@ -2,7 +2,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.tender.core.tests.mock import patch_market_product
+from openprocurement.tender.core.tests.mock import patch_market_category, patch_market_product
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
@@ -129,12 +129,17 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
         }
 
-        product_data = {
+        category_data = {
             "classification": {"description": "Продукти харчування різні", "id": "15800000-6", "scheme": "ДК021"},
             "id": "655360-30230000-889652-00000",
         }
+        product_data = {
+            "relatedCategory": "655360-30230000-889652-00000",
+            "id": "655360-30230000-889652-11111",
+        }
         reporting_data["items"][0]["product"] = product_data["id"]
-        with patch_market_product(product_data):
+        reporting_data["items"][0]["category"] = category_data["id"]
+        with patch_market_product(product_data), patch_market_category(category_data):
             with open(
                 TARGET_DIR + "tutorial/create-tender-reporting-items-with-invalid-classification.http", "w"
             ) as self.app.file_obj:
@@ -142,7 +147,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                     "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
                 )
 
-            reporting_data["items"][0]["classification"] = product_data["classification"]
+            reporting_data["items"][0]["classification"] = category_data["classification"]
 
             with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
@@ -159,7 +164,11 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         #### Tender activating
 
-        with open(TARGET_DIR + "tutorial/tender-activating.http", "w") as self.app.file_obj:
+        with (
+            patch_market_product(product_data),
+            patch_market_category(category_data),
+            open(TARGET_DIR + "tutorial/tender-activating.http", "w") as self.app.file_obj,
+        ):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active"}}
             )

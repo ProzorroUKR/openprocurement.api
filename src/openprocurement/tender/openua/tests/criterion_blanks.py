@@ -23,6 +23,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
+from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
     test_tender_pq_short_profile,
@@ -32,6 +33,9 @@ from openprocurement.tender.pricequotation.tests.data import (
 def create_tender_criteria_valid(self):
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     criteria = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in criteria:
+            criterion["source"] = "procuringEntity"
 
     criterion = deepcopy(criteria[0])
     criterion["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
@@ -98,7 +102,7 @@ def create_tender_criteria_valid(self):
         self.assertEqual(response2.status, "201 Created")
         self.assertEqual(response2.content_type, "application/json")
 
-    response2 = self.app.post_json(request_path, {"data": test_exclusion_criteria}, status=403)
+    response2 = self.app.post_json(request_path, {"data": criteria}, status=403)
     self.assertEqual(response2.status, "403 Forbidden")
     self.assertEqual(response2.content_type, "application/json")
     self.assertEqual(response2.json["status"], "error")
@@ -112,6 +116,9 @@ def create_tender_criteria_valid(self):
         self.assertIn("requirements", requirementGroup)
 
     lang_criterion = deepcopy(test_language_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in lang_criterion:
+            criterion["source"] = "procuringEntity"
     response = self.app.post_json(request_path, {"data": lang_criterion})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -137,6 +144,9 @@ def create_tender_criteria_valid(self):
     # Try to create criterion without legislation
 
     invalid_criteria = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in invalid_criteria:
+            criterion["source"] = "procuringEntity"
     legislation = invalid_criteria[0].pop("legislation")
     response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -150,6 +160,9 @@ def create_tender_criteria_valid(self):
 
 def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in invalid_criteria:
+            criterion["source"] = "procuringEntity"
     invalid_criteria[0]["relatesTo"] = "lot"
 
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
@@ -290,6 +303,9 @@ def create_tender_criteria_invalid(self):
     )
 
     lang_criterion = deepcopy(test_language_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in lang_criterion:
+            criterion["source"] = "procuringEntity"
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
         {"description": "Довідка в довільній формі", "type": "document", "title": "Документальне підтвердження"}
     ]
@@ -312,6 +328,9 @@ def create_tender_criteria_invalid(self):
     )
 
     lang_criterion = deepcopy(test_language_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in lang_criterion:
+            criterion["source"] = "procuringEntity"
     del lang_criterion[0]["relatesTo"]
     response = self.app.post_json(request_path, {"data": lang_criterion}, status=422)
 
@@ -325,6 +344,9 @@ def create_tender_criteria_invalid(self):
 
 def patch_tender_criteria_valid(self):
     criteria_data = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in criteria_data:
+            criterion["source"] = "procuringEntity"
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
 
     response = self.app.post_json(
@@ -371,6 +393,9 @@ def patch_tender_criteria_valid(self):
 
 def patch_tender_criteria_invalid(self):
     criteria_data = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in criteria_data:
+            criterion["source"] = "procuringEntity"
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
 
     response = self.app.post_json(
@@ -465,8 +490,12 @@ def patch_tender_criteria_invalid(self):
 
 
 def get_tender_criteria(self):
+    criteria = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in criteria:
+            criterion["source"] = "procuringEntity"
     response = self.app.post_json(
-        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": test_exclusion_criteria}
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token), {"data": criteria}
     )
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -481,7 +510,7 @@ def get_tender_criteria(self):
 
     for i, criterion in enumerate(criteria):
         for k, v in criterion.items():
-            if k not in ["id", "requirementGroups"]:
+            if k not in ["id", "requirementGroups", "source"]:
                 self.assertEqual(test_exclusion_criteria[i][k], v)
 
     response = self.app.get("/tenders/{}/criteria/{}".format(self.tender_id, criteria_id))
@@ -980,10 +1009,6 @@ def create_rg_requirement_valid(self):
 def create_rg_requirement_invalid(self):
     request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
         self.tender_id, self.criteria_id, self.rg_id, self.tender_token
-    )
-
-    exclusion_request_path = "/tenders/{}/criteria/{}/requirement_groups/{}/requirements?acc_token={}".format(
-        self.tender_id, self.exclusion_criteria_id, self.exclusion_rg_id, self.tender_token
     )
 
     requirement_data = deepcopy(self.test_requirement_data)

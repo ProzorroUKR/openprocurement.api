@@ -36,7 +36,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "name": "папір"
         },
         "quantity": 1,
-        "product": "655360-30230000-889652-00000"
+        "product": "655360-30230000-889652-11111",
+        "category": "655360-30230000-889652-00000"
       }
     ],
     "procurementMethod": "limited",
@@ -163,7 +164,7 @@ Content-Type: application/json
       "location": "body",
       "name": "items",
       "description": [
-        "CPV group of items (555) should be identical to product CPV group (158)"
+        "CPV group of items (555) should be identical to category CPV group (158)"
       ]
     }
   ]

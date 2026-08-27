@@ -16,6 +16,7 @@ from openprocurement.tender.core.procedure.models.award_milestone import (
 )
 from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
+from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
 
 
 def create_tender_award_invalid(self):
@@ -3754,3 +3755,260 @@ def prolongation_award_is_forbidden(self):
         response.json["errors"][0]["description"],
         [{"milestones": ["Forbidden to add milestone with code extensionPeriod"]}],
     )
+
+
+def create_award_requirement_response(self):
+    award_data = {
+        "suppliers": [test_tender_below_supplier],
+        "qualified": True,
+        "status": "pending",
+        "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+    }
+    if self.initial_lots:
+        award_data["lotID"] = self.initial_lots[0]["id"]
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
+        {"data": award_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award_id = response.json["data"]["id"]
+    base_request_path = "/tenders/{}/awards/{}/requirement_responses".format(self.tender_id, award_id)
+    request_path = "{}?acc_token={}".format(base_request_path, self.tender_token)
+
+    valid_data = [
+        {
+            "requirement": {
+                "id": self.requirement_id,
+            },
+            "value": 35,
+        }
+    ]
+
+    response = self.app.post_json(
+        base_request_path,
+        {"data": valid_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
+
+    response = self.app.post_json(
+        "{}?acc_token={}".format(base_request_path, "some_random_phrase"),
+        {"data": valid_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
+
+    response = self.app.post_json(
+        request_path,
+        {
+            "data": [
+                {
+                    "requirement": {
+                        "id": self.requirement_id,
+                    }
+                }
+            ]
+        },
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirementResponses.0",
+                "description": {"value": 'Response required at least one of field ["value", "values"]'},
+            },
+        ],
+    )
+
+    response = self.app.post_json(
+        request_path,
+        {"data": [{"value": 10}]},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {"location": "body", "name": "requirement", "description": ["This field is required."]},
+        ],
+    )
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]
+    self.assertIn("classification", rrs[0])
+    self.assertIn("title", rrs[0]["requirement"])
+    clean_requirement_responses(rrs)
+
+    for i, rr_data in enumerate(valid_data):
+        for k, v in rr_data.items():
+            self.assertEqual(rrs[i][k], v)
+
+    response = self.app.get(f"/tenders/{self.tender_id}/awards/{award_id}?acc_token={self.tender_token}")
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    rrs = response.json["data"]["requirementResponses"]
+    self.assertIn("classification", rrs[0])
+    self.assertIn("title", rrs[0]["requirement"])
+
+
+def patch_award_requirement_response(self):
+    award_data = {
+        "suppliers": [test_tender_below_supplier],
+        "qualified": True,
+        "status": "pending",
+        "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+    }
+    if self.initial_lots:
+        award_data["lotID"] = self.initial_lots[0]["id"]
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
+        {"data": award_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award_id = response.json["data"]["id"]
+    request_path = "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
+        self.tender_id, award_id, self.tender_token
+    )
+
+    valid_data = [
+        {
+            "requirement": {
+                "id": self.requirement_id,
+            },
+            "value": 50,
+        }
+    ]
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr_id = response.json["data"][0]["id"]
+
+    base_request_path = "/tenders/{}/awards/{}/requirement_responses/{}".format(self.tender_id, award_id, rr_id)
+    request_path = "{}?acc_token={}".format(base_request_path, self.tender_token)
+    updated_data = {
+        "value": True,
+    }
+
+    response = self.app.patch_json(
+        base_request_path,
+        {"data": updated_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
+
+    response = self.app.patch_json(
+        "{}?acc_token={}".format(base_request_path, "some_random_token"),
+        {"data": updated_data},
+        status=403,
+    )
+
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(response.json["errors"], [{"description": "Forbidden", "location": "url", "name": "permission"}])
+
+    response = self.app.patch_json(
+        request_path,
+        {"data": updated_data},
+        status=422,
+    )
+
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn("errors", response.json)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": ["Number 'True' failed to convert to a decimal."],
+                "location": "body",
+                "name": "value",
+            }
+        ],
+    )
+
+
+def get_award_requirement_response(self):
+    award_data = {
+        "suppliers": [test_tender_below_supplier],
+        "qualified": True,
+        "status": "pending",
+        "value": {"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": False},
+    }
+    if self.initial_lots:
+        award_data["lotID"] = self.initial_lots[0]["id"]
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
+        {"data": award_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    award_id = response.json["data"]["id"]
+    request_path = "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
+        self.tender_id, award_id, self.tender_token
+    )
+
+    valid_data = [
+        {
+            "requirement": {
+                "id": self.requirement_id,
+            },
+            "value": 50,
+        }
+    ]
+
+    response = self.app.post_json(request_path, {"data": valid_data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    rr_id = response.json["data"][0]["id"]
+
+    response = self.app.get("/tenders/{}/awards/{}/requirement_responses".format(self.tender_id, award_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    rrs = response.json["data"]
+    self.assertEqual(len(rrs), 1)
+
+    clean_requirement_responses(rrs)
+
+    for i, rr_data in enumerate(valid_data):
+        for k, v in rr_data.items():
+            self.assertIn(k, rrs[i])
+            self.assertEqual(v, rrs[i][k])
+
+    response = self.app.get("/tenders/{}/awards/{}/requirement_responses/{}".format(self.tender_id, award_id, rr_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+
+    rr = response.json["data"]
+    clean_requirement_responses([rr])
+    for k, v in valid_data[0].items():
+        self.assertIn(k, rr)
+        self.assertEqual(v, rr[k])

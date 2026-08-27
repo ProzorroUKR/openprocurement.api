@@ -91,8 +91,8 @@
 .. http:example:: http/tutorial/create-tender-reporting-cause-details-description-required.http
    :code:
 
-Також для процедури **звітування про укладений договір** є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product`.
-При цьому працює валідація на те, що товар існує в маркеті, а також валідація на співпадіння items.classification.id → product.classification.id - по 3му знаку:
+Також для процедури **звітування про укладений договір** є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product` та на категорію в полі `item.category`.
+При цьому працює валідація на те, що товар і категорія існують в маркеті, а також валідація на співпадіння items.classification.id → category.classification.id - по 3му знаку:
 
 .. http:example:: http/tutorial/create-tender-reporting-items-with-invalid-classification.http
    :code:
