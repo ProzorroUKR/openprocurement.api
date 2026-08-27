@@ -113,7 +113,7 @@ class CauseDetailsMixing:
                 )
             after["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference, force=True)
 
-    def validate_items_related_product(self, after: dict, before: dict) -> None:
+    def validate_items_related_market_objects(self, after: dict, before: dict) -> None:
         def get_items_market_objects(data: dict) -> dict:
             return {
                 item["id"]: {
@@ -180,13 +180,13 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     def on_post(self, tender):
         self.validate_cause_required(tender)
         self.set_cause_details_data(tender)
-        self.validate_items_related_product(tender, {})
+        self.validate_items_related_market_objects(tender, {})
         super().on_post(tender)
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
         self.set_cause_details_data(after, before)
-        self.validate_items_related_product(after, before)
+        self.validate_items_related_market_objects(after, before)
         super().on_patch(before, after)
 
 
@@ -203,7 +203,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     def on_post(self, tender):
         self.validate_cause_required(tender)
         self.set_cause_details_data(tender)
-        self.validate_items_related_product(tender, {})
+        self.validate_items_related_market_objects(tender, {})
         super().on_post(tender)
 
     def on_patch(self, before, after):
@@ -214,7 +214,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
                 get_request(),
                 "Can't update tender when there is at least one award.",
             )
-        self.validate_items_related_product(after, before)
+        self.validate_items_related_market_objects(after, before)
         super().on_patch(before, after)
 
     @staticmethod
