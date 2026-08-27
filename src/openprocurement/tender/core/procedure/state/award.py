@@ -86,7 +86,6 @@ class AwardStateMixing:
             self.award_status_up_from_pending_to_active(award, tender)
 
         elif before == "active" and after == "cancelled":
-            self.cancel_multi_sourcing_pending_awards(award, tender)
             self.award_status_up_from_active_to_cancelled(award, tender)
 
         elif before == "pending" and after == "unsuccessful":
@@ -161,7 +160,6 @@ class AwardStateMixing:
             return
         for i in tender.get("awards", ""):
             if i.get("lotID") == award.get("lotID") and i["status"] == "pending":
-                self.set_award_complaints_cancelled(i)
                 self.cancel_award(i)
 
     @staticmethod
@@ -199,6 +197,7 @@ class AwardStateMixing:
             if period and (not period.get("endDate") or period["endDate"] > now):
                 period["endDate"] = now
         self.set_object_status(award, "cancelled")
+        self.cancel_multi_sourcing_pending_awards(award, get_tender())
         contracts_cancelled = self.set_award_contracts_cancelled(award)
         append_contracts_cancelled(self.request, contracts_cancelled)
 
