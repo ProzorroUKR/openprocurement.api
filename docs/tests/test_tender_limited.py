@@ -2,7 +2,9 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.tender.core.tests.base import test_localization_criteria
 from openprocurement.tender.core.tests.mock import patch_market_category, patch_market_product
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
@@ -132,6 +134,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         category_data = {
             "classification": {"description": "Продукти харчування різні", "id": "15800000-6", "scheme": "ДК021"},
             "id": "655360-30230000-889652-00000",
+            "criteria": test_localization_criteria,
         }
         product_data = {
             "relatedCategory": "655360-30230000-889652-00000",
@@ -157,6 +160,20 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         tender = response.json["data"]
         owner_token = response.json["access"]["token"]
+
+        criteria_data = deepcopy(test_localization_criteria)
+        criteria_data[0]["source"] = "procuringEntity"
+        set_tender_criteria(
+            criteria_data,
+            tender.get("lots", []),
+            tender.get("items", []),
+        )
+
+        with patch_market_product(product_data), patch_market_category(category_data):
+            self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}".format(tender["id"], owner_token),
+                {"data": criteria_data},
+            )
 
         with open(TARGET_DIR + "tutorial/tender-listing-after-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.get("/tenders?opt_pretty=1")

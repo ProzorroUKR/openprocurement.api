@@ -112,58 +112,9 @@ def put_rg_requirement_valid(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.requirement_id = response.json["data"][0]["id"]
-
-    with patch_market_product(self.product), patch_market_category(self.category):
-        response = self.app.put_json(
-            put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
-            {"data": put_fields},
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    self.assertEqual(len(response.json["data"]), 2)
-    self.assertEqual(response.json["data"][0]["status"], "active")
-    self.assertEqual(response.json["data"][1]["status"], "cancelled")
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "dateModified", "datePublished"})
-    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
-    self.assertEqual(len(response.json["data"]), 2)
-    self.assertEqual(response.json["data"][0]["status"], "cancelled")
-    self.assertIsNotNone(response.json["data"][0]["dateModified"])
-    self.assertEqual(response.json["data"][1]["status"], "active")
-    self.assertEqual(response.json["data"][1]["id"], self.requirement_id)
-    self.assertEqual(response.json["data"][1]["title"], put_fields["title"])
-    self.assertEqual(response.json["data"][1]["expectedValue"], put_fields["expectedValue"])
-    self.assertIsNone(response.json["data"][1].get("dateModified"))
-    self.assertNotEqual(response.json["data"][0]["datePublished"], response.json["data"][1]["datePublished"])
-
-    put_fields = {
-        "title": "Фізична особа 2",
-        "expectedValue": None,
-    }
-    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.requirement_id = response.json["data"][1]["id"]
-
-    with patch_market_product(self.product), patch_market_category(self.category):
-        response = self.app.put_json(
-            put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
-            {"data": put_fields},
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-
-    self.assertEqual(len(response.json["data"]), 2)
-    self.assertEqual(response.json["data"][0]["status"], "active")
-    self.assertEqual(response.json["data"][1]["status"], "cancelled")
-    self.assertEqual(set(response.json["data"][1].keys()), {"id", "status", "dateModified", "datePublished"})
-    response = self.app.get(get_url.format(self.tender_id, self.criteria_id, self.rg_id))
-    self.assertEqual(len(response.json["data"]), 3)
-    self.assertEqual(response.json["data"][1]["status"], "cancelled")
-    self.assertIsNotNone(response.json["data"][1]["dateModified"])
-    self.assertEqual(response.json["data"][2]["status"], "active")
-    self.assertEqual(response.json["data"][2]["id"], self.requirement_id)
-    self.assertEqual(response.json["data"][2]["title"], put_fields["title"])
-    self.assertNotIn("expectedValue", response.json["data"][2])
-    self.assertIsNone(response.json["data"][2].get("dateModified"))
-    self.assertNotEqual(response.json["data"][1]["datePublished"], response.json["data"][2]["datePublished"])
+    response = self.app.put_json(
+        put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
+        {"data": put_fields},
+        status=405,
+    )
+    self.assertEqual(response.status, "405 Method Not Allowed")
