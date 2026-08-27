@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
 )
@@ -18,6 +19,9 @@ from openprocurement.tender.limited.procedure.state.criterion_rg_requirement imp
 )
 class ReportingRequirementResource(BaseRequirementResource):
     state_class = LimitedRequirementState
+
+    def put(self):
+        raise_operation_error(self.request, "Method Not Allowed", status=405)
 
 
 @resource(

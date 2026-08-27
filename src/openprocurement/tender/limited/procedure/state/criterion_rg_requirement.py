@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
 
 
 class LimitedRequirementState(RequirementStateMixin, TenderState):
-    allowed_put_statuses = ["active"]
+    pass

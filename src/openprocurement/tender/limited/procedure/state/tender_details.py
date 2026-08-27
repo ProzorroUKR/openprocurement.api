@@ -172,7 +172,6 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_validate_related_lot_in_items = False
-    should_validate_required_market_criteria = False
 
     contract_template_name_patch_statuses = []
 
@@ -196,7 +195,6 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_validate_related_lot_in_items = True
-    should_validate_required_market_criteria = False
 
     contract_template_name_patch_statuses = ("draft", "active")
 
