@@ -91,13 +91,26 @@
 .. http:example:: http/tutorial/create-tender-reporting-cause-details-description-required.http
    :code:
 
-Також для процедури **звітування про укладений договір** є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product` та на категорію в полі `item.category`.
-При цьому працює валідація на те, що товар і категорія існують в маркеті, а також валідація на співпадіння items.classification.id → category.classification.id - по 3му знаку:
+Також є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product` та на категорію в полі `item.category`.
+
+При цьому працюють наступні валідації:
+
+    * категорія існує в маркеті і має бути активна,
+    * товар існує в маркеті і має relatedCategory ту ж саму категорію, що і в item,
+    * категорія та товар в item використовуються тільки разом,
+    * валідація на співпадіння `items.classification.id` → `category.classification.id` - по 3му знаку
+
+Якщо вказати категорію без товару (або навпаки), то побачимо помилку:
+
+.. http:example:: http/tutorial/create-tender-reporting-items-with-category-without-product.http
+   :code:
+
+Якщо вказати інший `items.classification.id` ніж в категорії, то побачимо помилку:
 
 .. http:example:: http/tutorial/create-tender-reporting-items-with-invalid-classification.http
    :code:
 
-Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю з посиланням на товар з маркету:
+Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю з посиланням на товар і категорію з маркету:
 
 .. http:example:: http/tutorial/create-tender-reporting-procuringEntity.http
    :code:
@@ -130,10 +143,31 @@
    :code:
 
 
+Критерії
+--------
+Для закупівель **reporting**, **negotiation**, **negotiation.quick** є можливість додати критерій локалізації.
+
+Якщо буде доданий критерій з іншим `source` аніж `procuringEntity`, то буде помилка:
+
+.. http:example:: http/tutorial/create-tender-criteria-invalid-source.http
+   :code:
+
+Додамо критерій локалізації з `relatedItem`, в якому вказано `item.category`:
+
+.. http:example:: http/tutorial/create-tender-criteria.http
+   :code:
+
 Активація закупівлі
 ~~~~~~~~~~~~~~~~~~~
 
-Для активації закупівель **reporting**, **negotiation**, **negotiation.quick** їх потрібно перевести до статусу ``active``:
+Для активації закупівель **reporting**, **negotiation**, **negotiation.quick** їх потрібно перевести до статусу ``active``.
+
+Якщо активувати закупівлю з item, в якому вказана категорія з критерієм локалізації, але при цьому такий критерій не доданий до тендеру, то буде помилка:
+
+.. http:example:: http/tutorial/tender-activating-without-criteria.http
+   :code:
+
+Активуємо процедуру:
 
 .. http:example:: http/tutorial/tender-activating.http
    :code:
@@ -236,6 +270,16 @@
 .. http:example:: http/tutorial/tender-award-get-documents-again.http
    :code:
 
+
+Відповіді на критерії
+-----------------------
+
+Якщо в закупівлі вказаний критерій локалізації, то необхідно надати відповіді на вимоги критерію до `award`. Це можна зробити в `requirementResponses`:
+
+.. http:example:: http/tutorial/tender-award-requirement-responses.http
+   :code:
+
+Правила надання відповідей на вимоги критеріїв описані детальніше в :ref:`award_requirement_response_operation`.
 
 Підтвердження переможця процедури
 ---------------------------------
