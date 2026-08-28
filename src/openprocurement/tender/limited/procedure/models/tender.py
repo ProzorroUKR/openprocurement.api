@@ -40,7 +40,7 @@ from openprocurement.tender.limited.constants import (
 )
 from openprocurement.tender.limited.procedure.models.cause import CauseDetails
 from openprocurement.tender.limited.procedure.models.criterion import LimitedCriterion
-from openprocurement.tender.limited.procedure.models.item import ReportingItem
+from openprocurement.tender.limited.procedure.models.item import NegotiationItem, ReportingItem
 from openprocurement.tender.limited.procedure.models.lot import (
     Lot,
     PatchTenderLot,
@@ -50,7 +50,6 @@ from openprocurement.tender.limited.procedure.models.organization import (
     ReportFundOrganization,
     ReportingProcuringEntity,
 )
-from openprocurement.tender.openua.procedure.models.item import Item
 
 COMMON_VALUE_AMOUNT_THRESHOLD = {
     "goods": 200000,
@@ -220,7 +219,7 @@ class PostNegotiationTender(TenderMilestoneMixin, PostBaseTender):
     status = StringType(choices=["draft"], default="draft")
     value = ModelType(Value, required=True)
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(NegotiationItem, required=True),
         required=True,
         min_size=1,
         validators=[validate_uniq_id, validate_classification_id],
@@ -246,7 +245,7 @@ class PatchNegotiationTender(CommonBaseTender):
     status = StringType(choices=["draft", "active"])
     value = ModelType(Value)
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(NegotiationItem, required=True),
         min_size=1,
         validators=[validate_uniq_id, validate_classification_id],
     )
@@ -270,7 +269,7 @@ class NegotiationTender(TenderMilestoneMixin, BaseTender):
     status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     value = ModelType(Value, required=True)
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(NegotiationItem, required=True),
         required=True,
         min_size=1,
         validators=[validate_uniq_id, validate_classification_id],
