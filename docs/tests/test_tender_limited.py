@@ -140,9 +140,15 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             "relatedCategory": "655360-30230000-889652-00000",
             "id": "655360-30230000-889652-11111",
         }
-        reporting_data["items"][0]["product"] = product_data["id"]
         reporting_data["items"][0]["category"] = category_data["id"]
         with patch_market_product(product_data), patch_market_category(category_data):
+            with open(
+                TARGET_DIR + "tutorial/create-tender-reporting-items-with-category-without-product.http", "w"
+            ) as self.app.file_obj:
+                self.app.post_json(
+                    "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
+                )
+            reporting_data["items"][0]["product"] = product_data["id"]
             with open(
                 TARGET_DIR + "tutorial/create-tender-reporting-items-with-invalid-classification.http", "w"
             ) as self.app.file_obj:
@@ -161,8 +167,18 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         tender = response.json["data"]
         owner_token = response.json["access"]["token"]
 
+        with (
+            patch_market_product(product_data),
+            patch_market_category(category_data),
+            open(TARGET_DIR + "tutorial/tender-activating-without-criteria.http", "w") as self.app.file_obj,
+        ):
+            self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+                {"data": {"status": "active"}},
+                status=403,
+            )
+
         criteria_data = deepcopy(test_localization_criteria)
-        criteria_data[0]["source"] = "procuringEntity"
         set_tender_criteria(
             criteria_data,
             tender.get("lots", []),
@@ -170,10 +186,19 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         )
 
         with patch_market_product(product_data), patch_market_category(category_data):
-            self.app.post_json(
-                "/tenders/{}/criteria?acc_token={}".format(tender["id"], owner_token),
-                {"data": criteria_data},
-            )
+            with open(TARGET_DIR + "tutorial/create-tender-criteria-invalid-source.http", "w") as self.app.file_obj:
+                self.app.post_json(
+                    "/tenders/{}/criteria?acc_token={}".format(tender["id"], owner_token),
+                    {"data": criteria_data},
+                    status=422,
+                )
+            criteria_data[0]["source"] = "procuringEntity"
+            with open(TARGET_DIR + "tutorial/create-tender-criteria.http", "w") as self.app.file_obj:
+                response = self.app.post_json(
+                    "/tenders/{}/criteria?acc_token={}".format(tender["id"], owner_token),
+                    {"data": criteria_data},
+                )
+                requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
 
         with open(TARGET_DIR + "tutorial/tender-listing-after-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.get("/tenders?opt_pretty=1")
@@ -294,6 +319,25 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                 "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, owner_token)
             )
         self.assertEqual(response.status, "200 OK")
+
+        # award requirement responses
+
+        response_data = [
+            {
+                "requirement": {
+                    "id": requirement_id,
+                },
+                "value": 35,
+            }
+        ]
+
+        with open(TARGET_DIR + "tutorial/tender-award-requirement-responses.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
+                    self.tender_id, self.award_id, owner_token
+                ),
+                {"data": response_data},
+            )
 
         #### Award confirmation
 

@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/3f2cabf45461412fa1b382f25474ef88?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Tender must contain at least one category criteria for item 2e91e3e715a941bd8cba92984bf8cd4f"
+    }
+  ]
+}
+

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-18 16:18+0300\n"
+"POT-Creation-Date: 2026-08-28 15:11+0300\n"
 "PO-Revision-Date: 2021-10-26 13:27+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -158,8 +158,14 @@ msgstr ""
 msgid "ID пов’язаного профілю"
 msgstr "ID for related profile"
 
-msgid "Додатково у :ref:`limited` (звіти):"
-msgstr "Additionally in :ref:`limited` (reporting):"
+msgid "category"
+msgstr ""
+
+msgid "ID пов’язаної категорії"
+msgstr "ID for related category"
+
+msgid "Додатково у :ref:`limited`:"
+msgstr "Additionally in :ref:`limited`:"
 
 msgid "product"
 msgstr ""
@@ -224,9 +230,6 @@ msgstr ""
 msgid "|ocdsDescription| Назва одиниці"
 msgstr "|ocdsDescription| Name of the unit"
 
-msgid "Додатково у :ref:`limited`:"
-msgstr "Additionally in :ref:`limited`:"
-
 msgid "value"
 msgstr ""
 
@@ -235,7 +238,3 @@ msgstr ""
 
 msgid "Ціна за одиницю."
 msgstr "Price per unit."
-
-#~ msgid "Додатково у :ref:`limited` (reporting):"
-#~ msgstr "Additionally in :ref:`limited` (reporting):"
-

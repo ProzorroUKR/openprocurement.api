@@ -36,8 +36,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "name": "папір"
         },
         "quantity": 1,
-        "product": "655360-30230000-889652-11111",
-        "category": "655360-30230000-889652-00000"
+        "category": "655360-30230000-889652-00000",
+        "product": "655360-30230000-889652-11111"
       }
     ],
     "procurementMethod": "limited",
@@ -285,7 +285,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
       "title_en": "Subparagraph 1 of paragraph 9²",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "tenderID": "UA-2027-01-01-000004-a",
+    "tenderID": "UA-2027-01-01-000005-a",
     "owner": "broker",
     "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {

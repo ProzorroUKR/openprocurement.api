@@ -16,6 +16,24 @@ Content-Type: application/json
 
 {
   "data": {
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "9eb40fb3195740bcaba2bdda4f60e15b",
+          "title": "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік"
+        },
+        "value": 35,
+        "id": "f8596d42e3d540708af54fd75178c73d",
+        "unit": {
+          "code": "P1",
+          "name": "відсоток"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
+        }
+      }
+    ],
     "id": "0931e24a98c44abc8b35892a4e99e1d8",
     "qualified": true,
     "status": "active",
