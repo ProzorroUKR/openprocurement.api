@@ -18,6 +18,7 @@ get_tender_profile_targets = [
 get_tender_category_targets = [
     "openprocurement.tender.core.procedure.state.tender_details.get_tender_category",
     "openprocurement.tender.core.procedure.criteria.get_tender_category",
+    "openprocurement.tender.limited.procedure.state.tender_details.get_tender_category",
 ]
 
 get_product_targets = [

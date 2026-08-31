@@ -1,3 +1,5 @@
+from pyramid.request import Request
+
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
     CPV_GROUP_PREFIX_LENGTH,
@@ -8,7 +10,7 @@ from openprocurement.api.constants_env import (
     QUICK_CAUSE_REQUIRED_FROM,
 )
 from openprocurement.api.procedure.validation import validate_items_classifications_prefixes
-from openprocurement.api.utils import get_tender_product, raise_operation_error
+from openprocurement.api.utils import get_tender_category, get_tender_product, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -29,6 +31,8 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class CauseDetailsMixing:
+    request: Request
+
     def validate_cause_required(self, data):
         if tender_created_after(CAUSE_DETAILS_REQUIRED_FROM):
             if not data.get("causeDetails"):
@@ -109,13 +113,65 @@ class CauseDetailsMixing:
                 )
             after["causeDetails"] = enrich_cause_details(cause_details, cause_details_reference, force=True)
 
+    def validate_items_related_market_objects(self, after: dict, before: dict) -> None:
+        def get_items_market_objects(data: dict) -> dict:
+            return {
+                item["id"]: {
+                    "product": item.get("product"),
+                    "category": item.get("category"),
+                    "classification": item.get("classification", {}),
+                }
+                for item in data.get("items", [])
+            }
+
+        after_items_rps = get_items_market_objects(after)
+        before_items_rps = get_items_market_objects(before)
+
+        for item_id, after_rp in after_items_rps.items():
+            before_rp = before_items_rps.get(item_id)
+
+            if before_rp == after_rp:
+                continue
+
+            product_id = after_rp["product"]
+            category_id = after_rp["category"]
+
+            if product_id and not category_id:
+                raise_operation_error(
+                    self.request,
+                    [{"category": ["This field is required."]}],
+                    status=422,
+                    name="items",
+                )
+
+            if category_id and not product_id:
+                raise_operation_error(
+                    self.request,
+                    [{"product": ["This field is required."]}],
+                    status=422,
+                    name="items",
+                )
+
+            if category_id is None:
+                continue
+
+            category = get_tender_category(get_request(), category_id, ("active",))
+
+            get_tender_product(get_request(), product_id, related_category=category_id)
+
+            validate_items_classifications_prefixes(
+                [after_rp["classification"]],
+                root_classification=category.get("classification", {}),
+                root_name="category",
+                default_prefix_length=CPV_GROUP_PREFIX_LENGTH,
+            )
+
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_validate_related_lot_in_items = False
-    should_validate_required_market_criteria = False
 
     contract_template_name_patch_statuses = []
 
@@ -124,36 +180,14 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     def on_post(self, tender):
         self.validate_cause_required(tender)
         self.set_cause_details_data(tender)
-        self.validate_items_related_product(tender, {})
+        self.validate_items_related_market_objects(tender, {})
         super().on_post(tender)
 
     def on_patch(self, before, after):
         self.validate_cause_required(after)
         self.set_cause_details_data(after, before)
-        self.validate_items_related_product(after, before)
+        self.validate_items_related_market_objects(after, before)
         super().on_patch(before, after)
-
-    def validate_items_related_product(self, after: dict, before: dict) -> None:
-        after_items_rps = {
-            item["id"]: (item["product"], item.get("classification", {}))
-            for item in after.get("items", "")
-            if "product" in item
-        }
-        before_items_rps = {
-            item["id"]: (item["product"], item.get("classification", {}))
-            for item in before.get("items", "")
-            if "product" in item
-        }
-
-        for item_id, after_rp in after_items_rps.items():
-            if not (before_rp := before_items_rps.get(item_id)) or before_rp != after_rp:
-                product = get_tender_product(get_request(), after_rp[0])
-                validate_items_classifications_prefixes(
-                    [after_rp[1]],
-                    root_classification=product.get("classification", {}),
-                    root_name="product",
-                    default_prefix_length=CPV_GROUP_PREFIX_LENGTH,
-                )
 
 
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
@@ -161,7 +195,6 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_validate_related_lot_in_items = True
-    should_validate_required_market_criteria = False
 
     contract_template_name_patch_statuses = ("draft", "active")
 
@@ -170,6 +203,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     def on_post(self, tender):
         self.validate_cause_required(tender)
         self.set_cause_details_data(tender)
+        self.validate_items_related_market_objects(tender, {})
         super().on_post(tender)
 
     def on_patch(self, before, after):
@@ -180,6 +214,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
                 get_request(),
                 "Can't update tender when there is at least one award.",
             )
+        self.validate_items_related_market_objects(after, before)
         super().on_patch(before, after)
 
     @staticmethod

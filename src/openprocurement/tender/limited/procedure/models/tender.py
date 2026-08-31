@@ -12,6 +12,7 @@ from openprocurement.api.procedure.models.organization import ProcuringEntityKin
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_uniq_id
+from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_uniq
 from openprocurement.tender.core.procedure.models.item import (
     validate_classification_id,
     validate_related_buyer_in_items,
@@ -30,6 +31,7 @@ from openprocurement.tender.core.procedure.models.tender import (
 from openprocurement.tender.core.procedure.models.tender_base import CommonBaseTender
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
+    validate_object_id_uniq,
 )
 from openprocurement.tender.limited.constants import (
     NEGOTIATION,
@@ -37,7 +39,8 @@ from openprocurement.tender.limited.constants import (
     REPORTING,
 )
 from openprocurement.tender.limited.procedure.models.cause import CauseDetails
-from openprocurement.tender.limited.procedure.models.item import ReportingItem
+from openprocurement.tender.limited.procedure.models.criterion import LimitedCriterion
+from openprocurement.tender.limited.procedure.models.item import NegotiationItem, ReportingItem
 from openprocurement.tender.limited.procedure.models.lot import (
     Lot,
     PatchTenderLot,
@@ -47,7 +50,6 @@ from openprocurement.tender.limited.procedure.models.organization import (
     ReportFundOrganization,
     ReportingProcuringEntity,
 )
-from openprocurement.tender.openua.procedure.models.item import Item
 
 COMMON_VALUE_AMOUNT_THRESHOLD = {
     "goods": 200000,
@@ -139,6 +141,10 @@ class PatchReportingTender(CommonBaseTender):
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDetails = ModelType(CauseDetails)
+    criteria = ListType(
+        ModelType(LimitedCriterion, required=True),
+        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+    )
 
 
 class ReportingTender(TenderMilestoneMixin, BaseTender):
@@ -213,7 +219,7 @@ class PostNegotiationTender(TenderMilestoneMixin, PostBaseTender):
     status = StringType(choices=["draft"], default="draft")
     value = ModelType(Value, required=True)
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(NegotiationItem, required=True),
         required=True,
         min_size=1,
         validators=[validate_uniq_id, validate_classification_id],
@@ -239,7 +245,7 @@ class PatchNegotiationTender(CommonBaseTender):
     status = StringType(choices=["draft", "active"])
     value = ModelType(Value)
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(NegotiationItem, required=True),
         min_size=1,
         validators=[validate_uniq_id, validate_classification_id],
     )
@@ -251,6 +257,10 @@ class PatchNegotiationTender(CommonBaseTender):
     lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
 
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+    criteria = ListType(
+        ModelType(LimitedCriterion, required=True),
+        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+    )
 
 
 class NegotiationTender(TenderMilestoneMixin, BaseTender):
@@ -259,7 +269,7 @@ class NegotiationTender(TenderMilestoneMixin, BaseTender):
     status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     value = ModelType(Value, required=True)
     items = ListType(
-        ModelType(Item, required=True),
+        ModelType(NegotiationItem, required=True),
         required=True,
         min_size=1,
         validators=[validate_uniq_id, validate_classification_id],

@@ -1,0 +1,41 @@
+POST /api/2.5/tenders/3f2cabf45461412fa1b382f25474ef88/awards/0931e24a98c44abc8b35892a4e99e1d8/requirement_responses?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "9eb40fb3195740bcaba2bdda4f60e15b"
+      },
+      "value": 35
+    }
+  ]
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "requirement": {
+        "id": "9eb40fb3195740bcaba2bdda4f60e15b",
+        "title": "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік"
+      },
+      "value": 35,
+      "id": "f8596d42e3d540708af54fd75178c73d",
+      "unit": {
+        "code": "P1",
+        "name": "відсоток"
+      },
+      "classification": {
+        "scheme": "LAW922",
+        "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
+      }
+    }
+  ]
+}
+

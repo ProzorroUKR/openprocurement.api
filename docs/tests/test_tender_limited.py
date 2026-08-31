@@ -2,7 +2,9 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.tender.core.tests.mock import patch_market_product
+from openprocurement.tender.core.tests.base import test_localization_criteria
+from openprocurement.tender.core.tests.mock import patch_market_category, patch_market_product
+from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
@@ -129,12 +131,24 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
         }
 
-        product_data = {
+        category_data = {
             "classification": {"description": "Продукти харчування різні", "id": "15800000-6", "scheme": "ДК021"},
             "id": "655360-30230000-889652-00000",
+            "criteria": test_localization_criteria,
         }
-        reporting_data["items"][0]["product"] = product_data["id"]
-        with patch_market_product(product_data):
+        product_data = {
+            "relatedCategory": "655360-30230000-889652-00000",
+            "id": "655360-30230000-889652-11111",
+        }
+        reporting_data["items"][0]["category"] = category_data["id"]
+        with patch_market_product(product_data), patch_market_category(category_data):
+            with open(
+                TARGET_DIR + "tutorial/create-tender-reporting-items-with-category-without-product.http", "w"
+            ) as self.app.file_obj:
+                self.app.post_json(
+                    "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
+                )
+            reporting_data["items"][0]["product"] = product_data["id"]
             with open(
                 TARGET_DIR + "tutorial/create-tender-reporting-items-with-invalid-classification.http", "w"
             ) as self.app.file_obj:
@@ -142,7 +156,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                     "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
                 )
 
-            reporting_data["items"][0]["classification"] = product_data["classification"]
+            reporting_data["items"][0]["classification"] = category_data["classification"]
 
             with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
@@ -153,13 +167,50 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         tender = response.json["data"]
         owner_token = response.json["access"]["token"]
 
+        with (
+            patch_market_product(product_data),
+            patch_market_category(category_data),
+            open(TARGET_DIR + "tutorial/tender-activating-without-criteria.http", "w") as self.app.file_obj,
+        ):
+            self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+                {"data": {"status": "active"}},
+                status=403,
+            )
+
+        criteria_data = deepcopy(test_localization_criteria)
+        set_tender_criteria(
+            criteria_data,
+            tender.get("lots", []),
+            tender.get("items", []),
+        )
+
+        with patch_market_product(product_data), patch_market_category(category_data):
+            with open(TARGET_DIR + "tutorial/create-tender-criteria-invalid-source.http", "w") as self.app.file_obj:
+                self.app.post_json(
+                    "/tenders/{}/criteria?acc_token={}".format(tender["id"], owner_token),
+                    {"data": criteria_data},
+                    status=422,
+                )
+            criteria_data[0]["source"] = "procuringEntity"
+            with open(TARGET_DIR + "tutorial/create-tender-criteria.http", "w") as self.app.file_obj:
+                response = self.app.post_json(
+                    "/tenders/{}/criteria?acc_token={}".format(tender["id"], owner_token),
+                    {"data": criteria_data},
+                )
+                requirement_id = response.json["data"][0]["requirementGroups"][0]["requirements"][0]["id"]
+
         with open(TARGET_DIR + "tutorial/tender-listing-after-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.get("/tenders?opt_pretty=1")
             self.assertEqual(response.status, "200 OK")
 
         #### Tender activating
 
-        with open(TARGET_DIR + "tutorial/tender-activating.http", "w") as self.app.file_obj:
+        with (
+            patch_market_product(product_data),
+            patch_market_category(category_data),
+            open(TARGET_DIR + "tutorial/tender-activating.http", "w") as self.app.file_obj,
+        ):
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"status": "active"}}
             )
@@ -268,6 +319,25 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
                 "/tenders/{}/awards/{}/documents?acc_token={}".format(self.tender_id, self.award_id, owner_token)
             )
         self.assertEqual(response.status, "200 OK")
+
+        # award requirement responses
+
+        response_data = [
+            {
+                "requirement": {
+                    "id": requirement_id,
+                },
+                "value": 35,
+            }
+        ]
+
+        with open(TARGET_DIR + "tutorial/tender-award-requirement-responses.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(
+                    self.tender_id, self.award_id, owner_token
+                ),
+                {"data": response_data},
+            )
 
         #### Award confirmation
 

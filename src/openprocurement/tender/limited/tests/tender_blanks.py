@@ -25,6 +25,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
 )
+from openprocurement.tender.core.tests.mock import patch_market_product, patch_market_category
 from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.limited.procedure.models.tender import (
     COMMON_VALUE_AMOUNT_THRESHOLD,
@@ -1944,6 +1945,7 @@ def tender_cause_change_rationale_types_update(self):
 def tender_items_related_product(self):
     data = self.initial_data.copy()
     related_product_id = "test"
+    related_category_id = "foo"
     data["items"][0]["product"] = related_product_id
 
     response_404 = mock.Mock()
@@ -1953,28 +1955,25 @@ def tender_items_related_product(self):
         "requests.get",
         Mock(return_value=response_404),
     ):
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "items", "description": [{"category": ["This field is required."]}]}],
+        )
+        data["items"][0]["category"] = related_category_id
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=404)
         self.assertEqual(response.status, "404 Not Found")
         self.assertEqual(
-            response.json["errors"][0]["description"], f"Products {related_product_id} not found in catalouges."
+            response.json["errors"][0]["description"], f"Categories {related_category_id} not found in catalouges."
         )
 
-    response_200 = Mock()
-    response_200.status_code = 200
-    response_200.json = Mock(
-        return_value={
-            "data": {
-                "id": related_product_id,
-                "classification": {"id": "33192230-3", "description": "Операційні столи", "scheme": "ДК021"},
-                "status": "hidden",  # doesn't matter which status profile has
-            }
-        }
-    )
-
-    with mock.patch(
-        "requests.get",
-        Mock(return_value=response_200),
-    ):
+    product = {"id": related_product_id, "relatedCategory": related_category_id}
+    category = {
+        "id": related_category_id,
+        "classification": {"id": "33192230-3", "description": "Операційні столи", "scheme": "ДК021"},
+        "status": "hidden",  # doesn't matter which status category has
+    }
+    with patch_market_product(product), patch_market_category(category):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
         self.assertEqual(
             response.json["errors"],
@@ -1982,7 +1981,7 @@ def tender_items_related_product(self):
                 {
                     "location": "body",
                     "name": "items",
-                    "description": ["CPV group of items (446) should be identical to product CPV group (331)"],
+                    "description": ["CPV group of items (446) should be identical to category CPV group (331)"],
                 }
             ],
         )
@@ -2009,28 +2008,36 @@ def tender_items_related_product(self):
                 {
                     "location": "body",
                     "name": "items",
-                    "description": ["CPV group of items (091) should be identical to product CPV group (331)"],
+                    "description": ["CPV group of items (091) should be identical to category CPV group (331)"],
                 }
             ],
         )
 
-    # add second item without product (CBD shouldn't get object from Catalogue)
+    # add second item without product and category (CBD shouldn't get object from Catalogue)
     tender_items[0]["classification"]["id"] = "33192230-3"
     second_item = deepcopy(tender_items[0])
     second_item.pop("product")
+    second_item.pop("category")
     second_item.pop("id")
     self.app.patch_json(
         f"/tenders/{tender_id}?acc_token={owner_token}",
         {"data": {"items": tender_items + [second_item]}},
     )
 
-    # add product to second item
-    with mock.patch(
-        "requests.get",
-        Mock(return_value=response_200),
-    ):
-        second_item["product"] = related_product_id
+    # add category to second item without product
+    with patch_market_category(category), patch_market_product(product):
+        second_item["category"] = related_category_id
         second_item["classification"]["id"] = "09130000-9"
+        response = self.app.patch_json(
+            f"/tenders/{tender_id}?acc_token={owner_token}",
+            {"data": {"items": tender_items + [second_item]}},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "items", "description": [{"product": ["This field is required."]}]}],
+        )
+        second_item["product"] = related_product_id
         response = self.app.patch_json(
             f"/tenders/{tender_id}?acc_token={owner_token}",
             {"data": {"items": tender_items + [second_item]}},
@@ -2042,7 +2049,7 @@ def tender_items_related_product(self):
                 {
                     "location": "body",
                     "name": "items",
-                    "description": ["CPV group of items (091) should be identical to product CPV group (331)"],
+                    "description": ["CPV group of items (091) should be identical to category CPV group (331)"],
                 }
             ],
         )

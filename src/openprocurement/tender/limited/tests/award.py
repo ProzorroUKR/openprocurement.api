@@ -61,6 +61,9 @@ from openprocurement.tender.limited.tests.award_blanks import (  # TenderAwardDo
     review_tender_award_stopping_complaint,
     two_awards_on_one_lot,
     two_lot_two_awards,
+    create_award_requirement_response,
+    patch_award_requirement_response,
+    get_award_requirement_response,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
@@ -73,13 +76,14 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_data_2items,
     test_tender_reporting_data,
 )
+from openprocurement.tender.limited.tests.criterion import TenderCriteriaBaseTestMixin
 from openprocurement.tender.limited.tests.utils import get_award_data
 
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
 )
-class TenderAwardResourceTest(BaseTenderContentWebTest):
+class TenderAwardResourceTest(TenderCriteriaBaseTestMixin, BaseTenderContentWebTest):
     initial_status = "active"
     initial_data = test_tender_reporting_data
     test_tender_data_local = test_tender_reporting_data
@@ -94,6 +98,9 @@ class TenderAwardResourceTest(BaseTenderContentWebTest):
     test_activate_contract_with_cancelled_award = snitch(activate_contract_with_cancelled_award)
     test_create_tender_award_no_scale_invalid = snitch(create_tender_award_no_scale_invalid)
     test_prolongation_award_is_forbidden = snitch(prolongation_award_is_forbidden)
+    test_create_award_requirement_response = snitch(create_award_requirement_response)
+    test_patch_award_requirement_response = snitch(patch_award_requirement_response)
+    test_get_award_requirement_response = snitch(get_award_requirement_response)
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):
