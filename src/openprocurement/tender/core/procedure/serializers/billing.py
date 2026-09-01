@@ -3,6 +3,7 @@ from openprocurement.api.procedure.serializers.base import (
     BaseUIDSerializer,
     ListSerializer,
 )
+from openprocurement.tender.core.procedure.serializers.complaint import ComplaintSerializer
 
 
 class BillingBidSerializer(BaseSerializer):
@@ -21,6 +22,7 @@ class BillingBidSerializer(BaseSerializer):
 class BillingTenderSerializer(BaseUIDSerializer):
     serializers = {
         "bids": ListSerializer(BillingBidSerializer),
+        "complaints": ListSerializer(ComplaintSerializer),
     }
     public_fields = {
         "id",
@@ -40,4 +42,5 @@ class BillingTenderSerializer(BaseUIDSerializer):
         "awards",
         "contracts",
         "qualifications",
+        "complaints",
     }
