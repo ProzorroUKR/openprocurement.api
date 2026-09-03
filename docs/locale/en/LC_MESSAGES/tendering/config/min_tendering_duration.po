@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-20 22:06+0300\n"
+"POT-Creation-Date: 2026-09-03 14:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -36,9 +36,6 @@ msgid "days"
 msgstr ""
 
 msgid "aboveThreshold"
-msgstr ""
-
-msgid "7 / 15"
 msgstr ""
 
 msgid "15"
@@ -136,4 +133,7 @@ msgstr ""
 
 msgid "4"
 msgstr ""
+
+#~ msgid "7 / 15"
+#~ msgstr ""
 
