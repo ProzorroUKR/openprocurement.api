@@ -77,6 +77,26 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
 
 {
   "data": {
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Localized description",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 100.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "c877d1255cf64f17b141859249e3b873",
+        "product": "11111111111111111111111111111111"
+      }
+    ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
       {
@@ -123,26 +143,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Localized description",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "relatedLot": "c877d1255cf64f17b141859249e3b873",
-        "product": "11111111111111111111111111111111"
-      }
-    ],
     "id": "0b5eacc064854705858ff66a63e13eb5",
     "date": "2027-01-01T00:00:00+02:00"
   },

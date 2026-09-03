@@ -15,6 +15,24 @@ Content-Type: application/json
 
 {
   "data": {
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 50.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 10.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -65,24 +83,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
-      }
-    ],
-    "items": [
-      {
-        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
-        "description": "футляри до державних нагород",
-        "description_en": "futliary do derzhavnyh nagorod",
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 50.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 10.0,
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "parameters": [

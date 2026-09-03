@@ -156,6 +156,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/03c83777bb8341d8
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -194,23 +195,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/03c83777bb8341d8
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5.0,
-      "valueAddedTaxIncluded": false
-    },
-    "status": "draft",
-    "tenderPeriod": {
-      "startDate": "2027-01-12T00:00:02+02:00",
-      "endDate": "2027-01-27T00:00:00+02:00"
-    },
     "procurementMethodType": "aboveThresholdUA.defense",
+    "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -241,9 +227,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/03c83777bb8341d8
         "authorizedBy": "Статут компанії"
       }
     },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 5.0,
+      "valueAddedTaxIncluded": false
+    },
+    "tenderPeriod": {
+      "endDate": "2027-01-27T00:00:00+02:00",
+      "startDate": "2027-01-12T00:00:02+02:00"
+    },
     "items": [
       {
-        "id": "52eed5547df7427482aad4c9a24ba9f8",
+        "id": "048a0ce78327496f927536faba235e04",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

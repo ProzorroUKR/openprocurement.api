@@ -161,6 +161,35 @@ Content-Type: application/json
         }
       }
     ],
+    "items": [
+      {
+        "id": "e8007f9ac0c2421fb228744f17b14aab",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
+        "status": "active",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "Державне управління справами",
@@ -204,35 +233,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
-      }
-    ],
-    "items": [
-      {
-        "id": "02a5d4bbd232444f839b334708ca78c1",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 500.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
-        "status": "active",
-        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "submissionDate": "2027-01-01T00:00:00+02:00"

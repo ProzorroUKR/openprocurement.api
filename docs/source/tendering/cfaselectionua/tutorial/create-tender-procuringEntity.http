@@ -194,17 +194,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
       "address": {
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
         "postalCode": "01220",
         "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
       },
       "kind": "general"
     },
@@ -220,6 +220,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 5.0,
         "classification": {
           "description": "Cartons",
@@ -233,11 +237,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        }
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "lots": [

@@ -410,7 +410,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
     ],
     "criteria": [
       {
-        "id": "426449fa571346a5834b7c8ac2f8f902",
+        "id": "fd9f481e57f545cc914e50e2a2b0046d",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
@@ -433,11 +433,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
         ],
         "requirementGroups": [
           {
-            "id": "fd9f481e57f545cc914e50e2a2b0046d",
+            "id": "794bcb50495d499287d10aeb9836370a",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "794bcb50495d499287d10aeb9836370a",
+                "id": "1668d27a70464257912418d91015e73e",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -448,7 +448,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "48ada825a8244e1c882f50d74b7366b3",
+                "id": "dfc3cf4e825a4166b941f1fbc3bef12f",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -460,7 +460,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "3e9eb97901a149e7854ca9bc20922d74",
+                "id": "be3b9f1f54af493e80451b5d050399a7",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",

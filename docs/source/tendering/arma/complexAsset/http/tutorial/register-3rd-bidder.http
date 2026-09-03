@@ -78,7 +78,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -89,7 +89,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "deef5391f86241b0b0a89b4257997238",
+        "id": "832a07855e1642dd883da3c2c355e6c6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -110,6 +110,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
 
 {
   "data": {
+    "items": [
+      {
+        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      },
+      {
+        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -135,40 +159,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "id": "c11a79964fb8409586e9d9ee9b32a048",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
-      },
-      {
-        "id": "deef5391f86241b0b0a89b4257997238",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
-        },
-        "quantity": 1.0,
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
-      }
-    ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amountPercentage": 50.0
-        },
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
-        "date": "2027-01-01T00:03:00+02:00"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",
@@ -235,6 +225,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         "id": "3fbe1e3f0ad5446894f74159b3e37af7",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amountPercentage": 50.0
+        },
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+        "date": "2027-01-01T00:03:00+02:00"
       }
     ],
     "id": "ec61ff4dff6e4acc8d78e1f819212cb9",

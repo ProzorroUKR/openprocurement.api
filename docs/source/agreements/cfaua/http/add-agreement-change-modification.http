@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "modifications": [
       {
-        "itemId": "ce7ee9fee64b4eaa87dd010843796c9a",
+        "itemId": "6903daff2bac4c2a96601d5d5730d569",
         "factor": 0.1605
       }
     ]
@@ -28,7 +28,7 @@ Content-Type: application/json
     "rationaleType": "taxRate",
     "modifications": [
       {
-        "itemId": "ce7ee9fee64b4eaa87dd010843796c9a",
+        "itemId": "6903daff2bac4c2a96601d5d5730d569",
         "factor": 0.1605
       }
     ]

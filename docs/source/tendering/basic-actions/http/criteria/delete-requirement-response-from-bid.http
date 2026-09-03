@@ -15,6 +15,52 @@ Content-Type: application/json
 
 {
   "data": {
+    "items": [
+      {
+        "id": "6fb93fc98c2348a9a7fdc1527c71fab9",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 250.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
+      },
+      {
+        "id": "9eef2efe9bdf4241a279f49e875eee85",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 250.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476",
+        "status": "pending",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -51,52 +97,6 @@ Content-Type: application/json
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "id": "5abe81cd14f742cb8d4cf0903585d320",
     "date": "2027-01-01T00:00:00+02:00",
-    "items": [
-      {
-        "id": "c575e9311900483bace962c5b56d80f3",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 250.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
-      },
-      {
-        "id": "98fb0d9fbf4a435ebd18145b5a2bc372",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "упаковка",
-          "value": {
-            "amount": 250.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "PK"
-        },
-        "quantity": 1.0,
-        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476",
-        "status": "pending",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",

@@ -86,6 +86,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
+    "status": "draft",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -242,6 +243,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "aboveThreshold",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -278,35 +280,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "13e393636d614660a90f07fa8b4feea6",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
-        },
-        "auctionPeriod": {
-          "startDate": "2027-01-18T12:22:15.236000+02:00",
-          "shouldStartAfter": "2027-01-16T00:00:00+02:00"
-        }
-      }
-    ],
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00"
-    },
-    "status": "draft",
-    "procurementMethodType": "aboveThreshold",
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-13T00:00:00+02:00",
@@ -337,7 +310,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "13e393636d614660a90f07fa8b4feea6",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -348,7 +320,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
       },
       {
         "id": "5cacba5cf95a40b580cedfb21df309ba",
@@ -384,6 +357,33 @@ Content-Type: application/json
         }
       }
     ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "13e393636d614660a90f07fa8b4feea6",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 15.0
+        },
+        "auctionPeriod": {
+          "startDate": "2027-01-18T12:22:15.236000+02:00",
+          "shouldStartAfter": "2027-01-16T00:00:00+02:00"
+        }
+      }
+    ],
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00"
+    },
     "id": "38bca89f7ba4477d97f553d576fd6994"
   },
   "config": {

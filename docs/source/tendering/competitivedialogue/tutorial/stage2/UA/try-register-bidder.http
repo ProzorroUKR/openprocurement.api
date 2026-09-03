@@ -49,11 +49,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "a5fc00cd288946f5a835cfe3f612bf73",
+        "id": "40de4769766945ee95d7df59d91cb811",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "quantity": 1.0,
         "relatedLot": "10098f084434468aa19a0bb3524d5517",
-        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "code": "KGM",
@@ -65,11 +65,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
         }
       },
       {
-        "id": "ae7f8fba51254242b200e4b8a602f0ea",
+        "id": "9bf5d3e19a0b4ee9bc5bd4ef0e236ac5",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "quantity": 1.0,
         "relatedLot": "10098f084434468aa19a0bb3524d5517",
-        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "code": "PK",

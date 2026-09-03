@@ -11,8 +11,9 @@ Content-Type: application/json
     "id": "8887db77f71c4a0496b39ac2c4eea78c",
     "items": [
       {
-        "id": "ce7ee9fee64b4eaa87dd010843796c9a",
+        "id": "6903daff2bac4c2a96601d5d5730d569",
         "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
         "unit": {
           "name": "item",
           "code": "KGM"
@@ -30,7 +31,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -42,7 +42,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Cases for state awards"
+        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
       }
     ],
     "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
@@ -80,7 +80,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -122,7 +122,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -164,7 +164,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,

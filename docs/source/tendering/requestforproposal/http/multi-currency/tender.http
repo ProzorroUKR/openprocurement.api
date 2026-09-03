@@ -895,6 +895,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -929,41 +930,14 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 1000.0
     },
+    "enquiryPeriod": {
+      "startDate": "2026-12-22T00:00:00+02:00",
+      "endDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-08T00:00:00+02:00"
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "e932e2282dd44ca38478282c9b65d683",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        }
-      },
-      {
-        "title": "Лот №2",
-        "description": "Опис Лот №2",
-        "status": "active",
-        "id": "ffecdd78783d41ea8db264ed749853d9",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        }
-      }
-    ],
-    "procurementMethodType": "requestForProposal",
-    "enquiryPeriod": {
-      "startDate": "2026-12-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "endDate": "2027-01-01T00:00:00+02:00"
     },
     "items": [
       {
@@ -1032,6 +1006,32 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "relatedLot": "ffecdd78783d41ea8db264ed749853d9"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "e932e2282dd44ca38478282c9b65d683",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        }
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "active",
+        "id": "ffecdd78783d41ea8db264ed749853d9",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        }
       }
     ],
     "next_check": "2027-01-08T00:00:00+02:00",

@@ -190,6 +190,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
   "data": {
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -229,20 +230,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
       }
     ],
     "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
       "name_en": "School #10 of Vinnytsia",
       "identifier": {
         "scheme": "UA-EDR",
@@ -250,11 +239,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general",
@@ -267,17 +263,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "authorizedBy": "Статут компанії"
       }
     },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "procurementMethodType": "competitiveDialogueEU",
     "mainProcurementCategory": "services",
-    "status": "draft",
     "items": [
       {
-        "id": "df38969eb8ad4d558dda2cd874f14ac4",
+        "id": "b147656012414e84984969eedb0d1f6a",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "code": "KGM"
@@ -305,12 +306,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
+        }
       },
       {
-        "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+        "id": "5c3c5cf88e844f5aa88f6748c519c933",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "code": "PK"
@@ -338,8 +339,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
+        }
       }
     ],
     "tenderID": "UA-2027-01-01-000001-a",

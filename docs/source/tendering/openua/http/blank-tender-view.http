@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -48,6 +49,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -83,15 +85,13 @@ Content-Type: application/json
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "status": "draft",
-    "procurementMethodType": "aboveThresholdUA",
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "items": [
       {
-        "id": "d58c1dbb41c040b1b5acea8abccea15a",
+        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

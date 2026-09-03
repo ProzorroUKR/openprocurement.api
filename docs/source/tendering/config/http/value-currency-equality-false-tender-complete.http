@@ -1152,6 +1152,7 @@ Content-Type: application/json
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
+    "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -1186,41 +1187,14 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 1000.0
     },
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-06T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-17T00:00:00+02:00"
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "complete",
-        "id": "d7afc0eb4f6d42549557d7b3226417e6",
-        "date": "2027-01-31T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        }
-      },
-      {
-        "title": "Лот №2",
-        "description": "Опис Лот №2",
-        "status": "complete",
-        "id": "6670a4933d854a00afa53a2979728a6d",
-        "date": "2027-01-31T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        }
-      }
-    ],
-    "procurementMethodType": "requestForProposal",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-12T00:00:00+02:00",
-      "endDate": "2027-01-06T00:00:00+02:00"
     },
     "items": [
       {
@@ -1289,6 +1263,32 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "complete",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
+        "date": "2027-01-31T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        }
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "complete",
+        "id": "6670a4933d854a00afa53a2979728a6d",
+        "date": "2027-01-31T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        }
       }
     ],
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
@@ -1509,6 +1509,39 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "c5b0023de71046108dde1a721e00de87",
+            "description": "Послуги шкільних їдалень",
+            "unit": {
+              "name": "папір",
+              "value": {
+                "amount": 300.0,
+                "currency": "USD",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          },
+          {
+            "id": "5cacba5cf95a40b580cedfb21df309ba",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 300.0,
+                "currency": "USD",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1589,39 +1622,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "c5b0023de71046108dde1a721e00de87",
-            "description": "Послуги шкільних їдалень",
-            "unit": {
-              "name": "папір",
-              "value": {
-                "amount": 300.0,
-                "currency": "USD",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
-          },
-          {
-            "id": "5cacba5cf95a40b580cedfb21df309ba",
-            "description": "Послуги шкільних їдалень",
-            "description_en": "Services in school canteens",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 300.0,
-                "currency": "USD",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"

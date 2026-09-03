@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "d948edc4cb6e40fda39035b61fd70ac6",
+      "id": "043cc1c9dc98435889550049b5697d28",
       "date": "2024-01-01T00:00:01+02:00",
       "submissionDate": "2024-01-01T00:00:01+02:00",
       "documents": [
@@ -57,7 +57,7 @@ Content-Type: application/json
       "requirementResponses": [
         {
           "requirement": {
-            "id": "143eb8ba1ad8447b89fdf984e8550cdd",
+            "id": "8c643e102af842a9a76c98acb416a3a8",
             "title": "Діагональ екрану"
           },
           "value": 23.8,
@@ -73,7 +73,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b3bc205afbb246fa9049119cdec737df",
+            "id": "71ffc2c8fbed4816be84d21f94478995",
             "title": "Роздільна здатність"
           },
           "values": [
@@ -87,7 +87,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "05ee5b8bd46c4f2dbda8fc5c140f6420",
+            "id": "32b55dda9d7045e49e0f16fe4238d5b1",
             "title": "Співвідношення сторін"
           },
           "values": [
@@ -101,7 +101,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "3b6af92914a047b2bd2c1bfd714adcf6",
+            "id": "2208b4adaab247ac9c5b791fa3c79b17",
             "title": "Яскравість дисплея"
           },
           "value": 0,
@@ -117,7 +117,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "383761af47964f29a6ed2754b88dd4d1",
+            "id": "027f4d131b204904920fd8e99006f895",
             "title": "Контрастність (статична)"
           },
           "values": [
@@ -131,7 +131,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "1949b1aac38b41e99615052120f9c4a1",
+            "id": "f11876a021344994be82d100b4ed71b6",
             "title": "Кількість портів HDMI"
           },
           "value": 1,
@@ -147,7 +147,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "7a4f29925a8f430fb6094b40cd1c171f",
+            "id": "13620fc03aae44df9df55ed8cb13d52f",
             "title": "Кількість портів D-sub"
           },
           "value": 1,
@@ -163,7 +163,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "622b7a53db2d4b76b9b48643fc1f65ec",
+            "id": "f6865c1031a44dc6ac20c78a09a906a1",
             "title": "Кабель для під’єднання"
           },
           "values": [
@@ -177,7 +177,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "c5675ebbd1164923b2c8ca8dbc158258",
+            "id": "abbe9d04709e481f8715fa0a986d96f2",
             "title": "Гарантія"
           },
           "value": 36,
@@ -193,7 +193,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "47c1d3250c0644f9a26e8fb5d656b066",
+            "id": "ae995d97e9cc47cb90f4d55125657913",
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
@@ -205,7 +205,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "27ee2ce8b1eb4faba58664bb63a164dc",
+            "id": "2015c1f164124ee89d10f06dcfedd091",
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
@@ -241,7 +241,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "f826cda730dc45ca83baa28d0755503d",
+      "id": "5e4c721fc5c54c5ca74759c18b262201",
       "date": "2024-01-01T00:00:01+02:00",
       "documents": [
         {
@@ -299,7 +299,7 @@ Content-Type: application/json
       "requirementResponses": [
         {
           "requirement": {
-            "id": "143eb8ba1ad8447b89fdf984e8550cdd",
+            "id": "8c643e102af842a9a76c98acb416a3a8",
             "title": "Діагональ екрану"
           },
           "value": 23.8,
@@ -315,7 +315,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b3bc205afbb246fa9049119cdec737df",
+            "id": "71ffc2c8fbed4816be84d21f94478995",
             "title": "Роздільна здатність"
           },
           "values": [
@@ -329,7 +329,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "05ee5b8bd46c4f2dbda8fc5c140f6420",
+            "id": "32b55dda9d7045e49e0f16fe4238d5b1",
             "title": "Співвідношення сторін"
           },
           "values": [
@@ -343,7 +343,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "3b6af92914a047b2bd2c1bfd714adcf6",
+            "id": "2208b4adaab247ac9c5b791fa3c79b17",
             "title": "Яскравість дисплея"
           },
           "value": 0,
@@ -359,7 +359,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "383761af47964f29a6ed2754b88dd4d1",
+            "id": "027f4d131b204904920fd8e99006f895",
             "title": "Контрастність (статична)"
           },
           "values": [
@@ -373,7 +373,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "1949b1aac38b41e99615052120f9c4a1",
+            "id": "f11876a021344994be82d100b4ed71b6",
             "title": "Кількість портів HDMI"
           },
           "value": 1,
@@ -389,7 +389,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "7a4f29925a8f430fb6094b40cd1c171f",
+            "id": "13620fc03aae44df9df55ed8cb13d52f",
             "title": "Кількість портів D-sub"
           },
           "value": 1,
@@ -405,7 +405,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "622b7a53db2d4b76b9b48643fc1f65ec",
+            "id": "f6865c1031a44dc6ac20c78a09a906a1",
             "title": "Кабель для під’єднання"
           },
           "values": [
@@ -419,7 +419,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "c5675ebbd1164923b2c8ca8dbc158258",
+            "id": "abbe9d04709e481f8715fa0a986d96f2",
             "title": "Гарантія"
           },
           "value": 36,
@@ -435,7 +435,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "47c1d3250c0644f9a26e8fb5d656b066",
+            "id": "ae995d97e9cc47cb90f4d55125657913",
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
@@ -447,7 +447,7 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "27ee2ce8b1eb4faba58664bb63a164dc",
+            "id": "2015c1f164124ee89d10f06dcfedd091",
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
@@ -484,7 +484,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "1c614b178d494c53a94d5a2688d45a79",
+      "id": "8533ff4a9b08435b8873f8bb8d251f60",
       "status": "invalid"
     }
   ]

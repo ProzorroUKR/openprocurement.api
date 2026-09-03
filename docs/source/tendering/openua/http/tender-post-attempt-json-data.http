@@ -152,6 +152,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -190,6 +191,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -225,15 +227,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a338571a254a4b06
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "status": "draft",
-    "procurementMethodType": "aboveThresholdUA",
     "tenderPeriod": {
-      "startDate": "2027-01-12T00:03:02+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-12T00:03:02+02:00"
     },
     "items": [
       {
-        "id": "c8a0520403ef490a9e1990d1f4faf9ae",
+        "id": "d2e3bc6b6e7c4ff2b8f3062f36b0b8e8",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

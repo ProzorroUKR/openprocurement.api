@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/16ed9c73a8f34ed89787edcf423f4267/bids/fbcde53fd1f94b558c1111bc3303f29c?acc_token=c962dec9949240f9aa7733143f3c8165 HTTP/1.0
+PATCH /api/2.5/tenders/16ed9c73a8f34ed89787edcf423f4267/bids/a751e3f3c60e4c669dc6995b799ebe8d?acc_token=c962dec9949240f9aa7733143f3c8165 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,26 +17,26 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "pending",
     "items": [
       {
-        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "id": "77323aaaef9a4db1887c8e2334147bc7",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
-        "description_en": "Services in school canteens"
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
       },
       {
-        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "id": "ab43ef6483bc4201b9d92626a5618b46",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
-        "description_en": "Services in school canteens"
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
       }
     ]
   }
@@ -48,12 +48,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "fbcde53fd1f94b558c1111bc3303f29c",
+    "id": "a751e3f3c60e4c669dc6995b799ebe8d",
     "date": "2027-01-01T00:01:00+02:00",
     "submissionDate": "2027-01-01T00:01:00+02:00",
     "items": [
       {
-        "id": "141bfe7e6fa84c98b337b3334873cfef",
+        "id": "77323aaaef9a4db1887c8e2334147bc7",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -64,7 +64,7 @@ Content-Type: application/json
         "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
       },
       {
-        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+        "id": "ab43ef6483bc4201b9d92626a5618b46",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {

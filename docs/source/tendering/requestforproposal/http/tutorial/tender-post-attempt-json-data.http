@@ -196,6 +196,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -230,15 +231,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
-    "procurementMethodType": "requestForProposal",
     "enquiryPeriod": {
       "endDate": "2027-01-08T00:00:00+02:00",
       "startDate": "2027-01-01T00:00:00+02:00",
       "clarificationsUntil": "2027-01-12T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
     },
     "items": [
       {

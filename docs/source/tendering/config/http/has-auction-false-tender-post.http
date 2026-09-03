@@ -198,6 +198,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -239,6 +240,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
+    "procurementMethodType": "aboveThreshold",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -274,25 +276,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "id": "d7afc0eb4f6d42549557d7b3226417e6",
-        "status": "active",
-        "value": {
-          "currency": "UAH",
-          "amount": 500.0,
-          "valueAddedTaxIncluded": false
-        },
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
-    "status": "draft",
-    "procurementMethodType": "aboveThreshold",
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
+      "endDate": "2027-01-16T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "items": [
       {
@@ -359,6 +345,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "postalCode": "79000",
           "countryName": "Україна"
         }
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
+        "status": "active",
+        "value": {
+          "currency": "UAH",
+          "amount": 500.0,
+          "valueAddedTaxIncluded": false
+        },
+        "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "tenderID": "UA-2027-01-01-000001-a",

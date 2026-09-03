@@ -150,6 +150,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "agreements": [
       {
         "id": "120e2d279ef84f8db8c5a993a4e58137"
@@ -193,6 +194,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "competitiveOrdering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -220,11 +222,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "status": "draft",
-    "procurementMethodType": "competitiveOrdering",
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
+      "endDate": "2027-01-16T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "items": [
       {

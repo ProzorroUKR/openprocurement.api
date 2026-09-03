@@ -19,6 +19,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
+    "status": "active.tendering",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -135,38 +136,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "aboveThresholdUA.defense",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5.0,
-      "valueAddedTaxIncluded": false
-    },
-    "auctionPeriod": {
-      "startDate": "2027-01-27T13:09:55.701000+02:00",
-      "shouldStartAfter": "2027-01-27T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-25T00:00:00+02:00"
-    },
-    "status": "active.tendering",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-27T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-27T00:00:00+02:00"
-    },
-    "procurementMethodType": "aboveThresholdUA.defense",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -197,9 +169,33 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 5.0,
+      "valueAddedTaxIncluded": false
+    },
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-27T00:00:00+02:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2027-01-27T13:09:55.701000+02:00",
+      "shouldStartAfter": "2027-01-27T00:00:00+02:00"
+    },
     "items": [
       {
-        "id": "24af3e11746b401f9910c26651847959",
+        "id": "1d31ac0134ca43c7af07b864e5e48944",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -231,6 +227,10 @@ Content-Type: application/json
         }
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-25T00:00:00+02:00"
+    },
     "next_check": "2027-01-27T00:00:00+02:00",
     "id": "b2ccf978cbbe4d5998adc7057db41ca4"
   },

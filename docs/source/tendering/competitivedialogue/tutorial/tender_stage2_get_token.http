@@ -14,7 +14,41 @@ Content-Type: application/json
     "title_en": "Services in school canteens",
     "procurementMethod": "selective",
     "title": "Послуги шкільних їдалень",
+    "status": "draft.stage2",
     "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": false,
@@ -43,40 +77,6 @@ Content-Type: application/json
         }
       }
     ],
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
-        "availableLanguage": "uk"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "status": "draft.stage2",
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "owner": "broker",
     "tenderID": "UA-2027-01-01-000001-a.2",
@@ -126,8 +126,9 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "df38969eb8ad4d558dda2cd874f14ac4",
+        "id": "b147656012414e84984969eedb0d1f6a",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -136,7 +137,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -148,20 +148,21 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens",
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
         "unit": {
           "name": "кілограм",
           "code": "KGM"
-        },
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
         }
       },
       {
-        "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+        "id": "5c3c5cf88e844f5aa88f6748c519c933",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -170,7 +171,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -182,15 +182,15 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
-        },
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
+        },
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
         }
       }
     ],

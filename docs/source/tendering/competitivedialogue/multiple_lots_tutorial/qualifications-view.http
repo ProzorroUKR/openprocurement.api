@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": [
     {
       "id": "c78f038b5a7c4dc29bf750f702884c3f",
-      "bidID": "b936dea48982483fa0dca16cbbabd262",
+      "bidID": "3a72053b989b4af38489c09ebe5765dc",
       "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
       "status": "pending",
       "date": "2027-01-01T00:01:00+02:00",
@@ -19,7 +19,7 @@ Content-Type: application/json
     },
     {
       "id": "7c53b3bb5af34776ad687e076aafebb4",
-      "bidID": "95f91577d82e445b9aff9338e0d5c97a",
+      "bidID": "7245888520724e91a7d4959da5ca033c",
       "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
       "status": "pending",
       "date": "2027-01-01T00:01:00+02:00",
@@ -28,7 +28,7 @@ Content-Type: application/json
     },
     {
       "id": "6ecdff1511a54a4182cb0edb47026f1f",
-      "bidID": "95f91577d82e445b9aff9338e0d5c97a",
+      "bidID": "7245888520724e91a7d4959da5ca033c",
       "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
       "status": "pending",
       "date": "2027-01-01T00:01:00+02:00",
@@ -37,7 +37,7 @@ Content-Type: application/json
     },
     {
       "id": "455696660eab4eb8ae27233295975477",
-      "bidID": "fbcde53fd1f94b558c1111bc3303f29c",
+      "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
       "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
       "status": "pending",
       "date": "2027-01-01T00:01:00+02:00",
@@ -46,7 +46,7 @@ Content-Type: application/json
     },
     {
       "id": "b407d317f8d649eb8048697239f81486",
-      "bidID": "fbcde53fd1f94b558c1111bc3303f29c",
+      "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
       "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
       "status": "pending",
       "date": "2027-01-01T00:01:00+02:00",
@@ -55,7 +55,7 @@ Content-Type: application/json
     },
     {
       "id": "aa5974d7117a420e8997eca59822f426",
-      "bidID": "322f88a05b5740bd836496aa6b9bb8f7",
+      "bidID": "0af9e91a77e545dab89567dec4ef2ab2",
       "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
       "status": "pending",
       "date": "2027-01-01T00:01:00+02:00",

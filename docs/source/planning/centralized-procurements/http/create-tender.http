@@ -310,6 +310,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
       }
     ],
     "title": "футляри до державних нагород",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -348,6 +349,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЦЗО №1",
@@ -374,15 +376,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "status": "draft",
-    "procurementMethodType": "aboveThresholdUA",
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:15+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:15+02:00"
     },
     "items": [
       {
-        "id": "58249ab94cda4611bf1f693f27c729ad",
+        "id": "5edfd4d5216d400284f1aed71733cc17",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -401,7 +401,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
             "description": "Насіння гірчиці"
           }
         ],
-        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
           "endDate": "2027-01-16T00:00:00+02:00"
         },
@@ -411,10 +410,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "58e52004466749f19004d8a27ed6f6a7",
+        "id": "91045606fa0c45aca7e1c3884dd2d582",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -433,7 +433,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
             "description": "Насіння соняшнику"
           }
         ],
-        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86",
         "deliveryDate": {
           "endDate": "2027-01-17T00:00:00+02:00"
         },
@@ -443,10 +442,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "f7efbe43d45a4830a917aa9f1c6c4ad4",
+        "id": "70210337127e4d13b274cd599dabd5ab",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -465,7 +465,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
             "description": "Насіння бавовнику"
           }
         ],
-        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd",
         "deliveryDate": {
           "endDate": "2027-01-18T00:00:00+02:00"
         },
@@ -475,7 +474,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/13ccc4a94b884c8c
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd"
       }
     ],
     "tenderID": "UA-2027-01-01-000001-a",

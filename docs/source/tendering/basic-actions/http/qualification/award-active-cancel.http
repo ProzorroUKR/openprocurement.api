@@ -62,27 +62,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
       "startDate": "2027-01-01T00:00:03+02:00",
       "endDate": "2027-01-01T00:00:03+02:00"
     },
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "notice",
-        "id": "b5345c82222b443a91dfb2a471654fe3",
-        "datePublished": "2027-01-01T00:00:03+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/279112f8106a4601b7775f4630e91f34?Signature=1eX%2BsMr0dE7YzBIzXW0sy2DrCuxZUeAyNStlBqH0dMGF8Driq5Jp%2BErhA4H0sB2zwY%2Fm9WEvPZe0KdBJzutJAg%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:03+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
-    "period": {
-      "startDate": "2027-01-01T00:00:03+02:00",
-      "endDate": "2027-01-09T00:00:00+02:00"
-    },
-    "qualified": true,
     "complaints": [
       {
         "author": {
@@ -214,6 +193,27 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
         "rejectReason": "cancelledByComplainant"
       }
     ],
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "b5345c82222b443a91dfb2a471654fe3",
+        "datePublished": "2027-01-01T00:00:03+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/279112f8106a4601b7775f4630e91f34?Signature=1eX%2BsMr0dE7YzBIzXW0sy2DrCuxZUeAyNStlBqH0dMGF8Driq5Jp%2BErhA4H0sB2zwY%2Fm9WEvPZe0KdBJzutJAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:03+02:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "period": {
+      "startDate": "2027-01-01T00:00:03+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
+    },
+    "qualified": true,
     "eligible": true
   }
 }

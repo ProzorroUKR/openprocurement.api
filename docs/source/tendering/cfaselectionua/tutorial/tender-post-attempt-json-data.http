@@ -128,6 +128,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d9343086154eaf
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
       "contactPoint": {
         "name": "Державне управління справами",
         "telephone": "+0440000000",
@@ -140,13 +147,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d9343086154eaf
           "availableLanguage": "uk"
         }
       ],
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
       "kind": "general"
     },
     "status": "draft",
@@ -160,6 +160,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d9343086154eaf
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
         "quantity": 5.0,
         "classification": {
           "description": "New Cartons",
@@ -184,11 +188,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d9343086154eaf
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        }
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "lots": [

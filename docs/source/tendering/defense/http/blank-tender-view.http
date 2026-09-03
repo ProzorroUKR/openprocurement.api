@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -48,23 +49,8 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 5.0,
-      "valueAddedTaxIncluded": false
-    },
-    "status": "draft",
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-27T00:00:00+02:00"
-    },
     "procurementMethodType": "aboveThresholdUA.defense",
+    "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -95,9 +81,23 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 5.0,
+      "valueAddedTaxIncluded": false
+    },
+    "tenderPeriod": {
+      "endDate": "2027-01-27T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "items": [
       {
-        "id": "24af3e11746b401f9910c26651847959",
+        "id": "1d31ac0134ca43c7af07b864e5e48944",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

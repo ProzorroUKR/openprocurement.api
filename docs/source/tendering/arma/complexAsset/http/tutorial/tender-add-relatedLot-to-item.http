@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "deef5391f86241b0b0a89b4257997238",
+        "id": "832a07855e1642dd883da3c2c355e6c6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -88,6 +88,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
+    "status": "draft",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -166,21 +167,11 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "submissionMethod": "electronicAuction",
-    "qualificationPeriod": {
-      "startDate": "2027-01-30T00:00:00+02:00",
-      "endDate": "2027-02-13T00:00:00+02:00"
-    },
     "procurementMethodType": "complexAsset.arma",
+    "submissionMethod": "electronicAuction",
+    "awardCriteria": "ratedCriteria",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
       "name_en": "School #10 of Vinnytsia",
       "identifier": {
         "scheme": "UA-EDR",
@@ -188,16 +179,22 @@ Content-Type: application/json
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "status": "draft",
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-20T00:00:00+02:00",
@@ -209,7 +206,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -229,7 +226,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -240,10 +236,11 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "deef5391f86241b0b0a89b4257997238",
+        "id": "832a07855e1642dd883da3c2c355e6c6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -263,7 +260,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -274,10 +270,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
     ],
-    "awardCriteria": "ratedCriteria",
     "lots": [
       {
         "title": "Лот №1",
@@ -302,6 +298,10 @@ Content-Type: application/json
         }
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-30T00:00:00+02:00",
+      "endDate": "2027-02-13T00:00:00+02:00"
+    },
     "id": "0c99535af6024017bcbdec7b4a5c49da"
   },
   "config": {

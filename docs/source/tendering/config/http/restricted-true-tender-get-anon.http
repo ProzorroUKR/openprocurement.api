@@ -853,6 +853,7 @@ Content-Type: application/json
         "author": "tender_owner"
       }
     ],
+    "status": "active.tendering",
     "owner": "brokerr",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -977,6 +978,7 @@ Content-Type: application/json
         "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
+    "procurementMethodType": "competitiveOrdering",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -1013,35 +1015,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "2b1b594948f547af9eff49515789e928",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
-        },
-        "auctionPeriod": {
-          "startDate": "2027-01-18T12:22:15.236000+02:00",
-          "shouldStartAfter": "2027-01-16T00:00:00+02:00"
-        }
-      }
-    ],
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00"
-    },
-    "status": "active.tendering",
-    "procurementMethodType": "competitiveOrdering",
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-13T00:00:00+02:00",
@@ -1073,7 +1046,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "1970-01-01T03:00:00+03:00",
           "endDate": "1970-01-01T03:00:00+03:00"
@@ -1084,9 +1056,37 @@ Content-Type: application/json
           "region": "Приховано",
           "postalCode": "Приховано",
           "countryName": "Приховано"
+        },
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "2b1b594948f547af9eff49515789e928",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 15.0
+        },
+        "auctionPeriod": {
+          "startDate": "2027-01-18T12:22:15.236000+02:00",
+          "shouldStartAfter": "2027-01-16T00:00:00+02:00"
         }
       }
     ],
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00"
+    },
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-01-16T00:00:00+02:00",
     "id": "2b5eb9efd396490d8e3e662b7153c1ff"

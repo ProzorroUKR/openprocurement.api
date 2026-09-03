@@ -1043,25 +1043,6 @@ Content-Type: application/json
     ],
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "next_check": "2027-01-09T00:00:00+02:00",
-    "qualificationPeriod": {
-      "startDate": "2027-01-09T00:00:00+02:00",
-      "endDate": "2027-02-06T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
-      "endDate": "2027-01-05T00:00:00+02:00"
-    },
-    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "name": "Державне управління справами",
       "name_en": "State administration",
@@ -1080,19 +1061,33 @@ Content-Type: application/json
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
         "name_en": "State administration",
+        "telephone": "+0440000000",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "mainProcurementCategory": "goods",
-    "agreementDuration": "P3Y3M3D",
-    "maxAwardsCount": 4,
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "next_check": "2027-01-09T00:00:00+02:00",
+    "enquiryPeriod": {
+      "startDate": "2026-12-07T00:00:00+02:00",
+      "endDate": "2026-12-30T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
     "items": [
       {
-        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
         "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
         "unit": {
           "name": "item",
           "code": "KGM"
@@ -1110,7 +1105,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -1122,11 +1116,12 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Cases for state awards"
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "id": "1065f03b083b486d810ef3d29ad67913",
         "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
         "unit": {
           "name": "item",
           "code": "GRM"
@@ -1144,7 +1139,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -1156,9 +1150,21 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Cases for state awards"
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-02-06T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-07T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
+    },
+    "procurementMethodType": "closeFrameworkAgreementUA",
+    "mainProcurementCategory": "goods",
+    "agreementDuration": "P3Y3M3D",
+    "maxAwardsCount": 4,
     "lots": [
       {
         "title": "Лот №1",
@@ -1186,12 +1192,6 @@ Content-Type: application/json
         }
       }
     ],
-    "enquiryPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
-      "endDate": "2026-12-30T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
     "tenderPeriod": {
       "startDate": "2026-12-07T00:00:00+02:00",
       "endDate": "2027-01-09T00:00:00+02:00"

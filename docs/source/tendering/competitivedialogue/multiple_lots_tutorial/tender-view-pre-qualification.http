@@ -129,24 +129,8 @@ Content-Type: application/json
       }
     ],
     "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 900.0
-    },
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:01:00+02:00",
-      "endDate": "2027-01-30T00:00:00+02:00"
-    },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
       "name_en": "School #10 of Vinnytsia",
       "identifier": {
         "scheme": "UA-EDR",
@@ -154,11 +138,18 @@ Content-Type: application/json
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general",
@@ -171,6 +162,11 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 900.0
+    },
     "enquiryPeriod": {
       "startDate": "2026-12-01T00:01:00+02:00",
       "endDate": "2026-12-22T00:01:00+02:00",
@@ -181,83 +177,6 @@ Content-Type: application/json
       "startDate": "2026-12-01T00:01:00+02:00",
       "endDate": "2027-01-01T00:01:00+02:00"
     },
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-28T00:00:00+02:00"
-    },
-    "procurementMethodType": "competitiveDialogueEU",
-    "mainProcurementCategory": "services",
-    "status": "active.pre-qualification",
-    "items": [
-      {
-        "id": "141bfe7e6fa84c98b337b3334873cfef",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
-        "deliveryDate": {
-          "startDate": "2027-01-21T00:00:00+02:00",
-          "endDate": "2027-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
-      },
-      {
-        "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
-        "deliveryDate": {
-          "startDate": "2027-01-21T00:00:00+02:00",
-          "endDate": "2027-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Services in school canteens"
-      }
-    ],
     "lots": [
       {
         "title": "Лот №1",
@@ -294,12 +213,93 @@ Content-Type: application/json
         }
       }
     ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:01:00+02:00",
+      "endDate": "2027-01-30T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
+    },
+    "procurementMethodType": "competitiveDialogueEU",
+    "mainProcurementCategory": "services",
+    "status": "active.pre-qualification",
+    "items": [
+      {
+        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+      },
+      {
+        "id": "ab43ef6483bc4201b9d92626a5618b46",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+      }
+    ],
     "bids": [
       {
-        "id": "b936dea48982483fa0dca16cbbabd262",
+        "id": "3a72053b989b4af38489c09ebe5765dc",
         "items": [
           {
-            "id": "141bfe7e6fa84c98b337b3334873cfef",
+            "id": "77323aaaef9a4db1887c8e2334147bc7",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -381,10 +381,10 @@ Content-Type: application/json
         "status": "pending"
       },
       {
-        "id": "95f91577d82e445b9aff9338e0d5c97a",
+        "id": "7245888520724e91a7d4959da5ca033c",
         "items": [
           {
-            "id": "141bfe7e6fa84c98b337b3334873cfef",
+            "id": "77323aaaef9a4db1887c8e2334147bc7",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -395,7 +395,7 @@ Content-Type: application/json
             "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
           },
           {
-            "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+            "id": "ab43ef6483bc4201b9d92626a5618b46",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -481,10 +481,10 @@ Content-Type: application/json
         "status": "pending"
       },
       {
-        "id": "fbcde53fd1f94b558c1111bc3303f29c",
+        "id": "a751e3f3c60e4c669dc6995b799ebe8d",
         "items": [
           {
-            "id": "141bfe7e6fa84c98b337b3334873cfef",
+            "id": "77323aaaef9a4db1887c8e2334147bc7",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -495,7 +495,7 @@ Content-Type: application/json
             "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
           },
           {
-            "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+            "id": "ab43ef6483bc4201b9d92626a5618b46",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -580,10 +580,10 @@ Content-Type: application/json
         "status": "pending"
       },
       {
-        "id": "322f88a05b5740bd836496aa6b9bb8f7",
+        "id": "0af9e91a77e545dab89567dec4ef2ab2",
         "items": [
           {
-            "id": "b6b00d6cf5b94e7d8ed3ba07ab36cb5f",
+            "id": "ab43ef6483bc4201b9d92626a5618b46",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -653,7 +653,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "c78f038b5a7c4dc29bf750f702884c3f",
-        "bidID": "b936dea48982483fa0dca16cbbabd262",
+        "bidID": "3a72053b989b4af38489c09ebe5765dc",
         "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
         "status": "pending",
         "date": "2027-01-01T00:01:00+02:00",
@@ -662,7 +662,7 @@ Content-Type: application/json
       },
       {
         "id": "7c53b3bb5af34776ad687e076aafebb4",
-        "bidID": "95f91577d82e445b9aff9338e0d5c97a",
+        "bidID": "7245888520724e91a7d4959da5ca033c",
         "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
         "status": "pending",
         "date": "2027-01-01T00:01:00+02:00",
@@ -671,7 +671,7 @@ Content-Type: application/json
       },
       {
         "id": "6ecdff1511a54a4182cb0edb47026f1f",
-        "bidID": "95f91577d82e445b9aff9338e0d5c97a",
+        "bidID": "7245888520724e91a7d4959da5ca033c",
         "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
         "status": "pending",
         "date": "2027-01-01T00:01:00+02:00",
@@ -680,7 +680,7 @@ Content-Type: application/json
       },
       {
         "id": "455696660eab4eb8ae27233295975477",
-        "bidID": "fbcde53fd1f94b558c1111bc3303f29c",
+        "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
         "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
         "status": "pending",
         "date": "2027-01-01T00:01:00+02:00",
@@ -689,7 +689,7 @@ Content-Type: application/json
       },
       {
         "id": "b407d317f8d649eb8048697239f81486",
-        "bidID": "fbcde53fd1f94b558c1111bc3303f29c",
+        "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
         "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
         "status": "pending",
         "date": "2027-01-01T00:01:00+02:00",
@@ -698,7 +698,7 @@ Content-Type: application/json
       },
       {
         "id": "aa5974d7117a420e8997eca59822f426",
-        "bidID": "322f88a05b5740bd836496aa6b9bb8f7",
+        "bidID": "0af9e91a77e545dab89567dec4ef2ab2",
         "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
         "status": "pending",
         "date": "2027-01-01T00:01:00+02:00",

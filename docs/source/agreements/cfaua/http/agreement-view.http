@@ -42,7 +42,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -84,7 +84,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -126,7 +126,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -141,7 +141,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "ce7ee9fee64b4eaa87dd010843796c9a",
+        "id": "6903daff2bac4c2a96601d5d5730d569",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "classification": {

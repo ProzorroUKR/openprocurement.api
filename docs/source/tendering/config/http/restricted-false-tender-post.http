@@ -177,6 +177,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
   "data": {
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
+    "status": "draft",
     "agreements": [
       {
         "id": "120e2d279ef84f8db8c5a993a4e58137"
@@ -223,6 +224,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
+    "procurementMethodType": "competitiveOrdering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -258,34 +260,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "id": "2b1b594948f547af9eff49515789e928",
-        "status": "active",
-        "value": {
-          "currency": "UAH",
-          "amount": 500.0,
-          "valueAddedTaxIncluded": false
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "amount": 15.0,
-          "valueAddedTaxIncluded": false
-        },
-        "date": "2027-01-01T00:00:00+02:00",
-        "auctionPeriod": {
-          "shouldStartAfter": "2027-01-16T00:00:00+02:00",
-          "startDate": "2027-01-18T13:09:55.701000+02:00"
-        }
-      }
-    ],
-    "status": "draft",
-    "procurementMethodType": "competitiveOrdering",
     "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
+      "endDate": "2027-01-16T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "items": [
       {
@@ -308,7 +285,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "deliveryDate": {
           "startDate": "2027-01-03T00:00:00+02:00",
           "endDate": "2027-01-06T00:00:00+02:00"
@@ -319,6 +295,30 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
+        },
+        "relatedLot": "2b1b594948f547af9eff49515789e928"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "id": "2b1b594948f547af9eff49515789e928",
+        "status": "active",
+        "value": {
+          "currency": "UAH",
+          "amount": 500.0,
+          "valueAddedTaxIncluded": false
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "amount": 15.0,
+          "valueAddedTaxIncluded": false
+        },
+        "date": "2027-01-01T00:00:00+02:00",
+        "auctionPeriod": {
+          "shouldStartAfter": "2027-01-16T00:00:00+02:00",
+          "startDate": "2027-01-18T13:09:55.701000+02:00"
         }
       }
     ],

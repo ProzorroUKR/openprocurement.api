@@ -1138,13 +1138,6 @@ Content-Type: application/json
     },
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
       "name_en": "School #10 of Vinnytsia",
       "identifier": {
         "scheme": "UA-EDR",
@@ -1152,11 +1145,18 @@ Content-Type: application/json
         "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
         "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
       "contactPoint": {
         "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
         "telephone": "+380432465302",
         "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
         "availableLanguage": "uk"
       },
       "kind": "general",
@@ -1191,7 +1191,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "f0139735d90e4febb8eb0e42b4d85026",
+        "id": "45bb257ff1554e798e6c7a4096b3aabf",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
@@ -1217,7 +1217,7 @@ Content-Type: application/json
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
       },
       {
-        "id": "c2a60a70b88948f2bdf171b74fc95d3b",
+        "id": "994db85df9984f048a1ba611a69e6927",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,

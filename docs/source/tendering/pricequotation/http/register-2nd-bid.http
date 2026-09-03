@@ -36,13 +36,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "143eb8ba1ad8447b89fdf984e8550cdd"
+          "id": "8c643e102af842a9a76c98acb416a3a8"
         },
         "value": 23.8
       },
       {
         "requirement": {
-          "id": "b3bc205afbb246fa9049119cdec737df"
+          "id": "71ffc2c8fbed4816be84d21f94478995"
         },
         "values": [
           "1920x1080"
@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "05ee5b8bd46c4f2dbda8fc5c140f6420"
+          "id": "32b55dda9d7045e49e0f16fe4238d5b1"
         },
         "values": [
           "16:9"
@@ -58,13 +58,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "3b6af92914a047b2bd2c1bfd714adcf6"
+          "id": "2208b4adaab247ac9c5b791fa3c79b17"
         },
         "value": 0
       },
       {
         "requirement": {
-          "id": "383761af47964f29a6ed2754b88dd4d1"
+          "id": "027f4d131b204904920fd8e99006f895"
         },
         "values": [
           "1000:1"
@@ -72,19 +72,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "1949b1aac38b41e99615052120f9c4a1"
+          "id": "f11876a021344994be82d100b4ed71b6"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "7a4f29925a8f430fb6094b40cd1c171f"
+          "id": "13620fc03aae44df9df55ed8cb13d52f"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "622b7a53db2d4b76b9b48643fc1f65ec"
+          "id": "f6865c1031a44dc6ac20c78a09a906a1"
         },
         "values": [
           "HDMI"
@@ -92,19 +92,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "c5675ebbd1164923b2c8ca8dbc158258"
+          "id": "abbe9d04709e481f8715fa0a986d96f2"
         },
         "value": 36
       },
       {
         "requirement": {
-          "id": "47c1d3250c0644f9a26e8fb5d656b066"
+          "id": "ae995d97e9cc47cb90f4d55125657913"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "27ee2ce8b1eb4faba58664bb63a164dc"
+          "id": "2015c1f164124ee89d10f06dcfedd091"
         },
         "value": true
       }
@@ -132,7 +132,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/bids/290b70b2968f43c086e52adf17aea0f9
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/bids/072ccda057404889a0cd2009ccf1f8f9
 
 {
   "data": {
@@ -166,7 +166,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
     "requirementResponses": [
       {
         "requirement": {
-          "id": "143eb8ba1ad8447b89fdf984e8550cdd",
+          "id": "8c643e102af842a9a76c98acb416a3a8",
           "title": "Діагональ екрану"
         },
         "value": 23.8,
@@ -182,7 +182,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "b3bc205afbb246fa9049119cdec737df",
+          "id": "71ffc2c8fbed4816be84d21f94478995",
           "title": "Роздільна здатність"
         },
         "values": [
@@ -196,7 +196,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "05ee5b8bd46c4f2dbda8fc5c140f6420",
+          "id": "32b55dda9d7045e49e0f16fe4238d5b1",
           "title": "Співвідношення сторін"
         },
         "values": [
@@ -210,7 +210,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "3b6af92914a047b2bd2c1bfd714adcf6",
+          "id": "2208b4adaab247ac9c5b791fa3c79b17",
           "title": "Яскравість дисплея"
         },
         "value": 0,
@@ -226,7 +226,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "383761af47964f29a6ed2754b88dd4d1",
+          "id": "027f4d131b204904920fd8e99006f895",
           "title": "Контрастність (статична)"
         },
         "values": [
@@ -240,7 +240,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "1949b1aac38b41e99615052120f9c4a1",
+          "id": "f11876a021344994be82d100b4ed71b6",
           "title": "Кількість портів HDMI"
         },
         "value": 1,
@@ -256,7 +256,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "7a4f29925a8f430fb6094b40cd1c171f",
+          "id": "13620fc03aae44df9df55ed8cb13d52f",
           "title": "Кількість портів D-sub"
         },
         "value": 1,
@@ -272,7 +272,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "622b7a53db2d4b76b9b48643fc1f65ec",
+          "id": "f6865c1031a44dc6ac20c78a09a906a1",
           "title": "Кабель для під’єднання"
         },
         "values": [
@@ -286,7 +286,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "c5675ebbd1164923b2c8ca8dbc158258",
+          "id": "abbe9d04709e481f8715fa0a986d96f2",
           "title": "Гарантія"
         },
         "value": 36,
@@ -302,7 +302,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "47c1d3250c0644f9a26e8fb5d656b066",
+          "id": "ae995d97e9cc47cb90f4d55125657913",
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "value": true,
@@ -314,7 +314,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
       },
       {
         "requirement": {
-          "id": "27ee2ce8b1eb4faba58664bb63a164dc",
+          "id": "2015c1f164124ee89d10f06dcfedd091",
           "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
         },
         "value": true,
@@ -343,7 +343,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ],
-    "id": "290b70b2968f43c086e52adf17aea0f9",
+    "id": "072ccda057404889a0cd2009ccf1f8f9",
     "date": "2024-01-01T00:00:01+02:00"
   },
   "access": {

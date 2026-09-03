@@ -173,6 +173,12 @@ Content-Type: application/json
         }
       }
     ],
+    "lotValues": [
+      {
+        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "status": "unsuccessful"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -207,12 +213,6 @@ Content-Type: application/json
     ],
     "status": "unsuccessful",
     "id": "3e4cddf56dd9467088292c70b86d87b4",
-    "lotValues": [
-      {
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-        "status": "unsuccessful"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",

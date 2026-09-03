@@ -175,6 +175,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "belowThreshold",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -210,6 +211,11 @@ Content-Type: application/json
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2027-01-08T00:00:00+02:00",
       "endDate": "2027-01-15T00:00:00+02:00"
@@ -217,12 +223,6 @@ Content-Type: application/json
     "auctionPeriod": {
       "startDate": "2027-01-15T13:09:55.701000+02:00",
       "shouldStartAfter": "2027-01-15T00:00:00+02:00"
-    },
-    "procurementMethodType": "belowThreshold",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00",
-      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "items": [
       {

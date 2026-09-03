@@ -208,7 +208,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "ecdebf1ccaca477b88fd95969ac8d0e6",
+        "id": "5297f0bfbb2742a580e31fb968314584",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -227,7 +227,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "a2f39dedc39a4788ae22752af33cdffb",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -238,7 +237,8 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        }
+        },
+        "relatedLot": "a2f39dedc39a4788ae22752af33cdffb"
       }
     ],
     "lots": [

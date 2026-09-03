@@ -166,7 +166,7 @@ Content-Type: application/json
     ],
     "criteria": [
       {
-        "id": "ab8d56f99a284036b5dd9c3dd0a19194",
+        "id": "fc5ddfea1bf0447480504af3d82eb457",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
@@ -189,11 +189,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "fc5ddfea1bf0447480504af3d82eb457",
+            "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
+                "id": "3cc05effcb7f4bce90118bf6319ae71a",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -204,7 +204,7 @@ Content-Type: application/json
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "e20d58194155442198977530e96849d4",
+                "id": "9cf1779dd88b4a168f82bdbfef9f7dd7",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -216,7 +216,7 @@ Content-Type: application/json
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "7e4e03e7d4d045458172ab861613549e",
+                "id": "27c0255b67124227b0fc25760f780fda",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -359,7 +359,7 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "ab6a1cc3110b46a6a89683bd2f37828f",
+        "id": "a89799772a0f473e80bcad84c1e665c9",
         "date": "2027-01-01T00:00:00+02:00",
         "tenderers": [
           {
@@ -400,7 +400,7 @@ Content-Type: application/json
         "requirementResponses": [
           {
             "requirement": {
-              "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
+              "id": "3cc05effcb7f4bce90118bf6319ae71a",
               "title": "Форма випуску"
             },
             "values": [
@@ -414,7 +414,7 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "e20d58194155442198977530e96849d4",
+              "id": "9cf1779dd88b4a168f82bdbfef9f7dd7",
               "title": "Доза діючої речовини"
             },
             "value": 5,
@@ -430,7 +430,7 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "7e4e03e7d4d045458172ab861613549e",
+              "id": "27c0255b67124227b0fc25760f780fda",
               "title": "Форма випуску 1"
             },
             "values": [
@@ -529,7 +529,7 @@ Content-Type: application/json
             "contract_owner": "broker6"
           }
         ],
-        "bid_id": "ab6a1cc3110b46a6a89683bd2f37828f",
+        "bid_id": "a89799772a0f473e80bcad84c1e665c9",
         "documents": [
           {
             "confidentiality": "public",
@@ -588,7 +588,7 @@ Content-Type: application/json
             "contract_owner": "broker6"
           }
         ],
-        "bid_id": "ab6a1cc3110b46a6a89683bd2f37828f",
+        "bid_id": "a89799772a0f473e80bcad84c1e665c9",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
           "endDate": "2027-01-05T00:00:00+02:00"

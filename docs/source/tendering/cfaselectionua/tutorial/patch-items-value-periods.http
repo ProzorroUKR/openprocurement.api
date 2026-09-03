@@ -14,6 +14,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
         "quantity": 10,
         "classification": {
           "description": "New Cartons",
@@ -38,11 +42,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        }
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ]
   }
@@ -145,6 +145,13 @@ Content-Type: application/json
         "id": "00037256",
         "uri": "http://www.dus.gov.ua/"
       },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
       "contactPoint": {
         "name": "Державне управління справами",
         "telephone": "+0440000000",
@@ -157,13 +164,6 @@ Content-Type: application/json
           "availableLanguage": "uk"
         }
       ],
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
       "kind": "general"
     },
     "status": "active.enquiries",
@@ -217,6 +217,10 @@ Content-Type: application/json
             "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
             "description": "футляри до державних нагород",
             "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
             "quantity": 5.0,
             "classification": {
               "description": "Cartons",
@@ -240,10 +244,6 @@ Content-Type: application/json
               "region": "м. Київ",
               "postalCode": "79000",
               "countryName": "Україна"
-            },
-            "unit": {
-              "name": "item",
-              "code": "KGM"
             }
           }
         ],
@@ -487,6 +487,13 @@ Content-Type: application/json
             "legalName": "Шевченківська районна в місті Києві державна адміністрація",
             "legalName_en": "Institution \"Vinnytsia City Council primary and secondary general school № 10\""
           },
+          "address": {
+            "streetAddress": "Богдана Хмельницького вулиця, 21-29",
+            "locality": "Переяслав-Хмельницький",
+            "region": "Київська область",
+            "postalCode": "01030",
+            "countryName": "Україна"
+          },
           "contactPoint": {
             "name": "Ліповець Євген Іванович",
             "name_en": "Gregory Gillespie",
@@ -495,13 +502,6 @@ Content-Type: application/json
             "faxNumber": "2343591",
             "url": "http://www.shev.gov.ua/",
             "availableLanguage": "en"
-          },
-          "address": {
-            "streetAddress": "Богдана Хмельницького вулиця, 21-29",
-            "locality": "Переяслав-Хмельницький",
-            "region": "Київська область",
-            "postalCode": "01030",
-            "countryName": "Україна"
           },
           "kind": "general"
         },
@@ -513,6 +513,10 @@ Content-Type: application/json
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
         "quantity": 10.0,
         "classification": {
           "description": "New Cartons",
@@ -537,11 +541,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        }
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "lots": [

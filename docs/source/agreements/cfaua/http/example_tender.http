@@ -10,6 +10,7 @@ Content-Type: application/json
   "data": {
     "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
+    "status": "complete",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -37,12 +38,6 @@ Content-Type: application/json
       }
     ],
     "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
-    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "name": "Державне управління справами",
       "name_en": "State administration",
@@ -61,19 +56,22 @@ Content-Type: application/json
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
         "name_en": "State administration",
+        "telephone": "+0440000000",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "mainProcurementCategory": "goods",
-    "agreementDuration": "P3Y3M3D",
-    "maxAwardsCount": 4,
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
     "items": [
       {
-        "id": "ce7ee9fee64b4eaa87dd010843796c9a",
+        "id": "6903daff2bac4c2a96601d5d5730d569",
         "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
         "unit": {
           "name": "item",
           "code": "KGM"
@@ -91,7 +89,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -103,9 +100,13 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Cases for state awards"
+        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
       }
     ],
+    "procurementMethodType": "closeFrameworkAgreementUA",
+    "mainProcurementCategory": "goods",
+    "agreementDuration": "P3Y3M3D",
+    "maxAwardsCount": 4,
     "lots": [
       {
         "title": "lot title",
@@ -133,7 +134,6 @@ Content-Type: application/json
       "endDate": "2026-12-10T00:00:00+02:00",
       "startDate": "2026-11-09T00:00:00+02:00"
     },
-    "status": "complete",
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "procurementMethod": "open",
@@ -538,8 +538,9 @@ Content-Type: application/json
         "id": "8887db77f71c4a0496b39ac2c4eea78c",
         "items": [
           {
-            "id": "ce7ee9fee64b4eaa87dd010843796c9a",
+            "id": "6903daff2bac4c2a96601d5d5730d569",
             "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
             "unit": {
               "name": "item",
               "code": "KGM"
@@ -557,7 +558,6 @@ Content-Type: application/json
                 "description": "папір і картон гофровані, паперова й картонна тара"
               }
             ],
-            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "deliveryDate": {
               "startDate": "2018-06-27T13:39:09.362837+03:00",
               "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -569,7 +569,7 @@ Content-Type: application/json
               "postalCode": "79000",
               "countryName": "Україна"
             },
-            "description_en": "Cases for state awards"
+            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
           }
         ],
         "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
@@ -607,7 +607,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+                "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -649,7 +649,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+                "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -691,7 +691,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "ce7ee9fee64b4eaa87dd010843796c9a",
+                "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,

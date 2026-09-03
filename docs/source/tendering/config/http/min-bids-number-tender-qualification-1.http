@@ -1163,6 +1163,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "procurementMethodType": "requestForProposal",
     "submissionMethod": "electronicAuction",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -1198,34 +1199,14 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-06T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
+    },
     "tenderPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-17T00:00:00+02:00"
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "13e393636d614660a90f07fa8b4feea6",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
-        }
-      }
-    ],
-    "procurementMethodType": "requestForProposal",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-12T00:00:00+02:00",
-      "endDate": "2027-01-06T00:00:00+02:00"
     },
     "items": [
       {
@@ -1251,6 +1232,25 @@ Content-Type: application/json
           }
         ],
         "relatedLot": "13e393636d614660a90f07fa8b4feea6"
+      }
+    ],
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "13e393636d614660a90f07fa8b4feea6",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 15.0
+        }
       }
     ],
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
@@ -1471,6 +1471,25 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "ffffffffffffffffffffffffffffffff",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases with state awards",
+            "description_ru": "футляры к государственным наградам",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 60.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "13e393636d614660a90f07fa8b4feea6"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1536,25 +1555,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "ffffffffffffffffffffffffffffffff",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases with state awards",
-            "description_ru": "футляры к государственным наградам",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 60.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "13e393636d614660a90f07fa8b4feea6"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"
