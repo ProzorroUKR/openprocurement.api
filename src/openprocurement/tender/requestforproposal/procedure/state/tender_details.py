@@ -1,17 +1,17 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.models.tender import (
+    PatchActiveTender,
+    PatchDraftTender,
+    PatchTender,
+)
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 from openprocurement.tender.requestforproposal.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.requestforproposal.procedure.models.tender import (
-    PatchActiveTender,
-    PatchDraftTender,
-    PatchTender,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
     RequestForProposalTenderState,
@@ -32,6 +32,13 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG
+    enquiry_period_required = True
+    patch_status_choices = (
+        "draft",
+        "active.enquiries",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
 
     def get_patch_data_model(self):
         tender = get_tender()

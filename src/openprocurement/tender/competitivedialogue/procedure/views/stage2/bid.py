@@ -16,13 +16,13 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     validate_firm_to_create_bid,
 )
+from openprocurement.tender.core.procedure.models.bid import PostBid as PostBidEU
+from openprocurement.tender.core.procedure.models.bid import PostBid as PostBidUA
 from openprocurement.tender.core.procedure.validation import (
     validate_bid_operation_not_in_tendering,
     validate_bid_operation_period,
 )
-from openprocurement.tender.openeu.procedure.models.bid import PostBid as PostBidEU
 from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
-from openprocurement.tender.openua.procedure.models.bid import PostBid as PostBidUA
 from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
 
 LOGGER = getLogger(__name__)

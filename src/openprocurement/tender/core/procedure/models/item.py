@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, FloatType, MD5Type, StringType
+from schematics.types import FloatType, MD5Type, StringType
 
 from openprocurement.api.constants import (
     CPV_PHARM_PREFIX,
@@ -10,7 +10,6 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import (
     MULTI_CONTRACTS_REQUIRED_FROM,
-    UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.address import Address
@@ -42,11 +41,6 @@ class BaseItem(Model):
     quantity = FloatType(min_value=0)  # The number of units required
     relatedLot = MD5Type()
 
-    def validate_quantity(self, data, value):
-        if value is None:
-            if is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM):
-                raise ValidationError(BaseType.MESSAGES["required"])
-
 
 class Item(BaseItem):
     classification = ModelType(CPVClassification, required=True)
@@ -57,10 +51,6 @@ class Item(BaseItem):
 
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
-
-    def validate_unit(self, data, value):
-        if not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_additionalClassifications(self, data, items):
         validate_additional_classifications(get_tender(), data, items)
@@ -105,3 +95,48 @@ def validate_classification_id(items, *args):
 
 class LocalizationItem(BaseItem):
     product = StringType()
+
+
+# --- priceQuotation: no lots ---
+
+
+class PQItem(TechFeatureItem):
+    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
+    unit = ModelType(Unit)
+
+    def validate_additionalClassifications(self, data, items):
+        if data.get("classification"):  # classification is not required here
+            return super().validate_additionalClassifications(self, data, items)
+
+    def validate_relatedLot(self, data, value):
+        if value:
+            raise ValidationError("Rogue field.")
+
+
+# --- limited (reporting / negotiation) ---
+
+
+class ReportingItem(Item):
+    product = StringType()
+    category = StringType()
+
+    def validate_relatedLot(self, data, value):
+        if value:
+            raise ValidationError("This option is not available")
+
+
+class NegotiationItem(TechFeatureItem):
+    product = StringType()
+
+
+# --- competitiveDialogue: CPV scheme is not restricted to ДК021 ---
+
+
+class CDCPVClassification(CPVClassification):
+    def validate_scheme(self, data, scheme):
+        pass
+
+
+class CDItem(TechFeatureItem):
+    classification = ModelType(CDCPVClassification, required=True)
+    unit = ModelType(Unit)

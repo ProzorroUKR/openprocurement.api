@@ -7,8 +7,8 @@ from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.procedure.awarding import (
     CFAUATenderStateAwardingMixing,
 )
-from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.agreement import CFAAgreement as Agreement
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import calculate_tender_full_date
 

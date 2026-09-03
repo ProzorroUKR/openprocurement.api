@@ -14,6 +14,8 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.bid import (
+    Bid,
+    PostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -24,7 +26,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.open.procedure.state.bid import OpenBidState
 
 LOGGER = getLogger(__name__)

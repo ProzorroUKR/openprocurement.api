@@ -14,8 +14,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.competitivedialogue.procedure.state.bid import CDBidState
+from openprocurement.tender.core.procedure.models.bid import CDBid as Bid
+from openprocurement.tender.core.procedure.models.bid import CDPostBid as PostBid
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )

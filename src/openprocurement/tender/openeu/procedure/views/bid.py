@@ -16,6 +16,8 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.bid import (
+    Bid,
+    PostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
@@ -30,7 +32,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.core.utils import context_view
-from openprocurement.tender.openeu.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.openeu.procedure.state.bid import OpenEUBidState
 
 LOGGER = getLogger(__name__)

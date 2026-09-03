@@ -7,7 +7,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts, append_contracts_cancelled
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -15,6 +15,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_econtract_fields_award,
+    validate_items_required_fields,
     validate_req_response_values,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -25,14 +26,58 @@ class AwardStateMixing:
     sign_award_required: bool = True
     procurement_kinds_not_required_sign: tuple = ()
     award_has_period: bool = True
+    items_delivery_required: bool = False
+    items_unit_required: bool = True
+    items_quantity_required: bool = True
+    # procedures whose awards use `eligible` next to `qualified` (open family, cfaua, esco, arma, limited)
+    award_has_eligible: bool = False
 
     def validate_award_patch(self, before, after):
+        self.validate_award_qualified_eligible(after)
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=before.get("lotID"))
         self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
+        validate_items_required_fields(
+            self.request,
+            after.get("items"),
+            delivery=self.items_delivery_required,
+            unit=self.items_unit_required,
+            quantity=self.items_quantity_required,
+        )
         if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             for resp in after.get("requirementResponses", []):
                 validate_req_response_values(resp)
+
+    def validate_award_qualified_eligible(self, award):
+        """
+        Replaces Award.validate_qualified / Award.validate_eligible model validators
+        (eligible only takes part when award_has_eligible is True)
+        """
+        status = award.get("status")
+        qualified = award.get("qualified")
+        eligible = award.get("eligible")
+        if not self.award_has_eligible and eligible is not None:
+            # the field used to be absent on the models of these procedures
+            raise_operation_error(self.request, "Rogue field", status=422, name="eligible")
+        errors = []
+        if status == "active":
+            if not qualified:
+                errors.append(("qualified", "Can't update award to active status with not qualified"))
+            if self.award_has_eligible and not eligible:
+                errors.append(("eligible", "Can't update award to active status with not eligible"))
+        elif status == "unsuccessful" and (
+            qualified is None
+            or (self.award_has_eligible and eligible is None)
+            or (qualified and (not self.award_has_eligible or eligible))
+        ):
+            errors.append(
+                ("qualified", "Can't update award to unsuccessful status when qualified/eligible isn't set to False")
+            )
+        if errors:
+            for name, message in errors:
+                self.request.errors.add("body", name, [message])
+            self.request.errors.status = 422
+            raise error_handler(self.request)
 
     def award_on_patch(self, before, award):
         self.validate_award_econtract_fields(award)

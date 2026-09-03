@@ -13,6 +13,8 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 
 
 class TenderDetailsMixing(OpenUATenderDetailsMixing):
+    procuring_entity_available_language_default = "uk"
+    contract_template_name_allowed = False
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

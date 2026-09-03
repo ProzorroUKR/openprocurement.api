@@ -258,3 +258,28 @@ class BaseTender(PatchBaseTender):
 
     def validate_plans(self, data, value):
         validate_plans(data, value)
+
+
+# --- limited: cause of a reporting / negotiation procedure ---
+
+
+class LimitedCauseScheme(StrEnum):
+    DECREE_1178 = "DECREE1178"
+    LAW_922 = "LAW922"
+    DECREE_1275 = "DECREE1275"
+
+
+class LimitedCauseDetails(Model):
+    code = StringType(required=True)
+    title = StringType()
+    title_en = StringType()
+    scheme = StringType(
+        choices=[
+            LimitedCauseScheme.DECREE_1178.value,
+            LimitedCauseScheme.LAW_922.value,
+            LimitedCauseScheme.DECREE_1275.value,
+        ],
+    )
+    description = StringType()
+    description_en = StringType()
+    uri = StringType()

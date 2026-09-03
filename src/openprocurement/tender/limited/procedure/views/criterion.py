@@ -9,9 +9,10 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.criterion import LimitedCriterion
+from openprocurement.tender.core.procedure.models.criterion import LimitedPatchCriterion as PatchLimitedCriterion
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.limited.procedure.models.criterion import LimitedCriterion, PatchLimitedCriterion
 from openprocurement.tender.limited.procedure.state.criterion import LimitedCriterionState
 
 

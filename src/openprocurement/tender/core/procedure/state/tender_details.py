@@ -1,9 +1,11 @@
 from collections import defaultdict
 from copy import deepcopy
 from datetime import timedelta
+from decimal import Decimal
 from math import ceil, floor
 
 from pyramid.request import Request
+from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import (
     CAUSE_TO_RATIONALE_TYPES_MAPPING,
@@ -79,6 +81,7 @@ from openprocurement.tender.core.procedure.utils import (
     set_mode_test_titles,
     tender_created_after,
     tender_created_before,
+    validate_features_custom_weight,
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -86,9 +89,11 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_econtract_fields_tender,
     validate_edrpou_confidentiality_doc,
+    validate_items_required_fields,
     validate_milestone_duration_days,
     validate_milestone_sums,
     validate_milestones_sequence_number,
+    validate_required_nested_fields,
     validate_value_vat_disabled,
 )
 from openprocurement.tender.core.utils import (
@@ -236,10 +241,27 @@ class BaseTenderDetailsMixing:
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
     should_validate_vat_not_included = False
+    # complexAsset.arma has no contractTemplateName (the field used to be removed from its models)
+    contract_template_name_allowed = True
+    items_delivery_required = False
+    items_unit_required = True
+    items_quantity_required = True  # since UNIT_PRICE_REQUIRED_FROM
+    features_max_weight = 0.3  # max value of a single feature and of the sum per lot/tender
+    # open family: tenderPeriod.startDate defaults to now on create and is required afterwards
+    tender_period_start_date_required = False
+    # belowThreshold / requestForProposal: enquiryPeriod (with endDate) is set by the user and required
+    enquiry_period_required = False
+    # statuses a tender owner may set with PATCH (former PatchTender.status choices); None = not validated here
+    patch_status_choices: tuple | None = None
+    # {field: True | nested dict}, see validate_required_nested_fields
+    required_multilingual_fields: dict = {}
+    # procuringEntity.contactPoint.availableLanguage default (None = field is optional, no default)
+    procuring_entity_available_language_default: str | None = None
 
     calendar = WORKING_DAYS
 
     def validate_tender_patch(self, before, after):
+        self.validate_patch_status_choice(before, after)
         request = get_request()
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
@@ -255,6 +277,13 @@ class BaseTenderDetailsMixing:
         validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):
+        self.validate_contract_template_name_allowed(tender)
+        self.validate_items_required_fields(tender)
+        self.set_procuring_entity_available_language(tender)
+        self.validate_multilingual_fields(tender)
+        self.validate_features(tender)
+        self.validate_enquiry_period_required(tender, on_post=True)
+        self.validate_tender_period_start_date_required(tender, on_post=True)
         self.validate_enquiry_period(tender)
         self.update_tender_period(tender)
         self.validate_procurement_method(tender)
@@ -293,6 +322,13 @@ class BaseTenderDetailsMixing:
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        self.validate_contract_template_name_allowed(after)
+        self.validate_items_required_fields(after)
+        self.set_procuring_entity_available_language(after)
+        self.validate_multilingual_fields(after)
+        self.validate_features(after)
+        self.validate_enquiry_period_required(after)
+        self.validate_tender_period_start_date_required(after)
         self.validate_enquiry_period(after)
         self.validate_enquiry_period_delete(before, after)
         self.update_tender_period(after)
@@ -1561,6 +1597,92 @@ class BaseTenderDetailsMixing:
                         if req.get("id") in before_requirements_ids:
                             req["status"] = ReqStatuses.CANCELLED
                             req["dateModified"] = now.isoformat()
+
+    def validate_contract_template_name_allowed(self, tender):
+        if not self.contract_template_name_allowed and tender.get("contractTemplateName") is not None:
+            raise_operation_error(self.request, "Rogue field", status=422, name="contractTemplateName")
+
+    def validate_items_required_fields(self, tender):
+        validate_items_required_fields(
+            self.request,
+            tender.get("items"),
+            delivery=self.items_delivery_required,
+            unit=self.items_unit_required,
+            quantity=self.items_quantity_required,
+        )
+
+    def validate_multilingual_fields(self, tender):
+        if self.required_multilingual_fields:
+            validate_required_nested_fields(self.request, tender, self.required_multilingual_fields)
+
+    def set_procuring_entity_available_language(self, tender):
+        default = self.procuring_entity_available_language_default
+        if not default:
+            return
+        procuring_entity = tender.get("procuringEntity") or {}
+        contact_points = [procuring_entity.get("contactPoint")] + (
+            procuring_entity.get("additionalContactPoints") or []
+        )
+        for contact_point in contact_points:
+            if contact_point is not None and contact_point.get("availableLanguage") is None:
+                contact_point["availableLanguage"] = default
+
+    def validate_features(self, tender):
+        features = tender.get("features")
+        if not features:
+            return
+        max_weight = self.features_max_weight
+        # Decimal comparison: values may be floats or Decimals (CFA), and Decimal("0.3") > 0.3
+        max_weight_decimal = Decimal(str(max_weight))
+        # same shape/message as FloatType(max_value=...) used to produce on the model
+        errors = []
+        for feature in features:
+            enum_errors = [
+                {"value": [f"Float value should be less than {max_weight}."]}
+                for enum in feature.get("enum") or []
+                if enum.get("value") is not None and Decimal(str(enum["value"])) > max_weight_decimal
+            ]
+            if enum_errors:
+                errors.append({"enum": enum_errors})
+        if errors:
+            raise_operation_error(self.request, errors, status=422, name="features")
+        try:
+            validate_features_custom_weight(tender, features, max_weight_decimal)
+        except ValidationError as e:
+            raise_operation_error(self.request, e.messages, status=422, name="features")
+
+    def validate_patch_status_choice(self, before, after):
+        choices = self.patch_status_choices
+        if choices is None or after.get("status") == before.get("status"):
+            return
+        if after.get("status") not in choices:
+            raise_operation_error(self.request, [f"Value must be one of {list(choices)}."], status=422, name="status")
+
+    def validate_enquiry_period_required(self, tender, on_post=False):
+        if not self.enquiry_period_required:
+            return
+        period = tender.get("enquiryPeriod")
+        if period is None:
+            raise_operation_error(self.request, ["This field is required."], status=422, name="enquiryPeriod")
+        if not period.get("endDate"):
+            raise_operation_error(
+                self.request, {"endDate": ["This field is required."]}, status=422, name="enquiryPeriod"
+            )
+        if on_post and not period.get("startDate"):
+            period["startDate"] = get_request_now().isoformat()
+
+    def validate_tender_period_start_date_required(self, tender, on_post=False):
+        if not self.tender_period_start_date_required:
+            return
+        period = tender.get("tenderPeriod")
+        if period is None or period.get("startDate"):
+            return
+        if on_post:
+            period["startDate"] = get_request_now().isoformat()
+        else:
+            raise_operation_error(
+                self.request, {"startDate": ["This field is required."]}, status=422, name="tenderPeriod"
+            )
 
     def validate_items_profile(self, tender):
         if not self.items_profile_required:

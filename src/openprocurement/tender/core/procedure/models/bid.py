@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from schematics.exceptions import ValidationError
 from schematics.transforms import whitelist
-from schematics.types import MD5Type, StringType
+from schematics.types import BooleanType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
@@ -13,25 +13,56 @@ from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.models.base import BaseBid
-from openprocurement.tender.core.procedure.models.document import Document, PostDocument
-from openprocurement.tender.core.procedure.models.item import BaseItem, LocalizationItem
+from openprocurement.tender.core.procedure.models.document import (
+    CDBidDocument,
+    CDBidPostDocument,
+    Document,
+    PostDocument,
+)
+from openprocurement.tender.core.procedure.models.item import LocalizationItem
 from openprocurement.tender.core.procedure.models.lot_value import (
+    ARMALotValue,
+    ARMAPatchLotValue,
+    ARMAPostLotValue,
+    CDLotValue,
+    CDPatchLotValue,
+    CDPostLotValue,
+    ESCOLotValue,
+    ESCOPatchLotValue,
+    ESCOPostLotValue,
     LotValue,
     PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.organization import Supplier
 from openprocurement.tender.core.procedure.models.parameter import (
+    CFASelectionParameter,
+    CFASelectionPatchParameter,
     Parameter,
     PatchParameter,
 )
+from openprocurement.tender.core.procedure.models.req_response import (
+    BidResponsesMixin,
+    PatchObjResponsesMixin,
+    RequirementResponse,
+)
+from openprocurement.tender.core.procedure.models.value import (
+    AmountPercentageWeightedValue,
+    ESCODynamicValue,
+    ESCOPatchValue,
+    ESCOWeightedValue,
+    WeightedValue,
+)
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.core.procedure.validation import validate_bid_value
+from openprocurement.tender.core.procedure.validation import (
+    validate_bid_value,
+    validate_pq_bid_value,
+)
 
 
 # PATCH DATA ---
-class PatchBid(BaseBid):
-    items = ListType(ModelType(BaseItem, required=True))
+class PatchBid(PatchObjResponsesMixin, BaseBid):
+    items = ListType(ModelType(LocalizationItem, required=True))
     parameters = ListType(ModelType(PatchParameter, required=True), validators=[validate_uniq_code])
     value = ModelType(Value)
     lotValues = ListType(ModelType(PatchLotValue, required=True))
@@ -48,17 +79,12 @@ class PatchBid(BaseBid):
         ],
     )
     subcontractingDetails = StringType()
+    # choices=[True]; whether the fields are required/rogue is validated in BidState
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
 
 
 class PatchQualificationBid(PatchBid):
-    lotValues = ListType(ModelType(LotValue, required=True))
-
-
-class PatchLocalizationBid(PatchBid):
-    items = ListType(ModelType(LocalizationItem, required=True))
-
-
-class PatchQualificationLocalizationBid(PatchLocalizationBid):
     lotValues = ListType(ModelType(LotValue, required=True))
 
 
@@ -77,7 +103,7 @@ def validate_lot_values(lot_values):
 
 # BASE ---
 class CommonBid(BaseBid):
-    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_uniq_id])
+    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_uniq_id])
     parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
     value = ModelType(Value)
     initialValue = ModelType(Value)  # field added by chronograph
@@ -97,6 +123,7 @@ class CommonBid(BaseBid):
         required=True,
     )
     subcontractingDetails = StringType()
+    weightedValue = ModelType(WeightedValue)
 
     def validate_value(self, data, value):
         tender = get_tender()
@@ -134,20 +161,19 @@ class CommonBid(BaseBid):
 
 
 # POST DATA ---
-class PostBid(CommonBid):
+class PostBid(BidResponsesMixin, CommonBid):
     @serializable
     def id(self):
         return uuid4().hex
 
-    items = ListType(ModelType(BaseItem, required=True), min_size=1, validators=[validate_uniq_id])
     tenderers = ListType(
         ModelType(Supplier, required=True),
         required=True,
         min_size=1,
         max_size=1,
     )
-    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
     lotValues = ListType(ModelType(PostLotValue, required=True))
+    parameters = ListType(ModelType(Parameter, required=True), validators=[validate_uniq_code])
     status = StringType(
         choices=[
             "draft",
@@ -164,14 +190,9 @@ class PostBid(CommonBid):
     financialDocuments = ListType(ModelType(PostDocument, required=True))
     eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
     qualificationDocuments = ListType(ModelType(PostDocument, required=True))
-
-
-class PostLocalizationBid(PostBid):
-    items = ListType(
-        ModelType(LocalizationItem, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
+    # choices=[True]; whether the fields are required/rogue is validated in BidState
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
 
 
 # -- POST
@@ -187,19 +208,16 @@ class MetaBid(Model):
 
 
 # model to validate a bid after patch
-class Bid(MetaBid, CommonBid):
+class Bid(MetaBid, BidResponsesMixin, CommonBid):
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))
     eligibilityDocuments = ListType(ModelType(Document, required=True))
     qualificationDocuments = ListType(ModelType(Document, required=True))
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
 
-
-class LocalizationBid(Bid):
-    items = ListType(
-        ModelType(LocalizationItem, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
+    def validate_value(self, data, value):
+        pass  # validated in BidState.validate_bid_value_on_patch (draft bids differ per procedure)
 
 
 Administrator_bid_role = whitelist("tenderers")
@@ -209,3 +227,287 @@ def filter_administrator_bid_update(request, data):
     if request.authenticated_role == "Administrator":
         data = {k: v for k, v in data.items() if not Administrator_bid_role(k, v)}
     return data
+
+
+# --- ESCO ---
+
+
+class ESCOBidMixin(Model):
+    value = ModelType(ESCODynamicValue)
+    weightedValue = ModelType(ESCOWeightedValue)
+    lotValues = ListType(ModelType(ESCOLotValue, required=True))
+    selfQualified = BooleanType(required=False)
+    selfEligible = BooleanType(required=False)
+
+    def validate_value(self, data, value):
+        tender = get_tender()
+        if tender.get("lots"):
+            if value:
+                raise ValidationError("value should be posted for each lot of bid")
+        else:
+            if not value:
+                raise ValidationError("This field is required.")
+            if tender["minValue"].get("currency") != value.get("currency"):
+                raise ValidationError("currency of bid should be identical to currency of minValue of tender")
+            if tender["minValue"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
+                raise ValidationError(
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
+                )
+
+
+class ESCOPatchBid(ESCOBidMixin, PatchBid):
+    value = ModelType(ESCOPatchValue)
+    lotValues = ListType(ModelType(ESCOPatchLotValue, required=True))
+
+    def validate_value(self, data, value):
+        return  # will be validated at Bid model
+
+
+class ESCOPatchQualificationBid(ESCOPatchBid):
+    lotValues = ListType(ModelType(ESCOLotValue, required=True))
+
+
+class ESCOPostBid(ESCOBidMixin, PostBid):
+    lotValues = ListType(ModelType(ESCOPostLotValue, required=True))
+
+
+class ESCOBid(ESCOBidMixin, Bid):
+    pass
+
+
+# --- ARMA (percentage values) ---
+
+
+class ARMAPatchBid(PatchBid):
+    lotValues = ListType(ModelType(ARMAPatchLotValue, required=True))
+
+
+class ARMAPatchQualificationBid(ARMAPatchBid):
+    lotValues = ListType(ModelType(ARMALotValue, required=True))
+
+
+class ARMAPostBid(PostBid):
+    lotValues = ListType(ModelType(ARMAPostLotValue, required=True))
+
+
+class ARMABid(Bid):
+    lotValues = ListType(ModelType(ARMALotValue, required=True))
+    weightedValue = ModelType(AmountPercentageWeightedValue)
+
+
+# --- CFA selection: decimal parameters ---
+
+
+class CFASelectionPatchBid(PatchBid):
+    parameters = ListType(ModelType(CFASelectionPatchParameter, required=True), validators=[validate_uniq_code])
+
+
+class CFASelectionPatchQualificationBid(PatchQualificationBid):
+    parameters = ListType(ModelType(CFASelectionPatchParameter, required=True), validators=[validate_uniq_code])
+
+
+class CFASelectionPostBid(PostBid):
+    parameters = ListType(ModelType(CFASelectionParameter, required=True), validators=[validate_uniq_code])
+
+
+class CFASelectionBid(Bid):
+    parameters = ListType(ModelType(CFASelectionParameter, required=True), validators=[validate_uniq_code])
+
+
+# --- priceQuotation: no lots / parameters ---
+
+
+class PQPatchBid(PatchObjResponsesMixin, Model):
+    value = ModelType(Value)
+    tenderers = ListType(
+        ModelType(Supplier, required=True),
+        min_size=1,
+        max_size=1,
+    )
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
+    )
+    items = ListType(ModelType(LocalizationItem, required=True))
+
+    def validate_value(self, data, value):
+        if value is not None:
+            tender = get_tender()
+            validate_pq_bid_value(tender, value)
+
+
+class PQPostBid(BidResponsesMixin, PQPatchBid):
+    @serializable
+    def id(self):
+        return uuid4().hex
+
+    tenderers = ListType(
+        ModelType(Supplier, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
+    value = ModelType(Value)
+    documents = ListType(ModelType(PostDocument, required=True))
+    financialDocuments = ListType(ModelType(PostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(PostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(PostDocument, required=True))
+    requirementResponses = ListType(ModelType(RequirementResponse))
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
+        default="draft",
+    )
+    items = ListType(
+        ModelType(LocalizationItem, required=True),
+        min_size=1,
+        validators=[validate_uniq_id],
+    )
+
+    def validate_value(self, data, value):
+        tender = get_tender()
+        validate_pq_bid_value(tender, value)
+
+
+class PQBid(BidResponsesMixin, MetaBid):
+    documents = ListType(ModelType(Document, required=True))
+    financialDocuments = ListType(ModelType(Document, required=True))
+    eligibilityDocuments = ListType(ModelType(Document, required=True))
+    qualificationDocuments = ListType(ModelType(Document, required=True))
+
+    tenderers = ListType(
+        ModelType(Supplier, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
+    value = ModelType(Value)
+    requirementResponses = ListType(ModelType(RequirementResponse))
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
+        required=True,
+    )
+    items = ListType(
+        ModelType(LocalizationItem, required=True),
+        min_size=1,
+        validators=[validate_uniq_id],
+    )
+
+
+# --- competitiveDialogue (stage 1): bids without value / parameters ---
+
+
+class CDPatchBid(PatchObjResponsesMixin, BaseBid):
+    items = ListType(ModelType(LocalizationItem, required=True))
+    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
+    lotValues = ListType(ModelType(CDPatchLotValue, required=True))
+    subcontractingDetails = StringType()
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
+    )
+
+
+class CDPatchQualificationBid(CDPatchBid):
+    lotValues = ListType(ModelType(CDLotValue, required=True))
+
+
+class CDPostBid(BidResponsesMixin, BaseBid):
+    @serializable
+    def id(self):
+        return uuid4().hex
+
+    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_uniq_id])
+    tenderers = ListType(
+        ModelType(Supplier, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
+    subcontractingDetails = StringType()
+    lotValues = ListType(ModelType(CDPostLotValue, required=True))
+    documents = ListType(ModelType(CDBidPostDocument, required=True))
+    financialDocuments = ListType(ModelType(CDBidPostDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(CDBidPostDocument, required=True))
+    qualificationDocuments = ListType(ModelType(CDBidPostDocument, required=True))
+
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
+        default="draft",
+    )
+
+    def validate_lotValues(self, data, values):
+        validate_lot_values(values)
+
+
+class CDBid(MetaBid, BidResponsesMixin, BaseBid):
+    items = ListType(ModelType(LocalizationItem, required=True), min_size=1, validators=[validate_uniq_id])
+    tenderers = ListType(
+        ModelType(Supplier, required=True),
+        required=True,
+        min_size=1,
+        max_size=1,
+    )
+    lotValues = ListType(ModelType(CDLotValue, required=True))
+    documents = ListType(ModelType(CDBidDocument, required=True))
+    financialDocuments = ListType(ModelType(CDBidDocument, required=True))
+    eligibilityDocuments = ListType(ModelType(CDBidDocument, required=True))
+    qualificationDocuments = ListType(ModelType(CDBidDocument, required=True))
+    subcontractingDetails = StringType()
+    selfQualified = BooleanType(choices=[True])
+    selfEligible = BooleanType(choices=[True])
+    status = StringType(
+        choices=[
+            "draft",
+            "pending",
+            "active",
+            "invalid",
+            "invalid.pre-qualification",
+            "unsuccessful",
+            "deleted",
+        ],
+    )
+
+    def validate_lotValues(self, data, values):
+        validate_lot_values(values)

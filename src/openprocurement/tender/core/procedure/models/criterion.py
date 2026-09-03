@@ -533,3 +533,17 @@ def validate_requirement_eligibleEvidences(criterion: dict, requirement: dict) -
         classification = criterion.get("classification")
         if classification and classification["id"] and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE"):
             raise ValidationError([{"eligibleEvidences": ["This field is forbidden for current criterion"]}])
+
+
+# --- limited: criteria can be set only by the procuring entity ---
+
+
+class LimitedPatchCriterion(PatchCriterion):
+    source = StringType(choices=["procuringEntity"])
+
+
+class LimitedCriterion(Criterion):
+    source = StringType(
+        choices=["procuringEntity"],
+        required=True,
+    )

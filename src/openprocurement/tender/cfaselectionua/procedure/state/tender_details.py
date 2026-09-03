@@ -27,9 +27,6 @@ from openprocurement.tender.cfaselectionua.constants import (
     MINIMAL_STEP_PERCENTAGE,
     WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
-    PatchAgreement,
-)
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
@@ -45,6 +42,9 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_STATUS_MESSAGE,
 )
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.agreement import (
+    CFASelectionPatchAgreement as PatchAgreement,
+)
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -65,6 +65,8 @@ LOGGER = getLogger(__name__)
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
+    items_unit_required = False
+    procuring_entity_available_language_default = "uk"
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)

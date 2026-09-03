@@ -17,14 +17,6 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_DEFAULT_CONFIG,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
-    EUTender,
-    PatchEUTender,
-    PatchUATender,
-    PostEUTender,
-    PostUATender,
-    UATender,
-)
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
@@ -32,6 +24,12 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
 from openprocurement.tender.competitivedialogue.procedure.validation import (
     validate_cd2_allowed_patch_fields,
 )
+from openprocurement.tender.core.procedure.models.tender import CDStage2EUPatchTender as PatchEUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender as PostEUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage2EUTender as EUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage2UAPatchTender as PatchUATender
+from openprocurement.tender.core.procedure.models.tender import CDStage2UAPostTender as PostUATender
+from openprocurement.tender.core.procedure.models.tender import CDStage2UATender as UATender
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )

@@ -637,12 +637,16 @@ def test_fail_tender_creation(app):
     # rm milestones that causes data error
     request_tender_data["enquiryPeriod"]["endDate"] = "2019-01-02T00:00:00+02:00"
 
-    response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=422)
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {"data": request_tender_data, "config": test_tender_below_config},
+        status=422,
+    )
     assert response.json == {
         "status": "error",
         "errors": [
             {
-                "description": {"startDate": ["period should begin before its end"]},
+                "description": ["the enquiryPeriod cannot end earlier than 3 full business days after the start"],
                 "location": "body",
                 "name": "enquiryPeriod",
             }

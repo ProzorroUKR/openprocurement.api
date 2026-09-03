@@ -3,14 +3,18 @@ from decimal import Decimal
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.models.bid import ESCOPatchBid as PatchBid
+from openprocurement.tender.core.procedure.models.bid import ESCOPatchQualificationBid as PatchQualificationBid
 from openprocurement.tender.core.procedure.state.bid import BidState
-from openprocurement.tender.esco.procedure.models.bid import (
-    PatchBid,
-    PatchQualificationBid,
-)
 
 
 class ESCOBidState(BidState):
+    self_eligible_required = False
+    bid_items_quantity_required = False
+
+    def validate_bid_value_on_patch(self, data):
+        pass  # value is validated by the procedure's own bid model
+
     def on_post(self, data):
         super().on_post(data)
         self.set_yearly_payments_percentage_for_lots(data)

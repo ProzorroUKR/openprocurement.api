@@ -1,10 +1,10 @@
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 from openprocurement.tender.openua.procedure.state.award import (
-    AwardState as BaseAwardState,
+    AwardState as UAAwardState,
 )
 
 
-class AwardState(ESCOTenderState, BaseAwardState):
+class CDStage2AwardState(UAAwardState):
+    # competitive dialogue award items do not require deliveryDate/deliveryAddress
     items_delivery_required: bool = False
     items_unit_required: bool = False
     items_quantity_required: bool = False

@@ -3,6 +3,7 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 
 from openprocurement.api.procedure.models.address import Address
+from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.organization import (
     ORGANIZATION_SCALE_CHOICES,
     PROCURING_ENTITY_KIND_CHOICES,
@@ -16,7 +17,10 @@ from openprocurement.api.procedure.models.organization import (
 )
 from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.tender.core.procedure.models.contact import ContactPoint
+from openprocurement.tender.core.procedure.models.contact import (
+    ContactPoint,
+    ProcuringEntityContactPoint,
+)
 
 
 class Organization(BaseOrganization):
@@ -51,8 +55,37 @@ class ContactLessSupplier(Supplier):
 
 class ProcuringEntity(Organization):
     address = ModelType(Address, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
+    contactPoint = ModelType(ProcuringEntityContactPoint, required=True)
+    additionalContactPoints = ListType(ModelType(ProcuringEntityContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
     contract_owner = StringType()
+
+
+# --- CFA selection: agreement contract suppliers (scale is optional) ---
+
+
+class CFASelectionBusinessOrganization(BaseOrganization):
+    scale = StringType(choices=ORGANIZATION_SCALE_CHOICES)
+    address = ModelType(Address, required=True)
+
+
+# --- priceQuotation ---
+
+
+class PQShortlistedFirm(BaseBusinessOrganization):
+    id = StringType()
+    status = StringType()
+
+
+# --- limited (reporting) ---
+
+
+class ReportingProcuringEntity(ProcuringEntity):
+    contactPoint = ModelType(ProcuringEntityContactPoint)
+
+
+class ReportingFundOrganization(BaseOrganization):
+    identifier = ModelType(Identifier)  # not required
+    address = ModelType(Address)  # not required
+    contactPoint = ModelType(ContactPoint)  # not required

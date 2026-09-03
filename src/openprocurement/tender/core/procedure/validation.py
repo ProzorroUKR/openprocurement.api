@@ -41,17 +41,19 @@ from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
+    PQ_CRITERIA_ID_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
     TENDER_SIGNER_INFO_REQUIRED_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
+    UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
-from openprocurement.api.procedure.utils import is_item_owner, to_decimal
+from openprocurement.api.procedure.utils import is_item_owner, is_obj_const_active, to_decimal
 from openprocurement.api.utils import (
     error_handler,
     get_first_revision_date,
@@ -72,6 +74,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN as PQ_PROFILE_PATTERN
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
@@ -257,11 +260,11 @@ def validate_bid_value(tender, value):
             raise ValidationError("This field is required.")
         config = get_tender()["config"]
         if config.get("valueCurrencyEquality"):
-            if tender_value["currency"] != value.currency:
+            if tender_value["currency"] != value["currency"]:
                 raise ValidationError("currency of bid should be identical to currency of value of tender")
-            if config.get("hasValueRestriction") and to_decimal(tender_value["amount"]) < to_decimal(value.amount):
+            if config.get("hasValueRestriction") and to_decimal(tender_value["amount"]) < to_decimal(value["amount"]):
                 raise ValidationError("value of bid should be less than value of tender")
-        if tender_value["valueAddedTaxIncluded"] != value.valueAddedTaxIncluded:
+        if tender_value["valueAddedTaxIncluded"] != value["valueAddedTaxIncluded"]:
             raise ValidationError(
                 "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
             )
@@ -1790,3 +1793,130 @@ def validate_value_vat_disabled(request, value, field_name):
             location="body",
             name=f"{field_name}.valueAddedTaxIncluded",
         )
+
+
+def validate_items_required_fields(request, items, delivery=False, unit=True, quantity=True):
+    """
+    Replaces model-level requirements that used to differ between procedures' Item models:
+    `unit` (Item.validate_unit), `quantity` (BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM),
+    `deliveryDate` (PeriodEndRequired) and `deliveryAddress`. Produces the same 422 shape schematics did.
+    """
+    quantity = quantity and is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM)
+    errors = []
+    for item in items or []:
+        item_errors = {}
+        if unit and not item.get("unit"):
+            item_errors["unit"] = [BaseType.MESSAGES["required"]]
+        if quantity and item.get("quantity") is None:
+            item_errors["quantity"] = [BaseType.MESSAGES["required"]]
+        if delivery:
+            delivery_date = item.get("deliveryDate")
+            if delivery_date is None:
+                item_errors["deliveryDate"] = [BaseType.MESSAGES["required"]]
+            elif not delivery_date.get("endDate"):
+                item_errors["deliveryDate"] = {"endDate": [BaseType.MESSAGES["required"]]}
+            if item.get("deliveryAddress") is None:
+                item_errors["deliveryAddress"] = [BaseType.MESSAGES["required"]]
+        if item_errors:
+            errors.append(item_errors)
+    if errors:
+        raise_operation_error(request, errors, status=422, name="items")
+
+
+def validate_esco_lotvalue_value(tender, related_lot, value):
+    if not related_lot:
+        return
+    if tender.get("status") in ("invalid", "deleted", "draft"):
+        return
+    lot = find_lot(tender, related_lot)
+    if lot and value:
+        tender_lot_value = lot.get("minValue")
+        validate_lot_value_currency(tender_lot_value, value, name="minValue")
+        validate_lot_value_vat(tender_lot_value, value, name="minValue")
+
+
+def validate_required_nested_fields(request, data, required_fields):
+    """
+    Replacement for procedure-specific `required=True` (and `min_length=1`) declared on models.
+
+    `required_fields` is a dict {field: True | nested dict}. A nested dict is applied to a dict value
+    or to every element of a list value. Produces the same 422 shape schematics produces for models:
+    one error per top-level field, nested dicts for ModelType, list of dicts (failed items only) for ListType.
+    """
+
+    def _validate(obj, spec):
+        errors = {}
+        for field, rules in spec.items():
+            value = obj.get(field)
+            if isinstance(rules, dict):
+                if isinstance(value, list):
+                    list_errors = [e for e in (_validate(i, rules) for i in value if isinstance(i, dict)) if e]
+                    if list_errors:
+                        errors[field] = list_errors
+                elif isinstance(value, dict):
+                    nested_errors = _validate(value, rules)
+                    if nested_errors:
+                        errors[field] = nested_errors
+            elif rules:
+                if value is None:
+                    errors[field] = [BaseType.MESSAGES["required"]]
+                elif value == "":
+                    errors[field] = [StringType.MESSAGES["min_length"]]
+        return errors
+
+    errors = _validate(data, required_fields)
+    if errors:
+        for field, messages in errors.items():
+            request.errors.add("body", field, messages)
+        request.errors.status = 422
+        raise error_handler(request)
+
+
+# --- priceQuotation ---
+
+
+def validate_pq_bid_value(tender, value):
+    if not value:
+        raise ValidationError("This field is required.")
+    config = get_tender()["config"]
+    if config.get("valueCurrencyEquality"):
+        if tender["value"].get("currency") != value.get("currency"):
+            raise ValidationError("currency of bid should be identical to currency of value of tender")
+        if config.get("hasValueRestriction") and tender["value"]["amount"] < value["amount"]:
+            raise ValidationError("value of bid should be less than value of tender")
+    if tender["value"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
+        raise ValidationError(
+            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
+        )
+
+
+def validate_pq_profile_pattern(profile):
+    result = PQ_PROFILE_PATTERN.findall(profile)
+    if len(result) != 1:
+        raise ValidationError("The profile value doesn't match id pattern")
+
+
+def validate_pq_criteria_id_uniq(objs, *args):
+    from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
+
+    if not objs:
+        return
+    tender = get_tender()
+    if get_first_revision_date(tender, default=get_request_now()) > PQ_CRITERIA_ID_FROM:
+        ids = [i.id for i in objs]
+        if len(set(ids)) != len(ids):
+            raise ValidationError("Criteria id should be uniq")
+
+        rg_ids = [rg.id for c in objs for rg in c.requirementGroups or ""]
+        if len(rg_ids) != len(set(rg_ids)):
+            raise ValidationError("Requirement group id should be uniq in tender")
+
+        req_ids = [req.id for c in objs for rg in c.requirementGroups or "" for req in rg.requirements or ""]
+        if len(req_ids) != len(set(req_ids)):
+            raise ValidationError("Requirement id should be uniq for all requirements in tender")
+
+        for criterion in objs:
+            for rg in criterion.requirementGroups or "":
+                req_titles = [req.title for req in rg.requirements or "" if req.status == ReqStatuses.ACTIVE]
+                if len(set(req_titles)) != len(req_titles):
+                    raise ValidationError("Requirement title should be uniq for one requirementGroup")

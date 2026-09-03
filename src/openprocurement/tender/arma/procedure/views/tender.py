@@ -12,14 +12,12 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.models.tender import (
-    PatchTender,
-    PostTender,
-    Tender,
-)
 from openprocurement.tender.arma.procedure.state.tender_details import (
     TenderDetailsState,
 )
+from openprocurement.tender.core.procedure.models.tender import ARMAPatchTender as PatchTender
+from openprocurement.tender.core.procedure.models.tender import ARMAPostTender as PostTender
+from openprocurement.tender.core.procedure.models.tender import ARMATender as Tender
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )

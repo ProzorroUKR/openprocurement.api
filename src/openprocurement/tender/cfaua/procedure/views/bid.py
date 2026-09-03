@@ -14,7 +14,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
@@ -22,6 +21,8 @@ from openprocurement.tender.cfaua.procedure.serializers.tender import (
 from openprocurement.tender.cfaua.procedure.state.bid import CFAUABidState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.models.bid import (
+    Bid,
+    PostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (

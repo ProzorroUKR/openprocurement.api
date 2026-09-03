@@ -15,9 +15,10 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.arma.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.models.bid import ARMABid as Bid
+from openprocurement.tender.core.procedure.models.bid import ARMAPostBid as PostBid
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )

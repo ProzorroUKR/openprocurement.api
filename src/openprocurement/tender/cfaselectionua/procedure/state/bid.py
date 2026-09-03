@@ -1,12 +1,14 @@
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.tender.cfaselectionua.procedure.models.bid import (
-    PatchBid,
-    PatchQualificationBid,
+from openprocurement.tender.core.procedure.models.bid import CFASelectionPatchBid as PatchBid
+from openprocurement.tender.core.procedure.models.bid import (
+    CFASelectionPatchQualificationBid as PatchQualificationBid,
 )
 from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
 
 
 class BidState(BaseBidState):
+    self_eligible_required = False
+
     def validate_bid_vs_agreement(self, data):
         # cfaselectionua has agreements full copy in tender.agreements
         self.validate_bid_with_contract(data, get_tender()["agreements"][0])

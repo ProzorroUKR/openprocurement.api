@@ -81,6 +81,11 @@
 - **Бізнес-логіка** → ``procedure/state/``; state-класи не роблять запити до БД напряму
 - **Запити до БД** → лише з ``procedure/views/`` (через ``request.registry.mongodb.<collection>``)
 - **Валідація вхідних даних** → ``procedure/models/`` (schematics) і ``validation.py``
+- **Спільні schematics-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами
+  процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються
+  атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``,
+  ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом
+  (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)
 - **Серіалізація відповіді** → ``procedure/serializers/``
 - **Зміна схеми / даних у БД** → ``migrations/`` (не в коді ініціалізації)
 - **Спільні утиліти домену** → ``<domain>/core/``

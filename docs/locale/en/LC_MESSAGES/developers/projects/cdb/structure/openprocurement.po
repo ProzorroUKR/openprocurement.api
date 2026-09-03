@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 12:01+0300\n"
+"POT-Creation-Date: 2026-09-03 14:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -161,6 +161,9 @@ msgid "**Запити до БД** → лише з ``procedure/views/`` (чере
 msgstr ""
 
 msgid "**Валідація вхідних даних** → ``procedure/models/`` (schematics) і ``validation.py``"
+msgstr ""
+
+msgid "**Спільні schematics-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``, ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)"
 msgstr ""
 
 msgid "**Серіалізація відповіді** → ``procedure/serializers/``"

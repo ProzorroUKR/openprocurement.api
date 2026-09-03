@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.tender.arma.procedure.models.award import Award
+from openprocurement.tender.core.procedure.models.award import ARMAAward as Award
 from openprocurement.tender.core.procedure.state.tender import (
     TenderState as BaseTenderState,
 )

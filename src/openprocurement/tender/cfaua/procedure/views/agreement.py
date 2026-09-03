@@ -6,14 +6,12 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.models.agreement import (
-    Agreement,
-    PatchAgreement,
-)
 from openprocurement.tender.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.tender.cfaua.procedure.state.agreement import AgreementState
+from openprocurement.tender.core.procedure.models.agreement import CFAAgreement as Agreement
+from openprocurement.tender.core.procedure.models.agreement import CFAPatchAgreement as PatchAgreement
 from openprocurement.tender.core.procedure.views.agreement import (
     TenderAgreementResource,
 )

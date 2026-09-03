@@ -3,18 +3,16 @@ from openprocurement.tender.belowthreshold.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.belowthreshold.procedure.models.tender import (
-    PatchDraftTender,
-    PatchTender,
-)
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     BelowThresholdTenderState,
 )
+from openprocurement.tender.core.procedure.models.tender import (
+    PatchActiveTender,
+    PatchDraftTender,
+    PatchTender,
+)
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
-)
-from openprocurement.tender.requestforproposal.procedure.models.tender import (
-    PatchActiveTender,
 )
 
 
@@ -30,6 +28,13 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     contract_template_name_patch_statuses = ("draft", "active.enquiries")
 
     working_days_config = WORKING_DAYS_CONFIG
+    enquiry_period_required = True
+    patch_status_choices = (
+        "draft",
+        "active.enquiries",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
 
     def get_patch_data_model(self):
         tender = self.request.validated["tender"]

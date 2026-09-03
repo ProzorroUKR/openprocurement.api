@@ -2,12 +2,14 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 
+from schematics.exceptions import ValidationError
 from schematics.types import BaseType
 
 from openprocurement.api.constants_env import (
     BID_ITEMS_PRODUCT_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
@@ -24,6 +26,10 @@ from openprocurement.tender.cfaselectionua.procedure.utils import (
     equals_decimal_and_corrupted,
 )
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.bid import (
+    PatchBid,
+    PatchQualificationBid,
+)
 from openprocurement.tender.core.procedure.utils import (
     get_supplier_contract,
     is_bid_items_required,
@@ -33,9 +39,11 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.validation import (
     TYPEMAP,
+    validate_bid_value,
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_econtract_fields_bid,
+    validate_items_required_fields,
     validate_items_unit_amount,
     validate_req_response_values,
     validate_required_fields,
@@ -56,6 +64,16 @@ class BidState(BaseState):
         "lotValues": ("subcontractingDetails",),
     }
     check_item_unit_amount = True
+    # selfEligible: required before RELEASE_ECRITERIA_ARTICLE_17 and rogue after it (default),
+    # defense procedures: always required, never rogue
+    self_eligible_required = True
+    self_eligible_rogue_after_ecriteria = True
+    # openuadefense bids have no requirementResponses
+    requirement_responses_allowed = True
+    # open-family procedures don't validate value of a draft bid on patch
+    skip_value_validation_for_draft_bid = False
+    # bid items quantity (former BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM)
+    bid_items_quantity_required = True
 
     @property
     def check_all_exist_tender_items(self):
@@ -71,6 +89,9 @@ class BidState(BaseState):
     def on_post(self, data):
         now = get_request_now().isoformat()
         data["date"] = now
+        self.validate_self_eligible(data)
+        self.validate_requirement_responses_allowed(data)
+        self.validate_bid_items_quantity_required(data)
         self.validate_items_required_field(data)
         self.validate_bid_econtract_fields(data)
         self.validate_bid_unit_value(data)
@@ -91,6 +112,10 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_bid_value_on_patch(after)
+        self.validate_self_eligible(after)
+        self.validate_requirement_responses_allowed(after)
+        self.validate_bid_items_quantity_required(after)
         self.validate_items_required_field(after)
         self.validate_bid_econtract_fields(after)
         self.lot_values_patch_keep_unchange(after, before)
@@ -106,6 +131,36 @@ class BidState(BaseState):
         self.invalidate_pending_bid_after_patch(after, before)
         self.validate_req_responses(after)
         super().on_patch(before, after)
+
+    def get_patch_data_model(self):
+        tender = self.request.validated["tender"]
+        if tender.get("status", "") in self.qualification_statuses:
+            return PatchQualificationBid
+        return PatchBid
+
+    def validate_bid_value_on_patch(self, data):
+        if self.skip_value_validation_for_draft_bid and data.get("status") == "draft":
+            return
+        try:
+            validate_bid_value(get_tender(), data.get("value"))
+        except ValidationError as e:
+            raise_operation_error(self.request, e.messages, status=422, name="value")
+
+    def validate_bid_items_quantity_required(self, data):
+        if self.bid_items_quantity_required:
+            validate_items_required_fields(self.request, data.get("items"), unit=False, quantity=True)
+
+    def validate_self_eligible(self, data):
+        value = data.get("selfEligible")
+        if self.self_eligible_rogue_after_ecriteria and tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
+            if value is not None:
+                raise_operation_error(self.request, ["Rogue field."], status=422, name="selfEligible")
+        elif self.self_eligible_required and value is None:
+            raise_operation_error(self.request, ["This field is required."], status=422, name="selfEligible")
+
+    def validate_requirement_responses_allowed(self, data):
+        if not self.requirement_responses_allowed and data.get("requirementResponses") is not None:
+            raise_operation_error(self.request, ["Rogue field."], status=422, name="requirementResponses")
 
     def raise_items_error(self, message):
         raise_operation_error(

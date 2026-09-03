@@ -15,6 +15,11 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
     contract_template_required = False
+    items_delivery_required = False
+    items_unit_required = False
+    items_quantity_required = False
+    features_max_weight = 0.25
+    tender_period_start_date_required = False  # own tenderPeriod models
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG

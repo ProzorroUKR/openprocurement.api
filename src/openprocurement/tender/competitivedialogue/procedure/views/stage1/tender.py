@@ -13,18 +13,16 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
-    EUTender,
-    PatchEUTender,
-    PatchUATender,
-    PostEUTender,
-    PostUATender,
-    UATender,
-)
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
     CDEUStage1TenderDetailsState,
     CDUAStage1TenderDetailsState,
 )
+from openprocurement.tender.core.procedure.models.tender import CDStage1EUPatchTender as PatchEUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage1EUPostTender as PostEUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage1EUTender as EUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage1UAPatchTender as PatchUATender
+from openprocurement.tender.core.procedure.models.tender import CDStage1UAPostTender as PostUATender
+from openprocurement.tender.core.procedure.models.tender import CDStage1UATender as UATender
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,

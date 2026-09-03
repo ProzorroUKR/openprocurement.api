@@ -13,6 +13,8 @@ from openprocurement.tender.openuadefense.procedure.state.tender import (
 
 class AwardState(AwardStateMixing, OpenUADefenseTenderState):
     award_stand_still_working_days: bool = True
+    items_delivery_required: bool = True
+    award_has_eligible: bool = True
 
     def award_status_up_from_pending_to_active(self, award, tender):
         self.set_award_complaint_period(award)

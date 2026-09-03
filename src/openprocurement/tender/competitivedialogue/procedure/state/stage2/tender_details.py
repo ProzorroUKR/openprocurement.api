@@ -1,5 +1,6 @@
 from openprocurement.api.auth import AccreditationLevel, AccreditationPermission
 from openprocurement.tender.competitivedialogue.constants import (
+    FEATURES_MAX_SUM,
     STAGE_2_EU_WORKING_DAYS_CONFIG,
     STAGE_2_UA_WORKING_DAYS_CONFIG,
 )
@@ -9,6 +10,9 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 
 class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
+    features_max_weight = FEATURES_MAX_SUM
+    items_unit_required = False
+    items_quantity_required = False
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
     tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -31,6 +35,8 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
 
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
+    required_multilingual_fields = {}
+    procuring_entity_available_language_default = None
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
     tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

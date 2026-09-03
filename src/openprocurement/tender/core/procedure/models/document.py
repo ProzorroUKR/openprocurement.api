@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType
+from schematics.types import BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
@@ -162,3 +162,43 @@ class PatchDocument(BaseDocument):
 
 class PatchComplaintDocument(PatchDocument):
     documentOf = StringType(choices=["tender", "item", "lot", "post"])
+
+
+# --- CFA selection: documents of agreement contracts ---
+
+
+class CFASelectionContractDocument(BaseDocument):
+    id = MD5Type(required=True)
+    datePublished = StringType(required=True)
+    hash = HashType()
+    title = StringType(required=True)  # A title of the document.
+    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
+    url = StringType(required=True)  # Link to the document or attachment.
+    dateModified = StringType()
+    author = StringType()
+
+
+# --- competitiveDialogue: bid documents may be a description of the decision ---
+
+
+class CDBidPostDocument(PostDocument):
+    isDescriptionDecision = BooleanType(default=False)
+
+    def validate_confidentialityRationale(self, data, val):
+        if not data.get("isDescriptionDecision"):
+            return super().validate_confidentialityRationale(self, data, val)
+
+
+class CDBidPatchDocument(PatchDocument):
+    isDescriptionDecision = BooleanType()
+
+    def validate_confidentialityRationale(self, data, val):
+        pass
+
+
+class CDBidDocument(Document):
+    isDescriptionDecision = BooleanType()
+
+    def validate_confidentialityRationale(self, data, val):
+        if not data.get("isDescriptionDecision"):
+            return super().validate_confidentialityRationale(self, data, val)

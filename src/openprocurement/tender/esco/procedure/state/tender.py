@@ -1,4 +1,4 @@
-from openprocurement.tender.esco.procedure.models.award import Award
+from openprocurement.tender.core.procedure.models.award import ESCOAward as Award
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 

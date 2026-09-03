@@ -2,6 +2,7 @@ import math
 import urllib.parse
 from copy import deepcopy
 from datetime import datetime, timedelta
+from decimal import Decimal
 from hashlib import sha512
 from logging import getLogger
 from typing import Iterable, Optional
@@ -346,11 +347,11 @@ def find_lot(tender, lot_id):
 
 def validate_features_custom_weight(data, features, max_sum):
     if features:
-        if data["lots"]:
+        if data.get("lots"):
             if any(
                 [
                     round(
-                        vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])),
+                        vnmax(filter_features(features, data.get("items") or [], lot_ids=[lot["id"]])),
                         15,
                     )
                     > max_sum
@@ -802,3 +803,21 @@ def filter_nested_values(data, *allowed_paths):
         return result
 
     return filter_value(data, allowed_paths)
+
+
+def fraction_to_decimal(fraction):
+    return Decimal(fraction.numerator) / Decimal(fraction.denominator)
+
+
+DECIMAL_COMPARE_ACCURACY = Decimal("1e-12")
+
+
+def equals_decimal_and_corrupted(value, corrupted_value):
+    """
+    Ex. value is Decimal('0.1'),
+    tender.feature.enum values can be like
+    '0.050000000000000002776', '0.10000000000000000555', '0.14999999999999999445'
+    how do I check this ?
+    """
+    corrupted_value = Decimal(corrupted_value)
+    return value == corrupted_value or value == corrupted_value.quantize(DECIMAL_COMPARE_ACCURACY)

@@ -8,6 +8,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.models.award import ESCOAward as Award
+from openprocurement.tender.core.procedure.models.award import ESCOPostAward as PostAward
+from openprocurement.tender.core.procedure.models.award import PatchAward
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_create_award_not_in_allowed_period,
@@ -18,11 +21,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.utils import context_view
-from openprocurement.tender.esco.procedure.models.award import (
-    Award,
-    PatchAward,
-    PostAward,
-)
 from openprocurement.tender.esco.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.esco.procedure.serializers.tender import (
     ESCOTenderSerializer,

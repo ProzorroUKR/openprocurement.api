@@ -1,14 +1,11 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.competitivedialogue.constants import (
+    FEATURES_MAX_SUM,
     STAGE_1_EU_WORKING_DAYS_CONFIG,
     STAGE_1_UA_WORKING_DAYS_CONFIG,
     STAGE_2_EU_DEFAULT_CONFIG,
     STAGE_2_UA_DEFAULT_CONFIG,
-)
-from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
-    PostEUTender,
-    PostUATender,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
     CDStage1TenderState,
@@ -20,6 +17,8 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
 from openprocurement.tender.competitivedialogue.procedure.utils import (
     prepare_stage2_tender_data,
 )
+from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender as PostEUTender
+from openprocurement.tender.core.procedure.models.tender import CDStage2UAPostTender as PostUATender
 from openprocurement.tender.core.procedure.utils import validate_field
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsMixing,
@@ -27,6 +26,7 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 
 class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
+    features_max_weight = FEATURES_MAX_SUM
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -77,6 +77,8 @@ class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
 
 
 class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    required_multilingual_fields = {}
+    procuring_entity_available_language_default = None
     working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDUAStage2TenderDetailsState
     stage_2_tender_model = PostUATender

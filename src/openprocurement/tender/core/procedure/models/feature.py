@@ -1,3 +1,4 @@
+from decimal import Decimal
 from uuid import uuid4
 
 from schematics.types import FloatType, StringType
@@ -5,12 +6,12 @@ from schematics.types.compound import ModelType
 from schematics.validate import ValidationError
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.types import DecimalType, ListType
 from openprocurement.api.validation import validate_uniq_value
 
 
 class FeatureValue(Model):
-    value = FloatType(required=True, min_value=0.0, max_value=0.3)
+    value = FloatType(required=True, min_value=0.0)  # max value is validated in state (features_max_weight)
     title = StringType(required=True, min_length=1)
     title_en = StringType()
     title_ru = StringType()
@@ -54,3 +55,31 @@ def validate_related_items(data, features):
 
             elif feature_of == "lot" and f.relatedItem not in lot_ids:
                 raise ValidationError([{"relatedItem": ["relatedItem should be one of lots"]}])
+
+
+# --- CFA (closeFrameworkAgreementUA / closeFrameworkAgreementSelectionUA): decimal feature values ---
+
+
+class CFAFeatureValue(FeatureValue):
+    value = DecimalType(required=True, precision=-2, min_value=Decimal("0.0"), max_value=Decimal("0.3"))
+
+
+class CFAFeature(Feature):
+    enum = ListType(
+        ModelType(CFAFeatureValue, required=True),
+        default=list,
+        min_size=1,
+        validators=[validate_uniq_value],
+    )
+
+
+class CFASelectionFeatureValue(FeatureValue):
+    value = DecimalType(required=True, min_value=Decimal("0.0"), max_value=Decimal("0.3"))
+
+
+class CFASelectionFeature(Feature):
+    enum = ListType(
+        ModelType(CFASelectionFeatureValue, required=True),
+        min_size=1,
+        validators=[validate_uniq_value],
+    )

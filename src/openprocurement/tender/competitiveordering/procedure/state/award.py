@@ -9,6 +9,19 @@ from openprocurement.tender.core.procedure.utils import tender_created_before
 
 class COAwardState(AwardStateMixing, COTenderState):
     award_stand_still_working_days: bool = False
+    items_delivery_required: bool = True
+    award_has_eligible: bool = True
+
+    def validate_award_qualified_eligible(self, award):
+        # competitiveOrdering: only the "active requires qualified" rule on the model level;
+        # eligible rules are date-dependent, see award_on_patch
+        if award.get("status") == "active" and not award.get("qualified"):
+            raise_operation_error(
+                self.request,
+                ["Can't update award to active status with not qualified"],
+                status=422,
+                name="qualified",
+            )
 
     def award_on_patch(self, before, award):
         super().award_on_patch(before, award)

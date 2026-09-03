@@ -27,7 +27,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.mock import patch_market_product, patch_market_category
 from openprocurement.tender.core.tests.utils import activate_contract
-from openprocurement.tender.limited.procedure.models.tender import (
+from openprocurement.tender.limited.constants import (
     COMMON_VALUE_AMOUNT_THRESHOLD,
     cause_choices,
     cause_choices_new,

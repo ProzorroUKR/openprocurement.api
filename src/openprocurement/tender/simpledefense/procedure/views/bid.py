@@ -12,6 +12,8 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.bid import (
+    Bid,
+    PostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -23,7 +25,6 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.openuadefense.procedure.views.bid import (
     OpenUADefenseTenderBidResource,
 )
-from openprocurement.tender.simpledefense.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.simpledefense.procedure.state.bid import (
     SimpleDefenseBidState,
 )

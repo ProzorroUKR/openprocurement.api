@@ -4,10 +4,7 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.award import (
-    EUAward,
-    UAAward,
-)
+from openprocurement.tender.core.procedure.models.award import CDAward as Award
 from openprocurement.tender.openeu.procedure.views.auction import (
     EUTenderAuctionResource,
 )
@@ -24,7 +21,7 @@ from openprocurement.tender.openua.procedure.views.auction import (
     description="Competitive Dialogue Stage 2 EU auction data",
 )
 class CompetitiveDialogueStage2EUAuctionResource(EUTenderAuctionResource):
-    award_class = EUAward
+    award_class = Award
 
 
 @resource(
@@ -35,4 +32,4 @@ class CompetitiveDialogueStage2EUAuctionResource(EUTenderAuctionResource):
     description="Competitive Dialogue Stage 2 UA auction data",
 )
 class CompetitiveDialogueStage2UAAuctionResource(UATenderAuctionResource):
-    award_class = UAAward
+    award_class = Award

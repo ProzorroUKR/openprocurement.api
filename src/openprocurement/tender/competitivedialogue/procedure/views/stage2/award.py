@@ -11,14 +11,12 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.award import (
-    EUAward,
-    EUPatchAward,
-    EUPostAward,
-    UAAward,
-    UAPatchAward,
-    UAPostAward,
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.award import (
+    CDStage2AwardState,
 )
+from openprocurement.tender.core.procedure.models.award import CDAward as Award
+from openprocurement.tender.core.procedure.models.award import CDPatchAward as PatchAward
+from openprocurement.tender.core.procedure.models.award import CDPostAward as PostAward
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_create_award_not_in_allowed_period,
@@ -39,11 +37,13 @@ from openprocurement.tender.openua.procedure.views.award import UATenderAwardRes
     procurementMethodType=STAGE_2_EU_TYPE,
 )
 class CDStage2EUTenderAwardResource(EUTenderAwardResource):
+    state_class = CDStage2AwardState
+
     @json_view(
         content_type="application/json",
         permission="create_award",  # admins only
         validators=(
-            validate_input_data(EUPostAward),
+            validate_input_data(PostAward),
             validate_create_award_not_in_allowed_period,
             validate_create_award_only_for_active_lot,
         ),
@@ -57,10 +57,10 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(
-                EUPatchAward,
+                PatchAward,
                 none_means_remove=True,
             ),
-            validate_patch_data_simple(EUAward, item_name="award"),
+            validate_patch_data_simple(Award, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,
@@ -79,11 +79,13 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
     procurementMethodType=STAGE_2_UA_TYPE,
 )
 class CDStage2UATenderAwardResource(UATenderAwardResource):
+    state_class = CDStage2AwardState
+
     @json_view(
         content_type="application/json",
         permission="create_award",  # admins only
         validators=(
-            validate_input_data(UAPostAward),
+            validate_input_data(PostAward),
             validate_create_award_not_in_allowed_period,
             validate_create_award_only_for_active_lot,
         ),
@@ -97,10 +99,10 @@ class CDStage2UATenderAwardResource(UATenderAwardResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(
-                UAPatchAward,
+                PatchAward,
                 none_means_remove=True,
             ),
-            validate_patch_data_simple(UAAward, item_name="award"),
+            validate_patch_data_simple(Award, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,

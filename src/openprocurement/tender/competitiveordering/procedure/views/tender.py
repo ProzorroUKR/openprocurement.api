@@ -13,14 +13,14 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.competitiveordering.procedure.models.tender import (
-    PatchTender,
-    PostTender,
-    Tender,
-)
 from openprocurement.tender.competitiveordering.procedure.state.tender_details import (
     COLongTenderDetailsState,
     COShortTenderDetailsState,
+)
+from openprocurement.tender.core.procedure.models.tender import (
+    PatchTender,
+    PostTender,
+    Tender,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,

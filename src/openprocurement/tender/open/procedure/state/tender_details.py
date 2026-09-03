@@ -18,6 +18,14 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     tender_period_extra_working_days = False
     should_validate_notice_doc_required = True
     should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
     contract_template_required = True
 
     contract_template_name_patch_statuses = ("draft", "active.tendering")

@@ -20,6 +20,15 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 
 
 class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
+    required_multilingual_fields = {
+        "procuringEntity": {
+            "contactPoint": {"name_en": True},
+            "additionalContactPoints": {"name_en": True},
+        },
+        "items": {"description_en": True},
+    }
+    procuring_entity_available_language_default = "uk"
+    tender_period_start_date_required = False  # core PeriodEndRequired is used
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

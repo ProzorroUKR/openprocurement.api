@@ -11,21 +11,23 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.tender import NegotiationPatchTender as PatchNegotiationTender
+from openprocurement.tender.core.procedure.models.tender import NegotiationPostTender as PostNegotiationTender
+from openprocurement.tender.core.procedure.models.tender import (
+    NegotiationQuickPatchTender as PatchNegotiationQuickTender,
+)
+from openprocurement.tender.core.procedure.models.tender import NegotiationQuickPostTender as PostNegotiationQuickTender
+from openprocurement.tender.core.procedure.models.tender import (
+    NegotiationQuickTender,
+    NegotiationTender,
+    ReportingTender,
+)
+from openprocurement.tender.core.procedure.models.tender import ReportingPatchTender as PatchReportingTender
+from openprocurement.tender.core.procedure.models.tender import ReportingPostTender as PostReportingTender
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.limited.procedure.models.tender import (
-    NegotiationQuickTender,
-    NegotiationTender,
-    PatchNegotiationQuickTender,
-    PatchNegotiationTender,
-    PatchReportingTender,
-    PostNegotiationQuickTender,
-    PostNegotiationTender,
-    PostReportingTender,
-    ReportingTender,
-)
 from openprocurement.tender.limited.procedure.serializers.tender import (
     LimitedTenderBaseSerializer,
 )

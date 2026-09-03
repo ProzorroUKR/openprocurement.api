@@ -14,12 +14,13 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaselectionua.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.cfaselectionua.procedure.serializers.bid import (
     BidSerializer,
 )
 from openprocurement.tender.cfaselectionua.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.models.bid import CFASelectionBid as Bid
+from openprocurement.tender.core.procedure.models.bid import CFASelectionPostBid as PostBid
 from openprocurement.tender.core.procedure.models.bid import (
     filter_administrator_bid_update,
 )

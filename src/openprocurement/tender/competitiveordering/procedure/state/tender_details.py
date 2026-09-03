@@ -26,6 +26,14 @@ class COTenderDetailsState(TenderDetailsMixing, COTenderState):
 
     should_validate_notice_doc_required = True
     should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
     agreement_allowed_types = [DPS_TYPE]
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")

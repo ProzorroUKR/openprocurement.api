@@ -20,14 +20,12 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
-from openprocurement.tender.limited.procedure.models.tender import (
-    reporting_cause_is_required,
-)
 from openprocurement.tender.limited.procedure.serializers.cause import (
     enrich_cause_details,
     get_cause_details_reference,
 )
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
+from openprocurement.tender.limited.procedure.utils import reporting_cause_is_required
 
 
 class CauseDetailsMixing:
@@ -172,6 +170,7 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_validate_related_lot_in_items = False
+    items_delivery_required = True
 
     contract_template_name_patch_statuses = []
 
@@ -195,6 +194,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_validate_related_lot_in_items = True
+    items_delivery_required = True
 
     contract_template_name_patch_statuses = ("draft", "active")
 

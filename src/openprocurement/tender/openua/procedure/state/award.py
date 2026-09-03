@@ -5,6 +5,8 @@ from openprocurement.tender.openua.procedure.state.tender import OpenUATenderSta
 
 class AwardState(AwardStateMixing, OpenUATenderState):
     award_stand_still_working_days: bool = False
+    items_delivery_required: bool = True
+    award_has_eligible: bool = True
 
     def award_status_up_from_active_to_cancelled(self, award, tender):
         if any(i.get("status") == "satisfied" for i in award.get("complaints", "")):

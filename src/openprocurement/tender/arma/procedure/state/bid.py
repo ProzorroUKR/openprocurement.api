@@ -1,15 +1,14 @@
 from decimal import Decimal
 
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.arma.procedure.models.bid import (
-    PatchBid,
-    PatchQualificationBid,
-)
+from openprocurement.tender.core.procedure.models.bid import ARMAPatchBid as PatchBid
+from openprocurement.tender.core.procedure.models.bid import ARMAPatchQualificationBid as PatchQualificationBid
 from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
 
 
 class BidState(BaseBidState):
+    skip_value_validation_for_draft_bid = True
     item_patch_fields_during_qualification = {
         "requirementResponses": None,
         "subcontractingDetails": None,
