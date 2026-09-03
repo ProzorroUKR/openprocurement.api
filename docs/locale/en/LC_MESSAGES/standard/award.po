@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-11 11:33+0200\n"
+"POT-Creation-Date: 2026-09-03 23:24+0300\n"
 "PO-Revision-Date: 2021-03-03 21:36+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -196,14 +197,17 @@ msgstr ""
 msgid "Список об'єктів :ref:`RequirementResponse`."
 msgstr "List of :ref:`RequirementResponse` objects."
 
-msgid "Відмінності :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`competitiveordering`, :ref:`open`, :ref:`openua`, :ref:`arma` та :ref:`openeu`:"
-msgstr "Additionally in :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`competitiveordering`, :ref:`open`, :ref:`openua`, :ref:`arma` and :ref:`openeu`:"
+msgid "Відмінності :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`competitiveordering`, :ref:`open`, :ref:`openua`, :ref:`defense`, :ref:`limited`, :ref:`arma` та :ref:`openeu`:"
+msgstr "Additionally in :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`competitiveordering`, :ref:`open`, :ref:`openua`, :ref:`defense`, :ref:`limited`, :ref:`arma` and :ref:`openeu`:"
 
 msgid "eligible"
 msgstr ""
 
 msgid "Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації."
 msgstr "Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents."
+
+msgid "Відсутнє у :ref:`belowthreshold`, :ref:`requestforproposal`, :ref:`pricequotation`, :ref:`cfaselectionua` та :ref:`simpledefense`."
+msgstr "Absent in :ref:`belowthreshold`, :ref:`requestforproposal`, :ref:`pricequotation`, :ref:`cfaselectionua` and :ref:`simpledefense`."
 
 msgid "period"
 msgstr "period"
@@ -252,3 +256,4 @@ msgstr "\\* marks initial state"
 
 msgid "Робочий процес у :ref:`openeu` та :ref:`esco`:"
 msgstr "Workflow in :ref:`openeu` and :ref:`esco`:"
+
