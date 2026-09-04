@@ -31,7 +31,7 @@ class PatchParameter(Parameter):
     value = FloatType()
 
 
-# --- CFA selection: decimal parameters ---
+# --- CFA selection: decimal bid parameters ---
 
 
 def validate_cfa_selection_parameter_value(data, value):
@@ -67,6 +67,6 @@ def validate_cfa_selection_parameter_contracts(features, contracts):
                 raise ValidationError("value should be one of feature value.")
 
 
-class CFASelectionParameterContract(Model):
+class AgreementContractParameter(Model):
     code = StringType(required=True)
     value = DecimalType(required=True)

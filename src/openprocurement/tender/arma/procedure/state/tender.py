@@ -1,13 +1,13 @@
 from datetime import timedelta
 
-from openprocurement.tender.core.procedure.models.award import ARMAAward as Award
+from openprocurement.tender.core.procedure.models.award import ARMAAward
 from openprocurement.tender.core.procedure.state.tender import (
     TenderState as BaseTenderState,
 )
 
 
 class TenderState(BaseTenderState):
-    award_class = Award
+    award_class = ARMAAward
     active_bid_statuses = ("active", "pending")
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     alp_due_date_period = timedelta(days=2)

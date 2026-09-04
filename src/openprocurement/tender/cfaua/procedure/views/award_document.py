@@ -13,10 +13,6 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.state.award_document import (
     CFAUAAwardDocumentState,
 )
-from openprocurement.tender.cfaua.procedure.validation import (
-    validate_accepted_complaints,
-    validate_award_document_tender_not_in_allowed_status,
-)
 from openprocurement.tender.core.procedure.models.document import (
     Document,
     PatchDocument,
@@ -26,6 +22,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_award_document_author,
     validate_award_document_lot_not_in_allowed_status,
     validate_award_document_tender_not_in_allowed_status_base,
+    validate_cfa_accepted_complaints,
+    validate_cfa_award_document_tender_not_in_allowed_status,
 )
 from openprocurement.tender.core.procedure.views.award_document import (
     BaseAwardDocumentResource,
@@ -46,9 +44,9 @@ class CFAUATenderAwardDocumentResource(BaseAwardDocumentResource):
         validators=(
             unless_bots(validate_item_owner("tender")),
             validate_input_data(PostDocument, allow_bulk=True),
-            validate_award_document_tender_not_in_allowed_status,
+            validate_cfa_award_document_tender_not_in_allowed_status,
             validate_award_document_lot_not_in_allowed_status,
-            validate_accepted_complaints,
+            validate_cfa_accepted_complaints,
         ),
         permission="upload_award_documents",
     )
@@ -62,7 +60,7 @@ class CFAUATenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-            validate_accepted_complaints,
+            validate_cfa_accepted_complaints,
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -81,7 +79,7 @@ class CFAUATenderAwardDocumentResource(BaseAwardDocumentResource):
             validate_award_document_tender_not_in_allowed_status_base,
             validate_award_document_lot_not_in_allowed_status,
             validate_award_document_author,
-            validate_accepted_complaints,
+            validate_cfa_accepted_complaints,
         ),
         permission="edit_award_documents",
     )

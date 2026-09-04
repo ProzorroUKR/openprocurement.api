@@ -1,8 +1,6 @@
 from decimal import Decimal
 
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.models.bid import ARMAPatchBid as PatchBid
-from openprocurement.tender.core.procedure.models.bid import ARMAPatchQualificationBid as PatchQualificationBid
 from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
 
@@ -39,9 +37,3 @@ class BidState(BaseBidState):
 
     def execute_unit_validation(self, items_for_lot, items_unit_value_amount, lot_values_by_id, data):
         pass
-
-    def get_patch_data_model(self):
-        tender = self.request.validated["tender"]
-        if tender.get("status", "") in self.qualification_statuses:
-            return PatchQualificationBid
-        return PatchBid

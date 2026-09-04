@@ -15,7 +15,7 @@ from openprocurement.tender.core.procedure.models.award_milestone import (
 )
 from openprocurement.tender.core.procedure.models.base import BaseAward
 from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.models.item import CDItem, TechFeatureItem
+from openprocurement.tender.core.procedure.models.item import CDItem, Item
 from openprocurement.tender.core.procedure.models.organization import (
     ContactLessSupplier,
     Supplier,
@@ -50,10 +50,11 @@ class PostAward(BaseAward):
         min_size=1,
         max_size=1,
     )
-    items = ListType(ModelType(TechFeatureItem))
+    items = ListType(ModelType(Item))
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
     complaintPeriod = ModelType(Period)
+    subcontractingDetails = StringType()
 
     def validate_lotID(self, data, value):
         tender = get_tender()
@@ -73,7 +74,8 @@ class PatchAward(PatchObjResponsesMixin, BaseAward):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-    items = ListType(ModelType(TechFeatureItem))
+    items = ListType(ModelType(Item))
+    subcontractingDetails = StringType()
 
 
 class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
@@ -91,9 +93,10 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
     complaintPeriod = ModelType(Period)
+    subcontractingDetails = StringType()
     complaints = BaseType()
     documents = ListType(ModelType(Document, required=True))
-    items = ListType(ModelType(TechFeatureItem))
+    items = ListType(ModelType(Item))
     period = ModelType(Period)
 
     qualified = BooleanType()
@@ -152,111 +155,36 @@ class LimitedAwardValue(Value):
     )
 
 
-class LimitedPostBaseAward(BaseAward):
-    @serializable
-    def id(self):
-        return uuid4().hex
-
-    @serializable
-    def date(self):
-        return get_request_now().isoformat()
-
+class LimitedPostAward(PostAward):
+    bid_id = MD5Type()  # awards are created by the buyer, there are no bids
     qualified = BooleanType()
     eligible = BooleanType()
-    status = StringType(required=True, choices=["pending"], default="pending")
     value = ModelType(LimitedAwardValue, required=True)
     weightedValue = ModelType(LimitedAwardValue)
-    suppliers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    subcontractingDetails = StringType()
 
 
-class LimitedPatchBaseAward(PatchObjResponsesMixin, BaseAward):
-    qualified = BooleanType()
-    status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+class LimitedPatchAward(PatchAward):
     suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    subcontractingDetails = StringType()
     value = ModelType(LimitedAwardValue)
-
-
-class LimitedBaseAward(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
-    id = MD5Type(required=True)
-    qualified = BooleanType()
-    status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
-    date = IsoDateTimeType(required=True)
-    value = ModelType(LimitedAwardValue, required=True)
-    weightedValue = ModelType(LimitedAwardValue)
-    suppliers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    documents = ListType(ModelType(Document, required=True))
-    subcontractingDetails = StringType()
-
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-    complaints = BaseType()
-    complaintPeriod = ModelType(Period)
-    period = ModelType(Period)
-
-    def validate_qualified(self, data, qualified):
-        if data["status"] == "active" and not qualified:
-            raise ValidationError("Can't update award to active status with not qualified")
-        if data["status"] == "unsuccessful" and (
-            qualified is None
-            or (hasattr(self, "eligible") and data.get("eligible") is None)
-            or (qualified and (not hasattr(self, "eligible") or data["eligible"]))
-        ):
-            raise ValidationError(
-                "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
-            )
-
-
-def validate_negotiation_lot_id(value):
-    tender = get_tender()
-    if not value and tender.get("lots"):
-        raise ValidationError("This field is required.")
-    if value and value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
-        raise ValidationError("lotID should be one of lots")
-
-
-class NegotiationPostAward(LimitedPostBaseAward):
-    lotID = MD5Type()
-
-    def validate_lotID(self, data, value):
-        validate_negotiation_lot_id(value)
-
-
-class NegotiationPatchAward(LimitedPatchBaseAward):
     lotID = MD5Type()
 
     def validate_lotID(self, data, value):
         if value:
-            validate_negotiation_lot_id(value)
+            tender = get_tender()
+            if value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
+                raise ValidationError("lotID should be one of lots")
 
 
-class NegotiationAward(LimitedBaseAward):
-    lotID = MD5Type()
+class LimitedAward(Award):
+    bid_id = MD5Type()
+    value = ModelType(LimitedAwardValue, required=True)
+    weightedValue = ModelType(LimitedAwardValue)
 
 
-class ReportingPostAward(LimitedPostBaseAward):
+# reporting: plain value (no defaults from the tender)
+
+
+class ReportingPostAward(LimitedPostAward):
     suppliers = ListType(
         ModelType(ContactLessSupplier, required=True),
         required=True,
@@ -266,7 +194,7 @@ class ReportingPostAward(LimitedPostBaseAward):
     value = ModelType(Value, required=True)
 
 
-class ReportingPatchAward(LimitedPatchBaseAward):
+class ReportingPatchAward(LimitedPatchAward):
     suppliers = ListType(
         ModelType(ContactLessSupplier, required=True),
         min_size=1,
@@ -275,7 +203,7 @@ class ReportingPatchAward(LimitedPatchBaseAward):
     value = ModelType(Value)
 
 
-class ReportingAward(LimitedBaseAward):
+class ReportingAward(LimitedAward):
     suppliers = ListType(
         ModelType(ContactLessSupplier, required=True),
         required=True,

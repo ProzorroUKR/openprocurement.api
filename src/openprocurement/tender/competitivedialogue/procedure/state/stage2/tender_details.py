@@ -13,6 +13,11 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     features_max_weight = FEATURES_MAX_SUM
     items_unit_required = False
     items_quantity_required = False
+    milestones_required = False
+    milestones_delivery_financing_required_on_post = False
+    items_classification_id_check = False
+    main_procurement_category_required = False
+    award_criteria_lcc_features_check = False
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
     tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

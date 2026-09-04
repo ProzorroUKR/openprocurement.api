@@ -3,8 +3,6 @@ from decimal import Decimal
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.models.bid import ESCOPatchBid as PatchBid
-from openprocurement.tender.core.procedure.models.bid import ESCOPatchQualificationBid as PatchQualificationBid
 from openprocurement.tender.core.procedure.state.bid import BidState
 
 
@@ -38,9 +36,3 @@ class ESCOBidState(BidState):
                         status=422,
                         name="lotValues.value",
                     )
-
-    def get_patch_data_model(self):
-        tender = self.request.validated["tender"]
-        if tender.get("status", "") in self.qualification_statuses:
-            return PatchQualificationBid
-        return PatchBid

@@ -31,9 +31,16 @@ class AwardStateMixing:
     items_quantity_required: bool = True
     # procedures whose awards use `eligible` next to `qualified` (open family, cfaua, esco, arma, limited)
     award_has_eligible: bool = False
+    # activation requires eligible=True (limited procedures only check it for the unsuccessful status)
+    award_eligible_required_for_activation: bool = True
+    # the unsuccessful status requires eligible=False as well (limited: only qualified=False)
+    award_eligible_in_unsuccessful_rule: bool | None = None  # None = same as award_has_eligible
+    # procedures without bids (limited) have no award items
+    award_items_allowed: bool = True
 
     def validate_award_patch(self, before, after):
         self.validate_award_qualified_eligible(after)
+        self.validate_award_items_allowed(after)
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=before.get("lotID"))
         self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
@@ -63,16 +70,23 @@ class AwardStateMixing:
         if status == "active":
             if not qualified:
                 errors.append(("qualified", "Can't update award to active status with not qualified"))
-            if self.award_has_eligible and not eligible:
+            if self.award_has_eligible and self.award_eligible_required_for_activation and not eligible:
                 errors.append(("eligible", "Can't update award to active status with not eligible"))
-        elif status == "unsuccessful" and (
-            qualified is None
-            or (self.award_has_eligible and eligible is None)
-            or (qualified and (not self.award_has_eligible or eligible))
-        ):
-            errors.append(
-                ("qualified", "Can't update award to unsuccessful status when qualified/eligible isn't set to False")
-            )
+        elif status == "unsuccessful":
+            with_eligible = self.award_eligible_in_unsuccessful_rule
+            if with_eligible is None:
+                with_eligible = self.award_has_eligible
+            if (
+                qualified is None
+                or (with_eligible and eligible is None)
+                or (qualified and (not with_eligible or eligible))
+            ):
+                errors.append(
+                    (
+                        "qualified",
+                        "Can't update award to unsuccessful status when qualified/eligible isn't set to False",
+                    )
+                )
         if errors:
             for name, message in errors:
                 self.request.errors.add("body", name, [message])
@@ -103,7 +117,15 @@ class AwardStateMixing:
                 status=422,
             )
 
+    def validate_award_post(self, award):
+        self.validate_award_items_allowed(award)
+
+    def validate_award_items_allowed(self, award):
+        if not self.award_items_allowed and award.get("items") is not None:
+            raise_operation_error(self.request, "Rogue field", status=422, name="items")
+
     def award_on_post(self, award):
+        self.validate_award_post(award)
         self.validate_award_econtract_fields(award)
         if self.award_has_period:
             award["period"] = {

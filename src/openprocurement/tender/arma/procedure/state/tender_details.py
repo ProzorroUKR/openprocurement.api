@@ -6,6 +6,7 @@ from openprocurement.tender.arma.constants import (
     WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.arma.procedure.state.tender import TenderState
+from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.utils import tender_created_before
 from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
@@ -15,6 +16,16 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 class TenderDetailsMixing(OpenUATenderDetailsMixing):
     procuring_entity_available_language_default = "uk"
     contract_template_name_allowed = False
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
+    award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
+    award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

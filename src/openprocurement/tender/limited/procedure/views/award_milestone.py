@@ -8,14 +8,14 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.award_milestone import (
     PostAwardMilestone,
 )
+from openprocurement.tender.core.procedure.validation import (
+    validate_limited_award_operation_not_in_active_status,
+)
 from openprocurement.tender.core.procedure.views.award_milestone import (
     BaseAwardMilestoneResource,
 )
 from openprocurement.tender.limited.procedure.state.award_milestone import (
     ReportingAwardMilestoneState,
-)
-from openprocurement.tender.limited.procedure.validation import (
-    validate_award_operation_not_in_active_status,
 )
 
 
@@ -35,7 +35,7 @@ class ReportingAwardMilestoneResource(BaseAwardMilestoneResource):
         validators=(
             validate_item_owner("tender"),
             validate_input_data(PostAwardMilestone),
-            validate_award_operation_not_in_active_status,
+            validate_limited_award_operation_not_in_active_status,
         ),
     )
     def collection_post(self):

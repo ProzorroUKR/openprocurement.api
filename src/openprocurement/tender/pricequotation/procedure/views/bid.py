@@ -15,10 +15,10 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.views.bid import (
     BelowThresholdTenderBidResource,
 )
-from openprocurement.tender.core.procedure.models.bid import PQBid as Bid
-from openprocurement.tender.core.procedure.models.bid import PQPatchBid as PatchBid
-from openprocurement.tender.core.procedure.models.bid import PQPostBid as PostBid
 from openprocurement.tender.core.procedure.models.bid import (
+    Bid,
+    PatchBid,
+    PostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (

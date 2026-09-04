@@ -23,7 +23,7 @@ from openprocurement.tender.core.procedure.models.feature import (
     CFASelectionFeature,
     validate_related_items,
 )
-from openprocurement.tender.core.procedure.models.item import TechFeatureItem
+from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.parameter import (
@@ -67,7 +67,7 @@ class CFAAgreement(Model):
     date = IsoDateTimeType()
     dateSigned = IsoDateTimeType()
     features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(TechFeatureItem, required=True))
+    items = ListType(ModelType(Item, required=True))
     period = ModelType(Period)
     status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"], required=True)
     contracts = ListType(ModelType(CFAAgreementContract, required=True))
@@ -109,10 +109,10 @@ class CFAAgreement(Model):
                 )
 
 
-# --- CFA selection: source agreement (copied from the frameworks agreement) and its changes ---
+# --- agreement changes: shared by closeFrameworkAgreementSelectionUA and framework/cfaua ---
 
 
-def validate_cfa_selection_only_addend_or_only_factor(modifications):
+def validate_only_addend_or_only_factor(modifications):
     if modifications:
         changes_with_addend_and_factor = [m for m in modifications if m.addend and m.factor]
         if changes_with_addend_and_factor:
@@ -133,7 +133,7 @@ def validate_cfa_selection_modifications_items_uniq(items, changes):
                 raise ValidationError("Item id should be uniq for all modifications and one of agreement:items")
 
 
-class CFASelectionChange(Model):
+class AgreementChange(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     status = StringType(choices=["pending", "active", "cancelled"], default="pending")
     date = IsoDateTimeType(default=get_request_now)
@@ -148,21 +148,24 @@ class CFASelectionChange(Model):
             raise ValidationError("Agreement signature date can't be in the future")
 
 
-class CFASelectionUnitPriceModification(Model):
+class UnitPriceModification(Model):
     itemId = StringType()
     factor = DecimalType(required=False, precision=-4, min_value=Decimal("0.0"))
     addend = DecimalType(required=False, precision=-2)
 
 
-class CFASelectionChangeTaxRate(CFASelectionChange):
+# --- CFA selection: source agreement (copied from the frameworks agreement) and its changes ---
+
+
+class CFASelectionChangeTaxRate(AgreementChange):
     rationaleType = StringType(default="taxRate")
     modifications = ListType(
-        ModelType(CFASelectionUnitPriceModification, required=True),
-        validators=[validate_cfa_selection_only_addend_or_only_factor],
+        ModelType(UnitPriceModification, required=True),
+        validators=[validate_only_addend_or_only_factor],
     )
 
 
-def validate_cfa_selection_item_price_variation_modifications(modifications):
+def validate_item_price_variation_modifications(modifications):
     for modification in modifications:
         if modification.addend:
             raise ValidationError("Only factor is allowed for itemPriceVariation type of change")
@@ -170,25 +173,25 @@ def validate_cfa_selection_item_price_variation_modifications(modifications):
             raise ValidationError("Modification factor should be in range 0.9 - 1.1")
 
 
-class CFASelectionChangeItemPriceVariation(CFASelectionChange):
+class CFASelectionChangeItemPriceVariation(AgreementChange):
     rationaleType = StringType(default="itemPriceVariation")
     modifications = ListType(
-        ModelType(CFASelectionUnitPriceModification, required=True),
-        validators=[validate_cfa_selection_item_price_variation_modifications],
+        ModelType(UnitPriceModification, required=True),
+        validators=[validate_item_price_variation_modifications],
     )
 
 
-def validate_cfa_selection_third_party_modifications(modifications):
+def validate_third_party_modifications(modifications):
     for modification in modifications:
         if modification.addend:
             raise ValidationError("Only factor is allowed for thirdParty type of change")
 
 
-class CFASelectionChangeThirdParty(CFASelectionChange):
+class CFASelectionChangeThirdParty(AgreementChange):
     rationaleType = StringType(default="thirdParty")
     modifications = ListType(
-        ModelType(CFASelectionUnitPriceModification, required=True),
-        validators=[validate_cfa_selection_third_party_modifications],
+        ModelType(UnitPriceModification, required=True),
+        validators=[validate_third_party_modifications],
     )
 
 
@@ -202,15 +205,15 @@ def validate_cfa_selection_modifications_contracts_uniq(contracts, changes):
                 raise ValidationError("Contract id should be uniq for all modifications and one of agreement:contracts")
 
 
-class CFASelectionContractModification(Model):
+class ContractModification(Model):
     itemId = StringType()
     contractId = StringType(required=True)
 
 
-class CFASelectionChangePartyWithdrawal(CFASelectionChange):
+class CFASelectionChangePartyWithdrawal(AgreementChange):
     rationaleType = StringType(default="partyWithdrawal")
     modifications = ListType(
-        ModelType(CFASelectionContractModification, required=True),
+        ModelType(ContractModification, required=True),
     )
 
 
@@ -224,7 +227,7 @@ class CFASelectionPatchAgreement(Model):
     description_en = StringType()
     description_ru = StringType()
     features = ListType(ModelType(CFASelectionFeature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(TechFeatureItem, required=True))
+    items = ListType(ModelType(Item, required=True))
     period = ModelType(Period)
     status = StringType(choices=["pending", "active", "cancelled", "terminated"])
     contracts = ListType(ModelType(CFASelectionAgreementContract, required=True))

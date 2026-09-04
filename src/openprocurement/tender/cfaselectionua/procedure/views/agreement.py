@@ -9,7 +9,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.state.agreement import (
     AgreementState,
 )
-from openprocurement.tender.core.procedure.models.agreement import CFASelectionAgreement as Agreement
+from openprocurement.tender.core.procedure.models.agreement import CFASelectionAgreement
 from openprocurement.tender.core.procedure.models.agreement import (
     CFASelectionPatchAgreement as PatchAgreement,
 )
@@ -40,7 +40,7 @@ class CFASelectionTenderAgreementResource(TenderAgreementResource):
         permission="edit_agreement_selection",  # brokers
         validators=(
             validate_input_data(PatchAgreement),
-            validate_patch_data_simple(Agreement, item_name="agreement"),
+            validate_patch_data_simple(CFASelectionAgreement, item_name="agreement"),
         ),
     )
     def patch(self):

@@ -1394,7 +1394,7 @@ def tender_with_main_procurement_category(self):
 
     # test fail creation
     data["mainProcurementCategory"] = "whiskey,tango,foxtrot"
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
         [
@@ -1554,7 +1554,7 @@ def create_tender_with_criteria_lcc(self):
     }
     data["features"] = [test_feature]
 
-    response = self.app.post_json("/tenders", {"data": data}, status=422)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")

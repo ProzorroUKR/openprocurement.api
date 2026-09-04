@@ -22,15 +22,10 @@ from openprocurement.api.utils import (
     get_tender_product,
     raise_operation_error,
 )
-from openprocurement.tender.cfaselectionua.procedure.utils import (
-    equals_decimal_and_corrupted,
-)
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.bid import (
-    PatchBid,
-    PatchQualificationBid,
-)
+from openprocurement.tender.core.procedure.registry import get_procedure_models
 from openprocurement.tender.core.procedure.utils import (
+    equals_decimal_and_corrupted,
     get_supplier_contract,
     is_bid_items_required,
     tender_created_after,
@@ -72,6 +67,9 @@ class BidState(BaseState):
     requirement_responses_allowed = True
     # open-family procedures don't validate value of a draft bid on patch
     skip_value_validation_for_draft_bid = False
+    # competitiveDialogue stage 1 bids have no value / parameters
+    bid_value_allowed = True
+    bid_parameters_allowed = True
     # bid items quantity (former BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM)
     bid_items_quantity_required = True
 
@@ -91,6 +89,7 @@ class BidState(BaseState):
         data["date"] = now
         self.validate_self_eligible(data)
         self.validate_requirement_responses_allowed(data)
+        self.validate_bid_fields_allowed(data)
         self.validate_bid_items_quantity_required(data)
         self.validate_items_required_field(data)
         self.validate_bid_econtract_fields(data)
@@ -115,6 +114,7 @@ class BidState(BaseState):
         self.validate_bid_value_on_patch(after)
         self.validate_self_eligible(after)
         self.validate_requirement_responses_allowed(after)
+        self.validate_bid_fields_allowed(after)
         self.validate_bid_items_quantity_required(after)
         self.validate_items_required_field(after)
         self.validate_bid_econtract_fields(after)
@@ -134,9 +134,10 @@ class BidState(BaseState):
 
     def get_patch_data_model(self):
         tender = self.request.validated["tender"]
+        models = get_procedure_models(tender["procurementMethodType"])
         if tender.get("status", "") in self.qualification_statuses:
-            return PatchQualificationBid
-        return PatchBid
+            return models.bid_patch_qualification
+        return models.bid_patch
 
     def validate_bid_value_on_patch(self, data):
         if self.skip_value_validation_for_draft_bid and data.get("status") == "draft":
@@ -157,6 +158,11 @@ class BidState(BaseState):
                 raise_operation_error(self.request, ["Rogue field."], status=422, name="selfEligible")
         elif self.self_eligible_required and value is None:
             raise_operation_error(self.request, ["This field is required."], status=422, name="selfEligible")
+
+    def validate_bid_fields_allowed(self, data):
+        for field, allowed in (("value", self.bid_value_allowed), ("parameters", self.bid_parameters_allowed)):
+            if not allowed and data.get(field) is not None:
+                raise_operation_error(self.request, "Rogue field", status=422, name=field)
 
     def validate_requirement_responses_allowed(self, data):
         if not self.requirement_responses_allowed and data.get("requirementResponses") is not None:

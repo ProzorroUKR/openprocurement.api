@@ -10,8 +10,7 @@ from openprocurement.tender.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.tender.cfaua.procedure.state.agreement import AgreementState
-from openprocurement.tender.core.procedure.models.agreement import CFAAgreement as Agreement
-from openprocurement.tender.core.procedure.models.agreement import CFAPatchAgreement as PatchAgreement
+from openprocurement.tender.core.procedure.models.agreement import CFAAgreement, CFAPatchAgreement
 from openprocurement.tender.core.procedure.views.agreement import (
     TenderAgreementResource,
 )
@@ -33,8 +32,8 @@ class CFAUAAgreementResource(TenderAgreementResource):
         permission="edit_tender",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PatchAgreement),
-            validate_patch_data_simple(Agreement, item_name="agreement"),
+            validate_input_data(CFAPatchAgreement),
+            validate_patch_data_simple(CFAAgreement, item_name="agreement"),
         ),
     )
     def patch(self):

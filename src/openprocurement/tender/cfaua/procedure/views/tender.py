@@ -17,9 +17,7 @@ from openprocurement.tender.cfaua.procedure.serializers.tender import (
 from openprocurement.tender.cfaua.procedure.state.tender_details import (
     CFAUATenderDetailsState,
 )
-from openprocurement.tender.core.procedure.models.tender import CFAPatchTender as PatchTender
-from openprocurement.tender.core.procedure.models.tender import CFAPostTender as PostTender
-from openprocurement.tender.core.procedure.models.tender import CFATender as Tender
+from openprocurement.tender.core.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
@@ -45,7 +43,7 @@ class CFAUATenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostTender),
+            validate_input_data(CFAPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
@@ -73,8 +71,8 @@ class CFAUATenderResource(TendersResource):
                     "active.qualification",  # state class only allows status change to qualification.stand-still
                 )
             ),
-            validate_input_data(PatchTender, none_means_remove=True),
-            validate_patch_data_simple(Tender, item_name="tender"),
+            validate_input_data(CFAPatchTender, none_means_remove=True),
+            validate_patch_data_simple(CFATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
             validate_tender_guarantee,

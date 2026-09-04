@@ -3,6 +3,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
+from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
@@ -13,6 +14,13 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
+    tender_period_start_date_required = True
+    items_related_lot_error = "Rogue field."
+    milestones_required = False
+    items_classification_id_check = False
+    award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
+    award_criteria_default = AWARD_CRITERIA_LOWEST_COST
+    patch_status_choices = ("draft", "active.tendering")
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)

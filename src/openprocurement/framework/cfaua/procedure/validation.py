@@ -1,5 +1,3 @@
-from decimal import Decimal
-
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.context import get_request
@@ -45,20 +43,6 @@ def validate_create_agreement_change(request, **kwargs):
 # changes modifications validators
 
 
-def validate_item_price_variation_modifications(modifications):
-    for modification in modifications:
-        if modification.get("addend"):
-            raise ValidationError("Only factor is allowed for itemPriceVariation type of change")
-        if not Decimal("0.9") <= modification.get("factor") <= Decimal("1.1"):
-            raise ValidationError("Modification factor should be in range 0.9 - 1.1")
-
-
-def validate_third_party_modifications(modifications):
-    for modification in modifications:
-        if modification.get("addend"):
-            raise ValidationError("Only factor is allowed for thirdParty type of change")
-
-
 def validate_modifications_items_uniq(modifications):
     agreement = get_request().validated["agreement"]
     if modifications:
@@ -75,13 +59,6 @@ def validate_modifications_contracts_uniq(modifications):
         contracts_ids = {mod["contractId"] for mod in modifications if mod["contractId"] in agreement_contracts_id}
         if len(contracts_ids) != len(modifications):
             raise ValidationError("Contract id should be uniq for all modifications and one of agreement:contracts")
-
-
-def validate_only_addend_or_only_factor(modifications):
-    if modifications:
-        changes_with_addend_and_factor = [mod for mod in modifications if mod.get("addend") and mod.get("factor")]
-        if changes_with_addend_and_factor:
-            raise ValidationError("Change with taxRate rationaleType, can have only factor or only addend")
 
 
 def validate_credentials_generate(request, **kwargs):

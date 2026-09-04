@@ -15,9 +15,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.bid import ESCOBid as Bid
-from openprocurement.tender.core.procedure.models.bid import ESCOPostBid as PostBid
 from openprocurement.tender.core.procedure.models.bid import (
+    ESCOBid,
+    ESCOPostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -84,7 +84,7 @@ class ESCOTenderBidResource(OpenEUTenderBidResource):
             ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-            validate_input_data(PostBid),
+            validate_input_data(ESCOPostBid),
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
@@ -105,7 +105,7 @@ class ESCOTenderBidResource(OpenEUTenderBidResource):
                 filters=(filter_administrator_bid_update,),
                 none_means_remove=True,
             ),
-            validate_patch_data_simple(Bid, item_name="bid"),
+            validate_patch_data_simple(ESCOBid, item_name="bid"),
         ),
     )
     def patch(self):

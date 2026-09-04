@@ -12,9 +12,6 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.state.tender_document import (
     CFASelectionTenderDocumentState,
 )
-from openprocurement.tender.cfaselectionua.procedure.validation import (
-    validate_tender_document_operation_in_allowed_tender_statuses,
-)
 from openprocurement.tender.core.procedure.models.document import (
     Document,
     PatchDocument,
@@ -22,6 +19,7 @@ from openprocurement.tender.core.procedure.models.document import (
 )
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
+    validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.core.procedure.views.tender_document import (
@@ -43,7 +41,7 @@ class CFASelectionTenderDocumentResource(TenderDocumentResource):
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument, allow_bulk=True),
-            validate_tender_document_operation_in_allowed_tender_statuses,
+            validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses,
         ),
         permission="upload_tender_documents",
     )
@@ -55,7 +53,7 @@ class CFASelectionTenderDocumentResource(TenderDocumentResource):
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument),
             update_doc_fields_on_put_document,
-            validate_tender_document_operation_in_allowed_tender_statuses,
+            validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses,
             validate_tender_document_update_not_by_author_or_tender_owner,
             validate_upload_document,
             validate_data_model(Document),
@@ -71,7 +69,7 @@ class CFASelectionTenderDocumentResource(TenderDocumentResource):
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
-            validate_tender_document_operation_in_allowed_tender_statuses,
+            validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses,
             validate_tender_document_update_not_by_author_or_tender_owner,
         ),
         permission="upload_tender_documents",

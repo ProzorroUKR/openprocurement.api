@@ -28,7 +28,16 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
         "items": {"description_en": True},
     }
     procuring_entity_available_language_default = "uk"
-    tender_period_start_date_required = False  # core PeriodEndRequired is used
+    tender_period_start_date_required = True
+    main_procurement_category_choices = ("goods", "services")
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.qualification",
+        "active.qualification.stand-still",
+    )
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

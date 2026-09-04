@@ -1,9 +1,9 @@
-from openprocurement.tender.core.procedure.models.award import ESCOAward as Award
+from openprocurement.tender.core.procedure.models.award import ESCOAward
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
 class ESCOTenderStateMixin:
-    award_class = Award
+    award_class = ESCOAward
     awarding_criteria_key: str = "amountPerformance"
     reverse_awarding_criteria: bool = True
     tender_weighted_value_pre_calculation: bool = False

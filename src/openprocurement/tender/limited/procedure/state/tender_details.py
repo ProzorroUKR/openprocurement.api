@@ -16,6 +16,7 @@ from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 from openprocurement.tender.core.procedure.utils import (
+    reporting_cause_is_required,
     tender_created_after,
     tender_created_before,
 )
@@ -25,7 +26,6 @@ from openprocurement.tender.limited.procedure.serializers.cause import (
     get_cause_details_reference,
 )
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
-from openprocurement.tender.limited.procedure.utils import reporting_cause_is_required
 
 
 class CauseDetailsMixing:
@@ -166,11 +166,18 @@ class CauseDetailsMixing:
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    items_related_lot_error = "This option is not available"
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    procuring_entity_required_fields = {}
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_validate_related_lot_in_items = False
     items_delivery_required = True
+    patch_status_choices = ("draft", "active")
+    award_criteria_choices = None
+    award_criteria_default = None
 
     contract_template_name_patch_statuses = []
 
@@ -195,6 +202,9 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_validate_related_lot_in_items = True
     items_delivery_required = True
+    patch_status_choices = ("draft", "active")
+    award_criteria_choices = None
+    award_criteria_default = None
 
     contract_template_name_patch_statuses = ("draft", "active")
 

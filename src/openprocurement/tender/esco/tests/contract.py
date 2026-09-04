@@ -10,7 +10,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.core.procedure.utils import (
+    fraction_to_decimal,
+)
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
     BaseESCOContentWebTest,
@@ -33,7 +35,7 @@ from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
 
 amount_precision = 2
 
-contract_amount_performance = to_decimal(
+contract_amount_performance = fraction_to_decimal(
     npv(
         test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
         test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
@@ -44,7 +46,7 @@ contract_amount_performance = to_decimal(
     )
 ).quantize(Decimal(f"1E-{amount_precision}"))
 
-contract_amount = to_decimal(
+contract_amount = fraction_to_decimal(
     escp(
         test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
         test_tender_esco_bids[0]["value"]["contractDuration"]["days"],

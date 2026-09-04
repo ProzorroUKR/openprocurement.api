@@ -55,7 +55,7 @@ class ContactLessSupplier(Supplier):
 
 class ProcuringEntity(Organization):
     address = ModelType(Address, required=True)
-    contactPoint = ModelType(ProcuringEntityContactPoint, required=True)
+    contactPoint = ModelType(ProcuringEntityContactPoint)  # required in state (procuring_entity_required_fields)
     additionalContactPoints = ListType(ModelType(ProcuringEntityContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
@@ -79,10 +79,6 @@ class PQShortlistedFirm(BaseBusinessOrganization):
 
 
 # --- limited (reporting) ---
-
-
-class ReportingProcuringEntity(ProcuringEntity):
-    contactPoint = ModelType(ProcuringEntityContactPoint)
 
 
 class ReportingFundOrganization(BaseOrganization):

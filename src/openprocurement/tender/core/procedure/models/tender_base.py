@@ -7,7 +7,6 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.constants_env import MPC_REQUIRED_FROM
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
@@ -30,6 +29,7 @@ from openprocurement.tender.core.procedure.models.organization import (
     Buyer,
     Organization,
 )
+from openprocurement.tender.core.procedure.models.period import QualificationPeriod
 from openprocurement.tender.core.procedure.models.question import (
     Question,
     validate_questions_related_items,
@@ -37,7 +37,6 @@ from openprocurement.tender.core.procedure.models.question import (
 from openprocurement.tender.core.procedure.models.review_request import ReviewRequest
 from openprocurement.tender.core.procedure.utils import (
     generate_tender_id,
-    tender_created_after,
 )
 from openprocurement.tender.core.procedure.validation import (
     validate_funders_ids,
@@ -55,6 +54,47 @@ MAIN_PROCUREMENT_CATEGORY_CHOICES = [
     MainProcurementCategory.GOODS.value,
     MainProcurementCategory.SERVICES.value,
     MainProcurementCategory.WORKS.value,
+]
+
+
+TENDER_PATCH_STATUSES = [
+    "draft",
+    "draft.pending",
+    "draft.unsuccessful",
+    "active",
+    "active.enquiries",
+    "active.tendering",
+    "active.pre-qualification",
+    "active.pre-qualification.stand-still",
+    "active.auction",
+    "active.qualification",
+    "active.qualification.stand-still",
+    "active.awarded",
+    "active.stage2.waiting",
+    "complete",
+    "cancelled",
+    "unsuccessful",
+]
+
+TENDER_STATUSES = [
+    "draft",
+    "draft.pending",
+    "draft.unsuccessful",
+    "draft.stage2",
+    "active",
+    "active.enquiries",
+    "active.tendering",
+    "active.pre-qualification",
+    "active.pre-qualification.stand-still",
+    "active.auction",
+    "active.qualification",
+    "active.qualification.stand-still",
+    "active.awarded",
+    "active.stage2.pending",
+    "active.stage2.waiting",
+    "complete",
+    "cancelled",
+    "unsuccessful",
 ]
 
 
@@ -81,21 +121,16 @@ def validate_inspector(data, value):
 
 
 class CommonBaseTender(Model):
-    mainProcurementCategory = StringType(choices=MAIN_PROCUREMENT_CATEGORY_CHOICES)
+    mainProcurementCategory = StringType()  # choices are validated in state
     awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
     awardCriteriaDetails_en = StringType()
     awardCriteriaDetails_ru = StringType()
     eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
     eligibilityCriteria_en = StringType()
     eligibilityCriteria_ru = StringType()
-    status = StringType(
-        choices=[
-            "draft",
-            "active.enquiries",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-        ]
-    )
+    # union of statuses a tender owner may set in any procedure;
+    # per-procedure sets live in TenderDetailsState.patch_status_choices
+    status = StringType(choices=TENDER_PATCH_STATUSES)
     buyers = ListType(ModelType(Buyer, required=True))
 
     title = StringType()
@@ -167,11 +202,6 @@ class PostBaseTender(CommonBaseTender):
         if self.mode and self.mode == "test" and self.procurementMethodDetails and self.procurementMethodDetails != "":
             raise ValidationError("procurementMethodDetails should be used with mode test")
 
-    def validate_mainProcurementCategory(self, data, value):
-        if value is None:
-            if tender_created_after(MPC_REQUIRED_FROM):
-                raise ValidationError(BaseType.MESSAGES["required"])
-
     def validate_inspector(self, data, value):
         validate_inspector(data, value)
 
@@ -194,27 +224,13 @@ class BaseTender(PatchBaseTender):
     bids = BaseType()
     questions = ListType(ModelType(Question, required=True))
     documents = ListType(ModelType(Document, required=True))
-    status = StringType(
-        choices=[
-            "draft",
-            "active.enquiries",
-            "active.tendering",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-            "active.auction",
-            "active.qualification",
-            "active.awarded",
-            "complete",
-            "cancelled",
-            "unsuccessful",
-        ]
-    )
+    status = StringType(choices=TENDER_STATUSES, required=True)
     owner = StringType()
     owner_token = StringType()
     transfer_token = StringType()
     title = StringType(required=True)
     mode = StringType(choices=["test"])
-    mainProcurementCategory = StringType(choices=MAIN_PROCUREMENT_CATEGORY_CHOICES)
+    mainProcurementCategory = StringType()  # choices are validated in state
     buyers = ListType(ModelType(Buyer, required=True))
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
     inspector = ModelType(Organization)
@@ -231,6 +247,10 @@ class BaseTender(PatchBaseTender):
     awards = BaseType()
     contracts = BaseType()
     cancellations = BaseType()
+    qualifications = BaseType()
+    qualificationPeriod = ModelType(QualificationPeriod)
+    complaintPeriod = BaseType()
+    next_check = BaseType()
 
     contractChangeRationaleTypes = BaseType()
 
@@ -241,11 +261,6 @@ class BaseTender(PatchBaseTender):
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
-
-    def validate_mainProcurementCategory(self, data, value):
-        if value is None:
-            if tender_created_after(MPC_REQUIRED_FROM):
-                raise ValidationError(BaseType.MESSAGES["required"])
 
     def validate_documents(self, data, documents):
         validate_tender_document_relations(data, documents)

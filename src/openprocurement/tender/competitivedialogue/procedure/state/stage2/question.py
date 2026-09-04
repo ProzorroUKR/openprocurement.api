@@ -4,10 +4,10 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    validate_author,
-)
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.validation import (
+    validate_cd_author,
+)
 from openprocurement.tender.openua.procedure.state.question import (
     UATenderQuestionStateMixin,
 )
@@ -19,7 +19,7 @@ class CDStage2TenderQuestionStateMixin(UATenderQuestionStateMixin):
         self.validate_question_author(question)
 
     def validate_question_author(self, question):
-        validate_author(get_request(), get_tender(), question, "question")
+        validate_cd_author(get_request(), get_tender(), question, "question")
 
 
 class CDEUStage2TenderQuestionState(CDStage2TenderQuestionStateMixin, CDEUStage2TenderDetailsState):

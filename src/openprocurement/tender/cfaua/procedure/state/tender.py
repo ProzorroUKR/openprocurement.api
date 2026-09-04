@@ -8,7 +8,7 @@ from openprocurement.tender.cfaua.procedure.awarding import (
     CFAUATenderStateAwardingMixing,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.agreement import CFAAgreement as Agreement
+from openprocurement.tender.core.procedure.models.agreement import CFAAgreement
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -123,5 +123,5 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
                     "status": "pending",
                     "milestones": tender.get("milestones", []),
                 }
-                agreement = Agreement(data)
+                agreement = CFAAgreement(data)
                 tender["agreements"].append(agreement.serialize())

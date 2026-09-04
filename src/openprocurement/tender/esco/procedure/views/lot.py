@@ -7,9 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.lot import ESCOLot as Lot
-from openprocurement.tender.core.procedure.models.lot import ESCOPatchLot as PatchLot
-from openprocurement.tender.core.procedure.models.lot import ESCOPostLot as PostLot
+from openprocurement.tender.core.procedure.models.lot import ESCOLot, ESCOPatchLot, ESCOPostLot
 from openprocurement.tender.core.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_operation_with_lot_cancellation_in_pending,
@@ -33,7 +31,7 @@ class ESCOLotResource(TenderLotResource):
         permission="create_lot",
         validators=(
             validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PostLot),
+            validate_input_data(ESCOPostLot),
         ),
     )
     def collection_post(self) -> Optional[dict]:
@@ -43,8 +41,8 @@ class ESCOLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PatchLot),
-            validate_patch_data_simple(Lot, item_name="lot"),
+            validate_input_data(ESCOPatchLot),
+            validate_patch_data_simple(ESCOLot, item_name="lot"),
             validate_operation_with_lot_cancellation_in_pending("lot"),
         ),
         permission="edit_lot",

@@ -19,9 +19,9 @@ from openprocurement.tender.cfaselectionua.procedure.serializers.bid import (
 )
 from openprocurement.tender.cfaselectionua.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.bid import CFASelectionBid as Bid
-from openprocurement.tender.core.procedure.models.bid import CFASelectionPostBid as PostBid
 from openprocurement.tender.core.procedure.models.bid import (
+    CFASelectionBid,
+    CFASelectionPostBid,
     filter_administrator_bid_update,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
@@ -86,7 +86,7 @@ class CFASelectionTenderBidResource(TenderBidResource):
             ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-            validate_input_data(PostBid),
+            validate_input_data(CFASelectionPostBid),
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
@@ -107,7 +107,7 @@ class CFASelectionTenderBidResource(TenderBidResource):
                 filters=(filter_administrator_bid_update,),
                 none_means_remove=True,
             ),
-            validate_patch_data_simple(Bid, item_name="bid"),
+            validate_patch_data_simple(CFASelectionBid, item_name="bid"),
         ),
     )
     def patch(self):

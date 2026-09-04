@@ -23,6 +23,8 @@ from openprocurement.api.auth import AccreditationLevel, extract_access_token
 from openprocurement.api.constants import (
     ATC_SCHEME,
     CCCE_UA_SCHEME,
+    CPV_PHARM_PREFIX,
+    CPV_PHARM_PRODUCTS,
     FUNDERS,
     GMDN_2019_SCHEME,
     GMDN_2023_SCHEME,
@@ -33,6 +35,7 @@ from openprocurement.api.constants import (
     UA_ROAD_SCHEME,
 )
 from openprocurement.api.constants_env import (
+    BELOWTHRESHOLD_FUNDERS_IDS,
     CONFIDENTIAL_EDRPOU_LIST,
     CONTRACT_OWNER_REQUIRED_FROM,
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
@@ -45,6 +48,7 @@ from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
     TENDER_SIGNER_INFO_REQUIRED_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
     UNIT_PRICE_REQUIRED_FROM,
@@ -63,12 +67,17 @@ from openprocurement.api.utils import (
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.api.validation import validate_tender_first_revision_date
+from openprocurement.tender.cfaua.constants import LOTS_MAX_SIZE, LOTS_MIN_SIZE
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
+    cd_get_item_by_id,
     find_lot,
     get_criterion_requirement,
     get_requirement_obj,
     is_multi_currency_tender,
+    prepare_cd_author_key,
+    prepare_cd_bid_keys,
+    prepare_cd_shortlisted_firms_keys,
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
@@ -1875,21 +1884,6 @@ def validate_required_nested_fields(request, data, required_fields):
 # --- priceQuotation ---
 
 
-def validate_pq_bid_value(tender, value):
-    if not value:
-        raise ValidationError("This field is required.")
-    config = get_tender()["config"]
-    if config.get("valueCurrencyEquality"):
-        if tender["value"].get("currency") != value.get("currency"):
-            raise ValidationError("currency of bid should be identical to currency of value of tender")
-        if config.get("hasValueRestriction") and tender["value"]["amount"] < value["amount"]:
-            raise ValidationError("value of bid should be less than value of tender")
-    if tender["value"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
-        raise ValidationError(
-            "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
-        )
-
-
 def validate_pq_profile_pattern(profile):
     result = PQ_PROFILE_PATTERN.findall(profile)
     if len(result) != 1:
@@ -1920,3 +1914,400 @@ def validate_pq_criteria_id_uniq(objs, *args):
                 req_titles = [req.title for req in rg.requirements or "" if req.status == ReqStatuses.ACTIVE]
                 if len(set(req_titles)) != len(req_titles):
                     raise ValidationError("Requirement title should be uniq for one requirementGroup")
+
+
+def validate_items_classification_id(request, items):
+    """former validate_classification_id list validator of tender models (pharm products / INN rule)"""
+    for item in items or []:
+        schemes = [x.get("scheme") for x in item.get("additionalClassifications") or []]
+        schemes_inn_count = schemes.count(INN_SCHEME)
+        classification_id = (item.get("classification") or {}).get("id") or ""
+        if classification_id == CPV_PHARM_PRODUCTS and schemes_inn_count != 1:
+            raise_operation_error(
+                request,
+                [
+                    "Item with classification.id={} have to contain exactly one additionalClassifications "
+                    "with scheme={}".format(CPV_PHARM_PRODUCTS, INN_SCHEME)
+                ],
+                status=422,
+                name="items",
+            )
+        if classification_id.startswith(CPV_PHARM_PREFIX) and schemes_inn_count > 1:
+            raise_operation_error(
+                request,
+                [
+                    "Item with classification.id that starts with {} and contains additionalClassification "
+                    "objects have to contain no more than one additionalClassifications "
+                    "with scheme={}".format(CPV_PHARM_PREFIX, INN_SCHEME)
+                ],
+                status=422,
+                name="items",
+            )
+
+
+def validate_tender_milestones_required(request, tender, required=True, delivery_financing=True):
+    """former TenderMilestoneMixin.validate_milestones requirements"""
+    from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneType  # circular import
+
+    value = tender.get("milestones")
+    if required and tender_created_after(MILESTONES_VALIDATION_FROM):
+        if value is None or len(value) < 1:
+            raise_operation_error(
+                request, ["Tender should contain at least one milestone"], status=422, name="milestones"
+            )
+    if delivery_financing and tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+        if value is None or not {TenderMilestoneType.DELIVERY, TenderMilestoneType.FINANCING}.issubset(
+            set(x.get("type") for x in value)
+        ):
+            raise_operation_error(
+                request,
+                [
+                    f"Tender should contain at least one {TenderMilestoneType.DELIVERY} "
+                    f"and one {TenderMilestoneType.FINANCING} milestone"
+                ],
+                status=422,
+                name="milestones",
+            )
+
+
+# ================= procedure-specific request validators (former tender/<procedure>/procedure/validation.py) =================
+
+
+# --- belowThreshold ---
+
+
+# tender
+def tender_for_funder(tender):
+    return tender.get("_id") in BELOWTHRESHOLD_FUNDERS_IDS
+
+
+def validate_bt_tender_status_allows_update_operation(request, **_):
+    allowed_statuses = [
+        "draft",
+        "active.enquiries",
+        "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+        "active.pre-qualification.stand-still",
+    ]
+
+    if tender_for_funder(request.validated["tender"]):
+        allowed_statuses.append("active.tendering")
+
+    validate_tender_status_allows_update(*allowed_statuses)(request, **_)
+
+
+def validate_bt_tender_document_operation_in_allowed_tender_statuses(request, **_):
+    allowed_statuses = ["draft", "active.enquiries"]
+
+    if tender_for_funder(request.validated["tender"]):
+        allowed_statuses.append("active.tendering")
+
+    validate_document_operation_in_allowed_tender_statuses(allowed_statuses)(request, **_)
+
+
+# lot
+validate_bt_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("active.enquiries", "draft"),
+)
+
+
+# --- requestForProposal ---
+
+# lot
+validate_rfp_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("active.enquiries", "active.tendering", "draft"),
+)
+
+
+# --- closeFrameworkAgreementSelectionUA ---
+
+
+def unless_selection_bot(*validations):
+    def decorated(request, **_):
+        if request.authenticated_role != "agreement_selection":
+            for validation in validations:
+                validation(request)
+
+    return decorated
+
+
+# tender
+validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses = (
+    validate_document_operation_in_allowed_tender_statuses(("draft", "draft.pending", "active.enquiries"))
+)
+
+
+# lot
+validate_cfa_selection_lot_operation_in_disallowed_tender_statuses = (
+    validate_item_operation_in_disallowed_tender_statuses(
+        "lot",
+        ("active.enquiries", "draft"),
+    )
+)
+
+
+# --- closeFrameworkAgreementUA ---
+
+
+# award
+def validate_cfa_update_award_in_not_allowed_status(request, **_):
+    status = request.validated["tender"]["status"]
+    if status not in ("active.qualification", "active.qualification.stand-still"):
+        raise_operation_error(request, f"Can't update award in current ({status}) tender status")
+
+
+def validate_cfa_award_document_tender_not_in_allowed_status(request, **_):
+    if request.authenticated_role == "bots":
+        allowed_tender_statuses = (
+            "active.awarded",
+            "active.qualification.stand-still",
+            "active.qualification",
+        )
+    else:
+        allowed_tender_statuses = ("active.qualification",)
+
+    status = request.validated["tender"]["status"]
+    if status not in allowed_tender_statuses:
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status",
+        )
+
+
+# lot
+def validate_cfa_lot_count(request, **_):
+    lots_count = len(request.validated["tender"].get("lots", ""))
+
+    if request.method == "DELETE" and lots_count <= LOTS_MIN_SIZE:
+        raise_operation_error(request, f"Lots count in tender cannot be less than {LOTS_MAX_SIZE} items")
+
+    elif request.method == "POST" and lots_count >= LOTS_MAX_SIZE:
+        raise_operation_error(request, f"Lots count in tender cannot be more than {LOTS_MAX_SIZE} items")
+
+
+# award document
+def validate_cfa_accepted_complaints(request, **kwargs):
+    award_lot = request.validated["award"].get("lotID")
+    if any(
+        any(c.get("status") == "accepted" for c in i.get("complaints", ""))
+        for i in request.validated["tender"].get("awards", "")
+        if i.get("lotID") == award_lot
+    ):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document with accepted complaint",
+        )
+
+
+# --- competitiveDialogue ---
+
+
+def validate_cd2_firm_to_create_bid(request, **_):
+    tender = request.validated["tender"]
+    bid = request.validated["data"]
+    firm_keys = prepare_cd_shortlisted_firms_keys(tender.get("shortlistedFirms") or "")
+    bid_keys = prepare_cd_bid_keys(bid)
+    if not (bid_keys <= firm_keys):
+        raise_operation_error(request, "Firm can't create bid")
+
+
+def validate_cd2_allowed_patch_fields(request, **_):
+    changes = request.validated["data"]
+    tender = request.validated["tender"]
+
+    status = tender["status"]
+    patchable_fields_by_status = {
+        "draft.stage2": {"tenderPeriod", "complaintPeriod", "items", "mainProcurementCategory", "status"},
+        "active.tendering": {"tenderPeriod", "complaintPeriod", "items"},
+    }
+    if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+        patchable_fields_by_status["draft.stage2"].add("milestones")
+
+    if status in patchable_fields_by_status:
+        for f in changes:
+            if f not in patchable_fields_by_status[status] and tender.get(f) != changes[f]:
+                return raise_operation_error(
+                    request,
+                    "Field change's not allowed",
+                    location="body",
+                    name=f,
+                    status=422,
+                )
+
+        items = changes.get("items")
+        if items:
+            before_items = tender["items"]
+            if len(items) != len(before_items):
+                return raise_operation_error(
+                    request,
+                    "List size change's not allowed",
+                    location="body",
+                    name="items",
+                )
+
+            item_public_fields = {"deliveryDate", "profile", "category"}
+            for a, b in zip(items, before_items):
+                for f in a:
+                    if f not in item_public_fields and a[f] != b.get(f):
+                        return raise_operation_error(
+                            request,
+                            "Field change's not allowed",
+                            location="body",
+                            name=f"items.{f}",
+                            status=422,
+                        )
+
+
+def validate_cd2_lot_operation(request, **_):
+    raise_operation_error(request, "Can't {} lot for tender stage2".format(OPERATIONS.get(request.method)))
+
+
+def validate_cd_author(request, tender, obj, obj_name):
+    """Compare author key and key from shortlistedFirms"""
+    shortlisted_firms = tender["shortlistedFirms"]
+    firms_keys = prepare_cd_shortlisted_firms_keys(shortlisted_firms)
+    author_key = prepare_cd_author_key(obj)
+    if obj.get("questionOf") == "item":  # question can create on item
+        if shortlisted_firms[0].get("lots"):
+            item_id = author_key.split("_")[-1]
+            item = cd_get_item_by_id(request.validated["tender"], item_id)
+            author_key = author_key.replace(author_key.split("_")[-1], item["relatedLot"] if item else "")
+        else:
+            author_key = "_".join(author_key.split("_")[:-1])
+    for firm in firms_keys:
+        if author_key in firm:  # if we found legal firm then check another complaint
+            break
+    else:  # we didn't find legal firm, then return error
+        error_message = "Author can't {} {}".format("create" if request.method == "POST" else "patch", obj_name)
+        request.errors.add("body", "author", error_message)
+        request.errors.status = 403
+        raise error_handler(request)
+
+
+# --- limited (reporting / negotiation / negotiation.quick) ---
+
+
+# award
+def validate_limited_award_operation_not_in_active_status(request, **kwargs):
+    status = request.validated["tender"]["status"]
+    if status != "active":
+        raise_operation_error(
+            request,
+            f"Can't {'create' if request.method == 'POST' else 'update'} award in current ({status}) tender status",
+        )
+
+
+def validate_limited_create_new_award(request, **kwargs):
+    tender = request.validated["tender"]
+    if tender.get("awards"):
+        last_status = tender["awards"][-1]["status"]
+        if last_status in ["pending", "active"]:
+            raise_operation_error(
+                request,
+                f"Can't create new award while any ({last_status}) award exists",
+            )
+
+
+def validate_limited_lot_cancellation(request, **kwargs):
+    if tender_created_after_2020_rules():
+        return
+
+    tender = request.validated["tender"]
+    award = request.validated.get("award", request.validated["data"])
+    lot_id = award.get("lotID")
+    if (
+        tender.get("lots")
+        and tender.get("cancellations")
+        and [
+            cancellation for cancellation in tender.get("cancellations", []) if cancellation.get("relatedLot") == lot_id
+        ]
+    ):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} award while cancellation for corresponding lot exists",
+        )
+
+
+def validate_limited_create_new_award_with_lots(request, **kwargs):
+    tender = request.validated["tender"]
+    award = request.validated["data"]
+    if tender.get("awards"):
+        if tender.get("lots"):  # If tender with lots
+            lot_id = award.get("lotID")
+            if any(lot_id == aw.get("lotID") for aw in tender["awards"] if aw["status"] in ["pending", "active"]):
+                last_award_status = tender["awards"][-1]["status"]
+                raise_operation_error(
+                    request,
+                    f"Can't create new award on lot while any ({last_award_status}) award exists",
+                )
+        else:
+            validate_limited_create_new_award(request, **kwargs)
+
+
+def validate_limited_award_same_lot_id(request, **kwargs):
+    tender = request.validated["tender"]
+    award = request.validated["data"]
+    lot_id = award.get("lotID")
+    if lot_id and any(
+        aw.get("lotID") == lot_id and aw["id"] != award["id"]
+        for aw in tender.get("awards")
+        if aw["status"] in ("pending", "active")
+    ):
+        raise_operation_error(
+            request,
+            "Another award is already using this lotID.",
+            location="body",
+            name="lotID",
+        )
+
+
+# award document
+def validate_limited_document_operation_not_in_active(request, **kwargs):
+    status = request.validated["tender"]["status"]
+    if status != "active":
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status",
+        )
+
+
+def validate_limited_award_document_add_not_in_pending(request, **kwargs):
+    status = request.validated["award"]["status"]
+    if status != "pending":
+        raise_operation_error(
+            request,
+            f"Can't add document in current ({status}) award status",
+        )
+
+
+# tender documents
+def validate_limited_document_operation_in_not_allowed_tender_status(request, **_):
+    tender_status = request.validated["tender"]["status"]
+    if tender_status not in ("draft", "active"):
+        raise_operation_error(
+            request,
+            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
+        )
+
+
+# contract document
+def validate_limited_contract_document_operation_not_in_allowed_contract_status(operation):
+    def validate(request, **_):
+        if request.validated["contract"]["status"] not in {"pending", "active"}:
+            raise_operation_error(request, f"Can't {operation} document in current contract status")
+
+    return validate
+
+
+# lot
+validate_limited_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
+    "lot",
+    ("draft", "active"),
+)
+
+
+def validate_limited_lot_operation_with_awards(request, **_):
+    tender = request.validated["tender"]
+    if tender.get("awards"):
+        raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} lot when you have awards")

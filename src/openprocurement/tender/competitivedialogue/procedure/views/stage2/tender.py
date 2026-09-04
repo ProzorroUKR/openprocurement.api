@@ -21,19 +21,19 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    validate_cd2_allowed_patch_fields,
+from openprocurement.tender.core.procedure.models.tender import (
+    CDStage2EUPatchTender,
+    CDStage2EUPostTender,
+    CDStage2EUTender,
+    CDStage2UAPatchTender,
+    CDStage2UAPostTender,
+    CDStage2UATender,
 )
-from openprocurement.tender.core.procedure.models.tender import CDStage2EUPatchTender as PatchEUTender
-from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender as PostEUTender
-from openprocurement.tender.core.procedure.models.tender import CDStage2EUTender as EUTender
-from openprocurement.tender.core.procedure.models.tender import CDStage2UAPatchTender as PatchUATender
-from openprocurement.tender.core.procedure.models.tender import CDStage2UAPostTender as PostUATender
-from openprocurement.tender.core.procedure.models.tender import CDStage2UATender as UATender
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
 from openprocurement.tender.core.procedure.validation import (
+    validate_cd2_allowed_patch_fields,
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_guarantee,
     validate_tender_status_allows_update,
@@ -70,7 +70,7 @@ class TenderStage2UEResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostEUTender),
+            validate_input_data(CDStage2EUPostTender),
             validate_config_data(default=STAGE_2_EU_DEFAULT_CONFIG),
             validate_data_documents(),
         ),
@@ -90,9 +90,9 @@ class TenderStage2UEResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(PatchEUTender, none_means_remove=True),
+            validate_input_data(CDStage2EUPatchTender, none_means_remove=True),
             unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
-            validate_patch_data_simple(EUTender, item_name="tender"),
+            validate_patch_data_simple(CDStage2EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             unless_administrator(validate_tender_guarantee),
         ),
@@ -124,7 +124,7 @@ class TenderStage2UAResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostUATender),
+            validate_input_data(CDStage2UAPostTender),
             validate_config_data(default=STAGE_2_UA_DEFAULT_CONFIG),
             validate_data_documents(),
         ),
@@ -144,9 +144,9 @@ class TenderStage2UAResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(PatchUATender, none_means_remove=True),
+            validate_input_data(CDStage2UAPatchTender, none_means_remove=True),
             unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
-            validate_patch_data_simple(UATender, item_name="tender"),
+            validate_patch_data_simple(CDStage2UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             unless_administrator(validate_tender_guarantee),
         ),

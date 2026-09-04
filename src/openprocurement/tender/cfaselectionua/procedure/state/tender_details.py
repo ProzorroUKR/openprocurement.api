@@ -40,6 +40,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_START_DATE_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
+    AWARD_CRITERIA_LOWEST_COST,
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.agreement import (
@@ -66,7 +67,21 @@ LOGGER = getLogger(__name__)
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     items_unit_required = False
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    main_procurement_category_required = False
     procuring_entity_available_language_default = "uk"
+    award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
+    award_criteria_default = AWARD_CRITERIA_LOWEST_COST
+    patch_status_choices = (
+        "draft",
+        "draft.pending",
+        "draft.unsuccessful",
+        "active.enquiries",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.qualification",
+    )
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)

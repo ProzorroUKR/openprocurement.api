@@ -11,7 +11,7 @@ from openprocurement.tender.core.procedure.models.organization import (
     CFASelectionBusinessOrganization,
 )
 from openprocurement.tender.core.procedure.models.parameter import (
-    CFASelectionParameterContract,
+    AgreementContractParameter,
     Parameter,
 )
 from openprocurement.tender.core.procedure.models.value import (
@@ -60,7 +60,7 @@ class CFASelectionUnitPrice(Model):
 class CFASelectionAgreementContract(Model):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     parameters = ListType(
-        ModelType(CFASelectionParameterContract, required=True),
+        ModelType(AgreementContractParameter, required=True),
         validators=[validate_uniq_code],
     )
     status = StringType(choices=["active", "unsuccessful"], default="active")

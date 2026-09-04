@@ -2,6 +2,7 @@ from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
     validate_field,
@@ -18,8 +19,13 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     items_delivery_required = False
     items_unit_required = False
     items_quantity_required = False
+    items_classification_id_check_on_post = False
+    milestones_required = False
+    milestones_delivery_financing_required = False
     features_max_weight = 0.25
-    tender_period_start_date_required = False  # own tenderPeriod models
+    tender_period_start_date_required = True
+    award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
+    award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG

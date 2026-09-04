@@ -6,9 +6,10 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
-    def validate_award_qualified_eligible(self, award):
-        pass  # limited awards keep these rules on their own models (Reporting/Negotiation awards)
-
+    award_has_eligible: bool = True
+    award_eligible_required_for_activation: bool = False
+    award_eligible_in_unsuccessful_rule: bool = False
+    award_items_allowed: bool = False
     sign_award_required = False
     generate_award_milestones = False
     award_has_period = False

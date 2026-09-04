@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 14:45+0300\n"
+"POT-Creation-Date: 2026-09-04 01:52+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -151,6 +151,9 @@ msgstr ""
 msgid "Структура всередині кожного типу процедури:"
 msgstr ""
 
+msgid "У домені ``tender/`` усі моделі, request-валідатори та утиліти процедур зібрані в ``tender/core/procedure/`` (``models/``, ``validation.py``, ``utils.py``); пакет типу процедури містить лише ``state/``, ``views/``, ``serializers/``, ``constants.py`` і тести."
+msgstr ""
+
 msgid "Правила розміщення коду"
 msgstr ""
 
@@ -164,6 +167,12 @@ msgid "**Валідація вхідних даних** → ``procedure/models/`
 msgstr ""
 
 msgid "**Спільні schematics-моделі тендерного домену** → ``tender/core/procedure/models/``; відмінності між типами процедур, що зводяться до обмежень (обов'язковість поля, ліміти, допустимі значення), реалізуються атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``, ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)"
+msgstr ""
+
+msgid "**Реєстр процедур** → ``tender/core/procedure/registry.py``: ``PROCEDURE_MODELS`` зіставляє ``procurementMethodType`` з core-моделями процедури (``ProcedureModels``: tender/bid/award/lot/agreement для POST, PATCH і збереженого об'єкта); state-класи отримують моделі через ``get_procedure_models``"
+msgstr ""
+
+msgid "**Request-валідатори й утиліти конкретних процедур тендерного домену** → ``tender/core/procedure/validation.py`` і ``tender/core/procedure/utils.py`` з префіксом процедури в назві (``validate_bt_*``, ``validate_cfa_*``, ``validate_cd2_*``, ``validate_limited_*`` ...), а не окремі ``validation.py`` / ``utils.py`` у пакеті процедури"
 msgstr ""
 
 msgid "**Серіалізація відповіді** → ``procedure/serializers/``"

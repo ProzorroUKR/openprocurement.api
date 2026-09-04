@@ -68,12 +68,16 @@
 
    <domain>/<type>/
    ├── procedure/
-   │   ├── models/       # schematics-моделі об'єктів (Tender, Contract, Bid тощо)
+   │   ├── models/       # schematics-моделі об'єктів (Contract, Agreement тощо; у tender/ — лише в core/)
    │   ├── state/        # бізнес-логіка переходів станів
    │   ├── views/        # Pyramid-в'юхи (GET, POST, PATCH)
    │   └── serializers/  # серіалізатори відповідей
    ├── migrations/       # міграції даних у MongoDB (нумеровані, 0001_…)
    └── tests/            # інтеграційні тести
+
+У домені ``tender/`` усі моделі, request-валідатори та утиліти процедур зібрані в ``tender/core/procedure/``
+(``models/``, ``validation.py``, ``utils.py``); пакет типу процедури містить лише ``state/``, ``views/``,
+``serializers/``, ``constants.py`` і тести.
 
 Правила розміщення коду
 -----------------------
@@ -86,6 +90,12 @@
   атрибутами й ``validate_*``-методами state-класів (``items_delivery_required``, ``required_multilingual_fields``,
   ``features_max_weight``, ``patch_status_choices`` тощо), а не окремими моделями. Окремі моделі з префіксом
   (``ESCO*``, ``CFA*`` ...) допускаються лише для структурних відмінностей (інші типи чи набір полів)
+- **Реєстр процедур** → ``tender/core/procedure/registry.py``: ``PROCEDURE_MODELS`` зіставляє
+  ``procurementMethodType`` з core-моделями процедури (``ProcedureModels``: tender/bid/award/lot/agreement для
+  POST, PATCH і збереженого об'єкта); state-класи отримують моделі через ``get_procedure_models``
+- **Request-валідатори й утиліти конкретних процедур тендерного домену** → ``tender/core/procedure/validation.py``
+  і ``tender/core/procedure/utils.py`` з префіксом процедури в назві (``validate_bt_*``, ``validate_cfa_*``,
+  ``validate_cd2_*``, ``validate_limited_*`` ...), а не окремі ``validation.py`` / ``utils.py`` у пакеті процедури
 - **Серіалізація відповіді** → ``procedure/serializers/``
 - **Зміна схеми / даних у БД** → ``migrations/`` (не в коді ініціалізації)
 - **Спільні утиліти домену** → ``<domain>/core/``

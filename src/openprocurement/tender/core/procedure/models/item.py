@@ -18,7 +18,6 @@ from openprocurement.api.procedure.models.item import (
     AdditionalClassification,
     CPVClassification,
     Location,
-    TechFeatureItemMixin,
     validate_additional_classifications,
 )
 from openprocurement.api.procedure.models.period import Period
@@ -43,6 +42,11 @@ class BaseItem(Model):
 
 
 class Item(BaseItem):
+    """
+    Tender / award / agreement item. Procedure-specific rules (required delivery, unit, quantity,
+    relatedLot being allowed, profile/category being required) live in the state classes.
+    """
+
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     deliveryDate = ModelType(Period)
@@ -52,6 +56,12 @@ class Item(BaseItem):
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
 
+    # technical features (market)
+    profile = StringType()
+    category = StringType()
+    # localization
+    product = StringType()
+
     def validate_additionalClassifications(self, data, items):
         validate_additional_classifications(get_tender(), data, items)
         if items is not None:
@@ -60,9 +70,10 @@ class Item(BaseItem):
             validate_gmdn(classification_id, items)
             validate_ccce_ua(items)
 
-
-class TechFeatureItem(TechFeatureItemMixin, Item):
-    pass
+    def validate_profile(self, data, value):
+        category = data.get("category")
+        if value and not category:
+            raise ValidationError("profile should be provided together only with category")
 
 
 def validate_related_buyer_in_items(data, items):
@@ -97,38 +108,6 @@ class LocalizationItem(BaseItem):
     product = StringType()
 
 
-# --- priceQuotation: no lots ---
-
-
-class PQItem(TechFeatureItem):
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
-    unit = ModelType(Unit)
-
-    def validate_additionalClassifications(self, data, items):
-        if data.get("classification"):  # classification is not required here
-            return super().validate_additionalClassifications(self, data, items)
-
-    def validate_relatedLot(self, data, value):
-        if value:
-            raise ValidationError("Rogue field.")
-
-
-# --- limited (reporting / negotiation) ---
-
-
-class ReportingItem(Item):
-    product = StringType()
-    category = StringType()
-
-    def validate_relatedLot(self, data, value):
-        if value:
-            raise ValidationError("This option is not available")
-
-
-class NegotiationItem(TechFeatureItem):
-    product = StringType()
-
-
 # --- competitiveDialogue: CPV scheme is not restricted to ДК021 ---
 
 
@@ -137,6 +116,5 @@ class CDCPVClassification(CPVClassification):
         pass
 
 
-class CDItem(TechFeatureItem):
+class CDItem(Item):
     classification = ModelType(CDCPVClassification, required=True)
-    unit = ModelType(Unit)

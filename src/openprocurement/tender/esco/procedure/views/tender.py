@@ -11,9 +11,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.tender import ESCOPatchTender as PatchTender
-from openprocurement.tender.core.procedure.models.tender import ESCOPostTender as PostTender
-from openprocurement.tender.core.procedure.models.tender import ESCOTender as Tender
+from openprocurement.tender.core.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
@@ -45,7 +43,7 @@ class ESCOTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostTender),
+            validate_input_data(ESCOPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
@@ -72,8 +70,8 @@ class ESCOTenderResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(PatchTender, none_means_remove=True),
-            validate_patch_data_simple(Tender, item_name="tender"),
+            validate_input_data(ESCOPatchTender, none_means_remove=True),
+            validate_patch_data_simple(ESCOTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
             validate_tender_guarantee,

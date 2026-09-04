@@ -14,12 +14,11 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
-from openprocurement.tender.competitivedialogue.procedure.utils import (
+from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender, CDStage2UAPostTender
+from openprocurement.tender.core.procedure.utils import (
     prepare_stage2_tender_data,
+    validate_field,
 )
-from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender as PostEUTender
-from openprocurement.tender.core.procedure.models.tender import CDStage2UAPostTender as PostUATender
-from openprocurement.tender.core.procedure.utils import validate_field
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsMixing,
 )
@@ -27,6 +26,17 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
     features_max_weight = FEATURES_MAX_SUM
+    main_procurement_category_choices = ("services", "works")
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    items_classification_id_check = False
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.stage2.waiting",
+    )
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -72,7 +82,7 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
 class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDEUStage2TenderDetailsState
-    stage_2_tender_model = PostEUTender
+    stage_2_tender_model = CDStage2EUPostTender
     stage_2_config = STAGE_2_EU_DEFAULT_CONFIG
 
 
@@ -81,5 +91,5 @@ class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     procuring_entity_available_language_default = None
     working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDUAStage2TenderDetailsState
-    stage_2_tender_model = PostUATender
+    stage_2_tender_model = CDStage2UAPostTender
     stage_2_config = STAGE_2_UA_DEFAULT_CONFIG
