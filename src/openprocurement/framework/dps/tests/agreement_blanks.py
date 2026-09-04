@@ -1,11 +1,12 @@
 import datetime
+import json
 from copy import deepcopy
 from datetime import timedelta
 
 from ciso8601 import parse_datetime
 from freezegun import freeze_time
 
-from openprocurement.api.mask import MASK_STRING
+from openprocurement.api.mask import MASK_STRING, MASK_STRING_EN
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.models.milestone import (
@@ -117,6 +118,92 @@ def create_agreement_config_restricted(self):
         expected_config = {
             "restricted": True,
         }
+
+        response = self.app.get("/agreements/{}".format(agreement_id))
+        classification_id = response.json["data"]["classification"]["id"]
+
+        response = self.app.get("/agreements_by_classification/{}".format(classification_id))
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.content_type, "application/json")
+
+        agreements = [a for a in response.json["data"] if a.get("_id") == agreement_id]
+        self.assertEqual(len(agreements), 1)
+        supplier = agreements[0]["contracts"][0]["suppliers"][0]
+        self.assertNotEqual(supplier["address"]["streetAddress"], MASK_STRING)
+
+        # Broker without accreditation for restricted
+        with change_auth(self.app, ("Basic", ("broker", ""))):
+            response = self.app.get("/agreements_by_classification/{}".format(classification_id))
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+
+            agreements = [a for a in response.json["data"] if a.get("_id") == agreement_id]
+            self.assertEqual(len(agreements), 1)
+            supplier = agreements[0]["contracts"][0]["suppliers"][0]
+            self.assertEqual(supplier["name"], MASK_STRING)
+            self.assertEqual(supplier["identifier"]["id"], MASK_STRING)
+            self.assertEqual(supplier["identifier"]["legalName"], MASK_STRING)
+            self.assertEqual(supplier["address"]["streetAddress"], MASK_STRING)
+            self.assertEqual(supplier["address"]["locality"], MASK_STRING)
+            self.assertEqual(supplier["contactPoint"]["telephone"], MASK_STRING)
+            self.assertEqual(supplier["contactPoint"]["email"], MASK_STRING)
+
+        # Anonymous
+        with change_auth(self.app, ("Basic", ("", ""))):
+            response = self.app.get("/agreements_by_classification/{}".format(classification_id))
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.content_type, "application/json")
+
+            agreements = [a for a in response.json["data"] if a.get("_id") == agreement_id]
+            self.assertEqual(len(agreements), 1)
+            agreement_by_classification = agreements[0]
+            supplier = agreement_by_classification["contracts"][0]["suppliers"][0]
+            self.assertEqual(supplier["name"], MASK_STRING)
+            self.assertEqual(supplier["identifier"]["id"], MASK_STRING)
+            self.assertEqual(supplier["identifier"]["legalName"], MASK_STRING)
+            self.assertEqual(supplier["address"]["streetAddress"], MASK_STRING)
+            self.assertEqual(supplier["address"]["locality"], MASK_STRING)
+            self.assertEqual(supplier["contactPoint"]["telephone"], MASK_STRING)
+            self.assertEqual(supplier["contactPoint"]["email"], MASK_STRING)
+
+            # English fields are replaced with their own mask constant
+            self.assertEqual(supplier["name_en"], MASK_STRING_EN)
+            self.assertEqual(supplier["identifier"]["legalName_en"], MASK_STRING_EN)
+
+            tenderer = self.initial_submission_data["tenderers"][0]
+            payload = json.dumps(agreement_by_classification, ensure_ascii=False)
+            needles = (
+                tenderer["name"],
+                tenderer["name_en"],
+                tenderer["identifier"]["id"],
+                tenderer["identifier"]["legalName"],
+                tenderer["identifier"]["legalName_en"],
+                tenderer["identifier"]["uri"],
+                tenderer["address"]["streetAddress"],
+                tenderer["address"]["locality"],
+                tenderer["address"]["region"],
+                tenderer["address"]["postalCode"],
+                tenderer["address"]["countryName"],
+                tenderer["contactPoint"]["telephone"],
+                tenderer["contactPoint"]["email"],
+            )
+            for needle in needles:
+                self.assertNotIn(needle, payload)
+
+            # The route must not start publishing service fields
+            self.assertNotIn("config", agreement_by_classification)
+            self.assertNotIn("revisions", agreement_by_classification)
+            self.assertLessEqual(
+                set(agreement_by_classification.keys()),
+                {
+                    "_id",
+                    "classification",
+                    "additionalClassifications",
+                    "status",
+                    "contracts",
+                    "dateModified",
+                },
+            )
 
         response = self.app.patch_json(
             "/agreements/{}?acc_token={}".format(agreement_id, self.framework_token),
@@ -1157,6 +1244,21 @@ def search_by_classification(self):
         response.json["errors"][0]["description"],
         "classification id must be at least 3 characters long",
     )
+
+    with change_auth(self.app, ("Basic", ("", ""))):
+        response = self.app.get(f"/agreements_by_classification/{classification_id}")
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(len(response.json["data"]), 1)
+
+        agreement = response.json["data"][0]
+        supplier = agreement["contracts"][0]["suppliers"][0]
+        self.assertNotEqual(supplier["name"], MASK_STRING)
+        self.assertNotEqual(supplier["identifier"]["id"], MASK_STRING)
+        self.assertNotEqual(supplier["address"]["streetAddress"], MASK_STRING)
+        self.assertNotEqual(supplier["contactPoint"]["email"], MASK_STRING)
+
+        self.assertNotIn("config", agreement)
+        self.assertNotIn("revisions", agreement)
 
 
 def search_by_classification_injection(self):
