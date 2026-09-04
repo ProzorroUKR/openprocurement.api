@@ -185,7 +185,6 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "d12a4588000c4f508df566cb85f1eeee",
     "tenderers": [
       {
         "name": "«Снігур»",
@@ -217,6 +216,8 @@ Content-Type: application/json
         }
       }
     ],
+    "status": "unsuccessful",
+    "id": "d12a4588000c4f508df566cb85f1eeee",
     "lotValues": [
       {
         "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -238,8 +239,7 @@ Content-Type: application/json
         "language": "uk",
         "isDescriptionDecision": false
       }
-    ],
-    "status": "unsuccessful"
+    ]
   }
 }
 

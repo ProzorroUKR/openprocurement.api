@@ -161,42 +161,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "belowThreshold",
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-08T00:00:00+02:00",
@@ -232,6 +197,41 @@ Content-Type: application/json
         "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
       }
     ],
+    "procurementMethodType": "belowThreshold",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
     "lots": [
       {
         "title": "lot title",

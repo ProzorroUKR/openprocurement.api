@@ -17,14 +17,8 @@ Content-Type: application/json
 {
   "data": {
     "id": "a8c604c018404c5d9f865ab6c0fb7732",
-    "qualified": true,
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
-    "value": {
-      "amount": 475000.0,
-      "valueAddedTaxIncluded": true,
-      "currency": "UAH"
-    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -57,6 +51,7 @@ Content-Type: application/json
         }
       }
     ],
+    "lotID": "a2f39dedc39a4788ae22752af33cdffb",
     "documents": [
       {
         "confidentiality": "public",
@@ -73,7 +68,12 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "lotID": "a2f39dedc39a4788ae22752af33cdffb",
+    "qualified": true,
+    "value": {
+      "amount": 475000.0,
+      "valueAddedTaxIncluded": true,
+      "currency": "UAH"
+    },
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-04T00:00:00+02:00"

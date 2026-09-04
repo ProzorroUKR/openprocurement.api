@@ -182,6 +182,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
     "description_ru": "Услуги школьных столовых",
     "procurementMethod": "limited",
     "title": "Послуги шкільних їдалень",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -223,42 +224,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
         "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
       }
     ],
-    "procurementMethodType": "negotiation",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "status": "draft",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true,
-      "amount": 500000.0
-    },
     "items": [
       {
         "id": "0e0fad68392d43da8864f70e31818aa6",
@@ -294,6 +259,41 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
         "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
       }
     ],
+    "procurementMethodType": "negotiation",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amount": 500000.0
+    },
     "causeDetails": {
       "code": "defenseNeeds",
       "description": "Закупівля для нагальних потреб ЗСУ, військових формувань, ДСНС тощо (фортифікації, мобілізаційні завдання, територіальна оборона, договори з обмеженим доступом)",

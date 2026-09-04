@@ -10,6 +10,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "6e5628c9038e4bcfabb46055949a220e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -34,10 +38,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       }
     ]

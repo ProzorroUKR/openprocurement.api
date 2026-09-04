@@ -1013,6 +1013,11 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "complaintPeriod": {
+      "startDate": "2026-12-17T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
+    },
+    "next_check": "2027-01-04T15:28:52.219000+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1125,48 +1130,11 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "aboveThresholdUA",
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2027-01-04T15:28:52.219000+02:00",
     "enquiryPeriod": {
       "startDate": "2026-12-16T00:02:01+02:00",
       "endDate": "2026-12-29T00:02:01+02:00",
@@ -1212,6 +1180,42 @@ Content-Type: application/json
         "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
       }
     ],
+    "procurementMethodType": "aboveThresholdUA",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
     "lots": [
       {
         "title": "lot title",
@@ -1236,10 +1240,6 @@ Content-Type: application/json
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/afbae9188b434d3bb77426b13e9a5165_1a0da17891e04af7a0eda87d40a4a290"
       }
     ],
-    "complaintPeriod": {
-      "startDate": "2026-12-17T00:00:00+02:00",
-      "endDate": "2027-01-05T00:00:00+02:00"
-    },
     "auctionPeriod": {},
     "id": "afbae9188b434d3bb77426b13e9a5165"
   },

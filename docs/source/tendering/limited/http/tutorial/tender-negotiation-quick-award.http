@@ -55,11 +55,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
 {
   "data": {
     "status": "pending",
-    "value": {
-      "amount": 475000.0,
-      "valueAddedTaxIncluded": false,
-      "currency": "UAH"
-    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -93,6 +88,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
       }
     ],
     "lotID": "38dc344a3523496a83d39aaf08a5e277",
+    "value": {
+      "amount": 475000.0,
+      "valueAddedTaxIncluded": false,
+      "currency": "UAH"
+    },
     "id": "345855608866465ca26099e80512a017",
     "date": "2027-01-01T00:00:00+02:00"
   }

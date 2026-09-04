@@ -40,6 +40,10 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "qualificationPeriod": {
+      "startDate": "2027-01-30T00:00:00+02:00",
+      "endDate": "2027-02-13T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -114,34 +118,7 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "procurementMethodType": "complexAsset.arma",
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "ratedCriteria",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
-    },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-20T00:00:00+02:00",
@@ -222,6 +199,33 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
     ],
+    "procurementMethodType": "complexAsset.arma",
+    "awardCriteria": "ratedCriteria",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -246,10 +250,6 @@ Content-Type: application/json
         }
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-30T00:00:00+02:00",
-      "endDate": "2027-02-13T00:00:00+02:00"
-    },
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-01-30T00:00:00+02:00",
     "id": "0c99535af6024017bcbdec7b4a5c49da"

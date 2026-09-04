@@ -133,6 +133,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         }
       }
     ],
+    "status": "draft",
     "lotValues": [
       {
         "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -140,7 +141,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "status": "draft",
     "id": "2caee4fba6df43daa9f432069ff4f83e",
     "date": "2027-01-01T00:03:00+02:00"
   },

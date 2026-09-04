@@ -101,33 +101,6 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "aboveThresholdUA",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "ЦЗО №1",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "111111",
-        "legalName": "ДП Центральний закупівельний орган №1"
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Довідкова",
-        "telephone": "+0440000000"
-      },
-      "kind": "central"
-    },
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
     "tenderPeriod": {
       "endDate": "2027-02-01T00:00:00+02:00",
       "startDate": "2027-01-01T00:00:15+02:00"
@@ -230,8 +203,35 @@ Content-Type: application/json
         "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd"
       }
     ],
+    "procurementMethodType": "aboveThresholdUA",
+    "procuringEntity": {
+      "name": "ЦЗО №1",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "111111",
+        "legalName": "ДП Центральний закупівельний орган №1"
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Довідкова",
+        "telephone": "+0440000000"
+      },
+      "kind": "central"
+    },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {

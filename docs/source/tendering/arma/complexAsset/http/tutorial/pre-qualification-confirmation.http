@@ -397,6 +397,40 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "qualifications": [
+      {
+        "id": "c29c905d6d9049b086108508281cfcf0",
+        "bidID": "9d1348ad3820464db3213aaf48a1f51b",
+        "lotID": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "408057cd725c4451982e0a42bfc03b5e",
+        "bidID": "df99d252198c4688997da7d2968f57f3",
+        "lotID": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true
+      },
+      {
+        "id": "2896d1591f314d42865277bf08da65ea",
+        "bidID": "ec61ff4dff6e4acc8d78e1f819212cb9",
+        "lotID": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": false,
+        "eligible": false
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-02T00:00:00+02:00",
+      "reportingDatePublication": "2027-01-01T00:03:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -471,34 +505,7 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "procurementMethodType": "complexAsset.arma",
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "ratedCriteria",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
-    },
     "enquiryPeriod": {
       "startDate": "2026-12-02T00:03:00+02:00",
       "endDate": "2026-12-22T00:03:00+02:00",
@@ -579,6 +586,33 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
     ],
+    "procurementMethodType": "complexAsset.arma",
+    "awardCriteria": "ratedCriteria",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -601,40 +635,6 @@ Content-Type: application/json
           "startDate": "2027-01-04T12:04:26.072000+02:00",
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         }
-      }
-    ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:03:00+02:00",
-      "endDate": "2027-01-02T00:00:00+02:00",
-      "reportingDatePublication": "2027-01-01T00:03:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "c29c905d6d9049b086108508281cfcf0",
-        "bidID": "9d1348ad3820464db3213aaf48a1f51b",
-        "lotID": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "408057cd725c4451982e0a42bfc03b5e",
-        "bidID": "df99d252198c4688997da7d2968f57f3",
-        "lotID": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true
-      },
-      {
-        "id": "2896d1591f314d42865277bf08da65ea",
-        "bidID": "ec61ff4dff6e4acc8d78e1f819212cb9",
-        "lotID": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": false,
-        "eligible": false
       }
     ],
     "next_check": "2027-01-02T00:00:00+02:00",

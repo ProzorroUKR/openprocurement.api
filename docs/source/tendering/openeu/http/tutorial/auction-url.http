@@ -1741,6 +1741,56 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "qualifications": [
+      {
+        "id": "12d8fc16cd794898bd3aa66e6a4468e6",
+        "bidID": "ba20f70bc7a74738820a155064861ddd",
+        "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:03:00+02:00",
+          "endDate": "2027-01-01T00:03:00+02:00"
+        }
+      },
+      {
+        "id": "2a4dcba975ce403c96c8b940e1eff5ac",
+        "bidID": "317e5711549a4f41a8ebee089db0884a",
+        "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:03:00+02:00",
+          "endDate": "2027-01-01T00:03:00+02:00"
+        }
+      },
+      {
+        "id": "b0070049ee99440faafabc4e48a8e4d5",
+        "bidID": "3e4cddf56dd9467088292c70b86d87b4",
+        "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": false,
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:03:00+02:00",
+          "endDate": "2027-01-01T00:03:00+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2026-12-27T00:03:00+02:00",
+      "endDate": "2027-01-01T00:03:00+02:00",
+      "reportingDatePublication": "2026-12-27T00:03:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:03:00+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1853,47 +1903,7 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "aboveThresholdEU",
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "availableLanguage": "uk"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
@@ -1978,6 +1988,46 @@ Content-Type: application/json
         "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
       }
     ],
+    "procurementMethodType": "aboveThresholdEU",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -2000,56 +2050,6 @@ Content-Type: application/json
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/32d3b5becccb479ea62a23dc50237f60_d1d81f5863c1460c8a7d2e9c9dfeb30d"
-      }
-    ],
-    "qualificationPeriod": {
-      "startDate": "2026-12-27T00:03:00+02:00",
-      "endDate": "2027-01-01T00:03:00+02:00",
-      "reportingDatePublication": "2026-12-27T00:03:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:03:00+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "12d8fc16cd794898bd3aa66e6a4468e6",
-        "bidID": "ba20f70bc7a74738820a155064861ddd",
-        "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:03:00+02:00",
-          "endDate": "2027-01-01T00:03:00+02:00"
-        }
-      },
-      {
-        "id": "2a4dcba975ce403c96c8b940e1eff5ac",
-        "bidID": "317e5711549a4f41a8ebee089db0884a",
-        "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:03:00+02:00",
-          "endDate": "2027-01-01T00:03:00+02:00"
-        }
-      },
-      {
-        "id": "b0070049ee99440faafabc4e48a8e4d5",
-        "bidID": "3e4cddf56dd9467088292c70b86d87b4",
-        "lotID": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": false,
-        "eligible": false,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:03:00+02:00",
-          "endDate": "2027-01-01T00:03:00+02:00"
-        }
       }
     ],
     "next_check": "2027-01-04T13:01:01.441000+02:00",

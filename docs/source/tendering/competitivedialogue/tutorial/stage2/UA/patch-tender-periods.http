@@ -23,9 +23,18 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a.2",
+    "status": "draft.stage2",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
+    "qualificationPeriod": {
+      "startDate": "2027-02-01T00:00:00+02:00",
+      "endDate": "2027-02-27T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -139,6 +148,15 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
+    },
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -178,15 +196,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
-    },
     "lots": [
       {
         "title": "Лот №1",
@@ -210,14 +219,6 @@ Content-Type: application/json
         }
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-02-01T00:00:00+02:00",
-      "endDate": "2027-02-27T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-28T00:00:00+02:00"
-    },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "dialogueID": "6047696fd611421ebb95a23904c7d234",
     "items": [
@@ -225,6 +226,10 @@ Content-Type: application/json
         "id": "40de4769766945ee95d7df59d91cb811",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -249,16 +254,16 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       },
       {
         "id": "9bf5d3e19a0b4ee9bc5bd4ef0e236ac5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -283,10 +288,6 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
         }
       }
     ],
@@ -333,7 +334,6 @@ Content-Type: application/json
         ]
       }
     ],
-    "status": "draft.stage2",
     "id": "78eb313fd0774c058c130df95e66f061"
   },
   "config": {

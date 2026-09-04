@@ -8,6 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "goods",
     "title_en": "Cases for state awards",
     "title": "футляри до державних нагород",
     "status": "complete",
@@ -37,35 +38,9 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName_en": "dus.gov.ua",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
+    "tenderPeriod": {
+      "endDate": "2026-12-10T00:00:00+02:00",
+      "startDate": "2026-11-09T00:00:00+02:00"
     },
     "items": [
       {
@@ -103,8 +78,36 @@ Content-Type: application/json
         "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
       }
     ],
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
     "procurementMethodType": "closeFrameworkAgreementUA",
-    "mainProcurementCategory": "goods",
     "agreementDuration": "P3Y3M3D",
     "maxAwardsCount": 4,
     "lots": [
@@ -130,12 +133,9 @@ Content-Type: application/json
         }
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2026-12-10T00:00:00+02:00",
-      "startDate": "2026-11-09T00:00:00+02:00"
-    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {

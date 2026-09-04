@@ -113,7 +113,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "code": "KGM",
@@ -123,6 +122,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 93.8
           }
         },
+        "quantity": 5.0,
         "product": "320701ea170c4dd0ade069195433631b"
       }
     ]
@@ -136,33 +136,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
 
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro"
-      }
-    ],
-    "value": {
-      "amount": 469.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
     "requirementResponses": [
       {
         "requirement": {
@@ -325,7 +298,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         }
       }
     ],
-    "status": "draft",
     "items": [
       {
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
@@ -343,6 +315,34 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
         "product": "320701ea170c4dd0ade069195433631b"
       }
     ],
+    "value": {
+      "amount": 469.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "draft",
     "id": "043cc1c9dc98435889550049b5697d28",
     "date": "2024-01-01T00:00:01+02:00"
   },

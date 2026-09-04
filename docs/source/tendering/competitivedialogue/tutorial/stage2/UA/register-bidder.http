@@ -50,8 +50,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "40de4769766945ee95d7df59d91cb811",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
-        "quantity": 1.0,
-        "relatedLot": "10098f084434468aa19a0bb3524d5517",
         "unit": {
           "name": "кілограм",
           "code": "KGM",
@@ -60,14 +58,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": false,
             "amount": 249.5
           }
-        }
+        },
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517"
       },
       {
         "id": "9bf5d3e19a0b4ee9bc5bd4ef0e236ac5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
-        "quantity": 1.0,
-        "relatedLot": "10098f084434468aa19a0bb3524d5517",
         "unit": {
           "name": "упаковка",
           "code": "PK",
@@ -76,7 +74,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": false,
             "amount": 249.5
           }
-        }
+        },
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517"
       }
     ]
   }

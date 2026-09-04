@@ -15,7 +15,6 @@ Content-Type: application/json
     "procurementMethod": "selective",
     "title": "Послуги шкільних їдалень",
     "status": "draft.stage2",
-    "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -129,6 +128,10 @@ Content-Type: application/json
         "id": "b147656012414e84984969eedb0d1f6a",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -153,16 +156,16 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       },
       {
         "id": "5c3c5cf88e844f5aa88f6748c519c933",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -187,10 +190,6 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
         }
       }
     ],
@@ -198,6 +197,7 @@ Content-Type: application/json
       "startDate": "2027-01-01T00:03:00+02:00",
       "endDate": "2027-02-01T00:00:00+02:00"
     },
+    "awardCriteria": "lowestCost",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:03:00+02:00",

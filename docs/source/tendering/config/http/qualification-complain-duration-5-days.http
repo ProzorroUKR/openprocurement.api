@@ -1473,11 +1473,49 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.pre-qualification.stand-still",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "qualifications": [
+      {
+        "id": "f71358c073cf4d5ca86142dbb1e4f602",
+        "bidID": "4b2f22ec008b4f4e88f2f69ea174242c",
+        "lotID": "13e393636d614660a90f07fa8b4feea6",
+        "status": "active",
+        "date": "2027-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "b9fd02978f8a43139df3074767df97a4",
+        "bidID": "33aec5588bb84aecbaf28ee83b356bad",
+        "lotID": "13e393636d614660a90f07fa8b4feea6",
+        "status": "active",
+        "date": "2027-01-01T00:00:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-06T00:00:00+02:00",
+      "reportingDatePublication": "2027-01-01T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:00:00+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1590,10 +1628,73 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "ratedCriteria",
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2026-12-02T00:00:00+02:00",
+      "endDate": "2026-12-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-01T00:00:00+02:00",
+      "endDate": "2027-01-01T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "c5b0023de71046108dde1a721e00de87",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
+      },
+      {
+        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "quantity": 1.0,
+        "classification": {
+          "description": "Test",
+          "scheme": "ДК021",
+          "id": "37810000-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
+      }
+    ],
+    "awardCriteria": "ratedCriteria",
     "procurementMethodType": "esco",
-    "status": "active.pre-qualification.stand-still",
     "minValue": {
       "currency": "UAH",
       "valueAddedTaxIncluded": false
@@ -1667,107 +1768,6 @@ Content-Type: application/json
         "yearlyPaymentsPercentageRange": 0.8
       }
     ],
-    "items": [
-      {
-        "id": "c5b0023de71046108dde1a721e00de87",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
-      },
-      {
-        "id": "5cacba5cf95a40b580cedfb21df309ba",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "quantity": 1.0,
-        "classification": {
-          "description": "Test",
-          "scheme": "ДК021",
-          "id": "37810000-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
-      }
-    ],
-    "tenderPeriod": {
-      "startDate": "2026-12-01T00:00:00+02:00",
-      "endDate": "2027-01-01T00:00:00+02:00"
-    },
-    "enquiryPeriod": {
-      "startDate": "2026-12-02T00:00:00+02:00",
-      "endDate": "2026-12-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-27T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-06T00:00:00+02:00",
-      "reportingDatePublication": "2027-01-01T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "f71358c073cf4d5ca86142dbb1e4f602",
-        "bidID": "4b2f22ec008b4f4e88f2f69ea174242c",
-        "lotID": "13e393636d614660a90f07fa8b4feea6",
-        "status": "active",
-        "date": "2027-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "b9fd02978f8a43139df3074767df97a4",
-        "bidID": "33aec5588bb84aecbaf28ee83b356bad",
-        "lotID": "13e393636d614660a90f07fa8b4feea6",
-        "status": "active",
-        "date": "2027-01-01T00:00:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        }
-      }
-    ],
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:00:00+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
-    },
     "next_check": "2027-01-06T00:00:00+02:00",
     "id": "38bca89f7ba4477d97f553d576fd6994"
   },

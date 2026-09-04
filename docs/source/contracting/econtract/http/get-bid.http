@@ -8,44 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a89799772a0f473e80bcad84c1e665c9",
-    "date": "2027-01-01T00:00:00+02:00",
-    "tenderers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro",
-        "signerInfo": {
-          "name": "Test Testovich",
-          "email": "example@email.com",
-          "telephone": "+380950000000",
-          "iban": "111111111111111",
-          "position": "Генеральний директор",
-          "authorizedBy": "Статут компанії"
-        },
-        "contract_owner": "broker6"
-      }
-    ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
     "requirementResponses": [
       {
         "requirement": {
@@ -93,7 +55,6 @@ Content-Type: application/json
         }
       }
     ],
-    "status": "pending",
     "items": [
       {
         "id": "29cbde01600848de837efe5448e726fb",
@@ -126,6 +87,45 @@ Content-Type: application/json
         "product": "11111111111111111111111111111111"
       }
     ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "contract_owner": "broker6"
+      }
+    ],
+    "status": "pending",
+    "id": "a89799772a0f473e80bcad84c1e665c9",
+    "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00"
   }
 }

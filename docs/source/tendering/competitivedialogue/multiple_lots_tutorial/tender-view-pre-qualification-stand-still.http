@@ -22,7 +22,6 @@ Content-Type: application/json
     "tenderID": "UA-2027-01-01-000001-a",
     "bids": [
       {
-        "id": "3a72053b989b4af38489c09ebe5765dc",
         "items": [
           {
             "id": "77323aaaef9a4db1887c8e2334147bc7",
@@ -68,6 +67,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "3a72053b989b4af38489c09ebe5765dc",
         "lotValues": [
           {
             "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
@@ -103,11 +104,9 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       },
       {
-        "id": "7245888520724e91a7d4959da5ca033c",
         "items": [
           {
             "id": "77323aaaef9a4db1887c8e2334147bc7",
@@ -164,6 +163,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "7245888520724e91a7d4959da5ca033c",
         "lotValues": [
           {
             "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
@@ -203,11 +204,9 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       },
       {
-        "id": "a751e3f3c60e4c669dc6995b799ebe8d",
         "items": [
           {
             "id": "77323aaaef9a4db1887c8e2334147bc7",
@@ -263,6 +262,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "a751e3f3c60e4c669dc6995b799ebe8d",
         "lotValues": [
           {
             "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
@@ -302,11 +303,9 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       },
       {
-        "id": "0af9e91a77e545dab89567dec4ef2ab2",
         "items": [
           {
             "id": "ab43ef6483bc4201b9d92626a5618b46",
@@ -351,6 +350,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "0af9e91a77e545dab89567dec4ef2ab2",
         "lotValues": [
           {
             "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
@@ -372,8 +373,7 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       }
     ],
     "documents": [
@@ -392,9 +392,100 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.pre-qualification.stand-still",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "qualifications": [
+      {
+        "id": "c78f038b5a7c4dc29bf750f702884c3f",
+        "bidID": "3a72053b989b4af38489c09ebe5765dc",
+        "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "status": "active",
+        "date": "2027-01-01T00:01:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:01:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "7c53b3bb5af34776ad687e076aafebb4",
+        "bidID": "7245888520724e91a7d4959da5ca033c",
+        "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "status": "active",
+        "date": "2027-01-01T00:01:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:01:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "6ecdff1511a54a4182cb0edb47026f1f",
+        "bidID": "7245888520724e91a7d4959da5ca033c",
+        "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "status": "active",
+        "date": "2027-01-01T00:01:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:01:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "455696660eab4eb8ae27233295975477",
+        "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
+        "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "status": "active",
+        "date": "2027-01-01T00:01:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:01:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "b407d317f8d649eb8048697239f81486",
+        "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
+        "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "status": "active",
+        "date": "2027-01-01T00:01:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:01:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "aa5974d7117a420e8997eca59822f426",
+        "bidID": "0af9e91a77e545dab89567dec4ef2ab2",
+        "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "status": "active",
+        "date": "2027-01-01T00:01:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:01:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:01:00+02:00",
+      "endDate": "2027-01-07T00:00:00+02:00",
+      "reportingDatePublication": "2027-01-01T00:01:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:01:00+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -507,45 +598,6 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "availableLanguage": "uk"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 900.0
-    },
     "enquiryPeriod": {
       "startDate": "2026-12-01T00:01:00+02:00",
       "endDate": "2026-12-22T00:01:00+02:00",
@@ -556,134 +608,6 @@ Content-Type: application/json
       "startDate": "2026-12-01T00:01:00+02:00",
       "endDate": "2027-01-01T00:01:00+02:00"
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "d1f58c0ba35f44a9aa2176f9213056b9",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 5.0
-        }
-      },
-      {
-        "title": "Лот №2",
-        "description": "Опис Лот №2",
-        "status": "active",
-        "id": "ab754f91fa1a4efdb9b978d10a93e1b3",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 400.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 5.0
-        }
-      }
-    ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:01:00+02:00",
-      "endDate": "2027-01-07T00:00:00+02:00",
-      "reportingDatePublication": "2027-01-01T00:01:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:01:00+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "c78f038b5a7c4dc29bf750f702884c3f",
-        "bidID": "3a72053b989b4af38489c09ebe5765dc",
-        "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
-        "status": "active",
-        "date": "2027-01-01T00:01:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:01:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "7c53b3bb5af34776ad687e076aafebb4",
-        "bidID": "7245888520724e91a7d4959da5ca033c",
-        "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
-        "status": "active",
-        "date": "2027-01-01T00:01:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:01:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "6ecdff1511a54a4182cb0edb47026f1f",
-        "bidID": "7245888520724e91a7d4959da5ca033c",
-        "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
-        "status": "active",
-        "date": "2027-01-01T00:01:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:01:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "455696660eab4eb8ae27233295975477",
-        "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
-        "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
-        "status": "active",
-        "date": "2027-01-01T00:01:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:01:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "b407d317f8d649eb8048697239f81486",
-        "bidID": "a751e3f3c60e4c669dc6995b799ebe8d",
-        "lotID": "d1f58c0ba35f44a9aa2176f9213056b9",
-        "status": "active",
-        "date": "2027-01-01T00:01:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:01:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "aa5974d7117a420e8997eca59822f426",
-        "bidID": "0af9e91a77e545dab89567dec4ef2ab2",
-        "lotID": "ab754f91fa1a4efdb9b978d10a93e1b3",
-        "status": "active",
-        "date": "2027-01-01T00:01:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:01:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      }
-    ],
-    "procurementMethodType": "competitiveDialogueEU",
-    "mainProcurementCategory": "services",
-    "status": "active.pre-qualification.stand-still",
     "items": [
       {
         "id": "77323aaaef9a4db1887c8e2334147bc7",
@@ -754,6 +678,82 @@ Content-Type: application/json
         "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
       }
     ],
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 900.0
+    },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 5.0
+        }
+      },
+      {
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
+        "status": "active",
+        "id": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 400.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 5.0
+        }
+      }
+    ],
+    "procurementMethodType": "competitiveDialogueEU",
     "next_check": "2027-01-07T00:00:00+02:00",
     "id": "16ed9c73a8f34ed89787edcf423f4267"
   },

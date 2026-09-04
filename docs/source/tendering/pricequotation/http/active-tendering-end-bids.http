@@ -9,51 +9,6 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "043cc1c9dc98435889550049b5697d28",
-      "date": "2024-01-01T00:00:01+02:00",
-      "submissionDate": "2024-01-01T00:00:01+02:00",
-      "documents": [
-        {
-          "confidentiality": "public",
-          "documentType": "proposal",
-          "id": "8799d746a6204ce4b5214e84f7ded8f2",
-          "datePublished": "2024-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Proposal.p7s",
-          "format": "sign/p7s",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0c4facd2ccf4da8b83d04b0beb94c85?Signature=EUuHrPRN9JfMPae13U5%2F40s%2BIyXR6rK%2B%2FbV%2BNAjT7qTELiXpBzWAmQWJ0Ro1cZ8cMcf0OoTowSQoK9IeRbpKBg%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2024-01-01T00:00:01+02:00",
-          "language": "uk"
-        }
-      ],
-      "tenderers": [
-        {
-          "name": "Державне управління справами",
-          "identifier": {
-            "scheme": "UA-IPN",
-            "id": "00037256",
-            "uri": "http://www.dus.gov.ua/"
-          },
-          "address": {
-            "streetAddress": "вул. Банкова, 11, корпус 1",
-            "locality": "м. Київ",
-            "region": "м. Київ",
-            "postalCode": "01220",
-            "countryName": "Україна"
-          },
-          "contactPoint": {
-            "name": "Державне управління справами",
-            "telephone": "+0440000000"
-          },
-          "scale": "micro"
-        }
-      ],
-      "value": {
-        "amount": 470.0,
-        "currency": "UAH",
-        "valueAddedTaxIncluded": false
-      },
       "requirementResponses": [
         {
           "requirement": {
@@ -216,7 +171,6 @@ Content-Type: application/json
           }
         }
       ],
-      "status": "active",
       "items": [
         {
           "id": "30c4edcb5705460a9ca5fd7985bfe56c",
@@ -234,41 +188,11 @@ Content-Type: application/json
           "product": "a1a8ab99dc9244f1bba8d83b39543926"
         }
       ],
-      "initialValue": {
+      "value": {
         "amount": 470.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": false
-      }
-    },
-    {
-      "id": "5e4c721fc5c54c5ca74759c18b262201",
-      "date": "2024-01-01T00:00:01+02:00",
-      "documents": [
-        {
-          "confidentiality": "public",
-          "id": "77e8f45923c349ffbf9146acbc4fd66d",
-          "datePublished": "2024-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Proposal_part1.pdf",
-          "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e60395021f82401794cf794d2d778174?Signature=Wik5JD7p5h%2F%2Bvz%2FUYKxzcE2HWzbwtS%2BpEhmjDVLq2UJREucO5%2BCfcSCPM6B0BHmv7JDRxO3AHotaFGsT5ilCDA%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2024-01-01T00:00:01+02:00",
-          "language": "uk"
-        },
-        {
-          "confidentiality": "public",
-          "id": "ff48fe7e047d4e1094c726f01e216ecd",
-          "datePublished": "2024-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Proposal_part2.pdf",
-          "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d4fa24e55e3849dfafde7ba0914a38e6?Signature=8ZgQYUJLFLwp6z8%2FcaUJ3%2F7ODQ5ofPCavIPxk2MHGphlzUoChh68xxyq%2FCEtHLhRYZjOJs2q5aYMAcgcjHRsBw%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2024-01-01T00:00:01+02:00",
-          "language": "uk"
-        }
-      ],
+      },
       "tenderers": [
         {
           "name": "Державне управління справами",
@@ -291,11 +215,32 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "value": {
-        "amount": 479.0,
+      "status": "active",
+      "id": "043cc1c9dc98435889550049b5697d28",
+      "date": "2024-01-01T00:00:01+02:00",
+      "submissionDate": "2024-01-01T00:00:01+02:00",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "documentType": "proposal",
+          "id": "8799d746a6204ce4b5214e84f7ded8f2",
+          "datePublished": "2024-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal.p7s",
+          "format": "sign/p7s",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0c4facd2ccf4da8b83d04b0beb94c85?Signature=EUuHrPRN9JfMPae13U5%2F40s%2BIyXR6rK%2B%2FbV%2BNAjT7qTELiXpBzWAmQWJ0Ro1cZ8cMcf0OoTowSQoK9IeRbpKBg%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2024-01-01T00:00:01+02:00",
+          "language": "uk"
+        }
+      ],
+      "initialValue": {
+        "amount": 470.0,
         "currency": "UAH",
         "valueAddedTaxIncluded": false
-      },
+      }
+    },
+    {
       "requirementResponses": [
         {
           "requirement": {
@@ -458,7 +403,6 @@ Content-Type: application/json
           }
         }
       ],
-      "status": "active",
       "items": [
         {
           "id": "30c4edcb5705460a9ca5fd7985bfe56c",
@@ -476,6 +420,62 @@ Content-Type: application/json
           "product": "64f71e95335148ce9aa99c3e65c9150c"
         }
       ],
+      "value": {
+        "amount": 479.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": false
+      },
+      "tenderers": [
+        {
+          "name": "Державне управління справами",
+          "identifier": {
+            "scheme": "UA-IPN",
+            "id": "00037256",
+            "uri": "http://www.dus.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Банкова, 11, корпус 1",
+            "locality": "м. Київ",
+            "region": "м. Київ",
+            "postalCode": "01220",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Державне управління справами",
+            "telephone": "+0440000000"
+          },
+          "scale": "micro"
+        }
+      ],
+      "status": "active",
+      "id": "5e4c721fc5c54c5ca74759c18b262201",
+      "date": "2024-01-01T00:00:01+02:00",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "id": "77e8f45923c349ffbf9146acbc4fd66d",
+          "datePublished": "2024-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal_part1.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e60395021f82401794cf794d2d778174?Signature=Wik5JD7p5h%2F%2Bvz%2FUYKxzcE2HWzbwtS%2BpEhmjDVLq2UJREucO5%2BCfcSCPM6B0BHmv7JDRxO3AHotaFGsT5ilCDA%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2024-01-01T00:00:01+02:00",
+          "language": "uk"
+        },
+        {
+          "confidentiality": "public",
+          "id": "ff48fe7e047d4e1094c726f01e216ecd",
+          "datePublished": "2024-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "Proposal_part2.pdf",
+          "format": "application/pdf",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d4fa24e55e3849dfafde7ba0914a38e6?Signature=8ZgQYUJLFLwp6z8%2FcaUJ3%2F7ODQ5ofPCavIPxk2MHGphlzUoChh68xxyq%2FCEtHLhRYZjOJs2q5aYMAcgcjHRsBw%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2024-01-01T00:00:01+02:00",
+          "language": "uk"
+        }
+      ],
       "submissionDate": "2024-01-01T00:00:01+02:00",
       "initialValue": {
         "amount": 479.0,
@@ -484,8 +484,8 @@ Content-Type: application/json
       }
     },
     {
-      "id": "8533ff4a9b08435b8873f8bb8d251f60",
-      "status": "invalid"
+      "status": "invalid",
+      "id": "8533ff4a9b08435b8873f8bb8d251f60"
     }
   ]
 }

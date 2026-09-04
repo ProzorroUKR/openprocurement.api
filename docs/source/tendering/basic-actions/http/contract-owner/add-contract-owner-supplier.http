@@ -105,42 +105,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
 
 {
   "data": {
-    "tenderers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro",
-        "signerInfo": {
-          "name": "Test Testovich",
-          "email": "example@email.com",
-          "telephone": "+380950000000",
-          "iban": "111111111111111",
-          "position": "Генеральний директор",
-          "authorizedBy": "Статут компанії"
-        },
-        "contract_owner": "broker6"
-      }
-    ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
     "requirementResponses": [
       {
         "requirement": {
@@ -188,7 +152,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
         }
       }
     ],
-    "status": "draft",
     "items": [
       {
         "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
@@ -221,6 +184,43 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
         "product": "11111111111111111111111111111111"
       }
     ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "contract_owner": "broker6"
+      }
+    ],
+    "status": "draft",
     "id": "de497de2e58d41a3867ad9ee3cbc5a5a",
     "date": "2027-01-01T00:00:00+02:00"
   },

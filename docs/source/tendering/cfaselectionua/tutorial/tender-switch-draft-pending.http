@@ -19,6 +19,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
+    "status": "draft.pending",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
@@ -96,43 +97,7 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "availableLanguage": "en"
-      },
-      "additionalContactPoints": [
-        {
-          "name": "Державне управління справами 1",
-          "telephone": "+0440000000",
-          "availableLanguage": "uk"
-        }
-      ],
-      "kind": "general"
-    },
-    "status": "draft.pending",
-    "agreements": [
-      {
-        "id": "53e68cfa78da42188f99f9e054e0e168"
-      }
-    ],
     "items": [
       {
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
@@ -167,6 +132,41 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+      }
+    ],
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "availableLanguage": "en"
+      },
+      "additionalContactPoints": [
+        {
+          "name": "Державне управління справами 1",
+          "telephone": "+0440000000",
+          "availableLanguage": "uk"
+        }
+      ],
+      "kind": "general"
+    },
+    "agreements": [
+      {
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "lots": [

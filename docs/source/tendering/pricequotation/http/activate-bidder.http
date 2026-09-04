@@ -15,35 +15,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "043cc1c9dc98435889550049b5697d28",
-    "date": "2024-01-01T00:00:01+02:00",
-    "tenderers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro"
-      }
-    ],
-    "value": {
-      "amount": 470.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
     "requirementResponses": [
       {
         "requirement": {
@@ -206,7 +177,6 @@ Content-Type: application/json
         }
       }
     ],
-    "status": "pending",
     "items": [
       {
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
@@ -224,6 +194,36 @@ Content-Type: application/json
         "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ],
+    "value": {
+      "amount": 470.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "pending",
+    "id": "043cc1c9dc98435889550049b5697d28",
+    "date": "2024-01-01T00:00:01+02:00",
     "submissionDate": "2024-01-01T00:00:01+02:00"
   }
 }

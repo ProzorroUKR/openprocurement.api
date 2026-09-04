@@ -113,7 +113,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "code": "KGM",
@@ -123,6 +122,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 94.0
           }
         },
+        "quantity": 5.0,
         "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ]

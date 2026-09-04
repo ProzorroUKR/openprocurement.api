@@ -938,9 +938,20 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.tendering",
     "owner": "broker",
     "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
     "procurementMethod": "open",
+    "qualificationPeriod": {
+      "startDate": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-02-06T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-07T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
+    },
+    "next_check": "2027-01-09T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1042,46 +1053,19 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName_en": "dus.gov.ua",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
-    "next_check": "2027-01-09T00:00:00+02:00",
     "enquiryPeriod": {
       "startDate": "2026-12-07T00:00:00+02:00",
       "endDate": "2026-12-30T00:00:00+02:00",
       "clarificationsUntil": "2027-01-02T00:00:00+02:00",
       "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-07T00:00:00+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "items": [
       {
@@ -1153,16 +1137,37 @@ Content-Type: application/json
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-09T00:00:00+02:00",
-      "endDate": "2027-02-06T00:00:00+02:00"
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
     },
-    "complaintPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
-      "endDate": "2027-01-05T00:00:00+02:00"
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
     },
     "procurementMethodType": "closeFrameworkAgreementUA",
-    "mainProcurementCategory": "goods",
     "agreementDuration": "P3Y3M3D",
     "maxAwardsCount": 4,
     "lots": [
@@ -1192,11 +1197,6 @@ Content-Type: application/json
         }
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2026-12-07T00:00:00+02:00",
-      "endDate": "2027-01-09T00:00:00+02:00"
-    },
-    "status": "active.tendering",
     "id": "ae2274f0782747918bb1e96f34787c24"
   },
   "config": {

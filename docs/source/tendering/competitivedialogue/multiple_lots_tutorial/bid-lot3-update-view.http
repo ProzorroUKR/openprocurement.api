@@ -48,9 +48,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a751e3f3c60e4c669dc6995b799ebe8d",
-    "date": "2027-01-01T00:01:00+02:00",
-    "submissionDate": "2027-01-01T00:01:00+02:00",
     "items": [
       {
         "id": "77323aaaef9a4db1887c8e2334147bc7",
@@ -106,6 +103,10 @@ Content-Type: application/json
         }
       }
     ],
+    "status": "pending",
+    "id": "a751e3f3c60e4c669dc6995b799ebe8d",
+    "date": "2027-01-01T00:01:00+02:00",
+    "submissionDate": "2027-01-01T00:01:00+02:00",
     "lotValues": [
       {
         "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
@@ -148,8 +149,7 @@ Content-Type: application/json
         "language": "uk",
         "isDescriptionDecision": false
       }
-    ],
-    "status": "pending"
+    ]
   }
 }
 

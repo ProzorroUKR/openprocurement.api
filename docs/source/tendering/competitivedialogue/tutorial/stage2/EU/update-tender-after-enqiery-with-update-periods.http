@@ -10,6 +10,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "6e5628c9038e4bcfabb46055949a220e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -34,10 +38,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       }
     ],
@@ -1026,9 +1026,19 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.tendering",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
+    "qualificationPeriod": {
+      "startDate": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-02-06T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-03T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
+    },
+    "next_check": "2027-01-09T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1142,6 +1152,16 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2026-12-03T00:00:00+02:00",
+      "endDate": "2026-12-30T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-03T00:00:00+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
+    },
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -1181,17 +1201,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "next_check": "2027-01-09T00:00:00+02:00",
-    "enquiryPeriod": {
-      "startDate": "2026-12-03T00:00:00+02:00",
-      "endDate": "2026-12-30T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2026-12-03T00:00:00+02:00",
-      "endDate": "2027-01-09T00:00:00+02:00"
-    },
     "lots": [
       {
         "title": "Лот №1",
@@ -1215,14 +1224,6 @@ Content-Type: application/json
         }
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-09T00:00:00+02:00",
-      "endDate": "2027-02-06T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2026-12-03T00:00:00+02:00",
-      "endDate": "2027-01-05T00:00:00+02:00"
-    },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "dialogueID": "442181c925b643c9bf6ca9b5e7682302",
     "items": [
@@ -1230,6 +1231,10 @@ Content-Type: application/json
         "id": "6e5628c9038e4bcfabb46055949a220e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -1254,10 +1259,6 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       }
     ],
@@ -1304,7 +1305,6 @@ Content-Type: application/json
         ]
       }
     ],
-    "status": "active.tendering",
     "id": "cbf8a18d016440eda7c093c080506a8b"
   },
   "config": {

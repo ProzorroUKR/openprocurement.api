@@ -210,41 +210,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afc408f9dd524caf
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "belowThreshold",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
     "enquiryPeriod": {
       "endDate": "2027-01-08T00:00:00+02:00",
       "startDate": "2027-01-01T00:00:00+02:00",
@@ -279,8 +244,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afc408f9dd524caf
         ]
       },
       {
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652",
         "id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
@@ -301,11 +264,48 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afc408f9dd524caf
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ]
+        ],
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
       }
     ],
+    "procurementMethodType": "belowThreshold",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "procurementMethod": "open",
     "submissionMethod": "electronicAuction",
     "date": "2027-01-01T00:00:00+02:00",

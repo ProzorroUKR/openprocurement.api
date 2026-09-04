@@ -1808,9 +1808,60 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.pre-qualification.stand-still",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
+    "qualifications": [
+      {
+        "id": "d38d108669794b50a50dc2a588371b08",
+        "bidID": "3830395bb34b46c0b479d7fe1ece5e17",
+        "lotID": "70e731cb683c49cf8d82920b84b981f2",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "dadc246c1761425aa64da65fc8929c92",
+        "bidID": "9c46034d15b0405f9a7b5d2704fca5cd",
+        "lotID": "70e731cb683c49cf8d82920b84b981f2",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "a72b6ea0a3be49349c634aa33a00b2ce",
+        "bidID": "ca3c463082bd46d4a9309e5fbef60741",
+        "lotID": "70e731cb683c49cf8d82920b84b981f2",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": false,
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-07T00:00:00+02:00",
+      "reportingDatePublication": "2027-01-01T00:03:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:03:00+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1924,6 +1975,16 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2026-12-01T00:03:00+02:00",
+      "endDate": "2026-12-22T00:03:00+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:01:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-01T00:03:00+02:00",
+      "endDate": "2027-01-01T00:03:00+02:00"
+    },
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -1963,16 +2024,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "enquiryPeriod": {
-      "startDate": "2026-12-01T00:03:00+02:00",
-      "endDate": "2026-12-22T00:03:00+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:01:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2026-12-01T00:03:00+02:00",
-      "endDate": "2027-01-01T00:03:00+02:00"
-    },
     "lots": [
       {
         "title": "Лот №1",
@@ -1996,56 +2047,6 @@ Content-Type: application/json
         }
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:03:00+02:00",
-      "endDate": "2027-01-07T00:00:00+02:00",
-      "reportingDatePublication": "2027-01-01T00:03:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:03:00+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "d38d108669794b50a50dc2a588371b08",
-        "bidID": "3830395bb34b46c0b479d7fe1ece5e17",
-        "lotID": "70e731cb683c49cf8d82920b84b981f2",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "dadc246c1761425aa64da65fc8929c92",
-        "bidID": "9c46034d15b0405f9a7b5d2704fca5cd",
-        "lotID": "70e731cb683c49cf8d82920b84b981f2",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "a72b6ea0a3be49349c634aa33a00b2ce",
-        "bidID": "ca3c463082bd46d4a9309e5fbef60741",
-        "lotID": "70e731cb683c49cf8d82920b84b981f2",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": false,
-        "eligible": false,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      }
-    ],
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "dialogueID": "442181c925b643c9bf6ca9b5e7682302",
     "items": [
@@ -2053,6 +2054,10 @@ Content-Type: application/json
         "id": "6e5628c9038e4bcfabb46055949a220e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -2077,10 +2082,6 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       }
     ],
@@ -2127,7 +2128,6 @@ Content-Type: application/json
         ]
       }
     ],
-    "status": "active.pre-qualification.stand-still",
     "next_check": "2027-01-07T00:00:00+02:00",
     "id": "cbf8a18d016440eda7c093c080506a8b"
   },

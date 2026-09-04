@@ -1850,11 +1850,62 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.auction",
     "owner": "broker",
     "title": "I need more pictures of spiderman!",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:02:01+02:00",
+    "qualifications": [
+      {
+        "id": "d9f6a5fc0b29462f8b8b93fe4f6ee738",
+        "bidID": "df6178558a0f488a8b2fe13bc75b4856",
+        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      },
+      {
+        "id": "97ac9eb5153f4fa98f3b7f072a2ae7b3",
+        "bidID": "211ad5e38e1549b7ac3152cb585f4968",
+        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      },
+      {
+        "id": "31816783d91a458b9df737c265d4e173",
+        "bidID": "1bbdb78635404edb8b83d0d4848a3e14",
+        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": false,
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2026-12-27T00:02:01+02:00",
+      "endDate": "2027-01-01T00:02:01+02:00",
+      "reportingDatePublication": "2026-12-27T00:02:01+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:02:01+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1967,74 +2018,21 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "ratedCriteria",
     "submissionMethod": "electronicAuction",
-    "procurementMethodType": "esco",
-    "status": "active.auction",
-    "minValue": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
-    "NBUdiscountRate": 0.22986,
-    "fundingKind": "other",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "availableLanguage": "uk"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
+    "enquiryPeriod": {
+      "startDate": "2026-11-27T00:02:01+02:00",
+      "endDate": "2026-12-07T00:02:01+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:01:00+02:00"
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "16dcfa2a699842d3a0f9b9553db58532",
-        "date": "2027-01-01T00:00:00+02:00",
-        "minValue": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "minimalStepPercentage": 0.006,
-        "fundingKind": "other",
-        "yearlyPaymentsPercentageRange": 0.8,
-        "auctionPeriod": {
-          "startDate": "2027-01-04T13:01:01.441000+02:00",
-          "shouldStartAfter": "2027-01-02T00:00:00+02:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_16dcfa2a699842d3a0f9b9553db58532"
-      }
-    ],
+    "tenderPeriod": {
+      "startDate": "2026-11-26T00:02:01+02:00",
+      "endDate": "2026-12-27T00:02:01+02:00"
+    },
     "items": [
       {
         "id": "45bb257ff1554e798e6c7a4096b3aabf",
@@ -2089,66 +2087,68 @@ Content-Type: application/json
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2026-11-26T00:02:01+02:00",
-      "endDate": "2026-12-27T00:02:01+02:00"
+    "awardCriteria": "ratedCriteria",
+    "procurementMethodType": "esco",
+    "minValue": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
     },
-    "enquiryPeriod": {
-      "startDate": "2026-11-27T00:02:01+02:00",
-      "endDate": "2026-12-07T00:02:01+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:01:00+02:00"
-    },
-    "qualificationPeriod": {
-      "startDate": "2026-12-27T00:02:01+02:00",
-      "endDate": "2027-01-01T00:02:01+02:00",
-      "reportingDatePublication": "2026-12-27T00:02:01+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "d9f6a5fc0b29462f8b8b93fe4f6ee738",
-        "bidID": "df6178558a0f488a8b2fe13bc75b4856",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
+    "NBUdiscountRate": 0.22986,
+    "fundingKind": "other",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
-      {
-        "id": "97ac9eb5153f4fa98f3b7f072a2ae7b3",
-        "bidID": "211ad5e38e1549b7ac3152cb585f4968",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
       },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "lots": [
       {
-        "id": "31816783d91a458b9df737c265d4e173",
-        "bidID": "1bbdb78635404edb8b83d0d4848a3e14",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": false,
-        "eligible": false,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "16dcfa2a699842d3a0f9b9553db58532",
+        "date": "2027-01-01T00:00:00+02:00",
+        "minValue": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "minimalStepPercentage": 0.006,
+        "fundingKind": "other",
+        "yearlyPaymentsPercentageRange": 0.8,
+        "auctionPeriod": {
+          "startDate": "2027-01-04T13:01:01.441000+02:00",
+          "shouldStartAfter": "2027-01-02T00:00:00+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_16dcfa2a699842d3a0f9b9553db58532"
       }
     ],
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
-    },
     "next_check": "2027-01-04T13:01:01.441000+02:00",
     "auctionPeriod": {},
     "id": "d083afc12b7747e5bd81d1d72a477b24"

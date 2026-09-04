@@ -223,9 +223,6 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "3ce99d9acadd4392a6e7e5badea84d2f",
-    "date": "2027-01-01T00:00:00+02:00",
-    "submissionDate": "2027-01-01T00:00:00+02:00",
     "items": [
       {
         "id": "b147656012414e84984969eedb0d1f6a",
@@ -282,6 +279,11 @@ Content-Type: application/json
         }
       }
     ],
+    "status": "invalid",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "id": "3ce99d9acadd4392a6e7e5badea84d2f",
+    "date": "2027-01-01T00:00:00+02:00",
+    "submissionDate": "2027-01-01T00:00:00+02:00",
     "lotValues": [
       {
         "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -304,9 +306,7 @@ Content-Type: application/json
         "language": "uk",
         "isDescriptionDecision": false
       }
-    ],
-    "subcontractingDetails": "ДКП «Орфей», Україна",
-    "status": "invalid"
+    ]
   }
 }
 

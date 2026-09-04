@@ -194,34 +194,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "competitiveOrdering",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "legalName": "Назва організації"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "email": "aa@aa.com",
-        "telephone": "+0440000000"
-      },
-      "kind": "general"
-    },
-    "value": {
-      "currency": "UAH",
-      "amount": 500.0,
-      "valueAddedTaxIncluded": false
-    },
     "tenderPeriod": {
       "endDate": "2027-01-16T00:00:00+02:00",
       "startDate": "2027-01-01T00:00:00+02:00"
@@ -260,8 +232,36 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         }
       }
     ],
+    "procurementMethodType": "competitiveOrdering",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
+      },
+      "kind": "general"
+    },
+    "value": {
+      "currency": "UAH",
+      "amount": 500.0,
+      "valueAddedTaxIncluded": false
+    },
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "enquiryPeriod": {

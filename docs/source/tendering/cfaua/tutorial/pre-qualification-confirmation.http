@@ -2036,9 +2036,74 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.pre-qualification.stand-still",
     "owner": "broker",
     "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
     "procurementMethod": "open",
+    "qualifications": [
+      {
+        "id": "94b658eb87b04f0cad16554d0fbcc11a",
+        "bidID": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:02:01+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "a23f7992d1f6432f900483528b748a47",
+        "bidID": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:02:01+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "3c314cb490a34293961ff666e4c278dc",
+        "bidID": "a57e9556a7ef4cc6a771bb404e1ae9f1",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": false,
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:02:01+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "ce73001044a743bf8deb2f239bcfbb04",
+        "bidID": "73eeb29f403b4570b3fac666e19a6e67",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:02:01+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:02:01+02:00",
+      "endDate": "2027-01-07T00:00:00+02:00",
+      "reportingDatePublication": "2027-01-01T00:02:01+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:02:01+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -2140,36 +2205,6 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName_en": "dus.gov.ua",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "kind": "general"
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
@@ -2179,6 +2214,10 @@ Content-Type: application/json
       "endDate": "2026-12-22T00:02:01+02:00",
       "clarificationsUntil": "2027-01-02T00:00:00+02:00",
       "invalidationDate": "2027-01-01T00:01:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-01T00:02:01+02:00",
+      "endDate": "2027-01-01T00:02:01+02:00"
     },
     "items": [
       {
@@ -2250,71 +2289,37 @@ Content-Type: application/json
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:02:01+02:00",
-      "endDate": "2027-01-07T00:00:00+02:00",
-      "reportingDatePublication": "2027-01-01T00:02:01+02:00"
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
     },
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
     },
-    "qualifications": [
-      {
-        "id": "94b658eb87b04f0cad16554d0fbcc11a",
-        "bidID": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "a23f7992d1f6432f900483528b748a47",
-        "bidID": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "3c314cb490a34293961ff666e4c278dc",
-        "bidID": "a57e9556a7ef4cc6a771bb404e1ae9f1",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": false,
-        "eligible": false,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "ce73001044a743bf8deb2f239bcfbb04",
-        "bidID": "73eeb29f403b4570b3fac666e19a6e67",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:02:01+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      }
-    ],
     "procurementMethodType": "closeFrameworkAgreementUA",
-    "mainProcurementCategory": "goods",
     "agreementDuration": "P3Y3M3D",
     "maxAwardsCount": 4,
     "lots": [
@@ -2344,11 +2349,6 @@ Content-Type: application/json
         }
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
-      "endDate": "2027-01-01T00:02:01+02:00"
-    },
-    "status": "active.pre-qualification.stand-still",
     "next_check": "2027-01-07T00:00:00+02:00",
     "id": "ae2274f0782747918bb1e96f34787c24"
   },

@@ -1005,11 +1005,21 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.tendering",
     "owner": "broker",
     "title": "Whatever",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "qualificationPeriod": {
+      "startDate": "2027-01-09T00:00:00+02:00",
+      "endDate": "2027-02-06T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-03T00:00:00+02:00",
+      "endDate": "2027-01-05T00:00:00+02:00"
+    },
+    "next_check": "2027-01-09T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1122,73 +1132,21 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "ratedCriteria",
     "submissionMethod": "electronicAuction",
-    "procurementMethodType": "esco",
-    "status": "active.tendering",
-    "minValue": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
-    "NBUdiscountRate": 0.22986,
-    "fundingKind": "other",
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "name_en": "Kutsa Svitlana V.",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "availableLanguage": "uk"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
+    "enquiryPeriod": {
+      "startDate": "2026-12-03T00:00:00+02:00",
+      "endDate": "2026-12-30T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "16dcfa2a699842d3a0f9b9553db58532",
-        "date": "2027-01-01T00:00:00+02:00",
-        "minValue": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "minimalStepPercentage": 0.006,
-        "fundingKind": "other",
-        "yearlyPaymentsPercentageRange": 0.8,
-        "auctionPeriod": {
-          "startDate": "2027-02-08T12:29:40.230000+02:00",
-          "shouldStartAfter": "2027-02-06T00:00:00+02:00"
-        }
-      }
-    ],
+    "tenderPeriod": {
+      "startDate": "2026-12-03T00:00:00+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
+    },
     "items": [
       {
         "id": "45bb257ff1554e798e6c7a4096b3aabf",
@@ -1243,25 +1201,67 @@ Content-Type: application/json
         "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
       }
     ],
-    "tenderPeriod": {
-      "startDate": "2026-12-03T00:00:00+02:00",
-      "endDate": "2027-01-09T00:00:00+02:00"
+    "awardCriteria": "ratedCriteria",
+    "procurementMethodType": "esco",
+    "minValue": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
     },
-    "enquiryPeriod": {
-      "startDate": "2026-12-03T00:00:00+02:00",
-      "endDate": "2026-12-30T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    "NBUdiscountRate": 0.22986,
+    "fundingKind": "other",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
     },
-    "qualificationPeriod": {
-      "startDate": "2027-01-09T00:00:00+02:00",
-      "endDate": "2027-02-06T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2026-12-03T00:00:00+02:00",
-      "endDate": "2027-01-05T00:00:00+02:00"
-    },
-    "next_check": "2027-01-09T00:00:00+02:00",
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "16dcfa2a699842d3a0f9b9553db58532",
+        "date": "2027-01-01T00:00:00+02:00",
+        "minValue": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "minimalStepPercentage": 0.006,
+        "fundingKind": "other",
+        "yearlyPaymentsPercentageRange": 0.8,
+        "auctionPeriod": {
+          "startDate": "2027-02-08T12:29:40.230000+02:00",
+          "shouldStartAfter": "2027-02-06T00:00:00+02:00"
+        }
+      }
+    ],
     "id": "d083afc12b7747e5bd81d1d72a477b24"
   },
   "config": {

@@ -186,7 +186,6 @@ Content-Type: application/json
           }
         }
       ],
-      "id": "3ce99d9acadd4392a6e7e5badea84d2f",
       "items": [
         {
           "id": "b147656012414e84984969eedb0d1f6a",
@@ -243,6 +242,8 @@ Content-Type: application/json
           }
         }
       ],
+      "status": "active",
+      "id": "3ce99d9acadd4392a6e7e5badea84d2f",
       "lotValues": [
         {
           "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -319,8 +320,7 @@ Content-Type: application/json
           "language": "uk",
           "isDescriptionDecision": false
         }
-      ],
-      "status": "active"
+      ]
     },
     {
       "requirementResponses": [
@@ -500,7 +500,6 @@ Content-Type: application/json
           }
         }
       ],
-      "id": "2caee4fba6df43daa9f432069ff4f83e",
       "items": [
         {
           "id": "b147656012414e84984969eedb0d1f6a",
@@ -557,6 +556,8 @@ Content-Type: application/json
           }
         }
       ],
+      "status": "active",
+      "id": "2caee4fba6df43daa9f432069ff4f83e",
       "lotValues": [
         {
           "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -578,8 +579,7 @@ Content-Type: application/json
           "language": "uk",
           "isDescriptionDecision": false
         }
-      ],
-      "status": "active"
+      ]
     },
     {
       "requirementResponses": [
@@ -759,7 +759,6 @@ Content-Type: application/json
           }
         }
       ],
-      "id": "d12a4588000c4f508df566cb85f1eeee",
       "tenderers": [
         {
           "name": "«Снігур»",
@@ -791,6 +790,8 @@ Content-Type: application/json
           }
         }
       ],
+      "status": "unsuccessful",
+      "id": "d12a4588000c4f508df566cb85f1eeee",
       "lotValues": [
         {
           "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -812,8 +813,7 @@ Content-Type: application/json
           "language": "uk",
           "isDescriptionDecision": false
         }
-      ],
-      "status": "unsuccessful"
+      ]
     },
     {
       "requirementResponses": [
@@ -993,7 +993,6 @@ Content-Type: application/json
           }
         }
       ],
-      "id": "8f96451aec6a48e4a98b361b7cdecddb",
       "items": [
         {
           "id": "b147656012414e84984969eedb0d1f6a",
@@ -1049,6 +1048,8 @@ Content-Type: application/json
           }
         }
       ],
+      "status": "active",
+      "id": "8f96451aec6a48e4a98b361b7cdecddb",
       "lotValues": [
         {
           "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -1097,8 +1098,7 @@ Content-Type: application/json
           "language": "uk",
           "isDescriptionDecision": false
         }
-      ],
-      "status": "active"
+      ]
     }
   ]
 }

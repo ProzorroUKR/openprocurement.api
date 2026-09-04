@@ -58,9 +58,18 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:03:00+02:00",
     "dateCreated": "2027-01-01T00:03:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a.2",
+    "status": "active.tendering",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "procurementMethod": "selective",
+    "qualificationPeriod": {
+      "startDate": "2027-02-01T00:00:00+02:00",
+      "endDate": "2027-02-27T00:00:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -174,6 +183,16 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:03:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
+    },
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -213,16 +232,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:03:00+02:00",
-      "endDate": "2027-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-27T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:03:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:03:00+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
-    },
     "lots": [
       {
         "title": "Лот №1",
@@ -246,14 +255,6 @@ Content-Type: application/json
         }
       }
     ],
-    "qualificationPeriod": {
-      "startDate": "2027-02-01T00:00:00+02:00",
-      "endDate": "2027-02-27T00:00:00+02:00"
-    },
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:03:00+02:00",
-      "endDate": "2027-01-28T00:00:00+02:00"
-    },
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "dialogueID": "77e829220cef46c89b232c408c771bff",
     "items": [
@@ -261,6 +262,10 @@ Content-Type: application/json
         "id": "b147656012414e84984969eedb0d1f6a",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -285,16 +290,16 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
         }
       },
       {
         "id": "5c3c5cf88e844f5aa88f6748c519c933",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
         "quantity": 1.0,
         "additionalClassifications": [
           {
@@ -319,10 +324,6 @@ Content-Type: application/json
           "description": "Test",
           "scheme": "ДК021",
           "id": "37810000-9"
-        },
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
         }
       }
     ],
@@ -369,7 +370,6 @@ Content-Type: application/json
         ]
       }
     ],
-    "status": "active.tendering",
     "next_check": "2027-02-01T00:00:00+02:00",
     "id": "5ccc49a3a5044366b9c4904a237a2a71"
   },
