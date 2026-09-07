@@ -38,6 +38,7 @@ from openprocurement.api.procedure.models.organization import ProcuringEntityKin
 from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
+    validate_items_classification_match,
     validate_items_classifications_prefixes,
 )
 from openprocurement.api.utils import (
@@ -243,16 +244,28 @@ class BaseTenderDetailsMixing:
         request = get_request()
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
-        if before.get("funders") != after.get("funders"):
-            self.validate_funders_match_plan_program(request, after)
+        if before.get("funders") != after.get("funders") or before.get("items") != after.get("items"):
+            plans = self.fetch_tender_plans(request, after)
+            validate_funders_match_plan_programs(request, after, plans)
+            self.validate_item_classifications_match_plan_items(after, plans)
 
-    def validate_funders_match_plan_program(self, request, tender):
+    def fetch_tender_plans(self, request, tender):
         plans = []
         for plan_ref in tender.get("plans") or []:
             plan = request_fetch_plan(request, plan_ref["id"], raise_error=False, force=True)
             if plan:
                 plans.append(plan)
-        validate_funders_match_plan_programs(request, tender, plans)
+        return plans
+
+    def validate_item_classifications_match_plan_items(self, after, plans):
+        classifications = [
+            item["classification"]
+            for item in after.get("items", "")
+            if item.get("classification")  # item.classification may be empty in pricequotation
+        ]
+        if classifications:
+            for plan in plans:
+                validate_items_classification_match(classifications, plan)
 
     def on_post(self, tender):
         self.validate_enquiry_period(tender)
@@ -262,7 +275,10 @@ class BaseTenderDetailsMixing:
         # tenders created via POST /plans/{id}/tenders get "plans" set after this runs
         # and are validated by PlanState; this covers direct POST /tenders with "plans"
         if tender.get("plans"):
-            self.validate_funders_match_plan_program(get_request(), tender)
+            request = get_request()
+            plans = self.fetch_tender_plans(request, tender)
+            validate_funders_match_plan_programs(request, tender, plans)
+            self.validate_item_classifications_match_plan_items(tender, plans)
 
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
@@ -1303,7 +1319,10 @@ class BaseTenderDetailsMixing:
         if not classifications:
             return
 
-        if self.should_validate_items_classifications_prefix:
+        if self.should_validate_items_classifications_prefix and tender.get("mainProcurementCategory") not in (
+            MainProcurementCategory.SERVICES,
+            MainProcurementCategory.WORKS,
+        ):
             validate_items_classifications_prefixes(classifications)
 
         if not self.should_validate_pre_selection_agreement:
@@ -1384,6 +1403,8 @@ class BaseTenderDetailsMixing:
 
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
+        if after.get("mainProcurementCategory") in (MainProcurementCategory.SERVICES, MainProcurementCategory.WORKS):
+            return
         prefix_list = set()
         for item in before.get("items", ""):
             prefix_list.add(item["classification"]["id"][:CPV_GROUP_PREFIX_LENGTH])
@@ -1631,6 +1652,13 @@ class BaseTenderDetailsMixing:
 
         # Check if contractTemplateName is allowed to be changed
         if contract_template_name_changed and not self.contract_template_name_patch_statuses:
+            raise_contract_template_name_error("Rogue field")
+
+        # Check if tender has mainProcurementCategory allowed for templates
+        if contract_template_name and after.get("mainProcurementCategory") in (
+            MainProcurementCategory.SERVICES,
+            MainProcurementCategory.WORKS,
+        ):
             raise_contract_template_name_error("Rogue field")
 
         # Check if contractTemplateName is allowed to be changed in current tender status
