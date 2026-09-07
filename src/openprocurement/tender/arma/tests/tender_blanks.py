@@ -283,7 +283,9 @@ def create_tender_invalid(self):
     data["classification"] = classification
     item = deepcopy(self.initial_data["items"][0])
     self.initial_data["items"] = [item, data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+    tender_data = deepcopy(self.initial_data)
+    tender_data["mainProcurementCategory"] = "goods"
+    response = self.app.post_json(request_path, {"data": tender_data, "config": self.initial_config}, status=422)
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -464,22 +466,6 @@ def patch_tender(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
     new_dateModified2 = response.json["data"]["dateModified"]
-
-    items = deepcopy(self.initial_data["items"])
-    items[0]["id"] = item_id
-    items[0]["classification"]["id"] = "55523100-3"
-    items[0]["classification"]["description"] = "Послуги з харчування у школах"
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": items}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0],
-        {"description": ["Can't change classification group of items"], "location": "body", "name": "items"},
-    )
 
     items = deepcopy(self.initial_data["items"])
     items[0]["id"] = item_id

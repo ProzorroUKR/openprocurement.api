@@ -30,7 +30,7 @@ test_plan_central_data["procuringEntity"]["identifier"] = test_tender_openua_cen
 
 test_tender_openua_central_data["status"] = "draft"
 test_tender_openua_central_data["procuringEntity"]["kind"] = "central"
-test_tender_openua_central_data["items"] = test_tender_openua_central_data["items"][:1]
+test_plan_central_data["items"] = test_plan_central_data["items"][:1]
 test_tender_openua_central_data["items"][0]["classification"]["id"] = test_plan_central_data["items"][0][
     "classification"
 ]["id"]

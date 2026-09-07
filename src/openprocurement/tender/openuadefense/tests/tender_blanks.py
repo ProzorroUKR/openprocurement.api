@@ -291,6 +291,7 @@ def create_tender_invalid(self):
     data["classification"] = classification
     item = deepcopy(initial_data["items"][0])
     initial_data["items"] = [item, data]
+    initial_data["mainProcurementCategory"] = "goods"
     response = self.app.post_json(request_path, {"data": initial_data, "config": self.initial_config}, status=422)
     initial_data["items"] = initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")

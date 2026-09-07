@@ -36,6 +36,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_funder,
     test_tender_below_supplier,
 )
+from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
 from openprocurement.tender.core.tests.base import (
     test_contract_guarantee_criteria,
     test_default_criteria,
@@ -4706,6 +4708,31 @@ def contract_template_name_set(self):
             ],
         )
 
+    def test_forbidden_for_works_and_services(pmt):
+        for category in (MainProcurementCategory.WORKS, MainProcurementCategory.SERVICES):
+            if pmt == CFA_UA and category == MainProcurementCategory.WORKS:
+                continue
+            response = self.app.patch_json(
+                f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
+                {
+                    "data": {
+                        "contractTemplateName": "00000000.0003.01",
+                        "mainProcurementCategory": category,
+                    }
+                },
+                status=422,
+            )
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        "location": "body",
+                        "name": "contractTemplateName",
+                        "description": "Rogue field",
+                    }
+                ],
+            )
+
     data = deepcopy(self.initial_data)
     data["status"] = "draft"
     pmt = data["procurementMethodType"]
@@ -4780,6 +4807,7 @@ def contract_template_name_set(self):
                 classification_ids=["44617100-9"],
             )
             test_after_contract_proforma()
+            test_forbidden_for_works_and_services(pmt)
         else:
             if pmt in required_for_pmts:
                 prepare_tender_state(
@@ -4799,6 +4827,7 @@ def contract_template_name_set(self):
                     classification_ids=["44617100-9"],
                 )
                 test_after_contract_proforma()
+                test_forbidden_for_works_and_services(pmt)
 
         # Test general template
         prepare_tender_state(
@@ -4960,6 +4989,8 @@ def contract_template_name_set(self):
 
 
 def set_procuring_entity_signer_info(self):
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
     tender_data = deepcopy(self.initial_data)
     tender_data["contractTemplateName"] = "00000000.0002.01"
     tender_data["procuringEntity"].pop("signerInfo", None)
@@ -5021,6 +5052,8 @@ def set_procuring_entity_signer_info(self):
 
 
 def set_buyers_signer_info(self):
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
     tender_data = deepcopy(self.initial_data)
     tender_data["contractTemplateName"] = "00000000.0002.01"
     tender_data["procuringEntity"].pop("signerInfo", None)
@@ -5090,6 +5123,8 @@ def set_buyers_signer_info(self):
 
 
 def set_procuring_entity_contract_owner(self):
+    if "contractTemplateName" not in self.initial_data:
+        pytest.skip("contractTemplateName is not set in the initial data")
     tender_data = deepcopy(self.initial_data)
     tender_data["procuringEntity"]["signerInfo"] = test_signer_info
     tender_data["procuringEntity"]["contract_owner"] = "test"

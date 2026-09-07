@@ -37,6 +37,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     tender_with_main_procurement_category,
     try_go_to_ready_stage_eu,
     update_status_complete_owner_ua,
+    contract_template_name_set,
 )
 from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
 from openprocurement.tender.openua.tests.tender_blanks import empty_listing
@@ -74,6 +75,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
+    test_contract_template_name_set = snitch(contract_template_name_set)
 
 
 class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderResourceTestMixin):
@@ -99,6 +101,7 @@ class CompetitiveDialogUAResourceTest(BaseCompetitiveDialogUAWebTest, TenderReso
     test_create_tender_with_required_unit = snitch(create_tender_with_required_unit)
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
+    test_contract_template_name_set = snitch(contract_template_name_set)
 
 
 def suite():

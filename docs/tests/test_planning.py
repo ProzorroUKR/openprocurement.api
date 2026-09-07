@@ -94,6 +94,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                     }
                 },
             )
+            plan = response.json["data"]
 
         with open(TARGET_DIR + "plan-listing-after-patch.http", "w") as self.app.file_obj:
             self.app.authorization = None
@@ -108,13 +109,33 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
         with open(TARGET_DIR + "tender-from-plan-validation.http", "w") as self.app.file_obj:
             self.app.post_json("/plans/{}/tenders".format(plan["id"]), {"data": test_docs_tender_openeu}, status=422)
 
-        plan_doc = self.mongodb.plans.get(plan["id"])
-        del plan_doc["budget"]["breakdown"]
-        self.mongodb.plans.save(plan_doc)
-        test_docs_tender_below["items"] = test_docs_plan_data["items"]
         test_docs_tender_below["procuringEntity"]["identifier"] = test_docs_plan_data["procuringEntity"]["identifier"]
         test_docs_tender_below["title"] = "Насіння"
         test_docs_tender_below["status"] = "draft"
+        with open(TARGET_DIR + "tender-from-plan-goods-cpv-invalid.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/plans/{}/tenders".format(plan["id"]),
+                {"data": test_docs_tender_below, "config": test_tender_below_config},
+                status=422,
+            )
+
+        test_docs_tender_below["items"][0]["classification"]["id"] = "45213240-7"
+        test_docs_tender_below["items"][0]["classification"]["description"] = (
+            "Будівництво будівель сільськогосподарського призначення"
+        )
+        test_docs_tender_below["mainProcurementCategory"] = "works"
+        with open(TARGET_DIR + "tender-from-plan-works-cpv-invalid.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                "/plans/{}/tenders".format(plan["id"]),
+                {"data": test_docs_tender_below, "config": test_tender_below_config},
+                status=422,
+            )
+
+        test_docs_tender_below["mainProcurementCategory"] = "goods"
+        plan_doc = self.mongodb.plans.get(plan["id"])
+        del plan_doc["budget"]["breakdown"]
+        self.mongodb.plans.save(plan_doc)
+        test_docs_tender_below["items"] = plan["items"]
 
         with open(TARGET_DIR + "tender-from-plan-breakdown.http", "w") as self.app.file_obj:
             self.app.post_json(

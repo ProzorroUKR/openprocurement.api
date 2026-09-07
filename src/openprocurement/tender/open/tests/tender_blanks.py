@@ -462,8 +462,10 @@ def create_tender_invalid(self):
         if "items" in agreement:
             agreement["items"] = self.initial_data["items"]
         self.mongodb.agreements.save(agreement)
+    tender_data = deepcopy(self.initial_data)
+    tender_data["mainProcurementCategory"] = "goods"
 
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
+    response = self.app.post_json(request_path, {"data": tender_data, "config": self.initial_config}, status=422)
 
     self.initial_data["items"] = self.initial_data["items"][:1]
     self.assertEqual(response.status, "422 Unprocessable Entity")
