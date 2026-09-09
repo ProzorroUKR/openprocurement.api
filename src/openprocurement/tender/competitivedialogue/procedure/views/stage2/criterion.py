@@ -17,10 +17,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion import (
     CDCriterionState,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    Criterion,
-    PatchCriterion,
-)
+from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 
 

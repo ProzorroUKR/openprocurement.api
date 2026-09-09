@@ -12,83 +12,54 @@ from typing import Optional, Type
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
+from openprocurement.tender.arma.procedure.models.award import ARMAAward, ARMAPostAward
+from openprocurement.tender.arma.procedure.models.bid import (
+    ARMABid,
+    ARMAPatchBid,
+    ARMAPatchQualificationBid,
+    ARMAPostBid,
+)
+from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchLot, ARMAPostLot
+from openprocurement.tender.arma.procedure.models.tender import ARMAPatchTender, ARMAPostTender, ARMATender
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
+    CFASelectionAgreement,
+    CFASelectionPatchAgreement,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.bid import (
+    CFASelectionBid,
+    CFASelectionPatchBid,
+    CFASelectionPatchQualificationBid,
+    CFASelectionPostBid,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.lot import (
+    CFASelectionLot,
+    CFASelectionPatchLot,
+    CFASelectionPostLot,
+)
+from openprocurement.tender.cfaselectionua.procedure.models.tender import (
+    CFASelectionPatchTender,
+    CFASelectionPostTender,
+    CFASelectionTender,
+)
 from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement, CFAPatchAgreement
+from openprocurement.tender.cfaua.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.core.procedure.models.agreement import (
-    CFAAgreement,
-    CFAPatchAgreement,
-    CFASelectionAgreement,
-    CFASelectionPatchAgreement,
-)
-from openprocurement.tender.core.procedure.models.award import (
-    ARMAAward,
-    ARMAPostAward,
-    Award,
-    CDAward,
-    CDPatchAward,
-    CDPostAward,
-    ESCOAward,
-    ESCOPostAward,
-    LimitedAward,
-    LimitedPatchAward,
-    LimitedPostAward,
-    PatchAward,
-    PostAward,
-    ReportingAward,
-    ReportingPatchAward,
-    ReportingPostAward,
-)
-from openprocurement.tender.core.procedure.models.bid import (
-    ARMABid,
-    ARMAPatchBid,
-    ARMAPatchQualificationBid,
-    ARMAPostBid,
-    Bid,
+from openprocurement.tender.competitivedialogue.procedure.models.award import CDAward, CDPatchAward, CDPostAward
+from openprocurement.tender.competitivedialogue.procedure.models.bid import (
     CDBid,
     CDPatchBid,
     CDPatchQualificationBid,
     CDPostBid,
-    CFASelectionBid,
-    CFASelectionPatchBid,
-    CFASelectionPatchQualificationBid,
-    CFASelectionPostBid,
-    ESCOBid,
-    ESCOPatchBid,
-    ESCOPatchQualificationBid,
-    ESCOPostBid,
-    PatchBid,
-    PatchQualificationBid,
-    PostBid,
 )
-from openprocurement.tender.core.procedure.models.lot import (
-    ARMALot,
-    ARMAPatchLot,
-    ARMAPostLot,
-    CFASelectionLot,
-    CFASelectionPatchLot,
-    CFASelectionPostLot,
-    ESCOLot,
-    ESCOPatchLot,
-    ESCOPostLot,
-    LimitedLot,
-    LimitedPatchLot,
-    LimitedPostLot,
-    Lot,
-    PatchLot,
-    PostLot,
-)
-from openprocurement.tender.core.procedure.models.tender import (
-    ARMAPatchTender,
-    ARMAPostTender,
-    ARMATender,
+from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage1EUPatchTender,
     CDStage1EUPostTender,
     CDStage1EUTender,
@@ -101,38 +72,49 @@ from openprocurement.tender.core.procedure.models.tender import (
     CDStage2UAPatchTender,
     CDStage2UAPostTender,
     CDStage2UATender,
-    CFAPatchTender,
-    CFAPostTender,
-    CFASelectionPatchTender,
-    CFASelectionPostTender,
-    CFASelectionTender,
-    CFATender,
-    ESCOPatchTender,
-    ESCOPostTender,
-    ESCOTender,
+)
+from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
+from openprocurement.tender.core.procedure.models.award import Award, PatchAward, PostAward
+from openprocurement.tender.core.procedure.models.bid import Bid, PatchBid, PatchQualificationBid, PostBid
+from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
+from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
+from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.esco.procedure.models.award import ESCOAward, ESCOPostAward
+from openprocurement.tender.esco.procedure.models.bid import (
+    ESCOBid,
+    ESCOPatchBid,
+    ESCOPatchQualificationBid,
+    ESCOPostBid,
+)
+from openprocurement.tender.esco.procedure.models.lot import ESCOLot, ESCOPatchLot, ESCOPostLot
+from openprocurement.tender.esco.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.limited.procedure.models.award import (
+    LimitedAward,
+    LimitedPatchAward,
+    LimitedPostAward,
+    ReportingAward,
+    ReportingPatchAward,
+    ReportingPostAward,
+)
+from openprocurement.tender.limited.procedure.models.lot import LimitedLot, LimitedPatchLot, LimitedPostLot
+from openprocurement.tender.limited.procedure.models.tender import (
     NegotiationPatchTender,
     NegotiationPostTender,
     NegotiationQuickPatchTender,
     NegotiationQuickPostTender,
     NegotiationQuickTender,
     NegotiationTender,
-    PatchTender,
-    PostTender,
-    PQPatchTender,
-    PQPostTender,
-    PQTender,
     ReportingPatchTender,
     ReportingPostTender,
     ReportingTender,
-    Tender,
 )
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
 from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
 from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.pricequotation.procedure.models.tender import PQPatchTender, PQPostTender, PQTender
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 

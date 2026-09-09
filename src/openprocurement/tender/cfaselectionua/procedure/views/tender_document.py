@@ -12,11 +12,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.state.tender_document import (
     CFASelectionTenderDocumentState,
 )
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses,

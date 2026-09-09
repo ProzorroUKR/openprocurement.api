@@ -11,10 +11,10 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
+from openprocurement.tender.competitivedialogue.procedure.models.award import CDAward, CDPatchAward, CDPostAward
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.award import (
     CDStage2AwardState,
 )
-from openprocurement.tender.core.procedure.models.award import CDAward, CDPatchAward, CDPostAward
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_create_award_not_in_allowed_period,

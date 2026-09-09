@@ -18,10 +18,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement import (
     CDRequirementState,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    PostRequirement,
-    Requirement,
-)
+from openprocurement.tender.core.procedure.models.criterion import PostRequirement, Requirement
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
 )

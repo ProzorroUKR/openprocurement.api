@@ -11,9 +11,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_draft_complaint,
     test_tender_below_supplier,
 )
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneCode,
-)
+from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
 from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
 from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses

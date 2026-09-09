@@ -4,9 +4,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.complaint import (
-    PostQualificationComplaint,
-)
+from openprocurement.tender.core.procedure.models.complaint import PostQualificationComplaint
 from openprocurement.tender.core.procedure.serializers.complaint import (
     TenderComplaintSerializer,
 )

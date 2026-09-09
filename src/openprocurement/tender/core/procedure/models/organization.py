@@ -3,7 +3,6 @@ from uuid import uuid4
 from schematics.types import MD5Type, StringType
 
 from openprocurement.api.procedure.models.address import Address
-from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.organization import (
     ORGANIZATION_SCALE_CHOICES,
     PROCURING_ENTITY_KIND_CHOICES,
@@ -60,28 +59,3 @@ class ProcuringEntity(Organization):
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
     contract_owner = StringType()
-
-
-# --- CFA selection: agreement contract suppliers (scale is optional) ---
-
-
-class CFASelectionBusinessOrganization(BaseOrganization):
-    scale = StringType(choices=ORGANIZATION_SCALE_CHOICES)
-    address = ModelType(Address, required=True)
-
-
-# --- priceQuotation ---
-
-
-class PQShortlistedFirm(BaseBusinessOrganization):
-    id = StringType()
-    status = StringType()
-
-
-# --- limited (reporting) ---
-
-
-class ReportingFundOrganization(BaseOrganization):
-    identifier = ModelType(Identifier)  # not required
-    address = ModelType(Address)  # not required
-    contactPoint = ModelType(ContactPoint)  # not required

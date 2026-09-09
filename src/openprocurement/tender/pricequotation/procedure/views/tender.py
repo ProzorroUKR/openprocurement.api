@@ -11,7 +11,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.tender import PQPatchTender, PQPostTender, PQTender
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_guarantee,
@@ -19,6 +18,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.pricequotation.procedure.models.tender import PQPatchTender, PQPostTender, PQTender
 from openprocurement.tender.pricequotation.procedure.state.tender_details import (
     TenderDetailsState,
 )

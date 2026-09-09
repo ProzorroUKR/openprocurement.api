@@ -17,17 +17,17 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_DEFAULT_CONFIG,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
-)
-from openprocurement.tender.core.procedure.models.tender import (
+from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage2EUPatchTender,
     CDStage2EUPostTender,
     CDStage2EUTender,
     CDStage2UAPatchTender,
     CDStage2UAPostTender,
     CDStage2UATender,
+)
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
+    CDEUStage2TenderDetailsState,
+    CDUAStage2TenderDetailsState,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,

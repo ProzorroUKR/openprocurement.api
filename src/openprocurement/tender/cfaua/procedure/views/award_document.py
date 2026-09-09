@@ -13,11 +13,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.state.award_document import (
     CFAUAAwardDocumentState,
 )
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.validation import (
     validate_award_document_author,
     validate_award_document_lot_not_in_allowed_status,

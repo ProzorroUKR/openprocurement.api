@@ -12,10 +12,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.tender import (
-    PostTender,
-    Tender,
-)
+from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 from openprocurement.tender.core.procedure.validation import (
     validate_item_quantity,
     validate_tender_guarantee,

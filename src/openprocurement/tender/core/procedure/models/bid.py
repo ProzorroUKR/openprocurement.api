@@ -14,30 +14,17 @@ from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.models.base import BaseBid
 from openprocurement.tender.core.procedure.models.document import (
-    CDBidDocument,
-    CDBidPostDocument,
     Document,
     PostDocument,
 )
 from openprocurement.tender.core.procedure.models.item import LocalizationItem
 from openprocurement.tender.core.procedure.models.lot_value import (
-    ARMALotValue,
-    ARMAPatchLotValue,
-    ARMAPostLotValue,
-    CDLotValue,
-    CDPatchLotValue,
-    CDPostLotValue,
-    ESCOLotValue,
-    ESCOPatchLotValue,
-    ESCOPostLotValue,
     LotValue,
     PatchLotValue,
     PostLotValue,
 )
 from openprocurement.tender.core.procedure.models.organization import Supplier
 from openprocurement.tender.core.procedure.models.parameter import (
-    CFASelectionParameter,
-    CFASelectionPatchParameter,
     Parameter,
     PatchParameter,
 )
@@ -46,10 +33,6 @@ from openprocurement.tender.core.procedure.models.req_response import (
     PatchObjResponsesMixin,
 )
 from openprocurement.tender.core.procedure.models.value import (
-    AmountPercentageWeightedValue,
-    ESCODynamicValue,
-    ESCOPatchValue,
-    ESCOWeightedValue,
     WeightedValue,
 )
 from openprocurement.tender.core.procedure.utils import tender_created_after
@@ -223,125 +206,3 @@ def filter_administrator_bid_update(request, data):
     if request.authenticated_role == "Administrator":
         data = {k: v for k, v in data.items() if not Administrator_bid_role(k, v)}
     return data
-
-
-# --- ESCO ---
-
-
-class ESCOBidMixin(Model):
-    value = ModelType(ESCODynamicValue)
-    weightedValue = ModelType(ESCOWeightedValue)
-    lotValues = ListType(ModelType(ESCOLotValue, required=True))
-    selfQualified = BooleanType(required=False)
-    selfEligible = BooleanType(required=False)
-
-    def validate_value(self, data, value):
-        tender = get_tender()
-        if tender.get("lots"):
-            if value:
-                raise ValidationError("value should be posted for each lot of bid")
-        else:
-            if not value:
-                raise ValidationError("This field is required.")
-            if tender["minValue"].get("currency") != value.get("currency"):
-                raise ValidationError("currency of bid should be identical to currency of minValue of tender")
-            if tender["minValue"].get("valueAddedTaxIncluded") != value.get("valueAddedTaxIncluded"):
-                raise ValidationError(
-                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of minValue of tender"
-                )
-
-
-class ESCOPatchBid(ESCOBidMixin, PatchBid):
-    value = ModelType(ESCOPatchValue)
-    lotValues = ListType(ModelType(ESCOPatchLotValue, required=True))
-
-    def validate_value(self, data, value):
-        return  # will be validated at Bid model
-
-
-class ESCOPatchQualificationBid(ESCOPatchBid):
-    lotValues = ListType(ModelType(ESCOLotValue, required=True))
-
-
-class ESCOPostBid(ESCOBidMixin, PostBid):
-    lotValues = ListType(ModelType(ESCOPostLotValue, required=True))
-
-
-class ESCOBid(ESCOBidMixin, Bid):
-    pass
-
-
-# --- ARMA (percentage values) ---
-
-
-class ARMAPatchBid(PatchBid):
-    lotValues = ListType(ModelType(ARMAPatchLotValue, required=True))
-
-
-class ARMAPatchQualificationBid(ARMAPatchBid):
-    lotValues = ListType(ModelType(ARMALotValue, required=True))
-
-
-class ARMAPostBid(PostBid):
-    lotValues = ListType(ModelType(ARMAPostLotValue, required=True))
-
-
-class ARMABid(Bid):
-    lotValues = ListType(ModelType(ARMALotValue, required=True))
-    weightedValue = ModelType(AmountPercentageWeightedValue)
-
-
-# --- CFA selection: decimal parameters ---
-
-
-class CFASelectionPatchBid(PatchBid):
-    parameters = ListType(ModelType(CFASelectionPatchParameter, required=True), validators=[validate_uniq_code])
-
-
-class CFASelectionPatchQualificationBid(PatchQualificationBid):
-    parameters = ListType(ModelType(CFASelectionPatchParameter, required=True), validators=[validate_uniq_code])
-
-
-class CFASelectionPostBid(PostBid):
-    parameters = ListType(ModelType(CFASelectionParameter, required=True), validators=[validate_uniq_code])
-
-
-class CFASelectionBid(Bid):
-    parameters = ListType(ModelType(CFASelectionParameter, required=True), validators=[validate_uniq_code])
-
-
-# --- competitiveDialogue (stage 1): bids without value, lot values without value, decision documents ---
-
-
-class CDPatchBid(PatchBid):
-    lotValues = ListType(ModelType(CDPatchLotValue, required=True))
-
-
-class CDPatchQualificationBid(CDPatchBid):
-    lotValues = ListType(ModelType(CDLotValue, required=True))
-
-
-class CDPostBid(PostBid):
-    lotValues = ListType(ModelType(CDPostLotValue, required=True))
-    documents = ListType(ModelType(CDBidPostDocument, required=True))
-    financialDocuments = ListType(ModelType(CDBidPostDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(CDBidPostDocument, required=True))
-    qualificationDocuments = ListType(ModelType(CDBidPostDocument, required=True))
-
-    def validate_value(self, data, value):
-        pass  # stage 1 bids have no value
-
-    def validate_parameters(self, data, parameters):
-        pass  # stage 1 bids have no parameters
-
-
-class CDBid(Bid):
-    lotValues = ListType(ModelType(CDLotValue, required=True))
-
-    def validate_parameters(self, data, parameters):
-        pass  # stage 1 bids have no parameters
-
-    documents = ListType(ModelType(CDBidDocument, required=True))
-    financialDocuments = ListType(ModelType(CDBidDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(CDBidDocument, required=True))
-    qualificationDocuments = ListType(ModelType(CDBidDocument, required=True))

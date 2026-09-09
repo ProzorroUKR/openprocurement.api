@@ -13,10 +13,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, get_now, json_view
-from openprocurement.tender.core.procedure.models.criterion import (
-    PostRequirement,
-    Requirement,
-)
+from openprocurement.tender.core.procedure.models.criterion import PostRequirement, Requirement
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement import (
     PutCancelledRequirementSerializer,
     RequirementSerializer,

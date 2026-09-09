@@ -10,10 +10,8 @@ from openprocurement.api.procedure.types import (
     IsoDateTimeType,
     ListType,
     ModelType,
-    StringDecimalType,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.value import ESCOContractDuration
 
 
 # set urls
@@ -306,39 +304,3 @@ class DecimalBidLotResult(BidLotResult):
 
 class DecimalAuctionLotResults(AuctionLotResults):
     bids = ListType(ModelType(DecimalBidLotResult, required=True), required=True)
-
-
-# --- ESCO auction results ---
-
-
-class ESCOValueResult(Model):
-    amount = StringDecimalType(min_value=0)  # this one is going to be
-    yearlyPaymentsPercentage = StringDecimalType(min_value=0)
-    contractDuration = ModelType(ESCOContractDuration)
-
-
-class ESCOBidResult(Model):
-    id = MD5Type()
-    value = ModelType(ESCOValueResult)
-    weightedValue = ModelType(DecimalWeightedValueResult)
-    date = IsoDateTimeType()
-
-
-class ESCOAuctionResults(AuctionResults):
-    bids = ListType(ModelType(ESCOBidResult, required=True))
-
-
-class ESCOLotResult(Model):
-    relatedLot = MD5Type()
-    value = ModelType(ESCOValueResult)
-    weightedValue = ModelType(DecimalWeightedValueResult)
-    date = IsoDateTimeType()
-
-
-class ESCOBidLotResult(Model):
-    id = MD5Type()
-    lotValues = ListType(ModelType(ESCOLotResult, required=True))
-
-
-class ESCOAuctionLotResults(AuctionLotResults):
-    bids = ListType(ModelType(ESCOBidLotResult, required=True), required=True)

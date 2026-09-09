@@ -27,6 +27,9 @@ from openprocurement.tender.cfaselectionua.constants import (
     MINIMAL_STEP_PERCENTAGE,
     WORKING_DAYS_CONFIG,
 )
+from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
+    CFASelectionPatchAgreement as PatchAgreement,
+)
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
@@ -43,9 +46,6 @@ from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LOWEST_COST,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.agreement import (
-    CFASelectionPatchAgreement as PatchAgreement,
-)
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )

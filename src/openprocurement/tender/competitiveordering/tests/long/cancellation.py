@@ -75,7 +75,7 @@ class TenderAwardsCancellationResourceTestMixin:
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderCancellationResourceTest(
@@ -105,7 +105,7 @@ class TenderLotsCancellationResourceTest(BaseTenderCOLongContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderAwardsCancellationResourceTest(BaseTenderCOLongContentWebTest, TenderAwardsCancellationResourceTestMixin):
@@ -118,7 +118,7 @@ class TenderAwardsCancellationResourceTest(BaseTenderCOLongContentWebTest, Tende
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderLotsCancellationQualificationResourceTest(BaseTenderCOLongContentWebTest):
@@ -135,7 +135,7 @@ class TenderLotsCancellationQualificationResourceTest(BaseTenderCOLongContentWeb
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderCancellationComplaintResourceTest(

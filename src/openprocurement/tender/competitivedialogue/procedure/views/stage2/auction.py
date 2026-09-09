@@ -4,7 +4,7 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.core.procedure.models.award import CDAward
+from openprocurement.tender.competitivedialogue.procedure.models.award import CDAward
 from openprocurement.tender.openeu.procedure.views.auction import (
     EUTenderAuctionResource,
 )

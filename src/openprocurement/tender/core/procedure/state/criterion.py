@@ -8,9 +8,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    validate_criteria_requirement_uniq,
-)
+from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_uniq
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 from openprocurement.tender.core.procedure.validation import (

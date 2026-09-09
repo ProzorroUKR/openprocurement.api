@@ -8,8 +8,12 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.cfaselectionua.procedure.models.lot import (
+    CFASelectionLot,
+    CFASelectionPatchLot,
+    CFASelectionPostLot,
+)
 from openprocurement.tender.cfaselectionua.procedure.state.lot import TenderLotState
-from openprocurement.tender.core.procedure.models.lot import CFASelectionLot, CFASelectionPatchLot, CFASelectionPostLot
 from openprocurement.tender.core.procedure.validation import (
     validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
     validate_delete_lot_related_object,

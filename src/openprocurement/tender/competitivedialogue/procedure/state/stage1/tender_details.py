@@ -6,6 +6,10 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_DEFAULT_CONFIG,
     STAGE_2_UA_DEFAULT_CONFIG,
 )
+from openprocurement.tender.competitivedialogue.procedure.models.tender import (
+    CDStage2EUPostTender,
+    CDStage2UAPostTender,
+)
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
     CDStage1TenderState,
 )
@@ -13,7 +17,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
-from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender, CDStage2UAPostTender
 from openprocurement.tender.core.procedure.utils import (
     prepare_stage2_tender_data,
 )

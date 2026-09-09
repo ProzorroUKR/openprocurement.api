@@ -17,10 +17,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import (
     CDRequirementGroupState,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    PatchRequirementGroup,
-    RequirementGroup,
-)
+from openprocurement.tender.core.procedure.models.criterion import PatchRequirementGroup, RequirementGroup
 from openprocurement.tender.core.procedure.views.criterion_rg import (
     BaseRequirementGroupResource,
 )

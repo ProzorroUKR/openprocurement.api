@@ -6,12 +6,8 @@ from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.models.auction import (
-    DecimalAuctionLotResults as AuctionLotResults,
-)
-from openprocurement.tender.core.procedure.models.auction import (
-    DecimalAuctionResults as AuctionResults,
-)
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults as AuctionLotResults
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionResults as AuctionResults
 from openprocurement.tender.core.procedure.validation import (
     validate_active_lot,
     validate_auction_tender_status,

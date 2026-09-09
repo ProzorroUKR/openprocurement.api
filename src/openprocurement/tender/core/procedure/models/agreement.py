@@ -1,112 +1,16 @@
 from decimal import Decimal
 from uuid import uuid4
 
-from isodate import duration_isoformat
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, IntType, MD5Type, StringType
-from schematics.types.compound import ModelType, PolyModelType
+from schematics.types import MD5Type, StringType
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import DecimalType, IsoDateTimeType, ListType
-from openprocurement.api.utils import get_change_class
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
-from openprocurement.tender.core.procedure.models.agreement_contract import (
-    CFAAgreementContract,
-    CFASelectionAgreementContract,
-)
-from openprocurement.tender.core.procedure.models.feature import (
-    CFAFeature,
-    CFASelectionFeature,
-    validate_related_items,
-)
-from openprocurement.tender.core.procedure.models.item import Item
-from openprocurement.tender.core.procedure.models.milestone import Milestone
-from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.procedure.models.parameter import (
-    validate_cfa_selection_parameter_contracts,
-)
-from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.api.procedure.types import DecimalType, IsoDateTimeType
 
 
 class AgreementUUID(Model):
     id = MD5Type(required=True)
-
-
-# --- CFA (closeFrameworkAgreementUA): agreement created by the tender ---
-
-
-class CFAPatchAgreement(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-    status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"])
-    period = ModelType(Period)
-    dateSigned = IsoDateTimeType()
-    agreementNumber = StringType()
-
-
-class CFAAgreement(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    agreementID = StringType()
-    agreementNumber = StringType()
-    date = IsoDateTimeType()
-    dateSigned = IsoDateTimeType()
-    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(Item, required=True))
-    period = ModelType(Period)
-    status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"], required=True)
-    contracts = ListType(ModelType(CFAAgreementContract, required=True))
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
-
-    documents = BaseType()
-
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
-
-    def validate_dateSigned(self, data, value):
-        if value:
-            award_ids = [c["awardID"] for c in data["contracts"]]
-            award = next(i for i in get_tender().get("awards", []) if i["id"] in award_ids)
-            complaint_period = award.get("complaintPeriod")
-            if (
-                complaint_period
-                and complaint_period.get("endDate")
-                and value <= dt_from_iso(complaint_period["endDate"])
-            ):
-                raise ValidationError(
-                    "Agreement signature date should be after "
-                    f"award complaint period end date ({complaint_period['endDate']})"
-                )
-            if value > get_request_now():
-                raise ValidationError("Agreement signature date can't be in the future")
-
-    def validate_period(self, data, value):
-        if data.get("status") == "active":
-            if not value:
-                raise ValidationError("Period is required for agreement signing.")
-            if not value.startDate or not value.endDate:
-                raise ValidationError("startDate and endDate are required in agreement.period.")
-
-            calculated_end_date = value.startDate + MAX_AGREEMENT_PERIOD
-            if value.endDate > calculated_end_date:
-                raise ValidationError(
-                    f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}."
-                )
 
 
 # --- agreement changes: shared by closeFrameworkAgreementSelectionUA and framework/cfaua ---
@@ -154,17 +58,6 @@ class UnitPriceModification(Model):
     addend = DecimalType(required=False, precision=-2)
 
 
-# --- CFA selection: source agreement (copied from the frameworks agreement) and its changes ---
-
-
-class CFASelectionChangeTaxRate(AgreementChange):
-    rationaleType = StringType(default="taxRate")
-    modifications = ListType(
-        ModelType(UnitPriceModification, required=True),
-        validators=[validate_only_addend_or_only_factor],
-    )
-
-
 def validate_item_price_variation_modifications(modifications):
     for modification in modifications:
         if modification.addend:
@@ -173,26 +66,10 @@ def validate_item_price_variation_modifications(modifications):
             raise ValidationError("Modification factor should be in range 0.9 - 1.1")
 
 
-class CFASelectionChangeItemPriceVariation(AgreementChange):
-    rationaleType = StringType(default="itemPriceVariation")
-    modifications = ListType(
-        ModelType(UnitPriceModification, required=True),
-        validators=[validate_item_price_variation_modifications],
-    )
-
-
 def validate_third_party_modifications(modifications):
     for modification in modifications:
         if modification.addend:
             raise ValidationError("Only factor is allowed for thirdParty type of change")
-
-
-class CFASelectionChangeThirdParty(AgreementChange):
-    rationaleType = StringType(default="thirdParty")
-    modifications = ListType(
-        ModelType(UnitPriceModification, required=True),
-        validators=[validate_third_party_modifications],
-    )
 
 
 def validate_cfa_selection_modifications_contracts_uniq(contracts, changes):
@@ -208,61 +85,3 @@ def validate_cfa_selection_modifications_contracts_uniq(contracts, changes):
 class ContractModification(Model):
     itemId = StringType()
     contractId = StringType(required=True)
-
-
-class CFASelectionChangePartyWithdrawal(AgreementChange):
-    rationaleType = StringType(default="partyWithdrawal")
-    modifications = ListType(
-        ModelType(ContractModification, required=True),
-    )
-
-
-class CFASelectionPatchAgreement(Model):
-    id = MD5Type()
-    agreementID = StringType()
-    agreementNumber = StringType()
-    date = IsoDateTimeType()
-    dateSigned = IsoDateTimeType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    features = ListType(ModelType(CFASelectionFeature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(Item, required=True))
-    period = ModelType(Period)
-    status = StringType(choices=["pending", "active", "cancelled", "terminated"])
-    contracts = ListType(ModelType(CFASelectionAgreementContract, required=True))
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
-
-    terminationDetails = StringType()
-    tender_id = MD5Type()
-    dateModified = IsoDateTimeType()
-    mode = StringType(choices=["test"])
-    numberOfContracts = IntType()
-    owner = StringType()
-    procuringEntity = ModelType(ProcuringEntity)
-    changes = ListType(
-        PolyModelType(
-            (
-                CFASelectionChangeTaxRate,
-                CFASelectionChangeItemPriceVariation,
-                CFASelectionChangePartyWithdrawal,
-                CFASelectionChangeThirdParty,
-            ),
-            claim_function=get_change_class,
-        ),
-    )
-
-    def validate_changes(self, data, changes):
-        validate_cfa_selection_modifications_items_uniq(data.get("items"), changes)
-        validate_cfa_selection_modifications_contracts_uniq(data.get("contracts"), changes)
-
-    def validate_contracts(self, data, contracts):
-        validate_cfa_selection_parameter_contracts(data.get("features"), contracts)
-
-
-class CFASelectionAgreement(CFASelectionPatchAgreement):
-    id = MD5Type(required=True)
-    documents = BaseType()

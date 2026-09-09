@@ -8,7 +8,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.lot import LimitedLot, LimitedPatchLot, LimitedPostLot
 from openprocurement.tender.core.procedure.validation import (
     validate_delete_lot_related_object,
     validate_limited_lot_operation_in_disallowed_tender_statuses,
@@ -16,6 +15,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
+from openprocurement.tender.limited.procedure.models.lot import LimitedLot, LimitedPatchLot, LimitedPostLot
 from openprocurement.tender.limited.procedure.state.lot import NegotiationLotState
 
 

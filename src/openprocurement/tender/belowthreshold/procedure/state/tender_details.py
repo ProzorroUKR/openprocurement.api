@@ -6,10 +6,7 @@ from openprocurement.tender.belowthreshold.constants import (
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     BelowThresholdTenderState,
 )
-from openprocurement.tender.core.procedure.models.tender import (
-    PatchActiveTender,
-    PatchDraftTender,
-)
+from openprocurement.tender.core.procedure.models.tender import PatchActiveTender, PatchDraftTender
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )

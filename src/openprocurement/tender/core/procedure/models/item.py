@@ -106,15 +106,3 @@ def validate_classification_id(items, *args):
 
 class LocalizationItem(BaseItem):
     product = StringType()
-
-
-# --- competitiveDialogue: CPV scheme is not restricted to ДК021 ---
-
-
-class CDCPVClassification(CPVClassification):
-    def validate_scheme(self, data, scheme):
-        pass
-
-
-class CDItem(Item):
-    classification = ModelType(CDCPVClassification, required=True)

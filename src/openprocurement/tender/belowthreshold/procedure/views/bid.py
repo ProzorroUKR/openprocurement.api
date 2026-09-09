@@ -16,11 +16,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.state.bid import (
     BelowThresholdBidState,
 )
-from openprocurement.tender.core.procedure.models.bid import (
-    Bid,
-    PostBid,
-    filter_administrator_bid_update,
-)
+from openprocurement.tender.core.procedure.models.bid import Bid, PostBid, filter_administrator_bid_update
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,

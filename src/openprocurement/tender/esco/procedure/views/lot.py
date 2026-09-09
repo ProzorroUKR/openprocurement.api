@@ -7,12 +7,12 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.lot import ESCOLot, ESCOPatchLot, ESCOPostLot
 from openprocurement.tender.core.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
+from openprocurement.tender.esco.procedure.models.lot import ESCOLot, ESCOPatchLot, ESCOPostLot
 from openprocurement.tender.esco.procedure.state.lot import TenderLotState
 
 

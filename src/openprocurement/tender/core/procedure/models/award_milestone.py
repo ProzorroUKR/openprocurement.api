@@ -47,29 +47,3 @@ class AwardMilestone(QualificationMilestone):
 
 class AwardMilestoneListMixin(QualificationMilestoneListMixin):
     milestones = ListType(ModelType(AwardMilestone, required=True))
-
-
-# --- ARMA: no extensionPeriod milestones ---
-
-
-class ARMAPostAwardMilestone(PostAwardMilestone):
-    code = StringType(
-        required=True,
-        choices=[
-            AwardMilestoneCode.CODE_24_HOURS.value,
-        ],
-    )
-
-
-class ARMAAwardMilestone(AwardMilestone):
-    code = StringType(
-        required=True,
-        choices=[
-            AwardMilestoneCode.CODE_24_HOURS.value,
-            AwardMilestoneCode.CODE_LOW_PRICE.value,
-        ],
-    )
-
-
-class ARMAAwardMilestoneListMixin(AwardMilestoneListMixin):
-    milestones = ListType(ModelType(ARMAAwardMilestone, required=True))

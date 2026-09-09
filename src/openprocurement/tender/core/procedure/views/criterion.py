@@ -12,10 +12,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import (
-    Criterion,
-    PatchCriterion,
-)
+from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.core.procedure.serializers.criterion import (
     CriterionSerializer,
 )

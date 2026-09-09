@@ -38,9 +38,6 @@ msgstr ""
 msgid "aboveThreshold"
 msgstr ""
 
-msgid "7 / 15"
-msgstr ""
-
 msgid "15"
 msgstr ""
 

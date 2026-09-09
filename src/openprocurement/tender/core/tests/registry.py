@@ -28,7 +28,13 @@ def test_registry_models_are_core_models():
             model = getattr(models, field)
             if model is not None:
                 assert issubclass(model, Model), (pmt, field)
-                assert model.__module__.startswith("openprocurement.tender.core.procedure.models."), (pmt, field)
+                # generic models live in core, procedure-specific ones in the procedure package
+                assert (
+                    model.__module__.startswith("openprocurement.tender.") and ".procedure.models." in model.__module__
+                ), (
+                    pmt,
+                    field,
+                )
         assert models.tender is not None and models.tender_post is not None and models.tender_patch is not None
 
 

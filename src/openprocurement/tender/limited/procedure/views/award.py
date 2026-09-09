@@ -8,14 +8,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.award import (
-    LimitedAward,
-    LimitedPatchAward,
-    LimitedPostAward,
-    ReportingAward,
-    ReportingPatchAward,
-    ReportingPostAward,
-)
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_limited_award_operation_not_in_active_status,
@@ -25,6 +17,14 @@ from openprocurement.tender.core.procedure.validation import (
     validate_limited_lot_cancellation,
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
+from openprocurement.tender.limited.procedure.models.award import (
+    LimitedAward,
+    LimitedPatchAward,
+    LimitedPostAward,
+    ReportingAward,
+    ReportingPatchAward,
+    ReportingPostAward,
+)
 from openprocurement.tender.limited.procedure.state.award import (
     NegotiationAwardState,
     NegotiationQuickAwardState,

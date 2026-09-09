@@ -7,9 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.tender.core.procedure.models.complaint_post import (
-    CreateComplaintPost,
-)
+from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost
 from openprocurement.tender.core.procedure.serializers.complaint_post import (
     ComplaintPostSerializer,
 )

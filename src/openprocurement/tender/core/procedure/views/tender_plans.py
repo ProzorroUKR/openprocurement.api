@@ -12,10 +12,7 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import error_handler, handle_data_exceptions, json_view
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.utils import save_plan
-from openprocurement.tender.core.procedure.models.tender_base import (
-    PlanRelation,
-    validate_plans,
-)
+from openprocurement.tender.core.procedure.models.tender_base import PlanRelation, validate_plans
 from openprocurement.tender.core.procedure.serializers.plan import PlanSerializer
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource

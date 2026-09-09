@@ -15,9 +15,7 @@ from openprocurement.framework.cfaua.procedure.validation import (
     validate_modifications_contracts_uniq,
     validate_modifications_items_uniq,
 )
-from openprocurement.tender.core.procedure.models.agreement import (
-    AgreementChange as Change,
-)
+from openprocurement.tender.core.procedure.models.agreement import AgreementChange as Change
 from openprocurement.tender.core.procedure.models.agreement import (
     ContractModification,
     UnitPriceModification,

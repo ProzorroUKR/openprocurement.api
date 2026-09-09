@@ -2,12 +2,8 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.auction import (
-    DecimalAuctionLotResults as AuctionLotResults,
-)
-from openprocurement.tender.core.procedure.models.auction import (
-    DecimalAuctionResults as AuctionResults,
-)
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults as AuctionLotResults
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionResults as AuctionResults
 from openprocurement.tender.core.procedure.validation import (
     validate_active_lot,
     validate_auction_tender_status,

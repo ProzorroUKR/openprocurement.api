@@ -15,11 +15,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.bid import (
-    Bid,
-    PostBid,
-    filter_administrator_bid_update,
-)
+from openprocurement.tender.core.procedure.models.bid import Bid, PostBid, filter_administrator_bid_update
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )

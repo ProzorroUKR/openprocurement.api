@@ -12,9 +12,7 @@ from openprocurement.api.procedure.models.document import (
     PostConfidentialDocumentMixin,
 )
 from openprocurement.api.procedure.types import HashType
-from openprocurement.tender.core.procedure.models.document import (
-    BaseDocument as BaseTenderDocument,
-)
+from openprocurement.tender.core.procedure.models.document import BaseDocument as BaseTenderDocument
 
 DOCUMENT_OFS = (
     "tender",

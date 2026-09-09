@@ -14,12 +14,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.models.bid import CDBid, CDPostBid
 from openprocurement.tender.competitivedialogue.procedure.state.bid import CDBidState
-from openprocurement.tender.core.procedure.models.bid import (
-    CDBid,
-    CDPostBid,
-    filter_administrator_bid_update,
-)
+from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,

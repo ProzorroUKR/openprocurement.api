@@ -1,8 +1,5 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.tender.core.procedure.models.tender import (
-    PatchActiveTender,
-    PatchDraftTender,
-)
+from openprocurement.tender.core.procedure.models.tender import PatchActiveTender, PatchDraftTender
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )

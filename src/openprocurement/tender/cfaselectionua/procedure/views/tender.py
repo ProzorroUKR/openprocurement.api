@@ -15,13 +15,13 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
-    CFASelectionTenderDetailsState,
-)
-from openprocurement.tender.core.procedure.models.tender import (
+from openprocurement.tender.cfaselectionua.procedure.models.tender import (
     CFASelectionPatchTender,
     CFASelectionPostTender,
     CFASelectionTender,
+)
+from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
+    CFASelectionTenderDetailsState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (

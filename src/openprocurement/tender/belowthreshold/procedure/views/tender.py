@@ -16,10 +16,7 @@ from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.belowthreshold.procedure.state.tender_details import (
     BelowThresholdTenderDetailsState,
 )
-from openprocurement.tender.core.procedure.models.tender import (
-    PostTender,
-    Tender,
-)
+from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 from openprocurement.tender.core.procedure.validation import (
     validate_bt_tender_status_allows_update_operation,
     validate_item_quantity,

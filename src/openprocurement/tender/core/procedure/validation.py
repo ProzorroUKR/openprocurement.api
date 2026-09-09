@@ -607,9 +607,7 @@ def validate_update_award_with_accepted_complaint(request, **_):
 
 def validate_update_award_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
-    from openprocurement.tender.core.procedure.models.qualification_milestone import (
-        QualificationMilestoneCode,
-    )
+    from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
 
     award = request.validated["award"]
     sent_status = request.json.get("data", {}).get("status")
@@ -883,9 +881,7 @@ def validate_update_qualification_only_for_active_lots(request, **_):
 
 def validate_update_status_before_milestone_due_date(request, **_):
     # pylint: disable-next=import-outside-toplevel, cyclic-import
-    from openprocurement.tender.core.procedure.models.qualification_milestone import (
-        QualificationMilestoneCode,
-    )
+    from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
 
     qualification = request.validated["qualification"]
     sent_status = request.validated["data"].get("status")

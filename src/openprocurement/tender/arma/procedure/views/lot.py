@@ -9,8 +9,8 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
+from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchLot, ARMAPostLot
 from openprocurement.tender.arma.procedure.state.lot import LotState
-from openprocurement.tender.core.procedure.models.lot import ARMALot, ARMAPatchLot, ARMAPostLot
 from openprocurement.tender.core.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
     validate_operation_with_lot_cancellation_in_pending,

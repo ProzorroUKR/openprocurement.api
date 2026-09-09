@@ -119,9 +119,6 @@ msgstr ""
 msgid "minTenderingDuration"
 msgstr ""
 
-msgid "7 / 15"
-msgstr ""
-
 msgid "15"
 msgstr ""
 
@@ -472,7 +469,3 @@ msgstr "Activating the request and cancelling tender"
 
 msgid "якщо період оскарження(триває 4 дня) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично змінює статус на `active`."
 msgstr "if the complaint period(duration 4 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
-
-#~ msgid "7 / 15"
-#~ msgstr ""
-
