@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/22538da636d84b5b88ad4598942e3823?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+PATCH /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/ac36ebb2d3094f5193d5231d0823607d?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,11 +12,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/7467244beb734dc286a5428eaf4609b5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/819ce9265d72420da42a87c17a6b443e
 
 {
   "data": {
-    "id": "22538da636d84b5b88ad4598942e3823",
+    "id": "ac36ebb2d3094f5193d5231d0823607d",
     "status": "cancelled",
     "date": "2027-01-01T00:00:03+02:00",
     "value": {
@@ -94,7 +94,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
             "id": "16ae02dd50d040a182311ed7fd350743",
             "title": "My objection",
             "description": "Test objection",
-            "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+            "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",
@@ -164,7 +164,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
             "title": "My objection",
             "description": "Test objection",
             "relatesTo": "award",
-            "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+            "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
             "classification": {
               "scheme": "violation_amcu",
               "id": "corruptionDescription",

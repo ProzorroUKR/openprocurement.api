@@ -521,7 +521,7 @@ Content-Type: application/json
         "qualified": true
       },
       {
-        "id": "2c31244c27874e13b5e97bdab8a6b7e0",
+        "id": "f5f22244d7374cd4be8731a9cdbf169d",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
@@ -560,7 +560,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "78fd8d7877d74b0dbc9c605462545e1c",
+        "id": "5e1ed225fd3b411c9e51121f2767710f",
         "status": "active",
         "awardID": "765d1e83c038413ab7717ec5e820fdfd",
         "date": "2027-01-01T00:00:00+02:00",

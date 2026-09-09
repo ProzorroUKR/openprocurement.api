@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b HTTP/1.0
+GET /api/2.5/tenders/f9e019b40b95441aabee180825c4542d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -2036,7 +2036,7 @@ Content-Type: application/json
           "startDate": "2027-01-04T15:28:52.219000+02:00",
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/cbf8a18d016440eda7c093c080506a8b_70e731cb683c49cf8d82920b84b981f2"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f9e019b40b95441aabee180825c4542d_70e731cb683c49cf8d82920b84b981f2"
       }
     ],
     "procurementMethodType": "competitiveDialogueEU.stage2",
@@ -2122,7 +2122,7 @@ Content-Type: application/json
     ],
     "next_check": "2027-01-04T15:28:52.219000+02:00",
     "auctionPeriod": {},
-    "id": "cbf8a18d016440eda7c093c080506a8b"
+    "id": "f9e019b40b95441aabee180825c4542d"
   },
   "config": {
     "hasAuction": true,

@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/a0a23a4028a6428fa088098d0d137d71/signatories?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+POST /api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/changes/a0a23a4028a6428fa088098d0d137d71/signatories?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

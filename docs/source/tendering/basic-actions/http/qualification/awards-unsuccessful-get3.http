@@ -18,7 +18,7 @@ Content-Type: application/json
           "code": "extensionPeriod"
         }
       ],
-      "id": "8850d78aa8a94c148d6d245907f40d3e",
+      "id": "39973d49982f4ce5a74ef255a4390f3d",
       "status": "unsuccessful",
       "date": "2027-01-01T00:00:00+02:00",
       "value": {
@@ -145,7 +145,7 @@ Content-Type: application/json
               "id": "e8448e321b6d492a81d9c65bb75e14ff",
               "title": "My objection",
               "description": "Test objection",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -181,7 +181,7 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "b2df0a3f487a401987b1cdf1170a93be",
+      "id": "58a3e3d684d84a899541a00d032ad46b",
       "status": "cancelled",
       "date": "2027-01-01T00:00:03+02:00",
       "value": {
@@ -294,7 +294,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -366,7 +366,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -434,7 +434,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -504,7 +504,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -575,7 +575,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -721,7 +721,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -886,7 +886,7 @@ Content-Type: application/json
       "eligible": true
     },
     {
-      "id": "22538da636d84b5b88ad4598942e3823",
+      "id": "ac36ebb2d3094f5193d5231d0823607d",
       "status": "cancelled",
       "date": "2027-01-01T00:00:03+02:00",
       "value": {
@@ -964,7 +964,7 @@ Content-Type: application/json
               "id": "16ae02dd50d040a182311ed7fd350743",
               "title": "My objection",
               "description": "Test objection",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -1034,7 +1034,7 @@ Content-Type: application/json
               "title": "My objection",
               "description": "Test objection",
               "relatesTo": "award",
-              "relatedItem": "8850d78aa8a94c148d6d245907f40d3e",
+              "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
               "classification": {
                 "scheme": "violation_amcu",
                 "id": "corruptionDescription",
@@ -1087,7 +1087,7 @@ Content-Type: application/json
       "eligible": true
     },
     {
-      "id": "7467244beb734dc286a5428eaf4609b5",
+      "id": "819ce9265d72420da42a87c17a6b443e",
       "status": "cancelled",
       "date": "2027-01-01T00:00:03+02:00",
       "value": {
@@ -1170,7 +1170,7 @@ Content-Type: application/json
       "eligible": false
     },
     {
-      "id": "bc6fb19320f74b098ce8da8fc9b38e9b",
+      "id": "07385d94fdfe40f0a0d7dfcdca43fa0d",
       "status": "cancelled",
       "date": "2027-01-01T00:00:03+02:00",
       "value": {
@@ -1278,7 +1278,7 @@ Content-Type: application/json
       "eligible": false
     },
     {
-      "id": "44f46cbfd0514a05ae2319491d4f5623",
+      "id": "dcc28021f3fd428ab5ec77084fb623b1",
       "status": "pending",
       "date": "2027-01-01T00:00:03+02:00",
       "value": {

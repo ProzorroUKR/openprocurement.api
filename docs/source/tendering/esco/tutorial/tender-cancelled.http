@@ -2341,7 +2341,7 @@ Content-Type: application/json
     },
     "awards": [
       {
-        "id": "a082a2bddc5e43e098b8f1e881391478",
+        "id": "b7422f750ce54915b9125b00bb5ec347",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
         "suppliers": [
@@ -2444,7 +2444,7 @@ Content-Type: application/json
       {
         "id": "d20db73a8ebd4993bf605fd8cbedc128",
         "status": "cancelled",
-        "awardID": "a082a2bddc5e43e098b8f1e881391478",
+        "awardID": "b7422f750ce54915b9125b00bb5ec347",
         "date": "2027-01-12T00:04:05+02:00",
         "contractID": "UA-2027-01-01-000001-a-a1",
         "title": "Лот №1",
