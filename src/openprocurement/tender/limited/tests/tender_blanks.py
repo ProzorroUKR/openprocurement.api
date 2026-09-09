@@ -1919,7 +1919,7 @@ def tender_cause_change_rationale_types_update(self):
 
     update_data = {}
     update_data["causeDetails"] = {
-        "code": "experimentalUnitNext",
+        "code": "experimentalUnitNext0109",
         "scheme": "DECREE1178",
         "description": "test",
     }
@@ -1929,7 +1929,7 @@ def tender_cause_change_rationale_types_update(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["causeDetails"]["code"], "experimentalUnitNext")
+    self.assertEqual(response.json["data"]["causeDetails"]["code"], "experimentalUnitNext0109")
     self.assertEqual(response.json["data"]["causeDetails"]["scheme"], "DECREE1178")
 
     rationale_types = response.json["data"]["contractChangeRationaleTypes"]
