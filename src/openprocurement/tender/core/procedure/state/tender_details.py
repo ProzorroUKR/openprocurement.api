@@ -312,6 +312,26 @@ class BaseTenderDetailsMixing:
     tender_period_extension_check = True
     # CO: a defense procuring entity may use an agreement of another defense procuring entity
     agreement_procuring_entity_match_except_defense = False
+    # arma: no tender.value / tender.minimalStep (value, minimal step and their limits are not validated)
+    tender_has_value = True
+    # lots inherit currency/VAT of the tender value (arma/cfaselectionua: no), minimal step meta (+ negotiation: no),
+    # guarantee currency (negotiation: no)
+    lot_value_meta_from_tender = True
+    lot_minimal_step_meta_from_tender = True
+    lot_guarantee_currency_from_tender = True
+    # esco/cfaua/cfaselectionua/CD stage2/arma: currency/VAT of the tender value are not propagated to items/lots
+    watch_value_meta_changes_enabled = True
+    # esco: minimalStepPercentage/yearlyPaymentsPercentageRange instead of minimalStep
+    minimal_step_fields = ("minimalStep",)
+    minimal_step_required = True  # cfaselectionua: calculated on activation
+    minimal_step_regardless_of_auction = False  # competitiveDialogue: required although stage 1 has no auction
+    lot_minimal_step_check_before = True  # competitiveDialogue stage 1: the lot minimal step is always checked
+    submission_method_required = True  # competitiveDialogue stage 1: optional, no auction dependency
+    all_documents_should_be_public = False  # cfaua/cfaselectionua
+    # cfaua: the allowed tender status transitions (None = the generic rules only)
+    status_up_allowed_transitions: tuple | None = None
+    # competitiveDialogue stage 2: item profile/category are not checked on post
+    item_profile_category_check_on_post = True
 
     def get_patch_data_model(self):
         models = self.tender_patch_models_by_status or {}
@@ -524,6 +544,14 @@ class BaseTenderDetailsMixing:
         validate_econtract_fields_tender(self.request, after)
 
     def status_up(self, before, after, data):
+        if self.status_up_allowed_transitions is not None and (before, after) not in self.status_up_allowed_transitions:
+            raise_operation_error(
+                get_request(),
+                f"Can't update tender to {after} status",
+                status=403,
+                location="body",
+                name="status",
+            )
         if after == "draft" and before != "draft":
             raise_operation_error(
                 get_request(),
@@ -729,14 +757,16 @@ class BaseTenderDetailsMixing:
                 self.validate_lot_minimal_step(lot, before)
                 self.validate_lot_value(tender, lot)
 
-    @staticmethod
-    def set_lot_guarantee(tender: dict, lot: dict) -> None:
+    def set_lot_guarantee(self, tender: dict, lot: dict) -> None:
+        if not self.lot_guarantee_currency_from_tender:
+            return
         if guarantee := lot.get("guarantee"):
             currency = tender["guarantee"]["currency"] if tender.get("guarantee") else guarantee.get("currency")
             lot["guarantee"]["currency"] = currency
 
-    @staticmethod
-    def set_lot_value(tender: dict, lot: dict) -> None:
+    def set_lot_value(self, tender: dict, lot: dict) -> None:
+        if not self.lot_value_meta_from_tender:
+            return
         if tender_value := tender.get("value"):
             lot["value"].update(
                 {
@@ -745,8 +775,9 @@ class BaseTenderDetailsMixing:
                 }
             )
 
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, lot: dict) -> None:
+    def set_lot_minimal_step(self, tender: dict, lot: dict) -> None:
+        if not self.lot_minimal_step_meta_from_tender:
+            return
         if lot.get("minimalStep") and (tender_value := tender.get("value")):
             lot["minimalStep"].update(
                 {
@@ -834,6 +865,8 @@ class BaseTenderDetailsMixing:
         :param minimal_step_amount: Minimal step amount
         :return: None
         """
+        if not self.tender_has_value:  # arma: no minimal step limits
+            return
         tender_created = get_first_revision_date(tender, default=get_request_now())
         if tender_created > MINIMAL_STEP_VALIDATION_FROM:
             precision_multiplier = 10**MINIMAL_STEP_VALIDATION_PRESCISSION
@@ -995,10 +1028,11 @@ class BaseTenderDetailsMixing:
         for lot in tender.get("lots", ""):
             lot["date"] = now
 
-    @staticmethod
-    def watch_value_meta_changes(tender):
+    def watch_value_meta_changes(self, tender):
         # tender currency and valueAddedTaxIncluded must be specified only ONCE
         # instead it's specified in many places but we need keep them the same
+        if not self.watch_value_meta_changes_enabled:
+            return
         value = tender.get("value")
         if not value:
             return
@@ -1276,11 +1310,15 @@ class BaseTenderDetailsMixing:
         :param before: tender
         :return:
         """
+        if not self.tender_has_value:  # arma: no tender.minimalStep
+            return
         tender = get_tender()
-        kwargs = {
-            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
-        }
-        validate_field(data, "minimalStep", **kwargs)
+        has_auction = self.minimal_step_regardless_of_auction or tender["config"]["hasAuction"] is True
+        kwargs = {"enabled": has_auction and not tender.get("lots")}
+        if not self.minimal_step_required:
+            kwargs["required"] = False
+        for field in self.minimal_step_fields:
+            validate_field(data, field, **kwargs)
 
     def validate_lot_minimal_step(self, data, before=None):
         """
@@ -1292,13 +1330,15 @@ class BaseTenderDetailsMixing:
         :return:
         """
         tender = get_tender()
-        # minimalStep is required for CD procedures although stage1 doesn't have auction
-        is_cd_tender = "competitiveDialogue" in tender["procurementMethodType"]
         kwargs = {
-            "before": before,
-            "enabled": is_cd_tender or tender["config"]["hasAuction"] is True,
+            "enabled": self.minimal_step_regardless_of_auction or tender["config"]["hasAuction"] is True,
         }
-        validate_field(data, "minimalStep", **kwargs)
+        if self.lot_minimal_step_check_before:
+            kwargs["before"] = before
+        if not self.minimal_step_required:
+            kwargs["required"] = False
+        for field in self.minimal_step_fields:
+            validate_field(data, field, **kwargs)
 
     def validate_tender_value(self, tender):
         """Validate tender value.
@@ -1308,6 +1348,8 @@ class BaseTenderDetailsMixing:
         :param tender: Tender dictionary
         :return: None
         """
+        if not self.tender_has_value:  # arma
+            return
         has_value_estimation = tender["config"]["hasValueEstimation"]
         tender_value = tender.get("value", {})
         if not tender_value:
@@ -1376,6 +1418,12 @@ class BaseTenderDetailsMixing:
             self.validate_minimal_step_limits(tender, tender_value_amount, tender_min_step_amount)
 
     def validate_submission_method(self, data, before=None):
+        if not self.submission_method_required:  # competitiveDialogue stage 1
+            validate_field(data, "submissionMethod", required=False)
+            validate_field(data, "submissionMethodDetails", required=False)
+            validate_field(data, "submissionMethodDetails_en", required=False)
+            validate_field(data, "submissionMethodDetails_ru", required=False)
+            return
         kwargs = {
             "before": before,
             "enabled": data["config"]["hasAuction"] is True,
@@ -1546,7 +1594,7 @@ class BaseTenderDetailsMixing:
 
     def validate_tender_docs_confidentiality(self, documents):
         for doc in documents:
-            validate_edrpou_confidentiality_doc(doc)
+            validate_edrpou_confidentiality_doc(doc, should_be_public=self.all_documents_should_be_public)
 
     @staticmethod
     def calculate_item_identification_tuple(item):
@@ -1630,6 +1678,8 @@ class BaseTenderDetailsMixing:
             )
 
     def validate_change_item_profile_or_category(self, after: dict, before: dict, force_validate: bool = False) -> None:
+        if not self.item_profile_category_check_on_post and self.request.method == "POST":
+            return
         after_cp = {}
         for item in after.get("items", []):
             after_cp[item["id"]] = {

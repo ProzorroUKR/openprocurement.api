@@ -197,6 +197,8 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 
 
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    lot_guarantee_currency_from_tender = False
+    lot_minimal_step_meta_from_tender = False
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -226,14 +228,6 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
             )
         self.validate_items_related_market_objects(after, before)
         super().on_patch(before, after)
-
-    @staticmethod
-    def set_lot_guarantee(tender: dict, data: dict) -> None:
-        pass
-
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, data: dict) -> None:
-        pass
 
 
 class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):

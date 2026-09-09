@@ -1,11 +1,9 @@
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
-    validate_field,
 )
 from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
 from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
@@ -29,6 +27,8 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG
+    watch_value_meta_changes_enabled = False
+    minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -37,10 +37,6 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
         self.update_periods(data)
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass
 
     def update_periods(self, tender):
         self.update_complaint_period(tender)
@@ -138,38 +134,3 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             "currency": tender["minValue"]["currency"],
             "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
         }
-
-    def validate_minimal_step(self, data, before=None):
-        """
-        minimalStepPercentage and yearlyPaymentsPercentageRange validation.
-        These fields should be required if tender has auction
-
-        :param data: tender or lot
-        :param before: tender or lot
-        :return:
-        """
-        tender = get_tender()
-        kwargs = {
-            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
-        }
-        minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
-        for field in minimal_step_fields:
-            validate_field(data, field, **kwargs)
-
-    def validate_lot_minimal_step(self, data, before=None):
-        """
-        minimalStepPercentage and yearlyPaymentsPercentageRange validation.
-        These fields should be required if tender has auction
-
-        :param data: tender or lot
-        :param before: tender or lot
-        :return:
-        """
-        tender = get_tender()
-        kwargs = {
-            "before": before,
-            "enabled": tender["config"]["hasAuction"] is True,
-        }
-        minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
-        for field in minimal_step_fields:
-            validate_field(data, field, **kwargs)

@@ -50,6 +50,10 @@ class CancellationStateMixing:
     cancellation_complaint_period_check = True
     # open family/CO: a cancellation is refused when all awards/qualifications of the lot are unsuccessful
     cancellation_unsuccessful_items_check = False
+    # negotiation: the tender can't be cancelled while it has a complete lot
+    cancellation_complete_lots_check = False
+    # negotiation: the deprecated (immediate) activation is used when there is no active award
+    cancellation_deprecated_activation_without_active_award = False
 
     def validate_cancellation_post(self, data):
         request, tender = get_request(), get_tender()
@@ -65,6 +69,8 @@ class CancellationStateMixing:
         self.validate_docs(data)
         if self.cancellation_unsuccessful_items_check:
             self.validate_not_only_unsuccessful_awards_or_qualifications(request, tender, data)
+        if self.cancellation_complete_lots_check:
+            self.validate_absence_complete_lots_on_tender_cancel(request, tender, data)
 
     def validate_cancellation_patch(self, before, after):
         request, tender = get_request(), get_tender()
@@ -88,6 +94,18 @@ class CancellationStateMixing:
         self.validate_docs(after)
         if self.cancellation_unsuccessful_items_check:
             self.validate_not_only_unsuccessful_awards_or_qualifications(request, tender, before)
+        if self.cancellation_complete_lots_check:
+            self.validate_absence_complete_lots_on_tender_cancel(request, tender, after)
+
+    @staticmethod
+    def validate_absence_complete_lots_on_tender_cancel(request, tender, cancellation):
+        if tender.get("lots") and not cancellation.get("relatedLot"):
+            for lot in tender.get("lots"):
+                if lot["status"] == "complete":
+                    raise_operation_error(
+                        request,
+                        "Can't perform cancellation, if there is at least one complete lot",
+                    )
 
     @staticmethod
     def validate_not_only_unsuccessful_awards_or_qualifications(request, tender, cancellation):
@@ -336,8 +354,13 @@ class CancellationStateMixing:
         else:
             raise_operation_error(request, f"Can't switch cancellation status from {before} to {after}")
 
-    @staticmethod
-    def use_deprecated_activation(cancellation, tender):
+    def use_deprecated_activation(self, cancellation, tender):
+        if self.cancellation_deprecated_activation_without_active_award:
+            lot_id = cancellation.get("relatedLot")
+            if not any(
+                i["status"] == "active" for i in tender.get("awards", []) if i.get("lotID") == lot_id or lot_id is None
+            ):
+                return True
         return False
 
 

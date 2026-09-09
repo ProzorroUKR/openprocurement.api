@@ -74,6 +74,11 @@ class BidState(BaseState):
     bid_items_quantity_required = True
     # esco / competitiveDialogue: the bid value is validated by the procedure's own bid model, not on patch
     bid_value_validation_on_patch = True
+    # cfaselectionua: the agreement is a full copy inside the tender (tender.agreements[0]) and is checked on patch too
+    bid_agreement_from_tender = False
+    bid_agreement_check_on_patch = False
+    # arma: the agreement contract value is compared by amountPercentage
+    bid_value_amount_field = "amount"
 
     @property
     def check_all_exist_tender_items(self):
@@ -113,6 +118,8 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        if self.bid_agreement_check_on_patch:
+            self.validate_bid_vs_agreement(after)
         self.validate_bid_value_on_patch(after)
         self.validate_self_eligible(after)
         self.validate_requirement_responses_allowed(after)
@@ -487,6 +494,11 @@ class BidState(BaseState):
     def validate_bid_vs_agreement(self, data):
         tender = get_tender()
 
+        if self.bid_agreement_from_tender:
+            # cfaselectionua has agreements full copy in tender.agreements
+            self.validate_bid_with_contract(data, tender["agreements"][0])
+            return
+
         if not tender["config"]["hasPreSelectionAgreement"]:
             return
 
@@ -503,14 +515,15 @@ class BidState(BaseState):
         if not supplier_contract:
             raise_operation_error(self.request, "Bid is not a member of agreement")
 
+        field = self.bid_value_amount_field
         if (
             data.get("lotValues")
             and supplier_contract.get("value")
-            and Decimal(data["lotValues"][0]["value"]["amount"]) > Decimal(supplier_contract["value"]["amount"])
+            and Decimal(data["lotValues"][0]["value"][field]) > Decimal(supplier_contract["value"][field])
         ):
             raise_operation_error(
                 self.request,
-                "Bid value.amount can't be greater than contract value.amount.",
+                f"Bid value.{field} can't be greater than contract value.{field}.",
             )
 
         if data.get("parameters") and agreement.get("frameworkID") is None:  # validate only for CFASelection

@@ -37,20 +37,16 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
 
     working_days_config = WORKING_DAYS_CONFIG
 
+    # ARMA procedure does not have tender.value / tender.minimalStep; lot values are percentages
+    items_classification_prefix_change_check = True
+    tender_has_value = False
+    lot_value_meta_from_tender = False
+    lot_minimal_step_meta_from_tender = False
+    watch_value_meta_changes_enabled = False
+
     def on_patch(self, before, after):
-        self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_min_expected_income(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
-
-    @staticmethod
-    def set_lot_value(tender: dict, lot: dict) -> None:
-        # ARMA procedure does not have tender.value field
-        pass
-
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, lot: dict) -> None:
-        # ARMA procedure does not have tender.minimalStep field
-        pass
 
     def validate_lot_value(self, tender: dict, lot: dict) -> None:
         """Validate lot value.
@@ -110,23 +106,6 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
     @staticmethod
     def get_lots_min_expected_income(tender: dict) -> dict:
         return {lot["id"]: lot.get("minExpectedIncome") for lot in tender.get("lots") or [] if lot.get("id")}
-
-    def validate_minimal_step_limits(self, tender: dict, value_amount: float, minimal_step_amount: float) -> None:
-        # ARMA procedure does not have tender.minimalStep limits
-        pass
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        # ARMA procedure does not have tender.value field
-        pass
-
-    def validate_minimal_step(self, data, before=None):
-        # ARMA procedure does not have tender.minimalStep field
-        pass
-
-    def validate_tender_value(self, tender):
-        # ARMA procedure does not have tender.value field
-        pass
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

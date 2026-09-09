@@ -7,6 +7,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
+from openprocurement.tender.core.procedure.validation import validate_cd_author
 
 
 class TenderQuestionStateMixin:
@@ -15,6 +16,8 @@ class TenderQuestionStateMixin:
     question_create_accreditations: set = None  # formerly tender.edit_accreditations
     # open family: questions can be added/updated only in these tender statuses (None = no extra check)
     question_operation_allowed_tender_statuses: tuple | None = None
+    # competitiveDialogue stage 2: only shortlisted firms may ask (and the author is re-checked on patch)
+    question_cd_author_check = False
 
     def question_on_post(self, question):
         self.validate_question_accreditation_level()
@@ -38,6 +41,8 @@ class TenderQuestionStateMixin:
         tender = get_tender()
         self.validate_question_update(tender)
         self.validate_question_operation(tender, question)
+        if self.question_cd_author_check:
+            self.validate_question_author(question)
 
     def validate_question_accreditation_level(self):
         if not self.question_create_accreditations:
@@ -97,6 +102,8 @@ class TenderQuestionStateMixin:
 
     def validate_question_author(self, question):
         tender = get_tender()
+        if self.question_cd_author_check:
+            validate_cd_author(get_request(), tender, question, "question")
         if not tender["config"]["hasPreSelectionAgreement"]:
             return
 

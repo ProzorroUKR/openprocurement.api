@@ -10,9 +10,6 @@ from openprocurement.tender.cfaua.constants import (
 )
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.validation import (
-    validate_edrpou_confidentiality_doc,
-)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
@@ -49,34 +46,19 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
     should_validate_required_market_criteria = False
 
     working_days_config = WORKING_DAYS_CONFIG
+    items_classification_prefix_change_check = True
+    status_up_allowed_transitions = (
+        ("draft", "active.tendering"),
+        ("active.pre-qualification", "active.pre-qualification.stand-still"),
+        ("active.pre-qualification.stand-still", "active.pre-qualification"),
+        ("active.qualification", "active.qualification.stand-still"),
+    )
+    watch_value_meta_changes_enabled = False
+    all_documents_should_be_public = True
 
     def on_patch(self, before, after):
-        self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_qualification_status_change(before, after)
-
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
-
-    def status_up(self, before, after, data):
-        if (
-            before == "draft"
-            and after == "active.tendering"
-            or before == "active.pre-qualification"
-            and after == "active.pre-qualification.stand-still"
-            or before == "active.pre-qualification.stand-still"
-            and after == "active.pre-qualification"
-            or before == "active.qualification"
-            and after == "active.qualification.stand-still"
-        ):
-            pass  # allowed scenario
-        else:
-            raise_operation_error(
-                get_request(),
-                f"Can't update tender to {after} status",
-                status=403,
-                location="body",
-                name="status",
-            )
-        super().status_up(before, after, data)
 
     def validate_qualification_status_change(self, before, after):
         tender = get_tender()
@@ -132,14 +114,6 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
                 get_request(),
                 f"Can't switch to 'active.qualification.stand-still' from {before['status']}",
             )
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass  # TODO: shouldn't it work here
-
-    def validate_tender_docs_confidentiality(self, documents):
-        for doc in documents:
-            validate_edrpou_confidentiality_doc(doc, should_be_public=True)
 
 
 class CFAUATenderDetailsState(CFAUATenderDetailsMixing, CFAUATenderState):

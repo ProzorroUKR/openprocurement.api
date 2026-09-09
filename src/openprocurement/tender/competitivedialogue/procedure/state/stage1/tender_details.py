@@ -1,5 +1,4 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
     STAGE_1_EU_WORKING_DAYS_CONFIG,
@@ -17,7 +16,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
 from openprocurement.tender.core.procedure.models.tender import CDStage2EUPostTender, CDStage2UAPostTender
 from openprocurement.tender.core.procedure.utils import (
     prepare_stage2_tender_data,
-    validate_field,
 )
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsMixing,
@@ -45,6 +43,10 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     should_validate_required_market_criteria = False
+    # minimalStep is required although stage 1 has no auction; submission method is optional
+    minimal_step_regardless_of_auction = True
+    lot_minimal_step_check_before = False
+    submission_method_required = False
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
@@ -60,23 +62,6 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
             # update stage1 tender
             data["stage2TenderID"] = new_tender["_id"]
             self.set_object_status(data, "complete")
-
-    def validate_minimal_step(self, data, before=None):
-        tender = get_tender()
-        validate_field(
-            data,
-            "minimalStep",
-            enabled=not tender.get("lots"),
-        )
-
-    def validate_lot_minimal_step(self, data, before=None):
-        validate_field(data, "minimalStep")
-
-    def validate_submission_method(self, data, before=None):
-        validate_field(data, "submissionMethod", required=False)
-        validate_field(data, "submissionMethodDetails", required=False)
-        validate_field(data, "submissionMethodDetails_en", required=False)
-        validate_field(data, "submissionMethodDetails_ru", required=False)
 
 
 class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):

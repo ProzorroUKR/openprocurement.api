@@ -45,7 +45,9 @@ class AwardStateMixing:
     # procedures without bids (limited) have no award items
     award_items_allowed: bool = True
 
-    # --- status transition rules of the mainstream procedures (open family, defense, pq) ---
+    # --- status transition rules (procedure differences) ---
+    # the next award is generated automatically after a status change (limited: awards are created manually)
+    award_next_award_on_status_change: bool = True
     # activation is refused when another award of the lot is active and there is no awarding order
     award_activation_active_awards_check: bool = True
     # complaintPeriod is set on activation / on the unsuccessful status (pq: never)
@@ -55,6 +57,10 @@ class AwardStateMixing:
     award_cancel_complaints_on_cancel: bool = True
     # open family/defense/CO: a satisfied complaint cancels all awards of the lot available for cancellation
     award_cancel_satisfied_complaint_lot_awards: bool = False
+    # ... only the awards available for cancellation (negotiation: all of them)
+    award_cancel_lot_awards_availability_check: bool = True
+    # cfaselectionua: an award may become unsuccessful in active.qualification only after a cancelled award of the same bid
+    award_unsuccessful_requires_cancelled_award_same_bid: bool = False
     # unsuccessful -> cancelled transition
     award_unsuccessful_cancel_allowed: bool = True  # pq: forbidden
     award_unsuccessful_cancel_requires_considered_complaints: bool = True  # bt/rfp
@@ -266,7 +272,8 @@ class AwardStateMixing:
                     if i.get("lotID") == award.get("lotID") and i.get("status") == "unsuccessful":
                         i["complaintPeriod"] = award["complaintPeriod"]
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
-        self.add_next_award()
+        if self.award_next_award_on_status_change:
+            self.add_next_award()
 
     def award_status_up_from_active_to_cancelled(self, award, tender):
         end_complaint_period = not self.is_new_defense_complaints()
@@ -275,18 +282,33 @@ class AwardStateMixing:
         ):
             for i in tender.get("awards", ""):
                 if i.get("lotID") == award.get("lotID"):
-                    if self.is_available_to_cancel_award(i, [award["id"]]):
+                    if not self.award_cancel_lot_awards_availability_check or self.is_available_to_cancel_award(
+                        i, [award["id"]]
+                    ):
                         self.cancel_award(i, end_complaint_period=end_complaint_period)
         else:
             if self.award_cancel_complaints_on_cancel:
                 self.set_award_complaints_cancelled(award)
             self.cancel_award(award, end_complaint_period=end_complaint_period)
-        self.add_next_award()
+        if self.award_next_award_on_status_change:
+            self.add_next_award()
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender):
+        if self.award_unsuccessful_requires_cancelled_award_same_bid and tender["status"] == "active.qualification":
+            if not any(
+                a["bid_id"] == award["bid_id"]
+                and a["status"] == "cancelled"  # not need to check `a["id"] != award["id"]`
+                for a in tender.get("awards", [])
+            ):
+                raise_operation_error(
+                    self.request,
+                    f"Can't update award status to {award['status']}, if tender status is {tender['status']}"
+                    " and there is no cancelled award with the same bid_id",
+                )
         if self.award_complaint_period_on_unsuccessful and not self.is_new_defense_complaints():
             self.set_award_complaint_period(award)
-        self.add_next_award()
+        if self.award_next_award_on_status_change:
+            self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
         if not self.award_unsuccessful_cancel_allowed:

@@ -2,16 +2,8 @@ from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTende
 
 
 class CDStage1TenderState(BaseOpenEUTenderState):
-    def pre_qualification_stand_still_ends_handler(self, tender):
-        handler = self.get_change_tender_status_handler("active.stage2.pending")
-        handler(tender)
-
-        self.check_bids_number(tender)
-
+    pre_qualification_stand_still_next_status = "active.stage2.pending"
     # first stage don't need auctionPeriod
     # this actually doesn't work, because non-refactored endpoints add auctionPeriod
     # I'm going to add "auctionPeriod" to private fields in serializer, until we update all the code
-    def calc_auction_periods(self, tender):
-        pass
-
-    # "active.stage2.waiting"
+    tender_auction_periods = False

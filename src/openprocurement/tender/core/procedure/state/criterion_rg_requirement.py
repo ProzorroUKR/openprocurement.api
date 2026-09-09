@@ -50,6 +50,8 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     allowed_put_statuses = ["active.tendering"]
     # pq: the tender status is checked on every requirement change, not only on POST
     requirement_status_check_always = False
+    # cfaselectionua: no requirement ids uniqueness check on POST
+    requirement_post_ids_uniq_check = True
 
     def get_patch_data_model(self):
         criterion = self.request.validated["criterion"]
@@ -97,7 +99,8 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
     def validate_on_post(self, data: dict) -> None:
         self._validate_operation_criterion_in_tender_status()
-        self._validate_ids_uniq()
+        if self.requirement_post_ids_uniq_check:
+            self._validate_ids_uniq()
 
     def validate_on_patch(self, before: dict, after: dict) -> None:
         self._validate_change_requirement_objects()

@@ -52,6 +52,8 @@ class TenderStateAwardingMixing:
     alp_due_date_period: timedelta = timedelta(days=1)
     # ARMA procedure uses "amountPercentage" key
     alp_amount_key: str = "amount"
+    # arma: weighted values have no currency
+    weighted_value_with_currency: bool = True
 
     def on_auction_results(self, tender, lot_id=None):
         if lot_id:
@@ -495,7 +497,8 @@ class TenderStateAwardingMixing:
     @classmethod
     def set_weighted_value(cls, weighted_value, value_container, value_amount):
         weighted_value[cls.awarding_criteria_key] = round(value_amount, 2)
-        weighted_value["currency"] = value_container["value"]["currency"]
+        if cls.weighted_value_with_currency:
+            weighted_value["currency"] = value_container["value"]["currency"]
         return weighted_value
 
     @classmethod

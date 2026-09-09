@@ -62,6 +62,14 @@ class ChronographEventsMixing:
     # lot awarding events are produced only when there is an award complaint period
     tender_new_defense_complaints_rules = False
     tender_lots_awarding_event_requires_stand_still = False
+    # cfaselectionua: lot awarding produces no chronograph events; tender.value is summed from lots without tender.value
+    tender_lots_awarding_events = True
+    tender_value_from_lots = True  # arma: tenders have no value
+    tender_value_from_lots_without_tender_value = False
+    # cfaua: no contracts (agreements instead)
+    tender_contract_events = True
+    # competitiveDialogue stage 1: the pre-qualification stand-still ends with this tender status instead of auction/qualification
+    pre_qualification_stand_still_next_status: str | None = None
 
     def new_defense_complaints_rules_apply(self):
         return self.tender_new_defense_complaints_rules and tender_created_in(
@@ -289,6 +297,8 @@ class ChronographEventsMixing:
         return handler
 
     def contract_events(self, tender):
+        if not self.tender_contract_events:
+            return
         tender_status = tender.get("status")
         if tender_status.startswith("active"):
             contract_award_ids = {i["awardID"] for i in tender.get("contracts", "")}
@@ -359,6 +369,8 @@ class ChronographEventsMixing:
                         yield auction_end_time, self.auction_handler
 
     def lots_qualification_events(self, tender):
+        if not self.tender_lots_awarding_events:
+            return
         lots = tender.get("lots")
         non_lot_complaints = (i for i in tender.get("complaints", "") if i.get("relatedLot") is None)
         if not any(i["status"] in self.block_complaint_status for i in non_lot_complaints):
@@ -498,6 +510,10 @@ class ChronographEventsMixing:
         return new_qualifications
 
     def pre_qualification_stand_still_ends_handler(self, tender):
+        if self.pre_qualification_stand_still_next_status:  # competitiveDialogue stage 1
+            self.get_change_tender_status_handler(self.pre_qualification_stand_still_next_status)(tender)
+            self.check_bids_number(tender)
+            return
         self.check_bids_number(tender)
         self.switch_to_auction_or_qualification(tender)
 
@@ -975,8 +991,18 @@ class ChronographEventsMixing:
         else:
             self.calc_tender_value(tender)
 
-    @staticmethod
-    def calc_tender_value(tender: dict) -> None:
+    def calc_tender_value(self, tender: dict) -> None:
+        if not self.tender_value_from_lots:  # arma tenders have no value
+            return
+        if self.tender_value_from_lots_without_tender_value:  # cfaselectionua
+            if not all(i.get("value") for i in tender.get("lots", "")):
+                return
+            tender["value"] = {
+                "amount": sum(i["value"]["amount"] for i in tender["lots"]),
+                "currency": tender["lots"][0]["value"]["currency"],
+                "valueAddedTaxIncluded": tender["lots"][0]["value"]["valueAddedTaxIncluded"],
+            }
+            return
         if not tender.get("lots") or not tender.get("value"):
             return
 

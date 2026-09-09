@@ -23,6 +23,15 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     draft_patch_model = DraftPatchAwardComplaint
     complaints_configuration = "hasAwardComplaints"
+    # cfaua: a satisfied complaint returns the tender to active.qualification
+    satisfied_complaint_returns_to_qualification = False
+
+    def reviewers_satisfied_handler(self, complaint):
+        super().reviewers_satisfied_handler(complaint)
+        if self.satisfied_complaint_returns_to_qualification:
+            tender = get_tender()
+            tender["awardPeriod"].pop("endDate", None)
+            self.get_change_tender_status_handler("active.qualification")(tender)
 
     def complaint_on_post(self, complaint):
         request = self.request

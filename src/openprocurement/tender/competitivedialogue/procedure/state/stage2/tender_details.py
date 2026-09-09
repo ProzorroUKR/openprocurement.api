@@ -29,14 +29,9 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     contract_template_name_patch_statuses = ("draft",)
 
     working_days_config = STAGE_2_EU_WORKING_DAYS_CONFIG
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass
-
-    def validate_change_item_profile_or_category(self, after, before, force_validate: bool = False):
-        if self.request.method != "POST":
-            super().validate_change_item_profile_or_category(after, before, force_validate)
+    watch_value_meta_changes_enabled = False
+    item_profile_category_check_on_post = False
+    minimal_step_regardless_of_auction = True  # minimalStep is required for CD procedures
 
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
@@ -51,7 +46,3 @@ class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     contract_template_name_patch_statuses = ("draft",)
 
     working_days_config = STAGE_2_UA_WORKING_DAYS_CONFIG
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass

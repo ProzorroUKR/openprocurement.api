@@ -25,9 +25,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
         "stopping",
     )
     block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
-
-    def contract_events(self, tender):
-        yield from ()  # empty , this procedure doesn't have contracts
+    tender_contract_events = False
 
     def qualification_stand_still_events(self, tender):
         active_lots = [lot["id"] for lot in tender.get("lots", "") if lot["status"] == "active"]
