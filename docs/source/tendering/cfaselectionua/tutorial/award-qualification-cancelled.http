@@ -12,7 +12,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/awards/15311c22012d43aab79b0fd3693ebe66
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/awards/404030003db6477b9884a125c7b857ee
 
 {
   "data": {
