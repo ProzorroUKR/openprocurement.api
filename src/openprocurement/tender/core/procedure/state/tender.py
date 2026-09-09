@@ -34,7 +34,7 @@ class TenderState(
     BaseState,
 ):
     active_bid_statuses = ("active", "pending")
-    block_complaint_status = ("answered", "pending")
+    block_complaint_status = ()
     block_tender_complaint_status = (
         "claim",
         "pending",

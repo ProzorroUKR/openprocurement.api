@@ -13,5 +13,4 @@ class TenderState(BaseTenderState):
     alp_due_date_period = timedelta(days=2)
     alp_amount_key: str = "amountPercentage"
     awarding_criteria_key: str = "amountPercentage"
-    tender_value_from_lots = False  # ARMA does not have tender.value field
     weighted_value_with_currency = False

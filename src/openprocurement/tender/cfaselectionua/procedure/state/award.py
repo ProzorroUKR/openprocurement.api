@@ -11,10 +11,6 @@ LOGGER = logging.getLogger(__name__)
 
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
-    award_activation_active_awards_check = False
-    award_complaint_period_on_activation = False
-    award_complaint_period_on_unsuccessful = False
-    award_cancel_complaints_on_cancel = False
     award_unsuccessful_cancel_allowed = False
     award_unsuccessful_requires_cancelled_award_same_bid = True
 

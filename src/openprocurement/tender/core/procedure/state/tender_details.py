@@ -306,9 +306,8 @@ class BaseTenderDetailsMixing:
     items_classification_prefix_change_check = False
     # rfp: noticePublicationDate is set on activation even without a notice document
     notice_publication_date_on_activation = False
-    # pq: tenderPeriod.startDate is set on activation, contracts are cancelled on unsuccessful, no tenderPeriod extension
+    # pq: tenderPeriod.startDate is set on activation, no tenderPeriod extension
     tender_period_start_on_activation = False
-    contracts_cancelled_on_unsuccessful = False
     tender_period_extension_check = True
     # CO: a defense procuring entity may use an agreement of another defense procuring entity
     agreement_procuring_entity_match_except_defense = False
@@ -565,8 +564,6 @@ class BaseTenderDetailsMixing:
         super().status_up(before, after, data)
         if self.tender_period_start_on_activation and before == "draft" and after == "active.tendering":
             data["tenderPeriod"]["startDate"] = get_request_now().isoformat()
-        if self.contracts_cancelled_on_unsuccessful and after in self.unsuccessful_statuses:
-            self.set_contracts_cancelled(after)
 
     def validate_notice_doc_required(self, tender):
         if (

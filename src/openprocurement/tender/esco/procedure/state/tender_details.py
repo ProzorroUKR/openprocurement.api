@@ -27,7 +27,6 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG
-    watch_value_meta_changes_enabled = False
     minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
 
     def on_post(self, tender):

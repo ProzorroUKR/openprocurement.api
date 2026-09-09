@@ -31,12 +31,7 @@ LOGGER = getLogger(__name__)
 
 
 class ShouldStartAfterMixing:
-    # competitiveDialogue stage 1: no auction periods (the first stage has no auction)
-    tender_auction_periods = True
-
     def calc_auction_periods(self, tender):
-        if not self.tender_auction_periods:
-            return
         if tender["config"]["hasAuction"] is False:
             return
 

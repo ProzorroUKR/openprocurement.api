@@ -31,7 +31,8 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     working_days_config = STAGE_2_EU_WORKING_DAYS_CONFIG
     watch_value_meta_changes_enabled = False
     item_profile_category_check_on_post = False
-    minimal_step_regardless_of_auction = True  # minimalStep is required for CD procedures
+    # the stage 2 tender is validated while the stage 1 tender (hasAuction=False) is the request context
+    minimal_step_regardless_of_auction = True
 
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):

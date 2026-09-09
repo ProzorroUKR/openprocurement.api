@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidSt
 
 
 class CDStage1TenderLotState(LotInvalidationBidStateMixin, CDStage1TenderDetailsStateMixin):
-    lot_sets_auction_period = False
+    pass

@@ -40,9 +40,6 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
     # ARMA procedure does not have tender.value / tender.minimalStep; lot values are percentages
     items_classification_prefix_change_check = True
     tender_has_value = False
-    lot_value_meta_from_tender = False
-    lot_minimal_step_meta_from_tender = False
-    watch_value_meta_changes_enabled = False
 
     def on_patch(self, before, after):
         self.validate_min_expected_income(before, after)

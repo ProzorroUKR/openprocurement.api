@@ -64,7 +64,6 @@ class ChronographEventsMixing:
     tender_lots_awarding_event_requires_stand_still = False
     # cfaselectionua: lot awarding produces no chronograph events; tender.value is summed from lots without tender.value
     tender_lots_awarding_events = True
-    tender_value_from_lots = True  # arma: tenders have no value
     tender_value_from_lots_without_tender_value = False
     # cfaua: no contracts (agreements instead)
     tender_contract_events = True
@@ -992,8 +991,6 @@ class ChronographEventsMixing:
             self.calc_tender_value(tender)
 
     def calc_tender_value(self, tender: dict) -> None:
-        if not self.tender_value_from_lots:  # arma tenders have no value
-            return
         if self.tender_value_from_lots_without_tender_value:  # cfaselectionua
             if not all(i.get("value") for i in tender.get("lots", "")):
                 return

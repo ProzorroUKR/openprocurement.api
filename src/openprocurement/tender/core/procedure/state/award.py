@@ -48,10 +48,7 @@ class AwardStateMixing:
     # --- status transition rules (procedure differences) ---
     # the next award is generated automatically after a status change (limited: awards are created manually)
     award_next_award_on_status_change: bool = True
-    # activation is refused when another award of the lot is active and there is no awarding order
-    award_activation_active_awards_check: bool = True
-    # complaintPeriod is set on activation / on the unsuccessful status (pq: never)
-    award_complaint_period_on_activation: bool = True
+    # complaintPeriod is set on the unsuccessful status (negotiation: only active awards get a complaint period)
     award_complaint_period_on_unsuccessful: bool = True
     # cancelling an award also cancels its complaints (bt/rfp)
     award_cancel_complaints_on_cancel: bool = True
@@ -258,19 +255,14 @@ class AwardStateMixing:
         award["date"] = now
 
     def award_status_up_from_pending_to_active(self, award, tender):
-        if (
-            self.award_activation_active_awards_check
-            and tender["config"]["hasAwardingOrder"] is False
-            and not tender["config"].get("hasMultiSourcing")
-        ):
+        if tender["config"]["hasAwardingOrder"] is False and not tender["config"].get("hasMultiSourcing"):
             self.check_active_awards(award, tender)
-        if self.award_complaint_period_on_activation:
-            self.set_award_complaint_period(award)
-            if self.is_new_defense_complaints() and award.get("complaintPeriod"):
-                # openuadefense: unsuccessful awards of the lot share the complaint period of the active one
-                for i in tender.get("awards"):
-                    if i.get("lotID") == award.get("lotID") and i.get("status") == "unsuccessful":
-                        i["complaintPeriod"] = award["complaintPeriod"]
+        self.set_award_complaint_period(award)
+        if self.is_new_defense_complaints() and award.get("complaintPeriod"):
+            # openuadefense: unsuccessful awards of the lot share the complaint period of the active one
+            for i in tender.get("awards"):
+                if i.get("lotID") == award.get("lotID") and i.get("status") == "unsuccessful":
+                    i["complaintPeriod"] = award["complaintPeriod"]
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
         if self.award_next_award_on_status_change:
             self.add_next_award()

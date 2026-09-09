@@ -8,7 +8,6 @@ class AwardState(AwardStateMixing, OpenUADefenseTenderState):
     award_stand_still_working_days: bool = True
     items_delivery_required: bool = True
     award_has_eligible: bool = True
-    award_activation_active_awards_check = False
     award_new_defense_complaints_rules = True
     award_cancel_complaints_on_cancel = False
     award_cancel_satisfied_complaint_lot_awards = True

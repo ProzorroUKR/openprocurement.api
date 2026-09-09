@@ -43,6 +43,5 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
 
     working_days_config = WORKING_DAYS_CONFIG
     tender_period_start_on_activation = True
-    contracts_cancelled_on_unsuccessful = True
     tender_period_extension_check = False
     bids_invalidation_enabled = False

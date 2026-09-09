@@ -26,8 +26,6 @@ class LotStateMixin:
     should_validate_lot_minimal_step = True
     # limited (negotiation): lots don't recalculate the tender values
     lot_updates_tender_values = True
-    # competitiveDialogue stage 1: lots have no auction period
-    lot_sets_auction_period = True
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()
@@ -93,8 +91,6 @@ class LotStateMixin:
         self.set_lot_minimal_step(tender, data)
 
     def set_auction_period_should_start_after(self, tender: dict, data: dict) -> None:
-        if not self.lot_sets_auction_period:
-            return
         if tender["config"]["hasAuction"] is False:
             return
 
