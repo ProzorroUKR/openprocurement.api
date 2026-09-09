@@ -86,14 +86,20 @@ class TenderState(
                     name="procuringEntity",
                 )
 
+    # priceQuotation: bids are never invalidated by tender changes
+    bids_invalidation_enabled = True
+
     def invalidate_bids_data(self, tender):
+        if not self.bids_invalidation_enabled:
+            return
         if is_item_owner(get_request(), tender) and tender.get("status") == "active.tendering":
             self.set_bids_invalidation_date(tender)
             for bid in tender.get("bids", ""):
                 if bid.get("status") not in ("deleted", "draft"):
                     bid["status"] = "invalid"
 
-    @staticmethod
-    def set_bids_invalidation_date(tender):
+    def set_bids_invalidation_date(self, tender):
+        if not self.bids_invalidation_enabled:
+            return
         if "enquiryPeriod" in tender:
             tender["enquiryPeriod"]["invalidationDate"] = get_request_now().isoformat()

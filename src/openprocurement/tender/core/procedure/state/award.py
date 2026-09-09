@@ -2,6 +2,9 @@ from datetime import timedelta
 
 from openprocurement.api.constants_env import (
     AWARD_NOTICE_DOC_REQUIRED_FROM,
+    NEW_ARTICLE_17_CRITERIA_REQUIRED,
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
     QUALIFICATION_AFTER_COMPLAINT_FROM,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
@@ -11,7 +14,11 @@ from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts, append_contracts_cancelled
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.utils import (
+    tender_created_after,
+    tender_created_before,
+    tender_created_in,
+)
 from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_econtract_fields_award,
@@ -38,6 +45,33 @@ class AwardStateMixing:
     # procedures without bids (limited) have no award items
     award_items_allowed: bool = True
 
+    # --- status transition rules of the mainstream procedures (open family, defense, pq) ---
+    # activation is refused when another award of the lot is active and there is no awarding order
+    award_activation_active_awards_check: bool = True
+    # complaintPeriod is set on activation / on the unsuccessful status (pq: never)
+    award_complaint_period_on_activation: bool = True
+    award_complaint_period_on_unsuccessful: bool = True
+    # cancelling an award also cancels its complaints (bt/rfp)
+    award_cancel_complaints_on_cancel: bool = True
+    # open family/defense/CO: a satisfied complaint cancels all awards of the lot available for cancellation
+    award_cancel_satisfied_complaint_lot_awards: bool = False
+    # unsuccessful -> cancelled transition
+    award_unsuccessful_cancel_allowed: bool = True  # pq: forbidden
+    award_unsuccessful_cancel_requires_considered_complaints: bool = True  # bt/rfp
+    award_unsuccessful_cancel_forbidden_with_active_contract: bool = False  # open family/defense/CO
+    award_unsuccessful_cancel_all_lot_awards: bool = (
+        False  # open family: all available lot awards; bt/rfp: awards after the current one
+    )
+    # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
+    award_new_defense_complaints_rules: bool = False
+    # competitiveOrdering: the qualified/eligible rules depend on the tender creation date (NEW_ARTICLE_17_CRITERIA_REQUIRED)
+    award_eligible_rules_by_creation_date: bool = False
+
+    def is_new_defense_complaints(self):
+        return self.award_new_defense_complaints_rules and tender_created_in(
+            NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
+        )
+
     def validate_award_patch(self, before, after):
         self.validate_award_qualified_eligible(after)
         self.validate_award_items_allowed(after)
@@ -63,6 +97,9 @@ class AwardStateMixing:
         status = award.get("status")
         qualified = award.get("qualified")
         eligible = award.get("eligible")
+        if self.award_eligible_rules_by_creation_date:
+            self.validate_award_qualified_eligible_by_creation_date(award)
+            return
         if not self.award_has_eligible and eligible is not None:
             # the field used to be absent on the models of these procedures
             raise_operation_error(self.request, "Rogue field", status=422, name="eligible")
@@ -92,6 +129,47 @@ class AwardStateMixing:
                 self.request.errors.add("body", name, [message])
             self.request.errors.status = 422
             raise error_handler(self.request)
+
+    def validate_award_qualified_eligible_by_creation_date(self, award):
+        """competitiveOrdering: `active` requires qualified; the eligible rules depend on the tender creation date"""
+        if award.get("status") == "active" and not award.get("qualified"):
+            raise_operation_error(
+                self.request,
+                ["Can't update award to active status with not qualified"],
+                status=422,
+                name="qualified",
+            )
+        if tender_created_before(NEW_ARTICLE_17_CRITERIA_REQUIRED):
+            if award["status"] == "active" and not award.get("eligible"):
+                raise_operation_error(
+                    self.request,
+                    "Can't update award to active status with not eligible",
+                    status=422,
+                )
+            if award["status"] == "unsuccessful" and (
+                award.get("qualified") is None
+                or award.get("eligible") is None
+                or (award["qualified"] and award["eligible"])
+            ):
+                raise_operation_error(
+                    self.request,
+                    "Can't update award to unsuccessful status when qualified/eligible isn't set to False",
+                    status=422,
+                )
+        else:
+            if award.get("eligible") is not None:
+                raise_operation_error(
+                    self.request,
+                    "Rogue field",
+                    status=422,
+                    name="eligible",
+                )
+            if award["status"] == "unsuccessful" and award.get("qualified") is not False:
+                raise_operation_error(
+                    self.request,
+                    "Can't update award to unsuccessful status when qualified/eligible isn't set to False",
+                    status=422,
+                )
 
     def award_on_patch(self, before, award):
         self.validate_award_econtract_fields(award)
@@ -174,23 +252,50 @@ class AwardStateMixing:
         award["date"] = now
 
     def award_status_up_from_pending_to_active(self, award, tender):
-        if tender["config"]["hasAwardingOrder"] is False and not tender["config"].get("hasMultiSourcing"):
+        if (
+            self.award_activation_active_awards_check
+            and tender["config"]["hasAwardingOrder"] is False
+            and not tender["config"].get("hasMultiSourcing")
+        ):
             self.check_active_awards(award, tender)
-        self.set_award_complaint_period(award)
+        if self.award_complaint_period_on_activation:
+            self.set_award_complaint_period(award)
+            if self.is_new_defense_complaints() and award.get("complaintPeriod"):
+                # openuadefense: unsuccessful awards of the lot share the complaint period of the active one
+                for i in tender.get("awards"):
+                    if i.get("lotID") == award.get("lotID") and i.get("status") == "unsuccessful":
+                        i["complaintPeriod"] = award["complaintPeriod"]
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
         self.add_next_award()
 
     def award_status_up_from_active_to_cancelled(self, award, tender):
-        self.set_award_complaints_cancelled(award)
-        self.cancel_award(award)
+        end_complaint_period = not self.is_new_defense_complaints()
+        if self.award_cancel_satisfied_complaint_lot_awards and any(
+            i.get("status") == "satisfied" for i in award.get("complaints", "")
+        ):
+            for i in tender.get("awards", ""):
+                if i.get("lotID") == award.get("lotID"):
+                    if self.is_available_to_cancel_award(i, [award["id"]]):
+                        self.cancel_award(i, end_complaint_period=end_complaint_period)
+        else:
+            if self.award_cancel_complaints_on_cancel:
+                self.set_award_complaints_cancelled(award)
+            self.cancel_award(award, end_complaint_period=end_complaint_period)
         self.add_next_award()
 
     def award_status_up_from_pending_to_unsuccessful(self, award, tender):
-        self.set_award_complaint_period(award)
+        if self.award_complaint_period_on_unsuccessful and not self.is_new_defense_complaints():
+            self.set_award_complaint_period(award)
         self.add_next_award()
 
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
-        if not self.has_considered_award_complaints(award, tender):
+        if not self.award_unsuccessful_cancel_allowed:
+            raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
+        if self.award_unsuccessful_cancel_requires_considered_complaints and not self.has_considered_award_complaints(
+            award, tender
+        ):
+            raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
+        if self.award_unsuccessful_cancel_forbidden_with_active_contract and self.has_active_contract(award, tender):
             raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
 
         if tender["status"] == "active.awarded":
@@ -200,7 +305,13 @@ class AwardStateMixing:
             tender["awardPeriod"].pop("endDate", None)
             self.get_change_tender_status_handler("active.qualification")(tender)
 
-        if tender["config"]["hasAwardingOrder"]:
+        end_complaint_period = not self.is_new_defense_complaints()
+        if self.award_unsuccessful_cancel_all_lot_awards:
+            for i in tender.get("awards", ""):
+                if i.get("lotID") == award.get("lotID"):
+                    if self.is_available_to_cancel_award(i, [award["id"]]):
+                        self.cancel_award(i, end_complaint_period=end_complaint_period)
+        elif tender["config"]["hasAwardingOrder"]:
             # If hasAwardingOrder is True, then the current award should be found through all
             # tender awards/lot awards. Then the current award and next ones after it should be cancelled.
             # The new 'pending' award will be generated instead of current one.
@@ -215,11 +326,13 @@ class AwardStateMixing:
                 # skip different lot awards
                 if i.get("lotID") != award.get("lotID"):
                     continue
-                self.set_award_complaints_cancelled(i)
+                if self.award_cancel_complaints_on_cancel:
+                    self.set_award_complaints_cancelled(i)
                 self.cancel_award(i)
 
-        self.set_award_complaints_cancelled(award)
-        self.cancel_award(award)
+        if self.award_cancel_complaints_on_cancel:
+            self.set_award_complaints_cancelled(award)
+        self.cancel_award(award, end_complaint_period=end_complaint_period)
         self.add_next_award()
 
     def cancel_multi_sourcing_pending_awards(self, award, tender):

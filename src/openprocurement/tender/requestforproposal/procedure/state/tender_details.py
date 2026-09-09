@@ -1,10 +1,7 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.models.tender import (
     PatchActiveTender,
     PatchDraftTender,
-    PatchTender,
 )
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -39,20 +36,12 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
         "active.pre-qualification",
         "active.pre-qualification.stand-still",
     )
-
-    def get_patch_data_model(self):
-        tender = get_tender()
-        if tender.get("status", "") == "active.tendering":
-            return PatchActiveTender
-        elif tender.get("status", "") in ("draft", "active.enquiries"):
-            return PatchDraftTender
-        return PatchTender
-
-    def on_patch(self, before, after):
-        super().on_patch(before, after)
-        if after["status"] != "draft" and before["status"] == "draft":
-            # even without document `notice` it is required to set `noticePublicationDate` for RFP (CS-19667)
-            after["noticePublicationDate"] = get_request_now().isoformat()
+    tender_patch_models_by_status = {
+        "active.tendering": PatchActiveTender,
+        "draft": PatchDraftTender,
+        "active.enquiries": PatchDraftTender,
+    }
+    notice_publication_date_on_activation = True
 
 
 class RequestForProposalTenderDetailsState(RequestForProposalTenderDetailsMixing, RequestForProposalTenderState):

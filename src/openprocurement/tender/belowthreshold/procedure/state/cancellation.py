@@ -9,10 +9,7 @@ from openprocurement.tender.core.procedure.state.cancellation import (
 class BelowThresholdCancellationStateMixing(CancellationStateMixing):
     _before_release_reason_types = None
     _after_release_reason_types = ["noDemand", "unFixable", "expensesCut"]
-
-    @staticmethod
-    def validate_cancellation_in_complaint_period(request, tender, cancellation):
-        pass
+    cancellation_complaint_period_check = False
 
 
 class BelowThresholdCancellationState(BelowThresholdCancellationStateMixing, BelowThresholdTenderState):

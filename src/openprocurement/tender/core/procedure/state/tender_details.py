@@ -16,6 +16,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
+    TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     WORKING_DAYS,
@@ -74,6 +75,7 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
+from openprocurement.tender.core.procedure.models.tender import PatchTender
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,
     MainProcurementCategory,
@@ -122,6 +124,15 @@ class TenderConfigMixin(ConfigMixin):
 
         return config_schema
 
+    # competitiveOrdering: an additional config schema (short/long) is validated on top of the procedure schema
+    extra_config_schema_name: str | None = None
+
+    def validate_extra_config(self, data):
+        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.extra_config_schema_name)
+        config_schema = deepcopy(config_schema)
+        config_schema.pop("required", None)
+        self.validate_config_schema(data, config_schema)
+
     def validate_config(self, data):
         # load schema from standards
         config_schema = self.get_config_schema(data)
@@ -144,6 +155,8 @@ class TenderConfigMixin(ConfigMixin):
 
         # validate config with schema
         super().validate_config(data)
+        if self.extra_config_schema_name:
+            self.validate_extra_config(data)
 
     def on_post(self, data):
         self.validate_config(data)
@@ -286,6 +299,24 @@ class BaseTenderDetailsMixing:
 
     calendar = WORKING_DAYS
 
+    # --- mainstream procedure differences (former method overrides) ---
+    # bt/rfp: the patch model depends on the tender status
+    tender_patch_models_by_status: dict | None = None
+    # open family/CO: the CPV group of the items can't change on patch
+    items_classification_prefix_change_check = False
+    # rfp: noticePublicationDate is set on activation even without a notice document
+    notice_publication_date_on_activation = False
+    # pq: tenderPeriod.startDate is set on activation, contracts are cancelled on unsuccessful, no tenderPeriod extension
+    tender_period_start_on_activation = False
+    contracts_cancelled_on_unsuccessful = False
+    tender_period_extension_check = True
+    # CO: a defense procuring entity may use an agreement of another defense procuring entity
+    agreement_procuring_entity_match_except_defense = False
+
+    def get_patch_data_model(self):
+        models = self.tender_patch_models_by_status or {}
+        return models.get(self.request.validated["tender"].get("status", ""), PatchTender)
+
     def validate_tender_patch(self, before, after):
         self.validate_patch_status_choice(before, after)
         request = get_request()
@@ -354,6 +385,8 @@ class BaseTenderDetailsMixing:
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        if self.items_classification_prefix_change_check:
+            self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_contract_template_name_allowed(after)
         self.validate_main_procurement_category(after)
         self.validate_award_criteria(after)
@@ -442,6 +475,10 @@ class BaseTenderDetailsMixing:
 
         super().on_patch(before, after)
 
+        if self.notice_publication_date_on_activation and after["status"] != "draft" and before["status"] == "draft":
+            # even without document `notice` it is required to set `noticePublicationDate` for RFP (CS-19667)
+            after["noticePublicationDate"] = get_request_now().isoformat()
+
     def always(self, data):
         self.validate_econtract_fields(data)
         self.validate_items_quantity(data)
@@ -498,6 +535,10 @@ class BaseTenderDetailsMixing:
         if after == "active.tendering" and before != "active.tendering":
             self.validate_tender_period_start_date(data)
         super().status_up(before, after, data)
+        if self.tender_period_start_on_activation and before == "draft" and after == "active.tendering":
+            data["tenderPeriod"]["startDate"] = get_request_now().isoformat()
+        if self.contracts_cancelled_on_unsuccessful and after in self.unsuccessful_statuses:
+            self.set_contracts_cancelled(after)
 
     def validate_notice_doc_required(self, tender):
         if (
@@ -1473,6 +1514,8 @@ class BaseTenderDetailsMixing:
             )
 
     def validate_tender_period_extension(self, tender):
+        if not self.tender_period_extension_check:
+            return
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
             if (
@@ -1526,6 +1569,13 @@ class BaseTenderDetailsMixing:
 
     def has_mismatched_procuring_entities(self, tender, agreement):
         if not self.should_match_agreement_procuring_entity:
+            return False
+        if (
+            self.agreement_procuring_entity_match_except_defense
+            and tender["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+            and agreement["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+        ):
+            # Defense procuring entity can use agreement with other defense procuring entity
             return False
 
         agreement_identifier = agreement["procuringEntity"]["identifier"]

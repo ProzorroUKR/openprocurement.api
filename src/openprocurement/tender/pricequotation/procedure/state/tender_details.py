@@ -1,5 +1,4 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.context import get_request_now
 from openprocurement.framework.electroniccatalogue.constants import (
     ELECTRONIC_CATALOGUE_TYPE,
 )
@@ -43,22 +42,7 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     contract_template_name_patch_statuses = ("draft",)
 
     working_days_config = WORKING_DAYS_CONFIG
-
-    def status_up(self, before, after, data):
-        super().status_up(before, after, data)
-
-        if before == "draft" and after == "active.tendering":
-            data["tenderPeriod"]["startDate"] = get_request_now().isoformat()
-
-        if after in self.unsuccessful_statuses:
-            self.set_contracts_cancelled(after)
-
-    def validate_tender_period_extension(self, tender):
-        pass
-
-    @staticmethod
-    def set_bids_invalidation_date(tender):
-        pass
-
-    def invalidate_bids_data(self, tender):
-        pass
+    tender_period_start_on_activation = True
+    contracts_cancelled_on_unsuccessful = True
+    tender_period_extension_check = False
+    bids_invalidation_enabled = False

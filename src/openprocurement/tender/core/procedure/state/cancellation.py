@@ -46,6 +46,10 @@ class CancellationStateMixing:
     should_validate_cancellation_report_doc_required = True
     procurement_kinds_not_required_sign = ()
     all_documents_should_be_public = False
+    # bt/rfp: cancellations are allowed during active award complaint periods
+    cancellation_complaint_period_check = True
+    # open family/CO: a cancellation is refused when all awards/qualifications of the lot are unsuccessful
+    cancellation_unsuccessful_items_check = False
 
     def validate_cancellation_post(self, data):
         request, tender = get_request(), get_tender()
@@ -59,6 +63,8 @@ class CancellationStateMixing:
         self.validate_possible_reason_types(request, tender, data)
         self.validate_cancellation_possible_statuses(request, tender, data)
         self.validate_docs(data)
+        if self.cancellation_unsuccessful_items_check:
+            self.validate_not_only_unsuccessful_awards_or_qualifications(request, tender, data)
 
     def validate_cancellation_patch(self, before, after):
         request, tender = get_request(), get_tender()
@@ -80,6 +86,34 @@ class CancellationStateMixing:
         )
         self.validate_cancellation_possible_statuses(request, tender, after)
         self.validate_docs(after)
+        if self.cancellation_unsuccessful_items_check:
+            self.validate_not_only_unsuccessful_awards_or_qualifications(request, tender, before)
+
+    @staticmethod
+    def validate_not_only_unsuccessful_awards_or_qualifications(request, tender, cancellation):
+        items = tender.get("awards") or tender.get("qualifications", "")
+
+        def check_lot_items(uid, unsuccessful_statuses=("unsuccessful", "cancelled")):
+            statuses = {i["status"] for i in items if i.get("lotID") == uid}
+            if statuses and not statuses.difference(unsuccessful_statuses):
+                raise_operation_error(
+                    request,
+                    "Can't perform cancellation if all {} are unsuccessful".format(
+                        "awards" if tender.get("awards") else "qualifications"
+                    ),
+                )
+
+        lot_id = cancellation.get("relatedLot")
+        lots = tender.get("lots", "")
+        if lots and not lot_id:
+            # cancelling tender with lots
+            # can't cancel tender if there is a lot, where
+            for lot in lots:
+                if lot["status"] == "active":
+                    check_lot_items(lot["id"])
+        elif lots and lot_id or not lot_id and not lots:
+            # cancelling lot or tender without lots
+            check_lot_items(lot_id)
 
     def validate_cancellation_in_allowed_tender_status(self, request, tender, _):
         tender_status = tender.get("status")
@@ -154,8 +188,9 @@ class CancellationStateMixing:
         ):
             raise_operation_error(request, "Forbidden because of a pending cancellation")
 
-    @staticmethod
-    def validate_cancellation_in_complaint_period(request, tender, cancellation):
+    def validate_cancellation_in_complaint_period(self, request, tender, cancellation):
+        if not self.cancellation_complaint_period_check:
+            return
         operation = OPERATIONS.get(request.method)
         msg = f"Cancellation can't be {operation} when exists active complaint period"
         if tender["status"] == "active.pre-qualification.stand-still":

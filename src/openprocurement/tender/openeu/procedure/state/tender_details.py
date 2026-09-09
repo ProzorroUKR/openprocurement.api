@@ -19,6 +19,7 @@ EU_REQUIRED_MULTILINGUAL_FIELDS = {
 
 
 class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
+    items_classification_prefix_change_check = True
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
@@ -30,11 +31,6 @@ class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
     contract_template_required = True
 
     working_days_config = WORKING_DAYS_CONFIG
-
-    def on_patch(self, before, after):
-        self.validate_items_classification_prefix_unchanged(before, after)
-
-        super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
 
 class OpenEUTenderDetailsState(OpenEUTenderDetailsMixing, BaseOpenEUTenderState):

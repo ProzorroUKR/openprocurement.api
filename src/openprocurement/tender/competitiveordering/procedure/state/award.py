@@ -1,89 +1,16 @@
-from openprocurement.api.constants_env import NEW_ARTICLE_17_CRITERIA_REQUIRED
-from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitiveordering.procedure.state.tender import (
     COTenderState,
 )
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
-from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
 class COAwardState(AwardStateMixing, COTenderState):
     award_stand_still_working_days: bool = False
     items_delivery_required: bool = True
     award_has_eligible: bool = True
-
-    def validate_award_qualified_eligible(self, award):
-        # competitiveOrdering: only the "active requires qualified" rule on the model level;
-        # eligible rules are date-dependent, see award_on_patch
-        if award.get("status") == "active" and not award.get("qualified"):
-            raise_operation_error(
-                self.request,
-                ["Can't update award to active status with not qualified"],
-                status=422,
-                name="qualified",
-            )
-
-    def award_on_patch(self, before, award):
-        super().award_on_patch(before, award)
-        if tender_created_before(NEW_ARTICLE_17_CRITERIA_REQUIRED):
-            if award["status"] == "active" and not award.get("eligible"):
-                raise_operation_error(
-                    self.request,
-                    "Can't update award to active status with not eligible",
-                    status=422,
-                )
-            if award["status"] == "unsuccessful" and (
-                award.get("qualified") is None
-                or award.get("eligible") is None
-                or (award["qualified"] and award["eligible"])
-            ):
-                raise_operation_error(
-                    self.request,
-                    "Can't update award to unsuccessful status when qualified/eligible isn't set to False",
-                    status=422,
-                )
-        else:
-            if award.get("eligible") is not None:
-                raise_operation_error(
-                    self.request,
-                    "Rogue field",
-                    status=422,
-                    name="eligible",
-                )
-            if award["status"] == "unsuccessful" and award.get("qualified") is not False:
-                raise_operation_error(
-                    self.request,
-                    "Can't update award to unsuccessful status when qualified/eligible isn't set to False",
-                    status=422,
-                )
-
-    def award_status_up_from_active_to_cancelled(self, award, tender):
-        if any(i.get("status") == "satisfied" for i in award.get("complaints", "")):
-            for i in tender.get("awards", ""):
-                if i.get("lotID") == award.get("lotID"):
-                    if self.is_available_to_cancel_award(i, [award["id"]]):
-                        self.cancel_award(i)
-            self.add_next_award()
-
-        else:
-            self.cancel_award(award)
-            self.add_next_award()
-
-    def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
-        if self.has_active_contract(award, tender):
-            raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
-
-        if tender["status"] == "active.awarded":
-            # Go back to active.qualification status
-            # because there is no active award anymore
-            # for at least one of the lots
-            tender["awardPeriod"].pop("endDate", None)
-            self.get_change_tender_status_handler("active.qualification")(tender)
-
-        for i in tender.get("awards", ""):
-            if i.get("lotID") == award.get("lotID"):
-                if self.is_available_to_cancel_award(i, [award["id"]]):
-                    self.cancel_award(i)
-
-        self.cancel_award(award)
-        self.add_next_award()
+    award_eligible_rules_by_creation_date = True
+    award_cancel_complaints_on_cancel = False
+    award_cancel_satisfied_complaint_lot_awards = True
+    award_unsuccessful_cancel_requires_considered_complaints = False
+    award_unsuccessful_cancel_forbidden_with_active_contract = True
+    award_unsuccessful_cancel_all_lot_awards = True

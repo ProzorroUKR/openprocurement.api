@@ -9,7 +9,6 @@ from openprocurement.tender.belowthreshold.procedure.state.tender import (
 from openprocurement.tender.core.procedure.models.tender import (
     PatchActiveTender,
     PatchDraftTender,
-    PatchTender,
 )
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
@@ -35,14 +34,11 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
         "active.pre-qualification",
         "active.pre-qualification.stand-still",
     )
-
-    def get_patch_data_model(self):
-        tender = self.request.validated["tender"]
-        if tender.get("status", "") == "active.tendering":
-            return PatchActiveTender
-        elif tender.get("status", "") in ("draft", "active.enquiries"):
-            return PatchDraftTender
-        return PatchTender
+    tender_patch_models_by_status = {
+        "active.tendering": PatchActiveTender,
+        "draft": PatchDraftTender,
+        "active.enquiries": PatchDraftTender,
+    }
 
 
 class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):

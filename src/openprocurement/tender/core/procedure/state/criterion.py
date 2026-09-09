@@ -74,6 +74,8 @@ class BaseCriterionStateMixin:
 class CriterionStateMixin(BaseCriterionStateMixin):
     # allowed `source` values (None = any value allowed by the model)
     criterion_source_choices: tuple | None = None
+    # bt/rfp: exclusion criteria may be patched
+    criterion_patch_exclusion_check = True
     request: Request
 
     _validate_criterion_uniq: Callable
@@ -116,7 +118,8 @@ class CriterionStateMixin(BaseCriterionStateMixin):
     def validate_on_patch(self, before: dict, after: dict) -> None:
         self.validate_criterion_source(after)
         self._validate_operation_criterion_in_tender_status()
-        self._validate_patch_exclusion_ecriteria_objects(before)
+        if self.criterion_patch_exclusion_check:
+            self._validate_patch_exclusion_ecriteria_objects(before)
         self._validate_criterion_uniq_patch(before, after)
 
     @validation_error_handler

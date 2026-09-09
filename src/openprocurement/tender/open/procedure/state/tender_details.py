@@ -31,8 +31,4 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG
-
-    def on_patch(self, before, after):
-        super().on_patch(before, after)  # TenderDetailsMixing.on_patch
-
-        self.validate_items_classification_prefix_unchanged(before, after)
+    items_classification_prefix_change_check = True

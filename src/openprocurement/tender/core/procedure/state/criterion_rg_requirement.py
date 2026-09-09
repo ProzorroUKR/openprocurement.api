@@ -32,17 +32,24 @@ from openprocurement.tender.core.procedure.validation import (
 class RequirementValidationsMixin:
     request: Request
 
+    # tender statuses that allow changing requirements / eligible evidences (bt/rfp: draft only)
+    requirement_change_valid_statuses = ("draft", "draft.pending", "draft.stage2")
+    # ... plus this status for tenders created before CRITERION_REQUIREMENT_STATUSES_FROM (bt/rfp: active.enquiries)
+    requirement_change_legacy_status = "active.tendering"
+
     def _validate_change_requirement_objects(self) -> None:
-        valid_statuses = ["draft", "draft.pending", "draft.stage2"]
+        valid_statuses = list(self.requirement_change_valid_statuses)
         tender = get_tender()
         tender_creation_date = get_first_revision_date(tender, default=get_now())
         if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
-            valid_statuses.append("active.tendering")
+            valid_statuses.append(self.requirement_change_legacy_status)
         base_validate_operation_ecriteria_objects(self.request, valid_statuses)
 
 
 class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):
     allowed_put_statuses = ["active.tendering"]
+    # pq: the tender status is checked on every requirement change, not only on POST
+    requirement_status_check_always = False
 
     def get_patch_data_model(self):
         criterion = self.request.validated["criterion"]
@@ -82,6 +89,8 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         self.validate_patch_requirement_values(before, after)
 
     def requirement_always(self, data: dict) -> None:
+        if self.requirement_status_check_always:
+            self._validate_operation_criterion_in_tender_status()
         self.invalidate_bids()
         self.validate_always(data)
         self.invalidate_review_requests()

@@ -13,6 +13,8 @@ class TenderQuestionStateMixin:
     always: Callable  # method from TenderState
 
     question_create_accreditations: set = None  # formerly tender.edit_accreditations
+    # open family: questions can be added/updated only in these tender statuses (None = no extra check)
+    question_operation_allowed_tender_statuses: tuple | None = None
 
     def question_on_post(self, question):
         self.validate_question_accreditation_level()
@@ -59,6 +61,12 @@ class TenderQuestionStateMixin:
             raise_operation_error(
                 get_request(),
                 "Can add/update question only in active lot status",
+            )
+        statuses = self.question_operation_allowed_tender_statuses
+        if statuses is not None and tender["status"] not in statuses:
+            raise_operation_error(
+                get_request(),
+                "Can't update question in current ({}) tender status".format(tender["status"]),
             )
 
     def validate_question_add(self, tender):

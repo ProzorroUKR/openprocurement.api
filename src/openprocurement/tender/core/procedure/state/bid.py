@@ -72,6 +72,8 @@ class BidState(BaseState):
     bid_parameters_allowed = True
     # bid items quantity (former BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM)
     bid_items_quantity_required = True
+    # esco / competitiveDialogue: the bid value is validated by the procedure's own bid model, not on patch
+    bid_value_validation_on_patch = True
 
     @property
     def check_all_exist_tender_items(self):
@@ -140,6 +142,8 @@ class BidState(BaseState):
         return models.bid_patch
 
     def validate_bid_value_on_patch(self, data):
+        if not self.bid_value_validation_on_patch:
+            return
         if self.skip_value_validation_for_draft_bid and data.get("status") == "draft":
             return
         try:

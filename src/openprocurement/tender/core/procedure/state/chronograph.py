@@ -2,10 +2,15 @@ from datetime import datetime, timedelta
 from logging import getLogger
 from typing import Callable, Optional
 
+from openprocurement.api.constants_env import (
+    NEW_DEFENSE_COMPLAINTS_FROM,
+    NEW_DEFENSE_COMPLAINTS_TO,
+)
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import (
     add_contracts,
@@ -22,13 +27,60 @@ from openprocurement.tender.core.procedure.utils import (
     get_lot_value_status,
     get_supplier_contract,
     tender_created_after_2020_rules,
+    tender_created_in,
 )
-from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.core.utils import calculate_tender_date, calculate_tender_full_date
 
 LOGGER = getLogger(__name__)
 
 
+class IgnoredClaimMixing:
+    """bt/rfp (and their contracts): claims of completed lots/tenders are ignored"""
+
+    set_object_status: Callable
+
+    def check_ignored_claim(self, tender):
+        statuses = ("complete", "cancelled", "unsuccessful")
+        complete_lot_ids = [None] if tender["status"] in statuses else []
+        complete_lot_ids.extend([i["id"] for i in tender.get("lots", "") if i["status"] in statuses])
+        for complaint in tender.get("complaints", ""):
+            if complaint["status"] == "claim" and complaint.get("relatedLot") in complete_lot_ids:
+                self.set_object_status(complaint, "ignored")
+        for award in tender.get("awards", ""):
+            for complaint in award.get("complaints", ""):
+                if complaint["status"] == "claim" and complaint.get("relatedLot") in complete_lot_ids:
+                    self.set_object_status(complaint, "ignored")
+
+
 class ChronographEventsMixing:
+    # --- mainstream procedure differences (chronograph events and handlers) ---
+    # bt/rfp: complaints are claims — answered/pending claims are resolved by the chronograph,
+    # claims of completed lots/tenders are ignored, and the tendering end doesn't wait for unanswered complaints/questions
+    tender_claims_events = False
+    tendering_end_waits_for_unanswered = True
+    # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO ignore complaint periods of cancelled awards;
+    # lot awarding events are produced only when there is an award complaint period
+    tender_new_defense_complaints_rules = False
+    tender_lots_awarding_event_requires_stand_still = False
+
+    def new_defense_complaints_rules_apply(self):
+        return self.tender_new_defense_complaints_rules and tender_created_in(
+            NEW_DEFENSE_COMPLAINTS_FROM, NEW_DEFENSE_COMPLAINTS_TO
+        )
+
+    def get_award_stand_still_ends(self, awards):
+        """complaint period ends of the awards (cancelled awards are ignored under the new defense complaints rules)"""
+        exclude_cancelled = self.new_defense_complaints_rules_apply()
+        return [
+            a["complaintPeriod"]["endDate"]
+            for a in awards
+            if a.get("complaintPeriod", {}).get("endDate") and (a["status"] != "cancelled" or not exclude_cancelled)
+        ]
+
+    def check_ignored_claim(self, tender):
+        if self.tender_claims_events:
+            IgnoredClaimMixing.check_ignored_claim(self, tender)
+
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
 
@@ -143,6 +195,9 @@ class ChronographEventsMixing:
                             )
 
     def complaint_events(self, tender):
+        if self.tender_claims_events:
+            yield from self.claim_events(tender)
+            return
         if tender_created_after_2020_rules():
             # all the checks below only supposed to trigger complaint draft->mistaken switches
             # if any object contains a draft complaint, it's complaint end period is added to the checks
@@ -182,6 +237,56 @@ class ChronographEventsMixing:
                                 complaint_period["endDate"],
                                 self.draft_complaint_handler(complaint),
                             )
+
+    def claim_events(self, tender):
+        """bt/rfp: answered claims are resolved after the stand-still, pending claims are resolved or ignored"""
+        tender_status = tender.get("status")
+        if tender_status.startswith("active"):
+            for complaint in tender.get("complaints", ""):
+                if complaint["status"] == "answered" and complaint.get("dateAnswered"):
+                    check = calculate_tender_date(
+                        datetime.fromisoformat(complaint["dateAnswered"]),
+                        COMPLAINT_STAND_STILL_TIME,
+                        tender=tender,
+                    )
+                    yield check.isoformat(), self.handle_answered_complaint(complaint)
+                elif complaint["status"] == "pending":
+                    yield (
+                        tender["dateModified"],
+                        self.handle_pending_complaint(complaint),
+                    )
+            for award in tender.get("awards", ""):
+                for complaint in award.get("complaints", ""):
+                    if complaint["status"] == "answered" and complaint.get("dateAnswered"):
+                        check = calculate_tender_date(
+                            datetime.fromisoformat(complaint["dateAnswered"]),
+                            COMPLAINT_STAND_STILL_TIME,
+                            tender=tender,
+                        )
+                        yield (
+                            check.isoformat(),
+                            self.handle_answered_complaint(complaint),
+                        )
+                    elif complaint["status"] == "pending":
+                        yield (
+                            tender["dateModified"],
+                            self.handle_pending_complaint(complaint),
+                        )
+
+    def handle_answered_complaint(self, complaint):
+        def handler(*_):
+            self.set_object_status(complaint, complaint["resolutionType"])
+
+        return handler
+
+    def handle_pending_complaint(self, complaint):
+        def handler(*_):
+            if complaint.get("resolutionType") and complaint.get("dateEscalated"):
+                self.set_object_status(complaint, complaint["resolutionType"])
+            else:
+                self.set_object_status(complaint, "ignored")
+
+        return handler
 
     def contract_events(self, tender):
         tender_status = tender.get("status")
@@ -230,11 +335,7 @@ class ChronographEventsMixing:
             and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
             and not any(c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", ""))
         ):
-            stand_still_ends = [
-                a.get("complaintPeriod").get("endDate")
-                for a in awards
-                if a.get("complaintPeriod") and a.get("complaintPeriod").get("endDate")
-            ]
+            stand_still_ends = self.get_award_stand_still_ends(awards)
             if stand_still_ends:
                 yield max(stand_still_ends), self.awarded_complaint_handler
 
@@ -277,11 +378,9 @@ class ChronographEventsMixing:
                         )
                         if not pending_complaints and not pending_award_complaints:
                             now = get_request_now().isoformat()
-                            stand_still_ends = [
-                                a.get("complaintPeriod").get("endDate")
-                                for a in lot_awards
-                                if a.get("complaintPeriod", {}).get("endDate")
-                            ]
+                            stand_still_ends = self.get_award_stand_still_ends(lot_awards)
+                            if not stand_still_ends and self.tender_lots_awarding_event_requires_stand_still:
+                                continue
                             stand_still_end = max(stand_still_ends) if stand_still_ends else now
                             yield (
                                 stand_still_end,
@@ -436,11 +535,7 @@ class ChronographEventsMixing:
                 for a in tender.get("awards", "")
                 for i in a.get("complaints", "")
             )
-            stand_still_ends = [
-                a["complaintPeriod"]["endDate"]
-                for a in tender.get("awards", "")
-                if a.get("complaintPeriod", {}).get("endDate")
-            ]
+            stand_still_ends = self.get_award_stand_still_ends(tender.get("awards", ""))
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
             stand_still_time_expired = stand_still_end < now
             awards = tender.get("awards", [])
@@ -465,6 +560,7 @@ class ChronographEventsMixing:
             ):
                 handler = self.get_change_tender_status_handler("complete")
                 handler(tender)
+        self.check_ignored_claim(tender)
 
     def auction_handler(self, _):
         LOGGER.info(
@@ -698,6 +794,7 @@ class ChronographEventsMixing:
             if min_bids_number == 1 and bid_number == 1 and self.allowed_switch_to_awarding(tender):
                 self.remove_auction_period(tender)
                 self.add_next_award()
+        self.check_ignored_claim(tender)
 
     def set_lot_values_unsuccessful(self, bids, lot_id):
         for bid in bids or "":
@@ -753,15 +850,13 @@ class ChronographEventsMixing:
             last_award = lot_awards[-1]
             awards_statuses = {award["status"] for award in lot_awards}
             pending_complaints = any(
-                i["status"] in self.block_complaint_status and i["relatedLot"] == lot["id"]
+                i["status"] in self.block_complaint_status and i.get("relatedLot") == lot["id"]
                 for i in tender.get("complaints", "")
             )
             pending_awards_complaints = any(
                 [i["status"] in self.block_complaint_status for a in lot_awards for i in a.get("complaints", "")]
             )
-            stand_still_ends = [
-                a["complaintPeriod"]["endDate"] for a in lot_awards if a.get("complaintPeriod", {}).get("endDate")
-            ]
+            stand_still_ends = self.get_award_stand_still_ends(lot_awards)
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
             in_stand_still = now < stand_still_end
             skip_award_complaint_period = self.check_skip_award_complaint_period()
@@ -812,6 +907,8 @@ class ChronographEventsMixing:
                     self.set_object_status(lot, "complete")
 
     def has_unanswered_tender_complaints(self, tender):
+        if not self.tendering_end_waits_for_unanswered:
+            return False
         lots = tender.get("lots")
         if lots:
             active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
@@ -824,8 +921,9 @@ class ChronographEventsMixing:
             result = any(i["status"] in self.block_tender_complaint_status for i in tender.get("complaints", ""))
         return result
 
-    @staticmethod
-    def has_unanswered_tender_questions(tender):
+    def has_unanswered_tender_questions(self, tender):
+        if not self.tendering_end_waits_for_unanswered:
+            return False
         lots = tender.get("lots")
         if lots:
             active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
