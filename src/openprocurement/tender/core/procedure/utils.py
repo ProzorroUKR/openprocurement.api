@@ -895,7 +895,7 @@ CD_STAGE2_COPY_FIELDS = (
 )
 
 
-def prepare_cd_shortlisted_firms_keys(shortlistedFirms):
+def prepare_shortlisted_firms_keys(shortlistedFirms):
     """Make list with keys
     key = {identifier_id}_{identifier_scheme}_{lot_id}
     """
@@ -912,7 +912,7 @@ def prepare_cd_shortlisted_firms_keys(shortlistedFirms):
     return all_keys
 
 
-def prepare_cd_author_key(obj):
+def prepare_shortlisted_firms_author_key(obj):
     """Make key
     {author.identifier.id}_{author.identifier.scheme}
     or
@@ -936,7 +936,7 @@ def prepare_cd_author_key(obj):
     return base_key
 
 
-def prepare_cd_bid_keys(bid):
+def prepare_shortlisted_firms_bid_keys(bid):
     """Make list with keys
     key = {identifier_id}_{identifier_scheme}_{lot_id}
     """
@@ -949,12 +949,6 @@ def prepare_cd_bid_keys(bid):
             keys = {key}
         all_keys |= keys
     return all_keys
-
-
-def cd_get_item_by_id(tender, item_id):
-    for item in tender["items"]:
-        if item["id"] == item_id:
-            return item
 
 
 # competitiveDialogue stage2 creation logic

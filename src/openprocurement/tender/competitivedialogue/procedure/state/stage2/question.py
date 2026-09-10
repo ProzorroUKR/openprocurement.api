@@ -9,7 +9,7 @@ from openprocurement.tender.openua.procedure.state.question import (
 
 
 class CDStage2TenderQuestionStateMixin(UATenderQuestionStateMixin):
-    question_cd_author_check = True
+    question_shortlisted_firms_author_check = True
 
 
 class CDEUStage2TenderQuestionState(CDStage2TenderQuestionStateMixin, CDEUStage2TenderDetailsState):

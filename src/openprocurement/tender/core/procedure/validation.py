@@ -70,14 +70,14 @@ from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.cfaua.constants import LOTS_MAX_SIZE, LOTS_MIN_SIZE
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.utils import (
-    cd_get_item_by_id,
+    find_item_by_id,
     find_lot,
     get_criterion_requirement,
     get_requirement_obj,
     is_multi_currency_tender,
-    prepare_cd_author_key,
-    prepare_cd_bid_keys,
-    prepare_cd_shortlisted_firms_keys,
+    prepare_shortlisted_firms_author_key,
+    prepare_shortlisted_firms_bid_keys,
+    prepare_shortlisted_firms_keys,
     tender_created_after,
     tender_created_after_2020_rules,
     tender_created_before,
@@ -2102,8 +2102,8 @@ def validate_cfa_accepted_complaints(request, **kwargs):
 def validate_cd2_firm_to_create_bid(request, **_):
     tender = request.validated["tender"]
     bid = request.validated["data"]
-    firm_keys = prepare_cd_shortlisted_firms_keys(tender.get("shortlistedFirms") or "")
-    bid_keys = prepare_cd_bid_keys(bid)
+    firm_keys = prepare_shortlisted_firms_keys(tender.get("shortlistedFirms") or "")
+    bid_keys = prepare_shortlisted_firms_bid_keys(bid)
     if not (bid_keys <= firm_keys):
         raise_operation_error(request, "Firm can't create bid")
 
@@ -2159,15 +2159,15 @@ def validate_cd2_lot_operation(request, **_):
     raise_operation_error(request, "Can't {} lot for tender stage2".format(OPERATIONS.get(request.method)))
 
 
-def validate_cd_author(request, tender, obj, obj_name):
+def validate_shortlisted_firms_author(request, tender, obj, obj_name):
     """Compare author key and key from shortlistedFirms"""
     shortlisted_firms = tender["shortlistedFirms"]
-    firms_keys = prepare_cd_shortlisted_firms_keys(shortlisted_firms)
-    author_key = prepare_cd_author_key(obj)
+    firms_keys = prepare_shortlisted_firms_keys(shortlisted_firms)
+    author_key = prepare_shortlisted_firms_author_key(obj)
     if obj.get("questionOf") == "item":  # question can create on item
         if shortlisted_firms[0].get("lots"):
             item_id = author_key.split("_")[-1]
-            item = cd_get_item_by_id(request.validated["tender"], item_id)
+            item = find_item_by_id(tender.get("items", ""), item_id)
             author_key = author_key.replace(author_key.split("_")[-1], item["relatedLot"] if item else "")
         else:
             author_key = "_".join(author_key.split("_")[:-1])

@@ -77,7 +77,7 @@ class BidState(BaseState):
     # cfaselectionua: the agreement is a full copy inside the tender (tender.agreements[0]) and is checked on patch too
     bid_agreement_from_tender = False
     bid_agreement_check_on_patch = False
-    # arma: the agreement contract value is compared by amountPercentage
+    # default: amount, arma: amountPercentage
     bid_value_amount_field = "amount"
 
     @property
