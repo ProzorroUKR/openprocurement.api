@@ -62,6 +62,27 @@ def test_mask_plan_by_is_masked(app):
     # Check field
     assert "is_masked" in data
 
+    # feed plan is masked
+    response = app.get("/plans?mode=_all_&opt_fields=procuringEntity")
+    assert response.status_code == 200
+    data = response.json["data"][0]
+    assert "is_masked" not in data
+    assert data["procuringEntity"]["name"] == "000"
+    assert data["procuringEntity"]["identifier"]["id"] == "00000000"
+    assert data["procuringEntity"]["identifier"]["legalName"] == "0" * len(
+        initial_data["procuringEntity"]["identifier"]["legalName"]
+    )
+    assert data["procuringEntity"]["address"]["streetAddress"] == "0" * len(
+        initial_data["procuringEntity"]["address"]["streetAddress"]
+    )
+
+    # feed plan is not masked for excluded role
+    with change_auth(app, ("Basic", ("administrator", ""))):
+        response = app.get("/plans?mode=_all_&opt_fields=procuringEntity")
+    assert response.status_code == 200
+    data = response.json["data"][0]
+    assert data["procuringEntity"] == initial_data["procuringEntity"]
+
     # Patch plan as excluded from masking role
     with change_auth(app, ("Basic", ("administrator", ""))):
         response = app.patch_json(f"/plans/{id}", {"data": {"mode": "test"}})

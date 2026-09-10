@@ -8,6 +8,7 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import get_db_session, set_db_session
 from openprocurement.api.database import atomic_transaction
+from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     validate_accreditation_level,
@@ -56,6 +57,9 @@ class PlansListResource(MongodbResourceListing):
         "public_modified",
         "public_ts",
     }
+    mask_deprecated_required_fields = {
+        "is_masked",
+    }
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
@@ -66,6 +70,15 @@ class PlansListResource(MongodbResourceListing):
             (Allow, Everyone, "view_listing"),
         ]
         return acl
+
+    def db_fields(self, fields):
+        fields = super().db_fields(fields)
+        return fields | self.mask_deprecated_required_fields
+
+    def filter_results_fields(self, results, fields):
+        for r in results:
+            mask_object_data_deprecated(self.request, r)
+        return super().filter_results_fields(results, fields)
 
 
 @resource(

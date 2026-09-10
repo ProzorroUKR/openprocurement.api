@@ -137,6 +137,8 @@ class TendersResource(TenderBaseResource):
             if "plans" in data:
                 plan_id = data["plans"][0]["id"]
                 plan = self.request.registry.mongodb.plans.get(plan_id)
+                if plan:
+                    mask_object_data_deprecated(self.request, plan)  # war time measures
             else:
                 plan = None
             data = ocds_format_tender(tender=data, tender_url=self.request.url, plan=plan)
