@@ -27,7 +27,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.mock import patch_market_product, patch_market_category
 from openprocurement.tender.core.tests.utils import activate_contract
-from openprocurement.tender.limited.procedure.models.tender import (
+from openprocurement.tender.limited.constants import (
     COMMON_VALUE_AMOUNT_THRESHOLD,
     cause_choices,
     cause_choices_new,
@@ -498,7 +498,7 @@ def field_relatedLot(self):
     request_path = "/tenders"
     data = deepcopy(self.initial_data)
     data["items"][0]["relatedLot"] = uuid4().hex
-    response = self.app.post_json(request_path, {"data": data}, status=422)
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")

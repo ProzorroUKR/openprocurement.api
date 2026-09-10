@@ -7,7 +7,7 @@ from openprocurement.api.procedure.models.value import Value
 from openprocurement.tender.core.procedure.validation import validate_related_lot
 
 
-class PatchLotValue(Model):
+class CDPatchLotValue(Model):
     relatedLot = MD5Type()
     subcontractingDetails = StringType()
     status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
@@ -18,12 +18,12 @@ class PatchLotValue(Model):
         validate_related_lot(tender, related_lot)
 
 
-class LotValue(PatchLotValue):
+class CDLotValue(CDPatchLotValue):
     initialValue = ModelType(Value)  # field added by chronograph
     participationUrl = StringType()  # field added after auction
 
 
-class PostLotValue(Model):
+class CDPostLotValue(Model):
     relatedLot = MD5Type()
     subcontractingDetails = StringType()
     status = StringType(choices=["pending"], default="pending")

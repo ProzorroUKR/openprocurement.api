@@ -1,8 +1,8 @@
 from schematics.types import StringType
 
-from openprocurement.api.procedure.models.organization import BusinessOrganization
+from openprocurement.api.procedure.models.organization import BusinessOrganization as BaseBusinessOrganization
 
 
-class ShortlistedFirm(BusinessOrganization):
+class PQShortlistedFirm(BaseBusinessOrganization):
     id = StringType()
     status = StringType()

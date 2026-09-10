@@ -3,9 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneCode,
-)
+from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.core.utils import calculate_tender_full_date

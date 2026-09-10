@@ -9,15 +9,13 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.models.lot import (
-    Lot,
-    PatchLot,
-    PostLot,
+    CFASelectionLot,
+    CFASelectionPatchLot,
+    CFASelectionPostLot,
 )
 from openprocurement.tender.cfaselectionua.procedure.state.lot import TenderLotState
-from openprocurement.tender.cfaselectionua.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-)
 from openprocurement.tender.core.procedure.validation import (
+    validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
     validate_delete_lot_related_object,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
@@ -38,8 +36,8 @@ class CFASelectionUATenderLotResource(TenderLotResource):
         permission="create_lot",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PostLot),
+            validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
+            validate_input_data(CFASelectionPostLot),
         ),
     )
     def collection_post(self) -> Optional[dict]:
@@ -49,9 +47,9 @@ class CFASelectionUATenderLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PatchLot),
-            validate_patch_data_simple(Lot, item_name="lot"),
+            validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
+            validate_input_data(CFASelectionPatchLot),
+            validate_patch_data_simple(CFASelectionLot, item_name="lot"),
         ),
         permission="edit_lot",
     )
@@ -62,7 +60,7 @@ class CFASelectionUATenderLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
+            validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
             validate_delete_lot_related_object,
         ),
         permission="edit_lot",

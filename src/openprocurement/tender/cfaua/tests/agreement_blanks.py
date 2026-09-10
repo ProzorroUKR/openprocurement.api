@@ -7,7 +7,7 @@ from openprocurement.tender.cfaua.constants import (
     CLARIFICATIONS_UNTIL_PERIOD,
     MAX_AGREEMENT_PERIOD,
 )
-from openprocurement.tender.cfaua.procedure.models.agreement import Agreement
+from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
 
 # TenderAgreementResourceTest
@@ -15,7 +15,7 @@ from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_
 
 def get_tender_agreement(self):
     agreement_raw = self.registry.mongodb.tenders.get(self.tender_id)["agreements"][0]
-    agreement = Agreement(agreement_raw).serialize()
+    agreement = CFAAgreement(agreement_raw).serialize()
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, agreement["id"]))

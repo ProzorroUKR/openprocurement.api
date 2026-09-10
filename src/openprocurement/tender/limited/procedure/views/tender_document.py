@@ -9,20 +9,14 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
+    validate_limited_document_operation_in_not_allowed_tender_status,
     validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,
-)
-from openprocurement.tender.limited.procedure.validation import (
-    validate_document_operation_in_not_allowed_tender_status,
 )
 
 
@@ -38,7 +32,7 @@ class ReportingTenderDocumentResource(TenderDocumentResource):
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument, allow_bulk=True),
-            validate_document_operation_in_not_allowed_tender_status,
+            validate_limited_document_operation_in_not_allowed_tender_status,
         ),
         permission="upload_tender_documents",
     )
@@ -50,7 +44,7 @@ class ReportingTenderDocumentResource(TenderDocumentResource):
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PostDocument),
             update_doc_fields_on_put_document,
-            validate_document_operation_in_not_allowed_tender_status,
+            validate_limited_document_operation_in_not_allowed_tender_status,
             validate_tender_document_update_not_by_author_or_tender_owner,
             validate_upload_document,
             validate_data_model(Document),
@@ -66,7 +60,7 @@ class ReportingTenderDocumentResource(TenderDocumentResource):
             unless_bots_or_auction(validate_item_owner("tender")),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
-            validate_document_operation_in_not_allowed_tender_status,
+            validate_limited_document_operation_in_not_allowed_tender_status,
             validate_tender_document_update_not_by_author_or_tender_owner,
         ),
         permission="upload_tender_documents",

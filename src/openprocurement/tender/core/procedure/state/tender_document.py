@@ -14,6 +14,18 @@ from openprocurement.tender.core.procedure.validation import validate_doc_type_q
 class TenderDocumentState(BaseDocumentState):
     allow_deletion = True
     deletion_allowed_statuses = ("draft", "draft.stage2")
+    # bt/rfp/open/openua/CO (and their heirs): pending bids become invalid after a tender document change
+    invalidate_bids_on_document_change = False
+
+    def document_on_post(self, data):
+        super().document_on_post(data)
+        if self.invalidate_bids_on_document_change:
+            self.invalidate_bids_data(get_tender())
+
+    def document_on_patch(self, before, after):
+        super().document_on_patch(before, after)
+        if self.invalidate_bids_on_document_change:
+            self.invalidate_bids_data(get_tender())
 
     def validate_sign_documents_already_exists(self, doc_data):
         tender_docs = deepcopy(get_tender().get("documents", []))

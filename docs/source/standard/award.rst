@@ -118,12 +118,14 @@ Award
 
     відсутній у :ref:`limited`:
 
-Відмінності :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`competitiveordering`, :ref:`open`, :ref:`openua`, :ref:`arma` та :ref:`openeu`:
+Відмінності :ref:`esco`, :ref:`competitivedialogue`, :ref:`cfaua`, :ref:`competitiveordering`, :ref:`open`, :ref:`openua`, :ref:`defense`, :ref:`limited`, :ref:`arma` та :ref:`openeu`:
 
 :eligible:
     bool
 
     Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації.
+
+    Відсутнє у :ref:`belowthreshold`, :ref:`requestforproposal`, :ref:`pricequotation`, :ref:`cfaselectionua` та :ref:`simpledefense`.
 
 :period:
     :ref:`Period`

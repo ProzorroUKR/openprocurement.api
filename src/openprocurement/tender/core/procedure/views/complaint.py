@@ -16,10 +16,7 @@ from openprocurement.api.utils import (
     json_view,
     update_logging_context,
 )
-from openprocurement.tender.core.procedure.models.complaint import (
-    Complaint,
-    PostComplaint,
-)
+from openprocurement.tender.core.procedure.models.complaint import Complaint, PostComplaint
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
     TenderComplaintSerializer,

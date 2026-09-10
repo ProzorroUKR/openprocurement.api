@@ -17,10 +17,7 @@ from openprocurement.tender.competitivedialogue.constants import (
 from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg_requirement_evidence import (
     CDEligibleEvidenceState,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    EligibleEvidence,
-    PatchEligibleEvidence,
-)
+from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
     BaseEligibleEvidenceResource,
 )

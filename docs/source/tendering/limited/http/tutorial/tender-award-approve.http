@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3f2cabf45461412fa1b382f25474ef88/awards/0931e24a98c44abc8b35892a4e99e1d8?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+PATCH /api/2.5/tenders/3f2cabf45461412fa1b382f25474ef88/awards/345855608866465ca26099e80512a017?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -34,8 +34,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "0931e24a98c44abc8b35892a4e99e1d8",
-    "qualified": true,
+    "id": "345855608866465ca26099e80512a017",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
@@ -66,6 +65,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "qualified": true,
     "suppliers": [
       {
         "name": "ДКП «Школяр»",

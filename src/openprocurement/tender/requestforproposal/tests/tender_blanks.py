@@ -130,16 +130,19 @@ def create_tender_invalid(self):
     )
 
     self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "enquiryPeriod"},
-        response.json["errors"],
-    )
-
-    self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "value"}, response.json["errors"]
     )
 
     self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
+    )
+
+    data = deepcopy(self.initial_data)
+    del data["enquiryPeriod"]
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["This field is required."], "location": "body", "name": "enquiryPeriod"}],
     )
 
     response = self.app.post_json(

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids?acc_token=b26dbd42e5bc4b7b8cf9d32948e2c9ab HTTP/1.0
+GET /api/2.5/tenders/f9e019b40b95441aabee180825c4542d/bids?acc_token=b26dbd42e5bc4b7b8cf9d32948e2c9ab HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -186,6 +186,25 @@ Content-Type: application/json
           }
         }
       ],
+      "items": [
+        {
+          "id": "6e5628c9038e4bcfabb46055949a220e",
+          "description": "Послуги шкільних їдалень",
+          "description_en": "Services in school canteens",
+          "unit": {
+            "name": "кілограм",
+            "code": "KGM"
+          },
+          "quantity": 1.0,
+          "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
+          "status": "active"
+        }
+      ],
       "tenderers": [
         {
           "name": "Школяр",
@@ -220,25 +239,6 @@ Content-Type: application/json
       ],
       "status": "active",
       "id": "3830395bb34b46c0b479d7fe1ece5e17",
-      "items": [
-        {
-          "id": "7f368a9d7bf7418999079584b4ba5f34",
-          "description": "Послуги шкільних їдалень",
-          "description_en": "Services in school canteens",
-          "unit": {
-            "name": "кілограм",
-            "code": "KGM"
-          },
-          "quantity": 1.0,
-          "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
-        }
-      ],
-      "lotValues": [
-        {
-          "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
-          "status": "active"
-        }
-      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -261,7 +261,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_top_secrets.pdf",
           "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/3830395bb34b46c0b479d7fe1ece5e17/documents/b2aebd129b884091aeb125efc87cce12?download=223e4b63a6f54e16bbbcccd903732318",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f9e019b40b95441aabee180825c4542d/bids/3830395bb34b46c0b479d7fe1ece5e17/documents/b2aebd129b884091aeb125efc87cce12?download=223e4b63a6f54e16bbbcccd903732318",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:00:00+02:00",
           "language": "uk"
@@ -472,6 +472,25 @@ Content-Type: application/json
           }
         }
       ],
+      "items": [
+        {
+          "id": "6e5628c9038e4bcfabb46055949a220e",
+          "description": "Послуги шкільних їдалень",
+          "description_en": "Services in school canteens",
+          "unit": {
+            "name": "кілограм",
+            "code": "KGM"
+          },
+          "quantity": 1.0,
+          "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
+          "status": "active"
+        }
+      ],
       "tenderers": [
         {
           "name": "ДКП «Книга»",
@@ -506,25 +525,6 @@ Content-Type: application/json
       ],
       "status": "active",
       "id": "9c46034d15b0405f9a7b5d2704fca5cd",
-      "items": [
-        {
-          "id": "7f368a9d7bf7418999079584b4ba5f34",
-          "description": "Послуги шкільних їдалень",
-          "description_en": "Services in school canteens",
-          "unit": {
-            "name": "кілограм",
-            "code": "KGM"
-          },
-          "quantity": 1.0,
-          "relatedLot": "70e731cb683c49cf8d82920b84b981f2"
-        }
-      ],
-      "lotValues": [
-        {
-          "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
-          "status": "active"
-        }
-      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -719,6 +719,12 @@ Content-Type: application/json
           }
         }
       ],
+      "lotValues": [
+        {
+          "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
+          "status": "unsuccessful"
+        }
+      ],
       "tenderers": [
         {
           "name": "«Снігур»",
@@ -752,12 +758,6 @@ Content-Type: application/json
       ],
       "status": "unsuccessful",
       "id": "ca3c463082bd46d4a9309e5fbef60741",
-      "lotValues": [
-        {
-          "relatedLot": "70e731cb683c49cf8d82920b84b981f2",
-          "status": "unsuccessful"
-        }
-      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -779,7 +779,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cbf8a18d016440eda7c093c080506a8b/bids/ca3c463082bd46d4a9309e5fbef60741/documents/e959280105e54f2fa3de0be10df94530?download=52f5d8e868fa4fc48e433bd1bb2861f1",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f9e019b40b95441aabee180825c4542d/bids/ca3c463082bd46d4a9309e5fbef60741/documents/e959280105e54f2fa3de0be10df94530?download=52f5d8e868fa4fc48e433bd1bb2861f1",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:03:00+02:00",
           "language": "uk"

@@ -9,11 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.criterion import (
-    PatchRequirement,
-    PutRequirement,
-    Requirement,
-)
+from openprocurement.tender.core.procedure.models.criterion import PatchRequirement, PutRequirement, Requirement
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
 )

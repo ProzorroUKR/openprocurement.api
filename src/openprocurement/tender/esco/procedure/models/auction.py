@@ -1,52 +1,43 @@
 from schematics.types import MD5Type
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import (
-    IsoDateTimeType,
-    ListType,
-    ModelType,
-    StringDecimalType,
-)
+from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType, StringDecimalType
 from openprocurement.tender.core.procedure.models.auction import (
-    AuctionLotResults as BaseAuctionLotResults,
+    AuctionLotResults,
+    AuctionResults,
+    DecimalWeightedValueResult,
 )
-from openprocurement.tender.core.procedure.models.auction import (
-    AuctionResults as BaseAuctionResults,
-)
-from openprocurement.tender.esco.procedure.models.value import ContractDuration
-from openprocurement.tender.openeu.procedure.models.auction import WeightedValueResult
+from openprocurement.tender.esco.procedure.models.value import ESCOContractDuration
 
 
-# auction results
-class ValueResult(Model):
+class ESCOValueResult(Model):
     amount = StringDecimalType(min_value=0)  # this one is going to be
     yearlyPaymentsPercentage = StringDecimalType(min_value=0)
-    contractDuration = ModelType(ContractDuration)
+    contractDuration = ModelType(ESCOContractDuration)
 
 
-class BidResult(Model):
+class ESCOBidResult(Model):
     id = MD5Type()
-    value = ModelType(ValueResult)
-    weightedValue = ModelType(WeightedValueResult)
+    value = ModelType(ESCOValueResult)
+    weightedValue = ModelType(DecimalWeightedValueResult)
     date = IsoDateTimeType()
 
 
-class AuctionResults(BaseAuctionResults):
-    bids = ListType(ModelType(BidResult, required=True))
+class ESCOAuctionResults(AuctionResults):
+    bids = ListType(ModelType(ESCOBidResult, required=True))
 
 
-# auction lot results
-class LotResult(Model):
+class ESCOLotResult(Model):
     relatedLot = MD5Type()
-    value = ModelType(ValueResult)
-    weightedValue = ModelType(WeightedValueResult)
+    value = ModelType(ESCOValueResult)
+    weightedValue = ModelType(DecimalWeightedValueResult)
     date = IsoDateTimeType()
 
 
-class BidLotResult(Model):
+class ESCOBidLotResult(Model):
     id = MD5Type()
-    lotValues = ListType(ModelType(LotResult, required=True))
+    lotValues = ListType(ModelType(ESCOLotResult, required=True))
 
 
-class AuctionLotResults(BaseAuctionLotResults):
-    bids = ListType(ModelType(BidLotResult, required=True), required=True)
+class ESCOAuctionLotResults(AuctionLotResults):
+    bids = ListType(ModelType(ESCOBidLotResult, required=True), required=True)

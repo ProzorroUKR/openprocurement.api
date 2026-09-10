@@ -5,5 +5,4 @@ from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidSt
 
 
 class CDStage1TenderLotState(LotInvalidationBidStateMixin, CDStage1TenderDetailsStateMixin):
-    def set_auction_period_should_start_after(self, tender: dict, data: dict) -> None:
-        pass
+    pass

@@ -174,6 +174,36 @@ Content-Type: application/json
           }
         }
       ],
+      "items": [
+        {
+          "id": "fb176617b6cb475a8f840c191a132f04",
+          "description": "Послуги шкільних їдалень",
+          "description_en": "Services in school canteens",
+          "unit": {
+            "name": "кілограм",
+            "code": "KGM"
+          },
+          "quantity": 1.0,
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        },
+        {
+          "id": "200c94edf9ae44aaafe4f033cbe89411",
+          "description": "Послуги шкільних їдалень",
+          "description_en": "Services in school canteens",
+          "unit": {
+            "name": "упаковка",
+            "code": "PK"
+          },
+          "quantity": 1.0,
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+          "status": "active"
+        }
+      ],
       "tenderers": [
         {
           "name": "Школяр",
@@ -208,36 +238,6 @@ Content-Type: application/json
       ],
       "status": "active",
       "id": "ba20f70bc7a74738820a155064861ddd",
-      "items": [
-        {
-          "id": "250cc46de56c4db09829514bd9519438",
-          "description": "Послуги шкільних їдалень",
-          "description_en": "Services in school canteens",
-          "unit": {
-            "name": "кілограм",
-            "code": "KGM"
-          },
-          "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
-        },
-        {
-          "id": "1b412c42470341e88f0e771e074ecf5c",
-          "description": "Послуги шкільних їдалень",
-          "description_en": "Services in school canteens",
-          "unit": {
-            "name": "упаковка",
-            "code": "PK"
-          },
-          "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
-        }
-      ],
-      "lotValues": [
-        {
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-          "status": "active"
-        }
-      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -473,6 +473,36 @@ Content-Type: application/json
           }
         }
       ],
+      "items": [
+        {
+          "id": "fb176617b6cb475a8f840c191a132f04",
+          "description": "Послуги шкільних їдалень",
+          "description_en": "Services in school canteens",
+          "unit": {
+            "name": "кілограм",
+            "code": "KGM"
+          },
+          "quantity": 1.0,
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        },
+        {
+          "id": "200c94edf9ae44aaafe4f033cbe89411",
+          "description": "Послуги шкільних їдалень",
+          "description_en": "Services in school canteens",
+          "unit": {
+            "name": "упаковка",
+            "code": "PK"
+          },
+          "quantity": 1.0,
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+          "status": "active"
+        }
+      ],
       "tenderers": [
         {
           "name": "ДКП «Книга»",
@@ -507,36 +537,6 @@ Content-Type: application/json
       ],
       "status": "active",
       "id": "317e5711549a4f41a8ebee089db0884a",
-      "items": [
-        {
-          "id": "250cc46de56c4db09829514bd9519438",
-          "description": "Послуги шкільних їдалень",
-          "description_en": "Services in school canteens",
-          "unit": {
-            "name": "кілограм",
-            "code": "KGM"
-          },
-          "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
-        },
-        {
-          "id": "1b412c42470341e88f0e771e074ecf5c",
-          "description": "Послуги шкільних їдалень",
-          "description_en": "Services in school canteens",
-          "unit": {
-            "name": "упаковка",
-            "code": "PK"
-          },
-          "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
-        }
-      ],
-      "lotValues": [
-        {
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-          "status": "active"
-        }
-      ],
       "documents": [
         {
           "confidentiality": "public",
@@ -719,6 +719,12 @@ Content-Type: application/json
           }
         }
       ],
+      "lotValues": [
+        {
+          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+          "status": "unsuccessful"
+        }
+      ],
       "tenderers": [
         {
           "name": "ДКП «Книга»",
@@ -753,12 +759,6 @@ Content-Type: application/json
       ],
       "status": "unsuccessful",
       "id": "3e4cddf56dd9467088292c70b86d87b4",
-      "lotValues": [
-        {
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
-          "status": "unsuccessful"
-        }
-      ],
       "documents": [
         {
           "confidentiality": "public",

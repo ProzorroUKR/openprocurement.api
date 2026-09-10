@@ -61,8 +61,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
-        "quantity": 10.0,
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "unit": {
           "name": "item",
           "code": "KGM",
@@ -71,7 +69,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": false,
             "amount": 50.0
           }
-        }
+        },
+        "quantity": 10.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ]
   }

@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-06-20 13:03+0300\n"
+"POT-Creation-Date: 2026-09-03 23:24+0300\n"
 "PO-Revision-Date: 2019-10-02 21:20+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Organization"
 msgstr "Organization"
@@ -23,8 +24,8 @@ msgstr ""
 msgid "рядок, багатомовний"
 msgstr "string, multilingual"
 
-msgid "Додатково у :ref:`openeu` та :ref:`esco`:"
-msgstr "Additionally in :ref:`openeu` and :ref:`esco`:"
+msgid "Додатково для `procuringEntity` у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):"
+msgstr "Additionally for `procuringEntity` in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (EU):"
 
 msgid "uk (name) та en (name_en) переклади обов’язкові"
 msgstr "uk (name) and en (name_en) translations are required"
@@ -128,9 +129,6 @@ msgstr ""
 msgid "kind"
 msgstr ""
 
-msgid "Можливі значення:"
-msgstr "Possible values:"
-
 msgid "``authority`` - Орган державної влади, місцевого самоврядування або правоохоронний орган"
 msgstr "``authority`` - Public authority, local government or law enforcement agency"
 
@@ -184,6 +182,9 @@ msgstr "Additionally in :ref:`complaint` for `author` field:"
 
 msgid "uk (legalName) переклад обов’язковий. en (legalName_en), ru (legalName_ru) переклади не обов’язкові"
 msgstr "uk (legalName) translation is required. en (legalName_en), ru (legalName_ru) translations are not required"
+
+msgid "Для `procuringEntity.identifier` у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU) переклад en (legalName_en) обов’язковий"
+msgstr "For `procuringEntity.identifier` in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue` (EU) the en (legalName_en) translation is required"
 
 msgid "|ocdsDescription| Легально зареєстрована назва організації."
 msgstr "|ocdsDescription| The legally registered name of the organization."
@@ -278,8 +279,8 @@ msgstr "url"
 msgid "|ocdsDescription| Веб адреса контактної особи/пункту."
 msgstr "|ocdsDescription| A web address for the contact point/person."
 
-msgid "Додаткові поля для :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:"
-msgstr "Additionally in :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:"
+msgid "Додаткові поля для :ref:`base-contracting` та для `procuringEntity.contactPoint` у всіх типах закупівель:"
+msgstr "Additional fields for :ref:`base-contracting` and for `procuringEntity.contactPoint` in all procurement types:"
 
 msgid "availableLanguage"
 msgstr ""
@@ -295,4 +296,13 @@ msgstr "`ru`"
 
 msgid "Визначає мови спілкування."
 msgstr "Specifies the language of communication."
+
+msgid "У :ref:`openeu`, :ref:`esco`, :ref:`competitivedialogue` (EU), :ref:`cfaua`, :ref:`cfaselectionua`, :ref:`defense`, :ref:`simpledefense` та :ref:`arma` за замовчуванням встановлюється `uk`."
+msgstr "In :ref:`openeu`, :ref:`esco`, :ref:`competitivedialogue` (EU), :ref:`cfaua`, :ref:`cfaselectionua`, :ref:`defense`, :ref:`simpledefense` and :ref:`arma` it defaults to `uk`."
+
+msgid "Для `procuringEntity.contactPoint` у :ref:`openeu`, :ref:`esco`, :ref:`competitivedialogue` (EU) та :ref:`cfaua` переклад en (name_en) обов’язковий."
+msgstr "For `procuringEntity.contactPoint` in :ref:`openeu`, :ref:`esco`, :ref:`competitivedialogue` (EU) and :ref:`cfaua` the en (name_en) translation is required."
+
+#~ msgid "Додатково у :ref:`openeu` та :ref:`esco`:"
+#~ msgstr "Additionally in :ref:`openeu` and :ref:`esco`:"
 

@@ -1203,4 +1203,6 @@ def patch_lot_with_cancellation(self):
             status=403,
         )
         self.assertEqual(response.status, "403 Forbidden")
-        self.assertEqual(response.json["errors"][0]["description"], "Can't update lot that have active cancellation")
+        self.assertEqual(
+            response.json["errors"][0]["description"], "Can't perform action due to a pending cancellation"
+        )

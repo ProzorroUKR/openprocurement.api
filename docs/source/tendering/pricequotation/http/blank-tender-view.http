@@ -11,6 +11,7 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -49,9 +50,47 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "items": [
+      {
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2024-01-03T00:00:00+02:00",
+          "endDate": "2024-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2024-01-15T00:00:00+02:00",
+      "startDate": "2024-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "priceQuotation",
-    "awardCriteria": "lowestCost",
-    "status": "draft",
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
@@ -59,10 +98,6 @@ Content-Type: application/json
       "amount": 22000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": false
-    },
-    "tenderPeriod": {
-      "endDate": "2024-01-15T00:00:00+02:00",
-      "startDate": "2024-01-01T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -84,45 +119,9 @@ Content-Type: application/json
       },
       "kind": "general"
     },
-    "items": [
-      {
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652",
-        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
-        "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "deliveryDate": {
-          "startDate": "2024-01-03T00:00:00+02:00",
-          "endDate": "2024-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
-      }
-    ],
     "criteria": [
       {
-        "id": "44c9ee6cd0c8422c819d49684ff83826",
+        "id": "c1bc5a4ba13e4f80a8327687271c0743",
         "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
         "relatesTo": "item",
@@ -166,11 +165,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "c1bc5a4ba13e4f80a8327687271c0743",
+            "id": "143eb8ba1ad8447b89fdf984e8550cdd",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "143eb8ba1ad8447b89fdf984e8550cdd",
+                "id": "8c643e102af842a9a76c98acb416a3a8",
                 "title": "Діагональ екрану",
                 "dataType": "number",
                 "status": "active",
@@ -182,7 +181,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "b3bc205afbb246fa9049119cdec737df",
+                "id": "71ffc2c8fbed4816be84d21f94478995",
                 "title": "Роздільна здатність",
                 "dataType": "string",
                 "status": "active",
@@ -193,7 +192,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "05ee5b8bd46c4f2dbda8fc5c140f6420",
+                "id": "32b55dda9d7045e49e0f16fe4238d5b1",
                 "title": "Співвідношення сторін",
                 "dataType": "string",
                 "status": "active",
@@ -204,7 +203,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "3b6af92914a047b2bd2c1bfd714adcf6",
+                "id": "2208b4adaab247ac9c5b791fa3c79b17",
                 "title": "Яскравість дисплея",
                 "dataType": "integer",
                 "status": "active",
@@ -217,7 +216,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "383761af47964f29a6ed2754b88dd4d1",
+                "id": "027f4d131b204904920fd8e99006f895",
                 "title": "Контрастність (статична)",
                 "dataType": "string",
                 "status": "active",
@@ -228,7 +227,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "1949b1aac38b41e99615052120f9c4a1",
+                "id": "f11876a021344994be82d100b4ed71b6",
                 "title": "Кількість портів HDMI",
                 "dataType": "integer",
                 "status": "active",
@@ -240,7 +239,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "7a4f29925a8f430fb6094b40cd1c171f",
+                "id": "13620fc03aae44df9df55ed8cb13d52f",
                 "title": "Кількість портів D-sub",
                 "dataType": "integer",
                 "status": "active",
@@ -252,7 +251,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "622b7a53db2d4b76b9b48643fc1f65ec",
+                "id": "f6865c1031a44dc6ac20c78a09a906a1",
                 "title": "Кабель для під’єднання",
                 "dataType": "string",
                 "status": "active",
@@ -263,7 +262,7 @@ Content-Type: application/json
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "c5675ebbd1164923b2c8ca8dbc158258",
+                "id": "abbe9d04709e481f8715fa0a986d96f2",
                 "title": "Гарантія",
                 "dataType": "integer",
                 "status": "active",
@@ -279,7 +278,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "67ec69f7719246c1be8b140106219084",
+        "id": "424c1706945b48dda0894c5df6440711",
         "description": "Учасник процедури закупівлі є особою, до якої застосовано санкцію у виді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -311,11 +310,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "424c1706945b48dda0894c5df6440711",
+            "id": "b3bc205afbb246fa9049119cdec737df",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "47c1d3250c0644f9a26e8fb5d656b066",
+                "id": "ae995d97e9cc47cb90f4d55125657913",
                 "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
                 "dataType": "boolean",
                 "status": "active",
@@ -327,7 +326,7 @@ Content-Type: application/json
         ]
       },
       {
-        "id": "1f8f1cd8d82f4d59a2698ce0392750f6",
+        "id": "ba101a8a039f4a6289ffd9388ef23434",
         "description": "Замовник може прийняти рішення про відмову учаснику в участі у процедурі закупівлі та може відхилити тендерну пропозицію учасника в разі, якщо учасник процедури закупівлі не виконав свої зобов’язання за раніше укладеним договором про закупівлю з цим самим замовником, що призвело до його дострокового розірвання, і було застосовано санкції у вигляді штрафів та/або відшкодування збитків - протягом трьох років з дати дострокового розірвання такого договору. Учасник процедури закупівлі, що перебуває в обставинах, зазначених у частині другій цієї статті, може надати підтвердження вжиття заходів для доведення своєї надійності, незважаючи на наявність відповідної підстави для відмови в участі у процедурі закупівлі. Для цього учасник (суб’єкт господарювання) повинен довести, що він сплатив або зобов’язався сплатити відповідні зобов’язання та відшкодування завданих збитків. Якщо замовник вважає таке підтвердження достатнім, учаснику не може бути відмовлено в участі в процедурі закупівлі",
         "source": "winner",
         "relatesTo": "tender",
@@ -350,11 +349,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "ba101a8a039f4a6289ffd9388ef23434",
+            "id": "05ee5b8bd46c4f2dbda8fc5c140f6420",
             "description": "При відсутності не виконаних зобов'язань за раніше укладеним договором підтверджується, що",
             "requirements": [
               {
-                "id": "27ee2ce8b1eb4faba58664bb63a164dc",
+                "id": "2015c1f164124ee89d10f06dcfedd091",
                 "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору",
                 "dataType": "boolean",
                 "status": "active",
@@ -364,18 +363,18 @@ Content-Type: application/json
             ]
           },
           {
-            "id": "3f585770ca92406d8991b2aff9eacf20",
+            "id": "3b6af92914a047b2bd2c1bfd714adcf6",
             "description": "При наявності не виконаних зобов'язань за раніше укладеним договором підтверджується, що",
             "requirements": [
               {
-                "id": "aac466b53c504614a51c2dcbdf5cf495",
+                "id": "0140e7fe281b4825a83a7e2e11d20f74",
                 "title": "Учасник процедури закупівлі вжив заходів для доведення своєї надійності, а саме: сплатив або зобовʼязався сплатити відповідні зобовʼязання та відшкодування завданих збитків",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "9af27390fc614ac6937ac3cec59f13aa"
+                    "id": "32375599e7834e84b89615ab5bf39239"
                   }
                 ],
                 "status": "active",
@@ -389,6 +388,7 @@ Content-Type: application/json
     ],
     "tenderID": "UA-2024-01-01-000001-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "date": "2024-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {

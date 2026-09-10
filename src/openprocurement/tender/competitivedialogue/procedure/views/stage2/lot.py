@@ -5,8 +5,8 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitivedialogue.procedure.validation import (
-    validate_lot_operation_for_stage2,
+from openprocurement.tender.core.procedure.validation import (
+    validate_cd2_lot_operation,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -22,7 +22,7 @@ class TenderStage2EULotResource(TenderLotResource):
     @json_view(
         content_type="application/json",
         permission="create_lot",
-        validators=(validate_lot_operation_for_stage2,),
+        validators=(validate_cd2_lot_operation,),
     )
     def collection_post(self):
         """Add a lot"""
@@ -30,14 +30,14 @@ class TenderStage2EULotResource(TenderLotResource):
     @json_view(
         content_type="application/json",
         permission="edit_lot",
-        validators=(validate_lot_operation_for_stage2,),
+        validators=(validate_cd2_lot_operation,),
     )
     def patch(self):
         """Update of lot"""
 
     @json_view(
         permission="edit_lot",
-        validators=(validate_lot_operation_for_stage2,),
+        validators=(validate_cd2_lot_operation,),
     )
     def delete(self):
         """Lot deleting"""
@@ -54,7 +54,7 @@ class TenderStage2UALotResource(TenderLotResource):
     @json_view(
         content_type="application/json",
         permission="create_lot",
-        validators=(validate_lot_operation_for_stage2,),
+        validators=(validate_cd2_lot_operation,),
     )
     def collection_post(self):
         """Add a lot"""
@@ -62,14 +62,14 @@ class TenderStage2UALotResource(TenderLotResource):
     @json_view(
         content_type="application/json",
         permission="edit_lot",
-        validators=(validate_lot_operation_for_stage2,),
+        validators=(validate_cd2_lot_operation,),
     )
     def patch(self):
         """Update of lot"""
 
     @json_view(
         permission="edit_lot",
-        validators=(validate_lot_operation_for_stage2,),
+        validators=(validate_cd2_lot_operation,),
     )
     def delete(self):
         """Lot deleting"""

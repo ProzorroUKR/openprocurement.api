@@ -7,9 +7,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
 )
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneCode,
-)
+from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,

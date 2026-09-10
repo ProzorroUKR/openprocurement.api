@@ -8,7 +8,9 @@ from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.core.procedure.utils import (
+    fraction_to_decimal,
+)
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
     test_tender_esco_bids,
@@ -629,7 +631,7 @@ def create_tender_bid_lot(self):
     self.assertEqual(value["yearlyPaymentsPercentage"], self.test_bids_data[0]["value"]["yearlyPaymentsPercentage"])
     expected_bid_amount = round(
         float(
-            to_decimal(
+            fraction_to_decimal(
                 escp(
                     expected_value["contractDuration"]["years"],
                     expected_value["contractDuration"]["days"],
@@ -645,7 +647,7 @@ def create_tender_bid_lot(self):
 
     expected_amount_performance = round(
         float(
-            to_decimal(
+            fraction_to_decimal(
                 npv(
                     test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
                     test_tender_esco_bids[0]["value"]["contractDuration"]["days"],

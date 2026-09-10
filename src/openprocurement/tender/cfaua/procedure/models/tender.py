@@ -1,179 +1,72 @@
-from datetime import datetime
-from decimal import Decimal
-
-from isodate import duration_isoformat
-from schematics.types import BaseType, IntType, StringType
-from schematics.types.compound import ListType, ModelType
-from schematics.validate import ValidationError
+from schematics.types import IntType, StringType
+from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import IsoDurationType
+from openprocurement.api.procedure.types import IsoDurationType, ListType
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.cfaua.constants import (
-    CFA_UA,
-    MAX_AGREEMENT_PERIOD,
-    MIN_BIDS_NUMBER,
-)
-from openprocurement.tender.cfaua.procedure.models.feature import Feature
-from openprocurement.tender.cfaua.procedure.models.item import Item
-from openprocurement.tender.cfaua.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.item import validate_classification_id
-from openprocurement.tender.core.procedure.models.lot import (
-    Lot,
-    PatchTenderLot,
-    PostTenderLot,
-)
-from openprocurement.tender.core.procedure.models.period import (
-    EnquiryPeriod,
-    PeriodStartEndRequired,
-    StartedPeriodEndRequired,
-)
+from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.tender.cfaua.constants import LOTS_MAX_SIZE as CFA_LOTS_MAX_SIZE
+from openprocurement.tender.cfaua.constants import LOTS_MIN_SIZE as CFA_LOTS_MIN_SIZE
+from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
+from openprocurement.tender.core.procedure.models.lot import Lot, PatchTenderLot, PostTenderLot
 from openprocurement.tender.core.procedure.models.tender import (
-    PatchTender as BasePatchTender,
+    PatchTender,
+    PostTender,
+    Tender,
+    validate_cfa_features,
+    validate_cfa_max_agreement_duration_period,
+    validate_cfa_max_awards_number,
 )
-from openprocurement.tender.core.procedure.models.tender import (
-    PostTender as BasePostTender,
-)
-from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
-
-LOTS_MIN_SIZE = 1
-LOTS_MAX_SIZE = 1
 
 
-def validate_features(data, features):
-    validate_related_items(data, features)
-    if features:
-        for i in features:
-            if i.featureOf == "lot":
-                raise ValidationError("Features are not allowed for lots")
-    validate_features_custom_weight(data, features, Decimal("0.3"))
-
-
-def validate_max_awards_number(number, *args):
-    if number < MIN_BIDS_NUMBER:
-        raise ValidationError("Maximal awards number can't be less then minimal bids number")
-
-
-def validate_max_agreement_duration_period(value):
-    date = datetime(1, 1, 1)
-    if (date + value) > (date + MAX_AGREEMENT_PERIOD):
-        raise ValidationError(
-            "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
-        )
-
-
-class PostTender(BasePostTender):
+class CFAPostTender(PostTender):
     procurementMethodType = StringType(choices=[CFA_UA], default=CFA_UA)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    mainProcurementCategory = StringType(choices=["goods", "services"])
 
-    agreementDuration = IsoDurationType(required=True, validators=[validate_max_agreement_duration_period])
-    maxAwardsCount = IntType(required=True, validators=[validate_max_awards_number])
+    agreementDuration = IsoDurationType(required=True, validators=[validate_cfa_max_agreement_duration_period])
+    maxAwardsCount = IntType(required=True, validators=[validate_cfa_max_awards_number])
 
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
     lots = ListType(
         ModelType(PostTenderLot, required=True),
         required=True,
-        min_size=LOTS_MIN_SIZE,
-        max_size=LOTS_MAX_SIZE,
+        min_size=CFA_LOTS_MIN_SIZE,
+        max_size=CFA_LOTS_MAX_SIZE,
         validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
-
-    status = StringType(choices=["draft"], default="draft")
+    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
 
     def validate_features(self, data, features):
-        validate_features(data, features)
+        validate_cfa_features(data, features)
 
 
-class PatchTender(BasePatchTender):
+class CFAPatchTender(PatchTender):
     procurementMethodType = StringType(choices=[CFA_UA])
-    procuringEntity = ModelType(ProcuringEntity)
-    mainProcurementCategory = StringType(choices=["goods", "services"])
-    agreementDuration = IsoDurationType(validators=[validate_max_agreement_duration_period])
-    maxAwardsCount = IntType(validators=[validate_max_awards_number])
+    agreementDuration = IsoDurationType(validators=[validate_cfa_max_agreement_duration_period])
+    maxAwardsCount = IntType(validators=[validate_cfa_max_awards_number])
 
-    items = ListType(
-        ModelType(Item, required=True),
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
     lots = ListType(
         ModelType(PatchTenderLot, required=True),
-        min_size=LOTS_MIN_SIZE,
-        max_size=LOTS_MAX_SIZE,
+        min_size=CFA_LOTS_MIN_SIZE,
+        max_size=CFA_LOTS_MAX_SIZE,
         validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodStartEndRequired)
-
-    status = StringType(
-        choices=[
-            "draft",
-            "active.tendering",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-            "active.qualification",
-            "active.qualification.stand-still",
-        ],
-    )
+    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
 
 
-class Tender(BaseTender):
+class CFATender(Tender):
     procurementMethodType = StringType(choices=[CFA_UA], required=True)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    mainProcurementCategory = StringType(choices=["goods", "services"])
-    agreementDuration = IsoDurationType(required=True, validators=[validate_max_agreement_duration_period])
-    maxAwardsCount = IntType(required=True, validators=[validate_max_awards_number])
+    agreementDuration = IsoDurationType(required=True, validators=[validate_cfa_max_agreement_duration_period])
+    maxAwardsCount = IntType(required=True, validators=[validate_cfa_max_awards_number])
 
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
     lots = ListType(
         ModelType(Lot, required=True),
         required=True,
-        min_size=LOTS_MIN_SIZE,
-        max_size=LOTS_MAX_SIZE,
+        min_size=CFA_LOTS_MIN_SIZE,
+        max_size=CFA_LOTS_MAX_SIZE,
         validators=[validate_uniq_id],
     )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
-
-    status = StringType(
-        choices=[
-            "draft",
-            "active.tendering",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-            "active.auction",
-            "active.qualification",
-            "active.qualification.stand-still",
-            "active.awarded",
-            "complete",
-            "cancelled",
-            "unsuccessful",
-        ],
-    )
+    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
 
     auctionPeriod = ModelType(Period)
-    awards = BaseType()
 
     def validate_features(self, data, features):
-        validate_features(data, features)
+        validate_cfa_features(data, features)

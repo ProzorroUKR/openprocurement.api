@@ -1,3 +1,5 @@
+from schematics.types import StringType
+
 from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
@@ -13,3 +15,9 @@ class ContactPoint(BaseContactPoint):
 
     def validate_telephone(self, _, telephone):
         validate_telephone(telephone)
+
+
+class ProcuringEntityContactPoint(ContactPoint):
+    # required with default "uk" in some procedures, see
+    # TenderDetailsState.procuring_entity_available_language_default
+    availableLanguage = StringType(choices=["uk", "en", "ru"])

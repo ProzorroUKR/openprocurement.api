@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/78eb313fd0774c058c130df95e66f061/documents/207a8656575149829ce10d443d833ebd?acc_token=1ce7204d96e84cd78d475fddc5220b8d HTTP/1.0
+PUT /api/2.5/tenders/fecb381c7ebf43d080a71159cd541164/documents/207a8656575149829ce10d443d833ebd?acc_token=1ce7204d96e84cd78d475fddc5220b8d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

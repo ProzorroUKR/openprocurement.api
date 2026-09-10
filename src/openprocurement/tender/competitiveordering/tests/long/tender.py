@@ -95,7 +95,7 @@ class TenderCOResourceTest(BaseTenderCOLongWebTest, TenderResourceTestMixin, Ten
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderCOProcessTest(BaseTenderCOLongWebTest, TenderCOProcessTestMixin):

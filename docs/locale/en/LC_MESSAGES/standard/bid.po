@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-03-11 11:33+0200\n"
+"POT-Creation-Date: 2026-09-03 23:24+0300\n"
 "PO-Revision-Date: 2019-12-19 15:14+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language-Team: Ukrainian <info@quintagroup.com>\n"
@@ -140,23 +141,23 @@ msgstr ""
 msgid "Список об’єктів :ref:`BidItem`"
 msgstr "List of :ref:`BidItem` objects"
 
-msgid "Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`:"
-msgstr "Additionally in :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`:"
-
-msgid "selfEligible'"
+msgid "selfEligible"
 msgstr ""
 
-msgid "рядок, обов’язковий"
-msgstr "True, required"
+msgid "bool"
+msgstr "bool"
 
 msgid "Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації."
 msgstr "Confirms compliance of eligibility criteria set by the procuring entity in the tendering documents."
 
+msgid "Обов’язковий у :ref:`defense` та :ref:`simpledefense`. В інших процедурах для закупівель, створених після запровадження критеріїв (ст. 17), поле не використовується і не приймається."
+msgstr "Required in :ref:`defense` and :ref:`simpledefense`. In other procedures the field is not used and not accepted for tenders created after the introduction of the criteria (Article 17)."
+
 msgid "selfQualified"
 msgstr ""
 
-msgid "Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України ”Про державні закупівлі”."
-msgstr "Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine \"On Public Procurement\"."
+msgid "Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України ”Про державні закупівлі”. Єдине допустиме значення - `true`."
+msgstr "Confirms the absence of grounds for refusal to participate in accordance with Article 17 of the Law of Ukraine \"On Public Procurement\". The only allowed value is `true`."
 
 msgid "subcontractingDetails"
 msgstr ""
@@ -209,6 +210,9 @@ msgstr "Parameter"
 msgid "code"
 msgstr ""
 
+msgid "рядок, обов’язковий"
+msgstr "True, required"
+
 msgid "Код критерію."
 msgstr "Code of the feature."
 
@@ -236,12 +240,18 @@ msgstr ""
 msgid "ID пов’язаного :ref:`lot`."
 msgstr "Id of related :ref:`lot`."
 
-msgid "Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu` та :ref:`competitivedialogue`:"
-msgstr "Additionally in :ref:`defense`, :ref:`openua`, :ref:`openeu` and :ref:`competitivedialogue`:"
-
 msgid "Workflow in :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`"
 msgstr ""
 
 msgid "\\* позначає початковий статус"
 msgstr "\\* marks initial state"
+
+#~ msgid "Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`:"
+#~ msgstr "Additionally in :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` and :ref:`competitivedialogue`:"
+
+#~ msgid "selfEligible'"
+#~ msgstr ""
+
+#~ msgid "Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu` та :ref:`competitivedialogue`:"
+#~ msgstr "Additionally in :ref:`defense`, :ref:`openua`, :ref:`openeu` and :ref:`competitivedialogue`:"
 

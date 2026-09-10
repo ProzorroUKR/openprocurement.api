@@ -49,7 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "d64a1883d2944b8999dcbfca8fd261b4",
+        "id": "4e596572eb504331bc37c2a1a893cec2",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -74,6 +74,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/896f80313bfc43d2
 
 {
   "data": {
+    "items": [
+      {
+        "id": "4e596572eb504331bc37c2a1a893cec2",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -106,24 +123,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/896f80313bfc43d2
         }
       }
     ],
-    "status": "draft",
-    "items": [
-      {
-        "id": "d64a1883d2944b8999dcbfca8fd261b4",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 500.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
-      }
-    ],
     "lotValues": [
       {
         "status": "pending",
@@ -137,6 +136,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/896f80313bfc43d2
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
+    "status": "draft",
     "id": "26bd5b9cfa8f49f8b655b790775944ec",
     "date": "2027-01-01T00:00:00+02:00"
   },

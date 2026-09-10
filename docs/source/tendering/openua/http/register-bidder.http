@@ -49,7 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "d58c1dbb41c040b1b5acea8abccea15a",
+        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -74,6 +74,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
 
 {
   "data": {
+    "items": [
+      {
+        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+      }
+    ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
       {
@@ -120,23 +137,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "id": "d58c1dbb41c040b1b5acea8abccea15a",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 500.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
-      }
-    ],
     "id": "f4f4958a25d641dc903708cc957eab58",
     "date": "2027-01-01T00:00:00+02:00"
   },

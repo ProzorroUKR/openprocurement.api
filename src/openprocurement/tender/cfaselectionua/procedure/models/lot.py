@@ -1,46 +1,33 @@
 from schematics.types import BaseType, MD5Type, StringType, URLType
 from schematics.types.compound import ModelType
 
-from openprocurement.tender.core.procedure.models.lot import (
-    BaseLot,
-    PostBaseLot,
-    TenderLotMixin,
-)
+from openprocurement.tender.core.procedure.models.lot import BaseLot, PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
-from openprocurement.tender.core.procedure.models.value import (
-    BasicValue,
-    EstimatedValue,
-    Value,
-)
-
-# -- START model for view ---
+from openprocurement.tender.core.procedure.models.value import BasicValue, EstimatedValue, Value
 
 
-class PostLot(PostBaseLot):
+class CFASelectionPostLot(PostBaseLot):
     guarantee = ModelType(BasicValue)
 
 
-class PatchLot(BaseLot):
+class CFASelectionPatchLot(BaseLot):
     title = StringType()
     guarantee = ModelType(BasicValue)
     minimalStep = ModelType(Value)
     status = StringType(choices=["active"])
 
 
-# -- END models for view ---
-
-
-class PostTenderLot(PostLot, TenderLotMixin):
+class CFASelectionPostTenderLot(CFASelectionPostLot, TenderLotMixin):
     pass
 
 
-class PatchTenderLot(BaseLot, TenderLotMixin):
+class CFASelectionPatchTenderLot(BaseLot, TenderLotMixin):
     title = StringType()
     guarantee = ModelType(BasicValue)
     minimalStep = ModelType(Value)
 
 
-class Lot(BaseLot, TenderLotMixin):
+class CFASelectionLot(BaseLot, TenderLotMixin):
     id = MD5Type(required=True)
     value = ModelType(EstimatedValue)
     minimalStep = ModelType(Value)

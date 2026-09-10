@@ -16,11 +16,7 @@ from openprocurement.tender.core.procedure.contracting import (
     save_contracting_contracts,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.cancellation import (
-    Cancellation,
-    PatchCancellation,
-    PostCancellation,
-)
+from openprocurement.tender.core.procedure.models.cancellation import Cancellation, PatchCancellation, PostCancellation
 from openprocurement.tender.core.procedure.serializers.cancellation import (
     CancellationSerializer,
 )

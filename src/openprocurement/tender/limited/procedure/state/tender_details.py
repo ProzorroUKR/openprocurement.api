@@ -16,13 +16,11 @@ from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 from openprocurement.tender.core.procedure.utils import (
+    reporting_cause_is_required,
     tender_created_after,
     tender_created_before,
 )
 from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
-from openprocurement.tender.limited.procedure.models.tender import (
-    reporting_cause_is_required,
-)
 from openprocurement.tender.limited.procedure.serializers.cause import (
     enrich_cause_details,
     get_cause_details_reference,
@@ -168,10 +166,18 @@ class CauseDetailsMixing:
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    items_related_lot_error = "This option is not available"
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    procuring_entity_required_fields = {}
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_validate_related_lot_in_items = False
+    items_delivery_required = True
+    patch_status_choices = ("draft", "active")
+    award_criteria_choices = None
+    award_criteria_default = None
 
     contract_template_name_patch_statuses = []
 
@@ -191,10 +197,16 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 
 
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    lot_guarantee_currency_from_tender = False
+    lot_minimal_step_meta_from_tender = False
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_validate_related_lot_in_items = True
+    items_delivery_required = True
+    patch_status_choices = ("draft", "active")
+    award_criteria_choices = None
+    award_criteria_default = None
 
     contract_template_name_patch_statuses = ("draft", "active")
 
@@ -216,14 +228,6 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
             )
         self.validate_items_related_market_objects(after, before)
         super().on_patch(before, after)
-
-    @staticmethod
-    def set_lot_guarantee(tender: dict, data: dict) -> None:
-        pass
-
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, data: dict) -> None:
-        pass
 
 
 class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):

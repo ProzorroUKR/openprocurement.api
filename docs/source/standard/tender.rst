@@ -480,6 +480,8 @@ Tender
 
    Назва шаблону договору.
 
+   Відсутнє в :ref:`arma`
+
 :funders:
   Список об’єктів :ref:`organization`.
 
@@ -548,7 +550,8 @@ Tender
 :targets:
     Список об’єктів :ref:`Feature`
 
-    Тільки для :ref:`cfaua`
+    Доступне у :ref:`belowthreshold`, :ref:`open`, :ref:`openua`, :ref:`openeu`, :ref:`defense`, :ref:`simpledefense`,
+    :ref:`competitiveordering` та :ref:`requestforproposal`
 
     Може бути створений лише у якщо ``status`` тендера ``draft``. Модифікація можлива, тільки за умови, що ``status`` тендера один з [``draft``, ``active.tendering``]. В усіх інших випадках створення та модифікація заборонена.
 

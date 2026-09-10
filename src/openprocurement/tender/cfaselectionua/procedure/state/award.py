@@ -1,17 +1,19 @@
 import logging
 
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import context_unpack, raise_operation_error
+from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
-from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 LOGGER = logging.getLogger(__name__)
 
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
+    award_unsuccessful_cancel_allowed = False
+    award_unsuccessful_requires_cancelled_award_same_bid = True
+
     def award_status_up(self, before, after, award):
         super().award_status_up(before, after, award)
 
@@ -77,28 +79,3 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
             contract_statuses = {c["status"] for c in tender.get("contracts", [])}
             if contract_statuses and "active" in contract_statuses and "pending" not in contract_statuses:
                 self.get_change_tender_status_handler("complete")(tender)
-
-    def award_status_up_from_pending_to_active(self, award, tender):
-        self.request.validated["contracts_added"] = add_contracts(self.request, award)
-        self.add_next_award()
-
-    def award_status_up_from_active_to_cancelled(self, award, tender):
-        self.cancel_award(award)
-        self.add_next_award()
-
-    def award_status_up_from_pending_to_unsuccessful(self, award, tender):
-        if tender["status"] == "active.qualification":
-            if not any(
-                a["bid_id"] == award["bid_id"]
-                and a["status"] == "cancelled"  # not need to check `a["id"] != award["id"]`
-                for a in tender.get("awards", [])
-            ):
-                raise_operation_error(
-                    self.request,
-                    f"Can't update award status to {award['status']}, if tender status is {tender['status']}"
-                    " and there is no cancelled award with the same bid_id",
-                )
-        self.add_next_award()
-
-    def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
-        raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")

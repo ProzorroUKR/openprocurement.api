@@ -13,12 +13,12 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_MIN_AMOUNT,
 )
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
-from openprocurement.tender.core.procedure.utils import restrict_value_to_bounds
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
-from openprocurement.tender.esco.procedure.utils import (
+from openprocurement.tender.core.procedure.utils import (
     all_bids_values,
     get_bid_identifier,
+    restrict_value_to_bounds,
 )
+from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 
 LOGGER = getLogger(__name__)
 

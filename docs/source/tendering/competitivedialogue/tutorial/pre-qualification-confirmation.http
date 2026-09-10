@@ -1111,10 +1111,9 @@ Content-Type: application/json
             }
           }
         ],
-        "id": "6df778e10f1c41b2a438c5e8908fc02e",
         "items": [
           {
-            "id": "df38969eb8ad4d558dda2cd874f14ac4",
+            "id": "b147656012414e84984969eedb0d1f6a",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -1125,7 +1124,7 @@ Content-Type: application/json
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
           },
           {
-            "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+            "id": "5c3c5cf88e844f5aa88f6748c519c933",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -1168,6 +1167,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "3ce99d9acadd4392a6e7e5badea84d2f",
         "lotValues": [
           {
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -1210,7 +1211,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/6df778e10f1c41b2a438c5e8908fc02e/documents/0d145399f916419c821a3ae83b8cd8c2?download=8b781eec9f744181a275c6919de639dc",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/3ce99d9acadd4392a6e7e5badea84d2f/documents/0d145399f916419c821a3ae83b8cd8c2?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:01:00+02:00",
             "language": "uk",
@@ -1224,7 +1225,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/6df778e10f1c41b2a438c5e8908fc02e/documents/fef11a18a16a473bac225d24c7bc79db?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/3ce99d9acadd4392a6e7e5badea84d2f/documents/fef11a18a16a473bac225d24c7bc79db?download=21c9ff3dd5e646208c8dd44b5853a9c0",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:01:00+02:00",
             "language": "uk",
@@ -1244,8 +1245,7 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       },
       {
         "requirementResponses": [
@@ -1425,10 +1425,9 @@ Content-Type: application/json
             }
           }
         ],
-        "id": "a5186dbf9d814acca7ba6f9fd36493f5",
         "items": [
           {
-            "id": "df38969eb8ad4d558dda2cd874f14ac4",
+            "id": "b147656012414e84984969eedb0d1f6a",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -1439,7 +1438,7 @@ Content-Type: application/json
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
           },
           {
-            "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+            "id": "5c3c5cf88e844f5aa88f6748c519c933",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -1482,6 +1481,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "2caee4fba6df43daa9f432069ff4f83e",
         "lotValues": [
           {
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -1503,8 +1504,7 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       },
       {
         "requirementResponses": [
@@ -1684,7 +1684,6 @@ Content-Type: application/json
             }
           }
         ],
-        "id": "45d3430d817c4eef922421c639cfd895",
         "tenderers": [
           {
             "name": "«Снігур»",
@@ -1716,6 +1715,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "unsuccessful",
+        "id": "d12a4588000c4f508df566cb85f1eeee",
         "lotValues": [
           {
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -1737,8 +1738,7 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "unsuccessful"
+        ]
       },
       {
         "requirementResponses": [
@@ -1918,10 +1918,9 @@ Content-Type: application/json
             }
           }
         ],
-        "id": "0ce39bcffe1a47339657aad5a006f3fb",
         "items": [
           {
-            "id": "df38969eb8ad4d558dda2cd874f14ac4",
+            "id": "b147656012414e84984969eedb0d1f6a",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -1932,7 +1931,7 @@ Content-Type: application/json
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
           },
           {
-            "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+            "id": "5c3c5cf88e844f5aa88f6748c519c933",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -1974,6 +1973,8 @@ Content-Type: application/json
             }
           }
         ],
+        "status": "active",
+        "id": "8f96451aec6a48e4a98b361b7cdecddb",
         "lotValues": [
           {
             "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
@@ -2002,7 +2003,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/0ce39bcffe1a47339657aad5a006f3fb/documents/e6e6a0898ffd4ad9bd8bb025de66ae53?download=c747987375f140cdba81d516b2dca242",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/8f96451aec6a48e4a98b361b7cdecddb/documents/e6e6a0898ffd4ad9bd8bb025de66ae53?download=c747987375f140cdba81d516b2dca242",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:03:00+02:00",
             "language": "uk",
@@ -2022,8 +2023,7 @@ Content-Type: application/json
             "language": "uk",
             "isDescriptionDecision": false
           }
-        ],
-        "status": "active"
+        ]
       }
     ],
     "questions": [
@@ -2095,9 +2095,74 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.pre-qualification.stand-still",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "qualifications": [
+      {
+        "id": "c29fd0e4e9d3459a80c4581fdfa75ef6",
+        "bidID": "3ce99d9acadd4392a6e7e5badea84d2f",
+        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "f1c14917633d4811bc506954af4a91fc",
+        "bidID": "2caee4fba6df43daa9f432069ff4f83e",
+        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "292dbf0af55b43f3993d9fcf7278f29e",
+        "bidID": "d12a4588000c4f508df566cb85f1eeee",
+        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": false,
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      },
+      {
+        "id": "e7f05581f9e646a5a6e2e1117f4e33d6",
+        "bidID": "8f96451aec6a48e4a98b361b7cdecddb",
+        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
+        "status": "active",
+        "date": "2027-01-01T00:03:00+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2027-01-01T00:03:00+02:00",
+          "endDate": "2027-01-07T00:00:00+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-07T00:00:00+02:00",
+      "reportingDatePublication": "2027-01-01T00:03:00+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:03:00+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -2210,107 +2275,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
-    },
-    "qualificationPeriod": {
-      "startDate": "2027-01-01T00:03:00+02:00",
-      "endDate": "2027-01-07T00:00:00+02:00",
-      "reportingDatePublication": "2027-01-01T00:03:00+02:00"
-    },
-    "qualifications": [
-      {
-        "id": "c29fd0e4e9d3459a80c4581fdfa75ef6",
-        "bidID": "6df778e10f1c41b2a438c5e8908fc02e",
-        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "f1c14917633d4811bc506954af4a91fc",
-        "bidID": "a5186dbf9d814acca7ba6f9fd36493f5",
-        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "292dbf0af55b43f3993d9fcf7278f29e",
-        "bidID": "45d3430d817c4eef922421c639cfd895",
-        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": false,
-        "eligible": false,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      },
-      {
-        "id": "e7f05581f9e646a5a6e2e1117f4e33d6",
-        "bidID": "0ce39bcffe1a47339657aad5a006f3fb",
-        "lotID": "1ce862da3d7f4b8ca7160edab3452691",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2027-01-01T00:03:00+02:00",
-          "endDate": "2027-01-07T00:00:00+02:00"
-        }
-      }
-    ],
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "name_en": "School #10 of Vinnytsia",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/",
-        "name_en": "Kutsa Svitlana V.",
-        "availableLanguage": "uk"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
     },
     "enquiryPeriod": {
       "startDate": "2026-12-01T00:03:00+02:00",
@@ -2322,17 +2289,11 @@ Content-Type: application/json
       "startDate": "2026-12-01T00:03:00+02:00",
       "endDate": "2027-01-01T00:03:00+02:00"
     },
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:03:00+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
-    },
-    "procurementMethodType": "competitiveDialogueEU",
-    "mainProcurementCategory": "services",
-    "status": "active.pre-qualification.stand-still",
     "items": [
       {
-        "id": "df38969eb8ad4d558dda2cd874f14ac4",
+        "id": "b147656012414e84984969eedb0d1f6a",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "кілограм",
           "code": "KGM"
@@ -2350,7 +2311,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -2362,11 +2322,12 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens"
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
       },
       {
-        "id": "ef4a0a84ed77496e89a381ecfcdbf49d",
+        "id": "5c3c5cf88e844f5aa88f6748c519c933",
         "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
         "unit": {
           "name": "упаковка",
           "code": "PK"
@@ -2384,7 +2345,6 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
         "deliveryDate": {
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
@@ -2396,9 +2356,48 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Services in school canteens"
+        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
       }
     ],
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/",
+        "availableLanguage": "uk"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -2418,6 +2417,7 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethodType": "competitiveDialogueEU",
     "next_check": "2027-01-07T00:00:00+02:00",
     "id": "77e829220cef46c89b232c408c771bff"
   },

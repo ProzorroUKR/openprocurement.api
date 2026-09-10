@@ -1,10 +1,4 @@
-from copy import deepcopy
-
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.constants import TENDER_CO_CONFIG_JSONSCHEMAS
-from openprocurement.api.procedure.context import get_object
-from openprocurement.api.procedure.models.organization import ProcuringEntityKind
-from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.tender.competitiveordering.constants import (
     LONG_WORKING_DAYS_CONFIG,
@@ -20,49 +14,33 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 
 
 class COTenderDetailsState(TenderDetailsMixing, COTenderState):
+    items_classification_prefix_change_check = True
+    agreement_procuring_entity_match_except_defense = True
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
 
     should_validate_notice_doc_required = True
     should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
     agreement_allowed_types = [DPS_TYPE]
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
-    def on_patch(self, before, after):
-        super().on_patch(before, after)  # TenderDetailsMixing.on_patch
 
-        self.validate_items_classification_prefix_unchanged(before, after)
-
-    @property
-    def should_match_agreement_procuring_entity(self):
-        if (
-            get_object("tender")["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
-            and get_object("agreement")["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
-        ):
-            # Defense procuring entity can use agreement with other defense procuring entity
-            return False
-
-        return True
-
-
-class COTenderConfigMixin(ConfigMixin):
-    co_config_schema_name = "competitiveOrdering"
-
-    def validate_co_config(self, data):
-        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.co_config_schema_name)
-        config_schema = deepcopy(config_schema)
-        config_schema.pop("required", None)
-        self.validate_config_schema(data, config_schema)
-
-    def validate_config(self, data):
-        super().validate_config(data)
-        self.validate_co_config(data)
+class COTenderConfigMixin:
+    extra_config_schema_name = "competitiveOrdering"
 
 
 class COShortTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
-    co_config_schema_name = "competitiveOrdering.short"
+    extra_config_schema_name = "competitiveOrdering.short"
     agreement_with_items_forbidden = False
 
     tender_period_extra = TENDERING_EXTRA_PERIOD
@@ -72,7 +50,7 @@ class COShortTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
 
 
 class COLongTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
-    co_config_schema_name = "competitiveOrdering.long"
+    extra_config_schema_name = "competitiveOrdering.long"
     agreement_with_items_forbidden = True
 
     tender_period_extra = TENDERING_EXTRA_PERIOD

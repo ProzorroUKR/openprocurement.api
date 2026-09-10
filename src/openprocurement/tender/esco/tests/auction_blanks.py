@@ -4,7 +4,9 @@ from datetime import timedelta
 from esculator import escp, npv
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.core.procedure.utils import (
+    fraction_to_decimal,
+)
 
 
 def get_tender_auction(self):
@@ -151,7 +153,7 @@ def post_tender_auction(self):
 
     expected_amountPerformance = round(
         float(
-            to_decimal(
+            fraction_to_decimal(
                 npv(
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
@@ -167,7 +169,7 @@ def post_tender_auction(self):
 
     expected_amount = round(
         float(
-            to_decimal(
+            fraction_to_decimal(
                 escp(
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
@@ -562,7 +564,7 @@ def post_tender_lots_auction(self):
 
     expected_amountPerformance = round(
         float(
-            to_decimal(
+            fraction_to_decimal(
                 npv(
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],
@@ -578,7 +580,7 @@ def post_tender_lots_auction(self):
 
     expected_amount = round(
         float(
-            to_decimal(
+            fraction_to_decimal(
                 escp(
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["years"],
                     tender["bids"][0]["lotValues"][0]["value"]["contractDuration"]["days"],

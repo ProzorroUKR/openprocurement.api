@@ -1036,6 +1036,30 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "1045105100a341998426114b17a5c1ff"
+          },
+          {
+            "id": "1065f03b083b486d810ef3d29ad67913",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "GRM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "1045105100a341998426114b17a5c1ff"
+          }
+        ],
         "lotValues": [
           {
             "relatedLot": "1045105100a341998426114b17a5c1ff",
@@ -1141,30 +1165,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "413de2ea9c9c44b9828522f05507c3bd",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "1045105100a341998426114b17a5c1ff"
-          },
-          {
-            "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
-            "unit": {
-              "name": "item",
-              "code": "GRM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "1045105100a341998426114b17a5c1ff"
           }
         ]
       },
@@ -1334,6 +1334,30 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "1045105100a341998426114b17a5c1ff"
+          },
+          {
+            "id": "1065f03b083b486d810ef3d29ad67913",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "GRM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "1045105100a341998426114b17a5c1ff"
+          }
+        ],
         "lotValues": [
           {
             "relatedLot": "1045105100a341998426114b17a5c1ff",
@@ -1387,30 +1411,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:02:01+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "413de2ea9c9c44b9828522f05507c3bd",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "1045105100a341998426114b17a5c1ff"
-          },
-          {
-            "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
-            "unit": {
-              "name": "item",
-              "code": "GRM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "1045105100a341998426114b17a5c1ff"
           }
         ]
       },
@@ -1839,6 +1839,30 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "1045105100a341998426114b17a5c1ff"
+          },
+          {
+            "id": "1065f03b083b486d810ef3d29ad67913",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases for state awards",
+            "unit": {
+              "name": "item",
+              "code": "GRM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "1045105100a341998426114b17a5c1ff"
+          }
+        ],
         "lotValues": [
           {
             "relatedLot": "1045105100a341998426114b17a5c1ff",
@@ -1930,30 +1954,6 @@ Content-Type: application/json
             "dateModified": "2027-01-01T00:02:01+02:00",
             "language": "uk"
           }
-        ],
-        "items": [
-          {
-            "id": "413de2ea9c9c44b9828522f05507c3bd",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
-            "unit": {
-              "name": "item",
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "1045105100a341998426114b17a5c1ff"
-          },
-          {
-            "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases for state awards",
-            "unit": {
-              "name": "item",
-              "code": "GRM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "1045105100a341998426114b17a5c1ff"
-          }
         ]
       }
     ],
@@ -2026,9 +2026,74 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.auction",
     "owner": "broker",
     "title": "футляри до державних нагород",
+    "mainProcurementCategory": "goods",
     "procurementMethod": "open",
+    "qualifications": [
+      {
+        "id": "94b658eb87b04f0cad16554d0fbcc11a",
+        "bidID": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      },
+      {
+        "id": "a23f7992d1f6432f900483528b748a47",
+        "bidID": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      },
+      {
+        "id": "3c314cb490a34293961ff666e4c278dc",
+        "bidID": "a57e9556a7ef4cc6a771bb404e1ae9f1",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "unsuccessful",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": false,
+        "eligible": false,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      },
+      {
+        "id": "ce73001044a743bf8deb2f239bcfbb04",
+        "bidID": "73eeb29f403b4570b3fac666e19a6e67",
+        "lotID": "1045105100a341998426114b17a5c1ff",
+        "status": "active",
+        "date": "2027-01-01T00:02:01+02:00",
+        "qualified": true,
+        "eligible": true,
+        "complaintPeriod": {
+          "startDate": "2026-12-27T00:02:01+02:00",
+          "endDate": "2027-01-01T00:02:01+02:00"
+        }
+      }
+    ],
+    "qualificationPeriod": {
+      "startDate": "2026-12-27T00:02:01+02:00",
+      "endDate": "2027-01-01T00:02:01+02:00",
+      "reportingDatePublication": "2026-12-27T00:02:01+02:00"
+    },
+    "complaintPeriod": {
+      "startDate": "2026-12-01T00:02:01+02:00",
+      "endDate": "2026-12-28T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -2130,80 +2195,91 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 500.0
-    },
     "guarantee": {
       "amount": 8.0,
       "currency": "USD"
     },
-    "qualificationPeriod": {
-      "startDate": "2026-12-27T00:02:01+02:00",
-      "endDate": "2027-01-01T00:02:01+02:00",
-      "reportingDatePublication": "2026-12-27T00:02:01+02:00"
+    "enquiryPeriod": {
+      "startDate": "2026-11-26T00:02:01+02:00",
+      "endDate": "2026-12-07T00:02:01+02:00",
+      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:01:00+02:00"
     },
-    "complaintPeriod": {
-      "startDate": "2026-12-01T00:02:01+02:00",
-      "endDate": "2026-12-28T00:00:00+02:00"
+    "tenderPeriod": {
+      "startDate": "2026-11-26T00:02:01+02:00",
+      "endDate": "2026-12-27T00:02:01+02:00"
     },
-    "qualifications": [
+    "items": [
       {
-        "id": "94b658eb87b04f0cad16554d0fbcc11a",
-        "bidID": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
+        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00",
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "a23f7992d1f6432f900483528b748a47",
-        "bidID": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
-      },
-      {
-        "id": "3c314cb490a34293961ff666e4c278dc",
-        "bidID": "a57e9556a7ef4cc6a771bb404e1ae9f1",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "unsuccessful",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": false,
-        "eligible": false,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
-      },
-      {
-        "id": "ce73001044a743bf8deb2f239bcfbb04",
-        "bidID": "73eeb29f403b4570b3fac666e19a6e67",
-        "lotID": "1045105100a341998426114b17a5c1ff",
-        "status": "active",
-        "date": "2027-01-01T00:02:01+02:00",
-        "qualified": true,
-        "eligible": true,
-        "complaintPeriod": {
-          "startDate": "2026-12-27T00:02:01+02:00",
-          "endDate": "2027-01-01T00:02:01+02:00"
-        }
+        "id": "1065f03b083b486d810ef3d29ad67913",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
+        "unit": {
+          "name": "item",
+          "code": "GRM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837+03:00",
+          "endDate": "2018-06-30T13:39:09.362837+03:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
-    "procurementMethodType": "closeFrameworkAgreementUA",
+    "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
       "name_en": "State administration",
@@ -2222,85 +2298,20 @@ Content-Type: application/json
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
         "name_en": "State administration",
+        "telephone": "+0440000000",
         "availableLanguage": "uk"
       },
       "kind": "general"
     },
-    "mainProcurementCategory": "goods",
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 500.0
+    },
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "agreementDuration": "P3Y3M3D",
     "maxAwardsCount": 4,
-    "items": [
-      {
-        "id": "413de2ea9c9c44b9828522f05507c3bd",
-        "description": "футляри до державних нагород",
-        "unit": {
-          "name": "item",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "relatedLot": "1045105100a341998426114b17a5c1ff",
-        "deliveryDate": {
-          "startDate": "2018-06-27T13:39:09.362837+03:00",
-          "endDate": "2018-06-30T13:39:09.362837+03:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Cases for state awards"
-      },
-      {
-        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
-        "description": "футляри до державних нагород",
-        "unit": {
-          "name": "item",
-          "code": "GRM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "relatedLot": "1045105100a341998426114b17a5c1ff",
-        "deliveryDate": {
-          "startDate": "2018-06-27T13:39:09.362837+03:00",
-          "endDate": "2018-06-30T13:39:09.362837+03:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "description_en": "Cases for state awards"
-      }
-    ],
     "lots": [
       {
         "title": "Лот №1",
@@ -2329,17 +2340,6 @@ Content-Type: application/json
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/ae2274f0782747918bb1e96f34787c24_1045105100a341998426114b17a5c1ff"
       }
     ],
-    "enquiryPeriod": {
-      "startDate": "2026-11-26T00:02:01+02:00",
-      "endDate": "2026-12-07T00:02:01+02:00",
-      "clarificationsUntil": "2027-01-02T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:01:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2026-11-26T00:02:01+02:00",
-      "endDate": "2026-12-27T00:02:01+02:00"
-    },
-    "status": "active.auction",
     "next_check": "2027-01-04T12:04:26.072000+02:00",
     "auctionPeriod": {},
     "id": "ae2274f0782747918bb1e96f34787c24"

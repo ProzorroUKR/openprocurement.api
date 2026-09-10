@@ -185,6 +185,23 @@ Content-Type: application/json
         }
       }
     ],
+    "items": [
+      {
+        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -279,23 +296,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
-      }
-    ],
-    "items": [
-      {
-        "id": "d58c1dbb41c040b1b5acea8abccea15a",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 500.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
       }
     ]
   }

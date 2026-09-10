@@ -6,6 +6,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
 
 class RequestForProposalAwardClaimState(AwardClaimStateMixin, RequestForProposalTenderState):
     should_validate_is_satisfied = False
-
-    def validate_submit_claim(self, claim):
-        pass
+    claim_submit_validation = False

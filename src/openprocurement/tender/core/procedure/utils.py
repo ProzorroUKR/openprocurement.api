@@ -2,6 +2,7 @@ import math
 import urllib.parse
 from copy import deepcopy
 from datetime import datetime, timedelta
+from decimal import Decimal
 from hashlib import sha512
 from logging import getLogger
 from typing import Iterable, Optional
@@ -27,6 +28,7 @@ from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
 )
 from openprocurement.api.context import get_json_data, get_request_now
+from openprocurement.api.context import get_request as get_api_request
 from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.context import get_tender
@@ -44,8 +46,15 @@ from openprocurement.api.utils import (
     get_child_items,
     get_first_revision_date,
     raise_operation_error,
+    request_init_tender,
 )
 from openprocurement.api.validation import validate_json_data
+from openprocurement.tender.competitivedialogue.constants import (
+    STAGE_2_EU_DEFAULT_CONFIG,
+    STAGE_2_EU_TYPE,
+    STAGE_2_UA_DEFAULT_CONFIG,
+    STAGE_2_UA_TYPE,
+)
 from openprocurement.tender.core.constants import (
     AUCTION_STAND_STILL_TIME,
     BIDDER_TIME,
@@ -53,7 +62,8 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_bid, get_request
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.utils import QUICK
+from openprocurement.tender.core.utils import QUICK, calculate_tender_full_date
+from openprocurement.tender.limited.constants import VALUE_AMOUNT_THRESHOLD_MAPPING
 
 LOGGER = getLogger(__name__)
 
@@ -346,11 +356,11 @@ def find_lot(tender, lot_id):
 
 def validate_features_custom_weight(data, features, max_sum):
     if features:
-        if data["lots"]:
+        if data.get("lots"):
             if any(
                 [
                     round(
-                        vnmax(filter_features(features, data["items"], lot_ids=[lot["id"]])),
+                        vnmax(filter_features(features, data.get("items") or [], lot_ids=[lot["id"]])),
                         15,
                     )
                     > max_sum
@@ -802,3 +812,270 @@ def filter_nested_values(data, *allowed_paths):
         return result
 
     return filter_value(data, allowed_paths)
+
+
+def fraction_to_decimal(fraction):
+    return Decimal(fraction.numerator) / Decimal(fraction.denominator)
+
+
+DECIMAL_COMPARE_ACCURACY = Decimal("1e-12")
+
+
+def equals_decimal_and_corrupted(value, corrupted_value):
+    """
+    Ex. value is Decimal('0.1'),
+    tender.feature.enum values can be like
+    '0.050000000000000002776', '0.10000000000000000555', '0.14999999999999999445'
+    how do I check this ?
+    """
+    corrupted_value = Decimal(corrupted_value)
+    return value == corrupted_value or value == corrupted_value.quantize(DECIMAL_COMPARE_ACCURACY)
+
+
+# ================= procedure-specific helpers (former tender/<procedure>/procedure/utils.py) =================
+
+
+# --- esco ---
+
+
+def get_bid_identifier(bid):
+    identifier = bid["tenderers"][0]["identifier"]
+    return identifier["scheme"], identifier["id"]
+
+
+def all_bids_values(tender, identifier):
+    """
+    :param tender:
+    :param identifier: a tuple (identifier.scheme, identifier.id)
+    :return: every lotValue for a specified (identifier.scheme, identifier.id)
+    """
+    for every_bid in tender["bids"]:
+        if get_bid_identifier(every_bid) == identifier:
+            yield from every_bid["lotValues"]
+
+
+# --- limited: reporting ---
+
+
+def reporting_cause_is_required(data):
+    procedure_kind = data.get("procuringEntity", {}).get("kind")
+    return all(
+        [
+            procedure_kind != "other",
+            not data.get("procurementMethodRationale"),
+            (
+                data.get("value")
+                and data["value"].get("amount")
+                and data.get("mainProcurementCategory")
+                and VALUE_AMOUNT_THRESHOLD_MAPPING.get(procedure_kind, {}).get(data["mainProcurementCategory"])
+                and data["value"]["amount"]
+                >= VALUE_AMOUNT_THRESHOLD_MAPPING[procedure_kind][data["mainProcurementCategory"]]
+            ),
+        ]
+    )
+
+
+# --- competitiveDialogue: shortlisted firms keys and stage2 creation ---
+
+CD_STAGE2_COPY_FIELDS = (
+    "title_ru",
+    "mode",
+    "procurementMethodDetails",
+    "title_en",
+    "description",
+    "description_en",
+    "description_ru",
+    "title",
+    "minimalStep",
+    "value",
+    "procuringEntity",
+    "submissionMethodDetails",
+    "buyers",
+    "contractTemplateName",
+)
+
+
+def prepare_shortlisted_firms_keys(shortlistedFirms):
+    """Make list with keys
+    key = {identifier_id}_{identifier_scheme}_{lot_id}
+    """
+    all_keys = set()
+    for firm in shortlistedFirms:
+        key = "{firm_id}_{firm_scheme}".format(
+            firm_id=firm["identifier"]["id"], firm_scheme=firm["identifier"]["scheme"]
+        )
+        if firm.get("lots"):
+            keys = {"{key}_{lot_id}".format(key=key, lot_id=lot["id"]) for lot in firm.get("lots")}
+        else:
+            keys = {key}
+        all_keys |= keys
+    return all_keys
+
+
+def prepare_shortlisted_firms_author_key(obj):
+    """Make key
+    {author.identifier.id}_{author.identifier.scheme}
+    or
+    {author.identifier.id}_{author.identifier.scheme}_{id}
+    if obj has relatedItem and questionOf != tender or obj has relatedLot than
+    """
+    base_key = "{id}_{scheme}".format(
+        scheme=obj["author"]["identifier"]["scheme"],
+        id=obj["author"]["identifier"]["id"],
+    )
+    related_id = None
+    if obj.get("relatedLot"):
+        related_id = obj.get("relatedLot")
+    elif obj.get("relatedItem") and obj.get("questionOf") in ("lot", "item"):
+        related_id = obj.get("relatedItem")
+    if related_id:
+        base_key = "{base_key}_{id}".format(
+            base_key=base_key,
+            id=related_id,
+        )
+    return base_key
+
+
+def prepare_shortlisted_firms_bid_keys(bid):
+    """Make list with keys
+    key = {identifier_id}_{identifier_scheme}_{lot_id}
+    """
+    all_keys = set()
+    for tenderer in bid["tenderers"]:
+        key = "{id}_{scheme}".format(id=tenderer["identifier"]["id"], scheme=tenderer["identifier"]["scheme"])
+        if bid.get("lotValues"):
+            keys = {"{key}_{lot_id}".format(key=key, lot_id=lot["relatedLot"]) for lot in bid.get("lotValues")}
+        else:
+            keys = {key}
+        all_keys |= keys
+    return all_keys
+
+
+# competitiveDialogue stage2 creation logic
+
+
+def prepare_stage2_tender_data(tender: dict) -> dict:
+    from openprocurement.tender.core.procedure.serializers.tender_credentials import (  # circular import
+        tender_token_serializer,
+    )
+
+    new_tender = {
+        "id": uuid4().hex,
+        "procurementMethod": "selective",
+        "status": "draft.stage2",
+        "dialogueID": tender["_id"],
+        "tenderID": f"{tender['tenderID']}.2",
+        "owner": tender["owner"],
+        "dialogue_token": tender_token_serializer(tender["owner_token"]),
+    }
+
+    for field_name in CD_STAGE2_COPY_FIELDS:
+        if field_name in tender:
+            new_tender[field_name] = tender[field_name]
+
+    if tender["procurementMethodType"].endswith("EU"):
+        new_tender["procurementMethodType"] = STAGE_2_EU_TYPE
+        config = STAGE_2_EU_DEFAULT_CONFIG
+    else:
+        new_tender["procurementMethodType"] = STAGE_2_UA_TYPE
+        config = STAGE_2_UA_DEFAULT_CONFIG
+
+    new_tender["tenderPeriod"] = {
+        "startDate": get_request_now().isoformat(),
+        "endDate": calculate_tender_full_date(
+            get_request_now(),
+            timedelta(days=config["minTenderingDuration"]),
+            tender=tender,
+        ).isoformat(),
+    }
+
+    old_lots = process_cd_stage2_qualifications(tender, new_tender)
+    if "features" in tender:
+        process_cd_stage2_features(new_tender, tender["features"], old_lots)
+
+    process_cd_stage2_criteria(tender, new_tender)
+
+    return new_tender
+
+
+def cd_get_bid_by_id(bids: list, bid_id: str) -> dict:
+    for bid in bids:
+        if bid["id"] == bid_id:
+            return bid
+
+
+def prepare_cd_stage2_lot(orig_tender: dict, lot_id: str, items: list) -> dict:
+    lot = {}
+    for tender_lot in orig_tender["lots"]:
+        if tender_lot["id"] == lot_id:
+            lot = tender_lot
+            break
+    if lot.get("status") != "active":
+        return {}
+
+    for item in orig_tender["items"]:
+        if item.get("relatedLot") == lot_id:
+            items.append(item)
+    return lot
+
+
+def process_cd_stage2_qualifications(tender: dict, new_tender: dict) -> dict:
+    old_lots, items, short_listed_firms = {}, [], {}
+    for qualification in tender["qualifications"]:
+        if qualification["status"] == "active":
+            bid = cd_get_bid_by_id(tender["bids"], qualification["bidID"])
+            if qualification.get("lotID"):
+                if qualification["lotID"] not in old_lots:
+                    lot = prepare_cd_stage2_lot(tender, qualification["lotID"], items)
+                    if not lot:
+                        continue
+                    old_lots[qualification["lotID"]] = lot
+                for bid_tender in bid["tenderers"]:
+                    if bid_tender["identifier"]["id"] not in short_listed_firms:
+                        identifier = {
+                            "name": bid_tender["name"],
+                            "identifier": bid_tender["identifier"],
+                            "lots": [{"id": old_lots[qualification["lotID"]]["id"]}],
+                        }
+                        short_listed_firms[bid_tender["identifier"]["id"]] = identifier
+                    else:
+                        short_listed_firms[bid_tender["identifier"]["id"]]["lots"].append(
+                            {"id": old_lots[qualification["lotID"]]["id"]}
+                        )
+            else:
+                new_tender["items"] = deepcopy(tender["items"])
+                for bid_tender in bid["tenderers"]:
+                    if bid_tender["identifier"]["id"] not in short_listed_firms:
+                        identifier = {"name": bid_tender["name"], "identifier": bid_tender["identifier"], "lots": []}
+                        short_listed_firms[bid_tender["identifier"]["id"]] = identifier
+    new_tender["shortlistedFirms"] = list(short_listed_firms.values())
+    new_tender["lots"] = list(old_lots.values())
+    if items:
+        new_tender["items"] = items
+    return old_lots
+
+
+def process_cd_stage2_features(new_tender: dict, features: list, old_lots: dict) -> None:
+    new_tender["features"] = []
+    for feature in features:
+        if feature["featureOf"] == "tenderer":
+            new_tender["features"].append(feature)
+        elif feature["featureOf"] == "item":
+            if feature["relatedItem"] in (item["id"] for item in new_tender["items"]):
+                new_tender["features"].append(feature)
+        elif feature["featureOf"] == "lot":
+            if feature["relatedItem"] in old_lots.keys():
+                new_tender["features"].append(feature)
+
+
+def process_cd_stage2_criteria(tender: dict, new_tender: dict):
+    new_tender["criteria"] = []
+    for criterion in tender.get("criteria", []):
+        if criterion.get("classification", {}).get("id", "") == "CRITERION.OTHER.CONTRACT.GUARANTEE":
+            new_tender["criteria"].append(criterion)
+
+
+def save_stage_2_tender(tender: dict) -> None:
+    request = get_api_request()
+    request_init_tender(request, tender, tender_src={})
+    save_object(request, "tender", insert=True)

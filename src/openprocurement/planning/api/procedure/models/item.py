@@ -23,8 +23,8 @@ from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
-from openprocurement.tender.pricequotation.procedure.validation import (
-    validate_profile_pattern,
+from openprocurement.tender.core.procedure.validation import (
+    validate_pq_profile_pattern as validate_profile_pattern,
 )
 
 

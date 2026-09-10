@@ -1,5 +1,6 @@
 from openprocurement.api.auth import AccreditationLevel, AccreditationPermission
 from openprocurement.tender.competitivedialogue.constants import (
+    FEATURES_MAX_SUM,
     STAGE_2_EU_WORKING_DAYS_CONFIG,
     STAGE_2_UA_WORKING_DAYS_CONFIG,
 )
@@ -9,6 +10,14 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 
 class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
+    features_max_weight = FEATURES_MAX_SUM
+    items_unit_required = False
+    items_quantity_required = False
+    milestones_required = False
+    milestones_delivery_financing_required_on_post = False
+    items_classification_id_check = False
+    main_procurement_category_required = False
+    award_criteria_lcc_features_check = False
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
     tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -20,17 +29,15 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     contract_template_name_patch_statuses = ("draft",)
 
     working_days_config = STAGE_2_EU_WORKING_DAYS_CONFIG
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass
-
-    def validate_change_item_profile_or_category(self, after, before, force_validate: bool = False):
-        if self.request.method != "POST":
-            super().validate_change_item_profile_or_category(after, before, force_validate)
+    watch_value_meta_changes_enabled = False
+    item_profile_category_check_on_post = False
+    # the stage 2 tender is validated while the stage 1 tender (hasAuction=False) is the request context
+    minimal_step_regardless_of_auction = True
 
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
+    required_multilingual_fields = {}
+    procuring_entity_available_language_default = None
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
     tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -40,7 +47,3 @@ class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
     contract_template_name_patch_statuses = ("draft",)
 
     working_days_config = STAGE_2_UA_WORKING_DAYS_CONFIG
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass

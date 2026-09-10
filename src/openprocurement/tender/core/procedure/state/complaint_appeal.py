@@ -40,6 +40,8 @@ class ComplaintAppealValidationsMixin:
 
 
 class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
+    all_documents_should_be_public = False  # cfaua: True
+
     def complaint_appeal_on_post(self, appeal):
         author = self.request.authenticated_role
         appeal["author"] = author
@@ -77,4 +79,4 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
 
     def validate_docs(self, data):
         for doc in data.get("documents", []):
-            validate_edrpou_confidentiality_doc(doc)
+            validate_edrpou_confidentiality_doc(doc, should_be_public=self.all_documents_should_be_public)

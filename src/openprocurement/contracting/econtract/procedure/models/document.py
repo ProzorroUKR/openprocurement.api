@@ -9,9 +9,7 @@ from openprocurement.contracting.core.procedure.models.document import (
 from openprocurement.contracting.core.procedure.models.document import (
     PostDocument as BasePostDocument,
 )
-from openprocurement.tender.core.procedure.models.document import (
-    BaseDocument as BaseTenderDocument,
-)
+from openprocurement.tender.core.procedure.models.document import BaseDocument as BaseTenderDocument
 
 DOCUMENT_TYPES = (
     "tenderNotice",

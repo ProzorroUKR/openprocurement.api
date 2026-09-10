@@ -81,7 +81,7 @@ from openprocurement.tender.open.tests.award_blanks import (
 
 
 @mock.patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderCOAwardComplaintResourceTestMixin:
@@ -117,7 +117,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
 
 
 @mock.patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderAwardResourceTest(BaseTenderCOLongContentWebTest):
@@ -140,7 +140,7 @@ class TenderAwardResourceTest(BaseTenderCOLongContentWebTest):
 
 
 @mock.patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderLotAwardResourceTest(BaseTenderCOLongContentWebTest):
@@ -155,7 +155,7 @@ class TenderLotAwardResourceTest(BaseTenderCOLongContentWebTest):
 
 
 @mock.patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class Tender2LotAwardResourceTest(BaseTenderCOLongContentWebTest):
@@ -196,7 +196,7 @@ class TenderAwardPendingResourceTestCase(BaseTenderCOLongContentWebTest):
     get_now() - timedelta(days=1),
 )
 @mock.patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderAwardQualificationResourceTest(TenderAwardPendingResourceTestCase):

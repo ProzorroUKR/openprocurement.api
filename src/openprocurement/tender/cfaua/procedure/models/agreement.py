@@ -12,19 +12,15 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
-from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
-    AgreementContract,
-)
-from openprocurement.tender.cfaua.procedure.models.item import Item
-from openprocurement.tender.core.procedure.models.feature import (
-    Feature,
-    validate_related_items,
-)
+from openprocurement.tender.cfaua.procedure.models.agreement_contract import CFAAgreementContract
+from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
+from openprocurement.tender.core.procedure.models.feature import validate_related_items
+from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.milestone import Milestone
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
-class PatchAgreement(Model):
+class CFAPatchAgreement(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -38,7 +34,7 @@ class PatchAgreement(Model):
     agreementNumber = StringType()
 
 
-class Agreement(Model):
+class CFAAgreement(Model):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -51,11 +47,11 @@ class Agreement(Model):
     agreementNumber = StringType()
     date = IsoDateTimeType()
     dateSigned = IsoDateTimeType()
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
     items = ListType(ModelType(Item, required=True))
     period = ModelType(Period)
     status = StringType(choices=["pending", "active", "cancelled", "unsuccessful"], required=True)
-    contracts = ListType(ModelType(AgreementContract, required=True))
+    contracts = ListType(ModelType(CFAAgreementContract, required=True))
     milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     documents = BaseType()

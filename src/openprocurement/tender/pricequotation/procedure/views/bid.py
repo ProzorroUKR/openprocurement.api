@@ -15,9 +15,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.views.bid import (
     BelowThresholdTenderBidResource,
 )
-from openprocurement.tender.core.procedure.models.bid import (
-    filter_administrator_bid_update,
-)
+from openprocurement.tender.core.procedure.models.bid import Bid, PatchBid, PostBid, filter_administrator_bid_update
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,
@@ -25,11 +23,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_update_deleted_bid,
 )
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.procedure.models.bid import (
-    Bid,
-    PatchBid,
-    PostBid,
-)
 from openprocurement.tender.pricequotation.procedure.state.bid import PQBidState
 
 LOGGER = getLogger(__name__)

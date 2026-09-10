@@ -173,6 +173,37 @@ Content-Type: application/json
         }
       }
     ],
+    "items": [
+      {
+        "id": "084929e27e534486a8714d51fcfe07b3",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
+        "subcontractingDetails": "ДКП «Орфей», Україна",
+        "status": "pending",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -208,37 +239,6 @@ Content-Type: application/json
     "status": "invalid",
     "id": "4967f311ee134508b5c6ec52866ce77d",
     "date": "2027-01-01T00:00:00+02:00",
-    "items": [
-      {
-        "id": "b3e469b2996e45c887e7157e96f465e3",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 500.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
-        "subcontractingDetails": "ДКП «Орфей», Україна",
-        "status": "pending",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",

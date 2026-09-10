@@ -11,11 +11,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.validation import (
     OPERATIONS,
     validate_award_document_author,

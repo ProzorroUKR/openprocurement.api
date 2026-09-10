@@ -13,13 +13,13 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.stage1.tender import (
-    EUTender,
-    PatchEUTender,
-    PatchUATender,
-    PostEUTender,
-    PostUATender,
-    UATender,
+from openprocurement.tender.competitivedialogue.procedure.models.tender import (
+    CDStage1EUPatchTender,
+    CDStage1EUPostTender,
+    CDStage1EUTender,
+    CDStage1UAPatchTender,
+    CDStage1UAPostTender,
+    CDStage1UATender,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
     CDEUStage1TenderDetailsState,
@@ -48,7 +48,7 @@ class CDEUTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostEUTender),
+            validate_input_data(CDStage1EUPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
@@ -76,8 +76,8 @@ class CDEUTenderResource(TendersResource):
                     "active.stage2.pending",
                 )
             ),
-            validate_input_data(PatchEUTender, none_means_remove=True),
-            validate_patch_data_simple(EUTender, item_name="tender"),
+            validate_input_data(CDStage1EUPatchTender, none_means_remove=True),
+            validate_patch_data_simple(CDStage1EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
         ),
@@ -105,7 +105,7 @@ class CDUATenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostUATender),
+            validate_input_data(CDStage1UAPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
@@ -133,8 +133,8 @@ class CDUATenderResource(TendersResource):
                     "active.stage2.pending",
                 )
             ),
-            validate_input_data(PatchUATender, none_means_remove=True),
-            validate_patch_data_simple(UATender, item_name="tender"),
+            validate_input_data(CDStage1UAPatchTender, none_means_remove=True),
+            validate_patch_data_simple(CDStage1UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
         ),

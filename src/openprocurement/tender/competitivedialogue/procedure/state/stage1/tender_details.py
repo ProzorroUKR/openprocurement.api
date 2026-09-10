@@ -1,14 +1,14 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.competitivedialogue.constants import (
+    FEATURES_MAX_SUM,
     STAGE_1_EU_WORKING_DAYS_CONFIG,
     STAGE_1_UA_WORKING_DAYS_CONFIG,
     STAGE_2_EU_DEFAULT_CONFIG,
     STAGE_2_UA_DEFAULT_CONFIG,
 )
-from openprocurement.tender.competitivedialogue.procedure.models.stage2.tender import (
-    PostEUTender,
-    PostUATender,
+from openprocurement.tender.competitivedialogue.procedure.models.tender import (
+    CDStage2EUPostTender,
+    CDStage2UAPostTender,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
     CDStage1TenderState,
@@ -17,16 +17,27 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
-from openprocurement.tender.competitivedialogue.procedure.utils import (
+from openprocurement.tender.core.procedure.utils import (
     prepare_stage2_tender_data,
 )
-from openprocurement.tender.core.procedure.utils import validate_field
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsMixing,
 )
 
 
 class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
+    features_max_weight = FEATURES_MAX_SUM
+    main_procurement_category_choices = ("services", "works")
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    items_classification_id_check = False
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.stage2.waiting",
+    )
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -35,6 +46,10 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     should_validate_required_market_criteria = False
+    # minimalStep is required although stage 1 has no auction; submission method is optional
+    minimal_step_regardless_of_auction = True
+    lot_minimal_step_check_before = False
+    submission_method_required = False
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
@@ -51,33 +66,18 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
             data["stage2TenderID"] = new_tender["_id"]
             self.set_object_status(data, "complete")
 
-    def validate_minimal_step(self, data, before=None):
-        tender = get_tender()
-        validate_field(
-            data,
-            "minimalStep",
-            enabled=not tender.get("lots"),
-        )
-
-    def validate_lot_minimal_step(self, data, before=None):
-        validate_field(data, "minimalStep")
-
-    def validate_submission_method(self, data, before=None):
-        validate_field(data, "submissionMethod", required=False)
-        validate_field(data, "submissionMethodDetails", required=False)
-        validate_field(data, "submissionMethodDetails_en", required=False)
-        validate_field(data, "submissionMethodDetails_ru", required=False)
-
 
 class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDEUStage2TenderDetailsState
-    stage_2_tender_model = PostEUTender
+    stage_2_tender_model = CDStage2EUPostTender
     stage_2_config = STAGE_2_EU_DEFAULT_CONFIG
 
 
 class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    required_multilingual_fields = {}
+    procuring_entity_available_language_default = None
     working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDUAStage2TenderDetailsState
-    stage_2_tender_model = PostUATender
+    stage_2_tender_model = CDStage2UAPostTender
     stage_2_config = STAGE_2_UA_DEFAULT_CONFIG

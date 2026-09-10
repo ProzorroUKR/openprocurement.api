@@ -25,7 +25,7 @@ Content-Type: application/json
         "description": "Товар включений до додаткового переліку, що затверджений Кабінетом Міністрів України, і має ступінь локалізації виробництва, який перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік. Ці вимоги не застосовуються до закупівель, які підпадають під дію положень Закону України \"Про приєднання України до Угоди про державні закупівлі\", а також положень про державні закупівлі інших міжнародних договорів України, згода на обов’язковість яких надана Верховною Радою України",
         "source": "procuringEntity",
         "relatesTo": "item",
-        "relatedItem": "2e91e3e715a941bd8cba92984bf8cd4f",
+        "relatedItem": "0e0fad68392d43da8864f70e31818aa6",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
@@ -153,6 +153,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000005-a",
+    "status": "active",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -309,39 +310,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "reporting",
-    "procuringEntity": {
-      "name": "ЗОСШ #10 м.Вінниці",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
-      },
-      "address": {
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця",
-        "region": "Вінницька область",
-        "postalCode": "21027",
-        "countryName": "Україна"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      },
-      "contactPoint": {
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380432465302",
-        "url": "http://sch10.edu.vn.ua/"
-      }
-    },
     "items": [
       {
-        "id": "2e91e3e715a941bd8cba92984bf8cd4f",
+        "id": "0e0fad68392d43da8864f70e31818aa6",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -371,16 +342,45 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "product": "655360-30230000-889652-11111",
-        "category": "655360-30230000-889652-00000"
+        "category": "655360-30230000-889652-00000",
+        "product": "655360-30230000-889652-11111"
       }
     ],
+    "procurementMethodType": "reporting",
+    "procuringEntity": {
+      "name": "ЗОСШ #10 м.Вінниці",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця",
+        "region": "Вінницька область",
+        "postalCode": "21027",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380432465302",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
     "value": {
       "amount": 500000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "status": "active",
     "causeDetails": {
       "code": "energyCrisisRecovery0109",
       "title": "Підпункт 1 пункту 9²",

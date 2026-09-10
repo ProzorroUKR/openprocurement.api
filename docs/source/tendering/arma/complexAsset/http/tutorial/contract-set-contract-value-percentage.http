@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "a65a1a9a8adc42a297e2339e146ecb45",
+    "awardID": "3b7b085f99d94a93b689b245be47b717",
     "contractID": "UA-2027-01-01-000001-a-a1",
     "title": "Лот №1",
     "description": "Опис Лот №1",
@@ -25,7 +25,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:03:00+02:00",
     "items": [
       {
-        "id": "c11a79964fb8409586e9d9ee9b32a048",
+        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
@@ -59,7 +59,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "deef5391f86241b0b0a89b4257997238",
+        "id": "832a07855e1642dd883da3c2c355e6c6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
