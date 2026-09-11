@@ -37,6 +37,7 @@ DOCUMENT_TYPES = (
     "contractSchedule",
     "contractAnnexe",
     "contractGuarantees",
+    "progressReport",
     "subContract",
     "eligibilityCriteria",
     "contractProforma",
