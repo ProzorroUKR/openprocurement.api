@@ -2,12 +2,14 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 
+from schematics.exceptions import ValidationError
 from schematics.types import BaseType
 
 from openprocurement.api.constants_env import (
     BID_ITEMS_PRODUCT_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
@@ -20,11 +22,10 @@ from openprocurement.api.utils import (
     get_tender_product,
     raise_operation_error,
 )
-from openprocurement.tender.cfaselectionua.procedure.utils import (
-    equals_decimal_and_corrupted,
-)
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.registry import get_procedure_models
 from openprocurement.tender.core.procedure.utils import (
+    equals_decimal_and_corrupted,
     get_supplier_contract,
     is_bid_items_required,
     tender_created_after,
@@ -33,9 +34,11 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.validation import (
     TYPEMAP,
+    validate_bid_value,
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_econtract_fields_bid,
+    validate_items_required_fields,
     validate_items_unit_amount,
     validate_req_response_values,
     validate_required_fields,
@@ -56,6 +59,26 @@ class BidState(BaseState):
         "lotValues": ("subcontractingDetails",),
     }
     check_item_unit_amount = True
+    # selfEligible: required before RELEASE_ECRITERIA_ARTICLE_17 and rogue after it (default),
+    # defense procedures: always required, never rogue
+    self_eligible_required = True
+    self_eligible_rogue_after_ecriteria = True
+    # openuadefense bids have no requirementResponses
+    requirement_responses_allowed = True
+    # open-family procedures don't validate value of a draft bid on patch
+    skip_value_validation_for_draft_bid = False
+    # competitiveDialogue stage 1 bids have no value / parameters
+    bid_value_allowed = True
+    bid_parameters_allowed = True
+    # bid items quantity (former BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM)
+    bid_items_quantity_required = True
+    # esco / competitiveDialogue: the bid value is validated by the procedure's own bid model, not on patch
+    bid_value_validation_on_patch = True
+    # cfaselectionua: the agreement is a full copy inside the tender (tender.agreements[0]) and is checked on patch too
+    bid_agreement_from_tender = False
+    bid_agreement_check_on_patch = False
+    # default: amount, arma: amountPercentage
+    bid_value_amount_field = "amount"
 
     @property
     def check_all_exist_tender_items(self):
@@ -71,6 +94,10 @@ class BidState(BaseState):
     def on_post(self, data):
         now = get_request_now().isoformat()
         data["date"] = now
+        self.validate_self_eligible(data)
+        self.validate_requirement_responses_allowed(data)
+        self.validate_bid_fields_allowed(data)
+        self.validate_bid_items_quantity_required(data)
         self.validate_items_required_field(data)
         self.validate_bid_econtract_fields(data)
         self.validate_bid_unit_value(data)
@@ -91,6 +118,13 @@ class BidState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        if self.bid_agreement_check_on_patch:
+            self.validate_bid_vs_agreement(after)
+        self.validate_bid_value_on_patch(after)
+        self.validate_self_eligible(after)
+        self.validate_requirement_responses_allowed(after)
+        self.validate_bid_fields_allowed(after)
+        self.validate_bid_items_quantity_required(after)
         self.validate_items_required_field(after)
         self.validate_bid_econtract_fields(after)
         self.lot_values_patch_keep_unchange(after, before)
@@ -106,6 +140,44 @@ class BidState(BaseState):
         self.invalidate_pending_bid_after_patch(after, before)
         self.validate_req_responses(after)
         super().on_patch(before, after)
+
+    def get_patch_data_model(self):
+        tender = self.request.validated["tender"]
+        models = get_procedure_models(tender["procurementMethodType"])
+        if tender.get("status", "") in self.qualification_statuses:
+            return models.bid_patch_qualification
+        return models.bid_patch
+
+    def validate_bid_value_on_patch(self, data):
+        if not self.bid_value_validation_on_patch:
+            return
+        if self.skip_value_validation_for_draft_bid and data.get("status") == "draft":
+            return
+        try:
+            validate_bid_value(get_tender(), data.get("value"))
+        except ValidationError as e:
+            raise_operation_error(self.request, e.messages, status=422, name="value")
+
+    def validate_bid_items_quantity_required(self, data):
+        if self.bid_items_quantity_required:
+            validate_items_required_fields(self.request, data.get("items"), unit=False, quantity=True)
+
+    def validate_self_eligible(self, data):
+        value = data.get("selfEligible")
+        if self.self_eligible_rogue_after_ecriteria and tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
+            if value is not None:
+                raise_operation_error(self.request, ["Rogue field."], status=422, name="selfEligible")
+        elif self.self_eligible_required and value is None:
+            raise_operation_error(self.request, ["This field is required."], status=422, name="selfEligible")
+
+    def validate_bid_fields_allowed(self, data):
+        for field, allowed in (("value", self.bid_value_allowed), ("parameters", self.bid_parameters_allowed)):
+            if not allowed and data.get(field) is not None:
+                raise_operation_error(self.request, "Rogue field", status=422, name=field)
+
+    def validate_requirement_responses_allowed(self, data):
+        if not self.requirement_responses_allowed and data.get("requirementResponses") is not None:
+            raise_operation_error(self.request, ["Rogue field."], status=422, name="requirementResponses")
 
     def raise_items_error(self, message):
         raise_operation_error(
@@ -422,6 +494,11 @@ class BidState(BaseState):
     def validate_bid_vs_agreement(self, data):
         tender = get_tender()
 
+        if self.bid_agreement_from_tender:
+            # cfaselectionua has agreements full copy in tender.agreements
+            self.validate_bid_with_contract(data, tender["agreements"][0])
+            return
+
         if not tender["config"]["hasPreSelectionAgreement"]:
             return
 
@@ -438,14 +515,15 @@ class BidState(BaseState):
         if not supplier_contract:
             raise_operation_error(self.request, "Bid is not a member of agreement")
 
+        field = self.bid_value_amount_field
         if (
             data.get("lotValues")
             and supplier_contract.get("value")
-            and Decimal(data["lotValues"][0]["value"]["amount"]) > Decimal(supplier_contract["value"]["amount"])
+            and Decimal(data["lotValues"][0]["value"][field]) > Decimal(supplier_contract["value"][field])
         ):
             raise_operation_error(
                 self.request,
-                "Bid value.amount can't be greater than contract value.amount.",
+                f"Bid value.{field} can't be greater than contract value.{field}.",
             )
 
         if data.get("parameters") and agreement.get("frameworkID") is None:  # validate only for CFASelection

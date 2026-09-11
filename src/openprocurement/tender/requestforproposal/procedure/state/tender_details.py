@@ -1,17 +1,11 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
+from openprocurement.tender.core.procedure.models.tender import PatchActiveTender, PatchDraftTender
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 from openprocurement.tender.requestforproposal.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.requestforproposal.procedure.models.tender import (
-    PatchActiveTender,
-    PatchDraftTender,
-    PatchTender,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
     RequestForProposalTenderState,
@@ -32,20 +26,19 @@ class RequestForProposalTenderDetailsMixing(TenderDetailsMixing):
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG
-
-    def get_patch_data_model(self):
-        tender = get_tender()
-        if tender.get("status", "") == "active.tendering":
-            return PatchActiveTender
-        elif tender.get("status", "") in ("draft", "active.enquiries"):
-            return PatchDraftTender
-        return PatchTender
-
-    def on_patch(self, before, after):
-        super().on_patch(before, after)
-        if after["status"] != "draft" and before["status"] == "draft":
-            # even without document `notice` it is required to set `noticePublicationDate` for RFP (CS-19667)
-            after["noticePublicationDate"] = get_request_now().isoformat()
+    enquiry_period_required = True
+    patch_status_choices = (
+        "draft",
+        "active.enquiries",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
+    tender_patch_models_by_status = {
+        "active.tendering": PatchActiveTender,
+        "draft": PatchDraftTender,
+        "active.enquiries": PatchDraftTender,
+    }
+    notice_publication_date_on_activation = True
 
 
 class RequestForProposalTenderDetailsState(RequestForProposalTenderDetailsMixing, RequestForProposalTenderState):

@@ -7,10 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.evidence import (
-    Evidence,
-    PatchEvidence,
-)
+from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
 from openprocurement.tender.core.procedure.state.req_response_evidence import (
     AwardReqResponseEvidenceState,
 )

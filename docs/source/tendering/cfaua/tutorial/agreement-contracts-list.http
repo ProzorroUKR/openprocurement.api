@@ -38,14 +38,14 @@ Content-Type: application/json
       "date": "2027-01-01T00:02:01+02:00",
       "unitPrices": [
         {
-          "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
+          "relatedItem": "6bf9b6cb7f5448a79d84865a8af80caa",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           }
         },
         {
-          "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
+          "relatedItem": "1065f03b083b486d810ef3d29ad67913",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false
@@ -85,14 +85,14 @@ Content-Type: application/json
       "date": "2027-01-01T00:02:01+02:00",
       "unitPrices": [
         {
-          "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
+          "relatedItem": "6bf9b6cb7f5448a79d84865a8af80caa",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           }
         },
         {
-          "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
+          "relatedItem": "1065f03b083b486d810ef3d29ad67913",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false
@@ -132,14 +132,14 @@ Content-Type: application/json
       "date": "2027-01-01T00:02:01+02:00",
       "unitPrices": [
         {
-          "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
+          "relatedItem": "6bf9b6cb7f5448a79d84865a8af80caa",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false
           }
         },
         {
-          "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
+          "relatedItem": "1065f03b083b486d810ef3d29ad67913",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false

@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
+POST /api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/a888cf00603840d1abb56cc931b8e6a4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents/a888cf00603840d1abb56cc931b8e6a4
 
 {
   "data": {

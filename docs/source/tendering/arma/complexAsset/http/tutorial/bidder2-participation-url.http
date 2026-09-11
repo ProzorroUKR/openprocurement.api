@@ -8,6 +8,30 @@ Content-Type: application/json
 
 {
   "data": {
+    "items": [
+      {
+        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      },
+      {
+        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -35,28 +59,19 @@ Content-Type: application/json
     "status": "active",
     "id": "df99d252198c4688997da7d2968f57f3",
     "date": "2027-01-01T00:03:00+02:00",
-    "items": [
+    "documents": [
       {
-        "id": "c11a79964fb8409586e9d9ee9b32a048",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
-      },
-      {
-        "id": "deef5391f86241b0b0a89b4257997238",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "упаковка",
-          "code": "PK"
-        },
-        "quantity": 1.0,
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+        "confidentiality": "public",
+        "documentType": "proposal",
+        "id": "5fc617aa6d3b4586b9b2464182f824d1",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73669a2c620c45d9912b60e02682b356?Signature=G1IfJGmwE2PH7pvnTcgNxDWGXWwqTOwQ0Uk9JdR3CoiSC%2FKVQiwMpqzCaWnIHPY%2FIYIqUpslikqaGQx98KgwAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:03:00+02:00",
+        "language": "uk"
       }
     ],
     "lotValues": [
@@ -71,21 +86,6 @@ Content-Type: application/json
           "amountPercentage": 50.0
         },
         "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0c99535af6024017bcbdec7b4a5c49da_d9c1c86a51294d9f9e128b780416b344?key_for_bid=df99d252198c4688997da7d2968f57f3"
-      }
-    ],
-    "documents": [
-      {
-        "confidentiality": "public",
-        "documentType": "proposal",
-        "id": "5fc617aa6d3b4586b9b2464182f824d1",
-        "datePublished": "2027-01-01T00:03:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "sign.p7s",
-        "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73669a2c620c45d9912b60e02682b356?Signature=G1IfJGmwE2PH7pvnTcgNxDWGXWwqTOwQ0Uk9JdR3CoiSC%2FKVQiwMpqzCaWnIHPY%2FIYIqUpslikqaGQx98KgwAA%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:03:00+02:00",
-        "language": "uk"
       }
     ],
     "submissionDate": "2027-01-01T00:03:00+02:00"

@@ -122,7 +122,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           ]
         }
       ],
-      "relatedItem": "2e91e3e715a941bd8cba92984bf8cd4f"
+      "relatedItem": "0e0fad68392d43da8864f70e31818aa6"
     }
   ]
 }
@@ -136,8 +136,9 @@ Content-Type: application/json
     {
       "id": "824ddbe117a34664a01aad4fa108f433",
       "description": "Товар включений до додаткового переліку, що затверджений Кабінетом Міністрів України, і має ступінь локалізації виробництва, який перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік. Ці вимоги не застосовуються до закупівель, які підпадають під дію положень Закону України \"Про приєднання України до Угоди про державні закупівлі\", а також положень про державні закупівлі інших міжнародних договорів України, згода на обов’язковість яких надана Верховною Радою України",
+      "source": "procuringEntity",
       "relatesTo": "item",
-      "relatedItem": "2e91e3e715a941bd8cba92984bf8cd4f",
+      "relatedItem": "0e0fad68392d43da8864f70e31818aa6",
       "classification": {
         "scheme": "LAW922",
         "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
@@ -258,8 +259,7 @@ Content-Type: application/json
             }
           ]
         }
-      ],
-      "source": "procuringEntity"
+      ]
     }
   ]
 }

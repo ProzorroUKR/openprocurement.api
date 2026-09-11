@@ -151,8 +151,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.enquiries")
 
     with mock.patch(
-        "openprocurement.tender.belowthreshold.procedure.state"
-        ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state" ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(
@@ -175,7 +174,7 @@ def delete_requirement_evidence(self):
 
         self.set_status("active.auction")
         with mock.patch(
-            "openprocurement.tender.belowthreshold.procedure.state"
+            "openprocurement.tender.core.procedure.state"
             ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
             get_now() + timedelta(days=1),
         ):
@@ -197,7 +196,7 @@ def delete_requirement_evidence(self):
                 ],
             )
             with mock.patch(
-                "openprocurement.tender.belowthreshold.procedure.state"
+                "openprocurement.tender.core.procedure.state"
                 ".criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
                 get_now() - timedelta(days=1),
             ):

@@ -19,7 +19,9 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
     patch_pending_bid,
 )
 from openprocurement.tender.core.tests.utils import set_bid_lotvalues
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.core.procedure.utils import (
+    fraction_to_decimal,
+)
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
     BaseESCOContentWebTest,
@@ -77,7 +79,7 @@ from openprocurement.tender.openua.tests.bid import (
 
 bid_amount_performance = round(
     float(
-        to_decimal(
+        fraction_to_decimal(
             npv(
                 test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
                 test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
@@ -93,7 +95,7 @@ bid_amount_performance = round(
 
 bid_amount = round(
     float(
-        to_decimal(
+        fraction_to_decimal(
             escp(
                 test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
                 test_tender_esco_bids[0]["value"]["contractDuration"]["days"],

@@ -191,6 +191,36 @@ Content-Type: application/json
         }
       }
     ],
+    "items": [
+      {
+        "id": "4e596572eb504331bc37c2a1a893cec2",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "value": {
+            "amount": 500.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "acb82db513f64825a62e3caaa29cc025",
+        "subcontractingDetails": "ДКП «Орфей»",
+        "status": "pending",
+        "date": "2027-01-01T00:03:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "Школяр",
@@ -266,36 +296,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
-      }
-    ],
-    "items": [
-      {
-        "id": "d64a1883d2944b8999dcbfca8fd261b4",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "value": {
-            "amount": 500.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025",
-        "subcontractingDetails": "ДКП «Орфей»",
-        "status": "pending",
-        "date": "2027-01-01T00:03:00+02:00"
       }
     ]
   }

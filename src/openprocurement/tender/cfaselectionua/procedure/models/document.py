@@ -4,7 +4,7 @@ from openprocurement.api.procedure.types import HashType
 from openprocurement.tender.core.procedure.models.document import BaseDocument
 
 
-class ContractDocument(BaseDocument):
+class CFASelectionContractDocument(BaseDocument):
     id = MD5Type(required=True)
     datePublished = StringType(required=True)
     hash = HashType()

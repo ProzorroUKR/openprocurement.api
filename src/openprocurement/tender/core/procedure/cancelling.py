@@ -3,8 +3,14 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 
 
 class CancellationBlockMixing:
-    @staticmethod
-    def cancellation_blocks_tender(tender, lot_id=None):
+    # procedures whose process is not blocked by pending cancellations
+    cancellation_blocks_exempt_procurement_method_types = (
+        "belowThreshold",
+        "closeFrameworkAgreementSelectionUA",
+        "requestForProposal",
+    )
+
+    def cancellation_blocks_tender(self, tender, lot_id=None):
         """
         A pending cancellation stop the tender process
         until the either tender is cancelled or cancellation is cancelled 🤯
@@ -15,11 +21,7 @@ class CancellationBlockMixing:
         if not tender_created_after_2020_rules():
             return False
 
-        if tender["procurementMethodType"] in (
-            "belowThreshold",
-            "closeFrameworkAgreementSelectionUA",
-            "requestForProposal",
-        ):
+        if tender["procurementMethodType"] in self.cancellation_blocks_exempt_procurement_method_types:
             return False
 
         related_cancellations = [

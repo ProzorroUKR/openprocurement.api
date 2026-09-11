@@ -1153,95 +1153,14 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000"
-      },
-      "kind": "general",
-      "signerInfo": {
-        "name": "Test Testovich",
-        "email": "example@email.com",
-        "telephone": "+380950000000",
-        "iban": "111111111111111",
-        "position": "Генеральний директор",
-        "authorizedBy": "Статут компанії"
-      }
-    },
-    "value": {
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false,
-      "amount": 1000.0
+    "enquiryPeriod": {
+      "startDate": "2026-12-24T00:00:00+02:00",
+      "endDate": "2026-12-29T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
     },
     "tenderPeriod": {
       "startDate": "2026-12-16T00:00:00+02:00",
       "endDate": "2027-01-01T00:00:00+02:00"
-    },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "d7afc0eb4f6d42549557d7b3226417e6",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 5.0
-        },
-        "auctionPeriod": {
-          "startDate": "2027-01-01T00:00:00+02:00",
-          "endDate": "2027-01-01T00:00:00+02:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6"
-      },
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "ffb255f57e054aaa9f45701dbce47420",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
-        },
-        "minimalStep": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 5.0
-        },
-        "auctionPeriod": {
-          "startDate": "2027-01-01T00:00:00+02:00",
-          "endDate": "2027-01-01T00:00:00+02:00"
-        },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_ffb255f57e054aaa9f45701dbce47420"
-      }
-    ],
-    "procurementMethodType": "requestForProposal",
-    "enquiryPeriod": {
-      "startDate": "2026-12-24T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-12T00:00:00+02:00",
-      "endDate": "2026-12-29T00:00:00+02:00"
     },
     "items": [
       {
@@ -1310,6 +1229,87 @@ Content-Type: application/json
           "countryName": "Україна"
         },
         "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
+      }
+    ],
+    "procurementMethodType": "requestForProposal",
+    "awardCriteria": "lowestCost",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000"
+      },
+      "kind": "general",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "email": "example@email.com",
+        "telephone": "+380950000000",
+        "iban": "111111111111111",
+        "position": "Генеральний директор",
+        "authorizedBy": "Статут компанії"
+      }
+    },
+    "value": {
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amount": 1000.0
+    },
+    "lots": [
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "d7afc0eb4f6d42549557d7b3226417e6",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 5.0
+        },
+        "auctionPeriod": {
+          "startDate": "2027-01-01T00:00:00+02:00",
+          "endDate": "2027-01-01T00:00:00+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6"
+      },
+      {
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "id": "ffb255f57e054aaa9f45701dbce47420",
+        "date": "2027-01-01T00:00:00+02:00",
+        "value": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 500.0
+        },
+        "minimalStep": {
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false,
+          "amount": 5.0
+        },
+        "auctionPeriod": {
+          "startDate": "2027-01-01T00:00:00+02:00",
+          "endDate": "2027-01-01T00:00:00+02:00"
+        },
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_ffb255f57e054aaa9f45701dbce47420"
       }
     ],
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
@@ -1530,6 +1530,39 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "c5b0023de71046108dde1a721e00de87",
+            "description": "Послуги шкільних їдалень",
+            "unit": {
+              "name": "папір",
+              "value": {
+                "amount": 300.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          },
+          {
+            "id": "5cacba5cf95a40b580cedfb21df309ba",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 500.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
+            "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1610,39 +1643,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "c5b0023de71046108dde1a721e00de87",
-            "description": "Послуги шкільних їдалень",
-            "unit": {
-              "name": "папір",
-              "value": {
-                "amount": 300.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
-          },
-          {
-            "id": "5cacba5cf95a40b580cedfb21df309ba",
-            "description": "Послуги шкільних їдалень",
-            "description_en": "Services in school canteens",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 500.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
-            "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"
@@ -1849,6 +1849,39 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "c5b0023de71046108dde1a721e00de87",
+            "description": "Послуги шкільних їдалень",
+            "unit": {
+              "name": "папір",
+              "value": {
+                "amount": 500.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          },
+          {
+            "id": "5cacba5cf95a40b580cedfb21df309ba",
+            "description": "Послуги шкільних їдалень",
+            "description_en": "Services in school canteens",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 400.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 1.0,
+            "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1929,39 +1962,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "c5b0023de71046108dde1a721e00de87",
-            "description": "Послуги шкільних їдалень",
-            "unit": {
-              "name": "папір",
-              "value": {
-                "amount": 500.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
-          },
-          {
-            "id": "5cacba5cf95a40b580cedfb21df309ba",
-            "description": "Послуги шкільних їдалень",
-            "description_en": "Services in school canteens",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 400.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 1.0,
-            "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"

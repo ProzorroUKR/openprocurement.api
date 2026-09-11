@@ -7,10 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.req_response import (
-    PatchRequirementResponse,
-    RequirementResponse,
-)
+from openprocurement.tender.core.procedure.models.req_response import PatchRequirementResponse, RequirementResponse
 from openprocurement.tender.core.procedure.state.req_response import BidReqResponseState
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,

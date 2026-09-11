@@ -6,6 +6,7 @@ from openprocurement.tender.arma.constants import (
     WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.arma.procedure.state.tender import TenderState
+from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.utils import tender_created_before
 from openprocurement.tender.openua.procedure.state.tender_details import (
     OpenUATenderDetailsMixing,
@@ -13,6 +14,18 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 
 
 class TenderDetailsMixing(OpenUATenderDetailsMixing):
+    procuring_entity_available_language_default = "uk"
+    contract_template_name_allowed = False
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
+    award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
+    award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
@@ -24,20 +37,13 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
 
     working_days_config = WORKING_DAYS_CONFIG
 
+    # ARMA procedure does not have tender.value / tender.minimalStep; lot values are percentages
+    items_classification_prefix_change_check = True
+    tender_has_value = False
+
     def on_patch(self, before, after):
-        self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_min_expected_income(before, after)
         super().on_patch(before, after)  # TenderDetailsMixing.on_patch
-
-    @staticmethod
-    def set_lot_value(tender: dict, lot: dict) -> None:
-        # ARMA procedure does not have tender.value field
-        pass
-
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, lot: dict) -> None:
-        # ARMA procedure does not have tender.minimalStep field
-        pass
 
     def validate_lot_value(self, tender: dict, lot: dict) -> None:
         """Validate lot value.
@@ -97,23 +103,6 @@ class TenderDetailsMixing(OpenUATenderDetailsMixing):
     @staticmethod
     def get_lots_min_expected_income(tender: dict) -> dict:
         return {lot["id"]: lot.get("minExpectedIncome") for lot in tender.get("lots") or [] if lot.get("id")}
-
-    def validate_minimal_step_limits(self, tender: dict, value_amount: float, minimal_step_amount: float) -> None:
-        # ARMA procedure does not have tender.minimalStep limits
-        pass
-
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        # ARMA procedure does not have tender.value field
-        pass
-
-    def validate_minimal_step(self, data, before=None):
-        # ARMA procedure does not have tender.minimalStep field
-        pass
-
-    def validate_tender_value(self, tender):
-        # ARMA procedure does not have tender.value field
-        pass
 
 
 class TenderDetailsState(TenderDetailsMixing, TenderState):

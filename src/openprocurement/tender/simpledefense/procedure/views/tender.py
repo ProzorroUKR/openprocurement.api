@@ -11,6 +11,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_guarantee,
@@ -18,11 +19,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.openuadefense.procedure.views.tender import (
     AboveThresholdUADefenseTenderResource,
-)
-from openprocurement.tender.simpledefense.procedure.models.tender import (
-    PatchTender,
-    PostTender,
-    Tender,
 )
 from openprocurement.tender.simpledefense.procedure.state.tender_details import (
     SimpleDefenseTenderDetailsState,

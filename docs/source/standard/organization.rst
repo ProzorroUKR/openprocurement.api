@@ -14,7 +14,7 @@ Organization
 :name:
     рядок, багатомовний
 
-    Додатково у :ref:`openeu` та :ref:`esco`:
+    Додатково для `procuringEntity` у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):
 
     uk (name) та en (name_en) переклади обов’язкові
                                                
@@ -53,7 +53,7 @@ BusinessOrganization
 :name:
     рядок, багатомовний
 
-    Додатково у :ref:`openeu` та :ref:`esco`:
+    Додатково для `procuringEntity` у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):
 
     uk (name) та en (name_en) переклади обов’язкові
 
@@ -107,7 +107,7 @@ Tenderer
 :name:
     рядок, багатомовний
 
-    Додатково у :ref:`openeu` та :ref:`esco`:
+    Додатково для `procuringEntity` у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU):
 
     uk (name) та en (name_en) переклади обов’язкові
 
@@ -268,6 +268,9 @@ Identifier
 
    uk (legalName) переклад обов’язковий. en (legalName_en), ru (legalName_ru) переклади не обов’язкові
 
+   Для `procuringEntity.identifier` у :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue` (EU) переклад en (legalName_en)
+   обов’язковий
+
    |ocdsDescription| Легально зареєстрована назва організації.
 
 :uri:
@@ -363,7 +366,7 @@ ContactPoint
     Регулярний вираз для цього поля: ``^https?://\S+$``
 
 
-Додаткові поля для :ref:`base-contracting`, :ref:`openeu` and :ref:`competitivedialogue`:
+Додаткові поля для :ref:`base-contracting` та для `procuringEntity.contactPoint` у всіх типах закупівель:
 
 :availableLanguage:
     рядок
@@ -375,6 +378,12 @@ ContactPoint
     * `ru` - російська мова
 
     Визначає мови спілкування.
+
+    У :ref:`openeu`, :ref:`esco`, :ref:`competitivedialogue` (EU), :ref:`cfaua`, :ref:`cfaselectionua`, :ref:`defense`,
+    :ref:`simpledefense` та :ref:`arma` за замовчуванням встановлюється `uk`.
+
+    Для `procuringEntity.contactPoint` у :ref:`openeu`, :ref:`esco`, :ref:`competitivedialogue` (EU) та :ref:`cfaua`
+    переклад en (name_en) обов’язковий.
                           
 
 

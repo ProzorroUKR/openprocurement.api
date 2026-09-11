@@ -6,10 +6,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_active_lot,
     validate_auction_tender_status,
 )
-from openprocurement.tender.esco.procedure.models.auction import (
-    AuctionLotResults,
-    AuctionResults,
-)
+from openprocurement.tender.esco.procedure.models.auction import ESCOAuctionLotResults as AuctionLotResults
+from openprocurement.tender.esco.procedure.models.auction import ESCOAuctionResults as AuctionResults
 from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue
 from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState

@@ -12,11 +12,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.state.criterion_rg_requirement import (
     BelowThresholdRequirementState,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    PatchRequirement,
-    PutRequirement,
-    Requirement,
-)
+from openprocurement.tender.core.procedure.models.criterion import PatchRequirement, PutRequirement, Requirement
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
 )

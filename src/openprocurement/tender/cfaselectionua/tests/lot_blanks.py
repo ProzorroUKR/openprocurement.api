@@ -1243,8 +1243,8 @@ def create_tender_bid_invalid_feature(self):
     self.assertEqual(
         response.json["errors"],
         [
-            {"description": ["All features parameters is required."], "location": "body", "name": "parameters"},
             {"description": ["This field is required."], "location": "body", "name": "lotValues"},
+            {"description": ["All features parameters is required."], "location": "body", "name": "parameters"},
         ],
     )
 

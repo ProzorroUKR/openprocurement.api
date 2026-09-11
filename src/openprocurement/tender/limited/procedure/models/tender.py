@@ -1,332 +1,153 @@
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, StringType
-from schematics.types.compound import ListType, ModelType
+from schematics.types import StringType
+from schematics.types.compound import ModelType
 
-from openprocurement.api.constants import TENDER_CAUSE
-from openprocurement.api.constants_env import (
-    NEW_NEGOTIATION_CAUSES_FROM,
-)
-from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.utils import get_first_revision_date
+from openprocurement.api.procedure.types import ListType
 from openprocurement.api.validation import validate_uniq_id
-from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_uniq
-from openprocurement.tender.core.procedure.models.item import (
-    validate_classification_id,
-    validate_related_buyer_in_items,
-)
-from openprocurement.tender.core.procedure.models.milestone import (
-    Milestone,
-    validate_milestones_lot,
-)
+from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_uniq
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.tender import (
-    BaseTender,
-    PostBaseTender,
-    TenderMilestoneMixin,
-    validate_items_related_lot,
+    PatchTenderItemsMixin,
+    PatchTenderMilestonesMixin,
+    PostTenderItemsMixin,
+    TenderItemsMixin,
+    TenderMilestonesMixin,
+    validate_negotiation_cause,
+    validate_negotiation_quick_cause,
+    validate_reporting_cause,
 )
-from openprocurement.tender.core.procedure.models.tender_base import CommonBaseTender
-from openprocurement.tender.core.procedure.validation import (
-    validate_funders_ids,
-    validate_object_id_uniq,
-)
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
-)
-from openprocurement.tender.limited.procedure.models.cause import CauseDetails
-from openprocurement.tender.limited.procedure.models.criterion import LimitedCriterion
-from openprocurement.tender.limited.procedure.models.item import NegotiationItem, ReportingItem
-from openprocurement.tender.limited.procedure.models.lot import (
-    Lot,
-    PatchTenderLot,
-    PostTenderLot,
-)
-from openprocurement.tender.limited.procedure.models.organization import (
-    ReportFundOrganization,
-    ReportingProcuringEntity,
-)
-
-COMMON_VALUE_AMOUNT_THRESHOLD = {
-    "goods": 200000,
-    "services": 200000,
-    "works": 1500000,
-}
-
-VALUE_AMOUNT_THRESHOLD_MAPPING = {
-    ProcuringEntityKind.AUTHORITY: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.DEFENSE: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.GENERAL: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.SOCIAL: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.SPECIAL: {
-        "goods": 1000000,
-        "services": 1000000,
-        "works": 5000000,
-    },
-}
+from openprocurement.tender.core.procedure.models.tender_base import BaseTender, CommonBaseTender, PostBaseTender
+from openprocurement.tender.core.procedure.validation import validate_funders_ids, validate_object_id_uniq
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.limited.procedure.models.lot import LimitedLot, LimitedPatchTenderLot, LimitedPostTenderLot
+from openprocurement.tender.limited.procedure.models.organization import ReportingFundOrganization
+from openprocurement.tender.limited.procedure.models.tender_base import LimitedCauseDetails
 
 
-def reporting_cause_is_required(data):
-    procedure_kind = data.get("procuringEntity", {}).get("kind")
-    return all(
-        [
-            procedure_kind != "other",
-            not data.get("procurementMethodRationale"),
-            (
-                data.get("value")
-                and data["value"].get("amount")
-                and data.get("mainProcurementCategory")
-                and VALUE_AMOUNT_THRESHOLD_MAPPING.get(procedure_kind)
-                and data["value"]["amount"]
-                >= VALUE_AMOUNT_THRESHOLD_MAPPING[procedure_kind][data["mainProcurementCategory"]]
-            ),
-        ]
-    )
+class ReportingPostTender(PostTenderItemsMixin, TenderMilestonesMixin, PostBaseTender):
+    _items_related_lot_check = False
 
-
-# reporting
-class PostReportingTender(TenderMilestoneMixin, PostBaseTender):
     procurementMethodType = StringType(choices=[REPORTING], default=REPORTING)
-    procuringEntity = ModelType(ReportingProcuringEntity, required=True)
-    items = ListType(
-        ModelType(ReportingItem, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value)
-    status = StringType(choices=["draft"], default="draft")
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
+        ModelType(ReportingFundOrganization, required=True),
         validators=[validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
-    causeDetails = ModelType(CauseDetails)
-
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
+    causeDetails = ModelType(LimitedCauseDetails)
 
     def validate_cause(self, data, value):
-        if value is not None and value not in TENDER_CAUSE:
-            raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
+        validate_reporting_cause(value)
 
 
-class PatchReportingTender(CommonBaseTender):
+class ReportingPatchTender(PatchTenderItemsMixin, PatchTenderMilestonesMixin, CommonBaseTender):
     procurementMethodType = StringType(choices=[REPORTING])
-    procuringEntity = ModelType(ReportingProcuringEntity)
-    items = ListType(
-        ModelType(ReportingItem, required=True),
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
+    procuringEntity = ModelType(ProcuringEntity)
     value = ModelType(Value)
-    status = StringType(choices=["draft", "active"])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
+        ModelType(ReportingFundOrganization, required=True),
         validators=[validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
-    causeDetails = ModelType(CauseDetails)
+    causeDetails = ModelType(LimitedCauseDetails)
     criteria = ListType(
-        ModelType(LimitedCriterion, required=True),
+        ModelType(Criterion, required=True),
         validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
     )
 
 
-class ReportingTender(TenderMilestoneMixin, BaseTender):
+class ReportingTender(TenderItemsMixin, TenderMilestonesMixin, BaseTender):
+    _items_related_lot_check = False
+
     procurementMethodType = StringType(choices=[REPORTING], required=True)
-    procuringEntity = ModelType(ReportingProcuringEntity, required=True)
-    items = ListType(
-        ModelType(ReportingItem, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
+    procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value)
-    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
-    awards = BaseType()
-    # contracts = BaseType()
-    cancellations = BaseType()
 
     funders = ListType(
-        ModelType(ReportFundOrganization, required=True),
+        ModelType(ReportingFundOrganization, required=True),
         validators=[validate_funders_ids],
     )
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
-    causeDetails = ModelType(CauseDetails)
-
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
+    causeDetails = ModelType(LimitedCauseDetails)
 
     def validate_cause(self, data, value):
-        if value is not None and value not in TENDER_CAUSE:
-            raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
+        validate_reporting_cause(value)
 
 
-# Negotiation
-
-basic_cause_choices = [
-    "twiceUnsuccessful",
-    "additionalPurchase",
-    "additionalConstruction",
-    "stateLegalServices",
-]
-
-cause_choices = [
-    "artContestIP",
-    "noCompetition",
-] + basic_cause_choices
-
-cause_choices_new = [
-    "resolvingInsolvency",
-    "artPurchase",
-    "contestWinner",
-    "technicalReasons",
-    "intProperty",
-    "lastHope",
-] + basic_cause_choices
-
-
-def validate_cause(value):
-    is_new = get_first_revision_date(get_tender(), default=get_request_now()) > NEW_NEGOTIATION_CAUSES_FROM
-    choices = cause_choices_new if is_new else cause_choices
-    if value is not None and value not in choices:
-        raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))
-
-
-class PostNegotiationTender(TenderMilestoneMixin, PostBaseTender):
+class NegotiationPostTender(PostTenderItemsMixin, TenderMilestonesMixin, PostBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], default=NEGOTIATION)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    status = StringType(choices=["draft"], default="draft")
     value = ModelType(Value, required=True)
-    items = ListType(
-        ModelType(NegotiationItem, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(CauseDetails)
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
-
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-        validate_items_related_lot(data, items)
+    causeDetails = ModelType(LimitedCauseDetails)
+    lots = ListType(ModelType(LimitedPostTenderLot, required=True), validators=[validate_uniq_id])
 
     def validate_cause(self, data, value):
-        validate_cause(value)
+        validate_negotiation_cause(value)
 
 
-class PatchNegotiationTender(CommonBaseTender):
+class NegotiationPatchTender(PatchTenderItemsMixin, PatchTenderMilestonesMixin, CommonBaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION])
     procuringEntity = ModelType(ProcuringEntity)
-    status = StringType(choices=["draft", "active"])
     value = ModelType(Value)
-    items = ListType(
-        ModelType(NegotiationItem, required=True),
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(CauseDetails)
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
+    causeDetails = ModelType(LimitedCauseDetails)
+    lots = ListType(ModelType(LimitedPatchTenderLot, required=True), validators=[validate_uniq_id])
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
     criteria = ListType(
-        ModelType(LimitedCriterion, required=True),
+        ModelType(Criterion, required=True),
         validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
     )
 
 
-class NegotiationTender(TenderMilestoneMixin, BaseTender):
+class NegotiationTender(TenderItemsMixin, TenderMilestonesMixin, BaseTender):
     procurementMethodType = StringType(choices=[NEGOTIATION], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    status = StringType(choices=["draft", "active", "complete", "cancelled", "unsuccessful"])
     value = ModelType(Value, required=True)
-    items = ListType(
-        ModelType(NegotiationItem, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
     cause = StringType()
     causeDescription = StringType()
     causeDescription_en = StringType()
     causeDescription_ru = StringType()
-    causeDetails = ModelType(CauseDetails)
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
-
-    awards = BaseType()
-
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-        validate_items_related_lot(data, items)
+    causeDetails = ModelType(LimitedCauseDetails)
+    lots = ListType(ModelType(LimitedLot, required=True), validators=[validate_uniq_id])
 
     def validate_cause(self, data, value):
-        validate_cause(value)
+        validate_negotiation_cause(value)
 
 
-# Negotiation Quick
-cause_choices_quick = cause_choices + ["quick"]
-cause_choices_quick_new = cause_choices_new + [
-    "emergency",
-    "humanitarianAid",
-    "contractCancelled",
-    "activeComplaint",
-]
-
-
-def validate_cause_quick(value):
-    if value:
-        is_new = get_first_revision_date(get_tender(), default=get_request_now()) > NEW_NEGOTIATION_CAUSES_FROM
-        choices = cause_choices_quick_new if is_new else cause_choices_quick
-        if value not in choices:
-            raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))
-
-
-class PostNegotiationQuickTender(PostNegotiationTender):
+class NegotiationQuickPostTender(NegotiationPostTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK], default=NEGOTIATION_QUICK)
     cause = StringType()
-    causeDetails = ModelType(CauseDetails)
+    causeDetails = ModelType(LimitedCauseDetails)
 
     def validate_cause(self, data, value):
-        validate_cause_quick(value)
+        validate_negotiation_quick_cause(value)
 
 
-class PatchNegotiationQuickTender(PatchNegotiationTender):
+class NegotiationQuickPatchTender(NegotiationPatchTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK])
-    causeDetails = ModelType(CauseDetails)
+    causeDetails = ModelType(LimitedCauseDetails)
 
 
 class NegotiationQuickTender(NegotiationTender):
     procurementMethodType = StringType(choices=[NEGOTIATION_QUICK], required=True)
     cause = StringType()
-    causeDetails = ModelType(CauseDetails)
+    causeDetails = ModelType(LimitedCauseDetails)
 
     def validate_cause(self, data, value):
-        validate_cause_quick(value)
+        validate_negotiation_quick_cause(value)

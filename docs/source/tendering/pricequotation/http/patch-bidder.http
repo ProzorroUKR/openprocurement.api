@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/bids/d948edc4cb6e40fda39035b61fd70ac6?acc_token=0484ed15231c4703bd9ddf87eb9575e8 HTTP/1.0
+PATCH /api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/bids/043cc1c9dc98435889550049b5697d28?acc_token=0484ed15231c4703bd9ddf87eb9575e8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,7 +12,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
         "unit": {
           "name": "кг",
           "code": "KGM",
@@ -22,6 +21,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "amount": 94.0
           }
         },
+        "quantity": 5.0,
         "product": "a1a8ab99dc9244f1bba8d83b39543926"
       }
     ]
@@ -34,8 +34,190 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "d948edc4cb6e40fda39035b61fd70ac6",
-    "date": "2024-01-01T00:00:01+02:00",
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "8c643e102af842a9a76c98acb416a3a8",
+          "title": "Діагональ екрану"
+        },
+        "value": 23.8,
+        "id": "bb00c016c4cc460cb18fbf59da676525",
+        "unit": {
+          "code": "INH",
+          "name": "дюйм"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "71ffc2c8fbed4816be84d21f94478995",
+          "title": "Роздільна здатність"
+        },
+        "values": [
+          "1920x1080"
+        ],
+        "id": "6fbb8ed38855448db53299b6e612af77",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "32b55dda9d7045e49e0f16fe4238d5b1",
+          "title": "Співвідношення сторін"
+        },
+        "values": [
+          "16:9"
+        ],
+        "id": "bc9cb2f23a8749ea9f656166f60dd413",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "2208b4adaab247ac9c5b791fa3c79b17",
+          "title": "Яскравість дисплея"
+        },
+        "value": 0,
+        "id": "af27f64a7f144d7782b309eb9a39c82e",
+        "unit": {
+          "code": "A24",
+          "name": "кд/м²"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "027f4d131b204904920fd8e99006f895",
+          "title": "Контрастність (статична)"
+        },
+        "values": [
+          "1000:1"
+        ],
+        "id": "b352e5e3c11f483596953570a3554342",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "f11876a021344994be82d100b4ed71b6",
+          "title": "Кількість портів HDMI"
+        },
+        "value": 1,
+        "id": "3d98a1df5e3d4d83910aaa1523b3a8b0",
+        "unit": {
+          "code": "H87",
+          "name": "штук"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "13620fc03aae44df9df55ed8cb13d52f",
+          "title": "Кількість портів D-sub"
+        },
+        "value": 1,
+        "id": "d62ec2a653de4cf793c92a227a18e865",
+        "unit": {
+          "code": "H87",
+          "name": "штук"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "f6865c1031a44dc6ac20c78a09a906a1",
+          "title": "Кабель для під’єднання"
+        },
+        "values": [
+          "HDMI"
+        ],
+        "id": "c4f74b5d2fe34933af4849d846e3a171",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "abbe9d04709e481f8715fa0a986d96f2",
+          "title": "Гарантія"
+        },
+        "value": 36,
+        "id": "400be1b441524e9abdfe0d0a50afea94",
+        "unit": {
+          "code": "MON",
+          "name": "місяців"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "ae995d97e9cc47cb90f4d55125657913",
+          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+        },
+        "value": true,
+        "id": "d5a248a28cd34659a8b8f335eef85cad",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "2015c1f164124ee89d10f06dcfedd091",
+          "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
+        },
+        "value": true,
+        "id": "40b0679fbc694badb9192d759643cdce",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+        }
+      }
+    ],
+    "items": [
+      {
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 94.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "product": "a1a8ab99dc9244f1bba8d83b39543926"
+      }
+    ],
+    "value": {
+      "amount": 470.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
     "tenderers": [
       {
         "name": "Державне управління справами",
@@ -58,191 +240,9 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "value": {
-      "amount": 470.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "143eb8ba1ad8447b89fdf984e8550cdd",
-          "title": "Діагональ екрану"
-        },
-        "value": 23.8,
-        "id": "bb00c016c4cc460cb18fbf59da676525",
-        "unit": {
-          "code": "INH",
-          "name": "дюйм"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "b3bc205afbb246fa9049119cdec737df",
-          "title": "Роздільна здатність"
-        },
-        "values": [
-          "1920x1080"
-        ],
-        "id": "6fbb8ed38855448db53299b6e612af77",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "05ee5b8bd46c4f2dbda8fc5c140f6420",
-          "title": "Співвідношення сторін"
-        },
-        "values": [
-          "16:9"
-        ],
-        "id": "bc9cb2f23a8749ea9f656166f60dd413",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "3b6af92914a047b2bd2c1bfd714adcf6",
-          "title": "Яскравість дисплея"
-        },
-        "value": 0,
-        "id": "af27f64a7f144d7782b309eb9a39c82e",
-        "unit": {
-          "code": "A24",
-          "name": "кд/м²"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "383761af47964f29a6ed2754b88dd4d1",
-          "title": "Контрастність (статична)"
-        },
-        "values": [
-          "1000:1"
-        ],
-        "id": "b352e5e3c11f483596953570a3554342",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "1949b1aac38b41e99615052120f9c4a1",
-          "title": "Кількість портів HDMI"
-        },
-        "value": 1,
-        "id": "3d98a1df5e3d4d83910aaa1523b3a8b0",
-        "unit": {
-          "code": "H87",
-          "name": "штук"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "7a4f29925a8f430fb6094b40cd1c171f",
-          "title": "Кількість портів D-sub"
-        },
-        "value": 1,
-        "id": "d62ec2a653de4cf793c92a227a18e865",
-        "unit": {
-          "code": "H87",
-          "name": "штук"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "622b7a53db2d4b76b9b48643fc1f65ec",
-          "title": "Кабель для під’єднання"
-        },
-        "values": [
-          "HDMI"
-        ],
-        "id": "c4f74b5d2fe34933af4849d846e3a171",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "c5675ebbd1164923b2c8ca8dbc158258",
-          "title": "Гарантія"
-        },
-        "value": 36,
-        "id": "400be1b441524e9abdfe0d0a50afea94",
-        "unit": {
-          "code": "MON",
-          "name": "місяців"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "47c1d3250c0644f9a26e8fb5d656b066",
-          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
-        },
-        "value": true,
-        "id": "d5a248a28cd34659a8b8f335eef85cad",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "27ee2ce8b1eb4faba58664bb63a164dc",
-          "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
-        },
-        "value": true,
-        "id": "40b0679fbc694badb9192d759643cdce",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
-        }
-      }
-    ],
     "status": "draft",
-    "items": [
-      {
-        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
-        "description": "Комп’ютерне обладнання",
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 94.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "product": "a1a8ab99dc9244f1bba8d83b39543926"
-      }
-    ]
+    "id": "043cc1c9dc98435889550049b5697d28",
+    "date": "2024-01-01T00:00:01+02:00"
   }
 }
 

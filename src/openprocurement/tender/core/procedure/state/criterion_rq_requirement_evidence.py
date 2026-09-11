@@ -10,6 +10,9 @@ from openprocurement.tender.core.procedure.validation import validate_object_id_
 
 
 class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):
+    # pq: the tender status is checked on every evidence change
+    evidence_status_check_always = False
+
     def evidence_on_post(self, data: dict) -> None:
         self._validate_ids_uniq()
         self.evidence_always(data)
@@ -21,6 +24,8 @@ class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionState
         self.evidence_always(data)
 
     def evidence_always(self, data: dict) -> None:
+        if self.evidence_status_check_always:
+            self._validate_operation_criterion_in_tender_status()
         self._validate_change_requirement_objects()
         self._validate_for_language_criterion()
         self.validate_action_with_exist_inspector_review_request()

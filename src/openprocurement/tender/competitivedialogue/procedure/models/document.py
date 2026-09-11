@@ -1,17 +1,9 @@
 from schematics.types import BooleanType
 
-from openprocurement.tender.core.procedure.models.document import (
-    Document as BaseDocument,
-)
-from openprocurement.tender.core.procedure.models.document import (
-    PatchDocument as BasePatchDocument,
-)
-from openprocurement.tender.core.procedure.models.document import (
-    PostDocument as BasePostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 
 
-class PostDocument(BasePostDocument):
+class CDBidPostDocument(PostDocument):
     isDescriptionDecision = BooleanType(default=False)
 
     def validate_confidentialityRationale(self, data, val):
@@ -19,14 +11,14 @@ class PostDocument(BasePostDocument):
             return super().validate_confidentialityRationale(self, data, val)
 
 
-class PatchDocument(BasePatchDocument):
+class CDBidPatchDocument(PatchDocument):
     isDescriptionDecision = BooleanType()
 
     def validate_confidentialityRationale(self, data, val):
         pass
 
 
-class Document(BaseDocument):
+class CDBidDocument(Document):
     isDescriptionDecision = BooleanType()
 
     def validate_confidentialityRationale(self, data, val):

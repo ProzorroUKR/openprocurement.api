@@ -1,52 +1,45 @@
 from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.models.value import AmountPercentageValue, BasicValue
-from openprocurement.tender.arma.procedure.models.value import MinExpectedIncome
-from openprocurement.tender.core.procedure.models.lot import (
-    BaseLot,
-    PostBaseLot,
-    TenderLotMixin,
-)
+from openprocurement.api.procedure.models.value import AmountPercentageValue
+from openprocurement.tender.arma.procedure.models.value import ARMAMinExpectedIncome
+from openprocurement.tender.core.procedure.models.lot import BaseLot, PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
+from openprocurement.tender.core.procedure.models.value import BasicValue
 
 
-class PostLot(PostBaseLot):
+class ARMAPostLot(PostBaseLot):
     value = ModelType(AmountPercentageValue, required=True)
     minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
-    minExpectedIncome = ModelType(MinExpectedIncome)
-    # assetValue = ModelType(PostEstimatedValue, required=True)
+    minExpectedIncome = ModelType(ARMAMinExpectedIncome)
 
 
-class PatchLot(BaseLot):
+class ARMAPatchLot(BaseLot):
     title = StringType()
     value = ModelType(AmountPercentageValue)
     minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
-    minExpectedIncome = ModelType(MinExpectedIncome)
+    minExpectedIncome = ModelType(ARMAMinExpectedIncome)
     status = StringType(choices=["active"])
-    # assetValue = ModelType(EstimatedValue)
 
 
-class PostTenderLot(PostLot, TenderLotMixin):
+class ARMAPostTenderLot(ARMAPostLot, TenderLotMixin):
     pass
 
 
-class PatchTenderLot(BaseLot, TenderLotMixin):
+class ARMAPatchTenderLot(BaseLot, TenderLotMixin):
     value = ModelType(AmountPercentageValue)
     minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
-    minExpectedIncome = ModelType(MinExpectedIncome)
-    # assetValue = ModelType(EstimatedValue)
+    minExpectedIncome = ModelType(ARMAMinExpectedIncome)
 
 
-class Lot(BaseLot, TenderLotMixin):
+class ARMALot(BaseLot, TenderLotMixin):
     value = ModelType(AmountPercentageValue, required=True)
     minimalStep = ModelType(AmountPercentageValue)
     guarantee = ModelType(BasicValue)
-    minExpectedIncome = ModelType(MinExpectedIncome)
-    # assetValue = ModelType(EstimatedValue, required=True)
+    minExpectedIncome = ModelType(ARMAMinExpectedIncome)
 
     auctionPeriod = ModelType(LotAuctionPeriod)
     auctionUrl = URLType()

@@ -6,11 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.tender.core.procedure.models.complaint_appeal import (
-    Appeal,
-    PatchAppeal,
-    PostAppeal,
-)
+from openprocurement.tender.core.procedure.models.complaint_appeal import Appeal, PatchAppeal, PostAppeal
 from openprocurement.tender.core.procedure.serializers.complaint_appeal import (
     ComplaintAppealSerializer,
 )

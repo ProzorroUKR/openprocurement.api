@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d083afc12b7747e5bd81d1d72a477b24/awards/a082a2bddc5e43e098b8f1e881391478?acc_token=4d8039c4e08d4c278190842955a84ce4 HTTP/1.0
+PATCH /api/2.5/tenders/d083afc12b7747e5bd81d1d72a477b24/awards/b7422f750ce54915b9125b00bb5ec347?acc_token=4d8039c4e08d4c278190842955a84ce4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a082a2bddc5e43e098b8f1e881391478",
+    "id": "b7422f750ce54915b9125b00bb5ec347",
     "status": "active",
     "date": "2027-01-01T00:02:01+02:00",
     "suppliers": [
@@ -75,6 +75,7 @@ Content-Type: application/json
       "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
+    "eligible": true,
     "value": {
       "currency": "UAH",
       "amount": 8734.93,
@@ -109,7 +110,6 @@ Content-Type: application/json
         "days": 74
       }
     },
-    "eligible": true,
     "complaintPeriod": {
       "startDate": "2027-01-01T00:02:01+02:00",
       "endDate": "2027-01-12T00:00:00+02:00"

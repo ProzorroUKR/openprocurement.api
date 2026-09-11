@@ -29,6 +29,9 @@ LOGGER = getLogger(__name__)
 class CancellationComplaintStateMixin(ComplaintStateMixin):
     update_allowed_tender_statuses = None
     complaints_configuration = "hasCancellationComplaints"
+    # limited: anyone may post a cancellation complaint (no bid owner check); award complaint periods are prolonged
+    cancellation_complaint_bid_owner_check = True
+    cancellation_complaint_prolongs_award_complaint_periods = False
 
     def complaint_on_post(self, complaint):
         request = self.request
@@ -60,6 +63,8 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                     )
 
     def validate_post_cancellation_complaint_permission(self):
+        if not self.cancellation_complaint_bid_owner_check:
+            return
         request = self.request
         if request.authenticated_role != "admins":
             tender = get_tender()
@@ -255,7 +260,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
         tenderer_action_date = dt_from_iso(complaint["tendererActionDate"])
 
         tender_period = tender.get("tenderPeriod")
-        tender_period_end = dt_from_iso(tender_period["endDate"])
+        tender_period_end = dt_from_iso(tender_period["endDate"]) if tender_period else None
 
         auction_period = tender.get("auctionPeriod")
 
@@ -306,6 +311,18 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
                         auction_period["startDate"] = calculate_tender_full_date(
                             dt_from_iso(auction_start), delta, tender=tender
                         ).isoformat()
+
+        if self.cancellation_complaint_prolongs_award_complaint_periods and tender["status"] == "active":
+            for award in tender.get("awards", ""):
+                if complaint_period := award.get("complaintPeriod"):
+                    if start_date := complaint_period.get("startDate"):
+                        if end_date := complaint_period.get("endDate"):
+                            if dt_from_iso(start_date) < date < dt_from_iso(end_date):
+                                award["complaintPeriod"]["endDate"] = calculate_tender_full_date(
+                                    end_date,
+                                    delta,
+                                    tender=tender,
+                                ).isoformat()
 
     def get_related_lot_obj(self, tender, complaint):
         cancellation = self.request.validated["cancellation"]

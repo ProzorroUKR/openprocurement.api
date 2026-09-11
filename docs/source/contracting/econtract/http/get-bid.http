@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e24cf829a87b40059a5c4389cfbeb831/bids/ab6a1cc3110b46a6a89683bd2f37828f?acc_token=59d78bf3d096420083e6123a1a8f570e HTTP/1.0
+GET /api/2.5/tenders/e24cf829a87b40059a5c4389cfbeb831/bids/a89799772a0f473e80bcad84c1e665c9?acc_token=59d78bf3d096420083e6123a1a8f570e HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,48 +8,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "ab6a1cc3110b46a6a89683bd2f37828f",
-    "date": "2027-01-01T00:00:00+02:00",
-    "tenderers": [
-      {
-        "name": "Державне управління справами",
-        "identifier": {
-          "scheme": "UA-IPN",
-          "id": "00037256",
-          "uri": "http://www.dus.gov.ua/"
-        },
-        "address": {
-          "streetAddress": "вул. Банкова, 11, корпус 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "01220",
-          "countryName": "Україна"
-        },
-        "contactPoint": {
-          "name": "Державне управління справами",
-          "telephone": "+0440000000"
-        },
-        "scale": "micro",
-        "signerInfo": {
-          "name": "Test Testovich",
-          "email": "example@email.com",
-          "telephone": "+380950000000",
-          "iban": "111111111111111",
-          "position": "Генеральний директор",
-          "authorizedBy": "Статут компанії"
-        },
-        "contract_owner": "broker6"
-      }
-    ],
-    "value": {
-      "amount": 500.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": false
-    },
     "requirementResponses": [
       {
         "requirement": {
-          "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
+          "id": "3cc05effcb7f4bce90118bf6319ae71a",
           "title": "Форма випуску"
         },
         "values": [
@@ -63,7 +25,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "e20d58194155442198977530e96849d4",
+          "id": "9cf1779dd88b4a168f82bdbfef9f7dd7",
           "title": "Доза діючої речовини"
         },
         "value": 5,
@@ -79,7 +41,7 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "7e4e03e7d4d045458172ab861613549e",
+          "id": "27c0255b67124227b0fc25760f780fda",
           "title": "Форма випуску 1"
         },
         "values": [
@@ -93,7 +55,6 @@ Content-Type: application/json
         }
       }
     ],
-    "status": "pending",
     "items": [
       {
         "id": "29cbde01600848de837efe5448e726fb",
@@ -126,6 +87,45 @@ Content-Type: application/json
         "product": "11111111111111111111111111111111"
       }
     ],
+    "value": {
+      "amount": 500.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
+    "tenderers": [
+      {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-IPN",
+          "id": "00037256",
+          "uri": "http://www.dus.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Державне управління справами",
+          "telephone": "+0440000000"
+        },
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        },
+        "contract_owner": "broker6"
+      }
+    ],
+    "status": "pending",
+    "id": "a89799772a0f473e80bcad84c1e665c9",
+    "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00"
   }
 }

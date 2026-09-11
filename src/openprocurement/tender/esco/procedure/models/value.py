@@ -11,11 +11,10 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import BasicValue
 from openprocurement.api.procedure.types import DecimalType, ListType, StringDecimalType
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.core.procedure.utils import dt_from_iso, fraction_to_decimal
 
 
-class ContractDuration(Model):
+class ESCOContractDuration(Model):
     years = IntType(required=True, min_value=0, max_value=15)
     days = IntType(required=False, min_value=0, max_value=364, default=0)
 
@@ -26,12 +25,12 @@ class ContractDuration(Model):
             raise ValidationError("min contract duration 1 day")
 
 
-class BasicESCOValue(BasicValue):
+class ESCOBasicValue(BasicValue):
     # Calculated energy service contract value.
     amount = DecimalType(min_value=Decimal("0"), required=False, precision=-2)
 
 
-class ESCOValue(BasicESCOValue):
+class ESCOValue(ESCOBasicValue):
     valueAddedTaxIncluded = BooleanType(required=True, default=False)
     # Calculated energy service contract performance indicator
     amountPerformance = DecimalType(required=False, precision=-2)
@@ -40,10 +39,10 @@ class ESCOValue(BasicESCOValue):
     # Buyer's annual costs reduction
     annualCostsReduction = ListType(StringDecimalType())
     # Contract duration
-    contractDuration = ModelType(ContractDuration)
+    contractDuration = ModelType(ESCOContractDuration)
 
 
-class PatchESCOValue(ESCOValue):
+class ESCOPatchValue(ESCOValue):
     def validate_annualCostsReduction(self, data, value):
         if value is not None and len(value) != 21:
             raise ValidationError("annual costs reduction should be set for 21 period")
@@ -55,13 +54,13 @@ class ESCODynamicValue(ESCOValue):
     # Buyer's annual costs reduction
     annualCostsReduction = ListType(StringDecimalType(), required=True)
     # Contract duration
-    contractDuration = ModelType(ContractDuration, required=True)
+    contractDuration = ModelType(ESCOContractDuration, required=True)
 
     @serializable(serialized_name="amountPerformance", type=DecimalType(precision=-2))
     def amountPerformance_npv(self):
         """Calculated energy service contract performance indicator"""
         tender = get_tender()
-        return to_decimal(
+        return fraction_to_decimal(
             npv(
                 self.contractDuration.years,
                 self.contractDuration.days,
@@ -75,7 +74,7 @@ class ESCODynamicValue(ESCOValue):
     @serializable(serialized_name="amount", type=DecimalType(precision=-2))
     def amount_escp(self):
         tender = get_tender()
-        return to_decimal(
+        return fraction_to_decimal(
             escp(
                 self.contractDuration.years,
                 self.contractDuration.days,
@@ -112,7 +111,7 @@ class ESCODynamicValue(ESCOValue):
                 )
 
 
-class ESCOWeightedValue(BasicESCOValue):
+class ESCOWeightedValue(ESCOBasicValue):
     # Calculated energy service contract performance indicator
     amountPerformance = DecimalType(required=False, precision=-2)
 
@@ -121,7 +120,3 @@ class ESCOWeightedValue(BasicESCOValue):
 
     # Keep for backward compatibility
     valueAddedTaxIncluded = BooleanType()
-
-
-class ContractESCOValue(ESCOValue):
-    amountNet = DecimalType(min_value=Decimal("0"), precision=-2)

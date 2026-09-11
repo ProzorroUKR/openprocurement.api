@@ -8,6 +8,23 @@ Content-Type: application/json
 
 {
   "data": {
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 100.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+      }
+    ],
     "lotValues": [
       {
         "value": {
@@ -88,23 +105,6 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2027-01-07T00:15:06+02:00",
         "language": "uk"
-      }
-    ],
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "папір",
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
       }
     ]
   }

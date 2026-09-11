@@ -147,6 +147,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
     "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -185,41 +186,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
         "sequenceNumber": 3
       }
     ],
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
-    "awardCriteria": "lowestCost",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      },
-      "kind": "general"
-    },
-    "status": "draft",
-    "agreements": [
-      {
-        "id": "53e68cfa78da42188f99f9e054e0e168"
-      }
-    ],
     "items": [
       {
         "id": "436ebf0b3b85490390602f4890d098b8",
         "description": "футляри до державних нагород",
         "description_en": "Cases with state awards",
         "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
         "quantity": 5.0,
         "classification": {
           "description": "Cartons",
@@ -233,11 +209,34 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        }
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+      }
+    ],
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
+    "agreements": [
+      {
+        "id": "53e68cfa78da42188f99f9e054e0e168"
       }
     ],
     "lots": [
@@ -251,6 +250,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8df554f83b464a2e
     ],
     "tenderID": "UA-2027-01-01-000002-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "procurementMethod": "selective",
     "submissionMethod": "electronicAuction",
     "date": "2027-01-01T00:00:00+02:00",

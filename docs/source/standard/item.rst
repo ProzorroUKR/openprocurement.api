@@ -52,19 +52,24 @@ Item
 
     |ocdsDescription| Кількість необхідних одиниць.
 
-    Відсутня в :ref:`esco`
+    Обов’язкова для закупівель, створених після набуття чинності відповідного правила, крім :ref:`esco` та
+    :ref:`competitivedialogue` (stage2), де поле не обов’язкове.
 
 :deliveryDate:
     :ref:`Period`
 
     Період, протягом якого елемент повинен бути доставлений.
 
-    Відсутня в :ref:`esco`
+    Обов’язковий (разом з ``endDate``) у :ref:`open`, :ref:`openua`, :ref:`openeu`, :ref:`defense`, :ref:`simpledefense`,
+    :ref:`competitiveordering`, :ref:`cfaua`, :ref:`limited`, :ref:`arma` та :ref:`competitivedialogue`;
+    в інших процедурах не обов’язковий.
 
 :deliveryAddress:
     :ref:`Address`
 
     Адреса місця, куди елемент повинен бути доставлений.
+
+    Обов’язкова у тих самих процедурах, що й `deliveryDate`.
 
 :deliveryLocation:
     словник

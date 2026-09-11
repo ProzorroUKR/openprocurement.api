@@ -7,6 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.models.award import Award, PatchAward
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_update_award_in_not_allowed_status,
@@ -15,7 +16,6 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.procedure.models.award import Award, PatchAward
 from openprocurement.tender.open.procedure.state.award import AwardState
 
 

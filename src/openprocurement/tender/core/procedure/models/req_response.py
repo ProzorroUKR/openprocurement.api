@@ -391,13 +391,6 @@ class BidResponsesMixin(ObjResponseMixin):
     this model is used to update "full" data during patch and post requests
     """
 
-    def validate_selfEligible(self, data: dict, value: Optional[bool]):
-        if tender_created_after(RELEASE_ECRITERIA_ARTICLE_17):
-            if value is not None:
-                raise ValidationError("Rogue field.")
-        elif value is None:
-            raise ValidationError("This field is required.")
-
     def _validate_requirement_responses_data(
         self, data: dict, requirement_responses: List[dict], parent_obj_name: str
     ) -> None:

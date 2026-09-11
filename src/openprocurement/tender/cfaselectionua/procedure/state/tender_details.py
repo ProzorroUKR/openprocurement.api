@@ -11,7 +11,7 @@ from openprocurement.api.constants_env import (
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_agreement, get_tender
+from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import (
     get_agreement_by_id,
     get_tender_by_id,
@@ -28,7 +28,7 @@ from openprocurement.tender.cfaselectionua.constants import (
     WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
-    PatchAgreement,
+    CFASelectionPatchAgreement as PatchAgreement,
 )
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
@@ -43,6 +43,7 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_START_DATE_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
+    AWARD_CRITERIA_LOWEST_COST,
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
@@ -51,10 +52,6 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     tender_created_after,
-    validate_field,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_edrpou_confidentiality_doc,
 )
 from openprocurement.tender.core.utils import (
     calculate_tender_date,
@@ -65,6 +62,22 @@ LOGGER = getLogger(__name__)
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
+    items_unit_required = False
+    milestones_required = False
+    milestones_delivery_financing_required = False
+    main_procurement_category_required = False
+    procuring_entity_available_language_default = "uk"
+    award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
+    award_criteria_default = AWARD_CRITERIA_LOWEST_COST
+    patch_status_choices = (
+        "draft",
+        "draft.pending",
+        "draft.unsuccessful",
+        "active.enquiries",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.qualification",
+    )
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
@@ -78,6 +91,13 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     working_days_config = WORKING_DAYS_CONFIG
 
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
+    # no tender/lot value meta propagation, minimal step is calculated on activation
+    lot_value_meta_from_tender = False
+    lot_minimal_step_meta_from_tender = False
+    watch_value_meta_changes_enabled = False
+    minimal_step_required = False
+    tender_period_extension_check = False
+    all_documents_should_be_public = True
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -220,10 +240,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             "endDate": tender_end.isoformat(),
         }
 
-    @staticmethod
-    def watch_value_meta_changes(tender):
-        pass  # TODO: shouldn't it work here
-
     def find_agreement_unsuccessful_reason(self, tender, agreement):
         if self.is_agreement_not_active(agreement):
             return AGREEMENT_STATUS_MESSAGE
@@ -296,48 +312,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             if "features" in tender:
                 raise_operation_error(get_request(), "Can't add features")
 
-    def validate_minimal_step(self, data, before=None):
-        """
-        Override to skip minimalStep required validation.
-        It's not required for cfaselectionua in tender level.
-        In cfaselectionua during setting status to active.enquiries
-        field `minimalStep` is calculated using particular formula.
-
-        :param data: tender or lot
-        :param before: tender or lot
-        :return:
-        """
-        tender = get_tender()
-        kwargs = {
-            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
-        }
-        validate_field(data, "minimalStep", required=False, **kwargs)
-
-    def validate_lot_minimal_step(self, data, before=None):
-        """
-        Minimal step validation for lot.
-        Minimal step should be required if tender has auction
-        In cfaselectionua during setting status to active.enquiries
-        field `minimalStep` for lots is calculated using particular formula.
-
-        :param data: lot
-        :param before: lot
-        :return:
-        """
-        tender = get_tender()
-        kwargs = {
-            "before": before,
-            "enabled": tender["config"]["hasAuction"] is True,
-        }
-        validate_field(data, "minimalStep", required=False, **kwargs)
-
-    def validate_tender_period_extension(self, tender):
-        pass
-
-    def validate_tender_docs_confidentiality(self, documents):
-        for doc in documents:
-            validate_edrpou_confidentiality_doc(doc, should_be_public=True)
-
     def validate_exist_guarantee_criteria(self, tender):
         if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM):
             return
@@ -366,14 +340,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
                 get_request(),
                 "CRITERION.OTHER.CONTRACT.GUARANTEE should be identical to criterion in cfaua",
             )
-
-    @staticmethod
-    def set_lot_value(tender: dict, data: dict) -> None:
-        pass
-
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, data: dict) -> None:
-        pass
 
 
 class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):

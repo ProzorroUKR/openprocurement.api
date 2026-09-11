@@ -12,6 +12,7 @@ Content-Type: application/json
     "procurementMethod": "selective",
     "contractTemplateName": "00000000.0002.01",
     "title": "Комп’ютерне обладнання",
+    "status": "active.qualification",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -50,9 +51,81 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "items": [
+      {
+        "id": "29cbde01600848de837efe5448e726fb",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 10.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
+      },
+      {
+        "id": "24726f3002834ed287ec1c07b91606cf",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2026-12-31T00:00:00+02:00",
+      "startDate": "2026-12-22T00:00:00+02:00"
+    },
     "procurementMethodType": "priceQuotation",
-    "awardCriteria": "lowestCost",
-    "status": "active.qualification",
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
@@ -60,10 +133,6 @@ Content-Type: application/json
       "amount": 22000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": false
-    },
-    "tenderPeriod": {
-      "endDate": "2026-12-31T00:00:00+02:00",
-      "startDate": "2026-12-22T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -94,79 +163,9 @@ Content-Type: application/json
       },
       "contract_owner": "broker6"
     },
-    "items": [
-      {
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652",
-        "id": "29cbde01600848de837efe5448e726fb",
-        "description": "Комп’ютерне обладнання",
-        "quantity": 10.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
-      },
-      {
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652",
-        "id": "24726f3002834ed287ec1c07b91606cf",
-        "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
-      }
-    ],
     "criteria": [
       {
-        "id": "ab8d56f99a284036b5dd9c3dd0a19194",
+        "id": "fc5ddfea1bf0447480504af3d82eb457",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
@@ -189,11 +188,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "fc5ddfea1bf0447480504af3d82eb457",
+            "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
+                "id": "3cc05effcb7f4bce90118bf6319ae71a",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -204,7 +203,7 @@ Content-Type: application/json
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "e20d58194155442198977530e96849d4",
+                "id": "9cf1779dd88b4a168f82bdbfef9f7dd7",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -216,7 +215,7 @@ Content-Type: application/json
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "7e4e03e7d4d045458172ab861613549e",
+                "id": "27c0255b67124227b0fc25760f780fda",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -237,6 +236,7 @@ Content-Type: application/json
     ],
     "tenderID": "UA-2027-01-01-000002-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
@@ -359,48 +359,10 @@ Content-Type: application/json
     },
     "bids": [
       {
-        "id": "ab6a1cc3110b46a6a89683bd2f37828f",
-        "date": "2027-01-01T00:00:00+02:00",
-        "tenderers": [
-          {
-            "name": "Державне управління справами",
-            "identifier": {
-              "scheme": "UA-IPN",
-              "id": "00037256",
-              "uri": "http://www.dus.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Банкова, 11, корпус 1",
-              "locality": "м. Київ",
-              "region": "м. Київ",
-              "postalCode": "01220",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Державне управління справами",
-              "telephone": "+0440000000"
-            },
-            "scale": "micro",
-            "signerInfo": {
-              "name": "Test Testovich",
-              "email": "example@email.com",
-              "telephone": "+380950000000",
-              "iban": "111111111111111",
-              "position": "Генеральний директор",
-              "authorizedBy": "Статут компанії"
-            },
-            "contract_owner": "broker6"
-          }
-        ],
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
         "requirementResponses": [
           {
             "requirement": {
-              "id": "f51ff1ca7eff42ec9675ad7833d74f0b",
+              "id": "3cc05effcb7f4bce90118bf6319ae71a",
               "title": "Форма випуску"
             },
             "values": [
@@ -414,7 +376,7 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "e20d58194155442198977530e96849d4",
+              "id": "9cf1779dd88b4a168f82bdbfef9f7dd7",
               "title": "Доза діючої речовини"
             },
             "value": 5,
@@ -430,7 +392,7 @@ Content-Type: application/json
           },
           {
             "requirement": {
-              "id": "7e4e03e7d4d045458172ab861613549e",
+              "id": "27c0255b67124227b0fc25760f780fda",
               "title": "Форма випуску 1"
             },
             "values": [
@@ -444,7 +406,6 @@ Content-Type: application/json
             }
           }
         ],
-        "status": "active",
         "items": [
           {
             "id": "29cbde01600848de837efe5448e726fb",
@@ -477,6 +438,45 @@ Content-Type: application/json
             "product": "11111111111111111111111111111111"
           }
         ],
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "tenderers": [
+          {
+            "name": "Державне управління справами",
+            "identifier": {
+              "scheme": "UA-IPN",
+              "id": "00037256",
+              "uri": "http://www.dus.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Банкова, 11, корпус 1",
+              "locality": "м. Київ",
+              "region": "м. Київ",
+              "postalCode": "01220",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Державне управління справами",
+              "telephone": "+0440000000"
+            },
+            "scale": "micro",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            },
+            "contract_owner": "broker6"
+          }
+        ],
+        "status": "active",
+        "id": "a89799772a0f473e80bcad84c1e665c9",
+        "date": "2027-01-01T00:00:00+02:00",
         "submissionDate": "2027-01-01T00:00:00+02:00",
         "initialValue": {
           "amount": 500.0,
@@ -529,7 +529,7 @@ Content-Type: application/json
             "contract_owner": "broker6"
           }
         ],
-        "bid_id": "ab6a1cc3110b46a6a89683bd2f37828f",
+        "bid_id": "a89799772a0f473e80bcad84c1e665c9",
         "documents": [
           {
             "confidentiality": "public",
@@ -549,7 +549,7 @@ Content-Type: application/json
         "qualified": true
       },
       {
-        "id": "1b4f4c15efe44f04bcd52e5db833077a",
+        "id": "079941ff1cef4bd78500cbcfc91658f2",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
@@ -588,7 +588,7 @@ Content-Type: application/json
             "contract_owner": "broker6"
           }
         ],
-        "bid_id": "ab6a1cc3110b46a6a89683bd2f37828f",
+        "bid_id": "a89799772a0f473e80bcad84c1e665c9",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
           "endDate": "2027-01-05T00:00:00+02:00"
@@ -597,7 +597,7 @@ Content-Type: application/json
     ],
     "contracts": [
       {
-        "id": "37d2cea7a3564774858ad5c8681f57b1",
+        "id": "220153069a7c45dfb1ed4f250d17299d",
         "status": "cancelled",
         "awardID": "f10947246ab44416ab8f1f75df484ded",
         "date": "2027-01-01T00:00:00+02:00",

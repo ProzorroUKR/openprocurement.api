@@ -21,3 +21,6 @@ WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": False,
     "qualificationComplainDuration": False,
 }
+
+LOTS_MIN_SIZE = 1
+LOTS_MAX_SIZE = 1

@@ -1,13 +1,8 @@
-from openprocurement.tender.competitivedialogue.procedure.models.bid import (
-    PatchBid,
-    PatchQualificationBid,
-)
 from openprocurement.tender.core.procedure.state.bid import BidState
 
 
 class CDBidState(BidState):
-    def get_patch_data_model(self):
-        tender = self.request.validated["tender"]
-        if tender.get("status", "") in self.qualification_statuses:
-            return PatchQualificationBid
-        return PatchBid
+    bid_items_quantity_required = False
+    bid_value_allowed = False
+    bid_parameters_allowed = False
+    bid_value_validation_on_patch = False  # value is validated by the procedure's own bid model

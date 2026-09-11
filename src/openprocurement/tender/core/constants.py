@@ -25,6 +25,18 @@ from openprocurement.tender.pricequotation.constants import PQ as PRICEQUOTATION
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
+# procurementMethodTypes that share the core Tender models (tender/core/procedure/models/tender.py)
+CORE_TENDER_PROCUREMENT_METHOD_TYPES = [
+    BELOW_THRESHOLD,
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    SIMPLE_DEFENSE,
+    COMPETITIVE_ORDERING,
+    REQUEST_FOR_PROPOSAL,
+]
+
 PROCUREMENT_METHOD_SELECTIVE = "selective"
 PROCUREMENT_METHOD_OPEN = "open"
 PROCUREMENT_METHOD_LIMITED = "limited"
@@ -96,6 +108,11 @@ ALP_MILESTONE_REASONS = (
 AWARD_CRITERIA_LOWEST_COST = "lowestCost"
 AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
 AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
+AWARD_CRITERIA_CHOICES = [
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+    AWARD_CRITERIA_RATED_CRITERIA,
+]
 
 # Agreement errors
 AGREEMENT_NOT_FOUND_MESSAGE = "Agreement not found"

@@ -68,7 +68,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderAwardResourceTest(BaseTenderCOShortContentWebTest):
@@ -91,7 +91,7 @@ class TenderAwardResourceTest(BaseTenderCOShortContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class TenderLotAwardResourceTest(BaseTenderCOShortContentWebTest):
@@ -106,7 +106,7 @@ class TenderLotAwardResourceTest(BaseTenderCOShortContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+    "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
     get_now() + timedelta(days=1),
 )
 class Tender2LotAwardResourceTest(BaseTenderCOShortContentWebTest):

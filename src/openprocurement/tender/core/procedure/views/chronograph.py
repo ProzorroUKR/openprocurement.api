@@ -10,9 +10,7 @@ from openprocurement.tender.core.procedure.contracting import (
     prepare_contracting_contracts_cancelled,
     save_contracting_contracts,
 )
-from openprocurement.tender.core.procedure.models.chronograph import (
-    TenderChronographData,
-)
+from openprocurement.tender.core.procedure.models.chronograph import TenderChronographData
 from openprocurement.tender.core.procedure.serializers.chronograph import (
     ChronographSerializer,
 )

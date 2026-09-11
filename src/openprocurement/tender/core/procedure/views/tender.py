@@ -16,15 +16,16 @@ from openprocurement.api.views.base import (
     MongodbResourceListing,
     RestrictedResourceListingMixin,
 )
-from openprocurement.tender.competitivedialogue.procedure.utils import (
-    save_stage_2_tender,
-)
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.schema.ocds import ocds_format_tender
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
-from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
+from openprocurement.tender.core.procedure.utils import (
+    save_stage_2_tender,
+    save_tender,
+    set_ownership,
+)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 

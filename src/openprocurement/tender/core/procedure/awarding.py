@@ -8,6 +8,7 @@ from barbecue import calculate_coeficient
 from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.context import (
     get_bids_before_auction_results_context,
@@ -51,6 +52,8 @@ class TenderStateAwardingMixing:
     alp_due_date_period: timedelta = timedelta(days=1)
     # ARMA procedure uses "amountPercentage" key
     alp_amount_key: str = "amount"
+    # arma: weighted values have no currency
+    weighted_value_with_currency: bool = True
 
     def on_auction_results(self, tender, lot_id=None):
         if lot_id:
@@ -81,6 +84,56 @@ class TenderStateAwardingMixing:
         obj["auctionPeriod"]["endDate"] = now
 
     def add_next_award(self):
+        self.add_next_award_in_order()
+        if self.new_defense_complaints_rules_apply():
+            self.process_new_defense_complaints()
+
+    def process_new_defense_complaints(self):
+        """openuadefense (new complaints rules): lots/tender become unsuccessful right away when the last awards are
+        unsuccessful and have no complaint periods"""
+        tender = get_tender()
+        lots = tender.get("lots")
+        if lots:
+            statuses = set()
+            for lot in lots:
+                if lot["status"] == "active":
+                    lot_awards = [i for i in tender.get("awards", "") if i["lotID"] == lot["id"]]
+                    statuses.add(lot_awards[-1]["status"] if lot_awards else "unsuccessful")
+            if statuses == {"unsuccessful"}:
+                for lot in lots:
+                    if lot["status"] == "active":
+                        lot_awards = [i for i in tender.get("awards", "") if i["lotID"] == lot["id"]]
+                        if not lot_awards:
+                            continue
+                        pending_complaints = any(
+                            i["status"] in self.block_complaint_status and i.get("relatedLot") == lot["id"]
+                            for i in tender.get("complaints", "")
+                        )
+                        awards_no_complaint_periods = all(
+                            not a.get("complaintPeriod") for a in lot_awards if a["status"] == "unsuccessful"
+                        )
+                        if not pending_complaints and awards_no_complaint_periods:
+                            LOGGER.info(
+                                "Switched lot {} of tender {} to {}".format(lot["id"], tender["_id"], "unsuccessful"),
+                                extra=context_unpack(
+                                    get_request(),
+                                    {"MESSAGE_ID": "switched_lot_unsuccessful"},
+                                    {"LOT_ID": lot["id"]},
+                                ),
+                            )
+                            self.set_object_status(lot, "unsuccessful")
+                lot_statuses = {lot["status"] for lot in lots}
+                if not lot_statuses.difference({"unsuccessful", "cancelled"}):
+                    self.get_change_tender_status_handler("unsuccessful")(tender)
+        else:
+            if (
+                tender["awards"][-1]["status"] == "unsuccessful"
+                and all(i["status"] not in self.block_complaint_status for i in tender.get("complaints", ""))
+                and all(not a.get("complaintPeriod") for a in tender.get("awards", "") if a["status"] == "unsuccessful")
+            ):
+                self.get_change_tender_status_handler("unsuccessful")(tender)
+
+    def add_next_award_in_order(self):
         tender = get_tender()
 
         tender["awardPeriod"] = award_period = tender.get("awardPeriod", {})
@@ -444,7 +497,8 @@ class TenderStateAwardingMixing:
     @classmethod
     def set_weighted_value(cls, weighted_value, value_container, value_amount):
         weighted_value[cls.awarding_criteria_key] = round(value_amount, 2)
-        weighted_value["currency"] = value_container["value"]["currency"]
+        if cls.weighted_value_with_currency:
+            weighted_value["currency"] = value_container["value"]["currency"]
         return weighted_value
 
     @classmethod

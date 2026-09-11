@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/63cee41dcb6d41f78d01c3032aaa90b9/awards/eff186d97a714588a933e8ba703c9b23?acc_token=4d4a63099eb4444ea39e8c0fcab3a157 HTTP/1.0
+PATCH /api/2.5/tenders/63cee41dcb6d41f78d01c3032aaa90b9/awards/a8c604c018404c5d9f865ab6c0fb7732?acc_token=4d4a63099eb4444ea39e8c0fcab3a157 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,15 +16,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "eff186d97a714588a933e8ba703c9b23",
-    "qualified": true,
+    "id": "a8c604c018404c5d9f865ab6c0fb7732",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
-    "value": {
-      "amount": 475000.0,
-      "valueAddedTaxIncluded": true,
-      "currency": "UAH"
-    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -57,6 +51,7 @@ Content-Type: application/json
         }
       }
     ],
+    "lotID": "a2f39dedc39a4788ae22752af33cdffb",
     "documents": [
       {
         "confidentiality": "public",
@@ -73,7 +68,12 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "lotID": "a2f39dedc39a4788ae22752af33cdffb",
+    "qualified": true,
+    "value": {
+      "amount": 475000.0,
+      "valueAddedTaxIncluded": true,
+      "currency": "UAH"
+    },
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-04T00:00:00+02:00"

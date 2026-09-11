@@ -66,7 +66,7 @@ def qualified_eligible_awards(self):
     )
 
     with patch(
-        "openprocurement.tender.competitiveordering.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
+        "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
         get_now() - timedelta(days=1),
     ):
         response = self.app.patch_json(

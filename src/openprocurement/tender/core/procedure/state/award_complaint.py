@@ -5,9 +5,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_award
-from openprocurement.tender.core.procedure.models.complaint import (
-    DraftPatchAwardComplaint,
-)
+from openprocurement.tender.core.procedure.models.complaint import DraftPatchAwardComplaint
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
@@ -23,6 +21,15 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     draft_patch_model = DraftPatchAwardComplaint
     complaints_configuration = "hasAwardComplaints"
+    # cfaua: a satisfied complaint returns the tender to active.qualification
+    satisfied_complaint_returns_to_qualification = False
+
+    def reviewers_satisfied_handler(self, complaint):
+        super().reviewers_satisfied_handler(complaint)
+        if self.satisfied_complaint_returns_to_qualification:
+            tender = get_tender()
+            tender["awardPeriod"].pop("endDate", None)
+            self.get_change_tender_status_handler("active.qualification")(tender)
 
     def complaint_on_post(self, complaint):
         request = self.request

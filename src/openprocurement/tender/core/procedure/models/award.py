@@ -15,12 +15,16 @@ from openprocurement.tender.core.procedure.models.award_milestone import (
 from openprocurement.tender.core.procedure.models.base import BaseAward
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.item import Item
-from openprocurement.tender.core.procedure.models.organization import Supplier
+from openprocurement.tender.core.procedure.models.organization import (
+    Supplier,
+)
 from openprocurement.tender.core.procedure.models.req_response import (
     ObjResponseMixin,
     PatchObjResponsesMixin,
 )
-from openprocurement.tender.core.procedure.models.value import WeightedValue
+from openprocurement.tender.core.procedure.models.value import (
+    WeightedValue,
+)
 
 
 class PostAward(BaseAward):
@@ -45,6 +49,7 @@ class PostAward(BaseAward):
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
     complaintPeriod = ModelType(Period)
+    subcontractingDetails = StringType()
 
     def validate_lotID(self, data, value):
         tender = get_tender()
@@ -57,6 +62,7 @@ class PostAward(BaseAward):
 class PatchAward(PatchObjResponsesMixin, BaseAward):
     status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
     qualified = BooleanType()
+    eligible = BooleanType()
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -64,6 +70,7 @@ class PatchAward(PatchObjResponsesMixin, BaseAward):
     description_en = StringType()
     description_ru = StringType()
     items = ListType(ModelType(Item))
+    subcontractingDetails = StringType()
 
 
 class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
@@ -81,12 +88,14 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     bid_id = MD5Type(required=True)
     lotID = MD5Type()
     complaintPeriod = ModelType(Period)
+    subcontractingDetails = StringType()
     complaints = BaseType()
     documents = ListType(ModelType(Document, required=True))
     items = ListType(ModelType(Item))
     period = ModelType(Period)
 
     qualified = BooleanType()
+    eligible = BooleanType()  # qualified/eligible rules: AwardStateMixing.validate_award_qualified_eligible
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -101,14 +110,5 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
         if value and value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
             raise ValidationError("lotID should be one of lots")
 
-    def validate_qualified(self, data, qualified):
-        if data["status"] == "active" and not qualified:
-            raise ValidationError("Can't update award to active status with not qualified")
-        if data["status"] == "unsuccessful" and (
-            qualified is None
-            or (hasattr(self, "eligible") and data.get("eligible") is None)
-            or (qualified and (not hasattr(self, "eligible") or data["eligible"]))
-        ):
-            raise ValidationError(
-                "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
-            )
+
+# reporting: plain value (no defaults from the tender)

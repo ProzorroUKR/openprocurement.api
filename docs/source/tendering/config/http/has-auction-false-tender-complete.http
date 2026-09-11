@@ -1046,10 +1046,15 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "complete",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -1205,6 +1210,86 @@ Content-Type: application/json
         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "c5b0023de71046108dde1a721e00de87",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      },
+      {
+        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "ffb255f57e054aaa9f45701dbce47420"
+      }
+    ],
+    "procurementMethodType": "aboveThreshold",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -1263,91 +1348,6 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false,
           "amount": 500.0
-        }
-      }
-    ],
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00"
-    },
-    "status": "complete",
-    "procurementMethodType": "aboveThreshold",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
-    },
-    "items": [
-      {
-        "id": "c5b0023de71046108dde1a721e00de87",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
-        "deliveryDate": {
-          "startDate": "2027-01-21T00:00:00+02:00",
-          "endDate": "2027-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      },
-      {
-        "id": "5cacba5cf95a40b580cedfb21df309ba",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
-        "deliveryDate": {
-          "startDate": "2027-01-21T00:00:00+02:00",
-          "endDate": "2027-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       }
     ],
@@ -1555,56 +1555,6 @@ Content-Type: application/json
             }
           }
         ],
-        "tenderers": [
-          {
-            "name": "ДКП «Школяр»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137256",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 33",
-              "locality": "м. Вінниця",
-              "region": "Вінницька область",
-              "postalCode": "21100",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Сергій Олексюк",
-              "email": "soleksuk@gmail.com",
-              "telephone": "+380432216930"
-            },
-            "scale": "micro",
-            "signerInfo": {
-              "name": "Test Testovich",
-              "email": "example@email.com",
-              "telephone": "+380950000000",
-              "iban": "111111111111111",
-              "position": "Генеральний директор",
-              "authorizedBy": "Статут компанії"
-            }
-          }
-        ],
-        "status": "active",
-        "id": "4b2f22ec008b4f4e88f2f69ea174242c",
-        "date": "2027-01-01T00:00:00+02:00",
-        "documents": [
-          {
-            "confidentiality": "public",
-            "documentType": "proposal",
-            "id": "c4a5427de3d04afca7b9a450030a5f5f",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b2d66e6f23e84c339949ab31df6919ac?Signature=v4oMNc17DvSPfpldBQpdPlBQKPOxl8%2FmM8hs6SjPglUdYNrM6jaEACH0qFBlSArdRrh7FbjLo2KKesyDJOZmDg%3D%3D&KeyID=a8968c46",
-            "documentOf": "tender",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "language": "uk"
-          }
-        ],
         "items": [
           {
             "id": "c5b0023de71046108dde1a721e00de87",
@@ -1670,6 +1620,56 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
+          }
+        ],
+        "tenderers": [
+          {
+            "name": "ДКП «Школяр»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "scale": "micro",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
+          }
+        ],
+        "status": "active",
+        "id": "4b2f22ec008b4f4e88f2f69ea174242c",
+        "date": "2027-01-01T00:00:00+02:00",
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "c4a5427de3d04afca7b9a450030a5f5f",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b2d66e6f23e84c339949ab31df6919ac?Signature=v4oMNc17DvSPfpldBQpdPlBQKPOxl8%2FmM8hs6SjPglUdYNrM6jaEACH0qFBlSArdRrh7FbjLo2KKesyDJOZmDg%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2027-01-01T00:00:00+02:00",
+            "language": "uk"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"
@@ -1876,56 +1876,6 @@ Content-Type: application/json
             }
           }
         ],
-        "tenderers": [
-          {
-            "name": "ДКП «Книга»",
-            "identifier": {
-              "scheme": "UA-EDR",
-              "id": "00137226",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
-              "uri": "http://www.sc.gov.ua/"
-            },
-            "address": {
-              "streetAddress": "вул. Островського, 34",
-              "locality": "м. Львів",
-              "region": "Львівська область",
-              "postalCode": "79013",
-              "countryName": "Україна"
-            },
-            "contactPoint": {
-              "name": "Андрій Олексюк",
-              "email": "aagt@gmail.com",
-              "telephone": "+380322916930"
-            },
-            "scale": "sme",
-            "signerInfo": {
-              "name": "Test Testovich",
-              "email": "example@email.com",
-              "telephone": "+380950000000",
-              "iban": "111111111111111",
-              "position": "Генеральний директор",
-              "authorizedBy": "Статут компанії"
-            }
-          }
-        ],
-        "status": "active",
-        "id": "33aec5588bb84aecbaf28ee83b356bad",
-        "date": "2027-01-01T00:00:00+02:00",
-        "documents": [
-          {
-            "confidentiality": "public",
-            "documentType": "proposal",
-            "id": "3cf50cf789a440d295515c9528981a93",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "hash": "md5:00000000000000000000000000000000",
-            "title": "sign.p7s",
-            "format": "application/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/91b8b16a2aa84a729c8b9093d63ce07d?Signature=pUAj4yxFVP2I66kOThAnkyzXM6cMM8qxY2g6CBDQQ8x21OtcGSZ7nGO5xw9N%2BfB4oo%2BLzQREVSFXX%2FWHja0oDw%3D%3D&KeyID=a8968c46",
-            "documentOf": "tender",
-            "dateModified": "2027-01-01T00:00:00+02:00",
-            "language": "uk"
-          }
-        ],
         "items": [
           {
             "id": "c5b0023de71046108dde1a721e00de87",
@@ -1991,6 +1941,56 @@ Content-Type: application/json
               "currency": "UAH",
               "valueAddedTaxIncluded": false
             }
+          }
+        ],
+        "tenderers": [
+          {
+            "name": "ДКП «Книга»",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+              "uri": "http://www.sc.gov.ua/"
+            },
+            "address": {
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013",
+              "countryName": "Україна"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930"
+            },
+            "scale": "sme",
+            "signerInfo": {
+              "name": "Test Testovich",
+              "email": "example@email.com",
+              "telephone": "+380950000000",
+              "iban": "111111111111111",
+              "position": "Генеральний директор",
+              "authorizedBy": "Статут компанії"
+            }
+          }
+        ],
+        "status": "active",
+        "id": "33aec5588bb84aecbaf28ee83b356bad",
+        "date": "2027-01-01T00:00:00+02:00",
+        "documents": [
+          {
+            "confidentiality": "public",
+            "documentType": "proposal",
+            "id": "3cf50cf789a440d295515c9528981a93",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "sign.p7s",
+            "format": "application/pkcs7-signature",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/91b8b16a2aa84a729c8b9093d63ce07d?Signature=pUAj4yxFVP2I66kOThAnkyzXM6cMM8qxY2g6CBDQQ8x21OtcGSZ7nGO5xw9N%2BfB4oo%2BLzQREVSFXX%2FWHja0oDw%3D%3D&KeyID=a8968c46",
+            "documentOf": "tender",
+            "dateModified": "2027-01-01T00:00:00+02:00",
+            "language": "uk"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"

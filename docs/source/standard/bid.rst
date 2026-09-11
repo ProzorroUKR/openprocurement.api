@@ -89,17 +89,19 @@ Bid
     Список об’єктів :ref:`BidItem`
 
 
-Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu`, :ref:`esco` та :ref:`competitivedialogue`:
-
-    :selfEligible':
-        рядок, обов’язковий
+    :selfEligible:
+        bool
 
         Підтверджує відповідність критеріям прийнятності, встановлених замовником в тендерній документації.
 
+        Обов’язковий у :ref:`defense` та :ref:`simpledefense`. В інших процедурах для закупівель, створених після запровадження
+        критеріїв (ст. 17), поле не використовується і не приймається.
+
     :selfQualified:
-        рядок
+        bool
 
         Підтверджує відсутність підстав для відмови від участі відповідно до статті 17 Закону України ”Про державні закупівлі”.
+        Єдине допустиме значення - `true`.
 
     :subcontractingDetails:
         рядок
@@ -185,8 +187,6 @@ LotValue
 
     Веб-адреса для участі в аукціоні.
 
-
-Додатково у :ref:`defense`, :ref:`openua`, :ref:`openeu` та :ref:`competitivedialogue`:
 
 :subcontractingDetails:
     рядок

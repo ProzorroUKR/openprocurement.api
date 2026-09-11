@@ -1,9 +1,11 @@
 from collections import defaultdict
 from copy import deepcopy
 from datetime import timedelta
+from decimal import Decimal
 from math import ceil, floor
 
 from pyramid.request import Request
+from schematics.exceptions import ValidationError
 
 from openprocurement.api.constants import (
     CAUSE_TO_RATIONALE_TYPES_MAPPING,
@@ -14,6 +16,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
+    TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     WORKING_DAYS,
@@ -26,6 +29,7 @@ from openprocurement.api.constants_env import (
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MINIMAL_STEP_TENDERS_WITH_LOTS_VALIDATION_FROM,
     MINIMAL_STEP_VALIDATION_FROM,
+    MPC_REQUIRED_FROM,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
     TENDER_CONFIG_OPTIONALITY,
@@ -58,6 +62,8 @@ from openprocurement.tender.core.constants import (
     AGREEMENT_IDENTIFIER_MESSAGE,
     AGREEMENT_NOT_FOUND_MESSAGE,
     AGREEMENT_STATUS_MESSAGE,
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+    AWARD_CRITERIA_LOWEST_COST,
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
     DEFAULT_WORKING_DAYS_CONFIG,
@@ -69,7 +75,9 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
+from openprocurement.tender.core.procedure.models.tender import PatchTender
 from openprocurement.tender.core.procedure.models.tender_base import (
+    MAIN_PROCUREMENT_CATEGORY_CHOICES,
     MainProcurementCategory,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -79,6 +87,7 @@ from openprocurement.tender.core.procedure.utils import (
     set_mode_test_titles,
     tender_created_after,
     tender_created_before,
+    validate_features_custom_weight,
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
@@ -86,9 +95,13 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_econtract_fields_tender,
     validate_edrpou_confidentiality_doc,
+    validate_items_classification_id,
+    validate_items_required_fields,
     validate_milestone_duration_days,
     validate_milestone_sums,
     validate_milestones_sequence_number,
+    validate_required_nested_fields,
+    validate_tender_milestones_required,
     validate_value_vat_disabled,
 )
 from openprocurement.tender.core.utils import (
@@ -110,6 +123,15 @@ class TenderConfigMixin(ConfigMixin):
         config_schema = deepcopy(config_schema)
 
         return config_schema
+
+    # competitiveOrdering: an additional config schema (short/long) is validated on top of the procedure schema
+    extra_config_schema_name: str | None = None
+
+    def validate_extra_config(self, data):
+        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.extra_config_schema_name)
+        config_schema = deepcopy(config_schema)
+        config_schema.pop("required", None)
+        self.validate_config_schema(data, config_schema)
 
     def validate_config(self, data):
         # load schema from standards
@@ -133,6 +155,8 @@ class TenderConfigMixin(ConfigMixin):
 
         # validate config with schema
         super().validate_config(data)
+        if self.extra_config_schema_name:
+            self.validate_extra_config(data)
 
     def on_post(self, data):
         self.validate_config(data)
@@ -236,10 +260,84 @@ class BaseTenderDetailsMixing:
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
     should_validate_vat_not_included = False
+    # complexAsset.arma has no contractTemplateName (the field used to be removed from its models)
+    contract_template_name_allowed = True
+    items_delivery_required = False
+    # items classification / INN rule (former validate_classification_id)
+    items_classification_id_check = True
+    items_classification_id_check_on_post = True  # esco used to check it on the full model only
+    # milestones requirements (former TenderMilestoneMixin.validate_milestones)
+    milestones_required = True
+    milestones_delivery_financing_required = True
+    milestones_delivery_financing_required_on_post = True  # CD stage2 checks it on the full model only
+    # mainProcurementCategory required since MPC_REQUIRED_FROM (former model validator)
+    main_procurement_category_required = True
+    # lifeCycleCost is not allowed together with features (former model validator)
+    award_criteria_lcc_features_check = True
+    # fields of procuringEntity that must be present (reporting allows a procuring entity without contactPoint)
+    procuring_entity_required_fields: dict = {"contactPoint": True}
+    # error for items with relatedLot in procedures without lots (None = relatedLot is allowed)
+    items_related_lot_error: str | None = None
+    items_unit_required = True
+    items_quantity_required = True  # since UNIT_PRICE_REQUIRED_FROM
+    features_max_weight = 0.3  # max value of a single feature and of the sum per lot/tender
+    # open family: tenderPeriod.startDate defaults to now on create and is required afterwards
+    tender_period_start_date_required = False
+    # belowThreshold / requestForProposal: enquiryPeriod (with endDate) is set by the user and required
+    enquiry_period_required = False
+    # statuses a tender owner may set with PATCH (former PatchTender.status choices); None = not validated here
+    patch_status_choices: tuple | None = None
+    # allowed mainProcurementCategory values (former per-procedure model choices)
+    main_procurement_category_choices: tuple = tuple(MAIN_PROCUREMENT_CATEGORY_CHOICES)
+    # allowed / default awardCriteria (None = the tender has no awardCriteria)
+    award_criteria_choices: tuple | None = (AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST)
+    award_criteria_default: str | None = AWARD_CRITERIA_LOWEST_COST
+    # {field: True | nested dict}, see validate_required_nested_fields
+    required_multilingual_fields: dict = {}
+    # procuringEntity.contactPoint.availableLanguage default (None = field is optional, no default)
+    procuring_entity_available_language_default: str | None = None
 
     calendar = WORKING_DAYS
 
+    # --- mainstream procedure differences (former method overrides) ---
+    # bt/rfp: the patch model depends on the tender status
+    tender_patch_models_by_status: dict | None = None
+    # open family/CO: the CPV group of the items can't change on patch
+    items_classification_prefix_change_check = False
+    # rfp: noticePublicationDate is set on activation even without a notice document
+    notice_publication_date_on_activation = False
+    # pq: tenderPeriod.startDate is set on activation, no tenderPeriod extension
+    tender_period_start_on_activation = False
+    tender_period_extension_check = True
+    # CO: a defense procuring entity may use an agreement of another defense procuring entity
+    agreement_procuring_entity_match_except_defense = False
+    # arma: no tender.value / tender.minimalStep (value, minimal step and their limits are not validated)
+    tender_has_value = True
+    # lots inherit currency/VAT of the tender value (arma/cfaselectionua: no), minimal step meta (+ negotiation: no),
+    # guarantee currency (negotiation: no)
+    lot_value_meta_from_tender = True
+    lot_minimal_step_meta_from_tender = True
+    lot_guarantee_currency_from_tender = True
+    # esco/cfaua/cfaselectionua/CD stage2/arma: currency/VAT of the tender value are not propagated to items/lots
+    watch_value_meta_changes_enabled = True
+    # esco: minimalStepPercentage/yearlyPaymentsPercentageRange instead of minimalStep
+    minimal_step_fields = ("minimalStep",)
+    minimal_step_required = True  # cfaselectionua: calculated on activation
+    minimal_step_regardless_of_auction = False  # competitiveDialogue: required although stage 1 has no auction
+    lot_minimal_step_check_before = True  # competitiveDialogue stage 1: the lot minimal step is always checked
+    submission_method_required = True  # competitiveDialogue stage 1: optional, no auction dependency
+    all_documents_should_be_public = False  # cfaua/cfaselectionua
+    # cfaua: the allowed tender status transitions (None = the generic rules only)
+    status_up_allowed_transitions: tuple | None = None
+    # competitiveDialogue stage 2: item profile/category are not checked on post
+    item_profile_category_check_on_post = True
+
+    def get_patch_data_model(self):
+        models = self.tender_patch_models_by_status or {}
+        return models.get(self.request.validated["tender"].get("status", ""), PatchTender)
+
     def validate_tender_patch(self, before, after):
+        self.validate_patch_status_choice(before, after)
         request = get_request()
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
@@ -255,6 +353,19 @@ class BaseTenderDetailsMixing:
         validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):
+        self.validate_contract_template_name_allowed(tender)
+        self.validate_main_procurement_category(tender)
+        self.validate_award_criteria(tender, on_post=True)
+        self.validate_items_related_lot_allowed(tender)
+        self.validate_items_required_fields(tender)
+        self.validate_items_classification_id(tender, on_post=True)
+        self.validate_tender_milestones_required(tender, on_post=True)
+        self.validate_procuring_entity_required_fields(tender)
+        self.set_procuring_entity_available_language(tender)
+        self.validate_multilingual_fields(tender)
+        self.validate_features(tender)
+        self.validate_enquiry_period_required(tender, on_post=True)
+        self.validate_tender_period_start_date_required(tender, on_post=True)
         self.validate_enquiry_period(tender)
         self.update_tender_period(tender)
         self.validate_procurement_method(tender)
@@ -293,6 +404,21 @@ class BaseTenderDetailsMixing:
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        if self.items_classification_prefix_change_check:
+            self.validate_items_classification_prefix_unchanged(before, after)
+        self.validate_contract_template_name_allowed(after)
+        self.validate_main_procurement_category(after)
+        self.validate_award_criteria(after)
+        self.validate_items_related_lot_allowed(after)
+        self.validate_items_required_fields(after)
+        self.validate_items_classification_id(after)
+        self.validate_tender_milestones_required(after)
+        self.validate_procuring_entity_required_fields(after)
+        self.set_procuring_entity_available_language(after)
+        self.validate_multilingual_fields(after)
+        self.validate_features(after)
+        self.validate_enquiry_period_required(after)
+        self.validate_tender_period_start_date_required(after)
         self.validate_enquiry_period(after)
         self.validate_enquiry_period_delete(before, after)
         self.update_tender_period(after)
@@ -368,6 +494,10 @@ class BaseTenderDetailsMixing:
 
         super().on_patch(before, after)
 
+        if self.notice_publication_date_on_activation and after["status"] != "draft" and before["status"] == "draft":
+            # even without document `notice` it is required to set `noticePublicationDate` for RFP (CS-19667)
+            after["noticePublicationDate"] = get_request_now().isoformat()
+
     def always(self, data):
         self.validate_econtract_fields(data)
         self.validate_items_quantity(data)
@@ -413,6 +543,14 @@ class BaseTenderDetailsMixing:
         validate_econtract_fields_tender(self.request, after)
 
     def status_up(self, before, after, data):
+        if self.status_up_allowed_transitions is not None and (before, after) not in self.status_up_allowed_transitions:
+            raise_operation_error(
+                get_request(),
+                f"Can't update tender to {after} status",
+                status=403,
+                location="body",
+                name="status",
+            )
         if after == "draft" and before != "draft":
             raise_operation_error(
                 get_request(),
@@ -424,6 +562,8 @@ class BaseTenderDetailsMixing:
         if after == "active.tendering" and before != "active.tendering":
             self.validate_tender_period_start_date(data)
         super().status_up(before, after, data)
+        if self.tender_period_start_on_activation and before == "draft" and after == "active.tendering":
+            data["tenderPeriod"]["startDate"] = get_request_now().isoformat()
 
     def validate_notice_doc_required(self, tender):
         if (
@@ -614,14 +754,16 @@ class BaseTenderDetailsMixing:
                 self.validate_lot_minimal_step(lot, before)
                 self.validate_lot_value(tender, lot)
 
-    @staticmethod
-    def set_lot_guarantee(tender: dict, lot: dict) -> None:
+    def set_lot_guarantee(self, tender: dict, lot: dict) -> None:
+        if not self.lot_guarantee_currency_from_tender:
+            return
         if guarantee := lot.get("guarantee"):
             currency = tender["guarantee"]["currency"] if tender.get("guarantee") else guarantee.get("currency")
             lot["guarantee"]["currency"] = currency
 
-    @staticmethod
-    def set_lot_value(tender: dict, lot: dict) -> None:
+    def set_lot_value(self, tender: dict, lot: dict) -> None:
+        if not self.lot_value_meta_from_tender:
+            return
         if tender_value := tender.get("value"):
             lot["value"].update(
                 {
@@ -630,8 +772,9 @@ class BaseTenderDetailsMixing:
                 }
             )
 
-    @staticmethod
-    def set_lot_minimal_step(tender: dict, lot: dict) -> None:
+    def set_lot_minimal_step(self, tender: dict, lot: dict) -> None:
+        if not self.lot_minimal_step_meta_from_tender:
+            return
         if lot.get("minimalStep") and (tender_value := tender.get("value")):
             lot["minimalStep"].update(
                 {
@@ -719,6 +862,8 @@ class BaseTenderDetailsMixing:
         :param minimal_step_amount: Minimal step amount
         :return: None
         """
+        if not self.tender_has_value:  # arma: no minimal step limits
+            return
         tender_created = get_first_revision_date(tender, default=get_request_now())
         if tender_created > MINIMAL_STEP_VALIDATION_FROM:
             precision_multiplier = 10**MINIMAL_STEP_VALIDATION_PRESCISSION
@@ -880,10 +1025,11 @@ class BaseTenderDetailsMixing:
         for lot in tender.get("lots", ""):
             lot["date"] = now
 
-    @staticmethod
-    def watch_value_meta_changes(tender):
+    def watch_value_meta_changes(self, tender):
         # tender currency and valueAddedTaxIncluded must be specified only ONCE
         # instead it's specified in many places but we need keep them the same
+        if not self.watch_value_meta_changes_enabled:
+            return
         value = tender.get("value")
         if not value:
             return
@@ -1161,11 +1307,15 @@ class BaseTenderDetailsMixing:
         :param before: tender
         :return:
         """
+        if not self.tender_has_value:  # arma: no tender.minimalStep
+            return
         tender = get_tender()
-        kwargs = {
-            "enabled": tender["config"]["hasAuction"] is True and not tender.get("lots"),
-        }
-        validate_field(data, "minimalStep", **kwargs)
+        has_auction = self.minimal_step_regardless_of_auction or tender["config"]["hasAuction"] is True
+        kwargs = {"enabled": has_auction and not tender.get("lots")}
+        if not self.minimal_step_required:
+            kwargs["required"] = False
+        for field in self.minimal_step_fields:
+            validate_field(data, field, **kwargs)
 
     def validate_lot_minimal_step(self, data, before=None):
         """
@@ -1177,13 +1327,15 @@ class BaseTenderDetailsMixing:
         :return:
         """
         tender = get_tender()
-        # minimalStep is required for CD procedures although stage1 doesn't have auction
-        is_cd_tender = "competitiveDialogue" in tender["procurementMethodType"]
         kwargs = {
-            "before": before,
-            "enabled": is_cd_tender or tender["config"]["hasAuction"] is True,
+            "enabled": self.minimal_step_regardless_of_auction or tender["config"]["hasAuction"] is True,
         }
-        validate_field(data, "minimalStep", **kwargs)
+        if self.lot_minimal_step_check_before:
+            kwargs["before"] = before
+        if not self.minimal_step_required:
+            kwargs["required"] = False
+        for field in self.minimal_step_fields:
+            validate_field(data, field, **kwargs)
 
     def validate_tender_value(self, tender):
         """Validate tender value.
@@ -1193,6 +1345,8 @@ class BaseTenderDetailsMixing:
         :param tender: Tender dictionary
         :return: None
         """
+        if not self.tender_has_value:  # arma
+            return
         has_value_estimation = tender["config"]["hasValueEstimation"]
         tender_value = tender.get("value", {})
         if not tender_value:
@@ -1261,6 +1415,12 @@ class BaseTenderDetailsMixing:
             self.validate_minimal_step_limits(tender, tender_value_amount, tender_min_step_amount)
 
     def validate_submission_method(self, data, before=None):
+        if not self.submission_method_required:  # competitiveDialogue stage 1
+            validate_field(data, "submissionMethod", required=False)
+            validate_field(data, "submissionMethodDetails", required=False)
+            validate_field(data, "submissionMethodDetails_en", required=False)
+            validate_field(data, "submissionMethodDetails_ru", required=False)
+            return
         kwargs = {
             "before": before,
             "enabled": data["config"]["hasAuction"] is True,
@@ -1399,6 +1559,8 @@ class BaseTenderDetailsMixing:
             )
 
     def validate_tender_period_extension(self, tender):
+        if not self.tender_period_extension_check:
+            return
         if "tenderPeriod" in tender and "endDate" in tender["tenderPeriod"]:
             tendering_end = dt_from_iso(tender["tenderPeriod"]["endDate"])
             if (
@@ -1429,7 +1591,7 @@ class BaseTenderDetailsMixing:
 
     def validate_tender_docs_confidentiality(self, documents):
         for doc in documents:
-            validate_edrpou_confidentiality_doc(doc)
+            validate_edrpou_confidentiality_doc(doc, should_be_public=self.all_documents_should_be_public)
 
     @staticmethod
     def calculate_item_identification_tuple(item):
@@ -1452,6 +1614,13 @@ class BaseTenderDetailsMixing:
 
     def has_mismatched_procuring_entities(self, tender, agreement):
         if not self.should_match_agreement_procuring_entity:
+            return False
+        if (
+            self.agreement_procuring_entity_match_except_defense
+            and tender["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+            and agreement["procuringEntity"]["kind"] == ProcuringEntityKind.DEFENSE
+        ):
+            # Defense procuring entity can use agreement with other defense procuring entity
             return False
 
         agreement_identifier = agreement["procuringEntity"]["identifier"]
@@ -1506,6 +1675,8 @@ class BaseTenderDetailsMixing:
             )
 
     def validate_change_item_profile_or_category(self, after: dict, before: dict, force_validate: bool = False) -> None:
+        if not self.item_profile_category_check_on_post and self.request.method == "POST":
+            return
         after_cp = {}
         for item in after.get("items", []):
             after_cp[item["id"]] = {
@@ -1561,6 +1732,163 @@ class BaseTenderDetailsMixing:
                         if req.get("id") in before_requirements_ids:
                             req["status"] = ReqStatuses.CANCELLED
                             req["dateModified"] = now.isoformat()
+
+    def validate_main_procurement_category(self, tender):
+        value = tender.get("mainProcurementCategory")
+        if value is None and self.main_procurement_category_required and tender_created_after(MPC_REQUIRED_FROM):
+            raise_operation_error(self.request, ["This field is required."], status=422, name="mainProcurementCategory")
+        if value is not None and value not in self.main_procurement_category_choices:
+            raise_operation_error(
+                self.request,
+                [f"Value must be one of {list(self.main_procurement_category_choices)}."],
+                status=422,
+                name="mainProcurementCategory",
+            )
+
+    def validate_award_criteria(self, tender, on_post=False):
+        if self.award_criteria_choices is None:
+            return
+        if on_post and tender.get("awardCriteria") is None and self.award_criteria_default:
+            tender["awardCriteria"] = self.award_criteria_default
+        value = tender.get("awardCriteria")
+        if (
+            self.award_criteria_lcc_features_check
+            and value == AWARD_CRITERIA_LIFE_CYCLE_COST
+            and tender.get("features")
+        ):
+            raise_operation_error(
+                self.request,
+                [f"Can`t add features with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria"],
+                status=422,
+                name="awardCriteria",
+            )
+        if value is not None and value not in self.award_criteria_choices:
+            raise_operation_error(
+                self.request,
+                [f"Value must be one of {list(self.award_criteria_choices)}."],
+                status=422,
+                name="awardCriteria",
+            )
+
+    def validate_contract_template_name_allowed(self, tender):
+        if not self.contract_template_name_allowed and tender.get("contractTemplateName") is not None:
+            raise_operation_error(self.request, "Rogue field", status=422, name="contractTemplateName")
+
+    def validate_items_related_lot_allowed(self, tender):
+        if self.items_related_lot_error is None:
+            return
+        errors = [
+            {"relatedLot": [self.items_related_lot_error]}
+            for item in tender.get("items") or []
+            if item.get("relatedLot")
+        ]
+        if errors:
+            raise_operation_error(self.request, errors, status=422, name="items")
+
+    def validate_items_classification_id(self, tender, on_post=False):
+        if on_post and not self.items_classification_id_check_on_post:
+            return
+        if self.items_classification_id_check:
+            validate_items_classification_id(self.request, tender.get("items"))
+
+    def validate_tender_milestones_required(self, tender, on_post=False):
+        delivery_financing = self.milestones_delivery_financing_required
+        if on_post and not self.milestones_delivery_financing_required_on_post:
+            delivery_financing = False
+        validate_tender_milestones_required(
+            self.request,
+            tender,
+            required=self.milestones_required,
+            delivery_financing=delivery_financing,
+        )
+
+    def validate_procuring_entity_required_fields(self, tender):
+        if self.procuring_entity_required_fields and tender.get("procuringEntity") is not None:
+            validate_required_nested_fields(
+                self.request, tender, {"procuringEntity": self.procuring_entity_required_fields}
+            )
+
+    def validate_items_required_fields(self, tender):
+        validate_items_required_fields(
+            self.request,
+            tender.get("items"),
+            delivery=self.items_delivery_required,
+            unit=self.items_unit_required,
+            quantity=self.items_quantity_required,
+        )
+
+    def validate_multilingual_fields(self, tender):
+        if self.required_multilingual_fields:
+            validate_required_nested_fields(self.request, tender, self.required_multilingual_fields)
+
+    def set_procuring_entity_available_language(self, tender):
+        default = self.procuring_entity_available_language_default
+        if not default:
+            return
+        procuring_entity = tender.get("procuringEntity") or {}
+        contact_points = [procuring_entity.get("contactPoint")] + (
+            procuring_entity.get("additionalContactPoints") or []
+        )
+        for contact_point in contact_points:
+            if contact_point is not None and contact_point.get("availableLanguage") is None:
+                contact_point["availableLanguage"] = default
+
+    def validate_features(self, tender):
+        features = tender.get("features")
+        if not features:
+            return
+        max_weight = self.features_max_weight
+        # Decimal comparison: values may be floats or Decimals (CFA), and Decimal("0.3") > 0.3
+        max_weight_decimal = Decimal(str(max_weight))
+        # same shape/message as FloatType(max_value=...) used to produce on the model
+        errors = []
+        for feature in features:
+            enum_errors = [
+                {"value": [f"Float value should be less than {max_weight}."]}
+                for enum in feature.get("enum") or []
+                if enum.get("value") is not None and Decimal(str(enum["value"])) > max_weight_decimal
+            ]
+            if enum_errors:
+                errors.append({"enum": enum_errors})
+        if errors:
+            raise_operation_error(self.request, errors, status=422, name="features")
+        try:
+            validate_features_custom_weight(tender, features, max_weight_decimal)
+        except ValidationError as e:
+            raise_operation_error(self.request, e.messages, status=422, name="features")
+
+    def validate_patch_status_choice(self, before, after):
+        choices = self.patch_status_choices
+        if choices is None or after.get("status") == before.get("status"):
+            return
+        if after.get("status") not in choices:
+            raise_operation_error(self.request, [f"Value must be one of {list(choices)}."], status=422, name="status")
+
+    def validate_enquiry_period_required(self, tender, on_post=False):
+        if not self.enquiry_period_required:
+            return
+        period = tender.get("enquiryPeriod")
+        if period is None:
+            raise_operation_error(self.request, ["This field is required."], status=422, name="enquiryPeriod")
+        if not period.get("endDate"):
+            raise_operation_error(
+                self.request, {"endDate": ["This field is required."]}, status=422, name="enquiryPeriod"
+            )
+        if on_post and not period.get("startDate"):
+            period["startDate"] = get_request_now().isoformat()
+
+    def validate_tender_period_start_date_required(self, tender, on_post=False):
+        if not self.tender_period_start_date_required:
+            return
+        period = tender.get("tenderPeriod")
+        if period is None or period.get("startDate"):
+            return
+        if on_post:
+            period["startDate"] = get_request_now().isoformat()
+        else:
+            raise_operation_error(
+                self.request, {"startDate": ["This field is required."]}, status=422, name="tenderPeriod"
+            )
 
     def validate_items_profile(self, tender):
         if not self.items_profile_required:

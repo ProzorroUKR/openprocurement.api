@@ -16,15 +16,17 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.limited.procedure.models.tender import (
+    NegotiationPatchTender,
+    NegotiationPostTender,
+    NegotiationQuickPostTender,
     NegotiationQuickTender,
     NegotiationTender,
-    PatchNegotiationQuickTender,
-    PatchNegotiationTender,
-    PatchReportingTender,
-    PostNegotiationQuickTender,
-    PostNegotiationTender,
-    PostReportingTender,
+    ReportingPatchTender,
+    ReportingPostTender,
     ReportingTender,
+)
+from openprocurement.tender.limited.procedure.models.tender import (
+    NegotiationQuickPatchTender as PatchNegotiationQuickTender,
 )
 from openprocurement.tender.limited.procedure.serializers.tender import (
     LimitedTenderBaseSerializer,
@@ -52,7 +54,7 @@ class ReportingTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostReportingTender),
+            validate_input_data(ReportingPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
@@ -72,7 +74,7 @@ class ReportingTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_tender_status_allows_update("draft", "active")),
-            validate_input_data(PatchReportingTender, none_means_remove=True),
+            validate_input_data(ReportingPatchTender, none_means_remove=True),
             validate_patch_data_simple(ReportingTender, item_name="tender"),
         ),
         permission="edit_tender",
@@ -97,7 +99,7 @@ class NegotiationTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostNegotiationTender),
+            validate_input_data(NegotiationPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
@@ -117,7 +119,7 @@ class NegotiationTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_tender_status_allows_update("draft", "active")),
-            validate_input_data(PatchNegotiationTender, none_means_remove=True),
+            validate_input_data(NegotiationPatchTender, none_means_remove=True),
             validate_patch_data_simple(NegotiationTender, item_name="tender"),
         ),
         permission="edit_tender",
@@ -142,7 +144,7 @@ class NegotiationQuickTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostNegotiationQuickTender),
+            validate_input_data(NegotiationQuickPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),

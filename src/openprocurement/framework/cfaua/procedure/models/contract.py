@@ -6,8 +6,8 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.organization import BusinessOrganization
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.validation import validate_uniq_code
-from openprocurement.framework.cfaua.procedure.models.parameter import Parameter
 from openprocurement.framework.cfaua.procedure.models.unitprice import UnitPrice
+from openprocurement.tender.core.procedure.models.parameter import AgreementContractParameter as Parameter
 
 
 class Contract(Model):

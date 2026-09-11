@@ -10,7 +10,7 @@ from openprocurement.api.validation import validate_uniq_value
 
 
 class FeatureValue(Model):
-    value = FloatType(required=True, min_value=0.0, max_value=0.3)
+    value = FloatType(required=True, min_value=0.0)  # max value is validated in state (features_max_weight)
     title = StringType(required=True, min_length=1)
     title_en = StringType()
     title_ru = StringType()

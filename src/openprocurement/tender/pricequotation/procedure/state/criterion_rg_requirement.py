@@ -15,7 +15,4 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 class PQRequirementState(RequirementStateMixin, PriceQuotationTenderState):
     tender_valid_statuses = ["draft"]
-
-    def requirement_always(self, data: dict) -> None:
-        self._validate_operation_criterion_in_tender_status()
-        super().requirement_always(data)
+    requirement_status_check_always = True

@@ -6,9 +6,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.models.award_milestone import (
-    PostAwardMilestone,
-)
+from openprocurement.tender.arma.procedure.models.award_milestone import ARMAPostAwardMilestone as PostAwardMilestone
 from openprocurement.tender.core.procedure.state.award_milestone import (
     AwardExtensionMilestoneState,
 )

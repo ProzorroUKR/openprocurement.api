@@ -108,6 +108,7 @@ Content-Type: application/json
     ],
     "procurementMethod": "selective",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "next_check": "2027-01-07T01:45:06+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -221,6 +222,47 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "enquiryPeriod": {
+      "startDate": "2026-12-23T00:15:06+02:00",
+      "endDate": "2026-12-31T00:15:06+02:00",
+      "clarificationsUntil": "2027-01-01T00:15:06+02:00",
+      "invalidationDate": "2027-01-07T00:14:06+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-31T00:15:06+02:00",
+      "endDate": "2027-01-07T00:15:06+02:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "03111600-8"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+      }
+    ],
+    "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -255,15 +297,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "next_check": "2027-01-07T01:45:06+02:00",
-    "tenderPeriod": {
-      "startDate": "2026-12-31T00:15:06+02:00",
-      "endDate": "2027-01-07T00:15:06+02:00"
-    },
     "lots": [
       {
         "title": "lot title",
@@ -285,39 +318,6 @@ Content-Type: application/json
           "startDate": "2027-01-07T00:15:06+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/513a5729b98b4078a5e0c1ffb39e3c9a_31ec05e9aa3b44eeae2a94279b1e3040"
-      }
-    ],
-    "procurementMethodType": "requestForProposal",
-    "enquiryPeriod": {
-      "startDate": "2026-12-23T00:15:06+02:00",
-      "clarificationsUntil": "2027-01-01T00:15:06+02:00",
-      "endDate": "2026-12-31T00:15:06+02:00",
-      "invalidationDate": "2027-01-07T00:14:06+02:00"
-    },
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "03111600-8"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
       }
     ],
     "auctionPeriod": {},

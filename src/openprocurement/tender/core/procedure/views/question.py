@@ -7,11 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.tender.core.procedure.models.question import (
-    PatchQuestion,
-    PostQuestion,
-    Question,
-)
+from openprocurement.tender.core.procedure.models.question import PatchQuestion, PostQuestion, Question
 from openprocurement.tender.core.procedure.serializers.question import (
     QuestionSerializer,
 )

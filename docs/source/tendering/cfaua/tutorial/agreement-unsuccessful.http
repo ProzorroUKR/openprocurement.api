@@ -21,8 +21,9 @@ Content-Type: application/json
     "dateSigned": "2027-01-01T00:03:03+02:00",
     "items": [
       {
-        "id": "413de2ea9c9c44b9828522f05507c3bd",
+        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
         "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
         "unit": {
           "name": "item",
           "code": "KGM"
@@ -40,7 +41,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -52,11 +52,12 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Cases for state awards"
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "d7915d4dfbbf43cd86d72c88c3bbf136",
+        "id": "1065f03b083b486d810ef3d29ad67913",
         "description": "футляри до державних нагород",
+        "description_en": "Cases for state awards",
         "unit": {
           "name": "item",
           "code": "GRM"
@@ -74,7 +75,6 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -86,7 +86,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "description_en": "Cases for state awards"
+        "relatedLot": "1045105100a341998426114b17a5c1ff"
       }
     ],
     "period": {
@@ -123,7 +123,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
+            "relatedItem": "6bf9b6cb7f5448a79d84865a8af80caa",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -131,7 +131,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
+            "relatedItem": "1065f03b083b486d810ef3d29ad67913",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -172,7 +172,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
+            "relatedItem": "6bf9b6cb7f5448a79d84865a8af80caa",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -180,7 +180,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
+            "relatedItem": "1065f03b083b486d810ef3d29ad67913",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -221,7 +221,7 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "413de2ea9c9c44b9828522f05507c3bd",
+            "relatedItem": "6bf9b6cb7f5448a79d84865a8af80caa",
             "value": {
               "currency": "UAH",
               "amount": 0.5,
@@ -229,7 +229,7 @@ Content-Type: application/json
             }
           },
           {
-            "relatedItem": "d7915d4dfbbf43cd86d72c88c3bbf136",
+            "relatedItem": "1065f03b083b486d810ef3d29ad67913",
             "value": {
               "currency": "UAH",
               "amount": 0.5,

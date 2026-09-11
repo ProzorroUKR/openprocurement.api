@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-28 15:11+0300\n"
+"POT-Creation-Date: 2026-09-03 23:24+0300\n"
 "PO-Revision-Date: 2021-10-26 13:27+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -92,8 +92,8 @@ msgstr "integer"
 msgid "|ocdsDescription| Кількість необхідних одиниць."
 msgstr "|ocdsDescription| The number of units required"
 
-msgid "Відсутня в :ref:`esco`"
-msgstr "Absent in :ref:`esco`"
+msgid "Обов’язкова для закупівель, створених після набуття чинності відповідного правила, крім :ref:`esco` та :ref:`competitivedialogue` (stage2), де поле не обов’язкове."
+msgstr "Required for tenders created after the corresponding rule came into force, except :ref:`esco` and :ref:`competitivedialogue` (stage2), where the field is optional."
 
 msgid "deliveryDate"
 msgstr ""
@@ -104,6 +104,9 @@ msgstr ":ref:`Period`"
 msgid "Період, протягом якого елемент повинен бути доставлений."
 msgstr "Period during which the item should be delivered."
 
+msgid "Обов’язковий (разом з ``endDate``) у :ref:`open`, :ref:`openua`, :ref:`openeu`, :ref:`defense`, :ref:`simpledefense`, :ref:`competitiveordering`, :ref:`cfaua`, :ref:`limited`, :ref:`arma` та :ref:`competitivedialogue`; в інших процедурах не обов’язковий."
+msgstr "Required (together with ``endDate``) in :ref:`open`, :ref:`openua`, :ref:`openeu`, :ref:`defense`, :ref:`simpledefense`, :ref:`competitiveordering`, :ref:`cfaua`, :ref:`limited`, :ref:`arma` and :ref:`competitivedialogue`; optional in other procedures."
+
 msgid "deliveryAddress"
 msgstr ""
 
@@ -112,6 +115,9 @@ msgstr ":ref:`Address`"
 
 msgid "Адреса місця, куди елемент повинен бути доставлений."
 msgstr "Address, where the item should be delivered."
+
+msgid "Обов’язкова у тих самих процедурах, що й `deliveryDate`."
+msgstr "Required in the same procedures as `deliveryDate`."
 
 msgid "deliveryLocation"
 msgstr ""
@@ -238,3 +244,7 @@ msgstr ""
 
 msgid "Ціна за одиницю."
 msgstr "Price per unit."
+
+#~ msgid "Відсутня в :ref:`esco`"
+#~ msgstr "Absent in :ref:`esco`"
+

@@ -32,6 +32,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
     )
     patch_as_complaint_owner_tender_statuses = ("active.tendering",)
     should_validate_is_satisfied = True
+    claim_submit_validation = True  # bt/rfp: no restrictions on claim submission time / award status
 
     def claim_on_post(self, complaint):
         if complaint.get("status") == "claim":
@@ -185,6 +186,8 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             raise_operation_error(request, f"Cannot perform any action on complaint as {auth_role}")
 
     def validate_submit_claim(self, claim):
+        if not self.claim_submit_validation:
+            return
         request = self.request
         tender = request.validated["tender"]
         claim_submit_time = self.tender_claim_submit_time
