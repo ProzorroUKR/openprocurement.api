@@ -13,6 +13,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     PLAN_ADDRESS_KIND_REQUIRED_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
+    TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM,
     UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
@@ -23,6 +24,7 @@ from openprocurement.api.procedure.utils import (
     validate_funders_match_plan_programs,
 )
 from openprocurement.api.procedure.validation import (
+    validate_items_classification_match,
     validate_items_classifications_prefixes,
 )
 from openprocurement.api.utils import error_handler, raise_operation_error
@@ -33,6 +35,8 @@ from openprocurement.planning.api.constants import (
 )
 from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
+from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
@@ -333,11 +337,20 @@ class PlanState(BaseState):
             if item.get("classification")  # item.classification may be empty in pricequotation
         ]
         if classifications:
-            validate_items_classifications_prefixes(
-                classifications,
-                root_classification=plan["classification"],
-                root_name="plan",
+            items_should_match_plan_items = tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender)
+            # for works and services it is allowed to post tender items that don't match plan classification
+            skip_prefix_validation = items_should_match_plan_items and tender.get("mainProcurementCategory") in (
+                MainProcurementCategory.SERVICES,
+                MainProcurementCategory.WORKS,
             )
+            if not skip_prefix_validation:
+                validate_items_classifications_prefixes(
+                    classifications,
+                    root_classification=plan["classification"],
+                    root_name="plan",
+                )
+            if items_should_match_plan_items:
+                validate_items_classification_match(classifications, plan)
 
     def _validate_plan_budget_breakdown(self, plan):
         budget = plan.get("budget")
