@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "Насіння",
-    "mainProcurementCategory": "goods",
+    "mainProcurementCategory": "works",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -41,28 +41,27 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "72406d30465d4a66b6c2867545edd942",
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
         "classification": {
-          "description": "Vegetable seeds",
           "scheme": "ДК021",
-          "id": "03111700-9"
+          "id": "45213240-7",
+          "description": "Будівництво будівель сільськогосподарського призначення"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "01.13.6",
-            "description": "Насіння овочевих культур"
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "code": "KGM"
         },
-        "quantity": 5000.0,
-        "deliveryDate": {
-          "endDate": "2016-06-01T23:06:30.023018+03:00"
-        },
-        "description": "Насіння овочевих культур"
+        "quantity": 5
       }
     ],
     "enquiryPeriod": {
@@ -148,8 +147,10 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "budget.breakdown",
-      "description": "Plan should contain budget breakdown"
+      "name": "items",
+      "description": [
+        "CPV classifications do not match plan items classifications ['03111700-9']"
+      ]
     }
   ]
 }

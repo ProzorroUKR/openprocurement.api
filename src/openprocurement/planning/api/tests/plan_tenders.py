@@ -28,6 +28,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_data,
     test_tender_cdua_stage2_data,
 )
+from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.esco.tests.base import (
     test_tender_esco_config,
@@ -232,10 +233,13 @@ def test_procurement_method_type_cpb(app):
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
 
+    tender_data = deepcopy(test_below_tender_data)
+    tender_data["items"] = plan["data"]["items"]
+
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {
-            "data": test_below_tender_data,
+            "data": tender_data,
             "config": test_tender_below_config,
         },
     )
@@ -259,11 +263,13 @@ def test_plan_tender_funder_program_link(app):
     }
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
+    tender_data = deepcopy(test_below_tender_data)
+    tender_data["items"] = plan["data"]["items"]
 
     # Tender without funders fails — the program's donor must be present.
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
-        {"data": test_below_tender_data, "config": test_tender_below_config},
+        {"data": tender_data, "config": test_tender_below_config},
         status=422,
     )
     assert {
@@ -276,6 +282,7 @@ def test_plan_tender_funder_program_link(app):
     # not the program's donor.
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["funders"] = [deepcopy(test_other_funder)]
+    request_tender_data["items"] = plan["data"]["items"]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {"data": request_tender_data, "config": test_tender_below_config},
@@ -291,6 +298,7 @@ def test_plan_tender_funder_program_link(app):
     # program's donor may be specified.
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["funders"] = [deepcopy(test_program_funder), deepcopy(test_other_funder)]
+    request_tender_data["items"] = plan["data"]["items"]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {"data": request_tender_data, "config": test_tender_below_config},
@@ -305,6 +313,7 @@ def test_plan_tender_funder_program_link(app):
     # Exactly the program's donor organisation succeeds.
     request_tender_data = deepcopy(test_below_tender_data)
     request_tender_data["funders"] = [deepcopy(test_program_funder)]
+    request_tender_data["items"] = plan["data"]["items"]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {"data": request_tender_data, "config": test_tender_below_config},
@@ -322,9 +331,11 @@ def test_plan_tender_no_funder_check_without_funder_program_scheme(app):
     # Legacy plan: no scheme on budget.project → no link validation.
     response = app.post_json("/plans", {"data": deepcopy(test_plan_data)})
     plan = response.json
+    tender_data = deepcopy(test_below_tender_data)
+    tender_data["items"] = plan["data"]["items"]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
-        {"data": test_below_tender_data, "config": test_tender_below_config},
+        {"data": tender_data, "config": test_tender_below_config},
     )
     assert response.status == "201 Created"
 
@@ -338,9 +349,11 @@ def test_plan_tender_no_funder_check_without_funder_program_scheme(app):
     }
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
+    tender_data = deepcopy(test_below_tender_data)
+    tender_data["items"] = plan["data"]["items"]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
-        {"data": test_below_tender_data, "config": test_tender_below_config},
+        {"data": tender_data, "config": test_tender_below_config},
     )
     assert response.status == "201 Created"
 
@@ -364,6 +377,7 @@ def test_plan_tender_funder_program_link_patch(app):
     other_funder = deepcopy(test_other_funder)
 
     request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["items"] = plan["data"]["items"]
     request_tender_data["funders"] = [program_funder]
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
@@ -435,6 +449,7 @@ def test_plan_tender_funder_program_link_direct_post(app):
 
     # Tender referencing the plan but without the program's donor → rejected.
     request_tender_data = deepcopy(test_below_tender_data)
+    request_tender_data["items"] = plan["data"]["items"]
     request_tender_data["plans"] = [{"id": plan["data"]["id"]}]
     response = app.post_json(
         "/tenders",
@@ -481,11 +496,13 @@ def test_procurement_method_cpb_01101100(app):
 
     response = app.post_json("/plans", {"data": request_plan_data})
     plan = response.json
+    tender_data = deepcopy(test_below_tender_data)
+    tender_data["items"] = plan["data"]["items"]
 
     response = app.post_json(
         "/plans/{}/tenders".format(plan["data"]["id"]),
         {
-            "data": test_below_tender_data,
+            "data": tender_data,
             "config": test_tender_below_config,
         },
     )
@@ -947,3 +964,124 @@ def test_fail_cd_second_stage_creation(app, plan, request_tender_data):
     app.authorization = ("Basic", ("broker", "broker"))
     response = app.post_json("/plans/{}/tenders".format(plan["data"]["id"]), {"data": request_tender_data}, status=403)
     assert response.json["errors"][0]["name"] == "procurementMethodType"
+
+
+def test_tender_cpv_items_validation(app):
+    app.authorization = ("Basic", ("broker", "broker"))
+    request_plan_data = deepcopy(test_plan_data)
+    request_tender_data = deepcopy(test_tender_reporting_data)
+
+    if request_tender_data["procurementMethodType"] in ("aboveThresholdUA.defense", "simple.defense"):
+        request_plan_data["procuringEntity"]["kind"] = "defense"
+    request_tender_data["mainProcurementCategory"] = MainProcurementCategory.GOODS
+    plan = create_plan_for_tender(app, request_tender_data, request_plan_data)
+
+    plan_from_db = unwrap_app(app).registry.mongodb.plans.get(plan["data"]["id"])
+    plan_from_db["items"][-1]["classification"]["id"] = "42120000-6"
+    unwrap_app(app).registry.mongodb.save_data(unwrap_app(app).registry.mongodb.plans.collection, plan_from_db)
+
+    request_tender_data["items"][0]["classification"]["id"] = "42120000-6"
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": request_tender_data,
+            "config": test_tender_reporting_config,
+        },
+        status=422,
+    )
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {
+                "location": "body",
+                "name": "items",
+                "description": ["CPV class of items (4212) should be identical to plan CPV class (4461)"],
+            }
+        ],
+    }
+
+    # try to add item with classification another than in plan.items
+    request_tender_data["mainProcurementCategory"] = MainProcurementCategory.WORKS
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": request_tender_data,
+            "config": test_tender_reporting_config,
+        },
+        status=422,
+    )
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [
+                    "CPV classifications do not match plan items classifications ['42120000-6', '44617100-9']"
+                ],
+            }
+        ],
+    }
+
+    item = deepcopy(request_tender_data["items"][0])
+    item["classification"]["id"] = "44617100-9"
+    request_tender_data["items"].append(item)
+    request_tender_data["mainProcurementCategory"] = MainProcurementCategory.SERVICES
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {
+            "data": request_tender_data,
+            "config": test_tender_reporting_config,
+        },
+    )
+    assert response.status == "201 Created"
+    tender_id = response.json["data"]["id"]
+    tender_token = response.json["access"]["token"]
+
+    # on patch validation doesn't work
+    app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
+        {
+            "data": {"items": [item]},
+        },
+    )
+
+    # on activation validation works
+    response = app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
+        {
+            "data": {"status": "active"},
+        },
+        status=422,
+    )
+    assert response.json == {
+        "status": "error",
+        "errors": [
+            {
+                "location": "body",
+                "name": "items",
+                "description": [
+                    "CPV classifications do not match plan items classifications ['42120000-6', '44617100-9']"
+                ],
+            }
+        ],
+    }
+
+    response = app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
+        {
+            "data": {
+                "items": request_tender_data["items"],
+                "status": "active",
+            },
+        },
+    )
+    assert response.json["data"]["status"] == "active"
+
+    # after activation on patch validation doesn't work
+    app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_token),
+        {
+            "data": {"items": [item]},
+        },
+    )

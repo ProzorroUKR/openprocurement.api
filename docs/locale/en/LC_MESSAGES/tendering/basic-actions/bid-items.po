@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-13 21:06+0200\n"
+"POT-Creation-Date: 2026-09-07 15:16+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -53,7 +53,7 @@ msgstr "Instead of using eligibleEvidence in criteria and evidence in requiremen
 msgid "Процедури з продуктом у предметі закупівлі"
 msgstr "Procedures with product in bid items"
 
-msgid "Продукт в предметі закупівлі доступний у таких процедурах:"
+msgid "Продукт в предметі закупівлі пропозиції доступний у таких процедурах:"
 msgstr "Product in bid items is available in these procedures:"
 
 msgid "aboveThresholdUA"
@@ -91,6 +91,9 @@ msgstr ""
 
 msgid "priceQuotation"
 msgstr ""
+
+msgid "Для limited процедур продукт доступний в предметі закупівлі в самій процедурі (`tender.items`)."
+msgstr "For limited procedures product is available in `tender.items`."
 
 msgid "Створення пропозиції з продуктом у предметі закупівлі"
 msgstr "Create bid with product in items"

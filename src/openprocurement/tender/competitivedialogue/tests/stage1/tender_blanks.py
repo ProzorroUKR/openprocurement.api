@@ -235,22 +235,6 @@ def create_tender_invalid_eu(self):
         ],
     )
 
-    data = self.initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "19212310-1"
-    data["classification"] = classification
-    item = deepcopy(self.initial_data["items"][0])
-    self.initial_data["items"] = [item, data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
-    )
-
     data = deepcopy(self.initial_data)
     del data["items"][0]["deliveryDate"]
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
@@ -442,22 +426,6 @@ def patch_tender(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(len(response.json["data"]["items"]), 1)
-
-    item = deepcopy(item0)
-    item["id"] = item_id
-    item["classification"]["id"] = "55523100-3"
-    item["classification"]["description"] = "Послуги з харчування у школах"
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [item]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0],
-        {"description": ["Can't change classification group of items"], "location": "body", "name": "items"},
-    )
 
     item = deepcopy(item0)
     item["id"] = item_id
@@ -939,22 +907,6 @@ def create_tender_invalid_ua(self):
         ],
     )
 
-    data = self.initial_data["items"][0].copy()
-    classification = data["classification"].copy()
-    classification["id"] = "19212310-1"
-    data["classification"] = classification
-    item = deepcopy(self.initial_data["items"][0])
-    self.initial_data["items"] = [item, data]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
-    self.initial_data["items"] = self.initial_data["items"][:1]
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": ["CPV class of items (1921, 4461) should be identical"], "location": "body", "name": "items"}],
-    )
-
     data = deepcopy(self.initial_data)
     del data["items"][0]["deliveryDate"]["endDate"]
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
@@ -1191,23 +1143,6 @@ def patch_tender_1(self):
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": [data]}},
         status=200,
-    )
-
-    data["classification"] = {
-        "scheme": "ДК021",
-        "id": "55523100-3",
-        "description": "Послуги з харчування у школах",
-    }
-    response = self.app.patch_json(
-        "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
-        {"data": {"items": [data]}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(
-        response.json["errors"][0],
-        {"description": ["Can't change classification group of items"], "location": "body", "name": "items"},
     )
 
     data = deepcopy(item0)
@@ -1695,3 +1630,23 @@ def tender_milestones_sequence_number(self):
     ]
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
+
+
+def contract_template_name_set(self):
+    data = deepcopy(self.initial_data)
+    data["contractTemplateName"] = "00000000.0003.01"
+    response = self.app.post_json(
+        f"/tenders",
+        {"data": data, "config": self.initial_config},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "contractTemplateName",
+                "description": "Rogue field",
+            }
+        ],
+    )
