@@ -34,6 +34,7 @@ from openprocurement.tender.limited.tests.contract_blanks import (  # EContract
     contract_change_rationale_types,
     patch_tender_contract,
     patch_tender_negotiation_econtract,
+    patch_tender_negotiation_contract_value_vat,
     sign_second_contract,
     tender_contract_signature_date,
     tender_negotiation_contract_signature_date,
@@ -42,13 +43,15 @@ from openprocurement.tender.limited.tests.contract_blanks import (  # EContract
 
 class CreateActiveAwardMixin:
     def create_award(self):
+        # negotiation awards must be VAT-free (CS-22385), reporting is not restricted
+        vat_included = self.initial_data["procurementMethodType"] == "reporting"
         response = self.app.post_json(
             f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}",
             {
                 "data": {
                     "suppliers": [test_tender_below_supplier],
                     "status": "pending",
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": vat_included},
                 }
             },
         )
@@ -135,6 +138,8 @@ class TenderNegotiationContractVATNotIncludedResourceTest(TenderContractVATNotIn
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
 
+    test_patch_tender_negotiation_contract_value_vat = snitch(patch_tender_negotiation_contract_value_vat)
+
 
 class TenderNegotiationLotMixin:
     def create_award(self):
@@ -149,7 +154,7 @@ class TenderNegotiationLotMixin:
                     "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                     "lotID": self.lot1["id"],
                 }
             },
@@ -199,7 +204,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
                     "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                     "lotID": self.lot1["id"],
                 }
             },
@@ -221,7 +226,7 @@ class TenderNegotiationLot2ContractResourceTest(BaseTenderContentWebTest):
                     "suppliers": [test_tender_below_supplier],
                     "status": "pending",
                     "qualified": True,
-                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                    "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                     "lotID": self.lot2["id"],
                 }
             },

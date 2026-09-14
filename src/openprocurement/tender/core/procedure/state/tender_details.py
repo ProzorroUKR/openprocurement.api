@@ -260,6 +260,7 @@ class BaseTenderDetailsMixing:
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
     should_validate_vat_not_included = False
+    vat_not_included_validation_from = None
     # complexAsset.arma has no contractTemplateName (the field used to be removed from its models)
     contract_template_name_allowed = True
     items_delivery_required = False
@@ -836,7 +837,7 @@ class BaseTenderDetailsMixing:
 
         # CS-21518 - for some tenders we need to validate that lot has valueAddedTaxIncluded False
         if self.should_validate_vat_not_included:
-            validate_value_vat_disabled(self.request, lot_value, "lots.value")
+            validate_value_vat_disabled(self.request, lot_value, "lots.value", self.vat_not_included_validation_from)
 
         lot_min_step_amount = lot_min_step.get("amount")
 
@@ -1392,7 +1393,7 @@ class BaseTenderDetailsMixing:
 
         # CS-21518 - for some tenders we need to validate that tender has valueAddedTaxIncluded False
         if self.should_validate_vat_not_included:
-            validate_value_vat_disabled(self.request, tender_value, "value")
+            validate_value_vat_disabled(self.request, tender_value, "value", self.vat_not_included_validation_from)
 
         tender_min_step_amount = tender_min_step.get("amount")
 

@@ -87,6 +87,7 @@ def patch_tender_contract(self):
     tender = self.mongodb.tenders.get(self.tender_id)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -186,6 +187,7 @@ def tender_contract_signature_date(self):
     self.contract_id = contract["id"]
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -282,6 +284,7 @@ def tender_negotiation_contract_signature_date(self):
     self.mongodb.tenders.save(tender)
 
     value = contract["value"]
+    value["valueAddedTaxIncluded"] = True
     value["amountNet"] = value["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
@@ -402,7 +405,7 @@ def activate_contract_cancelled_lot(self):
     self.mongodb.tenders.save(tender)
 
     value = contract["value"]
-    value["valueAddedTaxIncluded"] = False
+    value["valueAddedTaxIncluded"] = not value["valueAddedTaxIncluded"]
     resp = self.app.patch_json(
         f"/contracts/{contract['id']}?acc_token={self.tender_token}",
         {"data": {"value": value}},
@@ -452,6 +455,7 @@ def sign_second_contract(self):
     self.mongodb.tenders.save(tender)
 
     value2 = contract1["value"]
+    value2["valueAddedTaxIncluded"] = True
     value2["amountNet"] = value2["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{self.contract2_id}?acc_token={self.tender_token}",
@@ -479,6 +483,7 @@ def sign_second_contract(self):
     self.assertEqual(response.json["data"]["status"], "active")
 
     value1 = contract1["value"]
+    value1["valueAddedTaxIncluded"] = True
     value1["amountNet"] = value1["amount"] - 1
     response = self.app.patch_json(
         f"/contracts/{self.contract1_id}?acc_token={self.tender_token}",
@@ -567,6 +572,7 @@ def patch_tender_negotiation_econtract(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update currency for contract value")
 
+    value["valueAddedTaxIncluded"] = True
     value["amount"] = 238
     value["amountNet"] = 200
     response = self.app.patch_json(
@@ -652,3 +658,50 @@ def patch_tender_negotiation_econtract(self):
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["errors"][0]["description"], "Can't update contract in current (cancelled) status")
+
+
+def patch_tender_negotiation_contract_value_vat(self):
+    contract_id = self.contracts_ids[0]
+    response = self.app.get(f"/contracts/{contract_id}")
+    value = response.json["data"]["value"]
+    self.assertFalse(value["valueAddedTaxIncluded"])
+    self.assertEqual(value["amount"], value["amountNet"])
+    awarded_amount = value["amount"]
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"value": {**value, "valueAddedTaxIncluded": True, "amount": awarded_amount * 1.3}}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "Amount should be equal or greater than amountNet and differ by no more than 20.0%",
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {
+            "data": {
+                "value": {
+                    **value,
+                    "valueAddedTaxIncluded": True,
+                    "amountNet": awarded_amount + 1,
+                    "amount": awarded_amount + 1,
+                }
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"][0]["description"],
+        "AmountNet should be less or equal to awarded amount",
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"value": {**value, "valueAddedTaxIncluded": True, "amount": awarded_amount * 1.2}}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertTrue(response.json["data"]["value"]["valueAddedTaxIncluded"])
+    self.assertEqual(response.json["data"]["value"]["amountNet"], awarded_amount)
+    self.assertEqual(response.json["data"]["value"]["amount"], awarded_amount * 1.2)

@@ -4010,3 +4010,49 @@ def get_award_requirement_response(self):
     for k, v in valid_data[0].items():
         self.assertIn(k, rr)
         self.assertEqual(v, rr[k])
+
+
+def create_tender_award_vat_not_included(self):
+    request_path = f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}"
+    vat_error = {
+        "location": "body",
+        "name": "value.valueAddedTaxIncluded",
+        "description": "valueAddedTaxIncluded should be false",
+    }
+
+    award_data = get_award_data(self, value={"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": True})
+    response = self.app.post_json(request_path, {"data": award_data}, status=422)
+    self.assertEqual(response.json["errors"], [vat_error])
+
+    # without the flag the award takes tender VAT, which is False
+    award_data = get_award_data(self, value={"amount": 40, "currency": "UAH"})
+    response = self.app.post_json(request_path, {"data": award_data})
+    self.assertEqual(response.status, "201 Created")
+    award = response.json["data"]
+    self.assertFalse(award["value"]["valueAddedTaxIncluded"])
+
+    award_path = f"/tenders/{self.tender_id}/awards/{award['id']}?acc_token={self.tender_token}"
+    response = self.app.patch_json(
+        award_path,
+        {"data": {"value": {**award["value"], "valueAddedTaxIncluded": True}}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [vat_error])
+
+    response = self.app.patch_json(award_path, {"data": {"value": {**award["value"], "amount": 30}}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amount"], 30)
+    self.assertFalse(response.json["data"]["value"]["valueAddedTaxIncluded"])
+
+
+@patch(
+    "openprocurement.tender.limited.procedure.state.award.NegotiationAwardState.award_value_vat_not_included_from",
+    get_now() + timedelta(days=1),
+)
+def create_tender_award_vat_not_included_before_constant(self):
+    award_data = get_award_data(self, value={"amount": 40, "currency": "UAH", "valueAddedTaxIncluded": True})
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/awards?acc_token={self.tender_token}", {"data": award_data}
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertTrue(response.json["data"]["value"]["valueAddedTaxIncluded"])

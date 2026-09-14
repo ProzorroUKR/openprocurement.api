@@ -1,5 +1,10 @@
+from openprocurement.api.constants_env import NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
+from openprocurement.tender.limited.procedure.state.tender_details import (
+    cause_scheme_requires_vat_not_included,
+)
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
@@ -21,6 +26,11 @@ class NegotiationAwardState(ReportingAwardState):
     award_cancel_complaints_on_cancel = False
     award_cancel_satisfied_complaint_lot_awards = True
     award_cancel_lot_awards_availability_check = False
+    award_value_vat_not_included_from = NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
+
+    @property
+    def award_value_vat_not_included(self):
+        return cause_scheme_requires_vat_not_included(get_tender())
 
 
 class NegotiationQuickAwardState(NegotiationAwardState):

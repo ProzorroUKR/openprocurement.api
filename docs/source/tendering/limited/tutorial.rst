@@ -130,6 +130,12 @@
 
 Щоб створити закупівлю за **переговорною** процедурою, потрібно встановити значення ``negotiation`` для ``procurementMethodType``.
 
+Для переговорних процедур (``negotiation``, ``negotiation.quick``) за підставами Постанови 1178 (``causeDetails.scheme: DECREE1178``) очікувана вартість вказується без ПДВ:
+``value.valueAddedTaxIncluded`` має бути ``false``, інакше буде помилка:
+
+.. http:example:: http/tutorial/create-tender-negotiation-vat-included.http
+   :code:
+
 .. http:example:: http/tutorial/create-tender-negotiation-procuringEntity.http
    :code:
 
@@ -228,7 +234,13 @@
 .. http:example:: http/tutorial/tender-award.http
    :code:
 
-Замовник реєструє інформацію про постачальника для **переговорної** процедури:
+Замовник реєструє інформацію про постачальника для **переговорної** процедури.
+Ціна пропозиції переможця також вказується без ПДВ: ``value.valueAddedTaxIncluded`` має бути ``false``, інакше буде помилка:
+
+.. http:example:: http/tutorial/tender-negotiation-award-vat-included.http
+   :code:
+
+Якщо поле не передати, воно береться з ``value`` закупівлі:
 
 .. http:example:: http/tutorial/tender-negotiation-award.http
    :code:
@@ -360,6 +372,15 @@
 Угода про закупівлю за **переговорною** процедурою може бути зареєстрована одразу після `періоду очікування скарг` (десятиденний період після підтвердження визначення переможця):
 
 .. http:example:: http/tutorial/tender-negotiation-contract-sign.http
+   :code:
+
+Оскільки ціна переможця для переговорної процедури вказана без ПДВ, до активації угоди замовник може змінити ``value.valueAddedTaxIncluded`` на ``true``.
+При цьому ``amountNet`` не може перевищувати ціну переможця (``awards.value.amount``), а ``amount`` має бути не меншим за ``amountNet`` і відрізнятися від нього не більше ніж на 20%:
+
+.. http:example:: http/tutorial/tender-negotiation-contract-vat-amount-invalid.http
+   :code:
+
+.. http:example:: http/tutorial/tender-negotiation-contract-vat.http
    :code:
 
 Угода про закупівлю для **переговорної процедури за нагальною потребою** може бути зареєстрована одразу після `періоду очікування скарг` (п’ятиденний період після підтвердження визначення переможця):

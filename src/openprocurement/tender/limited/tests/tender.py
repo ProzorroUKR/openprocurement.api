@@ -58,6 +58,8 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_negotiation_status_change,
     tender_set_fund_organizations,
     tender_status_change,
+    tender_vat_not_included,
+    tender_vat_not_included_before_constant,
     tender_with_main_procurement_category,
     tender_items_related_product,
 )
@@ -124,6 +126,8 @@ class TenderNegotiationResourceTest(TenderResourceTest):
     test_patch_tender_lots_none = snitch(patch_tender_lots_none)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_contract_template_name_set = snitch(contract_template_name_set)
+    test_tender_vat_not_included = snitch(tender_vat_not_included)
+    test_tender_vat_not_included_before_constant = snitch(tender_vat_not_included_before_constant)
 
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):

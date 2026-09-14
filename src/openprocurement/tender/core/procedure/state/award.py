@@ -24,6 +24,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_econtract_fields_award,
     validate_items_required_fields,
     validate_req_response_values,
+    validate_value_vat_disabled,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -69,6 +70,8 @@ class AwardStateMixing:
     award_new_defense_complaints_rules: bool = False
     # competitiveOrdering: the qualified/eligible rules depend on the tender creation date (NEW_ARTICLE_17_CRITERIA_REQUIRED)
     award_eligible_rules_by_creation_date: bool = False
+    award_value_vat_not_included: bool = False
+    award_value_vat_not_included_from = None
 
     def is_new_defense_complaints(self):
         return self.award_new_defense_complaints_rules and tender_created_in(
@@ -78,6 +81,8 @@ class AwardStateMixing:
     def validate_award_patch(self, before, after):
         self.validate_award_qualified_eligible(after)
         self.validate_award_items_allowed(after)
+        if after.get("value") != before.get("value"):
+            self.validate_award_value_vat(after)
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=before.get("lotID"))
         self.validate_action_with_exist_inspector_review_request(lot_id=before.get("lotID"))
@@ -200,6 +205,11 @@ class AwardStateMixing:
 
     def validate_award_post(self, award):
         self.validate_award_items_allowed(award)
+        self.validate_award_value_vat(award)
+
+    def validate_award_value_vat(self, award):
+        if self.award_value_vat_not_included and award.get("value"):
+            validate_value_vat_disabled(self.request, award["value"], "value", self.award_value_vat_not_included_from)
 
     def validate_award_items_allowed(self, award):
         if not self.award_items_allowed and award.get("items") is not None:

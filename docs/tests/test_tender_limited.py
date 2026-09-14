@@ -22,12 +22,14 @@ test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 
 award_negotiation["value"]["valueAddedTaxIncluded"] = False
+test_tender_negotiation_data["value"]["valueAddedTaxIncluded"] = False
 test_tender_negotiation_data["procurementMethodType"] = "negotiation"
 test_tender_negotiation_data["causeDetails"] = {
     "code": "defenseNeeds",
     "description": "Закупівля для нагальних потреб ЗСУ, військових формувань, ДСНС тощо (фортифікації, мобілізаційні завдання, територіальна оборона, договори з обмеженим доступом)",
     "description_en": "Procurement for urgent needs of the Armed Forces, military formations, State Emergency Service, etc. (fortifications, mobilization tasks, territorial defense, restricted access contracts)",
 }
+test_tender_negotiation_quick_data["value"]["valueAddedTaxIncluded"] = False
 test_tender_negotiation_quick_data["procurementMethodType"] = "negotiation.quick"
 test_tender_negotiation_quick_data["causeDetails"] = {
     "code": "tenderDecisionAppeal",
@@ -468,6 +470,12 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         self.app.authorization = ("Basic", ("broker", ""))
 
+        # value.valueAddedTaxIncluded must be False for negotiation (CS-22385)
+        with open(TARGET_DIR + "tutorial/create-tender-negotiation-vat-included.http", "w") as self.app.file_obj:
+            data = deepcopy(self.initial_data)
+            data["value"]["valueAddedTaxIncluded"] = True
+            self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config}, status=422)
+
         with open(TARGET_DIR + "tutorial/create-tender-negotiation-procuringEntity.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
@@ -482,6 +490,17 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         #### Adding supplier information
 
         award_negotiation["lotID"] = self.initial_lots[0]["id"]
+
+        # award value.valueAddedTaxIncluded must be False as well (CS-22385)
+        with open(TARGET_DIR + "tutorial/tender-negotiation-award-vat-included.http", "w") as self.app.file_obj:
+            award_data = deepcopy(award_negotiation)
+            award_data["value"]["valueAddedTaxIncluded"] = True
+            self.app.post_json(
+                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token),
+                {"data": award_data},
+                status=422,
+            )
+
         with open(TARGET_DIR + "tutorial/tender-negotiation-award.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": award_negotiation}
@@ -528,6 +547,24 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             self.assertEqual(response.status, "200 OK")
 
         contract_id = self.app.get(f"/tenders/{self.tender_id}/contracts?acc_token={owner_token}").json["data"][0]["id"]
+
+        # award is VAT-free, the contract may include VAT: amountNet <= award amount, amount <= amountNet * 1.2
+        contract_value = self.app.get(f"/contracts/{contract_id}").json["data"]["value"]
+        with open(
+            TARGET_DIR + "tutorial/tender-negotiation-contract-vat-amount-invalid.http", "w"
+        ) as self.app.file_obj:
+            self.app.patch_json(
+                f"/contracts/{contract_id}?acc_token={owner_token}",
+                {"data": {"value": {**contract_value, "valueAddedTaxIncluded": True, "amount": 580000}}},
+                status=403,
+            )
+
+        with open(TARGET_DIR + "tutorial/tender-negotiation-contract-vat.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/contracts/{contract_id}?acc_token={owner_token}",
+                {"data": {"value": {**contract_value, "valueAddedTaxIncluded": True, "amount": 570000}}},
+            )
+            self.assertEqual(response.status, "200 OK")
 
         # add confidential doc as public
         with open(
@@ -832,7 +869,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         #### Adding supplier information
         self.app.authorization = ("Basic", ("broker", ""))
-        suspplier_loc = deepcopy({"data": test_docs_award})
+        suspplier_loc = deepcopy({"data": award_negotiation})
         suspplier_loc["data"]["lotID"] = lot_id1
         with open(TARGET_DIR + "multiple_lots_tutorial/tender-award.http", "w") as self.app.file_obj:
             response = self.app.post_json(
