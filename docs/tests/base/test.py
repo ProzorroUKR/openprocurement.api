@@ -11,6 +11,7 @@ from unittest import mock
 from uuid import UUID
 
 from bson import Timestamp
+from freezegun import configure as freezegun_configure
 from freezegun import freeze_time
 from webtest import forms
 from webtest.compat import to_bytes
@@ -18,6 +19,8 @@ from webtest.compat import to_bytes
 from openprocurement.api.tests.base import BaseTestApp
 from openprocurement.api.utils import get_now
 from tests.base.constants import API_HOST, MOCK_DATETIME, PUBLIC_API_HOST
+
+freezegun_configure(extend_ignore_list=["pymongo"])
 
 
 class DumpsWebTestApp(BaseTestApp):

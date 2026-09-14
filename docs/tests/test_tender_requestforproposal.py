@@ -61,6 +61,7 @@ class TenderResourceTest(
     relative_to = os.path.dirname(__file__)
     initial_data = test_tender_data
     initial_bids = test_tender_rfp_bids
+    refresh_periods = False
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
     framework_type = IFI_TYPE
