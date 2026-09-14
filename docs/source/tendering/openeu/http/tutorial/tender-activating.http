@@ -1038,7 +1038,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       },
       {
         "id": "200c94edf9ae44aaafe4f033cbe89411",
@@ -1072,7 +1072,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       }
     ],
     "procurementMethodType": "aboveThresholdEU",
@@ -1120,7 +1120,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "id": "72b2cd000ed54fbaa3c6a255ddd072b5",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",

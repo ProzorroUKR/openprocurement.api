@@ -19,7 +19,7 @@ Content-Type: application/json
   "data": {
     "id": "d9f6a5fc0b29462f8b8b93fe4f6ee738",
     "bidID": "df6178558a0f488a8b2fe13bc75b4856",
-    "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+    "lotID": "2c30a88143864ab8a66161c07da2d69e",
     "status": "active",
     "date": "2027-01-01T00:02:01+02:00",
     "qualified": true,

@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "name": "папір"
         },
         "quantity": 1,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       }
     ],
     "procurementMethod": "limited",
@@ -93,7 +93,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 1,
         "code": "standard",
         "percentage": 100,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -106,7 +106,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 45.55,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -119,7 +119,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 3,
         "percentage": 54.45,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       }
     ],
     "mainProcurementCategory": "services",
@@ -137,7 +137,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": true
         },
-        "id": "38dc344a3523496a83d39aaf08a5e277"
+        "id": "cd9076d5316b4cc7bb35021be0b9e762"
       }
     ]
   },
@@ -195,7 +195,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -208,7 +208,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "type": "banking"
         },
         "sequenceNumber": 2,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -221,7 +221,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "type": "calendar"
         },
         "sequenceNumber": 3,
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       }
     ],
     "items": [
@@ -256,7 +256,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "38dc344a3523496a83d39aaf08a5e277"
+        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
       }
     ],
     "procuringEntity": {
@@ -297,7 +297,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3f2cabf45461412f
       {
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "38dc344a3523496a83d39aaf08a5e277",
+        "id": "cd9076d5316b4cc7bb35021be0b9e762",
         "status": "active",
         "value": {
           "currency": "UAH",

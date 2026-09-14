@@ -45,7 +45,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+        "relatedLot": "cc78e47cfb97438a83a7976a51b795ac",
         "status": "active",
         "date": "2027-01-01T00:00:00+02:00",
         "initialValue": {
@@ -53,7 +53,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_5666a4d7fa694af28825b1971b3912b9?key_for_bid=75914cdd9ee240558ae42ebaa6400c31",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_cc78e47cfb97438a83a7976a51b795ac?key_for_bid=75914cdd9ee240558ae42ebaa6400c31",
         "subcontractingDetails": "ДП «Орфей»"
       }
     ],
@@ -71,7 +71,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
+        "relatedLot": "cc78e47cfb97438a83a7976a51b795ac"
       }
     ]
   }
@@ -274,7 +274,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
+        "relatedLot": "cc78e47cfb97438a83a7976a51b795ac"
       }
     ],
     "lotValues": [
@@ -284,7 +284,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+        "relatedLot": "cc78e47cfb97438a83a7976a51b795ac",
         "subcontractingDetails": "ДП «Орфей»",
         "status": "active",
         "date": "2027-01-01T00:00:00+02:00",
@@ -293,7 +293,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_5666a4d7fa694af28825b1971b3912b9?key_for_bid=75914cdd9ee240558ae42ebaa6400c31"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_cc78e47cfb97438a83a7976a51b795ac?key_for_bid=75914cdd9ee240558ae42ebaa6400c31"
       }
     ],
     "tenderers": [

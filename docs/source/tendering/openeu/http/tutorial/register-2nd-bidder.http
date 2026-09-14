@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       }
     ],
     "items": [
@@ -61,7 +61,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       },
       {
         "id": "200c94edf9ae44aaafe4f033cbe89411",
@@ -77,7 +77,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       }
     ]
   }
@@ -105,7 +105,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       },
       {
         "id": "200c94edf9ae44aaafe4f033cbe89411",
@@ -121,7 +121,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
       }
     ],
     "tenderers": [
@@ -164,7 +164,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5",
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],

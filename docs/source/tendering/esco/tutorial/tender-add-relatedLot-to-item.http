@@ -30,7 +30,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       },
       {
         "id": "994db85df9984f048a1ba611a69e6927",
@@ -56,7 +56,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       }
     ]
   }
@@ -233,7 +233,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       },
       {
         "id": "994db85df9984f048a1ba611a69e6927",
@@ -259,7 +259,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       }
     ],
     "awardCriteria": "ratedCriteria",
@@ -308,7 +308,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "16dcfa2a699842d3a0f9b9553db58532",
+        "id": "2c30a88143864ab8a66161c07da2d69e",
         "date": "2027-01-01T00:00:00+02:00",
         "minValue": {
           "currency": "UAH",

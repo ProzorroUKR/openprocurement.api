@@ -184,7 +184,7 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
         },
         {
           "id": "200c94edf9ae44aaafe4f033cbe89411",
@@ -195,12 +195,12 @@ Content-Type: application/json
             "code": "PK"
           },
           "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
         }
       ],
       "lotValues": [
         {
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5",
           "status": "active"
         }
       ],
@@ -483,7 +483,7 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
         },
         {
           "id": "200c94edf9ae44aaafe4f033cbe89411",
@@ -494,12 +494,12 @@ Content-Type: application/json
             "code": "PK"
           },
           "quantity": 1.0,
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d"
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
         }
       ],
       "lotValues": [
         {
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5",
           "status": "active"
         }
       ],
@@ -721,7 +721,7 @@ Content-Type: application/json
       ],
       "lotValues": [
         {
-          "relatedLot": "d1d81f5863c1460c8a7d2e9c9dfeb30d",
+          "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5",
           "status": "unsuccessful"
         }
       ],
