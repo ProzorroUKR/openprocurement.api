@@ -22,11 +22,7 @@ from openprocurement.tender.core.procedure.documents import (
     get_file,
     update_document_url,
 )
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )

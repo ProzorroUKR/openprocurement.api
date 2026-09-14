@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, FloatType, MD5Type, StringType
+from schematics.types import FloatType, MD5Type, StringType
 
 from openprocurement.api.constants import (
     CPV_PHARM_PREFIX,
@@ -10,7 +10,6 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import (
     MULTI_CONTRACTS_REQUIRED_FROM,
-    UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.address import Address
@@ -19,7 +18,6 @@ from openprocurement.api.procedure.models.item import (
     AdditionalClassification,
     CPVClassification,
     Location,
-    TechFeatureItemMixin,
     validate_additional_classifications,
 )
 from openprocurement.api.procedure.models.period import Period
@@ -42,13 +40,13 @@ class BaseItem(Model):
     quantity = FloatType(min_value=0)  # The number of units required
     relatedLot = MD5Type()
 
-    def validate_quantity(self, data, value):
-        if value is None:
-            if is_obj_const_active(get_tender(), UNIT_PRICE_REQUIRED_FROM):
-                raise ValidationError(BaseType.MESSAGES["required"])
-
 
 class Item(BaseItem):
+    """
+    Tender / award / agreement item. Procedure-specific rules (required delivery, unit, quantity,
+    relatedLot being allowed, profile/category being required) live in the state classes.
+    """
+
     classification = ModelType(CPVClassification, required=True)
     additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
     deliveryDate = ModelType(Period)
@@ -58,9 +56,11 @@ class Item(BaseItem):
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
 
-    def validate_unit(self, data, value):
-        if not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
+    # technical features (market)
+    profile = StringType()
+    category = StringType()
+    # localization
+    product = StringType()
 
     def validate_additionalClassifications(self, data, items):
         validate_additional_classifications(get_tender(), data, items)
@@ -70,9 +70,10 @@ class Item(BaseItem):
             validate_gmdn(classification_id, items)
             validate_ccce_ua(items)
 
-
-class TechFeatureItem(TechFeatureItemMixin, Item):
-    pass
+    def validate_profile(self, data, value):
+        category = data.get("category")
+        if value and not category:
+            raise ValidationError("profile should be provided together only with category")
 
 
 def validate_related_buyer_in_items(data, items):

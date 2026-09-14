@@ -1,109 +1,46 @@
 from decimal import Decimal
 
-from schematics.types import BaseType, StringType
-from schematics.types.compound import ListType, ModelType
-from schematics.validate import ValidationError
+from schematics.types import StringType
+from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
-from openprocurement.api.procedure.types import DecimalType
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
-from openprocurement.tender.core.procedure.models.feature import validate_related_items
-from openprocurement.tender.core.procedure.models.item import (
-    validate_classification_id,
-    validate_related_buyer_in_items,
-)
-from openprocurement.tender.core.procedure.models.milestone import (
-    Milestone,
-    validate_milestones_lot,
-)
-from openprocurement.tender.core.procedure.models.period import (
-    EnquiryPeriod,
-    PeriodStartEndRequired,
-    StartedPeriodEndRequired,
-    TenderAuctionPeriod,
-)
+from openprocurement.api.procedure.models.period import PeriodEndRequired
+from openprocurement.api.procedure.types import DecimalType, ListType
+from openprocurement.api.validation import validate_uniq_id
+from openprocurement.tender.core.constants import AWARD_CRITERIA_CHOICES
+from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
+from openprocurement.tender.core.procedure.models.period import EnquiryPeriod
 from openprocurement.tender.core.procedure.models.tender import (
-    TenderMilestoneMixin,
-    validate_items_related_lot,
+    PatchTenderFeaturesMixin,
+    PatchTenderItemsMixin,
+    PatchTenderMilestonesMixin,
+    PostTenderItemsMixin,
+    PostTenderPeriodsMixin,
+    TenderFeaturesMixin,
+    TenderGuaranteeMixin,
+    TenderItemsMixin,
+    TenderMilestonesMixin,
+    TenderPeriodsMixin,
+    TenderSubmissionMixin,
+    validate_esco_lots_yearly_payments_percentage_range,
+    validate_esco_yearly_payments_percentage_range,
 )
-from openprocurement.tender.core.procedure.models.tender_base import (
-    BaseTender,
-    PatchBaseTender,
-    PostBaseTender,
-)
-from openprocurement.tender.core.procedure.models.value import (
-    BasicValue,
-    PostEstimatedValue,
-)
-from openprocurement.tender.core.procedure.utils import validate_features_custom_weight
+from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PatchBaseTender, PostBaseTender
+from openprocurement.tender.core.procedure.models.value import PostEstimatedValue
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.esco.procedure.models.feature import Feature
-from openprocurement.tender.esco.procedure.models.item import Item
-from openprocurement.tender.esco.procedure.models.lot import (
-    Lot,
-    PatchTenderLot,
-    PostTenderLot,
-)
-from openprocurement.tender.openeu.procedure.models.organization import ProcuringEntity
+from openprocurement.tender.esco.procedure.models.lot import ESCOLot, ESCOPatchTenderLot, ESCOPostTenderLot
 
 
-def validate_yearly_payments_percentage_range(data, value):
-    if not value:  # for tender with lots this field is rogue in tender and can be empty
-        return
-    if data["fundingKind"] == "other" and value != Decimal("0.8"):
-        raise ValidationError("when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8")
-    if data["fundingKind"] == "budget" and (value > Decimal("0.8") or value < Decimal("0")):
-        raise ValidationError(
-            "when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
-        )
-
-
-def validate_award_period(data, period):
-    if (
-        period
-        and period.startDate
-        and data.get("auctionPeriod")
-        and data.get("auctionPeriod").endDate
-        and period.startDate < data.get("auctionPeriod").endDate
-    ):
-        raise ValidationError("period should begin after auctionPeriod")
-    if (
-        period
-        and period.startDate
-        and data.get("tenderPeriod")
-        and data.get("tenderPeriod").endDate
-        and period.startDate < data.get("tenderPeriod").endDate
-    ):
-        raise ValidationError("period should begin after tenderPeriod")
-
-
-def validate_lots_yearly_payments_percentage_range(data, lots):
-    if lots:
-        if data["fundingKind"] == "other":
-            for lot in lots:
-                if lot["yearlyPaymentsPercentageRange"] != Decimal("0.8"):
-                    raise ValidationError(
-                        "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
-                    )
-        elif data["fundingKind"] == "budget":
-            for lot in lots:
-                value = lot["yearlyPaymentsPercentageRange"]
-                if value > Decimal("0.8") or value < Decimal("0"):
-                    raise ValidationError(
-                        "when tender fundingKind is budget, "
-                        "yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
-                    )
-
-
-class PostTender(TenderMilestoneMixin, PostBaseTender):
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
-    submissionMethod = StringType(choices=["electronicAuction"])
-    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
-    submissionMethodDetails_en = StringType()
-    submissionMethodDetails_ru = StringType()
+class ESCOPostTender(
+    TenderSubmissionMixin,
+    TenderGuaranteeMixin,
+    PostTenderPeriodsMixin,
+    PostTenderItemsMixin,
+    TenderFeaturesMixin,
+    TenderMilestonesMixin,
+    PostBaseTender,
+):
+    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
     procurementMethodType = StringType(choices=[ESCO], default=ESCO)
-    status = StringType(choices=["draft"], default="draft")
     minValue = ModelType(PostEstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": False})
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     yearlyPaymentsPercentageRange = DecimalType(
@@ -113,133 +50,60 @@ class PostTender(TenderMilestoneMixin, PostBaseTender):
     )
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
-    guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    tenderPeriod = ModelType(StartedPeriodEndRequired, required=True)
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    auctionPeriod = ModelType(TenderAuctionPeriod)
-    awardPeriod = ModelType(Period)
+    lots = ListType(ModelType(ESCOPostTenderLot, required=True), validators=[validate_uniq_id])
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
-        validate_yearly_payments_percentage_range(data, value)
-
-    def validate_awardPeriod(self, data, period):
-        validate_award_period(data, period)
-
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-        validate_items_related_lot(data, items)
-
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
-        validate_features_custom_weight(data, features, 0.25)
+        validate_esco_yearly_payments_percentage_range(data, value)
 
     def validate_lots(self, data, lots):
-        validate_lots_yearly_payments_percentage_range(data, lots)
-
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
+        validate_esco_lots_yearly_payments_percentage_range(data, lots)
 
 
-class PatchTender(PatchBaseTender):
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA])
-    submissionMethod = StringType(choices=["electronicAuction"])
-    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
-    submissionMethodDetails_en = StringType()
-    submissionMethodDetails_ru = StringType()
+class ESCOPatchTender(
+    TenderSubmissionMixin,
+    TenderGuaranteeMixin,
+    PatchTenderItemsMixin,
+    PatchTenderFeaturesMixin,
+    PatchTenderMilestonesMixin,
+    PatchBaseTender,
+):
+    enquiryPeriod = ModelType(EnquiryPeriod)
+    tenderPeriod = ModelType(PeriodEndRequired)
+    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
     procurementMethodType = StringType(choices=[ESCO])
-    status = StringType(
-        choices=[
-            "draft",
-            "active.tendering",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-        ],
-    )
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"])
-    guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity)
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
-    items = ListType(ModelType(Item, required=True), min_size=1, validators=[validate_uniq_id])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
-    tenderPeriod = ModelType(PeriodStartEndRequired)
-    enquiryPeriod = ModelType(EnquiryPeriod)
+    lots = ListType(ModelType(ESCOPatchTenderLot, required=True), validators=[validate_uniq_id])
 
 
-class Tender(TenderMilestoneMixin, BaseTender):
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], required=True)
-    submissionMethod = StringType(choices=["electronicAuction"])
-    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
-    submissionMethodDetails_en = StringType()
-    submissionMethodDetails_ru = StringType()
+class ESCOTender(
+    TenderSubmissionMixin,
+    TenderGuaranteeMixin,
+    TenderPeriodsMixin,
+    TenderItemsMixin,
+    TenderFeaturesMixin,
+    TenderMilestonesMixin,
+    BaseTender,
+):
+    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES, required=True)
     procurementMethodType = StringType(choices=[ESCO], required=True)
-    status = StringType(
-        choices=[
-            "draft",
-            "active.tendering",
-            "active.pre-qualification.stand-still",
-            "active.pre-qualification",
-        ],
-        required=True,
-    )
     minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
     minValue = ModelType(PostEstimatedValue)
     yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
     NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
     fundingKind = StringType(choices=["budget", "other"], required=True)
-    guarantee = ModelType(BasicValue)
 
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    tenderPeriod = ModelType(PeriodEndRequired, required=True)
-    enquiryPeriod = ModelType(EnquiryPeriod)
-
-    auctionPeriod = ModelType(TenderAuctionPeriod)
-    awardPeriod = ModelType(Period)
-
-    qualificationPeriod = BaseType()
-    qualifications = BaseType()
-    complaintPeriod = BaseType()
-
-    next_check = BaseType()
+    lots = ListType(ModelType(ESCOLot, required=True), validators=[validate_uniq_id])
 
     def validate_yearlyPaymentsPercentageRange(self, data, value):
-        validate_yearly_payments_percentage_range(data, value)
-
-    def validate_awardPeriod(self, data, period):
-        validate_award_period(data, period)
-
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-        validate_items_related_lot(data, items)
-
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
-        validate_features_custom_weight(data, features, 0.25)
+        validate_esco_yearly_payments_percentage_range(data, value)
 
     def validate_lots(self, data, lots):
-        validate_lots_yearly_payments_percentage_range(data, lots)
-
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
+        validate_esco_lots_yearly_payments_percentage_range(data, lots)

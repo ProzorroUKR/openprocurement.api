@@ -835,6 +835,7 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
+    "status": "active.tendering",
     "owner": "broker",
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
@@ -844,6 +845,10 @@ Content-Type: application/json
       }
     ],
     "procurementMethod": "selective",
+    "complaintPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00"
+    },
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -960,6 +965,52 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "e8007f9ac0c2421fb228744f17b14aab",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49"
+      }
+    ],
+    "procurementMethodType": "competitiveOrdering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -1015,57 +1066,6 @@ Content-Type: application/json
         "auctionPeriod": {
           "startDate": "2027-01-18T13:09:55.701000+02:00",
           "shouldStartAfter": "2027-01-16T00:00:00+02:00"
-        }
-      }
-    ],
-    "complaintPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00"
-    },
-    "status": "active.tendering",
-    "procurementMethodType": "competitiveOrdering",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-16T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
-    },
-    "items": [
-      {
-        "id": "02a5d4bbd232444f839b334708ca78c1",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "b57af820b63544f6a1ebe63bfb940e49",
-        "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
         }
       }
     ],

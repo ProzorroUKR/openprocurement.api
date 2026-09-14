@@ -10,15 +10,13 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     validate_delete_lot_related_object,
+    validate_limited_lot_operation_in_disallowed_tender_statuses,
+    validate_limited_lot_operation_with_awards,
     validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
-from openprocurement.tender.limited.procedure.models.lot import Lot, PatchLot, PostLot
+from openprocurement.tender.limited.procedure.models.lot import LimitedLot, LimitedPatchLot, LimitedPostLot
 from openprocurement.tender.limited.procedure.state.lot import NegotiationLotState
-from openprocurement.tender.limited.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-    validate_lot_operation_with_awards,
-)
 
 
 @resource(
@@ -36,9 +34,9 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
         permission="create_lot",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PostLot),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_lot_operation_with_awards,
+            validate_input_data(LimitedPostLot),
+            validate_limited_lot_operation_in_disallowed_tender_statuses,
+            validate_limited_lot_operation_with_awards,
         ),
     )
     def collection_post(self) -> Optional[dict]:
@@ -48,11 +46,11 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PatchLot),
-            validate_patch_data_simple(Lot, item_name="lot"),
+            validate_limited_lot_operation_in_disallowed_tender_statuses,
+            validate_input_data(LimitedPatchLot),
+            validate_patch_data_simple(LimitedLot, item_name="lot"),
             validate_operation_with_lot_cancellation_in_pending("lot"),
-            validate_lot_operation_with_awards,
+            validate_limited_lot_operation_with_awards,
         ),
         permission="edit_lot",
     )
@@ -64,9 +62,9 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_operation_with_lot_cancellation_in_pending("lot"),
-            validate_lot_operation_in_disallowed_tender_statuses,
+            validate_limited_lot_operation_in_disallowed_tender_statuses,
             validate_delete_lot_related_object,
-            validate_lot_operation_with_awards,
+            validate_limited_lot_operation_with_awards,
         ),
         permission="edit_lot",
     )

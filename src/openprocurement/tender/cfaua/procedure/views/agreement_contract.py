@@ -8,9 +8,9 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import context_unpack, json_view
+from openprocurement.tender.cfaua.procedure.models.agreement_contract import CFAAgreementContract as AgreementContract
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
-    AgreementContract,
-    PatchAgreementContract,
+    CFAPatchAgreementContract as PatchAgreementContract,
 )
 from openprocurement.tender.cfaua.procedure.state.agreement_contract import (
     AgreementContractState,

@@ -64,8 +64,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
         "description": "футляри до державних нагород",
         "description_en": "futliary do derzhavnyh nagorod",
-        "quantity": 10.0,
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "unit": {
           "name": "item",
           "code": "KGM",
@@ -74,7 +72,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
             "valueAddedTaxIncluded": false,
             "amount": 49.9
           }
-        }
+        },
+        "quantity": 10.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ]
   }
@@ -87,6 +87,24 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
 
 {
   "data": {
+    "items": [
+      {
+        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
+        "description": "футляри до державних нагород",
+        "description_en": "futliary do derzhavnyh nagorod",
+        "unit": {
+          "name": "item",
+          "value": {
+            "amount": 49.9,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 10.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+      }
+    ],
     "tenderers": [
       {
         "name": "Державне управління справами",
@@ -146,24 +164,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "id": "fd192eba9b2c4ce6b8928b22ee62aec1",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "dateModified": "2027-01-01T00:01:00+02:00"
-      }
-    ],
-    "items": [
-      {
-        "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
-        "description": "футляри до державних нагород",
-        "description_en": "futliary do derzhavnyh nagorod",
-        "unit": {
-          "name": "item",
-          "value": {
-            "amount": 49.9,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 10.0,
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
       }
     ],
     "parameters": [

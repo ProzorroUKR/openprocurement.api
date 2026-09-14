@@ -20,7 +20,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.esco.procedure.utils import to_decimal
+from openprocurement.tender.core.procedure.utils import (
+    fraction_to_decimal,
+)
 from openprocurement.tender.esco.tests.award_blanks import patch_tender_lot_award
 from openprocurement.tender.esco.tests.base import (
     NBU_DISCOUNT_RATE,
@@ -46,7 +48,7 @@ from openprocurement.tender.openua.tests.award import (
 
 award_amount_performance = round(
     float(
-        to_decimal(
+        fraction_to_decimal(
             npv(
                 test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
                 test_tender_esco_bids[0]["value"]["contractDuration"]["days"],
@@ -62,7 +64,7 @@ award_amount_performance = round(
 
 award_amount = round(
     float(
-        to_decimal(
+        fraction_to_decimal(
             escp(
                 test_tender_esco_bids[0]["value"]["contractDuration"]["years"],
                 test_tender_esco_bids[0]["value"]["contractDuration"]["days"],

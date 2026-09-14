@@ -16,7 +16,10 @@ from openprocurement.api.procedure.models.organization import (
 )
 from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.tender.core.procedure.models.contact import ContactPoint
+from openprocurement.tender.core.procedure.models.contact import (
+    ContactPoint,
+    ProcuringEntityContactPoint,
+)
 
 
 class Organization(BaseOrganization):
@@ -51,8 +54,8 @@ class ContactLessSupplier(Supplier):
 
 class ProcuringEntity(Organization):
     address = ModelType(Address, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
+    contactPoint = ModelType(ProcuringEntityContactPoint)  # required in state (procuring_entity_required_fields)
+    additionalContactPoints = ListType(ModelType(ProcuringEntityContactPoint, required=True))
     kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
     signerInfo = ModelType(SignerInfo)
     contract_owner = StringType()

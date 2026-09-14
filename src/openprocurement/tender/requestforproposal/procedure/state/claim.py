@@ -17,6 +17,4 @@ class RequestForProposalTenderClaimState(ClaimStateMixin, RequestForProposalTend
         "active.tendering",
     )
     should_validate_is_satisfied = False
-
-    def validate_submit_claim(self, claim):
-        pass
+    claim_submit_validation = False

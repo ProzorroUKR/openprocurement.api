@@ -1,4 +1,3 @@
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.state.award_complaint import (
     AwardComplaintStateMixin,
@@ -13,8 +12,4 @@ class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):
     )
     all_documents_should_be_public = True
 
-    def reviewers_satisfied_handler(self, complaint):
-        super().reviewers_satisfied_handler(complaint)
-        tender = get_tender()
-        tender["awardPeriod"].pop("endDate", None)
-        self.get_change_tender_status_handler("active.qualification")(tender)
+    satisfied_complaint_returns_to_qualification = True

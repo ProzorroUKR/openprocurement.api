@@ -73,6 +73,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fa2e9cbf88314cb6
 
 {
   "data": {
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 100.0,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -118,23 +135,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fa2e9cbf88314cb6
       }
     ],
     "status": "draft",
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "папір",
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 100.0,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
-      }
-    ],
     "id": "4733aa8525304b52bccee93b11ea1c1c",
     "date": "2027-01-07T00:14:06+02:00"
   },

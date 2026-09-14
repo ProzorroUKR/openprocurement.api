@@ -3,9 +3,7 @@ from openprocurement.api.procedure.validation import (
     validate_item_owner,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    PostAwardMilestone,
-)
+from openprocurement.tender.core.procedure.models.award_milestone import PostAwardMilestone
 from openprocurement.tender.core.procedure.state.award_milestone import (
     AwardMilestoneState,
 )

@@ -1,5 +1,5 @@
 procurementMethodType,values,default,days
-aboveThreshold,7 / 15,15,calendar
+aboveThreshold,15,15,calendar
 competitiveOrdering,2 / 7,7,working / calendar
 competitiveOrdering.short,2,2,working
 competitiveOrdering.long,7,7,calendar

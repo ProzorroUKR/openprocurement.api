@@ -451,16 +451,19 @@ def create_tender_invalid(self):
     )
 
     self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "enquiryPeriod"},
-        response.json["errors"],
-    )
-
-    self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "value"}, response.json["errors"]
     )
 
     self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
+    )
+
+    data = deepcopy(self.initial_data)
+    del data["enquiryPeriod"]
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["This field is required."], "location": "body", "name": "enquiryPeriod"}],
     )
 
     response = self.app.post_json(request_path, {"data": {"enquiryPeriod": {"endDate": "invalid_value"}}}, status=422)
@@ -991,7 +994,7 @@ def create_tender_with_inn(self):
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
 
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
@@ -1019,7 +1022,7 @@ def create_tender_with_inn(self):
     orig_addit_classif = self.initial_data["items"][0]["additionalClassifications"]
     self.initial_data["items"][0]["additionalClassifications"] = addit_classif
 
-    response = self.app.post_json(request_path, {"data": self.initial_data}, status=422)
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"],
@@ -1168,7 +1171,7 @@ def create_tender_with_estimated_value(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.procedure.models.item.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch("openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")

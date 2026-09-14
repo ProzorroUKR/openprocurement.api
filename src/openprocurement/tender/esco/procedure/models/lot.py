@@ -4,23 +4,16 @@ from schematics.types import StringType, URLType
 from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.types import DecimalType
-from openprocurement.tender.core.procedure.models.lot import (
-    BaseLot,
-    PostBaseLot,
-    TenderLotMixin,
-)
+from openprocurement.tender.core.procedure.models.lot import BaseLot, PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
-from openprocurement.tender.core.procedure.models.value import (
-    BasicValue,
-    PostEstimatedValue,
-)
+from openprocurement.tender.core.procedure.models.value import BasicValue, PostEstimatedValue
 from openprocurement.tender.esco.procedure.constants import (
     LotMinimalStepPercentageValues,
     LotYearlyPaymentsPercentageRangeValues,
 )
 
 
-class PostLot(PostBaseLot):
+class ESCOPostLot(PostBaseLot):
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,
         max_value=LotMinimalStepPercentageValues.MAX_VALUE,
@@ -35,7 +28,7 @@ class PostLot(PostBaseLot):
     )
 
 
-class PatchLot(BaseLot):
+class ESCOPatchLot(BaseLot):
     title = StringType()
     guarantee = ModelType(BasicValue)
     minimalStepPercentage = DecimalType(
@@ -51,7 +44,7 @@ class PatchLot(BaseLot):
     status = StringType(choices=["active"])
 
 
-class PostTenderLot(PostLot, TenderLotMixin):
+class ESCOPostTenderLot(ESCOPostLot, TenderLotMixin):
     minValue = ModelType(  # TODO: probably this shouldn't be in this procedure type
         PostEstimatedValue,
         required=False,
@@ -60,7 +53,7 @@ class PostTenderLot(PostLot, TenderLotMixin):
     fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
 
 
-class PatchTenderLot(BaseLot, TenderLotMixin):
+class ESCOPatchTenderLot(BaseLot, TenderLotMixin):
     minValue = ModelType(PostEstimatedValue)
     guarantee = ModelType(BasicValue)
     fundingKind = StringType(choices=["budget", "other"])
@@ -76,7 +69,7 @@ class PatchTenderLot(BaseLot, TenderLotMixin):
     )
 
 
-class Lot(BaseLot, TenderLotMixin):
+class ESCOLot(BaseLot, TenderLotMixin):
     minValue = ModelType(PostEstimatedValue)
     minimalStepPercentage = DecimalType(
         min_value=LotMinimalStepPercentageValues.MIN_VALUE,

@@ -5,7 +5,12 @@ from schematics.types import BooleanType, FloatType, MD5Type, StringType, URLTyp
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+)
 from openprocurement.tender.core.procedure.context import get_request
 
 
@@ -274,3 +279,28 @@ class AuctionLotResults(Model):
 
 class AuctionPeriodStartDate(Model):
     startDate = IsoDateTimeType()
+
+
+# auction results with decimal weighted values (aboveThresholdEU, esco, complexAsset.arma)
+class DecimalWeightedValueResult(WeightedValueResult):
+    amount = DecimalType(min_value=0, precision=-2)
+
+
+class DecimalBidResult(BidResult):
+    weightedValue = ModelType(DecimalWeightedValueResult)
+
+
+class DecimalAuctionResults(AuctionResults):
+    bids = ListType(ModelType(DecimalBidResult, required=True))
+
+
+class DecimalLotResult(LotResult):
+    weightedValue = ModelType(DecimalWeightedValueResult)
+
+
+class DecimalBidLotResult(BidLotResult):
+    lotValues = ListType(ModelType(DecimalLotResult, required=True))
+
+
+class DecimalAuctionLotResults(AuctionLotResults):
+    bids = ListType(ModelType(DecimalBidLotResult, required=True), required=True)

@@ -256,6 +256,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
     "procurementMethod": "selective",
     "contractTemplateName": "00000000.0002.01",
     "title": "Комп’ютерне обладнання",
+    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -294,9 +295,81 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
         "sequenceNumber": 3
       }
     ],
+    "items": [
+      {
+        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 10.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
+      },
+      {
+        "id": "4a394e96ce404b50b469bc48dd41fbd9",
+        "description": "Комп’ютерне обладнання",
+        "unit": {
+          "name": "кг",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "INN",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-03T00:00:00+02:00",
+          "endDate": "2027-01-06T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "profile": "655360-30230000-889652-40000777",
+        "category": "655360-30230000-889652"
+      }
+    ],
+    "tenderPeriod": {
+      "endDate": "2027-01-15T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "priceQuotation",
-    "awardCriteria": "lowestCost",
-    "status": "draft",
     "agreement": {
       "id": "2e14a78a2074952d5a2d256c3c004dda"
     },
@@ -304,10 +377,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
       "amount": 22000.0,
       "currency": "UAH",
       "valueAddedTaxIncluded": false
-    },
-    "tenderPeriod": {
-      "endDate": "2027-01-15T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
     },
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -338,79 +407,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
       },
       "contract_owner": "broker"
     },
-    "items": [
-      {
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652",
-        "id": "b7fa8976d57c48e9842ede4ef92ccbf3",
-        "description": "Комп’ютерне обладнання",
-        "quantity": 10.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
-      },
-      {
-        "profile": "655360-30230000-889652-40000777",
-        "category": "655360-30230000-889652",
-        "id": "4a394e96ce404b50b469bc48dd41fbd9",
-        "description": "Комп’ютерне обладнання",
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "deliveryDate": {
-          "startDate": "2027-01-03T00:00:00+02:00",
-          "endDate": "2027-01-06T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "INN",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        }
-      }
-    ],
     "criteria": [
       {
-        "id": "426449fa571346a5834b7c8ac2f8f902",
+        "id": "fd9f481e57f545cc914e50e2a2b0046d",
         "description": "Форма випуску",
         "source": "tenderer",
         "relatesTo": "item",
@@ -433,11 +432,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
         ],
         "requirementGroups": [
           {
-            "id": "fd9f481e57f545cc914e50e2a2b0046d",
+            "id": "794bcb50495d499287d10aeb9836370a",
             "description": "Форма випуску",
             "requirements": [
               {
-                "id": "794bcb50495d499287d10aeb9836370a",
+                "id": "1668d27a70464257912418d91015e73e",
                 "title": "Форма випуску",
                 "dataType": "string",
                 "status": "active",
@@ -448,7 +447,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "48ada825a8244e1c882f50d74b7366b3",
+                "id": "dfc3cf4e825a4166b941f1fbc3bef12f",
                 "title": "Доза діючої речовини",
                 "dataType": "integer",
                 "status": "active",
@@ -460,7 +459,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
                 "datePublished": "2027-01-01T00:00:00+02:00"
               },
               {
-                "id": "3e9eb97901a149e7854ca9bc20922d74",
+                "id": "be3b9f1f54af493e80451b5d050399a7",
                 "title": "Форма випуску 1",
                 "dataType": "string",
                 "status": "active",
@@ -481,6 +480,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c9af88586ead48b4
     ],
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
+    "awardCriteria": "lowestCost",
     "date": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {

@@ -9,11 +9,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.state.lot import TenderLotState
-from openprocurement.tender.belowthreshold.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-)
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.validation import (
+    validate_bt_lot_operation_in_disallowed_tender_statuses,
     validate_delete_lot_related_object,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
@@ -34,7 +32,7 @@ class BelowThresholdTenderLotResource(TenderLotResource):
         permission="create_lot",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
+            validate_bt_lot_operation_in_disallowed_tender_statuses,
             validate_input_data(PostLot),
         ),
     )
@@ -45,7 +43,7 @@ class BelowThresholdTenderLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
+            validate_bt_lot_operation_in_disallowed_tender_statuses,
             validate_input_data(PatchLot),
             validate_patch_data_simple(Lot, item_name="lot"),
         ),
@@ -58,7 +56,7 @@ class BelowThresholdTenderLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
+            validate_bt_lot_operation_in_disallowed_tender_statuses,
             validate_delete_lot_related_object,
         ),
         permission="edit_lot",

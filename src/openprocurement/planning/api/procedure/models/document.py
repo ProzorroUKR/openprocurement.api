@@ -5,10 +5,7 @@ from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.types import HashType
-from openprocurement.tender.core.procedure.models.document import (
-    BaseDocument,
-    BasePostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import BaseDocument, BasePostDocument
 
 
 class PostDocument(BasePostDocument):

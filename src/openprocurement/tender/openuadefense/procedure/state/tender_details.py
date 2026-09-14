@@ -10,6 +10,7 @@ from openprocurement.tender.openuadefense.constants import (
 
 
 class DefenseTenderDetailsState(OpenUATenderDetailsState):
+    procuring_entity_available_language_default = "uk"
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

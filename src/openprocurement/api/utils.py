@@ -583,7 +583,10 @@ def get_change_class(poly_model, data, _validation=False):
             return None
         raise ValidationError("Input for polymorphic field did not match any model")
 
-    _change_class = [model_class for model_class in poly_model.model_classes if model_class.__name__ == _class_name][0]
+    # class names may carry a procedure prefix (e.g. CFASelectionChangeTaxRate)
+    _change_class = [
+        model_class for model_class in poly_model.model_classes if model_class.__name__.endswith(_class_name)
+    ][0]
     return _change_class
 
 

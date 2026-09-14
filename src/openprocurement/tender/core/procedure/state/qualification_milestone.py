@@ -13,12 +13,18 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationMilestoneState(BaseState):
+    # rfp: the user may set a dueDate later than 24h (24h is only the minimum)
+    milestone_24h_due_date_extendable = False
+
     def get_24h_milestone_dueDate(self, milestone):
-        return calculate_tender_date(
+        min_due_date = calculate_tender_date(
             dt_from_iso(milestone["date"]),
             timedelta(hours=24),
             tender=get_tender(),
         ).isoformat()
+        if self.milestone_24h_due_date_extendable:
+            return max(min_due_date, milestone.get("dueDate", min_due_date))
+        return min_due_date
 
     def validate_post(self, context_name, parent, milestone):
         parent_status = parent.get("status")

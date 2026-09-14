@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-04-09 13:55+0300\n"
+"POT-Creation-Date: 2026-09-03 23:24+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -344,6 +344,7 @@ msgstr ""
 msgid "Мінімальний крок аукціону (редукціону). Правила валідації:"
 msgstr "The minimal step of auction (reduction). Validation rules:"
 
+#, python-format
 msgid "Значення `amount` повинно бути меншим за `Tender.value.amount` та в межах 0.5%-3% від `Tender.value.amount`"
 msgstr "`amount` should be less then `Tender.value.amount` and between 0.5% and 3% of `Tender.value.amount`"
 
@@ -725,6 +726,9 @@ msgstr ""
 msgid "Назва шаблону договору."
 msgstr ""
 
+msgid "Відсутнє в :ref:`arma`"
+msgstr "Absent in :ref:`arma`"
+
 msgid "funders"
 msgstr ""
 
@@ -824,8 +828,8 @@ msgstr ""
 msgid "Список об’єктів :ref:`Feature`"
 msgstr "List of :ref:`Metric`"
 
-msgid "Тільки для :ref:`cfaua`"
-msgstr "Only in :ref:`openua`"
+msgid "Доступне у :ref:`belowthreshold`, :ref:`open`, :ref:`openua`, :ref:`openeu`, :ref:`defense`, :ref:`simpledefense`, :ref:`competitiveordering` та :ref:`requestforproposal`"
+msgstr "Available in :ref:`belowthreshold`, :ref:`open`, :ref:`openua`, :ref:`openeu`, :ref:`defense`, :ref:`simpledefense`, :ref:`competitiveordering` and :ref:`requestforproposal`"
 
 msgid "Може бути створений лише у якщо ``status`` тендера ``draft``. Модифікація можлива, тільки за умови, що ``status`` тендера один з [``draft``, ``active.tendering``]. В усіх інших випадках створення та модифікація заборонена."
 msgstr "Could be created only if ``status`` of tender is ``draft``. Modifying is possible if ``status`` of tender in [``draft``, ``active.tendering``]. In all other statuses creating and modifying is forbidden."
@@ -839,6 +843,7 @@ msgstr ""
 msgid "float, обов’язково"
 msgstr "float, required"
 
+#, python-format
 msgid "NBU Discount Rate as of tender notice publication date. Possible values: from 0 to 0.99 (from 0% to 99% respectively), with 3-digit precision after comma (e.g. 00.000). NBUdiscountRate change is interpreted as a change of tender conditions."
 msgstr ""
 
@@ -878,9 +883,11 @@ msgstr "float, required for non-lots tenders with auction"
 msgid "Fixed percentage of participant's cost reduction sum, with 3-digit precision after comma. Possible values:"
 msgstr ""
 
+#, python-format
 msgid "from 0.8 to 1 (from 80% to 100% respectively) if tender:fundingKind:other."
 msgstr ""
 
+#, python-format
 msgid "from 0 to x, where x can vary from 0 to 0.8 (from 0% to x% respectively) if tender:fundingKind:budget."
 msgstr ""
 
@@ -937,3 +944,7 @@ msgstr "Tender workflow :ref:`limited`"
 
 msgid "\\* позначає початковий стан"
 msgstr "\\* marks initial state"
+
+#~ msgid "Тільки для :ref:`cfaua`"
+#~ msgstr "Only in :ref:`openua`"
+

@@ -6,10 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_patch_data_simple,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.models.agreement import (
-    Agreement,
-    PatchAgreement,
-)
+from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement, CFAPatchAgreement
 from openprocurement.tender.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
@@ -35,8 +32,8 @@ class CFAUAAgreementResource(TenderAgreementResource):
         permission="edit_tender",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PatchAgreement),
-            validate_patch_data_simple(Agreement, item_name="agreement"),
+            validate_input_data(CFAPatchAgreement),
+            validate_patch_data_simple(CFAAgreement, item_name="agreement"),
         ),
     )
     def patch(self):

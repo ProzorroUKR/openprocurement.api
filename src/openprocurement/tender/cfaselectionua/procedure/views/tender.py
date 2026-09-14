@@ -16,18 +16,16 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.cfaselectionua.procedure.models.tender import (
-    PatchTender,
-    PostTender,
-    Tender,
+    CFASelectionPatchTender,
+    CFASelectionPostTender,
+    CFASelectionTender,
 )
 from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
     CFASelectionTenderDetailsState,
 )
-from openprocurement.tender.cfaselectionua.procedure.validation import (
-    unless_selection_bot,
-)
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
+    unless_selection_bot,
     validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_guarantee,
@@ -58,7 +56,7 @@ class CFASelectionTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostTender),
+            validate_input_data(CFASelectionPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5),
@@ -90,8 +88,8 @@ class CFASelectionTenderResource(TendersResource):
                     "active.qualification",  # state class only allows status change to qualification.stand-still
                 )
             ),
-            validate_input_data(PatchTender, none_means_remove=True),
-            validate_patch_data_simple(Tender, item_name="tender"),
+            validate_input_data(CFASelectionPatchTender, none_means_remove=True),
+            validate_patch_data_simple(CFASelectionTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
             validate_tender_guarantee,

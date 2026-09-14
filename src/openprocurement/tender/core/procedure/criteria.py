@@ -20,10 +20,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    ISO_MAPPING,
-    ReqStatuses,
-)
+from openprocurement.tender.core.procedure.models.criterion import ISO_MAPPING, ReqStatuses
 from openprocurement.tender.core.procedure.utils import tender_created_after
 
 

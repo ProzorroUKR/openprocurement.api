@@ -34,12 +34,6 @@ Content-Type: application/json
     ],
     "status": "unsuccessful",
     "id": "ec61ff4dff6e4acc8d78e1f819212cb9",
-    "lotValues": [
-      {
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "unsuccessful"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",
@@ -91,6 +85,12 @@ Content-Type: application/json
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:03:00+02:00",
         "language": "uk"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+        "status": "unsuccessful"
       }
     ]
   }

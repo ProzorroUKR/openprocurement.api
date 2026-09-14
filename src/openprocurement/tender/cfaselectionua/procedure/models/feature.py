@@ -1,22 +1,19 @@
 from decimal import Decimal
 
-from schematics.types.compound import ListType, ModelType
+from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.types import DecimalType
+from openprocurement.api.procedure.types import DecimalType, ListType
 from openprocurement.api.validation import validate_uniq_value
-from openprocurement.tender.core.procedure.models.feature import Feature as BaseFeature
-from openprocurement.tender.core.procedure.models.feature import (
-    FeatureValue as BaseFeatureValue,
-)
+from openprocurement.tender.core.procedure.models.feature import Feature, FeatureValue
 
 
-class FeatureValue(BaseFeatureValue):
+class CFASelectionFeatureValue(FeatureValue):
     value = DecimalType(required=True, min_value=Decimal("0.0"), max_value=Decimal("0.3"))
 
 
-class Feature(BaseFeature):
+class CFASelectionFeature(Feature):
     enum = ListType(
-        ModelType(FeatureValue, required=True),
+        ModelType(CFASelectionFeatureValue, required=True),
         min_size=1,
         validators=[validate_uniq_value],
     )

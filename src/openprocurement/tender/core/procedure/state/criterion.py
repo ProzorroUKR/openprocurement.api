@@ -8,9 +8,7 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
-from openprocurement.tender.core.procedure.models.criterion import (
-    validate_criteria_requirement_uniq,
-)
+from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_uniq
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 from openprocurement.tender.core.procedure.validation import (
@@ -72,6 +70,10 @@ class BaseCriterionStateMixin:
 
 
 class CriterionStateMixin(BaseCriterionStateMixin):
+    # allowed `source` values (None = any value allowed by the model)
+    criterion_source_choices: tuple | None = None
+    # bt/rfp: exclusion criteria may be patched
+    criterion_patch_exclusion_check = True
     request: Request
 
     _validate_criterion_uniq: Callable
@@ -96,13 +98,26 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         self.validate_criteria_classification(data)
         self.validate_criteria_requirements_rules(data)
 
+    def validate_criterion_source(self, data) -> None:
+        choices = self.criterion_source_choices
+        if choices is None:
+            return
+        for criterion in data if isinstance(data, list) else [data]:
+            if criterion.get("source") not in choices:
+                raise_operation_error(
+                    self.request, [f"Value must be one of {list(choices)}."], status=422, name="source"
+                )
+
     def validate_on_post(self, data: dict) -> None:
+        self.validate_criterion_source(data)
         self._validate_operation_criterion_in_tender_status()
         self._validate_criterion_uniq(data, previous_criteria=self.request.validated["tender"]["criteria"])
 
     def validate_on_patch(self, before: dict, after: dict) -> None:
+        self.validate_criterion_source(after)
         self._validate_operation_criterion_in_tender_status()
-        self._validate_patch_exclusion_ecriteria_objects(before)
+        if self.criterion_patch_exclusion_check:
+            self._validate_patch_exclusion_ecriteria_objects(before)
         self._validate_criterion_uniq_patch(before, after)
 
     @validation_error_handler

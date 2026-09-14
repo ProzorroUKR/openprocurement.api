@@ -3,6 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import MagicMock, patch
 
+from cornice.errors import Errors
 from schematics.exceptions import ModelValidationError
 from schematics.types.compound import ListType, ModelType
 
@@ -15,6 +16,9 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.procedure.models.lot import Lot
 from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
+from openprocurement.tender.core.procedure.validation import (
+    validate_tender_milestones_required,
+)
 from openprocurement.tender.core.tests.utils import set_tender_lots
 
 test_tender_data = deepcopy(test_tender_below_data)
@@ -40,6 +44,31 @@ def create_tender_instance(model, data):
     return tender
 
 
+class MilestonesValidationError(Exception):
+    def __init__(self, errors):
+        super().__init__(errors)
+        self.errors = errors
+
+
+def check_milestones_required(data, required=True, delivery_financing=True):
+    """runs the state-level milestones requirement check (models don't validate it since the models refactoring)"""
+    request = MagicMock()
+    request.errors = Errors()
+    request.registry.mongodb.get_next_sequence_value.return_value = 1
+    set_request(request)
+    set_request_now(get_now())
+    tender_data = PostTender(data).serialize()
+    request.validated = {"tender": tender_data}
+    with patch(
+        "openprocurement.api.utils.error_handler",
+        side_effect=lambda req, **_: MilestonesValidationError(list(req.errors)),
+    ):
+        validate_tender_milestones_required(
+            request, tender_data, required=required, delivery_financing=delivery_financing
+        )
+    return tender_data
+
+
 class TestTenderMilestones(unittest.TestCase):
     initial_tender_data = test_tender_data
 
@@ -49,46 +78,58 @@ class TestTenderMilestones(unittest.TestCase):
     def test_validate_without_milestones(self):
         with (
             patch(
-                "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
+                "openprocurement.tender.core.procedure.validation.MILESTONES_VALIDATION_FROM",
                 get_now() - timedelta(days=1),
             ),
             patch(
-                "openprocurement.tender.core.procedure.models.tender."
+                "openprocurement.tender.core.procedure.validation."
                 "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
                 get_now() + timedelta(days=1),
             ),
         ):
-            tender = create_tender_instance(Tender, self.initial_tender_data)
-            data = tender.serialize()
-            self.assertNotIn("milestones", data)
-            with self.assertRaises(ModelValidationError) as e:
-                tender.validate()
-            self.assertEqual(e.exception.messages, {"milestones": ["Tender should contain at least one milestone"]})
+            with self.assertRaises(MilestonesValidationError) as e:
+                check_milestones_required(self.initial_tender_data)
+            self.assertEqual(
+                e.exception.errors,
+                [
+                    {
+                        "location": "body",
+                        "name": "milestones",
+                        "description": ["Tender should contain at least one milestone"],
+                    }
+                ],
+            )
 
     def test_regression_milestones(self):
         with (
             patch(
-                "openprocurement.tender.core.procedure.models.tender.MILESTONES_VALIDATION_FROM",
+                "openprocurement.tender.core.procedure.validation.MILESTONES_VALIDATION_FROM",
                 get_now() + timedelta(days=1),
             ),
             patch(
-                "openprocurement.tender.core.procedure.models.tender."
+                "openprocurement.tender.core.procedure.validation."
                 "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
                 get_now() + timedelta(days=1),
             ),
         ):
-            tender = create_tender_instance(Tender, self.initial_tender_data)
-            tender.validate()
-            data = tender.serialize()
+            data = check_milestones_required(self.initial_tender_data)
             self.assertNotIn("milestones", data)
 
     def test_validate_empty(self):
         initial_data = deepcopy(self.initial_tender_data)
         initial_data.update(milestones=[])
-        tender = create_tender_instance(Tender, initial_data)
-        with self.assertRaises(ModelValidationError) as e:
-            tender.validate()
-        self.assertEqual(e.exception.messages, {"milestones": ["Tender should contain at least one milestone"]})
+        with self.assertRaises(MilestonesValidationError) as e:
+            check_milestones_required(initial_data)
+        self.assertEqual(
+            e.exception.errors,
+            [
+                {
+                    "location": "body",
+                    "name": "milestones",
+                    "description": ["Tender should contain at least one milestone"],
+                }
+            ],
+        )
 
     def test_validate_empty_object(self):
         initial_data = deepcopy(self.initial_tender_data)

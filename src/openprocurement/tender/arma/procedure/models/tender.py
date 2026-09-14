@@ -1,135 +1,67 @@
-from schematics.types import BaseType, StringType
-from schematics.types.compound import ListType, ModelType
+from schematics.exceptions import ValidationError
+from schematics.types import StringType
+from schematics.types.compound import ModelType
 
+from openprocurement.api.procedure.types import ListType
 from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.models.item import Item
-from openprocurement.tender.arma.procedure.models.lot import (
-    Lot,
-    PatchTenderLot,
-    PostTenderLot,
-)
-from openprocurement.tender.arma.procedure.models.organization import ProcuringEntity
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
-from openprocurement.tender.core.procedure.models.item import validate_classification_id
-from openprocurement.tender.core.procedure.models.milestone import (
-    Milestone,
-    validate_milestones_lot,
-)
-from openprocurement.tender.core.procedure.models.period import (
-    EnquiryPeriod,
-    PeriodStartEndRequired,
-    PostPeriodStartEndRequired,
-)
+from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchTenderLot, ARMAPostTenderLot
+from openprocurement.tender.core.constants import AWARD_CRITERIA_CHOICES
+from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.tender import (
-    PatchTender as BasePatchTender,
+    PatchTenderItemsMixin,
+    PatchTenderMilestonesMixin,
+    PatchTenderPeriodsMixin,
+    PostTenderItemsMixin,
+    PostTenderPeriodsMixin,
+    TenderGuaranteeMixin,
+    TenderItemsMixin,
+    TenderMilestonesMixin,
+    TenderPeriodsMixin,
+    TenderSubmissionMixin,
 )
-from openprocurement.tender.core.procedure.models.tender import (
-    PostTender as BasePostTender,
-)
-from openprocurement.tender.core.procedure.models.tender import Tender as BaseTender
+from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PatchBaseTender, PostBaseTender
 
 
-class PostTender(BasePostTender):
+class ARMAPostTender(
+    TenderSubmissionMixin,
+    TenderGuaranteeMixin,
+    PostTenderPeriodsMixin,
+    PostTenderItemsMixin,
+    TenderMilestonesMixin,
+    PostBaseTender,
+):
     procurementMethodType = StringType(choices=[COMPLEX_ASSET_ARMA], default=COMPLEX_ASSET_ARMA)
+    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    status = StringType(choices=["draft"], default="draft")
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PostPeriodStartEndRequired, required=True)
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
-    milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
-    contractTemplateName = None
-    features = None
-    minimalStep = None
-    value = None
+    lots = ListType(ModelType(ARMAPostTenderLot, required=True), validators=[validate_uniq_id])
 
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
+    def validate_lots(self, data, value):
+        if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
+            raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
 
-PostTender._fields.pop("contractTemplateName", None)
-PostTender._fields.pop("features", None)
-PostTender._fields.pop("minimalStep", None)
-PostTender._fields.pop("value", None)
-
-
-class PatchTender(BasePatchTender):
+class ARMAPatchTender(
+    TenderSubmissionMixin,
+    TenderGuaranteeMixin,
+    PatchTenderPeriodsMixin,
+    PatchTenderItemsMixin,
+    PatchTenderMilestonesMixin,
+    PatchBaseTender,
+):
+    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
     procuringEntity = ModelType(ProcuringEntity)
-    status = StringType(
-        choices=[
-            "draft",
-            "active.tendering",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-        ],
-    )
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodStartEndRequired)
-    items = ListType(
-        ModelType(Item, required=True),
-        validators=[validate_uniq_id, validate_classification_id],
-    )
-    milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
-    contractTemplateName = None
-    features = None
-    minimalStep = None
-    value = None
+    lots = ListType(ModelType(ARMAPatchTenderLot, required=True), validators=[validate_uniq_id])
+
+    def validate_lots(self, data, value):
+        if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
+            raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
 
 
-PatchTender._fields.pop("contractTemplateName", None)
-PatchTender._fields.pop("features", None)
-PatchTender._fields.pop("minimalStep", None)
-PatchTender._fields.pop("value", None)
-
-
-class Tender(BaseTender):
+class ARMATender(
+    TenderSubmissionMixin, TenderGuaranteeMixin, TenderPeriodsMixin, TenderItemsMixin, TenderMilestonesMixin, BaseTender
+):
     procurementMethodType = StringType(choices=[COMPLEX_ASSET_ARMA], required=True)
+    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
     procuringEntity = ModelType(ProcuringEntity, required=True)
-    status = StringType(
-        choices=[
-            "draft",
-            "active.tendering",
-            "active.pre-qualification",
-            "active.pre-qualification.stand-still",
-            "active.auction",
-            "active.qualification",
-            "active.awarded",
-            "complete",
-            "cancelled",
-            "unsuccessful",
-        ],
-    )
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodStartEndRequired, required=True)
-    items = ListType(
-        ModelType(Item, required=True),
-        required=True,
-        min_size=1,
-        validators=[validate_uniq_id, validate_classification_id],
-    )
-    milestones = ListType(ModelType(Milestone, required=False), validators=[validate_uniq_id])
-    complaintPeriod = BaseType()
-    awardCriteria = StringType(choices=[AWARD_CRITERIA_RATED_CRITERIA], default=AWARD_CRITERIA_RATED_CRITERIA)
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
-    contractTemplateName = None
-    features = None
-    minimalStep = None
-    value = None
-
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
-
-
-Tender._fields.pop("contractTemplateName", None)
-Tender._fields.pop("features", None)
-Tender._fields.pop("minimalStep", None)
-Tender._fields.pop("value", None)
+    lots = ListType(ModelType(ARMALot, required=True), validators=[validate_uniq_id])

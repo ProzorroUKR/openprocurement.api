@@ -77,7 +77,6 @@ class TenderTest(BaseTenderWebTest):
     test_tender_cause = snitch(tender_cause_reporting)
     test_reporting_contract_template_name_forbid = snitch(reporting_contract_template_name_forbid)
     test_tender_cause_change_rationale_types_update = snitch(tender_cause_change_rationale_types_update)
-    test_tender_items_related_product = snitch(tender_items_related_product)
 
 
 class TenderResourceTest(BaseTenderWebTest):
@@ -110,6 +109,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_patch_items_related_buyer_id = snitch(patch_items_related_buyer_id)
     test_validate_procurement_entity_kind = snitch(validate_procurement_entity_kind)
     test_validate_procurement_entity_kind_patch = snitch(validate_procurement_entity_kind_patch)
+    test_tender_items_related_product = snitch(tender_items_related_product)
 
 
 class TenderNegotiationResourceTest(TenderResourceTest):

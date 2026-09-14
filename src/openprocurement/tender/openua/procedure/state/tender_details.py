@@ -16,17 +16,21 @@ class OpenUATenderDetailsMixing(TenderDetailsMixing):
 
     should_validate_notice_doc_required = True
     should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
 
 
 class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
+    items_classification_prefix_change_check = True
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
     tender_period_extra = TENDERING_EXTRA_PERIOD
     tender_period_extra_working_days = False
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
 
     working_days_config = WORKING_DAYS_CONFIG
-
-    def on_patch(self, before, after):
-        super().on_patch(before, after)  # TenderDetailsMixing.on_patch
-
-        self.validate_items_classification_prefix_unchanged(before, after)

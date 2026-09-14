@@ -4,13 +4,13 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.bid import BidState
-from openprocurement.tender.esco.procedure.models.bid import (
-    PatchBid,
-    PatchQualificationBid,
-)
 
 
 class ESCOBidState(BidState):
+    self_eligible_required = False
+    bid_items_quantity_required = False
+    bid_value_validation_on_patch = False  # value is validated by the procedure's own bid model
+
     def on_post(self, data):
         super().on_post(data)
         self.set_yearly_payments_percentage_for_lots(data)
@@ -34,9 +34,3 @@ class ESCOBidState(BidState):
                         status=422,
                         name="lotValues.value",
                     )
-
-    def get_patch_data_model(self):
-        tender = self.request.validated["tender"]
-        if tender.get("status", "") in self.qualification_statuses:
-            return PatchQualificationBid
-        return PatchBid

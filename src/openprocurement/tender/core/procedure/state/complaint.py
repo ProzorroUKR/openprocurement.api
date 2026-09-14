@@ -22,9 +22,7 @@ from openprocurement.tender.core.procedure.models.complaint import (
     TendererActionPatchComplaint,
     TendererResolvePatchComplaint,
 )
-from openprocurement.tender.core.procedure.models.complaint_objection import (
-    ObjectionRelatesTo,
-)
+from openprocurement.tender.core.procedure.models.complaint_objection import ObjectionRelatesTo
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,

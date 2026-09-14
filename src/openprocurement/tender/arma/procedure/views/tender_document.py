@@ -13,11 +13,7 @@ from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.tender_document import (
     TenderDocumentState,
 )
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_document_operation_in_allowed_tender_statuses,

@@ -1,26 +1,14 @@
-from uuid import uuid4
-
 from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
-from schematics.types.serializable import serializable
+from schematics.types import BooleanType, MD5Type, StringType
 
-from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneListMixin,
-)
-from openprocurement.tender.core.procedure.models.document import Document
-from openprocurement.tender.core.procedure.models.organization import (
-    ContactLessSupplier,
-    Supplier,
-)
+from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.tender.core.procedure.models.award import Award, PatchAward, PostAward
+from openprocurement.tender.core.procedure.models.organization import ContactLessSupplier, Supplier
 
 
-class AwardValue(Value):
+class LimitedAwardValue(Value):
     valueAddedTaxIncluded = BooleanType(required=True, default=lambda: get_tender()["value"]["valueAddedTaxIncluded"])
     currency = StringType(
         required=True,
@@ -30,113 +18,33 @@ class AwardValue(Value):
     )
 
 
-class PostBaseAward(Model):
-    @serializable
-    def id(self):
-        return uuid4().hex
-
-    @serializable
-    def date(self):
-        return get_request_now().isoformat()
-
+class LimitedPostAward(PostAward):
+    bid_id = MD5Type()  # awards are created by the buyer, there are no bids
     qualified = BooleanType()
     eligible = BooleanType()
-    status = StringType(required=True, choices=["pending"], default="pending")
-    value = ModelType(AwardValue, required=True)
-    weightedValue = ModelType(AwardValue)
-    suppliers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    subcontractingDetails = StringType()
+    value = ModelType(LimitedAwardValue, required=True)
+    weightedValue = ModelType(LimitedAwardValue)
 
 
-class PatchBaseAward(Model):
-    qualified = BooleanType()
-    status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+class LimitedPatchAward(PatchAward):
     suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
-    subcontractingDetails = StringType()
-    value = ModelType(AwardValue)
-
-
-class BaseAward(AwardMilestoneListMixin, Model):
-    id = MD5Type(required=True)
-    qualified = BooleanType()
-    status = StringType(required=True, choices=["pending", "unsuccessful", "active", "cancelled"])
-    date = IsoDateTimeType(required=True)
-    value = ModelType(AwardValue, required=True)
-    weightedValue = ModelType(AwardValue)
-    suppliers = ListType(
-        ModelType(Supplier, required=True),
-        required=True,
-        min_size=1,
-        max_size=1,
-    )
-    documents = ListType(ModelType(Document, required=True))
-    subcontractingDetails = StringType()
-
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-    complaints = BaseType()
-    complaintPeriod = ModelType(Period)
-    period = ModelType(Period)
-
-    def validate_qualified(self, data, qualified):
-        if data["status"] == "active" and not qualified:
-            raise ValidationError("Can't update award to active status with not qualified")
-        if data["status"] == "unsuccessful" and (
-            qualified is None
-            or (hasattr(self, "eligible") and data.get("eligible") is None)
-            or (qualified and (not hasattr(self, "eligible") or data["eligible"]))
-        ):
-            raise ValidationError(
-                "Can't update award to unsuccessful status when qualified/eligible isn't set to False"
-            )
-
-
-# Negotiation
-def validate_lot_id(value):
-    tender = get_tender()
-    if not value and tender.get("lots"):
-        raise ValidationError("This field is required.")
-    if value and value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
-        raise ValidationError("lotID should be one of lots")
-
-
-class PostNegotiationAward(PostBaseAward):
-    lotID = MD5Type()
-
-    def validate_lotID(self, data, value):
-        validate_lot_id(value)
-
-
-class PatchNegotiationAward(PatchBaseAward):
+    value = ModelType(LimitedAwardValue)
     lotID = MD5Type()
 
     def validate_lotID(self, data, value):
         if value:
-            validate_lot_id(value)
+            tender = get_tender()
+            if value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
+                raise ValidationError("lotID should be one of lots")
 
 
-class NegotiationAward(BaseAward):
-    lotID = MD5Type()
+class LimitedAward(Award):
+    bid_id = MD5Type()
+    value = ModelType(LimitedAwardValue, required=True)
+    weightedValue = ModelType(LimitedAwardValue)
 
 
-# reporting
-class PostReportingAward(PostBaseAward):
+class ReportingPostAward(LimitedPostAward):
     suppliers = ListType(
         ModelType(ContactLessSupplier, required=True),
         required=True,
@@ -146,7 +54,7 @@ class PostReportingAward(PostBaseAward):
     value = ModelType(Value, required=True)
 
 
-class PatchReportingAward(PatchBaseAward):
+class ReportingPatchAward(LimitedPatchAward):
     suppliers = ListType(
         ModelType(ContactLessSupplier, required=True),
         min_size=1,
@@ -155,7 +63,7 @@ class PatchReportingAward(PatchBaseAward):
     value = ModelType(Value)
 
 
-class ReportingAward(BaseAward):
+class ReportingAward(LimitedAward):
     suppliers = ListType(
         ModelType(ContactLessSupplier, required=True),
         required=True,

@@ -14,11 +14,9 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.bid import Bid, PostBid
+from openprocurement.tender.competitivedialogue.procedure.models.bid import CDBid, CDPostBid
 from openprocurement.tender.competitivedialogue.procedure.state.bid import CDBidState
-from openprocurement.tender.core.procedure.models.bid import (
-    filter_administrator_bid_update,
-)
+from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,
@@ -51,7 +49,7 @@ class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
             ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-            validate_input_data(PostBid),
+            validate_input_data(CDPostBid),
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
@@ -69,7 +67,7 @@ class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data_from_resolved_model(filters=(filter_administrator_bid_update,), none_means_remove=True),
-            validate_patch_data_simple(Bid, item_name="bid"),
+            validate_patch_data_simple(CDBid, item_name="bid"),
         ),
     )
     def patch(self):
@@ -97,7 +95,7 @@ class CompetitiveDialogueEUBidResource(OpenEUTenderBidResource):
             ),
             validate_bid_operation_not_in_tendering,
             validate_bid_operation_period,
-            validate_input_data(PostBid),
+            validate_input_data(CDPostBid),
             validate_data_documents(route_key="bid_id", uid_key="id"),
         ),
     )
@@ -115,7 +113,7 @@ class CompetitiveDialogueEUBidResource(OpenEUTenderBidResource):
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
             validate_input_data_from_resolved_model(filters=(filter_administrator_bid_update,)),
-            validate_patch_data_simple(Bid, item_name="bid"),
+            validate_patch_data_simple(CDBid, item_name="bid"),
         ),
     )
     def patch(self):

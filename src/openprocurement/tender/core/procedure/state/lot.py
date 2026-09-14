@@ -24,6 +24,8 @@ class LotStateMixin:
     validate_lot_minimal_step: Callable
 
     should_validate_lot_minimal_step = True
+    # limited (negotiation): lots don't recalculate the tender values
+    lot_updates_tender_values = True
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()
@@ -76,6 +78,8 @@ class LotStateMixin:
         self.validate_lots_unique()
 
     def update_tender_data(self) -> None:
+        if not self.lot_updates_tender_values:
+            return
         tender = get_tender()
         self.calc_tender_values(tender)
 

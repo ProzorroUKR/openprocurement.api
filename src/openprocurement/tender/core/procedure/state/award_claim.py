@@ -1,8 +1,9 @@
 from logging import getLogger
 
+from openprocurement.api.constants_env import NO_DEFENSE_AWARD_CLAIMS_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_award
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
@@ -19,6 +20,16 @@ class AwardClaimStateMixin(ClaimStateMixin):
         "active.qualification",
         "active.awarded",
     )
+    # openuadefense: award claims are not accepted for tenders created after NO_DEFENSE_AWARD_CLAIMS_FROM
+    award_claims_forbidden_by_date = False
+
+    def validate_claim_on_post(self, complaint):
+        if self.award_claims_forbidden_by_date:
+            tender = get_tender()
+            tender_created = get_first_revision_date(tender, default=get_request_now())
+            if tender_created > NO_DEFENSE_AWARD_CLAIMS_FROM:
+                raise_operation_error(self.request, "Can't add complaint of 'claim' type")
+        super().validate_claim_on_post(complaint)
 
     def claim_on_post(self, complaint):
         request = self.request
@@ -36,6 +47,8 @@ class AwardClaimStateMixin(ClaimStateMixin):
         raise_operation_error(self.request, f"Can {operation} complaint only in complaintPeriod")
 
     def validate_submit_claim(self, claim):
+        if not self.claim_submit_validation:
+            return
         award = get_award()
         if award.get("status") == "unsuccessful" and award.get("bid_id") != claim.get("bid_id"):
             raise_operation_error(self.request, "Can add claim only on unsuccessful award of your bid")

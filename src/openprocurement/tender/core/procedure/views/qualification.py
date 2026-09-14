@@ -10,10 +10,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.qualification import (
-    PatchQualification,
-    Qualification,
-)
+from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )

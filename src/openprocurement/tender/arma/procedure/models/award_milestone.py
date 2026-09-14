@@ -1,22 +1,15 @@
 from schematics.types import StringType
-from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestone as BaseAwardMilestone,
-)
-from openprocurement.tender.core.procedure.models.award_milestone import (
+    AwardMilestone,
     AwardMilestoneCode,
-)
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    AwardMilestoneListMixin as BaseAwardMilestoneListMixin,
-)
-from openprocurement.tender.core.procedure.models.award_milestone import (
-    PostAwardMilestone as BasePostAwardMilestone,
+    AwardMilestoneListMixin,
+    PostAwardMilestone,
 )
 
 
-class PostAwardMilestone(BasePostAwardMilestone):
+class ARMAPostAwardMilestone(PostAwardMilestone):
     code = StringType(
         required=True,
         choices=[
@@ -25,7 +18,7 @@ class PostAwardMilestone(BasePostAwardMilestone):
     )
 
 
-class AwardMilestone(BaseAwardMilestone):
+class ARMAAwardMilestone(AwardMilestone):
     code = StringType(
         required=True,
         choices=[
@@ -35,5 +28,5 @@ class AwardMilestone(BaseAwardMilestone):
     )
 
 
-class AwardMilestoneListMixin(BaseAwardMilestoneListMixin):
-    milestones = ListType(ModelType(AwardMilestone, required=True))
+class ARMAAwardMilestoneListMixin(AwardMilestoneListMixin):
+    milestones = ListType(ModelType(ARMAAwardMilestone, required=True))

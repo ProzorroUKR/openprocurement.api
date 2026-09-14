@@ -3,6 +3,7 @@ from logging import getLogger
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.mask import mask_object_data
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import (
     context_unpack,
@@ -140,13 +141,25 @@ class AgreementsResource(FrameworkBaseResource):
 )
 class AgreementFilterByClassificationResource(FrameworkBaseResource):
     MIN_CLASSIFICATION_ID_LENGTH = 3
+    LISTING_FIELDS = (
+        "_id",
+        "classification",
+        "additionalClassifications",
+        "status",
+        "contracts",
+        "dateModified",
+    )
 
     @json_view(permission="view_framework")
     def get(self):
         classification_id = self._prepare_classification_id()
         results = self.request.registry.mongodb.agreements.list_by_classification_id(classification_id)
         results = self._filter_by_additional_classifications(results)
-        return {"data": results}
+        return {"data": [self._serialize(result) for result in results]}
+
+    def _serialize(self, agreement):
+        mask_object_data(self.request, agreement, mask_mapping=AGREEMENT_MASK_MAPPING)
+        return {field: agreement[field] for field in self.LISTING_FIELDS if field in agreement}
 
     def _prepare_classification_id(self):
         classification_id = self.request.matchdict.get("classification_id")

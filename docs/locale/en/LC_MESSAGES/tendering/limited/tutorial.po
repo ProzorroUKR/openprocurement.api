@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-21 11:37+0300\n"
+"POT-Creation-Date: 2026-08-28 00:29+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -224,11 +224,32 @@ msgstr "Field `code` is required, that's why it is forbidden to add only `causeD
 msgid "І навпаки поле `description` обов'язкове для заповнення, якщо вказане `causeDetails.code`:"
 msgstr "Vice versa field `description` is required, if `causeDetails.code` is set:"
 
-msgid "Також для процедури **звітування про укладений договір** є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product`. При цьому працює валідація на те, що товар існує в маркеті, а також валідація на співпадіння items.classification.id → product.classification.id - по 3му знаку:"
-msgstr "Also for **reporting** procedure there is a possibility to add product from market to item in `item.product`. At the same time, validation checks that the product exists in the marketplace, as well as validating that `items.classification.id` matches `product.classification.id` based on the third character:"
+msgid "Також є можливість на рівні `item` додати посилання на товар з каталогу в полі `item.product` та на категорію в полі `item.category`."
+msgstr "Also there is a possibility to add product from market to item in `item.product` and category in `item.category`."
 
-msgid "Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю з посиланням на товар з маркету:"
-msgstr "Let's add `causeDetails` and then create a tender with item related on product from marketplace:"
+msgid "При цьому працюють наступні валідації:"
+msgstr "There are next validations:"
+
+msgid "категорія існує в маркеті і має бути активна,"
+msgstr "category exists in market and has active status,"
+
+msgid "товар існує в маркеті і має relatedCategory ту ж саму категорію, що і в item,"
+msgstr "product exists in market and has relatedCategory the same as mentioned in item"
+
+msgid "категорія та товар в item використовуються тільки разом,"
+msgstr "category and product can be set only together with each other"
+
+msgid "валідація на співпадіння `items.classification.id` → `category.classification.id` - по 3му знаку"
+msgstr "validation that `items.classification.id` matches `category.classification.id` based on the third character"
+
+msgid "Якщо вказати категорію без товару (або навпаки), то побачимо помилку:"
+msgstr "If category are set without product (and vice versa), there will be an error:"
+
+msgid "Якщо вказати інший `items.classification.id` ніж в категорії, то побачимо помилку:"
+msgstr "If `items.classification.id` doesn't match classification in category, there will be an error:"
+
+msgid "Додамо до тендеру поле `causeDetails` і після цього створимо закупівлю з посиланням на товар і категорію з маркету:"
+msgstr "Let's add `causeDetails` and then create a tender with item related on product an category from marketplace:"
 
 msgid "Ми отримали код відповіді `201 Created`, заголовок `Location` і тіло з додатковим ідентифікатором `id`, `tenderID` та властивість `dateModified` - дату, що показує час, коли закупівля востаннє модифікувалась."
 msgstr "We have `201 Created` response code, `Location` header and body with extra `id`, `tenderID`, and `dateModified` properties."
@@ -251,11 +272,29 @@ msgstr "Creating tender for negotiation.quick procedure"
 msgid "Щоб створити закупівлю для **переговорної процедури за нагальною потребою**, потрібно встановити значення ``negotiation.quick`` для ``procurementMethodType``."
 msgstr "To create tender for **negotiation.quick** procedure you should set ``negotiation.quick`` value for ``procurementMethodType``."
 
+msgid "Критерії"
+msgstr "Criteria"
+
+msgid "Для закупівель **reporting**, **negotiation**, **negotiation.quick** є можливість додати критерій локалізації."
+msgstr "For **reporting**, **negotiation**, **negotiation.quick** procedures there is a possibility to add localization criteria:"
+
+msgid "Якщо буде доданий критерій з іншим `source` аніж `procuringEntity`, то буде помилка:"
+msgstr "If criteria is added with another `source` than `procuringEntity`, we will see an error:"
+
+msgid "Додамо критерій локалізації з `relatedItem`, в якому вказано `item.category`:"
+msgstr "Let's add localization criteria with `relatedItem` which has `item.category`:"
+
 msgid "Активація закупівлі"
 msgstr "Tender activating"
 
-msgid "Для активації закупівель **reporting**, **negotiation**, **negotiation.quick** їх потрібно перевести до статусу ``active``:"
-msgstr "For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active``:"
+msgid "Для активації закупівель **reporting**, **negotiation**, **negotiation.quick** їх потрібно перевести до статусу ``active``."
+msgstr "For activating **reporting**, **negotiation**, **negotiation.quick** procedures you should update status to ``active``."
+
+msgid "Якщо активувати закупівлю з item, в якому вказана категорія з критерієм локалізації, але при цьому такий критерій не доданий до тендеру, то буде помилка:"
+msgstr "If we activate tender with item that has related category with localization criteria, but that criterion has not been added to the tender, an error will occur:"
+
+msgid "Активуємо процедуру:"
+msgstr "Let's activate tender:"
 
 msgid "Подивимось, що показує список закупівель:"
 msgstr "Let's see what listing of tenders reveals us:"
@@ -331,6 +370,15 @@ msgstr "`201 Created` response code and `Location` header confirm second documen
 
 msgid "Тепер переглянемо знову усі документи пов’язані із визначенням переможця:"
 msgstr "Let's see the list of all uploaded award documents:"
+
+msgid "Відповіді на критерії"
+msgstr "Requirement responses"
+
+msgid "Якщо в закупівлі вказаний критерій локалізації, то необхідно надати відповіді на вимоги критерію до `award`. Це можна зробити в `requirementResponses`:"
+msgstr "If a localization criterion is specified for the tender, responses to the criterion's requirements must be provided for the `award`. This can be done in `requirementResponses`:"
+
+msgid "Правила надання відповідей на вимоги критеріїв описані детальніше в :ref:`award_requirement_response_operation`."
+msgstr "Rules for responding to criteria requirements are described in more details in :ref:`award_requirement_response_operation`."
 
 msgid "Підтвердження переможця процедури"
 msgstr "Award confirmation"

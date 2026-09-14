@@ -9,11 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.state.bid_document import BidDocumentState
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone,

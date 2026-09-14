@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "ecdebf1ccaca477b88fd95969ac8d0e6",
+        "id": "5297f0bfbb2742a580e31fb968314584",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -57,6 +57,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
+    "status": "draft",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
@@ -213,6 +214,41 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
+    "items": [
+      {
+        "id": "5297f0bfbb2742a580e31fb968314584",
+        "description": "Послуги шкільних їдалень",
+        "unit": {
+          "name": "папір",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "classification": {
+          "description": "Послуги з харчування у школах",
+          "scheme": "ДК021",
+          "id": "55523100-3"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "79000",
+          "countryName": "Україна"
+        },
+        "relatedLot": "a2f39dedc39a4788ae22752af33cdffb"
+      }
+    ],
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -242,47 +278,11 @@ Content-Type: application/json
         "authorizedBy": "Статут компанії"
       }
     },
-    "status": "draft",
     "value": {
       "currency": "UAH",
       "valueAddedTaxIncluded": true,
       "amount": 500000.0
     },
-    "items": [
-      {
-        "id": "ecdebf1ccaca477b88fd95969ac8d0e6",
-        "description": "Послуги шкільних їдалень",
-        "unit": {
-          "name": "папір",
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "classification": {
-          "description": "Послуги з харчування у школах",
-          "scheme": "ДК021",
-          "id": "55523100-3"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
-          }
-        ],
-        "relatedLot": "a2f39dedc39a4788ae22752af33cdffb",
-        "deliveryDate": {
-          "startDate": "2027-01-21T00:00:00+02:00",
-          "endDate": "2027-02-20T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      }
-    ],
     "lots": [
       {
         "title": "Лот №1",

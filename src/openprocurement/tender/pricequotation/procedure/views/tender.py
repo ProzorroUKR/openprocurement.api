@@ -18,11 +18,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.procedure.models.tender import (
-    PatchTender,
-    PostTender,
-    Tender,
-)
+from openprocurement.tender.pricequotation.procedure.models.tender import PQPatchTender, PQPostTender, PQTender
 from openprocurement.tender.pricequotation.procedure.state.tender_details import (
     TenderDetailsState,
 )
@@ -43,7 +39,7 @@ class PriceQuotationTenderResource(TendersResource):
         content_type="application/json",
         permission="create_tender",
         validators=(
-            validate_input_data(PostTender),
+            validate_input_data(PQPostTender),
             validate_config_data(),
             validate_accreditation_level(
                 levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5),
@@ -65,8 +61,8 @@ class PriceQuotationTenderResource(TendersResource):
                 validate_item_owner("tender"),
                 validate_tender_status_allows_update("draft"),
             ),
-            validate_input_data(PatchTender, none_means_remove=True),
-            validate_patch_data_simple(Tender, item_name="tender"),
+            validate_input_data(PQPatchTender, none_means_remove=True),
+            validate_patch_data_simple(PQTender, item_name="tender"),
             validate_item_quantity,
             validate_tender_guarantee,
         ),

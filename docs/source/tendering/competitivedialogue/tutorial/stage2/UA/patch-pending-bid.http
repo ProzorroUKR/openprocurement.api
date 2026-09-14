@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/78eb313fd0774c058c130df95e66f061/bids/0aa1a62722fe4847afa9b70f7a18fbb7?acc_token=020478c21ae24a1e8677c088dc7584e5 HTTP/1.0
+PATCH /api/2.5/tenders/fecb381c7ebf43d080a71159cd541164/bids/0aa1a62722fe4847afa9b70f7a18fbb7?acc_token=020478c21ae24a1e8677c088dc7584e5 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -223,6 +223,52 @@ Content-Type: application/json
         }
       }
     ],
+    "items": [
+      {
+        "id": "40de4769766945ee95d7df59d91cb811",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517"
+      },
+      {
+        "id": "9bf5d3e19a0b4ee9bc5bd4ef0e236ac5",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "10098f084434468aa19a0bb3524d5517"
+      }
+    ],
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "10098f084434468aa19a0bb3524d5517",
+        "status": "pending",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "Школяр",
@@ -259,52 +305,6 @@ Content-Type: application/json
     "id": "0aa1a62722fe4847afa9b70f7a18fbb7",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00",
-    "items": [
-      {
-        "id": "a5fc00cd288946f5a835cfe3f612bf73",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "кілограм",
-          "value": {
-            "amount": 249.5,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 1.0,
-        "relatedLot": "10098f084434468aa19a0bb3524d5517"
-      },
-      {
-        "id": "ae7f8fba51254242b200e4b8a602f0ea",
-        "description": "Послуги шкільних їдалень",
-        "description_en": "Services in school canteens",
-        "unit": {
-          "name": "упаковка",
-          "value": {
-            "amount": 249.5,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "PK"
-        },
-        "quantity": 1.0,
-        "relatedLot": "10098f084434468aa19a0bb3524d5517"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "10098f084434468aa19a0bb3524d5517",
-        "status": "pending",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",

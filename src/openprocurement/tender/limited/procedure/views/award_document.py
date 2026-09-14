@@ -10,17 +10,13 @@ from openprocurement.api.procedure.validation import (
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
+from openprocurement.tender.core.procedure.validation import (
+    validate_limited_award_document_add_not_in_pending,
+    validate_limited_document_operation_not_in_active,
 )
 from openprocurement.tender.core.procedure.views.award_document import (
     BaseAwardDocumentResource,
-)
-from openprocurement.tender.limited.procedure.validation import (
-    validate_award_document_add_not_in_pending,
-    validate_document_operation_not_in_active,
 )
 
 
@@ -36,8 +32,8 @@ class ReportingAwardDocumentResource(BaseAwardDocumentResource):
         validators=(
             unless_bots(validate_item_owner("tender")),
             validate_input_data(PostDocument, allow_bulk=True),
-            validate_award_document_add_not_in_pending,
-            validate_document_operation_not_in_active,
+            validate_limited_award_document_add_not_in_pending,
+            validate_limited_document_operation_not_in_active,
         ),
         permission="upload_award_documents",
     )
@@ -48,7 +44,7 @@ class ReportingAwardDocumentResource(BaseAwardDocumentResource):
         validators=(
             validate_item_owner("tender"),
             validate_input_data(PostDocument),
-            validate_document_operation_not_in_active,
+            validate_limited_document_operation_not_in_active,
             update_doc_fields_on_put_document,
             validate_upload_document,
             validate_data_model(Document),
@@ -64,7 +60,7 @@ class ReportingAwardDocumentResource(BaseAwardDocumentResource):
             validate_item_owner("tender"),
             validate_input_data(PatchDocument, none_means_remove=True),
             validate_patch_data(Document, item_name="document"),
-            validate_document_operation_not_in_active,
+            validate_limited_document_operation_not_in_active,
         ),
         permission="edit_award_documents",
     )

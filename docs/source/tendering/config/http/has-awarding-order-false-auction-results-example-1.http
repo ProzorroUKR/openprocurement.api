@@ -1153,6 +1153,42 @@ Content-Type: application/json
       }
     ],
     "submissionMethod": "electronicAuction",
+    "enquiryPeriod": {
+      "startDate": "2026-12-24T00:00:00+02:00",
+      "endDate": "2026-12-29T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-16T00:00:00+02:00",
+      "endDate": "2027-01-01T00:00:00+02:00"
+    },
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "description": "Cartons",
+          "scheme": "ДК021",
+          "id": "44617100-9"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+      }
+    ],
+    "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -1187,10 +1223,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "tenderPeriod": {
-      "startDate": "2026-12-16T00:00:00+02:00",
-      "endDate": "2027-01-01T00:00:00+02:00"
-    },
     "lots": [
       {
         "title": "Лот №1",
@@ -1213,38 +1245,6 @@ Content-Type: application/json
           "endDate": "2027-01-01T00:00:00+02:00"
         },
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6"
-      }
-    ],
-    "procurementMethodType": "requestForProposal",
-    "enquiryPeriod": {
-      "startDate": "2026-12-24T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-12T00:00:00+02:00",
-      "endDate": "2026-12-29T00:00:00+02:00"
-    },
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ],
-        "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
       }
     ],
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
@@ -1465,6 +1465,25 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "ffffffffffffffffffffffffffffffff",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases with state awards",
+            "description_ru": "футляры к государственным наградам",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 100.0,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1530,25 +1549,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "ffffffffffffffffffffffffffffffff",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases with state awards",
-            "description_ru": "футляры к государственным наградам",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 100.0,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"
@@ -1755,6 +1755,25 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "ffffffffffffffffffffffffffffffff",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases with state awards",
+            "description_ru": "футляры к государственным наградам",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 99.8,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -1820,25 +1839,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "ffffffffffffffffffffffffffffffff",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases with state awards",
-            "description_ru": "футляры к государственным наградам",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 99.8,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"
@@ -2045,6 +2045,25 @@ Content-Type: application/json
             }
           }
         ],
+        "items": [
+          {
+            "id": "ffffffffffffffffffffffffffffffff",
+            "description": "футляри до державних нагород",
+            "description_en": "Cases with state awards",
+            "description_ru": "футляры к государственным наградам",
+            "unit": {
+              "name": "кілограм",
+              "value": {
+                "amount": 99.6,
+                "currency": "UAH",
+                "valueAddedTaxIncluded": false
+              },
+              "code": "KGM"
+            },
+            "quantity": 5.0,
+            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
+          }
+        ],
         "lotValues": [
           {
             "value": {
@@ -2110,25 +2129,6 @@ Content-Type: application/json
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
-          }
-        ],
-        "items": [
-          {
-            "id": "ffffffffffffffffffffffffffffffff",
-            "description": "футляри до державних нагород",
-            "description_en": "Cases with state awards",
-            "description_ru": "футляры к государственным наградам",
-            "unit": {
-              "name": "кілограм",
-              "value": {
-                "amount": 99.6,
-                "currency": "UAH",
-                "valueAddedTaxIncluded": false
-              },
-              "code": "KGM"
-            },
-            "quantity": 5.0,
-            "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6"
           }
         ],
         "submissionDate": "2027-01-01T00:00:00+02:00"

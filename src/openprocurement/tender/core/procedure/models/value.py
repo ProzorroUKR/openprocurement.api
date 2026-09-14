@@ -1,7 +1,10 @@
 from schematics.types import BooleanType, FloatType
 
 from openprocurement.api.procedure.models.value import AmountPercentageValue, BasicValue
-from openprocurement.api.procedure.types import DecimalType, NormalizedDecimalType
+from openprocurement.api.procedure.types import (
+    DecimalType,
+    NormalizedDecimalType,
+)
 
 
 class Value(BasicValue):

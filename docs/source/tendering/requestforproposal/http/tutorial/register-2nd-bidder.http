@@ -88,6 +88,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
 
 {
   "data": {
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "папір",
+        "unit": {
+          "name": "кг",
+          "value": {
+            "amount": 99.8,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Книга»",
@@ -157,23 +174,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
         "id": "8d0915767b85447a899c79d61d949fe0",
         "datePublished": "2027-01-07T00:15:06+02:00",
         "dateModified": "2027-01-07T00:15:06+02:00"
-      }
-    ],
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "папір",
-        "unit": {
-          "name": "кг",
-          "value": {
-            "amount": 99.8,
-            "currency": "UAH",
-            "valueAddedTaxIncluded": false
-          },
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
       }
     ],
     "id": "e61f83d91e0445e289f962ea2e03fb4e",

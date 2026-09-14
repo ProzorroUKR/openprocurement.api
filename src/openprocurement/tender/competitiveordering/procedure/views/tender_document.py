@@ -13,11 +13,7 @@ from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORD
 from openprocurement.tender.competitiveordering.procedure.state.tender_document import (
     COTenderDocumentState,
 )
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.validation import (
     unless_bots_or_auction,
     validate_tender_document_operation_in_allowed_tender_statuses,

@@ -101,6 +101,7 @@ class AgreementCollection(BaseCollection):
                     "id",
                     "contracts",
                     "dateModified",
+                    "config",
                 ],
             )
         )

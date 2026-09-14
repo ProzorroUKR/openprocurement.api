@@ -1,5 +1,5 @@
+from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.open.procedure.models.award import Award
 
 
 class OpenTenderState(TenderState):

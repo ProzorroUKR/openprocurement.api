@@ -1,6 +1,6 @@
 from openprocurement.api.context import get_request_now
-from openprocurement.tender.cfaua.procedure.models.award import Award
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.award import Award
 
 
 class CFAUATenderStateAwardingMixing:
