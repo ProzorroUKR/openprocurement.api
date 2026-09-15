@@ -74,13 +74,13 @@ class TenderrCOShortResourceTest(
     framework_type = DPS_TYPE
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
         set_request_now()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
@@ -559,13 +559,13 @@ class TenderrCOLongResourceTest(
     framework_type = DPS_TYPE
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
         set_request_now()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(

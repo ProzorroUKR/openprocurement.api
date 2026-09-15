@@ -27,14 +27,14 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=420)).isoformat()}
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs(self):
         self.create_framework(config=self.initial_config)

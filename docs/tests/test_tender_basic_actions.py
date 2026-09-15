@@ -115,8 +115,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
         super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_complaints(self):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -3910,8 +3910,8 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_milestones(self):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -4477,8 +4477,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     @patch_market(
         {

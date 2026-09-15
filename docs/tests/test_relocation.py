@@ -19,12 +19,12 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
     relative_to = os.path.dirname(__file__)
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_tenders_docs(self):
         data = deepcopy(test_docs_tender_below)

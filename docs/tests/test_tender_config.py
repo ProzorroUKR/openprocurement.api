@@ -315,8 +315,8 @@ class TenderConfigBaseTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
         super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def add_criteria(self, tender_id, owner_token):
         # add criteria

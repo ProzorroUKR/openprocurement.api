@@ -154,7 +154,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
+        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -167,7 +167,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 2,
-        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
+        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -180,7 +180,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 3,
-        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
+        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
       }
     ],
     "items": [
@@ -215,7 +215,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "cd9076d5316b4cc7bb35021be0b9e762"
+        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
       }
     ],
     "procuringEntity": {
@@ -257,7 +257,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "cd9076d5316b4cc7bb35021be0b9e762",
+        "id": "a40018b790aa497981813a1a78c05f6d",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",

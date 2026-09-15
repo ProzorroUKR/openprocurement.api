@@ -47,12 +47,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
@@ -701,12 +701,12 @@ class TenderConfidentialDocumentsTest(BaseTenderUAWebTest, MockWebTestMixin):
     initial_status = "active.tendering"
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs(self):
         # Create tender
@@ -832,12 +832,12 @@ class ComplaintsValueResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
     initial_lots = deepcopy(test_tender_below_lots)
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_complaint_value(self):
         for item in self.initial_data["items"]:

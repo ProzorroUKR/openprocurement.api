@@ -105,12 +105,12 @@ class FrameworkConfigBaseResouceTest(BaseFrameworkWebTest, MockWebTestMixin, Fra
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_restricted_submission_mask_mapping_csv(self):
         self.write_config_mask_csv(
