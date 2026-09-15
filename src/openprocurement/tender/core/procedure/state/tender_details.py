@@ -1475,6 +1475,13 @@ class BaseTenderDetailsMixing:
                 name="procurementMethod",
             )
 
+    @classmethod
+    def tender_items_should_be_identical_to_plan_items(cls, tender):
+        return tender.get("mainProcurementCategory") in (
+            MainProcurementCategory.SERVICES,
+            MainProcurementCategory.WORKS,
+        ) and tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender)
+
     def validate_items_classification_prefix(self, tender):
         if not self.should_validate_cpv_prefix:
             return
@@ -1484,13 +1491,10 @@ class BaseTenderDetailsMixing:
         if not classifications:
             return
 
-        # for works and services items are allowed to have different CPV
-        skip_prefix_validation = tender.get("mainProcurementCategory") in (
-            MainProcurementCategory.SERVICES,
-            MainProcurementCategory.WORKS,
-        ) and tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender)
-
-        if self.should_validate_items_classifications_prefix and not skip_prefix_validation:
+        if (
+            self.should_validate_items_classifications_prefix
+            and not self.tender_items_should_be_identical_to_plan_items(tender)
+        ):
             validate_items_classifications_prefixes(classifications)
 
         if not self.should_validate_pre_selection_agreement:
@@ -1571,10 +1575,7 @@ class BaseTenderDetailsMixing:
 
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
-        if tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM) and after.get("mainProcurementCategory") in (
-            MainProcurementCategory.SERVICES,
-            MainProcurementCategory.WORKS,
-        ):
+        if cls.tender_items_should_be_identical_to_plan_items(after):
             return
         prefix_list = set()
         for item in before.get("items", ""):
@@ -1804,15 +1805,7 @@ class BaseTenderDetailsMixing:
 
     def validate_contract_template_name_allowed(self, tender):
         if tender.get("contractTemplateName") is not None and (
-            not self.contract_template_name_allowed
-            or (  # Check if tender has mainProcurementCategory allowed for templates
-                tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM)
-                and tender.get("mainProcurementCategory")
-                in (
-                    MainProcurementCategory.SERVICES,
-                    MainProcurementCategory.WORKS,
-                )
-            )
+            not self.contract_template_name_allowed or self.tender_items_should_be_identical_to_plan_items(tender)
         ):
             raise_operation_error(self.request, "Rogue field", status=422, name="contractTemplateName")
 
