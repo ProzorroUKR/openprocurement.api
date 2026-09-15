@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from decimal import Decimal
+from enum import StrEnum
 
 from openprocurement.api.constants import TZ
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
@@ -24,6 +25,18 @@ from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DE
 from openprocurement.tender.pricequotation.constants import PQ as PRICEQUOTATION
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
+
+
+class ReqStatuses:
+    ACTIVE = "active"
+    CANCELLED = "cancelled"
+    DEFAULT = ACTIVE
+
+
+class TenderMilestoneType(StrEnum):
+    FINANCING = "financing"
+    DELIVERY = "delivery"
+
 
 # procurementMethodTypes that share the core Tender models (tender/core/procedure/models/tender.py)
 CORE_TENDER_PROCUREMENT_METHOD_TYPES = [

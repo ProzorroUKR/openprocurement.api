@@ -1,8 +1,8 @@
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.utils import error_handler, raise_operation_error
+from openprocurement.tender.core.constants import ReqStatuses
 from openprocurement.tender.core.procedure.models.criterion import (
-    ReqStatuses,
     validate_criteria_requirement_uniq,
     validate_requirement_eligibleEvidences,
 )

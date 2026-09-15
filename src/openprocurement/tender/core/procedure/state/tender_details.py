@@ -74,9 +74,9 @@ from openprocurement.tender.core.constants import (
     PROCUREMENT_METHOD_OPEN,
     PROCUREMENT_METHOD_SELECTIVE,
     SELECTIVE_PROCUREMENT_METHOD_TYPES,
+    ReqStatuses,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.tender import PatchTender
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,

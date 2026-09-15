@@ -1,4 +1,3 @@
-from enum import StrEnum
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
@@ -11,6 +10,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.utils import get_first_revision_date
+from openprocurement.tender.core.constants import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
 from openprocurement.tender.core.procedure.validation import is_positive_float
 
@@ -45,11 +45,6 @@ class QualificationMilestoneListMixin(Model):
 class Duration(Model):
     days = IntType(required=True, min_value=1)
     type = StringType(required=True, choices=["working", "banking", "calendar"])
-
-
-class TenderMilestoneType(StrEnum):
-    FINANCING = "financing"
-    DELIVERY = "delivery"
 
 
 class Milestone(Model):

@@ -68,7 +68,11 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.cfaua.constants import LOTS_MAX_SIZE, LOTS_MIN_SIZE
-from openprocurement.tender.core.constants import AMOUNT_NET_COEF
+from openprocurement.tender.core.constants import (
+    AMOUNT_NET_COEF,
+    ReqStatuses,
+    TenderMilestoneType,
+)
 from openprocurement.tender.core.procedure.utils import (
     find_item_by_id,
     find_lot,
@@ -1887,8 +1891,6 @@ def validate_pq_profile_pattern(profile):
 
 
 def validate_pq_criteria_id_uniq(objs, *args):
-    from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
-
     if not objs:
         return
     tender = get_tender()
@@ -1943,8 +1945,6 @@ def validate_items_classification_id(request, items):
 
 def validate_tender_milestones_required(request, tender, required=True, delivery_financing=True):
     """former TenderMilestoneMixin.validate_milestones requirements"""
-    from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneType  # circular import
-
     value = tender.get("milestones")
     if required and tender_created_after(MILESTONES_VALIDATION_FROM):
         if value is None or len(value) < 1:
