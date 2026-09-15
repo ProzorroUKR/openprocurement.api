@@ -657,7 +657,7 @@ def patch_draft_invalid_json(self):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixing.vat_not_included_validation_from",
     get_now() + timedelta(days=1),
 )
 def patch_tender(self):
@@ -1700,7 +1700,7 @@ def create_tender_lot_vat_not_included_validation(self):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixing.vat_not_included_validation_from",
     get_now() + timedelta(days=1),
 )
 def create_tender_vat_not_included_validation_before_constant(self):

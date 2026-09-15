@@ -40,7 +40,6 @@ from openprocurement.api.constants_env import (
     CONTRACT_OWNER_REQUIRED_FROM,
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
     CRITERION_REQUIREMENT_STATUSES_FROM,
-    EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
@@ -1781,12 +1780,9 @@ def validate_milestones_sequence_number(
             )
 
 
-def validate_value_vat_disabled(request, value, field_name, date_from=None):
+def validate_value_vat_disabled(request, value, field_name, date_from):
     if value.get("valueAddedTaxIncluded") is not True:
         return
-
-    if date_from is None:
-        date_from = EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM
 
     # for 2-stage procedures value is inherited from the 1st stage,
     # so the feature has to be checked against the root tender

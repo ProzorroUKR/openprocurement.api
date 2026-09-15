@@ -82,7 +82,9 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
 
         # CS-21518 - for ESCO tenders we need to validate that minValue has valueAddedTaxIncluded False
         if self.should_validate_vat_not_included:
-            validate_value_vat_disabled(self.request, tender_min_value, "minValue")
+            validate_value_vat_disabled(
+                self.request, tender_min_value, "minValue", self.vat_not_included_validation_from
+            )
 
     def validate_tender_lots(self, tender: dict, before=None) -> None:
         """Validate lot minValue.
@@ -121,7 +123,9 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
 
             # CS-21518 - for ESCO tenders we need to validate that lot minValue has valueAddedTaxIncluded False
             if self.should_validate_vat_not_included:
-                validate_value_vat_disabled(self.request, lot_min_value, "lots.minValue")
+                validate_value_vat_disabled(
+                    self.request, lot_min_value, "lots.minValue", self.vat_not_included_validation_from
+                )
 
             self.set_tender_lot_data(tender, lot)
             self.validate_lot_minimal_step(lot, before)

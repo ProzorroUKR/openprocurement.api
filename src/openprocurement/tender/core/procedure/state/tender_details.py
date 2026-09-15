@@ -24,6 +24,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
+    EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
@@ -260,7 +261,7 @@ class BaseTenderDetailsMixing:
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
     should_validate_vat_not_included = False
-    vat_not_included_validation_from = None
+    vat_not_included_validation_from = EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM
     # complexAsset.arma has no contractTemplateName (the field used to be removed from its models)
     contract_template_name_allowed = True
     items_delivery_required = False
