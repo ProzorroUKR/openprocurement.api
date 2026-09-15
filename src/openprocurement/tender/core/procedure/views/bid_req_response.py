@@ -66,7 +66,7 @@ class BidReqResponseResource(BaseReqResponseResource):
             unless_allowed_by_qualification_milestone_24(
                 validate_operation_ecriteria_on_tender_status,
             ),
-            validate_input_data(PatchRequirementResponse, none_means_remove=True),
+            validate_input_data(PatchRequirementResponse),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",

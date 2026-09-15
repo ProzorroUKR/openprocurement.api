@@ -76,7 +76,7 @@ class CDEUTenderResource(TendersResource):
                     "active.stage2.pending",
                 )
             ),
-            validate_input_data(CDStage1EUPatchTender, none_means_remove=True),
+            validate_input_data(CDStage1EUPatchTender),
             validate_patch_data_simple(CDStage1EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
@@ -133,7 +133,7 @@ class CDUATenderResource(TendersResource):
                     "active.stage2.pending",
                 )
             ),
-            validate_input_data(CDStage1UAPatchTender, none_means_remove=True),
+            validate_input_data(CDStage1UAPatchTender),
             validate_patch_data_simple(CDStage1UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

@@ -69,7 +69,6 @@ class PQTenderBidResource(BelowThresholdTenderBidResource):
             validate_input_data(
                 PatchBid,
                 filters=(filter_administrator_bid_update,),
-                none_means_remove=True,
             ),
             validate_patch_data_simple(Bid, item_name="bid"),
         ),

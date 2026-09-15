@@ -26,23 +26,24 @@ from openprocurement.api.utils import (
 LOGGER = getLogger(__name__)
 
 
-def apply_data_patch(item, changes, none_means_remove=False):
+def apply_data_patch(item, changes):
     """
     :param item:
     :param changes:
-    :param none_means_remove:  if True, passing for ex. {"period": {"startDate": None}}
-    will actually delete field's value instead of replacing it with None
     :return:
+
+    Passing None, for ex. {"period": {"startDate": None}},
+    deletes the field's value instead of replacing it with None
     """
     patch_changes = []
-    prepare_patch(patch_changes, item, changes, none_means_remove=none_means_remove)
+    prepare_patch(patch_changes, item, changes)
     if not patch_changes:
         return {}
     r = apply_patch(item, patch_changes)
     return r
 
 
-def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
+def prepare_patch(changes, orig, patch, basepath=""):
     if isinstance(patch, dict):
         for i in patch:
             if i in orig:
@@ -51,9 +52,8 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
                     orig[i],
                     patch[i],
                     "{}/{}".format(basepath, i),
-                    none_means_remove=none_means_remove,
                 )
-            elif patch[i] is None and none_means_remove:
+            elif patch[i] is None:
                 pass  # already deleted
             else:
                 changes.append(
@@ -74,11 +74,10 @@ def prepare_patch(changes, orig, patch, basepath="", none_means_remove=False):
                     orig[i],
                     patch[i],
                     "{}/{}".format(basepath, i),
-                    none_means_remove=none_means_remove,
                 )
             else:
                 changes.append({"op": "add", "path": "{}/{}".format(basepath, i), "value": j})
-    elif none_means_remove and patch is None:
+    elif patch is None:
         changes.append({"op": "remove", "path": basepath})
     else:
         for x in make_patch(orig, patch).patch:

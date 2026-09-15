@@ -61,7 +61,7 @@ class PriceQuotationTenderResource(TendersResource):
                 validate_item_owner("tender"),
                 validate_tender_status_allows_update("draft"),
             ),
-            validate_input_data(PQPatchTender, none_means_remove=True),
+            validate_input_data(PQPatchTender),
             validate_patch_data_simple(PQTender, item_name="tender"),
             validate_item_quantity,
             validate_tender_guarantee,

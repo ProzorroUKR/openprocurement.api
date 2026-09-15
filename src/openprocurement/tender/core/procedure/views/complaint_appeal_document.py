@@ -88,7 +88,7 @@ class BaseComplaintAppealDocumentResource(BaseDocumentResource):
                 validate_item_owner("complaint"),
                 validate_item_owner("tender"),
             ),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
         ),
         permission="upload_complaint_appeal_documents",

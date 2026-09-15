@@ -90,7 +90,7 @@ class TenderStage2UEResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(CDStage2EUPatchTender, none_means_remove=True),
+            validate_input_data(CDStage2EUPatchTender),
             unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
             validate_patch_data_simple(CDStage2EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
@@ -144,7 +144,7 @@ class TenderStage2UAResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(CDStage2UAPatchTender, none_means_remove=True),
+            validate_input_data(CDStage2UAPatchTender),
             unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
             validate_patch_data_simple(CDStage2UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),

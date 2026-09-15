@@ -74,7 +74,7 @@ class ReportingTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_tender_status_allows_update("draft", "active")),
-            validate_input_data(ReportingPatchTender, none_means_remove=True),
+            validate_input_data(ReportingPatchTender),
             validate_patch_data_simple(ReportingTender, item_name="tender"),
         ),
         permission="edit_tender",
@@ -119,7 +119,7 @@ class NegotiationTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_tender_status_allows_update("draft", "active")),
-            validate_input_data(NegotiationPatchTender, none_means_remove=True),
+            validate_input_data(NegotiationPatchTender),
             validate_patch_data_simple(NegotiationTender, item_name="tender"),
         ),
         permission="edit_tender",
@@ -164,7 +164,7 @@ class NegotiationQuickTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_tender_status_allows_update("draft", "active")),
-            validate_input_data(PatchNegotiationQuickTender, none_means_remove=True),
+            validate_input_data(PatchNegotiationQuickTender),
             validate_patch_data_simple(NegotiationQuickTender, item_name="tender"),
         ),
         permission="edit_tender",

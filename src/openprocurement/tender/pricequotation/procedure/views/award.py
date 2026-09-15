@@ -33,10 +33,7 @@ class PQTenderAwardResource(TenderAwardResource):
             unless_admins(
                 validate_item_owner("tender"),
             ),
-            validate_input_data(
-                PatchAward,
-                none_means_remove=True,
-            ),
+            validate_input_data(PatchAward),
             validate_patch_data_simple(Award, item_name="award"),
             validate_update_award_in_not_allowed_status,
         ),
