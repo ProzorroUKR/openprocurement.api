@@ -8,7 +8,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "AwardCriteria.pdf",
     "description": "Нова версія AwardCriteria документу",
     "description_en": "new version of the AwardCriteria document",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=KGBqcT8ngrDj2LSbNYFZnmpzBp53sPihdF8xxiI7xlj58oLKSjqkvA1Y3h1SRQTiLn%2B4zCS3GCQABuBM2bb2Aw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c31d97a7a9524ab2bf9910ae93f129dc?Signature=xfxR1%2BRm3SGbZCnMxhwOV7wzoKzJ1k2mq6OqM1dvCyrWKOvy%2BaDYGLyT9WA3AufjS1wcrNnFUwG%2B0AMNcli8Dg%3D%3D&KeyID=a8968c46",
     "hash": "md5:11111111111111111111111111111111",
     "format": "application/pdf",
     "language": "en"
@@ -29,7 +29,7 @@ Content-Type: application/json
     "hash": "md5:11111111111111111111111111111111",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1f6e46ecf5b4734b57a1aceb67834c1?Signature=%2Bq%2F%2FE5Sml8snWliS1olYK%2Bk9P5xg%2Bp0PVGPhAjQOELiMK882BsSWbDnohWwS9zCChlXkEgWdayK5lb2oDaVeBA%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c31d97a7a9524ab2bf9910ae93f129dc?Signature=4zwgGDKckmFVYjuXAkiQ8tiev1LJUVhY%2Br1LwUp7hZ5oZJFCK50harepNERQzCttrLStFSdc9f4PJnOnnifuCg%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2027-01-01T00:10:05+02:00",
     "author": "tender_owner",

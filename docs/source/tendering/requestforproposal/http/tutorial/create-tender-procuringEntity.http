@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 5,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       }
     ],
     "enquiryPeriod": {
@@ -127,7 +127,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 1,
         "code": "standard",
         "percentage": 100,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -140,7 +140,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 45.55,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -153,7 +153,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 3,
         "percentage": 54.45,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       }
     ],
     "mainProcurementCategory": "services",
@@ -162,7 +162,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "85459ec7097d4e0489bc373a9f039e7a",
+        "id": "2ee29dd52fd4413e91352ec31b440ba8",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -230,7 +230,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -243,7 +243,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
           "type": "banking"
         },
         "sequenceNumber": 2,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -256,7 +256,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
           "type": "calendar"
         },
         "sequenceNumber": 3,
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       }
     ],
     "enquiryPeriod": {
@@ -291,7 +291,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "85459ec7097d4e0489bc373a9f039e7a"
+        "relatedLot": "2ee29dd52fd4413e91352ec31b440ba8"
       }
     ],
     "features": [
@@ -374,7 +374,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/24e30973cba241bc
         "title": "lot title",
         "description": "lot description",
         "date": "2027-01-01T00:00:00+02:00",
-        "id": "85459ec7097d4e0489bc373a9f039e7a",
+        "id": "2ee29dd52fd4413e91352ec31b440ba8",
         "status": "active",
         "value": {
           "currency": "UAH",
