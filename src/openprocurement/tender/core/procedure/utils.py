@@ -62,6 +62,9 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_bid, get_request
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
+from openprocurement.tender.core.procedure.serializers.tender_credentials import (
+    tender_token_serializer,
+)
 from openprocurement.tender.core.utils import QUICK, calculate_tender_full_date
 from openprocurement.tender.limited.constants import VALUE_AMOUNT_THRESHOLD_MAPPING
 
@@ -955,10 +958,6 @@ def prepare_shortlisted_firms_bid_keys(bid):
 
 
 def prepare_stage2_tender_data(tender: dict) -> dict:
-    from openprocurement.tender.core.procedure.serializers.tender_credentials import (  # circular import
-        tender_token_serializer,
-    )
-
     new_tender = {
         "id": uuid4().hex,
         "procurementMethod": "selective",

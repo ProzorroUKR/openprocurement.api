@@ -23,8 +23,8 @@ from openprocurement.api.validation import validate_list_uniq_factory
 from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
+    ReqStatuses,
 )
-from openprocurement.tender.core.procedure.models.criterion import ReqStatuses
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
     bid_in_invalid_status,

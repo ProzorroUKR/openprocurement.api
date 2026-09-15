@@ -13,8 +13,8 @@ from openprocurement.tender.belowthreshold.tests.base import (
     test_tender_below_data,
     test_tender_below_lots,
 )
+from openprocurement.tender.core.constants import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.lot import Lot
-from openprocurement.tender.core.procedure.models.milestone import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
 from openprocurement.tender.core.procedure.validation import (
     validate_tender_milestones_required,

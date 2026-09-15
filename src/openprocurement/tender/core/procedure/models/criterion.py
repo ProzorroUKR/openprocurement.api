@@ -36,6 +36,7 @@ from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_LIFE_CYCLE_COST,
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
+    ReqStatuses,
 )
 from openprocurement.tender.core.procedure.models.identifier import (
     LegislationIdentifier,
@@ -135,12 +136,6 @@ class PatchEligibleEvidence(BaseEligibleEvidence):
 
 
 # ---- Requirement
-
-
-class ReqStatuses:
-    ACTIVE = "active"
-    CANCELLED = "cancelled"
-    DEFAULT = ACTIVE
 
 
 class Unit(BaseUnit):

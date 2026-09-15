@@ -9,13 +9,15 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.api.validation import validate_tender_first_revision_date
-from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
+from openprocurement.tender.core.constants import (
+    CRITERION_TECHNICAL_FEATURES,
+    ReqStatuses,
+)
 from openprocurement.tender.core.procedure.models.criterion import (
     PatchRequirement,
     PatchTechnicalFeatureRequirement,
     PutExclusionLccRequirement,
     PutRequirement,
-    ReqStatuses,
     validate_criteria_requirement_uniq,
     validate_requirement_eligibleEvidences,
 )
