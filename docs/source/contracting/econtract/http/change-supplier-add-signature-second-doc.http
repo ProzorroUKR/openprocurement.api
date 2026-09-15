@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/a0a23a4028a6428fa088098d0d137d71/documents?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+POST /api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/changes/a0a23a4028a6428fa088098d0d137d71/documents?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "documentType": "contractSignature",
     "title": "sign.p7s",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ed1a03267d74439a10df773fe82885f?Signature=1vY%2F%2F4D%2B0hnE2o4atyps4EPqXIDnswQm2cfjP86PKuF8ncLBn4NGsoKeAIMkbTvXGhOQOkRJEsOquYGhuE5dAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9dc6bfe4683b4e63a799bbe366ba9376?Signature=7DWfdBRHAAJ%2B1P1BSGB%2FmCbWTCo%2BtmGS9jsRJ8ZjGLgs3620bu7fab8LAVooJfFR4ddSLVDqvY%2Brn2aywo2TAg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pkcs7-signature"
   }
@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/a0a23a4028a6428fa088098d0d137d71/documents/215698f490f544de97d8a8644e03094a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/changes/a0a23a4028a6428fa088098d0d137d71/documents/215698f490f544de97d8a8644e03094a
 
 {
   "data": {
@@ -24,7 +24,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c
     "title": "sign.p7s",
     "format": "application/pkcs7-signature",
     "hash": "md5:00000000000000000000000000000000",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ed1a03267d74439a10df773fe82885f?Signature=TnOfMUhVGj36apmahnlx%2BL4Auv5%2FIbVQgd%2FAPTJo0aJkes3y7o%2Fbc0mICafauD62EvcRXFphWy4V0TRvF3hHAg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9dc6bfe4683b4e63a799bbe366ba9376?Signature=%2BLgh9VhF5n7wmuNcFF6T%2Bjmx3ZE5OebUfgBYsTIQUnvJGC2XVvYlyijyC8iAq83srktGfhtCKMK8bky9f%2BnXCg%3D%3D&KeyID=a8968c46",
     "documentOf": "change",
     "documentType": "contractSignature",
     "id": "215698f490f544de97d8a8644e03094a",

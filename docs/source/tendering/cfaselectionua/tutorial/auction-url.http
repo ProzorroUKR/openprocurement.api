@@ -16,7 +16,6 @@ Content-Type: application/json
     "owner": "broker",
     "title": "футляри до державних нагород",
     "procurementMethod": "selective",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "next_check": "2027-01-04T15:28:52.219000+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
@@ -570,12 +569,12 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "startDate": "2026-12-31T23:57:00+02:00",
+      "startDate": "2026-12-28T00:01:00+02:00",
       "endDate": "2027-01-01T00:01:00+02:00"
     },
     "enquiryPeriod": {
-      "startDate": "2026-12-31T23:55:00+02:00",
-      "endDate": "2026-12-31T23:57:00+02:00"
+      "startDate": "2026-12-26T00:01:00+02:00",
+      "endDate": "2026-12-28T00:01:00+02:00"
     },
     "value": {
       "amount": 1001.11,
@@ -596,7 +595,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9d6f543de15e49ad8d717fd783b09be2?Signature=p1Htl4Tsx3cedcoOOWFzutOrHm4uVWyK8ALO1cb53u9wPKcpFDvTuqfrB1xIUVOt1q8GZFfrGBXX5%2B3pwrddAw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ba0f207674a43cf8e9d4c5871611d15?Signature=LBOVrszR%2FPkgCoL2sXgxu%2FmzZVj%2FZsLxKy%2BolJOPFUdWVmGXQ%2FA4uehXg4sua6XYNupyqdbZ0hqR2N8Fva4XDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -607,7 +606,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/22c5dd0650b9454abd44058614696080?Signature=udrWQE9uBl0F%2FS%2FsGQMhE8wUnU0VKqPA3%2BzRZa4symLJdIr8DHf27AGplsNp4y%2FsIW%2B3tMTwvNoWNQskQr%2FOBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/14359ceb09f94a278561e1aa1095f780?Signature=jUv8MCIlmqdUjUYc8hckYZx2mhZdO9EJBSiumxzi6Cnx6oP8PtkJ5FsFq2%2BMpBw9S%2FGzIHOslPFXmVJGFcU0BA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
         "id": "cf72effb0e9541309a7a47d9f981e6df",
@@ -622,7 +621,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2fdebf311eff4bcb874bcf4f1aec8391?Signature=qAfI28v7QOedJHNzOoVVK8MHj1LIVyKAvEqnUCkYj%2Fqv2nHmGaj%2FL20iYz7%2Bwiazkhx0Nmx3WmUs3q2ppDhIAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cc31c542db644a04a056d2f41e169385?Signature=3iLysvaWuh1GF%2FU9cep86w%2Flqj6f4NSoN3gzTgfNzmhT3LfbPYcXYU9Tcu4Gee8A7eQobbzpis4j9eTFpbu1CQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",

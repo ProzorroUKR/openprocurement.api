@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
+POST /api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "contract_changes.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/55f3fe2b7a644d97b28c15afd5c2d4e3?Signature=r7sJYB6MCO8s0%2BprZrND7gZrZAHPSk0%2B4o8nf1QUyjmlLGXq8vZt8OXfPwUaI7qy4%2Bl9uEpN57Oc5xLbAlRPAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8951da71589746199cc3c8345d51fe37?Signature=JzikcIXL71sjvVRTa1TTU0jFJz8Bk%2BR8C6J4i7rTY6Wxt3eJE6bxsA5Rl98Ilcdc23lfJ5hvw4CboS1OrZdBCQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/msword"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/8287e847137047e982ef13a48b3d8807
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents/8287e847137047e982ef13a48b3d8807
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_changes.doc",
     "format": "application/msword",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/55f3fe2b7a644d97b28c15afd5c2d4e3?Signature=fpE2QVkFunOW8tnugXB%2FFoWd44R1tJ%2BLCUgkreBKisHQo2ehaWahgQsCJ5pk60%2FDv9uiW9PWkRql1QJpzJTvBg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8951da71589746199cc3c8345d51fe37?Signature=Eh6fL9ydZXf0LJtuYMxpGuv%2FXHFQXYwZm%2B8DvyXhiFKzbCN6MaGp5L%2B8E8onS82JHdVQMGE0KmXixTr7DS5lBQ%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
     "id": "8287e847137047e982ef13a48b3d8807",
     "datePublished": "2027-01-01T00:00:00+02:00",

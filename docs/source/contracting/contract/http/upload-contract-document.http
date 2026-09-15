@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
+POST /api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "contract.doc",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ca42f137ebb429db8641d20bc0a4c16?Signature=pZcTEl6zyvCashBxVd3DUyfqRP6aFntj4jAXE33wox%2FOnq%2B3BmIx7ouPXqGY7qxZhVbIARvEVyHtsgXQyfh0DQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2dfb81496b645a9ad5080512e3c40f4?Signature=hpjTZhVhbq2MrC%2FX6EKUXeWJrFZBNTd5NlN4bZuWSI3KU8z6axhA3l14BxuW8%2FiNK86MwBhaKBzY78XcbZkJBQ%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/2fbed46a899e494894f6224492348ac6
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents/2fbed46a899e494894f6224492348ac6
 
 {
   "data": {
@@ -23,7 +23,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/78fd8d7877d74b
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract.doc",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ca42f137ebb429db8641d20bc0a4c16?Signature=wPZ4KHyoICeWU3esYpUFCySGfw7TCMwmZfQ2vccE%2BkPVtTych8bpbii6rJv3XUrHSc5ql09D78v9oj8Y0LkGBg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2dfb81496b645a9ad5080512e3c40f4?Signature=IHNzhEfMRmx22zABcPM6Zp4H1R396AMEglrbLvpoS12nE5caPCSmtg15%2FdPJH%2FM9EZpiVS9BwsAgvvPDKSl7CA%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
     "id": "2fbed46a899e494894f6224492348ac6",
     "datePublished": "2027-01-01T00:00:00+02:00",

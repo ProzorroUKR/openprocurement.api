@@ -111,7 +111,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "298e53f4bc69438cbaebc75fadfbb774",
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -123,7 +123,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5.0,
-        "product": "74ff8a4150f745a28b75ae83d4620986"
+        "product": "320701ea170c4dd0ade069195433631b"
       }
     ]
   }
@@ -300,7 +300,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
     ],
     "items": [
       {
-        "id": "298e53f4bc69438cbaebc75fadfbb774",
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -312,7 +312,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2874d5c2acd649bb
           "code": "KGM"
         },
         "quantity": 5.0,
-        "product": "74ff8a4150f745a28b75ae83d4620986"
+        "product": "320701ea170c4dd0ade069195433631b"
       }
     ],
     "value": {

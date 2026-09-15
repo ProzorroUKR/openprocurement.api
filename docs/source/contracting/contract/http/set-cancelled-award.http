@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/aec95489636a475a8d27f28efdf755af/awards/b7fe29de27d2483e839f7e5e9c47f5b0?acc_token=50c8dbad7b0c4fd49d4a96be7c4355af HTTP/1.0
+PATCH /api/2.5/tenders/aec95489636a475a8d27f28efdf755af/awards/816f9fa1e5de4bd2b577288952992647?acc_token=50c8dbad7b0c4fd49d4a96be7c4355af HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
 
 {
   "data": {
-    "id": "b7fe29de27d2483e839f7e5e9c47f5b0",
+    "id": "816f9fa1e5de4bd2b577288952992647",
     "status": "cancelled",
     "date": "2027-01-01T00:00:01+02:00",
     "value": {
@@ -56,12 +56,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "5494b4a851b44e6c8622d997bde0e125",
+        "id": "567bc3192c094095a86dc3361168ed53",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e340b6652480494bb132dff01176b48d?Signature=ac5YwKmjoY3mdrm29KIhTxvfcNfwNFnssGb9kISTEYBQutFrn6BMbTqliPSRx1rhB%2BMS8oFs3JdXwnN1VjcRDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9ca52b3a34ed43afa5ddd476aaff2f6b?Signature=XJNjn%2FUP5YgNNtvjPxwfcDz1hEDLhmL1%2FP%2FbIKSs7KWlZQV%2BXxHjy4l9%2BptYXUJTE4TPP3K0R6w0rw6H5vLWBg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -70,7 +70,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     ],
     "period": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-01T00:05:00+02:00"
+      "endDate": "2027-01-08T00:00:00+02:00"
     },
     "qualified": true
   }

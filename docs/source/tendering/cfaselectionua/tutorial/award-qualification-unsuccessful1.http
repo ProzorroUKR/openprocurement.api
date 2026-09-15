@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/awards/15311c22012d43aab79b0fd3693ebe66?acc_token=71a2cd2ca3764e0ba43ac51484c2c194 HTTP/1.0
+PATCH /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/awards/404030003db6477b9884a125c7b857ee?acc_token=71a2cd2ca3764e0ba43ac51484c2c194 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -13,11 +13,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/awards/d5645e1192a3486c91afeace22badd1b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/awards/022f6a0f6f8a4cd7948fd6b5b7df3db0
 
 {
   "data": {
-    "id": "15311c22012d43aab79b0fd3693ebe66",
+    "id": "404030003db6477b9884a125c7b857ee",
     "status": "unsuccessful",
     "date": "2027-01-01T00:01:00+02:00",
     "value": {
@@ -58,12 +58,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "89ff163cc3954820871cd2547730cc9c",
+        "id": "42f19f1da62d49fbb3897eb7b86a945c",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fc54ba48954c4cc689f8a0c4a7c8e923?Signature=4KXSv5P40eEViwHoEZKcNROZRQkqTh7UxLpuqxk%2BmENxG2NYmonROxl4VtRMOHCYyUIjqQ7LLVf%2B70rQ%2F2icDQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a499d50a22e54269a4c49b72eeb1ec6b?Signature=ezIzVFjQ2XwLY0TlkY6KWB36dyNtPZacTbX2mUvU5pBiv%2Bx37I6gsMbRy7g%2BBCTI4MtHA4UvkM6OePIE3N8RCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:01:00+02:00",
         "author": "tender_owner",
@@ -72,7 +72,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
     ],
     "period": {
       "startDate": "2027-01-01T00:01:00+02:00",
-      "endDate": "2027-01-01T00:06:00+02:00"
+      "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": false
   }

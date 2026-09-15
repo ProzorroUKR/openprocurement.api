@@ -23,12 +23,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "contractProforma",
-        "id": "11e3119824634e14917113d920efcc5f",
+        "id": "8eb1af1544444582bfbb0a68d5f415cd",
         "datePublished": "2024-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c254044900c84a13a1a611bafaff3bff?Signature=%2FBtPSTQMu5tB2CZ%2Bsu4BgSuHZv1eFXkHY1eBBs3%2Fq3GWaq3Hr5iYKqSDHfChQ2pDVwem9K4HDZXdth3TD886BQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/aa3734020b2f47f189df384ba5003966?Signature=pcm45sUiDd2RFRHmrjGZNvfJXVjXrLql40cHt47tmJ1kKX%2BSeAaNsip70s%2BLdrtoejMAxMJcEFZjn1qLYMuVDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2024-01-01T00:00:01+02:00",
         "author": "tender_owner",
@@ -37,12 +37,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "ec61ebe3db844a0785c2e7596d85dfe1",
+        "id": "29c1b93ff276465ea335e7d5080a5910",
         "datePublished": "2024-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1fe57177b3e0418f9f5c20df47d73b64?Signature=RIPCpFJVDDbOrCAg7MusooIKP63eNLu7fF0Q12LHD2pCszC6dTtNpyvb3ydlsIeWob4j6mrRgvEMK2UDmMFTBw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/17fcf59747f74e2f91397a15ecb36c53?Signature=VsT7Y9HMROGoWjJC%2FHlgpCTPfOJ0y7dPVkd%2BxJkiTSk3YgboJrkXPZp1iYoc%2Byu4bOiGoAc0cY5MUO3%2FbpGxCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2024-01-01T00:00:01+02:00",
         "author": "tender_owner",
@@ -54,7 +54,6 @@ Content-Type: application/json
     "title": "Комп’ютерне обладнання",
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -209,7 +208,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "298e53f4bc69438cbaebc75fadfbb774",
+        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -283,7 +282,7 @@ Content-Type: application/json
         "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
         "relatesTo": "item",
-        "relatedItem": "298e53f4bc69438cbaebc75fadfbb774",
+        "relatedItem": "30c4edcb5705460a9ca5fd7985bfe56c",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"

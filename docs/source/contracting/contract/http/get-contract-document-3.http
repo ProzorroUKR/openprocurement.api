@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/78fd8d7877d74b0dbc9c605462545e1c/documents/a888cf00603840d1abb56cc931b8e6a4?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
+GET /api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f/documents/a888cf00603840d1abb56cc931b8e6a4?acc_token=05e4dac70d1f462296b4d441345fbc83 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,7 @@ Content-Type: application/json
     "hash": "md5:00000000000000000000000000000000",
     "title": "contract_additional_docs.doc",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/80e4d25d6f164952b1b77203807812b0?Signature=%2FS6NdCU6nEe3D%2Bd%2BNpvxK6JVZJO6asowqJX78f5cywGddbm7OoTF6QZSebhK763%2BBmuEQgziyA8koQYI49g6Cg%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a9311975ab314480acfbb59c2e09b9a8?Signature=eLLNv1wdCAVGGf7H9Hwp21H7crlhV%2B%2Fq4mOML4yjIThwAfk7XkkajH0O39kI9meZU68FWK6qokxpJAhZxRBCCw%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
@@ -23,7 +23,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/024613a266b64cfc940353a177cdb0cf?Signature=94ERYvut4jho28dmJ%2FPMpj6clOf8Cg%2FTZO0kG8JxkVVlAtHxlFF3h%2BIoZSosur%2B75B7M8KQnvIYrr%2FVAtwzCAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ef2fb5872c82422ca7d0ece4f4a3e8ed?Signature=I8gJNoDiXD6FQ7BeRWhIrPoEI9fuGvOVZ7TdmhrsxYLNoArvD6V39NiH79jqI0YTHQApHrbvnGq1Z9dYnDHzDA%3D%3D&KeyID=a8968c46",
         "documentOf": "contract",
         "id": "a888cf00603840d1abb56cc931b8e6a4",
         "datePublished": "2027-01-01T00:00:00+02:00",

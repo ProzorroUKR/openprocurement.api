@@ -11,7 +11,6 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
-    "procurementMethodDetails": "quick, accelerator=1440",
     "status": "complete",
     "milestones": [
       {
@@ -122,8 +121,8 @@ Content-Type: application/json
       }
     ],
     "tenderPeriod": {
-      "endDate": "2026-12-31T23:59:00+02:00",
-      "startDate": "2026-12-31T23:50:00+02:00"
+      "endDate": "2026-12-31T00:00:00+02:00",
+      "startDate": "2026-12-22T00:00:00+02:00"
     },
     "procurementMethodType": "priceQuotation",
     "agreement": {
@@ -359,7 +358,7 @@ Content-Type: application/json
             "values": [
               "Розчин для інфузій"
             ],
-            "id": "1054ea577ea8436eac8ff9d0e00ba341",
+            "id": "436a7d18ebeb4f0698e4ef994a9f257e",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -371,7 +370,7 @@ Content-Type: application/json
               "title": "Доза діючої речовини"
             },
             "value": 5,
-            "id": "9a84ee2aa2b04886abf0fd24864ad3bb",
+            "id": "7655a0eebcb84b47873b83d61bb79e83",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -390,7 +389,7 @@ Content-Type: application/json
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "c72949fd98fc4f8ea3e0efdf9f3e2141",
+            "id": "c55bd29bc47d4293b8d5ed07d8bc37b3",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -457,7 +456,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "aed53365f2984c81ab200bb5efb88f78",
+        "id": "0e7d278a615d4e0d8f9619ec09b4285b",
         "date": "2027-01-01T00:00:00+02:00",
         "submissionDate": "2027-01-01T00:00:00+02:00",
         "initialValue": {
@@ -502,17 +501,17 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "aed53365f2984c81ab200bb5efb88f78",
+        "bid_id": "0e7d278a615d4e0d8f9619ec09b4285b",
         "documents": [
           {
             "confidentiality": "public",
             "documentType": "notice",
-            "id": "4b11a478c0c044a6815d79adecd1ec4c",
+            "id": "89a52f9b67d64f839607fda7214df3c4",
             "datePublished": "2027-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
-            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c2b1a216ee124179b526ac3add4c547d?Signature=cv6FWVYPi2BabKNeFSOWY%2F3WYoy1qFd6oanA%2F4JrCjU7LocI%2FuebHJsiphr2gWTbQu0hRlRzmcKJTrlniM6zCw%3D%3D&KeyID=a8968c46",
+            "url": "http://public-docs-sandbox.prozorro.gov.ua/get/19490ea9427f4458b9607cd94d20b5e3?Signature=yCoELtqowpqESVTm03OLr9Gm%2B9kkSxZUiUcpD3rkM7e6gsTbJJd0t1YVxjXL3eWFweY%2B0Ocl48YHMi6cJCJPDQ%3D%3D&KeyID=a8968c46",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "author": "tender_owner",
@@ -522,7 +521,7 @@ Content-Type: application/json
         "qualified": true
       },
       {
-        "id": "a3c034843f4b4ac99f12c19fd712c23f",
+        "id": "f5f22244d7374cd4be8731a9cdbf169d",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
@@ -552,16 +551,16 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "aed53365f2984c81ab200bb5efb88f78",
+        "bid_id": "0e7d278a615d4e0d8f9619ec09b4285b",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
-          "endDate": "2027-01-01T00:02:00+02:00"
+          "endDate": "2027-01-05T00:00:00+02:00"
         }
       }
     ],
     "contracts": [
       {
-        "id": "78fd8d7877d74b0dbc9c605462545e1c",
+        "id": "5e1ed225fd3b411c9e51121f2767710f",
         "status": "active",
         "awardID": "765d1e83c038413ab7717ec5e820fdfd",
         "date": "2027-01-01T00:00:00+02:00",

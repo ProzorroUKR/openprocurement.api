@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/37d2cea7a3564774858ad5c8681f57b1/documents?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
+POST /api/2.5/contracts/220153069a7c45dfb1ed4f250d17299d/documents?acc_token=47c3f4968e1341499809200105e2aade HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "documentType": "contractSignature",
     "title": "sign.p7s",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ed1a03267d74439a10df773fe82885f?Signature=1vY%2F%2F4D%2B0hnE2o4atyps4EPqXIDnswQm2cfjP86PKuF8ncLBn4NGsoKeAIMkbTvXGhOQOkRJEsOquYGhuE5dAw%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9dc6bfe4683b4e63a799bbe366ba9376?Signature=7DWfdBRHAAJ%2B1P1BSGB%2FmCbWTCo%2BtmGS9jsRJ8ZjGLgs3620bu7fab8LAVooJfFR4ddSLVDqvY%2Brn2aywo2TAg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pkcs7-signature"
   }
