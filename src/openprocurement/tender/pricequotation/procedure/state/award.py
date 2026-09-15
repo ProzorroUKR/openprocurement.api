@@ -1,4 +1,3 @@
-from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
@@ -7,15 +6,6 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):
     procurement_kinds_not_required_sign = ("other",)  # in case when signing award will be required in the future
-    award_unsuccessful_cancel_allowed = False
-
-    def award_status_up_from_pending_to_active(self, award, tender):
-        self.request.validated["contracts_added"] = add_contracts(self.request, award)
-        self.add_next_award()
-
-    def award_status_up_from_active_to_cancelled(self, award, tender):
-        self.cancel_award(award)
-        self.add_next_award()
-
-    def award_status_up_from_pending_to_unsuccessful(self, award, tender):
-        self.add_next_award()
+    award_unsuccessful_cancel_requires_considered_complaints = False
+    award_unsuccessful_cancel_forbidden_with_active_contract = True
+    award_unsuccessful_cancel_all_lot_awards = True
