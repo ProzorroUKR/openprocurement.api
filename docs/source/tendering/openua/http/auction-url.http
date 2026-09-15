@@ -1177,7 +1177,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
       }
     ],
     "procurementMethodType": "aboveThresholdUA",
@@ -1221,7 +1221,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "1a0da17891e04af7a0eda87d40a4a290",
+        "id": "9b38261d286443aa8f962bbc2f967733",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -1237,7 +1237,7 @@ Content-Type: application/json
           "startDate": "2027-01-04T15:28:52.219000+02:00",
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/afbae9188b434d3bb77426b13e9a5165_1a0da17891e04af7a0eda87d40a4a290"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/afbae9188b434d3bb77426b13e9a5165_9b38261d286443aa8f962bbc2f967733"
       }
     ],
     "auctionPeriod": {},

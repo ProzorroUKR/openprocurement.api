@@ -195,7 +195,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       },
       {
         "id": "994db85df9984f048a1ba611a69e6927",
@@ -206,7 +206,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       }
     ],
     "tenderers": [
@@ -356,7 +356,7 @@ Content-Type: application/json
     ],
     "lotValues": [
       {
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
         "value": {
@@ -427,7 +427,7 @@ Content-Type: application/json
             "days": 74
           }
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_16dcfa2a699842d3a0f9b9553db58532?key_for_bid=df6178558a0f488a8b2fe13bc75b4856"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_2c30a88143864ab8a66161c07da2d69e?key_for_bid=df6178558a0f488a8b2fe13bc75b4856"
       }
     ]
   }

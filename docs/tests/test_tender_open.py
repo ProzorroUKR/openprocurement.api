@@ -45,12 +45,12 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(

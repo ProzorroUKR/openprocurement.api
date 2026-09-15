@@ -45,8 +45,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
         contract_owner_required_from_patcher = patch(
             "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
             get_now() - timedelta(days=1),
@@ -55,8 +55,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         self.addCleanup(contract_owner_required_from_patcher.stop)
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     @patch_market(
         {

@@ -44,7 +44,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
       }
     ],
     "items": [
@@ -61,7 +61,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
       }
     ]
   }
@@ -88,7 +88,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290"
+        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -132,7 +132,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "1a0da17891e04af7a0eda87d40a4a290",
+        "relatedLot": "9b38261d286443aa8f962bbc2f967733",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],

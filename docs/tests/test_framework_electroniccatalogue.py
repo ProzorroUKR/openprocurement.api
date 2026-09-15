@@ -25,12 +25,12 @@ class FrameworkElectronicCatalogueResourceTest(BaseFrameworkWebTest, MockWebTest
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs(self):
         self.app.authorization = ("Basic", ("broker", ""))

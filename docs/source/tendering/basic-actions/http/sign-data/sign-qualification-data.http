@@ -1133,7 +1133,7 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
+          "relatedLot": "cc78e47cfb97438a83a7976a51b795ac"
         }
       ],
       "procurementMethodType": "aboveThresholdEU",
@@ -1180,7 +1180,7 @@ Content-Type: application/json
           "title": "lot title",
           "description": "lot description",
           "status": "active",
-          "id": "5666a4d7fa694af28825b1971b3912b9",
+          "id": "cc78e47cfb97438a83a7976a51b795ac",
           "date": "2027-01-01T00:00:00+02:00",
           "value": {
             "currency": "UAH",
@@ -1196,7 +1196,7 @@ Content-Type: application/json
             "startDate": "2027-01-01T00:00:00+02:00",
             "endDate": "2027-01-01T00:00:00+02:00"
           },
-          "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_5666a4d7fa694af28825b1971b3912b9"
+          "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/8c3e76b8d9cc43d0bdb4c17cd43538ba_cc78e47cfb97438a83a7976a51b795ac"
         }
       ],
       "noticePublicationDate": "2027-01-01T00:00:00+02:00",
@@ -1404,12 +1404,12 @@ Content-Type: application/json
                 "code": "KGM"
               },
               "quantity": 1.0,
-              "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
+              "relatedLot": "cc78e47cfb97438a83a7976a51b795ac"
             }
           ],
           "lotValues": [
             {
-              "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+              "relatedLot": "cc78e47cfb97438a83a7976a51b795ac",
               "status": "active"
             }
           ],
@@ -1682,12 +1682,12 @@ Content-Type: application/json
                 "code": "KGM"
               },
               "quantity": 1.0,
-              "relatedLot": "5666a4d7fa694af28825b1971b3912b9"
+              "relatedLot": "cc78e47cfb97438a83a7976a51b795ac"
             }
           ],
           "lotValues": [
             {
-              "relatedLot": "5666a4d7fa694af28825b1971b3912b9",
+              "relatedLot": "cc78e47cfb97438a83a7976a51b795ac",
               "status": "active"
             }
           ],

@@ -1114,7 +1114,7 @@ Content-Type: application/json
               "code": "KGM"
             },
             "quantity": 1.0,
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
           },
           {
             "id": "994db85df9984f048a1ba611a69e6927",
@@ -1125,7 +1125,7 @@ Content-Type: application/json
               "code": "KGM"
             },
             "quantity": 1.0,
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
           }
         ],
         "tenderers": [
@@ -1275,7 +1275,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e",
             "status": "active",
             "date": "2027-01-01T00:02:01+02:00",
             "value": {
@@ -1537,7 +1537,7 @@ Content-Type: application/json
               "code": "KGM"
             },
             "quantity": 1.0,
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
           },
           {
             "id": "994db85df9984f048a1ba611a69e6927",
@@ -1548,7 +1548,7 @@ Content-Type: application/json
               "code": "KGM"
             },
             "quantity": 1.0,
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
           }
         ],
         "tenderers": [
@@ -1603,7 +1603,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e",
             "status": "active",
             "date": "2027-01-01T00:02:01+02:00",
             "value": {
@@ -1946,7 +1946,7 @@ Content-Type: application/json
         ],
         "lotValues": [
           {
-            "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+            "relatedLot": "2c30a88143864ab8a66161c07da2d69e",
             "status": "unsuccessful"
           }
         ]
@@ -2045,7 +2045,7 @@ Content-Type: application/json
       {
         "id": "d9f6a5fc0b29462f8b8b93fe4f6ee738",
         "bidID": "df6178558a0f488a8b2fe13bc75b4856",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "lotID": "2c30a88143864ab8a66161c07da2d69e",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
         "qualified": true,
@@ -2058,7 +2058,7 @@ Content-Type: application/json
       {
         "id": "97ac9eb5153f4fa98f3b7f072a2ae7b3",
         "bidID": "211ad5e38e1549b7ac3152cb585f4968",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "lotID": "2c30a88143864ab8a66161c07da2d69e",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
         "qualified": true,
@@ -2071,7 +2071,7 @@ Content-Type: application/json
       {
         "id": "31816783d91a458b9df737c265d4e173",
         "bidID": "1bbdb78635404edb8b83d0d4848a3e14",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "lotID": "2c30a88143864ab8a66161c07da2d69e",
         "status": "unsuccessful",
         "date": "2027-01-01T00:02:01+02:00",
         "qualified": false,
@@ -2243,7 +2243,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       },
       {
         "id": "994db85df9984f048a1ba611a69e6927",
@@ -2269,7 +2269,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532"
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e"
       }
     ],
     "awardCriteria": "ratedCriteria",
@@ -2318,7 +2318,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "16dcfa2a699842d3a0f9b9553db58532",
+        "id": "2c30a88143864ab8a66161c07da2d69e",
         "date": "2027-01-01T00:00:00+02:00",
         "minValue": {
           "currency": "UAH",
@@ -2331,7 +2331,7 @@ Content-Type: application/json
           "startDate": "2027-01-01T00:02:01+02:00",
           "endDate": "2027-01-01T00:02:01+02:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_16dcfa2a699842d3a0f9b9553db58532"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/d083afc12b7747e5bd81d1d72a477b24_2c30a88143864ab8a66161c07da2d69e"
       }
     ],
     "auctionPeriod": {},
@@ -2377,7 +2377,7 @@ Content-Type: application/json
           }
         ],
         "bid_id": "df6178558a0f488a8b2fe13bc75b4856",
-        "lotID": "16dcfa2a699842d3a0f9b9553db58532",
+        "lotID": "2c30a88143864ab8a66161c07da2d69e",
         "documents": [
           {
             "confidentiality": "public",

@@ -1551,9 +1551,10 @@ def tender_bidder_confidential_document(self):
     self.assertEqual(response.json["data"], {k: v for k, v in doc_data.items() if k != "url"})
 
     # download as tender owner
+    key = doc_data["url"].split("/")[-1].split("?")[0]
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?acc_token={}&download=1".format(
-            self.tender_id, self.bid_id, doc_data["id"], self.tender_token
+        "/tenders/{}/bids/{}/documents/{}?acc_token={}&download={}".format(
+            self.tender_id, self.bid_id, doc_data["id"], self.tender_token, key
         )
     )
     self.assertEqual(response.status_code, 302)
@@ -1564,7 +1565,8 @@ def tender_bidder_confidential_document(self):
 
     # download as tender public
     response = self.app.get(
-        "/tenders/{}/bids/{}/documents/{}?download=1".format(self.tender_id, self.bid_id, doc_data["id"]), status=403
+        "/tenders/{}/bids/{}/documents/{}?download={}".format(self.tender_id, self.bid_id, doc_data["id"], key),
+        status=403,
     )
     self.assertEqual(
         response.json,

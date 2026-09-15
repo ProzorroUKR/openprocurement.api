@@ -123,20 +123,26 @@ test_tender_below_data = {
 if SANDBOX_MODE:
     test_tender_below_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-test_tender_below_data["enquiryPeriod"] = {
-    "endDate": calculate_tender_full_date(
-        now,
-        timedelta(days=9),
-        tender=test_tender_below_data,
-    ).isoformat()
-}
-test_tender_below_data["tenderPeriod"] = {
-    "endDate": calculate_tender_full_date(
-        dt_from_iso(test_tender_below_data["enquiryPeriod"]["endDate"]),
-        timedelta(days=10),
-        tender=test_tender_below_data,
-    ).isoformat()
-}
+
+def set_tender_below_periods(data, start=None):
+    start = start or get_now()
+    data["enquiryPeriod"] = {
+        "endDate": calculate_tender_full_date(
+            start,
+            timedelta(days=9),
+            tender=data,
+        ).isoformat()
+    }
+    data["tenderPeriod"] = {
+        "endDate": calculate_tender_full_date(
+            dt_from_iso(data["enquiryPeriod"]["endDate"]),
+            timedelta(days=10),
+            tender=data,
+        ).isoformat()
+    }
+
+
+set_tender_below_periods(test_tender_below_data, start=now)
 
 # A valid funder's identifier (scheme + id) must be one of the tender_funder.json
 # dictionary entries (World Bank here).
@@ -330,6 +336,11 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     periods = PERIODS
     guarantee_criterion = None
+
+    def setUp(self):
+        super().setUp()
+        if self.initial_data and "enquiryPeriod" in self.initial_data:
+            set_tender_below_periods(self.initial_data)
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", extra={"status": "active.enquires"})

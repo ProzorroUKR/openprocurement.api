@@ -27,6 +27,7 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.belowthreshold.tests.base import (
+    set_tender_below_periods,
     test_tender_below_base_organization,
     test_tender_below_buyer,
     test_tender_below_cancellation,
@@ -3853,6 +3854,7 @@ def patch_enquiry_tender_periods(self):
 )
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_below_data)
+    set_tender_below_periods(data)
     data["status"] = "draft"
     data["minimalStep"] = {"amount": 15}  # minimalStep is required for hasAuction True and if tender doesn't have lots
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -3874,6 +3876,7 @@ def tender_created_before_related_lot_is_required(self):
 )
 def tender_created_after_related_lot_is_required(self):
     data = deepcopy(test_tender_below_data)
+    set_tender_below_periods(data)
     data["status"] = "draft"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
@@ -4253,6 +4256,7 @@ def tender_milestones_sequence_number(self):
 
 def check_notice_doc_during_activation(self):
     data = deepcopy(test_tender_below_data)
+    set_tender_below_periods(data)
     data["status"] = "draft"
     lots = deepcopy(self.test_lots_data)
     set_tender_lots(data, lots)
@@ -4330,6 +4334,7 @@ def check_notice_doc_during_activation(self):
 
 def check_minimal_step_during_activation(self):
     data = deepcopy(test_tender_below_data)
+    set_tender_below_periods(data)
     data["status"] = "draft"
     data["minimalStep"] = {"amount": 15, "currency": "UAH"}
     # if tender doesn't have lots it is allowed to add minimalStep

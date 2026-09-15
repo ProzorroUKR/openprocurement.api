@@ -111,12 +111,12 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_complaints(self):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -3906,12 +3906,12 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_milestones(self):
         self.app.authorization = ("Basic", ("broker", ""))
@@ -4473,12 +4473,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     @patch_market(
         {

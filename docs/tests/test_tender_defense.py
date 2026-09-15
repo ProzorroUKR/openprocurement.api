@@ -40,12 +40,12 @@ class TenderUAResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def test_docs_config_csv(self):
         self.write_config_pmt_csv(
@@ -532,8 +532,8 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
     initial_bids = test_bids
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
         self.create_tender()
         with change_auth(self.app, ("Basic", ("token", ""))):
             response = self.app.post_json(
@@ -549,6 +549,10 @@ class TenderUADefenceNewComplaintsResourceTest(BaseTenderUAWebTest, MockWebTestM
             )
         award = response.json["data"]
         self.award_id = award["id"]
+
+    def tearDown(self):
+        super().tearDown()
+        self.tearDownMock()
 
     def test_docs(self):
         # list awards

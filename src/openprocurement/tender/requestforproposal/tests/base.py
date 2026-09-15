@@ -201,20 +201,26 @@ test_tender_rfp_data = {
 if SANDBOX_MODE:
     test_tender_rfp_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
-test_tender_rfp_data["enquiryPeriod"] = {
-    "endDate": calculate_tender_full_date(
-        now,
-        timedelta(days=9),
-        tender=test_tender_rfp_data,
-    ).isoformat()
-}
-test_tender_rfp_data["tenderPeriod"] = {
-    "endDate": calculate_tender_full_date(
-        dt_from_iso(test_tender_rfp_data["enquiryPeriod"]["endDate"]),
-        timedelta(days=10),
-        tender=test_tender_rfp_data,
-    ).isoformat()
-}
+
+def set_tender_rfp_periods(data, start=None):
+    start = start or get_now()
+    data["enquiryPeriod"] = {
+        "endDate": calculate_tender_full_date(
+            start,
+            timedelta(days=9),
+            tender=data,
+        ).isoformat()
+    }
+    data["tenderPeriod"] = {
+        "endDate": calculate_tender_full_date(
+            dt_from_iso(data["enquiryPeriod"]["endDate"]),
+            timedelta(days=10),
+            tender=data,
+        ).isoformat()
+    }
+
+
+set_tender_rfp_periods(test_tender_rfp_data, start=now)
 
 test_tender_rfp_with_inspector_data = deepcopy(test_tender_rfp_data)
 test_tender_rfp_with_inspector_data.update({"funders": [funder], "inspector": funder})
@@ -412,6 +418,8 @@ class BaseTenderWebTest(BaseCoreWebTest):
         super().setUp()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
+        if self.initial_data and "enquiryPeriod" in self.initial_data:
+            set_tender_rfp_periods(self.initial_data)
         if self.initial_lots:
             self.initial_lots = deepcopy(self.initial_lots)
             set_tender_lots(self.initial_data, self.initial_lots)

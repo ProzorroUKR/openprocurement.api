@@ -311,12 +311,12 @@ class TenderConfigBaseTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCS
     blacklist = (r"/tests/.*\.py",)
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
-        self.tearDownMock()
         super().tearDown()
+        self.tearDownMock()
 
     def add_criteria(self, tender_id, owner_token):
         # add criteria

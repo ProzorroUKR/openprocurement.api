@@ -275,7 +275,7 @@ Content-Type: application/json
     ],
     "lotValues": [
       {
-        "relatedLot": "16dcfa2a699842d3a0f9b9553db58532",
+        "relatedLot": "2c30a88143864ab8a66161c07da2d69e",
         "status": "unsuccessful"
       }
     ]

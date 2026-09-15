@@ -1123,6 +1123,7 @@ def tender_confidential_documents(self):
     # get directly as tender owner
     response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}")
     self.assertIn("url", response.json["data"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
     # get directly as public
     response = self.app.get(f"/tenders/{self.tender_id}/documents/{doc_id}")
@@ -1134,7 +1135,7 @@ def tender_confidential_documents(self):
 
     # download as tender owner
     response = self.app.get(
-        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}&download=1",
+        f"/tenders/{self.tender_id}/documents/{doc_id}?acc_token={self.tender_token}&download={key}",
     )
     self.assertEqual(response.status_code, 302)
     self.assertIn("http://localhost/get/", response.location)
@@ -1144,7 +1145,7 @@ def tender_confidential_documents(self):
 
     # download as tender public
     response = self.app.get(
-        f"/tenders/{self.tender_id}/documents/{doc_id}?download=1",
+        f"/tenders/{self.tender_id}/documents/{doc_id}?download={key}",
         status=403,
     )
     self.assertEqual(
