@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1e348b7fcc2c4e208c3acb538a30a9bb/awards/991aaba7d0f54d72b5ecb8943bfcdcd0?acc_token=0aff03b619d44f96b3106053625a7357 HTTP/1.0
+PATCH /api/2.5/tenders/1e348b7fcc2c4e208c3acb538a30a9bb/awards/7bce64070e8c4b99b31e8b147b4f6308?acc_token=0aff03b619d44f96b3106053625a7357 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "991aaba7d0f54d72b5ecb8943bfcdcd0",
+    "id": "7bce64070e8c4b99b31e8b147b4f6308",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
     "value": {
@@ -52,12 +52,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "e436285c8e9d4ef3b544521e278428a2",
+        "id": "71747c20ffc94c35ac1667d01cfcf151",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9510b53f5dd74081b27efe3ab282827a?Signature=moE%2BdidrjsIRZCl20pGYWsIxkuqGVj1s9t06NnjCxPGmg0L38%2FFmWUu4vMdhQIEetzu9wDwRyTduzZlZFdeqCQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/72dea3e8a2b74e20b299439b4ad750a3?Signature=LR6oLMW7Kw998gOX%2FiQhbNU5G1tH2BuLSUIBIWZztmlldHx9c%2F7ICfLQh6S24Flt2pQt7gtPesl1I22Tx6yTCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -66,12 +66,12 @@ Content-Type: application/json
     ],
     "period": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-08T00:00:00+02:00"
+      "endDate": "2027-01-01T00:05:00+02:00"
     },
     "qualified": true,
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-05T00:00:00+02:00"
+      "endDate": "2027-01-01T00:02:00+02:00"
     }
   }
 }

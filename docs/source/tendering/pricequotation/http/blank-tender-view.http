@@ -11,6 +11,7 @@ Content-Type: application/json
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
     "title": "Комп’ютерне обладнання",
+    "procurementMethodDetails": "quick, accelerator=1440",
     "status": "draft",
     "milestones": [
       {
@@ -52,7 +53,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "id": "298e53f4bc69438cbaebc75fadfbb774",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -125,7 +126,7 @@ Content-Type: application/json
         "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
         "relatesTo": "item",
-        "relatedItem": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "relatedItem": "298e53f4bc69438cbaebc75fadfbb774",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"

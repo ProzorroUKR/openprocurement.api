@@ -173,7 +173,7 @@ Content-Type: application/json
       ],
       "items": [
         {
-          "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+          "id": "298e53f4bc69438cbaebc75fadfbb774",
           "description": "Комп’ютерне обладнання",
           "unit": {
             "name": "кг",
@@ -185,7 +185,7 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 5.0,
-          "product": "a1a8ab99dc9244f1bba8d83b39543926"
+          "product": "d00f8b8ed5d74adfbdfb2e1d76141508"
         }
       ],
       "value": {
@@ -228,7 +228,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal.p7s",
           "format": "sign/p7s",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0c4facd2ccf4da8b83d04b0beb94c85?Signature=EUuHrPRN9JfMPae13U5%2F40s%2BIyXR6rK%2B%2FbV%2BNAjT7qTELiXpBzWAmQWJ0Ro1cZ8cMcf0OoTowSQoK9IeRbpKBg%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/54f42027d4ba4c42a8b6ad7e48f67450?Signature=LHbSiqB3Olln97h7iL3hW0KLP6gXv5pc5leETRrw7dJRfJuVMrj1jW%2Bj7FNja%2Fp1EVXiwcnfoXojfkxIGVcvAg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2024-01-01T00:00:01+02:00",
           "language": "uk"
@@ -405,7 +405,7 @@ Content-Type: application/json
       ],
       "items": [
         {
-          "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+          "id": "298e53f4bc69438cbaebc75fadfbb774",
           "description": "Комп’ютерне обладнання",
           "unit": {
             "name": "кг",
@@ -417,7 +417,7 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 5.0,
-          "product": "64f71e95335148ce9aa99c3e65c9150c"
+          "product": "a67f8c0946834e2b8b1896c7b773c523"
         }
       ],
       "value": {
@@ -458,7 +458,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e60395021f82401794cf794d2d778174?Signature=Wik5JD7p5h%2F%2Bvz%2FUYKxzcE2HWzbwtS%2BpEhmjDVLq2UJREucO5%2BCfcSCPM6B0BHmv7JDRxO3AHotaFGsT5ilCDA%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/698d92a9f6844936ab8781c227a56439?Signature=UkshdTItQNIBNI7GYf%2BZKT%2BDa3dFhMi3CE%2BBPR6h3cIKlEp5SOQW1iGkVq5rEh8zV3R0mXk2zA2OweA9CSwhDA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2024-01-01T00:00:01+02:00",
           "language": "uk"
@@ -470,7 +470,7 @@ Content-Type: application/json
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d4fa24e55e3849dfafde7ba0914a38e6?Signature=8ZgQYUJLFLwp6z8%2FcaUJ3%2F7ODQ5ofPCavIPxk2MHGphlzUoChh68xxyq%2FCEtHLhRYZjOJs2q5aYMAcgcjHRsBw%3D%3D&KeyID=a8968c46",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/31a7022aec74461b8bac7a882779e64c?Signature=SC3zSizDuiKtaWJrVZQIrWtIFcsJ3%2BbdFd1r8dOOG1%2Bcgw3vCdkb2D0hEkxCn%2BLUVExCRhKR%2B631K7L453TfBw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2024-01-01T00:00:01+02:00",
           "language": "uk"

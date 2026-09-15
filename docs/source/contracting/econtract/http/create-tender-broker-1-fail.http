@@ -156,6 +156,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
+    "procurementMethodDetails": "quick, accelerator=1440",
     "criteria": [
       {
         "description": "Форма випуску",

@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "c5e3c87a1b804b39892fe55849c472e3",
+      "id": "e1156acfa5044df08dcc8ae57fc7eaa4",
       "status": "cancelled",
-      "awardID": "94539816caae4134ab9d9377361a1885",
+      "awardID": "41c2120fbbca4c6caab48bae65bf1aec",
       "date": "2024-01-01T00:00:01+02:00",
       "contractID": "UA-2024-01-01-000001-a-a1",
       "title": "Комп’ютерне обладнання",
@@ -23,9 +23,9 @@ Content-Type: application/json
       }
     },
     {
-      "id": "13789257a547419896069a374923f81d",
+      "id": "7830a7914f9d4134adf311648ab96196",
       "status": "pending",
-      "awardID": "2623814dc0f34d3fb6297384c1246117",
+      "awardID": "c8911c1b07f14977aaa0573a7363b3a7",
       "date": "2024-01-01T00:00:01+02:00",
       "contractID": "UA-2024-01-01-000001-a-a2",
       "title": "Комп’ютерне обладнання",

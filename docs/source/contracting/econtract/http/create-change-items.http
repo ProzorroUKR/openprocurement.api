@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/changes?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+POST /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -355,7 +355,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_change.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/changes/0172df9f74c4411ea204ba83946371ff/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/changes/0172df9f74c4411ea204ba83946371ff/documents/0cb36779b6aa4253ac5e76601c1ad586?download=7e991d79b0b54ed38aa2917f89e24f4c",
         "documentOf": "change",
         "id": "0cb36779b6aa4253ac5e76601c1ad586",
         "datePublished": "2027-01-01T00:00:00+02:00",

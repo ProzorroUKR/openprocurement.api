@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae?acc_token=095f224d5ed54436b623b406684b80f1 HTTP/1.0
+GET /api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260?acc_token=095f224d5ed54436b623b406684b80f1 HTTP/1.0
 Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "079941ff1cef4bd78500cbcfc91658f2",
+    "awardID": "2c7dfade3275466b94a8d9f1bba20709",
     "contractID": "UA-2027-01-01-000002-a-a3",
     "title": "Комп’ютерне обладнання",
     "period": {
@@ -337,7 +337,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/documents/da24e9bacb2a4ffc8fad7a93ca06216f?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/da24e9bacb2a4ffc8fad7a93ca06216f?download=be7e9f49af754a289eb75e58fde1961d",
         "documentOf": "contract",
         "id": "da24e9bacb2a4ffc8fad7a93ca06216f",
         "datePublished": "2027-01-01T00:00:00+02:00",
@@ -349,7 +349,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/documents/b8d838fb26e4454ebf9e4b5df33de6ee?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/b8d838fb26e4454ebf9e4b5df33de6ee?download=5ed1a03267d74439a10df773fe82885f",
         "documentOf": "contract",
         "documentType": "contractSignature",
         "id": "b8d838fb26e4454ebf9e4b5df33de6ee",
@@ -362,7 +362,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/documents/9a6fe646da8549b7a1643a0cbab5c11f?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/9a6fe646da8549b7a1643a0cbab5c11f?download=5ed1a03267d74439a10df773fe82885f",
         "documentOf": "contract",
         "documentType": "contractSignature",
         "id": "9a6fe646da8549b7a1643a0cbab5c11f",
@@ -375,7 +375,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/cbc96a00956d49a080e59812be2b35ae/documents/096f7c212afd44abb11d1202a624966a?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/38891909c9274c02b0bdca60fa5d2260/documents/096f7c212afd44abb11d1202a624966a?download=5ed1a03267d74439a10df773fe82885f",
         "documentOf": "contract",
         "documentType": "contractSignature",
         "id": "096f7c212afd44abb11d1202a624966a",
@@ -398,7 +398,7 @@ Content-Type: application/json
     ],
     "date": "2027-01-01T00:00:00+02:00",
     "dateSigned": "2027-01-01T00:00:00+02:00",
-    "id": "cbc96a00956d49a080e59812be2b35ae"
+    "id": "38891909c9274c02b0bdca60fa5d2260"
   },
   "config": {
     "restricted": false

@@ -179,7 +179,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "30c4edcb5705460a9ca5fd7985bfe56c",
+        "id": "298e53f4bc69438cbaebc75fadfbb774",
         "description": "Комп’ютерне обладнання",
         "unit": {
           "name": "кг",
@@ -191,7 +191,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
-        "product": "a1a8ab99dc9244f1bba8d83b39543926"
+        "product": "d00f8b8ed5d74adfbdfb2e1d76141508"
       }
     ],
     "value": {

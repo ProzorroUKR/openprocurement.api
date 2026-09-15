@@ -12,7 +12,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b40059a5c4389cfbeb831/awards/079941ff1cef4bd78500cbcfc91658f2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b40059a5c4389cfbeb831/awards/2c7dfade3275466b94a8d9f1bba20709
 
 {
   "data": {
@@ -55,17 +55,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e24cf829a87b4005
         "contract_owner": "broker6"
       }
     ],
-    "bid_id": "a89799772a0f473e80bcad84c1e665c9",
+    "bid_id": "d0c04d6afab2457b85f7a52fbd8f2f74",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "dd8bc4ce12f642f7ae8f1f8bc7186ede",
+        "id": "8a7d49d1c91c425a9b72c089179e6af3",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86bc318502e343a59c58137933cd1af0?Signature=hsltR%2BvlMEkWC%2FYGw3BxRGC2fe9YODIu8lrnHVBW1hH6OIcxnEy6JCOCxu9p62rOUREo7qYfN8t2LtrPDngpDg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/29ac406cf0944e4b9260378f7086c87a?Signature=ZDw81Qef3gsJIGl5TvjdYLnCQ3lE3juTHAZ2N9jqJv0kOE46GkxI9Z8RvRlB3T7hGs%2FAm01%2FE5HSIaCUo13vDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",

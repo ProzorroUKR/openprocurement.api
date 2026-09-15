@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/awards/2623814dc0f34d3fb6297384c1246117?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
+PATCH /api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/awards/c8911c1b07f14977aaa0573a7363b3a7?acc_token=3f07ab10456e4f519a3cf51c24d19c80 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "2623814dc0f34d3fb6297384c1246117",
+    "id": "c8911c1b07f14977aaa0573a7363b3a7",
     "status": "active",
     "date": "2024-01-01T00:00:01+02:00",
     "value": {
@@ -51,12 +51,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "d4bcc4253b5e4fe7a8f7e280c5acb30d",
+        "id": "49eed56463b44e9db9925c850ad78120",
         "datePublished": "2024-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6d35ae62882445019e500ad2f9a4bff2?Signature=Y2UpbXGtFrSn1DXklKvkD9yMq%2FrFvMNPMMhA8YkQgmXY5y6Sk3uIoln36MuplKESXA3DC0Ty0QjTG8%2F65rcWAg%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e21152b2bc3c4ca689e461bdffaaee39?Signature=67kECN%2BE5R40HtX0Z%2FkOhlbjjlp38PIlWNg8QcLRLjer8YSjwU7A%2BZ11f%2F6HAidQnUJ4KfXqyigO7blU2ILyDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2024-01-01T00:00:01+02:00",
         "author": "tender_owner",
@@ -65,7 +65,7 @@ Content-Type: application/json
     ],
     "period": {
       "startDate": "2024-01-01T00:00:01+02:00",
-      "endDate": "2024-01-04T00:00:00+02:00"
+      "endDate": "2024-01-01T00:02:01+02:00"
     },
     "qualified": true
   }
