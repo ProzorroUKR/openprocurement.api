@@ -1,10 +1,11 @@
 import logging
 
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import context_unpack
+from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
+from openprocurement.tender.core.procedure.contracting import add_contracts
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 LOGGER = logging.getLogger(__name__)
@@ -79,6 +80,7 @@ class AwardState(AwardStateMixing, CFASelectionTenderState):
             contract_statuses = {c["status"] for c in tender.get("contracts", [])}
             if contract_statuses and "active" in contract_statuses and "pending" not in contract_statuses:
                 self.get_change_tender_status_handler("complete")(tender)
+
     def award_status_up_from_pending_to_active(self, award, tender):
         self.request.validated["contracts_added"] = add_contracts(self.request, award)
         self.add_next_award()
