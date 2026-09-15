@@ -47,6 +47,7 @@ DOCUMENT_TYPES = (
     "evidence",
     "register",
     "contractSignature",
+    "progressReport",
 )
 
 
