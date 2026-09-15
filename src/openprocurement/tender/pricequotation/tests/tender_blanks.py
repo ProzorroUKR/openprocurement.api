@@ -1289,9 +1289,7 @@ def tender_period_update(self):
 def tender_owner_can_change_in_draft(self):
     data = self.initial_data.copy()
     data.update({"status": "draft"})
-    data["contractTemplateName"] = "00000000.0002.01"
-    data["procuringEntity"]["signerInfo"] = test_signer_info
-    data["procuringEntity"]["contract_owner"] = "broker"
+    data["mainProcurementCategory"] = "services"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
@@ -1307,7 +1305,7 @@ def tender_owner_can_change_in_draft(self):
             "endDate": (get_now() + timedelta(days=14)).isoformat(),
         },
         "procuringEntity": pq_entity,
-        "mainProcurementCategory": "services",
+        "mainProcurementCategory": "works",
     }
     descriptions = {
         "description": "Some text 1",
@@ -1338,7 +1336,6 @@ def tender_owner_can_change_in_draft(self):
                 "name": "John Doe",
                 "identifier": {"scheme": "AE-DCCI", "id": "AE1"},
                 "signerInfo": buyer_signer_info,
-                "contract_owner": "broker",
             }
         ],
         "funders": [deepcopy(test_tender_below_funder)],
@@ -1443,6 +1440,7 @@ def tender_owner_can_change_in_draft(self):
         "criteria": test_criteria,
     }
     patch_data.update(status)
+    self.add_contract_proforma_doc(tender["id"], token)
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {"data": patch_data},

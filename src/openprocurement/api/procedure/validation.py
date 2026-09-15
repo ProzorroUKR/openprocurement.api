@@ -502,3 +502,26 @@ def validate_fileds_deletion(
             f"Forbidden to delete fields in {container_name}: {keys_difference}",
             status=status,
         )
+
+
+def validate_items_classification_match(child_classifications, parent_obj, parent_obj_name="plan"):
+    """
+    Validate items classification of child and parent objects are the same
+    """
+
+    if not parent_obj or not parent_obj.get("items"):
+        return
+
+    child_classifications_ids = {classification.get("id") for classification in child_classifications}
+
+    parent_classifications_ids = {item.get("classification", {}).get("id") for item in parent_obj["items"]}
+
+    if child_classifications_ids != parent_classifications_ids:
+        raise_operation_error(
+            get_request(),
+            [
+                f"CPV classifications do not match {parent_obj_name} items classifications {sorted(parent_classifications_ids)}"
+            ],
+            status=422,
+            name="items",
+        )

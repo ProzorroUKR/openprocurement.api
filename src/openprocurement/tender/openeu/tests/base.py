@@ -103,7 +103,7 @@ test_tender_openeu_procuring_entity = {
 test_tender_openeu_data = {
     "title": "футляри до державних нагород",
     "title_en": "Cases for state awards",
-    "mainProcurementCategory": "services",
+    "mainProcurementCategory": "goods",
     "procuringEntity": test_tender_openeu_procuring_entity.copy(),
     "value": {"amount": 500, "currency": "UAH"},
     "items": [

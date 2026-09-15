@@ -41,94 +41,28 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "deliveryDate": {
-          "endDate": "2027-01-16T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
+        "id": "72406d30465d4a66b6c2867545edd942",
+        "classification": {
+          "description": "Vegetable seeds",
+          "scheme": "ДК021",
+          "id": "03111700-9"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "01.11.92",
-            "description": "Насіння гірчиці"
+            "id": "01.13.6",
+            "description": "Насіння овочевих культур"
           }
         ],
         "unit": {
-          "code": "KGM",
-          "name": "кг"
+          "name": "кг",
+          "code": "KGM"
         },
-        "classification": {
-          "scheme": "ДК021",
-          "description": "Mustard seeds",
-          "id": "03111600-8"
-        },
-        "quantity": 1000,
-        "description": "Насіння гірчиці"
-      },
-      {
+        "quantity": 5000.0,
         "deliveryDate": {
-          "endDate": "2027-01-17T00:00:00+02:00"
+          "endDate": "2016-06-01T23:06:30.023018+03:00"
         },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "01.11.95",
-            "description": "Насіння соняшнику"
-          }
-        ],
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        },
-        "classification": {
-          "scheme": "ДК021",
-          "description": "Sunflower seeds",
-          "id": "03111300-5"
-        },
-        "quantity": 2000,
-        "description": "Насіння соняшнику"
-      },
-      {
-        "deliveryDate": {
-          "endDate": "2027-01-18T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "locality": "м. Київ",
-          "streetAddress": "вул. Банкова 1"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "01.11.84",
-            "description": "Насіння бавовнику"
-          }
-        ],
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        },
-        "classification": {
-          "scheme": "ДК021",
-          "description": "Cotton seeds",
-          "id": "03111400-6"
-        },
-        "quantity": 3000,
-        "description": "Насіння бавовнику"
+        "description": "Насіння овочевих культур"
       }
     ],
     "enquiryPeriod": {
@@ -264,96 +198,27 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e7db462b6c17406f
     },
     "items": [
       {
-        "id": "48fdbd1264b1494db6cd237763da8a83",
-        "description": "Насіння гірчиці",
+        "id": "72406d30465d4a66b6c2867545edd942",
+        "description": "Насіння овочевих культур",
         "unit": {
           "name": "кг",
           "code": "KGM"
         },
-        "quantity": 1000.0,
+        "quantity": 5000.0,
         "classification": {
-          "description": "Mustard seeds",
+          "description": "Vegetable seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111700-9"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "01.11.92",
-            "description": "Насіння гірчиці"
+            "id": "01.13.6",
+            "description": "Насіння овочевих культур"
           }
         ],
         "deliveryDate": {
-          "endDate": "2027-01-16T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      },
-      {
-        "id": "85eeb9b42c034ef69e31c8c40e20d0e3",
-        "description": "Насіння соняшнику",
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 2000.0,
-        "classification": {
-          "description": "Sunflower seeds",
-          "scheme": "ДК021",
-          "id": "03111300-5"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "01.11.95",
-            "description": "Насіння соняшнику"
-          }
-        ],
-        "deliveryDate": {
-          "endDate": "2027-01-17T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
-        }
-      },
-      {
-        "id": "7973d2a79bbe4e8d91a09fbb4415a0a3",
-        "description": "Насіння бавовнику",
-        "unit": {
-          "name": "кг",
-          "code": "KGM"
-        },
-        "quantity": 3000.0,
-        "classification": {
-          "description": "Cotton seeds",
-          "scheme": "ДК021",
-          "id": "03111400-6"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "01.11.84",
-            "description": "Насіння бавовнику"
-          }
-        ],
-        "deliveryDate": {
-          "endDate": "2027-01-18T00:00:00+02:00"
-        },
-        "deliveryAddress": {
-          "streetAddress": "вул. Банкова 1",
-          "locality": "м. Київ",
-          "region": "м. Київ",
-          "postalCode": "79000",
-          "countryName": "Україна"
+          "endDate": "2016-06-01T23:06:30.023018+03:00"
         }
       }
     ],
