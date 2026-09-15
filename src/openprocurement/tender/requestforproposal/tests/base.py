@@ -390,7 +390,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
     tender_for_funders = True
     initial_auth = ("Basic", ("broker", ""))
     min_bids_number = MIN_BIDS_NUMBER
-    refresh_periods = True
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "active.enquiries"  # status, to which tender should be switched from 'draft'
     forbidden_question_add_actions_status = "active.tendering"  # status, in which adding tender questions is forbidden
@@ -419,7 +418,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
         super().setUp()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
-        if self.refresh_periods and self.initial_data and "enquiryPeriod" in self.initial_data:
+        if self.initial_data and "enquiryPeriod" in self.initial_data:
             set_tender_rfp_periods(self.initial_data)
         if self.initial_lots:
             self.initial_lots = deepcopy(self.initial_lots)

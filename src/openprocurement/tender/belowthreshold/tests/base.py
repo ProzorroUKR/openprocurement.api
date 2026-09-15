@@ -336,11 +336,10 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     periods = PERIODS
     guarantee_criterion = None
-    refresh_periods = True
 
     def setUp(self):
         super().setUp()
-        if self.refresh_periods and self.initial_data and "enquiryPeriod" in self.initial_data:
+        if self.initial_data and "enquiryPeriod" in self.initial_data:
             set_tender_below_periods(self.initial_data)
 
     def set_enquiry_period_end(self):

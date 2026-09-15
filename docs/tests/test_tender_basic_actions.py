@@ -111,8 +111,8 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
         self.tearDownMock()
@@ -3902,13 +3902,12 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
     initial_data = test_tender_below_data
     initial_config = test_tender_below_config
     initial_bids = test_tender_below_bids
-    refresh_periods = False
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
         self.tearDownMock()
@@ -4474,8 +4473,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
     docservice_url = DOCS_URL
 
     def setUp(self):
-        super().setUp()
         self.setUpMock()
+        super().setUp()
 
     def tearDown(self):
         self.tearDownMock()
