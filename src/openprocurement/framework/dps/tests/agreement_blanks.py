@@ -1281,3 +1281,23 @@ def search_by_classification_injection(self):
     response = self.app.get(f"/agreements_by_classification/{classification_id}")
     self.assertEqual(len(response.json["data"]), 1)  # Should match our agreement
     self.assertEqual(response.json["data"][0]["classification"]["id"], classification_id)
+
+
+def patch_agreement_remove_field(self):
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.framework_token}",
+        {"data": {"terminationDetails": "Some termination details"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["terminationDetails"], "Some termination details")
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.framework_token}",
+        {"data": {"terminationDetails": None}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("terminationDetails", response.json["data"])
+
+    agreement_doc = self.mongodb.agreements.get(self.agreement_id)
+    self.assertNotIn("terminationDetails", agreement_doc)

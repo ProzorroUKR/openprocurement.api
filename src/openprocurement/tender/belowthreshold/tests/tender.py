@@ -25,6 +25,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
+    create_tender_remove_field,
     create_tender_with_estimated_value,
     create_tender_with_inn,
     create_tender_with_required_unit,
@@ -48,10 +49,11 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     patch_tender_jsonpatch,
     patch_tender_lots_none,
     patch_tender_minimalstep_validation,
+    patch_tender_remove_field,
     required_field_deletion,
-    set_buyers_signer_info,
-    set_buyers_contract_owner_required_by_edrpou,
     set_buyers_contract_owner_consistent,
+    set_buyers_contract_owner_required_by_edrpou,
+    set_buyers_signer_info,
     set_procuring_entity_contract_owner,
     set_procuring_entity_contract_owner_required_by_edrpou,
     set_procuring_entity_signer_info,
@@ -153,6 +155,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     test_tender_items_negative_quantity = snitch(tender_items_negative_quantity)
     test_patch_tender_jsonpatch = snitch(patch_tender_jsonpatch)
     test_patch_tender = snitch(patch_tender)
+    test_create_tender_remove_field = snitch(create_tender_remove_field)
+    test_patch_tender_remove_field = snitch(patch_tender_remove_field)
     test_required_field_deletion = snitch(required_field_deletion)
     test_create_tender_with_inn = snitch(create_tender_with_inn)
     test_tender_milestones_required = snitch(tender_milestones_required)

@@ -887,3 +887,60 @@ def generate_credentials_invalid(self):
             }
         ],
     )
+
+
+def create_agreement_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["description"] = None
+    data["features"] = []
+
+    with change_auth(self.app, ("Basic", ("agreements", ""))):
+        response = self.app.post_json("/agreements", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    agreement = response.json["data"]
+    self.assertNotIn("description", agreement)
+    self.assertNotIn("features", agreement)
+
+    agreement_doc = self.mongodb.agreements.get(agreement["id"])
+    self.assertNotIn("description", agreement_doc)
+    self.assertNotIn("features", agreement_doc)
+
+
+def patch_agreement_remove_field(self):
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.agreement_token}",
+        {"data": {"terminationDetails": "Some termination details"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["terminationDetails"], "Some termination details")
+
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/documents?acc_token={self.agreement_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.get(f"/agreements/{self.agreement_id}")
+    self.assertEqual(len(response.json["data"]["documents"]), 1)
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.agreement_token}",
+        {"data": {"terminationDetails": None, "documents": []}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    agreement = response.json["data"]
+    self.assertNotIn("terminationDetails", agreement)
+    self.assertNotIn("documents", agreement)
+
+    agreement_doc = self.mongodb.agreements.get(self.agreement_id)
+    self.assertNotIn("terminationDetails", agreement_doc)
+    self.assertNotIn("documents", agreement_doc)

@@ -974,3 +974,48 @@ def change_contract_milestones(self, _, milestones, resp_status, check_response)
         )
 
     check_response(self, response)
+
+
+def post_new_version_of_contract_remove_field(self):
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    initial_contract_data = response.json["data"]
+    self.assertNotIn("title_en", initial_contract_data)
+    self.assertIn("milestones", initial_contract_data)
+
+    contract_data = deepcopy(initial_contract_data)
+    del contract_data["dateCreated"]
+    del contract_data["dateModified"]
+    del contract_data["id"]
+    contract_data["tender_id"] = self.tender_id
+    contract_data["value"]["amount"] = self.award["value"]["amount"]
+    contract_data["value"]["amountNet"] = contract_data["value"]["amount"]
+    contract_data["title_en"] = None
+    contract_data["milestones"] = []
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
+        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    pdf_data = {
+        "url": self.generate_docservice_url(),
+        "format": "application/pdf",
+        "hash": "md5:" + "0" * 32,
+        "title": "contract.pdf",
+    }
+    with patch("openprocurement.tender.core.procedure.contracting.upload_contract_pdf") as mock_upload_contract_pdf:
+        mock_upload_contract_pdf.return_value = {"data": pdf_data}
+        response = self.app.post_json(
+            f"/contracts?acc_token={self.supplier_token}",
+            {"data": contract_data},
+        )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    new_contract = response.json["data"]
+    self.assertNotIn("title_en", new_contract)
+    self.assertNotIn("milestones", new_contract)
+
+    contract_doc = self.mongodb.contracts.get(new_contract["id"])
+    self.assertNotIn("title_en", contract_doc)
+    self.assertNotIn("milestones", contract_doc)

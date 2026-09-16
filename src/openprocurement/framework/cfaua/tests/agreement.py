@@ -13,6 +13,7 @@ from openprocurement.framework.cfaua.tests.agreement_blanks import (
     agreement_preview,
     agreement_token_invalid,
     create_agreement,
+    create_agreement_remove_field,
     create_agreement_with_documents,
     create_agreement_with_features,
     create_agreement_with_two_active_contracts,
@@ -21,6 +22,7 @@ from openprocurement.framework.cfaua.tests.agreement_blanks import (
     generate_credentials_invalid,
     get_agreements_by_id,
     listing,
+    patch_agreement_remove_field,
 )
 from openprocurement.framework.cfaua.tests.base import (
     BaseAgreementContentWebTest,
@@ -47,6 +49,7 @@ class AgreementResourceTest(BaseAgreementTest):
     test_create_agreement = snitch(create_agreement)
     test_create_agreement_with_documents = snitch(create_agreement_with_documents)
     test_create_agreement_with_features = snitch(create_agreement_with_features)
+    test_create_agreement_remove_field = snitch(create_agreement_remove_field)
     test_create_agreement_with_two_active_contracts = snitch(create_agreement_with_two_active_contracts)
 
 
@@ -55,6 +58,7 @@ class AgreementResourceTest4BrokerTest(BaseAgreementContentWebTest):
 
     test_agreement_token_invalid = snitch(agreement_token_invalid)
     test_agreement_patch_invalid = snitch(agreement_patch_invalid)
+    test_patch_agreement_remove_field = snitch(patch_agreement_remove_field)
     test_generate_credentials = snitch(generate_credentials)
     test_generate_credentials_invalid = snitch(generate_credentials_invalid)
     test_get_agreements_by_id = snitch(get_agreements_by_id)

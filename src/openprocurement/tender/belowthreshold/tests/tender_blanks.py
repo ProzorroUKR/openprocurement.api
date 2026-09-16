@@ -5364,3 +5364,47 @@ def block_switch_to_pre_qualification(self):
 
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
+
+
+def create_tender_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["procurementMethodRationale"] = None
+    data["funders"] = []
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertNotIn("procurementMethodRationale", tender)
+    self.assertNotIn("funders", tender)
+
+    tender_doc = self.mongodb.tenders.get(tender["id"])
+    self.assertNotIn("procurementMethodRationale", tender_doc)
+    self.assertNotIn("funders", tender_doc)
+
+
+def patch_tender_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["procurementMethodRationale"] = "rationale"
+    data["funders"] = [deepcopy(test_tender_below_funder)]
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(tender["procurementMethodRationale"], "rationale")
+    self.assertEqual(len(tender["funders"]), 1)
+
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"procurementMethodRationale": None, "funders": []}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    tender = response.json["data"]
+    self.assertNotIn("procurementMethodRationale", tender)
+    self.assertNotIn("funders", tender)
+
+    tender_doc = self.mongodb.tenders.get(tender["id"])
+    self.assertNotIn("procurementMethodRationale", tender_doc)
+    self.assertNotIn("funders", tender_doc)

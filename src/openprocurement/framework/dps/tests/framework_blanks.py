@@ -2136,3 +2136,46 @@ def modify_framework_period(self):
     self.assertIn("framework", response.json["context"])
     self.assertEqual(response.json["context"]["framework"]["status"], "active")
     self.assertEqual(len(response.json["context"]["framework"]["changes"]), 2)
+
+
+def create_framework_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["title_en"] = None
+    data["additionalClassifications"] = []
+
+    response = self.app.post_json("/frameworks", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+    self.assertNotIn("title_en", framework)
+    self.assertNotIn("additionalClassifications", framework)
+
+    framework_doc = self.mongodb.frameworks.get(framework["id"])
+    self.assertNotIn("title_en", framework_doc)
+    self.assertNotIn("additionalClassifications", framework_doc)
+
+
+def patch_framework_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["title_en"] = "Framework title"
+
+    response = self.app.post_json("/frameworks", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    framework = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(framework["title_en"], "Framework title")
+    self.assertEqual(len(framework["additionalClassifications"]), 1)
+
+    response = self.app.patch_json(
+        f"/frameworks/{framework['id']}?acc_token={token}",
+        {"data": {"title_en": None, "additionalClassifications": []}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    framework = response.json["data"]
+    self.assertNotIn("title_en", framework)
+    self.assertNotIn("additionalClassifications", framework)
+
+    framework_doc = self.mongodb.frameworks.get(framework["id"])
+    self.assertNotIn("title_en", framework_doc)
+    self.assertNotIn("additionalClassifications", framework_doc)

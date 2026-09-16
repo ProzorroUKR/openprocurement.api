@@ -2795,3 +2795,46 @@ def plan_root_uktzed_forbidden(self):
             }
         ],
     )
+
+
+def create_plan_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["mode"] = None
+    data["additionalClassifications"] = []
+
+    response = self.app.post_json("/plans", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    plan = response.json["data"]
+    self.assertNotIn("mode", plan)
+    self.assertNotIn("additionalClassifications", plan)
+
+    plan_doc = self.mongodb.plans.get(plan["id"])
+    self.assertNotIn("mode", plan_doc)
+    self.assertNotIn("additionalClassifications", plan_doc)
+
+
+def patch_plan_remove_field(self):
+    data = deepcopy(self.initial_data)
+    data["mode"] = "test"
+
+    response = self.app.post_json("/plans", {"data": data})
+    self.assertEqual(response.status, "201 Created")
+    plan = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(plan["mode"], "test")
+    self.assertEqual(len(plan["additionalClassifications"]), 1)
+
+    response = self.app.patch_json(
+        f"/plans/{plan['id']}?acc_token={token}",
+        {"data": {"mode": None, "additionalClassifications": []}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    plan = response.json["data"]
+    self.assertNotIn("mode", plan)
+    self.assertNotIn("additionalClassifications", plan)
+
+    plan_doc = self.mongodb.plans.get(plan["id"])
+    self.assertNotIn("mode", plan_doc)
+    self.assertNotIn("additionalClassifications", plan_doc)
