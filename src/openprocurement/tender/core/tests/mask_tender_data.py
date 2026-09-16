@@ -95,6 +95,94 @@ def test_mask_tender_by_is_masked(app):
 
 
 @patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
+def test_mask_plan_in_ocds_tender(app):
+    set_request_now()
+    with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
+        tender_data = json.load(f)
+        tender_data["config"] = test_tender_below_config
+    with open("src/openprocurement/planning/api/tests/data/plan_to_mask.json") as f:
+        plan_data = json.load(f)
+
+    plan_data["_id"] = tender_data["plans"][0]["id"]
+    plan_data["project"] = {
+        "id": "project-1",
+        "title": "Назва проєкту",
+        "uri": "https://example.com/project",
+    }
+    plan_data["rationale"] = {
+        "description": "Обґрунтування закупівлі",
+        "date": "2019-01-01T00:00:00+02:00",
+    }
+    plan_data["documents"] = [
+        {
+            "id": "a" * 32,
+            "title": "Документ плану",
+            "url": "/plans/{}/documents/{}".format(plan_data["_id"], "a" * 32),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pdf",
+            "datePublished": "2019-01-01T00:00:00+02:00",
+            "dateModified": "2019-01-01T00:00:00+02:00",
+        }
+    ]
+    plan_data["milestones"] = [
+        {
+            "id": "b" * 32,
+            "title": "Погодження закупівлі",
+            "description": "Опис етапу",
+            "type": "approval",
+            "status": "scheduled",
+            "dueDate": "2019-02-01T00:00:00+02:00",
+            "dateModified": "2019-01-01T00:00:00+02:00",
+        }
+    ]
+    plans = unwrap_app(app).registry.mongodb.plans
+    plans.store.save_data(plans.collection, plan_data, insert=True)
+    unwrap_app(app).registry.mongodb.tenders.save(tender_data, insert=True)
+
+    tender_id = tender_data["_id"]
+
+    # Check plan not masked
+    response = app.get(f"/tenders/{tender_id}?opt_schema=ocds")
+    assert response.status_code == 200
+    planning = response.json["releases"][0]["planning"]
+    assert planning["project"]["title"] == plan_data["project"]["title"]
+    assert planning["rationale"]["description"] == plan_data["rationale"]["description"]
+    assert planning["budget"]["description"] == plan_data["budget"]["description"]
+    assert planning["budget"]["amount"]["amount"] == plan_data["budget"]["amount"]
+    assert planning["budget"]["project"] == plan_data["budget"]["project"]["name"]
+    assert planning["documents"][0]["title"] == plan_data["documents"][0]["title"]
+    assert planning["milestones"][0]["title"] == plan_data["milestones"][0]["title"]
+    assert planning["milestones"][0]["description"] == plan_data["milestones"][0]["description"]
+
+    # Mask plan
+    plan_data["_rev"] = plans.get(plan_data["_id"])["_rev"]
+    plan_data["is_masked"] = True
+    plans.store.save_data(plans.collection, plan_data)
+
+    # Check plan masked
+    response = app.get(f"/tenders/{tender_id}?opt_schema=ocds")
+    assert response.status_code == 200
+    planning = response.json["releases"][0]["planning"]
+    assert planning["project"]["title"] == "0" * len(plan_data["project"]["title"])
+    assert planning["rationale"]["description"] == "0" * len(plan_data["rationale"]["description"])
+    assert planning["budget"]["description"] == "0" * len(plan_data["budget"]["description"])
+    assert "amount" not in planning["budget"]["amount"]
+    assert planning["budget"]["project"] == "0" * len(plan_data["budget"]["project"]["name"])
+    assert planning["documents"][0]["title"] == "0" * len(plan_data["documents"][0]["title"])
+    assert planning["milestones"][0]["title"] == "0" * len(plan_data["milestones"][0]["title"])
+    assert planning["milestones"][0]["description"] == "0" * len(plan_data["milestones"][0]["description"])
+
+    # Check plan not masked for excluded role
+    with change_auth(app, ("Basic", ("administrator", ""))):
+        response = app.get(f"/tenders/{tender_id}?opt_schema=ocds")
+    assert response.status_code == 200
+    planning = response.json["releases"][0]["planning"]
+    assert planning["project"]["title"] == plan_data["project"]["title"]
+    assert planning["rationale"]["description"] == plan_data["rationale"]["description"]
+    assert planning["budget"]["amount"]["amount"] == plan_data["budget"]["amount"]
+
+
+@patch("openprocurement.api.mask_deprecated.MASK_OBJECT_DATA_SINGLE", True)
 def test_mask_tender_skipped(app):
     set_request_now()
     with open("src/openprocurement/tender/core/tests/data/tender_to_mask.json") as f:
