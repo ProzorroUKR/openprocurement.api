@@ -515,9 +515,10 @@ def get_supplier_contract(contracts, tenderers):
 
 def extract_document_id(request):
     path = extract_path(request)
-    if "documents" in path:
-        matchdict = matchdict_from_path(path, root_resource="documents")
-        return matchdict.get("document_id")
+    for root_resource in ("documents", "qualification_documents", "financial_documents", "eligibility_documents"):
+        if f"/{root_resource}/" in path:
+            matchdict = matchdict_from_path(path, root_resource=root_resource)
+            return matchdict.get(f"{root_resource[:-1]}_id")
 
 
 def is_multi_currency_tender(check_funders=False):
