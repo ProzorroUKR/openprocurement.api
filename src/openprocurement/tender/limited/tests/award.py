@@ -40,8 +40,6 @@ from openprocurement.tender.limited.tests.award_blanks import (  # TenderAwardDo
     create_tender_award_complaints,
     create_tender_award_document_invalid,
     create_tender_award_invalid,
-    create_tender_award_vat_not_included,
-    create_tender_award_vat_not_included_before_constant,
     create_tender_award_with_lot,
     create_tender_lot_award_complaints,
     create_tender_negotiation_award_complaints,
@@ -122,10 +120,6 @@ class TenderNegotiationAwardResourceTest(TenderAwardResourceTest):
     test_check_tender_award_complaint_period_dates = snitch(check_tender_award_complaint_period_dates)
     test_patch_active_not_qualified = snitch(patch_active_not_qualified)
     test_create_two_awards_on_one_lot = snitch(create_two_awards_on_one_lot)
-    test_create_tender_award_vat_not_included = snitch(create_tender_award_vat_not_included)
-    test_create_tender_award_vat_not_included_before_constant = snitch(
-        create_tender_award_vat_not_included_before_constant
-    )
 
 
 class TenderNegotiationLotAwardResourceTest(TenderAwardResourceTest):

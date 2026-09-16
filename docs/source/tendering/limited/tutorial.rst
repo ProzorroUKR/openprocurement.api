@@ -130,7 +130,7 @@
 
 Щоб створити закупівлю за **переговорною** процедурою, потрібно встановити значення ``negotiation`` для ``procurementMethodType``.
 
-Для переговорних процедур (``negotiation``, ``negotiation.quick``) за підставами Постанови 1178 (``causeDetails.scheme: DECREE1178``) очікувана вартість вказується без ПДВ:
+Для переговорних процедур (``negotiation``, ``negotiation.quick``) очікувана вартість вказується без ПДВ:
 ``value.valueAddedTaxIncluded`` має бути ``false``, інакше буде помилка:
 
 .. http:example:: http/tutorial/create-tender-negotiation-vat-included.http
@@ -234,13 +234,7 @@
 .. http:example:: http/tutorial/tender-award.http
    :code:
 
-Замовник реєструє інформацію про постачальника для **переговорної** процедури.
-Ціна пропозиції переможця також вказується без ПДВ: ``value.valueAddedTaxIncluded`` має бути ``false``, інакше буде помилка:
-
-.. http:example:: http/tutorial/tender-negotiation-award-vat-included.http
-   :code:
-
-Якщо поле не передати, воно береться з ``value`` закупівлі:
+Замовник реєструє інформацію про постачальника для **переговорної** процедури:
 
 .. http:example:: http/tutorial/tender-negotiation-award.http
    :code:

@@ -10,7 +10,6 @@ from openprocurement.api.constants_env import (
     NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.validation import validate_items_classifications_prefixes
 from openprocurement.api.utils import get_tender_category, get_tender_product, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
@@ -23,7 +22,6 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
-from openprocurement.tender.limited.procedure.models.tender_base import LimitedCauseScheme
 from openprocurement.tender.limited.procedure.serializers.cause import (
     enrich_cause_details,
     get_cause_details_reference,
@@ -199,13 +197,10 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
         super().on_patch(before, after)
 
 
-def cause_scheme_requires_vat_not_included(tender):
-    return tender.get("causeDetails", {}).get("scheme") == LimitedCauseScheme.DECREE_1178
-
-
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
     lot_guarantee_currency_from_tender = False
     lot_minimal_step_meta_from_tender = False
+    should_validate_vat_not_included = True
     vat_not_included_validation_from = NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
@@ -219,10 +214,6 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     contract_template_name_patch_statuses = ("draft", "active")
 
     working_days_config = WORKING_DAYS_CONFIG
-
-    @property
-    def should_validate_vat_not_included(self):
-        return cause_scheme_requires_vat_not_included(get_tender())
 
     def on_post(self, tender):
         self.validate_cause_required(tender)

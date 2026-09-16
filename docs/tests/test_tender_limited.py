@@ -491,16 +491,6 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
 
         award_negotiation["lotID"] = self.initial_lots[0]["id"]
 
-        # award value.valueAddedTaxIncluded must be False as well (CS-22385)
-        with open(TARGET_DIR + "tutorial/tender-negotiation-award-vat-included.http", "w") as self.app.file_obj:
-            award_data = deepcopy(award_negotiation)
-            award_data["value"]["valueAddedTaxIncluded"] = True
-            self.app.post_json(
-                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token),
-                {"data": award_data},
-                status=422,
-            )
-
         with open(TARGET_DIR + "tutorial/tender-negotiation-award.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": award_negotiation}
