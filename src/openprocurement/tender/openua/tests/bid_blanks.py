@@ -729,6 +729,16 @@ def bid_Administrator_change(self):
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
         {"data": patch_bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Rogue field", "location": "body", "name": "lotValues"}],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": {"tenderers": patch_bid_data["tenderers"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
@@ -2658,7 +2668,7 @@ def patch_bid_during_qualification_with_24h_milestone(self):
 
     # successfully change signerInfo
     tenderers = deepcopy(bids[0]["tenderers"])
-    tenderers[0]["signerInfo"] = test_signer_info
+    tenderers[0]["signerInfo"] = deepcopy(test_signer_info)
     response = self.app.patch_json(
         f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
         {"data": {"tenderers": tenderers}},

@@ -27,11 +27,10 @@ from openprocurement.tender.core.procedure.documents import (
 )
 
 
-def validate_input_data(input_model, allow_bulk=False, filters=None, strict=True):
+def validate_input_data(input_model, allow_bulk=False, strict=True):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
-    :param filters: list of filter function that applied on valid data
     :param strict: if True, unknown fields will raise an error
     :return:
     """
@@ -63,8 +62,6 @@ def validate_input_data(input_model, allow_bulk=False, filters=None, strict=True
                 result.update(valid_data)
             data.append(result)
 
-        if filters:
-            data = [f(request, d) for f in filters for d in data]
         request.validated["data"] = data if allow_bulk else data[0]
         return request.validated["data"]
 
@@ -265,13 +262,13 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
     return validate
 
 
-def validate_input_data_from_resolved_model(filters=None):
+def validate_input_data_from_resolved_model():
     def validated(request, **_):
         state = request.root.state
         method = request.method.lower()
         model = getattr(state, f"get_{method}_data_model")()
         request.validated[f"{method}_data_model"] = model
-        validate = validate_input_data(model, filters=filters)
+        validate = validate_input_data(model)
         return validate(request, **_)
 
     return validated
