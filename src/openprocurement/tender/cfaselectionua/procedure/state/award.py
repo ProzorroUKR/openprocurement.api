@@ -12,9 +12,6 @@ LOGGER = logging.getLogger(__name__)
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
     award_unsuccessful_requires_cancelled_award_same_bid = True
-    award_unsuccessful_cancel_requires_considered_complaints = False
-    award_unsuccessful_cancel_forbidden_with_active_contract = True
-    award_unsuccessful_cancel_all_lot_awards = True
 
     def award_status_up(self, before, after, award):
         super().award_status_up(before, after, award)

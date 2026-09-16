@@ -58,13 +58,11 @@ class AwardStateMixing:
     award_cancel_lot_awards_availability_check: bool = True
     # cfaselectionua: an award may become unsuccessful in active.qualification only after a cancelled award of the same bid
     award_unsuccessful_requires_cancelled_award_same_bid: bool = False
-    # unsuccessful -> cancelled transition
-    award_unsuccessful_cancel_allowed: bool = True  # pq: forbidden
-    award_unsuccessful_cancel_requires_considered_complaints: bool = True  # bt/rfp
-    award_unsuccessful_cancel_forbidden_with_active_contract: bool = False  # open family/defense/CO
-    award_unsuccessful_cancel_all_lot_awards: bool = (
-        False  # open family: all available lot awards; bt/rfp: awards after the current one
-    )
+    # unsuccessful -> cancelled transition (cfaua overrides the whole transition instead of using these flags)
+    award_unsuccessful_cancel_allowed: bool = True  # limited: forbidden
+    award_unsuccessful_cancel_requires_considered_complaints: bool = False
+    award_unsuccessful_cancel_forbidden_with_active_contract: bool = True
+    award_unsuccessful_cancel_all_lot_awards: bool = True  # rfp: awards after the current one only
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
     # competitiveOrdering: the qualified/eligible rules depend on the tender creation date (NEW_ARTICLE_17_CRITERIA_REQUIRED)

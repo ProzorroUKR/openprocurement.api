@@ -6,6 +6,3 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 class AwardState(AwardStateMixing, PriceQuotationTenderState):
     procurement_kinds_not_required_sign = ("other",)  # in case when signing award will be required in the future
-    award_unsuccessful_cancel_requires_considered_complaints = False
-    award_unsuccessful_cancel_forbidden_with_active_contract = True
-    award_unsuccessful_cancel_all_lot_awards = True

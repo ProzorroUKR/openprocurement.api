@@ -6,5 +6,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
 
 class AwardState(AwardStateMixing, RequestForProposalTenderState):
     sign_award_required = False
-    award_unsuccessful_cancel_forbidden_with_active_contract = True
-    award_unsuccessful_cancel_requires_considered_complaints = False
+    award_unsuccessful_cancel_all_lot_awards = False  # awards after the current one only
