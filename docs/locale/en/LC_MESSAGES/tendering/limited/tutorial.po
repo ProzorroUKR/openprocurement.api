@@ -269,6 +269,9 @@ msgstr "To create tender for **negotiation** procedure you should set ``negotiat
 msgid "Для переговорних процедур (``negotiation``, ``negotiation.quick``) очікувана вартість вказується без ПДВ: ``value.valueAddedTaxIncluded`` має бути ``false``, інакше буде помилка:"
 msgstr "For negotiation procedures (``negotiation``, ``negotiation.quick``) the expected value is specified without VAT: ``value.valueAddedTaxIncluded`` must be ``false``, otherwise an error is returned:"
 
+msgid "Створимо закупівлю з коректним значенням ``value.valueAddedTaxIncluded``:"
+msgstr "Let's create a tender with a correct ``value.valueAddedTaxIncluded`` value:"
+
 msgid "Створення закупівлі для переговорної процедури за нагальною потребою"
 msgstr "Creating tender for negotiation.quick procedure"
 
@@ -451,6 +454,9 @@ msgstr "**Negotiation** tender contract can be registered only after the stand-s
 
 msgid "Оскільки ціна переможця для переговорної процедури вказана без ПДВ, до активації угоди замовник може змінити ``value.valueAddedTaxIncluded`` на ``true``. При цьому ``amountNet`` не може перевищувати ціну переможця (``awards.value.amount``), а ``amount`` має бути не меншим за ``amountNet`` і відрізнятися від нього не більше ніж на 20%:"
 msgstr "Since the winner's price for the negotiation procedure is specified without VAT, the procuring entity may change ``value.valueAddedTaxIncluded`` to ``true`` before the contract is activated. In this case ``amountNet`` must not exceed the winner's price (``awards.value.amount``), and ``amount`` must be not less than ``amountNet`` and differ from it by no more than 20%:"
+
+msgid "Змінимо ознаку ПДВ і суму угоди з коректними значеннями:"
+msgstr "Let's change the VAT flag and the contract amount with correct values:"
 
 msgid "Угода про закупівлю для **переговорної процедури за нагальною потребою** може бути зареєстрована одразу після `періоду очікування скарг` (п’ятиденний період після підтвердження визначення переможця):"
 msgstr "**Negotiation.quick** tender contract can be registered after the stand-still (5 day period after the award confirmation):"

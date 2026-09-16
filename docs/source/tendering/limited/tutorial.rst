@@ -136,6 +136,8 @@
 .. http:example:: http/tutorial/create-tender-negotiation-vat-included.http
    :code:
 
+Створимо закупівлю з коректним значенням ``value.valueAddedTaxIncluded``:
+
 .. http:example:: http/tutorial/create-tender-negotiation-procuringEntity.http
    :code:
 
@@ -373,6 +375,8 @@
 
 .. http:example:: http/tutorial/tender-negotiation-contract-vat-amount-invalid.http
    :code:
+
+Змінимо ознаку ПДВ і суму угоди з коректними значеннями:
 
 .. http:example:: http/tutorial/tender-negotiation-contract-vat.http
    :code:
