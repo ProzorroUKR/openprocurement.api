@@ -18,7 +18,6 @@ from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.models.bid import ARMABid, ARMAPostBid
 from openprocurement.tender.arma.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.bid import filter_administrator_bid_update
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
@@ -97,9 +96,7 @@ class BidResource(TenderBidResource):
                 validate_bid_operation_not_in_tendering,
                 validate_bid_operation_period,
             ),
-            validate_input_data_from_resolved_model(
-                filters=(filter_administrator_bid_update,),
-            ),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(ARMABid, item_name="bid"),
         ),
     )

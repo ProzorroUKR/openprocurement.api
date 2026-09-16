@@ -75,7 +75,13 @@ from openprocurement.tender.competitivedialogue.procedure.models.tender import (
 )
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.procedure.models.award import Award, PatchAward, PostAward
-from openprocurement.tender.core.procedure.models.bid import Bid, PatchBid, PatchQualificationBid, PostBid
+from openprocurement.tender.core.procedure.models.bid import (
+    AdministratorPatchBid,
+    Bid,
+    PatchBid,
+    PatchQualificationBid,
+    PostBid,
+)
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
 from openprocurement.tender.esco.constants import ESCO
@@ -132,6 +138,7 @@ class ProcedureModels:
     bid_post: Optional[ModelClass] = PostBid
     bid_patch: Optional[ModelClass] = PatchBid
     bid_patch_qualification: Optional[ModelClass] = PatchQualificationBid
+    bid_patch_administrator: Optional[ModelClass] = AdministratorPatchBid
     bid: Optional[ModelClass] = Bid
 
     award_post: Optional[ModelClass] = PostAward

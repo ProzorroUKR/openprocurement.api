@@ -1,7 +1,6 @@
 from uuid import uuid4
 
 from schematics.exceptions import ValidationError
-from schematics.transforms import whitelist
 from schematics.types import BooleanType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
@@ -61,6 +60,15 @@ class PatchBid(PatchObjResponsesMixin, BaseBid):
     # choices=[True]; whether the fields are required/rogue is validated in BidState
     selfQualified = BooleanType(choices=[True])
     selfEligible = BooleanType(choices=[True])
+
+
+class AdministratorPatchBid(Model):
+    """
+    Administrator may only fix the supplier identity of a bid,
+    the commercial part (value, lotValues, status, ...) is untouchable
+    """
+
+    tenderers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
 
 
 class PatchQualificationBid(PatchBid):
@@ -197,12 +205,3 @@ class Bid(MetaBid, BidResponsesMixin, CommonBid):
 
     def validate_value(self, data, value):
         pass  # validated in BidState.validate_bid_value_on_patch (draft bids differ per procedure)
-
-
-Administrator_bid_role = whitelist("tenderers")
-
-
-def filter_administrator_bid_update(request, data):
-    if request.authenticated_role == "Administrator":
-        data = {k: v for k, v in data.items() if not Administrator_bid_role(k, v)}
-    return data

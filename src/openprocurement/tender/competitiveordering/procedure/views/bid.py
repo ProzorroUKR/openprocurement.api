@@ -15,7 +15,7 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.competitiveordering.procedure.state.bid import COBidState
-from openprocurement.tender.core.procedure.models.bid import Bid, PostBid, filter_administrator_bid_update
+from openprocurement.tender.core.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.core.procedure.validation import (
     unless_allowed_by_qualification_milestone_24,
     validate_bid_operation_not_in_tendering,
@@ -65,9 +65,7 @@ class COTenderBidResource(TenderBidResource):
                 validate_bid_operation_not_in_tendering,
                 validate_bid_operation_period,
             ),
-            validate_input_data_from_resolved_model(
-                filters=(filter_administrator_bid_update,),
-            ),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Bid, item_name="bid"),
         ),
     )

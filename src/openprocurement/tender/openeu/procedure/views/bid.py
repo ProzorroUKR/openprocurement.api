@@ -15,7 +15,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.bid import Bid, PostBid, filter_administrator_bid_update
+from openprocurement.tender.core.procedure.models.bid import Bid, PostBid
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
@@ -95,9 +95,7 @@ class OpenEUTenderBidResource(TenderBidResource):
                 validate_bid_operation_not_in_tendering,
                 validate_bid_operation_period,
             ),
-            validate_input_data_from_resolved_model(
-                filters=(filter_administrator_bid_update,),
-            ),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Bid, item_name="bid"),
         ),
     )

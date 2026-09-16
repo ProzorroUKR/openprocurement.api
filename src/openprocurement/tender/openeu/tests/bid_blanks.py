@@ -890,7 +890,17 @@ def bid_Administrator_change(self):
     self.app.authorization = ("Basic", ("administrator", ""))
     response = self.app.patch_json(
         "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
-        {"data": bid_data},
+        {"data": {"tenderers": bid_data["tenderers"], "lotValues": bid_data["lotValues"]}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Rogue field", "location": "body", "name": "lotValues"}],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": {"tenderers": bid_data["tenderers"]}},
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")

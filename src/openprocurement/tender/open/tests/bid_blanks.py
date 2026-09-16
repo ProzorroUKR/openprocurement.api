@@ -706,7 +706,20 @@ def bid_Administrator_change(self):
     patch_bid_data["lotValues"] = bid["lotValues"]
     patch_bid_data["lotValues"][0]["value"]["amount"] = 400
 
-    response = self.app.patch_json("/tenders/{}/bids/{}".format(self.tender_id, bid["id"]), {"data": patch_bid_data})
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": patch_bid_data},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": "Rogue field", "location": "body", "name": "lotValues"}],
+    )
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}".format(self.tender_id, bid["id"]),
+        {"data": {"tenderers": patch_bid_data["tenderers"]}},
+    )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
     self.assertNotEqual(response.json["data"]["lotValues"][0]["value"]["amount"], 400)

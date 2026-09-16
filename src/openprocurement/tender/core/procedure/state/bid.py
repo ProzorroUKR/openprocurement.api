@@ -144,6 +144,8 @@ class BidState(BaseState):
     def get_patch_data_model(self):
         tender = self.request.validated["tender"]
         models = get_procedure_models(tender["procurementMethodType"])
+        if self.request.authenticated_role == "Administrator":
+            return models.bid_patch_administrator
         if tender.get("status", "") in self.qualification_statuses:
             return models.bid_patch_qualification
         return models.bid_patch
