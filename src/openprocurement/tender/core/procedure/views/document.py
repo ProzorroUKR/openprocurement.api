@@ -240,7 +240,7 @@ class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
         ),
         permission="edit_tender",

@@ -13,6 +13,10 @@ class LotState(LotInvalidationBidStateMixin, TenderDetailsState):
         self.validate_lot_min_expected_income(data)
         super().lot_on_post(data)
 
+    def lot_on_patch(self, before: dict, after: dict) -> None:
+        self.validate_lot_min_expected_income(after)
+        super().lot_on_patch(before, after)
+
     def validate_lot_min_expected_income(self, lot: dict) -> None:
         tender = get_tender()
 

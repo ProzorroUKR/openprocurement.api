@@ -66,7 +66,7 @@ class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
             ),
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-            validate_input_data_from_resolved_model(filters=(filter_administrator_bid_update,), none_means_remove=True),
+            validate_input_data_from_resolved_model(filters=(filter_administrator_bid_update,)),
             validate_patch_data_simple(CDBid, item_name="bid"),
         ),
     )

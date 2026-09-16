@@ -150,7 +150,7 @@ class BaseRequirementResource(TenderBaseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_input_data_from_resolved_model(none_means_remove=True),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",

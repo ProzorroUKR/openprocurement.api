@@ -75,10 +75,7 @@ class ReportingAwardResource(TenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(
-                ReportingPatchAward,
-                none_means_remove=True,
-            ),
+            validate_input_data(ReportingPatchAward),
             validate_patch_data_simple(ReportingAward, item_name="award"),
             validate_limited_award_operation_not_in_active_status,
         ),
@@ -117,10 +114,7 @@ class NegotiationAwardResource(TenderAwardResource):
         permission="create_award",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(
-                LimitedPostAward,
-                none_means_remove=True,
-            ),
+            validate_input_data(LimitedPostAward),
             validate_limited_award_operation_not_in_active_status,
             validate_award_with_lot_cancellation_in_pending,
             validate_limited_lot_cancellation,
@@ -135,10 +129,7 @@ class NegotiationAwardResource(TenderAwardResource):
         permission="edit_award",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(
-                LimitedPatchAward,
-                none_means_remove=True,
-            ),
+            validate_input_data(LimitedPatchAward),
             validate_patch_data_simple(LimitedAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_limited_award_operation_not_in_active_status,

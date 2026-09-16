@@ -77,7 +77,7 @@ class AgreementDocumentsResource(AgreementBaseResource, BaseDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("agreement"),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data_simple(Document, item_name="document"),
             validate_document_operation_on_agreement_status,
         ),

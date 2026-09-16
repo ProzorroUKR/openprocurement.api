@@ -1466,11 +1466,16 @@ def patch_tender_lot_min_expected_income(self):
         {"amount": 100001.0, "currency": "UAH", "valueAddedTaxIncluded": True},
     )
 
+    # None removes the field, which is not allowed after draft
     response = self.app.patch_json(
         f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
         {"data": {"minExpectedIncome": None}},
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "minExpectedIncome", "description": "minExpectedIncome is required for lot"}],
+    )
 
     response = self.app.get(f"/tenders/{tender_id}")
     self.assertEqual(

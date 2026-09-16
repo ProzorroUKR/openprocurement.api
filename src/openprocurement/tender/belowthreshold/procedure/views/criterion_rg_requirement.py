@@ -34,7 +34,7 @@ class RequirementResource(BaseRequirementResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_input_data(PatchRequirement, none_means_remove=True),
+            validate_input_data(PatchRequirement),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
@@ -46,7 +46,7 @@ class RequirementResource(BaseRequirementResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_input_data(PutRequirement, none_means_remove=True),
+            validate_input_data(PutRequirement),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",

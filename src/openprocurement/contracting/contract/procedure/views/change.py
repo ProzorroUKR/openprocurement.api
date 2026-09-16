@@ -54,7 +54,7 @@ class ContractsChangesResource(BaseContractsChangesResource):
         permission="edit_contract",
         validators=(
             unless_administrator(unless_admins(validate_contract_owner)),
-            validate_input_data(PatchChange, none_means_remove=True),
+            validate_input_data(PatchChange),
             validate_patch_data(Change, item_name="change"),
             validate_contract_change_action_not_in_allowed_contract_status,
             validate_contract_change_update_not_in_allowed_change_status,

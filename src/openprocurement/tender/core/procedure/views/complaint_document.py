@@ -107,7 +107,7 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
                     )
                 ),
             ),
-            validate_input_data(PatchComplaintDocument, none_means_remove=True),
+            validate_input_data(PatchComplaintDocument),
             validate_patch_data(Document, item_name="document"),
         ),
         permission="upload_complaint_documents",

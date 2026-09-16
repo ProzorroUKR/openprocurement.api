@@ -70,7 +70,7 @@ class ESCOTenderResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(ESCOPatchTender, none_means_remove=True),
+            validate_input_data(ESCOPatchTender),
             validate_patch_data_simple(ESCOTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

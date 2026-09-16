@@ -61,7 +61,7 @@ class ContractDocumentResource(BaseContractDocumentResource):
         content_type="application/json",
         validators=(
             unless_admins(validate_contract_owner),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
             validate_contract_document_operation_not_in_allowed_contract_status,
             validate_add_document_to_active_change,

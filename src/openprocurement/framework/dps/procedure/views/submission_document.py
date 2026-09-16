@@ -74,7 +74,7 @@ class SubmissionDocumentResource(CoreSubmissionDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("submission"),
-            validate_input_data(PatchSubmissionDocument, none_means_remove=True),
+            validate_input_data(PatchSubmissionDocument),
             validate_patch_data_simple(SubmissionDocument, item_name="document"),
             validate_document_operation_in_not_allowed_period,
         ),

@@ -76,7 +76,7 @@ class MilestoneDocumentResource(CoreMilestoneDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("agreement"),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data_simple(Document, item_name="document"),
             validate_agreement_operation_not_in_allowed_status,
             validate_contract_operation_not_in_allowed_status,

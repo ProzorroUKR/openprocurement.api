@@ -97,7 +97,7 @@ class PlanMilestoneResource(PlanBaseResource):
         permission="update_milestone",
         validators=(
             validate_item_owner("milestone"),
-            validate_input_data(PatchMilestone, none_means_remove=True),
+            validate_input_data(PatchMilestone),
             validate_patch_data_simple(Milestone, item_name="milestone"),
         ),
     )

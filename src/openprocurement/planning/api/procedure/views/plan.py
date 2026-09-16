@@ -140,7 +140,7 @@ class PlansResource(PlanBaseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("plan")),
-            validate_input_data(PatchPlan, none_means_remove=True),
+            validate_input_data(PatchPlan),
             validate_patch_data_simple(Plan, item_name="plan"),
         ),
         permission="edit_plan",

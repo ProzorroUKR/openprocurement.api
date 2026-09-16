@@ -68,7 +68,7 @@ class RequestForProposalTenderResource(TendersResource):
                     "active.tendering",
                 )
             ),
-            validate_input_data_from_resolved_model(none_means_remove=True),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Tender, item_name="tender"),
             validate_item_quantity,
             validate_tender_guarantee,

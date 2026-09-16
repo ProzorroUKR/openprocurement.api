@@ -157,7 +157,7 @@ class BaseTenderBidDocumentResource(BaseDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("bid"),
-            validate_patch_update_model(none_means_remove=True),
+            validate_patch_update_model(),
             validate_patch_model(item_name="document"),
             unless_allowed_by_qualification_milestone(
                 validate_bid_document_in_tender_status,
@@ -226,7 +226,7 @@ class BaseTenderBidEligibilityDocumentResource(BaseTenderBidDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("bid"),
-            validate_patch_update_model(none_means_remove=True),
+            validate_patch_update_model(),
             validate_patch_model(item_name="document"),
             unless_allowed_by_qualification_milestone(
                 validate_bid_document_in_tender_status,
@@ -308,7 +308,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("bid"),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
             unless_allowed_by_qualification_milestone(
                 validate_bid_document_in_tender_status,

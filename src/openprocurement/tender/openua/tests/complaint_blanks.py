@@ -334,7 +334,7 @@ def review_tender_complaint(self):
                 self.assertEqual(response.json["data"]["reviewPlace"], "some")
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
-            # try to delete reviewDate
+            # try to delete reviewDate (None removes the field, which is not allowed in accepted status)
             if RELEASE_2020_04_19 < now:
                 data.update(
                     {
@@ -342,13 +342,18 @@ def review_tender_complaint(self):
                         "reviewPlace": "new_some",
                     }
                 )
-            response = self.app.patch_json(
-                "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]), {"data": data}
-            )
-            self.assertEqual(response.status, "200 OK")
+                response = self.app.patch_json(
+                    "/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]),
+                    {"data": data},
+                    status=422,
+                )
+                self.assertEqual(
+                    response.json["errors"][0],
+                    {"location": "body", "name": "reviewDate", "description": ["This field is required."]},
+                )
 
-            if RELEASE_2020_04_19 < now:
-                self.assertEqual(response.json["data"]["reviewPlace"], "new_some")
+                response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, complaint["id"]))
+                self.assertEqual(response.json["data"]["reviewPlace"], "some")
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
             now = get_now()
@@ -358,7 +363,7 @@ def review_tender_complaint(self):
                 data.update(
                     {
                         "reviewDate": now.isoformat(),
-                        "reviewPlace": "some",
+                        "reviewPlace": "new_some",
                     }
                 )
 
@@ -371,7 +376,7 @@ def review_tender_complaint(self):
             self.assertEqual(response.json["data"]["decision"], "accepted:{} complaint".format(status))
 
             if RELEASE_2020_04_19 > now:
-                self.assertEqual(response.json["data"]["reviewPlace"], "some")
+                self.assertEqual(response.json["data"]["reviewPlace"], "new_some")
                 self.assertEqual(response.json["data"]["reviewDate"], now.isoformat())
 
         now = get_now()

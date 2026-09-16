@@ -2202,7 +2202,10 @@ change_contract_milestones_params = [
         "pending",
         [],
         200,
-        lambda test_case, response: test_case.assertIsNone(response.json),
+        lambda test_case, response: test_case.assertNotIn(
+            "milestones",
+            response.json["data"],
+        ),
     ),
 ]
 

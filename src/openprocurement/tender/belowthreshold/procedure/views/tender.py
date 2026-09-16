@@ -60,7 +60,7 @@ class BelowThresholdTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_bt_tender_status_allows_update_operation),
-            validate_input_data_from_resolved_model(none_means_remove=True),
+            validate_input_data_from_resolved_model(),
             validate_patch_data_simple(Tender, item_name="tender"),
             validate_item_quantity,
             validate_tender_guarantee,

@@ -71,7 +71,7 @@ class CFAUATenderResource(TendersResource):
                     "active.qualification",  # state class only allows status change to qualification.stand-still
                 )
             ),
-            validate_input_data(CFAPatchTender, none_means_remove=True),
+            validate_input_data(CFAPatchTender),
             validate_patch_data_simple(CFATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

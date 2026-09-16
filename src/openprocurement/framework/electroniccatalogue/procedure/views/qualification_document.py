@@ -71,7 +71,7 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
         validators=(
             validate_framework_owner("qualification"),
             validate_document_operation_in_not_allowed_status,
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data_simple(Document, item_name="document"),
         ),
         permission="edit_qualification",

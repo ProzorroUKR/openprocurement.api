@@ -68,7 +68,7 @@ class FrameworkChangeDocumentResource(CoreFrameworkChangeDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("framework"),
-            validate_input_data(PatchDocument, none_means_remove=True),
+            validate_input_data(PatchDocument),
             validate_patch_data_simple(Document, item_name="document"),
             validate_action_in_not_allowed_framework_status("change"),
         ),
