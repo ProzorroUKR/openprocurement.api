@@ -60,8 +60,6 @@ class AwardStateMixing:
     award_unsuccessful_requires_cancelled_award_same_bid: bool = False
     # unsuccessful -> cancelled transition (cfaua overrides the whole transition instead of using these flags)
     award_unsuccessful_cancel_allowed: bool = True  # limited: forbidden
-    award_unsuccessful_cancel_requires_considered_complaints: bool = False
-    award_unsuccessful_cancel_forbidden_with_active_contract: bool = True
     award_unsuccessful_cancel_all_lot_awards: bool = True  # rfp: awards after the current one only
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
@@ -303,11 +301,7 @@ class AwardStateMixing:
     def award_status_up_from_unsuccessful_to_cancelled(self, award, tender):
         if not self.award_unsuccessful_cancel_allowed:
             raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
-        if self.award_unsuccessful_cancel_requires_considered_complaints and not self.has_considered_award_complaints(
-            award, tender
-        ):
-            raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
-        if self.award_unsuccessful_cancel_forbidden_with_active_contract and self.has_active_contract(award, tender):
+        if self.has_active_contract(award, tender):
             raise_operation_error(self.request, "Can't update award in current (unsuccessful) status")
 
         if tender["status"] == "active.awarded":
@@ -414,12 +408,6 @@ class AwardStateMixing:
                 cls.set_object_status(complaint, "cancelled")
                 complaint["cancellationReason"] = "cancelled"
                 complaint["dateCanceled"] = get_request_now().isoformat()
-
-    @staticmethod
-    def has_considered_award_complaints(current_award, tender):
-        return any(
-            i["status"] in ("claim", "answered", "pending", "resolved") for i in current_award.get("complaints", "")
-        )
 
     def set_award_complaint_period(self, award):
         tender = get_tender()
