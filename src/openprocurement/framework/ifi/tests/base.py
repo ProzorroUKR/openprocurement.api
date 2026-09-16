@@ -6,6 +6,7 @@ from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.tests.base import BaseFrameworkCoreWebTest
+from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.procedure.models.framework import Framework
 from openprocurement.framework.ifi.tests.periods import PERIODS
@@ -32,7 +33,9 @@ test_framework_ifi_data = {
     "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=41)).isoformat()},
+    "qualificationPeriod": {
+        "endDate": calculate_framework_full_date(now, timedelta(days=41), ceil=True).isoformat(),
+    },
 }
 
 test_framework_ifi_config = {
