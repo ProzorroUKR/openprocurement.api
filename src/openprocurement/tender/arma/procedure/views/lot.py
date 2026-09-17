@@ -14,7 +14,6 @@ from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchL
 from openprocurement.tender.arma.procedure.state.lot import LotState
 from openprocurement.tender.core.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
-    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -48,7 +47,6 @@ class LotResource(TenderLotResource):
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_patch_input_data(ARMAPatchLot),
             validate_patch_data_simple(ARMALot, item_name="lot"),
-            validate_operation_with_lot_cancellation_in_pending("lot"),
         ),
         permission="edit_lot",
     )

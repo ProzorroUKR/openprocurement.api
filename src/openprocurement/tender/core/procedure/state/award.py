@@ -54,6 +54,8 @@ class AwardStateMixing:
     # --- status transition rules (procedure differences) ---
     # the next award is generated automatically after a status change (limited: awards are created manually)
     award_next_award_on_status_change: bool = True
+    # 24h / low price milestones postpone the award decision until milestone.dueDate
+    award_status_change_waits_for_milestone_due_date: bool = True
     # cfaselectionua: an award may become unsuccessful in active.qualification only after a cancelled award of the same bid
     award_unsuccessful_requires_cancelled_award_same_bid: bool = False
     # unsuccessful -> cancelled transition (cfaua overrides the whole transition instead of using these flags)
@@ -229,6 +231,8 @@ class AwardStateMixing:
         self.validate_award_items_allowed(award)
 
     def validate_award_patch(self, before, after):
+        if self.award_status_change_waits_for_milestone_due_date:
+            self.validate_status_change_before_milestone_due_date(before, after)
         self.validate_award_qualified_eligible(after)
         self.validate_award_items_allowed(after)
         tender = get_tender()

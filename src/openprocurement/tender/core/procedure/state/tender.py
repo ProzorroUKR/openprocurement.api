@@ -12,6 +12,9 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
 from openprocurement.tender.core.procedure.criteria import TenderCriterionMixin
+from openprocurement.tender.core.procedure.models.qualification_milestone import (
+    QualificationMilestoneCode,
+)
 from openprocurement.tender.core.procedure.reviewing_request import (
     ReviewRequestBlockMixin,
 )
@@ -121,3 +124,20 @@ class TenderState(
             return
         if "enquiryPeriod" in tender:
             tender["enquiryPeriod"]["invalidationDate"] = get_request_now().isoformat()
+
+    def validate_status_change_before_milestone_due_date(self, before, after):
+        if before.get("status") == "pending" and after.get("status") != "pending":
+            now = get_request_now().isoformat()
+            for milestone in before.get("milestones", ""):
+                if (
+                    milestone["code"]
+                    in (
+                        QualificationMilestoneCode.CODE_24_HOURS.value,
+                        QualificationMilestoneCode.CODE_LOW_PRICE.value,
+                    )
+                    and milestone["date"] <= now <= milestone["dueDate"]
+                ):
+                    raise_operation_error(
+                        get_request(),
+                        f"Can't change status to '{after.get('status')}' until milestone.dueDate: {milestone['dueDate']}",
+                    )

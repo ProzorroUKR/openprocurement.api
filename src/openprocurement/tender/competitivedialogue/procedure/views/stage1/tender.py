@@ -27,7 +27,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_de
     CDUAStage1TenderDetailsState,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_item_quantity,
     validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_status_allows_update,
 )
@@ -80,7 +79,6 @@ class CDEUTenderResource(TendersResource):
             validate_patch_input_data(CDStage1EUPatchTender),
             validate_patch_data_simple(CDStage1EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_item_quantity,
         ),
         permission="edit_tender",
     )
@@ -137,7 +135,6 @@ class CDUATenderResource(TendersResource):
             validate_patch_input_data(CDStage1UAPatchTender),
             validate_patch_data_simple(CDStage1UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_item_quantity,
         ),
         permission="edit_tender",
     )

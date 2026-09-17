@@ -3,6 +3,7 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
+    award_status_change_waits_for_milestone_due_date = False
     award_has_eligible: bool = True
     award_eligible_required_for_activation: bool = False
     award_eligible_in_unsuccessful_rule: bool = False

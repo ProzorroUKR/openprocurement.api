@@ -12,7 +12,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_create_award_only_for_active_lot,
     validate_delete_lot_related_object,
     validate_lot_operation_in_disallowed_tender_statuses,
-    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -46,7 +45,6 @@ class CFAUATenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_lot_operation_in_disallowed_tender_statuses,
-            validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_delete_lot_related_object,
             validate_cfa_lot_count,
         ),

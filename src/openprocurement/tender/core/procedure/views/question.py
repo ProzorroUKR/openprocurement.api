@@ -14,9 +14,6 @@ from openprocurement.tender.core.procedure.serializers.question import (
 )
 from openprocurement.tender.core.procedure.state.question import TenderQuestionState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_operation_with_lot_cancellation_in_pending,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -104,7 +101,6 @@ class TenderQuestionResource(TenderBaseResource):
             validate_item_owner("tender"),
             validate_patch_input_data(PatchQuestion),
             validate_patch_data_simple(Question, item_name="question"),
-            validate_operation_with_lot_cancellation_in_pending("question"),
         ),
         permission="edit_question",
     )

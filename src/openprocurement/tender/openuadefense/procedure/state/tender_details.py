@@ -10,6 +10,7 @@ from openprocurement.tender.openuadefense.constants import (
 
 
 class DefenseTenderDetailsState(OpenUATenderDetailsState):
+    should_validate_items_zero_quantity = False
     procuring_entity_available_language_default = "uk"
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
@@ -28,4 +29,5 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
 
 class AboveThresholdUADefenseTenderDetailsState(DefenseTenderDetailsState):
+    should_validate_guarantee_criterion = False
     should_validate_related_lot_in_items = False

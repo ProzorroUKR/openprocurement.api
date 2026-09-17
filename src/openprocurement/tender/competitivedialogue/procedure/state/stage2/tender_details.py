@@ -10,6 +10,8 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 
 class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
+    should_validate_items_zero_quantity = False
+    guarantee_criterion_check_skipped_for_administrator = True
     features_max_weight = FEATURES_MAX_SUM
     items_unit_required = False
     items_quantity_required = False

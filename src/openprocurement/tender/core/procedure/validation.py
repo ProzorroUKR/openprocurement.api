@@ -4,7 +4,6 @@ from copy import deepcopy
 from datetime import datetime, timedelta
 from decimal import Decimal
 from hashlib import sha512
-from typing import Callable
 
 from pyramid.httpexceptions import HTTPError
 from pyramid.interfaces import IAuthenticationPolicy
@@ -29,7 +28,6 @@ from openprocurement.api.constants import (
     GMDN_2019_SCHEME,
     GMDN_2023_SCHEME,
     GMDN_CPV_PREFIXES,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
     INN_SCHEME,
     UA_ROAD_CPV_PREFIXES,
     UA_ROAD_SCHEME,
@@ -46,10 +44,8 @@ from openprocurement.api.constants_env import (
     PQ_CRITERIA_ID_FROM,
     RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
-    RELEASE_GUARANTEE_CRITERION_FROM,
     REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
     TENDER_SIGNER_INFO_REQUIRED_FROM,
-    UNIFIED_CRITERIA_LOGIC_FROM,
     UNIT_PRICE_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
@@ -608,29 +604,6 @@ def validate_update_award_with_accepted_complaint(request, **_):
         raise_operation_error(request, "Can't update award with accepted complaint")
 
 
-def validate_update_award_status_before_milestone_due_date(request, **_):
-    # pylint: disable-next=import-outside-toplevel, cyclic-import
-    from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
-
-    award = request.validated["award"]
-    sent_status = request.json.get("data", {}).get("status")
-    if award.get("status") == "pending" and sent_status != "pending":
-        now = get_request_now().isoformat()
-        for milestone in award.get("milestones", ""):
-            if (
-                milestone["code"]
-                in (
-                    QualificationMilestoneCode.CODE_24_HOURS.value,
-                    QualificationMilestoneCode.CODE_LOW_PRICE.value,
-                )
-                and milestone["date"] <= now <= milestone["dueDate"]
-            ):
-                raise_operation_error(
-                    request,
-                    f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}",
-                )
-
-
 # AWARD DOCUMENTS
 def validate_award_document_tender_not_in_allowed_status_base(request, allowed_bot_statuses=("active.awarded",), **_):
     allowed_tender_statuses = ["active.qualification"]
@@ -687,81 +660,6 @@ def validate_tender_status_allows_update(*statuses):
             raise_operation_error(request, f"Can't update tender in current ({tender_status}) status")
 
     return validate
-
-
-def validate_item_quantity(request, **_):
-    items = request.validated["data"].get("items", [])
-    for item in items:
-        if item.get("quantity") is not None and not item["quantity"]:
-            if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
-                tender = get_tender()
-                related_criteria = any(
-                    criterion.get("relatedItem") == item["id"] and requirement.get("status") == "active"
-                    for criterion in tender.get("criteria", "")
-                    for rg in criterion.get("requirementGroups", "")
-                    for requirement in rg.get("requirements", "")
-                )
-                if related_criteria:
-                    raise_operation_error(
-                        request,
-                        f"Can't set to 0 quantity of {item['id']} item while related criterion has active requirements",
-                    )
-
-
-def validate_tender_guarantee(request, **_):
-    if tender_created_before(RELEASE_GUARANTEE_CRITERION_FROM):
-        return
-
-    tender = request.validated["tender"]
-    data = request.validated["data"]
-    new_status = data.get("status")
-    if tender["status"] == new_status:
-        return
-
-    if new_status not in ("active", "active.enquiries", "active.tendering"):
-        return
-
-    tender_type = tender["procurementMethodType"]
-    if tender_created_before(UNIFIED_CRITERIA_LOGIC_FROM) and tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES:
-        return
-
-    bid_guarantee_criterion = "CRITERION.OTHER.BID.GUARANTEE"
-
-    if tender.get("lots"):
-        related_guarantee_lots = [
-            criterion.get("relatedItem")
-            for criterion in tender.get("criteria", "")
-            if criterion.get("relatesTo") == "lot"
-            and criterion.get("classification")
-            and criterion["classification"]["id"] == bid_guarantee_criterion
-        ]
-        for lot in tender["lots"]:
-            if lot["id"] in related_guarantee_lots:
-                if not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0:
-                    raise_operation_error(
-                        request,
-                        f"Should be specified 'guarantee.amount' more than 0 to lot for {bid_guarantee_criterion}",
-                    )
-            elif tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and lot.get("guarantee", {}).get("amount", 0) > 0:
-                raise_operation_error(
-                    request,
-                    f"Should be specified {bid_guarantee_criterion} for 'guarantee.amount' more than 0 to lot",
-                )
-
-    else:
-        amount = data["guarantee"]["amount"] if data.get("guarantee") else 0
-        tender_criteria = [
-            criterion["classification"]["id"]
-            for criterion in tender.get("criteria", "")
-            if criterion.get("classification")
-        ]
-        if (amount <= 0 and bid_guarantee_criterion in tender_criteria) or (
-            amount > 0 and bid_guarantee_criterion not in tender_criteria
-        ):
-            raise_operation_error(
-                request,
-                f"Should be specified {bid_guarantee_criterion} and 'guarantee.amount' more than 0",
-            )
 
 
 def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
@@ -882,29 +780,6 @@ def validate_update_qualification_only_for_active_lots(request, **_):
         raise_operation_error(request, "Can update qualification only in active lot status")
 
 
-def validate_update_status_before_milestone_due_date(request, **_):
-    # pylint: disable-next=import-outside-toplevel, cyclic-import
-    from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
-
-    qualification = request.validated["qualification"]
-    sent_status = request.validated["data"].get("status")
-    if qualification.get("status") == "pending" and qualification.get("status") != sent_status:
-        now = get_request_now().isoformat()
-        for milestone in qualification.get("milestones", []):
-            if (
-                milestone["code"]
-                in (
-                    QualificationMilestoneCode.CODE_24_HOURS.value,
-                    QualificationMilestoneCode.CODE_LOW_PRICE.value,
-                )
-                and milestone["date"] <= now <= milestone["dueDate"]
-            ):
-                raise_operation_error(
-                    request,
-                    f"Can't change status to '{sent_status}' until milestone.dueDate: {milestone['dueDate']}",
-                )
-
-
 # QUALIFICATION DOCUMENT
 def get_qualification_document_role(request):
     tender = request.validated["tender"]
@@ -970,61 +845,6 @@ def validate_qualification_document_operation_not_in_pending(request, **_):
 validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
     "lot", ("active.tendering", "draft", "draft.stage2")
 )
-
-
-def validate_operation_with_lot_cancellation_in_pending(type_name: str) -> Callable:
-    def validation(request: Request, **_) -> None:
-        if not tender_created_after_2020_rules():
-            return
-
-        fields_names = {
-            "lot": "id",
-            "award": "lotID",
-            "qualification": "lotID",
-            "complaint": "relatedLot",
-            "question": "relatedItem",
-        }
-
-        tender = request.validated["tender"]
-
-        field = fields_names.get(type_name)
-        if not field:
-            return
-
-        o = request.validated.get(type_name)
-        lot_id = getattr(o, field, None)
-
-        if not lot_id:
-            return
-
-        msg = "Can't {} {} with lot that have active cancellation"
-        if type_name == "lot":
-            msg = "Can't {} lot that have active cancellation"
-
-        accept_lot = all(
-            [
-                any(j["status"] == "resolved" for j in i["complaints"])
-                for i in tender.get("cancellations", [])
-                if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
-            ]
-        )
-
-        if request.authenticated_role == "tender_owner" and (
-            any(
-                [
-                    i
-                    for i in tender.get("cancellations", [])
-                    if i["relatedLot"] and i["status"] == "pending" and i["relatedLot"] == lot_id
-                ]
-            )
-            or not accept_lot
-        ):
-            raise_operation_error(
-                request,
-                msg.format(OPERATIONS.get(request.method), type_name),
-            )
-
-    return validation
 
 
 def _validate_related_criterion(request: Request, relatedItem_id: str, action="cancel", relatedItem="lot") -> None:

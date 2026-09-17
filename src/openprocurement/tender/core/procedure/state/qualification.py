@@ -49,6 +49,7 @@ class QualificationState(TenderState):
                 bid["status"] = "unsuccessful"
 
     def qualification_on_patch(self, before, qualification):
+        self.validate_status_change_before_milestone_due_date(before, qualification)
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=qualification.get("lotID"))
         if before["status"] != qualification["status"]:

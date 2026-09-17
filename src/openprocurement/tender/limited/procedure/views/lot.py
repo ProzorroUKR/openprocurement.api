@@ -13,7 +13,6 @@ from openprocurement.tender.core.procedure.validation import (
     validate_delete_lot_related_object,
     validate_limited_lot_operation_in_disallowed_tender_statuses,
     validate_limited_lot_operation_with_awards,
-    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.limited.procedure.models.lot import LimitedLot, LimitedPatchLot, LimitedPostLot
@@ -50,7 +49,6 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
             validate_limited_lot_operation_in_disallowed_tender_statuses,
             validate_patch_input_data(LimitedPatchLot),
             validate_patch_data_simple(LimitedLot, item_name="lot"),
-            validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_limited_lot_operation_with_awards,
         ),
         permission="edit_lot",
@@ -62,7 +60,6 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_operation_with_lot_cancellation_in_pending("lot"),
             validate_limited_lot_operation_in_disallowed_tender_statuses,
             validate_delete_lot_related_object,
             validate_limited_lot_operation_with_awards,
