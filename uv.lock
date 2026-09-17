@@ -894,7 +894,7 @@ wheels = [
 
 [[package]]
 name = "openprocurement-api"
-version = "2.7.43rc5"
+version = "2.7.43rc6"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
@@ -1000,7 +1000,7 @@ requires-dist = [
     { name = "sentry-sdk", specifier = "==2.29.1" },
     { name = "setuptools", specifier = "==78.1.0" },
     { name = "simplejson", specifier = "==3.17.2" },
-    { name = "standards", git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.281" },
+    { name = "standards", git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.282" },
     { name = "tzlocal", specifier = "==2.1" },
     { name = "uvicorn", specifier = ">=0.35.0" },
     { name = "webob", specifier = "==1.8.9" },
@@ -1936,8 +1936,8 @@ wheels = [
 
 [[package]]
 name = "standards"
-version = "1.0.281"
-source = { git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.281#035e58300b337469ca87842ab1bf8f0bbcc0803d" }
+version = "1.0.282"
+source = { git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.282#d4975462e2654e63bc51d46b9d32a06e9326706a" }
 
 [[package]]
 name = "statsd"
