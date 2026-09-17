@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
@@ -49,7 +50,7 @@ class AwardResource(TenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(PatchAward),
+            validate_patch_input_data(PatchAward),
             validate_patch_data_simple(ARMAAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_update_award_in_not_allowed_status,

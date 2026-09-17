@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -40,7 +41,7 @@ def validate_post_create_model(**kwargs):
 
 def validate_patch_update_model(**kwargs):
     def validator(request, **_):
-        validate_input_data(request.root.update_model_class, **kwargs)(request)
+        validate_patch_input_data(request.root.update_model_class, **kwargs)(request)
 
     return validator
 
@@ -308,7 +309,7 @@ class BaseTenderBidFinancialDocumentResource(BaseTenderBidDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("bid"),
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
             unless_allowed_by_qualification_milestone(
                 validate_bid_document_in_tender_status,

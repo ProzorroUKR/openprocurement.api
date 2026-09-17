@@ -10,6 +10,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_from_resolved_model,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import (
     context_unpack,
@@ -117,7 +118,7 @@ class AgreementChangesResource(AgreementBaseResource):
         permission="edit_agreement",
         validators=(
             unless_administrator(validate_item_owner("agreement")),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_from_resolved_model(item_name="change"),
             validate_agreement_change_update_not_in_allowed_change_status,
         ),

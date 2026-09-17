@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_data_model,
     validate_input_data,
     validate_patch_data_simple,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -69,7 +70,7 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
         validators=(
             validate_framework_owner("qualification"),
             validate_document_operation_in_not_allowed_status,
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data_simple(Document, item_name="document"),
         ),
         permission="edit_qualification",

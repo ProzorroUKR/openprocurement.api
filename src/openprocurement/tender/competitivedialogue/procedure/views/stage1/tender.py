@@ -10,6 +10,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
@@ -76,7 +77,7 @@ class CDEUTenderResource(TendersResource):
                     "active.stage2.pending",
                 )
             ),
-            validate_input_data(CDStage1EUPatchTender),
+            validate_patch_input_data(CDStage1EUPatchTender),
             validate_patch_data_simple(CDStage1EUTender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,
@@ -133,7 +134,7 @@ class CDUATenderResource(TendersResource):
                     "active.stage2.pending",
                 )
             ),
-            validate_input_data(CDStage1UAPatchTender),
+            validate_patch_input_data(CDStage1UAPatchTender),
             validate_patch_data_simple(CDStage1UATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

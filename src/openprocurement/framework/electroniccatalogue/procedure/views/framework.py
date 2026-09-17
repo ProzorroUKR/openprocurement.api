@@ -6,9 +6,9 @@ from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.validation import (
@@ -61,7 +61,7 @@ class ElectronicCatalogueFrameworkResource(FrameworksResource):
         content_type="application/json",
         validators=(
             unless_administrator_or_chronograph(validate_item_owner("framework")),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data(Framework, item_name="framework"),
         ),
         permission="edit_framework",

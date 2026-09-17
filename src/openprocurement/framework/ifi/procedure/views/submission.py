@@ -7,6 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.submission import PatchSubmission
@@ -62,7 +63,7 @@ class IFISubmissionResource(SubmissionsResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("submission")),
-            validate_input_data(PatchSubmission),
+            validate_patch_input_data(PatchSubmission),
             validate_submission_framework,
             validate_update_submission_in_not_allowed_status,
             validate_submission_status,

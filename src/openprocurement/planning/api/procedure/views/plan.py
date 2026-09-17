@@ -16,6 +16,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import (
     context_unpack,
@@ -140,7 +141,7 @@ class PlansResource(PlanBaseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("plan")),
-            validate_input_data(PatchPlan),
+            validate_patch_input_data(PatchPlan),
             validate_patch_data_simple(Plan, item_name="plan"),
         ),
         permission="edit_plan",

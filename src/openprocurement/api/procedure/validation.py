@@ -27,11 +27,25 @@ from openprocurement.tender.core.procedure.documents import (
 )
 
 
-def validate_input_data(input_model, allow_bulk=False, strict=True):
+def get_removed_fields(input_data):
+    """
+    None passed on update (PATCH/PUT) means that the field value is deleted,
+    so it should be added to the result (validate_data drops None values)
+    IMPORTANT: input_data can contain more fields than are allowed to update
+    validate_data will raise Rogue field error then
+    NOTE: empty list does the same for list fields
+    On POST there is nothing to delete, so None values are just dropped
+    """
+    return {k: v for k, v in input_data.items() if v is None or isinstance(v, list) and len(v) == 0}
+
+
+def validate_input_data(input_model, allow_bulk=False, strict=True, none_means_remove=False):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
     :param strict: if True, unknown fields will raise an error
+    :param none_means_remove: if True, fields passed as None or empty list are kept in the result
+        (they mean the field value is deleted), otherwise they are dropped
     :return:
     """
 
@@ -42,30 +56,23 @@ def validate_input_data(input_model, allow_bulk=False, strict=True):
         if not isinstance(json_data, list):
             json_data = [json_data]
 
-        # None passed on update (PATCH/PUT) means that the field value is deleted,
-        # so it should be added to the result (validate_data drops None values)
-        # IMPORTANT: input_data can contain more fields than are allowed to update
-        # validate_data will raise Rogue field error then
-        # NOTE: empty list does the same for list fields
-        # On POST there is nothing to delete, so None values are just dropped
-        none_means_remove = request.method != "POST"
-
         data = []
         for input_data in json_data:
             result = {}
             if none_means_remove:
-                for k, v in input_data.items():
-                    if v is None or isinstance(v, list) and len(v) == 0:
-                        result[k] = v
+                result.update(get_removed_fields(input_data))
             valid_data = validate_data(request, input_model, input_data, strict=strict)
-            if valid_data is not None:
-                result.update(valid_data)
+            result.update(valid_data or {})
             data.append(result)
 
         request.validated["data"] = data if allow_bulk else data[0]
         return request.validated["data"]
 
     return validate
+
+
+def validate_patch_input_data(input_model, allow_bulk=False, strict=True):
+    return validate_input_data(input_model, allow_bulk=allow_bulk, strict=strict, none_means_remove=True)
 
 
 def validate_data(request, model, data, strict=True):
@@ -160,7 +167,7 @@ def validate_patch_data(model, item_name):
     where {}, {} and {"code": "new_code"} are invalid parameters and can't be validated.
     We have to have this validator that
     1) Validate requests data against simple patch model
-    (use validator validate_input_data(PatchModel) before this one)
+    (use validator validate_input_patch_data(PatchModel) before this one)
     2) Apply the patch on the saved data  (covered by this validator)
     3) Validate patched data against the full model (covered by this validator)
     In fact, the output of the second model is what should be sent to the api, to make everything simple
@@ -262,16 +269,20 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
     return validate
 
 
-def validate_input_data_from_resolved_model():
+def validate_input_data_from_resolved_model(none_means_remove=False):
     def validated(request, **_):
         state = request.root.state
         method = request.method.lower()
         model = getattr(state, f"get_{method}_data_model")()
         request.validated[f"{method}_data_model"] = model
-        validate = validate_input_data(model)
+        validate = validate_input_data(model, none_means_remove=none_means_remove)
         return validate(request, **_)
 
     return validated
+
+
+def validate_patch_input_data_from_resolved_model():
+    return validate_input_data_from_resolved_model(none_means_remove=True)
 
 
 def validate_patch_data_from_resolved_model(item_name):

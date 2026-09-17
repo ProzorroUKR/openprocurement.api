@@ -1,7 +1,7 @@
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_patch_input_data
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.constants import CHRONOGRAPH_PATCH_LOG_FIELDS
 from openprocurement.tender.core.procedure.contracting import (
@@ -34,7 +34,7 @@ class TenderChronographResource(TenderBaseResource):
 
     @json_view(
         permission="chronograph",
-        validators=(validate_input_data(TenderChronographData),),
+        validators=(validate_patch_input_data(TenderChronographData),),
     )
     def patch(self):
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]

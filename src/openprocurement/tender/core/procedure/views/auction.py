@@ -1,5 +1,8 @@
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import (
+    validate_input_data,
+    validate_patch_input_data,
+)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.constants import AUCTION_SET_URLS_LOG_FIELDS
 from openprocurement.tender.core.procedure.models.auction import (
@@ -57,7 +60,7 @@ class TenderAuctionResource(TenderBaseResource):
         validators=(
             validate_auction_tender_status,
             validate_auction_tender_non_lot,
-            validate_input_data(AuctionUrls),
+            validate_patch_input_data(AuctionUrls),
         ),
     )
     def collection_patch(self):
@@ -88,7 +91,7 @@ class TenderAuctionResource(TenderBaseResource):
         validators=(
             validate_auction_tender_status,
             validate_active_lot,
-            validate_input_data(LotAuctionUrls),
+            validate_patch_input_data(LotAuctionUrls),
         ),
     )
     def patch(self):

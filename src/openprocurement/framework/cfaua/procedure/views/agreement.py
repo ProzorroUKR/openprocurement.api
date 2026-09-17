@@ -7,9 +7,9 @@ from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_config_data,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.framework.cfaua.constants import CFA_UA
@@ -72,7 +72,7 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("agreement")),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data(Agreement, item_name="agreement"),
             validate_update_agreement_status,
         ),

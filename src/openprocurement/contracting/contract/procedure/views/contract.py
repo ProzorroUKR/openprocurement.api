@@ -4,8 +4,8 @@ from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.validation import (
     unless_administrator,
     unless_admins,
-    validate_input_data,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.models.access import AccessRole
@@ -43,7 +43,7 @@ class ContractResource(BaseContractResource):
         permission="edit_contract",
         validators=(
             unless_admins(unless_administrator(validate_contract_owner)),
-            validate_input_data(conditional_contract_model),
+            validate_patch_input_data(conditional_contract_model),
             validate_patch_data_simple(Contract, item_name="contract"),
             unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
         ),

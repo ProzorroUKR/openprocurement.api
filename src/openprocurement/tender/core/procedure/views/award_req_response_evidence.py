@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
@@ -60,7 +61,7 @@ class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             validate_operation_award_requirement_response,
-            validate_input_data(PatchEvidence),
+            validate_patch_input_data(PatchEvidence),
             validate_patch_data_simple(Evidence, "evidence"),
         ),
         permission="edit_rr_evidence",

@@ -8,9 +8,9 @@ from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.bid import Bid, PostBid
@@ -67,7 +67,7 @@ class OpenUADefenseTenderBidResource(OpenUATenderBidResource):
                 validate_bid_operation_not_in_tendering,
                 validate_bid_operation_period,
             ),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(Bid, item_name="bid"),
         ),
     )

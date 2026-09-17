@@ -5,9 +5,9 @@ from openprocurement.api.procedure.validation import (
     unless_admins,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import (
     LOGGER,
@@ -113,7 +113,7 @@ class BaseClaimResource(TenderBaseResource):
                     validate_item_owner("tender"),
                 )
             ),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data(Claim, item_name="claim"),
         ),
         permission="edit_claim",
