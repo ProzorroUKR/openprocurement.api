@@ -4,6 +4,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.models.complaint_appeal import Appeal, PatchAppeal, PostAppeal
@@ -105,7 +106,7 @@ class BaseComplaintAppealResource(BaseComplaintResource):
                 validate_item_owner("tender"),
                 validate_item_owner("complaint"),
             ),
-            validate_input_data(PatchAppeal),
+            validate_patch_input_data(PatchAppeal),
             validate_patch_data(Appeal, item_name="appeal"),
         ),
         permission="edit_complaint",

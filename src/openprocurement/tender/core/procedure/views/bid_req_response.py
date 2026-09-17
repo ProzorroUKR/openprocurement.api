@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.req_response import PatchRequirementResponse, RequirementResponse
@@ -66,7 +67,7 @@ class BidReqResponseResource(BaseReqResponseResource):
             unless_allowed_by_qualification_milestone_24(
                 validate_operation_ecriteria_on_tender_status,
             ),
-            validate_input_data(PatchRequirementResponse),
+            validate_patch_input_data(PatchRequirementResponse),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",

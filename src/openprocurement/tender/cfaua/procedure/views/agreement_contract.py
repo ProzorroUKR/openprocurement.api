@@ -3,9 +3,9 @@ from cornice.resource import resource
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import CFAAgreementContract as AgreementContract
@@ -65,7 +65,7 @@ class CFAUAAgreementContractResource(TenderBaseResource):
         permission="edit_tender",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PatchAgreementContract),
+            validate_patch_input_data(PatchAgreementContract),
             validate_patch_data_simple(AgreementContract, item_name="contract"),
         ),
     )

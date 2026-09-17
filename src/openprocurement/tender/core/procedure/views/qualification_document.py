@@ -7,6 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -87,7 +88,7 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
         content_type="application/json",
         validators=(
             unless_bots(validate_item_owner("tender")),
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
             validate_qualification_update_with_cancellation_lot_pending,
             validate_qualification_document_operation_not_in_allowed_status,

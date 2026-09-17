@@ -8,6 +8,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.planning.api.procedure.models.milestone import (
@@ -97,7 +98,7 @@ class PlanMilestoneResource(PlanBaseResource):
         permission="update_milestone",
         validators=(
             validate_item_owner("milestone"),
-            validate_input_data(PatchMilestone),
+            validate_patch_input_data(PatchMilestone),
             validate_patch_data_simple(Milestone, item_name="milestone"),
         ),
     )

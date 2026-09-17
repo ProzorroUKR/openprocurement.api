@@ -4,6 +4,7 @@ from openprocurement.api.procedure.validation import (
     validate_data_model,
     validate_input_data,
     validate_patch_data,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -78,7 +79,7 @@ class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
         content_type="application/json",
         validators=(
             unless_admins(validate_contract_owner),
-            validate_input_data(BasePatchDocument),
+            validate_patch_input_data(BasePatchDocument),
             validate_patch_data(BaseDocument, item_name="document"),
             validate_contract_document_operation_not_in_allowed_contract_status,
             validate_add_document_to_active_change,

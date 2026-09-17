@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -68,7 +69,7 @@ class FrameworkChangeDocumentResource(CoreFrameworkChangeDocumentResource):
         content_type="application/json",
         validators=(
             validate_item_owner("framework"),
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data_simple(Document, item_name="document"),
             validate_action_in_not_allowed_framework_status("change"),
         ),

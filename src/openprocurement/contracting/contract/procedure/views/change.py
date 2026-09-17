@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     unless_admins,
     validate_input_data,
     validate_patch_data,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.contract.procedure.models.change import (
@@ -54,7 +55,7 @@ class ContractsChangesResource(BaseContractsChangesResource):
         permission="edit_contract",
         validators=(
             unless_administrator(unless_admins(validate_contract_owner)),
-            validate_input_data(PatchChange),
+            validate_patch_input_data(PatchChange),
             validate_patch_data(Change, item_name="change"),
             validate_contract_change_action_not_in_allowed_contract_status,
             validate_contract_change_update_not_in_allowed_change_status,

@@ -2,9 +2,9 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
     unless_admins,
-    validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.award import Award, PatchAward
@@ -33,7 +33,7 @@ class PQTenderAwardResource(TenderAwardResource):
             unless_admins(
                 validate_item_owner("tender"),
             ),
-            validate_input_data(PatchAward),
+            validate_patch_input_data(PatchAward),
             validate_patch_data_simple(Award, item_name="award"),
             validate_update_award_in_not_allowed_status,
         ),

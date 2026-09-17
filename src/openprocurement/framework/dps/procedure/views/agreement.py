@@ -1,8 +1,8 @@
 from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
-    validate_input_data_from_resolved_model,
     validate_patch_data,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.validation import (
@@ -27,7 +27,7 @@ class DPSAgreementResource(AgreementsResource):
     @json_view(
         content_type="application/json",
         validators=(
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data(Agreement, item_name="agreement"),
             validate_agreement_framework,
             unless_administrator_or_chronograph(validate_agreement_operation_not_in_allowed_status),

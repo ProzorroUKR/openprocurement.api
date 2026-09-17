@@ -9,6 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import (
@@ -240,7 +241,7 @@ class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
         ),
         permission="edit_tender",

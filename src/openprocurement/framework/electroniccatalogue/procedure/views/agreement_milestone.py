@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.models.milestone import (
@@ -58,7 +59,7 @@ class ElectronicCatalogueAgreementContractMilestoneResource(AgreementContractMil
         content_type="application/json",
         validators=(
             validate_item_owner("framework"),
-            validate_input_data(PatchMilestone),
+            validate_patch_input_data(PatchMilestone),
             validate_patch_data(Milestone, item_name="milestone"),
             validate_agreement_operation_not_in_allowed_status,
             validate_contract_operation_not_in_allowed_status,

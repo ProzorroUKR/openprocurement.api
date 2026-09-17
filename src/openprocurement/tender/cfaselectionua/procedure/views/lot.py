@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.models.lot import (
@@ -48,7 +49,7 @@ class CFASelectionUATenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(CFASelectionPatchLot),
+            validate_patch_input_data(CFASelectionPatchLot),
             validate_patch_data_simple(CFASelectionLot, item_name="lot"),
         ),
         permission="edit_lot",

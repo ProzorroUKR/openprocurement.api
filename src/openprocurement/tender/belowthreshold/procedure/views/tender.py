@@ -7,9 +7,9 @@ from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
@@ -60,7 +60,7 @@ class BelowThresholdTenderResource(TendersResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             unless_administrator(validate_bt_tender_status_allows_update_operation),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(Tender, item_name="tender"),
             validate_item_quantity,
             validate_tender_guarantee,

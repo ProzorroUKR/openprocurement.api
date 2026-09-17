@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -64,7 +65,7 @@ class COTenderDocumentResource(TenderDocumentResource):
         content_type="application/json",
         validators=(
             unless_bots_or_auction(validate_item_owner("tender")),
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
             validate_tender_document_operation_in_allowed_tender_statuses,
             validate_tender_document_update_not_by_author_or_tender_owner,

@@ -9,6 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
@@ -71,7 +72,7 @@ class TenderResource(TendersResource):
                     "active.pre-qualification.stand-still",
                 )
             ),
-            validate_input_data(ARMAPatchTender),
+            validate_patch_input_data(ARMAPatchTender),
             validate_patch_data_simple(ARMATender, item_name="tender"),
             unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
             validate_item_quantity,

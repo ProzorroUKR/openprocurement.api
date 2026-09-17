@@ -4,9 +4,9 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
     unless_administrator,
-    validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.criterion import PatchRequirement, PutRequirement, Requirement
@@ -34,7 +34,7 @@ class RequirementResource(BaseRequirementResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_input_data(PatchRequirement),
+            validate_patch_input_data(PatchRequirement),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
@@ -46,7 +46,7 @@ class RequirementResource(BaseRequirementResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_input_data(PutRequirement),
+            validate_patch_input_data(PutRequirement),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",

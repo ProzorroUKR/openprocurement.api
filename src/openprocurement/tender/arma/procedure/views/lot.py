@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
@@ -45,7 +46,7 @@ class LotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(ARMAPatchLot),
+            validate_patch_input_data(ARMAPatchLot),
             validate_patch_data_simple(ARMALot, item_name="lot"),
             validate_operation_with_lot_cancellation_in_pending("lot"),
         ),

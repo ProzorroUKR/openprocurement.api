@@ -8,9 +8,9 @@ from openprocurement.api.procedure.validation import (
     validate_accreditation_level,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
@@ -65,7 +65,7 @@ class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
             ),
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(CDBid, item_name="bid"),
         ),
     )
@@ -111,7 +111,7 @@ class CompetitiveDialogueEUBidResource(OpenEUTenderBidResource):
             ),
             unless_administrator(validate_item_owner("bid")),
             validate_update_deleted_bid,
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(CDBid, item_name="bid"),
         ),
     )

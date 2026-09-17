@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
-    validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement, CFAPatchAgreement
@@ -32,7 +32,7 @@ class CFAUAAgreementResource(TenderAgreementResource):
         permission="edit_tender",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(CFAPatchAgreement),
+            validate_patch_input_data(CFAPatchAgreement),
             validate_patch_data_simple(CFAAgreement, item_name="agreement"),
         ),
     )

@@ -7,9 +7,9 @@ from openprocurement.api.procedure.validation import (
     validate_config_data,
     validate_data_documents,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
@@ -68,7 +68,7 @@ class RequestForProposalTenderResource(TendersResource):
                     "active.tendering",
                 )
             ),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(Tender, item_name="tender"),
             validate_item_quantity,
             validate_tender_guarantee,

@@ -4,9 +4,9 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
     unless_admins,
-    validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
@@ -92,7 +92,7 @@ class TenderQualificationResource(TenderBaseResource):
         content_type="application/json",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(PatchQualification),
+            validate_patch_input_data(PatchQualification),
             validate_patch_data(Qualification, item_name="qualification"),
             validate_qualification_update_not_in_pre_qualification,
             validate_operation_with_lot_cancellation_in_pending("qualification"),

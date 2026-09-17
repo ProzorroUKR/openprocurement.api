@@ -6,9 +6,9 @@ from openprocurement.api.procedure.validation import (
     unless_administrator,
     unless_admins,
     validate_input_data,
-    validate_input_data_from_resolved_model,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import (
@@ -40,7 +40,7 @@ class BaseStage2RequirementResource(BaseRequirementResource):
         content_type="application/json",
         validators=(
             unless_admins(unless_administrator(validate_item_owner("tender"))),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",
@@ -52,7 +52,7 @@ class BaseStage2RequirementResource(BaseRequirementResource):
         content_type="application/json",
         validators=(
             unless_admins(unless_administrator(validate_item_owner("tender"))),
-            validate_input_data_from_resolved_model(),
+            validate_patch_input_data_from_resolved_model(),
             validate_patch_data_simple(Requirement, "requirement"),
         ),
         permission="edit_requirement",

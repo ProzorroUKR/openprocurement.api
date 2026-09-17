@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
@@ -75,7 +76,7 @@ class ReportingAwardResource(TenderAwardResource):
         permission="edit_award",  # brokers
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(ReportingPatchAward),
+            validate_patch_input_data(ReportingPatchAward),
             validate_patch_data_simple(ReportingAward, item_name="award"),
             validate_limited_award_operation_not_in_active_status,
         ),
@@ -129,7 +130,7 @@ class NegotiationAwardResource(TenderAwardResource):
         permission="edit_award",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(LimitedPatchAward),
+            validate_patch_input_data(LimitedPatchAward),
             validate_patch_data_simple(LimitedAward, item_name="award"),
             validate_award_with_lot_cancellation_in_pending,
             validate_limited_award_operation_not_in_active_status,

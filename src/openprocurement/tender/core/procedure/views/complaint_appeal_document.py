@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data,
+    validate_patch_input_data,
     validate_upload_document,
 )
 from openprocurement.api.utils import json_view
@@ -88,7 +89,7 @@ class BaseComplaintAppealDocumentResource(BaseDocumentResource):
                 validate_item_owner("complaint"),
                 validate_item_owner("tender"),
             ),
-            validate_input_data(PatchDocument),
+            validate_patch_input_data(PatchDocument),
             validate_patch_data(Document, item_name="document"),
         ),
         permission="upload_complaint_appeal_documents",

@@ -5,6 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.models.question import PatchQuestion, PostQuestion, Question
@@ -101,7 +102,7 @@ class TenderQuestionResource(TenderBaseResource):
         content_type="application/json",
         validators=(
             validate_item_owner("tender"),
-            validate_input_data(PatchQuestion),
+            validate_patch_input_data(PatchQuestion),
             validate_patch_data_simple(Question, item_name="question"),
             validate_operation_with_lot_cancellation_in_pending("question"),
         ),

@@ -8,6 +8,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import (
@@ -39,7 +40,7 @@ class BaseStage2RequirementGroupResource(BaseRequirementGroupResource):
         content_type="application/json",
         validators=(
             unless_admins(unless_administrator(validate_item_owner("tender"))),
-            validate_input_data(PatchRequirementGroup),
+            validate_patch_input_data(PatchRequirementGroup),
             validate_patch_data_simple(RequirementGroup, "requirement_group"),
         ),
         permission="edit_rg",

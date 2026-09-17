@@ -10,6 +10,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
@@ -99,7 +100,7 @@ class BaseCriterionResource(TenderBaseResource):
         content_type="application/json",
         validators=(
             unless_administrator(validate_item_owner("tender")),
-            validate_input_data(PatchCriterion),
+            validate_patch_input_data(PatchCriterion),
             validate_patch_data_simple(Criterion, "criterion"),
         ),
         permission="edit_criterion",

@@ -4,9 +4,9 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
     unless_admins,
-    validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.belowthreshold.procedure.state.award import AwardState
@@ -38,7 +38,7 @@ class BelowThresholdTenderAwardResource(TenderAwardResource):
             unless_admins(
                 validate_item_owner("tender"),
             ),
-            validate_input_data(PatchAward),
+            validate_patch_input_data(PatchAward),
             validate_patch_data_simple(Award, item_name="award"),
             validate_update_award_in_not_allowed_status,
             validate_update_award_only_for_active_lots,

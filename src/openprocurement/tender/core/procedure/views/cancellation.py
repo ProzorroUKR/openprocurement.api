@@ -9,6 +9,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.contracting import (
@@ -130,7 +131,7 @@ class BaseCancellationResource(TenderBaseResource):
         permission="edit_cancellation",
         validators=(
             unless_admins(validate_item_owner("tender")),
-            validate_input_data(PatchCancellation),
+            validate_patch_input_data(PatchCancellation),
             validate_patch_data_simple(Cancellation, item_name="cancellation"),
         ),
     )

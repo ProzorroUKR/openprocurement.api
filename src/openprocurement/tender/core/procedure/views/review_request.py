@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.models.review_request import (
@@ -102,7 +103,7 @@ class TenderReviewRequestResource(TenderBaseResource):
         content_type="application/json",
         permission="edit_review_request",
         validators=(
-            validate_input_data(PatchInspectorReviewRequest),
+            validate_patch_input_data(PatchInspectorReviewRequest),
             validate_patch_data_simple(ReviewRequest, item_name="review_request"),
         ),
     )

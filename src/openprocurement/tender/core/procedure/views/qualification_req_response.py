@@ -7,6 +7,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.req_response import PatchRequirementResponse, RequirementResponse
@@ -66,7 +67,7 @@ class QualificationReqResponseResource(BaseReqResponseResource):
         validators=(
             unless_administrator(validate_item_owner("tender")),
             validate_operation_qualification_requirement_response,
-            validate_input_data(PatchRequirementResponse),
+            validate_patch_input_data(PatchRequirementResponse),
             validate_patch_data_simple(RequirementResponse, "requirement_response"),
         ),
         permission="edit_req_response",

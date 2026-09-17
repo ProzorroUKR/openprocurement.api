@@ -6,6 +6,7 @@ from openprocurement.api.procedure.validation import (
     validate_input_data,
     validate_item_owner,
     validate_patch_data_simple,
+    validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
@@ -44,7 +45,7 @@ class RequestForProposalTenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_rfp_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PatchLot),
+            validate_patch_input_data(PatchLot),
             validate_patch_data_simple(Lot, item_name="lot"),
         ),
         permission="edit_lot",
