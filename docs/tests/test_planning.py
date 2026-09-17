@@ -119,19 +119,6 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 status=422,
             )
 
-        test_docs_tender_below["items"][0]["classification"]["id"] = "45213240-7"
-        test_docs_tender_below["items"][0]["classification"]["description"] = (
-            "Будівництво будівель сільськогосподарського призначення"
-        )
-        test_docs_tender_below["mainProcurementCategory"] = "works"
-        with open(TARGET_DIR + "tender-from-plan-works-cpv-invalid.http", "w") as self.app.file_obj:
-            self.app.post_json(
-                "/plans/{}/tenders".format(plan["id"]),
-                {"data": test_docs_tender_below, "config": test_tender_below_config},
-                status=422,
-            )
-
-        test_docs_tender_below["mainProcurementCategory"] = "goods"
         plan_doc = self.mongodb.plans.get(plan["id"])
         del plan_doc["budget"]["breakdown"]
         self.mongodb.plans.save(plan_doc)

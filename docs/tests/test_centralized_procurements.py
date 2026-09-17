@@ -64,7 +64,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
 
         # create plan
         test_plan_data["status"] = "draft"
-        test_plan_data["items"] = test_plan_data["items"]
+        test_plan_data["items"] = test_plan_data["items"][:1]
         test_plan_data["buyers"] = [deepcopy(test_plan_data["procuringEntity"])]  # just to be sure
         test_plan_data["procuringEntity"] = central_entity
 

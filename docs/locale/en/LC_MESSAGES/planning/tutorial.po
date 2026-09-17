@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-07 15:16+0300\n"
+"POT-Creation-Date: 2026-09-17 10:43+0300\n"
 "PO-Revision-Date: 2023-10-26 10:31+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -74,20 +74,11 @@ msgstr "procurementMethodType"
 msgid "procuringEntity.identifier - відповідність полів id і scheme для плана і тендера"
 msgstr "procuringEntity.identifier - matching id and scheme with the same fields in tender data"
 
-msgid "classification.id:"
-msgstr ""
-
-msgid "для `mainProcurementCategory: goods`: відповідність перших 4-х цифр кодів класифікатора плана і тендера (336 виняток - відповідність перших 3-х цифр)"
-msgstr "for `mainProcurementCategory: goods`:  matching with tender item classification codes using first 4 digits (``336`` is exception)"
-
-msgid "для `mainProcurementCategory: works/services`: відповідність всіх кодів класифікатора номенклатур плана і тендера"
-msgstr "for `mainProcurementCategory: works/services`: matching all plan and tender item classification codes"
+msgid "classification.id: для `mainProcurementCategory: goods`: відповідність перших 4-х цифр кодів класифікатора плана і тендера (336 виняток - відповідність перших 3-х цифр)"
+msgstr "classification.id: for `mainProcurementCategory: goods`:  matching with tender item classification codes using first 4 digits (``336`` is exception)"
 
 msgid "Якщо створимо тендер з плана для `mainProcurementCategory: goods` з іншим префіксом кода класифікатора, то побачимо помилку:"
 msgstr "If we create a tender from a plan with `mainProcurementCategory: goods` using a different classification code prefix, we will see an error:"
-
-msgid "Якщо створимо тендер з плана для `mainProcurementCategory: works` з іншим кодом класифікатора, якого нема в номенклатурах плану, то теж побачимо помилку:"
-msgstr "If we create a tender from a plan for `mainProcurementCategory: works` with a classification code that is not present in the plan's items, we will also see an error:"
 
 msgid "План має містити джерела фінансування, інакше буде отрімано помилку під час створення тендеру:"
 msgstr "Plan should contain budget breakdown, otherwise it will be an error during tender creation:"
