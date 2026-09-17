@@ -24,7 +24,6 @@ from openprocurement.api.procedure.utils import (
     validate_funders_match_plan_programs,
 )
 from openprocurement.api.procedure.validation import (
-    validate_items_classification_match,
     validate_items_classifications_prefixes,
 )
 from openprocurement.api.utils import error_handler, raise_operation_error
@@ -337,9 +336,10 @@ class PlanState(BaseState):
             if item.get("classification")  # item.classification may be empty in pricequotation
         ]
         if classifications:
-            items_should_match_plan_items = tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender)
             # for works and services it is allowed to post tender items that don't match plan classification
-            skip_prefix_validation = items_should_match_plan_items and tender.get("mainProcurementCategory") in (
+            skip_prefix_validation = tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender) and tender.get(
+                "mainProcurementCategory"
+            ) in (
                 MainProcurementCategory.SERVICES,
                 MainProcurementCategory.WORKS,
             )
@@ -349,8 +349,6 @@ class PlanState(BaseState):
                     root_classification=plan["classification"],
                     root_name="plan",
                 )
-            if items_should_match_plan_items:
-                validate_items_classification_match(classifications, plan)
 
     def _validate_plan_budget_breakdown(self, plan):
         budget = plan.get("budget")
