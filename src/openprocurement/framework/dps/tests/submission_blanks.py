@@ -2049,3 +2049,40 @@ def create_submission_remove_field(self):
 
     submission_doc = self.mongodb.submissions.get(submission["id"])
     self.assertNotIn("documents", submission_doc)
+
+
+def put_submission_document_remove_field(self):
+    response = self.app.post_json(
+        f"/submissions/{self.submission_id}/documents?acc_token={self.submission_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "description": "Document description",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["description"], "Document description")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.put_json(
+        f"/submissions/{self.submission_id}/documents/{doc_id}?acc_token={self.submission_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "description": None,
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("description", response.json["data"])
+
+    document = [doc for doc in self.mongodb.submissions.get(self.submission_id)["documents"] if doc["id"] == doc_id][-1]
+    self.assertNotIn("description", document)

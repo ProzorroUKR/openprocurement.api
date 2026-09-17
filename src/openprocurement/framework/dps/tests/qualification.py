@@ -32,6 +32,7 @@ from openprocurement.framework.dps.tests.qualification_blanks import (  # Docume
     patch_submission_pending,
     patch_submission_pending_config_restricted,
     put_qualification_document,
+    put_qualification_document_remove_field,
     qualification_evaluation_reports_documents,
     qualification_fields,
     qualification_not_found,
@@ -123,6 +124,7 @@ class TestQualificationDocumentsCreate(QualificationContentWebTest):
 
     test_create_qualification_document_forbidden = snitch(create_qualification_document_forbidden)
     test_create_qualification_document = snitch(create_qualification_document)
+    test_put_qualification_document_remove_field = snitch(put_qualification_document_remove_field)
     test_create_qualification_document_json_bulk = snitch(create_qualification_document_json_bulk)
     test_document_not_found = snitch(document_not_found)
     test_put_qualification_document = snitch(put_qualification_document)

@@ -7,6 +7,7 @@ from openprocurement.planning.api.tests.document_blanks import (
     create_plan_document_json_invalid,
     delete_plan_document,
     put_plan_document_json,
+    put_plan_document_remove_field,
 )
 
 
@@ -16,6 +17,7 @@ class PlanDocumentResourceTest(BasePlanWebTest):
     test_create_plan_document_json_invalid = snitch(create_plan_document_json_invalid)
     test_create_plan_document_json = snitch(create_plan_document_json)
     test_put_plan_document_json = snitch(put_plan_document_json)
+    test_put_plan_document_remove_field = snitch(put_plan_document_remove_field)
     test_delete_plan_document = snitch(delete_plan_document)
 
 

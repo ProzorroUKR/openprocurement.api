@@ -39,6 +39,7 @@ from openprocurement.framework.dps.tests.submission_blanks import (  # Documents
     patch_submission_draft_to_deleted,
     put_submission_document,
     put_submission_document_fast,
+    put_submission_document_remove_field,
     submission_fields,
     submission_not_found,
     submission_token_invalid,
@@ -98,6 +99,7 @@ class TestDocumentsCreate(SubmissionContentWebTest):
 
     test_create_submission_document_forbidden = snitch(create_submission_document_forbidden)
     test_create_submission_documents = snitch(create_submission_documents)
+    test_put_submission_document_remove_field = snitch(put_submission_document_remove_field)
     test_create_submission_document_json_bulk = snitch(create_submission_document_json_bulk)
     test_document_not_found = snitch(document_not_found)
     test_put_submission_document = snitch(put_submission_document)

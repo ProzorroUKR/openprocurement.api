@@ -15,6 +15,7 @@ from openprocurement.framework.dps.tests.document_blanks import (
     get_documents_list,
     not_found,
     put_contract_document,
+    put_framework_document_remove_field,
 )
 
 
@@ -40,6 +41,7 @@ class DocumentsCreateTest(FrameworkContentWebTest):
     test_create_framework_document_json_bulk = snitch(create_framework_document_json_bulk)
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)
+    test_put_framework_document_remove_field = snitch(put_framework_document_remove_field)
 
 
 def suite():
