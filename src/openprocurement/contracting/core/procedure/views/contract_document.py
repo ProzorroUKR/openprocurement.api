@@ -23,9 +23,10 @@ class ContractDocumentResource(BaseDocumentResource):
             resolve_document(request, self.item_name, self.container)
 
     def save(self, **kwargs):
-        with atomic_transaction():
+        contract_was_changed = self.request.validated.get("contract_was_changed")
+        with atomic_transaction(enabled=bool(contract_was_changed)):
             contract = self.request.validated["contract"]
-            if self.request.validated.get("contract_was_changed"):
+            if contract_was_changed:
                 if save_tender(self.request):
                     self.LOGGER.info(
                         f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",

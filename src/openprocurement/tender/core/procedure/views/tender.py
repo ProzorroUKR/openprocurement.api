@@ -154,9 +154,10 @@ class TendersResource(TenderBaseResource):
             tender = self.request.validated["tender"] = updated
             self.state.validate_tender_patch(tender_src, tender)
             self.state.on_patch(tender_src, tender)
-            with atomic_transaction():
+            stage_2_tender = self.request.validated.get("stage_2_tender")
+            with atomic_transaction(enabled=bool(stage_2_tender)):
                 if save_tender(self.request):
-                    if stage_2_tender := self.request.validated.get("stage_2_tender"):
+                    if stage_2_tender:
                         save_stage_2_tender(stage_2_tender)
                         self.LOGGER.info(
                             f"Successfully created tender stage2 id={stage_2_tender['_id']} "

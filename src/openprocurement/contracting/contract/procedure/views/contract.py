@@ -55,9 +55,10 @@ class ContractResource(BaseContractResource):
         if updated:
             contract = self.request.validated["contract"] = updated
             self.state.on_patch(contract_src, contract)
-            with atomic_transaction():
+            contract_was_changed = self.request.validated.get("contract_was_changed")
+            with atomic_transaction(enabled=bool(contract_was_changed)):
                 if save_contract(self.request):
-                    if self.request.validated.get("contract_was_changed"):
+                    if contract_was_changed:
                         if save_tender(self.request):
                             self.LOGGER.info(
                                 f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
