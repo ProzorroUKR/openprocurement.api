@@ -83,7 +83,7 @@ class BaseCancellationResource(TenderBaseResource):
 
         prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
 
-        with atomic_transaction():
+        with atomic_transaction(enabled=bool(prepared_contracts_cancelled)):
             saved = save_tender(self.request)
             if saved:
                 save_contracting_contracts(prepared_contracts_cancelled)
@@ -150,7 +150,7 @@ class BaseCancellationResource(TenderBaseResource):
 
             prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
 
-            with atomic_transaction():
+            with atomic_transaction(enabled=bool(prepared_contracts_cancelled)):
                 saved = save_tender(self.request)
                 if saved:
                     save_contracting_contracts(prepared_contracts_cancelled)
