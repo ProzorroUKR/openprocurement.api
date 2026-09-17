@@ -2034,3 +2034,18 @@ def confidential_submission_document(self):
     # get directly as public
     response = self.app.get(f"/submissions/{self.submission_id}/documents/{doc_id_2}")
     self.assertIn("url", response.json["data"])
+
+
+def create_submission_remove_field(self):
+    data = deepcopy(self.initial_submission_data)
+    data["frameworkID"] = self.framework_id
+    data["documents"] = []
+
+    response = self.app.post_json("/submissions", {"data": data, "config": self.initial_submission_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.content_type, "application/json")
+    submission = response.json["data"]
+    self.assertNotIn("documents", submission)
+
+    submission_doc = self.mongodb.submissions.get(submission["id"])
+    self.assertNotIn("documents", submission_doc)

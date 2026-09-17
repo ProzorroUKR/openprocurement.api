@@ -20,6 +20,7 @@ from openprocurement.contracting.econtract.tests.contract_blanks import (
     change_contract_milestones_params,
     contract_cancellation_via_award,
     post_new_version_of_contract,
+    post_new_version_of_contract_remove_field,
     post_new_version_of_contract_test_mode,
     post_new_version_of_restricted_contract,
 )
@@ -46,6 +47,7 @@ class ContractResource4BrokersTest(BaseEContractContentWebTest):
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
     test_post_new_version_of_contract = snitch(post_new_version_of_contract)
     test_post_new_version_of_contract_test_mode = snitch(post_new_version_of_contract_test_mode)
+    test_post_new_version_of_contract_remove_field = snitch(post_new_version_of_contract_remove_field)
     test_post_new_version_of_restricted_contract = snitch(post_new_version_of_restricted_contract)
     test_contract_cancellation_via_award = snitch(contract_cancellation_via_award)
 

@@ -8,8 +8,8 @@ from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
 )
 from openprocurement.framework.dps.tests.framework_blanks import (
-    additional_classifications_deletion,
     accreditation_level,
+    additional_classifications_deletion,
     complete_status,
     create_framework_config_restricted,
     create_framework_draft,
@@ -18,6 +18,7 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     create_framework_draft_url_validation,
     create_framework_items,
     create_framework_items_required,
+    create_framework_remove_field,
     date_framework,
     dateModified_framework,
     framework_fields,
@@ -32,6 +33,7 @@ from openprocurement.framework.dps.tests.framework_blanks import (
     patch_framework_draft,
     patch_framework_draft_to_active,
     patch_framework_draft_to_active_invalid,
+    patch_framework_remove_field,
     periods_deletion,
     simple_add_framework,
     unsuccessful_status,
@@ -79,6 +81,8 @@ class FrameworkResourceTest(BaseFrameworkWebTest):
     test_dateModified_framework = snitch(dateModified_framework)
     test_periods_deletion = snitch(periods_deletion)
     test_additional_classifications_deletion = snitch(additional_classifications_deletion)
+    test_create_framework_remove_field = snitch(create_framework_remove_field)
+    test_patch_framework_remove_field = snitch(patch_framework_remove_field)
     test_framework_not_found = snitch(framework_not_found)
     test_framework_token_invalid = snitch(framework_token_invalid)
     test_framework_fields = snitch(framework_fields)

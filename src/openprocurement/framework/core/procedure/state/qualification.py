@@ -38,7 +38,7 @@ class QualificationState(FrameworkChronographEventsMixing, BaseState):
 
         if len(before.get("documents", [])) != len(after.get("documents", [])):
             validate_doc_type_quantity(
-                after["documents"],
+                after.get("documents", []),
                 document_type="evaluationReports",
                 obj_name="qualification",
             )

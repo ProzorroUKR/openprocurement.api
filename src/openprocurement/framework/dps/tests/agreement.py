@@ -13,6 +13,7 @@ from openprocurement.framework.dps.tests.agreement_blanks import (
     get_documents_list,
     patch_activation_milestone,
     patch_agreement_manually_to_terminated_status,
+    patch_agreement_remove_field,
     patch_agreement_terminated_status,
     patch_ban_milestone,
     patch_contract_active_status,
@@ -83,6 +84,7 @@ class TestAgreementResource(AgreementContentWebTest):
     test_agreement_chronograph_milestones = snitch(agreement_chronograph_milestones)
     test_patch_agreement_terminated_status = snitch(patch_agreement_terminated_status)
     test_patch_agreement_manually_to_terminated_status = snitch(patch_agreement_manually_to_terminated_status)
+    test_patch_agreement_remove_field = snitch(patch_agreement_remove_field)
     test_patch_contract_active_status = snitch(patch_contract_active_status)
     test_patch_several_contracts_active_status = snitch(patch_several_contracts_active_status)
 

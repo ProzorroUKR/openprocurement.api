@@ -2219,3 +2219,23 @@ def change_contract_milestones(self, _, contract_status, milestones, resp_status
         status=resp_status,
     )
     check_response(self, response)
+
+
+def patch_contract_remove_field(self):
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+        {"data": {"description": "New contract description"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["description"], "New contract description")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+        {"data": {"description": None}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("description", response.json["data"])
+
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    self.assertNotIn("description", contract_doc)

@@ -1557,3 +1557,39 @@ def active_qualification_changes_atomic(self):
 
     agreements = list(self.mongodb.agreements.collection.find({}))
     self.assertEqual(0, len(agreements))
+
+
+def patch_qualification_remove_field(self):
+    response = self.app.patch_json(
+        f"/submissions/{self.submission_id}?acc_token={self.submission_token}",
+        {"data": {"status": "active"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    qualification_id = response.json["data"]["qualificationID"]
+
+    response = self.app.post_json(
+        f"/qualifications/{qualification_id}/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    response = self.app.get(f"/qualifications/{qualification_id}")
+    self.assertEqual(len(response.json["data"]["documents"]), 1)
+
+    response = self.app.patch_json(
+        f"/qualifications/{qualification_id}?acc_token={self.framework_token}",
+        {"data": {"documents": []}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("documents", response.json["data"])
+
+    qualification_doc = self.mongodb.qualifications.get(qualification_id)
+    self.assertNotIn("documents", qualification_doc)

@@ -28,6 +28,7 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     listing,
     listing_changes,
     not_found,
+    patch_contract_remove_field,
     patch_tender_contract,
     patch_tender_contract_amount_paid_zero,
     patch_tender_contract_identical,
@@ -71,6 +72,7 @@ class ContractResource4BrokersTest(BaseContractContentWebTest):
     test_contract_activate = snitch(contract_activate)
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
+    test_patch_contract_remove_field = snitch(patch_contract_remove_field)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
 
     test_change_contract_milestones = parameterized.expand(change_contract_milestones_params)(
