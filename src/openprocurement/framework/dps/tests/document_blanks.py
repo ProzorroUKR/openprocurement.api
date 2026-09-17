@@ -251,3 +251,40 @@ def put_contract_document(self):
             }
         ],
     )
+
+
+def put_framework_document_remove_field(self):
+    response = self.app.post_json(
+        f"/frameworks/{self.framework_id}/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "description": "Document description",
+            }
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["description"], "Document description")
+    doc_id = response.json["data"]["id"]
+
+    response = self.app.put_json(
+        f"/frameworks/{self.framework_id}/documents/{doc_id}?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "укр.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+                "description": None,
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertNotIn("description", response.json["data"])
+
+    document = [doc for doc in self.mongodb.frameworks.get(self.framework_id)["documents"] if doc["id"] == doc_id][-1]
+    self.assertNotIn("description", document)

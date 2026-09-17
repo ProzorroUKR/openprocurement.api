@@ -11,6 +11,7 @@ from openprocurement.framework.cfaua.tests.document_blanks import (
     get_document_by_id,
     get_documents_list,
     not_found,
+    put_agreement_document_remove_field,
     put_contract_document,
 )
 
@@ -35,6 +36,7 @@ class AgreementDocumentResourceTest(BaseAgreementContentWebTest):
 
     test_not_found = snitch(not_found)
     test_put_contract_document = snitch(put_contract_document)
+    test_put_agreement_document_remove_field = snitch(put_agreement_document_remove_field)
     test_document_related_item = snitch(document_related_item)
 
 

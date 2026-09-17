@@ -18,6 +18,7 @@ from openprocurement.tender.belowthreshold.tests.document_blanks import (
     patch_tender_document,
     put_tender_document,
     put_tender_document_json,
+    put_tender_document_remove_field,
     tender_confidential_documents,
     tender_notice_documents,
 )
@@ -41,6 +42,7 @@ class TenderDocumentResourceTest(TenderContentWebTest, TenderDocumentResourceTes
     should_add_contract_proforma_doc = False
 
     test_create_document_active_tendering_status = snitch(create_document_active_tendering_status)
+    test_put_tender_document_remove_field = snitch(put_tender_document_remove_field)
 
 
 class TenderLotDocumentResourceTest(TenderContentWebTest):
