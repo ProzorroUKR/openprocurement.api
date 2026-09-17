@@ -1,7 +1,7 @@
 import logging
 from collections import defaultdict
 from copy import deepcopy
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import Decimal
 from hashlib import sha512
 
@@ -909,17 +909,6 @@ def validate_download_tender_document(request, **_):
             raise_operation_error(request, "Document download forbidden.")
 
 
-def validate_update_bid_document_confidentiality(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    if tender_status != "active.tendering" and "confidentiality" in request.validated.get("data", {}):
-        document = request.validated["document"]
-        if document.get("confidentiality", "public") != request.validated["data"]["confidentiality"]:
-            raise_operation_error(
-                request,
-                "Can't update document confidentiality in current ({}) tender status".format(tender_status),
-            )
-
-
 def validate_bid_document_operation_in_bid_status(request, **_):
     bid = request.validated["bid"]
     if bid["status"] in ("unsuccessful", "deleted"):
@@ -973,24 +962,6 @@ def validate_tender_status_for_put_action_period(request, **_):
             request,
             f"Can't update auctionPeriod in current ({tender_status}) tender status",
         )
-
-
-def validate_auction_period_start_date(request, **kwargs):
-    tender = request.validated["tender"]
-    data = request.validated["data"]
-    start_date = data.get("startDate", {})
-    if start_date:
-        if (get_request_now() + timedelta(seconds=3600)).isoformat() > start_date:
-            raise_operation_error(
-                request,
-                "startDate should be no earlier than an hour later",
-            )
-        if tender.get("auctionPeriod", {}).get("shouldStartAfter"):
-            if start_date < tender["auctionPeriod"]["shouldStartAfter"]:
-                raise_operation_error(
-                    request,
-                    "startDate should be after shouldStartAfter",
-                )
 
 
 def validate_lot_status_active(request, **_):
