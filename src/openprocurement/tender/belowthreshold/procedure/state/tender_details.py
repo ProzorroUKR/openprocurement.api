@@ -13,6 +13,7 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 
 
 class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
+    should_validate_status_change_with_lot_cancellation_pending = False
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)

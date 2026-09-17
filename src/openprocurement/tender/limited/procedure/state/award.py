@@ -18,10 +18,13 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
     award_next_award_on_status_change = False
     award_unsuccessful_cancel_allowed = False
     award_post_requires_active_lot = False
+    award_post_allowed_tender_statuses = ("active",)
+    award_patch_allowed_tender_statuses = ("active",)
+    award_patch_requires_active_lot = False
 
-    def validate_award_post(self, award):
+    def validate_award_post_content(self, award):
         self.validate_create_new_award(award)
-        super().validate_award_post(award)
+        super().validate_award_post_content(award)
 
     def validate_create_new_award(self, award):
         tender = get_tender()
@@ -40,9 +43,11 @@ class NegotiationAwardState(ReportingAwardState):
     award_complaint_period_on_unsuccessful = False
     award_cancel_lot_awards_on_satisfied_complaint = True
 
-    def validate_award_post(self, award):
+    award_post_lot_cancellation_pending_check = True
+
+    def validate_award_post_content(self, award):
         self.validate_award_lot_cancellation(award)
-        super().validate_award_post(award)
+        super().validate_award_post_content(award)
 
     def validate_award_patch(self, before, after):
         self.validate_award_lot_cancellation(before)

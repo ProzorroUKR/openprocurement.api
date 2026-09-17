@@ -8,9 +8,6 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.award import Award, PatchAward
-from openprocurement.tender.core.procedure.validation import (
-    validate_update_award_in_not_allowed_status,
-)
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.state.award import AwardState
@@ -35,7 +32,6 @@ class PQTenderAwardResource(TenderAwardResource):
             ),
             validate_patch_input_data(PatchAward),
             validate_patch_data_simple(Award, item_name="award"),
-            validate_update_award_in_not_allowed_status,
         ),
     )
     def patch(self):

@@ -14,8 +14,6 @@ from openprocurement.tender.core.procedure.state.qualification_milestone import 
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_24h_milestone_released,
-    validate_qualification_update_not_in_pre_qualification,
-    validate_update_qualification_only_for_active_lots,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.qualification import (
@@ -56,8 +54,6 @@ class BaseMilestoneResource(TenderBaseResource):
             validate_item_owner("tender"),
             validate_24h_milestone_released,
             validate_input_data(PostQualificationMilestone),
-            validate_qualification_update_not_in_pre_qualification,
-            validate_update_qualification_only_for_active_lots,
         ),
     )
     def collection_post(self):

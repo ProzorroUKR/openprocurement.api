@@ -2557,7 +2557,7 @@ def guarantee(self):
     self.assertEqual(response.json["data"]["guarantee"]["currency"], "UAH")
 
     with mock.patch(
-        "openprocurement.tender.core.procedure.validation.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         if data["procurementMethodType"] in GUARANTEE_ALLOWED_TENDER_TYPES:

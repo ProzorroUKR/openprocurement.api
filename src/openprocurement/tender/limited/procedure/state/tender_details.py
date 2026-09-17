@@ -167,6 +167,7 @@ class CauseDetailsMixing:
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    should_validate_status_change_with_lot_cancellation_pending = False
     should_validate_items_zero_quantity = False
     should_validate_guarantee_criterion = False
     items_related_lot_error = "This option is not available"
@@ -200,6 +201,7 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 
 
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    should_validate_status_change_with_lot_cancellation_pending = False
     should_validate_items_zero_quantity = False
     should_validate_guarantee_criterion = False
     lot_guarantee_currency_from_tender = False

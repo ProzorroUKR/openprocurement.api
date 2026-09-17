@@ -20,9 +20,6 @@ from openprocurement.tender.core.procedure.serializers.tender import (
 )
 from openprocurement.tender.core.procedure.state.award import AwardState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_create_award_not_in_allowed_period,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import (
     ProcurementMethodTypePredicate,
@@ -64,10 +61,7 @@ class TenderAwardResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_award",  # admins only
-        validators=(
-            validate_input_data(PostAward),
-            validate_create_award_not_in_allowed_period,
-        ),
+        validators=(validate_input_data(PostAward),),
     )
     def collection_post(self):
         update_logging_context(self.request, {"award_id": "__new__"})
@@ -123,8 +117,9 @@ class TenderAwardResource(TenderBaseResource):
     def patch(self):
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]
+        award = self.request.validated["award"]
+        self.state.validate_award_patch_allowed(award)
         if updated:
-            award = self.request.validated["award"]
             self.state.validate_award_patch(award, updated)
 
             set_item(tender, "awards", award["id"], updated)

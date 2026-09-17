@@ -20,7 +20,6 @@ from openprocurement.tender.competitiveordering.procedure.state.tender_details i
 )
 from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
 from openprocurement.tender.core.procedure.validation import (
-    validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
@@ -88,7 +87,6 @@ class COTenderResource(TendersResource):
             ),
             validate_patch_input_data(PatchTender),
             validate_patch_data_simple(Tender, item_name="tender"),
-            unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
         permission="edit_tender",
     )

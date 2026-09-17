@@ -195,7 +195,7 @@ class BaseTenderMilestone24HMixin:
 
         # wait until milestone dueDate ends
         with patch(
-            "openprocurement.tender.core.procedure.validation.get_request_now",
+            "openprocurement.tender.core.procedure.state.tender.get_request_now",
             lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
         ):
             # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)
@@ -335,7 +335,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # wait until milestone dueDate ends
         with patch(
-            "openprocurement.tender.core.procedure.validation.get_request_now",
+            "openprocurement.tender.core.procedure.state.tender.get_request_now",
             lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
         ):
             if procurement_method_type in ("belowThreshold", "simple.defense", "requestForProposal"):
@@ -407,7 +407,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
 
         # wait until milestone dueDate ends
         with patch(
-            "openprocurement.tender.core.procedure.validation.get_request_now",
+            "openprocurement.tender.core.procedure.state.tender.get_request_now",
             lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
         ):
             response = self.app.patch_json(

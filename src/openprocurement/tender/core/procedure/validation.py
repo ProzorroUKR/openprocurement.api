@@ -530,70 +530,6 @@ def validate_active_lot(request, **_):
 
 
 # award
-def validate_create_award_not_in_allowed_period(request, **_):
-    tender = request.validated["tender"]
-    if tender["status"] != "active.qualification":
-        raise_operation_error(request, f"Can't create award in current ({tender['status']}) tender status")
-
-
-def validate_update_award_in_not_allowed_status(request, **_):
-    tender = request.validated["tender"]
-    if tender["status"] not in ("active.qualification", "active.awarded"):
-        raise_operation_error(request, f"Can't update award in current ({tender['status']}) tender status")
-
-
-def validate_update_award_only_for_active_lots(request, **_):
-    tender = request.validated["tender"]
-    award = request.validated["award"]
-    if any(lot.get("status") != "active" for lot in tender.get("lots", "") if lot.get("id") == award.get("lotID")):
-        raise_operation_error(request, "Can update award only in active lot status")
-
-
-def validate_award_with_lot_cancellation_in_pending(request, **_):
-    if not tender_created_after_2020_rules():
-        return
-
-    if request.authenticated_role != "tender_owner":
-        return
-
-    if request.method == "POST":
-        award = request.validated["data"]
-    else:
-        award = request.validated["award"]
-    lot_id = award.get("lotID")
-    if not lot_id:
-        return
-
-    tender = get_tender()
-    accept_lot = all(
-        any(complaint.get("status") == "resolved" for complaint in cancellation["complaints"])
-        for cancellation in tender.get("cancellations", [])
-        if cancellation.get("status") == "unsuccessful"
-        and cancellation.get("complaints")
-        and cancellation.get("relatedLot") == lot_id
-    )
-    has_lot_pending_cancellations = any(
-        cancellation.get("relatedLot") == lot_id and cancellation.get("status") == "pending"
-        for cancellation in tender.get("cancellations", [])
-    )
-    if has_lot_pending_cancellations or not accept_lot:
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} award with lot that have active cancellation",
-        )
-
-
-def validate_update_award_with_accepted_complaint(request, **_):
-    tender = get_tender()
-    lot_id = request.validated["award"].get("lotID")
-    if any(
-        any(c.get("status") == "accepted" for c in i.get("complaints", ""))
-        for i in tender.get("awards", "")
-        if i.get("lotID") == lot_id
-    ):
-        raise_operation_error(request, "Can't update award with accepted complaint")
-
-
 # AWARD DOCUMENTS
 def validate_award_document_tender_not_in_allowed_status_base(request, allowed_bot_statuses=("active.awarded",), **_):
     allowed_tender_statuses = ["active.qualification"]
@@ -650,36 +586,6 @@ def validate_tender_status_allows_update(*statuses):
             raise_operation_error(request, f"Can't update tender in current ({tender_status}) status")
 
     return validate
-
-
-def validate_tender_change_status_with_cancellation_lot_pending(request, **_):
-    if not tender_created_after_2020_rules():
-        return
-
-    tender = request.validated["tender"]
-
-    if not tender.get("lots"):
-        return
-
-    data = request.validated["data"]
-    new_status = data.get("status", tender["status"])
-
-    if tender["status"] == new_status:
-        return
-
-    accept_lot = all(
-        any(j.get("status") == "resolved" for j in i.get("complaints", ""))
-        for i in tender.get("cancellations", "")
-        if i.get("status") == "unsuccessful" and i.get("complaints") and i.get("relatedLot")
-    )
-    if (
-        any(i.get("relatedLot") and i.get("status") == "pending" for i in tender.get("cancellations", ""))
-        or not accept_lot
-    ):
-        raise_operation_error(
-            request,
-            "Can't update tender with pending cancellation in one of exists lot",
-        )
 
 
 # tender documents
@@ -746,30 +652,6 @@ def validate_tender_document_update_not_by_author_or_tender_owner(request, **_):
 
 
 # QUALIFICATION
-def validate_qualification_update_not_in_pre_qualification(request, **_):
-    status = request.validated["tender"]["status"]
-    if status not in ["active.pre-qualification"]:
-        raise_operation_error(request, f"Can't update qualification in current ({status}) tender status")
-
-
-def validate_cancelled_qualification_update(request, **_):
-    status = request.validated["qualification"]["status"]
-    if status == "cancelled":
-        raise_operation_error(
-            request,
-            "Can't update qualification in current cancelled qualification status",
-        )
-
-
-def validate_update_qualification_only_for_active_lots(request, **_):
-    tender = request.validated["tender"]
-    qualification = request.validated["qualification"]
-    if any(
-        lot.get("status") != "active" for lot in tender.get("lots", "") if lot.get("id") == qualification.get("lotID")
-    ):
-        raise_operation_error(request, "Can update qualification only in active lot status")
-
-
 # QUALIFICATION DOCUMENT
 def get_qualification_document_role(request):
     tender = request.validated["tender"]
@@ -1788,12 +1670,6 @@ validate_cfa_selection_lot_operation_in_disallowed_tender_statuses = (
 
 
 # award
-def validate_cfa_update_award_in_not_allowed_status(request, **_):
-    status = request.validated["tender"]["status"]
-    if status not in ("active.qualification", "active.qualification.stand-still"):
-        raise_operation_error(request, f"Can't update award in current ({status}) tender status")
-
-
 def validate_cfa_award_document_tender_not_in_allowed_status(request, **_):
     if request.authenticated_role == "bots":
         allowed_tender_statuses = (
@@ -1916,15 +1792,6 @@ def validate_shortlisted_firms_author(request, tender, obj, obj_name):
 
 
 # award
-def validate_limited_award_operation_not_in_active_status(request, **kwargs):
-    status = request.validated["tender"]["status"]
-    if status != "active":
-        raise_operation_error(
-            request,
-            f"Can't {'create' if request.method == 'POST' else 'update'} award in current ({status}) tender status",
-        )
-
-
 # award document
 def validate_limited_document_operation_not_in_active(request, **kwargs):
     status = request.validated["tender"]["status"]

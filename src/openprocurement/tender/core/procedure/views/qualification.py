@@ -19,10 +19,6 @@ from openprocurement.tender.core.procedure.serializers.tender import (
 )
 from openprocurement.tender.core.procedure.state.qualification import QualificationState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_cancelled_qualification_update,
-    validate_qualification_update_not_in_pre_qualification,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import context_view
 
@@ -92,8 +88,6 @@ class TenderQualificationResource(TenderBaseResource):
             unless_admins(validate_item_owner("tender")),
             validate_patch_input_data(PatchQualification),
             validate_patch_data(Qualification, item_name="qualification"),
-            validate_qualification_update_not_in_pre_qualification,
-            validate_cancelled_qualification_update,
         ),
         permission="edit_qualification",
     )
@@ -101,8 +95,9 @@ class TenderQualificationResource(TenderBaseResource):
         """Post a qualification resolution"""
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]
+        qualification = self.request.validated["qualification"]
+        self.state.validate_qualification_patch_allowed(qualification)
         if updated:
-            qualification = self.request.validated["qualification"]
             set_item(
                 tender,
                 "qualifications",

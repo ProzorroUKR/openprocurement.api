@@ -207,7 +207,7 @@ def milestone_24h(self):
 
     # wait until milestone dueDate ends
     with patch(
-        "openprocurement.tender.core.procedure.validation.get_request_now",
+        "openprocurement.tender.core.procedure.state.tender.get_request_now",
         lambda: dt_from_iso(created_milestone["dueDate"]) + timedelta(seconds=1),
     ):
         # self.assert_upload_docs_status(bid_id, winner_token, success=upload_allowed_by_default)

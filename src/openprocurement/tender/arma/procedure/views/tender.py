@@ -21,7 +21,6 @@ from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
@@ -72,7 +71,6 @@ class TenderResource(TendersResource):
             ),
             validate_patch_input_data(ARMAPatchTender),
             validate_patch_data_simple(ARMATender, item_name="tender"),
-            unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
         permission="edit_tender",
     )

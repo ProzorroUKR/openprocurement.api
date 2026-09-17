@@ -12,12 +12,6 @@ from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.models.award import ARMAAward, ARMAPostAward
 from openprocurement.tender.arma.procedure.state.award import AwardState
 from openprocurement.tender.core.procedure.models.award import PatchAward
-from openprocurement.tender.core.procedure.validation import (
-    validate_award_with_lot_cancellation_in_pending,
-    validate_create_award_not_in_allowed_period,
-    validate_update_award_in_not_allowed_status,
-    validate_update_award_only_for_active_lots,
-)
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 
 
@@ -34,10 +28,7 @@ class AwardResource(TenderAwardResource):
     @json_view(
         content_type="application/json",
         permission="create_award",  # admins only
-        validators=(
-            validate_input_data(ARMAPostAward),
-            validate_create_award_not_in_allowed_period,
-        ),
+        validators=(validate_input_data(ARMAPostAward),),
     )
     def collection_post(self):
         return super().collection_post()
@@ -49,9 +40,6 @@ class AwardResource(TenderAwardResource):
             unless_admins(validate_item_owner("tender")),
             validate_patch_input_data(PatchAward),
             validate_patch_data_simple(ARMAAward, item_name="award"),
-            validate_award_with_lot_cancellation_in_pending,
-            validate_update_award_in_not_allowed_status,
-            validate_update_award_only_for_active_lots,
         ),
     )
     def patch(self):

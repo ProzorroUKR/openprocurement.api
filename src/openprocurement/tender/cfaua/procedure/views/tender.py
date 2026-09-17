@@ -20,7 +20,6 @@ from openprocurement.tender.cfaua.procedure.state.tender_details import (
     CFAUATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.validation import (
-    validate_tender_change_status_with_cancellation_lot_pending,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
@@ -72,7 +71,6 @@ class CFAUATenderResource(TendersResource):
             ),
             validate_patch_input_data(CFAPatchTender),
             validate_patch_data_simple(CFATender, item_name="tender"),
-            unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
         ),
         permission="edit_tender",
     )
