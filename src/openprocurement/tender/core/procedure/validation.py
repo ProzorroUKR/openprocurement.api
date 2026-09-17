@@ -7,7 +7,6 @@ from hashlib import sha512
 
 from pyramid.httpexceptions import HTTPError
 from pyramid.interfaces import IAuthenticationPolicy
-from pyramid.request import Request
 from schematics.exceptions import ValidationError
 from schematics.types import (
     BaseType,
@@ -37,7 +36,6 @@ from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
     CONTRACT_OWNER_REQUIRED_FROM,
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
-    CRITERION_REQUIREMENT_STATUSES_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
@@ -62,7 +60,6 @@ from openprocurement.api.utils import (
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.api.validation import validate_tender_first_revision_date
-from openprocurement.tender.cfaua.constants import LOTS_MAX_SIZE, LOTS_MIN_SIZE
 from openprocurement.tender.core.constants import (
     AMOUNT_NET_COEF,
     ReqStatuses,
@@ -539,13 +536,6 @@ def validate_create_award_not_in_allowed_period(request, **_):
         raise_operation_error(request, f"Can't create award in current ({tender['status']}) tender status")
 
 
-def validate_create_award_only_for_active_lot(request, **_):
-    tender = request.validated["tender"]
-    award = request.validated["data"]
-    if any(lot.get("status") != "active" for lot in tender.get("lots", "") if lot["id"] == award.get("lotID")):
-        raise_operation_error(request, "Can create award only in active lot status")
-
-
 def validate_update_award_in_not_allowed_status(request, **_):
     tender = request.validated["tender"]
     if tender["status"] not in ("active.qualification", "active.awarded"):
@@ -845,45 +835,6 @@ def validate_qualification_document_operation_not_in_pending(request, **_):
 validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
     "lot", ("active.tendering", "draft", "draft.stage2")
 )
-
-
-def _validate_related_criterion(request: Request, relatedItem_id: str, action="cancel", relatedItem="lot") -> None:
-    if tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM):
-        return
-    tender = request.validated["tender"]
-    if tender.get("criteria"):
-        related_criteria = [
-            criterion
-            for criterion in tender["criteria"]
-            for rg in criterion.get("requirementGroups", "")
-            for requirement in rg.get("requirements", "")
-            if criterion.get("relatedItem", "") == relatedItem_id and requirement["status"] == "active"
-        ]
-        if related_criteria:
-            raise_operation_error(
-                request,
-                "Can't {} {} {} while related criterion has active requirements".format(
-                    action, relatedItem_id, relatedItem
-                ),
-            )
-
-
-def _validate_related_object(request: Request, collection_name: str, lot_id: str) -> None:
-    tender = request.validated["tender"]
-    exist_related_obj = any(i.get("relatedLot", "") == lot_id for i in tender.get(collection_name, ""))
-
-    if exist_related_obj:
-        raise_operation_error(request, f"Cannot delete lot with related {collection_name}", status=422)
-
-
-def validate_delete_lot_related_object(request: Request, **_) -> None:
-    # We have some realization of that's validations in tender
-    # This logic is duplicated
-    lot_id = request.validated["lot"]["id"]
-    _validate_related_criterion(request, lot_id, action="delete")
-    _validate_related_object(request, "cancellations", lot_id)
-    _validate_related_object(request, "milestones", lot_id)
-    _validate_related_object(request, "items", lot_id)
 
 
 def validate_24h_milestone_released(request, **kwargs):
@@ -1891,16 +1842,6 @@ def validate_cfa_award_document_tender_not_in_allowed_status(request, **_):
 
 
 # lot
-def validate_cfa_lot_count(request, **_):
-    lots_count = len(request.validated["tender"].get("lots", ""))
-
-    if request.method == "DELETE" and lots_count <= LOTS_MIN_SIZE:
-        raise_operation_error(request, f"Lots count in tender cannot be less than {LOTS_MAX_SIZE} items")
-
-    elif request.method == "POST" and lots_count >= LOTS_MAX_SIZE:
-        raise_operation_error(request, f"Lots count in tender cannot be more than {LOTS_MAX_SIZE} items")
-
-
 # award document
 def validate_cfa_accepted_complaints(request, **kwargs):
     award_lot = request.validated["award"].get("lotID")
@@ -2013,70 +1954,6 @@ def validate_limited_award_operation_not_in_active_status(request, **kwargs):
         )
 
 
-def validate_limited_create_new_award(request, **kwargs):
-    tender = request.validated["tender"]
-    if tender.get("awards"):
-        last_status = tender["awards"][-1]["status"]
-        if last_status in ["pending", "active"]:
-            raise_operation_error(
-                request,
-                f"Can't create new award while any ({last_status}) award exists",
-            )
-
-
-def validate_limited_lot_cancellation(request, **kwargs):
-    if tender_created_after_2020_rules():
-        return
-
-    tender = request.validated["tender"]
-    award = request.validated.get("award", request.validated["data"])
-    lot_id = award.get("lotID")
-    if (
-        tender.get("lots")
-        and tender.get("cancellations")
-        and [
-            cancellation for cancellation in tender.get("cancellations", []) if cancellation.get("relatedLot") == lot_id
-        ]
-    ):
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} award while cancellation for corresponding lot exists",
-        )
-
-
-def validate_limited_create_new_award_with_lots(request, **kwargs):
-    tender = request.validated["tender"]
-    award = request.validated["data"]
-    if tender.get("awards"):
-        if tender.get("lots"):  # If tender with lots
-            lot_id = award.get("lotID")
-            if any(lot_id == aw.get("lotID") for aw in tender["awards"] if aw["status"] in ["pending", "active"]):
-                last_award_status = tender["awards"][-1]["status"]
-                raise_operation_error(
-                    request,
-                    f"Can't create new award on lot while any ({last_award_status}) award exists",
-                )
-        else:
-            validate_limited_create_new_award(request, **kwargs)
-
-
-def validate_limited_award_same_lot_id(request, **kwargs):
-    tender = request.validated["tender"]
-    award = request.validated["data"]
-    lot_id = award.get("lotID")
-    if lot_id and any(
-        aw.get("lotID") == lot_id and aw["id"] != award["id"]
-        for aw in tender.get("awards")
-        if aw["status"] in ("pending", "active")
-    ):
-        raise_operation_error(
-            request,
-            "Another award is already using this lotID.",
-            location="body",
-            name="lotID",
-        )
-
-
 # award document
 def validate_limited_document_operation_not_in_active(request, **kwargs):
     status = request.validated["tender"]["status"]
@@ -2120,9 +1997,3 @@ validate_limited_lot_operation_in_disallowed_tender_statuses = validate_item_ope
     "lot",
     ("draft", "active"),
 )
-
-
-def validate_limited_lot_operation_with_awards(request, **_):
-    tender = request.validated["tender"]
-    if tender.get("awards"):
-        raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} lot when you have awards")

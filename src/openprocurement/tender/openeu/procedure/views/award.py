@@ -12,7 +12,6 @@ from openprocurement.tender.core.procedure.models.award import Award, PatchAward
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_create_award_not_in_allowed_period,
-    validate_create_award_only_for_active_lot,
     validate_update_award_in_not_allowed_status,
     validate_update_award_only_for_active_lots,
 )
@@ -36,7 +35,6 @@ class EUTenderAwardResource(TenderAwardResource):
         validators=(
             validate_input_data(PostAward),
             validate_create_award_not_in_allowed_period,
-            validate_create_award_only_for_active_lot,
         ),
     )
     def collection_post(self):

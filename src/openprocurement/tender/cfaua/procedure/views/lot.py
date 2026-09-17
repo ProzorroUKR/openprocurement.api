@@ -8,9 +8,6 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.state.lot import TenderLotState
 from openprocurement.tender.core.procedure.models.lot import PostLot
 from openprocurement.tender.core.procedure.validation import (
-    validate_cfa_lot_count,
-    validate_create_award_only_for_active_lot,
-    validate_delete_lot_related_object,
     validate_lot_operation_in_disallowed_tender_statuses,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
@@ -33,8 +30,6 @@ class CFAUATenderLotResource(TenderLotResource):
             validate_item_owner("tender"),
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_input_data(PostLot),
-            validate_cfa_lot_count,
-            validate_create_award_only_for_active_lot,
         ),
     )
     def collection_post(self):
@@ -45,8 +40,6 @@ class CFAUATenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_lot_operation_in_disallowed_tender_statuses,
-            validate_delete_lot_related_object,
-            validate_cfa_lot_count,
         ),
     )
     def delete(self):

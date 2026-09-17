@@ -11,7 +11,6 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.validation import (
-    validate_delete_lot_related_object,
     validate_rfp_lot_operation_in_disallowed_tender_statuses,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
@@ -58,7 +57,6 @@ class RequestForProposalTenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_rfp_lot_operation_in_disallowed_tender_statuses,
-            validate_delete_lot_related_object,
         ),
         permission="edit_lot",
     )

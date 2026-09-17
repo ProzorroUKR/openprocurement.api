@@ -13,7 +13,6 @@ from openprocurement.tender.belowthreshold.procedure.state.lot import TenderLotS
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.validation import (
     validate_bt_lot_operation_in_disallowed_tender_statuses,
-    validate_delete_lot_related_object,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -58,7 +57,6 @@ class BelowThresholdTenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_bt_lot_operation_in_disallowed_tender_statuses,
-            validate_delete_lot_related_object,
         ),
         permission="edit_lot",
     )

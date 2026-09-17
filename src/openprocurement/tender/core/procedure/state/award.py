@@ -32,6 +32,8 @@ class AwardStateMixing:
     # --- award data rules (procedure differences) ---
     # procedures without bids (limited) have no award items
     award_items_allowed: bool = True
+    # an award can be created only for an active lot (limited: lot status is not checked)
+    award_post_requires_active_lot: bool = True
     items_delivery_required: bool = False
     items_unit_required: bool = True
     items_quantity_required: bool = True
@@ -228,6 +230,8 @@ class AwardStateMixing:
     # --- validation ---
 
     def validate_award_post(self, award):
+        if self.award_post_requires_active_lot:
+            self.validate_award_lot_is_active(award)
         self.validate_award_items_allowed(award)
 
     def validate_award_patch(self, before, after):
@@ -248,6 +252,11 @@ class AwardStateMixing:
         if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             for resp in after.get("requirementResponses", []):
                 validate_req_response_values(resp)
+
+    def validate_award_lot_is_active(self, award):
+        tender = get_tender()
+        if any(lot.get("status") != "active" for lot in tender.get("lots", "") if lot["id"] == award.get("lotID")):
+            raise_operation_error(self.request, "Can create award only in active lot status")
 
     def validate_award_items_allowed(self, award):
         if not self.award_items_allowed and award.get("items") is not None:

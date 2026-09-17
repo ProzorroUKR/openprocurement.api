@@ -19,7 +19,6 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.award imp
 from openprocurement.tender.core.procedure.validation import (
     validate_award_with_lot_cancellation_in_pending,
     validate_create_award_not_in_allowed_period,
-    validate_create_award_only_for_active_lot,
     validate_update_award_in_not_allowed_status,
     validate_update_award_only_for_active_lots,
 )
@@ -43,7 +42,6 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
         validators=(
             validate_input_data(CDPostAward),
             validate_create_award_not_in_allowed_period,
-            validate_create_award_only_for_active_lot,
         ),
     )
     def collection_post(self):
@@ -81,7 +79,6 @@ class CDStage2UATenderAwardResource(UATenderAwardResource):
         validators=(
             validate_input_data(CDPostAward),
             validate_create_award_not_in_allowed_period,
-            validate_create_award_only_for_active_lot,
         ),
     )
     def collection_post(self):

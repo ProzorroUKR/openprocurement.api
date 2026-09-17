@@ -17,7 +17,6 @@ from openprocurement.tender.cfaselectionua.procedure.models.lot import (
 from openprocurement.tender.cfaselectionua.procedure.state.lot import TenderLotState
 from openprocurement.tender.core.procedure.validation import (
     validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
-    validate_delete_lot_related_object,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -62,7 +61,6 @@ class CFASelectionUATenderLotResource(TenderLotResource):
         validators=(
             validate_item_owner("tender"),
             validate_cfa_selection_lot_operation_in_disallowed_tender_statuses,
-            validate_delete_lot_related_object,
         ),
         permission="edit_lot",
     )

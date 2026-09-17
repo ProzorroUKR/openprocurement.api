@@ -22,7 +22,6 @@ from openprocurement.tender.core.procedure.state.award import AwardState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     validate_create_award_not_in_allowed_period,
-    validate_create_award_only_for_active_lot,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import (
@@ -68,7 +67,6 @@ class TenderAwardResource(TenderBaseResource):
         validators=(
             validate_input_data(PostAward),
             validate_create_award_not_in_allowed_period,
-            validate_create_award_only_for_active_lot,
         ),
     )
     def collection_post(self):
