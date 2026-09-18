@@ -319,27 +319,28 @@ class AwardStateMixing:
                     if self.is_available_to_cancel_award(i, [award["id"]]):
                         self.cancel_award(i, end_complaint_period=end_complaint_period)
         else:
-            # rfp: not governed by a fixed legal awarding order, so this is left to the customer's
-            # discretion regardless of hasAwardingOrder - the current award and next ones after it
-            # (same lot) should be cancelled. The new 'pending' award will be generated instead of
-            # current one, and qualification will be continued starting from this new award.
-            skip = True
-            for i in tender.get("awards"):
-                # skip all award before the context one
-                if i["id"] == award["id"]:
-                    skip = False
-                if skip:
-                    continue
-                # skip different lot awards
-                if i.get("lotID") != award.get("lotID"):
-                    continue
-                if self.award_cancel_complaints_on_cancel:
-                    self.set_award_complaints_cancelled(i)
-                self.cancel_award(i)
+            if tender["config"]["hasAwardingOrder"]:
+                # Cancel later same-lot awards (current award and next ones after it).
+                # The current award is cancelled below,
+                # then a new pending award is generated so qualification continues from it.
+                lot_awards = [a for a in tender.get("awards") or [] if a.get("lotID") == award.get("lotID")]
+                current_index = next(i for i, a in enumerate(lot_awards) if a["id"] == award["id"])
+                for subsequent in lot_awards[current_index + 1 :]:
+                    if self.award_cancel_complaints_on_cancel:
+                        self.set_award_complaints_cancelled(subsequent)
+                    self.cancel_award(subsequent, end_complaint_period=end_complaint_period)
+            else:
+                # It is intended to do nothing here
+                # Only the current award should be cancelled
+                # The new pending award will be generated instead of current one.
+                pass
 
+        # Cancel the current award
         if self.award_cancel_complaints_on_cancel:
             self.set_award_complaints_cancelled(award)
         self.cancel_award(award, end_complaint_period=end_complaint_period)
+
+        # Generate a new pending award (or in some cases multiple awards if hasAwardingOrder is True)
         self.add_next_award()
 
     def cancel_multi_sourcing_pending_awards(self, award, tender):
