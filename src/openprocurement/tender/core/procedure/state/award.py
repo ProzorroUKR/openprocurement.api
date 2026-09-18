@@ -60,7 +60,8 @@ class AwardStateMixing:
     award_unsuccessful_requires_cancelled_award_same_bid: bool = False
     # unsuccessful -> cancelled transition (cfaua overrides the whole transition instead of using these flags)
     award_unsuccessful_cancel_allowed: bool = True  # limited: forbidden
-    award_unsuccessful_cancel_all_lot_awards: bool = True  # rfp: awards after the current one only
+    # rfp: awards after the current one only, regardless of hasAwardingOrder
+    award_unsuccessful_cancel_all_lot_awards: bool = True
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
     # competitiveOrdering: the qualified/eligible rules depend on the tender creation date (NEW_ARTICLE_17_CRITERIA_REQUIRED)
@@ -317,11 +318,11 @@ class AwardStateMixing:
                 if i.get("lotID") == award.get("lotID"):
                     if self.is_available_to_cancel_award(i, [award["id"]]):
                         self.cancel_award(i, end_complaint_period=end_complaint_period)
-        elif tender["config"]["hasAwardingOrder"]:
-            # If hasAwardingOrder is True, then the current award should be found through all
-            # tender awards/lot awards. Then the current award and next ones after it should be cancelled.
-            # The new 'pending' award will be generated instead of current one.
-            # And qualification will be continued starting from this new award.
+        else:
+            # rfp: not governed by a fixed legal awarding order, so this is left to the customer's
+            # discretion regardless of hasAwardingOrder - the current award and next ones after it
+            # (same lot) should be cancelled. The new 'pending' award will be generated instead of
+            # current one, and qualification will be continued starting from this new award.
             skip = True
             for i in tender.get("awards"):
                 # skip all award before the context one
