@@ -1,4 +1,6 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest import mock
 
 from webtest import AppError
 
@@ -452,6 +454,201 @@ def patch_tender_award_unsuccessful_to_cancelled_forbidden_with_active_contract(
         response.json["errors"][0],
         {"location": "body", "name": "data", "description": "Can't update award in current (unsuccessful) status"},
     )
+
+
+def patch_tender_award_unsuccessful_to_cancelled_cancels_active_lot_award(self):
+    with change_auth(self.app, ("Basic", ("token", ""))):
+        response = self.app.post_json(
+            "/tenders/{}/awards".format(self.tender_id),
+            {
+                "data": {
+                    "suppliers": [test_tender_below_supplier],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "lotID": self.initial_lots[0]["id"],
+                    "value": {"amount": 500},
+                }
+            },
+        )
+    self.assertEqual(response.status, "201 Created")
+    award = response.json["data"]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # rejecting the first bid generates a new award for the next-ranked bid
+    self.assertIn("Location", response.headers)
+    next_award_id = response.headers["Location"].split("/")[-1]
+
+    # activate the next-ranked bid's award, creating a pending contract for it
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{next_award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, next_award_id, self.tender_token),
+        {"data": {"status": "active", "qualified": True}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "active.awarded")
+    self.assertEqual(len(tender["contracts"]), 1)
+    self.assertEqual(tender["contracts"][0]["awardID"], next_award_id)
+    self.assertEqual(tender["contracts"][0]["status"], "pending")
+
+    # cancelling the unsuccessful award rolls back every pending/active award of the lot,
+    # including another bidder's active award and its pending contract
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertIn("Location", response.headers)
+    new_award_id = response.headers["Location"].split("/")[-1]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "active.qualification")
+    self.assertNotIn("endDate", tender["awardPeriod"])
+
+    awards = tender["awards"]
+    self.assertEqual(len(awards), 3)
+    self.assertEqual(awards[0]["id"], award["id"])
+    self.assertEqual(awards[0]["status"], "cancelled")
+    self.assertEqual(awards[1]["id"], next_award_id)
+    self.assertEqual(awards[1]["status"], "cancelled")
+    # qualification restarts from the first-ranked bid
+    self.assertEqual(awards[2]["id"], new_award_id)
+    self.assertEqual(awards[2]["status"], "pending")
+    self.assertEqual(awards[2]["bid_id"], self.initial_bids[0]["id"])
+
+    self.assertEqual(len(tender["contracts"]), 1)
+    self.assertEqual(tender["contracts"][0]["awardID"], next_award_id)
+    self.assertEqual(tender["contracts"][0]["status"], "cancelled")
+
+
+def patch_tender_award_unsuccessful_to_cancelled_keeps_unsuccessful_lot_awards(self):
+    # the auction results generated a pending award for the first-ranked bid
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    awards = response.json["data"]
+    self.assertEqual(len(awards), 1)
+    self.assertEqual(awards[0]["status"], "pending")
+    first_award = awards[0]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{first_award['id']}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, first_award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertIn("Location", response.headers)
+    second_award_id = response.headers["Location"].split("/")[-1]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{second_award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, second_award_id, self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertIn("Location", response.headers)
+    third_award_id = response.headers["Location"].split("/")[-1]
+
+    # tender created after QUALIFICATION_AFTER_COMPLAINT_FROM:
+    # only pending/active awards of the lot are cancelled, unsuccessful ones are kept
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, first_award["id"], self.tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertIn("Location", response.headers)
+    new_award_id = response.headers["Location"].split("/")[-1]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "active.qualification")
+
+    awards = tender["awards"]
+    self.assertEqual(len(awards), 4)
+    self.assertEqual(awards[0]["id"], first_award["id"])
+    self.assertEqual(awards[0]["status"], "cancelled")
+    self.assertEqual(awards[1]["id"], second_award_id)
+    self.assertEqual(awards[1]["status"], "unsuccessful")
+    self.assertEqual(awards[2]["id"], third_award_id)
+    self.assertEqual(awards[2]["status"], "cancelled")
+    # qualification restarts from the first-ranked bid
+    self.assertEqual(awards[3]["id"], new_award_id)
+    self.assertEqual(awards[3]["status"], "pending")
+    self.assertEqual(awards[3]["bid_id"], first_award["bid_id"])
+
+
+def patch_tender_award_unsuccessful_to_cancelled_cancels_all_lot_awards(self):
+    # the auction results generated a pending award for the first-ranked bid
+    self.app.authorization = ("Basic", ("broker", ""))
+    response = self.app.get("/tenders/{}/awards".format(self.tender_id))
+    awards = response.json["data"]
+    self.assertEqual(len(awards), 1)
+    self.assertEqual(awards[0]["status"], "pending")
+    first_award = awards[0]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{first_award['id']}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, first_award["id"], self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertIn("Location", response.headers)
+    second_award_id = response.headers["Location"].split("/")[-1]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{second_award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, second_award_id, self.tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertIn("Location", response.headers)
+    third_award_id = response.headers["Location"].split("/")[-1]
+
+    # tender created before QUALIFICATION_AFTER_COMPLAINT_FROM:
+    # every award of the lot is cancelled, regardless of its status
+    with mock.patch(
+        "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
+        get_now() + timedelta(days=1),
+    ):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, first_award["id"], self.tender_token),
+            {"data": {"status": "cancelled"}},
+        )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertIn("Location", response.headers)
+    new_award_id = response.headers["Location"].split("/")[-1]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    tender = response.json["data"]
+    self.assertEqual(tender["status"], "active.qualification")
+
+    awards = tender["awards"]
+    self.assertEqual(len(awards), 4)
+    self.assertEqual(awards[0]["id"], first_award["id"])
+    self.assertEqual(awards[0]["status"], "cancelled")
+    self.assertEqual(awards[1]["id"], second_award_id)
+    self.assertEqual(awards[1]["status"], "cancelled")
+    self.assertEqual(awards[2]["id"], third_award_id)
+    self.assertEqual(awards[2]["status"], "cancelled")
+    # qualification restarts from the first-ranked bid
+    self.assertEqual(awards[3]["id"], new_award_id)
+    self.assertEqual(awards[3]["status"], "pending")
+    self.assertEqual(awards[3]["bid_id"], first_award["bid_id"])
 
 
 # TenderLotAwardResourceTest
