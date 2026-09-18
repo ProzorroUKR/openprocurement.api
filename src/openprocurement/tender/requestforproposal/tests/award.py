@@ -49,6 +49,9 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
 )
 from openprocurement.tender.requestforproposal.tests.award_blanks import (
     award_sign_not_required,
+    patch_tender_award_unsuccessful_to_cancelled_cancels_subsequent_award_complaints,
+    patch_tender_award_unsuccessful_to_cancelled_cancels_subsequent_lot_awards,
+    patch_tender_award_unsuccessful_to_cancelled_keeps_other_lot_awards,
 )
 from openprocurement.tender.requestforproposal.tests.base import (
     TenderContentWebTest,
@@ -104,6 +107,10 @@ class TenderAwardResourceTest(TenderContentWebTest, TenderAwardResourceTestMixin
     initial_bids = test_tender_rfp_bids
     initial_lots = test_tender_rfp_lots
 
+    test_patch_tender_award_unsuccessful_to_cancelled_cancels_subsequent_award_complaints = snitch(
+        patch_tender_award_unsuccessful_to_cancelled_cancels_subsequent_award_complaints
+    )
+
 
 class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckResourceTestMixin):
     initial_status = "active.auction"
@@ -116,6 +123,10 @@ class TenderLotAwardCheckResourceTest(TenderContentWebTest, TenderLotAwardCheckR
     initial_bids[2]["tenderers"][0]["identifier"]["id"] = "44437256"
     reverse = False
     awarding_key = "amount"
+
+    test_patch_tender_award_unsuccessful_to_cancelled_cancels_subsequent_lot_awards = snitch(
+        patch_tender_award_unsuccessful_to_cancelled_cancels_subsequent_lot_awards
+    )
 
     def setUp(self):
         super().setUp()
@@ -161,6 +172,9 @@ class Tender2LotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lots_award = snitch(patch_tender_lots_award)
     test_qualified_awards = snitch(qualified_awards)
     test_award_confidential_documents = snitch(award_confidential_documents)
+    test_patch_tender_award_unsuccessful_to_cancelled_keeps_other_lot_awards = snitch(
+        patch_tender_award_unsuccessful_to_cancelled_keeps_other_lot_awards
+    )
 
 
 class TenderAwardPendingResourceTestCase(TenderContentWebTest):
