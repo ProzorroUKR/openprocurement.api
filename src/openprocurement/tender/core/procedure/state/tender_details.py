@@ -50,7 +50,7 @@ from openprocurement.api.utils import (
     get_tender_category,
     get_tender_profile,
     raise_operation_error,
-    request_fetch_plan,
+    request_fetch_plans,
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.contracting.core.procedure.serializers.rationale_types import (
@@ -346,11 +346,8 @@ class BaseTenderDetailsMixing:
             self.validate_funders_match_plan_program(request, after)
 
     def validate_funders_match_plan_program(self, request, tender):
-        plans = []
-        for plan_ref in tender.get("plans") or []:
-            plan = request_fetch_plan(request, plan_ref["id"], raise_error=False, force=True)
-            if plan:
-                plans.append(plan)
+        plan_ids = [plan["id"] for plan in tender.get("plans") or []]
+        plans = request_fetch_plans(request, plan_ids, raise_error=False)
         validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):

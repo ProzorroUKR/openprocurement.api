@@ -96,6 +96,15 @@ def get_plan_by_id(request, plan_id: str, raise_error: bool = True):
     return get_obj_by_id(request, "plans", plan_id, raise_error)
 
 
+def get_plans_by_ids(request, plan_ids: list[str], raise_error: bool = True):
+    plans = []
+    for plan_id in plan_ids:
+        plan = get_plan_by_id(request, plan_id, raise_error=raise_error)
+        if plan:
+            plans.append(plan)
+    return plans
+
+
 def get_tender_by_id(request, tender_id: str, raise_error: bool = True):
     return get_obj_by_id(request, "tenders", tender_id, raise_error)
 
@@ -127,6 +136,23 @@ def request_init_object(request, obj_name, obj, obj_src=None):
         obj_src = deepcopy(obj)
     request.validated[obj_name] = obj
     request.validated[f"{obj_name}_src"] = obj_src
+    init_object(request, obj_name, obj)
+    return request.validated[obj_name]
+
+
+def request_init_objects(request, obj_name, objs_name, objs, objs_src=None):
+    if objs is None:
+        return
+    if objs_src is None:
+        objs_src = [deepcopy(obj) for obj in objs]
+    request.validated[objs_name] = objs
+    request.validated[f"{objs_name}_srcs"] = objs_src
+    for obj in objs:
+        init_object(request, obj_name, obj)
+    return request.validated[objs_name]
+
+
+def init_object(request, obj_name, obj):
     config_serializer = get_config_serializer(request, obj_name)
     if config_serializer:
         obj["config"] = config_serializer(obj.get("config", {})).data
@@ -141,7 +167,7 @@ def request_init_object(request, obj_name, obj, obj_src=None):
         )
 
         validate_restricted_object_action(request, obj_name, obj)
-    return request.validated[obj_name]
+    return obj
 
 
 def get_registry_object(registry, key, default=None):
@@ -160,7 +186,7 @@ def get_config_serializer(request, obj_name):
     return registry_object.get(obj_name)
 
 
-def request_init_plan(request, plan, plan_src=None, raise_error=True):
+def request_init_plan(request, plan, plan_src=None):
     return request_init_object(
         request,
         "plan",
@@ -169,7 +195,17 @@ def request_init_plan(request, plan, plan_src=None, raise_error=True):
     )
 
 
-def request_init_tender(request, tender, tender_src=None, raise_error=True):
+def request_init_plans(request, plans, plans_src=None):
+    return request_init_objects(
+        request,
+        "plan",
+        "plans",
+        plans,
+        objs_src=plans_src,
+    )
+
+
+def request_init_tender(request, tender, tender_src=None):
     return request_init_object(
         request,
         "tender",
@@ -178,7 +214,7 @@ def request_init_tender(request, tender, tender_src=None, raise_error=True):
     )
 
 
-def request_init_root_tender(request, tender, tender_src=None, raise_error=True):
+def request_init_root_tender(request, tender, tender_src=None):
     return request_init_object(
         request,
         "root_tender",
@@ -187,7 +223,7 @@ def request_init_root_tender(request, tender, tender_src=None, raise_error=True)
     )
 
 
-def request_init_contract(request, contract, contract_src=None, raise_error=True):
+def request_init_contract(request, contract, contract_src=None):
     return request_init_object(
         request,
         "contract",
@@ -196,7 +232,7 @@ def request_init_contract(request, contract, contract_src=None, raise_error=True
     )
 
 
-def request_init_framework(request, framework, framework_src=None, raise_error=True):
+def request_init_framework(request, framework, framework_src=None):
     return request_init_object(
         request,
         "framework",
@@ -205,7 +241,7 @@ def request_init_framework(request, framework, framework_src=None, raise_error=T
     )
 
 
-def request_init_submission(request, submission, submission_src=None, raise_error=True):
+def request_init_submission(request, submission, submission_src=None):
     return request_init_object(
         request,
         "submission",
@@ -214,7 +250,7 @@ def request_init_submission(request, submission, submission_src=None, raise_erro
     )
 
 
-def request_init_qualification(request, qualification, qualification_src=None, raise_error=True):
+def request_init_qualification(request, qualification, qualification_src=None):
     return request_init_object(
         request,
         "qualification",
@@ -223,7 +259,7 @@ def request_init_qualification(request, qualification, qualification_src=None, r
     )
 
 
-def request_init_agreement(request, agreement, agreement_src=None, raise_error=True):
+def request_init_agreement(request, agreement, agreement_src=None):
     return request_init_object(
         request,
         "agreement",
@@ -232,7 +268,7 @@ def request_init_agreement(request, agreement, agreement_src=None, raise_error=T
     )
 
 
-def request_init_transfer(request, transfer, transfer_src=None, raise_error=True):
+def request_init_transfer(request, transfer, transfer_src=None):
     return request_init_object(
         request,
         "transfer",
@@ -246,6 +282,13 @@ def request_fetch_plan(request, plan_id, raise_error=True, force=False):
         plan = get_plan_by_id(request, plan_id, raise_error=raise_error)
         request_init_plan(request, plan)
     return request.validated.get("plan")
+
+
+def request_fetch_plans(request, plan_ids, raise_error=True, force=False):
+    if should_fetch_object(request, "plans", force=force):
+        plans = get_plans_by_ids(request, plan_ids, raise_error=raise_error)
+        request_init_plans(request, plans)
+    return request.validated.get("plans")
 
 
 def request_fetch_tender(request, tender_id, raise_error=True, force=False):
