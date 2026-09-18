@@ -484,8 +484,11 @@ class BaseCollection:
 
 
 @contextmanager
-def atomic_transaction():
+def atomic_transaction(enabled=True):
     s = get_db_session()
+    if not enabled:
+        yield s
+        return
     database = get_request().registry.mongodb.database
     with s.start_transaction(
         # read_preference=database.read_preference,

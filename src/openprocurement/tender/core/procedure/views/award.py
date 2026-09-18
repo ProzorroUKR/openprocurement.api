@@ -136,7 +136,7 @@ class TenderAwardResource(TenderBaseResource):
             prepared_contracts_added = prepare_contracting_contracts_added(self.request, tender, award=award)
             prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
 
-            with atomic_transaction():
+            with atomic_transaction(enabled=bool(prepared_contracts_added or prepared_contracts_cancelled)):
                 if save_tender(self.request):
                     create_contracting_contracts(prepared_contracts_added)
                     save_contracting_contracts(prepared_contracts_cancelled)

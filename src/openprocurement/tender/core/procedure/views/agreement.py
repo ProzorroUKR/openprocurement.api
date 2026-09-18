@@ -58,9 +58,10 @@ class TenderAgreementResource(TenderBaseResource):
             self.state.agreement_on_patch(agreement, updated)
             self.state.always(self.request.validated["tender"])
 
-            with atomic_transaction():
+            agreement_activated = self.request.validated.get("agreement_activated")
+            with atomic_transaction(enabled=bool(agreement_activated)):
                 if save_tender(self.request):
-                    if agreement_activated := self.request.validated.get("agreement_activated"):
+                    if agreement_activated:
                         save_agreements_agreement(agreement_activated)
 
                     self.LOGGER.info(
