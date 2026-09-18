@@ -318,12 +318,11 @@ class AwardStateMixing:
                 if i.get("lotID") == award.get("lotID"):
                     if self.is_available_to_cancel_award(i, [award["id"]]):
                         self.cancel_award(i, end_complaint_period=end_complaint_period)
-        elif tender["config"]["hasAwardingOrder"]:
-            # rfp, hasAwardingOrder True: awards are generated one by one in ranked order, so the
-            # current award should be found through all tender awards/lot awards. Then the current
-            # award and next ones after it should be cancelled. The new 'pending' award will be
-            # generated instead of current one, and qualification will be continued starting from
-            # this new award.
+        else:
+            # rfp: not governed by a fixed legal awarding order, so this is left to the customer's
+            # discretion regardless of hasAwardingOrder - the current award and next ones after it
+            # (same lot) should be cancelled. The new 'pending' award will be generated instead of
+            # current one, and qualification will be continued starting from this new award.
             skip = True
             for i in tender.get("awards"):
                 # skip all award before the context one
@@ -337,18 +336,6 @@ class AwardStateMixing:
                 if self.award_cancel_complaints_on_cancel:
                     self.set_award_complaints_cancelled(i)
                 self.cancel_award(i)
-        else:
-            # rfp, hasAwardingOrder False: awards for a lot are generated independently and all at
-            # once, so there's no meaningful "next" award to cascade to - each bid's decision stands
-            # on its own. The one exception is the lot's active award (at most one can exist): since
-            # reopening this award for reconsideration means the lot has no settled winner anymore,
-            # that active award (left to the customer's discretion, not a legal requirement) must be
-            # cancelled too instead of coexisting with a freshly reopened decision.
-            for i in tender.get("awards", ""):
-                if i.get("lotID") == award.get("lotID") and i["status"] == "active":
-                    if self.award_cancel_complaints_on_cancel:
-                        self.set_award_complaints_cancelled(i)
-                    self.cancel_award(i)
 
         if self.award_cancel_complaints_on_cancel:
             self.set_award_complaints_cancelled(award)
