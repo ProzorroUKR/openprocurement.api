@@ -67,18 +67,11 @@
 
     * procurementMethodType - відповідність типу процедури плана і тендера
     * procuringEntity.identifier - відповідність полів id і scheme для плана і тендера
-    * classification.id:
-        - для `mainProcurementCategory: goods`: відповідність перших 4-х цифр кодів класифікатора плана і тендера (336 виняток - відповідність перших 3-х цифр)
-        - для `mainProcurementCategory: works/services`: відповідність всіх кодів класифікатора номенклатур плана і тендера
+    * classification.id: для `mainProcurementCategory: goods`: відповідність перших 4-х цифр кодів класифікатора плана і тендера (336 виняток - відповідність перших 3-х цифр)
 
 Якщо створимо тендер з плана для `mainProcurementCategory: goods` з іншим префіксом кода класифікатора, то побачимо помилку:
 
 .. http:example:: tutorial/tender-from-plan-goods-cpv-invalid.http
-   :code:
-
-Якщо створимо тендер з плана для `mainProcurementCategory: works` з іншим кодом класифікатора, якого нема в номенклатурах плану, то теж побачимо помилку:
-
-.. http:example:: tutorial/tender-from-plan-works-cpv-invalid.http
    :code:
 
 План має містити джерела фінансування, інакше буде отрімано помилку під час створення тендеру:

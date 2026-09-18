@@ -43,7 +43,6 @@ from openprocurement.api.procedure.models.organization import ProcuringEntityKin
 from openprocurement.api.procedure.state.base import ConfigMixin
 from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
-    validate_items_classification_match,
     validate_items_classifications_prefixes,
 )
 from openprocurement.api.utils import (
@@ -344,29 +343,15 @@ class BaseTenderDetailsMixing:
         if before["status"] != after["status"]:
             self.validate_cancellation_blocks(request, before)
         if before.get("funders") != after.get("funders"):
-            plans = self.fetch_tender_plans(request, after)
-            validate_funders_match_plan_programs(request, after, plans)
+            self.validate_funders_match_plan_program(request, after)
 
-    def fetch_tender_plans(self, request, tender):
+    def validate_funders_match_plan_program(self, request, tender):
         plans = []
         for plan_ref in tender.get("plans") or []:
             plan = request_fetch_plan(request, plan_ref["id"], raise_error=False, force=True)
             if plan:
                 plans.append(plan)
-        return plans
-
-    def validate_items_classifications_match_plan_items(self, after, plans):
-        if tender_created_before(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM):
-            return
-
-        classifications = [
-            item["classification"]
-            for item in after.get("items", "")
-            if item.get("classification")  # item.classification may be empty in pricequotation
-        ]
-        if classifications:
-            for plan in plans:
-                validate_items_classification_match(classifications, plan)
+        validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):
         self.validate_contract_template_name_allowed(tender)
@@ -389,10 +374,7 @@ class BaseTenderDetailsMixing:
         # tenders created via POST /plans/{id}/tenders get "plans" set after this runs
         # and are validated by PlanState; this covers direct POST /tenders with "plans"
         if tender.get("plans"):
-            request = get_request()
-            plans = self.fetch_tender_plans(request, tender)
-            validate_funders_match_plan_programs(request, tender, plans)
-            self.validate_items_classifications_match_plan_items(tender, plans)
+            self.validate_funders_match_plan_program(get_request(), tender)
 
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
@@ -489,8 +471,6 @@ class BaseTenderDetailsMixing:
                 self.validate_pre_selection_agreement_on_activation(after)
                 self.validate_profiles_agreement_id(after)
                 self.validate_change_item_profile_or_category(after, before, force_validate=True)
-                plans = self.fetch_tender_plans(self.request, after)
-                self.validate_items_classifications_match_plan_items(after, plans)
                 self.validate_notice_doc_required(after)
                 self.validate_required_criteria(before, after)
                 self.validate_criteria_requirement_from_market(after.get("criteria", []))
@@ -1476,7 +1456,7 @@ class BaseTenderDetailsMixing:
             )
 
     @classmethod
-    def tender_items_should_be_identical_to_plan_items(cls, tender):
+    def tender_items_may_differ_from_plan_items(cls, tender):
         return tender.get("mainProcurementCategory") in (
             MainProcurementCategory.SERVICES,
             MainProcurementCategory.WORKS,
@@ -1491,9 +1471,8 @@ class BaseTenderDetailsMixing:
         if not classifications:
             return
 
-        if (
-            self.should_validate_items_classifications_prefix
-            and not self.tender_items_should_be_identical_to_plan_items(tender)
+        if self.should_validate_items_classifications_prefix and not self.tender_items_may_differ_from_plan_items(
+            tender
         ):
             validate_items_classifications_prefixes(classifications)
 
@@ -1575,7 +1554,7 @@ class BaseTenderDetailsMixing:
 
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
-        if cls.tender_items_should_be_identical_to_plan_items(after):
+        if cls.tender_items_may_differ_from_plan_items(after):
             return
         prefix_list = set()
         for item in before.get("items", ""):
@@ -1805,7 +1784,7 @@ class BaseTenderDetailsMixing:
 
     def validate_contract_template_name_allowed(self, tender):
         if tender.get("contractTemplateName") is not None and (
-            not self.contract_template_name_allowed or self.tender_items_should_be_identical_to_plan_items(tender)
+            not self.contract_template_name_allowed or self.tender_items_may_differ_from_plan_items(tender)
         ):
             raise_operation_error(self.request, "Rogue field", status=422, name="contractTemplateName")
 
