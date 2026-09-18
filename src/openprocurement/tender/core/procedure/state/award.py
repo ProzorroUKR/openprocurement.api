@@ -265,7 +265,6 @@ class AwardStateMixing:
             self.add_next_award()
 
     def award_status_up_from_active_to_cancelled(self, award, tender):
-        end_complaint_period = not self.is_new_defense_complaints()
         if self.award_cancel_satisfied_complaint_lot_awards and any(
             i.get("status") == "satisfied" for i in award.get("complaints", "")
         ):
@@ -274,11 +273,11 @@ class AwardStateMixing:
                     if not self.award_cancel_lot_awards_availability_check or self.is_available_to_cancel_award(
                         i, [award["id"]]
                     ):
-                        self.cancel_award(i, end_complaint_period=end_complaint_period)
+                        self.cancel_award(i)
         else:
             if self.award_cancel_complaints_on_cancel:
                 self.set_award_complaints_cancelled(award)
-            self.cancel_award(award, end_complaint_period=end_complaint_period)
+            self.cancel_award(award)
         if self.award_next_award_on_status_change:
             self.add_next_award()
 
@@ -312,12 +311,11 @@ class AwardStateMixing:
             tender["awardPeriod"].pop("endDate", None)
             self.get_change_tender_status_handler("active.qualification")(tender)
 
-        end_complaint_period = not self.is_new_defense_complaints()
         if self.award_unsuccessful_cancel_all_lot_awards:
             for i in tender.get("awards", ""):
                 if i.get("lotID") == award.get("lotID"):
                     if self.is_available_to_cancel_award(i, [award["id"]]):
-                        self.cancel_award(i, end_complaint_period=end_complaint_period)
+                        self.cancel_award(i)
         else:
             if tender["config"]["hasAwardingOrder"]:
                 # Cancel later same-lot awards (current award and next ones after it).
@@ -328,7 +326,7 @@ class AwardStateMixing:
                 for subsequent in lot_awards[current_index + 1 :]:
                     if self.award_cancel_complaints_on_cancel:
                         self.set_award_complaints_cancelled(subsequent)
-                    self.cancel_award(subsequent, end_complaint_period=end_complaint_period)
+                    self.cancel_award(subsequent)
             else:
                 # It is intended to do nothing here
                 # Only the current award should be cancelled
@@ -338,7 +336,7 @@ class AwardStateMixing:
         # Cancel the current award
         if self.award_cancel_complaints_on_cancel:
             self.set_award_complaints_cancelled(award)
-        self.cancel_award(award, end_complaint_period=end_complaint_period)
+        self.cancel_award(award)
 
         # Generate a new pending award (or in some cases multiple awards if hasAwardingOrder is True)
         self.add_next_award()
@@ -378,12 +376,9 @@ class AwardStateMixing:
                     name="awards",
                 )
 
-    def cancel_award(self, award, end_complaint_period=True):
-        if end_complaint_period:
-            now = get_request_now().isoformat()
-            period = award.get("complaintPeriod")
-            if period and (not period.get("endDate") or period["endDate"] > now):
-                period["endDate"] = now
+    def cancel_award(self, award):
+        if not self.is_new_defense_complaints():
+            self.end_award_complaint_period(award)
         self.set_object_status(award, "cancelled")
         self.cancel_multi_sourcing_pending_awards(award, get_tender())
         contracts_cancelled = self.set_award_contracts_cancelled(award)
@@ -425,6 +420,12 @@ class AwardStateMixing:
                     calendar=self.calendar,
                 ).isoformat(),
             }
+
+    def end_award_complaint_period(self, award):
+        now = get_request_now().isoformat()
+        period = award.get("complaintPeriod")
+        if period and (not period.get("endDate") or period["endDate"] > now):
+            period["endDate"] = now
 
     def validate_award_econtract_fields(self, award):
         tender = self.request.validated["tender"]
