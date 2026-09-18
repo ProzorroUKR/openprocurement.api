@@ -268,16 +268,19 @@ class AwardStateMixing:
         if self.award_cancel_satisfied_complaint_lot_awards and any(
             i.get("status") == "satisfied" for i in award.get("complaints", "")
         ):
+            # Cancel other same-lot awards available for cancellation
             for i in tender.get("awards", ""):
+                if i["id"] == award["id"]:
+                    continue
                 if i.get("lotID") == award.get("lotID"):
-                    if not self.award_cancel_lot_awards_availability_check or self.is_available_to_cancel_award(
-                        i, [award["id"]]
-                    ):
+                    if not self.award_cancel_lot_awards_availability_check or self.is_available_to_cancel_award(i):
                         self.cancel_award(i)
-        else:
-            if self.award_cancel_complaints_on_cancel:
-                self.set_award_complaints_cancelled(award)
-            self.cancel_award(award)
+        elif self.award_cancel_complaints_on_cancel:
+            self.set_award_complaints_cancelled(award)
+
+        # Cancel the current award
+        self.cancel_award(award)
+
         if self.award_next_award_on_status_change:
             self.add_next_award()
 
@@ -312,9 +315,12 @@ class AwardStateMixing:
             self.get_change_tender_status_handler("active.qualification")(tender)
 
         if self.award_unsuccessful_cancel_all_lot_awards:
+            # Cancel other same-lot awards available for cancellation
             for i in tender.get("awards", ""):
+                if i["id"] == award["id"]:
+                    continue
                 if i.get("lotID") == award.get("lotID"):
-                    if self.is_available_to_cancel_award(i, [award["id"]]):
+                    if self.is_available_to_cancel_award(i):
                         self.cancel_award(i)
         else:
             if tender["config"]["hasAwardingOrder"]:
@@ -349,16 +355,10 @@ class AwardStateMixing:
                 self.cancel_award(i)
 
     @staticmethod
-    def is_available_to_cancel_award(award, include_awards_ids=None):
-        if not include_awards_ids:
-            include_awards_ids = []
-        is_created_after = tender_created_after(QUALIFICATION_AFTER_COMPLAINT_FROM)
-        return (
-            is_created_after
-            and award["status"] in ("pending", "active")
-            or not is_created_after
-            or award["id"] in include_awards_ids
-        )
+    def is_available_to_cancel_award(award):
+        if tender_created_before(QUALIFICATION_AFTER_COMPLAINT_FROM):
+            return award["status"] in ("pending", "active", "unsuccessful")
+        return award["status"] in ("pending", "active")
 
     @staticmethod
     def check_active_awards(current_award, tender):
