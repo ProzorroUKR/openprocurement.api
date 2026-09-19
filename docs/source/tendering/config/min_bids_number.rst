@@ -62,11 +62,6 @@ minBidsNumber
 .. http:example:: http/min-bids-number-tender-post-3.http
    :code:
 
-Подивимося на тендер після закінчення `active.tendering` періоду, розпочнеться аукціон:
-
-.. http:example:: http/min-bids-number-tender-auction.http
-   :code:
-
 Після закінчення `active.auction`, система повинна запустити `active.qualification`. Дивимось знову на значення `minBidsNumber:2` та перевіряємо наявність активних bids. Їх два? Так, запускаємо `active.qualification`:
 
 .. http:example:: http/min-bids-number-tender-qualification-2.http

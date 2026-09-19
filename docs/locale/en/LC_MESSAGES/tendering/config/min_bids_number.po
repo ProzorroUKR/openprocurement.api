@@ -1,8 +1,9 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-09-08 12:41+0300\n"
+"POT-Creation-Date: 2026-09-20 00:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -11,7 +12,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "minBidsNumber"
 msgstr ""
@@ -148,9 +149,5 @@ msgstr "If the `hasAuction:true` value is set, >=2 bids are submitted and the nu
 msgid "Створимо тендер `belowThreshold` з конфігурацією `minBidsNumber=2` і двома бідами:"
 msgstr "Let's create a tender `belowThreshold` with configuration `minBidsNumber=2` and 2 bids:"
 
-msgid "Подивимося на тендер після закінчення `active.tendering` періоду, розпочнеться аукціон:"
-msgstr "Let's look at tender after `active.tendering` is finished, `auction` will be started:"
-
 msgid "Після закінчення `active.auction`, система повинна запустити `active.qualification`. Дивимось знову на значення `minBidsNumber:2` та перевіряємо наявність активних bids. Їх два? Так, запускаємо `active.qualification`:"
 msgstr "After `active.auction` is finished, the system should run `active.qualification`. We look again at the `minBidsNumber:2` value and check for active bids. are there two of them? Yes, let's run `active.qualification`:"
-

@@ -48,9 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "Proposal_part2.pdf",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2e51a1f596f40c2a6e90757c5058e53?Signature=RQFCW8P8jWe%2BXFMH1AfoSK1MJLNqhVWr4cHdl%2BfS5hzHE3xvU3iZldEWQ3OQC2%2BwO5aIim9%2FU9QPzp5I0kO%2BCQ%3D%3D&KeyID=a8968c46",
         "hash": "md5:00000000000000000000000000000000",
-        "format": "application/pdf",
-        "confidentiality": "buyerOnly",
-        "confidentialityRationale": "Only our company sells badgers with pink hair."
+        "format": "application/pdf"
       }
     ],
     "lotValues": [
@@ -164,11 +162,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
         "dateModified": "2027-01-07T00:15:06+02:00"
       },
       {
-        "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "confidentiality": "buyerOnly",
+        "confidentiality": "public",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2e51a1f596f40c2a6e90757c5058e53?Signature=4CDauzjPXP0ralUP1Zw26KLUlSVbfZoA6SNizWwDJ7Qi%2BGYK5l4vD3457WrcTut81MWf1ef8wgl%2FEWxEHo%2FaCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
         "id": "8d0915767b85447a899c79d61d949fe0",

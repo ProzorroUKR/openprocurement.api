@@ -244,7 +244,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a8d27f28efdf755af
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1e348b7fcc2c4e208c3acb538a30a9bb
 
 {
   "data": {
@@ -338,7 +338,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     },
     "items": [
       {
-        "id": "7f4d7abd9ed043b8a43235190fb4cc09",
+        "id": "00c5669133c948399aa9a6c4dd45b2fb",
         "description": "телевізори",
         "unit": {
           "name": "кг",
@@ -371,7 +371,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
         "relatedBuyer": "11111111111111111111111111111111"
       },
       {
-        "id": "90a09024487e463c92878fea25654c47",
+        "id": "24116e2d04d54836b7915292bc0aaecd",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -404,7 +404,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "bf3ccdfdf3f64295b17dd0710fa2b1dd",
+        "id": "08b71213150947bb873b39f0fd29af3c",
         "description": "портфелі",
         "unit": {
           "name": "кг",
@@ -550,7 +550,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "aec95489636a475a8d27f28efdf755af"
+    "id": "1e348b7fcc2c4e208c3acb538a30a9bb"
   },
   "config": {
     "hasAuction": true,
@@ -579,8 +579,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/aec95489636a475a
     "hasMultiSourcing": false
   },
   "access": {
-    "token": "50c8dbad7b0c4fd49d4a96be7c4355af",
-    "transfer": "a88d15516aa948d68b5cba7058d07cb6"
+    "token": "0aff03b619d44f96b3106053625a7357",
+    "transfer": "b4f43db779b449bebfe2f3b4a18db233"
   }
 }
 

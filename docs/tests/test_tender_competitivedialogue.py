@@ -1358,9 +1358,9 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             }
         )
         bid3_with_docs_st2["documents"] = [bid_document, bid_document2]
-        bid3_with_docs_st2["eligibilityDocuments"] = [test_docs_bid_document3_eligibility]
-        bid3_with_docs_st2["financialDocuments"] = [test_docs_bid_document4_financialy]
-        bid3_with_docs_st2["qualificationDocuments"] = [test_docs_bid_document5_qualification]
+        bid3_with_docs_st2["eligibilityDocuments"] = [deepcopy(test_docs_bid_document3_eligibility)]
+        bid3_with_docs_st2["financialDocuments"] = [deepcopy(test_docs_bid_document4_financialy)]
+        bid3_with_docs_st2["qualificationDocuments"] = [deepcopy(test_docs_bid_document5_qualification)]
         for document in bid3_with_docs_st2["documents"]:
             document["url"] = self.generate_docservice_url()
         for document in bid3_with_docs_st2["eligibilityDocuments"]:
