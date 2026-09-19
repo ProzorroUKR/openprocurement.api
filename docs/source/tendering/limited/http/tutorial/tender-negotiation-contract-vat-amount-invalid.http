@@ -1,0 +1,31 @@
+PATCH /api/2.5/contracts/defb283d556941fdaabe513b01a0f270?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "value": {
+      "amount": 580000,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true,
+      "amountNet": 475000.0
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "value",
+      "description": "Amount should be equal or greater than amountNet and differ by no more than 20.0%"
+    }
+  ]
+}
+

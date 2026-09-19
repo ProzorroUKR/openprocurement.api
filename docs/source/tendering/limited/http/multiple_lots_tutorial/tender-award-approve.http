@@ -71,7 +71,7 @@ Content-Type: application/json
     "qualified": true,
     "value": {
       "amount": 475000.0,
-      "valueAddedTaxIncluded": true,
+      "valueAddedTaxIncluded": false,
       "currency": "UAH"
     },
     "complaintPeriod": {

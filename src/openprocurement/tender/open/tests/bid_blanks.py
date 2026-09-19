@@ -792,7 +792,7 @@ def draft2_bids(self):
     mock.Mock(return_value={}),
 )
 @mock.patch(
-    "openprocurement.tender.core.procedure.validation.EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM",
+    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixing.vat_not_included_validation_from",
     get_now() + timedelta(days=1),
 )
 def bids_invalidation_on_tender_change(self):

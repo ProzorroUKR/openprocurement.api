@@ -430,7 +430,7 @@ def create_cancellation_on_tender_with_one_complete_lot(self):
                 "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "lotID": lot["id"],
             }
         },

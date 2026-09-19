@@ -24,6 +24,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
+    EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
@@ -261,6 +262,7 @@ class BaseTenderDetailsMixing:
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
     should_validate_vat_not_included = False
+    vat_not_included_validation_from = EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM
     # complexAsset.arma has no contractTemplateName (the field used to be removed from its models)
     contract_template_name_allowed = True
     items_delivery_required = False
@@ -834,7 +836,7 @@ class BaseTenderDetailsMixing:
 
         # CS-21518 - for some tenders we need to validate that lot has valueAddedTaxIncluded False
         if self.should_validate_vat_not_included:
-            validate_value_vat_disabled(self.request, lot_value, "lots.value")
+            validate_value_vat_disabled(self.request, lot_value, "lots.value", self.vat_not_included_validation_from)
 
         lot_min_step_amount = lot_min_step.get("amount")
 
@@ -1389,7 +1391,7 @@ class BaseTenderDetailsMixing:
 
         # CS-21518 - for some tenders we need to validate that tender has valueAddedTaxIncluded False
         if self.should_validate_vat_not_included:
-            validate_value_vat_disabled(self.request, tender_value, "value")
+            validate_value_vat_disabled(self.request, tender_value, "value", self.vat_not_included_validation_from)
 
         tender_min_step_amount = tender_min_step.get("amount")
 

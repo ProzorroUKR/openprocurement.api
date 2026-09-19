@@ -1,4 +1,6 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
@@ -344,6 +346,10 @@ def patch_tender_currency(self):
     self.assertEqual(lot["value"]["currency"], "GBP")
 
 
+@patch(
+    "openprocurement.tender.limited.procedure.state.tender_details.NegotiationTenderDetailsState.vat_not_included_validation_from",
+    get_now() + timedelta(days=1),
+)
 def patch_tender_vat(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))
     tender = response.json["data"]
@@ -638,7 +644,7 @@ def cancel_lot_after_sing_contract(self):
                 "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "lotID": lot["id"],
             }
         },
@@ -720,7 +726,7 @@ def cancel_lot_with_complaint(self):
                 "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "lotID": lot["id"],
             }
         },
@@ -869,7 +875,7 @@ def last_lot_complete(self):
                 "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "lotID": second_lot["id"],
             }
         },
@@ -888,7 +894,7 @@ def last_lot_complete(self):
                 "suppliers": [test_tender_below_supplier],
                 "status": "pending",
                 "qualified": True,
-                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": True},
+                "value": {"amount": 469, "currency": "UAH", "valueAddedTaxIncluded": False},
                 "lotID": third_lot["id"],
             }
         },

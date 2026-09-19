@@ -7,6 +7,7 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import (
     CAUSE_DETAILS_REQUIRED_FROM,
+    NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
 from openprocurement.api.procedure.validation import validate_items_classifications_prefixes
@@ -199,6 +200,8 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
     lot_guarantee_currency_from_tender = False
     lot_minimal_step_meta_from_tender = False
+    should_validate_vat_not_included = True
+    vat_not_included_validation_from = NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

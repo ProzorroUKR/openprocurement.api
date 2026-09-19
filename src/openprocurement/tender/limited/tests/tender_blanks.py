@@ -2062,3 +2062,67 @@ def tender_items_related_product(self):
             {"data": {"items": tender_items + [second_item]}},
         )
         self.assertEqual(response.status, "200 OK")
+
+
+def tender_vat_not_included(self):
+    vat_error = {
+        "location": "body",
+        "name": "value.valueAddedTaxIncluded",
+        "description": "valueAddedTaxIncluded should be false",
+    }
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"], [vat_error])
+
+    data["value"]["valueAddedTaxIncluded"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertFalse(tender["value"]["valueAddedTaxIncluded"])
+
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"value": {**tender["value"], "valueAddedTaxIncluded": True}}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [vat_error])
+
+    # lot inherits tender VAT, so it cannot be set to True either
+    lot_id = uuid4().hex
+    data["lots"] = [
+        {
+            "id": lot_id,
+            "title": "lot title",
+            "description": "lot description",
+            "value": {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True},
+        }
+    ]
+    for item in data["items"]:
+        item["relatedLot"] = lot_id
+    for milestone in data.get("milestones", []):
+        milestone["relatedLot"] = lot_id
+    data["value"]["valueAddedTaxIncluded"] = True
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"], [vat_error])
+
+    data["value"]["valueAddedTaxIncluded"] = False
+    data["lots"][0]["value"]["valueAddedTaxIncluded"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertFalse(response.json["data"]["lots"][0]["value"]["valueAddedTaxIncluded"])
+
+
+@mock.patch(
+    "openprocurement.tender.limited.procedure.state.tender_details.NegotiationTenderDetailsState.vat_not_included_validation_from",
+    get_now() + timedelta(days=1),
+)
+def tender_vat_not_included_before_constant(self):
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertTrue(response.json["data"]["value"]["valueAddedTaxIncluded"])
