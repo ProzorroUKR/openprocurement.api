@@ -973,7 +973,7 @@ class BaseTenderDetailsMixing:
                 active_lots = {None}
 
             if any(
-                i.get("type") == "complaint" and i.get("status") in ("draft", "pending", "accepted")
+                i.get("type", "complaint") == "complaint" and i.get("status") in ("draft", "pending", "accepted")
                 for q in after["qualifications"]
                 for i in q.get("complaints", "")
                 if q.get("lotID") in active_lots

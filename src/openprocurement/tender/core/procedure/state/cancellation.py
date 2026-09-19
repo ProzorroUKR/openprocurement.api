@@ -241,7 +241,7 @@ class CancellationStateMixing:
             """
             if cancellation_lot == complaint_lot or None in (cancellation_lot, complaint_lot):  # same lot or both None
                 status = complaint.get("status")
-                if complaint.get("type") == "complaint" and status in ("pending", "accepted", "satisfied"):
+                if complaint.get("type", "complaint") == "complaint" and status in ("pending", "accepted", "satisfied"):
                     raise_operation_error(
                         request,
                         f"Can't perform operation for there is {item_name} complaint in {status} status",
@@ -344,7 +344,7 @@ class CancellationStateMixing:
             before == "pending"
             and after == "unsuccessful"
             and any(
-                complaint.get("type") == "complaint" and complaint.get("status") == "satisfied"
+                complaint.get("type", "complaint") == "complaint" and complaint.get("status") == "satisfied"
                 for complaint in cancellation.get("complaints", "")
             )
         ):
