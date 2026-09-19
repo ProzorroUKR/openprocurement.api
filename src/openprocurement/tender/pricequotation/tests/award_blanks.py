@@ -683,8 +683,8 @@ def tender_award_transitions(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    # tenderOwner: unsuccessful -> ('active', 'cancelled', 'pending') must be forbidden
-    for status in ("active", "cancelled", "pending"):
+    # tenderOwner: unsuccessful -> ('active', 'pending') must be forbidden
+    for status in ("active", "pending"):
         patch_data = {"status": status}
         if status == "active":
             patch_data["qualified"] = True
@@ -705,6 +705,15 @@ def tender_award_transitions(self):
                 }
             ],
         )
+
+    # tenderOwner: unsuccessful -> cancelled is now allowed on own initiative (no complaint required),
+    # e.g. to reverse a previous qualification decision and re-evaluate the same bid
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.content_type, "application/json")
 
     # first bidder became unsuccessful, the second one has pending award
     tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
@@ -730,6 +739,16 @@ def tender_award_transitions(self):
     self.assertEqual(response.status, "200 OK")
 
     # first bidder became unsuccessful, the second one was cancelled and new pending award was generated
+    tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
+    award_id = tender["awards"][-1]["id"]
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, tender_token),
+        {"data": {"status": "unsuccessful", "qualified": False}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # the previously cancelled bidder gets re-evaluated one more time and also becomes unsuccessful
     tender = self.app.get("/tenders/{}".format(self.tender_id)).json["data"]
     award_id = tender["awards"][-1]["id"]
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")

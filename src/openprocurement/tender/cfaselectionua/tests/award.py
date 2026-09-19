@@ -18,6 +18,8 @@ from openprocurement.tender.cfaselectionua.tests.award_blanks import (  # Tender
     patch_tender_lot_award,
     patch_tender_lot_award_lots_none,
     patch_tender_lot_award_unsuccessful,
+    patch_tender_lot_award_unsuccessful_to_cancelled,
+    patch_tender_lot_award_unsuccessful_to_cancelled_forbidden_with_active_contract,
     patch_tender_lots_award,
     patch_tender_lots_award_document,
     put_tender_award_document,
@@ -102,6 +104,10 @@ class TenderLotAwardResourceTest(TenderContentWebTest):
     test_patch_tender_lot_award = snitch(patch_tender_lot_award)
     test_patch_tender_lot_award_unsuccessful = snitch(patch_tender_lot_award_unsuccessful)
     test_patch_tender_lot_award_lots_none = snitch(patch_tender_lot_award_lots_none)
+    test_patch_tender_lot_award_unsuccessful_to_cancelled = snitch(patch_tender_lot_award_unsuccessful_to_cancelled)
+    test_patch_tender_lot_award_unsuccessful_to_cancelled_forbidden_with_active_contract = snitch(
+        patch_tender_lot_award_unsuccessful_to_cancelled_forbidden_with_active_contract
+    )
 
 
 @unittest.skipIf(skip_multi_lots, "Skip multi-lots tests")

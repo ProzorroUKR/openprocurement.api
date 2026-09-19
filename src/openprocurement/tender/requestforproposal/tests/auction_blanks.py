@@ -288,21 +288,17 @@ def post_tender_auction_with_disabled_awarding_order_cancelling_awards(self):
     self.assertEqual(tender["awards"][1]["status"], "unsuccessful")
     self.assertEqual(tender["awards"][2]["status"], "pending")
     self.assertEqual(tender["status"], "active.qualification")
-    response = self.app.patch_json(
+    self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_2_id, self.tender_token),
         {"data": {"status": "cancelled"}},
-        status=403,
     )
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": "Can't update award in current (unsuccessful) status",
-                "location": "body",
-                "name": "data",
-            }
-        ],
-    )
+    response = self.app.get("/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token))
+    tender = response.json["data"]
+    self.assertEqual(len(tender["awards"]), 4)
+    self.assertEqual(tender["awards"][0]["status"], "cancelled")
+    self.assertEqual(tender["awards"][1]["status"], "cancelled")
+    self.assertEqual(tender["awards"][2]["status"], "pending")
+    self.assertEqual(tender["awards"][3]["status"], "pending")
 
 
 def post_tender_lots_auction_with_disabled_awarding_order(self):
