@@ -239,12 +239,9 @@ class CancellationStateMixing:
              - canceling lot if there is a non-lot complaint (not complaint_lot)
             AND complaint.status is in ("pending", "accepted", "satisfied")
             """
-            if cancellation_lot == complaint_lot or None in (
-                cancellation_lot,
-                complaint_lot,
-            ):  # same lot or both None
+            if cancellation_lot == complaint_lot or None in (cancellation_lot, complaint_lot):  # same lot or both None
                 status = complaint.get("status")
-                if status in ("pending", "accepted", "satisfied"):
+                if complaint.get("type", "complaint") == "complaint" and status in ("pending", "accepted", "satisfied"):
                     raise_operation_error(
                         request,
                         f"Can't perform operation for there is {item_name} complaint in {status} status",
@@ -346,7 +343,10 @@ class CancellationStateMixing:
         elif (
             before == "pending"
             and after == "unsuccessful"
-            and any(i["status"] == "satisfied" for i in cancellation.get("complaints", ""))
+            and any(
+                complaint.get("type", "complaint") == "complaint" and complaint.get("status") == "satisfied"
+                for complaint in cancellation.get("complaints", "")
+            )
         ):
             pass
         elif after == "active" and not tender_created_after_2020_rules():

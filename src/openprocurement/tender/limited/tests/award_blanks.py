@@ -2218,7 +2218,8 @@ def get_tender_award_complaints(self):
 
 def cancelled_award_with_complaint(self):
     """When complaint on award in satisfied status and owner cancel award,
-    then all awards and contracts must move to status cancelled"""
+    then pending/active awards and contracts must move to status cancelled,
+    unsuccessful awards stay unsuccessful"""
 
     # Move award to unsuccessful
     response = self.app.patch_json(
@@ -2321,12 +2322,12 @@ def cancelled_award_with_complaint(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
     # Let's check another award
-    # From unsuccessful move to cancelled
+    # Unsuccessful award stays unsuccessful
     response = self.app.get(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.old_award_id, self.tender_token)
     )
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
     # And check contracts
     response = self.app.get("/tenders/{}/contracts?acc_token={}".format(self.tender_id, self.tender_token))
@@ -2427,7 +2428,8 @@ def create_tender_lot_award_complaints(self):
 
 def cancelled_lot_award_with_complaint(self):
     """When complaint on award in satisfied status and owner cancel award,
-    then all awards (with same lotID) and contracts must move to status cancelled"""
+    then pending/active awards (with same lotID) and contracts must move to status cancelled,
+    unsuccessful awards stay unsuccessful"""
 
     # Move award to unsuccessful
     response = self.app.patch_json(
@@ -2554,12 +2556,13 @@ def cancelled_lot_award_with_complaint(self):
     self.assertEqual(response.json["data"]["status"], "cancelled")
     self.assertEqual(response.json["data"]["lotID"], self.lot["id"])
 
+    # Unsuccessful award stays unsuccessful
     response = self.app.get(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.old_award_id, self.tender_token)
     )
 
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
     self.assertEqual(response.json["data"]["lotID"], self.lot["id"])
 
     # And check contracts
@@ -2575,7 +2578,8 @@ def cancelled_lot_award_with_complaint(self):
 
 def cancelled_2lot_award_with_complaint(self):
     """When complaint on award in satisfied status and owner cancel award,
-    then all awards (with same lotID) and contracts must move to status cancelled"""
+    then pending/active awards (with same lotID) and contracts must move to status cancelled,
+    unsuccessful awards stay unsuccessful"""
 
     # Move first award to unsuccessful
     response = self.app.patch_json(
@@ -2703,15 +2707,15 @@ def cancelled_2lot_award_with_complaint(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "cancelled")
 
-    # Let's awards
-
+    # Let's check awards
+    # Unsuccessful award of the same lot stays unsuccessful
     response = self.app.get(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.first_award["id"], self.tender_token)
     )
 
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["lotID"], self.first_award["lotID"])
-    self.assertEqual(response.json["data"]["status"], "cancelled")
+    self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
     response = self.app.get(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.second_award["id"], self.tender_token)
@@ -2856,7 +2860,8 @@ def cancelled_active_award_with_complaint(self):
 
 def cancelled_unsuccessful_award_with_complaint(self):
     """When complaint on award in satisfied status and owner cancel award,
-    then all awards (with same lotID) and contracts must move to status cancelled"""
+    then pending/active awards (with same lotID) and contracts must move to status cancelled,
+    unsuccessful awards stay unsuccessful"""
 
     # Move first award to unsuccessful
     response = self.app.patch_json(
@@ -2989,8 +2994,11 @@ def cancelled_unsuccessful_award_with_complaint(self):
 
     self.assertEqual(response.status, "200 OK")
     for award in response.json["data"]:
-        if award["lotID"] == self.first_award["lotID"]:
+        if award["id"] == self.award_id:
             self.assertEqual(award["status"], "cancelled")
+        elif award["lotID"] == self.first_award["lotID"]:
+            # unsuccessful award of the same lot stays unsuccessful
+            self.assertEqual(award["status"], "unsuccessful")
         else:
             self.assertEqual(award["status"], "active")
 

@@ -9,7 +9,6 @@ from openprocurement.tender.core.procedure.state.tender import (
 class TenderState(BaseTenderState):
     award_class = ARMAAward
     active_bid_statuses = ("active", "pending")
-    block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     alp_due_date_period = timedelta(days=2)
     alp_amount_key: str = "amountPercentage"
     awarding_criteria_key: str = "amountPercentage"

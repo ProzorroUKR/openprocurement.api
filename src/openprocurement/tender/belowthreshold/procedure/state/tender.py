@@ -12,5 +12,4 @@ class IgnoredClaimMixing(BaseIgnoredClaimMixing):
 
 class BelowThresholdTenderState(IgnoredClaimMixing, TenderState):
     award_class = Award
-    block_complaint_status = ()
     generate_award_milestones = False

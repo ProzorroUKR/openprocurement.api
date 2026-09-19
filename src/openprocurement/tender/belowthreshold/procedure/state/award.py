@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 
 class AwardState(AwardStateMixing, BelowThresholdTenderState):
-    pass
+    award_cancel_claims_on_cancel = True

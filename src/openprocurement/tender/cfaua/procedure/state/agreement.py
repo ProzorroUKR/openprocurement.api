@@ -8,8 +8,6 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 class AgreementStateMixing:
-    block_complaint_status: tuple  # from TenderState
-
     def agreement_on_patch(self, before, after):
         if before["status"] != after["status"]:
             self.agreement_status_up(before["status"], after["status"], after)
@@ -27,12 +25,10 @@ class AgreementStateMixing:
             lot_ids.add(None)
 
             pending_complaints = (
-                i["status"] in self.block_complaint_status
-                for i in tender.get("complaints", [])
-                if i.get("relatedLot") in lot_ids
+                self.is_blocking_complaint(i) for i in tender.get("complaints", []) if i.get("relatedLot") in lot_ids
             )
             pending_awards_complaints = (
-                i["status"] in self.block_complaint_status
+                self.is_blocking_complaint(i)
                 for a in tender.get("awards", "")
                 for i in a.get("complaints", "")
                 if a.get("lotID") in lot_ids

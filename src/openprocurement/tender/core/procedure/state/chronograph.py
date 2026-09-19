@@ -315,7 +315,7 @@ class ChronographEventsMixing:
                 [lot["id"] for lot in tender["lots"] if lot["status"] == "active"] if tender.get("lots") else [None]
             )
             if not any(
-                complaint["status"] in self.block_complaint_status
+                self.is_blocking_complaint(complaint)
                 for q in tender.get("qualifications", "")
                 for complaint in q.get("complaints", "")
                 if q.get("lotID") in active_lots
@@ -341,8 +341,8 @@ class ChronographEventsMixing:
         awards = tender.get("awards", [])
         if (
             awarding_is_unsuccessful(awards)
-            and not any(c["status"] in self.block_complaint_status for c in tender.get("complaints", ""))
-            and not any(c["status"] in self.block_complaint_status for a in awards for c in a.get("complaints", ""))
+            and not any(self.is_blocking_complaint(c) for c in tender.get("complaints", ""))
+            and not any(self.is_blocking_complaint(c) for a in awards for c in a.get("complaints", ""))
         ):
             stand_still_ends = self.get_award_stand_still_ends(awards)
             if stand_still_ends:
@@ -372,20 +372,18 @@ class ChronographEventsMixing:
             return
         lots = tender.get("lots")
         non_lot_complaints = (i for i in tender.get("complaints", "") if i.get("relatedLot") is None)
-        if not any(i["status"] in self.block_complaint_status for i in non_lot_complaints):
+        if not any(self.is_blocking_complaint(i) for i in non_lot_complaints):
             for lot in lots:
                 if lot["status"] == "active":
                     lot_awards = [i for i in tender.get("awards", "") if i["lotID"] == lot["id"]]
                     if awarding_is_unsuccessful(lot_awards):
                         pending_complaints = any(
-                            i["status"] in self.block_complaint_status
+                            self.is_blocking_complaint(i)
                             for i in tender.get("complaints", "")
                             if i.get("relatedLot") == lot["id"]
                         )
                         pending_award_complaints = any(
-                            i["status"] in self.block_complaint_status
-                            for a in lot_awards
-                            for i in a.get("complaints", "")
+                            self.is_blocking_complaint(i) for a in lot_awards for i in a.get("complaints", "")
                         )
                         if not pending_complaints and not pending_award_complaints:
                             now = get_request_now().isoformat()
@@ -544,11 +542,9 @@ class ChronographEventsMixing:
                 handler(tender)
         else:
             now = get_request_now().isoformat()
-            pending_complaints = any(i["status"] in self.block_complaint_status for i in tender.get("complaints", ""))
+            pending_complaints = any(self.is_blocking_complaint(i) for i in tender.get("complaints", ""))
             pending_awards_complaints = any(
-                i["status"] in self.block_complaint_status
-                for a in tender.get("awards", "")
-                for i in a.get("complaints", "")
+                self.is_blocking_complaint(i) for a in tender.get("awards", "") for i in a.get("complaints", "")
             )
             stand_still_ends = self.get_award_stand_still_ends(tender.get("awards", ""))
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
@@ -846,10 +842,7 @@ class ChronographEventsMixing:
 
     # awarded
     def check_tender_lot_status(self, tender):
-        if any(
-            i["status"] in self.block_complaint_status and i.get("relatedLot") is None
-            for i in tender.get("complaints", "")
-        ):
+        if any(self.is_blocking_complaint(i) and i.get("relatedLot") is None for i in tender.get("complaints", "")):
             return
 
         awarding_order_enabled = tender["config"]["hasAwardingOrder"]
@@ -865,11 +858,10 @@ class ChronographEventsMixing:
             last_award = lot_awards[-1]
             awards_statuses = {award["status"] for award in lot_awards}
             pending_complaints = any(
-                i["status"] in self.block_complaint_status and i.get("relatedLot") == lot["id"]
-                for i in tender.get("complaints", "")
+                self.is_blocking_complaint(i) and i.get("relatedLot") == lot["id"] for i in tender.get("complaints", "")
             )
             pending_awards_complaints = any(
-                [i["status"] in self.block_complaint_status for a in lot_awards for i in a.get("complaints", "")]
+                [self.is_blocking_complaint(i) for a in lot_awards for i in a.get("complaints", "")]
             )
             stand_still_ends = self.get_award_stand_still_ends(lot_awards)
             stand_still_end = max(stand_still_ends) if stand_still_ends else now
@@ -928,12 +920,12 @@ class ChronographEventsMixing:
         if lots:
             active_lots = tuple(lot["id"] for lot in lots if lot["status"] == "active")
             result = any(
-                i["status"] in self.block_tender_complaint_status
+                self.is_blocking_tender_complaint(i)
                 for i in tender.get("complaints", "")
                 if not i.get("relatedLot") or i["relatedLot"] in active_lots
             )
         else:
-            result = any(i["status"] in self.block_tender_complaint_status for i in tender.get("complaints", ""))
+            result = any(self.is_blocking_tender_complaint(i) for i in tender.get("complaints", ""))
         return result
 
     def has_unanswered_tender_questions(self, tender):

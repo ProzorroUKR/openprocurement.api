@@ -78,7 +78,7 @@ class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
                     active_lots = {None}
 
                 if any(
-                    i["status"] in self.block_complaint_status
+                    self.is_blocking_complaint(i)
                     for q in after["awards"]
                     for i in q.get("complaints", "")
                     if q.get("lotID") in active_lots

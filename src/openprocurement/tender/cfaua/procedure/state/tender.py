@@ -17,14 +17,6 @@ LOGGER = getLogger(__name__)
 
 class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
     active_bid_statuses = ("active", "pending")
-    block_tender_complaint_status = (
-        "claim",
-        "pending",
-        "accepted",
-        "satisfied",
-        "stopping",
-    )
-    block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     tender_contract_events = False
 
     def qualification_stand_still_events(self, tender):
@@ -32,7 +24,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
         # should be set on change status to active.qualification.stand-still
         award_period_end = tender["awardPeriod"]["endDate"]
         if not any(
-            i["status"] in self.block_complaint_status
+            self.is_blocking_complaint(i)
             for a in tender.get("awards", "")
             for i in a.get("complaints", "")
             if a["lotID"] in active_lots
