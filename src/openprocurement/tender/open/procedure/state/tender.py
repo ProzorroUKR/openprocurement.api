@@ -3,5 +3,4 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class OpenTenderState(TenderState):
-    block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     award_class = Award

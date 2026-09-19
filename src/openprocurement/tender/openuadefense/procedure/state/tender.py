@@ -8,6 +8,5 @@ class DefenseTenderStateAwardingMixing:
 
 
 class OpenUADefenseTenderState(DefenseTenderStateAwardingMixing, TenderState):
-    block_complaint_status = ("pending", "accepted", "satisfied", "stopping")
     generate_award_milestones = False
     calendar = WORKING_DAYS

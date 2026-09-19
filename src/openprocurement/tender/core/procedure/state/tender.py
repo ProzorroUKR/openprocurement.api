@@ -24,6 +24,31 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 LOGGER = getLogger(__name__)
 
 
+class BlockComplaintMixing:
+    # complaints (by type) that block awards/contracts/cancellations processing
+    block_complaint_status = {
+        "complaint": ("pending", "accepted", "satisfied", "stopping"),
+    }
+    # complaints (by type) that block tendering end: tender can't proceed from active.tendering
+    # until it has unanswered claims or unresolved complaints
+    block_tender_complaint_status = {
+        "complaint": ("pending", "accepted", "satisfied", "stopping"),
+        "claim": ("claim",),
+    }
+
+    @classmethod
+    def is_blocking_complaint(cls, complaint, block_statuses=None):
+        if block_statuses is None:
+            block_statuses = cls.block_complaint_status
+        # legacy complaints may have no type stored, they are complaints (not claims)
+        complaint_type = complaint.get("type", "complaint")
+        return complaint.get("status") in block_statuses.get(complaint_type, ())
+
+    @classmethod
+    def is_blocking_tender_complaint(cls, complaint):
+        return cls.is_blocking_complaint(complaint, block_statuses=cls.block_tender_complaint_status)
+
+
 class TenderState(
     ShouldStartAfterMixing,
     CancellationBlockMixing,
@@ -31,17 +56,10 @@ class TenderState(
     ChronographEventsMixing,
     ReviewRequestBlockMixin,
     TenderCriterionMixin,
+    BlockComplaintMixing,
     BaseState,
 ):
     active_bid_statuses = ("active", "pending")
-    block_complaint_status = ()
-    block_tender_complaint_status = (
-        "claim",
-        "pending",
-        "accepted",
-        "satisfied",
-        "stopping",
-    )  # tender can't proceed to "active.auction" until has a tender.complaints in one of statuses
     unsuccessful_statuses = ("cancelled", "unsuccessful")
     terminated_statuses = (
         "complete",

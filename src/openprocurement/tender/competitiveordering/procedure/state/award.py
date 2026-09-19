@@ -9,5 +9,4 @@ class COAwardState(AwardStateMixing, COTenderState):
     items_delivery_required: bool = True
     award_has_eligible: bool = True
     award_eligible_rules_by_creation_date = True
-    award_cancel_complaints_on_cancel = False
-    award_cancel_satisfied_complaint_lot_awards = True
+    award_cancel_lot_awards_on_satisfied_complaint = True

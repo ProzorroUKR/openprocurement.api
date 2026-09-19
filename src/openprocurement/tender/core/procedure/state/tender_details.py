@@ -903,7 +903,7 @@ class BaseTenderDetailsMixing:
                     active_lots = {None}
 
                 if any(
-                    i["status"] in self.block_complaint_status
+                    self.is_blocking_complaint(i)
                     for q in after["qualifications"]
                     for i in q.get("complaints", "")
                     if q.get("lotID") in active_lots
@@ -959,7 +959,6 @@ class BaseTenderDetailsMixing:
                 f"Can't switch to 'active.pre-qualification.stand-still' from {before['status']}",
             )
         elif before["status"] == "active.pre-qualification.stand-still":
-            block_stand_still_complaint_status = ("draft", "pending", "accepted")
             passed_data = get_request().validated["json_data"]
             if passed_data != {"status": "active.pre-qualification"}:
                 raise_operation_error(
@@ -974,7 +973,7 @@ class BaseTenderDetailsMixing:
                 active_lots = {None}
 
             if any(
-                i["status"] in block_stand_still_complaint_status
+                i.get("type") == "complaint" and i.get("status") in ("draft", "pending", "accepted")
                 for q in after["qualifications"]
                 for i in q.get("complaints", "")
                 if q.get("lotID") in active_lots

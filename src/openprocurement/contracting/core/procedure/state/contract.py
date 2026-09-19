@@ -41,12 +41,12 @@ from openprocurement.contracting.core.procedure.utils import (
     is_contract_owner,
 )
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     IgnoredClaimMixing,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
+from openprocurement.tender.core.procedure.state.tender import BlockComplaintMixing
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
     check_is_contract_waiting_for_inspector_approve,
@@ -71,9 +71,9 @@ LOGGER = getLogger(__name__)
 
 class ContractStateMixing:
     request: Request
-    block_complaint_status: tuple
 
     set_object_status: Callable
+    is_blocking_complaint: Callable
     check_skip_award_complaint_period: Callable
 
     @staticmethod
@@ -117,14 +117,14 @@ class ContractStateMixing:
     def check_award_lot_complaints(self, tender: dict, lot_id: str, lot_awards: list, now: datetime) -> bool:
         pending_complaints = False
         for complaint in tender.get("complaints", []):
-            if complaint["status"] in self.block_complaint_status and complaint.get("relatedLot") == lot_id:
+            if self.is_blocking_complaint(complaint) and complaint.get("relatedLot") == lot_id:
                 pending_complaints = True
                 break
 
         pending_awards_complaints = False
         for award in lot_awards:
             for complaint in award.get("complaints", []):
-                if complaint.get("status") in self.block_complaint_status:
+                if self.is_blocking_complaint(complaint):
                     pending_awards_complaints = True
                     break
 
@@ -205,14 +205,14 @@ class ContractStateMixing:
     def check_award_complaints(self, tender: dict, now: datetime) -> None:
         pending_complaints = False
         for complaint in tender.get("complaints", []):
-            if complaint["status"] in self.block_complaint_status:
+            if self.is_blocking_complaint(complaint):
                 pending_complaints = True
                 break
 
         pending_awards_complaints = False
         for aw in tender.get("awards", []):
             for i in aw.get("complaints", []):
-                if i.get("status") in self.block_complaint_status:
+                if self.is_blocking_complaint(i):
                     pending_awards_complaints = True
 
         stand_still_end = self.calculate_stand_still_end(tender, tender.get("awards", []), now)
@@ -240,7 +240,7 @@ class ContractStateMixing:
         now = get_request_now()
         if tender.get("lots"):
             for complaint in tender.get("complaints", []):
-                if complaint.get("status", "") in self.block_complaint_status and complaint.get("relatedLot") is None:
+                if self.is_blocking_complaint(complaint) and complaint.get("relatedLot") is None:
                     return
             self.check_lots_complaints(tender, now)
         else:
@@ -309,13 +309,13 @@ class ContractStateMixing:
         pending_complaints = [
             i
             for i in tender.get("complaints", [])
-            if (i.get("status") in self.block_complaint_status and i.get("relatedLot") in (None, award.get("lotID")))
+            if (self.is_blocking_complaint(i) and i.get("relatedLot") in (None, award.get("lotID")))
         ]
         pending_awards_complaints = [
             i
             for a in tender.get("awards", [])
             for i in a.get("complaints", [])
-            if (i.get("status") in self.block_complaint_status and a.get("lotID") == award.get("lotID"))
+            if (self.is_blocking_complaint(i) and a.get("lotID") == award.get("lotID"))
         ]
         if pending_complaints or pending_awards_complaints:
             raise_operation_error(get_request(), "Can't sign contract before reviewing all complaints")
@@ -497,6 +497,7 @@ class ESCOContractStateMixing:
 class CFASelectionContractStateMixing:
     request: Request
     set_object_status: Callable
+    is_blocking_complaint: Callable
 
     def check_cfaseslectionua_agreements(self, tender: dict) -> bool:
         return False
@@ -525,8 +526,7 @@ class LimitedContractStateMixing:
     request: Request
 
     set_object_status: Callable
-
-    block_complaint_status: tuple
+    is_blocking_complaint: Callable
 
     def check_contracts_statuses(self, tender):
         active_contracts = False
@@ -592,7 +592,7 @@ class LimitedContractStateMixing:
             lot_id = award.get("lotID")
 
             new_rules_block_complaints = any(
-                complaint["status"] in self.block_complaint_status and cancellation.get("relatedLot") == lot_id
+                self.is_blocking_complaint(complaint) and cancellation.get("relatedLot") == lot_id
                 for cancellation in tender.get("cancellations", "")
                 for complaint in cancellation.get("complaints", "")
             )
@@ -619,8 +619,12 @@ class ContractState(
     CancellationBlockMixing,
     LimitedContractStateMixing,
     IgnoredClaimMixing,
+    BlockComplaintMixing,
 ):
     terminated_statuses = ("terminated", "cancelled")
+    block_complaint_status = {
+        "complaint": ("pending", "accepted", "satisfied"),
+    }
 
     def always(self, data) -> None:
         self.set_mode_test(data)
@@ -796,18 +800,6 @@ class ContractState(
         self.contract_on_patch(before, after)
 
         self.request.validated["contract_was_changed"] = contract_changed
-
-    @property
-    def block_complaint_status(self):
-        tender_type = get_tender().get("procurementMethodType", "")
-        complaint_status = ("pending", "accepted", "satisfied")
-
-        if tender_type == "closeFrameworkAgreementSelectionUA":
-            complaint_status = ("answered", "pending")
-        elif tender_type in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL):
-            complaint_status = ()
-
-        return complaint_status
 
     def status_up(self, before: str, after: str, data: dict) -> None:
         super().status_up(before, after, data)

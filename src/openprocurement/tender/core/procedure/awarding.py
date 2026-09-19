@@ -106,7 +106,7 @@ class TenderStateAwardingMixing:
                         if not lot_awards:
                             continue
                         pending_complaints = any(
-                            i["status"] in self.block_complaint_status and i.get("relatedLot") == lot["id"]
+                            self.is_blocking_complaint(i) and i.get("relatedLot") == lot["id"]
                             for i in tender.get("complaints", "")
                         )
                         awards_no_complaint_periods = all(
@@ -128,7 +128,7 @@ class TenderStateAwardingMixing:
         else:
             if (
                 tender["awards"][-1]["status"] == "unsuccessful"
-                and all(i["status"] not in self.block_complaint_status for i in tender.get("complaints", ""))
+                and all(not self.is_blocking_complaint(i) for i in tender.get("complaints", ""))
                 and all(not a.get("complaintPeriod") for a in tender.get("awards", "") if a["status"] == "unsuccessful")
             ):
                 self.get_change_tender_status_handler("unsuccessful")(tender)

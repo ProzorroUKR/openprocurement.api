@@ -36,7 +36,7 @@ class ShouldStartAfterMixing:
             return
 
         for complaint in tender.get("complaints", ""):
-            if complaint.get("status") in self.block_complaint_status:
+            if self.is_blocking_complaint(complaint):
                 return
 
         quick = SANDBOX_MODE and QUICK in tender.get("submissionMethodDetails", "")
@@ -153,7 +153,7 @@ class ShouldStartAfterMixing:
     def get_complaints_unblock_dates(cls, tender, complaints):
         unblock_dates = []
         for complaint in complaints:
-            if complaint.get("status") in cls.block_complaint_status:
+            if cls.is_blocking_complaint(complaint):
                 # if there is any blocking complaint, auction should not be replanned yet
                 return []
             if complaint.get("tendererActionDate"):

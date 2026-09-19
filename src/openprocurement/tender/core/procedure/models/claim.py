@@ -29,12 +29,12 @@ class PostClaim(Model):
             "draft",
             "claim",
             # "answered",
-            # "pending",  # TODO delete pending status for claims?
             # "invalid",
             # "resolved",
             # "declined",
             # "cancelled",
             # "ignored",
+            # "pending",  # not used anymore
         ],
         default="draft",
     )
@@ -118,12 +118,12 @@ class Claim(Model):
             "draft",
             "claim",
             "answered",
-            "pending",  # TODO delete pending status for claims?
             "invalid",
             "resolved",
             "declined",
             "cancelled",
             "ignored",
+            "pending",  # not used anymore
         ],
     )
 

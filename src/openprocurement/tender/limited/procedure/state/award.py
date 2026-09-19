@@ -18,9 +18,7 @@ class NegotiationAwardState(ReportingAwardState):
     award_stand_still_working_days: bool = False
     sign_award_required = True
     award_complaint_period_on_unsuccessful = False
-    award_cancel_complaints_on_cancel = False
-    award_cancel_satisfied_complaint_lot_awards = True
-    award_cancel_lot_awards_availability_check = False
+    award_cancel_lot_awards_on_satisfied_complaint = True
 
 
 class NegotiationQuickAwardState(NegotiationAwardState):
