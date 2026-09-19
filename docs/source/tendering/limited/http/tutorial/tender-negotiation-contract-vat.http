@@ -58,7 +58,7 @@ Content-Type: application/json
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
         },
-        "relatedLot": "e10f7c85d2484c99a312334e6e9faaac"
+        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
       }
     ],
     "tender_id": "3f2cabf45461412fa1b382f25474ef88",
