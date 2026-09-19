@@ -11,6 +11,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class AwardState(AwardStateMixing, CFASelectionTenderState):
+    award_status_change_waits_for_milestone_due_date = False
     award_unsuccessful_requires_cancelled_award_same_bid = True
 
     def award_status_up(self, before, after, award):

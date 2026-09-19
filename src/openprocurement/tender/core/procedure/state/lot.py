@@ -1,11 +1,14 @@
 from typing import Callable
 
+from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsState,
 )
+from openprocurement.tender.core.procedure.utils import tender_created_before
+from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 
 class LotStateMixin:
@@ -26,9 +29,16 @@ class LotStateMixin:
     should_validate_lot_minimal_step = True
     # limited (negotiation): lots don't recalculate the tender values
     lot_updates_tender_values = True
+    # cfaua: limits of the lots count (None = no limit)
+    lots_min_count: int | None = None
+    lots_max_count: int | None = None
+    # limited (negotiation): lots can't be added/updated/deleted when the tender has awards
+    lot_operations_forbidden_with_awards = False
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()
+        self.validate_lots_max_count(tender)
+        self.validate_lot_operation_with_awards(tender)
         self.validate_tender_period_extension(tender)
         self.validate_cancellation_blocks(request, tender)
 
@@ -42,6 +52,7 @@ class LotStateMixin:
 
     def validate_lot_patch(self, before: dict, after: dict) -> None:
         request, tender = get_request(), get_tender()
+        self.validate_lot_operation_with_awards(tender)
         self.validate_tender_period_extension(tender)
         self.validate_cancellation_blocks(request, tender, lot_id=before["id"])
 
@@ -57,8 +68,46 @@ class LotStateMixin:
 
     def validate_lot_delete(self, lot) -> None:
         request, tender = get_request(), get_tender()
+        self.validate_lot_delete_related_objects(tender, lot)
+        self.validate_lots_min_count(tender)
+        self.validate_lot_operation_with_awards(tender)
         self.validate_tender_period_extension(tender)
         self.validate_cancellation_blocks(request, tender, lot_id=lot["id"])
+
+    def validate_lot_delete_related_objects(self, tender, lot) -> None:
+        lot_id = lot["id"]
+        if not tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM):
+            has_active_requirements = any(
+                criterion.get("relatedItem", "") == lot_id and requirement["status"] == "active"
+                for criterion in tender.get("criteria", "")
+                for rg in criterion.get("requirementGroups", "")
+                for requirement in rg.get("requirements", "")
+            )
+            if has_active_requirements:
+                raise_operation_error(
+                    get_request(),
+                    f"Can't delete {lot_id} lot while related criterion has active requirements",
+                )
+        for collection_name in ("cancellations", "milestones", "items"):
+            if any(i.get("relatedLot", "") == lot_id for i in tender.get(collection_name, "")):
+                raise_operation_error(get_request(), f"Cannot delete lot with related {collection_name}", status=422)
+
+    def validate_lots_min_count(self, tender) -> None:
+        if self.lots_min_count is not None and len(tender.get("lots", "")) <= self.lots_min_count:
+            raise_operation_error(
+                get_request(), f"Lots count in tender cannot be less than {self.lots_min_count} items"
+            )
+
+    def validate_lots_max_count(self, tender) -> None:
+        if self.lots_max_count is not None and len(tender.get("lots", "")) >= self.lots_max_count:
+            raise_operation_error(
+                get_request(), f"Lots count in tender cannot be more than {self.lots_max_count} items"
+            )
+
+    def validate_lot_operation_with_awards(self, tender) -> None:
+        if self.lot_operations_forbidden_with_awards and tender.get("awards"):
+            request = get_request()
+            raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} lot when you have awards")
 
     def lot_on_delete(self, data: dict) -> None:
         self.lot_always(data)

@@ -15,6 +15,8 @@ LOGGER = getLogger(__name__)
 class QualificationMilestoneState(BaseState):
     # rfp: the user may set a dueDate later than 24h (24h is only the minimum)
     milestone_24h_due_date_extendable = False
+    milestone_post_allowed_tender_statuses: tuple = ("active.pre-qualification",)
+    milestone_post_requires_active_lot = True
 
     def get_24h_milestone_dueDate(self, milestone):
         min_due_date = calculate_tender_date(
@@ -26,7 +28,20 @@ class QualificationMilestoneState(BaseState):
             return max(min_due_date, milestone.get("dueDate", min_due_date))
         return min_due_date
 
+    def validate_post_allowed(self, context_name, parent):
+        tender = get_tender()
+        if tender["status"] not in self.milestone_post_allowed_tender_statuses:
+            raise_operation_error(
+                get_request(),
+                f"Can't update {context_name} in current ({tender['status']}) tender status",
+            )
+        if self.milestone_post_requires_active_lot and any(
+            lot.get("status") != "active" for lot in tender.get("lots", "") if lot.get("id") == parent.get("lotID")
+        ):
+            raise_operation_error(get_request(), f"Can update {context_name} only in active lot status")
+
     def validate_post(self, context_name, parent, milestone):
+        self.validate_post_allowed(context_name, parent)
         parent_status = parent.get("status")
         if parent_status != "pending":
             raise_operation_error(

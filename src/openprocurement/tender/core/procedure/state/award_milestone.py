@@ -20,6 +20,7 @@ class AwardMilestoneState(QualificationMilestoneState):
         AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,
     )
     award_period_prolongation_duration = 20
+    milestone_post_allowed_tender_statuses = ("active.qualification", "active.awarded")
 
     def validate_post(self, context_name, parent, milestone):
         super().validate_post(context_name, parent, milestone)

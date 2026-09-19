@@ -31,6 +31,22 @@ LOGGER = getLogger(__name__)
 
 
 class ShouldStartAfterMixing:
+    def validate_auction_period_start_date(self, tender, data):
+        start_date = data.get("startDate")
+        if not start_date:
+            return
+        if (get_request_now() + timedelta(seconds=3600)).isoformat() > start_date:
+            raise_operation_error(
+                get_request(),
+                "startDate should be no earlier than an hour later",
+            )
+        should_start_after = tender.get("auctionPeriod", {}).get("shouldStartAfter")
+        if should_start_after and start_date < should_start_after:
+            raise_operation_error(
+                get_request(),
+                "startDate should be after shouldStartAfter",
+            )
+
     def calc_auction_periods(self, tender):
         if tender["config"]["hasAuction"] is False:
             return

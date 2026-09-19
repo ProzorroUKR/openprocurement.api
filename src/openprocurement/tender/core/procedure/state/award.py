@@ -16,10 +16,12 @@ from openprocurement.tender.core.procedure.contracting import add_contracts, app
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
+    tender_created_after_2020_rules,
     tender_created_before,
     tender_created_in,
 )
 from openprocurement.tender.core.procedure.validation import (
+    OPERATIONS,
     validate_doc_type_required,
     validate_econtract_fields_award,
     validate_items_required_fields,
@@ -29,6 +31,18 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class AwardStateMixing:
+    # --- award operations rules (procedure differences) ---
+    # tender statuses in which awards can be created / updated
+    award_post_allowed_tender_statuses: tuple = ("active.qualification",)
+    award_patch_allowed_tender_statuses: tuple = ("active.qualification", "active.awarded")
+    # an award can be created / updated only for an active lot (limited: lot status is not checked)
+    award_post_requires_active_lot: bool = True
+    award_patch_requires_active_lot: bool = True
+    # limited (negotiation): a pending lot cancellation also blocks award creation
+    award_post_lot_cancellation_pending_check: bool = False
+    # cfaua: awards of a lot can't be updated while the lot has an accepted award complaint
+    award_patch_forbidden_with_accepted_lot_complaint: bool = False
+
     # --- award data rules (procedure differences) ---
     # procedures without bids (limited) have no award items
     award_items_allowed: bool = True
@@ -54,6 +68,8 @@ class AwardStateMixing:
     # --- status transition rules (procedure differences) ---
     # the next award is generated automatically after a status change (limited: awards are created manually)
     award_next_award_on_status_change: bool = True
+    # 24h / low price milestones postpone the award decision until milestone.dueDate
+    award_status_change_waits_for_milestone_due_date: bool = True
     # cfaselectionua: an award may become unsuccessful in active.qualification only after a cancelled award of the same bid
     award_unsuccessful_requires_cancelled_award_same_bid: bool = False
     # unsuccessful -> cancelled transition (cfaua overrides the whole transition instead of using these flags)
@@ -226,9 +242,66 @@ class AwardStateMixing:
     # --- validation ---
 
     def validate_award_post(self, award):
+        self.validate_award_post_allowed(award)
+        self.validate_award_post_content(award)
+
+    def validate_award_post_allowed(self, award):
+        self.validate_award_tender_status(get_tender(), self.award_post_allowed_tender_statuses, "create")
+        if self.award_post_lot_cancellation_pending_check:
+            self.validate_award_lot_cancellation_pending(award)
+
+    def validate_award_post_content(self, award):
+        if self.award_post_requires_active_lot:
+            self.validate_award_lot_is_active(award)
         self.validate_award_items_allowed(award)
 
+    def validate_award_patch_allowed(self, award):
+        tender = get_tender()
+        self.validate_award_lot_cancellation_pending(award)
+        self.validate_award_tender_status(tender, self.award_patch_allowed_tender_statuses, "update")
+        if self.award_patch_requires_active_lot and any(
+            lot.get("status") != "active" for lot in tender.get("lots", "") if lot.get("id") == award.get("lotID")
+        ):
+            raise_operation_error(self.request, "Can update award only in active lot status")
+        if self.award_patch_forbidden_with_accepted_lot_complaint and any(
+            any(c.get("status") == "accepted" for c in i.get("complaints", ""))
+            for i in tender.get("awards", "")
+            if i.get("lotID") == award.get("lotID")
+        ):
+            raise_operation_error(self.request, "Can't update award with accepted complaint")
+
+    def validate_award_tender_status(self, tender, allowed_statuses, operation):
+        if tender["status"] not in allowed_statuses:
+            raise_operation_error(
+                self.request, f"Can't {operation} award in current ({tender['status']}) tender status"
+            )
+
+    def validate_award_lot_cancellation_pending(self, award):
+        tender = get_tender()
+        if not tender_created_after_2020_rules():
+            return
+        if tender["procurementMethodType"] in self.cancellation_blocks_exempt_procurement_method_types:
+            return
+        if self.request.authenticated_role != "tender_owner":
+            return
+        lot_id = award.get("lotID")
+        if not lot_id:
+            return
+        cancellations = [c for c in tender.get("cancellations", "") if c.get("relatedLot") == lot_id]
+        accept_lot = all(
+            any(complaint.get("status") == "resolved" for complaint in c["complaints"])
+            for c in cancellations
+            if c.get("status") == "unsuccessful" and c.get("complaints")
+        )
+        if any(c.get("status") == "pending" for c in cancellations) or not accept_lot:
+            raise_operation_error(
+                self.request,
+                f"Can't {OPERATIONS.get(self.request.method)} award with lot that have active cancellation",
+            )
+
     def validate_award_patch(self, before, after):
+        if self.award_status_change_waits_for_milestone_due_date:
+            self.validate_status_change_before_milestone_due_date(before, after)
         self.validate_award_qualified_eligible(after)
         self.validate_award_items_allowed(after)
         tender = get_tender()
@@ -244,6 +317,11 @@ class AwardStateMixing:
         if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             for resp in after.get("requirementResponses", []):
                 validate_req_response_values(resp)
+
+    def validate_award_lot_is_active(self, award):
+        tender = get_tender()
+        if any(lot.get("status") != "active" for lot in tender.get("lots", "") if lot["id"] == award.get("lotID")):
+            raise_operation_error(self.request, "Can create award only in active lot status")
 
     def validate_award_items_allowed(self, award):
         if not self.award_items_allowed and award.get("items") is not None:

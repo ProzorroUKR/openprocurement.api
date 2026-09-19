@@ -12,6 +12,7 @@ from openprocurement.api.constants import (
     CPV_GROUP_PREFIX_LENGTH,
     CPV_PHARM_PREFIX,
     CPV_PREFIX_LENGTH_TO_NAME,
+    GUARANTEE_ALLOWED_TENDER_TYPES,
     MINIMAL_STEP_VALIDATION_LOWER_LIMIT,
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
@@ -24,6 +25,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
+    CRITERION_REQUIREMENT_STATUSES_FROM,
     EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
@@ -33,6 +35,7 @@ from openprocurement.api.constants_env import (
     MPC_REQUIRED_FROM,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
+    RELEASE_GUARANTEE_CRITERION_FROM,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
@@ -88,6 +91,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_contract_template_names_for_classification_ids,
     set_mode_test_titles,
     tender_created_after,
+    tender_created_after_2020_rules,
     tender_created_before,
     validate_features_custom_weight,
     validate_field,
@@ -261,6 +265,10 @@ class BaseTenderDetailsMixing:
     tender_period_extra_working_days = False
     working_days_config = DEFAULT_WORKING_DAYS_CONFIG
     should_validate_required_market_criteria = True
+    should_validate_status_change_with_lot_cancellation_pending = True
+    should_validate_items_zero_quantity = True
+    should_validate_guarantee_criterion = True
+    guarantee_criterion_check_skipped_for_administrator = False  # CD stage2
     should_validate_vat_not_included = False
     vat_not_included_validation_from = EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM
     # complexAsset.arma has no contractTemplateName (the field used to be removed from its models)
@@ -340,6 +348,9 @@ class BaseTenderDetailsMixing:
         return models.get(self.request.validated["tender"].get("status", ""), PatchTender)
 
     def validate_tender_patch(self, before, after):
+        self.validate_status_change_with_lot_cancellation_pending(before, after)
+        self.validate_items_zero_quantity(before, after)
+        self.validate_guarantee_criterion(before, after)
         self.validate_patch_status_choice(before, after)
         request = get_request()
         if before["status"] != after["status"]:
@@ -351,6 +362,104 @@ class BaseTenderDetailsMixing:
         plan_ids = [plan["id"] for plan in tender.get("plans") or []]
         plans = request_fetch_plans(request, plan_ids, raise_error=False)
         validate_funders_match_plan_programs(request, tender, plans)
+
+    def validate_status_change_with_lot_cancellation_pending(self, before, after):
+        if not self.should_validate_status_change_with_lot_cancellation_pending:
+            return
+        request = get_request()
+        if request.authenticated_role == "Administrator":
+            return
+        if not tender_created_after_2020_rules():
+            return
+        if not before.get("lots") or before["status"] == after.get("status", before["status"]):
+            return
+        lot_cancellations = [c for c in before.get("cancellations", "") if c.get("relatedLot")]
+        accept_lot = all(
+            any(complaint.get("status") == "resolved" for complaint in c.get("complaints", ""))
+            for c in lot_cancellations
+            if c.get("status") == "unsuccessful" and c.get("complaints")
+        )
+        if any(c.get("status") == "pending" for c in lot_cancellations) or not accept_lot:
+            raise_operation_error(request, "Can't update tender with pending cancellation in one of exists lot")
+
+    def validate_items_zero_quantity(self, before, after):
+        if not self.should_validate_items_zero_quantity:
+            return
+        if not tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
+            return
+        for item in after.get("items", ""):
+            if item.get("quantity") is not None and not item["quantity"]:
+                related_criteria = any(
+                    criterion.get("relatedItem") == item["id"] and requirement.get("status") == "active"
+                    for criterion in before.get("criteria", "")
+                    for rg in criterion.get("requirementGroups", "")
+                    for requirement in rg.get("requirements", "")
+                )
+                if related_criteria:
+                    raise_operation_error(
+                        get_request(),
+                        f"Can't set to 0 quantity of {item['id']} item while related criterion has active requirements",
+                    )
+
+    def validate_guarantee_criterion(self, before, after):
+        if not self.should_validate_guarantee_criterion:
+            return
+        request = get_request()
+        if self.guarantee_criterion_check_skipped_for_administrator and request.authenticated_role == "Administrator":
+            return
+        if tender_created_before(RELEASE_GUARANTEE_CRITERION_FROM):
+            return
+
+        new_status = after.get("status")
+        if before["status"] == new_status:
+            return
+
+        if new_status not in ("active", "active.enquiries", "active.tendering"):
+            return
+
+        tender_type = before["procurementMethodType"]
+        if tender_created_before(UNIFIED_CRITERIA_LOGIC_FROM) and tender_type not in GUARANTEE_ALLOWED_TENDER_TYPES:
+            return
+
+        bid_guarantee_criterion = "CRITERION.OTHER.BID.GUARANTEE"
+
+        if before.get("lots"):
+            related_guarantee_lots = [
+                criterion.get("relatedItem")
+                for criterion in before.get("criteria", "")
+                if criterion.get("relatesTo") == "lot"
+                and criterion.get("classification")
+                and criterion["classification"]["id"] == bid_guarantee_criterion
+            ]
+            for lot in before["lots"]:
+                if lot["id"] in related_guarantee_lots:
+                    if not lot.get("guarantee") or lot["guarantee"]["amount"] <= 0:
+                        raise_operation_error(
+                            request,
+                            f"Should be specified 'guarantee.amount' more than 0 to lot for {bid_guarantee_criterion}",
+                        )
+                elif (
+                    tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and lot.get("guarantee", {}).get("amount", 0) > 0
+                ):
+                    raise_operation_error(
+                        request,
+                        f"Should be specified {bid_guarantee_criterion} for 'guarantee.amount' more than 0 to lot",
+                    )
+
+        else:
+            amount = after["guarantee"]["amount"] if after.get("guarantee") else 0
+            tender_criteria = [
+                criterion["classification"]["id"]
+                for criterion in before.get("criteria", "")
+                if criterion.get("classification")
+            ]
+            if (amount <= 0 and bid_guarantee_criterion in tender_criteria) or (
+                amount > 0 and bid_guarantee_criterion not in tender_criteria
+            ):
+                raise_operation_error(
+                    request,
+                    f"Should be specified {bid_guarantee_criterion} and 'guarantee.amount' more than 0",
+                )
 
     def on_post(self, tender):
         self.validate_contract_template_name_allowed(tender)

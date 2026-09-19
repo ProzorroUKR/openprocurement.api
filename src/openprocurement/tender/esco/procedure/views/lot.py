@@ -10,7 +10,6 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
     validate_lot_operation_in_disallowed_tender_statuses,
-    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.esco.procedure.models.lot import ESCOLot, ESCOPatchLot, ESCOPostLot
@@ -44,7 +43,6 @@ class ESCOLotResource(TenderLotResource):
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_patch_input_data(ESCOPatchLot),
             validate_patch_data_simple(ESCOLot, item_name="lot"),
-            validate_operation_with_lot_cancellation_in_pending("lot"),
         ),
         permission="edit_lot",
     )

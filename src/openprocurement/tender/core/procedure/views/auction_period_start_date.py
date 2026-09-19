@@ -6,7 +6,6 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.models.auction import AuctionPeriodStartDate
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
-    validate_auction_period_start_date,
     validate_lot_status_active,
     validate_tender_status_for_put_action_period,
 )
@@ -29,12 +28,12 @@ class TenderAuctionPeriodResource(TenderBaseResource):
         validators=(
             validate_tender_status_for_put_action_period,
             validate_input_data(AuctionPeriodStartDate),
-            validate_auction_period_start_date,
         ),
     )
     def collection_put(self):
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
+        self.state.validate_auction_period_start_date(tender, data)
         if "auctionPeriod" not in tender:
             tender["auctionPeriod"] = {}
         tender["auctionPeriod"]["startDate"] = data["startDate"]
@@ -49,13 +48,13 @@ class TenderAuctionPeriodResource(TenderBaseResource):
             validate_tender_status_for_put_action_period,
             validate_lot_status_active,
             validate_input_data(AuctionPeriodStartDate),
-            validate_auction_period_start_date,
         ),
     )
     def put(self):
         lot_id = self.request.matchdict["lot_id"]
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
+        self.state.validate_auction_period_start_date(tender, data)
         for lot in tender["lots"]:
             if lot["id"] == lot_id:
                 if "auctionPeriod" not in lot:

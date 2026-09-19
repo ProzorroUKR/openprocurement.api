@@ -27,9 +27,6 @@ from openprocurement.tender.cfaselectionua.procedure.state.tender_details import
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
     unless_selection_bot,
-    validate_item_quantity,
-    validate_tender_change_status_with_cancellation_lot_pending,
-    validate_tender_guarantee,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
@@ -91,9 +88,6 @@ class CFASelectionTenderResource(TendersResource):
             ),
             validate_patch_input_data(CFASelectionPatchTender),
             validate_patch_data_simple(CFASelectionTender, item_name="tender"),
-            unless_administrator(validate_tender_change_status_with_cancellation_lot_pending),
-            validate_item_quantity,
-            validate_tender_guarantee,
         ),
         permission="edit_tender",
     )

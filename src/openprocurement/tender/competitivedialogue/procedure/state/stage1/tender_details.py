@@ -26,6 +26,7 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 
 class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
+    should_validate_guarantee_criterion = False
     features_max_weight = FEATURES_MAX_SUM
     main_procurement_category_choices = ("services", "works")
     milestones_required = False

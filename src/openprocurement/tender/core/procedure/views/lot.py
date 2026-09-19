@@ -22,9 +22,7 @@ from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.state.lot import LotState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.validation import (
-    validate_delete_lot_related_object,
     validate_lot_operation_in_disallowed_tender_statuses,
-    validate_operation_with_lot_cancellation_in_pending,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
@@ -134,7 +132,6 @@ class TenderLotResource(TenderBaseResource):
             validate_lot_operation_in_disallowed_tender_statuses,
             validate_patch_input_data(PatchLot),
             validate_patch_data_simple(Lot, item_name="lot"),
-            validate_operation_with_lot_cancellation_in_pending("lot"),
         ),
         permission="edit_lot",
     )
@@ -167,8 +164,6 @@ class TenderLotResource(TenderBaseResource):
         validators=(
             validate_item_owner("tender"),
             validate_lot_operation_in_disallowed_tender_statuses,
-            validate_operation_with_lot_cancellation_in_pending("lot"),
-            validate_delete_lot_related_object,
         ),
     )
     def delete(self) -> Optional[dict]:

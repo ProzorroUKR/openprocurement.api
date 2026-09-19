@@ -9,14 +9,6 @@ from openprocurement.api.procedure.validation import (
     validate_patch_input_data,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.validation import (
-    validate_award_with_lot_cancellation_in_pending,
-    validate_limited_award_operation_not_in_active_status,
-    validate_limited_award_same_lot_id,
-    validate_limited_create_new_award,
-    validate_limited_create_new_award_with_lots,
-    validate_limited_lot_cancellation,
-)
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.limited.procedure.models.award import (
     LimitedAward,
@@ -64,8 +56,6 @@ class ReportingAwardResource(TenderAwardResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(ReportingPostAward),
-            validate_limited_award_operation_not_in_active_status,
-            validate_limited_create_new_award,
         ),
     )
     def collection_post(self):
@@ -78,7 +68,6 @@ class ReportingAwardResource(TenderAwardResource):
             unless_admins(validate_item_owner("tender")),
             validate_patch_input_data(ReportingPatchAward),
             validate_patch_data_simple(ReportingAward, item_name="award"),
-            validate_limited_award_operation_not_in_active_status,
         ),
     )
     def patch(self):
@@ -116,10 +105,6 @@ class NegotiationAwardResource(TenderAwardResource):
         validators=(
             unless_admins(validate_item_owner("tender")),
             validate_input_data(LimitedPostAward),
-            validate_limited_award_operation_not_in_active_status,
-            validate_award_with_lot_cancellation_in_pending,
-            validate_limited_lot_cancellation,
-            validate_limited_create_new_award_with_lots,
         ),
     )
     def collection_post(self):
@@ -132,10 +117,6 @@ class NegotiationAwardResource(TenderAwardResource):
             unless_admins(validate_item_owner("tender")),
             validate_patch_input_data(LimitedPatchAward),
             validate_patch_data_simple(LimitedAward, item_name="award"),
-            validate_award_with_lot_cancellation_in_pending,
-            validate_limited_award_operation_not_in_active_status,
-            validate_limited_lot_cancellation,
-            validate_limited_award_same_lot_id,
         ),
     )
     def patch(self):

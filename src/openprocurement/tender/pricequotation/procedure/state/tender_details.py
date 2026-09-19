@@ -13,6 +13,7 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
 
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
+    should_validate_status_change_with_lot_cancellation_pending = False
     tender_period_start_date_required = True
     items_related_lot_error = "Rogue field."
     milestones_required = False

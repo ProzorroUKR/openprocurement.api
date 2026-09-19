@@ -13,8 +13,6 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.validation import (
-    validate_item_quantity,
-    validate_tender_guarantee,
     validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
@@ -64,8 +62,6 @@ class PriceQuotationTenderResource(TendersResource):
             ),
             validate_patch_input_data(PQPatchTender),
             validate_patch_data_simple(PQTender, item_name="tender"),
-            validate_item_quantity,
-            validate_tender_guarantee,
         ),
         permission="edit_tender",
     )

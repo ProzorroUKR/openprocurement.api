@@ -48,7 +48,17 @@ class QualificationState(TenderState):
             else:
                 bid["status"] = "unsuccessful"
 
+    def validate_qualification_patch_allowed(self, before):
+        tender_status = get_tender()["status"]
+        if tender_status != "active.pre-qualification":
+            raise_operation_error(
+                self.request, f"Can't update qualification in current ({tender_status}) tender status"
+            )
+        if before["status"] == "cancelled":
+            raise_operation_error(self.request, "Can't update qualification in current cancelled qualification status")
+
     def qualification_on_patch(self, before, qualification):
+        self.validate_status_change_before_milestone_due_date(before, qualification)
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=qualification.get("lotID"))
         if before["status"] != qualification["status"]:

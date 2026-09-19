@@ -4,6 +4,8 @@ from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 
 class AwardState(AwardStateMixing, CFAUATenderState):
     award_has_eligible: bool = True
+    award_patch_allowed_tender_statuses = ("active.qualification", "active.qualification.stand-still")
+    award_patch_forbidden_with_accepted_lot_complaint = True
 
     def award_status_up_from_pending_to_active(self, award, tender):
         pass
