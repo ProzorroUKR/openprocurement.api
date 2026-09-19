@@ -1,4 +1,6 @@
-from jsonpath_ng.ext import parse
+import ply.yacc
+from jsonpath_ng.ext.parser import ExtentedJsonPathParser
+from jsonpath_ng.parser import IteratorToTokenStream, logger
 
 from openprocurement.api.auth import AccreditationPermission
 
@@ -24,6 +26,31 @@ EXCLUDED_ROLES = (
 def mask_data(data, mask_mapping):
     for rule in mask_mapping.values():
         rule["expr"].update(data, rule["value"])
+
+
+class JsonPathParser(ExtentedJsonPathParser):
+    """
+    jsonpath_ng rebuilds the PLY parser tables on every parse() call,
+    which takes ~10ms each and ~6s in total for all mask mappings on startup.
+    Build the parser once and reuse it.
+    """
+
+    _parsers = {}
+
+    def parse_token_stream(self, token_iterator, start_symbol="jsonpath"):
+        if start_symbol not in self._parsers:
+            self._parsers[start_symbol] = ply.yacc.yacc(
+                module=self,
+                debug=self.debug,
+                write_tables=0,
+                start=start_symbol,
+                errorlog=logger,
+            )
+        return self._parsers[start_symbol].parse(lexer=IteratorToTokenStream(token_iterator))
+
+
+def parse(path):
+    return JsonPathParser().parse(path)
 
 
 def compile_mask_mapping(mask_mapping):
