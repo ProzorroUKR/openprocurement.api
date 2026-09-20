@@ -171,7 +171,6 @@ def set_mode_test_titles(item):
     for key, prefix in (
         ("title", "ТЕСТУВАННЯ"),
         ("title_en", "TESTING"),
-        ("title_ru", "ТЕСТИРОВАНИЕ"),
     ):
         if not item.get(key) or not item[key].startswith(f"[{prefix}]"):
             item[key] = f"[{prefix}] {item.get(key) or ''}"

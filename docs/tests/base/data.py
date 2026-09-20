@@ -549,7 +549,6 @@ test_docs_tender_below = {
 test_docs_tender_below_maximum = {
     "title": "футляри до державних нагород",
     "title_en": "Cases with state awards",
-    "title_ru": "футляры к государственным наградам",
     "procuringEntity": test_docs_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
     "items": test_docs_items,
@@ -565,7 +564,6 @@ test_docs_tender_below_maximum = {
 test_docs_tender_cfaselectionua_maximum = {
     "title": "футляри до державних нагород",
     "title_en": "Cases with state awards",
-    "title_ru": "футляры к государственным наградам",
     "procuringEntity": {
         "name": "Державне управління справами",
         "identifier": {"scheme": "UA-EDR", "id": "00037256", "uri": "http://www.dus.gov.ua/"},
@@ -649,7 +647,6 @@ test_docs_tender_limited = {
     "value": {"amount": 500000, "currency": "UAH", "valueAddedTaxIncluded": True},
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
-    "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "milestones": test_tender_below_milestones,
@@ -921,7 +918,6 @@ test_docs_tender_rfp = {
 test_docs_tender_rfp_maximum = {
     "title": "футляри до державних нагород",
     "title_en": "Cases with state awards",
-    "title_ru": "футляры к государственным наградам",
     "procuringEntity": test_docs_procuring_entity,
     "value": {"amount": 500, "currency": "UAH"},
     "items": test_docs_items,

@@ -125,10 +125,6 @@
                    "op": "remove"
                },
                {
-                   "path": "/title_ru",
-                   "op": "remove"
-               },
-               {
                    "path": "/awardCriteria",
                    "op": "remove"
                }
@@ -907,6 +903,5 @@
        "valueAddedTaxIncluded": true
    },
    "mode": "test",
-   "title_ru": "[ТЕСТИРОВАНИЕ] Progressive cohesive database",
    "awardCriteria": "lowestCost"
 }

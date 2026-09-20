@@ -7,7 +7,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "футляри до державних нагород",
     "title_en": "Cases with state awards",
-    "title_ru": "футляры к государственным наградам",
     "procuringEntity": {
       "name": "Державне управління справами",
       "identifier": {
@@ -190,7 +189,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
   "data": {
     "mainProcurementCategory": "services",
     "title_en": "[TESTING] Cases with state awards",
-    "title_ru": "[ТЕСТИРОВАНИЕ] футляры к государственным наградам",
     "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
     "mode": "test",
     "status": "draft",

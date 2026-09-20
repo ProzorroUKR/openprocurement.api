@@ -463,7 +463,6 @@ Content-Type: application/json
         ],
         "title": "[ТЕСТУВАННЯ] ",
         "title_en": "[TESTING] ",
-        "title_ru": "[ТЕСТИРОВАНИЕ] ",
         "tender_id": "c3f4116d38d34fe2b7d8de8aae8c0b32",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "mode": "test",

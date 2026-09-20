@@ -6,7 +6,6 @@
   "contractNumber": "2",
   "title": "[ТЕСТУВАННЯ] ",
   "title_en": "[TESTING] ",
-  "title_ru": "[ТЕСТИРОВАНИЕ] ",
   "dateModified": "2024-08-15T16:31:55.105474+03:00",
   "dateCreated": "2024-08-15T16:31:27.996591+03:00",
   "tender_token": "c73a597fa3ce4c988e954947a803e228",
@@ -27,10 +26,6 @@
         {
           "op": "remove",
           "path": "/buyer"
-        },
-        {
-          "op": "remove",
-          "path": "/title_ru"
         },
         {
           "op": "remove",
