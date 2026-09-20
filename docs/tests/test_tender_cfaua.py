@@ -547,13 +547,13 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         )
         self.set_responses(self.tender_id, response.json, "pending")
 
-        test_docs_bid_document2.update(
+        bid3["documents"] = deepcopy([test_docs_bid_document, test_docs_bid_document2])
+        bid3["documents"][1].update(
             {
                 "confidentiality": "buyerOnly",
                 "confidentialityRationale": "Only our company sells badgers with pink hair.",
             }
         )
-        bid3["documents"] = [test_docs_bid_document, test_docs_bid_document2]
         bid3["lotValues"][0]["relatedLot"] = lot["id"]
         for document in bid3["documents"]:
             document["url"] = self.generate_docservice_url()

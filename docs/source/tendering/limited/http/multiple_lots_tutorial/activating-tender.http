@@ -215,6 +215,7 @@ Content-Type: application/json
         "relatedLot": "a2f39dedc39a4788ae22752af33cdffb"
       }
     ],
+    "procurementMethodType": "negotiation",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -249,6 +250,15 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500000.0
     },
+    "causeDetails": {
+      "code": "defenseNeeds",
+      "title": "Підпункт 8 пункту 13",
+      "title_en": "Subparagraph 8 of paragraph 13",
+      "scheme": "DECREE1178",
+      "description": "Закупівля для нагальних потреб ЗСУ, військових формувань, ДСНС тощо (фортифікації, мобілізаційні завдання, територіальна оборона, договори з обмеженим доступом)",
+      "description_en": "Procurement for urgent needs of the Armed Forces, military formations, State Emergency Service, etc. (fortifications, mobilization tasks, territorial defense, restricted access contracts)",
+      "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
+    },
     "lots": [
       {
         "title": "Лот №1",
@@ -263,16 +273,6 @@ Content-Type: application/json
         }
       }
     ],
-    "procurementMethodType": "negotiation.quick",
-    "causeDetails": {
-      "code": "tenderDecisionAppeal",
-      "title": "Абзац 5 підпункту 3 пункту 13",
-      "title_en": "Paragraph 5, subparagraph 3, clause 13",
-      "scheme": "DECREE1178",
-      "description": "Нагальна потребаздійснити закупівлю, зокрема, але не виключно в разі: оскарження прийнятих рішень, дій чи бездіяльності замовника щодо відкритих торгів, що тривають після розгляду/оцінки тендерних пропозицій учасників, в обсязі, що не перевищує 20 відсотків очікуваної вартості відкритих торгів, без урахування податку на додану вартість, що оскаржуються",
-      "description_en": "An urgent need to make a purchase, in particular, but not limited to the following cases: appeals against the contracting authority’s decisions, actions, or inaction regarding open tenders that are ongoing after the review/evaluation of participants’ bids, in an amount not exceeding 20 percent of the expected value of the open tender, excluding value-added tax, which is being appealed",
-      "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
-    },
     "id": "63cee41dcb6d41f78d01c3032aaa90b9"
   },
   "config": {
@@ -290,7 +290,7 @@ Content-Type: application/json
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
-    "awardComplainDuration": 3,
+    "awardComplainDuration": 5,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,

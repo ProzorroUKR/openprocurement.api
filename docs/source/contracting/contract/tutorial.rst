@@ -94,6 +94,7 @@
 * `implementation`
 * `milestones`
 
+.. _settingcontractvalue:
 
 Встановлення вартості договору
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

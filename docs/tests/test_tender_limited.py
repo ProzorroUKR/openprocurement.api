@@ -8,6 +8,7 @@ from openprocurement.tender.core.tests.utils import set_tender_criteria
 from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_config,
     test_tender_negotiation_quick_config,
+    test_tender_reporting_config,
 )
 from openprocurement.tender.limited.tests.tender import BaseTenderWebTest
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
@@ -17,11 +18,15 @@ from tests.test_tender_config import TenderConfigCSVMixin
 
 test_tender_data = deepcopy(test_docs_tender_limited)
 test_lots = deepcopy(test_docs_lots)
-award_negotiation = deepcopy(test_docs_award)
+
+test_tender_reporting_data = deepcopy(test_tender_data)
 test_tender_negotiation_data = deepcopy(test_tender_data)
 test_tender_negotiation_quick_data = deepcopy(test_tender_data)
 
+award_reporting = deepcopy(test_docs_award)
+award_negotiation = deepcopy(test_docs_award)
 award_negotiation["value"]["valueAddedTaxIncluded"] = False
+
 test_tender_negotiation_data["value"]["valueAddedTaxIncluded"] = False
 test_tender_negotiation_data["procurementMethodType"] = "negotiation"
 test_tender_negotiation_data["causeDetails"] = {
@@ -43,7 +48,7 @@ TARGET_DIR = BASE_DIR + "http/"
 TARGET_CSV_DIR = BASE_DIR + "csv/"
 
 
-class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
+class TenderLimitedResourceTestBase(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
     AppClass = DumpsWebTestApp
 
     relative_to = os.path.dirname(__file__)
@@ -60,6 +65,11 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
         super().tearDown()
         self.tearDownMock()
 
+
+class TenderLimitedResourceTest(TenderLimitedResourceTestBase):
+    initial_data = test_tender_reporting_data
+    initial_config = test_tender_reporting_config
+
     def test_docs_config_reporting_csv(self):
         self.write_config_pmt_csv(
             pmt="reporting",
@@ -72,37 +82,13 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             file_path=TARGET_CSV_DIR + "kind-reporting.csv",
         )
 
-    def test_docs_config_negotiation_csv(self):
-        self.write_config_pmt_csv(
-            pmt="negotiation",
-            file_path=TARGET_CSV_DIR + "config-negotiation.csv",
-        )
-
-    def test_docs_allowed_kind_csv_negotiation(self):
-        self.write_allowed_kind_csv(
-            pmt="negotiation",
-            file_path=TARGET_CSV_DIR + "kind-negotiation.csv",
-        )
-
-    def test_docs_config_negotiation_quick_csv(self):
-        self.write_config_pmt_csv(
-            pmt="negotiation.quick",
-            file_path=TARGET_CSV_DIR + "config-negotiation-quick.csv",
-        )
-
-    def test_docs_allowed_kind_csv_negotiation_quick(self):
-        self.write_allowed_kind_csv(
-            pmt="negotiation.quick",
-            file_path=TARGET_CSV_DIR + "kind-negotiation-quick.csv",
-        )
-
     def test_docs(self):
         request_path = "/tenders?opt_pretty=1"
 
         #### Creating tender for negotiation/reporting procedure
 
         self.app.authorization = ("Basic", ("broker", ""))
-        reporting_data = deepcopy(test_tender_data)
+        reporting_data = deepcopy(self.initial_data)
         reporting_data.pop("procurementMethodRationale", None)
 
         with open(TARGET_DIR + "tutorial/create-tender-reporting-invalid.http", "w") as self.app.file_obj:
@@ -275,7 +261,7 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
 
         with open(TARGET_DIR + "tutorial/tender-award.http", "w") as self.app.file_obj:
             response = self.app.post_json(
-                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": test_docs_award}
+                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": award_reporting}
             )
             self.assertEqual(response.status, "201 Created")
         self.award_id = response.json["data"]["id"]
@@ -460,10 +446,22 @@ class TenderLimitedResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfi
             )
 
 
-class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
+class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTestBase):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
     initial_lots = deepcopy(test_lots[:1])
+
+    def test_docs_config_negotiation_csv(self):
+        self.write_config_pmt_csv(
+            pmt="negotiation",
+            file_path=TARGET_CSV_DIR + "config-negotiation.csv",
+        )
+
+    def test_docs_allowed_kind_csv_negotiation(self):
+        self.write_allowed_kind_csv(
+            pmt="negotiation",
+            file_path=TARGET_CSV_DIR + "kind-negotiation.csv",
+        )
 
     def test_docs(self):
         #### Creating tender for negotiation/reporting procedure
@@ -683,6 +681,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             self.assertEqual(response.status, "200 OK")
 
     def test_tender_cancellation(self):
+        self.app.authorization = ("Basic", ("broker", ""))
         response = self.app.post_json(
             "/tenders?opt_pretty=1", {"data": self.initial_data, "config": self.initial_config}
         )
@@ -694,27 +693,25 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
         self.set_status("active")
 
         award_negotiation["lotID"] = self.initial_lots[0]["id"]
-        with open(TARGET_DIR + "tutorial/tender-negotiation-award.http", "w") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": award_negotiation}
-            )
-            self.assertEqual(response.status, "201 Created")
+        response = self.app.post_json(
+            "/tenders/{}/awards?acc_token={}".format(self.tender_id, owner_token), {"data": award_negotiation}
+        )
+        self.assertEqual(response.status, "201 Created")
         self.award_id = response.json["data"]["id"]
 
         #### Award confirmation
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
-        with open(TARGET_DIR + "tutorial/tender-negotiation-award-approve.http", "w") as self.app.file_obj:
-            response = self.app.patch_json(
-                "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, owner_token),
-                {"data": {"status": "active", "qualified": True}},
-            )
-            self.assertEqual(response.status, "200 OK")
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, owner_token),
+            {"data": {"status": "active", "qualified": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
 
         #### Preparing the cancellation request
         with open(TARGET_DIR + "tutorial/prepare-cancellation.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, owner_token),
-                {"data": {"reason": "cancellation reason", "reasonType": "noDemand"}},
+                {"data": {"reason": "cancellation reason", "reasonType": "noDemand", "status": "draft"}},
             )
             self.assertEqual(response.status, "201 Created")
 
@@ -879,9 +876,22 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTest):
             self.assertEqual(response.status, "200 OK")
 
 
-class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResourceTest):
+class TenderNegotiationQuickLimitedResourceTest(TenderLimitedResourceTestBase):
     initial_data = test_tender_negotiation_quick_data
     initial_config = test_tender_negotiation_quick_config
+    initial_lots = deepcopy(test_lots[:1])
+
+    def test_docs_config_negotiation_quick_csv(self):
+        self.write_config_pmt_csv(
+            pmt="negotiation.quick",
+            file_path=TARGET_CSV_DIR + "config-negotiation-quick.csv",
+        )
+
+    def test_docs_allowed_kind_csv_negotiation_quick(self):
+        self.write_allowed_kind_csv(
+            pmt="negotiation.quick",
+            file_path=TARGET_CSV_DIR + "kind-negotiation-quick.csv",
+        )
 
     def test_docs(self):
         #### Creating tender for negotiation/reporting procedure
@@ -900,9 +910,7 @@ class TenderNegotiationQuickLimitedResourceTest(TenderNegotiationLimitedResource
         self.tender_id = tender["id"]
         owner_token = response.json["access"]["token"]
 
-        with open(
-            TARGET_DIR + "multiple_lots_tutorial/activating-negotiation-quick-tender.http", "w"
-        ) as self.app.file_obj:
+        with open(TARGET_DIR + "tutorial/activating-negotiation-quick-tender.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={owner_token}", {"data": {"status": "active"}}
             )

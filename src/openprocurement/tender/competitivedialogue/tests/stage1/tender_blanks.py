@@ -1636,7 +1636,7 @@ def contract_template_name_set(self):
     data = deepcopy(self.initial_data)
     data["contractTemplateName"] = "00000000.0003.01"
     response = self.app.post_json(
-        f"/tenders",
+        "/tenders",
         {"data": data, "config": self.initial_config},
         status=422,
     )

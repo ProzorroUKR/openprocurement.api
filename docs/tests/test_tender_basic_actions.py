@@ -2745,12 +2745,11 @@ class TenderOpenEUResourceTest(BaseTenderWebTest, MockWebTestMixin):
             )
             self.assertEqual(response.status, "403 Forbidden")
 
-        with open(TARGET_DIR + "criteria/bulk-create-exclusion-criteria.http", "wb") as self.app.file_obj:
-            response = self.app.post_json(
-                "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
-                {"data": [exclusion_criteria]},
-            )
-            self.assertEqual(response.status, "201 Created")
+        response = self.app.post_json(
+            "/tenders/{}/criteria?acc_token={}".format(self.tender_id, owner_token),
+            {"data": [exclusion_criteria]},
+        )
+        self.assertEqual(response.status, "201 Created")
 
         criteria_2 = response.json["data"][0]
         criteria_id_2 = criteria_2["id"]

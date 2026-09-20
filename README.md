@@ -33,6 +33,11 @@ You can read more about pre-commit here: https://pre-commit.com/
     ```
     docker compose run --rm api pytest src/openprocurement/tender/core -x -vvv
     ```
+
+3. Run tests in parallel (each pytest-xdist worker uses its own database)
+    ```
+    docker compose run --rm api pytest src/openprocurement/tender/core -n auto
+    ```
    
 ## Docs
    

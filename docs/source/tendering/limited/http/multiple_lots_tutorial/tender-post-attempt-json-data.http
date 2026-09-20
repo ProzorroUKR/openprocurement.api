@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "procurementMethod": "limited",
-    "procurementMethodType": "negotiation.quick",
+    "procurementMethodType": "negotiation",
     "status": "draft",
     "procuringEntity": {
       "kind": "general",
@@ -120,9 +120,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "mainProcurementCategory": "services",
     "causeDetails": {
-      "code": "tenderDecisionAppeal",
-      "description": "Нагальна потребаздійснити закупівлю, зокрема, але не виключно в разі: оскарження прийнятих рішень, дій чи бездіяльності замовника щодо відкритих торгів, що тривають після розгляду/оцінки тендерних пропозицій учасників, в обсязі, що не перевищує 20 відсотків очікуваної вартості відкритих торгів, без урахування податку на додану вартість, що оскаржуються",
-      "description_en": "An urgent need to make a purchase, in particular, but not limited to the following cases: appeals against the contracting authority’s decisions, actions, or inaction regarding open tenders that are ongoing after the review/evaluation of participants’ bids, in an amount not exceeding 20 percent of the expected value of the open tender, excluding value-added tax, which is being appealed"
+      "code": "defenseNeeds",
+      "description": "Закупівля для нагальних потреб ЗСУ, військових формувань, ДСНС тощо (фортифікації, мобілізаційні завдання, територіальна оборона, договори з обмеженим доступом)",
+      "description_en": "Procurement for urgent needs of the Armed Forces, military formations, State Emergency Service, etc. (fortifications, mobilization tasks, territorial defense, restricted access contracts)"
     }
   },
   "config": {
@@ -140,7 +140,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
-    "awardComplainDuration": 3,
+    "awardComplainDuration": 5,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,
@@ -239,6 +239,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63cee41dcb6d41f7
         }
       }
     ],
+    "procurementMethodType": "negotiation",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -273,14 +274,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63cee41dcb6d41f7
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "procurementMethodType": "negotiation.quick",
     "causeDetails": {
-      "code": "tenderDecisionAppeal",
-      "description": "Нагальна потребаздійснити закупівлю, зокрема, але не виключно в разі: оскарження прийнятих рішень, дій чи бездіяльності замовника щодо відкритих торгів, що тривають після розгляду/оцінки тендерних пропозицій учасників, в обсязі, що не перевищує 20 відсотків очікуваної вартості відкритих торгів, без урахування податку на додану вартість, що оскаржуються",
-      "description_en": "An urgent need to make a purchase, in particular, but not limited to the following cases: appeals against the contracting authority’s decisions, actions, or inaction regarding open tenders that are ongoing after the review/evaluation of participants’ bids, in an amount not exceeding 20 percent of the expected value of the open tender, excluding value-added tax, which is being appealed",
+      "code": "defenseNeeds",
+      "description": "Закупівля для нагальних потреб ЗСУ, військових формувань, ДСНС тощо (фортифікації, мобілізаційні завдання, територіальна оборона, договори з обмеженим доступом)",
+      "description_en": "Procurement for urgent needs of the Armed Forces, military formations, State Emergency Service, etc. (fortifications, mobilization tasks, territorial defense, restricted access contracts)",
       "scheme": "DECREE1178",
-      "title": "Абзац 5 підпункту 3 пункту 13",
-      "title_en": "Paragraph 5, subparagraph 3, clause 13",
+      "title": "Підпункт 8 пункту 13",
+      "title_en": "Subparagraph 8 of paragraph 13",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -419,7 +419,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/63cee41dcb6d41f7
     "hasQualificationComplaints": false,
     "tenderComplainRegulation": 0,
     "qualificationComplainDuration": 0,
-    "awardComplainDuration": 3,
+    "awardComplainDuration": 5,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 0,
     "qualificationDuration": 0,

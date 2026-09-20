@@ -805,8 +805,7 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
             }
         )
 
-        with open(TARGET_DIR + "create-multiple-buyers-tender.http", "w") as self.app.file_obj:
-            response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
+        response = self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config})
 
         self.assertEqual(response.status, "201 Created")
         self.tender_id = response.json["data"]["id"]
@@ -832,9 +831,8 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
         self.process_tender_to_awarded()
 
         # get contracts
-        with open(TARGET_DIR + "get-multi-contracts.http", "w") as self.app.file_obj:
-            response = self.app.get(f"/tenders/{self.tender_id}/contracts")
-            self.assertEqual(response.status, "200 OK")
+        response = self.app.get(f"/tenders/{self.tender_id}/contracts")
+        self.assertEqual(response.status, "200 OK")
         contracts = response.json["data"]
 
         self.app.authorization = ("Basic", ("broker", ""))

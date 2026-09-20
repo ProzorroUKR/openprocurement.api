@@ -328,17 +328,16 @@ class MongodbStore:
                     }
                 }
             )
-        result = collection.find_one_and_update(
+        # update_one instead of find_one_and_update: the previous document is not needed,
+        # so mongodb doesn't have to serialize and send the whole document back
+        result = collection.update_one(
             {"_id": uid, "_rev": revision},
             pipeline,
             upsert=insert,
             session=get_db_session(),
         )
-        if not result:
-            if insert:
-                pass  # it's fine, when upsert=True works and document is created it's not returned by default
-            else:
-                raise MongodbResourceConflict("Conflict while updating document. Please, retry")
+        if not result.modified_count and not result.upserted_id:
+            raise MongodbResourceConflict("Conflict while updating document. Please, retry")
         return data
 
     def save_data_simple(self, collection, data, insert=False):

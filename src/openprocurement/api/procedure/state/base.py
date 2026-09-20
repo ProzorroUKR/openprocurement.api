@@ -1,7 +1,7 @@
 import logging
 
-from jsonschema.exceptions import ValidationError
-from jsonschema.validators import validate
+from jsonschema.exceptions import best_match
+from jsonschema.validators import validator_for
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
@@ -49,9 +49,11 @@ class ConfigMixin:
         self.validate_config_schema(data, config_schema)
 
     def validate_config_schema(self, data, config_schema):
-        try:
-            validate(data["config"], config_schema)
-        except ValidationError as e:
+        # same as jsonschema.validate() without check_schema(),
+        # which is the expensive part and is not needed for our static schemas
+        validator = validator_for(config_schema)(config_schema)
+        e = best_match(validator.iter_errors(data["config"]))
+        if e is not None:
             path = ".".join(["config"] + list(e.path))
             raise_operation_error(
                 self.request,

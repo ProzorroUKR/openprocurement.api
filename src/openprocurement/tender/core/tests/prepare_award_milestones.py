@@ -9,8 +9,6 @@ from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
 from openprocurement.tender.openua.tests.base import test_tender_openua_data
 
-test_tender_data = deepcopy(test_tender_openua_data)
-
 
 @pytest.mark.parametrize("tender_status", ("active.qualification", "active.auction"))
 @pytest.mark.parametrize(
@@ -75,10 +73,11 @@ def test_milestone_data_cases(test_data, tender_status):
             for n, amount in enumerate(tendering_amounts)
         ]
     }
-    test_tender_openua_data.update(tender_patch)
-    request.validated["tender"] = test_tender_openua_data
+    tender = deepcopy(test_tender_openua_data)
+    tender.update(tender_patch)
+    request.validated["tender"] = tender
 
-    milestones = TenderStateAwardingMixing().prepare_award_milestones(test_tender_openua_data, bids[0], bids)
+    milestones = TenderStateAwardingMixing().prepare_award_milestones(tender, bids[0], bids)
     if expected_reason_indexes:
         assert len(milestones) == 1
         assert milestones[0]["code"] == "alp"
