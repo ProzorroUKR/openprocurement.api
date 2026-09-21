@@ -345,6 +345,83 @@ def get_tender_lots(self):
 # TenderLotEdgeCasesTest
 
 
+def create_tender_lot_with_another_lot_cancellation(self):
+    """New lot can be added when the tender has a pending cancellation of another lot"""
+    lot_id = self.initial_lots[0]["id"]
+
+    # create pending cancellation for the existing lot
+    cancellation = dict(**test_tender_below_cancellation)
+    cancellation.update({"cancellationOf": "lot", "relatedLot": lot_id})
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation},
+    )
+    self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    # the cancelled lot itself is blocked
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot_id, self.tender_token),
+        {"data": {"title": "new title"}},
+        status=403,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can't perform action due to a pending cancellation")
+
+    # but a new lot can be added
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": self.test_lots_data[0]},
+    )
+    self.assertEqual(response.status, "201 Created")
+    new_lot_id = response.json["data"]["id"]
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual([lot["id"] for lot in response.json["data"]["lots"]], [lot_id, new_lot_id])
+
+    # and the new lot can be patched
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, new_lot_id, self.tender_token),
+        {"data": {"title": "new lot title"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["title"], "new lot title")
+
+    # pending cancellation of the whole tender blocks both patch and post
+    tender = self.mongodb.tenders.get(self.tender_id)
+    for c in tender["cancellations"]:
+        if c["id"] == cancellation_id:
+            c["cancellationOf"] = "tender"
+            c.pop("relatedLot")
+    self.mongodb.tenders.save(tender)
+
+    response = self.app.patch_json(
+        "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, new_lot_id, self.tender_token),
+        {"data": {"title": "another title"}},
+        status=403,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can't perform action due to a pending cancellation")
+
+    response = self.app.post_json(
+        "/tenders/{}/lots?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": self.test_lots_data[0]},
+        status=403,
+    )
+    self.assertEqual(response.json["errors"][0]["description"], "Can't perform action due to a pending cancellation")
+
+
 def question_blocking(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.post_json(

@@ -40,7 +40,7 @@ class LotStateMixin:
         self.validate_lots_max_count(tender)
         self.validate_lot_operation_with_awards(tender)
         self.validate_tender_period_extension(tender)
-        self.validate_cancellation_blocks(request, tender)
+        self.validate_cancellation_blocks(request, tender, lot_id=lot["id"])
 
     def lot_on_post(self, data: dict) -> None:
         tender = get_tender()
