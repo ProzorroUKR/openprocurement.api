@@ -1,4 +1,16 @@
+stages:
+  - build
+  - security
+  - deploy
+  - check
+  - test
+  - test_sandbox_mode
+
 include:
+  # build and deploy stages
   - project: 'cdb/openprocurement.api-ci'
     ref: 'master'
-    file: 'api-ci-uv.yml'
+    file: '.gitlab-ci.api.yml'
+  # check and test stages
+  - local: '.gitlab/ci/check.yml'
+  - local: '.gitlab/ci/test.yml'

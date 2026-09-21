@@ -1,0 +1,120 @@
+# static checks and docs generation, stage `check`
+
+.tools:
+  extends: .tools_base
+  allow_failure: false
+  only:
+    - branches
+  except:
+    - schedules
+
+.tools_static:
+  extends: .tools
+  image: $CI_REGISTRY_TOOL_IMAGE:$CI_REGISTRY_TOOL_IMAGE_TAG
+  stage: check
+  needs: []
+  variables:
+    GIT_STRATEGY: clone
+
+.tools_build:
+  extends: .tools
+  image: $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_TAG
+  stage: check
+  needs:
+    - build
+
+bandit:
+  extends: .tools_static
+  stage: check
+  script:
+    - bandit -r . -c "pyproject.toml"
+
+ruff:
+  extends: .tools_static
+  stage: check
+  script:
+    - ruff check src/
+    - ruff format src/ --check
+
+mypy:
+  extends: .tools_static
+  stage: check
+  script:
+    - mypy src/ --explicit-package-bases
+
+autoflake:
+  extends: .tools_static
+  stage: check
+  script:
+    - autoflake -cd -r .
+
+pylint:
+  extends: .tools_static
+  stage: check
+  allow_failure: true
+  before_script:
+    - uv sync --frozen
+  script:
+    - uv run pylint src
+  when: manual
+
+docs:
+  extends: .tools_static
+  stage: check
+  services:
+    - name: bitnamilegacy/mongodb:6.0.13-debian-11-r9
+      alias: mongo
+  before_script:
+    - apt-get update
+    - apt-get install -y git gcc libssl-dev
+    - pip install --upgrade pip
+    - pip install uv
+    - uv sync --frozen --no-cache
+  script:
+    - uv run pytest docs --numprocesses auto
+    - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
+    - uv run python docs/scripts/check_generated_files.py
+
+.tools_docs:
+  extends: .tools_static
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends make
+    - uv sync --frozen --no-cache
+
+docs_gettext:
+  extends: .tools_docs
+  stage: check
+  script:
+    - set -euo pipefail
+    - (cd docs && uv run make gettext SPHINXOPTS=-W)
+
+docs_html:
+  extends: .tools_static
+  stage: check
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends make graphviz
+    - uv sync --frozen --no-cache
+  script:
+    - set -euo pipefail
+    - (cd docs && uv run make html SPHINXOPTS=-W)
+
+docs_locale:
+  extends: .tools_docs
+  stage: check
+  script:
+    - set -euo pipefail
+    - (cd docs && uv run make gettext SPHINXOPTS=-W && uv run make locale-update)
+    - git diff --exit-code -- docs/locale/
+    - (cd docs && uv run make locale-check-fuzzy)
+
+prozorro_cdb_tests:
+  extends: .tools_static
+  stage: check
+  services:
+    - name: bitnamilegacy/mongodb:6.0.13-debian-11-r9
+      alias: mongo
+  before_script:
+    - uv sync --frozen --no-cache
+  script:
+    - uv run pytest tests
+    - (set -e; [[ $(git diff) ]] && { git diff; exit 1; } || exit 0)
