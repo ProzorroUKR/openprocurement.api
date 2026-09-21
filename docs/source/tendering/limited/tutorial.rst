@@ -151,6 +151,62 @@
    :code:
 
 
+.. _limited_items_unit_value:
+
+Ціна за одиницю в предметі закупівлі
+------------------------------------
+
+Для процедур **reporting**, **negotiation**, **negotiation.quick** можна вказати ціну за одиницю предмета закупівлі в полі `items.unit.value`.
+В процедурах з поданням пропозицій це поле на рівні закупівлі заборонене, бо ціна за одиницю визначається в пропозиції учасника.
+
+Для закупівель працюють такі правила:
+
+ * `items.unit.value.valueAddedTaxIncluded` має бути `false` - ціна за одиницю завжди вказується без ПДВ;
+ * якщо `item.quantity` дорівнює `0`, то `item.unit.value.amount` теж має дорівнювати `0`;
+ * сума добутків `item.quantity * item.unit.value.amount` по всіх предметах закупівлі звіряється з `value.amount` закупівлі:
+
+    * якщо `value.valueAddedTaxIncluded` дорівнює `true`, сума має бути не більшою за `value.amount` і не меншою за вартість без ПДВ (`value.amount / 1.2`);
+    * якщо `value.valueAddedTaxIncluded` дорівнює `false`, сума має дорівнювати `value.amount`.
+
+Для багатолотової закупівлі сума рахується в межах кожного лота окремо, див. :ref:`limited_mulitlot_tutorial`.
+
+Спробуємо створити закупівлю, вказавши ПДВ в ціні за одиницю:
+
+.. http:example:: http/tutorial/create-tender-unit-value-vat-included.http
+   :code:
+
+Створимо закупівлю з коректним значенням `items.unit.value`. Зверніть увагу, що `value.valueAddedTaxIncluded` закупівлі дорівнює `true`, а `items.unit.value.valueAddedTaxIncluded` лишається `false`:
+
+.. http:example:: http/tutorial/create-tender-unit-value.http
+   :code:
+
+Очікувана вартість закупівлі вказана з ПДВ, тому сума `5 * 100000` не перевищує `value.amount` і не менша за вартість без ПДВ.
+Спробуємо зменшити ціну за одиницю так, щоб сума стала меншою за вартість без ПДВ:
+
+.. http:example:: http/tutorial/patch-items-unit-value-amount-invalid.http
+   :code:
+
+Якщо обнулити `quantity`, то потрібно обнулити і `items.unit.value.amount`:
+
+.. http:example:: http/tutorial/patch-items-unit-value-zero-quantity.http
+   :code:
+
+Оновимо ціну за одиницю коректним значенням:
+
+.. http:example:: http/tutorial/patch-items-unit-value.http
+   :code:
+
+Для **переговорних** процедур очікувана вартість вказується без ПДВ, тому сума має точно дорівнювати `value.amount` закупівлі:
+
+.. http:example:: http/tutorial/create-tender-negotiation-unit-value-invalid.http
+   :code:
+
+Додамо правильні ціни за одиницю:
+
+.. http:example:: http/tutorial/create-tender-negotiation-unit-value.http
+   :code:
+
+
 Критерії
 --------
 Для закупівель **reporting**, **negotiation**, **negotiation.quick** є можливість додати критерій локалізації.

@@ -1713,3 +1713,37 @@ def create_tender_vat_not_included_validation_before_constant(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertTrue(response.json["data"]["value"]["valueAddedTaxIncluded"])
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
+    get_now() - timedelta(days=1),
+)
+def create_tender_items_unit_value_forbidden(self):
+    unit_value_error = {
+        "location": "body",
+        "name": "items.unit.value",
+        "description": "Rogue field",
+    }
+    data = deepcopy(self.initial_data)
+    data["items"][0]["unit"]["value"] = {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}
+
+    # unit price is only meaningful where there is no bidding, so it is forbidden here
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"], [unit_value_error])
+
+    del data["items"][0]["unit"]["value"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertNotIn("value", tender["items"][0]["unit"])
+
+    items = deepcopy(tender["items"])
+    items[0]["unit"]["value"] = {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [unit_value_error])
