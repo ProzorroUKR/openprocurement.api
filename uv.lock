@@ -894,7 +894,7 @@ wheels = [
 
 [[package]]
 name = "openprocurement-api"
-version = "2.7.43rc7"
+version = "2.7.43rc8"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
