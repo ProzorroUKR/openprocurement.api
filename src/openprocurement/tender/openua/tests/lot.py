@@ -30,6 +30,7 @@ from openprocurement.tender.openua.tests.lot_blanks import (  # TenderLotResourc
     create_tender_bidder_feature,
     create_tender_bidder_feature_invalid,
     create_tender_bidder_invalid,
+    create_tender_lot_with_another_lot_cancellation,
     get_tender_lot,
     get_tender_lots,
     lots_features_delete,
@@ -76,6 +77,7 @@ class TenderLotResourceTest(BaseTenderUAContentWebTest, TenderLotResourceTestMix
     test_tender_lot_milestones = snitch(tender_lot_milestones)
     test_create_tender_lot_minimalstep_validation = snitch(create_tender_lot_minimalstep_validation)
     test_patch_tender_lot_minimalstep_validation = snitch(patch_tender_lot_minimalstep_validation)
+    test_create_tender_lot_with_another_lot_cancellation = snitch(create_tender_lot_with_another_lot_cancellation)
 
 
 class TenderLotEdgeCasesTest(BaseTenderUAContentWebTest):
