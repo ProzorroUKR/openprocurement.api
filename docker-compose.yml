@@ -32,8 +32,8 @@ services:
     ]
 
   mongo:
-#    platform: linux/amd64
-    image: bitnamilegacy/mongodb:6.0.13
+    platform: linux/amd64
+    image: bitnamilegacy/mongodb:7.0.14
     environment:
       MONGODB_ROOT_PASSWORD: example
       MONGODB_ADVERTISED_HOSTNAME: mongo
