@@ -13,7 +13,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.constants_env import (
     PLAN_ADDRESS_KIND_REQUIRED_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
-    TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM,
+    TENDER_ITEMS_DIFFERENT_CPV_FROM,
     UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
@@ -337,7 +337,7 @@ class PlanState(BaseState):
         ]
         if classifications:
             # for works and services it is allowed to post tender items that don't match plan classification
-            skip_prefix_validation = tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender) and tender.get(
+            skip_prefix_validation = tender_created_after(TENDER_ITEMS_DIFFERENT_CPV_FROM, tender) and tender.get(
                 "mainProcurementCategory"
             ) in (
                 MainProcurementCategory.SERVICES,

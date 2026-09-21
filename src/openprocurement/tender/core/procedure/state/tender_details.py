@@ -37,7 +37,7 @@ from openprocurement.api.constants_env import (
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_GUARANTEE_CRITERION_FROM,
     TENDER_CONFIG_OPTIONALITY,
-    TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM,
+    TENDER_ITEMS_DIFFERENT_CPV_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.constants_utils import parse_date
@@ -1563,11 +1563,11 @@ class BaseTenderDetailsMixing:
             )
 
     @classmethod
-    def tender_items_may_differ_from_plan_items(cls, tender):
+    def tender_items_may_have_different_cpv(cls, tender):
         return tender.get("mainProcurementCategory") in (
             MainProcurementCategory.SERVICES,
             MainProcurementCategory.WORKS,
-        ) and tender_created_after(TENDER_ITEMS_MATCH_PLAN_ITEMS_FROM, tender)
+        ) and tender_created_after(TENDER_ITEMS_DIFFERENT_CPV_FROM, tender)
 
     def validate_items_classification_prefix(self, tender):
         if not self.should_validate_cpv_prefix:
@@ -1578,9 +1578,7 @@ class BaseTenderDetailsMixing:
         if not classifications:
             return
 
-        if self.should_validate_items_classifications_prefix and not self.tender_items_may_differ_from_plan_items(
-            tender
-        ):
+        if self.should_validate_items_classifications_prefix and not self.tender_items_may_have_different_cpv(tender):
             validate_items_classifications_prefixes(classifications)
 
         if not self.should_validate_pre_selection_agreement:
@@ -1661,7 +1659,7 @@ class BaseTenderDetailsMixing:
 
     @classmethod
     def validate_items_classification_prefix_unchanged(cls, before, after):
-        if cls.tender_items_may_differ_from_plan_items(after):
+        if cls.tender_items_may_have_different_cpv(after):
             return
         prefix_list = set()
         for item in before.get("items", ""):
@@ -1891,7 +1889,7 @@ class BaseTenderDetailsMixing:
 
     def validate_contract_template_name_allowed(self, tender):
         if tender.get("contractTemplateName") is not None and (
-            not self.contract_template_name_allowed or self.tender_items_may_differ_from_plan_items(tender)
+            not self.contract_template_name_allowed or self.tender_items_may_have_different_cpv(tender)
         ):
             raise_operation_error(self.request, "Rogue field", status=422, name="contractTemplateName")
 
