@@ -80,7 +80,9 @@ Content-Type: application/json
               "Відповідь2"
             ]
           }
-        ]
+        ],
+        "product": "11111111111111111111111111111111",
+        "category": "655360-30230000-889652"
       },
       {
         "id": "4a394e96ce404b50b469bc48dd41fbd9",
@@ -117,7 +119,9 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "2027-01-03T00:00:00+02:00",
           "endDate": "2027-01-06T00:00:00+02:00"
-        }
+        },
+        "product": "11111111111111111111111111111111",
+        "category": "655360-30230000-889652"
       }
     ],
     "buyer": {

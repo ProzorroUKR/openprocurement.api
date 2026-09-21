@@ -68,6 +68,8 @@ from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROP
 
 LOGGER = getLogger(__name__)
 
+ITEM_DERIVED_FIELDS = ("attributes", "product", "category")
+
 
 class ContractStateMixing:
     request: Request
@@ -688,11 +690,30 @@ class ContractState(
             item.get("relatedLot", ""),
             item.get("relatedBuyer", ""),
             sorted(item.get("additionalClassifications", []), key=lambda a: a.get("id", "")),
+            item.get("product", ""),
         )
         return hashlib.sha1(
             json.dumps(key_tuple, sort_keys=True, ensure_ascii=False, default=str).encode(),
             usedforsecurity=False,
         ).hexdigest()
+
+    def restore_item_derived_fields(self, before: dict, after: dict) -> None:
+        items_before = before.get("items") or []
+        if not items_before:
+            return
+
+        items_by_id = {item["id"]: item for item in items_before}
+        items_by_key = {}
+        for item in items_before:
+            items_by_key.setdefault(self.extract_key_hash(item), item)
+
+        for item in after.get("items") or []:
+            source = items_by_id.get(item.get("id")) or items_by_key.get(self.extract_key_hash(item))
+            if not source:
+                continue
+            for field in ITEM_DERIVED_FIELDS:
+                if field not in item and field in source:
+                    item[field] = source[field]
 
     def validate_patch_active_contract_items(self, request, before: dict, after: dict) -> None:
         old_items_keys = {self.extract_key_hash(item) for item in before.get("items", [])}
@@ -700,7 +721,7 @@ class ContractState(
 
         error_msg = (
             "all main fields should be the same as in previous items: "
-            "classification, relatedLot, relatedBuyer, additionalClassifications"
+            "classification, relatedLot, relatedBuyer, additionalClassifications, product"
         )
         extra_keys = new_items_keys - old_items_keys
         if extra_keys:
@@ -791,6 +812,8 @@ class ContractState(
         after["id"] = after["_id"]
         before["id"] = before["_id"]
         self.validate_contract_patch(self.request, before, after)
+        # after validation, so deletion of the fields included in item key hash is still forbidden
+        self.restore_item_derived_fields(before, after)
         if after.get("value"):
             self.synchronize_items_unit_value(after)
         super().on_patch(before, after)

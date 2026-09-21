@@ -53,6 +53,8 @@ class EChangeState(EContractState, ContractChangeStateMixin):
             data["modifications"]["period"] = modifications["period"]
 
         # synchronize real data["modifications"], not copy for previous validations
+        if "items" in data["modifications"]:
+            self.restore_item_derived_fields(contract, data["modifications"])
         self.synchronize_items_unit_value(data["modifications"], contract.get("value"))
 
     @staticmethod

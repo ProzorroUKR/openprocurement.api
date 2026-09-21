@@ -1617,3 +1617,106 @@ def patch_multiple_contracts_in_contracting(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "complete")
+
+
+def create_contract_item_attributes(self):
+    self.assert_item_attributes(self.contracts_ids[0])
+
+
+def patch_active_contract_item_product(self):
+    contract_id = self.contracts_ids[0]
+    self.activate_contract(contract_id)
+
+    contract = self.app.get(f"/contracts/{contract_id}").json["data"]
+    self.assertEqual(contract["status"], "active")
+
+    items = deepcopy(contract["items"])
+    del items[0]["product"]
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+        status=403,
+    )
+    self.assertIn("main information in contract", response.json["errors"][0]["description"])
+    self.assertIn("product", response.json["errors"][0]["description"])
+
+    items = deepcopy(contract["items"])
+    items[0]["product"] = "655360-30230000-889652-40000888"
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+        status=403,
+    )
+    self.assertIn("main information in contract", response.json["errors"][0]["description"])
+
+    items = deepcopy(contract["items"])
+    items[0]["description"] = "оновлений опис"
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["description"], "оновлений опис")
+    self.assertEqual(response.json["data"]["items"][0]["product"], self.item_product)
+
+
+def patch_active_contract_item_derived_fields(self):
+    contract_id = self.contracts_ids[0]
+    self.activate_contract(contract_id)
+
+    contract = self.app.get(f"/contracts/{contract_id}").json["data"]
+    self.assertEqual(contract["status"], "active")
+    attributes = contract["items"][0]["attributes"]
+    self.assertTrue(attributes)
+
+    items = deepcopy(contract["items"])
+    del items[0]["attributes"]
+    del items[0]["category"]
+    items[0]["description"] = "оновлений опис"
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["description"], "оновлений опис")
+    self.assert_item_attributes(contract_id)
+
+    items = deepcopy(contract["items"])
+    items[0]["attributes"] = [{"name": "Інша характеристика", "value": "синій"}]
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(
+        response.json["data"]["items"][0]["attributes"],
+        [{"name": "Інша характеристика", "value": "синій"}],
+    )
+
+
+def patch_active_contract_split_item_derived_fields(self):
+    contract_id = self.contracts_ids[0]
+    self.activate_contract(contract_id)
+
+    contract = self.app.get(f"/contracts/{contract_id}").json["data"]
+    self.assertEqual(contract["status"], "active")
+    item = contract["items"][0]
+
+    new_item = deepcopy(item)
+    for field in ("id", "attributes", "category"):
+        del new_item[field]
+    new_item["description"] = "друга частина"
+    items = deepcopy(contract["items"])
+    items.append(new_item)
+
+    response = self.app.patch_json(
+        f"/contracts/{contract_id}?acc_token={self.tender_token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    items = response.json["data"]["items"]
+    self.assertEqual(len(items), len(contract["items"]) + 1)
+    self.assertNotEqual(items[-1]["id"], item["id"])
+    self.assertEqual(items[-1]["attributes"], item["attributes"])
+    self.assertEqual(items[-1]["category"], self.item_category)
+    self.assertEqual(items[-1]["product"], self.item_product)

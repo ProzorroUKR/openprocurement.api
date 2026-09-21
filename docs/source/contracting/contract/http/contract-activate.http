@@ -83,7 +83,9 @@ Content-Type: application/json
               "Відповідь2"
             ]
           }
-        ]
+        ],
+        "product": "751320e8d0a44820a701fcacfec2bc65",
+        "category": "655360-30230000-889652"
       },
       {
         "id": "ce44a97bd43a49069c1cb60ef789199e",
@@ -120,7 +122,9 @@ Content-Type: application/json
         "deliveryDate": {
           "startDate": "2027-01-03T00:00:00+02:00",
           "endDate": "2027-01-06T00:00:00+02:00"
-        }
+        },
+        "product": "7df6b178a3554ca5884a0d1d2405f53e",
+        "category": "655360-30230000-889652"
       }
     ],
     "tender_id": "f2a340122e754b528c3f516d8e34de7a",

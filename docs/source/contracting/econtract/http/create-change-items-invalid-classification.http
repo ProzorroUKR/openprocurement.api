@@ -70,7 +70,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
                 "Відповідь2"
               ]
             }
-          ]
+          ],
+          "product": "11111111111111111111111111111111",
+          "category": "655360-30230000-889652"
         },
         {
           "id": "24726f3002834ed287ec1c07b91606cf",
@@ -107,7 +109,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "deliveryDate": {
             "startDate": "2027-01-03T00:00:00+02:00",
             "endDate": "2027-01-06T00:00:00+02:00"
-          }
+          },
+          "product": "11111111111111111111111111111111",
+          "category": "655360-30230000-889652"
         },
         {
           "description": "Картон ручного виготовлення",
@@ -166,7 +170,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
                 "Відповідь2"
               ]
             }
-          ]
+          ],
+          "product": "11111111111111111111111111111111",
+          "category": "655360-30230000-889652"
         }
       ]
     }
@@ -183,7 +189,7 @@ Content-Type: application/json
     {
       "location": "body",
       "name": "data",
-      "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications"
+      "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications, product"
     }
   ]
 }

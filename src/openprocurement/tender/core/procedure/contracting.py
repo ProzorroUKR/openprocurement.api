@@ -222,8 +222,11 @@ def clean_contract_value(value: dict) -> dict:
     return value
 
 
-def set_attributes_to_contract_items(tender, bid, contract):
-    req_responses = {rr["requirement"]["id"]: rr for rr in bid.get("requirementResponses", "")}
+def set_attributes_to_contract_items(tender, response_holders, contract):
+    req_responses = {}
+    for holder in response_holders:
+        for rr in holder.get("requirementResponses", ""):
+            req_responses[rr["requirement"]["id"]] = rr
 
     items_attributes = {}
     for c in tender.get("criteria", ""):
@@ -261,6 +264,9 @@ def set_attributes_to_contract_items(tender, bid, contract):
                 if "unit" in req:
                     item_attr["unit"] = req["unit"]
 
+                if "dataSchema" in req:
+                    item_attr["dataSchema"] = req["dataSchema"]
+
                 items_attributes[item_id].append(item_attr)
 
     for item in contract.get("items", ""):
@@ -284,9 +290,15 @@ def get_additional_contract_data(request, contract, tender, award, buyer):
     clean_objs(contract["suppliers"], Supplier, {"id", "contactPoint"})
 
     bids = tuple(i for i in tender.get("bids", "") if i["id"] == award.get("bid_id", ""))
+
+    current_award = next((i for i in tender.get("awards", "") if i["id"] == award["id"]), award)
+    response_holders = list(bids)
+    if current_award.get("status") == "active":
+        response_holders.append(current_award)
+    set_attributes_to_contract_items(tender, response_holders, contract)
+
     if bids:
         bid = bids[0]
-        set_attributes_to_contract_items(tender, bid, contract)
     else:
         # For limited procedures
         bid = tender
