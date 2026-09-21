@@ -14,6 +14,7 @@ services:
       - "./src/openprocurement:/app/src/openprocurement:delegated"
       - "./src/prozorro_cdb:/app/src/prozorro_cdb:delegated"
       - "./pyproject.toml:/app/pyproject.toml:delegated"
+      - "./conftest.py:/app/conftest.py:delegated"
       - "./docs:/app/docs:delegated"
       - "./etc:/app/etc:delegated"
       - "./tests:/app/tests:delegated"
