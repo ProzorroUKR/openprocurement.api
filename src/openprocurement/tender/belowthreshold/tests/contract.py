@@ -1,6 +1,9 @@
 import unittest
+from copy import deepcopy
+from uuid import uuid4
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.belowthreshold.tests.base import (
     TenderContentWebTest,
     test_tender_below_bids,
@@ -10,7 +13,11 @@ from openprocurement.tender.belowthreshold.tests.base import (
 )
 from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # TenderContractResourceTest; Tender2LotContractResourceTest; TenderContractDocumentResourceTest; Tender2LotContractDocumentResourceTest; Econtract
     cancelling_award_contract_sync,
+    create_contract_item_attributes,
     create_tender_contract,
+    patch_active_contract_item_derived_fields,
+    patch_active_contract_item_product,
+    patch_active_contract_split_item_derived_fields,
     patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_round,
@@ -121,6 +128,120 @@ class CreateActiveAwardMixin:
         response = self.app.get(f"/tenders/{self.tender_id}")
         self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
         self.bid_token = self.initial_bids_tokens[award["bid_id"]]
+
+
+class ItemCriterionMixin:
+    item_product = "655360-30230000-889652-40000777"
+    item_category = "655360-30230000-889652"
+
+    def inject_item_criterion(self, source, responses_on):
+        tender = self.mongodb.tenders.get(self.tender_id)
+        item = tender["items"][0]
+
+        self.item_requirement = {
+            "id": uuid4().hex,
+            "title": "Колір",
+            "dataType": "string",
+            "status": "active",
+            "unit": {"name": "штука", "code": "H87"},
+        }
+        self.item_criterion = {
+            "id": uuid4().hex,
+            "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
+            "source": source,
+            "relatesTo": "item",
+            "relatedItem": item["id"],
+            "classification": {"scheme": "LAW922", "id": CRITERION_TECHNICAL_FEATURES},
+            "requirementGroups": [{"id": uuid4().hex, "requirements": [self.item_requirement]}],
+        }
+        tender["criteria"] = tender.get("criteria", []) + [self.item_criterion]
+
+        item["category"] = self.item_category
+
+        responses = [
+            {
+                "id": uuid4().hex,
+                "requirement": {"id": self.item_requirement["id"]},
+                "value": "червоний",
+            }
+        ]
+        bid = tender["bids"][0]
+        bid["items"] = [{**deepcopy(item), "product": self.item_product}]
+        if responses_on == "bid":
+            bid["requirementResponses"] = responses
+        else:
+            for award in tender.get("awards", []):
+                award["requirementResponses"] = responses
+
+        self.mongodb.tenders.save(tender, insert=False)
+
+    def assert_item_attributes(self, contract_id):
+        item = self.app.get(f"/contracts/{contract_id}").json["data"]["items"][0]
+        self.assertEqual(
+            item["attributes"],
+            [
+                {
+                    "name": self.item_requirement["title"],
+                    "unit": self.item_requirement["unit"],
+                    "value": "червоний",
+                }
+            ],
+        )
+        self.assertEqual(item["product"], self.item_product)
+        self.assertEqual(item["category"], self.item_category)
+
+
+class TenderContractItemAttributesTest(
+    TenderContentWebTest, CreateActiveAwardMixin, ItemCriterionMixin, TenderEcontractResourceTestMixin
+):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_below_bids
+
+    def setUp(self):
+        super().setUp()
+        self.inject_item_criterion(source="tenderer", responses_on="bid")
+        self.create_award()
+
+    test_create_contract_item_attributes = snitch(create_contract_item_attributes)
+    test_patch_active_contract_item_product = snitch(patch_active_contract_item_product)
+    test_patch_active_contract_item_derived_fields = snitch(patch_active_contract_item_derived_fields)
+    test_patch_active_contract_split_item_derived_fields = snitch(patch_active_contract_split_item_derived_fields)
+
+
+class TenderContractAwardItemAttributesTest(TenderContentWebTest, ItemCriterionMixin):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_below_bids
+
+    def setUp(self):
+        super().setUp()
+
+        auth = self.app.authorization
+        self.app.authorization = ("Basic", ("token", ""))
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/awards",
+            {
+                "data": {
+                    "suppliers": [test_tender_below_supplier],
+                    "status": "pending",
+                    "bid_id": self.initial_bids[0]["id"],
+                    "value": self.initial_bids[0].get("value"),
+                }
+            },
+        )
+        self.app.authorization = auth
+        self.award_id = response.json["data"]["id"]
+
+        self.inject_item_criterion(source="procuringEntity", responses_on="award")
+
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{self.award_id}/documents")
+        self.app.patch_json(
+            f"/tenders/{self.tender_id}/awards/{self.award_id}?acc_token={self.tender_token}",
+            {"data": {"status": "active", "qualified": True}},
+        )
+        response = self.app.get(f"/tenders/{self.tender_id}")
+        self.contracts_ids = [i["id"] for i in response.json["data"].get("contracts", "")]
+
+    test_create_contract_item_attributes = snitch(create_contract_item_attributes)
 
 
 class TenderContractResourceTest(TenderContentWebTest, CreateActiveAwardMixin, TenderEcontractResourceTestMixin):

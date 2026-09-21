@@ -1248,7 +1248,7 @@ def change_tender_contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications, product",
             }
         ],
     )
@@ -1276,7 +1276,7 @@ def change_tender_contract_items_change(self):
             {
                 "location": "body",
                 "name": "data",
-                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications",
+                "description": "Forbidden to add new items main information in contract, all main fields should be the same as in previous items: classification, relatedLot, relatedBuyer, additionalClassifications, product",
             }
         ],
     )
@@ -1771,3 +1771,37 @@ def change_contract_milestones(self, _, milestones, resp_status, check_response)
         status=resp_status,
     )
     check_response(self, response)
+
+
+def change_contract_items_derived_fields(self):
+    contract_doc = self.mongodb.contracts.get(self.contract["id"])
+    attributes = [{"name": "Колір", "value": "червоний"}]
+    category = "655360-30230000-889652"
+    contract_doc["items"][0]["attributes"] = attributes
+    contract_doc["items"][0]["category"] = category
+    self.mongodb.contracts.save(contract_doc)
+
+    contract = self.app.get(f"/contracts/{self.contract['id']}").json["data"]
+    self.assertEqual(contract["items"][0]["attributes"], attributes)
+
+    items = deepcopy(contract["items"])
+    del items[0]["attributes"]
+    del items[0]["category"]
+    items[0]["description"] = "оновлений опис"
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"items": items},
+            },
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+    modified_item = response.json["data"]["modifications"]["items"][0]
+    self.assertEqual(modified_item["description"], "оновлений опис")
+    self.assertEqual(modified_item["attributes"], attributes)
+    self.assertEqual(modified_item["category"], category)

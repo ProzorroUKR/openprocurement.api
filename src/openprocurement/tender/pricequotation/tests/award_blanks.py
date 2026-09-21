@@ -432,6 +432,9 @@ def move_award_contract_to_contracting(self):
     cancelled_requirement["status"] = "cancelled"
     requirement_group["requirements"].append(cancelled_requirement)
 
+    requirement_with_data_schema = requirement_group["requirements"][1]
+    requirement_with_data_schema["dataSchema"] = "ISO 3166-1 alpha-2"
+
     self.mongodb.tenders.save(tender)
 
     award_id = self.award_ids[-1]
@@ -447,6 +450,7 @@ def move_award_contract_to_contracting(self):
     self.assertEqual(response.json["data"]["description"], "description")
 
     tender_data = self.mongodb.tenders.get(self.tender_id)
+    bid_product = "655360-30230000-889652-40000777"
     tender_data["bids"][0]["items"] = [
         {
             "id": tender_data["items"][0]["id"],
@@ -457,8 +461,10 @@ def move_award_contract_to_contracting(self):
                 "code": "KGM",
                 "value": {"amount": 45},
             },
+            "product": bid_product,
         }
     ]
+    item_category = tender_data["items"][0].get("category")
     self.mongodb.tenders.save(tender_data)
 
     self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
@@ -505,9 +511,22 @@ def move_award_contract_to_contracting(self):
     self.assertIn("attributes", item)
     self.assertEqual(len(item["attributes"]), 9)
     self.assertIn("value", item["attributes"][0])
+
+    attributes_with_data_schema = [a for a in item["attributes"] if "dataSchema" in a]
+    self.assertEqual(len(attributes_with_data_schema), 1)
+    self.assertEqual(attributes_with_data_schema[0]["name"], requirement_with_data_schema["title"])
+    self.assertEqual(attributes_with_data_schema[0]["dataSchema"], "ISO 3166-1 alpha-2")
+
+    for attribute in item["attributes"]:
+        self.assertNotIn("classification", attribute)
+        self.assertNotIn("product", attribute)
+
     self.assertEqual(item["description"], "Комп’ютерне обладнання для біда")
     self.assertEqual(item["quantity"], 10)
     self.assertEqual(item["unit"]["value"]["amount"], 45)
+
+    self.assertEqual(item["product"], bid_product)
+    self.assertEqual(item.get("category"), item_category)
 
     response = self.app.put_json(
         f"/contracts/{contract_id}/buyer/signer_info?acc_token={self.tender_token}",

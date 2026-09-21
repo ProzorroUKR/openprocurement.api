@@ -14,6 +14,7 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
     change_contract_value_amount,
     change_contract_value_vat_change,
     change_contract_buyer_signer_info,
+    change_contract_items_derived_fields,
     change_contract_supplier_signer_info,
     change_contract_wo_amount_net,
     change_documents,
@@ -100,6 +101,7 @@ class ContractChangesModificationsResourceTest(ContractChangesMixin, BaseEContra
     test_change_tender_contract_value_vat_change = snitch(change_contract_value_vat_change)
     test_change_tender_contract_period = snitch(change_contract_period)
     test_change_tender_contract_items_change = snitch(change_tender_contract_items_change)
+    test_change_contract_items_derived_fields = snitch(change_contract_items_derived_fields)
     test_change_contract_buyer_signer_info = snitch(change_contract_buyer_signer_info)
     test_change_contract_supplier_signer_info = snitch(change_contract_supplier_signer_info)
 

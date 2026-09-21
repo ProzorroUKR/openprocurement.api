@@ -49,3 +49,11 @@ msgstr ""
 msgid "Значення відповіді на цю вимогу. Значення має бути типом, визначеним у полі requirement.dataType."
 msgstr "The value of attribute. The value must be of the type defined in the requirement.dataType field."
 
+msgid "dataSchema"
+msgstr ""
+
+msgid "рядок"
+msgstr "string"
+
+msgid "Схема формату даних для значень відповіді. Формується автоматично зі значення `dataSchema` відповідної вимоги закупівлі."
+msgstr "Determines the schema of data format for the attribute values. It is set automatically from the `dataSchema` field of the related tender requirement."

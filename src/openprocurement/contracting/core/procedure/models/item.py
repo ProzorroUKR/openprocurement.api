@@ -32,6 +32,7 @@ class Attribute(Model):
     unit = ModelType(Unit)
     values = ListType(BaseType(required=True))
     value = BaseType()
+    dataSchema = StringType()
 
     def convert_value(self):
         if self.value and isinstance(self.value, float):
@@ -67,3 +68,5 @@ class Item(BaseItem):
     relatedLot = MD5Type()
     relatedBuyer = MD5Type()
     attributes = ListType(ModelType(Attribute, required=True))
+    product = StringType()
+    category = StringType()
