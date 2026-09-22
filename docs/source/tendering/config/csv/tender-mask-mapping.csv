@@ -167,6 +167,10 @@ $.bids[*].financialDocuments[*].url,Приховано
 $.bids[*].financialDocuments[*].confidentialityRationale,Приховано
 $.awards[*].documents[*].title,Приховано
 $.awards[*].documents[*].url,Приховано
+"$.awards[*].milestones[?code=""24h""].description",Приховано
+$.qualifications[*].documents[*].title,Приховано
+$.qualifications[*].documents[*].url,Приховано
+"$.qualifications[*].milestones[?code=""24h""].description",Приховано
 $.contracts[*].documents[*].title,Приховано
 $.contracts[*].documents[*].url,Приховано
 $.questions[*].title,Приховано

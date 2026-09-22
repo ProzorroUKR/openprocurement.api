@@ -240,6 +240,17 @@ def test_mask_tender_by_config_restricted(app):
     # Ensure dumped data is masked
     assert expected_masked_data["items"][0]["deliveryAddress"]["streetAddress"] == MASK_STRING
 
+    expected_qualification = expected_masked_data["qualifications"][0]
+    assert expected_qualification["documents"][0]["title"] == MASK_STRING
+    assert expected_qualification["documents"][0]["url"] == MASK_STRING
+
+    # only "24h" milestone description is masked, "alp" one stays public
+    expected_award = expected_masked_data["awards"][0]
+    for milestones in (expected_qualification["milestones"], expected_award["milestones"]):
+        masked_by_code = {milestone["code"]: milestone["description"] for milestone in milestones}
+        assert masked_by_code["24h"] == MASK_STRING
+        assert masked_by_code["alp"] != MASK_STRING
+
     # Check masked data with loaded (dumped) expected data
     expected_masked_data["dateCreated"] = masked_data["dateCreated"]
     expected_masked_data["dateModified"] = masked_data["dateModified"]

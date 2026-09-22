@@ -213,6 +213,13 @@ TENDER_MASK_MAPPING_RAW = {
     # awards.documents
     "$.awards[*].documents[*].title": MASK_STRING,
     "$.awards[*].documents[*].url": MASK_STRING,
+    # awards.milestones
+    '$.awards[*].milestones[?code="24h"].description': MASK_STRING,
+    # qualifications.documents
+    "$.qualifications[*].documents[*].title": MASK_STRING,
+    "$.qualifications[*].documents[*].url": MASK_STRING,
+    # qualifications.milestones
+    '$.qualifications[*].milestones[?code="24h"].description': MASK_STRING,
     # contracts.documents
     "$.contracts[*].documents[*].title": MASK_STRING,
     "$.contracts[*].documents[*].url": MASK_STRING,
