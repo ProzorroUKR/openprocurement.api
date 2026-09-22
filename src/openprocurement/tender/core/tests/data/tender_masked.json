@@ -504,6 +504,44 @@
         },
         "kind": "defense"
     },
+    "qualifications": [
+        {
+            "id": "3f1c0a2b8d5e4f6a9b7c1d2e3f4a5b6c",
+            "status": "active",
+            "date": "2021-11-08T16:55:50.123456+02:00",
+            "bidID": "8e8f1460414641fda17e4700f0a96e90",
+            "lotID": "eb63b318a9bb4216ba425322f788fdef",
+            "documents": [
+                {
+                    "id": "4a2b6c8d0e1f42a3b5c7d9e0f1a2b3c4",
+                    "hash": "md5:6c4a8b2d0e1f42a3b5c7d9e0f1a2b3c4",
+                    "title": "Приховано",
+                    "format": "application/pdf",
+                    "url": "Приховано",
+                    "datePublished": "2021-11-08T16:55:50.123456+02:00",
+                    "dateModified": "2021-11-08T16:55:50.123456+02:00",
+                    "author": "tender_owner",
+                    "documentOf": "tender"
+                }
+            ],
+            "milestones": [
+                {
+                    "id": "5b3c7d9e1f204a3b6c8d0e2f4a5b6c7d",
+                    "code": "24h",
+                    "date": "2021-11-08T16:55:50.123456+02:00",
+                    "dueDate": "2021-11-09T16:55:50.123456+02:00",
+                    "description": "Приховано"
+                },
+                {
+                    "id": "6c4d8e0f2a315b4c7d9e1f3a5b6c7d8e",
+                    "code": "alp",
+                    "date": "2021-11-08T16:55:50.123456+02:00",
+                    "dueDate": "2021-11-09T16:55:50.123456+02:00",
+                    "description": "Аномально низька ціна"
+                }
+            ]
+        }
+    ],
     "awards": [
         {
             "id": "007f17590a804c3f9bfa0870cbe7e87a",
@@ -559,7 +597,23 @@
             "complaintPeriod": {
                 "startDate": "2021-11-08T16:55:56.357208+02:00",
                 "endDate": "2021-11-08T16:55:57.759036+02:00"
-            }
+            },
+            "milestones": [
+                {
+                    "id": "7d5e9f1a3b426c5d8e0f2a4b6c7d8e9f",
+                    "code": "24h",
+                    "date": "2021-11-08T16:55:58.123456+02:00",
+                    "dueDate": "2021-11-09T16:55:58.123456+02:00",
+                    "description": "Приховано"
+                },
+                {
+                    "id": "8e6f0a2b4c537d6e9f1a3b5c7d8e9f0a",
+                    "code": "alp",
+                    "date": "2021-11-08T16:55:58.123456+02:00",
+                    "dueDate": "2021-11-09T16:55:58.123456+02:00",
+                    "description": "Ціна пропозиції на 40% менша від середньоарифметичного значення"
+                }
+            ]
         },
         {
             "id": "b7d20c86e18c4a2ea9ee13744d478059",
