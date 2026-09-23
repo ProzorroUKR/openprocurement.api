@@ -267,9 +267,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scheme": "DECREE1178"
       },
       "externalIndicators": {
-        "description_en": "Changes in the consumer price index established by state statistics authorities in accordance with the law, changes in foreign currency exchange rates, changes in stock market quotations or Platts, ARGUS indicators, regulated prices (tariffs), standards, weighted average prices for electricity on the \"day ahead\" market applied in the purchase agreement, if the procurement contract establishes a procedure for changing the price",
+        "description_en": "Changes in the consumer price index established by state statistics agencies in accordance with the law; changes in foreign exchange rates; changes in stock market quotations or indicators from international price agencies, the list of which is determined by the Cabinet of Ministers of Ukraine; regulated prices (tariffs), standards, and weighted average prices for electricity on the \"day-ahead\" market, as applied in the procurement contract, if the procurement contract establishes a procedure for price adjustments",
         "title_en": "Subparagraph 7 of paragraph 19",
-        "description_uk": "Зміни встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників Platts, ARGUS, регульованих цін (тарифів), нормативів, середньозважених цін на електроенергію на ринку \"на добу наперед\", що застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни",
+        "description_uk": "Зміни встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників міжнародних цінових агентств, перелік яких визначається Кабінетом Міністрів України, регульованих цін (тарифів), нормативів, середньозважених цін на електроенергію на ринку \"на добу наперед\", що застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни",
         "title_uk": "Підпункт 7 пункту 19",
         "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/conv#n426",
         "scheme": "DECREE1178"
@@ -603,9 +603,9 @@ Content-Type: application/json
         "scheme": "DECREE1178"
       },
       "externalIndicators": {
-        "description_en": "Changes in the consumer price index established by state statistics authorities in accordance with the law, changes in foreign currency exchange rates, changes in stock market quotations or Platts, ARGUS indicators, regulated prices (tariffs), standards, weighted average prices for electricity on the \"day ahead\" market applied in the purchase agreement, if the procurement contract establishes a procedure for changing the price",
+        "description_en": "Changes in the consumer price index established by state statistics agencies in accordance with the law; changes in foreign exchange rates; changes in stock market quotations or indicators from international price agencies, the list of which is determined by the Cabinet of Ministers of Ukraine; regulated prices (tariffs), standards, and weighted average prices for electricity on the \"day-ahead\" market, as applied in the procurement contract, if the procurement contract establishes a procedure for price adjustments",
         "title_en": "Subparagraph 7 of paragraph 19",
-        "description_uk": "Зміни встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників Platts, ARGUS, регульованих цін (тарифів), нормативів, середньозважених цін на електроенергію на ринку \"на добу наперед\", що застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни",
+        "description_uk": "Зміни встановленого згідно із законодавством органами державної статистики індексу споживчих цін, зміни курсу іноземної валюти, зміни біржових котирувань або показників міжнародних цінових агентств, перелік яких визначається Кабінетом Міністрів України, регульованих цін (тарифів), нормативів, середньозважених цін на електроенергію на ринку \"на добу наперед\", що застосовуються в договорі про закупівлю, у разі встановлення в договорі про закупівлю порядку зміни ціни",
         "title_uk": "Підпункт 7 пункту 19",
         "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/conv#n426",
         "scheme": "DECREE1178"
