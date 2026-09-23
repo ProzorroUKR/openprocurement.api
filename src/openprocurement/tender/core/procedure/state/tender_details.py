@@ -38,6 +38,7 @@ from openprocurement.api.constants_env import (
     RELEASE_GUARANTEE_CRITERION_FROM,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_ITEMS_DIFFERENT_CPV_FROM,
+    TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.constants_utils import parse_date
@@ -97,12 +98,14 @@ from openprocurement.tender.core.procedure.utils import (
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
+    get_items_unit_value_amounts,
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_econtract_fields_tender,
     validate_edrpou_confidentiality_doc,
     validate_items_classification_id,
     validate_items_required_fields,
+    validate_items_unit_amount,
     validate_milestone_duration_days,
     validate_milestone_sums,
     validate_milestones_sequence_number,
@@ -291,6 +294,8 @@ class BaseTenderDetailsMixing:
     items_related_lot_error: str | None = None
     items_unit_required = True
     items_quantity_required = True  # since UNIT_PRICE_REQUIRED_FROM
+    # unit price is only meaningful where there is no bidding, i.e. limited procedures
+    items_unit_value_allowed = False
     features_max_weight = 0.3  # max value of a single feature and of the sum per lot/tender
     # open family: tenderPeriod.startDate defaults to now on create and is required afterwards
     tender_period_start_date_required = False
@@ -493,6 +498,7 @@ class BaseTenderDetailsMixing:
         self.validate_items_with_agreement(tender)
         self.validate_docs(tender)
         self.watch_value_meta_changes(tender)
+        self.validate_items_unit_value(tender)
         self.initialize_enquiry_period(tender)
         self.update_complaint_period(tender)
         self.update_date(tender)
@@ -559,6 +565,7 @@ class BaseTenderDetailsMixing:
         self.validate_docs(after, before)
         self.update_complaint_period(after)
         self.watch_value_meta_changes(after)
+        self.validate_items_unit_value(after)
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
         if before.get("criteria") != after.get("criteria"):
@@ -1145,10 +1152,14 @@ class BaseTenderDetailsMixing:
         tax_inc = value.get("valueAddedTaxIncluded")
 
         # items
+        # unit value VAT is forced to False by validate_items_unit_value for newer tenders,
+        # so it is no longer inherited from tender.value
+        copy_item_tax_inc = tender_created_before(TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM, tender)
         for item in tender["items"]:
             if "unit" in item and "value" in item["unit"]:
                 item["unit"]["value"]["currency"] = currency
-                item["unit"]["value"]["valueAddedTaxIncluded"] = tax_inc
+                if copy_item_tax_inc:
+                    item["unit"]["value"]["valueAddedTaxIncluded"] = tax_inc
 
         # lots
         for lot in tender.get("lots", ""):
@@ -1161,6 +1172,54 @@ class BaseTenderDetailsMixing:
             if minimal_step:
                 minimal_step["currency"] = currency
                 minimal_step["valueAddedTaxIncluded"] = tax_inc
+
+    def validate_items_unit_value(self, tender):
+        if tender_created_before(TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM, tender):
+            return
+
+        items_with_unit_value = [item for item in tender.get("items", "") if item.get("unit", {}).get("value")]
+        if not items_with_unit_value:
+            return
+
+        if not self.items_unit_value_allowed:
+            raise_operation_error(
+                get_request(),
+                "Rogue field",
+                status=422,
+                location="body",
+                name="items.unit.value",
+            )
+
+        for item in items_with_unit_value:
+            value = item["unit"]["value"]
+
+            if value.get("valueAddedTaxIncluded"):
+                raise_operation_error(
+                    get_request(),
+                    "valueAddedTaxIncluded of items unit value should be False",
+                    status=422,
+                    location="body",
+                    name="items.unit.value.valueAddedTaxIncluded",
+                )
+
+            if item.get("quantity") is not None:
+                if item["quantity"] == 0 and value["amount"] != 0:
+                    raise_operation_error(
+                        get_request(),
+                        "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
+                        status=422,
+                        location="body",
+                        name="items.unit.value.amount",
+                    )
+
+        lots = tender.get("lots")
+        if lots:
+            # unit values are summed up within each lot and compared with the value of that lot
+            for lot in lots:
+                lot_items = [item for item in items_with_unit_value if item.get("relatedLot") == lot["id"]]
+                validate_items_unit_amount(get_items_unit_value_amounts(lot_items), lot, obj_name="lot")
+        else:
+            validate_items_unit_amount(get_items_unit_value_amounts(items_with_unit_value), tender, obj_name="tender")
 
     def initialize_enquiry_period(self, tender):
         if tender["config"]["hasEnquiries"] is False and tender["config"]["enquiryPeriodRegulation"] > 0:

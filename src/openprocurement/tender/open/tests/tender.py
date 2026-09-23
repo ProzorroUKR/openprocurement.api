@@ -29,6 +29,7 @@ from openprocurement.tender.open.tests.tender_blanks import (
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
+    create_tender_items_unit_value_forbidden,
     create_tender_lot_vat_not_included_validation,
     create_tender_vat_not_included_validation,
     create_tender_vat_not_included_validation_before_constant,
@@ -98,6 +99,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
     test_create_tender_vat_not_included_validation_before_constant = snitch(
         create_tender_vat_not_included_validation_before_constant
     )
+    test_create_tender_items_unit_value_forbidden = snitch(create_tender_items_unit_value_forbidden)
 
 
 class TenderUAProcessTest(BaseTenderUAWebTest, TenderUaProcessTestMixin):

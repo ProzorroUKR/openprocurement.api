@@ -35,6 +35,30 @@
    :code:
 
 
+Ціна за одиницю в предметі закупівлі
+------------------------------------
+
+Правила для `items.unit.value` описані в розділі :ref:`limited_items_unit_value`.
+В багатолотовій закупівлі сума добутків `item.quantity * item.unit.value.amount` рахується окремо в межах кожного лота
+і звіряється з `value.amount` того лота, до якого предмети закупівлі прив'язані через `relatedLot`.
+
+Створимо закупівлю з двома лотами, де сума по предметах закупівлі кожного лота дорівнює вартості цього лота
+(`5 * 60000` для лота №1 та `2 * 100000` для лота №2):
+
+.. http:example:: http/multiple_lots_tutorial/tender-post-attempt-json-data-unit-value.http
+   :code:
+
+Лоти перевіряються незалежно один від одного, тому зменшення ціни за одиницю в лоті №1 не можна компенсувати збільшенням ціни в лоті №2:
+
+.. http:example:: http/multiple_lots_tutorial/tender-patch-items-unit-value-invalid.http
+   :code:
+
+Змінимо ціну за одиницю та кількість так, щоб сума по лоту №1 і далі дорівнювала його вартості:
+
+.. http:example:: http/multiple_lots_tutorial/tender-patch-items-unit-value.http
+   :code:
+
+
 Визначення переможця
 --------------------
 

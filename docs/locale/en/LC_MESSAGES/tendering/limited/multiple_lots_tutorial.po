@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 2.3.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-20 00:14+0300\n"
+"POT-Creation-Date: 2026-09-21 17:20+0300\n"
 "PO-Revision-Date: 2016-09-12 11:38+0000\n"
 "Last-Translator: Serbokryl Oleg <chezar1995@com.ua>\n"
 "Language-Team: UK <LL@li.org>\n"
@@ -36,6 +36,21 @@ msgstr "View tender listing:"
 msgid "або перегляньте окрему закупівлю:"
 msgstr "or view tender:"
 
+msgid "Ціна за одиницю в предметі закупівлі"
+msgstr "Item unit value"
+
+msgid "Правила для `items.unit.value` описані в розділі :ref:`limited_items_unit_value`. В багатолотовій закупівлі сума добутків `item.quantity * item.unit.value.amount` рахується окремо в межах кожного лота і звіряється з `value.amount` того лота, до якого предмети закупівлі прив'язані через `relatedLot`."
+msgstr "The rules for `items.unit.value` are described in the :ref:`limited_items_unit_value` section. In a multi-lot tender the sum of `item.quantity * item.unit.value.amount` products is calculated within each lot separately and is compared with `value.amount` of the lot the items are related to with `relatedLot`."
+
+msgid "Створимо закупівлю з двома лотами, де сума по предметах закупівлі кожного лота дорівнює вартості цього лота (`5 * 60000` для лота №1 та `2 * 100000` для лота №2):"
+msgstr "Let's create a tender with two lots, where the sum of the items of each lot is equal to the value of that lot (`5 * 60000` for lot №1 and `2 * 100000` for lot №2):"
+
+msgid "Лоти перевіряються незалежно один від одного, тому зменшення ціни за одиницю в лоті №1 не можна компенсувати збільшенням ціни в лоті №2:"
+msgstr "Lots are validated independently of each other, so the decreased unit price in lot №1 can not be compensated by the increased price in lot №2:"
+
+msgid "Змінимо ціну за одиницю та кількість так, щоб сума по лоту №1 і далі дорівнювала його вартості:"
+msgstr "Let's change the unit price and the quantity so that the sum of lot №1 still equals its value:"
+
 msgid "Визначення переможця"
 msgstr "Awarding"
 
@@ -50,3 +65,4 @@ msgstr "Award confirmation:"
 
 msgid "Різниця між початковою (``startDate``) та кінцевою (``endDate``) датою запису ``complaintPeriod`` для **переговорної** процедури становить 5 днів та 3 днів для **переговорної процедури за нагальною потребою**"
 msgstr "The difference between ``startDate`` and ``endDate`` in ``complaintPeriod`` record for **negotiation** is 5 days and for **negotiation.quick** is 3 days."
+

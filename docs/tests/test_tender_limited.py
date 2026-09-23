@@ -1,6 +1,7 @@
 import os
 from copy import deepcopy
 from datetime import timedelta
+from uuid import uuid4
 
 from openprocurement.tender.core.tests.base import test_localization_criteria
 from openprocurement.tender.core.tests.mock import patch_market_category, patch_market_product
@@ -445,6 +446,94 @@ class TenderLimitedResourceTest(TenderLimitedResourceTestBase):
                 status=403,
             )
 
+    def test_docs_items_unit_value(self):
+        # items.unit.value validation for tender with VAT included value (CS-22553)
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        data = deepcopy(self.initial_data)
+        data["causeDetails"] = {
+            "code": "energyCrisisRecovery0109",
+            "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
+        }
+        data["items"][0]["quantity"] = 5
+        data["items"][0]["unit"]["value"] = {"amount": 100000, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+        with open(TARGET_DIR + "tutorial/create-tender-unit-value-vat-included.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders?opt_pretty=1", {"data": data, "config": self.initial_config}, status=422
+            )
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        "location": "body",
+                        "name": "items.unit.value.valueAddedTaxIncluded",
+                        "description": "valueAddedTaxIncluded of items unit value should be False",
+                    }
+                ],
+            )
+
+        # 5 * 100000 is not greater than tender.value.amount and not less than net tender amount
+        data["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+        with open(TARGET_DIR + "tutorial/create-tender-unit-value.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+        self.assertTrue(tender["value"]["valueAddedTaxIncluded"])
+        self.assertFalse(tender["items"][0]["unit"]["value"]["valueAddedTaxIncluded"])
+
+        # 5 * 50000 is less than net tender amount (500000 / 1.2)
+        items = deepcopy(tender["items"])
+        items[0]["unit"]["value"]["amount"] = 50000
+        with open(TARGET_DIR + "tutorial/patch-items-unit-value-amount-invalid.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+                {"data": {"items": items}},
+                status=422,
+            )
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        "location": "body",
+                        "name": "items",
+                        "description": "Total amount of unit values must be no more than tender.value.amount "
+                        "and no less than net tender amount",
+                    }
+                ],
+            )
+
+        items = deepcopy(tender["items"])
+        items[0]["quantity"] = 0
+        with open(TARGET_DIR + "tutorial/patch-items-unit-value-zero-quantity.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+                {"data": {"items": items}},
+                status=422,
+            )
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        "location": "body",
+                        "name": "items.unit.value.amount",
+                        "description": "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
+                    }
+                ],
+            )
+
+        # 5 * 90000 is between net and gross tender amount
+        items = deepcopy(tender["items"])
+        items[0]["unit"]["value"]["amount"] = 90000
+        with open(TARGET_DIR + "tutorial/patch-items-unit-value.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 90000)
+
 
 class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTestBase):
     initial_data = test_tender_negotiation_data
@@ -874,6 +963,117 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTestBase):
                 {"data": {"status": "active", "qualified": True}},
             )
             self.assertEqual(response.status, "200 OK")
+
+    def test_docs_items_unit_value(self):
+        # items.unit.value validation for tender with VAT excluded value (CS-22553)
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        data = deepcopy(self.initial_data)
+        data.pop("lots", None)
+        for item in data["items"]:
+            item.pop("relatedLot", None)
+        for milestone in data.get("milestones", []):
+            milestone.pop("relatedLot", None)
+        data["items"][0]["quantity"] = 5
+        data["items"][0]["unit"]["value"] = {"amount": 90000, "currency": "UAH", "valueAddedTaxIncluded": False}
+
+        # 5 * 90000 is not equal to tender.value.amount
+        with open(TARGET_DIR + "tutorial/create-tender-negotiation-unit-value-invalid.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders?opt_pretty=1", {"data": data, "config": self.initial_config}, status=422
+            )
+            self.assertEqual(
+                response.json["errors"],
+                [
+                    {
+                        "location": "body",
+                        "name": "items",
+                        "description": "Total amount of unit values should be equal tender.value.amount "
+                        "if VAT is not included in tender",
+                    }
+                ],
+            )
+
+        data["items"][0]["unit"]["value"]["amount"] = 100000
+        with open(TARGET_DIR + "tutorial/create-tender-negotiation-unit-value.http", "w") as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
+
+    def test_docs_items_unit_value_with_lots(self):
+        # items.unit.value is summed up within each lot separately (CS-22553)
+        self.app.authorization = ("Basic", ("broker", ""))
+
+        first_lot_id, second_lot_id = uuid4().hex, uuid4().hex
+        data = deepcopy(self.initial_data)
+        data["lots"] = [
+            {
+                "id": first_lot_id,
+                "title": "Лот №1",
+                "description": "Опис Лот №1",
+                "value": {"amount": 300000, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
+            {
+                "id": second_lot_id,
+                "title": "Лот №2",
+                "description": "Опис Лот №2",
+                "value": {"amount": 200000, "currency": "UAH", "valueAddedTaxIncluded": False},
+            },
+        ]
+        first_item = deepcopy(data["items"][0])
+        first_item["relatedLot"] = first_lot_id
+        first_item["quantity"] = 5
+        first_item["unit"]["value"] = {"amount": 60000, "currency": "UAH", "valueAddedTaxIncluded": False}
+        second_item = deepcopy(data["items"][0])
+        second_item["relatedLot"] = second_lot_id
+        second_item["quantity"] = 2
+        second_item["unit"]["value"] = {"amount": 100000, "currency": "UAH", "valueAddedTaxIncluded": False}
+        data["items"] = [first_item, second_item]
+        for milestone in data.get("milestones", []):
+            milestone["relatedLot"] = first_lot_id
+
+        # 5 * 60000 is equal to the first lot value, 2 * 100000 is equal to the second lot value
+        with open(
+            TARGET_DIR + "multiple_lots_tutorial/tender-post-attempt-json-data-unit-value.http", "w"
+        ) as self.app.file_obj:
+            response = self.app.post_json("/tenders?opt_pretty=1", {"data": data, "config": self.initial_config})
+            self.assertEqual(response.status, "201 Created")
+
+        tender = response.json["data"]
+        owner_token = response.json["access"]["token"]
+
+        lot_amount_error = [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Total amount of unit values should be equal lot.value.amount "
+                "if VAT is not included in lot",
+            }
+        ]
+
+        # the sum of the first lot items is not compensated by the second lot items
+        items = deepcopy(tender["items"])
+        items[0]["unit"]["value"]["amount"] = 50000
+        items[1]["unit"]["value"]["amount"] = 125000
+        with open(
+            TARGET_DIR + "multiple_lots_tutorial/tender-patch-items-unit-value-invalid.http", "w"
+        ) as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
+                {"data": {"items": items}},
+                status=422,
+            )
+            self.assertEqual(response.json["errors"], lot_amount_error)
+
+        # the first lot can be fixed on its own
+        items = deepcopy(tender["items"])
+        items[0]["quantity"] = 3
+        items[0]["unit"]["value"]["amount"] = 100000
+        with open(TARGET_DIR + "multiple_lots_tutorial/tender-patch-items-unit-value.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"items": items}}
+            )
+            self.assertEqual(response.status, "200 OK")
+            self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 100000)
 
 
 class TenderNegotiationQuickLimitedResourceTest(TenderLimitedResourceTestBase):

@@ -962,6 +962,15 @@ def validate_object_id_uniq(objs, *_, obj_name=None):
             raise ValidationError("{} id should be uniq for all {}s".format(obj_name, obj_name_multiple))
 
 
+def get_items_unit_value_amounts(items):
+    # unit value amount of an item is its price per unit multiplied by the quantity
+    return [
+        to_decimal(item["quantity"]) * to_decimal(item["unit"]["value"]["amount"])
+        for item in items
+        if item.get("quantity") is not None and item.get("unit", {}).get("value")
+    ]
+
+
 def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"):
     obj_value = obj.get("value")
 
@@ -970,8 +979,8 @@ def validate_items_unit_amount(items_unit_value_amount, obj, obj_name="contract"
         # It can have different currencies across lots, units, bids etc.
         return
 
-    if not items_unit_value_amount or not obj_value:
-        # Skip. Nothing to comare
+    if not items_unit_value_amount or not obj_value or obj_value.get("amount") is None:
+        # Skip. Nothing to compare
         return
 
     vat_aware_validation = tender_created_after(ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM)

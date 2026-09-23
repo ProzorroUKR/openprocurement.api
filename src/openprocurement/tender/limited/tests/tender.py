@@ -55,6 +55,9 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_cause_desc,
     tender_cause_quick,
     tender_cause_reporting,
+    tender_items_unit_value,
+    tender_items_unit_value_from_tender,
+    tender_items_unit_value_with_lots,
     tender_negotiation_status_change,
     tender_set_fund_organizations,
     tender_status_change,
@@ -79,6 +82,8 @@ class TenderTest(BaseTenderWebTest):
     test_tender_cause = snitch(tender_cause_reporting)
     test_reporting_contract_template_name_forbid = snitch(reporting_contract_template_name_forbid)
     test_tender_cause_change_rationale_types_update = snitch(tender_cause_change_rationale_types_update)
+    test_tender_items_unit_value = snitch(tender_items_unit_value)
+    test_tender_items_unit_value_before_constant = snitch(tender_items_unit_value_from_tender)
 
 
 class TenderResourceTest(BaseTenderWebTest):
@@ -128,6 +133,7 @@ class TenderNegotiationResourceTest(TenderResourceTest):
     test_contract_template_name_set = snitch(contract_template_name_set)
     test_tender_vat_not_included = snitch(tender_vat_not_included)
     test_tender_vat_not_included_before_constant = snitch(tender_vat_not_included_before_constant)
+    test_tender_items_unit_value_with_lots = snitch(tender_items_unit_value_with_lots)
 
 
 class TenderNegotiationQuickResourceTest(TenderNegotiationResourceTest):

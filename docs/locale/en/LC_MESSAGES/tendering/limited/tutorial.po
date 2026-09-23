@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-20 00:14+0300\n"
+"POT-Creation-Date: 2026-09-21 17:20+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -277,6 +277,54 @@ msgstr "Creating tender for negotiation.quick procedure"
 
 msgid "Щоб створити закупівлю для **переговорної процедури за нагальною потребою**, потрібно встановити значення ``negotiation.quick`` для ``procurementMethodType``."
 msgstr "To create tender for **negotiation.quick** procedure you should set ``negotiation.quick`` value for ``procurementMethodType``."
+
+msgid "Ціна за одиницю в предметі закупівлі"
+msgstr "Item unit value"
+
+msgid "Для процедур **reporting**, **negotiation**, **negotiation.quick** можна вказати ціну за одиницю предмета закупівлі в полі `items.unit.value`. В процедурах з поданням пропозицій це поле на рівні закупівлі заборонене, бо ціна за одиницю визначається в пропозиції учасника."
+msgstr "For **reporting**, **negotiation**, **negotiation.quick** procedures the unit price of the item can be set in the `items.unit.value` field. For procedures with bidding this field is forbidden on the tender level, because the unit price is set in the bid of the participant."
+
+msgid "Для закупівель працюють такі правила:"
+msgstr "The following rules are applied:"
+
+msgid "`items.unit.value.valueAddedTaxIncluded` має бути `false` - ціна за одиницю завжди вказується без ПДВ;"
+msgstr "`items.unit.value.valueAddedTaxIncluded` must be `false` - the unit price is always specified without VAT;"
+
+msgid "якщо `item.quantity` дорівнює `0`, то `item.unit.value.amount` теж має дорівнювати `0`;"
+msgstr "if `item.quantity` is `0`, then `item.unit.value.amount` must be `0` as well;"
+
+msgid "сума добутків `item.quantity * item.unit.value.amount` по всіх предметах закупівлі звіряється з `value.amount` закупівлі:"
+msgstr "the sum of `item.quantity * item.unit.value.amount` products of all tender items is compared with tender `value.amount`:"
+
+msgid "якщо `value.valueAddedTaxIncluded` дорівнює `true`, сума має бути не більшою за `value.amount` і не меншою за вартість без ПДВ (`value.amount / 1.2`);"
+msgstr "if `value.valueAddedTaxIncluded` is `true`, the sum must be no more than `value.amount` and no less than the amount without VAT (`value.amount / 1.2`);"
+
+msgid "якщо `value.valueAddedTaxIncluded` дорівнює `false`, сума має дорівнювати `value.amount`."
+msgstr "if `value.valueAddedTaxIncluded` is `false`, the sum must be equal to `value.amount`."
+
+msgid "Для багатолотової закупівлі сума рахується в межах кожного лота окремо, див. :ref:`limited_mulitlot_tutorial`."
+msgstr "For a multi-lot tender the sum is calculated within each lot separately, see :ref:`limited_mulitlot_tutorial`."
+
+msgid "Спробуємо створити закупівлю, вказавши ПДВ в ціні за одиницю:"
+msgstr "Let's try to create a tender with VAT included in the unit price:"
+
+msgid "Створимо закупівлю з коректним значенням `items.unit.value`. Зверніть увагу, що `value.valueAddedTaxIncluded` закупівлі дорівнює `true`, а `items.unit.value.valueAddedTaxIncluded` лишається `false`:"
+msgstr "Let's create a tender with a correct `items.unit.value`. Note that tender `value.valueAddedTaxIncluded` is `true`, while `items.unit.value.valueAddedTaxIncluded` remains `false`:"
+
+msgid "Очікувана вартість закупівлі вказана з ПДВ, тому сума `5 * 100000` не перевищує `value.amount` і не менша за вартість без ПДВ. Спробуємо зменшити ціну за одиницю так, щоб сума стала меншою за вартість без ПДВ:"
+msgstr "The expected value of the tender is specified with VAT, so the sum `5 * 100000` does not exceed `value.amount` and is not less than the amount without VAT. Let's try to decrease the unit price, so that the sum becomes less than the amount without VAT:"
+
+msgid "Якщо обнулити `quantity`, то потрібно обнулити і `items.unit.value.amount`:"
+msgstr "If `quantity` is set to zero, `items.unit.value.amount` should be set to zero as well:"
+
+msgid "Оновимо ціну за одиницю коректним значенням:"
+msgstr "Let's update the unit price with a correct value:"
+
+msgid "Для **переговорних** процедур очікувана вартість вказується без ПДВ, тому сума має точно дорівнювати `value.amount` закупівлі:"
+msgstr "For **negotiation** procedures the expected value is specified without VAT, so the sum must be exactly equal to tender `value.amount`:"
+
+msgid "Додамо правильні ціни за одиницю:"
+msgstr "Let's add correct unit prices:"
 
 msgid "Критерії"
 msgstr "Criteria"
@@ -628,3 +676,4 @@ msgstr "Activating the request and cancelling tender"
 
 msgid "Якщо період оскарження(триває 10 днів) скінчився та не було ніяких скарг на скасування закупівлі або скарги були скасовані, то скасування автоматично змінює статус на `active`."
 msgstr "if the complaint period(duration 10 days) is over and there were no complaints or all complaints are canceled, then cancellation will automatically update status to `active`."
+

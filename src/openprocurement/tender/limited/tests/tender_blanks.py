@@ -2126,3 +2126,185 @@ def tender_vat_not_included_before_constant(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
     self.assertTrue(response.json["data"]["value"]["valueAddedTaxIncluded"])
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
+    get_now() - timedelta(days=1),
+)
+def tender_items_unit_value(self):
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+    data["items"][0]["quantity"] = 5
+    data["items"][0]["unit"]["value"] = {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": True}
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items.unit.value.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded of items unit value should be False",
+            }
+        ],
+    )
+
+    # unit value VAT is not inherited from tender.value anymore, it stays False
+    data["items"][0]["unit"]["value"]["valueAddedTaxIncluded"] = False
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertTrue(tender["value"]["valueAddedTaxIncluded"])
+    self.assertFalse(tender["items"][0]["unit"]["value"]["valueAddedTaxIncluded"])
+
+    items = deepcopy(tender["items"])
+    items[0]["unit"]["value"]["valueAddedTaxIncluded"] = True
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items.unit.value.valueAddedTaxIncluded",
+                "description": "valueAddedTaxIncluded of items unit value should be False",
+            }
+        ],
+    )
+
+    # 5 * 50 is less than net tender amount (500 / 1.2)
+    items = deepcopy(tender["items"])
+    items[0]["unit"]["value"]["amount"] = 50
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items",
+                "description": "Total amount of unit values must be no more than tender.value.amount "
+                "and no less than net tender amount",
+            }
+        ],
+    )
+
+    items = deepcopy(tender["items"])
+    items[0]["quantity"] = 0
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "items.unit.value.amount",
+                "description": "Item.unit.value.amount should be updated to 0 if item.quantity equal to 0",
+            }
+        ],
+    )
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
+def tender_items_unit_value_from_tender(self):
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": True}
+    data["items"][0]["quantity"] = 5
+    data["items"][0]["unit"]["value"] = {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    # unit value VAT is inherited from tender.value
+    self.assertTrue(response.json["data"]["items"][0]["unit"]["value"]["valueAddedTaxIncluded"])
+
+
+@mock.patch(
+    "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
+    get_now() - timedelta(days=1),
+)
+def tender_items_unit_value_with_lots(self):
+    first_lot_id, second_lot_id = uuid4().hex, uuid4().hex
+    data = deepcopy(self.initial_data)
+    data["value"] = {"amount": 500, "currency": "UAH", "valueAddedTaxIncluded": False}
+    data["lots"] = [
+        {
+            "id": first_lot_id,
+            "title": "first lot title",
+            "description": "first lot description",
+            "value": {"amount": 300, "currency": "UAH", "valueAddedTaxIncluded": False},
+        },
+        {
+            "id": second_lot_id,
+            "title": "second lot title",
+            "description": "second lot description",
+            "value": {"amount": 200, "currency": "UAH", "valueAddedTaxIncluded": False},
+        },
+    ]
+    first_item = deepcopy(data["items"][0])
+    first_item["relatedLot"] = first_lot_id
+    first_item["quantity"] = 5
+    first_item["unit"]["value"] = {"amount": 60, "currency": "UAH", "valueAddedTaxIncluded": False}
+    second_item = deepcopy(data["items"][0])
+    second_item["relatedLot"] = second_lot_id
+    second_item["quantity"] = 2
+    second_item["unit"]["value"] = {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False}
+    data["items"] = [first_item, second_item]
+    for milestone in data.get("milestones", []):
+        milestone["relatedLot"] = first_lot_id
+
+    # unit values are summed up within each lot: 5 * 60 == lot 1 value, 2 * 100 == lot 2 value
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+
+    lot_amount_error = {
+        "location": "body",
+        "name": "items",
+        "description": "Total amount of unit values should be equal lot.value.amount if VAT is not included in lot",
+    }
+
+    # the sum of the second lot items is not affected by the first lot items
+    items = deepcopy(tender["items"])
+    items[0]["unit"]["value"]["amount"] = 50
+    items[1]["unit"]["value"]["amount"] = 125
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [lot_amount_error])
+
+    # both lots are validated separately, so the first one can be fixed on its own
+    items = deepcopy(tender["items"])
+    items[1]["unit"]["value"]["amount"] = 125
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [lot_amount_error])
+
+    items = deepcopy(tender["items"])
+    items[0]["quantity"] = 3
+    items[0]["unit"]["value"]["amount"] = 100
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"items": items}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["value"]["amount"], 100)
