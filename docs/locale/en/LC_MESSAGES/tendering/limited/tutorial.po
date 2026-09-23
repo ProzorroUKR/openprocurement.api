@@ -542,6 +542,9 @@ msgstr ""
 msgid "criticalInfrastructureLifeSupportProtection"
 msgstr ""
 
+msgid "restorationOfEnergyFacilities"
+msgstr ""
+
 msgid "і має один з перерахованих типів документів:"
 msgstr "and has one of document types:"
 

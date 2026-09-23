@@ -447,6 +447,7 @@
     * criticalInfrastructure0109
     * energyCrisisRecovery0109
     * criticalInfrastructureLifeSupportProtection
+    * restorationOfEnergyFacilities
 
 і має один з перерахованих типів документів:
 

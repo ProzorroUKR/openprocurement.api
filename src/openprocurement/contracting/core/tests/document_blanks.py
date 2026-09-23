@@ -902,7 +902,7 @@ confidential_documents_tender_params = [
         "reporting tender",
         test_tender_reporting_data,
         test_tender_reporting_config,
-        {"code": "energyCrisisRecovery0109", "description": "energyCrisisRecovery cause"},
+        {"code": "restorationOfEnergyFacilities", "description": "restorationOfEnergyFacilities cause"},
     ),
     (
         "negotiation tender with causeDetails defenseNeeds",
