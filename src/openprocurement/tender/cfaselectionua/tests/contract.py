@@ -5,11 +5,11 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.contract import (
+from openprocurement.tender.open.tests.below_threshold.contract import (
     TenderEContractMultiBuyersResourceTestMixin,
     TenderEcontractResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+from openprocurement.tender.open.tests.below_threshold.contract_blanks import (
     create_tender_contract,
     patch_tender_contract_value,
     patch_tender_contract_value_vat_not_included,

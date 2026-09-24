@@ -2,9 +2,9 @@ from logging import getLogger
 
 from cornice.resource import resource
 
+from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.esco.procedure.serializers.bid import BidSerializer
 from openprocurement.tender.esco.procedure.state.bid import ESCOBidState
-from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -16,6 +16,6 @@ LOGGER = getLogger(__name__)
     procurementMethodType="esco",
     description="Tender ESCO bids",
 )
-class ESCOTenderBidResource(OpenEUTenderBidResource):
+class ESCOTenderBidResource(TenderBidResource):
     state_class = ESCOBidState
     serializer_class = BidSerializer

@@ -1,10 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
     CDStage2EUTenderDetailsState,
     CDStage2UATenderDetailsState,

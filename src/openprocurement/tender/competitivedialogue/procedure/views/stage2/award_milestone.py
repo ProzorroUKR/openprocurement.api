@@ -1,9 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.core.procedure.state.award_milestone import (
     AwardExtensionMilestoneState,
 )

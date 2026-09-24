@@ -11,10 +11,10 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.constants import CFA_UA_MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.periods import PERIODS, TENDERING_DAYS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -25,7 +25,7 @@ from openprocurement.tender.core.tests.cancellation import (
 )
 from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.openua.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_ua.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest,
 )
 
@@ -36,7 +36,7 @@ now = get_now()
 # Prepare test_bids_data
 with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
     test_tender_cfaua_bids = json.load(fd)
-    test_tender_cfaua_bids = [deepcopy(test_tender_cfaua_bids[0]) for _ in range(MIN_BIDS_NUMBER)]
+    test_tender_cfaua_bids = [deepcopy(test_tender_cfaua_bids[0]) for _ in range(CFA_UA_MIN_BIDS_NUMBER)]
     for num, test_bid in enumerate(test_tender_cfaua_bids):
         if get_now() > RELEASE_ECRITERIA_ARTICLE_17:
             del test_bid["selfEligible"]
@@ -146,7 +146,7 @@ class BaseTenderWebTest(BaseBaseTenderWebTest):
         "meta_initial_bids",
         "meta_initial_lots",
     ]
-    min_bids_number = MIN_BIDS_NUMBER
+    min_bids_number = CFA_UA_MIN_BIDS_NUMBER
     initial_data = deepcopy(test_tender_cfaua_data)
     initial_config = test_tender_cfaua_config
     initial_status = "active.tendering"
@@ -683,4 +683,4 @@ class BaseTenderContentWebTest(BaseTenderWebTest):
 
 class BidsOverMaxAwardsMixin:
     initial_bids = deepcopy(test_tender_cfaua_bids) + deepcopy(test_tender_cfaua_bids)  # double testbids
-    min_bids_number = MIN_BIDS_NUMBER * 2
+    min_bids_number = CFA_UA_MIN_BIDS_NUMBER * 2

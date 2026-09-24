@@ -1,7 +1,7 @@
 from copy import deepcopy
 from unittest.mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
@@ -11,8 +11,8 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
-from openprocurement.tender.open.tests.post import (
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.above_threshold.post import (
     ClaimPostResourceMixin,
     ComplaintPostResourceMixin,
     TenderAwardComplaintPostResourceMixin,

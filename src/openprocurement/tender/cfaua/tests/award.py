@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     create_award_document_bot,
     create_tender_award_complaint_document,
     create_tender_award_complaint_invalid,
@@ -20,10 +20,10 @@ from openprocurement.tender.belowthreshold.tests.award_blanks import (
     put_tender_award_complaint_document,
     put_tender_award_document,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.constants import CFA_UA_MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.award_blanks import (
     award_complaint_document_in_active_qualification,
     bot_patch_tender_award_complaint,
@@ -48,11 +48,11 @@ from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_bids,
     test_tender_cfaua_lots,
 )
-from openprocurement.tender.openeu.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.award_blanks import (
     create_tender_award_invalid,
     get_tender_award,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     patch_tender_award_complaint,
     patch_tender_lot_award_complaint,
     review_tender_award_stopping_complaint,
@@ -89,7 +89,7 @@ class TenderAwardBidsOverMaxAwardsResourceTest(TenderAwardResourceTest):
     """Testing awards with bids over max awards"""
 
     initial_bids = test_tender_cfaua_bids + deepcopy(test_tender_cfaua_bids)  # double testbids
-    min_bids_number = MIN_BIDS_NUMBER * 2
+    min_bids_number = CFA_UA_MIN_BIDS_NUMBER * 2
 
 
 @patch(

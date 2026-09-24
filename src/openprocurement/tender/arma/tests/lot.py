@@ -32,13 +32,13 @@ from openprocurement.tender.arma.tests.lot_blanks import (
     two_lot_2bid_2com_2win,
     two_lot_3bid_1win_bug,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-from openprocurement.tender.belowthreshold.tests.lot import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_author
+from openprocurement.tender.open.tests.below_threshold.lot import (
     TenderLotProcessTestMixin,
     TenderLotResourceTestMixin,
     TenderLotValueTestMixin,
 )
-from openprocurement.tender.openua.tests.lot_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.lot_blanks import (
     get_tender_lot,
     get_tender_lots,
 )

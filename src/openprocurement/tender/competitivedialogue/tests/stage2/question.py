@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.question_blanks import (
+from openprocurement.tender.open.tests.below_threshold.question_blanks import (
     create_tender_question_invalid,
     lot_create_tender_question,
     lot_patch_tender_question,
@@ -27,7 +27,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.question_blanks imp
     lot_create_tender_question_on_item,
     lot_create_tender_question_without_perm,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_bids
+from openprocurement.tender.open.tests.above_threshold_eu.base import test_tender_openeu_bids
 
 
 class TenderStage2QuestionResourceTestMixin:

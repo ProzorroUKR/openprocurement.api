@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -12,11 +12,11 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_tenderer,
     test_tender_openeu_bids,
 )
-from openprocurement.tender.openeu.tests.qualification import (
+from openprocurement.tender.open.tests.above_threshold_eu.qualification import (
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationRequirementResponseTestMixin,
 )
-from openprocurement.tender.openeu.tests.qualification_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.qualification_blanks import (
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
     check_sign_doc_qualifications_before_stand_still,

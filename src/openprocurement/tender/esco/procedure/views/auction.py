@@ -2,10 +2,10 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import validate_request_by_state_for
 from openprocurement.api.utils import json_view
+from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue
 from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
-from openprocurement.tender.openua.procedure.views.auction import TenderAuctionResource
 
 
 @resource(

@@ -10,11 +10,7 @@ from pymongo.errors import OperationFailure
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import get_now
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
-)
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

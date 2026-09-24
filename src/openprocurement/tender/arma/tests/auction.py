@@ -16,10 +16,10 @@ from openprocurement.tender.arma.tests.base import (
     test_tender_arma_bids,
     test_tender_arma_lots,
 )
-from openprocurement.tender.belowthreshold.tests.auction import (
+from openprocurement.tender.open.tests.below_threshold.auction import (
     TenderAuctionResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
 
 

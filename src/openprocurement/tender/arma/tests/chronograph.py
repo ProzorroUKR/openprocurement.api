@@ -14,13 +14,13 @@ from openprocurement.tender.arma.tests.chronograph_blanks import (
     pre_qual_switch_to_stand_still,
     switch_to_auction,
 )
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.below_threshold.chronograph_blanks import (
     switch_to_unsuccessful,
 )
-from openprocurement.tender.openua.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     set_auction_period_0bid as set_auction_period,
 )
-from openprocurement.tender.openua.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot,
 )
 

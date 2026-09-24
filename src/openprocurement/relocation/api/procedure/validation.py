@@ -7,9 +7,6 @@ from openprocurement.api.validation import (
     validate_accreditation_level_owner,
     validate_json_data,
 )
-from openprocurement.tender.belowthreshold.procedure.state.tender_details import (
-    BelowThresholdTenderDetailsState,
-)
 from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
     CFASelectionTenderDetailsState,
 )
@@ -32,18 +29,11 @@ from openprocurement.tender.limited.procedure.state.tender_details import (
     ReportingTenderDetailsState,
 )
 from openprocurement.tender.open.procedure.state.tender_details import (
-    OpenTenderDetailsState,
-)
-from openprocurement.tender.openeu.procedure.state.tender_details import (
-    OpenEUTenderDetailsState,
-)
-from openprocurement.tender.openua.procedure.state.tender_details import (
-    OpenUATenderDetailsState,
-)
-from openprocurement.tender.openuadefense.procedure.state.tender_details import (
+    AboveThresholdEUTenderDetailsState,
+    AboveThresholdTenderDetailsState,
+    AboveThresholdUATenderDetailsState,
+    BelowThresholdTenderDetailsState,
     DefenseTenderDetailsState,
-)
-from openprocurement.tender.simpledefense.procedure.state.tender_details import (
     SimpleDefenseTenderDetailsState,
 )
 
@@ -62,9 +52,9 @@ def validate_ownership_data(request, **kwargs):
 def validate_tender_transfer_accreditation_level(request, **kwargs):
     state_mapping = {
         "belowThreshold": BelowThresholdTenderDetailsState,
-        "aboveThreshold": OpenTenderDetailsState,
-        "aboveThresholdUA": OpenUATenderDetailsState,
-        "aboveThresholdEU": OpenEUTenderDetailsState,
+        "aboveThreshold": AboveThresholdTenderDetailsState,
+        "aboveThresholdUA": AboveThresholdUATenderDetailsState,
+        "aboveThresholdEU": AboveThresholdEUTenderDetailsState,
         "negotiation": NegotiationTenderDetailsState,
         "negotiation.quick": NegotiationTenderDetailsState,
         "aboveThresholdUA.defense": DefenseTenderDetailsState,

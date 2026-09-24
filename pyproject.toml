@@ -94,12 +94,7 @@ dev = [
 "relocation.api" = "openprocurement.relocation.api.includeme:includeme"
 "framework.core" = "openprocurement.framework.core.includeme:includeme"
 
-"tender.belowthreshold" = "openprocurement.tender.belowthreshold.includeme:includeme"
-"tender.competitiveordering" = "openprocurement.tender.competitiveordering.includeme:includeme"
 "tender.open" = "openprocurement.tender.open.includeme:includeme"
-"tender.openua" = "openprocurement.tender.openua.includeme:includeme"
-"tender.openeu" = "openprocurement.tender.openeu.includeme:includeme"
-"tender.openuadefense" = "openprocurement.tender.openuadefense.includeme:includeme"
 "tender.limited.reporting" = "openprocurement.tender.limited.includeme:includeme"
 "tender.limited.negotiation" = "openprocurement.tender.limited.includeme:includeme_negotiation"
 "tender.limited.negotiation.quick" = "openprocurement.tender.limited.includeme:includeme_negotiation_quick"
@@ -108,8 +103,6 @@ dev = [
 "tender.cfaua" = "openprocurement.tender.cfaua.includeme:includeme"
 "tender.cfaselectionua" = "openprocurement.tender.cfaselectionua.includeme:includeme"
 "tender.pricequotation" = "openprocurement.tender.pricequotation.includeme:includeme"
-"tender.simpledefense" = "openprocurement.tender.simpledefense.includeme:includeme"
-"tender.requestforproposal" = "openprocurement.tender.requestforproposal.includeme:includeme"
 "tender.arma" = "openprocurement.tender.arma.includeme:includeme"
 
 "historical.tender" = "openprocurement.historical.tender.includeme:includeme"

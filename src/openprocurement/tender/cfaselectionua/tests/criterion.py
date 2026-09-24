@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.criterion_blanks import (
+from openprocurement.tender.open.tests.below_threshold.criterion_blanks import (
     create_patch_delete_evidences_from_requirement,
     delete_requirement_evidence,
     patch_criteria_rg,
@@ -13,7 +13,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_lots,
     test_tender_cfaselectionua_required_criteria_ids,
 )
-from openprocurement.tender.openua.tests.criterion import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,

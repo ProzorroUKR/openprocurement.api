@@ -63,7 +63,6 @@ from openprocurement.contracting.core.procedure.serializers.rationale_types impo
     get_change_rationale_types_reference,
 )
 from openprocurement.framework.ifi.constants import IFI_TYPE
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.constants import (
     AGREEMENT_CONTRACTS_MESSAGE,
     AGREEMENT_IDENTIFIER_MESSAGE,
@@ -118,7 +117,7 @@ from openprocurement.tender.core.utils import (
     calculate_tender_full_date,
     get_criteria_rules,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
 
 
 class TenderConfigMixin(ConfigMixin):

@@ -2,8 +2,8 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (  # TenderProcessTest; TenderResourceTest
+from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (  # TenderProcessTest; TenderResourceTest
     create_tender_central,
     create_tender_central_invalid,
     guarantee,
@@ -40,9 +40,9 @@ from openprocurement.tender.esco.tests.tender_blanks import (  # TenderESCOTest;
     tender_value,
     tender_with_nbu_discount_rate,
 )
-from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
-from openprocurement.tender.openeu.tests.periods import TENDERING_DAYS
-from openprocurement.tender.openeu.tests.tender_blanks import (
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
+from openprocurement.tender.open.tests.above_threshold_eu.periods import TENDERING_DAYS
+from openprocurement.tender.open.tests.above_threshold_eu.tender_blanks import (
     invalid_bid_tender_lot,
     lost_contract_for_active_award,
     multiple_bidders_tender,
@@ -50,8 +50,8 @@ from openprocurement.tender.openeu.tests.tender_blanks import (
     one_qualificated_bid_tender,
     unsuccessful_after_prequalification_tender,
 )
-from openprocurement.tender.openua.tests.tender import TenderUAResourceTestMixin
-from openprocurement.tender.openua.tests.tender_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.tender import TenderUAResourceTestMixin
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
     tender_with_main_procurement_category,
 )
 

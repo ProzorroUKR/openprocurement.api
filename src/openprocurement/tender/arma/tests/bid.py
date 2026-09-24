@@ -50,21 +50,21 @@ from openprocurement.tender.arma.tests.bid_blanks import (
     put_tender_bidder_document,
     put_tender_bidder_document_private_json,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (  # Tender2LotBidResourceTest
+from openprocurement.tender.open.tests.below_threshold.bid_blanks import (  # Tender2LotBidResourceTest
     bid_proposal_doc,
     create_tender_bid_document_json_bulk,
     patch_pending_bid,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     bids_related_product,
     patch_tender_with_bids_lots_none,
 )

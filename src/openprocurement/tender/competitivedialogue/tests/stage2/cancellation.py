@@ -5,15 +5,15 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_lots,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import (
+from openprocurement.tender.open.tests.below_threshold.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
     TenderCancellationResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.below_threshold.cancellation_blanks import (
     create_tender_lot_cancellation,
     create_tender_lots_cancellation,
     patch_tender_lot_cancellation,
@@ -29,11 +29,11 @@ from openprocurement.tender.competitivedialogue.tests.base import (
 from openprocurement.tender.competitivedialogue.tests.stage2.cancellation_blanks import (
     cancellation_active_qualification_j1427,
 )
-from openprocurement.tender.openua.tests.cancellation import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation import (
     TenderCancellationComplaintResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation_blanks import (
     activate_cancellation,
 )
 

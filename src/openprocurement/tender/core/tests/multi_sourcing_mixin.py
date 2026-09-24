@@ -6,7 +6,7 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 
 def _patch_schema(schema_dict, key):

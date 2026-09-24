@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
     tender_created_before,
 )
-from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.limited.constants import LIMITED_WORKING_DAYS_CONFIG
 from openprocurement.tender.limited.procedure.models.tender import (
     NegotiationPatchTender,
     NegotiationPostTender,
@@ -195,7 +195,7 @@ class ReportingTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin, 
     award_criteria_choices = None
     award_criteria_default = None
     contract_template_name_patch_statuses = []
-    working_days_config = WORKING_DAYS_CONFIG
+    working_days_config = LIMITED_WORKING_DAYS_CONFIG
     vat_not_included_check = False
     notice_doc_required_check = False
     items_classification_prefix_change_check = False
@@ -232,7 +232,7 @@ class NegotiationTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin
     award_criteria_choices = None
     award_criteria_default = None
     contract_template_name_patch_statuses = ("draft", "active")
-    working_days_config = WORKING_DAYS_CONFIG
+    working_days_config = LIMITED_WORKING_DAYS_CONFIG
     notice_doc_required_check = False
     items_classification_prefix_change_check = False
     tender_period_start_date_required = False

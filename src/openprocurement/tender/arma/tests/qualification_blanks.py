@@ -1,7 +1,7 @@
 from freezegun import freeze_time
 
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import clean_requirement_responses
 
 # TenderQualificationResourceTest
 

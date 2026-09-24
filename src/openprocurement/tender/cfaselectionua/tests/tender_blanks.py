@@ -10,14 +10,14 @@ from openprocurement.api.constants import ROUTE_PREFIX, SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
 )
 from openprocurement.tender.cfaselectionua.constants import (
-    BOT_NAME,
-    MIN_ACTIVE_CONTRACTS,
-    MIN_PERIOD_UNTIL_AGREEMENT_END,
+    CFA_SELECTION_BOT_NAME,
+    CFA_SELECTION_MIN_ACTIVE_CONTRACTS,
+    CFA_SELECTION_MIN_PERIOD_UNTIL_AGREEMENT_END,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_base_organization,
@@ -772,7 +772,7 @@ def create_tender_from_agreement_with_features_successful(self, agreement):
 
 
 def create_tender_from_agreement_with_features_0_3_successful(self):
-    self.app.authorization = ("Basic", (BOT_NAME, ""))
+    self.app.authorization = ("Basic", (CFA_SELECTION_BOT_NAME, ""))
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
@@ -1657,7 +1657,7 @@ def patch_tender_bot(self):
     # self.assertNotEqual(response.json['data']['lots'][0]['value'], agreement_contracts[0]['value'])
 
     # patch tender by bot in wrong status
-    self.app.authorization = ("Basic", (BOT_NAME, ""))
+    self.app.authorization = ("Basic", (CFA_SELECTION_BOT_NAME, ""))
     response = self.app.patch_json("/tenders/{}".format(tender["id"]), {"data": {"status": "draft"}}, status=403)
     self.assertEqual((response.status, response.content_type), ("403 Forbidden", "application/json"))
     self.assertEqual(
@@ -1709,7 +1709,7 @@ def patch_tender_bot(self):
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(
         response.json["data"]["unsuccessfulReason"],
-        ["Agreement ends less than {} days".format(MIN_PERIOD_UNTIL_AGREEMENT_END.days)],
+        ["Agreement ends less than {} days".format(CFA_SELECTION_MIN_PERIOD_UNTIL_AGREEMENT_END.days)],
     )
 
     # patch tender argeement.period.startDate > tender.date
@@ -1740,7 +1740,7 @@ def patch_tender_bot(self):
     self.assertEqual(response.json["data"]["status"], "draft.unsuccessful")
     self.assertEqual(
         response.json["data"]["unsuccessfulReason"],
-        ["Agreement has less than {} active contracts".format(MIN_ACTIVE_CONTRACTS)],
+        ["Agreement has less than {} active contracts".format(CFA_SELECTION_MIN_ACTIVE_CONTRACTS)],
     )
 
     # patch tender with wrong identifier

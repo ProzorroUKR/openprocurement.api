@@ -11,7 +11,7 @@ from openprocurement.api.tests.base import (  # pylint: disable=unused-import
     test_signer_info,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_config,
     test_tender_below_data,
 )
@@ -43,19 +43,19 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
     test_tender_reporting_data,
 )
-from openprocurement.tender.openeu.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_eu.base import (
     test_tender_openeu_config,
     test_tender_openeu_data,
 )
-from openprocurement.tender.openua.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_ua.base import (
     test_tender_openua_config,
     test_tender_openua_data,
 )
-from openprocurement.tender.openuadefense.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_ua_defense.base import (
     test_tender_openuadefense_config,
     test_tender_openuadefense_data,
 )
-from openprocurement.tender.simpledefense.tests.base import (
+from openprocurement.tender.open.tests.simple_defense.base import (
     test_tender_simpledefense_config,
     test_tender_simpledefense_data,
 )

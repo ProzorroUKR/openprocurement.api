@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
-from openprocurement.tender.esco.constants import TENDERING_EXTRA_PERIOD
+from openprocurement.tender.esco.constants import ESCO_TENDERING_EXTRA_PERIOD
 from openprocurement.tender.esco.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
 
 
@@ -24,7 +24,7 @@ class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
 
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
-    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra = ESCO_TENDERING_EXTRA_PERIOD
     items_delivery_required = False
     items_unit_required = False
     items_quantity_required = False

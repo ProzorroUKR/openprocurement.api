@@ -1,15 +1,7 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.openeu.procedure.views.award_document import (
-    EUTenderBidDocumentResource,
-)
-from openprocurement.tender.openua.procedure.views.award_document import (
-    UATenderAwardDocumentResource,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.core.procedure.views.award_document import BaseAwardDocumentResource
 
 
 @resource(
@@ -19,7 +11,7 @@ from openprocurement.tender.openua.procedure.views.award_document import (
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Tender award documents",
 )
-class CDStage2EUTenderAwardDocumentResource(EUTenderBidDocumentResource):
+class CDStage2EUTenderAwardDocumentResource(BaseAwardDocumentResource):
     pass
 
 
@@ -30,5 +22,5 @@ class CDStage2EUTenderAwardDocumentResource(EUTenderBidDocumentResource):
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue Stage 2 UA award documents",
 )
-class CDStage2UATenderAwardDocumentResource(UATenderAwardDocumentResource):
+class CDStage2UATenderAwardDocumentResource(BaseAwardDocumentResource):
     pass

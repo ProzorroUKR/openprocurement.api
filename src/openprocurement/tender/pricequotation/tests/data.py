@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_milestones,
 )
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES

@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.document import (
+from openprocurement.tender.open.tests.below_threshold.document import (
     TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.cfaua.tests.base import BaseTenderContentWebTest

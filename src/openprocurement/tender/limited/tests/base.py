@@ -4,10 +4,10 @@ from datetime import datetime, timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest as BaseBaseTenderWebTest,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_data,
 )

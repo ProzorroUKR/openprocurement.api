@@ -11,17 +11,14 @@ from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_base_organization,
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE2_STATUS,
-    STAGE_2_EU_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import CD_STAGE2_STATUS, STAGE_2_EU_TYPE
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import ocds_release_schema, ocds_resolver
 from openprocurement.tender.core.tests.cancellation import (
@@ -998,7 +995,7 @@ def tender_features(self):
     token = response.json["access"]["token"]
     self.tender_id = response.json["data"]["id"]
     # switch to draft.stage2
-    self.set_status(STAGE2_STATUS)
+    self.set_status(CD_STAGE2_STATUS)
     response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], token))
     self.assertEqual(response.status, "200 OK")
     self.assertIn("features", response.json["data"])
@@ -1021,7 +1018,7 @@ def patch_tender_1(self):
     self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
-    self.set_status(STAGE2_STATUS)
+    self.set_status(CD_STAGE2_STATUS)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(

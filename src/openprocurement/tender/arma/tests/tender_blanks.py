@@ -10,7 +10,7 @@ from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import change_auth, test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_supplier,
 )

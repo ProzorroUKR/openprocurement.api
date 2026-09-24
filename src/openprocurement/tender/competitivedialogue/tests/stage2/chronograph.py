@@ -2,10 +2,10 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.below_threshold.chronograph_blanks import (
     switch_to_auction as switch_to_auction_ua,  # TenderStage2UASwitchAuctionResourceTest; TenderStage2UASwitchBidResourceTest
 )
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.below_threshold.chronograph_blanks import (
     switch_to_unsuccessful,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -20,23 +20,23 @@ from openprocurement.tender.competitivedialogue.tests.stage2.chronograph_blanks 
     set_auction_period_2_lot_0_bid_ua,
     switch_to_unsuccessful_eu,
 )
-from openprocurement.tender.openeu.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.chronograph_blanks import (
     pre_qual_switch_to_auction as switch_to_auction_pre_qual,
 )
-from openprocurement.tender.openeu.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.chronograph_blanks import (
     switch_to_auction as switch_to_auction_eu,  # TenderStage2EUSwitchAuctionResourceTest; TenderStage2EUSwitchPreQualificationResourceTest; TenderStage2EUComplaintSwitchResourceTest
 )
-from openprocurement.tender.openua.tests.chronograph import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph import (
     TenderLotSwitchAuctionResourceTestMixin,
     TenderSwitchAuctionResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot_0_bid_ua,
 )
-from openprocurement.tender.openua.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     switch_to_unsuccessful_lot_0bid,
 )
-from openprocurement.tender.openua.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     switch_to_unsuccessful_lot_1bid as switch_to_unsuccessful_lot_1_bid_ua,  # TenderStage2EUAuctionPeriodResourceTest; TenderStage2UALotSwitch1BidResourceTest; TenderStage2UALotSwitch0BidResourceTest
 )
 

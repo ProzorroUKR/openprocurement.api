@@ -1,6 +1,6 @@
 import os
 
-from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold_ua_defense.tender import BaseTenderUAWebTest
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin

@@ -3,7 +3,7 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 
 # TenderAuctionResourceTest
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
 

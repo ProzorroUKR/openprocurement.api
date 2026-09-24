@@ -9,7 +9,7 @@ from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_TITLE,
 )
 from openprocurement.planning.api.tests.base import BasePlanWebTest
-from openprocurement.tender.openua.tests.base import test_tender_openua_config
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_config
 from tests.base.constants import DOCS_URL
 from tests.base.data import (
     test_docs_plan_data,

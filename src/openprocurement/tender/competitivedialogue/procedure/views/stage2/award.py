@@ -1,14 +1,10 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.award import (
     CDStage2AwardState,
 )
-from openprocurement.tender.openeu.procedure.views.award import EUTenderAwardResource
-from openprocurement.tender.openua.procedure.views.award import UATenderAwardResource
+from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 
 
 @resource(
@@ -18,7 +14,7 @@ from openprocurement.tender.openua.procedure.views.award import UATenderAwardRes
     description="Competitive Dialogue Stage 2 EU awards",
     procurementMethodType=STAGE_2_EU_TYPE,
 )
-class CDStage2EUTenderAwardResource(EUTenderAwardResource):
+class CDStage2EUTenderAwardResource(TenderAwardResource):
     state_class = CDStage2AwardState
 
 
@@ -29,5 +25,5 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
     description="Competitive Dialogue Stage 2 UA awards",
     procurementMethodType=STAGE_2_UA_TYPE,
 )
-class CDStage2UATenderAwardResource(UATenderAwardResource):
+class CDStage2UATenderAwardResource(TenderAwardResource):
     state_class = CDStage2AwardState

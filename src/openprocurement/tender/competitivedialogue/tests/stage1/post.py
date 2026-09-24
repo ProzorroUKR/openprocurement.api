@@ -1,7 +1,7 @@
 from copy import deepcopy
 from unittest.mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
 )
@@ -13,8 +13,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_stage1_bids,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
-from openprocurement.tender.open.tests.post import (
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.above_threshold.post import (
     ClaimPostResourceMixin,
     ComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,

@@ -18,13 +18,8 @@ from openprocurement.api.procedure.models.value import EstimatedValue
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
-from openprocurement.tender.cfaua.constants import (
-    MAX_AGREEMENT_PERIOD,
-)
-from openprocurement.tender.cfaua.constants import (
-    MIN_BIDS_NUMBER as CFA_MIN_BIDS_NUMBER,
-)
+from openprocurement.tender.cfaua.constants import CFA_UA_MAX_AGREEMENT_PERIOD
+from openprocurement.tender.cfaua.constants import CFA_UA_MIN_BIDS_NUMBER as CFA_MIN_BIDS_NUMBER
 from openprocurement.tender.core.constants import (
     AWARD_CRITERIA_CHOICES,
     CORE_TENDER_PROCUREMENT_METHOD_TYPES,
@@ -69,18 +64,11 @@ from openprocurement.tender.core.procedure.models.value import (
     BasicValue,
     PostEstimatedValue,
 )
-from openprocurement.tender.limited.constants import (
-    cause_choices as NEGOTIATION_CAUSE_CHOICES,
-)
-from openprocurement.tender.limited.constants import (
-    cause_choices_new as NEGOTIATION_CAUSE_CHOICES_NEW,
-)
-from openprocurement.tender.limited.constants import (
-    cause_choices_quick as NEGOTIATION_QUICK_CAUSE_CHOICES,
-)
-from openprocurement.tender.limited.constants import (
-    cause_choices_quick_new as NEGOTIATION_QUICK_CAUSE_CHOICES_NEW,
-)
+from openprocurement.tender.limited.constants import cause_choices as NEGOTIATION_CAUSE_CHOICES
+from openprocurement.tender.limited.constants import cause_choices_new as NEGOTIATION_CAUSE_CHOICES_NEW
+from openprocurement.tender.limited.constants import cause_choices_quick as NEGOTIATION_QUICK_CAUSE_CHOICES
+from openprocurement.tender.limited.constants import cause_choices_quick_new as NEGOTIATION_QUICK_CAUSE_CHOICES_NEW
+from openprocurement.tender.open.constants import BELOW_THRESHOLD
 
 
 def validate_items_related_lot(data, items):
@@ -370,9 +358,9 @@ def validate_cfa_max_awards_number(number, *args):
 
 def validate_cfa_max_agreement_duration_period(value):
     date = datetime(1, 1, 1)
-    if (date + value) > (date + MAX_AGREEMENT_PERIOD):
+    if (date + value) > (date + CFA_UA_MAX_AGREEMENT_PERIOD):
         raise ValidationError(
-            "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+            "Agreement duration period is greater than {}".format(duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD))
         )
 
     # Non-required mainProcurementCategory

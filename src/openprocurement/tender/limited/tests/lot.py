@@ -3,7 +3,7 @@ from unittest import mock
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
+from openprocurement.tender.open.tests.below_threshold.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_lots,

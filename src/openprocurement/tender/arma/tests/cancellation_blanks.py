@@ -11,7 +11,7 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.utils import get_now
 
 # TenderCancellationBidsAvailabilityTest
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
 from openprocurement.tender.core.procedure.utils import dt_from_iso

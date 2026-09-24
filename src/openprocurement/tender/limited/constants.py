@@ -4,7 +4,7 @@ REPORTING = "reporting"
 NEGOTIATION = "negotiation"
 NEGOTIATION_QUICK = "negotiation.quick"
 
-WORKING_DAYS_CONFIG = {
+LIMITED_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": True,
     "minEnquiriesDuration": True,
     "enquiryPeriodRegulation": True,
@@ -14,17 +14,17 @@ WORKING_DAYS_CONFIG = {
 }
 
 
-COMMON_VALUE_AMOUNT_THRESHOLD = {
+LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD = {
     "goods": 200000,
     "services": 200000,
     "works": 1500000,
 }
 
-VALUE_AMOUNT_THRESHOLD_MAPPING = {
-    ProcuringEntityKind.AUTHORITY: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.DEFENSE: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.GENERAL: COMMON_VALUE_AMOUNT_THRESHOLD,
-    ProcuringEntityKind.SOCIAL: COMMON_VALUE_AMOUNT_THRESHOLD,
+LIMITED_VALUE_AMOUNT_THRESHOLD_MAPPING = {
+    ProcuringEntityKind.AUTHORITY: LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.DEFENSE: LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.GENERAL: LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD,
+    ProcuringEntityKind.SOCIAL: LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD,
     ProcuringEntityKind.SPECIAL: {
         "goods": 1000000,
         "services": 1000000,

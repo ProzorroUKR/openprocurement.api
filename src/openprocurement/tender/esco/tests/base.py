@@ -8,7 +8,7 @@ from openprocurement.tender.core.tests.base import (
     test_criteria_all,
 )
 from openprocurement.tender.esco.tests.utils import prepare_items
-from openprocurement.tender.openeu.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_eu.base import (
     BaseTenderWebTest,
     test_tender_openeu_bids,
     test_tender_openeu_data,

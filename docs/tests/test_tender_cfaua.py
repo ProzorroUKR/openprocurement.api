@@ -4,7 +4,7 @@ from datetime import timedelta
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.cfaua.constants import CFA_UA_CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_criteria,
     test_tender_cfaua_data,
@@ -884,7 +884,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         # Time travel to agreement.contractPeriod.clarificationsUntil
         tender = self.mongodb.tenders.get(self.tender_id)
         tender["contractPeriod"]["startDate"] = (
-            get_now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+            get_now() - CFA_UA_CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
         ).isoformat()
         tender["contractPeriod"]["clarificationsUntil"] = (get_now() - timedelta(days=1)).isoformat()
         self.mongodb.tenders.save(tender)

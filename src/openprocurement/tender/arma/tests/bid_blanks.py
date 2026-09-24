@@ -5,7 +5,7 @@ from unittest import mock
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
 from openprocurement.tender.arma.tests.base import test_tender_arma_bids
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import (
     change_auth,
     set_bid_items,

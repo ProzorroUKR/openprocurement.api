@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
     test_tender_below_complaint,
@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
 from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
-from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import clean_requirement_responses
 
 
 def create_tender_award_invalid(self):

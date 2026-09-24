@@ -6,7 +6,7 @@ from openprocurement.api.constants_env import (
     EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (

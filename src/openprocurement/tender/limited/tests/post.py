@@ -2,7 +2,7 @@ from copy import deepcopy
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
     test_tender_below_supplier,
@@ -14,13 +14,13 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_config,
     test_tender_negotiation_quick_data,
 )
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
-from openprocurement.tender.open.tests.post import (
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.above_threshold.post import (
     TenderAwardComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
     date_after_2020_04_19,
 )
-from openprocurement.tender.open.tests.post_blanks import (
+from openprocurement.tender.open.tests.above_threshold.post_blanks import (
     create_complaint_post_complaint_owner,
     create_complaint_post_status_forbidden,
     create_complaint_post_tender_owner,

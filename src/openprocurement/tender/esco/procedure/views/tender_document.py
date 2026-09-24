@@ -1,8 +1,7 @@
 from cornice.resource import resource
 
-from openprocurement.tender.openua.procedure.views.tender_document import (
-    UATenderDocumentResource,
-)
+from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
+from openprocurement.tender.open.procedure.state.tender_document import AboveThresholdTenderDocumentState
 
 
 @resource(
@@ -12,5 +11,5 @@ from openprocurement.tender.openua.procedure.views.tender_document import (
     procurementMethodType="esco",
     description="Tender ESCO related binary files (PDFs, etc.)",
 )
-class ESCOTenderDocumentResource(UATenderDocumentResource):
-    pass
+class ESCOTenderDocumentResource(TenderDocumentResource):
+    state_class = AboveThresholdTenderDocumentState

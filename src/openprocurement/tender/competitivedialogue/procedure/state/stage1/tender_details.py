@@ -1,8 +1,8 @@
 from openprocurement.tender.competitivedialogue.constants import (
-    FEATURES_MAX_SUM,
-    STAGE_2_EU_DEFAULT_CONFIG,
-    STAGE_2_UA_DEFAULT_CONFIG,
-    TENDERING_EXTRA_PERIOD,
+    CD_FEATURES_MAX_SUM,
+    CD_STAGE_2_EU_DEFAULT_CONFIG,
+    CD_STAGE_2_UA_DEFAULT_CONFIG,
+    CD_TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage1EUPatchTender,
@@ -31,7 +31,7 @@ from openprocurement.tender.core.procedure.utils import (
 class CDStage1TenderDetailsStateMixin(TenderDetailsMixin, CDStage1TenderState):
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
-    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra = CD_TENDERING_EXTRA_PERIOD
     tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
     tender_patch_allowed_statuses = (
         "draft",
@@ -41,7 +41,7 @@ class CDStage1TenderDetailsStateMixin(TenderDetailsMixin, CDStage1TenderState):
         "active.stage2.pending",
     )
     guarantee_criterion_check = False
-    features_max_weight = FEATURES_MAX_SUM
+    features_max_weight = CD_FEATURES_MAX_SUM
     main_procurement_category_choices = ("services", "works")
     milestones_required = False
     milestones_delivery_financing_required = False
@@ -83,7 +83,7 @@ class CDStage1EUTenderDetailsState(CDStage1TenderDetailsStateMixin):
     stage_2_tender_model = CDStage2EUPostTender
 
     stage_2_tender_state = CDStage2EUTenderDetailsState
-    stage_2_config = STAGE_2_EU_DEFAULT_CONFIG
+    stage_2_config = CD_STAGE_2_EU_DEFAULT_CONFIG
 
 
 class CDStage1UATenderDetailsState(CDStage1TenderDetailsStateMixin):
@@ -95,4 +95,4 @@ class CDStage1UATenderDetailsState(CDStage1TenderDetailsStateMixin):
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None
     stage_2_tender_state = CDStage2UATenderDetailsState
-    stage_2_config = STAGE_2_UA_DEFAULT_CONFIG
+    stage_2_config = CD_STAGE_2_UA_DEFAULT_CONFIG

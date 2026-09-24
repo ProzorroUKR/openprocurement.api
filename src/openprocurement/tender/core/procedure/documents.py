@@ -6,24 +6,25 @@ from nacl.exceptions import BadSignatureError
 
 from openprocurement.api.rfc6266 import build_header
 from openprocurement.api.utils import error_handler, generate_docservice_url
+from openprocurement.tender.core.utils import split_route_name
 
 
 def check_document_batch(request, document, document_container, route_kwargs=None, route_prefix=None):
     check_document(request, document)
-    document_route = request.matched_route.name.replace("collection_", "")
+    matched_prefix, resource_name = split_route_name(request.matched_route.name)
+    document_route = ":".join(filter(None, [matched_prefix, resource_name]))
     # Following piece of code was written by leits, so no one knows how it works
     # and why =)
     # To redefine document_route to get appropriate real document route when bid
     # is created with documents? I hope so :)
-    if "Documents" not in document_route:
+    if "Documents" not in resource_name:
         if document_container != "body":
             route_end = document_container.lower().rsplit("documents")[0] + " documents"
         else:
             route_end = "documents"
         specified_document_route_end = route_end.lstrip().title()
-        document_route = " ".join([document_route[:-1], specified_document_route_end])
-        if route_prefix:
-            document_route = ":".join([route_prefix, document_route])
+        document_route = " ".join([resource_name[:-1], specified_document_route_end])
+        document_route = ":".join(filter(None, [route_prefix or matched_prefix, document_route]))
     return update_document_url(request, document, document_route, route_kwargs)
 
 

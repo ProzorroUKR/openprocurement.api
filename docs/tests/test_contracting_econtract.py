@@ -7,11 +7,11 @@ from uuid import uuid4
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.tests.data import test_contract_data
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_multi_buyers_data,
-)
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import change_auth, set_items_unit, set_tender_criteria
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_multi_buyers_data,
+)
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest as BasePQWebTest,
 )

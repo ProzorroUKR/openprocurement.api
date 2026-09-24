@@ -1,0 +1,104 @@
+import unittest
+
+from openprocurement.api.tests.base import snitch
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_author,
+    test_tender_below_draft_complaint,
+    test_tender_below_lots,
+)
+from openprocurement.tender.open.tests.below_threshold.complaint_blanks import (
+    create_tender_complaint_document,
+    not_found,
+)
+from openprocurement.tender.open.tests.above_threshold.complaint import (
+    ComplaintObjectionMixin,
+    TenderAwardComplaintObjectionMixin,
+    TenderCancellationComplaintObjectionMixin,
+    TenderComplaintObjectionMixin,
+)
+from openprocurement.tender.open.tests.above_threshold_ua.complaint import (
+    CreateAwardComplaintMixin,
+    TenderUAComplaintResourceTestMixin,
+)
+from openprocurement.tender.open.tests.above_threshold_ua.complaint_blanks import (
+    mistaken_status_tender_complaint,
+    patch_tender_complaint_document,
+    put_tender_complaint_document,
+)
+from openprocurement.tender.open.tests.above_threshold_ua_defense.base import (
+    BaseTenderUAContentWebTest,
+    test_tender_openuadefense_bids,
+)
+
+
+class TenderComplaintResourceTest(BaseTenderUAContentWebTest, TenderUAComplaintResourceTestMixin):
+    test_author = test_tender_below_author
+    test_mistaken_status_tender_complaint = snitch(mistaken_status_tender_complaint)
+
+
+class TenderComplaintDocumentResourceTest(BaseTenderUAContentWebTest):
+    def setUp(self):
+        super().setUp()
+        # Create complaint
+        response = self.app.post_json(
+            "/tenders/{}/complaints".format(self.tender_id),
+            {"data": test_tender_below_draft_complaint},
+        )
+        complaint = response.json["data"]
+        self.complaint_id = complaint["id"]
+        self.complaint_owner_token = response.json["access"]["token"]
+
+    test_author = test_tender_below_author
+
+    test_not_found = snitch(not_found)
+    test_create_tender_complaint_document = snitch(create_tender_complaint_document)
+    test_put_tender_complaint_document = snitch(put_tender_complaint_document)
+    test_patch_tender_complaint_document = snitch(patch_tender_complaint_document)
+
+
+class TenderComplaintObjectionResourceTest(
+    BaseTenderUAContentWebTest,
+    TenderComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    pass
+
+
+class TenderAwardComplaintObjectionResourceTest(
+    BaseTenderUAContentWebTest,
+    CreateAwardComplaintMixin,
+    TenderAwardComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    initial_status = "active.qualification"
+    initial_bids = test_tender_openuadefense_bids
+    initial_lots = test_tender_below_lots
+
+    def setUp(self):
+        super().setUp()
+        self.create_award()
+
+
+class TenderCancellationComplaintObjectionResourceTest(
+    BaseTenderUAContentWebTest,
+    TenderCancellationComplaintObjectionMixin,
+    ComplaintObjectionMixin,
+):
+    def setUp(self):
+        super().setUp()
+        self.set_complaint_period_end()
+        self.create_cancellation()
+
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintDocumentResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderAwardComplaintObjectionResourceTest))
+    suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(TenderCancellationComplaintObjectionResourceTest))
+    return suite
+
+
+if __name__ == "__main__":
+    unittest.main(defaultTest="suite")

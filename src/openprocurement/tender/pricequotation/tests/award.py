@@ -4,10 +4,10 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.award import (
+from openprocurement.tender.open.tests.below_threshold.award import (
     TenderAwardDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     create_tender_award_no_scale_invalid,
     get_tender_award,
 )

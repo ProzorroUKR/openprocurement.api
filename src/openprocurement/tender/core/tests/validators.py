@@ -14,7 +14,7 @@
 #     validate_update_contract_value_amount,
 # )
 # from openprocurement.tender.belowthreshold.models import Tender
-# from openprocurement.tender.belowthreshold.tests.base import (
+# from openprocurement.tender.open.tests.below_threshold.base import (
 #     test_tender_below_data,
 #     test_tender_below_lots,
 # )

@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+from openprocurement.tender.open.tests.below_threshold.bid_blanks import (
     create_tender_bid_document_json,
     create_tender_bid_document_json_bulk,
     create_tender_bid_with_document,
@@ -13,7 +13,7 @@ from openprocurement.tender.belowthreshold.tests.bid_blanks import (
 )
 from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_responses
-from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import bids_related_product
 from openprocurement.tender.pricequotation.tests.base import TenderContentWebTest
 from openprocurement.tender.pricequotation.tests.bid_blanks import (
     bid_Administrator_change,

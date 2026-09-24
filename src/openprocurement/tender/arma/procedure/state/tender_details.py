@@ -1,9 +1,6 @@
 from openprocurement.api.constants_env import ARMA_MIN_EXPECTED_INCOME_FROM
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.arma.constants import (
-    TENDERING_EXTRA_PERIOD,
-    WORKING_DAYS_CONFIG,
-)
+from openprocurement.tender.arma.constants import ARMA_TENDERING_EXTRA_PERIOD, ARMA_WORKING_DAYS_CONFIG
 from openprocurement.tender.arma.procedure.models.tender import ARMAPatchTender, ARMAPostTender, ARMATender
 from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
@@ -22,9 +19,9 @@ class ARMATenderDetailsMixin(TenderDetailsMixin):
     milestones_delivery_financing_required = False
     award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
     award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
-    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra = ARMA_TENDERING_EXTRA_PERIOD
     vat_not_included_check = False
-    working_days_config = WORKING_DAYS_CONFIG
+    working_days_config = ARMA_WORKING_DAYS_CONFIG
     tender_has_value = False
 
     def on_patch(self, before, after):

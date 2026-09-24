@@ -71,7 +71,7 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN as PQ_PROFILE_PATTERN
+from openprocurement.tender.pricequotation.constants import PQ_PROFILE_PATTERN as PQ_PROFILE_PATTERN
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}

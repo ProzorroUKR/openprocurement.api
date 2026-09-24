@@ -4,10 +4,10 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitivedialogue.constants import (
-    FEATURES_MAX_SUM,
-    STAGE_2_EU_DEFAULT_CONFIG,
-    STAGE_2_UA_DEFAULT_CONFIG,
-    TENDERING_EXTRA_PERIOD,
+    CD_FEATURES_MAX_SUM,
+    CD_STAGE_2_EU_DEFAULT_CONFIG,
+    CD_STAGE_2_UA_DEFAULT_CONFIG,
+    CD_TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage2EUPatchTender,
@@ -40,8 +40,8 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
 
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
-    tender_period_extra = TENDERING_EXTRA_PERIOD
-    tender_config_default = STAGE_2_EU_DEFAULT_CONFIG
+    tender_period_extra = CD_TENDERING_EXTRA_PERIOD
+    tender_config_default = CD_STAGE_2_EU_DEFAULT_CONFIG
     tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
     tender_patch_allowed_statuses = (
         "draft.stage2",
@@ -51,7 +51,7 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
     )
     items_zero_quantity_check = False
     guarantee_criterion_check_skipped_for_administrator = True
-    features_max_weight = FEATURES_MAX_SUM
+    features_max_weight = CD_FEATURES_MAX_SUM
     items_unit_required = False
     items_quantity_required = False
     milestones_required = False
@@ -130,6 +130,6 @@ class CDStage2UATenderDetailsState(CDStage2EUTenderDetailsState):
     patch_data_model = CDStage2UAPatchTender
     data_model = CDStage2UATender
 
-    tender_config_default = STAGE_2_UA_DEFAULT_CONFIG
+    tender_config_default = CD_STAGE_2_UA_DEFAULT_CONFIG
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None

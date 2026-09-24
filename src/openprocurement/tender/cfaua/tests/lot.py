@@ -2,8 +2,8 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-from openprocurement.tender.belowthreshold.tests.lot_blanks import tender_lot_milestones
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_author
+from openprocurement.tender.open.tests.below_threshold.lot_blanks import tender_lot_milestones
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     test_tender_cfaua_bids,
@@ -31,7 +31,7 @@ from openprocurement.tender.cfaua.tests.lot_blanks import (
     tender_lot_guarantee,
     tender_value,
 )
-from openprocurement.tender.openeu.tests.lot_blanks import patch_tender_bidder
+from openprocurement.tender.open.tests.above_threshold_eu.lot_blanks import patch_tender_bidder
 
 one_lot_restriction = True
 

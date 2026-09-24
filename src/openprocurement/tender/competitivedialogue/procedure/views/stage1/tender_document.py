@@ -1,9 +1,8 @@
 from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.openua.procedure.views.tender_document import (
-    UATenderDocumentResource,
-)
+from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
+from openprocurement.tender.open.procedure.state.tender_document import AboveThresholdTenderDocumentState
 
 
 @resource(
@@ -13,8 +12,8 @@ from openprocurement.tender.openua.procedure.views.tender_document import (
     procurementMethodType=CD_EU_TYPE,
     description=f"Tender {CD_EU_TYPE} related binary files (PDFs, etc.)",
 )
-class CDEUTenderDocumentResource(UATenderDocumentResource):
-    pass
+class CDEUTenderDocumentResource(TenderDocumentResource):
+    state_class = AboveThresholdTenderDocumentState
 
 
 @resource(
@@ -24,5 +23,5 @@ class CDEUTenderDocumentResource(UATenderDocumentResource):
     procurementMethodType=CD_UA_TYPE,
     description=f"Tender {CD_UA_TYPE} related binary files (PDFs, etc.)",
 )
-class CDUATenderDocumentResource(UATenderDocumentResource):
-    pass
+class CDUATenderDocumentResource(TenderDocumentResource):
+    state_class = AboveThresholdTenderDocumentState

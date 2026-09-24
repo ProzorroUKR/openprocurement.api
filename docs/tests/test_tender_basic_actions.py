@@ -7,13 +7,6 @@ from uuid import uuid4
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
-    BaseTenderWebTest as BelowThresholdBaseTenderWebTest,
-)
-from openprocurement.tender.belowthreshold.tests.base import (
-    test_tender_below_bids,
-    test_tender_below_config,
-)
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -27,14 +20,21 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_tender_criteria,
 )
-from openprocurement.tender.open.tests.base import (
+from openprocurement.tender.open.tests.above_threshold.base import (
     test_tender_open_complaint_appeal,
     test_tender_open_complaint_appeal_proceeding,
     test_tender_open_complaint_objection,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_criteria
-from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
-from openprocurement.tender.openua.tests.base import test_tender_openua_config
+from openprocurement.tender.open.tests.above_threshold_eu.base import test_tender_openeu_criteria
+from openprocurement.tender.open.tests.above_threshold_eu.tender import BaseTenderWebTest
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_config
+from openprocurement.tender.open.tests.below_threshold.base import (
+    BaseTenderWebTest as BelowThresholdBaseTenderWebTest,
+)
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_bids,
+    test_tender_below_config,
+)
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest as BasePQWebTest,
 )

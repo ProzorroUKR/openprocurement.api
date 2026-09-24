@@ -8,7 +8,7 @@ from pymongo.errors import BulkWriteError
 
 from openprocurement.api.migrations.base import PymongoCollectionMigration
 from openprocurement.api.tests.base import app, singleton_app, unwrap_app
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_config,
     test_tender_below_data,
 )
@@ -40,11 +40,11 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
     test_tender_reporting_data,
 )
-from openprocurement.tender.openeu.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_eu.base import (
     test_tender_openeu_config,
     test_tender_openeu_data,
 )
-from openprocurement.tender.openua.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_ua.base import (
     test_tender_openua_config,
     test_tender_openua_data,
 )

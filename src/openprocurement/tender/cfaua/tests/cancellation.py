@@ -6,14 +6,14 @@ from unittest.mock import patch
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import (
+from openprocurement.tender.open.tests.below_threshold.cancellation import (
     TenderCancellationResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.below_threshold.cancellation_blanks import (
     create_tender_cancellation_document,
     create_tender_lot_cancellation,
     not_found,
@@ -42,14 +42,14 @@ from openprocurement.tender.cfaua.tests.cancellation_blanks import (  # Cancella
     cancellation_tender_active_qualification_stand_still,
     cancellation_tender_active_tendering,
 )
-from openprocurement.tender.openeu.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.cancellation_blanks import (
     create_cancellation_in_qualification_complaint_period,
 )
-from openprocurement.tender.openua.tests.cancellation import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation import (
     TenderCancellationComplaintResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation_blanks import (
     access_create_tender_cancellation_complaint,
     activate_cancellation,
     create_tender_cancellation,

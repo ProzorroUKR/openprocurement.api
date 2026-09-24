@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
     test_tender_negotiation_config,
@@ -6,7 +6,7 @@ from openprocurement.tender.limited.tests.base import (
     test_tender_negotiation_quick_config,
     test_tender_negotiation_quick_data,
 )
-from openprocurement.tender.open.tests.complaint import (
+from openprocurement.tender.open.tests.above_threshold.complaint import (
     ComplaintObjectionMixin,
     TenderAwardComplaintObjectionMixin,
     TenderCancellationComplaintObjectionMixin,

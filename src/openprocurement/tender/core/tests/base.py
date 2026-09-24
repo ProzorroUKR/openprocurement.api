@@ -18,7 +18,7 @@ from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
 from openprocurement.tender.core.tests.utils import (
     change_auth,
@@ -248,9 +248,14 @@ class BaseCoreWebTest(BaseWebTest):
 
     def create_bid(self, tender_id, bid_data, status=None):
         tender = self.mongodb.tenders.get(tender_id)
-        if tender.get("lots") and not bid_data.get("lotValues"):
+        # the shared test data may still hold the lot values / items of a tender created by a previous test
+        lot_ids = {lot["id"] for lot in tender.get("lots", [])}
+        lot_values = bid_data.get("lotValues") or []
+        if tender.get("lots") and (not lot_values or any(v.get("relatedLot") not in lot_ids for v in lot_values)):
             set_bid_lotvalues(bid_data, tender["lots"])
-        if not bid_data.get("items"):
+        item_ids = {item["id"] for item in tender.get("items", [])}
+        items = bid_data.get("items") or []
+        if not items or any(item.get("id") not in item_ids for item in items):
             set_bid_items(self, bid_data, tender["items"], tender_id=tender_id)
 
         response = self.app.post_json("/tenders/{}/bids".format(tender_id), {"data": bid_data})

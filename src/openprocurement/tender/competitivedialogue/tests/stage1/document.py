@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.document import (
+from openprocurement.tender.open.tests.below_threshold.document import (
     TenderDocumentResourceTestMixin,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (

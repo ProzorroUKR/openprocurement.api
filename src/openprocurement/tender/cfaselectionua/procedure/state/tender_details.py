@@ -22,8 +22,8 @@ from openprocurement.framework.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.tender.cfaselectionua.constants import (
-    MIN_PERIOD_UNTIL_AGREEMENT_END,
-    MINIMAL_STEP_PERCENTAGE,
+    CFA_SELECTION_MIN_PERIOD_UNTIL_AGREEMENT_END,
+    CFA_SELECTION_MINIMAL_STEP_PERCENTAGE,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
     CFASelectionPatchAgreement as PatchAgreement,
@@ -97,7 +97,7 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
         "active.pre-qualification",
         "active.qualification",
     )
-    agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
+    agreement_min_period_until_end = CFA_SELECTION_MIN_PERIOD_UNTIL_AGREEMENT_END
     pre_selection_agreement_check = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
     # no tender/lot value meta propagation, minimal step is calculated on activation
@@ -138,7 +138,7 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
                     calculate_agreement_contracts_value_amount(after)
 
                     minimal_step = deepcopy(after["lots"][0]["value"])
-                    minimal_step["amount"] = round(MINIMAL_STEP_PERCENTAGE * minimal_step["amount"], 2)
+                    minimal_step["amount"] = round(CFA_SELECTION_MINIMAL_STEP_PERCENTAGE * minimal_step["amount"], 2)
                     after["lots"][0]["minimalStep"] = minimal_step
 
                     calculate_tender_features(after)

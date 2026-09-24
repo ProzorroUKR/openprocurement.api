@@ -10,15 +10,15 @@ from openprocurement.contracting.core.tests.data import (
     test_contract_data,
     test_signer_info,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.core.tests.mock import patch_market
+from openprocurement.tender.core.tests.utils import set_bid_items, set_items_unit, set_tender_criteria
+from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest as BaseBelowWebTest,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_multi_buyers_data,
     test_tender_below_supplier,
 )
-from openprocurement.tender.core.tests.mock import patch_market
-from openprocurement.tender.core.tests.utils import set_bid_items, set_items_unit, set_tender_criteria
 from openprocurement.tender.pricequotation.tests.base import BaseTenderWebTest
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,

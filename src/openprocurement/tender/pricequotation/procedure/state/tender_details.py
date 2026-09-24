@@ -6,7 +6,7 @@ from openprocurement.tender.core.constants import AWARD_CRITERIA_LOWEST_COST
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixin,
 )
-from openprocurement.tender.pricequotation.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.pricequotation.constants import PQ_WORKING_DAYS_CONFIG
 from openprocurement.tender.pricequotation.procedure.models.tender import PQPatchTender, PQPostTender, PQTender
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PQTenderState,
@@ -39,7 +39,7 @@ class PQTenderDetailsState(TenderDetailsMixin, PQTenderState):
     items_profile_required = True
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft",)
-    working_days_config = WORKING_DAYS_CONFIG
+    working_days_config = PQ_WORKING_DAYS_CONFIG
     tender_period_start_on_activation = True
     tender_period_extension_check = False
     bids_invalidation_enabled = False

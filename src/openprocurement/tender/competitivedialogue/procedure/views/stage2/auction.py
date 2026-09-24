@@ -1,16 +1,9 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.models.award import CDAward
-from openprocurement.tender.openeu.procedure.views.auction import (
-    EUTenderAuctionResource,
-)
-from openprocurement.tender.openua.procedure.views.auction import (
-    UATenderAuctionResource,
-)
+from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
+from openprocurement.tender.open.procedure.state.tender import AboveThresholdEUTenderState, AboveThresholdUATenderState
 
 
 @resource(
@@ -20,7 +13,8 @@ from openprocurement.tender.openua.procedure.views.auction import (
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Competitive Dialogue Stage 2 EU auction data",
 )
-class CompetitiveDialogueStage2EUAuctionResource(EUTenderAuctionResource):
+class CompetitiveDialogueStage2EUAuctionResource(TenderAuctionResource):
+    state_class = AboveThresholdEUTenderState
     award_class = CDAward
 
 
@@ -31,5 +25,6 @@ class CompetitiveDialogueStage2EUAuctionResource(EUTenderAuctionResource):
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue Stage 2 UA auction data",
 )
-class CompetitiveDialogueStage2UAAuctionResource(UATenderAuctionResource):
+class CompetitiveDialogueStage2UAAuctionResource(TenderAuctionResource):
+    state_class = AboveThresholdUATenderState
     award_class = CDAward

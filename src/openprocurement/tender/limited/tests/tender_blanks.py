@@ -18,7 +18,7 @@ from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
 )
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
 )
@@ -28,7 +28,7 @@ from openprocurement.tender.core.tests.cancellation import (
 from openprocurement.tender.core.tests.mock import patch_market_product, patch_market_category
 from openprocurement.tender.core.tests.utils import activate_contract
 from openprocurement.tender.limited.constants import (
-    COMMON_VALUE_AMOUNT_THRESHOLD,
+    LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD,
     cause_choices,
     cause_choices_new,
     cause_choices_quick,
@@ -1613,7 +1613,7 @@ def tender_cause_reporting(self):
     constant_target = "openprocurement.tender.limited.procedure.state.tender_details.CAUSE_DETAILS_REQUIRED_FROM"
     data = deepcopy(self.initial_data)
     del data["procurementMethodRationale"]
-    for category, value in COMMON_VALUE_AMOUNT_THRESHOLD.items():
+    for category, value in LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD.items():
         data["mainProcurementCategory"] = category
         data["value"]["amount"] = value
         with mock.patch(constant_target, get_now() + timedelta(days=1)):

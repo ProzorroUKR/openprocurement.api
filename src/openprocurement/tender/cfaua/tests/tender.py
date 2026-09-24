@@ -3,8 +3,8 @@ from copy import deepcopy
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     create_tender_with_inn,
@@ -15,7 +15,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     tender_financing_milestones,
     tender_milestones_required,
 )
-from openprocurement.tender.cfaua.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.cfaua.constants import CFA_UA_MIN_BIDS_NUMBER
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderContentWebTest,
     BaseTenderWebTest,
@@ -49,8 +49,8 @@ from openprocurement.tender.cfaua.tests.tender_blanks import (
     tender_with_main_procurement_category,
     unsuccessful_after_prequalification_tender,
 )
-from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
-from openprocurement.tender.openua.tests.tender_blanks import empty_listing
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import empty_listing
 
 
 class CFAUATenderTest(BaseTenderWebTest):
@@ -74,7 +74,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
     initial_lots = deepcopy(test_tender_cfaua_lots_with_ids)
     initial_bids = deepcopy(test_tender_cfaua_bids_with_lotvalues)
     test_lots_data = test_tender_cfaua_lots_with_ids
-    min_bids_number = MIN_BIDS_NUMBER
+    min_bids_number = CFA_UA_MIN_BIDS_NUMBER
     allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["closeFrameworkAgreementUA"]
 
     test_empty_listing = snitch(empty_listing)

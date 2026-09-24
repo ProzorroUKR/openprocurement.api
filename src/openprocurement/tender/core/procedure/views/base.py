@@ -3,10 +3,13 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 from openprocurement.api.utils import request_fetch_agreement, request_init_tender
 from openprocurement.api.views.base import BaseResource
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
 
 class TenderBaseResource(BaseResource):
     state_class = TenderState
+    # {procurementMethodType: state class} for resources shared by several procurement method types
+    state_classes = None
 
     def __acl__(self):
         acl = [
@@ -24,8 +27,9 @@ class TenderBaseResource(BaseResource):
     def __init__(self, request, context=None):
         super().__init__(request, context)
         # init state class that handles tender business logic
-        if self.state_class is not None:
-            self.state = self.state_class(request)
+        state_class = self.get_state_class(request)
+        if state_class is not None:
+            self.state = state_class(request)
 
         # https://github.com/Cornices/cornice/issues/479#issuecomment-388407385
         # init is called twice (with and without context), thanks to cornice.
@@ -40,3 +44,8 @@ class TenderBaseResource(BaseResource):
                         agreements = [tender["agreement"]] if tender.get("agreement") else tender.get("agreements")
                         if agreements and "agreement" not in request.validated:
                             request_fetch_agreement(request, agreements[0]["id"], raise_error=False)
+
+    def get_state_class(self, request):
+        if self.state_classes:
+            return self.state_classes[ProcurementMethodTypePredicate.procurement_method_type(request)]
+        return self.state_class

@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
     test_tender_reporting_data,

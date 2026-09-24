@@ -2,12 +2,12 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-from openprocurement.tender.belowthreshold.tests.lot import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_author
+from openprocurement.tender.open.tests.below_threshold.lot import (
     TenderLotResourceTestMixin,
     TenderLotValueTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+from openprocurement.tender.open.tests.below_threshold.lot_blanks import (
     create_tender_lot_minimalstep_validation,
     patch_tender_lot_minimalstep_validation,
     tender_features_invalid,
@@ -41,7 +41,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.lot_blanks import (
     two_lot_2bid_2com_2win,
     two_lot_2can,
 )
-from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
+from openprocurement.tender.open.tests.above_threshold_eu.lot import TenderLotEdgeCasesTestMixin
 
 
 class CompetitiveDialogueEULotResourceTest(

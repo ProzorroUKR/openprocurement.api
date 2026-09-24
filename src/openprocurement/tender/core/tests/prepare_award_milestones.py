@@ -7,7 +7,7 @@ from openprocurement.api.context import set_request, set_request_now
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixin
-from openprocurement.tender.openua.tests.base import test_tender_openua_data
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_data
 
 
 @pytest.mark.parametrize("tender_status", ("active.qualification", "active.auction"))

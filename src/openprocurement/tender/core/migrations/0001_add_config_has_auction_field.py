@@ -3,11 +3,7 @@ import os
 
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
-)
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.pricequotation.constants import PQ
 

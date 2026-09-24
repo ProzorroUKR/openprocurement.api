@@ -1,22 +1,22 @@
 from datetime import timedelta
 
-STATUS4ROLE = {
+CFA_SELECTION_STATUS4ROLE = {
     "complaint_owner": ["draft", "answered"],
     "tender_owner": ["claim"],
 }
-BOT_NAME = "fa_bot"
-DRAFT_FIELDS = ("shortlistedFirms",)
+CFA_SELECTION_BOT_NAME = "fa_bot"
+CFA_SELECTION_DRAFT_FIELDS = ("shortlistedFirms",)
 
-AUCTION_DURATION = timedelta(days=1)  # needs to be updated
-COMPLAINT_DURATION = timedelta(days=1)  # needs to be updated
-TENDER_PERIOD_MINIMAL_DURATION = timedelta(days=3)
-MIN_PERIOD_UNTIL_AGREEMENT_END = timedelta(days=7)
-MIN_ACTIVE_CONTRACTS = 3
-MINIMAL_STEP_PERCENTAGE = 0.005
+CFA_SELECTION_AUCTION_DURATION = timedelta(days=1)  # needs to be updated
+CFA_SELECTION_COMPLAINT_DURATION = timedelta(days=1)  # needs to be updated
+CFA_SELECTION_TENDER_PERIOD_MINIMAL_DURATION = timedelta(days=3)
+CFA_SELECTION_MIN_PERIOD_UNTIL_AGREEMENT_END = timedelta(days=7)
+CFA_SELECTION_MIN_ACTIVE_CONTRACTS = 3
+CFA_SELECTION_MINIMAL_STEP_PERCENTAGE = 0.005
 
 CFA_SELECTION = "closeFrameworkAgreementSelectionUA"
 
-WORKING_DAYS_CONFIG = {
+CFA_SELECTION_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,

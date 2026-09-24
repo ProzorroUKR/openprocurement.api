@@ -27,16 +27,16 @@ from openprocurement.tender.arma.tests.tender_blanks import (
     tender_financing_milestones,
     unsuccessful_after_prequalification_tender,
 )
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_with_inn,
     guarantee,
     invalid_tender_conditions,
     patch_not_author,
     patch_tender_lots_none,
 )
-from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
-from openprocurement.tender.openua.tests.tender_blanks import (
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
     create_tender_invalid_config,
     empty_listing,
     patch_tender_period,

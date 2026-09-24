@@ -2,11 +2,11 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.auction import (
+from openprocurement.tender.open.tests.below_threshold.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.auction_blanks import (  # TenderStage2EU(UA)SameValueAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
+from openprocurement.tender.open.tests.below_threshold.auction_blanks import (  # TenderStage2EU(UA)SameValueAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
     get_tender_lots_auction_features,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
@@ -27,7 +27,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.auction_blanks impo
     patch_tender_with_lots_auction,
     post_tender_auction_feature,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_lots
+from openprocurement.tender.open.tests.above_threshold_eu.base import test_tender_openeu_lots
 
 test_tender_bids = deepcopy(test_tender_openeu_bids[:2])
 for test_bid in test_tender_bids:

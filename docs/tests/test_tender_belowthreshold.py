@@ -4,13 +4,13 @@ from datetime import timedelta
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues, set_tender_lots
+from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
 )
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues, set_tender_lots
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2_with_docs,

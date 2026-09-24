@@ -73,18 +73,6 @@ test_tender_esco:
     - .test_tender_esco
 
 
-.test_tender_openeu:
-  variables:
-    TESTS_PATH: src/openprocurement/tender/openeu/tests
-    COV_PATH: src/openprocurement/tender/openeu
-    COV_FILE: .coveragerc
-
-test_tender_openeu:
-  extends:
-    - .test
-    - .test_tender_openeu
-
-
 .test_tender_cfaua:
   variables:
     TESTS_PATH: src/openprocurement/tender/cfaua/tests
@@ -289,76 +277,101 @@ test_tender_limited:
     - .test_tender_limited
 
 
-.test_tender_open:
+# the open package serves several procurement method types, one suite per procedure
+.test_tender_above_threshold:
   variables:
-    TESTS_PATH: src/openprocurement/tender/open/tests
+    TESTS_PATH: src/openprocurement/tender/open/tests/above_threshold
     COV_PATH: src/openprocurement/tender/open
     COV_FILE: .coveragerc
 
-test_tender_open:
+test_tender_above_threshold:
   extends:
     - .test
-    - .test_tender_open
+    - .test_tender_above_threshold
 
 
-.test_tender_competitiveordering:
+.test_tender_above_threshold_ua:
   variables:
-    TESTS_PATH: src/openprocurement/tender/competitiveordering/tests
+    TESTS_PATH: src/openprocurement/tender/open/tests/above_threshold_ua
     COV_PATH: src/openprocurement/tender/open
     COV_FILE: .coveragerc
 
-test_tender_competitiveordering:
+test_tender_above_threshold_ua:
   extends:
     - .test
-    - .test_tender_competitiveordering
+    - .test_tender_above_threshold_ua
 
 
-.test_tender_openua:
+.test_tender_above_threshold_eu:
   variables:
-    TESTS_PATH: src/openprocurement/tender/openua/tests
-    COV_PATH: src/openprocurement/tender/openua
+    TESTS_PATH: src/openprocurement/tender/open/tests/above_threshold_eu
+    COV_PATH: src/openprocurement/tender/open
     COV_FILE: .coveragerc
 
-test_tender_openua:
+test_tender_above_threshold_eu:
   extends:
     - .test
-    - .test_tender_openua
+    - .test_tender_above_threshold_eu
 
 
-.test_tender_belowthreshold:
+.test_tender_above_threshold_ua_defense:
   variables:
-    TESTS_PATH: src/openprocurement/tender/belowthreshold/tests
-    COV_PATH: src/openprocurement/tender/belowthreshold
+    TESTS_PATH: src/openprocurement/tender/open/tests/above_threshold_ua_defense
+    COV_PATH: src/openprocurement/tender/open
     COV_FILE: .coveragerc
 
-test_tender_belowthreshold:
+test_tender_above_threshold_ua_defense:
   extends:
     - .test
-    - .test_tender_belowthreshold
+    - .test_tender_above_threshold_ua_defense
 
 
-.test_tender_openuadefense:
+.test_tender_simple_defense:
   variables:
-    TESTS_PATH: src/openprocurement/tender/openuadefense/tests
-    COV_PATH: src/openprocurement/tender/openuadefense
+    TESTS_PATH: src/openprocurement/tender/open/tests/simple_defense
+    COV_PATH: src/openprocurement/tender/open
     COV_FILE: .coveragerc
 
-test_tender_openuadefense:
+test_tender_simple_defense:
   extends:
     - .test
-    - .test_tender_openuadefense
+    - .test_tender_simple_defense
 
 
-.test_tender_simpledefense:
+.test_tender_competitive_ordering:
   variables:
-    TESTS_PATH: src/openprocurement/tender/simpledefense/tests
-    COV_PATH: src/openprocurement/tender/simpledefense
+    TESTS_PATH: src/openprocurement/tender/open/tests/competitive_ordering
+    COV_PATH: src/openprocurement/tender/open
     COV_FILE: .coveragerc
 
-test_tender_simpledefense:
+test_tender_competitive_ordering:
   extends:
     - .test
-    - .test_tender_simpledefense
+    - .test_tender_competitive_ordering
+
+
+.test_tender_below_threshold:
+  variables:
+    TESTS_PATH: src/openprocurement/tender/open/tests/below_threshold
+    COV_PATH: src/openprocurement/tender/open
+    COV_FILE: .coveragerc
+
+test_tender_below_threshold:
+  extends:
+    - .test
+    - .test_tender_below_threshold
+
+
+.test_tender_request_for_proposal:
+  variables:
+    TESTS_PATH: src/openprocurement/tender/open/tests/request_for_proposal
+    COV_PATH: src/openprocurement/tender/open
+    COV_FILE: .coveragerc
+
+test_tender_request_for_proposal:
+  extends:
+    - .test
+    - .test_tender_request_for_proposal
 
 
 .test_tender_cfaselectionua:
@@ -383,18 +396,6 @@ test_tender_pricequotation:
   extends:
     - .test
     - .test_tender_pricequotation
-
-
-.test_tender_requestforproposal:
-  variables:
-    TESTS_PATH: src/openprocurement/tender/requestforproposal/tests
-    COV_PATH: src/openprocurement/tender/requestforproposal
-    COV_FILE: .coveragerc
-
-test_tender_requestforproposal:
-  extends:
-    - .test
-    - .test_tender_requestforproposal
 
 
 .test_violation_report:

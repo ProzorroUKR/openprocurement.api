@@ -2,7 +2,7 @@ import os
 from uuid import uuid4
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_config,
     test_tender_below_data,
 )

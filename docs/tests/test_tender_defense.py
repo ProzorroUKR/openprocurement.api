@@ -3,10 +3,10 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openua.tests.base import test_tender_openua_bids
-from openprocurement.tender.openuadefense.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_bids
+from openprocurement.tender.open.tests.above_threshold_ua_defense.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid,

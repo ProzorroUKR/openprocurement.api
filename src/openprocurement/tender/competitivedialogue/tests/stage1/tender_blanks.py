@@ -6,12 +6,8 @@ from uuid import uuid4
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    FEATURES_MAX_SUM,
-)
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, CD_FEATURES_MAX_SUM
 from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_stage1_bids,
 )
@@ -1467,7 +1463,7 @@ def tender_features_invalid(self):
             {
                 "description": [
                     "Sum of max value of all features for lot should be less then or equal to {:.0f}%".format(
-                        FEATURES_MAX_SUM * 100
+                        CD_FEATURES_MAX_SUM * 100
                     )
                 ],
                 "location": "body",

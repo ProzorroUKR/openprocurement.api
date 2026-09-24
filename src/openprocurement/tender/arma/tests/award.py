@@ -23,20 +23,20 @@ from openprocurement.tender.arma.tests.base import (
     test_tender_arma_lots,
     test_tender_arma_three_bids,
 )
-from openprocurement.tender.belowthreshold.tests.award import (
+from openprocurement.tender.open.tests.below_threshold.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     patch_tender_lot_award_lots_none,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.open.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.above_threshold.award_blanks import (
     patch_tender_award_unsuccessful_first,
     patch_tender_award_unsuccessful_forbidden,
     patch_tender_award_unsuccessful_second,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     create_tender_award_no_scale_invalid,
 )
 

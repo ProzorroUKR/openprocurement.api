@@ -8,7 +8,7 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_supplier,
 )
@@ -31,15 +31,15 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
 )
-from openprocurement.tender.openeu.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_eu.base import (
     test_tender_openeu_bids,
     test_tender_openeu_data,
     test_tender_openeu_features_data,
 )
-from openprocurement.tender.openua.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_ua.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
 )
-from openprocurement.tender.openua.tests.base import test_tender_openua_data
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_data
 
 test_tender_cd_bids = deepcopy(test_tender_openeu_bids)
 test_tender_cd_bids.append(deepcopy(test_tender_cd_bids[0]))  # Minimal number of bits is 3

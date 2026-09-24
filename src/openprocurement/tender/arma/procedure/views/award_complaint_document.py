@@ -4,8 +4,8 @@ from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.core.procedure.views.award_complaint_document import (
     AwardComplaintDocumentResource as BaseAwardComplaintDocumentResource,
 )
-from openprocurement.tender.openua.procedure.state.award_complaint_document import (
-    OpenUAAwardComplaintDocumentState,
+from openprocurement.tender.open.procedure.state.award_complaint_document import (
+    AboveThresholdUAAwardComplaintDocumentState,
 )
 
 
@@ -17,4 +17,4 @@ from openprocurement.tender.openua.procedure.state.award_complaint_document impo
     description="Tender award complaint documents",
 )
 class AwardComplaintDocumentResource(BaseAwardComplaintDocumentResource):
-    state_class = OpenUAAwardComplaintDocumentState
+    state_class = AboveThresholdUAAwardComplaintDocumentState

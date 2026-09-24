@@ -4,8 +4,8 @@ from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
 
 # TenderStage2EU(UA)MultipleLotAuctionResourceTest
-from openprocurement.tender.belowthreshold.tests.auction_blanks import update_patch_data
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.auction_blanks import update_patch_data
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
 

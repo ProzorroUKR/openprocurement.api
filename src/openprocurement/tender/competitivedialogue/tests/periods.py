@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.tender.openeu.constants import QUESTIONS_STAND_STILL
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL
 
 TENDERING_DAYS = 30
 TENDERING_DURATION = timedelta(days=TENDERING_DAYS)
@@ -11,7 +11,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -timedelta(days=1),
-                "endDate": TENDERING_DURATION - QUESTIONS_STAND_STILL,
+                "endDate": TENDERING_DURATION - ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {
                 "startDate": -timedelta(days=1),
@@ -43,7 +43,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
-                "endDate": -QUESTIONS_STAND_STILL,
+                "endDate": -ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
@@ -56,7 +56,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1),
+                "endDate": -ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=1),
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=2),
@@ -70,7 +70,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
-                "endDate": -QUESTIONS_STAND_STILL,
+                "endDate": -ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - timedelta(days=1),
@@ -88,7 +88,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1),
-                "endDate": -COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL,
+                "endDate": -COMPLAINT_STAND_STILL - TENDERING_DURATION + ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1),
@@ -105,7 +105,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1),
-                "endDate": -COMPLAINT_STAND_STILL - TENDERING_DURATION + QUESTIONS_STAND_STILL,
+                "endDate": -COMPLAINT_STAND_STILL - TENDERING_DURATION + ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=1),
@@ -123,7 +123,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=2),
+                "endDate": -ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=2),
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=3),
@@ -145,7 +145,7 @@ PERIODS = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
-                "endDate": -QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3),
+                "endDate": -ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL - COMPLAINT_STAND_STILL - timedelta(days=3),
             },
             "tenderPeriod": {
                 "startDate": -TENDERING_DURATION - COMPLAINT_STAND_STILL - timedelta(days=4),
@@ -209,7 +209,7 @@ PERIODS_UA_STAGE_2 = {
         "start": {
             "enquiryPeriod": {
                 "startDate": -TENDERING_DURATION,
-                "endDate": -QUESTIONS_STAND_STILL,
+                "endDate": -ABOVE_THRESHOLD_EU_QUESTIONS_STAND_STILL,
             },
             "tenderPeriod": {"startDate": -TENDERING_DURATION, "endDate": timedelta()},
         }

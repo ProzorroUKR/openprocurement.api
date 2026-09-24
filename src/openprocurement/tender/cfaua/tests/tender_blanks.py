@@ -9,8 +9,8 @@ from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.cfaua.constants import CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -1826,7 +1826,9 @@ def agreement_duration_period(self):
         [
             {
                 "description": [
-                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement duration period is greater than {}".format(
+                        duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)
+                    )
                 ],
                 "location": "body",
                 "name": "agreementDuration",
@@ -1842,7 +1844,9 @@ def agreement_duration_period(self):
         [
             {
                 "description": [
-                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement duration period is greater than {}".format(
+                        duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)
+                    )
                 ],
                 "location": "body",
                 "name": "agreementDuration",
@@ -1858,7 +1862,9 @@ def agreement_duration_period(self):
         [
             {
                 "description": [
-                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement duration period is greater than {}".format(
+                        duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)
+                    )
                 ],
                 "location": "body",
                 "name": "agreementDuration",

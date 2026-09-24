@@ -1,14 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.core.procedure.views.complaint_document import (
     TenderComplaintDocumentResource,
 )
 from openprocurement.tender.open.procedure.state.complaint_document import (
-    OpenComplaintDocumentState,
+    AboveThresholdComplaintDocumentState,
 )
 
 
@@ -20,7 +17,7 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
     description="Competitive Dialogue stage2 EU complaint documents",
 )
 class CD2EUComplaintDocumentResource(TenderComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = AboveThresholdComplaintDocumentState
 
 
 @resource(
@@ -31,4 +28,4 @@ class CD2EUComplaintDocumentResource(TenderComplaintDocumentResource):
     description="Competitive Dialogue stage2 UA complaint documents",
 )
 class CD2UAComplaintDocumentResource(TenderComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = AboveThresholdComplaintDocumentState

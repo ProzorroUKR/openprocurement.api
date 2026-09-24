@@ -6,11 +6,11 @@ from esculator import escp, npv
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+from openprocurement.tender.open.tests.below_threshold.bid_blanks import (
     bid_proposal_doc,
     create_tender_bid_document_json_bulk,
     create_tender_bid_with_document,
@@ -45,8 +45,8 @@ from openprocurement.tender.esco.tests.bid_blanks import (
     patch_and_put_document_into_invalid_bid,
     patch_tender_bid,
 )
-from openprocurement.tender.openeu.tests.bid import CreateBidMixin
-from openprocurement.tender.openeu.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.bid import CreateBidMixin
+from openprocurement.tender.open.tests.above_threshold_eu.bid_blanks import (
     create_tender_bid_with_all_documents,
     create_tender_bid_with_eligibility_document,
     create_tender_bid_with_eligibility_document_invalid,
@@ -70,7 +70,7 @@ from openprocurement.tender.openeu.tests.bid_blanks import (
     put_tender_bidder_document,
     put_tender_bidder_document_private_json,
 )
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
     bids_related_product,

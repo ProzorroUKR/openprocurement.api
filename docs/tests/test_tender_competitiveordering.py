@@ -12,21 +12,21 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.core.tests.criteria_utils import generate_responses
+from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.competitiveordering.tests.long.base import (
+from openprocurement.tender.open.tests.competitive_ordering.long.base import (
     BaseTenderCOLongWebTest,
     test_tender_co_long_config,
     test_tender_co_long_criteria,
 )
-from openprocurement.tender.competitiveordering.tests.short.base import (
+from openprocurement.tender.open.tests.competitive_ordering.short.base import (
     BaseTenderCOShortWebTest,
     test_tender_co_short_config,
     test_tender_co_short_criteria,
 )
-from openprocurement.tender.core.tests.criteria_utils import generate_responses
-from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import test_docs_lots, test_docs_question, test_docs_tender_co
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin

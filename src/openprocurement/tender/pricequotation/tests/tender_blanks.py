@@ -13,7 +13,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.utils import get_now
 from openprocurement.api.tests.base import test_signer_info
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_funder
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_funder
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market

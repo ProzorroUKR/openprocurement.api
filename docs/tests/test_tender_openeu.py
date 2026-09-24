@@ -9,8 +9,8 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_tender_criteria,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_criteria
-from openprocurement.tender.openeu.tests.tender import BaseTenderWebTest
+from openprocurement.tender.open.tests.above_threshold_eu.base import test_tender_openeu_criteria
+from openprocurement.tender.open.tests.above_threshold_eu.tender import BaseTenderWebTest
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,

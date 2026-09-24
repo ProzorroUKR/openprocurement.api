@@ -9,7 +9,7 @@ from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.context import set_request, set_request_now
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_data,
     test_tender_below_lots,
 )

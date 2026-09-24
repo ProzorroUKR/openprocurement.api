@@ -1,7 +1,7 @@
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.core.tests.utils import set_bid_items
 
 
 def create_tender_lot_invalid(self):

@@ -5,15 +5,15 @@ from unittest.mock import patch
 from uuid import uuid4
 
 from openprocurement.api.utils import get_now, raise_operation_error
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
     set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
-from openprocurement.tender.openua.tests.base import test_tender_openua_criteria
-from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_criteria
+from openprocurement.tender.open.tests.above_threshold_ua.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,

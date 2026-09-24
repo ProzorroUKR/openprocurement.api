@@ -4,15 +4,10 @@ import os
 from pymongo.errors import OperationFailure
 
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
-)
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.open.constants import BELOW_THRESHOLD, COMPETITIVE_ORDERING
 from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")

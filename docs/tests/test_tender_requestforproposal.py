@@ -22,7 +22,7 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_criteria,
     set_tender_lots,
 )
-from openprocurement.tender.requestforproposal.tests.base import (
+from openprocurement.tender.open.tests.request_for_proposal.base import (
     BaseTenderWebTest,
     test_tender_rfp_base_organization,
     test_tender_rfp_bids,

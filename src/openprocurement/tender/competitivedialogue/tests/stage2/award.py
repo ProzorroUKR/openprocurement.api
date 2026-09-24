@@ -2,18 +2,18 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.award import (
+from openprocurement.tender.open.tests.below_threshold.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     create_tender_lots_award_complaint_document,
     get_tender_lot_award_complaint,
     get_tender_lot_award_complaints,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -32,26 +32,26 @@ from openprocurement.tender.competitivedialogue.tests.stage2.award_blanks import
     put_tender_award_complaint_document,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openeu.tests.award import (
+from openprocurement.tender.open.tests.above_threshold_eu.award import (
     Tender2LotAwardComplaintResourceTestMixin,
     Tender2LotAwardResourceTestMixin,
     TenderLotAwardComplaintResourceTestMixin,
     TenderLotAwardResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.award import (
+from openprocurement.tender.open.tests.above_threshold_ua.award import (
     TenderUAAwardComplaintResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     create_tender_lot_award,
     create_tender_lot_award_complaint,
     create_tender_lots_award,
     create_tender_lots_award_complaint,
     patch_tender_award_active,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     patch_tender_award_complaint_document as patch_tender_award_complaint_document_from_ua,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     patch_tender_lot_award,
     patch_tender_lot_award_complaint,
     patch_tender_lot_award_unsuccessful,

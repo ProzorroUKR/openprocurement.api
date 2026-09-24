@@ -3,9 +3,7 @@ from datetime import timedelta
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.cfaua.constants import (
-    TENDERING_EXTRA_PERIOD,
-)
+from openprocurement.tender.cfaua.constants import CFA_UA_TENDERING_EXTRA_PERIOD
 from openprocurement.tender.cfaua.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
@@ -42,7 +40,7 @@ class CFAUATenderDetailsMixin(TenderDetailsMixin):
         "active.qualification",
         "active.qualification.stand-still",
     )
-    tender_period_extra = TENDERING_EXTRA_PERIOD
+    tender_period_extra = CFA_UA_TENDERING_EXTRA_PERIOD
     notice_doc_required_check = False
     required_market_criteria_check = False
     status_up_allowed_transitions = (

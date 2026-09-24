@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     now,
     test_tender_below_supplier,
 )

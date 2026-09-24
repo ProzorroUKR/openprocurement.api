@@ -2,16 +2,12 @@ from logging import getLogger
 
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.bid import (
     CDStage2EUBidState,
     CDStage2UABidState,
 )
-from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
-from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
+from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -23,7 +19,7 @@ LOGGER = getLogger(__name__)
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Competitive Dialogue  Stage2EU bids",
 )
-class CompetitiveDialogueStage2EUBidResource(OpenEUTenderBidResource):
+class CompetitiveDialogueStage2EUBidResource(TenderBidResource):
     state_class = CDStage2EUBidState
 
 
@@ -34,5 +30,5 @@ class CompetitiveDialogueStage2EUBidResource(OpenEUTenderBidResource):
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue Stage2 UA bids",
 )
-class CompetitiveDialogueStage2UABidResource(OpenUATenderBidResource):
+class CompetitiveDialogueStage2UABidResource(TenderBidResource):
     state_class = CDStage2UABidState

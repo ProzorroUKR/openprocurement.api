@@ -7,9 +7,9 @@ from esculator import escp, npv
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-from openprocurement.tender.belowthreshold.tests.lot import TenderLotProcessTestMixin
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_author
+from openprocurement.tender.open.tests.below_threshold.lot import TenderLotProcessTestMixin
+from openprocurement.tender.open.tests.below_threshold.lot_blanks import (
     create_tender_lot,
     delete_tender_lot,
     patch_tender_lot,
@@ -47,8 +47,8 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     tender_lot_yearlyPaymentsPercentageRange,
     tender_min_value,
 )
-from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
-from openprocurement.tender.openeu.tests.lot_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.lot import TenderLotEdgeCasesTestMixin
+from openprocurement.tender.open.tests.above_threshold_eu.lot_blanks import (
     one_lot_1bid,
     one_lot_2bid,
     one_lot_2bid_1unqualified,

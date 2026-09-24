@@ -4,32 +4,65 @@ from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
     CancellationComplaintWriteResource,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    COMPETITIVE_ORDERING,
+    OPEN_ROUTE_PREFIX,
+    SIMPLE_DEFENSE,
+)
 from openprocurement.tender.open.procedure.state.cancellation_complaint import (
-    OpenCancellationComplaintState,
+    AboveThresholdCancellationComplaintState,
+    AboveThresholdEUCancellationComplaintState,
+    AboveThresholdUACancellationComplaintState,
+    COCancellationComplaintState,
+    DefenseCancellationComplaintState,
+    SimpleDefenseCancellationComplaintState,
 )
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Cancellation Complaints Get",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Cancellation Complaints Get",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender cancellation complaints",
     request_method=["GET"],
+    procurementMethodType=[
+        ABOVE_THRESHOLD,
+        ABOVE_THRESHOLD_UA,
+        ABOVE_THRESHOLD_EU,
+        ABOVE_THRESHOLD_UA_DEFENSE,
+        SIMPLE_DEFENSE,
+        COMPETITIVE_ORDERING,
+    ],
 )
-class OpenCancellationClaimAndComplaintGetResource(CancellationComplaintGetResource):
+class OpenCancellationComplaintGetResource(CancellationComplaintGetResource):
     pass
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Cancellation Complaints",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Cancellation Complaints",
     collection_path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}/complaints/{complaint_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender cancellation complaints",
     request_method=["POST", "PATCH"],
-    # complaintType="complaint",  you cannot set a different complaintType for Cancellation Complaint
+    procurementMethodType=[
+        ABOVE_THRESHOLD,
+        ABOVE_THRESHOLD_UA,
+        ABOVE_THRESHOLD_EU,
+        ABOVE_THRESHOLD_UA_DEFENSE,
+        SIMPLE_DEFENSE,
+        COMPETITIVE_ORDERING,
+    ],
 )
 class OpenCancellationComplaintWriteResource(CancellationComplaintWriteResource):
-    state_class = OpenCancellationComplaintState
+    state_classes = {
+        ABOVE_THRESHOLD: AboveThresholdCancellationComplaintState,
+        ABOVE_THRESHOLD_UA: AboveThresholdUACancellationComplaintState,
+        ABOVE_THRESHOLD_EU: AboveThresholdEUCancellationComplaintState,
+        ABOVE_THRESHOLD_UA_DEFENSE: DefenseCancellationComplaintState,
+        SIMPLE_DEFENSE: SimpleDefenseCancellationComplaintState,
+        COMPETITIVE_ORDERING: COCancellationComplaintState,
+    }

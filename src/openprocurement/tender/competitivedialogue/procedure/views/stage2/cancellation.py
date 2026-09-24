@@ -1,14 +1,10 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.openeu.procedure.views.cancellation import (
-    EUCancellationResource,
-)
-from openprocurement.tender.openua.procedure.views.cancellation import (
-    UACancellationResource,
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.core.procedure.views.cancellation import BaseCancellationResource
+from openprocurement.tender.open.procedure.state.cancellation import (
+    AboveThresholdEUCancellationState,
+    AboveThresholdUACancellationState,
 )
 
 
@@ -19,8 +15,8 @@ from openprocurement.tender.openua.procedure.views.cancellation import (
     procurementMethodType=STAGE_2_EU_TYPE,
     description="Competitive Dialogue stage2 UE cancellations",
 )
-class CD2EUDefenseCancellationResource(EUCancellationResource):
-    pass
+class CD2EUDefenseCancellationResource(BaseCancellationResource):
+    state_class = AboveThresholdEUCancellationState
 
 
 @resource(
@@ -30,5 +26,5 @@ class CD2EUDefenseCancellationResource(EUCancellationResource):
     procurementMethodType=STAGE_2_UA_TYPE,
     description="Competitive Dialogue stage2 UA cancellations",
 )
-class CD2UADefenseCancellationResource(UACancellationResource):
-    pass
+class CD2UADefenseCancellationResource(BaseCancellationResource):
+    state_class = AboveThresholdUACancellationState

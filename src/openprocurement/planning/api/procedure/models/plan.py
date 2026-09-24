@@ -43,11 +43,10 @@ from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import PlanTender
 from openprocurement.planning.api.utils import generate_plan_id
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
+from openprocurement.tender.open.constants import BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL
 
 
 class PostPlan(Model):

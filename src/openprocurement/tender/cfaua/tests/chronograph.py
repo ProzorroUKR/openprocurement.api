@@ -22,7 +22,7 @@ from openprocurement.tender.cfaua.tests.chronograph_blanks import (  # TenderSwi
     switch_to_unsuccessful,
     switch_to_unsuccessful_from_qualification_stand_still,
 )
-from openprocurement.tender.openua.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     set_auction_period_lot_0bid as set_auction_period_lot,
 )
 

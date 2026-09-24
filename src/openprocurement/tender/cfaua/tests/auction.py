@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.auction_blanks import (
+from openprocurement.tender.open.tests.below_threshold.auction_blanks import (
     get_tender_auction_not_found,
     get_tender_lot_auction,
     post_tender_lot_auction_document,

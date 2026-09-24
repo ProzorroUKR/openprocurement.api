@@ -5,8 +5,8 @@ from datetime import timedelta
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
-from openprocurement.tender.open.tests.base import test_tender_open_criteria
-from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_criteria
+from openprocurement.tender.open.tests.above_threshold.tender import BaseTenderUAWebTest
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,

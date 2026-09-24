@@ -13,7 +13,7 @@ from openprocurement.tender.core.tests.base import (
     test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openua.tests.base import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold_ua.base import BaseTenderUAWebTest
 
 test_tender_arma_supplier = {
     "name": "Державне управління справами",

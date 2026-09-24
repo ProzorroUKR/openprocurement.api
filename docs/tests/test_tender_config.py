@@ -28,40 +28,21 @@ from openprocurement.framework.dps.tests.base import (
     test_submission_config,
     test_submission_data,
 )
-from openprocurement.tender.belowthreshold.constants import (
-    WORKING_DAYS_CONFIG as BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
 from openprocurement.tender.cfaselectionua.constants import (
-    WORKING_DAYS_CONFIG as CFASELECTIONUA_WORKING_DAYS_CONFIG,
+    CFA_SELECTION_WORKING_DAYS_CONFIG as CFASELECTIONUA_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.cfaua.constants import (
-    WORKING_DAYS_CONFIG as CFAUA_WORKING_DAYS_CONFIG,
+from openprocurement.tender.cfaua.constants import CFA_UA_WORKING_DAYS_CONFIG as CFAUA_WORKING_DAYS_CONFIG
+from openprocurement.tender.competitivedialogue.constants import (
+    CD_STAGE_1_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_EU_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_1_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_EU_WORKING_DAYS_CONFIG,
+    CD_STAGE_1_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_UA_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_1_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_1_UA_WORKING_DAYS_CONFIG,
+    CD_STAGE_2_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_EU_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_EU_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_UA_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.competitiveordering.constants import (
-    LONG_WORKING_DAYS_CONFIG as CO_LONG_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.competitiveordering.constants import (
-    SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.competitiveordering.constants import (
-    WORKING_DAYS_CONFIG as CO_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.competitiveordering.tests.long.base import (
-    test_tender_co_long_config,
-    test_tender_co_long_criteria,
+    CD_STAGE_2_UA_WORKING_DAYS_CONFIG as COMPETITIVEDIALOGUE_STAGE_2_UA_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.core.constants import DEFAULT_WORKING_DAYS_CONFIG
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING_OPTIMIZED
@@ -74,42 +55,43 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_lots,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.esco.constants import (
-    WORKING_DAYS_CONFIG as ESCO_WORKING_DAYS_CONFIG,
-)
+from openprocurement.tender.esco.constants import ESCO_WORKING_DAYS_CONFIG as ESCO_WORKING_DAYS_CONFIG
 from openprocurement.tender.esco.tests.base import (
     test_tender_esco_config,
     test_tender_esco_criteria,
 )
-from openprocurement.tender.limited.constants import (
-    WORKING_DAYS_CONFIG as LIMITED_WORKING_DAYS_CONFIG,
+from openprocurement.tender.limited.constants import LIMITED_WORKING_DAYS_CONFIG as LIMITED_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_EU_WORKING_DAYS_CONFIG as OPENEU_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD_UA_DEFENSE_WORKING_DAYS_CONFIG as OPENUADEFENSE_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_UA_WORKING_DAYS_CONFIG as OPENUA_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_WORKING_DAYS_CONFIG as OPEN_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import (
+    BELOW_THRESHOLD_WORKING_DAYS_CONFIG as BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.open.constants import (
-    WORKING_DAYS_CONFIG as OPEN_WORKING_DAYS_CONFIG,
+    COMPETITIVE_ORDERING_LONG_WORKING_DAYS_CONFIG as CO_LONG_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.open.tests.base import test_tender_open_config
-from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
-from openprocurement.tender.openeu.constants import (
-    WORKING_DAYS_CONFIG as OPENEU_WORKING_DAYS_CONFIG,
+from openprocurement.tender.open.constants import (
+    COMPETITIVE_ORDERING_SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_config
-from openprocurement.tender.openeu.tests.periods import PERIODS
-from openprocurement.tender.openua.constants import (
-    WORKING_DAYS_CONFIG as OPENUA_WORKING_DAYS_CONFIG,
+from openprocurement.tender.open.constants import COMPETITIVE_ORDERING_WORKING_DAYS_CONFIG as CO_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL_WORKING_DAYS_CONFIG as RFP_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import (
+    SIMPLE_DEFENSE_WORKING_DAYS_CONFIG as SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.openuadefense.constants import (
-    WORKING_DAYS_CONFIG as OPENUADEFENSE_WORKING_DAYS_CONFIG,
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_config
+from openprocurement.tender.open.tests.above_threshold.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold_eu.base import test_tender_openeu_config
+from openprocurement.tender.open.tests.above_threshold_eu.periods import PERIODS
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_config
+from openprocurement.tender.open.tests.competitive_ordering.long.base import (
+    test_tender_co_long_config,
+    test_tender_co_long_criteria,
 )
-from openprocurement.tender.pricequotation.constants import (
-    WORKING_DAYS_CONFIG as PRICEQUOTATION_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.requestforproposal.constants import (
-    WORKING_DAYS_CONFIG as RFP_WORKING_DAYS_CONFIG,
-)
-from openprocurement.tender.requestforproposal.tests.base import test_tender_rfp_config
-from openprocurement.tender.simpledefense.constants import (
-    WORKING_DAYS_CONFIG as SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
-)
+from openprocurement.tender.open.tests.request_for_proposal.base import test_tender_rfp_config
+from openprocurement.tender.pricequotation.constants import PQ_WORKING_DAYS_CONFIG as PRICEQUOTATION_WORKING_DAYS_CONFIG
 from tests.base.constants import AUCTIONS_URL, DOCS_URL, MOCK_DATETIME
 from tests.base.data import (
     test_docs_bid,
