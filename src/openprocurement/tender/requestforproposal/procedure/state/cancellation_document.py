@@ -1,10 +1,10 @@
 from openprocurement.tender.core.procedure.state.cancellation_document import (
-    CancellationDocumentStateMixing,
+    CancellationDocumentStateMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.cancellation import (
-    RequestForProposalCancellationState,
+    RFPCancellationState,
 )
 
 
-class BTCancellationDocumentState(CancellationDocumentStateMixing, RequestForProposalCancellationState):
+class RFPCancellationDocumentState(CancellationDocumentStateMixin, RFPCancellationState):
     pass

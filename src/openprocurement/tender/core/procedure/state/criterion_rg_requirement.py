@@ -1,8 +1,7 @@
-from pyramid.request import Request
-
 from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
 from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import (
     get_first_revision_date,
     get_now,
@@ -33,15 +32,14 @@ from openprocurement.tender.core.procedure.validation import (
 )
 
 
-class RequirementValidationsMixin:
-    request: Request
+class RequirementValidationsMixin(BaseState):
     # tender statuses that allow changing requirements / eligible evidences (bt/rfp: draft only)
-    requirement_change_valid_statuses = ("draft", "draft.pending", "draft.stage2")
+    requirement_change_allowed_tender_statuses = ("draft", "draft.pending", "draft.stage2")
     # ... plus this status for tenders created before CRITERION_REQUIREMENT_STATUSES_FROM (bt/rfp: active.enquiries)
     requirement_change_legacy_status = "active.tendering"
 
     def _validate_change_requirement_objects(self) -> None:
-        valid_statuses = list(self.requirement_change_valid_statuses)
+        valid_statuses = list(self.requirement_change_allowed_tender_statuses)
         tender = get_tender()
         tender_creation_date = get_first_revision_date(tender, default=get_now())
         if tender_creation_date < CRITERION_REQUIREMENT_STATUSES_FROM:
@@ -57,7 +55,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
     # the PATCH / PUT models depend on the criterion classification (belowThreshold / rfp: fixed models)
     requirement_models_by_classification = True
-    allowed_put_statuses = ["active.tendering"]
+    requirement_put_allowed_tender_statuses = ["active.tendering"]
     # pq: the tender status is checked on every requirement change, not only on POST
     requirement_status_check_always = False
     # cfaselectionua: no requirement ids uniqueness check on POST
@@ -165,7 +163,7 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
 
     def _validate_put_requirement_objects(self) -> None:
         validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
-        base_validate_operation_ecriteria_objects(self.request, self.allowed_put_statuses)
+        base_validate_operation_ecriteria_objects(self.request, self.requirement_put_allowed_tender_statuses)
 
     @validation_error_handler
     def _validate_requirement_data(self, data: dict) -> None:

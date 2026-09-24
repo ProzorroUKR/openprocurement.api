@@ -1,17 +1,17 @@
 from openprocurement.tender.core.procedure.state.cancellation import (
-    CancellationStateMixing,
+    CancellationStateMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class RequestForProposalCancellationStateMixing(CancellationStateMixing):
+class RFPCancellationStateMixin(CancellationStateMixin):
     _before_release_reason_types = None
     _after_release_reason_types = ["noDemand", "unFixable", "expensesCut"]
-    should_validate_cancellation_report_doc_required = False
+    cancellation_report_doc_required_check = False
     cancellation_complaint_period_check = False
 
 
-class RequestForProposalCancellationState(RequestForProposalCancellationStateMixing, RequestForProposalTenderState):
+class RFPCancellationState(RFPCancellationStateMixin, RFPTenderState):
     pass

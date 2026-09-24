@@ -1,4 +1,3 @@
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
@@ -6,17 +5,16 @@ from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA,
 from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
-from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.esco.constants import TENDERING_EXTRA_PERIOD
 from openprocurement.tender.esco.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
-from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
+class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
     auction_results_model = DecimalAuctionResults
     auction_lot_results_model = DecimalAuctionLotResults
     award_class = Award
@@ -24,24 +22,9 @@ class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
     patch_data_model = ESCOPatchTender
     data_model = ESCOTender
 
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
-    patch_status_choices = (
-        "draft",
-        "active.tendering",
-        "active.pre-qualification",
-        "active.pre-qualification.stand-still",
-    )
-    items_classification_prefix_change_check = True
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
     tender_period_extra = TENDERING_EXTRA_PERIOD
-    should_validate_notice_doc_required = True
-    should_validate_vat_not_included = True
-    active_bid_statuses = ("active", "pending")
-    contract_template_required = False
     items_delivery_required = False
     items_unit_required = False
     items_quantity_required = False
@@ -49,11 +32,8 @@ class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
     milestones_required = False
     milestones_delivery_financing_required = False
     features_max_weight = 0.25
-    tender_period_start_date_required = True
     award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
     award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
-    contract_template_name_patch_statuses = ("draft", "active.tendering")
-    working_days_config = WORKING_DAYS_CONFIG
     minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
 
     def on_post(self, tender):
@@ -108,7 +88,7 @@ class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
             )
 
         # CS-21518 - for ESCO tenders we need to validate that minValue has valueAddedTaxIncluded False
-        if self.should_validate_vat_not_included:
+        if self.vat_not_included_check:
             validate_value_vat_disabled(
                 self.request, tender_min_value, "minValue", self.vat_not_included_validation_from
             )
@@ -149,7 +129,7 @@ class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
                 )
 
             # CS-21518 - for ESCO tenders we need to validate that lot minValue has valueAddedTaxIncluded False
-            if self.should_validate_vat_not_included:
+            if self.vat_not_included_check:
                 validate_value_vat_disabled(
                     self.request, lot_min_value, "lots.minValue", self.vat_not_included_validation_from
                 )

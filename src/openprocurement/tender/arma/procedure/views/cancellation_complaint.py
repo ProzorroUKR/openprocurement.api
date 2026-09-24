@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.cancellation_complaint import (
-    CancellationComplaintState,
+    ARMACancellationComplaintState,
 )
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
@@ -33,4 +33,4 @@ class CancellationClaimAndComplaintGetResource(CancellationComplaintGetResource)
     request_method=["POST", "PATCH"],
 )
 class CancellationComplaintWriteResource(BaseCancellationComplaintWriteResource):
-    state_class = CancellationComplaintState
+    state_class = ARMACancellationComplaintState

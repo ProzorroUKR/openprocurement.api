@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.cfaselectionua.procedure.state.lot import TenderLotState
+from openprocurement.tender.cfaselectionua.procedure.state.lot import CFASelectionTenderLotState
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 
@@ -12,4 +12,4 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
     description="Tender lots",
 )
 class CFASelectionUATenderLotResource(TenderLotResource):
-    state_class = TenderLotState
+    state_class = CFASelectionTenderLotState

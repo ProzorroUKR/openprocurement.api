@@ -4,6 +4,6 @@ from openprocurement.tender.core.procedure.state.award_milestone import (
 )
 
 
-class RequestForProposalAwardMilestoneState(AwardMilestoneState):
+class RFPAwardMilestoneState(AwardMilestoneState):
     allowed_milestone_codes = (AwardMilestoneCode.CODE_24_HOURS.value,)
     milestone_24h_due_date_extendable = True

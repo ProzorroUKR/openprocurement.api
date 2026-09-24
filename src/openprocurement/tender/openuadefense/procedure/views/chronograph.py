@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.chronograph import (
     TenderChronographResource,
 )
 from openprocurement.tender.openuadefense.procedure.state.tender import (
-    OpenUADefenseTenderState,
+    DefenseTenderState,
 )
 
 
@@ -15,4 +15,4 @@ from openprocurement.tender.openuadefense.procedure.state.tender import (
     description="Tender chronograph",
 )
 class DefenseChronographResource(TenderChronographResource):
-    state_class = OpenUADefenseTenderState
+    state_class = DefenseTenderState

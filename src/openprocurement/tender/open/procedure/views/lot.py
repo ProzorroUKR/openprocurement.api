@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.procedure.state.lot import TenderLotState
+from openprocurement.tender.open.procedure.state.lot import OpenTenderLotState
 
 
 @resource(
@@ -13,4 +13,4 @@ from openprocurement.tender.open.procedure.state.lot import TenderLotState
     description="Tender lots",
 )
 class TenderUALotResource(TenderLotResource):
-    state_class = TenderLotState
+    state_class = OpenTenderLotState

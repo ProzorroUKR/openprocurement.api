@@ -3,7 +3,7 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.state.tender_details import (
-    TenderDetailsState,
+    PQTenderDetailsState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.pricequotation.procedure.state.tender_details import
     accept="application/json",
 )
 class PriceQuotationTenderResource(TendersResource):
-    state_class = TenderDetailsState
+    state_class = PQTenderDetailsState

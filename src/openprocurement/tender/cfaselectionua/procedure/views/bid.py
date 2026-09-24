@@ -5,7 +5,7 @@ from cornice.resource import resource
 from openprocurement.tender.cfaselectionua.procedure.serializers.bid import (
     BidSerializer,
 )
-from openprocurement.tender.cfaselectionua.procedure.state.bid import BidState
+from openprocurement.tender.cfaselectionua.procedure.state.bid import CFASelectionBidState
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
@@ -20,4 +20,4 @@ LOGGER = getLogger(__name__)
 )
 class CFASelectionTenderBidResource(TenderBidResource):
     serializer_class = BidSerializer
-    state_class = BidState
+    state_class = CFASelectionBidState

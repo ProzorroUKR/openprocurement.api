@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.state.question import (
 
 
 class COTenderQuestionStateMixin(TenderQuestionStateMixin):
-    question_operation_allowed_tender_statuses = ("active.tendering",)
+    question_create_accreditations = None
 
 
 class COTenderQuestionState(COTenderQuestionStateMixin, COTenderState):

@@ -5,8 +5,8 @@ from openprocurement.tender.core.procedure.state.award_complaint import (
 
 
 class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):
-    create_allowed_tender_statuses = ("active.qualification.stand-still",)
-    update_allowed_tender_statuses = (
+    complaint_post_allowed_tender_statuses = ("active.qualification.stand-still",)
+    complaint_patch_allowed_tender_statuses = (
         "active.qualification.stand-still",
         "active.qualification",
     )

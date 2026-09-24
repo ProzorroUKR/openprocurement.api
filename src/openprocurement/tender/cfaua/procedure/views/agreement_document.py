@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.cfaua.procedure.state.agreement_document import (
-    AgreementDocumentState,
+    CFAUAAgreementDocumentState,
 )
 from openprocurement.tender.core.procedure.views.agreement import resolve_agreement
 from openprocurement.tender.core.procedure.views.document import (
@@ -19,7 +19,7 @@ from openprocurement.tender.core.procedure.views.document import (
 )
 class CFAUATenderAgreementDocumentResource(BaseDocumentResource):
     item_name = "agreement"
-    state_class = AgreementDocumentState
+    state_class = CFAUAAgreementDocumentState
 
     def __init__(self, request, context=None):
         super().__init__(request, context)

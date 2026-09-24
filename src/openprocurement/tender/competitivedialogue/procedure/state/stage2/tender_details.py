@@ -6,9 +6,8 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
     STAGE_2_EU_DEFAULT_CONFIG,
-    STAGE_2_EU_WORKING_DAYS_CONFIG,
     STAGE_2_UA_DEFAULT_CONFIG,
-    STAGE_2_UA_WORKING_DAYS_CONFIG,
+    TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage2EUPatchTender,
@@ -22,12 +21,11 @@ from openprocurement.tender.core.constants import EU_REQUIRED_MULTILINGUAL_FIELD
 from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-class CDEUStage2TenderDetailsState(TenderDetailsMixing, TenderState):
+class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
     auction_results_model = DecimalAuctionResults
     auction_lot_results_model = DecimalAuctionLotResults
     award_class = Award
@@ -38,23 +36,11 @@ class CDEUStage2TenderDetailsState(TenderDetailsMixing, TenderState):
     tender_create_accreditation_check = False
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
     tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     tender_transfer_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
 
-    patch_status_choices = (
-        "draft",
-        "active.tendering",
-        "active.pre-qualification",
-        "active.pre-qualification.stand-still",
-    )
-    items_classification_prefix_change_check = True
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
     tender_period_extra = TENDERING_EXTRA_PERIOD
-    should_validate_vat_not_included = True
-    items_delivery_required = True
-    tender_period_start_date_required = True
-    active_bid_statuses = ("active", "pending")
     tender_config_default = STAGE_2_EU_DEFAULT_CONFIG
     tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
     tender_patch_allowed_statuses = (
@@ -63,7 +49,7 @@ class CDEUStage2TenderDetailsState(TenderDetailsMixing, TenderState):
         "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
         "active.pre-qualification.stand-still",
     )
-    should_validate_items_zero_quantity = False
+    items_zero_quantity_check = False
     guarantee_criterion_check_skipped_for_administrator = True
     features_max_weight = FEATURES_MAX_SUM
     items_unit_required = False
@@ -73,11 +59,9 @@ class CDEUStage2TenderDetailsState(TenderDetailsMixing, TenderState):
     items_classification_id_check = False
     main_procurement_category_required = False
     award_criteria_lcc_features_check = False
-    should_validate_notice_doc_required = False
-    should_validate_related_lot_in_items = False
-    contract_template_required = False
+    notice_doc_required_check = False
+    related_lot_in_items_check = False
     contract_template_name_patch_statuses = ("draft",)
-    working_days_config = STAGE_2_EU_WORKING_DAYS_CONFIG
     watch_value_meta_changes_enabled = False
     item_profile_category_check_on_post = False
     # the stage 2 tender is validated while the stage 1 tender (hasAuction=False) is the request context
@@ -141,19 +125,11 @@ class CDEUStage2TenderDetailsState(TenderDetailsMixing, TenderState):
                             )
 
 
-class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
+class CDStage2UATenderDetailsState(CDStage2EUTenderDetailsState):
     post_data_model = CDStage2UAPostTender
     patch_data_model = CDStage2UAPatchTender
     data_model = CDStage2UATender
 
-    tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)
-    tender_central_accreditations = (AccreditationPermission.ACCR_COMPETITIVE, AccreditationLevel.ACCR_5)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-    tender_transfer_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-
     tender_config_default = STAGE_2_UA_DEFAULT_CONFIG
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None
-    contract_template_required = False
-    contract_template_name_patch_statuses = ("draft",)
-    working_days_config = STAGE_2_UA_WORKING_DAYS_CONFIG

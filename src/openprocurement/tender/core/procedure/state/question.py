@@ -1,5 +1,4 @@
-from typing import Callable
-
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.procedure.validation import validate_accreditation_level
@@ -16,11 +15,10 @@ class TenderQuestionStateMixin:
     patch_data_model = PatchQuestion
     data_model = Question
 
-    question_create_accreditations: set = None  # formerly tender.edit_accreditations
+    question_create_accreditations: set = (AccreditationLevel.ACCR_4,)  # formerly tender.edit_accreditations
 
-    always: Callable  # method from TenderState
     # open family: questions can be added/updated only in these tender statuses (None = no extra check)
-    question_operation_allowed_tender_statuses: tuple | None = None
+    question_operation_allowed_tender_statuses: tuple | None = ("active.tendering",)
     # tenders with shortlistedFirms (e.g. competitiveDialogue stage 2): only shortlisted firms may ask
     question_shortlisted_firms_author_check = False
 

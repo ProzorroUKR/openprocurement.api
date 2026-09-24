@@ -5,7 +5,7 @@ from cornice.resource import resource
 from openprocurement.api.procedure.validation import validate_request_by_state_for
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.tender import TenderState
+from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 
 
@@ -17,7 +17,7 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
     description="Tender auction data",
 )
 class AuctionResource(TenderAuctionResource):
-    state_class = TenderState
+    state_class = ARMATenderState
     patch_value_field_names = {"value", "initialValue", "weightedValue", "minimalStep"}
 
     @staticmethod

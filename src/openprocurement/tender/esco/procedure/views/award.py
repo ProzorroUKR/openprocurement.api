@@ -8,7 +8,7 @@ from openprocurement.tender.esco.procedure.serializers.award import AwardSeriali
 from openprocurement.tender.esco.procedure.serializers.tender import (
     ESCOTenderSerializer,
 )
-from openprocurement.tender.esco.procedure.state.award import AwardState
+from openprocurement.tender.esco.procedure.state.award import ESCOAwardState
 
 
 @resource(
@@ -20,7 +20,7 @@ from openprocurement.tender.esco.procedure.state.award import AwardState
 )
 class EUTenderAwardResource(TenderAwardResource):
     serializer_class = AwardSerializer
-    state_class = AwardState
+    state_class = ESCOAwardState
 
     @json_view(
         permission="view_tender",

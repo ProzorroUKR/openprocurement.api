@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.chronograph import (
     TenderChronographResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
@@ -15,4 +15,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
     description="Tender chronograph",
 )
 class RequestForProposalChronographResource(TenderChronographResource):
-    state_class = RequestForProposalTenderState
+    state_class = RFPTenderState

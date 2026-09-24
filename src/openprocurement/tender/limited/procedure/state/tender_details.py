@@ -1,5 +1,3 @@
-from pyramid.request import Request
-
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
     CPV_GROUP_PREFIX_LENGTH,
@@ -10,11 +8,12 @@ from openprocurement.api.constants_env import (
     NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM,
     QUICK_CAUSE_REQUIRED_FROM,
 )
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.validation import validate_items_classifications_prefixes
 from openprocurement.api.utils import get_tender_category, get_tender_product, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
-    TenderDetailsMixing,
+    TenderDetailsMixin,
 )
 from openprocurement.tender.core.procedure.utils import (
     reporting_cause_is_required,
@@ -40,9 +39,7 @@ from openprocurement.tender.limited.procedure.serializers.cause import (
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
-class CauseDetailsMixing:
-    request: Request
-
+class LimitedCauseDetailsMixin(BaseState):
     def validate_cause_required(self, data):
         if tender_created_after(CAUSE_DETAILS_REQUIRED_FROM):
             if not data.get("causeDetails"):
@@ -177,31 +174,34 @@ class CauseDetailsMixing:
             )
 
 
-class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+class ReportingTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin, NegotiationTenderState):
     post_data_model = ReportingPostTender
     patch_data_model = ReportingPatchTender
     data_model = ReportingTender
 
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
 
     tender_patch_allowed_statuses = ("draft", "active")
-    should_validate_status_change_with_lot_cancellation_pending = False
-    should_validate_items_zero_quantity = False
-    should_validate_guarantee_criterion = False
+    status_change_with_lot_cancellation_pending_check = False
+    items_zero_quantity_check = False
+    guarantee_criterion_check = False
     items_related_lot_error = "This option is not available"
     milestones_required = False
     milestones_delivery_financing_required = False
     procuring_entity_required_fields = {}
-    should_validate_related_lot_in_items = False
-    items_delivery_required = True
-    items_unit_value_allowed = True
+    related_lot_in_items_check = False
     patch_status_choices = ("draft", "active")
     award_criteria_choices = None
     award_criteria_default = None
     contract_template_name_patch_statuses = []
     working_days_config = WORKING_DAYS_CONFIG
+    vat_not_included_check = False
+    notice_doc_required_check = False
+    items_classification_prefix_change_check = False
+    tender_period_start_date_required = False
+    # unit price is only meaningful where there is no bidding
+    items_unit_value_allowed = True
 
     def on_post(self, tender):
         self.validate_cause_required(tender)
@@ -216,31 +216,28 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
         super().on_patch(before, after)
 
 
-class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+class NegotiationTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin, NegotiationTenderState):
     post_data_model = NegotiationPostTender
     patch_data_model = NegotiationPatchTender
     data_model = NegotiationTender
 
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
     tender_patch_allowed_statuses = ("draft", "active")
-    should_validate_status_change_with_lot_cancellation_pending = False
-    should_validate_items_zero_quantity = False
-    should_validate_guarantee_criterion = False
+    status_change_with_lot_cancellation_pending_check = False
+    items_zero_quantity_check = False
+    guarantee_criterion_check = False
     lot_guarantee_currency_from_tender = False
     lot_minimal_step_meta_from_tender = False
-    should_validate_vat_not_included = True
     vat_not_included_validation_from = NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
-    should_validate_related_lot_in_items = True
-    items_delivery_required = True
-    items_unit_value_allowed = True
     patch_status_choices = ("draft", "active")
     award_criteria_choices = None
     award_criteria_default = None
     contract_template_name_patch_statuses = ("draft", "active")
     working_days_config = WORKING_DAYS_CONFIG
+    notice_doc_required_check = False
+    items_classification_prefix_change_check = False
+    tender_period_start_date_required = False
+    # unit price is only meaningful where there is no bidding
+    items_unit_value_allowed = True
 
     def on_post(self, tender):
         self.validate_cause_required(tender)
@@ -264,5 +261,3 @@ class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):
     post_data_model = NegotiationQuickPostTender
     patch_data_model = NegotiationQuickPatchTender
     data_model = NegotiationQuickTender
-
-    working_days_config = WORKING_DAYS_CONFIG

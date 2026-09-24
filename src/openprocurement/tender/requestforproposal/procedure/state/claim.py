@@ -1,11 +1,11 @@
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class RequestForProposalTenderClaimState(ClaimStateMixin, RequestForProposalTenderState):
-    update_allowed_tender_statuses = (
+class RFPTenderClaimState(ClaimStateMixin, RFPTenderState):
+    complaint_patch_allowed_tender_statuses = (
         "active.enquiries",
         "active.tendering",
         "active.auction",
@@ -16,5 +16,5 @@ class RequestForProposalTenderClaimState(ClaimStateMixin, RequestForProposalTend
         "active.enquiries",
         "active.tendering",
     )
-    should_validate_is_satisfied = False
-    claim_submit_validation = False
+    is_satisfied_check = False
+    claim_submit_check = False

@@ -20,7 +20,7 @@ class ESCOBidState(BidState):
 
     self_eligible_required = False
     bid_items_quantity_required = False
-    bid_value_validation_on_patch = False  # value is validated by the procedure's own bid model
+    bid_value_patch_check = False  # value is validated by the procedure's own bid model
 
     def on_post(self, data):
         super().on_post(data)

@@ -16,8 +16,8 @@ Chronograph -up-> startDate: заповнює
 
 
 cloud API {
-    component ShouldStartAfterMixing
-    ShouldStartAfterMixing --> shouldStartAfter: заповнює
+    component ShouldStartAfterMixin
+    ShouldStartAfterMixin --> shouldStartAfter: заповнює
 
 
     component "OpenTenderState.check_auction_time\n( invalidate_bids_data )" as check_auction_time

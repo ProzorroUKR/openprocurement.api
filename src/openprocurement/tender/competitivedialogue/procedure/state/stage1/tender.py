@@ -8,5 +8,4 @@ class CDStage1TenderState(TenderState):
     auction_lot_results_model = DecimalAuctionLotResults
     award_class = Award
 
-    active_bid_statuses = ("active", "pending")
     pre_qualification_stand_still_next_status = "active.stage2.pending"

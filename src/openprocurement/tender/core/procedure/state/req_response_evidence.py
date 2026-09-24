@@ -31,7 +31,6 @@ class ReqResponseEvidenceState(BaseState):
     validate_ecriteria_object_status = BaseReqResponseState.validate_ecriteria_object_status
     allowed_by_qualification_milestone_24 = BaseReqResponseState.allowed_by_qualification_milestone_24
     validate_req_response_view_allowed = BaseReqResponseState.validate_req_response_view_allowed
-    parent_obj_name: str
 
     def validate_post_request(self):
         self.validate_req_response_owner()

@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.openuadefense.procedure.state.tender_details import (
-    AboveThresholdUADefenseTenderDetailsState,
+    DefenseTenderDetailsState,
 )
 
 
@@ -15,4 +15,4 @@ from openprocurement.tender.openuadefense.procedure.state.tender_details import 
     accept="application/json",
 )
 class AboveThresholdUADefenseTenderResource(TendersResource):
-    state_class = AboveThresholdUADefenseTenderDetailsState
+    state_class = DefenseTenderDetailsState

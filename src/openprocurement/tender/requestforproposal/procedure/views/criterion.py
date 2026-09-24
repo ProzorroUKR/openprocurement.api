@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 from openprocurement.tender.requestforproposal.procedure.state.criterion import (
-    RequestForProposalCriterionState,
+    RFPCriterionState,
 )
 
 
@@ -14,4 +14,4 @@ from openprocurement.tender.requestforproposal.procedure.state.criterion import 
     description="Tender criteria",
 )
 class CriterionResource(BaseCriterionResource):
-    state_class = RequestForProposalCriterionState
+    state_class = RFPCriterionState

@@ -3,18 +3,16 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchLot, ARMAPostLot
 from openprocurement.tender.arma.procedure.state.tender_details import (
-    TenderDetailsState,
+    ARMATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
-class LotState(LotStateMixin, TenderDetailsState):
+class ARMALotState(LotStateMixin, ARMATenderDetailsState):
     post_data_model = ARMAPostLot
     patch_data_model = ARMAPatchLot
     data_model = ARMALot
-
-    invalidate_bids_on_lot_change = True
 
     def lot_on_post(self, data: dict) -> None:
         self.validate_lot_min_expected_income(data)

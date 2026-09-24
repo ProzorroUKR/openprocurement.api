@@ -16,8 +16,8 @@ class QualificationClaimStateMixin(ClaimStateMixin):
     post_data_model = PostClaimFromBid
 
     complaint_post_bid_owner_statuses = ("active", "unsuccessful", "invalid.pre-qualification")
-    create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
-    update_allowed_tender_statuses = (
+    complaint_post_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
+    complaint_patch_allowed_tender_statuses = (
         "active.pre-qualification",
         "active.pre-qualification.stand-still",
     )

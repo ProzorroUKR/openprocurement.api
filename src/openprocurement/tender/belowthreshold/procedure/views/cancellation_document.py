@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.belowthreshold.procedure.state.cancellation_document import (
-    BTCancellationDocumentState,
+    BelowThresholdCancellationDocumentState,
 )
 from openprocurement.tender.core.procedure.views.cancellation_document import (
     CancellationDocumentResource,
@@ -16,4 +16,4 @@ from openprocurement.tender.core.procedure.views.cancellation_document import (
     description="Tender cancellation documents",
 )
 class BTCancellationDocument(CancellationDocumentResource):
-    state_class = BTCancellationDocumentState
+    state_class = BelowThresholdCancellationDocumentState

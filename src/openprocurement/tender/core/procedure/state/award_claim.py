@@ -19,8 +19,8 @@ class AwardClaimStateMixin(ClaimStateMixin):
 
     complaint_documents_route_key = "claim"
     complaint_post_bid_owner_statuses = ("active",)
-    create_allowed_tender_statuses = ("active.qualification", "active.awarded")
-    update_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    complaint_post_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    complaint_patch_allowed_tender_statuses = ("active.qualification", "active.awarded")
     patch_as_complaint_owner_tender_statuses = (
         "active.qualification",
         "active.awarded",
@@ -52,7 +52,7 @@ class AwardClaimStateMixin(ClaimStateMixin):
         raise_operation_error(self.request, f"Can {operation} complaint only in complaintPeriod")
 
     def validate_submit_claim(self, claim):
-        if not self.claim_submit_validation:
+        if not self.claim_submit_check:
             return
         award = get_award()
         if award.get("status") == "unsuccessful" and award.get("bid_id") != claim.get("bid_id"):

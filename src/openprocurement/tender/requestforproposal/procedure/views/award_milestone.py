@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.award_milestone import (
     BaseAwardMilestoneResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.award_milestone import (
-    RequestForProposalAwardMilestoneState,
+    RFPAwardMilestoneState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.requestforproposal.procedure.state.award_milestone i
     procurementMethodType="requestForProposal",
 )
 class RequestForProposalAwardMilestoneResource(BaseAwardMilestoneResource):
-    state_class = RequestForProposalAwardMilestoneState
+    state_class = RFPAwardMilestoneState

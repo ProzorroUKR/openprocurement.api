@@ -4638,7 +4638,7 @@ def contract_template_name_set(self):
 
         should_validate_items_classifications_prefix_mock_str = (
             "openprocurement.tender.core.procedure.state.tender_details."
-            "TenderDetailsMixing.should_validate_items_classifications_prefix"
+            "TenderDetailsMixin.items_classifications_prefix_check"
         )
 
         with mock.patch(should_validate_items_classifications_prefix_mock_str, False):
@@ -4664,7 +4664,7 @@ def contract_template_name_set(self):
 
         should_validate_items_classifications_prefix_mock_str = (
             "openprocurement.tender.core.procedure.state.tender_details."
-            "TenderDetailsMixing.should_validate_items_classifications_prefix"
+            "TenderDetailsMixin.items_classifications_prefix_check"
         )
 
         with mock.patch(should_validate_items_classifications_prefix_mock_str, False):

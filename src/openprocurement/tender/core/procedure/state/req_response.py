@@ -29,7 +29,6 @@ class BaseReqResponseState(BaseState):
     patch_data_model = PatchRequirementResponse
     data_model = RequirementResponse
 
-    parent_obj_name: str
     # the owner (bid / tender) that may change the responses, and the roles exempt from it per method
     req_response_owner_item_name = "tender"
     req_response_owner_exempt_roles: dict = {

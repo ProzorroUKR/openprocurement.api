@@ -1,7 +1,6 @@
-from typing import Callable
-
 from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FROM
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
@@ -12,31 +11,18 @@ from openprocurement.tender.core.procedure.utils import tender_created_before
 from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 
-class LotStateMixin:
+class LotStateMixin(BaseState):
     post_data_model = PostLot
     patch_data_model = PatchLot
     data_model = Lot
 
-    request: Callable
-    get_lot_auction_should_start_after: Callable
-    set_lot_minimal_step: Callable
-    set_lot_value: Callable
-    set_lot_guarantee: Callable
-    calc_tender_values: Callable
-    invalidate_review_requests: Callable
-    validate_action_with_exist_inspector_review_request: Callable
-    validate_cancellation_blocks: Callable
-    validate_tender_period_extension: Callable
-    validate_lot_value: Callable
-    validate_lot_minimal_step: Callable
-    invalidate_bids_data: Callable
     # tender statuses in which lots can be added / updated / deleted
     lot_operation_allowed_tender_statuses: tuple = ("active.tendering", "draft", "draft.stage2")
     # competitiveDialogue stage 2: lots are copied from stage 1 and can't be changed
     lot_operations_forbidden = False
     # open family / cfaua / esco / arma / CD / CO: pending bids become invalid after a lot change
-    invalidate_bids_on_lot_change = False
-    should_validate_lot_minimal_step = True
+    invalidate_bids_on_lot_change = True
+    lot_minimal_step_check = True
     # limited (negotiation): lots don't recalculate the tender values
     lot_updates_tender_values = True
     # cfaua: limits of the lots count (None = no limit)

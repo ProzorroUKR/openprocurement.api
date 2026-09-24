@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
-from openprocurement.tender.openua.procedure.state.question import UATenderQuestionState
+from openprocurement.tender.openua.procedure.state.question import OpenUATenderQuestionState
 
 
 @resource(
@@ -12,4 +12,4 @@ from openprocurement.tender.openua.procedure.state.question import UATenderQuest
     description="Tender questions",
 )
 class UATenderQuestionResource(TenderQuestionResource):
-    state_class = UATenderQuestionState
+    state_class = OpenUATenderQuestionState

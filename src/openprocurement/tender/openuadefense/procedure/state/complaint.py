@@ -1,8 +1,8 @@
 from openprocurement.tender.core.procedure.state.complaint import TenderComplaintState
 from openprocurement.tender.openuadefense.procedure.state.tender import (
-    OpenUADefenseTenderState,
+    DefenseTenderState,
 )
 
 
-class OpenUADefenseTenderComplaintState(TenderComplaintState, OpenUADefenseTenderState):
+class DefenseTenderComplaintState(TenderComplaintState, DefenseTenderState):
     pass

@@ -5,12 +5,12 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_claim import (
-    CDEUStage2AwardClaimState,
-    CDUAStage2AwardClaimState,
+    CDStage2EUAwardClaimState,
+    CDStage2UAAwardClaimState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_complaint import (
-    CDEUStage2AwardComplaintState,
-    CDUAStage2AwardComplaintState,
+    CDStage2EUAwardComplaintState,
+    CDStage2UAAwardComplaintState,
 )
 from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.core.procedure.views.award_complaint import (
@@ -41,7 +41,7 @@ class CD2EUAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
     description="Competitive Dialogue Stage 2 EU award claims",
 )
 class CD2EUTenderAwardClaimResource(AwardClaimResource):
-    state_class = CDEUStage2AwardClaimState
+    state_class = CDStage2EUAwardClaimState
 
 
 @resource(
@@ -54,7 +54,7 @@ class CD2EUTenderAwardClaimResource(AwardClaimResource):
     description="Competitive Dialogue Stage 2 EU award complaints",
 )
 class CD2EUAwardComplaintWriteResource(AwardComplaintWriteResource):
-    state_class = CDEUStage2AwardComplaintState
+    state_class = CDStage2EUAwardComplaintState
 
 
 @resource(
@@ -79,7 +79,7 @@ class CD2UAAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
     description="Competitive Dialogue Stage 2 UA award claims",
 )
 class CD2UATenderAwardClaimResource(AwardClaimResource):
-    state_class = CDUAStage2AwardClaimState
+    state_class = CDStage2UAAwardClaimState
 
 
 @resource(
@@ -92,4 +92,4 @@ class CD2UATenderAwardClaimResource(AwardClaimResource):
     description="Competitive Dialogue Stage 2 UA award complaints",
 )
 class CD2UAAwardComplaintWriteResource(AwardComplaintWriteResource):
-    state_class = CDUAStage2AwardComplaintState
+    state_class = CDStage2UAAwardComplaintState

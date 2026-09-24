@@ -15,3 +15,5 @@ WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": False,
     "qualificationComplainDuration": False,
 }
+CLAIM_SUBMIT_TIME = timedelta(days=10)
+TENDERING_EXTRA_PERIOD = timedelta(days=7)

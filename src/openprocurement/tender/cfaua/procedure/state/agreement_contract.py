@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
-class AgreementContractStateMixing:
+class CFAUAAgreementContractStateMixin:
     patch_data_model = CFAPatchAgreementContract
     data_model = CFAAgreementContract
 
@@ -100,5 +100,5 @@ class AgreementContractStateMixing:
                 )
 
 
-class AgreementContractState(AgreementContractStateMixing, TenderState):
+class CFAUAAgreementContractState(CFAUAAgreementContractStateMixin, TenderState):
     pass

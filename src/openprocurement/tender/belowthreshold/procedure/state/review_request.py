@@ -6,5 +6,5 @@ from openprocurement.tender.core.procedure.state.review_request import (
 )
 
 
-class ReviewRequestState(ReviewRequestStateMixin, BelowThresholdTenderState):
+class BelowThresholdReviewRequestState(ReviewRequestStateMixin, BelowThresholdTenderState):
     pass

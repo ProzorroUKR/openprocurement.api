@@ -20,8 +20,8 @@ class QualificationComplaintStateMixin(ComplaintStateMixin):
     draft_patch_model = DraftPatchQualificationComplaint
 
     complaint_post_bid_owner_statuses = ("active", "unsuccessful")
-    create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
-    update_allowed_tender_statuses = (
+    complaint_post_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
+    complaint_patch_allowed_tender_statuses = (
         "active.pre-qualification",
         "active.pre-qualification.stand-still",
     )

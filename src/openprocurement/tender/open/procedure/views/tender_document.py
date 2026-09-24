@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.views.tender_document import (
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.state.tender_document import (
-    UATenderDocumentState,
+    OpenTenderDocumentState,
 )
 
 
@@ -17,4 +17,4 @@ from openprocurement.tender.open.procedure.state.tender_document import (
     description="Tender related binary files (PDFs, etc.)",
 )
 class UATenderDocumentResource(TenderDocumentResource):
-    state_class = UATenderDocumentState
+    state_class = OpenTenderDocumentState

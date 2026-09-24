@@ -2,8 +2,8 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
-    CDEUStage1TenderDetailsState,
-    CDUAStage1TenderDetailsState,
+    CDStage1EUTenderDetailsState,
+    CDStage1UATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 
@@ -17,7 +17,7 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
     accept="application/json",
 )
 class CDEUTenderResource(TendersResource):
-    state_class = CDEUStage1TenderDetailsState
+    state_class = CDStage1EUTenderDetailsState
 
 
 # ============= UA
@@ -32,4 +32,4 @@ class CDEUTenderResource(TendersResource):
     accept="application/json",
 )
 class CDUATenderResource(TendersResource):
-    state_class = CDUAStage1TenderDetailsState
+    state_class = CDStage1UATenderDetailsState

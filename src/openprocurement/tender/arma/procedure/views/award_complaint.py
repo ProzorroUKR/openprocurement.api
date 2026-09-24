@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.award_claim import AwardClaimState
+from openprocurement.tender.arma.procedure.state.award_claim import ARMAAwardClaimState
 from openprocurement.tender.arma.procedure.state.award_complaint import (
-    AwardComplaintState,
+    ARMAAwardComplaintState,
 )
 from openprocurement.tender.core.procedure.views.award_claim import (
     AwardClaimResource as BaseAwardClaimResource,
@@ -38,7 +38,7 @@ class AwardClaimAndComplaintGetResource(BaseAwardComplaintGetResource):
     description="Tender award claims",
 )
 class AwardClaimResource(BaseAwardClaimResource):
-    state_class = AwardClaimState
+    state_class = ARMAAwardClaimState
 
 
 @resource(
@@ -51,4 +51,4 @@ class AwardClaimResource(BaseAwardClaimResource):
     description="Tender award complaints",
 )
 class AwardComplaintWriteResource(BaseAwardComplaintWriteResource):
-    state_class = AwardComplaintState
+    state_class = ARMAAwardComplaintState

@@ -1,8 +1,8 @@
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.openuadefense.procedure.state.tender import (
-    OpenUADefenseTenderState,
+    DefenseTenderState,
 )
 
 
-class OpenUADefenseTenderClaimState(ClaimStateMixin, OpenUADefenseTenderState):
+class DefenseTenderClaimState(ClaimStateMixin, DefenseTenderState):
     pass

@@ -3,7 +3,7 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.requestforproposal.procedure.state.tender_details import (
-    RequestForProposalTenderDetailsState,
+    RFPTenderDetailsState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender_details im
     accept="application/json",
 )
 class RequestForProposalTenderResource(TendersResource):
-    state_class = RequestForProposalTenderDetailsState
+    state_class = RFPTenderDetailsState

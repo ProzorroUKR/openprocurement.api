@@ -15,5 +15,3 @@ class ESCOTenderStateMixin:
 class ESCOTenderState(ESCOTenderStateMixin, TenderState):
     auction_results_model = ESCOAuctionResults
     auction_lot_results_model = ESCOAuctionLotResults
-
-    active_bid_statuses = ("active", "pending")

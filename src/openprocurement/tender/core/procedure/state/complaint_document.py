@@ -26,10 +26,9 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
         "aboveThresholdReviewers": ["pending", "accepted", "stopping"],
         "tender_owner": ["claim", "pending", "accepted", "satisfied"],
     }
-    allowed_tender_statuses = (
+    complaint_document_allowed_tender_statuses = (
         "active.enquiries",
         "active.tendering",
-        "active.pre-qualification",
         "active.auction",
         "active.qualification",
         "active.awarded",
@@ -65,7 +64,7 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
     def validate_tender_status(self):
         tender = get_tender()
         status = tender["status"]
-        if status not in self.allowed_tender_statuses:
+        if status not in self.complaint_document_allowed_tender_statuses:
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(
                 self.request,

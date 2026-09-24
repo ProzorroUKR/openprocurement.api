@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.cfaselectionua.procedure.state.award import AwardState
+from openprocurement.tender.cfaselectionua.procedure.state.award import CFASelectionAwardState
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 
 
@@ -12,4 +12,4 @@ from openprocurement.tender.core.procedure.views.award import TenderAwardResourc
     procurementMethodType="closeFrameworkAgreementSelectionUA",
 )
 class UATenderAwardResource(TenderAwardResource):
-    state_class = AwardState
+    state_class = CFASelectionAwardState

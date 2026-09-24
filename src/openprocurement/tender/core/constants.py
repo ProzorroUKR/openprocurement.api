@@ -143,7 +143,16 @@ AGREEMENT_MILESTONES_MISMATCH_MESSAGE = "Agreement milestones does not match ten
 
 CONTRACT_PERIOD_START_DAYS = 5
 
+# which period calculations use working days (the open family value); calendar days everywhere otherwise
 DEFAULT_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+CALENDAR_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,

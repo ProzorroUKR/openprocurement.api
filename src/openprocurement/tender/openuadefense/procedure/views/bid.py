@@ -4,7 +4,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
 from openprocurement.tender.openuadefense.procedure.state.bid import (
-    OpenUADefenseBidState,
+    DefenseBidState,
 )
 
 LOGGER = getLogger(__name__)
@@ -18,4 +18,4 @@ LOGGER = getLogger(__name__)
     description="Tender UA.defense bids",
 )
 class OpenUADefenseTenderBidResource(OpenUATenderBidResource):
-    state_class = OpenUADefenseBidState
+    state_class = DefenseBidState

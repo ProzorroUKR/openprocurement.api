@@ -2,7 +2,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 
-class CancellationBlockMixing:
+class CancellationBlockMixin:
     # procedures whose process is not blocked by pending cancellations
     cancellation_blocks_exempt_procurement_method_types = (
         "belowThreshold",

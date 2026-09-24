@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.openua.procedure.state.award import AwardState
+from openprocurement.tender.openua.procedure.state.award import OpenUAAwardState
 
 
 @resource(
@@ -12,4 +12,4 @@ from openprocurement.tender.openua.procedure.state.award import AwardState
     procurementMethodType="aboveThresholdEU",
 )
 class EUTenderAwardResource(TenderAwardResource):
-    state_class = AwardState
+    state_class = OpenUAAwardState

@@ -5,7 +5,6 @@ from openprocurement.tender.cfaua.procedure.state.tender_details import (
 from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 
 
-class TenderLotState(LotStateMixin, CFAUATenderDetailsState):
-    invalidate_bids_on_lot_change = True
+class CFAUATenderLotState(LotStateMixin, CFAUATenderDetailsState):
     lots_min_count = LOTS_MIN_SIZE
     lots_max_count = LOTS_MAX_SIZE

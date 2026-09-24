@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.validation import (
 )
 
 
-class BaseDocumentStateMixing:
+class BaseDocumentStateMixin:
     post_data_model = PostDocument
     patch_data_model = PatchDocument
     data_model = Document
@@ -17,7 +17,7 @@ class BaseDocumentStateMixing:
     # roles that may add / update the documents without being the owner
     document_post_owner_exempt_roles: tuple = ()
     document_update_owner_exempt_roles: tuple = ()
-    check_edrpou_confidentiality = True
+    edrpou_confidentiality_check = True
     all_documents_should_be_public = False
     allow_deletion = False
     deletion_allowed_statuses = ("draft",)
@@ -89,7 +89,7 @@ class BaseDocumentStateMixing:
         pass
 
     def validate_confidentiality(self, data):
-        if not self.check_edrpou_confidentiality:
+        if not self.edrpou_confidentiality_check:
             return
         validate_edrpou_confidentiality_doc(data, should_be_public=self.all_documents_should_be_public)
 
@@ -112,7 +112,7 @@ class BaseDocumentStateMixing:
             )
 
 
-class BaseDocumentState(BaseDocumentStateMixing, TenderState):
+class BaseDocumentState(BaseDocumentStateMixin, TenderState):
     def validate_document_author(self, document):
         if self.request.authenticated_role != document["author"]:
             raise_operation_error(

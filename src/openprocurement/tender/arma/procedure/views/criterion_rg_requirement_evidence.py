@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.criterion_rg_requirement_evidence import (
-    EligibleEvidenceState,
+    ARMAEligibleEvidenceState,
 )
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
     BaseEligibleEvidenceResource,
@@ -19,4 +19,4 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement_eviden
     description="Tender requirement evidence",
 )
 class EligibleEvidenceResource(BaseEligibleEvidenceResource):
-    state_class = EligibleEvidenceState
+    state_class = ARMAEligibleEvidenceState

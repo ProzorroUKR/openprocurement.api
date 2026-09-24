@@ -1,8 +1,5 @@
-from typing import Callable
-
-from pyramid.request import Request
-
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
@@ -22,18 +19,17 @@ from openprocurement.tender.core.procedure.validation import (
 )
 
 
-class BaseCriterionStateMixin:
+class BaseCriterionStateMixin(BaseState):
     # roles that may change the criteria without being the tender owner (competitiveDialogue stage 2: + admins)
     criterion_owner_exempt_roles: tuple = ("Administrator",)
-    request: Request
-    tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+    criterion_allowed_tender_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
 
     def validate_criterion_owner(self):
         if self.request.authenticated_role not in self.criterion_owner_exempt_roles:
             self.validate_item_owner("tender")
 
     def _validate_operation_criterion_in_tender_status(self) -> None:
-        base_validate_operation_ecriteria_objects(self.request, self.tender_valid_statuses)
+        base_validate_operation_ecriteria_objects(self.request, self.criterion_allowed_tender_statuses)
 
     def _validate_patch_exclusion_ecriteria_objects(self, before: dict) -> None:
         if before["classification"]["id"].startswith("CRITERION.EXCLUSION"):
@@ -87,12 +83,6 @@ class CriterionStateMixin(BaseCriterionStateMixin):
     criterion_source_choices: tuple | None = None
     # bt/rfp: exclusion criteria may be patched
     criterion_patch_exclusion_check = True
-    request: Request
-    _validate_criterion_uniq: Callable
-    validate_criteria_requirements_rules: Callable
-    validate_criteria_classification: Callable
-    validate_action_with_exist_inspector_review_request: Callable
-    invalidate_review_requests: Callable
 
     def validate_post_request(self):
         self.validate_criterion_owner()

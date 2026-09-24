@@ -1,6 +1,6 @@
 from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
-from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
+from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
 
 
-class OpenEUCriterionState(CriterionStateMixin, BaseOpenEUTenderState):
+class OpenEUCriterionState(CriterionStateMixin, OpenEUTenderState):
     pass

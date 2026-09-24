@@ -6,10 +6,10 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintWriteResource,
 )
 from openprocurement.tender.openuadefense.procedure.state.award_claim import (
-    OpenUADefenseAwardClaimState,
+    DefenseAwardClaimState,
 )
 from openprocurement.tender.openuadefense.procedure.state.award_complaint import (
-    OpenUADefenseAwardComplaintState,
+    DefenseAwardComplaintState,
 )
 
 
@@ -35,7 +35,7 @@ class OpenUADefenseAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
     description="Tender award claims",
 )
 class OpenUADefenseTenderAwardClaimResource(AwardClaimResource):
-    state_class = OpenUADefenseAwardClaimState
+    state_class = DefenseAwardClaimState
 
 
 @resource(
@@ -48,4 +48,4 @@ class OpenUADefenseTenderAwardClaimResource(AwardClaimResource):
     description="Tender award complaints",
 )
 class OpenUADefenseAwardComplaintWriteResource(AwardComplaintWriteResource):
-    state_class = OpenUADefenseAwardComplaintState
+    state_class = DefenseAwardComplaintState

@@ -3,7 +3,7 @@ from logging import getLogger
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.requestforproposal.procedure.state.award import AwardState
+from openprocurement.tender.requestforproposal.procedure.state.award import RFPAwardState
 
 LOGGER = getLogger(__name__)
 
@@ -16,4 +16,4 @@ LOGGER = getLogger(__name__)
     procurementMethodType="requestForProposal",
 )
 class RequestForProposalTenderAwardResource(TenderAwardResource):
-    state_class = AwardState
+    state_class = RFPAwardState

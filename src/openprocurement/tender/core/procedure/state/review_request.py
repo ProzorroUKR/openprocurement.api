@@ -1,8 +1,7 @@
 from uuid import uuid4
 
-from pyramid.request import Request
-
 from openprocurement.api.context import get_request, get_request_now
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.models.review_request import (
     PatchInspectorReviewRequest,
@@ -12,13 +11,12 @@ from openprocurement.tender.core.procedure.models.review_request import (
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
-class ReviewRequestStateMixin:
+class ReviewRequestStateMixin(BaseState):
     post_data_model = PostInspectorReview
     patch_data_model = PatchInspectorReviewRequest
     data_model = ReviewRequest
 
-    request: Request
-    review_request_tender_statuses = (
+    review_request_allowed_tender_statuses = (
         "active.enquiries",
         "active.qualification",
         "active.awarded",
@@ -95,7 +93,7 @@ class ReviewRequestStateMixin:
     def validate_operation_in_allowed_tender_status(self) -> None:
         tender_status = self.request.validated["tender"]["status"]
 
-        if tender_status not in self.review_request_tender_statuses:
+        if tender_status not in self.review_request_allowed_tender_statuses:
             raise_operation_error(
                 get_request(),
                 f"Can't perform review request in {tender_status} tender status",

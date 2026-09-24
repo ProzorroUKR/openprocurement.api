@@ -2,9 +2,9 @@ from openprocurement.tender.core.procedure.state.review_request import (
     ReviewRequestStateMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class ReviewRequestState(ReviewRequestStateMixin, RequestForProposalTenderState):
+class RFPReviewRequestState(ReviewRequestStateMixin, RFPTenderState):
     pass

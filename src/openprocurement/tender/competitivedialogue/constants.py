@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
 CD_EU_TYPE = "competitiveDialogueEU"
@@ -97,3 +99,5 @@ STAGE_2_UA_WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": False,
     "qualificationComplainDuration": False,
 }
+CLAIM_SUBMIT_TIME = timedelta(days=10)
+TENDERING_EXTRA_PERIOD = timedelta(days=7)

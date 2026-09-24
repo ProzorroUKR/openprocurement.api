@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.procedure.state.award import AwardState
+from openprocurement.tender.pricequotation.procedure.state.award import PQAwardState
 
 
 @resource(
@@ -13,4 +13,4 @@ from openprocurement.tender.pricequotation.procedure.state.award import AwardSta
     procurementMethodType=PQ,
 )
 class PQTenderAwardResource(TenderAwardResource):
-    state_class = AwardState
+    state_class = PQAwardState

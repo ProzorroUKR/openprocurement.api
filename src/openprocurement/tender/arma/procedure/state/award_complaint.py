@@ -1,8 +1,8 @@
-from openprocurement.tender.arma.procedure.state.tender import TenderState
+from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
 from openprocurement.tender.core.procedure.state.award_complaint import (
     AwardComplaintStateMixin,
 )
 
 
-class AwardComplaintState(AwardComplaintStateMixin, TenderState):
+class ARMAAwardComplaintState(AwardComplaintStateMixin, ARMATenderState):
     pass

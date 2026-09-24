@@ -8,7 +8,7 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import ContractState
 from openprocurement.contracting.core.procedure.utils import get_tender_award_by_contract, is_contract_owner
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
 CONFIDENTIAL_DOCS_CAUSES = (
@@ -29,7 +29,7 @@ CONFIDENTIAL_DOCS_CAUSES = (
 )
 
 
-class ContractDocumentState(BaseDocumentStateMixing, ContractState):
+class ContractDocumentState(BaseDocumentStateMixin, ContractState):
     def validate_document_post(self, data):
         tender = self.request.validated["tender"]
         contract = self.request.validated["contract"]

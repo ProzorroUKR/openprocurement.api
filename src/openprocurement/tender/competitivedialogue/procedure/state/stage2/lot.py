@@ -1,15 +1,13 @@
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
+    CDStage2EUTenderDetailsState,
+    CDStage2UATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 
 
-class CDStage2EUTenderLotState(LotStateMixin, CDEUStage2TenderDetailsState):
-    invalidate_bids_on_lot_change = True
+class CDStage2EUTenderLotState(LotStateMixin, CDStage2EUTenderDetailsState):
     lot_operations_forbidden = True
 
 
-class CDStage2UATenderLotState(LotStateMixin, CDUAStage2TenderDetailsState):
-    invalidate_bids_on_lot_change = True
+class CDStage2UATenderLotState(LotStateMixin, CDStage2UATenderDetailsState):
     lot_operations_forbidden = True

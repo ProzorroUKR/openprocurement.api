@@ -95,7 +95,7 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     period = ModelType(Period)
 
     qualified = BooleanType()
-    eligible = BooleanType()  # qualified/eligible rules: AwardStateMixing.validate_award_qualified_eligible
+    eligible = BooleanType()  # qualified/eligible rules: AwardStateMixin.validate_award_qualified_eligible
     title = StringType()
     title_en = StringType()
     title_ru = StringType()

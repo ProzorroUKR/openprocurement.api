@@ -3,7 +3,7 @@ from logging import getLogger
 from cornice.resource import resource
 
 from openprocurement.tender.belowthreshold.procedure.state.review_request import (
-    ReviewRequestState,
+    BelowThresholdReviewRequestState,
 )
 from openprocurement.tender.core.procedure.views.review_request import (
     TenderReviewRequestResource,
@@ -20,4 +20,4 @@ LOGGER = getLogger(__name__)
     procurementMethodType="belowThreshold",
 )
 class BelowThresholdTenderReviewRequestResource(TenderReviewRequestResource):
-    state_class = ReviewRequestState
+    state_class = BelowThresholdReviewRequestState

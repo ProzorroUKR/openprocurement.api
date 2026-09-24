@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost
@@ -9,9 +10,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 LOGGER = getLogger(__name__)
 
 
-class ComplaintPostValidationsMixin:
-    request: object
-
+class ComplaintPostValidationsMixin(BaseState):
     def validate_complaint_status_for_posts(self, complaint):
         complaint_status = complaint.get("status")
         if complaint_status not in ["pending", "accepted"]:

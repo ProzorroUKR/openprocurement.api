@@ -4,12 +4,12 @@ from openprocurement.tender.core.procedure.state.criterion_rg import (
 
 # from openprocurement.tender.pricequotation.procedure.state.criterion import PQCriterionStateMixin
 from openprocurement.tender.pricequotation.procedure.state.tender import (
-    PriceQuotationTenderState,
+    PQTenderState,
 )
 
 # class PQRequirementGroupStateMixin(PQCriterionStateMixin, RequirementGroupStateMixin):
 #     pass
 
 
-class PQRequirementGroupState(RequirementGroupStateMixin, PriceQuotationTenderState):
-    tender_valid_statuses = ["draft"]
+class PQRequirementGroupState(RequirementGroupStateMixin, PQTenderState):
+    criterion_allowed_tender_statuses = ["draft"]

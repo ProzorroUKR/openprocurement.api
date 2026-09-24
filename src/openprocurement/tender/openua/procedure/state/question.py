@@ -5,9 +5,9 @@ from openprocurement.tender.core.procedure.state.question import (
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
 
 
-class UATenderQuestionStateMixin(TenderQuestionStateMixin):
-    question_operation_allowed_tender_statuses = ("active.tendering",)
+class OpenUATenderQuestionStateMixin(TenderQuestionStateMixin):
+    question_create_accreditations = None
 
 
-class UATenderQuestionState(UATenderQuestionStateMixin, OpenUATenderState):
+class OpenUATenderQuestionState(OpenUATenderQuestionStateMixin, OpenUATenderState):
     question_create_accreditations = (AccreditationLevel.ACCR_4,)

@@ -6,7 +6,7 @@ import pytest
 
 from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.tender.core.procedure.state.cancellation import (
-    CancellationStateMixing,
+    CancellationStateMixin,
 )
 
 affected_complaint_statuses = ("pending", "accepted", "satisfied")
@@ -39,7 +39,7 @@ def test_validation_before_release(complaint_status):
     )
     with mock_release_date(get_request_now() + timedelta(1)):
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -64,7 +64,7 @@ def test_validation_tender_complaint(complaint_status):
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -98,7 +98,7 @@ def test_validation_award_complaint(complaint_status):
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -132,7 +132,7 @@ def test_validation_qualification_complaint(complaint_status):
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -173,7 +173,7 @@ def test_tender_lot_cancellation_complaint(complaint_status, cancellation_lot, c
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -203,7 +203,7 @@ def test_tender_lot_cancellation_complaint_pass(complaint_status):
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -237,7 +237,7 @@ def test_award_lot_cancellation_complaint(complaint_status, cancellation_lot, co
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -271,7 +271,7 @@ def test_award_lot_cancellation_complaint_pass(complaint_status):
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -305,7 +305,7 @@ def test_qualification_lot_cancellation_complaint(complaint_status, cancellation
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],
@@ -339,7 +339,7 @@ def test_qualification_lot_cancellation_complaint_pass(complaint_status):
     )
     with mock_release_date():
         with mock.patch("openprocurement.tender.core.procedure.state.cancellation.raise_operation_error") as error_mock:
-            CancellationStateMixing.validate_absence_of_pending_accepted_satisfied_complaints(
+            CancellationStateMixin.validate_absence_of_pending_accepted_satisfied_complaints(
                 request,
                 request.validated["tender"],
                 request.validated["cancellation"],

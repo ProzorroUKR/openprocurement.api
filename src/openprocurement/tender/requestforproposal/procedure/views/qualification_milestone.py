@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.views.qualification_milestone import 
 )
 from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.requestforproposal.procedure.state.qualification_milestone import (
-    RequestForProposalQualificationMilestoneState,
+    RFPQualificationMilestoneState,
 )
 
 
@@ -17,4 +17,4 @@ from openprocurement.tender.requestforproposal.procedure.state.qualification_mil
     description="Tender qualification milestones",
 )
 class QualificationMilestoneResource(BaseQualificationMilestoneResource):
-    state_class = RequestForProposalQualificationMilestoneState
+    state_class = RFPQualificationMilestoneState

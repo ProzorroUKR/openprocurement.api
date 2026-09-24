@@ -7,7 +7,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.cfaua.procedure.state.agreement_contract import (
-    AgreementContractState,
+    CFAUAAgreementContractState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.agreement import resolve_agreement
@@ -30,7 +30,7 @@ def resolve_agreement_contract(request):
     description="Tender CFAUA agreement contracts",
 )
 class CFAUAAgreementContractResource(TenderBaseResource):
-    state_class = AgreementContractState
+    state_class = CFAUAAgreementContractState
     serializer_class = BaseSerializer
 
     def __init__(self, request, context=None):

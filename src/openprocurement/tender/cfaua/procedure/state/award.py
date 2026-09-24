@@ -1,11 +1,12 @@
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.core.procedure.state.award import AwardStateMixin
 
 
-class AwardState(AwardStateMixing, CFAUATenderState):
-    award_has_eligible: bool = True
+class CFAUAAwardState(AwardStateMixin, CFAUATenderState):
     award_patch_allowed_tender_statuses = ("active.qualification", "active.qualification.stand-still")
     award_patch_forbidden_with_accepted_lot_complaint = True
+    award_cancel_lot_awards_on_satisfied_complaint = False
+    award_stand_still_working_days = True
 
     def award_status_up_from_pending_to_active(self, award, tender):
         pass

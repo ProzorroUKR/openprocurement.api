@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.tender_document import (
-    TenderDocumentState,
+    ARMATenderDocumentState,
 )
 from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource as BaseTenderDocumentResource,
@@ -17,4 +17,4 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     description="Tender related binary files (PDFs, etc.)",
 )
 class TenderDocumentResource(BaseTenderDocumentResource):
-    state_class = TenderDocumentState
+    state_class = ARMATenderDocumentState

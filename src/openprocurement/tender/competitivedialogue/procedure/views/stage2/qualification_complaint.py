@@ -2,10 +2,10 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.qualification_claim import (
-    CDEUStage2QualificationClaimState,
+    CDStage2EUQualificationClaimState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.qualification_complaint import (
-    CDEUStage2QualificationComplaintState,
+    CDStage2EUQualificationComplaintState,
 )
 from openprocurement.tender.core.procedure.views.qualification_claim import (
     QualificationClaimResource,
@@ -38,7 +38,7 @@ class CD2EUQualificationClaimAndComplaintGetResource(QualificationComplaintGetRe
     description="Competitive Dialogue Stage 2 EU qualification claims",
 )
 class CD2EUTenderQualificationClaimResource(QualificationClaimResource):
-    state_class = CDEUStage2QualificationClaimState
+    state_class = CDStage2EUQualificationClaimState
 
 
 @resource(
@@ -51,4 +51,4 @@ class CD2EUTenderQualificationClaimResource(QualificationClaimResource):
     description="Competitive Dialogue Stage 2 EU qualification complaints",
 )
 class CD2EUQualificationComplaintWriteResource(QualificationComplaintWriteResource):
-    state_class = CDEUStage2QualificationComplaintState
+    state_class = CDStage2EUQualificationComplaintState

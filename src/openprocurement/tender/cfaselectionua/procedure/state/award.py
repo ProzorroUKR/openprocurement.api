@@ -5,14 +5,17 @@ from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.core.procedure.state.award import AwardStateMixin
 
 LOGGER = logging.getLogger(__name__)
 
 
-class AwardState(AwardStateMixing, CFASelectionTenderState):
+class CFASelectionAwardState(AwardStateMixin, CFASelectionTenderState):
     award_status_change_waits_for_milestone_due_date = False
     award_unsuccessful_requires_cancelled_award_same_bid = True
+    award_cancel_lot_awards_on_satisfied_complaint = False
+    award_has_eligible = False
+    award_stand_still_working_days = True
 
     def award_status_up(self, before, after, award):
         super().award_status_up(before, after, award)

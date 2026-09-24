@@ -74,7 +74,7 @@ class BidState(BaseState):
     bid_post_shortlisted_firms_check = False
     items_unit_value_required_for_funders = False
     items_product_required = False
-    qualification_statuses = ("active.qualification", "active.pre-qualification")
+    bid_patch_qualification_tender_statuses = ("active.qualification", "active.pre-qualification")
     item_patch_fields_during_qualification = {
         "items": ("unit.value.amount",),
         "requirementResponses": None,
@@ -82,7 +82,7 @@ class BidState(BaseState):
         "tenderers": ("signerInfo",),
         "lotValues": ("subcontractingDetails",),
     }
-    check_item_unit_amount = True
+    item_unit_amount_check = True
     # selfEligible: required before RELEASE_ECRITERIA_ARTICLE_17 and rogue after it (default),
     # defense procedures: always required, never rogue
     self_eligible_required = True
@@ -90,14 +90,14 @@ class BidState(BaseState):
     # openuadefense bids have no requirementResponses
     requirement_responses_allowed = True
     # open-family procedures don't validate value of a draft bid on patch
-    skip_value_validation_for_draft_bid = False
+    draft_bid_value_check = True
     # competitiveDialogue stage 1 bids have no value / parameters
     bid_value_allowed = True
     bid_parameters_allowed = True
     # bid items quantity (former BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM)
     bid_items_quantity_required = True
     # esco / competitiveDialogue: the bid value is validated by the procedure's own bid model, not on patch
-    bid_value_validation_on_patch = True
+    bid_value_patch_check = True
     # cfaselectionua: the agreement is a full copy inside the tender (tender.agreements[0]) and is checked on patch too
     bid_agreement_from_tender = False
     bid_agreement_check_on_patch = False
@@ -168,7 +168,7 @@ class BidState(BaseState):
     def get_patch_data_model(self):
         if self.request.authenticated_role == "Administrator":
             return self.patch_administrator_data_model
-        if get_tender().get("status", "") in self.qualification_statuses:
+        if get_tender().get("status", "") in self.bid_patch_qualification_tender_statuses:
             return self.patch_qualification_data_model
         return self.patch_data_model
 
@@ -271,9 +271,9 @@ class BidState(BaseState):
             raise_operation_error(self.request, "Firm can't create bid")
 
     def validate_bid_value_on_patch(self, data):
-        if not self.bid_value_validation_on_patch:
+        if not self.bid_value_patch_check:
             return
-        if self.skip_value_validation_for_draft_bid and data.get("status") == "draft":
+        if not self.draft_bid_value_check and data.get("status") == "draft":
             return
         try:
             validate_bid_value(get_tender(), data.get("value"))
@@ -437,7 +437,7 @@ class BidState(BaseState):
                     items_unit_value_amount.append(unit_value_amount)
 
         # Validate items unit value amount
-        if self.check_item_unit_amount:
+        if self.item_unit_amount_check:
             if lot_values:
                 for lot_id, amounts in items_unit_value_amount.items():
                     validate_items_unit_amount(amounts, lot_values_by_id[lot_id], obj_name="bid.lotValues")
@@ -561,7 +561,7 @@ class BidState(BaseState):
     def invalidate_pending_bid_after_patch(self, after, before):
         if (
             self.request.authenticated_role == "Administrator"
-            or get_tender().get("status") in self.qualification_statuses
+            or get_tender().get("status") in self.bid_patch_qualification_tender_statuses
         ):
             return
         if before.get("status") == after.get("status") == "pending" and before != after:
@@ -761,7 +761,7 @@ class BidState(BaseState):
         validate_econtract_fields_bid(self.request, tender, bid)
 
     def validate_patch_bid_fields_during_qualification(self, before, after):
-        if get_tender().get("status") not in self.qualification_statuses:
+        if get_tender().get("status") not in self.bid_patch_qualification_tender_statuses:
             return
 
         for field_name in after.keys():

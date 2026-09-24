@@ -30,7 +30,7 @@ from openprocurement.tender.pricequotation.constants import PQ
 LOGGER = getLogger(__name__)
 
 
-class TenderStateAwardingMixing:
+class TenderStateAwardingMixin:
     award_class = Award
 
     # Bids are sorted by this key on awarding stage

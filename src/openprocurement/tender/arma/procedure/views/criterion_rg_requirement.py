@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.criterion_rg_requirement import (
-    RequirementState,
+    ARMARequirementState,
 )
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
@@ -19,4 +19,4 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement import
     description="Tender requirement group requirement",
 )
 class RequirementResource(BaseRequirementResource):
-    state_class = RequirementState
+    state_class = ARMARequirementState

@@ -8,11 +8,11 @@ from openprocurement.tender.belowthreshold.procedure.state.tender import (
 )
 from openprocurement.tender.core.procedure.models.tender import PatchActiveTender, PatchDraftTender
 from openprocurement.tender.core.procedure.state.tender_details import (
-    TenderDetailsMixing,
+    TenderDetailsMixin,
 )
 
 
-class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
+class BelowThresholdTenderDetailsMixin(TenderDetailsMixin):
     tender_patch_models_by_status = {
         "active.tendering": PatchActiveTender,
         "draft": PatchDraftTender,
@@ -20,7 +20,6 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
     }
 
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
 
     tender_patch_allowed_statuses = (
@@ -30,10 +29,9 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
         "active.pre-qualification.stand-still",
     )
     tender_patch_allowed_statuses_for_funder = ("active.tendering",)
-    should_validate_status_change_with_lot_cancellation_pending = False
+    status_change_with_lot_cancellation_pending_check = False
     tender_period_extra = TENDERING_EXTRA_PERIOD
     tender_period_extra_working_days = True
-    should_validate_notice_doc_required = True
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.enquiries")
     working_days_config = WORKING_DAYS_CONFIG
@@ -44,7 +42,11 @@ class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
         "active.pre-qualification",
         "active.pre-qualification.stand-still",
     )
+    vat_not_included_check = False
+    items_classification_prefix_change_check = False
+    items_delivery_required = False
+    tender_period_start_date_required = False
 
 
-class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixing, BelowThresholdTenderState):
+class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixin, BelowThresholdTenderState):
     pass

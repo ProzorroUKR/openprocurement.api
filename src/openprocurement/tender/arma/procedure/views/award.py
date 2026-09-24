@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.award import AwardState
+from openprocurement.tender.arma.procedure.state.award import ARMAAwardState
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 
 
@@ -13,4 +13,4 @@ from openprocurement.tender.core.procedure.views.award import TenderAwardResourc
     procurementMethodType=COMPLEX_ASSET_ARMA,
 )
 class AwardResource(TenderAwardResource):
-    state_class = AwardState
+    state_class = ARMAAwardState

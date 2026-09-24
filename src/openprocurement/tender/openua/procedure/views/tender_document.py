@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,
 )
 from openprocurement.tender.openua.procedure.state.tender_document import (
-    UATenderDocumentState,
+    OpenUATenderDocumentState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.openua.procedure.state.tender_document import (
     description="Tender UA related binary files (PDFs, etc.)",
 )
 class UATenderDocumentResource(TenderDocumentResource):
-    state_class = UATenderDocumentState
+    state_class = OpenUATenderDocumentState

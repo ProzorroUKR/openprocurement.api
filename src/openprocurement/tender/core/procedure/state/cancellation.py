@@ -29,13 +29,13 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
-class CancellationStateMixing:
+class CancellationStateMixin:
     post_data_model = PostCancellation
     patch_data_model = PatchCancellation
     data_model = Cancellation
 
     # additionally to terminated
-    cancellation_forbidden_statuses = {
+    cancellation_forbidden_tender_statuses = {
         "active.auction",
         "active.qualification.stand-still",
         "draft",
@@ -50,7 +50,7 @@ class CancellationStateMixing:
     ]
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
-    should_validate_cancellation_report_doc_required = True
+    cancellation_report_doc_required_check = True
     procurement_kinds_not_required_sign = ()
     all_documents_should_be_public = False
     # bt/rfp: cancellations are allowed during active award complaint periods
@@ -153,7 +153,7 @@ class CancellationStateMixing:
 
     def validate_cancellation_in_allowed_tender_status(self, request, tender, _):
         tender_status = tender.get("status")
-        if tender_status in self.terminated_statuses or tender_status in self.cancellation_forbidden_statuses:
+        if tender_status in self.terminated_statuses or tender_status in self.cancellation_forbidden_tender_statuses:
             raise_operation_error(
                 request,
                 f"Can't perform cancellation in current ({tender_status}) tender status",
@@ -306,7 +306,7 @@ class CancellationStateMixing:
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
             if (
-                self.should_validate_cancellation_report_doc_required
+                self.cancellation_report_doc_required_check
                 and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)
                 and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
             ):
@@ -346,7 +346,7 @@ class CancellationStateMixing:
                     status=422,
                 )
             if (
-                self.should_validate_cancellation_report_doc_required
+                self.cancellation_report_doc_required_check
                 and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)
                 and tender.get("procuringEntity", {}).get("kind") not in self.procurement_kinds_not_required_sign
             ):
@@ -382,5 +382,5 @@ class CancellationStateMixing:
         return False
 
 
-class CancellationState(CancellationStateMixing, TenderState):
+class CancellationState(CancellationStateMixin, TenderState):
     pass

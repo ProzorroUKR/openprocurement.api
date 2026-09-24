@@ -6,7 +6,7 @@ from openprocurement.tender.core.procedure.views.review_request import (
     TenderReviewRequestResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.review_request import (
-    ReviewRequestState,
+    RFPReviewRequestState,
 )
 
 LOGGER = getLogger(__name__)
@@ -20,4 +20,4 @@ LOGGER = getLogger(__name__)
     procurementMethodType="requestForProposal",
 )
 class RequestForProposalTenderReviewRequestResource(TenderReviewRequestResource):
-    state_class = ReviewRequestState
+    state_class = RFPReviewRequestState

@@ -1,10 +1,10 @@
 from openprocurement.tender.core.procedure.state.award_claim import AwardClaimStateMixin
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class RequestForProposalAwardClaimState(AwardClaimStateMixin, RequestForProposalTenderState):
+class RFPAwardClaimState(AwardClaimStateMixin, RFPTenderState):
     complaint_post_bid_owner_statuses = ("active", "unsuccessful")
-    should_validate_is_satisfied = False
-    claim_submit_validation = False
+    is_satisfied_check = False
+    claim_submit_check = False

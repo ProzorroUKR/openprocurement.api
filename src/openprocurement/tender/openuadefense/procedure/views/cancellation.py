@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.cancellation import (
     BaseCancellationResource,
 )
 from openprocurement.tender.openuadefense.procedure.state.cancellation import (
-    UADefenseCancellationState,
+    DefenseCancellationState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.openuadefense.procedure.state.cancellation import (
     description="Tender cancellations",
 )
 class UaDefenseCancellationResource(BaseCancellationResource):
-    state_class = UADefenseCancellationState
+    state_class = DefenseCancellationState

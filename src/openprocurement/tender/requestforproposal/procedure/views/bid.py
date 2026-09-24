@@ -4,7 +4,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 from openprocurement.tender.requestforproposal.procedure.state.bid import (
-    RequestForProposalBidState,
+    RFPBidState,
 )
 
 LOGGER = getLogger(__name__)
@@ -18,4 +18,4 @@ LOGGER = getLogger(__name__)
     description="Tender bids",
 )
 class RequestForProposalTenderBidResource(TenderBidResource):
-    state_class = RequestForProposalBidState
+    state_class = RFPBidState

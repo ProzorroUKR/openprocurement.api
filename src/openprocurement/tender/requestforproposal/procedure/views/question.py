@@ -2,7 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
 from openprocurement.tender.requestforproposal.procedure.state.question import (
-    RequestForProposalTenderQuestionState,
+    RFPTenderQuestionState,
 )
 
 
@@ -14,4 +14,4 @@ from openprocurement.tender.requestforproposal.procedure.state.question import (
     description="Tender questions",
 )
 class RequestForProposalTenderQuestionResource(TenderQuestionResource):
-    state_class = RequestForProposalTenderQuestionState
+    state_class = RFPTenderQuestionState

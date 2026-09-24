@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after_202
 from openprocurement.tender.core.procedure.validation import OPERATIONS, validate_doc_type_quantity
 
 
-class QualificationDocumentStateMixing:
+class QualificationDocumentStateMixin:
     document_post_owner_exempt_roles = ("bots",)
     document_update_owner_exempt_roles = ("bots",)
 
@@ -33,7 +33,7 @@ class QualificationDocumentStateMixing:
             )
 
 
-class QualificationDocumentState(QualificationDocumentStateMixing, BaseDocumentState):
+class QualificationDocumentState(QualificationDocumentStateMixin, BaseDocumentState):
     def document_always(self, data):
         super().document_always(data)
         self.validate_sign_documents_already_exists(data)

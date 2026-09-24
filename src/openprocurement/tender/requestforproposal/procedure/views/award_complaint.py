@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.award_claim import (
-    RequestForProposalAwardClaimState,
+    RFPAwardClaimState,
 )
 
 
@@ -34,4 +34,4 @@ class RequestForProposalAwardClaimAndComplaintGetResource(AwardComplaintGetResou
     description="Tender award claims",
 )
 class RequestForProposalAwardClaimResource(AwardClaimResource):
-    state_class = RequestForProposalAwardClaimState
+    state_class = RFPAwardClaimState

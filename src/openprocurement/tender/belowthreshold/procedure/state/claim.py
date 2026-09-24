@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 
 
 class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState):
-    update_allowed_tender_statuses = (
+    complaint_patch_allowed_tender_statuses = (
         "active.enquiries",
         "active.tendering",
         "active.auction",
@@ -16,5 +16,5 @@ class BelowThresholdTenderClaimState(ClaimStateMixin, BelowThresholdTenderState)
         "active.enquiries",
         "active.tendering",
     )
-    should_validate_is_satisfied = False
-    claim_submit_validation = False
+    is_satisfied_check = False
+    claim_submit_check = False

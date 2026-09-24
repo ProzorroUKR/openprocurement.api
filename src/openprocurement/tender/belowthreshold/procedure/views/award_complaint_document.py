@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.belowthreshold.procedure.state.award_complaint_document import (
-    BTAwardComplaintDocumentState,
+    BelowThresholdAwardComplaintDocumentState,
 )
 from openprocurement.tender.core.procedure.views.award_complaint_document import (
     AwardComplaintDocumentResource,
@@ -16,4 +16,4 @@ from openprocurement.tender.core.procedure.views.award_complaint_document import
     description="Tender award complaint documents",
 )
 class BelowThresholdAwardComplaintDocumentResource(AwardComplaintDocumentResource):
-    state_class = BTAwardComplaintDocumentState
+    state_class = BelowThresholdAwardComplaintDocumentState

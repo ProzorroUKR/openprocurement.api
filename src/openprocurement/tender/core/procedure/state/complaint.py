@@ -90,11 +90,11 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     data_model = Complaint
     draft_patch_model = DraftPatchComplaint
 
-    create_allowed_tender_statuses = ("active.tendering",)
-    update_allowed_tender_statuses = ("active.tendering",)
+    complaint_post_allowed_tender_statuses = ("active.tendering",)
+    complaint_patch_allowed_tender_statuses = ("active.tendering",)
     complaints_configuration = "hasTenderComplaints"
     all_documents_should_be_public = False
-    should_validate_complaint_author_qualified_supplier = False
+    complaint_author_qualified_supplier_check = False
 
     # POST
     def validate_complaint_on_post(self, complaint):
@@ -135,18 +135,18 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
             )
 
     def validate_create_allowed_tender_status(self):
-        if self.create_allowed_tender_statuses:
+        if self.complaint_post_allowed_tender_statuses:
             tender = get_tender()
-            if tender["status"] not in self.create_allowed_tender_statuses:
+            if tender["status"] not in self.complaint_post_allowed_tender_statuses:
                 raise_operation_error(
                     self.request,
                     f"Can't add complaint in current ({tender['status']}) tender status",
                 )
 
     def validate_update_allowed_tender_status(self):
-        if self.update_allowed_tender_statuses:
+        if self.complaint_patch_allowed_tender_statuses:
             tender = get_tender()
-            if tender["status"] not in self.update_allowed_tender_statuses:
+            if tender["status"] not in self.complaint_patch_allowed_tender_statuses:
                 raise_operation_error(
                     self.request,
                     f"Can't update complaint in current ({tender['status']}) tender status",
@@ -463,7 +463,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
                         )
 
     def validate_complaint_author(self, complaint):
-        if not self.should_validate_complaint_author_qualified_supplier:
+        if not self.complaint_author_qualified_supplier_check:
             return
 
         tender = get_tender()

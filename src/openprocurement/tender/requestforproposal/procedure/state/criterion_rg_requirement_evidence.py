@@ -2,20 +2,16 @@ from openprocurement.tender.core.procedure.state.criterion_rq_requirement_eviden
     EligibleEvidenceStateMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.criterion_rg_requirement import (
-    RequestForProposalRequirementValidationsMixin,
+    RFPRequirementValidationsMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class RequestForProposalEligibleEvidenceStateMixin(
-    RequestForProposalRequirementValidationsMixin, EligibleEvidenceStateMixin
-):
+class RFPEligibleEvidenceStateMixin(RFPRequirementValidationsMixin, EligibleEvidenceStateMixin):
     pass
 
 
-class RequestForProposalEligibleEvidenceState(
-    RequestForProposalEligibleEvidenceStateMixin, RequestForProposalTenderState
-):
+class RFPEligibleEvidenceState(RFPEligibleEvidenceStateMixin, RFPTenderState):
     pass

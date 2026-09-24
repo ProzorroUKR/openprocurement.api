@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender_document import (
-    RequestForProposalTenderDocumentState,
+    RFPTenderDocumentState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender_document i
     description="Tender related binary files (PDFs, etc.)",
 )
 class RequestForProposalTenderDocumentResource(TenderDocumentResource):
-    state_class = RequestForProposalTenderDocumentState
+    state_class = RFPTenderDocumentState

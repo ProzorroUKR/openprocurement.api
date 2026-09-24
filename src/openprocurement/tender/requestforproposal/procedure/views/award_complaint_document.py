@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.award_complaint_document import
     AwardComplaintDocumentResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.award_complaint_document import (
-    BTAwardComplaintDocumentState,
+    RFPAwardComplaintDocumentState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.requestforproposal.procedure.state.award_complaint_d
     description="Tender award complaint documents",
 )
 class RequestForProposalAwardComplaintDocumentResource(AwardComplaintDocumentResource):
-    state_class = BTAwardComplaintDocumentState
+    state_class = RFPAwardComplaintDocumentState

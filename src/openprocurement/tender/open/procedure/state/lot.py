@@ -4,5 +4,5 @@ from openprocurement.tender.open.procedure.state.tender_details import (
 )
 
 
-class TenderLotState(LotStateMixin, OpenTenderDetailsState):
-    invalidate_bids_on_lot_change = True
+class OpenTenderLotState(LotStateMixin, OpenTenderDetailsState):
+    pass

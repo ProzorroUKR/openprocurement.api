@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.views.chronograph import (
 )
 from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.state.tender import (
-    PriceQuotationTenderState,
+    PQTenderState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.pricequotation.procedure.state.tender import (
     description="Tender chronograph",
 )
 class PQChronographResource(TenderChronographResource):
-    state_class = PriceQuotationTenderState
+    state_class = PQTenderState

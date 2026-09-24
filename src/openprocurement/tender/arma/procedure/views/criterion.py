@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.criterion import CriterionState
+from openprocurement.tender.arma.procedure.state.criterion import ARMACriterionState
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 
 
@@ -13,4 +13,4 @@ from openprocurement.tender.core.procedure.views.criterion import BaseCriterionR
     description="Tender criteria",
 )
 class CriterionResource(BaseCriterionResource):
-    state_class = CriterionState
+    state_class = ARMACriterionState

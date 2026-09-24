@@ -1,31 +1,23 @@
 from datetime import timedelta
 
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.cfaua.constants import (
     TENDERING_EXTRA_PERIOD,
-    WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.cfaua.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
-class CFAUATenderDetailsMixing(TenderDetailsMixing):
+class CFAUATenderDetailsMixin(TenderDetailsMixin):
     post_data_model = CFAPostTender
     patch_data_model = CFAPatchTender
     data_model = CFATender
 
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
-    should_validate_vat_not_included = True
-    items_delivery_required = True
     tender_patch_allowed_statuses = (
         "draft",
         "active.tendering",
@@ -41,7 +33,6 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
         "items": {"description_en": True},
     }
     procuring_entity_available_language_default = "uk"
-    tender_period_start_date_required = True
     main_procurement_category_choices = ("goods", "services")
     patch_status_choices = (
         "draft",
@@ -52,11 +43,8 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
         "active.qualification.stand-still",
     )
     tender_period_extra = TENDERING_EXTRA_PERIOD
-    tender_period_extra_working_days = False
-    should_validate_notice_doc_required = False
-    should_validate_required_market_criteria = False
-    working_days_config = WORKING_DAYS_CONFIG
-    items_classification_prefix_change_check = True
+    notice_doc_required_check = False
+    required_market_criteria_check = False
     status_up_allowed_transitions = (
         ("draft", "active.tendering"),
         ("active.pre-qualification", "active.pre-qualification.stand-still"),
@@ -68,7 +56,7 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
 
     def on_patch(self, before, after):
         self.validate_qualification_status_change(before, after)
-        super().on_patch(before, after)  # TenderDetailsMixing.on_patch
+        super().on_patch(before, after)  # TenderDetailsMixin.on_patch
 
     def validate_qualification_status_change(self, before, after):
         tender = get_tender()
@@ -126,5 +114,5 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
             )
 
 
-class CFAUATenderDetailsState(CFAUATenderDetailsMixing, CFAUATenderState):
+class CFAUATenderDetailsState(CFAUATenderDetailsMixin, CFAUATenderState):
     pass

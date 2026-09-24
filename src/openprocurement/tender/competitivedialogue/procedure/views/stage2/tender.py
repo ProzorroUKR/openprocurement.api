@@ -6,8 +6,8 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
+    CDStage2EUTenderDetailsState,
+    CDStage2UATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
@@ -35,7 +35,7 @@ def stage2_acl():
 )
 class TenderStage2UEResource(TendersResource):
     serializer_class = TenderBaseSerializer
-    state_class = CDEUStage2TenderDetailsState
+    state_class = CDStage2EUTenderDetailsState
 
     def __acl__(self):
         return stage2_acl()
@@ -54,7 +54,7 @@ class TenderStage2UEResource(TendersResource):
 )
 class TenderStage2UAResource(TendersResource):
     serializer_class = TenderBaseSerializer
-    state_class = CDUAStage2TenderDetailsState
+    state_class = CDStage2UATenderDetailsState
 
     def __acl__(self):
         return stage2_acl()

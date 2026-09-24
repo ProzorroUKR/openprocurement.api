@@ -5,10 +5,10 @@ from openprocurement.tender.cfaselectionua.procedure.models.bid import (
     CFASelectionPatchQualificationBid,
     CFASelectionPostBid,
 )
-from openprocurement.tender.core.procedure.state.bid import BidState as BaseBidState
+from openprocurement.tender.core.procedure.state.bid import BidState
 
 
-class BidState(BaseBidState):
+class CFASelectionBidState(BidState):
     post_data_model = CFASelectionPostBid
     patch_data_model = CFASelectionPatchBid
     patch_qualification_data_model = CFASelectionPatchQualificationBid

@@ -1,10 +1,8 @@
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
-    STAGE_1_EU_WORKING_DAYS_CONFIG,
-    STAGE_1_UA_WORKING_DAYS_CONFIG,
     STAGE_2_EU_DEFAULT_CONFIG,
     STAGE_2_UA_DEFAULT_CONFIG,
+    TENDERING_EXTRA_PERIOD,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage1EUPatchTender,
@@ -20,31 +18,20 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender im
     CDStage1TenderState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
+    CDStage2EUTenderDetailsState,
+    CDStage2UATenderDetailsState,
 )
 from openprocurement.tender.core.constants import EU_REQUIRED_MULTILINGUAL_FIELDS
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.procedure.utils import (
     prepare_stage2_tender_data,
 )
-from openprocurement.tender.openeu.constants import WORKING_DAYS_CONFIG
-from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
-    items_classification_prefix_change_check = True
+class CDStage1TenderDetailsStateMixin(TenderDetailsMixin, CDStage1TenderState):
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
     tender_period_extra = TENDERING_EXTRA_PERIOD
-    working_days_config = WORKING_DAYS_CONFIG
-    should_validate_vat_not_included = True
-    items_delivery_required = True
-    tender_period_start_date_required = True
     tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
     tender_patch_allowed_statuses = (
         "draft",
@@ -53,7 +40,7 @@ class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
         "active.pre-qualification.stand-still",
         "active.stage2.pending",
     )
-    should_validate_guarantee_criterion = False
+    guarantee_criterion_check = False
     features_max_weight = FEATURES_MAX_SUM
     main_procurement_category_choices = ("services", "works")
     milestones_required = False
@@ -66,10 +53,8 @@ class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
         "active.pre-qualification.stand-still",
         "active.stage2.waiting",
     )
-    should_validate_notice_doc_required = False
-    contract_template_required = False
-    contract_template_name_patch_statuses = ("draft", "active.tendering")
-    should_validate_required_market_criteria = False
+    notice_doc_required_check = False
+    required_market_criteria_check = False
     # minimalStep is required although stage 1 has no auction; submission method is optional
     minimal_step_regardless_of_auction = True
     lot_minimal_step_check_before = False
@@ -91,18 +76,17 @@ class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
             self.set_object_status(data, "complete")
 
 
-class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+class CDStage1EUTenderDetailsState(CDStage1TenderDetailsStateMixin):
     post_data_model = CDStage1EUPostTender
     patch_data_model = CDStage1EUPatchTender
     data_model = CDStage1EUTender
     stage_2_tender_model = CDStage2EUPostTender
 
-    working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
-    stage_2_tender_state = CDEUStage2TenderDetailsState
+    stage_2_tender_state = CDStage2EUTenderDetailsState
     stage_2_config = STAGE_2_EU_DEFAULT_CONFIG
 
 
-class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+class CDStage1UATenderDetailsState(CDStage1TenderDetailsStateMixin):
     post_data_model = CDStage1UAPostTender
     patch_data_model = CDStage1UAPatchTender
     data_model = CDStage1UATender
@@ -110,6 +94,5 @@ class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
 
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None
-    working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
-    stage_2_tender_state = CDUAStage2TenderDetailsState
+    stage_2_tender_state = CDStage2UATenderDetailsState
     stage_2_config = STAGE_2_UA_DEFAULT_CONFIG

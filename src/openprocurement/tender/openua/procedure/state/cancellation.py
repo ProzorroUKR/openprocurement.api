@@ -1,12 +1,12 @@
 from openprocurement.tender.core.procedure.state.cancellation import (
-    CancellationStateMixing,
+    CancellationStateMixin,
 )
 from openprocurement.tender.openua.procedure.state.tender import OpenUATenderState
 
 
-class OpenUACancellationStateMixing(CancellationStateMixing):
+class OpenUACancellationStateMixin(CancellationStateMixin):
     cancellation_unsuccessful_items_check = True
 
 
-class OpenUACancellationState(OpenUACancellationStateMixing, OpenUATenderState):
+class OpenUACancellationState(OpenUACancellationStateMixin, OpenUATenderState):
     pass

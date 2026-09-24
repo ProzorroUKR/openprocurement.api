@@ -6,7 +6,7 @@ from openprocurement.tender.open.procedure.state.tender import OpenTenderState
 
 
 class OpenTenderQuestionStateMixin(TenderQuestionStateMixin):
-    question_operation_allowed_tender_statuses = ("active.tendering",)
+    question_create_accreditations = None
 
 
 class OpenTenderQuestionState(OpenTenderQuestionStateMixin, OpenTenderState):

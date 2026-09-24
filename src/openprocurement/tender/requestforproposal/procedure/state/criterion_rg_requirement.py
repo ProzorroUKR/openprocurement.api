@@ -2,26 +2,26 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
     RequirementStateMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.criterion import (
-    BaseRequestForProposalCriterionStateMixin,
+    RFPCriterionStatusesMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class RequestForProposalRequirementValidationsMixin:
+class RFPRequirementValidationsMixin:
     requirement_models_by_classification = False
-    requirement_change_valid_statuses = ("draft",)
+    requirement_change_allowed_tender_statuses = ("draft",)
     requirement_change_legacy_status = "active.enquiries"
 
 
-class RequestForProposalRequirementStateMixin(
-    RequestForProposalRequirementValidationsMixin,
-    BaseRequestForProposalCriterionStateMixin,
+class RFPRequirementStateMixin(
+    RFPRequirementValidationsMixin,
+    RFPCriterionStatusesMixin,
     RequirementStateMixin,
 ):
     pass
 
 
-class RequestForProposalRequirementState(RequestForProposalRequirementStateMixin, RequestForProposalTenderState):
-    allowed_put_statuses = ["active.enquiries"]
+class RFPRequirementState(RFPRequirementStateMixin, RFPTenderState):
+    requirement_put_allowed_tender_statuses = ["active.enquiries"]

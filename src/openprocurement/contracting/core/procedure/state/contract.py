@@ -42,11 +42,11 @@ from openprocurement.contracting.core.procedure.utils import (
 )
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
-    IgnoredClaimMixing,
+    BelowThresholdIgnoredClaimMixin,
 )
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
-from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
-from openprocurement.tender.core.procedure.state.tender import BlockComplaintMixing
+from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixin
+from openprocurement.tender.core.procedure.state.tender import BlockComplaintMixin
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
     check_is_contract_waiting_for_inspector_approve,
@@ -614,14 +614,14 @@ class LimitedContractStateMixing:
 
 
 class ContractState(
-    BaseState,
     ContractStateMixing,
     ESCOContractStateMixing,
     CFASelectionContractStateMixing,
-    CancellationBlockMixing,
+    CancellationBlockMixin,
     LimitedContractStateMixing,
-    IgnoredClaimMixing,
-    BlockComplaintMixing,
+    BelowThresholdIgnoredClaimMixin,
+    BlockComplaintMixin,
+    BaseState,
 ):
     terminated_statuses = ("terminated", "cancelled")
     block_complaint_status = {

@@ -22,10 +22,8 @@ from openprocurement.framework.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.tender.cfaselectionua.constants import (
-    MIN_ACTIVE_CONTRACTS,
     MIN_PERIOD_UNTIL_AGREEMENT_END,
     MINIMAL_STEP_PERCENTAGE,
-    WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
     CFASelectionPatchAgreement as PatchAgreement,
@@ -52,7 +50,7 @@ from openprocurement.tender.core.constants import (
 )
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
-    TenderDetailsMixing,
+    TenderDetailsMixin,
 )
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
@@ -66,13 +64,12 @@ from openprocurement.tender.core.utils import (
 LOGGER = getLogger(__name__)
 
 
-class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
+class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     post_data_model = CFASelectionPostTender
     patch_data_model = CFASelectionPatchTender
     data_model = CFASelectionTender
 
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
 
     tender_patch_owner_check_exempt_roles = ("Administrator", "agreement_selection")
@@ -91,7 +88,6 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     main_procurement_category_required = False
     procuring_entity_available_language_default = "uk"
     award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
-    award_criteria_default = AWARD_CRITERIA_LOWEST_COST
     patch_status_choices = (
         "draft",
         "draft.pending",
@@ -101,11 +97,8 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         "active.pre-qualification",
         "active.qualification",
     )
-    agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
-    should_validate_pre_selection_agreement = False
-    should_validate_vat_not_included = True
-    working_days_config = WORKING_DAYS_CONFIG
+    pre_selection_agreement_check = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
     # no tender/lot value meta propagation, minimal step is calculated on activation
     lot_value_meta_from_tender = False
@@ -114,6 +107,10 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     minimal_step_required = False
     tender_period_extension_check = False
     all_documents_should_be_public = True
+    notice_doc_required_check = False
+    items_classification_prefix_change_check = False
+    items_delivery_required = False
+    tender_period_start_date_required = False
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -359,7 +356,7 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
             )
 
 
-class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixing, CFASelectionTenderState):
+class CFASelectionTenderDetailsState(CFASelectionTenderDetailsMixin, CFASelectionTenderState):
     pass
 
 

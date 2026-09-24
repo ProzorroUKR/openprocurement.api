@@ -2,7 +2,7 @@ from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.core.procedure.state.bid import BidState
 
 
-class RequestForProposalBidState(BidState):
+class RFPBidState(BidState):
     bid_create_accreditations = (AccreditationLevel.ACCR_2,)
 
     bid_patch_deleted_check = False

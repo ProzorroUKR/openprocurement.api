@@ -1,16 +1,16 @@
 from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class BaseRequestForProposalCriterionStateMixin:
-    tender_valid_statuses = ["draft", "active.enquiries"]
+class RFPCriterionStatusesMixin:
+    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]
 
 
-class RequestForProposalCriterionStateMixin(BaseRequestForProposalCriterionStateMixin, CriterionStateMixin):
+class RFPCriterionStateMixin(RFPCriterionStatusesMixin, CriterionStateMixin):
     criterion_patch_exclusion_check = False
 
 
-class RequestForProposalCriterionState(RequestForProposalCriterionStateMixin, RequestForProposalTenderState):
+class RFPCriterionState(RFPCriterionStateMixin, RFPTenderState):
     pass

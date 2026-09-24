@@ -1,16 +1,8 @@
 from datetime import datetime, timedelta
 
-import standards
+from openprocurement.api.constants import TZ, WORKING_DAYS_WITH_WORKING_WEEKENDS
 
-from openprocurement.api.constants import TZ
-
-WORKING_DAYS = {}
-HOLIDAYS = standards.load("calendars/workdays_off.json")
-WORKING_WEEKENDS = standards.load("calendars/weekends_on.json")
-for date_str in HOLIDAYS:
-    WORKING_DAYS[date_str] = True
-for date_str in WORKING_WEEKENDS:
-    WORKING_DAYS[date_str] = False
+WORKING_DAYS = WORKING_DAYS_WITH_WORKING_WEEKENDS
 
 CLAIM_SUBMIT_TIME = timedelta(days=3)
 COMPLAINT_OLD_SUBMIT_TIME = timedelta(days=3)
@@ -26,3 +18,5 @@ WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": True,
     "qualificationComplainDuration": False,
 }
+# lots keep the openua tender period extension (the tender itself uses TENDERING_EXTRA_PERIOD)
+LOT_TENDERING_EXTRA_PERIOD = timedelta(days=7)

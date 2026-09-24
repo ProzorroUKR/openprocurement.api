@@ -6,11 +6,11 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import raise_operation_error, verify_signature_apisign
 from openprocurement.contracting.core.procedure.state.document import (
-    ContractDocumentState as BaseContractDocumentState,
+    ContractDocumentState,
 )
 
 
-class EContractDocumentState(BaseContractDocumentState):
+class EContractDocumentState(ContractDocumentState):
     def validate_document_post(self, data):
         super().validate_document_post(data)
         if data.get("documentType") == "contractSignature":

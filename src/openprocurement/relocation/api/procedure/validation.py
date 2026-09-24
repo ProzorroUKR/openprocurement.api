@@ -17,12 +17,12 @@ from openprocurement.tender.cfaua.procedure.state.tender_details import (
     CFAUATenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
-    CDEUStage1TenderDetailsState,
-    CDUAStage1TenderDetailsState,
+    CDStage1EUTenderDetailsState,
+    CDStage1UATenderDetailsState,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
+    CDStage2EUTenderDetailsState,
+    CDStage2UATenderDetailsState,
 )
 from openprocurement.tender.esco.procedure.state.tender_details import (
     ESCOTenderDetailsState,
@@ -68,10 +68,10 @@ def validate_tender_transfer_accreditation_level(request, **kwargs):
         "negotiation": NegotiationTenderDetailsState,
         "negotiation.quick": NegotiationTenderDetailsState,
         "aboveThresholdUA.defense": DefenseTenderDetailsState,
-        "competitiveDialogueUA": CDUAStage1TenderDetailsState,
-        "competitiveDialogueEU": CDEUStage1TenderDetailsState,
-        "competitiveDialogueUA.stage2": CDUAStage2TenderDetailsState,
-        "competitiveDialogueEU.stage2": CDEUStage2TenderDetailsState,
+        "competitiveDialogueUA": CDStage1UATenderDetailsState,
+        "competitiveDialogueEU": CDStage1EUTenderDetailsState,
+        "competitiveDialogueUA.stage2": CDStage2UATenderDetailsState,
+        "competitiveDialogueEU.stage2": CDStage2EUTenderDetailsState,
         "reporting": ReportingTenderDetailsState,
         "esco": ESCOTenderDetailsState,
         "closeFrameworkAgreementUA": CFAUATenderDetailsState,

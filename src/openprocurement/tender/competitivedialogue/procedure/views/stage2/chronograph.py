@@ -5,8 +5,8 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender import (
-    CDEUStage2TenderState,
-    CDUAStage2TenderState,
+    CDStage2EUTenderState,
+    CDStage2UATenderState,
 )
 from openprocurement.tender.core.procedure.views.chronograph import (
     TenderChronographResource,
@@ -20,7 +20,7 @@ from openprocurement.tender.core.procedure.views.chronograph import (
     description="",
 )
 class CDOpenUAChronographResource(TenderChronographResource):
-    state_class = CDUAStage2TenderState
+    state_class = CDStage2UATenderState
 
 
 @resource(
@@ -30,4 +30,4 @@ class CDOpenUAChronographResource(TenderChronographResource):
     description="",
 )
 class CDOpenEUChronographResource(TenderChronographResource):
-    state_class = CDEUStage2TenderState
+    state_class = CDStage2EUTenderState

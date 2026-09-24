@@ -608,7 +608,7 @@ def patch_draft_invalid_json(self):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixing.vat_not_included_validation_from",
+    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
     get_now() + timedelta(days=1),
 )
 def patch_tender(self):

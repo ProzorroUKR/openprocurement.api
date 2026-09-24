@@ -108,6 +108,10 @@ WORKING_DAYS = {}
 HOLIDAYS = standards.load("calendars/workdays_off.json")
 for date_str in HOLIDAYS:
     WORKING_DAYS[date_str] = True
+# the defense procedures also treat the "weekends on" days as working days
+WORKING_DAYS_WITH_WORKING_WEEKENDS = dict(WORKING_DAYS)
+for date_str in standards.load("calendars/weekends_on.json"):
+    WORKING_DAYS_WITH_WORKING_WEEKENDS[date_str] = False
 
 # Deprecated user agents
 DEPRECATED_FEED_USER_AGENTS = parse_str_list(os.environ.get("DEPRECATED_FEED_USER_AGENTS", ""))

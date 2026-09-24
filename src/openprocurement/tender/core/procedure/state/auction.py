@@ -37,7 +37,7 @@ from openprocurement.tender.core.utils import QUICK, calculate_tender_full_date
 LOGGER = getLogger(__name__)
 
 
-class ShouldStartAfterMixing:
+class ShouldStartAfterMixin:
     auction_results_model = AuctionResults
     auction_lot_results_model = AuctionLotResults
     auction_urls_model = AuctionUrls

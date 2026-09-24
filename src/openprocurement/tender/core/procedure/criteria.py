@@ -27,7 +27,7 @@ from openprocurement.tender.core.procedure.utils import tender_created_after
 
 class TenderCriterionMixin:
     request: Request
-    should_validate_required_market_criteria: bool
+    required_market_criteria_check: bool
 
     def _validate_criterion_uniq(self, data, previous_criteria=[]) -> None:
         new_criteria: dict[str, Any] = {}
@@ -254,7 +254,7 @@ class TenderCriterionMixin:
             )
 
         # Check if validation enabled
-        if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and not self.should_validate_required_market_criteria:
+        if tender_created_after(UNIFIED_CRITERIA_LOGIC_FROM) and not self.required_market_criteria_check:
             pass
 
         elif requirements_from_profile or tender_criterion["classification"]["id"] == CRITERION_LOCALIZATION:

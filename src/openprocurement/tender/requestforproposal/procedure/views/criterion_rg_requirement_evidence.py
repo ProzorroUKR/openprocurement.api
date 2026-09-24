@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement_eviden
     BaseEligibleEvidenceResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.criterion_rg_requirement_evidence import (
-    RequestForProposalEligibleEvidenceState,
+    RFPEligibleEvidenceState,
 )
 
 
@@ -18,4 +18,4 @@ from openprocurement.tender.requestforproposal.procedure.state.criterion_rg_requ
     description="Tender requirement evidence",
 )
 class EligibleEvidenceResource(BaseEligibleEvidenceResource):
-    state_class = RequestForProposalEligibleEvidenceState
+    state_class = RFPEligibleEvidenceState

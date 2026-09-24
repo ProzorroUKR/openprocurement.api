@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
-from openprocurement.tender.openuadefense.procedure.state.lot import TenderLotState
+from openprocurement.tender.openuadefense.procedure.state.lot import DefenseTenderLotState
 
 
 @resource(
@@ -12,4 +12,4 @@ from openprocurement.tender.openuadefense.procedure.state.lot import TenderLotSt
     description="Tender Ua lots",
 )
 class OpenUADefenseLotResource(TenderLotResource):
-    state_class = TenderLotState
+    state_class = DefenseTenderLotState

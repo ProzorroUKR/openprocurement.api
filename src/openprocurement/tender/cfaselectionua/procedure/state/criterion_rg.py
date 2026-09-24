@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.criterion_rg import Requirement
 
 
 class CFASelectionRequirementGroupState(RequirementGroupStateMixin, CFASelectionTenderState):
-    tender_valid_statuses = ["draft", "active.enquiries"]
+    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]

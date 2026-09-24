@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.question import QuestionState
+from openprocurement.tender.arma.procedure.state.question import ARMAQuestionState
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
 
 
@@ -13,4 +13,4 @@ from openprocurement.tender.core.procedure.views.question import TenderQuestionR
     description="Tender questions",
 )
 class QuestionResource(TenderQuestionResource):
-    state_class = QuestionState
+    state_class = ARMAQuestionState

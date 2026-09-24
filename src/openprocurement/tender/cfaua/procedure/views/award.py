@@ -4,7 +4,7 @@ from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
 )
-from openprocurement.tender.cfaua.procedure.state.award import AwardState
+from openprocurement.tender.cfaua.procedure.state.award import CFAUAAwardState
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 from openprocurement.tender.core.utils import context_view
@@ -18,7 +18,7 @@ from openprocurement.tender.core.utils import context_view
     procurementMethodType="closeFrameworkAgreementUA",
 )
 class UATenderAwardResource(TenderAwardResource):
-    state_class = AwardState
+    state_class = CFAUAAwardState
 
     @json_view(
         permission="view_tender",

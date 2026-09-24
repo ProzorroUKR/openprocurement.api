@@ -2,22 +2,22 @@ from openprocurement.tender.core.procedure.state.criterion_rg import (
     RequirementGroupStateMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.criterion import (
-    BaseRequestForProposalCriterionStateMixin,
+    RFPCriterionStatusesMixin,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
-class RequestForProposalRequirementGroupStateMixin(
-    BaseRequestForProposalCriterionStateMixin,
+class RFPRequirementGroupStateMixin(
+    RFPCriterionStatusesMixin,
     RequirementGroupStateMixin,
 ):
     pass
 
 
-class RequestForProposalRequirementGroupState(
-    RequestForProposalRequirementGroupStateMixin,
-    RequestForProposalTenderState,
+class RFPRequirementGroupState(
+    RFPRequirementGroupStateMixin,
+    RFPTenderState,
 ):
     pass

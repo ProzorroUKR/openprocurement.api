@@ -5,4 +5,4 @@ from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 
 
 class CDStage1TenderLotState(LotStateMixin, CDStage1TenderDetailsStateMixin):
-    invalidate_bids_on_lot_change = True
+    pass

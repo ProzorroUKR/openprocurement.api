@@ -2,7 +2,7 @@ from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
-class PriceQuotationTenderState(TenderState):
+class PQTenderState(TenderState):
     award_class = Award
 
     generate_award_milestones = False

@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement import
     BaseRequirementResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.criterion_rg_requirement import (
-    RequestForProposalRequirementState,
+    RFPRequirementState,
 )
 
 
@@ -18,4 +18,4 @@ from openprocurement.tender.requestforproposal.procedure.state.criterion_rg_requ
     description="Tender requirement group requirement",
 )
 class RequirementResource(BaseRequirementResource):
-    state_class = RequestForProposalRequirementState
+    state_class = RFPRequirementState

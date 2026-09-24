@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.cancellation import (
     BaseCancellationResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.cancellation import (
-    RequestForProposalCancellationState,
+    RFPCancellationState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.requestforproposal.procedure.state.cancellation impo
     description="Tender cancellations",
 )
 class CancellationResource(BaseCancellationResource):
-    state_class = RequestForProposalCancellationState
+    state_class = RFPCancellationState

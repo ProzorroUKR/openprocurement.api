@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
-from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
+from openprocurement.tender.openeu.procedure.state.tender import OpenEUTenderState
 
 
 @resource(
@@ -12,4 +12,4 @@ from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTende
     description="Tender EU auction data",
 )
 class EUTenderAuctionResource(TenderAuctionResource):
-    state_class = BaseOpenEUTenderState
+    state_class = OpenEUTenderState

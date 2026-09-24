@@ -5,14 +5,14 @@ from openprocurement.api.procedure.validation import validate_field_change
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.state.contract import (
-    ContractState as BaseContractState,
+    ContractState,
 )
 from openprocurement.tender.core.procedure.contracting import (
     upload_contract_pdf_document,
 )
 
 
-class EContractState(BaseContractState):
+class EContractState(ContractState):
     def on_patch(self, before, after) -> None:
         if after["status"] == "pending" and any(
             doc.get("documentType") == "contractSignature" for doc in before.get("documents", [])

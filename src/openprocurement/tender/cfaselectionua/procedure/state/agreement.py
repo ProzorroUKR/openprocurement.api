@@ -11,7 +11,7 @@ from openprocurement.tender.cfaselectionua.procedure.state.tender import (
 from openprocurement.tender.core.procedure.context import get_request
 
 
-class AgreementStateMixing:
+class CFASelectionAgreementStateMixin:
     patch_data_model = CFASelectionPatchAgreement
     data_model = CFASelectionAgreement
 
@@ -34,5 +34,5 @@ class AgreementStateMixing:
 
 
 # example use
-class AgreementState(AgreementStateMixing, CFASelectionTenderState):
+class CFASelectionAgreementState(CFASelectionAgreementStateMixin, CFASelectionTenderState):
     pass

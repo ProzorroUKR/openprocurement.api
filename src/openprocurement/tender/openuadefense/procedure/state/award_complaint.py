@@ -2,9 +2,9 @@ from openprocurement.tender.core.procedure.state.award_complaint import (
     AwardComplaintStateMixin,
 )
 from openprocurement.tender.openuadefense.procedure.state.tender import (
-    OpenUADefenseTenderState,
+    DefenseTenderState,
 )
 
 
-class OpenUADefenseAwardComplaintState(AwardComplaintStateMixin, OpenUADefenseTenderState):
+class DefenseAwardComplaintState(AwardComplaintStateMixin, DefenseTenderState):
     pass

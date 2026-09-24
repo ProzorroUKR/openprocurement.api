@@ -21,8 +21,8 @@ class AwardComplaintStateMixin(ComplaintStateMixin):
     draft_patch_model = DraftPatchAwardComplaint
 
     complaint_post_bid_owner_statuses = ("active",)
-    create_allowed_tender_statuses = ("active.qualification", "active.awarded")
-    update_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    complaint_post_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    complaint_patch_allowed_tender_statuses = ("active.qualification", "active.awarded")
     complaints_configuration = "hasAwardComplaints"
     # cfaua: a satisfied complaint returns the tender to active.qualification
     satisfied_complaint_returns_to_qualification = False

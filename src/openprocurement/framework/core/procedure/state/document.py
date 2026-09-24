@@ -7,19 +7,19 @@ from openprocurement.framework.core.procedure.state.qualification import (
     QualificationState,
 )
 from openprocurement.framework.core.procedure.state.submission import SubmissionState
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 
 
-class BaseFrameworkDocumentState(BaseDocumentStateMixing, FrameworkState):
+class BaseFrameworkDocumentState(BaseDocumentStateMixin, FrameworkState):
     item_name = "framework"
 
 
-class SubmissionDocumentState(BaseDocumentStateMixing, SubmissionState):
+class SubmissionDocumentState(BaseDocumentStateMixin, SubmissionState):
     item_name = "submission"
 
 
-class QualificationDocumentState(BaseDocumentStateMixing, QualificationState):
+class QualificationDocumentState(BaseDocumentStateMixin, QualificationState):
     item_name = "qualification"
 
     def validate_evaluation_report_document_already_exists(self, doc_data):
@@ -39,5 +39,5 @@ class QualificationDocumentState(BaseDocumentStateMixing, QualificationState):
         self.validate_evaluation_report_document_already_exists(data)
 
 
-class MilestoneDocumentState(BaseDocumentStateMixing, MilestoneState):
+class MilestoneDocumentState(BaseDocumentStateMixin, MilestoneState):
     item_name = "milestone"

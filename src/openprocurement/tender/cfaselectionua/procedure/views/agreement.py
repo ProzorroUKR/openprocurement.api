@@ -6,7 +6,7 @@ from openprocurement.api.procedure.validation import (
 )
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.state.agreement import (
-    AgreementState,
+    CFASelectionAgreementState,
 )
 from openprocurement.tender.core.procedure.views.agreement import (
     TenderAgreementResource,
@@ -21,7 +21,7 @@ from openprocurement.tender.core.procedure.views.agreement import (
     description="Tender EU agreements",
 )
 class CFASelectionTenderAgreementResource(TenderAgreementResource):
-    state_class = AgreementState
+    state_class = CFASelectionAgreementState
 
     def __acl__(self):
         acl = [

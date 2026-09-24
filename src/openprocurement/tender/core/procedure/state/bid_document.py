@@ -15,7 +15,7 @@ class BidDocumentState(BaseDocumentState):
     bid_document_restricted_view = False
     # tender statuses in which bid documents can be added / updated (cfaua: also qualification.stand-still)
     bid_document_allowed_tender_statuses: tuple = ("active.tendering", "active.qualification", "active.awarded")
-    check_edrpou_confidentiality = False
+    edrpou_confidentiality_check = False
     allow_deletion = True
 
     def validate_document_view_allowed(self):

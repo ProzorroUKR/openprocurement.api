@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.auction import (
     TenderAuctionResource as BaseTenderAuctionResource,
 )
 from openprocurement.tender.requestforproposal.procedure.state.tender import (
-    RequestForProposalTenderState,
+    RFPTenderState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
     description="Tender auction data",
 )
 class TenderAuctionResource(BaseTenderAuctionResource):
-    state_class = RequestForProposalTenderState
+    state_class = RFPTenderState

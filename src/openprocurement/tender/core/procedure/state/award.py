@@ -31,7 +31,7 @@ from openprocurement.tender.core.procedure.validation import (
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
-class AwardStateMixing:
+class AwardStateMixin:
     post_data_model = PostAward
     patch_data_model = PatchAward
     data_model = Award
@@ -57,7 +57,7 @@ class AwardStateMixing:
     sign_award_required: bool = True
     procurement_kinds_not_required_sign: tuple = ()
     # procedures whose awards use `eligible` next to `qualified` (open family, cfaua, esco, arma, limited)
-    award_has_eligible: bool = False
+    award_has_eligible: bool = True
     # activation requires eligible=True (limited procedures only check it for the unsuccessful status)
     award_eligible_required_for_activation: bool = True
     # the unsuccessful status requires eligible=False as well (limited: only qualified=False)
@@ -75,11 +75,11 @@ class AwardStateMixing:
     # rfp: awards after the current one only, regardless of hasAwardingOrder
     award_unsuccessful_cancel_all_lot_awards: bool = True
     # open family/defense/CO: a satisfied complaint cancels all awards of the lot available for cancellation
-    award_cancel_lot_awards_on_satisfied_complaint: bool = False
+    award_cancel_lot_awards_on_satisfied_complaint: bool = True
     # bt/rfp: cancelling an award also cancels its claims
     award_cancel_claims_on_cancel: bool = False
     # the stand-still period is calculated in working days
-    award_stand_still_working_days: bool = True
+    award_stand_still_working_days: bool = False
     # complaintPeriod is set on the unsuccessful status (negotiation: only active awards get a complaint period)
     award_complaint_period_on_unsuccessful: bool = True
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
@@ -551,5 +551,5 @@ class AwardStateMixing:
 
 
 # example use
-class AwardState(AwardStateMixing, TenderState):
+class AwardState(AwardStateMixin, TenderState):
     pass

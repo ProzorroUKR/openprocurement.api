@@ -1,15 +1,15 @@
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender import (
-    CDEUStage2TenderState,
-    CDUAStage2TenderState,
+    CDStage2EUTenderState,
+    CDStage2UATenderState,
 )
 from openprocurement.tender.core.procedure.state.award_complaint import (
     AwardComplaintStateMixin,
 )
 
 
-class CDUAStage2AwardComplaintState(AwardComplaintStateMixin, CDUAStage2TenderState):
+class CDStage2UAAwardComplaintState(AwardComplaintStateMixin, CDStage2UATenderState):
     pass
 
 
-class CDEUStage2AwardComplaintState(AwardComplaintStateMixin, CDEUStage2TenderState):
+class CDStage2EUAwardComplaintState(AwardComplaintStateMixin, CDStage2EUTenderState):
     pass

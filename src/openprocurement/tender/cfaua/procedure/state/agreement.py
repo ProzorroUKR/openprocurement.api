@@ -8,7 +8,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
-class AgreementStateMixing:
+class CFAUAAgreementStateMixin:
     patch_data_model = CFAPatchAgreement
     data_model = CFAAgreement
 
@@ -114,7 +114,7 @@ class AgreementStateMixing:
             raise_operation_error(request, "Can't update agreement with accepted complaint")
 
 
-class AgreementState(AgreementStateMixing, CFAUATenderState):
+class CFAUAAgreementState(CFAUAAgreementStateMixin, CFAUATenderState):
     def agreement_on_patch(self, before, after):
         super().agreement_on_patch(before, after)
         self.check_tender_status_on_active_awarded()

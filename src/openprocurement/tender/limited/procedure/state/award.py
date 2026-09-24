@@ -1,6 +1,6 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.core.procedure.state.award import AwardStateMixin
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import OPERATIONS
 from openprocurement.tender.limited.procedure.models.award import (
@@ -14,13 +14,12 @@ from openprocurement.tender.limited.procedure.models.award import (
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
-class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
+class ReportingAwardState(AwardStateMixin, NegotiationTenderState):
     post_data_model = ReportingPostAward
     patch_data_model = ReportingPatchAward
     data_model = ReportingAward
 
     award_status_change_waits_for_milestone_due_date = False
-    award_has_eligible: bool = True
     award_eligible_required_for_activation: bool = False
     award_eligible_in_unsuccessful_rule: bool = False
     award_items_allowed: bool = False
@@ -33,6 +32,8 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
     award_post_allowed_tender_statuses = ("active",)
     award_patch_allowed_tender_statuses = ("active",)
     award_patch_requires_active_lot = False
+    award_cancel_lot_awards_on_satisfied_complaint = False
+    award_stand_still_working_days = True
 
     def validate_award_post_content(self, award):
         self.validate_create_new_award(award)

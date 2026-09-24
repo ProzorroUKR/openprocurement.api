@@ -1,5 +1,5 @@
 from openprocurement.tender.belowthreshold.procedure.state.criterion import (
-    BaseBelowThresholdCriterionStateMixin,
+    BelowThresholdCriterionStatusesMixin,
 )
 from openprocurement.tender.belowthreshold.procedure.state.tender import (
     BelowThresholdTenderState,
@@ -10,7 +10,7 @@ from openprocurement.tender.core.procedure.state.criterion_rg import (
 
 
 class BelowThresholdRequirementGroupStateMixin(
-    BaseBelowThresholdCriterionStateMixin,
+    BelowThresholdCriterionStatusesMixin,
     RequirementGroupStateMixin,
 ):
     pass
