@@ -19,19 +19,19 @@ LOGGER = getLogger(__name__)
 
 class QualificationMilestoneState(BaseState):
     post_data_model = PostQualificationMilestone
+
     # milestones exist since RELEASE_2020_04_19 (limited: not checked)
     milestone_post_release_check = True
+    # rfp: the user may set a dueDate later than 24h (24h is only the minimum)
+    milestone_24h_due_date_extendable = False
+    milestone_post_allowed_tender_statuses: tuple = ("active.pre-qualification",)
+    milestone_post_requires_active_lot = True
 
     def validate_post_request(self):
         self.validate_item_owner("tender")
         if self.milestone_post_release_check:
             validate_tender_first_revision_date(self.request, validation_date=RELEASE_2020_04_19)
         self.validate_input_data(self.get_post_data_model())
-
-    # rfp: the user may set a dueDate later than 24h (24h is only the minimum)
-    milestone_24h_due_date_extendable = False
-    milestone_post_allowed_tender_statuses: tuple = ("active.pre-qualification",)
-    milestone_post_requires_active_lot = True
 
     def get_24h_milestone_dueDate(self, milestone):
         min_due_date = calculate_tender_date(

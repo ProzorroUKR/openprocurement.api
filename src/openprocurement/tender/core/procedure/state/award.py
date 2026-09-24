@@ -32,23 +32,10 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class AwardStateMixing:
-    # --- request validation ---
     post_data_model = PostAward
     patch_data_model = PatchAward
     data_model = Award
 
-    def validate_post_request(self):
-        if self.request.authenticated_role != "admins":
-            self.validate_item_owner("tender")
-        self.validate_input_data(self.get_post_data_model())
-
-    def validate_patch_request(self):
-        if self.request.authenticated_role != "admins":
-            self.validate_item_owner("tender")
-        self.validate_patch_input_data(self.get_patch_data_model())
-        self.validate_patch_data_simple(self.get_data_model(), "award")
-
-    # --- award operations rules (procedure differences) ---
     # tender statuses in which awards can be created / updated
     award_post_allowed_tender_statuses: tuple = ("active.qualification",)
     award_patch_allowed_tender_statuses: tuple = ("active.qualification", "active.awarded")
@@ -59,8 +46,6 @@ class AwardStateMixing:
     award_post_lot_cancellation_pending_check: bool = False
     # cfaua: awards of a lot can't be updated while the lot has an accepted award complaint
     award_patch_forbidden_with_accepted_lot_complaint: bool = False
-
-    # --- award data rules (procedure differences) ---
     # procedures without bids (limited) have no award items
     award_items_allowed: bool = True
     items_delivery_required: bool = False
@@ -71,8 +56,6 @@ class AwardStateMixing:
     # activation/rejection requires a signed award notice (unless the procuring entity kind is excluded)
     sign_award_required: bool = True
     procurement_kinds_not_required_sign: tuple = ()
-
-    # --- qualified/eligible rules (procedure differences) ---
     # procedures whose awards use `eligible` next to `qualified` (open family, cfaua, esco, arma, limited)
     award_has_eligible: bool = False
     # activation requires eligible=True (limited procedures only check it for the unsuccessful status)
@@ -81,8 +64,6 @@ class AwardStateMixing:
     award_eligible_in_unsuccessful_rule: bool | None = None  # None = same as award_has_eligible
     # competitiveOrdering: the qualified/eligible rules depend on the tender creation date (NEW_ARTICLE_17_CRITERIA_REQUIRED)
     award_eligible_rules_by_creation_date: bool = False
-
-    # --- status transition rules (procedure differences) ---
     # the next award is generated automatically after a status change (limited: awards are created manually)
     award_next_award_on_status_change: bool = True
     # 24h / low price milestones postpone the award decision until milestone.dueDate
@@ -97,14 +78,23 @@ class AwardStateMixing:
     award_cancel_lot_awards_on_satisfied_complaint: bool = False
     # bt/rfp: cancelling an award also cancels its claims
     award_cancel_claims_on_cancel: bool = False
-
-    # --- complaint period rules (procedure differences) ---
     # the stand-still period is calculated in working days
     award_stand_still_working_days: bool = True
     # complaintPeriod is set on the unsuccessful status (negotiation: only active awards get a complaint period)
     award_complaint_period_on_unsuccessful: bool = True
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
+
+    def validate_post_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "award")
 
     # --- hooks (called from the views) ---
 

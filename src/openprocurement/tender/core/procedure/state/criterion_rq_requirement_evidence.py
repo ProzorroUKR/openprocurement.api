@@ -15,6 +15,9 @@ class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionState
     patch_data_model = PatchEligibleEvidence
     data_model = EligibleEvidence
 
+    # pq: the tender status is checked on every evidence change
+    evidence_status_check_always = False
+
     def validate_post_request(self):
         self.validate_criterion_owner()
         self.validate_input_data(self.get_post_data_model())
@@ -26,9 +29,6 @@ class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionState
 
     def validate_delete_request(self):
         self.validate_criterion_owner()
-
-    # pq: the tender status is checked on every evidence change
-    evidence_status_check_always = False
 
     def evidence_on_post(self, data: dict) -> None:
         self._validate_ids_uniq()

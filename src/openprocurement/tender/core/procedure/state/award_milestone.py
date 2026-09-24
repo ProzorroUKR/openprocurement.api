@@ -16,6 +16,7 @@ LOGGER = getLogger(__name__)
 
 class AwardMilestoneState(QualificationMilestoneState):
     post_data_model = PostAwardMilestone
+
     allowed_milestone_codes = (
         AwardMilestoneCode.CODE_24_HOURS.value,
         AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,

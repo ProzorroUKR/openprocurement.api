@@ -12,6 +12,7 @@ class BidState(BaseBidState):
     patch_data_model = ARMAPatchBid
     patch_qualification_data_model = ARMAPatchQualificationBid
     data_model = ARMABid
+
     skip_value_validation_for_draft_bid = True
     item_patch_fields_during_qualification = {
         "requirementResponses": None,

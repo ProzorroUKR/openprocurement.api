@@ -11,13 +11,9 @@ from openprocurement.tender.core.procedure.state.document import BaseDocumentSta
 class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
     post_data_model = PostComplaintDocument
     patch_data_model = PatchComplaintDocument
+
     document_post_owner_exempt_roles = ("admins", "aboveThresholdReviewers")
     document_update_owner_exempt_roles = ("admins", "aboveThresholdReviewers")
-
-    def validate_document_owner(self, exempt_roles):
-        if self.request.authenticated_role not in exempt_roles:
-            self.validate_any_item_owner("complaint", "tender")
-
     allowed_complaint_status_for_role = {  # copied from open.constants.STATUS4ROLE
         "complaint_owner": [
             "draft",
@@ -38,6 +34,10 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
         "active.qualification",
         "active.awarded",
     )
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_any_item_owner("complaint", "tender")
 
     def validate_document_post(self, data):
         if document := self.request.validated.get("document"):  # POST new version via PUT method

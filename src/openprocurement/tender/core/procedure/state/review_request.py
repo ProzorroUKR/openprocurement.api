@@ -17,6 +17,13 @@ class ReviewRequestStateMixin:
     patch_data_model = PatchInspectorReviewRequest
     data_model = ReviewRequest
 
+    request: Request
+    review_request_tender_statuses = (
+        "active.enquiries",
+        "active.qualification",
+        "active.awarded",
+    )
+
     def validate_post_request(self):
         self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
@@ -24,14 +31,6 @@ class ReviewRequestStateMixin:
     def validate_patch_request(self):
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "review_request")
-
-    request: Request
-
-    review_request_tender_statuses = (
-        "active.enquiries",
-        "active.qualification",
-        "active.awarded",
-    )
 
     def review_request_on_post(self, data: dict) -> None:
         tender = self.request.validated["tender"]

@@ -17,13 +17,13 @@ class ReqResponseEvidenceState(BaseState):
     post_data_model = Evidence
     patch_data_model = PatchEvidence
     data_model = Evidence
+
     req_response_owner_item_name = BaseReqResponseState.req_response_owner_item_name
     req_response_owner_exempt_roles = BaseReqResponseState.req_response_owner_exempt_roles
     req_response_status_object = BaseReqResponseState.req_response_status_object
     req_response_allowed_statuses = BaseReqResponseState.req_response_allowed_statuses
     req_response_milestone_24_skip = False
     req_response_view_check = False
-
     validate_get_request = BaseReqResponseState.validate_get_request
     validate_delete_request = BaseReqResponseState.validate_delete_request
     validate_req_response_owner = BaseReqResponseState.validate_req_response_owner
@@ -31,6 +31,7 @@ class ReqResponseEvidenceState(BaseState):
     validate_ecriteria_object_status = BaseReqResponseState.validate_ecriteria_object_status
     allowed_by_qualification_milestone_24 = BaseReqResponseState.allowed_by_qualification_milestone_24
     validate_req_response_view_allowed = BaseReqResponseState.validate_req_response_view_allowed
+    parent_obj_name: str
 
     def validate_post_request(self):
         self.validate_req_response_owner()
@@ -42,8 +43,6 @@ class ReqResponseEvidenceState(BaseState):
         self.validate_req_response_operation_allowed()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "evidence")
-
-    parent_obj_name: str
 
     def always(self, data: dict) -> None:
         self.pre_save_validations(data)
@@ -73,6 +72,7 @@ class BidReqResponseEvidenceState(ReqResponseEvidenceState):
     req_response_owner_item_name = "bid"
     req_response_milestone_24_skip = True
     req_response_view_check = True
+    parent_obj_name = "bid"
 
     def validate_req_response_operation_allowed(self):
         if self.allowed_by_qualification_milestone_24():
@@ -105,8 +105,6 @@ class BidReqResponseEvidenceState(ReqResponseEvidenceState):
             if current_contract and current_contract.status == "pending":
                 raise_operation_error(request, "forbidden if contract not in status `pending`")
         self.validate_ecriteria_object_status("tender", valid_statuses)
-
-    parent_obj_name = "bid"
 
     def pre_save_validations(self, data: dict) -> None:
         bid = self.request.validated["bid"]

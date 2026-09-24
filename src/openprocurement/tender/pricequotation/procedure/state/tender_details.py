@@ -17,6 +17,11 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     post_data_model = PQPostTender
     patch_data_model = PQPatchTender
     data_model = PQTender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
+
     tender_patch_allowed_statuses = ("draft",)
     should_validate_status_change_with_lot_cancellation_pending = False
     tender_period_start_date_required = True
@@ -26,10 +31,6 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
     award_criteria_default = AWARD_CRITERIA_LOWEST_COST
     patch_status_choices = ("draft", "active.tendering")
-    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
-
     should_validate_pre_selection_agreement = True
     should_validate_cpv_prefix = False
     should_validate_notice_doc_required = True
@@ -43,10 +44,8 @@ class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
     should_match_agreement_procuring_entity = False
     should_validate_profiles_agreement_id = True
     items_profile_required = True
-
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft",)
-
     working_days_config = WORKING_DAYS_CONFIG
     tender_period_start_on_activation = True
     tender_period_extension_check = False

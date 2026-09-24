@@ -181,6 +181,11 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     post_data_model = ReportingPostTender
     patch_data_model = ReportingPatchTender
     data_model = ReportingTender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
+
     tender_patch_allowed_statuses = ("draft", "active")
     should_validate_status_change_with_lot_cancellation_pending = False
     should_validate_items_zero_quantity = False
@@ -189,18 +194,13 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
     milestones_required = False
     milestones_delivery_financing_required = False
     procuring_entity_required_fields = {}
-    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
     should_validate_related_lot_in_items = False
     items_delivery_required = True
     items_unit_value_allowed = True
     patch_status_choices = ("draft", "active")
     award_criteria_choices = None
     award_criteria_default = None
-
     contract_template_name_patch_statuses = []
-
     working_days_config = WORKING_DAYS_CONFIG
 
     def on_post(self, tender):
@@ -220,6 +220,11 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     post_data_model = NegotiationPostTender
     patch_data_model = NegotiationPatchTender
     data_model = NegotiationTender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+
     tender_patch_allowed_statuses = ("draft", "active")
     should_validate_status_change_with_lot_cancellation_pending = False
     should_validate_items_zero_quantity = False
@@ -228,18 +233,13 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
     lot_minimal_step_meta_from_tender = False
     should_validate_vat_not_included = True
     vat_not_included_validation_from = NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     should_validate_related_lot_in_items = True
     items_delivery_required = True
     items_unit_value_allowed = True
     patch_status_choices = ("draft", "active")
     award_criteria_choices = None
     award_criteria_default = None
-
     contract_template_name_patch_statuses = ("draft", "active")
-
     working_days_config = WORKING_DAYS_CONFIG
 
     def on_post(self, tender):
@@ -264,4 +264,5 @@ class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):
     post_data_model = NegotiationQuickPostTender
     patch_data_model = NegotiationQuickPatchTender
     data_model = NegotiationQuickTender
+
     working_days_config = WORKING_DAYS_CONFIG

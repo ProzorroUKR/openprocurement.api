@@ -26,6 +26,7 @@ LOGGER = getLogger(__name__)
 class ClaimStateMixin(BaseComplaintStateMixin):
     post_data_model = PostClaim
     data_model = Claim
+
     complaint_item_name = "claim"
     complaint_documents_route_key = "claim_id"
     complaint_patch_owner_item_names = ("claim", "tender")

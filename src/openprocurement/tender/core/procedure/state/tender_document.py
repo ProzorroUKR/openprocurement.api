@@ -28,6 +28,10 @@ class TenderDocumentState(BaseDocumentState):
     document_operation_auction_role_statuses: tuple | None = ("active.auction", "active.qualification")
     # evaluation reports (sign docs) only are also allowed in these statuses
     document_operation_sign_docs_extra_statuses: tuple = ("active.pre-qualification",)
+    allow_deletion = True
+    deletion_allowed_statuses = ("draft", "draft.stage2")
+    # bt/rfp/open/openua/CO (and their heirs): pending bids become invalid after a tender document change
+    invalidate_bids_on_document_change = False
 
     def validate_document_operation_allowed(self):
         request = self.request
@@ -53,11 +57,6 @@ class TenderDocumentState(BaseDocumentState):
         role = "tender_owner" if self.is_item_owner("tender") else self.request.authenticated_role
         if role != (document.get("author") or "tender_owner"):
             raise_operation_error(self.request, "Can update document only author", location="url", name="role")
-
-    allow_deletion = True
-    deletion_allowed_statuses = ("draft", "draft.stage2")
-    # bt/rfp/open/openua/CO (and their heirs): pending bids become invalid after a tender document change
-    invalidate_bids_on_document_change = False
 
     def document_on_post(self, data):
         super().document_on_post(data)

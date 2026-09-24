@@ -12,4 +12,5 @@ class IgnoredClaimMixing(BaseIgnoredClaimMixing):
 
 class RequestForProposalTenderState(IgnoredClaimMixing, TenderState):
     award_class = Award
+
     generate_award_milestones = False

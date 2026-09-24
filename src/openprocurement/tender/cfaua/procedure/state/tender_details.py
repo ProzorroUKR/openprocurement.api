@@ -16,11 +16,16 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class CFAUATenderDetailsMixing(TenderDetailsMixing):
-    should_validate_vat_not_included = True
-    items_delivery_required = True
     post_data_model = CFAPostTender
     patch_data_model = CFAPatchTender
     data_model = CFATender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+
+    should_validate_vat_not_included = True
+    items_delivery_required = True
     tender_patch_allowed_statuses = (
         "draft",
         "active.tendering",
@@ -46,16 +51,10 @@ class CFAUATenderDetailsMixing(TenderDetailsMixing):
         "active.qualification",
         "active.qualification.stand-still",
     )
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
     tender_period_extra = TENDERING_EXTRA_PERIOD
     tender_period_extra_working_days = False
-
     should_validate_notice_doc_required = False
     should_validate_required_market_criteria = False
-
     working_days_config = WORKING_DAYS_CONFIG
     items_classification_prefix_change_check = True
     status_up_allowed_transitions = (

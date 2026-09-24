@@ -13,7 +13,9 @@ class BidState(BaseBidState):
     patch_data_model = CFASelectionPatchBid
     patch_qualification_data_model = CFASelectionPatchQualificationBid
     data_model = CFASelectionBid
+
     bid_create_accreditations = (AccreditationLevel.ACCR_2,)
+
     bid_view_forbidden_tender_statuses = ("active.tendering",)
     self_eligible_required = False
     bid_agreement_from_tender = True

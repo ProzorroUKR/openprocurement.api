@@ -27,8 +27,6 @@ class OpenTenderDetailsState(TenderDetailsMixing, OpenTenderState):
         "active.pre-qualification.stand-still",
     )
     contract_template_required = True
-
     contract_template_name_patch_statuses = ("draft", "active.tendering")
-
     working_days_config = WORKING_DAYS_CONFIG
     items_classification_prefix_change_check = True

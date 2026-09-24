@@ -17,6 +17,7 @@ class ESCOBidState(BidState):
     patch_data_model = ESCOPatchBid
     patch_qualification_data_model = ESCOPatchQualificationBid
     data_model = ESCOBid
+
     self_eligible_required = False
     bid_items_quantity_required = False
     bid_value_validation_on_patch = False  # value is validated by the procedure's own bid model

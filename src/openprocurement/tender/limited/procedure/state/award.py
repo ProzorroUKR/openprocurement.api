@@ -18,6 +18,7 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
     post_data_model = ReportingPostAward
     patch_data_model = ReportingPatchAward
     data_model = ReportingAward
+
     award_status_change_waits_for_milestone_due_date = False
     award_has_eligible: bool = True
     award_eligible_required_for_activation: bool = False
@@ -52,11 +53,11 @@ class NegotiationAwardState(ReportingAwardState):
     post_data_model = LimitedPostAward
     patch_data_model = LimitedPatchAward
     data_model = LimitedAward
+
     award_stand_still_working_days: bool = False
     sign_award_required = True
     award_complaint_period_on_unsuccessful = False
     award_cancel_lot_awards_on_satisfied_complaint = True
-
     award_post_lot_cancellation_pending_check = True
 
     def validate_award_post_content(self, award):

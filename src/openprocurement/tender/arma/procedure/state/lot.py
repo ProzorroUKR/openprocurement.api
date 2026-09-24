@@ -10,10 +10,11 @@ from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
 class LotState(LotStateMixin, TenderDetailsState):
-    invalidate_bids_on_lot_change = True
     post_data_model = ARMAPostLot
     patch_data_model = ARMAPatchLot
     data_model = ARMALot
+
+    invalidate_bids_on_lot_change = True
 
     def lot_on_post(self, data: dict) -> None:
         self.validate_lot_min_expected_income(data)

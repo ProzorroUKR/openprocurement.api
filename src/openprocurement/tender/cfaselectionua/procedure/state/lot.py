@@ -13,5 +13,6 @@ class TenderLotState(LotStateMixin, CFASelectionTenderDetailsState):
     post_data_model = CFASelectionPostLot
     patch_data_model = CFASelectionPatchLot
     data_model = CFASelectionLot
+
     lot_operation_allowed_tender_statuses = ("active.enquiries", "draft")
     should_validate_lot_minimal_step = False

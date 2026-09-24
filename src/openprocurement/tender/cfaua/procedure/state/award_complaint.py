@@ -11,5 +11,4 @@ class CFAUAAwardComplaintState(AwardComplaintStateMixin, CFAUATenderState):
         "active.qualification",
     )
     all_documents_should_be_public = True
-
     satisfied_complaint_returns_to_qualification = True

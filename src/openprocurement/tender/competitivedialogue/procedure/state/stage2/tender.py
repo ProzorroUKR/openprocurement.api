@@ -11,4 +11,5 @@ class CDEUStage2TenderState(TenderState):
     auction_results_model = DecimalAuctionResults
     auction_lot_results_model = DecimalAuctionLotResults
     award_class = Award
+
     active_bid_statuses = ("active", "pending")

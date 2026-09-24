@@ -4,5 +4,6 @@ from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTende
 
 
 class EUTenderQuestionState(TenderQuestionStateMixin, BaseOpenEUTenderState):
-    question_operation_allowed_tender_statuses = ("active.tendering",)
     question_create_accreditations = (AccreditationLevel.ACCR_4,)
+
+    question_operation_allowed_tender_statuses = ("active.tendering",)

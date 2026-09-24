@@ -44,9 +44,9 @@ LOGGER = getLogger(__name__)
 
 
 class BaseComplaintStateMixin:
-    # --- request validation (complaints and claims of the tender / award / qualification / cancellation) ---
     post_data_model = None
     data_model = None
+
     # request.validated key of the complaint (claim) and the documents route key
     complaint_item_name = "complaint"
     complaint_documents_route_key = "complaint_id"
@@ -88,9 +88,10 @@ class BaseComplaintStateMixin:
 class ComplaintStateMixin(BaseComplaintStateMixin):
     post_data_model = PostComplaint
     data_model = Complaint
+    draft_patch_model = DraftPatchComplaint
+
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
-    draft_patch_model = DraftPatchComplaint
     complaints_configuration = "hasTenderComplaints"
     all_documents_should_be_public = False
     should_validate_complaint_author_qualified_supplier = False

@@ -11,6 +11,7 @@ class TenderState(BaseTenderState):
     auction_results_model = DecimalAuctionResults
     auction_lot_results_model = DecimalAuctionLotResults
     award_class = ARMAAward
+
     active_bid_statuses = ("active", "pending")
     alp_due_date_period = timedelta(days=2)
     alp_amount_key: str = "amountPercentage"

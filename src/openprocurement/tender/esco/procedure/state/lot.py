@@ -10,10 +10,11 @@ from openprocurement.tender.esco.procedure.state.tender_details import (
 
 
 class TenderLotState(LotStateMixin, ESCOTenderDetailsState):
-    invalidate_bids_on_lot_change = True
     post_data_model = ESCOPostLot
     patch_data_model = ESCOPatchLot
     data_model = ESCOLot
+
+    invalidate_bids_on_lot_change = True
 
     def pre_save_validations(self, data: dict) -> None:
         super().pre_save_validations(data)

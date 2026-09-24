@@ -32,5 +32,4 @@ class OpenUATenderDetailsState(OpenUATenderDetailsMixing, OpenUATenderState):
     tender_period_extra_working_days = False
     contract_template_required = True
     contract_template_name_patch_statuses = ("draft", "active.tendering")
-
     working_days_config = WORKING_DAYS_CONFIG

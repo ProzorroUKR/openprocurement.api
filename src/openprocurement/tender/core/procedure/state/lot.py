@@ -13,8 +13,11 @@ from openprocurement.tender.core.procedure.validation import OPERATIONS
 
 
 class LotStateMixin:
-    request: Callable
+    post_data_model = PostLot
+    patch_data_model = PatchLot
+    data_model = Lot
 
+    request: Callable
     get_lot_auction_should_start_after: Callable
     set_lot_minimal_step: Callable
     set_lot_value: Callable
@@ -27,18 +30,12 @@ class LotStateMixin:
     validate_lot_value: Callable
     validate_lot_minimal_step: Callable
     invalidate_bids_data: Callable
-
-    # --- request validation ---
-    post_data_model = PostLot
-    patch_data_model = PatchLot
-    data_model = Lot
     # tender statuses in which lots can be added / updated / deleted
     lot_operation_allowed_tender_statuses: tuple = ("active.tendering", "draft", "draft.stage2")
     # competitiveDialogue stage 2: lots are copied from stage 1 and can't be changed
     lot_operations_forbidden = False
     # open family / cfaua / esco / arma / CD / CO: pending bids become invalid after a lot change
     invalidate_bids_on_lot_change = False
-
     should_validate_lot_minimal_step = True
     # limited (negotiation): lots don't recalculate the tender values
     lot_updates_tender_values = True

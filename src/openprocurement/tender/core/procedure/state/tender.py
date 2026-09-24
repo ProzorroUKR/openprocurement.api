@@ -71,6 +71,8 @@ class TenderState(
         "draft.unsuccessful",
     )
     calendar = WORKING_DAYS
+    # priceQuotation: bids are never invalidated by tender changes
+    bids_invalidation_enabled = True
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
@@ -106,9 +108,6 @@ class TenderState(
                     status=422,
                     name="procuringEntity",
                 )
-
-    # priceQuotation: bids are never invalidated by tender changes
-    bids_invalidation_enabled = True
 
     def invalidate_bids_data(self, tender):
         if not self.bids_invalidation_enabled:

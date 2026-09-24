@@ -45,6 +45,8 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
     patch_data_model = PatchAppeal
     data_model = Appeal
 
+    all_documents_should_be_public = False  # cfaua: True
+
     def validate_post_request(self):
         self.validate_any_item_owner("complaint", "tender")
         self.validate_input_data(self.get_post_data_model())
@@ -54,8 +56,6 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
         self.validate_any_item_owner("tender", "complaint")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), "appeal")
-
-    all_documents_should_be_public = False  # cfaua: True
 
     def complaint_appeal_on_post(self, appeal):
         author = self.request.authenticated_role

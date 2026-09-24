@@ -18,10 +18,11 @@ LOGGER = getLogger(__name__)
 
 class AwardComplaintStateMixin(ComplaintStateMixin):
     post_data_model = PostAwardComplaint
+    draft_patch_model = DraftPatchAwardComplaint
+
     complaint_post_bid_owner_statuses = ("active",)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
-    draft_patch_model = DraftPatchAwardComplaint
     complaints_configuration = "hasAwardComplaints"
     # cfaua: a satisfied complaint returns the tender to active.qualification
     satisfied_complaint_returns_to_qualification = False

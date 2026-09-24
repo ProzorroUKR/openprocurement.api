@@ -238,14 +238,20 @@ class TenderConfigMixin(ConfigMixin):
 
 
 class BaseTenderDetailsMixing:
-    # --- request validation (see validate_post_request / validate_patch_request) ---
     post_data_model = PostTender
     patch_data_model = PatchTender
     data_model = Tender
-    # config used when the request has no "config" (competitiveDialogue stage 2)
-    tender_config_default: dict | None = None
+    # bt/rfp: the patch model depends on the tender status
+    tender_patch_models_by_status: dict | None = None
+
     # competitiveDialogue stage 2 tenders are created by the system, the broker accreditation isn't checked
     tender_create_accreditation_check = True
+    tender_create_accreditations = None
+    tender_central_accreditations = None
+    tender_edit_accreditations = None
+
+    # config used when the request has no "config" (competitiveDialogue stage 2)
+    tender_config_default: dict | None = None
     # roles that may patch the tender without being its owner
     tender_patch_owner_check_exempt_roles: tuple = ("Administrator",)
     # tender statuses in which the tender can be patched (Administrator isn't limited)
@@ -257,16 +263,7 @@ class BaseTenderDetailsMixing:
     )
     # belowThreshold: tenders of BELOWTHRESHOLD_FUNDERS_IDS can also be patched in these statuses
     tender_patch_allowed_statuses_for_funder: tuple = ()
-    """
-    describes business logic rules for tender owners
-    when they prepare tender for tendering stage
-    """
-
     request: Request
-
-    tender_create_accreditations = None
-    tender_central_accreditations = None
-    tender_edit_accreditations = None
     agreement_min_active_contracts = 3
     should_validate_cpv_prefix = True
     should_validate_pre_selection_agreement = True
@@ -332,12 +329,7 @@ class BaseTenderDetailsMixing:
     required_multilingual_fields: dict = {}
     # procuringEntity.contactPoint.availableLanguage default (None = field is optional, no default)
     procuring_entity_available_language_default: str | None = None
-
     calendar = WORKING_DAYS
-
-    # --- mainstream procedure differences (former method overrides) ---
-    # bt/rfp: the patch model depends on the tender status
-    tender_patch_models_by_status: dict | None = None
     # open family/CO: the CPV group of the items can't change on patch
     items_classification_prefix_change_check = False
     # rfp: noticePublicationDate is set on activation even without a notice document
@@ -367,6 +359,11 @@ class BaseTenderDetailsMixing:
     status_up_allowed_transitions: tuple | None = None
     # competitiveDialogue stage 2: item profile/category are not checked on post
     item_profile_category_check_on_post = True
+
+    """
+    describes business logic rules for tender owners
+    when they prepare tender for tendering stage
+    """
 
     def get_patch_data_model(self):
         models = self.tender_patch_models_by_status or {}

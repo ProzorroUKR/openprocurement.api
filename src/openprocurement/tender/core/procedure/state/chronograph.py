@@ -56,10 +56,6 @@ class IgnoredClaimMixing:
 class ChronographEventsMixing:
     chronograph_patch_data_model = TenderChronographData
 
-    def validate_chronograph_patch_request(self):
-        self.validate_patch_input_data(self.chronograph_patch_data_model)
-
-    # --- mainstream procedure differences (chronograph events and handlers) ---
     # bt/rfp: complaints are claims — answered/pending claims are resolved by the chronograph,
     # claims of completed lots/tenders are ignored, and the tendering end doesn't wait for unanswered complaints/questions
     tender_claims_events = False
@@ -75,6 +71,12 @@ class ChronographEventsMixing:
     tender_contract_events = True
     # competitiveDialogue stage 1: the pre-qualification stand-still ends with this tender status instead of auction/qualification
     pre_qualification_stand_still_next_status: str | None = None
+    calc_weighted_value: Callable
+    # Pre-calculate weighted values for bids in the end of tendering period
+    tender_weighted_value_pre_calculation: bool = True
+
+    def validate_chronograph_patch_request(self):
+        self.validate_patch_input_data(self.chronograph_patch_data_model)
 
     def new_defense_complaints_rules_apply(self):
         return self.tender_new_defense_complaints_rules and tender_created_in(
@@ -96,11 +98,6 @@ class ChronographEventsMixing:
 
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
-
-    calc_weighted_value: Callable
-
-    # Pre-calculate weighted values for bids in the end of tendering period
-    tender_weighted_value_pre_calculation: bool = True
 
     def update_next_check(self, data):
         # next_check is field that shows tender's expectation to be triggered at a certain time

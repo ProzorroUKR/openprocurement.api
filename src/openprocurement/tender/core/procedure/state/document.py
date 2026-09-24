@@ -8,15 +8,19 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BaseDocumentStateMixing:
-    # --- request validation ---
     post_data_model = PostDocument
     patch_data_model = PatchDocument
     data_model = Document
+
     # the object whose owner may change the documents (request.validated key)
     document_owner_item_name = "tender"
     # roles that may add / update the documents without being the owner
     document_post_owner_exempt_roles: tuple = ()
     document_update_owner_exempt_roles: tuple = ()
+    check_edrpou_confidentiality = True
+    all_documents_should_be_public = False
+    allow_deletion = False
+    deletion_allowed_statuses = ("draft",)
 
     def validate_get_request(self):
         self.validate_document_view_allowed()
@@ -72,11 +76,6 @@ class BaseDocumentStateMixing:
             and not self.is_item_owner("tender")
         ):
             raise_operation_error(request, "Document download forbidden.")
-
-    check_edrpou_confidentiality = True
-    all_documents_should_be_public = False
-    allow_deletion = False
-    deletion_allowed_statuses = ("draft",)
 
     def document_on_post(self, data):
         self.validate_document_post(data)

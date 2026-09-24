@@ -34,24 +34,12 @@ class CancellationStateMixing:
     patch_data_model = PatchCancellation
     data_model = Cancellation
 
-    def validate_post_request(self):
-        if self.request.authenticated_role != "admins":
-            self.validate_item_owner("tender")
-        self.validate_input_data(self.get_post_data_model())
-
-    def validate_patch_request(self):
-        if self.request.authenticated_role != "admins":
-            self.validate_item_owner("tender")
-        self.validate_patch_input_data(self.get_patch_data_model())
-        self.validate_patch_data_simple(self.get_data_model(), "cancellation")
-
     # additionally to terminated
     cancellation_forbidden_statuses = {
         "active.auction",
         "active.qualification.stand-still",
         "draft",
     }
-
     # START Validations
     _before_release_reason_types = ["cancelled", "unsuccessful"]
     _after_release_reason_types = [
@@ -60,7 +48,6 @@ class CancellationStateMixing:
         "forceMajeure",
         "expensesCut",
     ]
-
     _before_release_statuses = ["pending", "active"]
     _after_release_statuses = ["draft", "pending", "unsuccessful", "active"]
     should_validate_cancellation_report_doc_required = True
@@ -74,6 +61,17 @@ class CancellationStateMixing:
     cancellation_complete_lots_check = False
     # negotiation: the deprecated (immediate) activation is used when there is no active award
     cancellation_deprecated_activation_without_active_award = False
+
+    def validate_post_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "cancellation")
 
     def validate_cancellation_post(self, data):
         request, tender = get_request(), get_tender()

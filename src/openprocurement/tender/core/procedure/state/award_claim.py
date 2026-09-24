@@ -16,6 +16,7 @@ LOGGER = getLogger(__name__)
 
 class AwardClaimStateMixin(ClaimStateMixin):
     post_data_model = PostClaimFromBid
+
     complaint_documents_route_key = "claim"
     complaint_post_bid_owner_statuses = ("active",)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")

@@ -16,6 +16,14 @@ class TenderQuestionStateMixin:
     patch_data_model = PatchQuestion
     data_model = Question
 
+    question_create_accreditations: set = None  # formerly tender.edit_accreditations
+
+    always: Callable  # method from TenderState
+    # open family: questions can be added/updated only in these tender statuses (None = no extra check)
+    question_operation_allowed_tender_statuses: tuple | None = None
+    # tenders with shortlistedFirms (e.g. competitiveDialogue stage 2): only shortlisted firms may ask
+    question_shortlisted_firms_author_check = False
+
     def validate_post_request(self):
         self.validate_input_data(self.get_post_data_model())
 
@@ -23,14 +31,6 @@ class TenderQuestionStateMixin:
         self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "question")
-
-    always: Callable  # method from TenderState
-
-    question_create_accreditations: set = None  # formerly tender.edit_accreditations
-    # open family: questions can be added/updated only in these tender statuses (None = no extra check)
-    question_operation_allowed_tender_statuses: tuple | None = None
-    # tenders with shortlistedFirms (e.g. competitiveDialogue stage 2): only shortlisted firms may ask
-    question_shortlisted_firms_author_check = False
 
     def question_on_post(self, question):
         self.validate_question_accreditation_level()

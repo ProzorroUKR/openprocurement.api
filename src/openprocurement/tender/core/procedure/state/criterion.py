@@ -25,14 +25,12 @@ from openprocurement.tender.core.procedure.validation import (
 class BaseCriterionStateMixin:
     # roles that may change the criteria without being the tender owner (competitiveDialogue stage 2: + admins)
     criterion_owner_exempt_roles: tuple = ("Administrator",)
+    request: Request
+    tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
 
     def validate_criterion_owner(self):
         if self.request.authenticated_role not in self.criterion_owner_exempt_roles:
             self.validate_item_owner("tender")
-
-    request: Request
-
-    tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
 
     def _validate_operation_criterion_in_tender_status(self) -> None:
         base_validate_operation_ecriteria_objects(self.request, self.tender_valid_statuses)
@@ -85,6 +83,17 @@ class CriterionStateMixin(BaseCriterionStateMixin):
     patch_data_model = PatchCriterion
     data_model = Criterion
 
+    # allowed `source` values (None = any value allowed by the model)
+    criterion_source_choices: tuple | None = None
+    # bt/rfp: exclusion criteria may be patched
+    criterion_patch_exclusion_check = True
+    request: Request
+    _validate_criterion_uniq: Callable
+    validate_criteria_requirements_rules: Callable
+    validate_criteria_classification: Callable
+    validate_action_with_exist_inspector_review_request: Callable
+    invalidate_review_requests: Callable
+
     def validate_post_request(self):
         self.validate_criterion_owner()
         self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
@@ -98,18 +107,6 @@ class CriterionStateMixin(BaseCriterionStateMixin):
         self.validate_criterion_owner()
         if get_tender()["status"] not in ("draft", "draft.stage2"):
             raise_operation_error(self.request, "Only allowed in draft tender status")
-
-    # allowed `source` values (None = any value allowed by the model)
-    criterion_source_choices: tuple | None = None
-    # bt/rfp: exclusion criteria may be patched
-    criterion_patch_exclusion_check = True
-    request: Request
-
-    _validate_criterion_uniq: Callable
-    validate_criteria_requirements_rules: Callable
-    validate_criteria_classification: Callable
-    validate_action_with_exist_inspector_review_request: Callable
-    invalidate_review_requests: Callable
 
     def criterion_on_post(self, data: dict) -> None:
         self.criterion_always(data)

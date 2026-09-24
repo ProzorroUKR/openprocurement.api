@@ -4,5 +4,6 @@ from openprocurement.tender.core.procedure.state.question import TenderQuestionS
 
 
 class QuestionState(TenderQuestionStateMixin, TenderState):
-    question_operation_allowed_tender_statuses = ("active.tendering",)
     question_create_accreditations = (AccreditationLevel.ACCR_4,)
+
+    question_operation_allowed_tender_statuses = ("active.tendering",)

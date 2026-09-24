@@ -17,6 +17,17 @@ from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
 class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
+    auction_results_model = DecimalAuctionResults
+    auction_lot_results_model = DecimalAuctionLotResults
+    award_class = Award
+    post_data_model = ESCOPostTender
+    patch_data_model = ESCOPatchTender
+    data_model = ESCOTender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+
     patch_status_choices = (
         "draft",
         "active.tendering",
@@ -26,19 +37,10 @@ class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
     items_classification_prefix_change_check = True
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
     tender_period_extra = TENDERING_EXTRA_PERIOD
     should_validate_notice_doc_required = True
     should_validate_vat_not_included = True
-    auction_results_model = DecimalAuctionResults
-    auction_lot_results_model = DecimalAuctionLotResults
-    award_class = Award
     active_bid_statuses = ("active", "pending")
-    post_data_model = ESCOPostTender
-    patch_data_model = ESCOPatchTender
-    data_model = ESCOTender
     contract_template_required = False
     items_delivery_required = False
     items_unit_required = False
@@ -51,7 +53,6 @@ class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
     award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
     award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
     contract_template_name_patch_statuses = ("draft", "active.tendering")
-
     working_days_config = WORKING_DAYS_CONFIG
     minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
 

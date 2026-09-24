@@ -13,12 +13,17 @@ from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
 class TenderDetailsMixing(BaseTenderDetailsMixing):
-    should_validate_notice_doc_required = True
-    items_delivery_required = True
-    tender_period_start_date_required = True
     post_data_model = ARMAPostTender
     patch_data_model = ARMAPatchTender
     data_model = ARMATender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+
+    should_validate_notice_doc_required = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
     procuring_entity_available_language_default = "uk"
     contract_template_name_allowed = False
     milestones_required = False
@@ -31,17 +36,11 @@ class TenderDetailsMixing(BaseTenderDetailsMixing):
     )
     award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
     award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
     tender_period_extra = TENDERING_EXTRA_PERIOD
     contract_template_name_patch_statuses = ("draft", "active.tendering")
     contract_template_required = False
     should_validate_vat_not_included = False
-
     working_days_config = WORKING_DAYS_CONFIG
-
     # ARMA procedure does not have tender.value / tender.minimalStep; lot values are percentages
     items_classification_prefix_change_check = True
     tender_has_value = False

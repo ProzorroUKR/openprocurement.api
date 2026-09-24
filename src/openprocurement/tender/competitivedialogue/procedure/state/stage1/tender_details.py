@@ -33,6 +33,10 @@ from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
 class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+
     items_classification_prefix_change_check = True
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"
@@ -62,10 +66,6 @@ class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
         "active.pre-qualification.stand-still",
         "active.stage2.waiting",
     )
-    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
-
     should_validate_notice_doc_required = False
     contract_template_required = False
     contract_template_name_patch_statuses = ("draft", "active.tendering")
@@ -95,9 +95,10 @@ class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     post_data_model = CDStage1EUPostTender
     patch_data_model = CDStage1EUPatchTender
     data_model = CDStage1EUTender
+    stage_2_tender_model = CDStage2EUPostTender
+
     working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDEUStage2TenderDetailsState
-    stage_2_tender_model = CDStage2EUPostTender
     stage_2_config = STAGE_2_EU_DEFAULT_CONFIG
 
 
@@ -105,9 +106,10 @@ class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
     post_data_model = CDStage1UAPostTender
     patch_data_model = CDStage1UAPatchTender
     data_model = CDStage1UATender
+    stage_2_tender_model = CDStage2UAPostTender
+
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None
     working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDUAStage2TenderDetailsState
-    stage_2_tender_model = CDStage2UAPostTender
     stage_2_config = STAGE_2_UA_DEFAULT_CONFIG

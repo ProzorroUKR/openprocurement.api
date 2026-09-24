@@ -57,13 +57,14 @@ logger = logging.getLogger(__name__)
 
 
 class BidState(BaseState):
-    # --- request validation ---
     post_data_model = PostBid
     patch_data_model = PatchBid
     patch_qualification_data_model = PatchQualificationBid
     patch_administrator_data_model = AdministratorPatchBid
     data_model = Bid
+
     bid_create_accreditations: tuple = (AccreditationLevel.ACCR_4,)
+
     # bids can't be viewed in these tender statuses (None = active.tendering, and active.auction for
     # procedures without pre-qualification); cfaselectionua: active.tendering only
     bid_view_forbidden_tender_statuses: tuple | None = None
@@ -71,7 +72,6 @@ class BidState(BaseState):
     bid_patch_deleted_check = True
     # competitiveDialogue stage 2: only shortlisted firms may create bids
     bid_post_shortlisted_firms_check = False
-
     items_unit_value_required_for_funders = False
     items_product_required = False
     qualification_statuses = ("active.qualification", "active.pre-qualification")

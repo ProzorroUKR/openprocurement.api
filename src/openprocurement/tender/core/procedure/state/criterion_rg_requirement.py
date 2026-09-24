@@ -35,7 +35,6 @@ from openprocurement.tender.core.procedure.validation import (
 
 class RequirementValidationsMixin:
     request: Request
-
     # tender statuses that allow changing requirements / eligible evidences (bt/rfp: draft only)
     requirement_change_valid_statuses = ("draft", "draft.pending", "draft.stage2")
     # ... plus this status for tenders created before CRITERION_REQUIREMENT_STATUSES_FROM (bt/rfp: active.enquiries)
@@ -55,8 +54,14 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     patch_data_model = PatchRequirement
     put_data_model = PutRequirement
     data_model = Requirement
+
     # the PATCH / PUT models depend on the criterion classification (belowThreshold / rfp: fixed models)
     requirement_models_by_classification = True
+    allowed_put_statuses = ["active.tendering"]
+    # pq: the tender status is checked on every requirement change, not only on POST
+    requirement_status_check_always = False
+    # cfaselectionua: no requirement ids uniqueness check on POST
+    requirement_post_ids_uniq_check = True
 
     def validate_post_request(self):
         self.validate_criterion_owner()
@@ -71,12 +76,6 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         self.validate_criterion_owner()
         self.validate_patch_input_data(self.get_put_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "requirement")
-
-    allowed_put_statuses = ["active.tendering"]
-    # pq: the tender status is checked on every requirement change, not only on POST
-    requirement_status_check_always = False
-    # cfaselectionua: no requirement ids uniqueness check on POST
-    requirement_post_ids_uniq_check = True
 
     def get_patch_data_model(self):
         if not self.requirement_models_by_classification:

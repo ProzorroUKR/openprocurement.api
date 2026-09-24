@@ -12,6 +12,7 @@ class CDBidState(BidState):
     patch_data_model = CDPatchBid
     patch_qualification_data_model = CDPatchQualificationBid
     data_model = CDBid
+
     bid_items_quantity_required = False
     bid_value_allowed = False
     bid_parameters_allowed = False

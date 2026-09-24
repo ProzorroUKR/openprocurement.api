@@ -29,6 +29,7 @@ LOGGER = getLogger(__name__)
 
 class CancellationComplaintStateMixin(ComplaintStateMixin):
     post_data_model = PostCancellationComplaint
+
     update_allowed_tender_statuses = None
     complaints_configuration = "hasCancellationComplaints"
     # limited: anyone may post a cancellation complaint (no bid owner check); award complaint periods are prolonged

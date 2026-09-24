@@ -70,6 +70,11 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
     post_data_model = CFASelectionPostTender
     patch_data_model = CFASelectionPatchTender
     data_model = CFASelectionTender
+
+    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
+
     tender_patch_owner_check_exempt_roles = ("Administrator", "agreement_selection")
     tender_patch_allowed_statuses = (
         "draft",
@@ -96,18 +101,11 @@ class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
         "active.pre-qualification",
         "active.qualification",
     )
-    tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
-    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
-    tender_edit_accreditations = (AccreditationLevel.ACCR_2,)
-
     agreement_min_active_contracts = MIN_ACTIVE_CONTRACTS
     agreement_min_period_until_end = MIN_PERIOD_UNTIL_AGREEMENT_END
-
     should_validate_pre_selection_agreement = False
     should_validate_vat_not_included = True
-
     working_days_config = WORKING_DAYS_CONFIG
-
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
     # no tender/lot value meta propagation, minimal step is calculated on activation
     lot_value_meta_from_tender = False
