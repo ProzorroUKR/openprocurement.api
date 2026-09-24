@@ -1,6 +1,6 @@
+from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.esco.procedure.models.auction import ESCOAuctionLotResults, ESCOAuctionResults
 from openprocurement.tender.esco.procedure.models.award import ESCOAward
-from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
 
 class ESCOTenderStateMixin:
@@ -11,7 +11,7 @@ class ESCOTenderStateMixin:
     generate_award_milestones = False
 
 
-class ESCOTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
+class ESCOTenderState(ESCOTenderStateMixin, TenderState):
+    active_bid_statuses = ("active", "pending")
     auction_results_model = ESCOAuctionResults
     auction_lot_results_model = ESCOAuctionLotResults
-    pass

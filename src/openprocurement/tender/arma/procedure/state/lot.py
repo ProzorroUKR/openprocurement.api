@@ -5,11 +5,12 @@ from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchL
 from openprocurement.tender.arma.procedure.state.tender_details import (
     TenderDetailsState,
 )
-from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidStateMixin
+from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
-class LotState(LotInvalidationBidStateMixin, TenderDetailsState):
+class LotState(LotStateMixin, TenderDetailsState):
+    invalidate_bids_on_lot_change = True
     post_data_model = ARMAPostLot
     patch_data_model = ARMAPatchLot
     data_model = ARMALot

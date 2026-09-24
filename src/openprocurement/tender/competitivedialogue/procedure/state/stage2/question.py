@@ -3,12 +3,11 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
-from openprocurement.tender.openua.procedure.state.question import (
-    UATenderQuestionStateMixin,
-)
+from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
 
 
-class CDStage2TenderQuestionStateMixin(UATenderQuestionStateMixin):
+class CDStage2TenderQuestionStateMixin(TenderQuestionStateMixin):
+    question_operation_allowed_tender_statuses = ("active.tendering",)
     question_shortlisted_firms_author_check = True
 
 

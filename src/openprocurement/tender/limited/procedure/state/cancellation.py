@@ -1,13 +1,11 @@
-from openprocurement.tender.belowthreshold.procedure.state.cancellation import (
-    BelowThresholdCancellationStateMixing,
-)
 from openprocurement.tender.core.procedure.state.cancellation import (
     CancellationStateMixing,
 )
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
-class ReportingCancellationStateMixing(BelowThresholdCancellationStateMixing):
+class ReportingCancellationStateMixing(CancellationStateMixing):
+    cancellation_complaint_period_check = False
     _before_release_reason_types = ["cancelled", "unsuccessful"]
     _after_release_reason_types = [
         "noDemand",

@@ -1,10 +1,9 @@
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
-from openprocurement.tender.openeu.procedure.state.cancellation import (
-    OpenEUCancellationStateMixing,
-)
+from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixing
 
 
-class CFAUACancellationStateMixing(OpenEUCancellationStateMixing):
+class CFAUACancellationStateMixing(CancellationStateMixing):
+    cancellation_unsuccessful_items_check = True
     all_documents_should_be_public = True
 
 

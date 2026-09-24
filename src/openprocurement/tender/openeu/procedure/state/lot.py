@@ -1,8 +1,8 @@
-from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidStateMixin
+from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState,
 )
 
 
-class TenderLotState(LotInvalidationBidStateMixin, OpenEUTenderDetailsState):
-    pass
+class TenderLotState(LotStateMixin, OpenEUTenderDetailsState):
+    invalidate_bids_on_lot_change = True

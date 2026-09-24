@@ -8,13 +8,14 @@ from openprocurement.tender.arma.constants import (
 from openprocurement.tender.arma.procedure.models.tender import ARMAPatchTender, ARMAPostTender, ARMATender
 from openprocurement.tender.arma.procedure.state.tender import TenderState
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing as BaseTenderDetailsMixing
 from openprocurement.tender.core.procedure.utils import tender_created_before
-from openprocurement.tender.openua.procedure.state.tender_details import (
-    OpenUATenderDetailsMixing,
-)
 
 
-class TenderDetailsMixing(OpenUATenderDetailsMixing):
+class TenderDetailsMixing(BaseTenderDetailsMixing):
+    should_validate_notice_doc_required = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
     post_data_model = ARMAPostTender
     patch_data_model = ARMAPatchTender
     data_model = ARMATender

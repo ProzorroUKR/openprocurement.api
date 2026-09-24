@@ -177,3 +177,14 @@ CHRONOGRAPH_PATCH_LOG_FIELDS = [
     "dateModified",
     "next_check",
 ]
+
+# multilingual fields required by the EU-type procedures (openeu, esco, competitiveDialogue)
+EU_REQUIRED_MULTILINGUAL_FIELDS = {
+    "procuringEntity": {
+        "name_en": True,
+        "identifier": {"legalName_en": True},
+        "contactPoint": {"name_en": True},
+        "additionalContactPoints": {"name_en": True},
+    },
+    "items": {"description_en": True},
+}

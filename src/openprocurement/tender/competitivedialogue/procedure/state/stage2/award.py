@@ -1,10 +1,14 @@
 from openprocurement.tender.competitivedialogue.procedure.models.award import CDAward, CDPatchAward, CDPostAward
-from openprocurement.tender.openua.procedure.state.award import (
-    AwardState as UAAwardState,
-)
+from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.state.award import AwardStateMixing
+from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
-class CDStage2AwardState(UAAwardState):
+class CDStage2AwardState(AwardStateMixing, TenderState):
+    award_stand_still_working_days: bool = False
+    award_has_eligible: bool = True
+    award_cancel_lot_awards_on_satisfied_complaint = True
+    award_class = Award
     post_data_model = CDPostAward
     patch_data_model = CDPatchAward
     data_model = CDAward

@@ -2,14 +2,15 @@ from decimal import Decimal
 
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.state.lot import LotInvalidationBidStateMixin
+from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 from openprocurement.tender.esco.procedure.models.lot import ESCOLot, ESCOPatchLot, ESCOPostLot
 from openprocurement.tender.esco.procedure.state.tender_details import (
     ESCOTenderDetailsState,
 )
 
 
-class TenderLotState(LotInvalidationBidStateMixin, ESCOTenderDetailsState):
+class TenderLotState(LotStateMixin, ESCOTenderDetailsState):
+    invalidate_bids_on_lot_change = True
     post_data_model = ESCOPostLot
     patch_data_model = ESCOPatchLot
     data_model = ESCOLot

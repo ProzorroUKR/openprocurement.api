@@ -11,13 +11,13 @@ from openprocurement.tender.cfaua.constants import (
 from openprocurement.tender.cfaua.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.openua.procedure.state.tender_details import (
-    OpenUATenderDetailsMixing,
-)
 
 
-class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
+class CFAUATenderDetailsMixing(TenderDetailsMixing):
+    should_validate_vat_not_included = True
+    items_delivery_required = True
     post_data_model = CFAPostTender
     patch_data_model = CFAPatchTender
     data_model = CFATender

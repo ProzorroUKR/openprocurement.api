@@ -1,24 +1,17 @@
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.tender.core.constants import EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.openeu.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
-from openprocurement.tender.openua.procedure.state.tender_details import (
-    OpenUATenderDetailsMixing,
-)
+
 
 # fields that used to be `required=True` on openeu Organization/Identifier/ContactPoint/Item models
-EU_REQUIRED_MULTILINGUAL_FIELDS = {
-    "procuringEntity": {
-        "name_en": True,
-        "identifier": {"legalName_en": True},
-        "contactPoint": {"name_en": True},
-        "additionalContactPoints": {"name_en": True},
-    },
-    "items": {"description_en": True},
-}
-
-
-class OpenEUTenderDetailsMixing(OpenUATenderDetailsMixing):
+class OpenEUTenderDetailsMixing(TenderDetailsMixing):
+    should_validate_notice_doc_required = True
+    should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
     items_classification_prefix_change_check = True
     required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
     procuring_entity_available_language_default = "uk"

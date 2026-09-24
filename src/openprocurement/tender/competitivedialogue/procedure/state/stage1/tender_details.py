@@ -23,15 +23,24 @@ from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_de
     CDEUStage2TenderDetailsState,
     CDUAStage2TenderDetailsState,
 )
+from openprocurement.tender.core.constants import EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.utils import (
     prepare_stage2_tender_data,
 )
-from openprocurement.tender.openeu.procedure.state.tender_details import (
-    OpenEUTenderDetailsMixing,
-)
+from openprocurement.tender.openeu.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
+class CDStage1TenderDetailsStateMixin(TenderDetailsMixing, CDStage1TenderState):
+    items_classification_prefix_change_check = True
+    required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
+    procuring_entity_available_language_default = "uk"
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    working_days_config = WORKING_DAYS_CONFIG
+    should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
     tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
     tender_patch_allowed_statuses = (
         "draft",

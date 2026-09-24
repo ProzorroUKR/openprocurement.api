@@ -18,13 +18,33 @@ from openprocurement.tender.competitivedialogue.procedure.models.tender import (
     CDStage2UAPostTender,
     CDStage2UATender,
 )
+from openprocurement.tender.core.constants import EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
+from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.utils import tender_created_after
-from openprocurement.tender.openeu.procedure.state.tender_details import (
-    OpenEUTenderDetailsState,
-)
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
+class CDEUStage2TenderDetailsState(TenderDetailsMixing, TenderState):
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
+    items_classification_prefix_change_check = True
+    required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
+    procuring_entity_available_language_default = "uk"
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    should_validate_vat_not_included = True
+    items_delivery_required = True
+    tender_period_start_date_required = True
+    auction_results_model = DecimalAuctionResults
+    auction_lot_results_model = DecimalAuctionLotResults
+    award_class = Award
+    active_bid_statuses = ("active", "pending")
     post_data_model = CDStage2EUPostTender
     patch_data_model = CDStage2EUPatchTender
     data_model = CDStage2EUTender

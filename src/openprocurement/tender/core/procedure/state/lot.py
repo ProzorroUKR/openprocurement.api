@@ -26,6 +26,7 @@ class LotStateMixin:
     validate_tender_period_extension: Callable
     validate_lot_value: Callable
     validate_lot_minimal_step: Callable
+    invalidate_bids_data: Callable
 
     # --- request validation ---
     post_data_model = PostLot
@@ -35,6 +36,8 @@ class LotStateMixin:
     lot_operation_allowed_tender_statuses: tuple = ("active.tendering", "draft", "draft.stage2")
     # competitiveDialogue stage 2: lots are copied from stage 1 and can't be changed
     lot_operations_forbidden = False
+    # open family / cfaua / esco / arma / CD / CO: pending bids become invalid after a lot change
+    invalidate_bids_on_lot_change = False
 
     should_validate_lot_minimal_step = True
     # limited (negotiation): lots don't recalculate the tender values
@@ -157,6 +160,8 @@ class LotStateMixin:
         self.validate_action_with_exist_inspector_review_request()
         self.invalidate_review_requests()
         self.update_tender_data()
+        if self.invalidate_bids_on_lot_change:
+            self.invalidate_bids_data(get_tender())
 
     def pre_save_validations(self, data: dict) -> None:
         self.validate_lots_unique()
@@ -200,15 +205,6 @@ class LotStateMixin:
                     status=422,
                     name="lots",
                 )
-
-
-class LotInvalidationBidStateMixin(LotStateMixin):
-    def lot_always(self, data: dict) -> None:
-        super().lot_always(data)
-        self.invalidate_lot_bids_data()
-
-    def invalidate_lot_bids_data(self):
-        self.invalidate_bids_data(get_tender())
 
 
 class LotState(LotStateMixin, TenderDetailsState):

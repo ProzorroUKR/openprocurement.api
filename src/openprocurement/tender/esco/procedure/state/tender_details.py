@@ -1,19 +1,41 @@
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
+from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA, EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
+from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixing
 from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
 from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
 from openprocurement.tender.esco.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
-from openprocurement.tender.openeu.procedure.state.tender_details import (
-    OpenEUTenderDetailsState as BaseTenderDetailsState,
-)
+from openprocurement.tender.openua.constants import TENDERING_EXTRA_PERIOD
 
 
-class ESCOTenderDetailsState(BaseTenderDetailsState):
+class ESCOTenderDetailsState(TenderDetailsMixing, TenderState):
+    patch_status_choices = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
+    items_classification_prefix_change_check = True
+    required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
+    procuring_entity_available_language_default = "uk"
+    tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
+    tender_central_accreditations = (AccreditationLevel.ACCR_5,)
+    tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+    tender_period_extra = TENDERING_EXTRA_PERIOD
+    should_validate_notice_doc_required = True
+    should_validate_vat_not_included = True
+    auction_results_model = DecimalAuctionResults
+    auction_lot_results_model = DecimalAuctionLotResults
+    award_class = Award
+    active_bid_statuses = ("active", "pending")
     post_data_model = ESCOPostTender
     patch_data_model = ESCOPatchTender
     data_model = ESCOTender
