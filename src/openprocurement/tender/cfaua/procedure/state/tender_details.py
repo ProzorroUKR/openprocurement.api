@@ -8,6 +8,7 @@ from openprocurement.tender.cfaua.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS_CONFIG,
 )
+from openprocurement.tender.cfaua.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -17,6 +18,16 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 
 
 class CFAUATenderDetailsMixing(OpenUATenderDetailsMixing):
+    post_data_model = CFAPostTender
+    patch_data_model = CFAPatchTender
+    data_model = CFATender
+    tender_patch_allowed_statuses = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.qualification",
+    )
     required_multilingual_fields = {
         "procuringEntity": {
             "contactPoint": {"name_en": True},

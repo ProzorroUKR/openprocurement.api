@@ -7,12 +7,17 @@ from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixing,
 )
 from openprocurement.tender.pricequotation.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.pricequotation.procedure.models.tender import PQPatchTender, PQPostTender, PQTender
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PriceQuotationTenderState,
 )
 
 
 class TenderDetailsState(TenderDetailsMixing, PriceQuotationTenderState):
+    post_data_model = PQPostTender
+    patch_data_model = PQPatchTender
+    data_model = PQTender
+    tender_patch_allowed_statuses = ("draft",)
     should_validate_status_change_with_lot_cancellation_pending = False
     tender_period_start_date_required = True
     items_related_lot_error = "Rogue field."

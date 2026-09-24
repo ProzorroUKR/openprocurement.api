@@ -6,6 +6,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_award
+from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -14,6 +15,9 @@ LOGGER = getLogger(__name__)
 
 
 class AwardClaimStateMixin(ClaimStateMixin):
+    post_data_model = PostClaimFromBid
+    complaint_documents_route_key = "claim"
+    complaint_post_bid_owner_statuses = ("active",)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     patch_as_complaint_owner_tender_statuses = (

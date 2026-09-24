@@ -5,7 +5,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_award
-from openprocurement.tender.core.procedure.models.complaint import DraftPatchAwardComplaint
+from openprocurement.tender.core.procedure.models.complaint import DraftPatchAwardComplaint, PostAwardComplaint
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
@@ -17,6 +17,8 @@ LOGGER = getLogger(__name__)
 
 
 class AwardComplaintStateMixin(ComplaintStateMixin):
+    post_data_model = PostAwardComplaint
+    complaint_post_bid_owner_statuses = ("active",)
     create_allowed_tender_statuses = ("active.qualification", "active.awarded")
     update_allowed_tender_statuses = ("active.qualification", "active.awarded")
     draft_patch_model = DraftPatchAwardComplaint

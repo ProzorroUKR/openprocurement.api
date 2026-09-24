@@ -18,6 +18,9 @@ from openprocurement.tender.core.procedure.validation import validate_doc_type_q
 
 
 class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
+    document_post_owner_exempt_roles = ("admins",)
+    document_update_owner_exempt_roles = ("admins",)
+
     def document_always(self, data):
         self.validate_confidentiality(data)
         self.validate_sign_documents_already_exists(data)

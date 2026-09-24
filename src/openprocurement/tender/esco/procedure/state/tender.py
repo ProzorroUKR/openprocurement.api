@@ -1,3 +1,4 @@
+from openprocurement.tender.esco.procedure.models.auction import ESCOAuctionLotResults, ESCOAuctionResults
 from openprocurement.tender.esco.procedure.models.award import ESCOAward
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
@@ -11,4 +12,6 @@ class ESCOTenderStateMixin:
 
 
 class ESCOTenderState(ESCOTenderStateMixin, BaseOpenEUTenderState):
+    auction_results_model = ESCOAuctionResults
+    auction_lot_results_model = ESCOAuctionLotResults
     pass

@@ -16,8 +16,10 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.models.criterion import (
     PatchRequirement,
     PatchTechnicalFeatureRequirement,
+    PostRequirement,
     PutExclusionLccRequirement,
     PutRequirement,
+    Requirement,
     validate_criteria_requirement_uniq,
     validate_requirement_eligibleEvidences,
 )
@@ -49,6 +51,27 @@ class RequirementValidationsMixin:
 
 
 class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):
+    post_data_model = PostRequirement
+    patch_data_model = PatchRequirement
+    put_data_model = PutRequirement
+    data_model = Requirement
+    # the PATCH / PUT models depend on the criterion classification (belowThreshold / rfp: fixed models)
+    requirement_models_by_classification = True
+
+    def validate_post_request(self):
+        self.validate_criterion_owner()
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        self.validate_criterion_owner()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "requirement")
+
+    def validate_put_request(self):
+        self.validate_criterion_owner()
+        self.validate_patch_input_data(self.get_put_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "requirement")
+
     allowed_put_statuses = ["active.tendering"]
     # pq: the tender status is checked on every requirement change, not only on POST
     requirement_status_check_always = False
@@ -56,6 +79,8 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     requirement_post_ids_uniq_check = True
 
     def get_patch_data_model(self):
+        if not self.requirement_models_by_classification:
+            return self.patch_data_model
         criterion = self.request.validated["criterion"]
         classification_id = criterion["classification"]["id"]
         model = PatchRequirement
@@ -64,6 +89,8 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
         return model
 
     def get_put_data_model(self):
+        if not self.requirement_models_by_classification:
+            return self.put_data_model
         criterion = self.request.validated["criterion"]
         classification_id = criterion["classification"]["id"]
         model = PutRequirement

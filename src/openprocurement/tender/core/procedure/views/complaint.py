@@ -2,13 +2,7 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_bots,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data_from_resolved_model,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import (
     LOGGER,
@@ -16,17 +10,12 @@ from openprocurement.api.utils import (
     json_view,
     update_logging_context,
 )
-from openprocurement.tender.core.procedure.models.complaint import Complaint, PostComplaint
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
     TenderComplaintSerializer,
 )
 from openprocurement.tender.core.procedure.state.complaint import TenderComplaintState
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
-from openprocurement.tender.core.procedure.validation import (
-    unless_reviewers,
-    validate_any,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
@@ -89,10 +78,7 @@ class BaseComplaintWriteResource(BaseComplaintResource):
     @json_view(
         content_type="application/json",
         permission="create_complaint",
-        validators=(
-            validate_input_data(PostComplaint),
-            validate_data_documents(route_key="complaint_id", uid_key="id"),
-        ),
+        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         update_logging_context(self.request, {"complaint_id": "__new__"})
@@ -138,20 +124,7 @@ class BaseComplaintWriteResource(BaseComplaintResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(
-                unless_bots(
-                    unless_reviewers(
-                        validate_any(
-                            validate_item_owner("tender"),
-                            validate_item_owner("complaint"),
-                        )
-                    )
-                )
-            ),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data(Complaint, item_name="complaint"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_complaint",
     )
     def patch(self):

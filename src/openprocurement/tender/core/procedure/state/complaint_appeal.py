@@ -1,6 +1,7 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_complaint
+from openprocurement.tender.core.procedure.models.complaint_appeal import Appeal, PatchAppeal, PostAppeal
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.validation import (
     validate_edrpou_confidentiality_doc,
@@ -40,6 +41,20 @@ class ComplaintAppealValidationsMixin:
 
 
 class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
+    post_data_model = PostAppeal
+    patch_data_model = PatchAppeal
+    data_model = Appeal
+
+    def validate_post_request(self):
+        self.validate_any_item_owner("complaint", "tender")
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_data_documents(route_key="appeal_id", uid_key="id")
+
+    def validate_patch_request(self):
+        self.validate_any_item_owner("tender", "complaint")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), "appeal")
+
     all_documents_should_be_public = False  # cfaua: True
 
     def complaint_appeal_on_post(self, appeal):

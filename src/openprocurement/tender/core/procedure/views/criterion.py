@@ -6,20 +6,14 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.core.procedure.serializers.criterion import (
     CriterionSerializer,
 )
 from openprocurement.tender.core.procedure.state.criterion import CriterionState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import validate_tender_in_draft
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)
@@ -53,10 +47,7 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(Criterion, allow_bulk=True),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_criterion",
     )
     def collection_post(self) -> Optional[dict]:
@@ -98,11 +89,7 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchCriterion),
-            validate_patch_data_simple(Criterion, "criterion"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_criterion",
     )
     def patch(self) -> Optional[dict]:
@@ -124,10 +111,7 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_tender_in_draft,
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_criterion",
     )
     def delete(self):

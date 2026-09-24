@@ -9,6 +9,12 @@ from openprocurement.tender.simpledefense.constants import (
 
 
 class SimpleDefenseTenderDetailsState(DefenseTenderDetailsState):
+    tender_patch_allowed_statuses = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+    )
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)

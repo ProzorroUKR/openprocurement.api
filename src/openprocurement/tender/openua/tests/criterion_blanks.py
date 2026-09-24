@@ -882,9 +882,10 @@ def create_criteria_rg(self):
         self.tender_id, self.criteria_id, self.tender_token
     )
 
-    for req in test_requirement_groups[0]["requirements"]:
+    rg_data = deepcopy(test_requirement_groups[0])
+    for req in rg_data["requirements"]:
         req["expectedValue"] = True
-    response = self.app.post_json(request_path, {"data": test_requirement_groups[0]})
+    response = self.app.post_json(request_path, {"data": rg_data})
     self.assertEqual(response.status, "201 Created")
     self.assertEqual(response.content_type, "application/json")
 

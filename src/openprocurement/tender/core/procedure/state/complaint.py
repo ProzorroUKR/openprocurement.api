@@ -3,6 +3,7 @@ from logging import getLogger
 from openprocurement.api.constants_env import OBJECTIONS_ADDITIONAL_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_tender
+from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.constants import (
@@ -17,7 +18,9 @@ from openprocurement.tender.core.procedure.models.complaint import (
     AdministratorPatchComplaint,
     BotPatchComplaint,
     CancellationPatchComplaint,
+    Complaint,
     DraftPatchComplaint,
+    PostComplaint,
     ReviewPatchComplaint,
     TendererActionPatchComplaint,
     TendererResolvePatchComplaint,
@@ -41,6 +44,38 @@ LOGGER = getLogger(__name__)
 
 
 class BaseComplaintStateMixin:
+    # --- request validation (complaints and claims of the tender / award / qualification / cancellation) ---
+    post_data_model = None
+    data_model = None
+    # request.validated key of the complaint (claim) and the documents route key
+    complaint_item_name = "complaint"
+    complaint_documents_route_key = "complaint_id"
+    # award / qualification complaints (claims): the requester must own a bid in these statuses
+    # (None = no bid owner check); admins are exempt
+    complaint_post_bid_owner_statuses: tuple | None = None
+    # PATCH: the requester must own one of these objects, unless the role is exempt
+    complaint_patch_owner_item_names: tuple = ("tender", "complaint")
+    complaint_patch_owner_exempt_roles: tuple = ("Administrator", "bots", "aboveThresholdReviewers")
+
+    def validate_post_request(self):
+        if self.complaint_post_bid_owner_statuses is not None and self.request.authenticated_role != "admins":
+            self.validate_bid_owner(self.complaint_post_bid_owner_statuses)
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_data_documents(route_key=self.complaint_documents_route_key, uid_key="id")
+
+    def validate_patch_request(self):
+        if self.request.authenticated_role not in self.complaint_patch_owner_exempt_roles:
+            self.validate_any_item_owner(*self.complaint_patch_owner_item_names)
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), self.complaint_item_name)
+
+    def validate_bid_owner(self, statuses):
+        request = self.request
+        for bid in get_tender().get("bids", ""):
+            if bid["status"] in statuses and is_item_owner(request, bid):
+                return
+        raise_operation_error(request, "Forbidden", location="url", name="permission")
+
     def validate_add_complaint_with_tender_cancellation_in_pending(self, tender):
         if tender_created_after_2020_rules():
             if any(i.get("status") == "pending" and not i.get("relatedLot") for i in tender.get("cancellations", "")):
@@ -51,6 +86,8 @@ class BaseComplaintStateMixin:
 
 
 class ComplaintStateMixin(BaseComplaintStateMixin):
+    post_data_model = PostComplaint
+    data_model = Complaint
     create_allowed_tender_statuses = ("active.tendering",)
     update_allowed_tender_statuses = ("active.tendering",)
     draft_patch_model = DraftPatchComplaint

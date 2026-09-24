@@ -750,7 +750,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
             return
 
         with patch(
-            "openprocurement.tender.core.procedure.validation.get_request_now",
+            "openprocurement.tender.core.procedure.state.bid_document.get_request_now",
             lambda: due_date + timedelta(seconds=1),
         ):
             self.app.post_json(

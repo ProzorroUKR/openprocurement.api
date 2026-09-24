@@ -1,6 +1,7 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.models.document import PatchComplaintDocument, PostComplaintDocument
 from openprocurement.tender.core.procedure.state.complaint_post import (
     ComplaintPostValidationsMixin,
 )
@@ -8,6 +9,15 @@ from openprocurement.tender.core.procedure.state.document import BaseDocumentSta
 
 
 class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
+    post_data_model = PostComplaintDocument
+    patch_data_model = PatchComplaintDocument
+    document_post_owner_exempt_roles = ("admins", "aboveThresholdReviewers")
+    document_update_owner_exempt_roles = ("admins", "aboveThresholdReviewers")
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_any_item_owner("complaint", "tender")
+
     allowed_complaint_status_for_role = {  # copied from open.constants.STATUS4ROLE
         "complaint_owner": [
             "draft",

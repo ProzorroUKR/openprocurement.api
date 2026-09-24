@@ -64,7 +64,10 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
 class TenderCancellationComplaintResourceTest(BaseTenderUAContentWebTest, TenderCancellationComplaintResourceTestMixin):
     initial_bids = test_tender_openuadefense_bids
 
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19",
+        get_now() - timedelta(days=1),
+    )
     def setUp(self):
         super().setUp()
         # Create cancellation

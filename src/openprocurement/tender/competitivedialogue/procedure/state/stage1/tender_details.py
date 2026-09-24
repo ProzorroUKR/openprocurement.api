@@ -7,6 +7,12 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_DEFAULT_CONFIG,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.tender import (
+    CDStage1EUPatchTender,
+    CDStage1EUPostTender,
+    CDStage1EUTender,
+    CDStage1UAPatchTender,
+    CDStage1UAPostTender,
+    CDStage1UATender,
     CDStage2EUPostTender,
     CDStage2UAPostTender,
 )
@@ -26,6 +32,14 @@ from openprocurement.tender.openeu.procedure.state.tender_details import (
 
 
 class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderState):
+    tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
+    tender_patch_allowed_statuses = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.stage2.pending",
+    )
     should_validate_guarantee_criterion = False
     features_max_weight = FEATURES_MAX_SUM
     main_procurement_category_choices = ("services", "works")
@@ -69,6 +83,9 @@ class CDStage1TenderDetailsStateMixin(OpenEUTenderDetailsMixing, CDStage1TenderS
 
 
 class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    post_data_model = CDStage1EUPostTender
+    patch_data_model = CDStage1EUPatchTender
+    data_model = CDStage1EUTender
     working_days_config = STAGE_1_EU_WORKING_DAYS_CONFIG
     stage_2_tender_state = CDEUStage2TenderDetailsState
     stage_2_tender_model = CDStage2EUPostTender
@@ -76,6 +93,9 @@ class CDEUStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
 
 
 class CDUAStage1TenderDetailsState(CDStage1TenderDetailsStateMixin):
+    post_data_model = CDStage1UAPostTender
+    patch_data_model = CDStage1UAPatchTender
+    data_model = CDStage1UATender
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None
     working_days_config = STAGE_1_UA_WORKING_DAYS_CONFIG

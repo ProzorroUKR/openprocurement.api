@@ -10,6 +10,7 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
 
 
 class RequestForProposalRequirementValidationsMixin:
+    requirement_models_by_classification = False
     requirement_change_valid_statuses = ("draft",)
     requirement_change_legacy_status = "active.enquiries"
 

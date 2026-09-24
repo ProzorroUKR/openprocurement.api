@@ -5,4 +5,5 @@ from openprocurement.tender.requestforproposal.procedure.state.tender_details im
 
 
 class TenderLotState(LotStateMixin, RequestForProposalTenderDetailsState):
+    lot_operation_allowed_tender_statuses = ("active.enquiries", "active.tendering", "draft")
     pass

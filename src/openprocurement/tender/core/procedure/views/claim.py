@@ -2,12 +2,7 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data_from_resolved_model,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import (
     LOGGER,
@@ -15,14 +10,12 @@ from openprocurement.api.utils import (
     json_view,
     update_logging_context,
 )
-from openprocurement.tender.core.procedure.models.claim import Claim, PostClaim
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
     TenderComplaintSerializer,
 )
 from openprocurement.tender.core.procedure.state.claim import TenderClaimState
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
-from openprocurement.tender.core.procedure.validation import validate_any
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -59,10 +52,7 @@ class BaseClaimResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_claim",
-        validators=(
-            validate_input_data(PostClaim),
-            validate_data_documents(route_key="claim_id", uid_key="id"),
-        ),
+        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         update_logging_context(self.request, {"bid_id": "__new__"})
@@ -106,16 +96,7 @@ class BaseClaimResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_admins(
-                validate_any(
-                    validate_item_owner("claim"),
-                    validate_item_owner("tender"),
-                )
-            ),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data(Claim, item_name="claim"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_claim",
     )
     def patch(self):

@@ -1,16 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_data_documents,
-    validate_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.claim import PostClaim
 from openprocurement.tender.core.procedure.serializers.complaint import (
     ComplaintSerializer,
 )
-from openprocurement.tender.core.procedure.validation import validate_any_bid_owner
 from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
@@ -43,15 +35,3 @@ class RequestForProposalAwardClaimAndComplaintGetResource(AwardComplaintGetResou
 )
 class RequestForProposalAwardClaimResource(AwardClaimResource):
     state_class = RequestForProposalAwardClaimState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_claim",
-        validators=(
-            unless_admins(validate_any_bid_owner()),
-            validate_input_data(PostClaim),
-            validate_data_documents(route_key="claim", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()

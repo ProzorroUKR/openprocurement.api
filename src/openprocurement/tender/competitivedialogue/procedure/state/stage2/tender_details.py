@@ -1,15 +1,42 @@
 from openprocurement.api.auth import AccreditationLevel, AccreditationPermission
+from openprocurement.api.constants_env import (
+    REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
+)
+from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.competitivedialogue.constants import (
     FEATURES_MAX_SUM,
+    STAGE_2_EU_DEFAULT_CONFIG,
     STAGE_2_EU_WORKING_DAYS_CONFIG,
+    STAGE_2_UA_DEFAULT_CONFIG,
     STAGE_2_UA_WORKING_DAYS_CONFIG,
 )
+from openprocurement.tender.competitivedialogue.procedure.models.tender import (
+    CDStage2EUPatchTender,
+    CDStage2EUPostTender,
+    CDStage2EUTender,
+    CDStage2UAPatchTender,
+    CDStage2UAPostTender,
+    CDStage2UATender,
+)
+from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState,
 )
 
 
 class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
+    post_data_model = CDStage2EUPostTender
+    patch_data_model = CDStage2EUPatchTender
+    data_model = CDStage2EUTender
+    tender_config_default = STAGE_2_EU_DEFAULT_CONFIG
+    tender_create_accreditation_check = False
+    tender_patch_owner_check_exempt_roles = ("Administrator", "admins")
+    tender_patch_allowed_statuses = (
+        "draft.stage2",
+        "active.tendering",
+        "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+        "active.pre-qualification.stand-still",
+    )
     should_validate_items_zero_quantity = False
     guarantee_criterion_check_skipped_for_administrator = True
     features_max_weight = FEATURES_MAX_SUM
@@ -36,8 +63,69 @@ class CDEUStage2TenderDetailsState(OpenEUTenderDetailsState):
     # the stage 2 tender is validated while the stage 1 tender (hasAuction=False) is the request context
     minimal_step_regardless_of_auction = True
 
+    def validate_patch_request(self):
+        role = self.request.authenticated_role
+        if role not in self.tender_patch_owner_check_exempt_roles:
+            self.validate_item_owner("tender")
+        if role != "Administrator":
+            self.validate_tender_patch_allowed()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        if role != "Administrator":
+            self.validate_patch_fields_allowed()
+        self.validate_patch_data_simple(self.get_data_model(), "tender")
+
+    def validate_patch_fields_allowed(self):
+        changes = self.request.validated["data"]
+        tender = self.request.validated["tender"]
+
+        status = tender["status"]
+        patchable_fields_by_status = {
+            "draft.stage2": {"tenderPeriod", "complaintPeriod", "items", "mainProcurementCategory", "status"},
+            "active.tendering": {"tenderPeriod", "complaintPeriod", "items"},
+        }
+        if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
+            patchable_fields_by_status["draft.stage2"].add("milestones")
+
+        if status in patchable_fields_by_status:
+            for f in changes:
+                if f not in patchable_fields_by_status[status] and tender.get(f) != changes[f]:
+                    raise_operation_error(
+                        self.request,
+                        "Field change's not allowed",
+                        location="body",
+                        name=f,
+                        status=422,
+                    )
+
+            items = changes.get("items")
+            if items:
+                before_items = tender["items"]
+                if len(items) != len(before_items):
+                    raise_operation_error(
+                        self.request,
+                        "List size change's not allowed",
+                        location="body",
+                        name="items",
+                    )
+
+                item_public_fields = {"deliveryDate", "profile", "category"}
+                for a, b in zip(items, before_items):
+                    for f in a:
+                        if f not in item_public_fields and a[f] != b.get(f):
+                            raise_operation_error(
+                                self.request,
+                                "Field change's not allowed",
+                                location="body",
+                                name=f"items.{f}",
+                                status=422,
+                            )
+
 
 class CDUAStage2TenderDetailsState(CDEUStage2TenderDetailsState):
+    post_data_model = CDStage2UAPostTender
+    patch_data_model = CDStage2UAPatchTender
+    data_model = CDStage2UATender
+    tender_config_default = STAGE_2_UA_DEFAULT_CONFIG
     required_multilingual_fields = {}
     procuring_entity_available_language_default = None
     tender_create_accreditations = (AccreditationPermission.ACCR_COMPETITIVE,)

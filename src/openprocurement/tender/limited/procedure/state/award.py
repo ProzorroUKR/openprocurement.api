@@ -3,10 +3,21 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.award import AwardStateMixing
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import OPERATIONS
+from openprocurement.tender.limited.procedure.models.award import (
+    LimitedAward,
+    LimitedPatchAward,
+    LimitedPostAward,
+    ReportingAward,
+    ReportingPatchAward,
+    ReportingPostAward,
+)
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
 class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
+    post_data_model = ReportingPostAward
+    patch_data_model = ReportingPatchAward
+    data_model = ReportingAward
     award_status_change_waits_for_milestone_due_date = False
     award_has_eligible: bool = True
     award_eligible_required_for_activation: bool = False
@@ -38,6 +49,9 @@ class ReportingAwardState(AwardStateMixing, NegotiationTenderState):
 
 
 class NegotiationAwardState(ReportingAwardState):
+    post_data_model = LimitedPostAward
+    patch_data_model = LimitedPatchAward
+    data_model = LimitedAward
     award_stand_still_working_days: bool = False
     sign_award_required = True
     award_complaint_period_on_unsuccessful = False

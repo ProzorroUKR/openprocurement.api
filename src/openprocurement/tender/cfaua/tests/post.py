@@ -142,11 +142,13 @@ class TenderAwardComplaintResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+@patch("openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+    @patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19", date_after_2020_04_19
+    )
     def setUp(self):
         super().setUp()
 

@@ -30,6 +30,11 @@ from openprocurement.tender.cfaselectionua.constants import (
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
     CFASelectionPatchAgreement as PatchAgreement,
 )
+from openprocurement.tender.cfaselectionua.procedure.models.tender import (
+    CFASelectionPatchTender,
+    CFASelectionPostTender,
+    CFASelectionTender,
+)
 from openprocurement.tender.cfaselectionua.procedure.state.tender import (
     CFASelectionTenderState,
 )
@@ -62,6 +67,19 @@ LOGGER = getLogger(__name__)
 
 
 class CFASelectionTenderDetailsMixing(TenderDetailsMixing):
+    post_data_model = CFASelectionPostTender
+    patch_data_model = CFASelectionPatchTender
+    data_model = CFASelectionTender
+    tender_patch_owner_check_exempt_roles = ("Administrator", "agreement_selection")
+    tender_patch_allowed_statuses = (
+        "draft",
+        "draft.pending",
+        "active.enquiries",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.qualification",
+    )
     items_unit_required = False
     milestones_required = False
     milestones_delivery_financing_required = False

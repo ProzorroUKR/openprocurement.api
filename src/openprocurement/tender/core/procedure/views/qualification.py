@@ -3,14 +3,10 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
@@ -84,11 +80,7 @@ class TenderQualificationResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(PatchQualification),
-            validate_patch_data(Qualification, item_name="qualification"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_qualification",
     )
     def patch(self):

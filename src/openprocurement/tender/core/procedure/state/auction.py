@@ -15,10 +15,17 @@ from openprocurement.api.constants import (
     WORKING_DAYS,
 )
 from openprocurement.api.context import get_request, get_request_now
+from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import (
     calculate_date,
     context_unpack,
     raise_operation_error,
+)
+from openprocurement.tender.core.procedure.models.auction import (
+    AuctionLotResults,
+    AuctionResults,
+    AuctionUrls,
+    LotAuctionUrls,
 )
 from openprocurement.tender.core.procedure.utils import (
     calc_auction_replan_time,
@@ -31,6 +38,63 @@ LOGGER = getLogger(__name__)
 
 
 class ShouldStartAfterMixing:
+    auction_results_model = AuctionResults
+    auction_lot_results_model = AuctionLotResults
+    auction_urls_model = AuctionUrls
+    lot_auction_urls_model = LotAuctionUrls
+
+    def validate_auction_get_request(self):
+        self.validate_auction_tender_status()
+
+    def validate_auction_patch_request(self):
+        self.validate_auction_tender_status()
+        if self.request.matchdict.get("auction_lot_id"):
+            self.validate_auction_lot_active()
+            self.validate_patch_input_data(self.lot_auction_urls_model)
+        else:
+            tender = get_tender()
+            if tender.get("lots"):
+                raise_operation_error(
+                    get_request(),
+                    [{"participationUrl": ["url should be posted for each lot of bid"]}],
+                    location="body",
+                    name="bids",
+                    status=422,
+                )
+            self.validate_patch_input_data(self.auction_urls_model)
+
+    def validate_auction_post_request(self):
+        self.validate_auction_tender_status()
+        if self.request.matchdict.get("auction_lot_id"):
+            self.validate_auction_lot_active()
+            self.validate_input_data(self.auction_lot_results_model)
+        else:
+            self.validate_input_data(self.auction_results_model)
+
+    def validate_auction_tender_status(self):
+        tender = get_tender()
+        if tender["status"] != "active.auction":
+            operations = {
+                "GET": "get auction info",
+                "POST": "report auction results",
+                "PATCH": "update auction urls",
+            }
+            raise_operation_error(
+                get_request(),
+                f"Can't {operations[self.request.method]} in current ({tender['status']}) tender status",
+            )
+
+    def validate_auction_lot_active(self):
+        tender = get_tender()
+        lot_id = self.request.matchdict.get("auction_lot_id")
+        if not any(lot["status"] == "active" for lot in tender.get("lots", "") if lot["id"] == lot_id):
+            raise_operation_error(
+                get_request(),
+                "Can {} only in active lot status".format(
+                    "report auction results" if self.request.method == "POST" else "update auction urls"
+                ),
+            )
+
     def validate_auction_period_start_date(self, tender, data):
         start_date = data.get("startDate")
         if not start_date:

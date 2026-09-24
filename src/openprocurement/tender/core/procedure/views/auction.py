@@ -1,26 +1,14 @@
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_patch_input_data,
+    validate_request_by_state_for,
 )
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.constants import AUCTION_SET_URLS_LOG_FIELDS
-from openprocurement.tender.core.procedure.models.auction import (
-    AuctionLotResults,
-    AuctionResults,
-    AuctionUrls,
-    LotAuctionUrls,
-)
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     filter_nested_values,
     save_tender,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_active_lot,
-    validate_auction_tender_non_lot,
-    validate_auction_tender_status,
 )
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
@@ -31,7 +19,7 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_auction_tender_status,),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_get(self):
         tender = self.request.validated["tender"]
@@ -57,11 +45,7 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_auction_tender_non_lot,
-            validate_patch_input_data(AuctionUrls),
-        ),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_patch(self):
         """Set urls to access auctions."""
@@ -88,11 +72,7 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_active_lot,
-            validate_patch_input_data(LotAuctionUrls),
-        ),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def patch(self):
         """Set urls for access to auction for lot."""
@@ -129,10 +109,7 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_input_data(AuctionResults),
-        ),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_post(self):
         """Report auction results."""
@@ -156,11 +133,7 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_active_lot,
-            validate_input_data(AuctionLotResults),
-        ),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def post(self):
         """Report auction results for lot."""

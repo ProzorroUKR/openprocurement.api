@@ -42,7 +42,6 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     tender_1lot_fundingKind_default,
     tender_2lot_fundingKind_default,
     tender_features_invalid,
-    tender_lot_Administrator_change_yppr,
     tender_lot_funding_kind,
     tender_lot_fundingKind_yppr,
     tender_lot_yearlyPaymentsPercentageRange,
@@ -126,7 +125,6 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
     test_tender_2lot_fundingKind_default = snitch(tender_2lot_fundingKind_default)
     test_tender_lot_yearlyPaymentsPercentageRange = snitch(tender_lot_yearlyPaymentsPercentageRange)
     test_tender_lot_fundingKind_yppr = snitch(tender_lot_fundingKind_yppr)
-    test_tender_lot_Administrator_change_yppr = snitch(tender_lot_Administrator_change_yppr)
 
 
 class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin):

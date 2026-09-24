@@ -5,6 +5,7 @@ from openprocurement.tender.arma.constants import (
     TENDERING_EXTRA_PERIOD,
     WORKING_DAYS_CONFIG,
 )
+from openprocurement.tender.arma.procedure.models.tender import ARMAPatchTender, ARMAPostTender, ARMATender
 from openprocurement.tender.arma.procedure.state.tender import TenderState
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.utils import tender_created_before
@@ -14,6 +15,9 @@ from openprocurement.tender.openua.procedure.state.tender_details import (
 
 
 class TenderDetailsMixing(OpenUATenderDetailsMixing):
+    post_data_model = ARMAPostTender
+    patch_data_model = ARMAPatchTender
+    data_model = ARMATender
     procuring_entity_available_language_default = "uk"
     contract_template_name_allowed = False
     milestones_required = False

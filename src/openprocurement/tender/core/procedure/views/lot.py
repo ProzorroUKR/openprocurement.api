@@ -6,10 +6,7 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import (
     context_unpack,
@@ -17,13 +14,9 @@ from openprocurement.api.utils import (
     json_view,
     update_logging_context,
 )
-from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.state.lot import LotState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -60,11 +53,7 @@ class TenderLotResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PostLot),
-        ),
+        validators=(validate_request_by_state,),
     )
     def collection_post(self) -> Optional[dict]:
         """
@@ -127,12 +116,7 @@ class TenderLotResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_patch_input_data(PatchLot),
-            validate_patch_data_simple(Lot, item_name="lot"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_lot",
     )
     def patch(self) -> Optional[dict]:
@@ -161,10 +145,7 @@ class TenderLotResource(TenderBaseResource):
 
     @json_view(
         permission="edit_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-        ),
+        validators=(validate_request_by_state,),
     )
     def delete(self) -> Optional[dict]:
         """

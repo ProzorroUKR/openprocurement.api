@@ -4,7 +4,10 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.tender.core.procedure.models.complaint import DraftPatchQualificationComplaint
+from openprocurement.tender.core.procedure.models.complaint import (
+    DraftPatchQualificationComplaint,
+    PostQualificationComplaint,
+)
 from openprocurement.tender.core.procedure.state.complaint import ComplaintStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -13,6 +16,8 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationComplaintStateMixin(ComplaintStateMixin):
+    post_data_model = PostQualificationComplaint
+    complaint_post_bid_owner_statuses = ("active", "unsuccessful")
     create_allowed_tender_statuses = ("active.pre-qualification.stand-still",)
     update_allowed_tender_statuses = (
         "active.pre-qualification",

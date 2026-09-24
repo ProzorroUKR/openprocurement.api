@@ -4,9 +4,19 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.bid import BidState
+from openprocurement.tender.esco.procedure.models.bid import (
+    ESCOBid,
+    ESCOPatchBid,
+    ESCOPatchQualificationBid,
+    ESCOPostBid,
+)
 
 
 class ESCOBidState(BidState):
+    post_data_model = ESCOPostBid
+    patch_data_model = ESCOPatchBid
+    patch_qualification_data_model = ESCOPatchQualificationBid
+    data_model = ESCOBid
     self_eligible_required = False
     bid_items_quantity_required = False
     bid_value_validation_on_patch = False  # value is validated by the procedure's own bid model

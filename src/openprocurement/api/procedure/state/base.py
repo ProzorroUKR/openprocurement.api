@@ -4,14 +4,112 @@ from jsonschema.exceptions import best_match
 from jsonschema.validators import validator_for
 
 from openprocurement.api.context import get_request_now
+from openprocurement.api.procedure.utils import is_item_owner
+from openprocurement.api.procedure.validation import (
+    update_doc_fields_on_put_document,
+    validate_accreditation_level,
+    validate_config_data,
+    validate_data_documents,
+    validate_data_model,
+    validate_input_data,
+    validate_item_owner,
+    validate_patch_data,
+    validate_patch_data_simple,
+    validate_patch_input_data,
+    validate_upload_document,
+)
 from openprocurement.api.utils import raise_operation_error
 
 logger = logging.getLogger(__name__)
 
 
 class BaseState:
+    # request data models: the body of POST is validated against post_data_model, the body of PATCH against
+    # patch_data_model and the patched object against data_model (see validate_patch_data / _simple)
+    post_data_model = None
+    patch_data_model = None
+    data_model = None
+
     def __init__(self, request):
         self.request = request
+
+    # --- request validation (access, availability of the operation, input parsing) ---
+    # views delegate here with validators=(validate_request_by_state,); the state implements
+    # validate_<http method>_request for every method its view declares that validator on
+
+    def validate_request(self, resource=None):
+        name = f"validate_{resource + '_' if resource else ''}{self.request.method.lower()}_request"
+        validate = getattr(self, name, None)
+        if validate is None:
+            raise NotImplementedError(f"{type(self).__name__} doesn't implement {name}")
+        validate()
+
+    def get_post_data_model(self):
+        return self.post_data_model
+
+    def get_patch_data_model(self):
+        return self.patch_data_model
+
+    def get_data_model(self):
+        return self.data_model
+
+    def is_item_owner(self, item_name, token_field_name="owner_token"):
+        return is_item_owner(self.request, self.request.validated[item_name], token_field_name=token_field_name)
+
+    def validate_item_owner(self, item_name, token_field_name="owner_token"):
+        validate_item_owner(item_name, token_field_name=token_field_name)(self.request)
+
+    def validate_any_item_owner(self, *item_names):
+        """The requester must own one of the objects; the role of the first match is set"""
+        for item_name in item_names:
+            if self.is_item_owner(item_name):
+                # complaint_owner is the documents author of both claims and complaints
+                self.request.authenticated_role = "complaint_owner" if item_name == "claim" else f"{item_name}_owner"
+                return
+        raise_operation_error(self.request, "Forbidden", location="url", name="permission")
+
+    def validate_accreditation_level(self, levels, item, operation, source="tender", kind_central_levels=None):
+        validate_accreditation_level(
+            levels=levels,
+            item=item,
+            operation=operation,
+            source=source,
+            kind_central_levels=kind_central_levels,
+        )(self.request)
+
+    def validate_input_data(self, model, allow_bulk=False, strict=True, none_means_remove=False):
+        return validate_input_data(
+            model,
+            allow_bulk=allow_bulk,
+            strict=strict,
+            none_means_remove=none_means_remove,
+        )(self.request)
+
+    def validate_patch_input_data(self, model, allow_bulk=False, strict=True):
+        return validate_patch_input_data(model, allow_bulk=allow_bulk, strict=strict)(self.request)
+
+    def validate_patch_data(self, model, item_name):
+        return validate_patch_data(model, item_name)(self.request)
+
+    def validate_patch_data_simple(self, model, item_name):
+        return validate_patch_data_simple(model, item_name)(self.request)
+
+    def validate_data_model(self, model, strict=True):
+        return validate_data_model(model, strict=strict)(self.request)
+
+    def validate_config_data(self, default=None):
+        return validate_config_data(default=default)(self.request)
+
+    def validate_data_documents(self, route_key="tender_id", uid_key="_id"):
+        return validate_data_documents(route_key=route_key, uid_key=uid_key)(self.request)
+
+    def validate_upload_document(self):
+        validate_upload_document(self.request)
+
+    def update_doc_fields_on_put_document(self):
+        update_doc_fields_on_put_document(self.request)
+
+    # --- object lifecycle hooks ---
 
     def status_up(self, before, after, data):
         assert before != after, "Statuses must be different"

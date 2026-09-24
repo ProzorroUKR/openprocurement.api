@@ -6,9 +6,11 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.models.claim import (
+    Claim,
     ClaimOwnerClaimCancellation,
     ClaimOwnerClaimDraft,
     ClaimOwnerClaimSatisfy,
+    PostClaim,
     TenderOwnerClaimAnswer,
 )
 from openprocurement.tender.core.procedure.state.complaint import (
@@ -22,6 +24,12 @@ LOGGER = getLogger(__name__)
 
 
 class ClaimStateMixin(BaseComplaintStateMixin):
+    post_data_model = PostClaim
+    data_model = Claim
+    complaint_item_name = "claim"
+    complaint_documents_route_key = "claim_id"
+    complaint_patch_owner_item_names = ("claim", "tender")
+    complaint_patch_owner_exempt_roles = ("admins",)
     tender_claim_submit_time = timedelta(days=3)
     create_allowed_tender_statuses = ()
     update_allowed_tender_statuses = (

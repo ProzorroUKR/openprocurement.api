@@ -1,5 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaua.procedure.state.bid_document import (
+    CFAUABidDocumentState,
+    CFAUABidFinancialDocumentState,
+)
 from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidDocumentResource,
     BaseTenderBidEligibilityDocumentResource,
@@ -16,7 +20,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     description="Tender bidder documents",
 )
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
-    pass
+    state_class = CFAUABidDocumentState
 
 
 @resource(
@@ -27,7 +31,7 @@ class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     description="Tender bidder eligibility documents",
 )
 class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
-    pass
+    state_class = CFAUABidDocumentState
 
 
 @resource(
@@ -38,7 +42,7 @@ class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResou
     description="Tender bidder financial documents",
 )
 class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
-    pass
+    state_class = CFAUABidFinancialDocumentState
 
 
 @resource(
@@ -49,4 +53,4 @@ class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource)
     description="Tender bidder qualification documents",
 )
 class TenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
-    pass
+    state_class = CFAUABidFinancialDocumentState

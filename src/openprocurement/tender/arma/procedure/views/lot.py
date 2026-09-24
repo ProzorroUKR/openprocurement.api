@@ -1,20 +1,7 @@
-from typing import Optional
-
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.models.lot import ARMALot, ARMAPatchLot, ARMAPostLot
 from openprocurement.tender.arma.procedure.state.lot import LotState
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-)
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 
@@ -27,28 +14,3 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 )
 class LotResource(TenderLotResource):
     state_class = LotState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(ARMAPostLot),
-        ),
-    )
-    def collection_post(self) -> Optional[dict]:
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_patch_input_data(ARMAPatchLot),
-            validate_patch_data_simple(ARMALot, item_name="lot"),
-        ),
-        permission="edit_lot",
-    )
-    def patch(self) -> Optional[dict]:
-        return super().patch()

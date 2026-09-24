@@ -7,12 +7,16 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
 from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.esco.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
 from openprocurement.tender.openeu.procedure.state.tender_details import (
     OpenEUTenderDetailsState as BaseTenderDetailsState,
 )
 
 
 class ESCOTenderDetailsState(BaseTenderDetailsState):
+    post_data_model = ESCOPostTender
+    patch_data_model = ESCOPatchTender
+    data_model = ESCOTender
     contract_template_required = False
     items_delivery_required = False
     items_unit_required = False

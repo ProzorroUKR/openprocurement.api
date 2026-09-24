@@ -6,14 +6,9 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import PatchRequirementGroup, RequirementGroup
 from openprocurement.tender.core.procedure.serializers.criterion_rg import (
     RequirementGroupSerializer,
 )
@@ -61,10 +56,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(RequirementGroup),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_rg",
     )
     def collection_post(self) -> Optional[dict]:
@@ -103,11 +95,7 @@ class BaseRequirementGroupResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchRequirementGroup),
-            validate_patch_data_simple(RequirementGroup, "requirement_group"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_rg",
     )
     def patch(self) -> Optional[dict]:

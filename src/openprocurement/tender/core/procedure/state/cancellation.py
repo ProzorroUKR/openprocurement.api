@@ -10,6 +10,11 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.cancellation import (
+    Cancellation,
+    PatchCancellation,
+    PostCancellation,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
@@ -25,6 +30,21 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class CancellationStateMixing:
+    post_data_model = PostCancellation
+    patch_data_model = PatchCancellation
+    data_model = Cancellation
+
+    def validate_post_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "cancellation")
+
     # additionally to terminated
     cancellation_forbidden_statuses = {
         "active.auction",

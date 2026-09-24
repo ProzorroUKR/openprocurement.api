@@ -1,13 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_input_data
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults as AuctionLotResults
-from openprocurement.tender.core.procedure.models.auction import DecimalAuctionResults as AuctionResults
-from openprocurement.tender.core.procedure.validation import (
-    validate_active_lot,
-    validate_auction_tender_status,
-)
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTenderState
 
@@ -21,24 +13,3 @@ from openprocurement.tender.openeu.procedure.state.tender import BaseOpenEUTende
 )
 class EUTenderAuctionResource(TenderAuctionResource):
     state_class = BaseOpenEUTenderState
-
-    @json_view(
-        permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_input_data(AuctionResults),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_active_lot,
-            validate_input_data(AuctionLotResults),
-        ),
-    )
-    def post(self):
-        return super().post()

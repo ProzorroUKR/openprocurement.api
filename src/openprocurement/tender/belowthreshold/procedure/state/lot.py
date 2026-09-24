@@ -5,4 +5,5 @@ from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 
 
 class TenderLotState(LotStateMixin, BelowThresholdTenderDetailsState):
+    lot_operation_allowed_tender_statuses = ("active.enquiries", "draft")
     pass

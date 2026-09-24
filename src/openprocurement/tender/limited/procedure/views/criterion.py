@@ -1,17 +1,5 @@
-from typing import Optional
-
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.criterion import Criterion as LimitedCriterion
-from openprocurement.tender.core.procedure.models.criterion import PatchCriterion as PatchLimitedCriterion
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.state.criterion import LimitedCriterionState
@@ -26,29 +14,6 @@ from openprocurement.tender.limited.procedure.state.criterion import LimitedCrit
 )
 class ReportingCriterionResource(BaseCriterionResource):
     state_class = LimitedCriterionState
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(LimitedCriterion, allow_bulk=True),
-        ),
-        permission="create_criterion",
-    )
-    def collection_post(self) -> Optional[dict]:
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchLimitedCriterion),
-            validate_patch_data_simple(LimitedCriterion, "criterion"),
-        ),
-        permission="edit_criterion",
-    )
-    def patch(self) -> Optional[dict]:
-        return super().patch()
 
 
 @resource(

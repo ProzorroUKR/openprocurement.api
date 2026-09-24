@@ -22,6 +22,17 @@ from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.limited.constants import WORKING_DAYS_CONFIG
+from openprocurement.tender.limited.procedure.models.tender import (
+    NegotiationPatchTender,
+    NegotiationPostTender,
+    NegotiationQuickPatchTender,
+    NegotiationQuickPostTender,
+    NegotiationQuickTender,
+    NegotiationTender,
+    ReportingPatchTender,
+    ReportingPostTender,
+    ReportingTender,
+)
 from openprocurement.tender.limited.procedure.serializers.cause import (
     enrich_cause_details,
     get_cause_details_reference,
@@ -167,6 +178,10 @@ class CauseDetailsMixing:
 
 
 class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    post_data_model = ReportingPostTender
+    patch_data_model = ReportingPatchTender
+    data_model = ReportingTender
+    tender_patch_allowed_statuses = ("draft", "active")
     should_validate_status_change_with_lot_cancellation_pending = False
     should_validate_items_zero_quantity = False
     should_validate_guarantee_criterion = False
@@ -202,6 +217,10 @@ class ReportingTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Negot
 
 
 class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, NegotiationTenderState):
+    post_data_model = NegotiationPostTender
+    patch_data_model = NegotiationPatchTender
+    data_model = NegotiationTender
+    tender_patch_allowed_statuses = ("draft", "active")
     should_validate_status_change_with_lot_cancellation_pending = False
     should_validate_items_zero_quantity = False
     should_validate_guarantee_criterion = False
@@ -242,4 +261,7 @@ class NegotiationTenderDetailsState(CauseDetailsMixing, TenderDetailsMixing, Neg
 
 
 class NegotiationQuickTenderDetailsState(NegotiationTenderDetailsState):
+    post_data_model = NegotiationQuickPostTender
+    patch_data_model = NegotiationQuickPatchTender
+    data_model = NegotiationQuickTender
     working_days_config = WORKING_DAYS_CONFIG

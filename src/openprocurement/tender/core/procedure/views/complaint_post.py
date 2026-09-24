@@ -2,12 +2,9 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items
 from openprocurement.api.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.tender.core.procedure.models.complaint_post import CreateComplaintPost
 from openprocurement.tender.core.procedure.serializers.complaint_post import (
     ComplaintPostSerializer,
 )
@@ -15,10 +12,6 @@ from openprocurement.tender.core.procedure.state.complaint_post import (
     ComplaintPostState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    unless_reviewers,
-    validate_any,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
@@ -49,16 +42,7 @@ class BaseComplaintPostResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_complaint_post",
-        validators=(
-            unless_reviewers(
-                validate_any(
-                    validate_item_owner("complaint"),
-                    validate_item_owner("tender"),
-                )
-            ),
-            validate_input_data(CreateComplaintPost),
-            validate_data_documents(route_key="post_id", uid_key="id"),
-        ),
+        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         update_logging_context(self.request, {"post_id": "__new__"})

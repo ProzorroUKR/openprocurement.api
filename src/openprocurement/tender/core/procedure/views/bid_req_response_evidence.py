@@ -1,21 +1,11 @@
 from typing import Optional
 
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
 from openprocurement.tender.core.procedure.state.req_response_evidence import (
     BidReqResponseEvidenceState,
-)
-from openprocurement.tender.core.procedure.validation import (
-    unless_allowed_by_qualification_milestone_24,
-    validate_operation_ecriteria_objects_evidences,
-    validate_view_requirement_responses,
 )
 from openprocurement.tender.core.procedure.views.base_req_response_evidence import (
     BaseReqResponseEvidenceResource,
@@ -40,13 +30,7 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            unless_allowed_by_qualification_milestone_24(
-                validate_operation_ecriteria_objects_evidences,
-            ),
-            validate_input_data(Evidence),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_rr_evidence",
     )
     def collection_post(self) -> Optional[dict]:
@@ -54,40 +38,28 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
 
     @json_view(
         permission="view_tender",
-        validators=(validate_view_requirement_responses,),
+        validators=(validate_request_by_state,),
     )
     def collection_get(self) -> dict:
         return super().collection_get()
 
     @json_view(
         permission="view_tender",
-        validators=(validate_view_requirement_responses,),
+        validators=(validate_request_by_state,),
     )
     def get(self) -> dict:
         return super().get()
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            unless_allowed_by_qualification_milestone_24(
-                validate_operation_ecriteria_objects_evidences,
-            ),
-            validate_patch_input_data(PatchEvidence),
-            validate_patch_data_simple(Evidence, "evidence"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_rr_evidence",
     )
     def patch(self) -> Optional[dict]:
         return super().patch()
 
     @json_view(
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            unless_allowed_by_qualification_milestone_24(
-                validate_operation_ecriteria_objects_evidences,
-            ),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_rr_evidence",
     )
     def delete(self) -> Optional[dict]:

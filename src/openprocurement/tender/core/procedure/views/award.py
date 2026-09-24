@@ -4,7 +4,7 @@ from pyramid.security import Allow, Everyone
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.contracting import (
     create_contracting_contracts,
@@ -13,7 +13,6 @@ from openprocurement.tender.core.procedure.contracting import (
     save_contracting_contracts,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.award import PostAward
 from openprocurement.tender.core.procedure.serializers.award import AwardSerializer
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
@@ -61,7 +60,7 @@ class TenderAwardResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_award",  # admins only
-        validators=(validate_input_data(PostAward),),
+        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         update_logging_context(self.request, {"award_id": "__new__"})
@@ -114,6 +113,11 @@ class TenderAwardResource(TenderBaseResource):
         data = self.serializer_class(award, tender=tender).data
         return {"data": data}
 
+    @json_view(
+        content_type="application/json",
+        permission="edit_award",
+        validators=(validate_request_by_state,),
+    )
     def patch(self):
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]

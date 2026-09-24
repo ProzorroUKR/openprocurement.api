@@ -13,6 +13,13 @@ from openprocurement.tender.core.procedure.state.tender_details import (
 
 
 class BelowThresholdTenderDetailsMixing(TenderDetailsMixing):
+    tender_patch_allowed_statuses = (
+        "draft",
+        "active.enquiries",
+        "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+        "active.pre-qualification.stand-still",
+    )
+    tender_patch_allowed_statuses_for_funder = ("active.tendering",)
     should_validate_status_change_with_lot_cancellation_pending = False
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)

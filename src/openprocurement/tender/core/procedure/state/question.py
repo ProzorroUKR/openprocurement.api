@@ -5,12 +5,25 @@ from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.api.utils import raise_operation_error, request_fetch_agreement
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.question import PatchQuestion, PostQuestion, Question
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
 from openprocurement.tender.core.procedure.validation import validate_shortlisted_firms_author
 
 
 class TenderQuestionStateMixin:
+    post_data_model = PostQuestion
+    patch_data_model = PatchQuestion
+    data_model = Question
+
+    def validate_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "question")
+
     always: Callable  # method from TenderState
 
     question_create_accreditations: set = None  # formerly tender.edit_accreditations

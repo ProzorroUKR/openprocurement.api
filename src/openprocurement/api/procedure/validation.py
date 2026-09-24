@@ -127,16 +127,6 @@ def unless_bots(*validations):
     return decorated
 
 
-def unless_item_owner(*validations, item_name):
-    def decorated(request, **_):
-        item = request.validated[item_name]
-        if not is_item_owner(request, item):
-            for validation in validations:
-                validation(request)
-
-    return decorated
-
-
 def unless_bots_or_auction(*validations):
     def decorated(request, **_):
         if request.authenticated_role not in ("bots", "auction"):
@@ -265,6 +255,26 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
             kind = request.validated[source].get("procuringEntity", {}).get("kind")
             if kind == ProcuringEntityKind.CENTRAL:
                 validate_accreditation_level_base(request, kind_central_levels, item, operation)
+
+    return validate
+
+
+def validate_request_by_state(request, **_):
+    """
+    Delegates the request validation (access, availability of the operation, input parsing)
+    to the state class of the resource: state.validate_<http method>_request()
+    """
+    request.root.state.validate_request()
+
+
+def validate_request_by_state_for(resource):
+    """
+    The same for resources that share their state class with others (auction, chronograph):
+    state.validate_<resource>_<http method>_request()
+    """
+
+    def validate(request, **_):
+        request.root.state.validate_request(resource)
 
     return validate
 

@@ -4,6 +4,7 @@ from openprocurement.api.constants_env import CRITERION_REQUIREMENT_STATUSES_FRO
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsState,
 )
@@ -26,6 +27,15 @@ class LotStateMixin:
     validate_lot_value: Callable
     validate_lot_minimal_step: Callable
 
+    # --- request validation ---
+    post_data_model = PostLot
+    patch_data_model = PatchLot
+    data_model = Lot
+    # tender statuses in which lots can be added / updated / deleted
+    lot_operation_allowed_tender_statuses: tuple = ("active.tendering", "draft", "draft.stage2")
+    # competitiveDialogue stage 2: lots are copied from stage 1 and can't be changed
+    lot_operations_forbidden = False
+
     should_validate_lot_minimal_step = True
     # limited (negotiation): lots don't recalculate the tender values
     lot_updates_tender_values = True
@@ -34,6 +44,31 @@ class LotStateMixin:
     lots_max_count: int | None = None
     # limited (negotiation): lots can't be added/updated/deleted when the tender has awards
     lot_operations_forbidden_with_awards = False
+
+    def validate_post_request(self):
+        self.validate_lot_operation_allowed()
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        self.validate_lot_operation_allowed()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "lot")
+
+    def validate_delete_request(self):
+        self.validate_lot_operation_allowed()
+
+    def validate_lot_operation_allowed(self):
+        request = get_request()
+        if self.lot_operations_forbidden:
+            raise_operation_error(request, f"Can't {OPERATIONS.get(request.method)} lot for tender stage2")
+        if self.request.authenticated_role != "Administrator":
+            self.validate_item_owner("tender")
+        tender = get_tender()
+        if tender["status"] not in self.lot_operation_allowed_tender_statuses:
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} lot in current ({tender['status']}) tender status",
+            )
 
     def validate_lot_post(self, lot) -> None:
         request, tender = get_request(), get_tender()

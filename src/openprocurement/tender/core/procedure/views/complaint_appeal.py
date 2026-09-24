@@ -1,13 +1,8 @@
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.tender.core.procedure.models.complaint_appeal import Appeal, PatchAppeal, PostAppeal
 from openprocurement.tender.core.procedure.serializers.complaint_appeal import (
     ComplaintAppealSerializer,
 )
@@ -15,7 +10,6 @@ from openprocurement.tender.core.procedure.state.complaint_appeal import (
     ComplaintAppealState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import validate_any
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseComplaintResource,
     resolve_complaint,
@@ -38,14 +32,7 @@ class BaseComplaintAppealResource(BaseComplaintResource):
     @json_view(
         content_type="application/json",
         permission="edit_complaint",
-        validators=(
-            validate_any(
-                validate_item_owner("complaint"),
-                validate_item_owner("tender"),
-            ),
-            validate_input_data(PostAppeal),
-            validate_data_documents(route_key="appeal_id", uid_key="id"),
-        ),
+        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         update_logging_context(self.request, {"appeal_id": "__new__"})
@@ -101,14 +88,7 @@ class BaseComplaintAppealResource(BaseComplaintResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_any(
-                validate_item_owner("tender"),
-                validate_item_owner("complaint"),
-            ),
-            validate_patch_input_data(PatchAppeal),
-            validate_patch_data(Appeal, item_name="appeal"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_complaint",
     )
     def patch(self):

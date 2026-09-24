@@ -5,5 +5,6 @@ from openprocurement.tender.requestforproposal.procedure.state.tender import (
 
 
 class RequestForProposalAwardClaimState(AwardClaimStateMixin, RequestForProposalTenderState):
+    complaint_post_bid_owner_statuses = ("active", "unsuccessful")
     should_validate_is_satisfied = False
     claim_submit_validation = False

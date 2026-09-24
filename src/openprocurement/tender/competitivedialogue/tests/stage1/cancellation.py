@@ -72,7 +72,10 @@ class CompetitiveDialogUACancellationComplaintResourceTest(
     initial_bids = test_tender_cd_stage1_bids
     test_bids_data = test_tender_cd_stage1_bids
 
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19",
+        get_now() - timedelta(days=1),
+    )
     def setUp(self):
         super().setUp()
 

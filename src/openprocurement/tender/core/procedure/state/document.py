@@ -1,4 +1,6 @@
+from openprocurement.api.procedure.models.document import ConfidentialityType
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.validation import (
     validate_edrpou_confidentiality_doc,
@@ -6,6 +8,71 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BaseDocumentStateMixing:
+    # --- request validation ---
+    post_data_model = PostDocument
+    patch_data_model = PatchDocument
+    data_model = Document
+    # the object whose owner may change the documents (request.validated key)
+    document_owner_item_name = "tender"
+    # roles that may add / update the documents without being the owner
+    document_post_owner_exempt_roles: tuple = ()
+    document_update_owner_exempt_roles: tuple = ()
+
+    def validate_get_request(self):
+        self.validate_document_view_allowed()
+        self.validate_document_download_allowed()
+
+    def validate_post_request(self):
+        self.validate_document_owner(self.document_post_owner_exempt_roles)
+        self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
+        self.validate_document_operation_allowed()
+
+    def validate_put_request(self):
+        self.validate_document_owner(self.document_update_owner_exempt_roles)
+        self.validate_input_data(self.get_post_data_model())
+        self.update_doc_fields_on_put_document()
+        self.validate_document_operation_allowed()
+        self.validate_document_author_allowed()
+        self.validate_upload_document()
+        self.validate_data_model(self.get_data_model())
+
+    def validate_patch_request(self):
+        self.validate_document_owner(self.document_update_owner_exempt_roles)
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), "document")
+        self.validate_document_operation_allowed()
+        self.validate_document_author_allowed()
+
+    def validate_delete_request(self):
+        self.validate_document_owner(())
+        self.validate_document_author_allowed()
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_item_owner(self.document_owner_item_name)
+
+    def validate_document_view_allowed(self):
+        pass
+
+    def validate_document_operation_allowed(self):
+        """Availability of the add / update operation: statuses of the tender and of the parent object"""
+
+    def validate_document_author_allowed(self):
+        """Only the author may update the document (tender / award documents)"""
+
+    def validate_document_download_allowed(self):
+        request = self.request
+        if not request.params.get("download") or "document" not in request.validated:
+            return
+        document = request.validated["document"]
+        if (
+            document.get("confidentiality", "") == ConfidentialityType.BUYER_ONLY
+            and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
+            and not ("bid" in request.validated and self.is_item_owner("bid"))
+            and not self.is_item_owner("tender")
+        ):
+            raise_operation_error(request, "Document download forbidden.")
+
     check_edrpou_confidentiality = True
     all_documents_should_be_public = False
     allow_deletion = False

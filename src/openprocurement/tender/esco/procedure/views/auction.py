@@ -1,13 +1,7 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_input_data
+from openprocurement.api.procedure.validation import validate_request_by_state_for
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.validation import (
-    validate_active_lot,
-    validate_auction_tender_status,
-)
-from openprocurement.tender.esco.procedure.models.auction import ESCOAuctionLotResults as AuctionLotResults
-from openprocurement.tender.esco.procedure.models.auction import ESCOAuctionResults as AuctionResults
 from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue
 from openprocurement.tender.esco.procedure.serializers.auction import AuctionSerializer
 from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
@@ -27,10 +21,7 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_input_data(AuctionResults),
-        ),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_post(self):
         # for esco we also calculate and update amountPerformance and amount
@@ -44,11 +35,7 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_active_lot,
-            validate_input_data(AuctionLotResults),
-        ),
+        validators=(validate_request_by_state_for("auction"),),
     )
     def post(self):
         bid_values = {

@@ -5,6 +5,7 @@ from decimal import Decimal
 from schematics.exceptions import ValidationError
 from schematics.types import BaseType
 
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import (
     BID_ITEMS_PRODUCT_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
@@ -23,11 +24,19 @@ from openprocurement.api.utils import (
     raise_operation_error,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.registry import get_procedure_models
+from openprocurement.tender.core.procedure.models.bid import (
+    AdministratorPatchBid,
+    Bid,
+    PatchBid,
+    PatchQualificationBid,
+    PostBid,
+)
 from openprocurement.tender.core.procedure.utils import (
     equals_decimal_and_corrupted,
     get_supplier_contract,
     is_bid_items_required,
+    prepare_shortlisted_firms_bid_keys,
+    prepare_shortlisted_firms_keys,
     tender_created_after,
     tender_created_before,
     validate_allowed_field_change_in_list,
@@ -48,6 +57,21 @@ logger = logging.getLogger(__name__)
 
 
 class BidState(BaseState):
+    # --- request validation ---
+    post_data_model = PostBid
+    patch_data_model = PatchBid
+    patch_qualification_data_model = PatchQualificationBid
+    patch_administrator_data_model = AdministratorPatchBid
+    data_model = Bid
+    bid_create_accreditations: tuple = (AccreditationLevel.ACCR_4,)
+    # bids can't be viewed in these tender statuses (None = active.tendering, and active.auction for
+    # procedures without pre-qualification); cfaselectionua: active.tendering only
+    bid_view_forbidden_tender_statuses: tuple | None = None
+    # a bid in the legacy "deleted" status can't be updated (belowThreshold / requestForProposal: not checked)
+    bid_patch_deleted_check = True
+    # competitiveDialogue stage 2: only shortlisted firms may create bids
+    bid_post_shortlisted_firms_check = False
+
     items_unit_value_required_for_funders = False
     items_product_required = False
     qualification_statuses = ("active.qualification", "active.pre-qualification")
@@ -142,13 +166,109 @@ class BidState(BaseState):
         super().on_patch(before, after)
 
     def get_patch_data_model(self):
-        tender = self.request.validated["tender"]
-        models = get_procedure_models(tender["procurementMethodType"])
         if self.request.authenticated_role == "Administrator":
-            return models.bid_patch_administrator
-        if tender.get("status", "") in self.qualification_statuses:
-            return models.bid_patch_qualification
-        return models.bid_patch
+            return self.patch_administrator_data_model
+        if get_tender().get("status", "") in self.qualification_statuses:
+            return self.patch_qualification_data_model
+        return self.patch_data_model
+
+    def validate_get_request(self):
+        if "bid" in self.request.validated and self.is_item_owner("bid"):
+            return
+        self.validate_bid_view_allowed()
+
+    def validate_post_request(self):
+        self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
+        self.validate_bid_operation_allowed()
+        self.validate_input_data(self.get_post_data_model())
+        if self.bid_post_shortlisted_firms_check:
+            self.validate_shortlisted_firms_bid(self.request.validated["data"])
+        self.validate_data_documents(route_key="bid_id", uid_key="id")
+
+    def validate_patch_request(self):
+        if self.request.authenticated_role != "Administrator":
+            self.validate_item_owner("bid")
+        if self.bid_patch_deleted_check:
+            self.validate_bid_not_deleted()
+        if not self.bid_allowed_by_qualification_milestone_24():
+            self.validate_bid_operation_allowed()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "bid")
+
+    def validate_delete_request(self):
+        if self.request.authenticated_role != "Administrator":
+            self.validate_item_owner("bid")
+        self.validate_bid_operation_allowed()
+
+    def validate_bid_view_allowed(self):
+        tender = get_tender()
+        forbidden_tender_statuses = self.bid_view_forbidden_tender_statuses
+        if forbidden_tender_statuses is None:
+            if tender["config"].get("hasPrequalification"):
+                forbidden_tender_statuses = ("active.tendering",)
+            else:
+                forbidden_tender_statuses = ("active.tendering", "active.auction")
+        if tender["status"] in forbidden_tender_statuses:
+            raise_operation_error(
+                self.request,
+                "Can't view {} in current ({}) tender status".format(
+                    "bid" if self.request.matchdict.get("bid_id") else "bids", tender["status"]
+                ),
+            )
+
+    def validate_bid_operation_allowed(self):
+        """The bid can be added / updated / deleted only in active.tendering and during the tenderPeriod"""
+        request = self.request
+        tender = get_tender()
+        if request.method in ("PUT", "PATCH"):
+            operation, operation_done = "update", "updated"
+        elif request.method == "POST":
+            operation, operation_done = "add", "added"
+        else:
+            operation, operation_done = "delete", "deleted"
+        if tender["status"] != "active.tendering":
+            raise_operation_error(request, f"Can't {operation} bid in current ({tender['status']}) tender status")
+        tender_period = tender.get("tenderPeriod", {})
+        now = get_request_now().isoformat()
+        if (
+            tender_period.get("startDate")
+            and now < tender_period.get("startDate")
+            or now > tender_period.get("endDate", "")  # TODO: may "endDate" be missed ?
+        ):
+            raise_operation_error(
+                request,
+                "Bid can be {} only during the tendering period: from ({}) to ({}).".format(
+                    operation_done,
+                    tender_period.get("startDate"),
+                    tender_period.get("endDate"),
+                ),
+            )
+
+    def validate_bid_not_deleted(self):
+        if self.request.validated["bid"]["status"] == "deleted":
+            raise_operation_error(self.request, "Can't update bid in (deleted) status")
+
+    def bid_allowed_by_qualification_milestone_24(self):
+        """An active 24 hours milestone of the pending award / qualification of the bid allows to update the bid"""
+        now = get_request_now().isoformat()
+        tender = get_tender()
+        bid_id = self.request.validated["bid"]["id"]
+        if "qualifications" in tender:  # for procedures with pre-qualification
+            qualifications = [q for q in tender["qualifications"] if q["status"] == "pending" and q["bidID"] == bid_id]
+        else:
+            qualifications = [q for q in tender.get("awards", "") if q["status"] == "pending" and q["bid_id"] == bid_id]
+        for q in qualifications:
+            for milestone in q.get("milestones", ""):
+                if milestone["code"] == "24h" and milestone["date"] <= now <= milestone["dueDate"]:
+                    return True
+        return False
+
+    def validate_shortlisted_firms_bid(self, bid):
+        tender = get_tender()
+        firm_keys = prepare_shortlisted_firms_keys(tender.get("shortlistedFirms") or "")
+        bid_keys = prepare_shortlisted_firms_bid_keys(bid)
+        if not (bid_keys <= firm_keys):
+            raise_operation_error(self.request, "Firm can't create bid")
 
     def validate_bid_value_on_patch(self, data):
         if not self.bid_value_validation_on_patch:

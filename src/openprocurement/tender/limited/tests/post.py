@@ -99,14 +99,16 @@ class TenderNegotiationQuickAwardComplaintPostResourceTest(TenderNegotiationAwar
     initial_config = test_tender_negotiation_quick_config
 
 
-@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+@patch("openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderNegotiationCancellationComplaintPostResourceTest(
     BaseTenderContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
     initial_data = test_tender_negotiation_data
     initial_config = test_tender_negotiation_config
 
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+    @patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19", date_after_2020_04_19
+    )
     def setUp(self):
         super().setUp()
         # Create award

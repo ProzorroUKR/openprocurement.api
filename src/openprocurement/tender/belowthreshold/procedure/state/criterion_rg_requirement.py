@@ -10,6 +10,7 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
 
 
 class BelowThresholdRequirementValidationsMixin:
+    requirement_models_by_classification = False
     requirement_change_valid_statuses = ("draft",)
     requirement_change_legacy_status = "active.enquiries"
 

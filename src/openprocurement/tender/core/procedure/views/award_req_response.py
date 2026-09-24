@@ -1,19 +1,11 @@
 from typing import Optional
 
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.req_response import PatchRequirementResponse, RequirementResponse
 from openprocurement.tender.core.procedure.state.req_response import (
     AwardReqResponseState,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_operation_award_requirement_response,
 )
 from openprocurement.tender.core.procedure.views.award import resolve_award
 from openprocurement.tender.core.procedure.views.base_req_response import (
@@ -34,11 +26,7 @@ class AwardReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_operation_award_requirement_response,
-            validate_input_data(RequirementResponse, allow_bulk=True),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_req_response",
     )
     def collection_post(self) -> Optional[dict]:
@@ -54,22 +42,14 @@ class AwardReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_operation_award_requirement_response,
-            validate_patch_input_data(PatchRequirementResponse),
-            validate_patch_data_simple(RequirementResponse, "requirement_response"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_req_response",
     )
     def patch(self) -> Optional[dict]:
         return super().patch()
 
     @json_view(
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_award_requirement_response,
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_req_response",
     )
     def delete(self) -> Optional[dict]:

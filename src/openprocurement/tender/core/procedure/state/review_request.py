@@ -4,10 +4,27 @@ from pyramid.request import Request
 
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.models.review_request import (
+    PatchInspectorReviewRequest,
+    PostInspectorReview,
+    ReviewRequest,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class ReviewRequestStateMixin:
+    post_data_model = PostInspectorReview
+    patch_data_model = PatchInspectorReviewRequest
+    data_model = ReviewRequest
+
+    def validate_post_request(self):
+        self.validate_item_owner("tender")
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "review_request")
+
     request: Request
 
     review_request_tender_statuses = (

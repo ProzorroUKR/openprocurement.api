@@ -23,6 +23,7 @@ from openprocurement.api.constants import (
     WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
+    BELOWTHRESHOLD_FUNDERS_IDS,
     CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM,
     CRITERIA_CLASSIFICATION_UNIQ_FROM,
     CRITERION_REQUIREMENT_STATUSES_FROM,
@@ -81,7 +82,7 @@ from openprocurement.tender.core.constants import (
     ReqStatuses,
 )
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.tender import PatchTender
+from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,
     MainProcurementCategory,
@@ -237,6 +238,25 @@ class TenderConfigMixin(ConfigMixin):
 
 
 class BaseTenderDetailsMixing:
+    # --- request validation (see validate_post_request / validate_patch_request) ---
+    post_data_model = PostTender
+    patch_data_model = PatchTender
+    data_model = Tender
+    # config used when the request has no "config" (competitiveDialogue stage 2)
+    tender_config_default: dict | None = None
+    # competitiveDialogue stage 2 tenders are created by the system, the broker accreditation isn't checked
+    tender_create_accreditation_check = True
+    # roles that may patch the tender without being its owner
+    tender_patch_owner_check_exempt_roles: tuple = ("Administrator",)
+    # tender statuses in which the tender can be patched (Administrator isn't limited)
+    tender_patch_allowed_statuses: tuple = (
+        "draft",
+        "active.tendering",
+        "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
+        "active.pre-qualification.stand-still",
+    )
+    # belowThreshold: tenders of BELOWTHRESHOLD_FUNDERS_IDS can also be patched in these statuses
+    tender_patch_allowed_statuses_for_funder: tuple = ()
     """
     describes business logic rules for tender owners
     when they prepare tender for tendering stage
@@ -350,7 +370,37 @@ class BaseTenderDetailsMixing:
 
     def get_patch_data_model(self):
         models = self.tender_patch_models_by_status or {}
-        return models.get(self.request.validated["tender"].get("status", ""), PatchTender)
+        return models.get(self.request.validated["tender"].get("status", ""), self.patch_data_model)
+
+    def validate_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_config_data(self.tender_config_default)
+        if self.tender_create_accreditation_check:
+            self.validate_accreditation_level(
+                levels=self.tender_create_accreditations,
+                kind_central_levels=self.tender_central_accreditations,
+                item="tender",
+                operation="creation",
+                source="data",
+            )
+        self.validate_data_documents()
+
+    def validate_patch_request(self):
+        role = self.request.authenticated_role
+        if role not in self.tender_patch_owner_check_exempt_roles:
+            self.validate_item_owner("tender")
+        if role != "Administrator":
+            self.validate_tender_patch_allowed()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "tender")
+
+    def validate_tender_patch_allowed(self):
+        tender = get_tender()
+        allowed_statuses = self.tender_patch_allowed_statuses
+        if tender.get("_id") in BELOWTHRESHOLD_FUNDERS_IDS:
+            allowed_statuses += self.tender_patch_allowed_statuses_for_funder
+        if tender["status"] not in allowed_statuses:
+            raise_operation_error(self.request, f"Can't update tender in current ({tender['status']}) status")
 
     def validate_tender_patch(self, before, after):
         self.validate_status_change_with_lot_cancellation_pending(before, after)

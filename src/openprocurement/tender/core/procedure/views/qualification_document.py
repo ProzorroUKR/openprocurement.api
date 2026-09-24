@@ -1,25 +1,14 @@
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.procedure.validation import (
-    unless_bots,
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-    validate_upload_document,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.state.qualification_document import (
     QualificationDocumentState,
 )
 from openprocurement.tender.core.procedure.validation import (
     get_qualification_document_role,
-    validate_qualification_document_operation_not_in_allowed_status,
-    validate_qualification_document_operation_not_in_pending,
-    validate_qualification_update_with_cancellation_lot_pending,
 )
 from openprocurement.tender.core.procedure.views.document import (
     BaseDocumentResource,
@@ -56,29 +45,14 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
         return doc
 
     @json_view(
-        validators=(
-            unless_bots(validate_item_owner("tender")),
-            validate_input_data(PostDocument, allow_bulk=True),
-            validate_qualification_update_with_cancellation_lot_pending,
-            validate_qualification_document_operation_not_in_allowed_status,
-            validate_qualification_document_operation_not_in_pending,
-        ),
+        validators=(validate_request_by_state,),
         permission="upload_qualification_documents",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(
-            unless_bots(validate_item_owner("tender")),
-            validate_input_data(PostDocument),
-            validate_qualification_update_with_cancellation_lot_pending,
-            validate_qualification_document_operation_not_in_allowed_status,
-            validate_qualification_document_operation_not_in_pending,
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_qualification_documents",
     )
     def put(self):
@@ -86,14 +60,7 @@ class BaseQualificationDocumentResource(BaseDocumentResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_bots(validate_item_owner("tender")),
-            validate_patch_input_data(PatchDocument),
-            validate_patch_data(Document, item_name="document"),
-            validate_qualification_update_with_cancellation_lot_pending,
-            validate_qualification_document_operation_not_in_allowed_status,
-            validate_qualification_document_operation_not_in_pending,
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_qualification_documents",
     )
     def patch(self):

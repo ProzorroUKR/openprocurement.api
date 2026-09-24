@@ -1,19 +1,11 @@
 from typing import Optional
 
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
 from openprocurement.tender.core.procedure.state.req_response_evidence import (
     AwardReqResponseEvidenceState,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_operation_award_requirement_response,
 )
 from openprocurement.tender.core.procedure.views.award_req_response import (
     resolve_award,
@@ -38,11 +30,7 @@ class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_award_requirement_response,
-            validate_input_data(Evidence),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_rr_evidence",
     )
     def collection_post(self) -> Optional[dict]:
@@ -58,22 +46,14 @@ class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_award_requirement_response,
-            validate_patch_input_data(PatchEvidence),
-            validate_patch_data_simple(Evidence, "evidence"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_rr_evidence",
     )
     def patch(self) -> Optional[dict]:
         return super().patch()
 
     @json_view(
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_award_requirement_response,
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_rr_evidence",
     )
     def delete(self) -> Optional[dict]:

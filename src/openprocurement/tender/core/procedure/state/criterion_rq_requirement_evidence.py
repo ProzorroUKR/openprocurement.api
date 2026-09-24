@@ -1,5 +1,6 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
 from openprocurement.tender.core.procedure.state.criterion_rg_requirement import (
     BaseCriterionStateMixin,
     RequirementValidationsMixin,
@@ -10,6 +11,22 @@ from openprocurement.tender.core.procedure.validation import validate_object_id_
 
 
 class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin):
+    post_data_model = EligibleEvidence
+    patch_data_model = PatchEligibleEvidence
+    data_model = EligibleEvidence
+
+    def validate_post_request(self):
+        self.validate_criterion_owner()
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        self.validate_criterion_owner()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "evidence")
+
+    def validate_delete_request(self):
+        self.validate_criterion_owner()
+
     # pq: the tender status is checked on every evidence change
     evidence_status_check_always = False
 

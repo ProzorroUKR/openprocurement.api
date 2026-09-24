@@ -17,6 +17,7 @@ from openprocurement.tender.core.procedure.contracting import (
     append_contracts_added,
     append_contracts_cancelled,
 )
+from openprocurement.tender.core.procedure.models.chronograph import TenderChronographData
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
@@ -53,6 +54,11 @@ class IgnoredClaimMixing:
 
 
 class ChronographEventsMixing:
+    chronograph_patch_data_model = TenderChronographData
+
+    def validate_chronograph_patch_request(self):
+        self.validate_patch_input_data(self.chronograph_patch_data_model)
+
     # --- mainstream procedure differences (chronograph events and handlers) ---
     # bt/rfp: complaints are claims — answered/pending claims are resolved by the chronograph,
     # claims of completed lots/tenders are ignored, and the tendering end doesn't wait for unanswered complaints/questions

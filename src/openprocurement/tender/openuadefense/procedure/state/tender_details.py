@@ -29,5 +29,6 @@ class DefenseTenderDetailsState(OpenUATenderDetailsState):
 
 
 class AboveThresholdUADefenseTenderDetailsState(DefenseTenderDetailsState):
+    tender_patch_allowed_statuses = ("draft", "active.tendering", "active.pre-qualification")
     should_validate_guarantee_criterion = False
     should_validate_related_lot_in_items = False

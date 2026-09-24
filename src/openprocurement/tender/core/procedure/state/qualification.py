@@ -4,6 +4,7 @@ from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FRO
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.validation import (
     validate_req_response_values,
@@ -13,6 +14,15 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationState(TenderState):
+    patch_data_model = PatchQualification
+    data_model = Qualification
+
+    def validate_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), "qualification")
+
     def set_bid_status(self, bid_id, status, lot_id=None):
         tender = get_tender()
         if lot_id:

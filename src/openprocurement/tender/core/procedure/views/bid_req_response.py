@@ -1,20 +1,10 @@
 from typing import Optional
 
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.req_response import PatchRequirementResponse, RequirementResponse
 from openprocurement.tender.core.procedure.state.req_response import BidReqResponseState
-from openprocurement.tender.core.procedure.validation import (
-    unless_allowed_by_qualification_milestone_24,
-    validate_operation_ecriteria_on_tender_status,
-    validate_view_requirement_responses,
-)
 from openprocurement.tender.core.procedure.views.base_req_response import (
     BaseReqResponseResource,
     resolve_req_response,
@@ -34,13 +24,7 @@ class BidReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            unless_allowed_by_qualification_milestone_24(
-                validate_operation_ecriteria_on_tender_status,
-            ),
-            validate_input_data(RequirementResponse, allow_bulk=True),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_req_response",
     )
     def collection_post(self) -> Optional[dict]:
@@ -48,40 +32,28 @@ class BidReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         permission="view_tender",
-        validators=(validate_view_requirement_responses,),
+        validators=(validate_request_by_state,),
     )
     def collection_get(self) -> dict:
         return super().collection_get()
 
     @json_view(
         permission="view_tender",
-        validators=(validate_view_requirement_responses,),
+        validators=(validate_request_by_state,),
     )
     def get(self) -> dict:
         return super().get()
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            unless_allowed_by_qualification_milestone_24(
-                validate_operation_ecriteria_on_tender_status,
-            ),
-            validate_patch_input_data(PatchRequirementResponse),
-            validate_patch_data_simple(RequirementResponse, "requirement_response"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_req_response",
     )
     def patch(self) -> Optional[dict]:
         return super().patch()
 
     @json_view(
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            unless_allowed_by_qualification_milestone_24(
-                validate_operation_ecriteria_on_tender_status,
-            ),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_req_response",
     )
     def delete(self) -> Optional[dict]:

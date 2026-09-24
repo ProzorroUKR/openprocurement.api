@@ -3,6 +3,8 @@ from schematics.exceptions import ValidationError
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.constants import ReqStatuses
 from openprocurement.tender.core.procedure.models.criterion import (
+    PatchRequirementGroup,
+    RequirementGroup,
     validate_criteria_requirement_uniq,
     validate_requirement_eligibleEvidences,
 )
@@ -15,6 +17,19 @@ from openprocurement.tender.core.procedure.validation import validate_object_id_
 
 
 class RequirementGroupStateMixin(BaseCriterionStateMixin):
+    post_data_model = RequirementGroup
+    patch_data_model = PatchRequirementGroup
+    data_model = RequirementGroup
+
+    def validate_post_request(self):
+        self.validate_criterion_owner()
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_patch_request(self):
+        self.validate_criterion_owner()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "requirement_group")
+
     def requirement_group_on_post(self, data: dict) -> None:
         self.validate_on_post(data)
         self.requirement_group_always(data)

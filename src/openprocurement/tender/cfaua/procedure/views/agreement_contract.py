@@ -3,15 +3,9 @@ from cornice.resource import resource
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.cfaua.procedure.models.agreement_contract import CFAAgreementContract as AgreementContract
-from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
-    CFAPatchAgreementContract as PatchAgreementContract,
-)
 from openprocurement.tender.cfaua.procedure.state.agreement_contract import (
     AgreementContractState,
 )
@@ -63,11 +57,7 @@ class CFAUAAgreementContractResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_tender",
-        validators=(
-            validate_item_owner("tender"),
-            validate_patch_input_data(PatchAgreementContract),
-            validate_patch_data_simple(AgreementContract, item_name="contract"),
-        ),
+        validators=(validate_request_by_state,),
     )
     def patch(self):
         updated = self.request.validated["data"]

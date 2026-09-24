@@ -2,14 +2,9 @@ from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.procedure.validation import (
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaselectionua.procedure.models.agreement import CFASelectionAgreement
-from openprocurement.tender.cfaselectionua.procedure.models.agreement import (
-    CFASelectionPatchAgreement as PatchAgreement,
-)
 from openprocurement.tender.cfaselectionua.procedure.state.agreement import (
     AgreementState,
 )
@@ -38,10 +33,7 @@ class CFASelectionTenderAgreementResource(TenderAgreementResource):
     @json_view(
         content_type="application/json",
         permission="edit_agreement_selection",  # brokers
-        validators=(
-            validate_patch_input_data(PatchAgreement),
-            validate_patch_data_simple(CFASelectionAgreement, item_name="agreement"),
-        ),
+        validators=(validate_request_by_state,),
     )
     def patch(self):
         return super().patch()

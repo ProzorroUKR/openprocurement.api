@@ -88,7 +88,10 @@ class TenderCancellationComplaintResourceTest(BaseTenderContentWebTest, TenderCa
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "active.tendering"
 
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19",
+        get_now() - timedelta(days=1),
+    )
     def setUp(self):
         super().setUp()
         self.set_complaint_period_end()

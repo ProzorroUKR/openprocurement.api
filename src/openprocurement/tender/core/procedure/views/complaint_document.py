@@ -1,28 +1,11 @@
 from pyramid.security import Allow, Everyone
 
 from openprocurement.api.procedure.validation import (
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-    validate_upload_document,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import (
-    Document,
-    PatchComplaintDocument,
-    PostComplaintDocument,
-)
 from openprocurement.tender.core.procedure.state.complaint_document import (
     ComplaintDocumentState,
-)
-from openprocurement.tender.core.procedure.validation import (
-    unless_reviewers,
-    validate_any,
-    validate_download_tender_document,
 )
 from openprocurement.tender.core.procedure.views.complaint import resolve_complaint
 from openprocurement.tender.core.procedure.views.document import (
@@ -55,62 +38,28 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
         return super().collection_get()
 
     @json_view(
-        validators=(validate_download_tender_document,),
+        validators=(validate_request_by_state,),
         permission="view_tender",
     )
     def get(self):
         return super().get()
 
     @json_view(
-        validators=(
-            unless_admins(
-                unless_reviewers(
-                    validate_any(
-                        validate_item_owner("complaint"),
-                        validate_item_owner("tender"),
-                    )
-                ),
-            ),
-            validate_input_data(PostComplaintDocument, allow_bulk=True),
-        ),
+        validators=(validate_request_by_state,),
         permission="upload_complaint_documents",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(
-            unless_admins(
-                unless_reviewers(
-                    validate_any(
-                        validate_item_owner("complaint"),
-                        validate_item_owner("tender"),
-                    )
-                ),
-            ),
-            validate_input_data(PostComplaintDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
+        validators=(validate_request_by_state,),
         permission="upload_complaint_documents",
     )
     def put(self):
         return super().put()
 
     @json_view(
-        validators=(
-            unless_admins(
-                unless_reviewers(
-                    validate_any(
-                        validate_item_owner("complaint"),
-                        validate_item_owner("tender"),
-                    )
-                ),
-            ),
-            validate_patch_input_data(PatchComplaintDocument),
-            validate_patch_data(Document, item_name="document"),
-        ),
+        validators=(validate_request_by_state,),
         permission="upload_complaint_documents",
     )
     def patch(self):

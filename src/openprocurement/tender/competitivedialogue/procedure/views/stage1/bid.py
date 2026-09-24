@@ -2,26 +2,8 @@ from logging import getLogger
 
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data_from_resolved_model,
-)
-from openprocurement.api.utils import json_view
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.bid import CDBid, CDPostBid
 from openprocurement.tender.competitivedialogue.procedure.state.bid import CDBidState
-from openprocurement.tender.core.procedure.validation import (
-    unless_allowed_by_qualification_milestone_24,
-    validate_bid_operation_not_in_tendering,
-    validate_bid_operation_period,
-    validate_update_deleted_bid,
-)
 from openprocurement.tender.openeu.procedure.views.bid import OpenEUTenderBidResource
 
 LOGGER = getLogger(__name__)
@@ -37,41 +19,6 @@ LOGGER = getLogger(__name__)
 class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
     state_class = CDBidState
 
-    @json_view(
-        content_type="application/json",
-        permission="create_bid",
-        validators=(
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_4,),
-                item="bid",
-                operation="creation",
-            ),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
-            validate_input_data(CDPostBid),
-            validate_data_documents(route_key="bid_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_bid",
-        validators=(
-            unless_allowed_by_qualification_milestone_24(
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-            ),
-            unless_administrator(validate_item_owner("bid")),
-            validate_update_deleted_bid,
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data_simple(CDBid, item_name="bid"),
-        ),
-    )
-    def patch(self):
-        return super().patch()
-
 
 @resource(
     name="{}:Tender Bids".format(CD_EU_TYPE),
@@ -82,38 +29,3 @@ class CompetitiveDialogueUABidResource(OpenEUTenderBidResource):
 )
 class CompetitiveDialogueEUBidResource(OpenEUTenderBidResource):
     state_class = CDBidState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_bid",
-        validators=(
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_4,),
-                item="bid",
-                operation="creation",
-            ),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
-            validate_input_data(CDPostBid),
-            validate_data_documents(route_key="bid_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_bid",
-        validators=(
-            unless_allowed_by_qualification_milestone_24(
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-            ),
-            unless_administrator(validate_item_owner("bid")),
-            validate_update_deleted_bid,
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data_simple(CDBid, item_name="bid"),
-        ),
-    )
-    def patch(self):
-        return super().patch()

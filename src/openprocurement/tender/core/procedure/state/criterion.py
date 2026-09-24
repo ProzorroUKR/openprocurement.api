@@ -8,7 +8,11 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
 )
-from openprocurement.tender.core.procedure.models.criterion import validate_criteria_requirement_uniq
+from openprocurement.tender.core.procedure.models.criterion import (
+    Criterion,
+    PatchCriterion,
+    validate_criteria_requirement_uniq,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 from openprocurement.tender.core.procedure.validation import (
@@ -19,6 +23,13 @@ from openprocurement.tender.core.procedure.validation import (
 
 
 class BaseCriterionStateMixin:
+    # roles that may change the criteria without being the tender owner (competitiveDialogue stage 2: + admins)
+    criterion_owner_exempt_roles: tuple = ("Administrator",)
+
+    def validate_criterion_owner(self):
+        if self.request.authenticated_role not in self.criterion_owner_exempt_roles:
+            self.validate_item_owner("tender")
+
     request: Request
 
     tender_valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
@@ -70,6 +81,24 @@ class BaseCriterionStateMixin:
 
 
 class CriterionStateMixin(BaseCriterionStateMixin):
+    post_data_model = Criterion
+    patch_data_model = PatchCriterion
+    data_model = Criterion
+
+    def validate_post_request(self):
+        self.validate_criterion_owner()
+        self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
+
+    def validate_patch_request(self):
+        self.validate_criterion_owner()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "criterion")
+
+    def validate_delete_request(self):
+        self.validate_criterion_owner()
+        if get_tender()["status"] not in ("draft", "draft.stage2"):
+            raise_operation_error(self.request, "Only allowed in draft tender status")
+
     # allowed `source` values (None = any value allowed by the model)
     criterion_source_choices: tuple | None = None
     # bt/rfp: exclusion criteria may be patched

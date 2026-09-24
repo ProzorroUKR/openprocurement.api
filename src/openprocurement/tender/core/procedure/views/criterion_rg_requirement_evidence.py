@@ -6,14 +6,9 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
+    validate_request_by_state,
 )
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_evidence import (
     EligibleEvidenceSerializer,
 )
@@ -68,10 +63,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(EligibleEvidence),
-        ),
+        validators=(validate_request_by_state,),
         permission="create_evidence",
     )
     def collection_post(self) -> Optional[dict]:
@@ -120,11 +112,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchEligibleEvidence),
-            validate_patch_data_simple(EligibleEvidence, "evidence"),
-        ),
+        validators=(validate_request_by_state,),
         permission="edit_evidence",
     )
     def patch(self) -> Optional[dict]:
@@ -147,7 +135,7 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
             return {"data": self.serializer_class(updated_evidence).data}
 
     @json_view(
-        validators=(unless_administrator(validate_item_owner("tender"))),
+        validators=(validate_request_by_state,),
         permission="edit_evidence",
     )
     def delete(self):

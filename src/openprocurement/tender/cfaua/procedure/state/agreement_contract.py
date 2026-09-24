@@ -2,11 +2,23 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.cfaua.procedure.models.agreement_contract import (
+    CFAAgreementContract,
+    CFAPatchAgreementContract,
+)
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class AgreementContractStateMixing:
+    patch_data_model = CFAPatchAgreementContract
+    data_model = CFAAgreementContract
+
+    def validate_patch_request(self):
+        self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "contract")
+
     def agreement_contract_on_patch(self, before, after):
         if before["status"] != after["status"]:
             self.agreement_contract_status_up(before["status"], after["status"], after)
