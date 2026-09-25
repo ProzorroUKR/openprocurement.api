@@ -5,9 +5,6 @@ from cornice.resource import resource
 from schematics.exceptions import ModelValidationError, ValidationError
 
 from openprocurement.api.database import atomic_transaction
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import error_handler, handle_data_exceptions, json_view
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.utils import save_plan
@@ -38,10 +35,10 @@ class TenderPlansResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_tender",
     )
     def post(self):
+        self.state.validate_tender_plans_post_request()
         tender = self.request.validated["tender"]
         plan_relation = self.request.validated["data"]
 

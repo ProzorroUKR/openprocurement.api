@@ -34,15 +34,9 @@ class BaseState:
         self.request = request
 
     # --- request validation (access, availability of the operation, input parsing) ---
-    # views delegate here with validators=(validate_request_by_state,); the state implements
-    # validate_<http method>_request for every method its view declares that validator on
-
-    def validate_request(self, resource=None):
-        name = f"validate_{resource + '_' if resource else ''}{self.request.method.lower()}_request"
-        validate = getattr(self, name, None)
-        if validate is None:
-            raise NotImplementedError(f"{type(self).__name__} doesn't implement {name}")
-        validate()
+    # every view method starts with self.state.validate_<resource>_<http method>_request()
+    # (validate_award_post_request, validate_document_put_request, ...); the state implements it for every method
+    # of its resource, next to the <resource>_on_<http method> hooks
 
     def get_post_data_model(self):
         return self.post_data_model

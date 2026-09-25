@@ -1,4 +1,3 @@
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.award_complaint import (
     AwardComplaintState,
@@ -35,7 +34,6 @@ class AwardComplaintWriteResource(BaseComplaintWriteResource):
     @json_view(
         content_type="application/json",
         permission="create_complaint",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         return super().collection_post()

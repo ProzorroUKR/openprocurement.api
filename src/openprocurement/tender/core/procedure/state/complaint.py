@@ -57,13 +57,13 @@ class BaseComplaintStateMixin:
     complaint_patch_owner_item_names: tuple = ("tender", "complaint")
     complaint_patch_owner_exempt_roles: tuple = ("Administrator", "bots", "aboveThresholdReviewers")
 
-    def validate_post_request(self):
+    def validate_complaint_post_request(self):
         if self.complaint_post_bid_owner_statuses is not None and self.request.authenticated_role != "admins":
             self.validate_bid_owner(self.complaint_post_bid_owner_statuses)
         self.validate_input_data(self.get_post_data_model())
         self.validate_data_documents(route_key=self.complaint_documents_route_key, uid_key="id")
 
-    def validate_patch_request(self):
+    def validate_complaint_patch_request(self):
         if self.request.authenticated_role not in self.complaint_patch_owner_exempt_roles:
             self.validate_any_item_owner(*self.complaint_patch_owner_item_names)
         self.validate_patch_input_data(self.get_patch_data_model())

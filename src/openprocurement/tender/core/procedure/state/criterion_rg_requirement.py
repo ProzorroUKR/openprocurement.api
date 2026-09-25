@@ -61,16 +61,16 @@ class RequirementStateMixin(RequirementValidationsMixin, BaseCriterionStateMixin
     # cfaselectionua: no requirement ids uniqueness check on POST
     requirement_post_ids_uniq_check = True
 
-    def validate_post_request(self):
+    def validate_requirement_post_request(self):
         self.validate_criterion_owner()
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_requirement_patch_request(self):
         self.validate_criterion_owner()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "requirement")
 
-    def validate_put_request(self):
+    def validate_requirement_put_request(self):
         self.validate_criterion_owner()
         self.validate_patch_input_data(self.get_put_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "requirement")

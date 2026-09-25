@@ -67,7 +67,7 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
     # the stage 2 tender is validated while the stage 1 tender (hasAuction=False) is the request context
     minimal_step_regardless_of_auction = True
 
-    def validate_patch_request(self):
+    def validate_tender_patch_request(self):
         role = self.request.authenticated_role
         if role not in self.tender_patch_owner_check_exempt_roles:
             self.validate_item_owner("tender")

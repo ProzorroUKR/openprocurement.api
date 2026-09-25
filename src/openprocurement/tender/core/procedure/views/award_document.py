@@ -1,6 +1,5 @@
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.award_document import (
     AwardDocumentState,
@@ -38,14 +37,12 @@ class BaseAwardDocumentResource(BaseDocumentResource):
         return doc
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_award_documents",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_award_documents",
     )
     def put(self):
@@ -53,7 +50,6 @@ class BaseAwardDocumentResource(BaseDocumentResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_award_documents",
     )
     def patch(self):

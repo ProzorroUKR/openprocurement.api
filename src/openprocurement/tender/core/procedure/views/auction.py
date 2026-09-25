@@ -1,7 +1,4 @@
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state_for,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.constants import AUCTION_SET_URLS_LOG_FIELDS
 from openprocurement.tender.core.procedure.serializers.auction import AuctionSerializer
@@ -19,9 +16,9 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_get(self):
+        self.state.validate_auction_get_request()
         tender = self.request.validated["tender"]
         data = self.serializer_class(tender).data
 
@@ -45,10 +42,10 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_patch(self):
         """Set urls to access auctions."""
+        self.state.validate_auction_patch_request()
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
@@ -72,10 +69,10 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def patch(self):
         """Set urls for access to auction for lot."""
+        self.state.validate_auction_patch_request()
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
@@ -109,10 +106,13 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_post(self):
         """Report auction results."""
+        self.state.validate_auction_post_request()
+        return self.report_auction_results()
+
+    def report_auction_results(self):
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]
@@ -133,10 +133,13 @@ class TenderAuctionResource(TenderBaseResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def post(self):
         """Report auction results for lot."""
+        self.state.validate_auction_post_request()
+        return self.report_lot_auction_results()
+
+    def report_lot_auction_results(self):
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]

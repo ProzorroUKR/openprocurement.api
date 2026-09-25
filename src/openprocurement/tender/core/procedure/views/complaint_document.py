@@ -1,8 +1,5 @@
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.complaint_document import (
     ComplaintDocumentState,
@@ -38,28 +35,24 @@ class BaseComplaintDocumentResource(BaseDocumentResource):
         return super().collection_get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="view_tender",
     )
     def get(self):
         return super().get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_complaint_documents",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_complaint_documents",
     )
     def put(self):
         return super().put()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_complaint_documents",
     )
     def patch(self):

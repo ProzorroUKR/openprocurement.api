@@ -5,7 +5,6 @@ from pyramid.security import Allow, Everyone
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import (
     context_unpack,
     json_view,
@@ -97,9 +96,9 @@ class TendersResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_tender",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_tender_post_request()
         update_logging_context(self.request, {"tender_id": "__new__"})
         tender = self.request.validated["data"]
         request_init_tender(self.request, tender, tender_src={})
@@ -158,9 +157,9 @@ class TendersResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_tender",
-        validators=(validate_request_by_state,),
     )
     def patch(self):
+        self.state.validate_tender_patch_request()
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]

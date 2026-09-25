@@ -15,7 +15,7 @@ class CFASelectionAgreementStateMixin:
     patch_data_model = CFASelectionPatchAgreement
     data_model = CFASelectionAgreement
 
-    def validate_patch_request(self):
+    def validate_agreement_patch_request(self):
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "agreement")
 

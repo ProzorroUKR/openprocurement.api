@@ -21,11 +21,11 @@ class RequirementGroupStateMixin(BaseCriterionStateMixin):
     patch_data_model = PatchRequirementGroup
     data_model = RequirementGroup
 
-    def validate_post_request(self):
+    def validate_requirement_group_post_request(self):
         self.validate_criterion_owner()
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_requirement_group_patch_request(self):
         self.validate_criterion_owner()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "requirement_group")

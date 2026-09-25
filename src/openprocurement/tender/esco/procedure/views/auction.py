@@ -1,6 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_request_by_state_for
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue
@@ -21,23 +20,23 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_post(self):
         # for esco we also calculate and update amountPerformance and amount
+        self.state.validate_auction_post_request()
         tender_bids = {b["id"]: b for b in self.request.validated["tender"].get("bids", "")}
         for passed_bid in self.request.validated["data"]["bids"]:
             if "value" in passed_bid:
                 value = tender_bids[passed_bid["id"]]["value"].copy()
                 value.update(passed_bid["value"])
                 passed_bid["value"] = ESCODynamicValue(value).serialize()
-        return super().collection_post()
+        return self.report_auction_results()
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def post(self):
+        self.state.validate_auction_post_request()
         bid_values = {
             b["id"]: {lot["relatedLot"]: lot["value"] for lot in b.get("lotValues", "")}
             for b in self.request.validated["tender"].get("bids", "")
@@ -51,4 +50,4 @@ class ESCOTenderAuctionResource(TenderAuctionResource):
                         value = bid_values[passed_bid["id"]][lv["relatedLot"]].copy()
                         value.update(lv["value"])
                         lv["value"] = ESCODynamicValue(value).serialize()
-        return super().post()
+        return self.report_lot_auction_results()

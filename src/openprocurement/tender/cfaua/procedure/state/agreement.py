@@ -12,7 +12,7 @@ class CFAUAAgreementStateMixin:
     patch_data_model = CFAPatchAgreement
     data_model = CFAAgreement
 
-    def validate_patch_request(self):
+    def validate_agreement_patch_request(self):
         self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "agreement")

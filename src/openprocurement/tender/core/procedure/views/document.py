@@ -3,9 +3,6 @@ from typing import Type
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import (
     context_unpack,
     delete_nones,
@@ -198,30 +195,30 @@ class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
         return super().collection_get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="edit_tender",
     )
     def collection_post(self):
+        self.state.validate_document_post_request()
         return super().collection_post()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="view_tender",
     )
     def get(self):
+        self.state.validate_document_get_request()
         return super().get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="edit_tender",
     )
     def put(self):
+        self.state.validate_document_put_request()
         return super().put()
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_tender",
     )
     def patch(self):
+        self.state.validate_document_patch_request()
         return super().patch()

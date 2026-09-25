@@ -1,7 +1,4 @@
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.serializers.complaint_appeal import (
     ComplaintAppealSerializer,
@@ -32,9 +29,9 @@ class BaseComplaintAppealResource(BaseComplaintResource):
     @json_view(
         content_type="application/json",
         permission="edit_complaint",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_complaint_appeal_post_request()
         update_logging_context(self.request, {"appeal_id": "__new__"})
 
         tender = self.request.validated["tender"]
@@ -88,10 +85,10 @@ class BaseComplaintAppealResource(BaseComplaintResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_complaint",
     )
     def patch(self):
+        self.state.validate_complaint_appeal_patch_request()
         updated = self.request.validated["data"]
         if updated:
             appeal = self.request.validated["appeal"]

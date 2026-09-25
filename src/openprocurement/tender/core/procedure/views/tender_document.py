@@ -1,6 +1,5 @@
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.tender_document import (
     TenderDocumentState,
@@ -43,21 +42,18 @@ class TenderDocumentResource(BaseDocumentResource):
         return super().collection_get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="view_tender",
     )
     def get(self):
         return super().get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_tender_documents",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_tender_documents",
     )
     def put(self):
@@ -65,7 +61,6 @@ class TenderDocumentResource(BaseDocumentResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="upload_tender_documents",
     )
     def patch(self):
@@ -73,8 +68,8 @@ class TenderDocumentResource(BaseDocumentResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="upload_tender_documents",
     )
     def delete(self):
+        self.state.validate_document_delete_request()
         return super().delete()

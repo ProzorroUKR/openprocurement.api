@@ -1,9 +1,6 @@
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.serializers.complaint_post import (
     ComplaintPostSerializer,
@@ -42,9 +39,9 @@ class BaseComplaintPostResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_complaint_post",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_complaint_post_post_request()
         update_logging_context(self.request, {"post_id": "__new__"})
 
         tender = self.request.validated["tender"]

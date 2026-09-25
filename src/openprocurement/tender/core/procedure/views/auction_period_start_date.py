@@ -1,7 +1,6 @@
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.auction_period_start_date import (
     AuctionPeriodStartDateState,
@@ -25,9 +24,9 @@ class TenderAuctionPeriodResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_action_period",
-        validators=(validate_request_by_state,),
     )
     def collection_put(self):
+        self.state.validate_auction_period_put_request()
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
         self.state.validate_auction_period_start_date(tender, data)
@@ -41,9 +40,9 @@ class TenderAuctionPeriodResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_action_period",
-        validators=(validate_request_by_state,),
     )
     def put(self):
+        self.state.validate_auction_period_put_request()
         lot_id = self.request.matchdict["lot_id"]
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]

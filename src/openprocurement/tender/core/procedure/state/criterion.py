@@ -84,16 +84,16 @@ class CriterionStateMixin(BaseCriterionStateMixin):
     # bt/rfp: exclusion criteria may be patched
     criterion_patch_exclusion_check = True
 
-    def validate_post_request(self):
+    def validate_criterion_post_request(self):
         self.validate_criterion_owner()
         self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
 
-    def validate_patch_request(self):
+    def validate_criterion_patch_request(self):
         self.validate_criterion_owner()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "criterion")
 
-    def validate_delete_request(self):
+    def validate_criterion_delete_request(self):
         self.validate_criterion_owner()
         if get_tender()["status"] not in ("draft", "draft.stage2"):
             raise_operation_error(self.request, "Only allowed in draft tender status")

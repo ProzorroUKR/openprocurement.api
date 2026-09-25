@@ -267,7 +267,7 @@ class TenderDetailsRequestMixin(BaseState):
         models = self.tender_patch_models_by_status or {}
         return models.get(self.request.validated["tender"].get("status", ""), self.patch_data_model)
 
-    def validate_post_request(self):
+    def validate_tender_post_request(self):
         self.validate_input_data(self.get_post_data_model())
         self.validate_config_data(self.tender_config_default)
         if self.tender_create_accreditation_check:
@@ -280,7 +280,7 @@ class TenderDetailsRequestMixin(BaseState):
             )
         self.validate_data_documents()
 
-    def validate_patch_request(self):
+    def validate_tender_patch_request(self):
         role = self.request.authenticated_role
         if role not in self.tender_patch_owner_check_exempt_roles:
             self.validate_item_owner("tender")

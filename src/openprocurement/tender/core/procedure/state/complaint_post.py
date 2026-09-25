@@ -35,7 +35,7 @@ class ComplaintPostValidationsMixin(BaseState):
 class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
     post_data_model = CreateComplaintPost
 
-    def validate_post_request(self):
+    def validate_complaint_post_post_request(self):
         if self.request.authenticated_role != "aboveThresholdReviewers":
             self.validate_any_item_owner("complaint", "tender")
         self.validate_input_data(self.get_post_data_model())

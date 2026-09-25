@@ -1,4 +1,3 @@
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.award_milestone import (
     AwardMilestoneState,
@@ -23,7 +22,6 @@ class BaseAwardMilestoneResource(BaseMilestoneResource):
     @json_view(
         content_type="application/json",
         permission="edit_tender",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
         return super().collection_post()

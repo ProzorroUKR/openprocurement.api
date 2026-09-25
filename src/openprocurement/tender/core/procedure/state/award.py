@@ -85,12 +85,12 @@ class AwardStateMixin:
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
 
-    def validate_post_request(self):
+    def validate_award_post_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_award_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())

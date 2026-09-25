@@ -1,7 +1,6 @@
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.core.procedure.views.contract import resolve_contract
 from openprocurement.tender.core.procedure.views.document import (
@@ -36,7 +35,6 @@ class TenderContractDocumentResource(BaseDocumentResource):
         return super().collection_get()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="view_tender",
     )
     def get(self):

@@ -1,6 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import json_view, raise_operation_error
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_credentials import (
@@ -29,9 +28,9 @@ class CD2EUCredentialsResource(TenderBaseResource):
 
     @json_view(
         permission="edit_tender",
-        validators=(validate_request_by_state,),
     )
     def patch(self):
+        self.state.validate_tender_credentials_patch_request()
         tender = self.request.validated["tender"]
         if tender["status"] != "draft.stage2":
             raise_operation_error(

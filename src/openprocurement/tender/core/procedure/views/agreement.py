@@ -49,6 +49,7 @@ class TenderAgreementResource(TenderBaseResource):
         return {"data": data}
 
     def patch(self):
+        self.state.validate_agreement_patch_request()
         updated = self.request.validated["data"]
         if updated:
             agreement = self.request.validated["agreement"]

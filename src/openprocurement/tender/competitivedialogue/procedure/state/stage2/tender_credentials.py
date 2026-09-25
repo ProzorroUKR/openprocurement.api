@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 
 class CDStage2CredentialsState(TenderState):
-    def validate_patch_request(self):
+    def validate_tender_credentials_patch_request(self):
         self.validate_dialogue_owner()
 
     def validate_dialogue_owner(self):

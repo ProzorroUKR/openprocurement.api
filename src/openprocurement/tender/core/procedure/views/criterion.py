@@ -5,9 +5,6 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.serializers.criterion import (
     CriterionSerializer,
@@ -47,10 +44,10 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="create_criterion",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_criterion_post_request()
         tender = self.request.validated["tender"]
         criteria = self.request.validated["data"]
         if "criteria" not in tender:
@@ -89,10 +86,10 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_criterion",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_criterion_patch_request()
         updated_criterion = self.request.validated["data"]
         if not updated_criterion:
             return None
@@ -111,10 +108,10 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_criterion",
     )
     def delete(self):
+        self.state.validate_criterion_delete_request()
         deleted_criterion = self.request.validated["criterion"]
         tender = self.request.validated["tender"]
         tender["criteria"] = [

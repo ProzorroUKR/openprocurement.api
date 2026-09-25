@@ -44,22 +44,22 @@ class BaseReqResponseState(BaseState):
     # bid: the responses are hidden until the auction
     req_response_view_check = False
 
-    def validate_get_request(self):
+    def validate_req_response_get_request(self):
         if self.req_response_view_check:
             self.validate_req_response_view_allowed()
 
-    def validate_post_request(self):
+    def validate_req_response_post_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
         self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
 
-    def validate_patch_request(self):
+    def validate_req_response_patch_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "requirement_response")
 
-    def validate_delete_request(self):
+    def validate_req_response_delete_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
 

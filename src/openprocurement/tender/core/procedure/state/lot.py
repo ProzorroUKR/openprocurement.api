@@ -31,16 +31,16 @@ class LotStateMixin(BaseState):
     # limited (negotiation): lots can't be added/updated/deleted when the tender has awards
     lot_operations_forbidden_with_awards = False
 
-    def validate_post_request(self):
+    def validate_lot_post_request(self):
         self.validate_lot_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_lot_patch_request(self):
         self.validate_lot_operation_allowed()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "lot")
 
-    def validate_delete_request(self):
+    def validate_lot_delete_request(self):
         self.validate_lot_operation_allowed()
 
     def validate_lot_operation_allowed(self):

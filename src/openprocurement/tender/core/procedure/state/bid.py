@@ -172,12 +172,12 @@ class BidState(BaseState):
             return self.patch_qualification_data_model
         return self.patch_data_model
 
-    def validate_get_request(self):
+    def validate_bid_get_request(self):
         if "bid" in self.request.validated and self.is_item_owner("bid"):
             return
         self.validate_bid_view_allowed()
 
-    def validate_post_request(self):
+    def validate_bid_post_request(self):
         self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
         self.validate_bid_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
@@ -185,7 +185,7 @@ class BidState(BaseState):
             self.validate_shortlisted_firms_bid(self.request.validated["data"])
         self.validate_data_documents(route_key="bid_id", uid_key="id")
 
-    def validate_patch_request(self):
+    def validate_bid_patch_request(self):
         if self.request.authenticated_role != "Administrator":
             self.validate_item_owner("bid")
         if self.bid_patch_deleted_check:
@@ -195,7 +195,7 @@ class BidState(BaseState):
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "bid")
 
-    def validate_delete_request(self):
+    def validate_bid_delete_request(self):
         if self.request.authenticated_role != "Administrator":
             self.validate_item_owner("bid")
         self.validate_bid_operation_allowed()

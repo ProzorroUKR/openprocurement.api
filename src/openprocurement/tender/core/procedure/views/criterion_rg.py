@@ -5,9 +5,6 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.serializers.criterion_rg import (
     RequirementGroupSerializer,
@@ -56,10 +53,10 @@ class BaseRequirementGroupResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="create_rg",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_requirement_group_post_request()
         requirement_group = self.request.validated["data"]
         criterion = self.request.validated["criterion"]
 
@@ -95,10 +92,10 @@ class BaseRequirementGroupResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_rg",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_requirement_group_patch_request()
         updated_requirement_group = self.request.validated["data"]
         if not updated_requirement_group:
             return None

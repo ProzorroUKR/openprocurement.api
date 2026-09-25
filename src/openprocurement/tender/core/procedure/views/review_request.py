@@ -2,9 +2,6 @@ from pyramid.security import Allow, Everyone
 
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.state.review_request import (
     ReviewRequestState,
@@ -40,10 +37,10 @@ class TenderReviewRequestResource(TenderBaseResource):
             resolve_review_request(request)
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="create_review_request",
     )
     def collection_post(self):
+        self.state.validate_review_request_post_request()
         update_logging_context(self.request, {"review_request_id": "__new__"})
 
         tender = self.request.validated["tender"]
@@ -91,9 +88,9 @@ class TenderReviewRequestResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_review_request",
-        validators=(validate_request_by_state,),
     )
     def patch(self):
+        self.state.validate_review_request_patch_request()
         updated = self.request.validated["data"]
         if updated:
             review_request = self.request.validated["review_request"]

@@ -47,12 +47,12 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
 
     all_documents_should_be_public = False  # cfaua: True
 
-    def validate_post_request(self):
+    def validate_complaint_appeal_post_request(self):
         self.validate_any_item_owner("complaint", "tender")
         self.validate_input_data(self.get_post_data_model())
         self.validate_data_documents(route_key="appeal_id", uid_key="id")
 
-    def validate_patch_request(self):
+    def validate_complaint_appeal_patch_request(self):
         self.validate_any_item_owner("tender", "complaint")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), "appeal")

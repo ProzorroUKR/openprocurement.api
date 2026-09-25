@@ -5,6 +5,6 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 class TenderPlansState(TenderState):
     post_data_model = PlanRelation
 
-    def validate_post_request(self):
+    def validate_tender_plans_post_request(self):
         self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())

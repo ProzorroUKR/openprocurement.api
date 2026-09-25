@@ -5,9 +5,6 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import (
     context_unpack,
     get_now,
@@ -53,12 +50,12 @@ class TenderLotResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_lot",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self) -> Optional[dict]:
         """
         Lot creation
         """
+        self.state.validate_lot_post_request()
 
         update_logging_context(self.request, {"lot_id": "__new__"})
 
@@ -116,13 +113,13 @@ class TenderLotResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_lot",
     )
     def patch(self) -> Optional[dict]:
         """
         Lot updating
         """
+        self.state.validate_lot_patch_request()
 
         updated = self.request.validated["data"]
         if not updated:
@@ -145,12 +142,12 @@ class TenderLotResource(TenderBaseResource):
 
     @json_view(
         permission="edit_lot",
-        validators=(validate_request_by_state,),
     )
     def delete(self) -> Optional[dict]:
         """
         Lot deleting
         """
+        self.state.validate_lot_delete_request()
 
         lot = self.request.validated["lot"]
         tender = self.request.validated["tender"]

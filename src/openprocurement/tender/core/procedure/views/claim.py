@@ -1,9 +1,6 @@
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import (
     LOGGER,
     context_unpack,
@@ -52,9 +49,9 @@ class BaseClaimResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_claim",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_complaint_post_request()
         update_logging_context(self.request, {"bid_id": "__new__"})
 
         context = self.request.validated[self.item_name]
@@ -96,10 +93,10 @@ class BaseClaimResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_claim",
     )
     def patch(self):
+        self.state.validate_complaint_patch_request()
         updated = self.request.validated["data"]
         if updated:
             claim = self.request.validated["claim"]

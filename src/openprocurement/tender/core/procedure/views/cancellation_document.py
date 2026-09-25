@@ -1,8 +1,5 @@
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.cancellation_document import (
     CancellationDocumentState,
@@ -34,14 +31,12 @@ class CancellationDocumentResource(BaseDocumentResource):
         resolve_document(request, self.item_name, self.container)
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_cancellation_documents",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="upload_cancellation_documents",
     )
     def put(self):
@@ -49,7 +44,6 @@ class CancellationDocumentResource(BaseDocumentResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="upload_cancellation_documents",
     )
     def patch(self):

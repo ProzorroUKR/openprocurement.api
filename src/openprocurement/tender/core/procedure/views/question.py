@@ -1,9 +1,6 @@
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.serializers.question import (
     QuestionSerializer,
@@ -59,9 +56,9 @@ class TenderQuestionResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_question",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_question_post_request()
         update_logging_context(self.request, {"question_id": "__new__"})
 
         tender = self.request.validated["tender"]
@@ -93,11 +90,11 @@ class TenderQuestionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_question",
     )
     def patch(self):
         """Patch a question"""
+        self.state.validate_question_patch_request()
         updated = self.request.validated["data"]
         if updated:
             tender = self.request.validated["tender"]

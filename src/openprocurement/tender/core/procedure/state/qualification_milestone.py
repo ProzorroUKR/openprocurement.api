@@ -27,7 +27,7 @@ class QualificationMilestoneState(BaseState):
     milestone_post_allowed_tender_statuses: tuple = ("active.pre-qualification",)
     milestone_post_requires_active_lot = True
 
-    def validate_post_request(self):
+    def validate_milestone_post_request(self):
         self.validate_item_owner("tender")
         if self.milestone_post_release_check:
             validate_tender_first_revision_date(self.request, validation_date=RELEASE_2020_04_19)

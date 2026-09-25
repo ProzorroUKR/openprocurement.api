@@ -62,12 +62,12 @@ class CancellationStateMixin:
     # negotiation: the deprecated (immediate) activation is used when there is no active award
     cancellation_deprecated_activation_without_active_award = False
 
-    def validate_post_request(self):
+    def validate_cancellation_post_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_cancellation_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())

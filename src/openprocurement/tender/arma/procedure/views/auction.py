@@ -2,7 +2,6 @@ from typing import Callable
 
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_request_by_state_for
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
@@ -64,27 +63,26 @@ class AuctionResource(TenderAuctionResource):
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_post(self):
+        self.state.validate_auction_post_request()
         self.request.validated["data"] = self.convert_value_data(
             self.request.validated["data"], self.convert_value_from_auction
         )
-        return super().collection_post()
+        return self.report_auction_results()
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def post(self):
+        self.state.validate_auction_post_request()
         self.request.validated["data"] = self.convert_value_data(
             self.request.validated["data"], self.convert_value_from_auction
         )
-        return super().post()
+        return self.report_lot_auction_results()
 
     @json_view(
         permission="auction",
-        validators=(validate_request_by_state_for("auction"),),
     )
     def collection_get(self):
         res = super().collection_get()

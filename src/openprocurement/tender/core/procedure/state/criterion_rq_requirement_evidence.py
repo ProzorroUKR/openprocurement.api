@@ -18,16 +18,16 @@ class EligibleEvidenceStateMixin(RequirementValidationsMixin, BaseCriterionState
     # pq: the tender status is checked on every evidence change
     evidence_status_check_always = False
 
-    def validate_post_request(self):
+    def validate_evidence_post_request(self):
         self.validate_criterion_owner()
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_evidence_patch_request(self):
         self.validate_criterion_owner()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "evidence")
 
-    def validate_delete_request(self):
+    def validate_evidence_delete_request(self):
         self.validate_criterion_owner()
 
     def evidence_on_post(self, data: dict) -> None:

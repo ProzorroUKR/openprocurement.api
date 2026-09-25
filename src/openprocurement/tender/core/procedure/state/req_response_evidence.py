@@ -24,20 +24,20 @@ class ReqResponseEvidenceState(BaseState):
     req_response_allowed_statuses = BaseReqResponseState.req_response_allowed_statuses
     req_response_milestone_24_skip = False
     req_response_view_check = False
-    validate_get_request = BaseReqResponseState.validate_get_request
-    validate_delete_request = BaseReqResponseState.validate_delete_request
+    validate_req_response_evidence_get_request = BaseReqResponseState.validate_req_response_get_request
+    validate_req_response_evidence_delete_request = BaseReqResponseState.validate_req_response_delete_request
     validate_req_response_owner = BaseReqResponseState.validate_req_response_owner
     validate_req_response_operation_allowed = BaseReqResponseState.validate_req_response_operation_allowed
     validate_ecriteria_object_status = BaseReqResponseState.validate_ecriteria_object_status
     allowed_by_qualification_milestone_24 = BaseReqResponseState.allowed_by_qualification_milestone_24
     validate_req_response_view_allowed = BaseReqResponseState.validate_req_response_view_allowed
 
-    def validate_post_request(self):
+    def validate_req_response_evidence_post_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
 
-    def validate_patch_request(self):
+    def validate_req_response_evidence_patch_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
         self.validate_patch_input_data(self.get_patch_data_model())

@@ -17,7 +17,7 @@ class QualificationState(TenderState):
     patch_data_model = PatchQualification
     data_model = Qualification
 
-    def validate_patch_request(self):
+    def validate_qualification_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())

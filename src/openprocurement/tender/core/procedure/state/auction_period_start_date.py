@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 class AuctionPeriodStartDateState(TenderState):
     put_data_model = AuctionPeriodStartDate
 
-    def validate_put_request(self):
+    def validate_auction_period_put_request(self):
         tender = get_tender()
         if tender["status"] not in ("active.auction", "active.pre-qualification", "active.tendering"):
             raise_operation_error(

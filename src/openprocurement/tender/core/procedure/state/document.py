@@ -22,16 +22,16 @@ class BaseDocumentStateMixin:
     allow_deletion = False
     deletion_allowed_statuses = ("draft",)
 
-    def validate_get_request(self):
+    def validate_document_get_request(self):
         self.validate_document_view_allowed()
         self.validate_document_download_allowed()
 
-    def validate_post_request(self):
+    def validate_document_post_request(self):
         self.validate_document_owner(self.document_post_owner_exempt_roles)
         self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
         self.validate_document_operation_allowed()
 
-    def validate_put_request(self):
+    def validate_document_put_request(self):
         self.validate_document_owner(self.document_update_owner_exempt_roles)
         self.validate_input_data(self.get_post_data_model())
         self.update_doc_fields_on_put_document()
@@ -40,14 +40,14 @@ class BaseDocumentStateMixin:
         self.validate_upload_document()
         self.validate_data_model(self.get_data_model())
 
-    def validate_patch_request(self):
+    def validate_document_patch_request(self):
         self.validate_document_owner(self.document_update_owner_exempt_roles)
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), "document")
         self.validate_document_operation_allowed()
         self.validate_document_author_allowed()
 
-    def validate_delete_request(self):
+    def validate_document_delete_request(self):
         self.validate_document_owner(())
         self.validate_document_author_allowed()
 

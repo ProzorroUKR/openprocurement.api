@@ -259,26 +259,6 @@ def validate_accreditation_level(levels, item, operation, source="tender", kind_
     return validate
 
 
-def validate_request_by_state(request, **_):
-    """
-    Delegates the request validation (access, availability of the operation, input parsing)
-    to the state class of the resource: state.validate_<http method>_request()
-    """
-    request.root.state.validate_request()
-
-
-def validate_request_by_state_for(resource):
-    """
-    The same for resources that share their state class with others (auction, chronograph):
-    state.validate_<resource>_<http method>_request()
-    """
-
-    def validate(request, **_):
-        request.root.state.validate_request(resource)
-
-    return validate
-
-
 def validate_input_data_from_resolved_model(none_means_remove=False):
     def validated(request, **_):
         state = request.root.state

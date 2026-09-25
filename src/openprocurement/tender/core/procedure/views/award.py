@@ -4,7 +4,6 @@ from pyramid.security import Allow, Everyone
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import validate_request_by_state
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.contracting import (
     create_contracting_contracts,
@@ -60,9 +59,9 @@ class TenderAwardResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_award",  # admins only
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_award_post_request()
         update_logging_context(self.request, {"award_id": "__new__"})
 
         tender = self.request.validated["tender"]
@@ -116,9 +115,9 @@ class TenderAwardResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_award",
-        validators=(validate_request_by_state,),
     )
     def patch(self):
+        self.state.validate_award_patch_request()
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]
         award = self.request.validated["award"]

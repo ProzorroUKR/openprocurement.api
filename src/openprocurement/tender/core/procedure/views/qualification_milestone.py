@@ -1,7 +1,4 @@
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.serializers.qualification_milestone import (
     QualificationMilestoneSerializer,
@@ -45,9 +42,9 @@ class BaseMilestoneResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_tender",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_milestone_post_request()
         tender = self.request.validated["tender"]
         milestone = self.request.validated["data"]
         parent_obj = self.request.validated[self.context_name]

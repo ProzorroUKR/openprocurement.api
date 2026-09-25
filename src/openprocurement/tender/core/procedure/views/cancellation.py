@@ -4,9 +4,6 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.contracting import (
     prepare_contracting_contracts_cancelled,
@@ -59,9 +56,9 @@ class BaseCancellationResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_cancellation",
-        validators=(validate_request_by_state,),
     )
     def collection_post(self):
+        self.state.validate_cancellation_post_request()
         tender = self.request.validated["tender"]
         cancellation = self.request.validated["data"]
 
@@ -121,9 +118,9 @@ class BaseCancellationResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_cancellation",
-        validators=(validate_request_by_state,),
     )
     def patch(self):
+        self.state.validate_cancellation_patch_request()
         updated = self.request.validated["data"]
         if updated:
             cancellation = self.request.validated["cancellation"]

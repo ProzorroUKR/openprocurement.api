@@ -1,9 +1,6 @@
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.state.agreement import (
     CFASelectionAgreementState,
@@ -33,7 +30,6 @@ class CFASelectionTenderAgreementResource(TenderAgreementResource):
     @json_view(
         content_type="application/json",
         permission="edit_agreement_selection",  # brokers
-        validators=(validate_request_by_state,),
     )
     def patch(self):
         return super().patch()

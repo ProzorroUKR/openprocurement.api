@@ -1,8 +1,5 @@
 from typing import Optional
 
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.req_response_evidence import (
     BidReqResponseEvidenceState,
@@ -30,37 +27,37 @@ class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="create_rr_evidence",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_req_response_evidence_post_request()
         return super().collection_post()
 
     @json_view(
         permission="view_tender",
-        validators=(validate_request_by_state,),
     )
     def collection_get(self) -> dict:
+        self.state.validate_req_response_evidence_get_request()
         return super().collection_get()
 
     @json_view(
         permission="view_tender",
-        validators=(validate_request_by_state,),
     )
     def get(self) -> dict:
+        self.state.validate_req_response_evidence_get_request()
         return super().get()
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_rr_evidence",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_req_response_evidence_patch_request()
         return super().patch()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="edit_rr_evidence",
     )
     def delete(self) -> Optional[dict]:
+        self.state.validate_req_response_evidence_delete_request()
         return super().delete()

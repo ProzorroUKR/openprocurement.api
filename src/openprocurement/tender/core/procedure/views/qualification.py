@@ -2,9 +2,6 @@ from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.serializers.qualification import (
@@ -80,11 +77,11 @@ class TenderQualificationResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_qualification",
     )
     def patch(self):
         """Post a qualification resolution"""
+        self.state.validate_qualification_patch_request()
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]
         qualification = self.request.validated["qualification"]

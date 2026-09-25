@@ -1,8 +1,5 @@
 from typing import Optional
 
-from openprocurement.api.procedure.validation import (
-    validate_request_by_state,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.req_response import (
     AwardReqResponseState,
@@ -26,10 +23,10 @@ class AwardReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="create_req_response",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_req_response_post_request()
         return super().collection_post()
 
     @json_view(permission="view_tender")
@@ -42,15 +39,15 @@ class AwardReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_request_by_state,),
         permission="edit_req_response",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_req_response_patch_request()
         return super().patch()
 
     @json_view(
-        validators=(validate_request_by_state,),
         permission="edit_req_response",
     )
     def delete(self) -> Optional[dict]:
+        self.state.validate_req_response_delete_request()
         return super().delete()
