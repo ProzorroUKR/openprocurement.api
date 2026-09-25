@@ -4,7 +4,6 @@ stages:
   - deploy
   - check
   - test
-  - test_sandbox_mode
 
 include:
   # build and deploy stages
