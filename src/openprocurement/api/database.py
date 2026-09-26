@@ -2,6 +2,7 @@ import os
 from contextlib import contextmanager
 from decimal import Decimal
 from logging import getLogger
+from time import monotonic
 from uuid import uuid4
 
 from bson.codec_options import CodecOptions, TypeCodec, TypeRegistry
@@ -55,6 +56,14 @@ codec_options = CodecOptions(type_registry=type_registry)
 # Uses MongoDB's own $$NOW to avoid clock drift between API and DB servers.
 # See: docs/source/developers/projects/cdb/feed_ordering.rst
 FEED_WATERMARK_SECONDS = int(os.environ.get("FEED_WATERMARK_SECONDS", "1"))
+
+# Transactions longer than this are logged with MESSAGE_ID "transaction_duration_exceeded".
+# public_modified ($$NOW) is fixed at save_data statement, but the document becomes visible
+# only at commit. If this gap exceeds FEED_WATERMARK_SECONDS, the document can be skipped
+# by feed crawlers. See: docs/source/developers/projects/cdb/feed_ordering.rst
+TRANSACTION_DURATION_WARNING_SECONDS = float(
+    os.environ.get("TRANSACTION_DURATION_WARNING_SECONDS", FEED_WATERMARK_SECONDS / 2)
+)
 
 
 def get_public_modified():
@@ -481,10 +490,55 @@ def atomic_transaction(enabled=True):
     if not enabled:
         yield s
         return
-    database = get_request().registry.mongodb.database
+    request = get_request()
+    database = request.registry.mongodb.database
+    started_at = monotonic()
     with s.start_transaction(
         # read_preference=database.read_preference,
         write_concern=database.write_concern,
         read_concern=database.read_concern,
     ):
         yield s
+        body_finished_at = monotonic()
+    # reached only after successful commit (on exception the transaction is aborted)
+    committed_at = monotonic()
+    log_transaction_duration(
+        request,
+        body_duration=body_finished_at - started_at,
+        commit_duration=committed_at - body_finished_at,
+    )
+
+
+def log_transaction_duration(request, body_duration, commit_duration):
+    """
+    Logs a warning if the transaction took too long.
+
+    body_duration   - time from the transaction start to the end of the `with` block
+                      (first save_data statement -> last statement); this is the main
+                      source of the public_modified vs commit gap
+    commit_duration - commitTransaction call, includes waiting for write concern (majority);
+                      waiting for replication doesn't break feed ordering by itself,
+                      logged separately to distinguish the causes
+    """
+    total_duration = body_duration + commit_duration
+    if total_duration <= TRANSACTION_DURATION_WARNING_SECONDS:
+        return
+
+    # pylint: disable-next=import-outside-toplevel, cyclic-import
+    from openprocurement.api.utils import context_unpack
+
+    LOGGER.warning(
+        f"Transaction took {total_duration:.3f}s "
+        f"(body {body_duration:.3f}s, commit {commit_duration:.3f}s), "
+        f"threshold {TRANSACTION_DURATION_WARNING_SECONDS}s, "
+        f"feed watermark {FEED_WATERMARK_SECONDS}s",
+        extra=context_unpack(
+            request,
+            {
+                "MESSAGE_ID": "transaction_duration_exceeded",
+                "TRANSACTION_DURATION": round(total_duration, 3),
+                "TRANSACTION_BODY_DURATION": round(body_duration, 3),
+                "TRANSACTION_COMMIT_DURATION": round(commit_duration, 3),
+            },
+        ),
+    )
