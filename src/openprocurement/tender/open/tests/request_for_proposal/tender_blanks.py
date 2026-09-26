@@ -1093,11 +1093,12 @@ def patch_tender_active_tendering(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
+    # requestForProposal never invalidates bids
     response = self.app.get(f"/tenders/{self.tender_id}?acc_token={token}")
     tender_after = response.json["data"]
-    self.assertIn("invalidationDate", tender_after["enquiryPeriod"])
+    self.assertNotIn("invalidationDate", tender_after["enquiryPeriod"])
     response = self.app.get(f"/tenders/{self.tender_id}/bids/{bid['id']}?acc_token={bid_token}")
-    self.assertEqual(response.json["data"]["status"], "invalid")
+    self.assertEqual(response.json["data"]["status"], bid["status"])
 
 
 def validate_pre_selection_agreement(self):

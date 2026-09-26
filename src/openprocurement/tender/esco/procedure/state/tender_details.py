@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
@@ -94,22 +96,22 @@ class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
             )
 
     def validate_tender_lots(self, tender: dict, before=None) -> None:
-        """Validate lot minValue.
+        """Validate lots minValue, set the lot data derived from the tender and validate the minimal step fields.
 
-        Validation includes lot minValue.
-
-        :param tender: Tender dictionary
-        :param lot: Lot dictionary
+        :param tender: Tender dictionary.
+        :param before: Tender dictionary before patch, optional
         :return: None
         """
-        has_value_estimation = tender["config"]["hasValueEstimation"]
-
+        before_lots = {lot["id"]: lot for lot in (before or {}).get("lots") or []}
         for lot in tender.get("lots", {}):
-            lot_min_value = lot.get("minValue", {})
+            self.validate_lot_min_value(tender, lot)
+            self.set_tender_lot_data(tender, lot)
+            self.validate_lot_minimal_step(lot, before_lots.get(lot["id"]))
 
-            if not lot_min_value:
-                return
-
+    def validate_lot_min_value(self, tender: dict, lot: dict) -> None:
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+        lot_min_value = lot.get("minValue", {})
+        if lot_min_value:
             lot_value_amount = lot_min_value.get("amount")
 
             if has_value_estimation is True and lot_value_amount is None:
@@ -134,9 +136,6 @@ class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
                     self.request, lot_min_value, "lots.minValue", self.vat_not_included_validation_from
                 )
 
-            self.set_tender_lot_data(tender, lot)
-            self.validate_lot_minimal_step(lot, before)
-
     def set_tender_lot_data(self, tender, lot):
         self.set_lot_guarantee(tender, lot)
         lot["fundingKind"] = tender.get("fundingKind", "other")
@@ -144,3 +143,24 @@ class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
             "currency": tender["minValue"]["currency"],
             "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
         }
+
+    def validate_lot(self, tender: dict, lot: dict) -> None:
+        self.validate_yearly_payments_percentage_range(tender, lot)
+
+    def validate_yearly_payments_percentage_range(self, tender: dict, lot: dict) -> None:
+        value = lot.get("yearlyPaymentsPercentageRange")
+        if tender["fundingKind"] == "other" and value != Decimal("0.8"):
+            raise_operation_error(
+                self.request,
+                "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8",
+                status=422,
+                name="yearlyPaymentsPercentageRange",
+            )
+        if tender["fundingKind"] == "budget" and (value is None or value > Decimal("0.8") or value < Decimal("0")):
+            raise_operation_error(
+                self.request,
+                "when tender fundingKind is budget, yearlyPaymentsPercentageRange "
+                "should be less or equal 0.8, and more or equal 0",
+                status=422,
+                name="yearlyPaymentsPercentageRange",
+            )

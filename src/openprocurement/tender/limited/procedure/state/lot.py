@@ -9,8 +9,3 @@ class NegotiationLotState(LotStateMixin, NegotiationTenderDetailsState):
     post_data_model = LimitedPostLot
     patch_data_model = LimitedPatchLot
     data_model = LimitedLot
-
-    lot_operation_allowed_tender_statuses = ("draft", "active")
-    lot_updates_tender_values = False
-    lot_operations_forbidden_with_awards = True
-    invalidate_bids_on_lot_change = False

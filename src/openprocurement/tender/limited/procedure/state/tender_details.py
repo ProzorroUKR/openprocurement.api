@@ -227,6 +227,9 @@ class NegotiationTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin
     guarantee_criterion_check = False
     lot_guarantee_currency_from_tender = False
     lot_minimal_step_meta_from_tender = False
+    lot_operation_allowed_tender_statuses = ("draft", "active")
+    lot_operations_forbidden_with_awards = True
+    lot_updates_tender_values = False
     vat_not_included_validation_from = NEGOTIATION_VAT_NOT_INCLUDED_VALIDATION_FROM
     patch_status_choices = ("draft", "active")
     award_criteria_choices = None

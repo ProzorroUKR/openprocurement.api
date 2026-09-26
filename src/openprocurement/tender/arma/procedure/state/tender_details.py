@@ -28,6 +28,22 @@ class ARMATenderDetailsMixin(TenderDetailsMixin):
         self.validate_min_expected_income(before, after)
         super().on_patch(before, after)  # ARMATenderDetailsMixin.on_patch
 
+    def validate_lot(self, tender: dict, lot: dict) -> None:
+        self.validate_lot_min_expected_income(tender, lot)
+
+    def validate_lot_min_expected_income(self, tender: dict, lot: dict) -> None:
+        if tender_created_before(ARMA_MIN_EXPECTED_INCOME_FROM, tender):
+            return
+        if tender.get("status") == "draft":
+            return
+        if lot.get("minExpectedIncome") is None:
+            raise_operation_error(
+                self.request,
+                "minExpectedIncome is required for lot",
+                status=422,
+                name="minExpectedIncome",
+            )
+
     def validate_lot_value(self, tender: dict, lot: dict) -> None:
         """Validate lot value.
 

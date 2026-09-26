@@ -6,8 +6,8 @@ from openprocurement.tender.core.procedure.state.lot import LotStateMixin
 
 
 class CDStage2EUTenderLotState(LotStateMixin, CDStage2EUTenderDetailsState):
-    lot_operations_forbidden = True
+    pass
 
 
 class CDStage2UATenderLotState(LotStateMixin, CDStage2UATenderDetailsState):
-    lot_operations_forbidden = True
+    pass

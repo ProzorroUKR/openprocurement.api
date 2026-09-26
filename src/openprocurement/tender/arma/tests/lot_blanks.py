@@ -1983,7 +1983,7 @@ def patch_tender_lot_minimalstep_validation(self):
 
 
 @patch(
-    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
     get_now() - timedelta(days=1),
 )
 def lot_min_expected_income(self):

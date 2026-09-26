@@ -1,8 +1,4 @@
-from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.state.lot import LotStateMixin
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_UA_DEFENSE_LOT_TENDERING_EXTRA_PERIOD
 from openprocurement.tender.open.procedure.state.tender_details import (
     AboveThresholdEUTenderDetailsState,
     AboveThresholdTenderDetailsState,
@@ -10,6 +6,7 @@ from openprocurement.tender.open.procedure.state.tender_details import (
     BelowThresholdTenderDetailsState,
     COLongTenderDetailsState,
     COShortTenderDetailsState,
+    DefenseTenderDetailsState,
     RFPTenderDetailsState,
 )
 
@@ -26,11 +23,8 @@ class AboveThresholdEUTenderLotState(LotStateMixin, AboveThresholdEUTenderDetail
     pass
 
 
-class DefenseTenderLotState(LotStateMixin, TenderDetailsMixin, TenderState):
-    award_class = Award
-
-    tender_period_extra = ABOVE_THRESHOLD_UA_DEFENSE_LOT_TENDERING_EXTRA_PERIOD
-    contract_template_required = True
+class DefenseTenderLotState(LotStateMixin, DefenseTenderDetailsState):
+    pass
 
 
 class COShortTenderLotState(LotStateMixin, COShortTenderDetailsState):
@@ -42,10 +36,8 @@ class COLongTenderLotState(LotStateMixin, COLongTenderDetailsState):
 
 
 class BelowThresholdTenderLotState(LotStateMixin, BelowThresholdTenderDetailsState):
-    lot_operation_allowed_tender_statuses = ("active.enquiries", "draft")
-    invalidate_bids_on_lot_change = False
+    pass
 
 
 class RFPTenderLotState(LotStateMixin, RFPTenderDetailsState):
-    lot_operation_allowed_tender_statuses = ("active.enquiries", "active.tendering", "draft")
-    invalidate_bids_on_lot_change = False
+    pass

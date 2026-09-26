@@ -103,8 +103,10 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     # no tender/lot value meta propagation, minimal step is calculated on activation
     lot_value_meta_from_tender = False
     lot_minimal_step_meta_from_tender = False
+    lot_minimal_step_check = False
     watch_value_meta_changes_enabled = False
     minimal_step_required = False
+    lot_operation_allowed_tender_statuses = ("active.enquiries", "draft")
     tender_period_extension_check = False
     all_documents_should_be_public = True
     notice_doc_required_check = False
@@ -216,6 +218,8 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
                             )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
             self._validate_criterion_uniq(after.get("criteria", []))
+        self.validate_tender_lots(after, before=before)
+        self.validate_lots_change(before, after)
         self.validate_docs(after, before)
         self.always(after)
 

@@ -139,6 +139,7 @@ class BelowThresholdTenderDetailsMixin(TenderDetailsMixin):
     )
     tender_patch_allowed_statuses_for_funder = ("active.tendering",)
     status_change_with_lot_cancellation_pending_check = False
+    lot_operation_allowed_tender_statuses = ("active.enquiries", "draft")
     tender_period_extra = BELOW_THRESHOLD_TENDERING_EXTRA_PERIOD
     tender_period_extra_working_days = True
     contract_template_required = True
@@ -179,6 +180,7 @@ class RFPTenderDetailsMixin(TenderDetailsMixin):
         "active.tendering",
     )
     status_change_with_lot_cancellation_pending_check = False
+    lot_operation_allowed_tender_statuses = ("active.enquiries", "active.tendering", "draft")
     tender_period_extra = REQUEST_FOR_PROPOSAL_TENDERING_EXTRA_PERIOD
     notice_doc_required_check = False
     evaluation_reports_doc_required_check = False

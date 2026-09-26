@@ -52,6 +52,7 @@ from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
 )
 from openprocurement.api.utils import (
+    error_handler,
     get_first_revision_date,
     get_tender_category,
     get_tender_profile,
@@ -98,6 +99,7 @@ from openprocurement.tender.core.procedure.utils import (
     validate_field,
 )
 from openprocurement.tender.core.procedure.validation import (
+    OPERATIONS,
     get_items_unit_value_amounts,
     validate_doc_type_quantity,
     validate_doc_type_required,
@@ -866,11 +868,12 @@ class TenderValueRulesMixin(BaseState):
                     name="lots.value.amount",
                 )
 
+            before_lots = {lot["id"]: lot for lot in (before or {}).get("lots") or []}
             for lot in lots:
                 self.set_lot_guarantee(tender, lot)
                 self.set_lot_value(tender, lot)
                 self.set_lot_minimal_step(tender, lot)
-                self.validate_lot_minimal_step(lot, before)
+                self.validate_lot_minimal_step(lot, before_lots.get(lot["id"]))
                 self.validate_lot_value(tender, lot)
 
     def set_lot_guarantee(self, tender: dict, lot: dict) -> None:
@@ -1461,6 +1464,119 @@ class TenderItemsRulesMixin(BaseState):
             validate_items_unit_amount(get_items_unit_value_amounts(items_with_unit_value), tender, obj_name="tender")
 
 
+class TenderLotRulesMixin(BaseState):
+    """
+    tender lots: the same rules for the lots endpoint and for the lots changed through the tender endpoint
+
+    The lots endpoint (LotStateMixin) applies its change to the tender and then runs the tender on_patch,
+    so both endpoints validate a lots change with validate_lots_change().
+    """
+
+    # tender statuses in which lots can be added / updated / deleted (through any endpoint)
+    lot_operation_allowed_tender_statuses: tuple = ("active.tendering", "draft", "draft.stage2")
+    # competitiveDialogue stage 2: lots are copied from stage 1 and can't be changed
+    lot_operations_forbidden = False
+    # limited (negotiation): lots can't be added/updated/deleted when the tender has awards
+    lot_operations_forbidden_with_awards = False
+    # limited (negotiation): lots don't recalculate the tender values
+    lot_updates_tender_values = True
+    # cfaua: limits of the lots count (None = no limit)
+    lots_min_count: int | None = None
+    lots_max_count: int | None = None
+
+    def validate_lot_operation_allowed(self, tender: dict) -> None:
+        request = get_request()
+        operation = OPERATIONS.get(request.method)
+        if self.lot_operations_forbidden:
+            raise_operation_error(request, f"Can't {operation} lot for tender stage2")
+        if tender["status"] not in self.lot_operation_allowed_tender_statuses:
+            raise_operation_error(request, f"Can't {operation} lot in current ({tender['status']}) tender status")
+        if self.lot_operations_forbidden_with_awards and tender.get("awards"):
+            raise_operation_error(request, f"Can't {operation} lot when you have awards")
+
+    def validate_lots_change(self, before: dict, after: dict, on_post: bool = False) -> None:
+        before_lots = {lot["id"]: lot for lot in before.get("lots") or []}
+        after_lots = {lot["id"]: lot for lot in after.get("lots") or []}
+        added = [lot for lot_id, lot in after_lots.items() if lot_id not in before_lots]
+        deleted = [lot for lot_id, lot in before_lots.items() if lot_id not in after_lots]
+        changed = [
+            (before_lots[lot_id], lot)
+            for lot_id, lot in after_lots.items()
+            if lot_id in before_lots and before_lots[lot_id] != lot
+        ]
+        if not (added or deleted or changed):
+            return
+        request = get_request()
+        if not on_post:
+            self.validate_lot_operation_allowed(after)
+        self.validate_lots_unique(after)
+        for lot in deleted:
+            self.validate_lot_delete_related_objects(after, lot)
+        if self.lots_max_count is not None and added and len(after_lots) > self.lots_max_count:
+            raise_operation_error(request, f"Lots count in tender cannot be more than {self.lots_max_count} items")
+        if self.lots_min_count is not None and deleted and len(after_lots) < self.lots_min_count:
+            raise_operation_error(request, f"Lots count in tender cannot be less than {self.lots_min_count} items")
+        for lot_before, lot in changed:
+            self.validate_lot_status_unchanged(lot_before, lot)
+        for lot in added + [lot for _, lot in changed]:
+            self.validate_lot(after, lot)
+            self.set_lot_data(after, lot)
+        if not on_post:
+            for lot in added + deleted + [lot for _, lot in changed]:
+                self.validate_cancellation_blocks(request, after, lot_id=lot["id"])
+        if self.lot_updates_tender_values:
+            self.calc_tender_values(after)
+
+    def validate_lot(self, tender: dict, lot: dict) -> None:
+        """procedure specific rules of an added / changed lot (esco, arma)"""
+
+    def set_lot_data(self, tender: dict, lot: dict) -> None:
+        """data of an added / changed lot derived from the tender"""
+        self.set_auction_period_should_start_after(tender, lot)
+
+    def validate_lot_status_unchanged(self, before: dict, after: dict) -> None:
+        if before.get("status", "active") != after.get("status", "active"):
+            self.request.errors.add("body", "lot", f"Can't update lot to ({after['status']}) status")
+            self.request.errors.status = 403
+            raise error_handler(self.request)
+
+    def validate_lot_delete_related_objects(self, tender: dict, lot: dict) -> None:
+        lot_id = lot["id"]
+        if not tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM):
+            has_active_requirements = any(
+                criterion.get("relatedItem", "") == lot_id and requirement["status"] == "active"
+                for criterion in tender.get("criteria", "")
+                for rg in criterion.get("requirementGroups", "")
+                for requirement in rg.get("requirements", "")
+            )
+            if has_active_requirements:
+                raise_operation_error(
+                    get_request(),
+                    f"Can't delete {lot_id} lot while related criterion has active requirements",
+                )
+        for collection_name in ("cancellations", "milestones", "items"):
+            if any(i.get("relatedLot", "") == lot_id for i in tender.get(collection_name, "")):
+                raise_operation_error(get_request(), f"Cannot delete lot with related {collection_name}", status=422)
+
+    def validate_lots_unique(self, tender: dict) -> None:
+        ids = [lot["id"] for lot in tender.get("lots") or []]
+        if len(ids) != len(set(ids)):
+            raise_operation_error(self.request, "Items should be unique by fields: id", status=422, name="lots")
+
+    def set_auction_period_should_start_after(self, tender: dict, lot: dict) -> None:
+        if tender["config"]["hasAuction"] is False:
+            return
+        should_start_after = self.get_lot_auction_should_start_after(tender, lot)
+        if not should_start_after:
+            return
+        auction_period = lot.get("auctionPeriod") or {}
+        auction_period["shouldStartAfter"] = should_start_after
+        lot["auctionPeriod"] = auction_period
+        # if auctionPeriod was calculated in draft tender before lots were added
+        if tender.get("auctionPeriod"):
+            del tender["auctionPeriod"]
+
+
 class TenderCriteriaRulesMixin(BaseState):
     """criteria, features and awardCriteria"""
 
@@ -1889,6 +2005,7 @@ class BaseTenderDetailsMixin(
     TenderAgreementRulesMixin,
     TenderPeriodRulesMixin,
     TenderValueRulesMixin,
+    TenderLotRulesMixin,
     TenderItemsRulesMixin,
     TenderCriteriaRulesMixin,
     TenderDocumentsRulesMixin,
@@ -1959,6 +2076,7 @@ class BaseTenderDetailsMixin(
 
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
+        self.validate_lots_change({}, tender, on_post=True)
         self.validate_milestones(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
@@ -2023,6 +2141,7 @@ class BaseTenderDetailsMixin(
         self.validate_tender_period_start_date_change(before, after)
         self.validate_tender_value(after)
         self.validate_tender_lots(after, before=before)
+        self.validate_lots_change(before, after)
         self.validate_submission_method(after, before=before)
         self.validate_kind_change(after, before)
         self.validate_award_criteria_change(after, before)

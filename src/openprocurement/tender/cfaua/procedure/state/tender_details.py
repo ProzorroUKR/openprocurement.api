@@ -3,7 +3,11 @@ from datetime import timedelta
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.cfaua.constants import CFA_UA_TENDERING_EXTRA_PERIOD
+from openprocurement.tender.cfaua.constants import (
+    CFA_UA_LOTS_MAX_SIZE,
+    CFA_UA_LOTS_MIN_SIZE,
+    CFA_UA_TENDERING_EXTRA_PERIOD,
+)
 from openprocurement.tender.cfaua.procedure.models.tender import CFAPatchTender, CFAPostTender, CFATender
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
@@ -50,6 +54,8 @@ class CFAUATenderDetailsMixin(TenderDetailsMixin):
         ("active.qualification", "active.qualification.stand-still"),
     )
     watch_value_meta_changes_enabled = False
+    lots_min_count = CFA_UA_LOTS_MIN_SIZE
+    lots_max_count = CFA_UA_LOTS_MAX_SIZE
     all_documents_should_be_public = True
 
     def on_patch(self, before, after):

@@ -51,6 +51,9 @@ class BelowThresholdIgnoredClaimMixin(IgnoredClaimMixin):
 class BelowThresholdTenderState(BelowThresholdIgnoredClaimMixin, TenderState):
     award_class = Award
 
+    # bids are never invalidated (no enquiryPeriod.invalidationDate either): tender/lot/criteria changes
+    # during active.tendering don't touch the bids
+    bids_invalidation_enabled = False
     generate_award_milestones = False
 
 
@@ -62,4 +65,7 @@ class RFPIgnoredClaimMixin(IgnoredClaimMixin):
 class RFPTenderState(RFPIgnoredClaimMixin, TenderState):
     award_class = Award
 
+    # bids are never invalidated (no enquiryPeriod.invalidationDate either): tender/lot/criteria changes
+    # during active.tendering don't touch the bids
+    bids_invalidation_enabled = False
     generate_award_milestones = False

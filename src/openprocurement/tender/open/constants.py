@@ -114,8 +114,6 @@ ABOVE_THRESHOLD_UA_DEFENSE_WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": True,
     "qualificationComplainDuration": False,
 }
-# lots keep the openua tender period extension (the tender itself uses ABOVE_THRESHOLD_UA_DEFENSE_TENDERING_EXTRA_PERIOD)
-ABOVE_THRESHOLD_UA_DEFENSE_LOT_TENDERING_EXTRA_PERIOD = timedelta(days=7)
 
 
 # simple.defense

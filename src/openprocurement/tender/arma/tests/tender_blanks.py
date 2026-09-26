@@ -1336,7 +1336,7 @@ def create_tender_with_required_unit(self):
     get_now() - timedelta(days=1),
 )
 @mock.patch(
-    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
     get_now() - timedelta(days=1),
 )
 def patch_tender_lot_min_expected_income(self):
@@ -1533,7 +1533,7 @@ def patch_tender_lot_min_expected_income(self):
     get_now() + timedelta(days=1),
 )
 @mock.patch(
-    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
     get_now() + timedelta(days=1),
 )
 def patch_tender_lot_min_expected_income_before_date_gate(self):

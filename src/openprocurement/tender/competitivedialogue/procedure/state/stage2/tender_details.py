@@ -61,6 +61,8 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
     award_criteria_lcc_features_check = False
     notice_doc_required_check = False
     related_lot_in_items_check = False
+    # lots are copied from the stage 1 tender and can't be changed
+    lot_operations_forbidden = True
     contract_template_name_patch_statuses = ("draft",)
     watch_value_meta_changes_enabled = False
     item_profile_category_check_on_post = False
