@@ -157,7 +157,14 @@ Watermark застосовується у двох випадках:
 - ``TRANSACTION_COMMIT_DURATION`` — виклик ``commitTransaction``, включно з очікуванням write concern.
   Очікування реплікації саме по собі порядок фіду не порушує.
 
-Поки що це лише фіксація проблем; транзакції не відкочуються.
+Аналогічно ``save_data`` поза транзакцією (коли встановлюється ``public_modified``) вимірює тривалість
+``update_one`` і, якщо вона перевищує ``SAVE_DATA_DURATION_WARNING_SECONDS`` (за замовчуванням
+``FEED_WATERMARK_SECONDS / 2``), пише warning з ``MESSAGE_ID = save_data_duration_exceeded`` і полями
+``SAVE_DATA_DURATION``, ``SAVE_DATA_COLLECTION``, ``SAVE_DATA_ID``. Типова причина — запис чекає,
+поки інша транзакція, що змінила той самий документ, завершиться; також черга WiredTiger tickets
+або eviction під навантаженням. Тривалість включає очікування write concern (majority).
+
+Поки що це лише фіксація проблем; транзакції та записи не відкочуються і не обмежуються за часом.
 
 Альтернатива: Change Streams як pull feed
 -----------------------------------------

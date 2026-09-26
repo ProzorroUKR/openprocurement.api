@@ -65,6 +65,14 @@ TRANSACTION_DURATION_WARNING_SECONDS = float(
     os.environ.get("TRANSACTION_DURATION_WARNING_SECONDS", FEED_WATERMARK_SECONDS / 2)
 )
 
+# Non-transactional save_data (update_one) longer than this is logged with
+# MESSAGE_ID "save_data_duration_exceeded". Same reason: $$NOW is fixed at the operation start,
+# but the write can wait (another transaction holding the document, WiredTiger tickets, eviction)
+# and become visible much later. See: docs/source/developers/projects/cdb/feed_ordering.rst
+SAVE_DATA_DURATION_WARNING_SECONDS = float(
+    os.environ.get("SAVE_DATA_DURATION_WARNING_SECONDS", FEED_WATERMARK_SECONDS / 2)
+)
+
 
 def get_public_modified():
     public_modified = {"$divide": [{"$toLong": "$$NOW"}, 1000]}
@@ -330,16 +338,23 @@ class MongodbStore:
                     }
                 }
             )
+        session = get_db_session()
+        started_at = monotonic()
         # update_one instead of find_one_and_update: the previous document is not needed,
         # so mongodb doesn't have to serialize and send the whole document back
         result = collection.update_one(
             {"_id": uid, "_rev": revision},
             pipeline,
             upsert=insert,
-            session=get_db_session(),
+            session=session,
         )
+        duration = monotonic() - started_at
         if not result.modified_count and not result.upserted_id:
             raise MongodbResourceConflict("Conflict while updating document. Please, retry")
+        # inside a transaction the document becomes visible only at commit,
+        # that case is covered by atomic_transaction -> log_transaction_duration
+        if modified and not (session and session.in_transaction):
+            log_save_data_duration(collection.name, uid, duration)
         return data
 
     def save_data_simple(self, collection, data, insert=False):
@@ -506,6 +521,37 @@ def atomic_transaction(enabled=True):
         request,
         body_duration=body_finished_at - started_at,
         commit_duration=committed_at - body_finished_at,
+    )
+
+
+def log_save_data_duration(collection_name, uid, duration):
+    """
+    Logs a warning if a non-transactional save_data that sets public_modified took too long.
+
+    duration includes waiting for write concern (majority) - replication lag alone
+    doesn't break feed ordering, but it can't be separated on the client side
+    """
+    if duration <= SAVE_DATA_DURATION_WARNING_SECONDS:
+        return
+
+    msg = {
+        "MESSAGE_ID": "save_data_duration_exceeded",
+        "SAVE_DATA_DURATION": round(duration, 3),
+        "SAVE_DATA_COLLECTION": collection_name,
+        "SAVE_DATA_ID": uid,
+    }
+    request = get_request()
+    if request is not None:
+        # pylint: disable-next=import-outside-toplevel, cyclic-import
+        from openprocurement.api.utils import context_unpack
+
+        msg = context_unpack(request, msg)
+
+    LOGGER.warning(
+        f"save_data {collection_name} {uid} took {duration:.3f}s, "
+        f"threshold {SAVE_DATA_DURATION_WARNING_SECONDS}s, "
+        f"feed watermark {FEED_WATERMARK_SECONDS}s",
+        extra=msg,
     )
 
 

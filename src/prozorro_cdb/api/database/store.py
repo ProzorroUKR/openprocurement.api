@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 from contextvars import ContextVar, Token
 from decimal import Decimal
 from logging import getLogger
+from time import monotonic
 from typing import Any, Dict, List, Optional, Self, TypeVar
 from uuid import uuid4
 
@@ -15,7 +16,7 @@ from pymongo.asynchronous.collection import AsyncCollection
 from pymongo.read_concern import ReadConcern
 from pymongo.write_concern import WriteConcern
 
-from prozorro_cdb.api.context import get_now_async
+from prozorro_cdb.api.context import get_now_async, get_request_logging_context
 
 logger = getLogger("{}.init".format(__name__))
 
@@ -61,6 +62,14 @@ codec_options = CodecOptions(type_registry=type_registry)
 # Uses MongoDB's own $$NOW to avoid clock drift between API and DB servers.
 # See: docs/source/developers/projects/cdb/feed_ordering.rst
 FEED_WATERMARK_SECONDS = int(os.environ.get("FEED_WATERMARK_SECONDS", "1"))
+
+# Non-transactional save_data (update_one) longer than this is logged with
+# MESSAGE_ID "save_data_duration_exceeded". $$NOW is fixed at the operation start,
+# but the write can wait (another transaction holding the document, WiredTiger tickets, eviction)
+# and become visible much later. See: docs/source/developers/projects/cdb/feed_ordering.rst
+SAVE_DATA_DURATION_WARNING_SECONDS = float(
+    os.environ.get("SAVE_DATA_DURATION_WARNING_SECONDS", FEED_WATERMARK_SECONDS / 2)
+)
 
 
 def get_public_modified():
@@ -262,14 +271,20 @@ class MongodbStore:
                     }
                 }
             )
+        session = get_db_session_async()
+        started_at = monotonic()
         result = await collection.update_one(
             {"_id": uid, "_rev": revision},
             pipeline,
             upsert=insert,
-            session=get_db_session_async(),
+            session=session,
         )
+        duration = monotonic() - started_at
         if not result.modified_count and not result.upserted_id:
             raise MongodbResourceConflict("Conflict while updating document. Please, retry")
+        # inside a transaction the document becomes visible only at commit
+        if modified and not (session and session.in_transaction):
+            log_save_data_duration(collection.name, uid, duration)
         return data
 
     @staticmethod
@@ -426,6 +441,36 @@ class SequencesCollection(BaseCollection):
 
 def get_mongodb() -> MongodbStore:
     return MongodbStore.get_instance()
+
+
+def log_save_data_duration(collection_name, uid, duration):
+    """
+    Logs a warning if a non-transactional save_data that sets public_modified took too long.
+
+    duration includes waiting for write concern (majority) - replication lag alone
+    doesn't break feed ordering, but it can't be separated on the client side
+    """
+    if duration <= SAVE_DATA_DURATION_WARNING_SECONDS:
+        return
+
+    msg = {
+        "MESSAGE_ID": "save_data_duration_exceeded",
+        "SAVE_DATA_DURATION": round(duration, 3),
+        "SAVE_DATA_COLLECTION": collection_name,
+        "SAVE_DATA_ID": uid,
+    }
+    try:
+        # don't pass msg as `extra` argument: it would be merged into the request logging context
+        extra = {**get_request_logging_context(), **msg}
+    except LookupError:  # outside of a request (migrations, scripts)
+        extra = msg
+
+    logger.warning(
+        f"save_data {collection_name} {uid} took {duration:.3f}s, "
+        f"threshold {SAVE_DATA_DURATION_WARNING_SECONDS}s, "
+        f"feed watermark {FEED_WATERMARK_SECONDS}s",
+        extra=extra,
+    )
 
 
 session_var: ContextVar[AsyncClientSession] = ContextVar("session")
