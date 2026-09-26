@@ -56,26 +56,31 @@ class ContractResource(BaseContractResource):
             contract = self.request.validated["contract"] = updated
             self.state.on_patch(contract_src, contract)
             contract_was_changed = self.request.validated.get("contract_was_changed")
+            # keep only db writes inside the transaction: the time between save_data and commit
+            # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
             with atomic_transaction(enabled=bool(contract_was_changed)):
-                if save_contract(self.request):
-                    if contract_was_changed:
-                        if save_tender(self.request):
-                            self.LOGGER.info(
-                                f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
-                                extra=context_unpack(
-                                    self.request,
-                                    {"MESSAGE_ID": "tender_contract_update_status"},
-                                ),
-                            )
+                tender_saved = False
+                contract_saved = save_contract(self.request)
+                if contract_saved and contract_was_changed:
+                    tender_saved = save_tender(self.request)
 
-                    self.LOGGER.info(
-                        f"Updated contract {contract['_id']}",
-                        extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
-                    )
-                    return {
-                        "data": self.serializer_class(contract, tender=self.request.validated.get("tender")).data,
-                        "config": contract["config"],
-                    }
+            if tender_saved:
+                self.LOGGER.info(
+                    f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
+                    extra=context_unpack(
+                        self.request,
+                        {"MESSAGE_ID": "tender_contract_update_status"},
+                    ),
+                )
+            if contract_saved:
+                self.LOGGER.info(
+                    f"Updated contract {contract['_id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "contract_patch"}),
+                )
+                return {
+                    "data": self.serializer_class(contract, tender=self.request.validated.get("tender")).data,
+                    "config": contract["config"],
+                }
 
 
 @resource(

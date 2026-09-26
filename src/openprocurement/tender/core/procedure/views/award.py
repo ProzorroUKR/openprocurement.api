@@ -134,13 +134,17 @@ class TenderAwardResource(TenderBaseResource):
             prepared_contracts_added = prepare_contracting_contracts_added(self.request, tender, award=award)
             prepared_contracts_cancelled = prepare_contracting_contracts_cancelled(self.request)
 
+            # keep only db writes inside the transaction: the time between save_data and commit
+            # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
             with atomic_transaction(enabled=bool(prepared_contracts_added or prepared_contracts_cancelled)):
-                if save_tender(self.request):
+                saved = save_tender(self.request)
+                if saved:
                     create_contracting_contracts(prepared_contracts_added)
                     save_contracting_contracts(prepared_contracts_cancelled)
 
-                    self.LOGGER.info(
-                        "Updated tender award {}".format(award["id"]),
-                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
-                    )
-                    return {"data": self.serializer_class(updated, tender=tender).data}
+            if saved:
+                self.LOGGER.info(
+                    "Updated tender award {}".format(award["id"]),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_award_patch"}),
+                )
+                return {"data": self.serializer_class(updated, tender=tender).data}
