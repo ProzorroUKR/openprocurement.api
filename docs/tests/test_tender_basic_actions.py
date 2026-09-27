@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import test_signer_info
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.views.claim import calculate_total_complaints
 from openprocurement.tender.core.tests.base import (
     test_exclusion_criteria,
@@ -3918,14 +3918,14 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
 
         for item in data["items"]:
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
 
         data.update(
             {
-                "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
-                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "enquiryPeriod": {"endDate": calculate_date(get_now(), timedelta(days=7)).isoformat()},
+                "tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=14)).isoformat()},
             }
         )
 
@@ -4508,8 +4508,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         for item in tender_data["items"]:
             item["id"] = uuid4().hex
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
         tender_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
         set_tender_criteria(
@@ -4519,7 +4519,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         )
         tender_data.update(
             {
-                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=14)).isoformat()},
                 "criteria": tender_criteria,
             }
         )
@@ -4545,7 +4545,8 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         tender_items = response.json["data"]["items"]
         # switch to active.tendering
         response = self.set_status(
-            "active.tendering", extra={"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            "active.tendering",
+            extra={"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=10)).isoformat()}},
         )
         tender = response.json["data"]
         self.assertIn("auctionPeriod", response.json["data"])

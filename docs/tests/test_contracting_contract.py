@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from dateutil.parser import parse
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import (
     test_contract_data,
     test_signer_info,
@@ -83,8 +83,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         for item in test_tender_data["items"]:
             item["id"] = uuid4().hex
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
         tender_criteria = criteria_drop_uuids(deepcopy(test_tender_pq_criteria_1))
         set_tender_criteria(
@@ -94,7 +94,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         )
         test_tender_data.update(
             {
-                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=14)).isoformat()},
                 "criteria": tender_criteria,
             }
         )
@@ -108,7 +108,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         tender_items = response.json["data"]["items"]
         # switch to active.tendering
         response = self.set_status(
-            "active.tendering", extra={"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            "active.tendering",
+            extra={"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=10)).isoformat()}},
         )
         tender = response.json["data"]
         self.assertIn("auctionPeriod", response.json["data"])
@@ -241,7 +242,10 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         #### Setting contract period
 
         period_dates = {
-            "period": {"startDate": get_now().isoformat(), "endDate": (get_now() + timedelta(days=365)).isoformat()}
+            "period": {
+                "startDate": get_now().isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=365)).isoformat(),
+            }
         }
         with open(TARGET_DIR + "contract-period.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
@@ -482,7 +486,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin):
         # updating contract properties
         with open(TARGET_DIR + "contracts-patch.http", "w") as self.app.file_obj:
             custom_period_start_date = get_now().isoformat()
-            custom_period_end_date = (get_now() + timedelta(days=30)).isoformat()
+            custom_period_end_date = calculate_date(get_now(), timedelta(days=30)).isoformat()
             response = self.app.patch_json(
                 f"/contracts/{contract_id}?acc_token={tender_token}",
                 {
@@ -657,14 +661,14 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
 
         for item in tender_data["items"]:
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
 
         tender_data.update(
             {
-                "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
-                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "enquiryPeriod": {"endDate": calculate_date(get_now(), timedelta(days=7)).isoformat()},
+                "tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=14)).isoformat()},
             }
         )
 
@@ -794,14 +798,14 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
 
         for item in tender_data["items"]:
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
 
         tender_data.update(
             {
-                "enquiryPeriod": {"endDate": (get_now() + timedelta(days=7)).isoformat()},
-                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "enquiryPeriod": {"endDate": calculate_date(get_now(), timedelta(days=7)).isoformat()},
+                "tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=14)).isoformat()},
             }
         )
 
@@ -867,7 +871,8 @@ class MultiContractsTenderResourceTest(BaseBelowWebTest, MockWebTestMixin):
     def process_tender_to_qualification(self):
         # switch to active.tendering
         response = self.set_status(
-            "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+            "active.tendering",
+            {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=10)).isoformat()}},
         )
         self.assertIn("auctionPeriod", response.json["data"])
         tender = response.json["data"]

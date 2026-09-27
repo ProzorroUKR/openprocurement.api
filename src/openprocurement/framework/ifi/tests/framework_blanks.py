@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from ciso8601 import parse_datetime
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 
 
 def ifi_enquiry_period_calendar_days(self):
@@ -104,7 +104,7 @@ def ifi_change_period_recalculation(self):
     original_enquiry_end = framework["enquiryPeriod"]["endDate"]
 
     # Extend qualificationPeriod via changes endpoint
-    new_end_date = (get_now() + timedelta(days=100)).isoformat()
+    new_end_date = calculate_date(get_now(), timedelta(days=100)).isoformat()
     response = self.app.post_json(
         "/frameworks/{}/changes?acc_token={}".format(framework["id"], token),
         {

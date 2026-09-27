@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 from uuid import uuid4
 
 from openprocurement.api.constants import ARTICLE_16
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
@@ -1902,7 +1902,7 @@ def put_rg_requirement_invalid(self):
 
     with patch(
         "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.put_json(
             put_url.format(self.tender_id, self.criteria_id, self.rg_id, self.requirement_id, self.tender_token),
@@ -2172,7 +2172,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.auction")
     with patch(
         "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.delete(
             "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),

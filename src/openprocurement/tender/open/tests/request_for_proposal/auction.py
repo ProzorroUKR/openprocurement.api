@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.auction_blanks import (  # TenderAuctionResourceTest; TenderAuctionResourceDisabledAwardingOrder; TenderLotsAuctionDisabledAwardingOrderResourceTest; TenderSameValueAuctionResourceTest; TenderLotAuctionResourceTest; TenderMultipleLotAuctionResourceTest; TenderFeaturesAuctionResourceTest; TenderFeaturesMultilotAuctionResourceTest
     get_tender_auction_feature,
     get_tender_auction_not_found,
@@ -72,7 +72,8 @@ class TenderAuctionResourceTest(TenderContentWebTest, TenderAuctionResourceTestM
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
     initial_data = auction_test_tender_data
@@ -92,7 +93,8 @@ class TenderAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotsAuctionDisabledAwardingOrderResourceTest(TenderContentWebTest):
     initial_data = auction_test_tender_data

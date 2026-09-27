@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_milestones,
 )
@@ -107,8 +107,8 @@ test_tender_pq_item = {
     "profile": "655360-30230000-889652-40000777",
     "quantity": 5,
     "deliveryDate": {
-        "startDate": (now + timedelta(days=2)).isoformat(),
-        "endDate": (now + timedelta(days=5)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
     },
     "unit": {
         "name": "кг",
@@ -136,7 +136,7 @@ test_tender_pq_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_tender_pq_procuring_entity,
     "value": {"amount": 22000, "currency": "UAH"},
-    "tenderPeriod": {"endDate": (now + timedelta(days=14)).isoformat()},
+    "tenderPeriod": {"endDate": calculate_date(now, timedelta(days=14)).isoformat()},
     "procurementMethodType": PQ,
     "procurementMethod": "selective",
     "items": [test_tender_pq_item],

@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_lots,
@@ -76,7 +76,7 @@ class TenderAwardsCancellationResourceTestMixin:
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderCancellationResourceTest(
     BaseTenderCOLongContentWebTest, TenderCancellationResourceTestMixin, TenderCancellationResourceNewReleaseTestMixin
@@ -106,7 +106,7 @@ class TenderLotsCancellationResourceTest(BaseTenderCOLongContentWebTest):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardsCancellationResourceTest(BaseTenderCOLongContentWebTest, TenderAwardsCancellationResourceTestMixin):
     initial_lots = 2 * test_tender_below_lots
@@ -119,7 +119,7 @@ class TenderAwardsCancellationResourceTest(BaseTenderCOLongContentWebTest, Tende
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotsCancellationQualificationResourceTest(BaseTenderCOLongContentWebTest):
     initial_lots = 2 * test_tender_below_lots
@@ -136,7 +136,7 @@ class TenderLotsCancellationQualificationResourceTest(BaseTenderCOLongContentWeb
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderCancellationComplaintResourceTest(
     BaseTenderCOLongContentWebTest, TenderCancellationComplaintResourceTestMixin

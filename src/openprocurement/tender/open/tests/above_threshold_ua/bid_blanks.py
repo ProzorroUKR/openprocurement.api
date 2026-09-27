@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from freezegun import freeze_time
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     now,
     test_tender_below_supplier,
@@ -256,8 +256,8 @@ def create_tender_bidder(self):
 
     # set tender period in future  # WTF this change, tender in active.tendering
     # data = deepcopy(self.initial_data)
-    # data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
-    # data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
+    # data["tenderPeriod"]["endDate"] = calculate_date(now, timedelta(days=17)).isoformat()
+    # data["tenderPeriod"]["startDate"] = calculate_date(now, timedelta(days=1)).isoformat()
     # response = self.app.patch_json(
     #     "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
     #     {"data": {"tenderPeriod": data["tenderPeriod"]}},
@@ -265,8 +265,8 @@ def create_tender_bidder(self):
     # self.assertEqual(response.status, "200 OK")
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["tenderPeriod"] = {
-        "startDate": (now + timedelta(days=1)).isoformat(),
-        "endDate": (now + timedelta(days=17)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=1)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=17)).isoformat(),
     }
     self.mongodb.tenders.save(tender)
 
@@ -2534,7 +2534,7 @@ def patch_bid_during_qualification_with_24h_milestone(self):
     request_data = {
         "code": "24h",
         "description": "One ring to bring them all and in the darkness bind them",
-        "dueDate": (get_now() + timedelta(days=1)).isoformat(),
+        "dueDate": calculate_date(get_now(), timedelta(days=1)).isoformat(),
     }
     response = self.app.post_json(
         "/tenders/{}/awards/{}/milestones?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -2684,7 +2684,7 @@ def patch_bid_during_qualification_with_24h_milestone(self):
     self.assertEqual(response.json["data"]["tenderers"][0]["signerInfo"]["name"], "Mr Brown")
 
     # try to patch bid after milestone dueDate
-    with freeze_time((get_now() + timedelta(days=1))):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1))):
         response = self.app.patch_json(
             f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
             {"data": {"subcontractingDetails": "bar"}},

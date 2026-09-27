@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION_MINIMAL_STEP_PERCENTAGE
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
@@ -60,8 +60,8 @@ test_tender_cfaselectionua_buyer.pop("additionalContactPoints")
 
 test_tender_cfaselectionua_items[0]["id"] = test_tender_cfaselectionua_agreement["items"][0]["id"]
 test_tender_cfaselectionua_items[0]["deliveryDate"] = {
-    "startDate": (now + timedelta(days=2)).isoformat(),
-    "endDate": (now + timedelta(days=5)).isoformat(),
+    "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+    "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
 }
 
 with open(os.path.join(here, "data/tender_data.json")) as _in:

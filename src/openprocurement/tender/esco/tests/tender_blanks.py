@@ -4,7 +4,7 @@ from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import set_bid_lotvalues
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -278,12 +278,12 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=35)).isoformat(),
-        "endDate": (now + timedelta(days=35)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=35)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=35)).isoformat(),
     }
     self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=34)).isoformat(),
-        "endDate": (now + timedelta(days=34)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=34)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=34)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     del self.initial_data["auctionPeriod"]
@@ -1228,8 +1228,8 @@ def patch_tender_draft(self):
     self.assertEqual(tender["status"], "draft")
 
     tender_period = {
-        "startDate": (get_now() + timedelta(days=2)).isoformat(),
-        "endDate": (get_now() + timedelta(days=33)).isoformat(),
+        "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+        "endDate": calculate_date(get_now(), timedelta(days=33)).isoformat(),
     }
 
     item = deepcopy(tender["items"][0])
@@ -1321,7 +1321,7 @@ def create_tender_lot_min_value_vat_included_validation(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_min_value_vat_included_validation_before_constant(self):
     data = deepcopy(self.initial_data)

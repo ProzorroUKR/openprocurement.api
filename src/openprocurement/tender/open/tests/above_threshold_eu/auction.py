@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
@@ -77,7 +77,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
 
     @patch(
         "openprocurement.tender.core.procedure.state.tender_details.EVALUATION_REPORTS_DOC_REQUIRED_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     )
     def setUp(self):
         super().setUp()

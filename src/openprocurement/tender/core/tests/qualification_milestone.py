@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import change_auth
@@ -91,7 +91,7 @@ class BaseTenderMilestone24HMixin:
         request_data = {
             "code": "24h",
             "description": "One ring to bring them all and in the darkness bind them",
-            "dueDate": (get_now() + timedelta(days=10)).isoformat(),
+            "dueDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
         }
         response = self.app.post_json(
             "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
@@ -270,7 +270,8 @@ class TenderQualificationMilestone24HMixin(BaseTenderMilestone24HMixin):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
     context_name = "award"
@@ -284,7 +285,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         request_data = {
             "code": "24h",
             "description": "One ring to bring them all and in the darkness bind them",
-            "dueDate": (get_now() + timedelta(days=10)).isoformat(),
+            "dueDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
         }
         response = self.app.post_json(
             "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
@@ -388,7 +389,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
         request_data = {
             "code": "24h",
             "description": "One ring to bring them all and in the darkness bind them",
-            "dueDate": (get_now() + timedelta(days=10)).isoformat(),
+            "dueDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
         }
         response = self.app.post_json(
             "/tenders/{}/{}s/{}/milestones?acc_token={}".format(
@@ -467,7 +468,7 @@ class TenderAwardMilestone24HMixin(BaseTenderMilestone24HMixin):
                 "data": {
                     "code": "24h",
                     "description": "One ring to bring them all and in the darkness bind them",
-                    "dueDate": (get_now() + timedelta(days=10)).isoformat(),
+                    "dueDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
                 }
             },
             status=403,
@@ -558,7 +559,8 @@ class BaseTenderAwardMilestoneALPMixin:
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
     alp_period_work_days = 1

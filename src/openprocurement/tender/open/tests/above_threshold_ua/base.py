@@ -5,7 +5,7 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
@@ -27,7 +27,7 @@ now = get_now()
 test_tender_openua_data = test_tender_below_data.copy()
 test_tender_openua_data["procurementMethodType"] = "aboveThresholdUA"
 del test_tender_openua_data["enquiryPeriod"]
-test_tender_openua_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_openua_data["tenderPeriod"] = {"endDate": calculate_date(now, timedelta(days=16)).isoformat()}
 test_tender_openua_data["items"] = [
     {
         "description": "футляри до державних нагород",
@@ -39,8 +39,8 @@ test_tender_openua_data["items"] = [
         "unit": {"name": "item", "code": "KGM"},
         "quantity": 5,
         "deliveryDate": {
-            "startDate": (now + timedelta(days=2)).isoformat(),
-            "endDate": (now + timedelta(days=5)).isoformat(),
+            "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+            "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
         },
         "deliveryAddress": {
             "countryName": "Україна",
@@ -70,7 +70,7 @@ test_tender_openua_three_bids.append(
 test_tender_openua_features_data = test_tender_below_features_data.copy()
 test_tender_openua_features_data["procurementMethodType"] = "aboveThresholdUA"
 del test_tender_openua_features_data["enquiryPeriod"]
-test_tender_openua_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_openua_features_data["tenderPeriod"] = {"endDate": calculate_date(now, timedelta(days=16)).isoformat()}
 test_tender_openua_features_data["items"][0]["deliveryDate"] = test_tender_openua_data["items"][0]["deliveryDate"]
 test_tender_openua_features_data["items"][0]["deliveryAddress"] = test_tender_openua_data["items"][0]["deliveryAddress"]
 

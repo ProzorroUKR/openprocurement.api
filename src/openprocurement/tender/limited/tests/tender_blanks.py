@@ -17,7 +17,7 @@ from openprocurement.api.constants_env import (
     NEW_NEGOTIATION_CAUSES_FROM,
     RELEASE_2020_04_19,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
@@ -1454,8 +1454,8 @@ def tender_cause_quick(self):
     constant_target_2 = "openprocurement.tender.limited.procedure.state.tender_details.CAUSE_DETAILS_REQUIRED_FROM"
 
     with (
-        mock.patch(constant_target_1, get_now() + timedelta(days=1)),
-        mock.patch(constant_target_2, get_now() + timedelta(days=1)),
+        mock.patch(constant_target_1, calculate_date(get_now(), timedelta(days=1))),
+        mock.patch(constant_target_2, calculate_date(get_now(), timedelta(days=1))),
     ):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
 
@@ -1485,7 +1485,7 @@ def tender_cause_choices(self):
     data = deepcopy(self.initial_data)
 
     data["cause"] = "unexisting value"
-    with mock.patch(constant_target, get_now() + timedelta(days=1)):
+    with mock.patch(constant_target, calculate_date(get_now(), timedelta(days=1))):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
         self.assertEqual(response.status, "422 Unprocessable Entity")
         self.assertEqual(response.content_type, "application/json")
@@ -1616,7 +1616,7 @@ def tender_cause_reporting(self):
     for category, value in LIMITED_COMMON_VALUE_AMOUNT_THRESHOLD.items():
         data["mainProcurementCategory"] = category
         data["value"]["amount"] = value
-        with mock.patch(constant_target, get_now() + timedelta(days=1)):
+        with mock.patch(constant_target, calculate_date(get_now(), timedelta(days=1))):
             response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
             self.assertEqual(
                 response.json["errors"],
@@ -1634,7 +1634,7 @@ def tender_cause_reporting(self):
 
     # try to add archived cause
     data["cause"] = "noCompetition"
-    with mock.patch(constant_target, get_now() + timedelta(days=1)):
+    with mock.patch(constant_target, calculate_date(get_now(), timedelta(days=1))):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
         self.assertEqual(
             response.json["errors"],
@@ -1719,7 +1719,7 @@ def tender_cause_reporting(self):
         [{"location": "body", "name": "cause", "description": "Rogue field."}],
     )
 
-    with mock.patch(constant_target, get_now() + timedelta(days=1)):
+    with mock.patch(constant_target, calculate_date(get_now(), timedelta(days=1))):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
         self.assertEqual(
             response.json["errors"],
@@ -1740,7 +1740,7 @@ def tender_cause_reporting(self):
         response.json["errors"],
         [{"location": "body", "name": "causeDescription", "description": "Rogue field."}],
     )
-    with mock.patch(constant_target, get_now() + timedelta(days=1)):
+    with mock.patch(constant_target, calculate_date(get_now(), timedelta(days=1))):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
         self.assertEqual(
             response.json["errors"],
@@ -1822,7 +1822,7 @@ def tender_cause_reporting(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["status"], "active")
 
-    with mock.patch(constant_target, get_now() + timedelta(days=1)):
+    with mock.patch(constant_target, calculate_date(get_now(), timedelta(days=1))):
         response = self.app.patch_json(
             f"/tenders/{tender_id}?acc_token={owner_token}",
             {"data": {"procurementMethodRationale": None}},
@@ -2117,7 +2117,7 @@ def tender_vat_not_included(self):
 
 @mock.patch(
     "openprocurement.tender.limited.procedure.state.tender_details.NegotiationTenderDetailsState.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def tender_vat_not_included_before_constant(self):
     data = deepcopy(self.initial_data)
@@ -2218,7 +2218,7 @@ def tender_items_unit_value(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def tender_items_unit_value_from_tender(self):
     data = deepcopy(self.initial_data)

@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.tests.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
@@ -90,7 +90,7 @@ class TenderLotBidderResourceTest(BaseTenderContentWebTest):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotProcessTest(BaseTenderContentWebTest, TenderLotProcessTestMixin):
     setUp = BaseTenderContentWebTest.setUp

@@ -5,7 +5,7 @@ from hashlib import sha512
 from uuid import uuid4
 
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import test_contract_data
 from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.framework.cfaua.tests.base import test_agreement_data
@@ -247,10 +247,10 @@ class TransferDocsTest(BaseWebTest, MockWebTestMixin):
 
         for item in data["items"]:
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
-        data["tender"]["tenderPeriod"].update({"startDate": (get_now() + timedelta(days=7)).isoformat()})
+        data["tender"]["tenderPeriod"].update({"startDate": calculate_date(get_now(), timedelta(days=7)).isoformat()})
 
         self.app.authorization = ("Basic", ("brokerx", ""))
 

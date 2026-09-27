@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.planning.api.tests.base import BasePlanTest, test_plan_data
 from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; AccreditationPlanTest; PlanResourceTest; PlanBudgetBreakdownTest; PlanResourceBeforeBudgetPeriodTest; Plan Buyers
     cfaua_plan,
@@ -135,7 +135,10 @@ class PlanBudgetBreakdownTest(BasePlanTest):
     test_create_plan_with_profile = snitch(create_plan_with_profile)
 
 
-@mock.patch("openprocurement.planning.api.procedure.models.budget.BUDGET_PERIOD_FROM", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.planning.api.procedure.models.budget.BUDGET_PERIOD_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
+)
 class PlanBudgetYearTest(BasePlanTest):
     initial_data = test_plan_data
     initial_data_with_year = test_data_with_year
@@ -145,7 +148,8 @@ class PlanBudgetYearTest(BasePlanTest):
 
 
 @mock.patch(
-    "openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class PlanBuyersTestCase(BasePlanTest):
     initial_data = test_plan_data

@@ -1,7 +1,7 @@
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.utils import change_auth
 from openprocurement.tender.open.tests.above_threshold_ua.chronograph_blanks import (
     switch_to_unsuccessful as switch_to_unsuccessful_ua,
@@ -30,25 +30,27 @@ def switch_to_qualification(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
+    calculate_date(get_now(), timedelta(days=100)),
 )
 def switch_to_unsuccessful_before_new(self):
     return switch_to_unsuccessful_ua(self)
@@ -94,17 +96,19 @@ def switch_to_unsuccessful_after_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def switch_to_unsuccessful_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
@@ -159,17 +163,19 @@ def switch_to_unsuccessful_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def switch_to_active_to_unsuccessful(self):
     self.set_status("active.auction", {"status": self.initial_status})
@@ -234,25 +240,27 @@ def switch_to_active_to_unsuccessful(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
+    calculate_date(get_now(), timedelta(days=100)),
 )
 def switch_to_unsuccessful_lot_before_new(self):
     return switch_to_unsuccessful_lot_ua(self)
@@ -298,17 +306,19 @@ def switch_to_unsuccessful_lot_after_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def switch_to_unsuccessful_lot_new(self):
     self.set_status("active.auction", {"status": self.initial_status})
@@ -369,17 +379,19 @@ def switch_to_unsuccessful_lot_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100)
+    "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def switch_to_active_to_unsuccessful_lot(self):
     self.set_status("active.auction", {"status": self.initial_status})

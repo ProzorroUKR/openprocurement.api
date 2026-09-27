@@ -9,7 +9,7 @@ from jsonschema import Draft4Validator
 from openprocurement.api.constants import ROUTE_PREFIX, SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
@@ -556,7 +556,7 @@ def create_tender_draft_pending(self):
 
 @mock.patch(
     "openprocurement.tender.cfaselectionua.procedure.state.tender_details.UNIFIED_CRITERIA_LOGIC_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def switch_tender_to_draft_pending(self):
     create_tender_draft(self)
@@ -1595,7 +1595,7 @@ def patch_tender_bot(self):
 
     # patch tender with different changes by bot
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
     now = get_now().isoformat()
     agreement["changes"] = [
         {
@@ -1626,7 +1626,7 @@ def patch_tender_bot(self):
 
     # patch tender items with correct items by bot
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     self.create_agreement(agreement)
     create_tender_draft_pending(self)
@@ -1678,7 +1678,7 @@ def patch_tender_bot(self):
 
     agreement["features"] = features + [new_item_feature]
 
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     self.create_agreement(agreement)
     create_tender_draft_pending(self)
@@ -1729,7 +1729,7 @@ def patch_tender_bot(self):
 
     # patch tender with less than 3 active contracts
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
     agreement["contracts"] = agreement["contracts"][:2]  # only first and second contract
 
     self.create_agreement(agreement)
@@ -1977,7 +1977,8 @@ def one_valid_bid_tender(self):
     owner_token = response.json["access"]["token"]
     # switch to active.tendering
     response = self.set_status(
-        "active.tendering", {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]}
+        "active.tendering",
+        {"lots": [{"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=10)).isoformat()}}]},
     )
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
@@ -2295,7 +2296,7 @@ def patch_tender_to_draft_pending(self):
 
 def edit_tender_in_active_enquiries(self):
     agreement = deepcopy(self.initial_agreement)
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     self.create_agreement(agreement)
 
@@ -2370,8 +2371,8 @@ def edit_tender_in_active_enquiries(self):
         )
 
     period = {
-        "startDate": (get_now() + timedelta(days=10)).isoformat(),
-        "endDate": (get_now() + timedelta(days=33)).isoformat(),
+        "startDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
+        "endDate": calculate_date(get_now(), timedelta(days=33)).isoformat(),
     }
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token), {"data": {"tenderPeriod": period}}, status=403
@@ -2389,7 +2390,7 @@ def edit_tender_in_active_enquiries(self):
 
     period = {
         "startDate": tender_data["tenderPeriod"]["startDate"],
-        "endDate": (get_now() + timedelta(days=33)).isoformat(),
+        "endDate": calculate_date(get_now(), timedelta(days=33)).isoformat(),
     }
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -2444,7 +2445,7 @@ def milestones_mismatch(self):
     # alter milestones data
     agreement["milestones"][0]["duration"]["days"] = agreement["milestones"][0]["duration"]["days"] + 1
 
-    agreement["period"]["endDate"] = (get_now() + timedelta(days=7, hours=1, minutes=1)).isoformat()
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
 
     self.create_agreement(agreement)
 

@@ -7,7 +7,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_supplier,
@@ -59,7 +59,7 @@ test_tender_cdeu_data["mainProcurementCategory"] = "services"
 test_tender_cdua_data = deepcopy(test_tender_cdeu_data)
 del test_tender_cdua_data["title_en"]
 test_tender_cdua_data["procurementMethodType"] = CD_UA_TYPE
-test_tender_cdua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=31)).isoformat()
+test_tender_cdua_data["tenderPeriod"]["endDate"] = calculate_date(now, timedelta(days=31)).isoformat()
 
 
 # stage 2
@@ -299,10 +299,14 @@ test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
 )
 
 test_tender_cdeu_stage2_data["tenderPeriod"] = {
-    "endDate": (now + timedelta(days=test_tender_cdeu_stage2_config["minTenderingDuration"] + 1)).isoformat()
+    "endDate": calculate_date(
+        now, timedelta(days=test_tender_cdeu_stage2_config["minTenderingDuration"] + 1)
+    ).isoformat()
 }
 test_tender_cdua_stage2_data["tenderPeriod"] = {
-    "endDate": (now + timedelta(days=test_tender_cdua_stage2_config["minTenderingDuration"] + 1)).isoformat()
+    "endDate": calculate_date(
+        now, timedelta(days=test_tender_cdua_stage2_config["minTenderingDuration"] + 1)
+    ).isoformat()
 }
 
 

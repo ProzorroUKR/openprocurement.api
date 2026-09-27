@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from freezegun import freeze_time
 
-from openprocurement.api.utils import get_now, parse_datetime
+from openprocurement.api.utils import calculate_date, get_now, parse_datetime
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
@@ -287,8 +287,8 @@ def patch_tender_with_review_request(self):
             "data": {
                 "description": "Updated description",
                 "tenderPeriod": {
-                    "startDate": (get_now() + timedelta(days=10)).isoformat(),
-                    "endDate": (get_now() + timedelta(days=17)).isoformat(),
+                    "startDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
+                    "endDate": calculate_date(get_now(), timedelta(days=17)).isoformat(),
                 },
             }
         },
@@ -311,8 +311,8 @@ def patch_tender_with_review_request(self):
         {
             "data": {
                 "tenderPeriod": {
-                    "startDate": (get_now() + timedelta(days=10)).isoformat(),
-                    "endDate": (get_now() + timedelta(days=17)).isoformat(),
+                    "startDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
+                    "endDate": calculate_date(get_now(), timedelta(days=17)).isoformat(),
                 }
             }
         },
@@ -602,7 +602,7 @@ def after_change_tender_re_approve(self):
     self.assertEqual(response.status, "200 OK")
     self.assertNotIn("next_check", response.json["data"])
 
-    with freeze_time(get_now() + timedelta(days=3)):
+    with freeze_time(calculate_date(get_now(), timedelta(days=3))):
         response = self.check_chronograph()
 
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
@@ -909,6 +909,6 @@ def review_request_multilot_unsuccessful(self):
 
     self.time_shift("active.awarded", shift=timedelta(days=3))
 
-    with freeze_time(get_now() + timedelta(days=5)):
+    with freeze_time(calculate_date(get_now(), timedelta(days=5))):
         response = self.check_chronograph()
     self.assertEqual(response.json["data"]["lots"][0]["status"], "unsuccessful")

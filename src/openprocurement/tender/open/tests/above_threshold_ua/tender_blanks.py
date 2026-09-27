@@ -7,7 +7,7 @@ from freezegun import freeze_time
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import test_lcc_tender_criteria
@@ -255,12 +255,12 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=16)).isoformat(),
-        "endDate": (now + timedelta(days=16)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=16)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=16)).isoformat(),
     }
     self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=15)).isoformat(),
-        "endDate": (now + timedelta(days=15)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=15)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=15)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     del self.initial_data["auctionPeriod"]
@@ -607,7 +607,7 @@ def patch_draft_invalid_json(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender(self):
     response = self.app.get("/tenders")
@@ -1026,7 +1026,7 @@ def one_valid_bid_tender_ua(self):
     owner_token = response.json["access"]["token"]
     # switch to active.tendering XXX temporary action.
     response = self.set_status(
-        "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        "active.tendering", {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
     )
     self.assertIn("auctionPeriod", response.json["data"])
 

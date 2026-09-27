@@ -4,7 +4,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues, set_bid_items
@@ -185,12 +185,12 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=35)).isoformat(),
-        "endDate": (now + timedelta(days=35)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=35)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=35)).isoformat(),
     }
     self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=34)).isoformat(),
-        "endDate": (now + timedelta(days=34)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=34)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=34)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     del self.initial_data["auctionPeriod"]

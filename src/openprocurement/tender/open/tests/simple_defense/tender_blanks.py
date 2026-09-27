@@ -1,7 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 
@@ -138,12 +138,12 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=16)).isoformat(),
-        "endDate": (now + timedelta(days=16)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=16)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=16)).isoformat(),
     }
     self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=15)).isoformat(),
-        "endDate": (now + timedelta(days=15)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=15)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=15)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     del self.initial_data["auctionPeriod"]

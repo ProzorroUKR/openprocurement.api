@@ -3,7 +3,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
@@ -968,7 +968,9 @@ def two_lot_2bid_1lot_del(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots

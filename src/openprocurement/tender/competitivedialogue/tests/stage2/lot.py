@@ -5,7 +5,7 @@ from unittest.mock import patch
 from uuid import uuid4
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.lot_blanks import tender_value
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
@@ -166,7 +166,7 @@ class TenderStage2EULotFeatureBidderResourceTest(BaseCompetitiveDialogEUStage2Co
 
 @patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderStage2EULotProcessTest(BaseCompetitiveDialogEUStage2WebTest):
     initial_data = test_tender_cdeu_stage2_data

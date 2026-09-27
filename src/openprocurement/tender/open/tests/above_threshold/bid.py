@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_lots,
@@ -342,7 +342,8 @@ class TenderWithEnabledValueRestriction(BaseTenderUAContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderBidDuringQualification(TenderAwardPendingResourceTestCase):
     test_patch_bid_during_qualification_forbidden = snitch(patch_bid_during_qualification_forbidden)

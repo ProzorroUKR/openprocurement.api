@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     BaseApiWebTest,
     BaseTenderWebTest,
@@ -174,7 +174,8 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderProcessTest(BaseTenderWebTest):
     initial_auth = ("Basic", ("broker", ""))

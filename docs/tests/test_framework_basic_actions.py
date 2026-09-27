@@ -2,7 +2,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.tests.base import BaseFrameworkCoreWebTest
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
@@ -41,7 +41,7 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkCoreWebTest, MockWebTestMi
 
         # empty frameworks listing
         data = deepcopy(self.initial_data)
-        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
+        data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=400)).isoformat()
         response = self.app.get("/frameworks")
         self.assertEqual(response.json["data"], [])
 

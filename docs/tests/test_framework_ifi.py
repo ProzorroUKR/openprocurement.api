@@ -2,7 +2,7 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.ifi.tests.base import (
     BaseFrameworkWebTest,
     test_framework_ifi_config,
@@ -35,7 +35,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
     def test_docs(self):
         self.app.authorization = ("Basic", ("broker", ""))
         # empty frameworks listing
-        self.initial_data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
+        self.initial_data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=400)).isoformat()
         response = self.app.get("/frameworks")
         self.assertEqual(response.json["data"], [])
 
@@ -390,7 +390,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             self.assertEqual(len(response.json["data"]), 1)
 
         with open(TARGET_DIR + "patch-framework-active-qualification-period-too-soon.http", "w") as self.app.file_obj:
-            new_endDate = (get_now() + timedelta(days=15)).isoformat()
+            new_endDate = calculate_date(get_now(), timedelta(days=15)).isoformat()
             self.app.post_json(
                 "/frameworks/{}/changes?acc_token={}".format(framework["id"], owner_token),
                 {
@@ -404,7 +404,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             )
 
         with open(TARGET_DIR + "patch-framework-active-qualification-period-too-late.http", "w") as self.app.file_obj:
-            new_endDate = (get_now() + timedelta(days=1500)).isoformat()
+            new_endDate = calculate_date(get_now(), timedelta(days=1500)).isoformat()
             self.app.post_json(
                 "/frameworks/{}/changes?acc_token={}".format(framework["id"], owner_token),
                 {
@@ -418,7 +418,7 @@ class FrameworkOpenResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
             )
 
         with open(TARGET_DIR + "patch-framework-active-qualification-period.http", "w") as self.app.file_obj:
-            new_endDate = (get_now() + timedelta(days=50)).isoformat()
+            new_endDate = calculate_date(get_now(), timedelta(days=50)).isoformat()
             response = self.app.post_json(
                 "/frameworks/{}/changes?acc_token={}".format(framework["id"], owner_token),
                 {

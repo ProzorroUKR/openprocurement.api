@@ -2,7 +2,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.lot_blanks import tender_lot_milestones
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
@@ -36,10 +36,11 @@ from openprocurement.tender.limited.tests.lot_blanks import (  # TenderLotNegoti
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @mock.patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
     initial_status = "active"
@@ -71,7 +72,7 @@ class TenderLotNegotiationResourceTest(BaseTenderContentWebTest):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotNegotiationQuickResourceTest(TenderLotNegotiationResourceTest):
     initial_data = test_tender_negotiation_quick_data

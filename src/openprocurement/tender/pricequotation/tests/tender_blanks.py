@@ -11,7 +11,7 @@ from openprocurement.api.constants import (
     SANDBOX_MODE,
 )
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_funder
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
@@ -649,7 +649,7 @@ def create_tender_draft(self):
         }
     else:
         period = {
-            "endDate": (get_now() + timedelta(days=1)).isoformat(),
+            "endDate": calculate_date(get_now(), timedelta(days=1)).isoformat(),
             "startDate": tender["tenderPeriod"]["startDate"],
         }
 
@@ -1302,7 +1302,7 @@ def tender_owner_can_change_in_draft(self):
     general = {
         "tenderPeriod": {
             "startDate": tender["tenderPeriod"]["startDate"],
-            "endDate": (get_now() + timedelta(days=14)).isoformat(),
+            "endDate": calculate_date(get_now(), timedelta(days=14)).isoformat(),
         },
         "procuringEntity": pq_entity,
         "mainProcurementCategory": "works",
@@ -1520,8 +1520,8 @@ def tender_owner_cannot_change_in_draft(self):
         "/tenders/{}?acc_token={}".format(tender["id"], token),
         {
             "data": {
-                "date": (get_now() + timedelta(days=1)).isoformat(),
-                "dateModified": (get_now() + timedelta(days=1)).isoformat(),
+                "date": calculate_date(get_now(), timedelta(days=1)).isoformat(),
+                "dateModified": calculate_date(get_now(), timedelta(days=1)).isoformat(),
             }
         },
         status=422,

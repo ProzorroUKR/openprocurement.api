@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
@@ -387,7 +387,7 @@ def create_tender_lot_minimalstep_validation(self):
 
     with mock.patch(
         "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json(request_path, {"data": data}, status=201)
         self.assertEqual(response.status, "201 Created")
@@ -499,7 +499,7 @@ def patch_tender_lot_minimalstep_validation(self):
     )
     with mock.patch(
         "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.patch_json(
             "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
@@ -610,7 +610,7 @@ def patch_tender_currency(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_vat(self):
     tender = self.initial_data
@@ -1686,7 +1686,9 @@ def proc_1lot_0bid(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
             ]
@@ -1728,7 +1730,9 @@ def proc_1lot_1bid(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
             ]
@@ -1808,7 +1812,9 @@ def proc_1lot_2bid(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
             ]
@@ -1951,7 +1957,9 @@ def proc_2lot_0bid(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2007,7 +2015,9 @@ def proc_2lot_2can(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2080,7 +2090,9 @@ def proc_2lot_2bid_0com_1can_before_auction(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2197,7 +2209,9 @@ def proc_2lot_1bid_0com_1can(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2301,7 +2315,9 @@ def proc_2lot_1bid_2com_1win(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2389,7 +2405,9 @@ def proc_2lot_1bid_0com_0win(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2474,7 +2492,9 @@ def proc_2lot_1bid_1com_1win(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2586,7 +2606,9 @@ def proc_2lot_2bid_2com_2win(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2776,7 +2798,9 @@ def proc_2lot_1feature_2bid_2com_2win(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -2903,7 +2927,9 @@ def proc_2lot_2diff_bids_check_auction(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots

@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
@@ -1972,7 +1972,7 @@ def bot_patch_tender_award_complaint(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def bot_patch_tender_award_complaint_forbidden(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),

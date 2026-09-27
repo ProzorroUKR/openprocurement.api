@@ -6,7 +6,7 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.constants import BELOW_THRESHOLD_MIN_BIDS_NUMBER
 from openprocurement.tender.open.tests.below_threshold.periods import PERIODS
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -98,8 +98,8 @@ test_tender_below_item = {
     },
     "quantity": 5,
     "deliveryDate": {
-        "startDate": (now + timedelta(days=2)).isoformat(),
-        "endDate": (now + timedelta(days=5)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
     },
     "deliveryAddress": {
         "countryName": "Україна",

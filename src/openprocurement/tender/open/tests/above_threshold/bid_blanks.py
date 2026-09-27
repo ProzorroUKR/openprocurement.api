@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     now,
     test_tender_below_supplier,
@@ -241,8 +241,8 @@ def create_tender_bidder(self):
 
     # set tender period in future  # WTF this change, tender in active.tendering
     # data = deepcopy(self.initial_data)
-    # data["tenderPeriod"]["endDate"] = (now + timedelta(days=17)).isoformat()
-    # data["tenderPeriod"]["startDate"] = (now + timedelta(days=1)).isoformat()
+    # data["tenderPeriod"]["endDate"] = calculate_date(now, timedelta(days=17)).isoformat()
+    # data["tenderPeriod"]["startDate"] = calculate_date(now, timedelta(days=1)).isoformat()
     # response = self.app.patch_json(
     #     "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
     #     {"data": {"tenderPeriod": data["tenderPeriod"]}},
@@ -250,8 +250,8 @@ def create_tender_bidder(self):
     # self.assertEqual(response.status, "200 OK")
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["tenderPeriod"] = {
-        "startDate": (now + timedelta(days=1)).isoformat(),
-        "endDate": (now + timedelta(days=17)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=1)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=17)).isoformat(),
     }
     self.mongodb.tenders.save(tender)
 
@@ -793,7 +793,7 @@ def draft2_bids(self):
 )
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def bids_invalidation_on_tender_change(self):
     bids_access = {}

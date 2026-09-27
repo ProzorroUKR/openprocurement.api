@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_complaint,
@@ -243,7 +243,7 @@ def bot_patch_tender_complaint_mistaken(self):
         self.assertEqual(response.json["data"]["rejectReason"], "incorrectPayment")
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def bot_patch_tender_complaint_forbidden(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     complaint_data["author"] = getattr(self, "test_author", test_tender_below_author)
@@ -644,7 +644,9 @@ def put_tender_complaint_document(self):
         },
     )
 
-    with patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+    with patch(
+        "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1))
+    ):
         response = self.app.patch_json(
             "/tenders/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.complaint_id, self.complaint_owner_token
@@ -742,7 +744,9 @@ def patch_tender_complaint_document(self):
     self.assertEqual(doc_id, response.json["data"]["id"])
     self.assertEqual("document description", response.json["data"]["description"])
 
-    with patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1)):
+    with patch(
+        "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1))
+    ):
         response = self.app.patch_json(
             "/tenders/{}/complaints/{}?acc_token={}".format(
                 self.tender_id, self.complaint_id, self.complaint_owner_token

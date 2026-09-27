@@ -11,7 +11,7 @@ from openprocurement.api.procedure.models.organization import (
     PROCURING_ENTITY_KIND_CHOICES,
 )
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.constants import (
     AGREEMENT_TERMINATION_DETAILS_NOT_ENOUGH_SUBMISSIONS,
 )
@@ -943,7 +943,7 @@ def patch_framework_draft(self):
     token = response.json["access"]["token"]
     self.assertEqual(framework["status"], "draft")
 
-    qualification_endDate = (get_now() + timedelta(days=90)).isoformat()
+    qualification_endDate = calculate_date(get_now(), timedelta(days=90)).isoformat()
     procuring_entity = deepcopy(framework["procuringEntity"])
     procuring_entity["identifier"]["legalName"] = "changed"
     procuring_entity["address"].update({"postalCode": "changed", "streetAddress": "changed", "locality": "changed"})
@@ -1017,7 +1017,7 @@ def patch_framework_draft_to_active(self):
     self.assertNotEqual(response.json["data"]["dateModified"], framework["dateModified"])
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=366)).isoformat()
+    data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=366)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1045,7 +1045,7 @@ def patch_framework_draft_to_active(self):
     )
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1095)).isoformat()
+    data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=1095)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1072,7 +1072,7 @@ def patch_framework_draft_to_active(self):
 def patch_framework_draft_to_active_invalid(self):
     data = deepcopy(self.initial_data)
     data["qualificationPeriod"]["endDate"] = (
-        get_now() + timedelta(days=self.min_qualification_duration - 1)
+        calculate_date(get_now(), timedelta(days=self.min_qualification_duration - 1))
     ).isoformat()
     response = self.app.post_json(
         "/frameworks",
@@ -1106,7 +1106,7 @@ def patch_framework_draft_to_active_invalid(self):
     )
 
     data = deepcopy(self.initial_data)
-    data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=1462)).isoformat()
+    data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=1462)).isoformat()
     response = self.app.post_json(
         "/frameworks",
         {
@@ -1211,7 +1211,7 @@ def patch_framework_active(self):
     self.assertEqual(contact["email"], framework_patch_data["procuringEntity"]["contactPoint"]["email"])
     self.assertEqual(framework["description"], framework_patch_data["description"])
 
-    qualificationPeriod_endDate = (get_now() + timedelta(days=1000)).isoformat()
+    qualificationPeriod_endDate = calculate_date(get_now(), timedelta(days=1000)).isoformat()
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework["id"], token),
         {"data": {"qualificationPeriod": {"endDate": qualificationPeriod_endDate}}},
@@ -1873,7 +1873,7 @@ def modify_framework_period(self):
         ],
     )
 
-    new_endDate = (get_now() + timedelta(days=1500)).isoformat()
+    new_endDate = calculate_date(get_now(), timedelta(days=1500)).isoformat()
     response = self.app.post_json(
         f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {
@@ -1901,7 +1901,7 @@ def modify_framework_period(self):
         ],
     )
 
-    new_endDate = (get_now() + timedelta(days=100)).isoformat()
+    new_endDate = calculate_date(get_now(), timedelta(days=100)).isoformat()
     response = self.app.post_json(
         f"/frameworks/{framework['id']}/changes",
         {
@@ -2012,7 +2012,7 @@ def modify_framework_period(self):
     )
     self.assertEqual(changed_framework["next_check"], date.isoformat())
 
-    new_endDate = (get_now() + timedelta(days=35)).isoformat()
+    new_endDate = calculate_date(get_now(), timedelta(days=35)).isoformat()
     response = self.app.post_json(
         f"/frameworks/{framework['id']}/changes?acc_token={token}",
         {

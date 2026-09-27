@@ -8,7 +8,7 @@ from openprocurement.api.constants_env import (
     RELEASE_2020_04_19,
 )
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
@@ -2119,7 +2119,7 @@ def bot_patch_tender_award_complaint(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def bot_patch_tender_award_complaint_forbidden(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
     response = self.app.post_json(

@@ -5,7 +5,7 @@ from unittest.mock import patch
 import pytest
 
 from openprocurement.api.tests.base import app, singleton_app, unwrap_app
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.planning.api.tests.base import (
     generate_docservice_url,
     test_plan_data,
@@ -446,7 +446,7 @@ def test_fail_complete_manually(app, value):
     if procurement_method_type == "aboveThresholdUA.defense":
         test_data["procuringEntity"]["kind"] = "defense"
         patch_path = "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM"
-        defense_patch = patch(patch_path, get_now() + timedelta(days=1))
+        defense_patch = patch(patch_path, calculate_date(get_now(), timedelta(days=1)))
         defense_patch.start()
 
     if procurement_method_type == "simple.defense":

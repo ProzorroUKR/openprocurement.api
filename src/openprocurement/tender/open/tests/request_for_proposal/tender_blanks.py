@@ -8,7 +8,7 @@ from freezegun import freeze_time
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import (
     set_tender_lots,
@@ -22,7 +22,9 @@ from openprocurement.tender.open.tests.request_for_proposal.base import (
 )
 
 
-@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1))
+)
 def create_tender_invalid(self):
     request_path = "/tenders"
     # TODO: spent a hour trying find out why this does not work after refactoring
@@ -231,8 +233,8 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=14)).isoformat(),
-        "endDate": (now + timedelta(days=14)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=14)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=14)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -537,7 +539,7 @@ def tender_with_main_procurement_category(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_rfp_data)

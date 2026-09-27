@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.utils import change_auth
 
 
@@ -711,7 +711,7 @@ def change_date_signed(self):
     change2 = response.json["data"]
     self.assertEqual(change["status"], "pending")
 
-    one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
+    one_day_in_future = calculate_date(get_now(), timedelta(days=1)).isoformat()
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change2["id"], self.agreement_token),
         {"data": {"dateSigned": one_day_in_future}},
@@ -815,7 +815,7 @@ def date_signed_on_change_creation(self):
         status=403,
     )
     self.assertIn("can't be earlier than agreement dateSigned", response.json["errors"][0]["description"])
-    one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
+    one_day_in_future = calculate_date(get_now(), timedelta(days=1)).isoformat()
     data["dateSigned"] = one_day_in_future
     response = self.app.post_json(
         "/agreements/{}/changes?acc_token={}".format(self.agreement["id"], self.agreement_token),

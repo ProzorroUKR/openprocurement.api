@@ -11,7 +11,7 @@ from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_TO,
     RELEASE_2020_04_19,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
@@ -112,22 +112,23 @@ def tender_award_complaint_period(self, date, expected_date, expected_sb_date):
 # TenderAwardResourceTest
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def check_tender_award_complaint_period_dates_before_new(self):
     auth = self.app.authorization
@@ -198,7 +199,8 @@ def check_tender_award_complaint_period_dates_before_new(self):
     get_now() - timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def check_tender_award_complaint_period_dates_after_new(self):
     return check_tender_award_complaint_period_dates_before_new(self)
@@ -214,14 +216,15 @@ def check_tender_award_complaint_period_dates_after_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def check_tender_award_complaint_period_dates_new(self):
     self.app.authorization = ("Basic", ("token", ""))
@@ -418,30 +421,31 @@ def patch_tender_award_active(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_award_active_before_new(self):
     return patch_tender_award_active(self)
@@ -472,7 +476,8 @@ def patch_tender_award_active_before_new(self):
     get_now() - timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_award_active_after_new(self):
     return patch_tender_award_active(self)
@@ -492,18 +497,19 @@ def patch_tender_award_active_after_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_award_active_new(self):
     return patch_tender_award_active(self)
@@ -653,30 +659,31 @@ def patch_tender_award_unsuccessful(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_award_unsuccessful_before_new(self):
     return patch_tender_award_unsuccessful(self)
@@ -707,7 +714,8 @@ def patch_tender_award_unsuccessful_before_new(self):
     get_now() - timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_award_unsuccessful_after_new(self):
     return patch_tender_award_unsuccessful(self)
@@ -727,18 +735,19 @@ def patch_tender_award_unsuccessful_after_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_award_unsuccessful_new(self):
     return patch_tender_award_unsuccessful(self)
@@ -846,34 +855,35 @@ def patch_tender_lot_award_unsuccessful(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award_claim.NO_DEFENSE_AWARD_CLAIMS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_lot_award_unsuccessful_before_new(self):
     return patch_tender_lot_award_unsuccessful(self)
@@ -908,7 +918,8 @@ def patch_tender_lot_award_unsuccessful_before_new(self):
     get_now() - timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_lot_award_unsuccessful_after_new(self):
     return patch_tender_lot_award_unsuccessful(self)
@@ -928,22 +939,23 @@ def patch_tender_lot_award_unsuccessful_after_new(self):
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.chronograph.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.open.tests.above_threshold_ua_defense.award_blanks.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award_claim.NO_DEFENSE_AWARD_CLAIMS_FROM",
     get_now() - timedelta(days=1),
 )
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_lot_award_unsuccessful_new(self):
     return patch_tender_lot_award_unsuccessful(self)
@@ -954,15 +966,15 @@ def patch_tender_lot_award_unsuccessful_new(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award_claim.NO_DEFENSE_AWARD_CLAIMS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_DEFENSE_COMPLAINTS_TO",
-    get_now() + timedelta(days=100),
+    calculate_date(get_now(), timedelta(days=100)),
 )
 def create_tender_award_claim(self):
     return create_tender_award_claim_ua(self)
@@ -1142,7 +1154,7 @@ def get_tender_lot_award_complaints(self):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award_claim.NO_DEFENSE_AWARD_CLAIMS_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def review_tender_award_claim(self):
     return review_tender_award_claim_ua(self)
@@ -1197,7 +1209,7 @@ def patch_tender_lots_award_complaint(self):
 
     with patch(
         "openprocurement.tender.core.procedure.state.award_claim.NO_DEFENSE_AWARD_CLAIMS_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json(
             "/tenders/{}/awards/{}/complaints?acc_token={}".format(

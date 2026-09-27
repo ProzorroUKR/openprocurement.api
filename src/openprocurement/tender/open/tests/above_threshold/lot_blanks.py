@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
@@ -135,7 +135,7 @@ def patch_tender_currency(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_vat(self):
     # set tender VAT
@@ -998,7 +998,7 @@ def proc_1lot_1bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     response = self.set_status("active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}}]})
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
@@ -1086,7 +1086,7 @@ def proc_1lot_2bid(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     response = self.set_status("active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}}]})
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
@@ -1206,7 +1206,7 @@ def proc_1lot_3bid_1un(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     response = self.set_status("active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}}]})
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bids
@@ -1348,7 +1348,9 @@ def proc_2lot_1bid_0com_1can(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -1404,7 +1406,7 @@ def proc_2lot_2bid_1lot_del(self):
     )
 
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
@@ -1465,7 +1467,7 @@ def proc_2lot_1bid_2com_1win(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
@@ -1555,7 +1557,7 @@ def proc_2lot_1bid_0com_0win(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
@@ -1609,7 +1611,7 @@ def proc_2lot_1bid_1com_1win(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
@@ -1663,7 +1665,7 @@ def proc_2lot_2bid_2com_2win(self):
     )
     self.assertEqual(response.status, "200 OK")
     # switch to active.tendering
-    start_date = get_now() + timedelta(days=self.days_till_auction_starts)
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts))
     self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date.isoformat()}} for i in lots]}
     )
@@ -1935,7 +1937,12 @@ def proc_2lot_2bid_1claim_1com_1win(self):
     # switch to active.tendering
     self.set_status(
         "active.tendering",
-        {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in lots]},
+        {
+            "lots": [
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in lots
+            ]
+        },
     )
     # create bid
     self.app.authorization = ("Basic", ("broker", ""))

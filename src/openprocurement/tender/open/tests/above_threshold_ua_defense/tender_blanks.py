@@ -7,7 +7,7 @@ from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_TO,
 )
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 # TenderUATest
@@ -161,12 +161,12 @@ def create_tender_invalid(self):
     )
 
     initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=16)).isoformat(),
-        "endDate": (now + timedelta(days=16)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=16)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=16)).isoformat(),
     }
     initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=15)).isoformat(),
-        "endDate": (now + timedelta(days=15)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=15)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=15)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": initial_data}, status=422)
     del initial_data["auctionPeriod"]
@@ -570,7 +570,7 @@ def one_valid_bid_tender_ua(self):
     owner_token = response.json["access"]["token"]
     # switch to active.tendering XXX temporary action.
     response = self.set_status(
-        "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        "active.tendering", {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
     )
     self.assertIn("auctionPeriod", response.json["data"])
 
@@ -634,10 +634,10 @@ def one_invalid_bid_tender(self):
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
 
-# @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-# @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() + timedelta(days=1))
-# @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-# @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+# @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", calculate_date(get_now(), timedelta(days=1)))
+# @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", calculate_date(get_now(), timedelta(days=1)))
+# @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", calculate_date(get_now(), timedelta(days=100)))
+# @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", calculate_date(get_now(), timedelta(days=100)))
 def one_invalid_bid_tender_before_new(self):
     return one_invalid_bid_tender(self)
 
@@ -652,8 +652,8 @@ def one_invalid_bid_tender_after_new(self):
 
 # @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
 # @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_FROM", get_now() - timedelta(days=1))
-# @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
-# @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", get_now() + timedelta(days=100))
+# @patch("openprocurement.tender.open.tests.above_threshold_ua_defense.tender_blanks.NEW_DEFENSE_COMPLAINTS_TO", calculate_date(get_now(), timedelta(days=100)))
+# @patch("openprocurement.tender.belowthreshold.utils.NEW_DEFENSE_COMPLAINTS_TO", calculate_date(get_now(), timedelta(days=100)))
 def one_invalid_bid_tender_new(self):
     return one_invalid_bid_tender(self)
 

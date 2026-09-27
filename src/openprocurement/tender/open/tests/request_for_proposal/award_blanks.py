@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_date
@@ -111,7 +111,7 @@ def milestone_24h(self):
     request_data = {
         "code": "24h",
         "description": "One ring to bring them all and in the darkness bind them",
-        "dueDate": (get_now() + timedelta(days=10)).isoformat(),
+        "dueDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
     }
     response = self.app.post_json(
         "/tenders/{}/{}s/{}/milestones?acc_token={}".format(

@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.cfaua.constants import CFA_UA_CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import (
     test_tender_cfaua_criteria,
@@ -88,7 +88,9 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         for item in test_tender_cfaua_data["items"]:
             item["relatedLot"] = lot["id"]
 
-        test_tender_cfaua_data.update({"tenderPeriod": {"endDate": (get_now() + timedelta(days=31)).isoformat()}})
+        test_tender_cfaua_data.update(
+            {"tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=31)).isoformat()}}
+        )
 
         self.app.authorization = ("Basic", ("broker", ""))
         with open(TARGET_DIR + "tender-post-attempt-json-data.http", "w") as self.app.file_obj:
@@ -143,7 +145,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Modifying tender
 
-        tender_period_end_date = get_now() + timedelta(days=30, seconds=10)
+        tender_period_end_date = calculate_date(get_now(), timedelta(days=30, seconds=10))
         with open(TARGET_DIR + "patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -272,7 +274,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
             self.assertEqual(response.status, "403 Forbidden")
 
         with open(TARGET_DIR + "update-tender-after-enqiery-with-update-periods.http", "w") as self.app.file_obj:
-            tender_period_end_date = get_now() + timedelta(days=8)
+            tender_period_end_date = calculate_date(get_now(), timedelta(days=8))
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
                 {
@@ -968,7 +970,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                         "status": "active",
                         "period": {
                             "startDate": get_now().isoformat(),
-                            "endDate": (get_now() + timedelta(days=4 * 365)).isoformat(),
+                            "endDate": calculate_date(get_now(), timedelta(days=4 * 365)).isoformat(),
                         },
                     }
                 },

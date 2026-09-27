@@ -25,7 +25,7 @@ from openprocurement.api.procedure.models.organization import (
 )
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     set_tender_below_periods,
     test_tender_below_base_organization,
@@ -354,7 +354,9 @@ def listing_draft(self):
     self.assertEqual([i["dateModified"] for i in response.json["data"]], sorted([i["dateModified"] for i in tenders]))
 
 
-@mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1))
+)
 def create_tender_invalid(self):
     request_path = "/tenders"
     # TODO: spent a hour trying find out why this does not work after refactoring
@@ -542,8 +544,8 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=14)).isoformat(),
-        "endDate": (now + timedelta(days=14)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=14)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=14)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -1173,10 +1175,13 @@ def create_tender_with_estimated_value(self):
     )
 
 
-@mock.patch("openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@mock.patch(
+    "openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
+)
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
@@ -1410,7 +1415,7 @@ def patch_tender_draft(self):
     data.update({"status": "draft"})
     is_cfaselectionua = data["procurementMethodType"] == "closeFrameworkAgreementSelectionUA"
     if is_cfaselectionua:
-        data.update({"enquiryPeriod": {"endDate": (get_now() + timedelta(days=1)).isoformat()}})
+        data.update({"enquiryPeriod": {"endDate": calculate_date(get_now(), timedelta(days=1)).isoformat()}})
 
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.assertEqual(response.status, "201 Created")
@@ -1425,8 +1430,8 @@ def patch_tender_draft(self):
         tender_period["endDate"] = (parse_date(tender_period["endDate"]) + timedelta(days=1)).isoformat()
     else:
         tender_period = {
-            "startDate": (get_now() + timedelta(days=2)).isoformat(),
-            "endDate": (get_now() + timedelta(days=6)).isoformat(),
+            "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+            "endDate": calculate_date(get_now(), timedelta(days=6)).isoformat(),
         }
 
     item = deepcopy(tender["items"][0])
@@ -2752,7 +2757,7 @@ def one_valid_bid_tender(self):
     owner_token = response.json["access"]["token"]
     # switch to active.tendering
     response = self.set_status(
-        "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}
+        "active.tendering", {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=10)).isoformat()}}
     )
     self.assertIn("auctionPeriod", response.json["data"])
     # create bid
@@ -3279,7 +3284,7 @@ def tender_lot_minimalstep_validation(self):
     )
     with mock.patch(
         "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=201)
         self.assertEqual(response.status, "201 Created")
@@ -3310,7 +3315,7 @@ def patch_tender_minimalstep_validation(self):
     # tender created before MINIMAL_STEP_VALIDATION_FROM
     with mock.patch(
         "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
         self.tender_id = response.json["data"]["id"]
@@ -3854,7 +3859,7 @@ def patch_enquiry_tender_periods(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_below_data)
@@ -5213,7 +5218,7 @@ def set_procuring_entity_contract_owner_required_by_edrpou(self):
     with (
         mock.patch(
             "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
-            get_now() + timedelta(days=1),
+            calculate_date(get_now(), timedelta(days=1)),
         ),
         mock.patch(
             "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
@@ -5255,7 +5260,7 @@ def set_buyers_contract_owner_required_by_edrpou(self):
     with (
         mock.patch(
             "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM",
-            get_now() + timedelta(days=1),
+            calculate_date(get_now(), timedelta(days=1)),
         ),
         mock.patch(
             "openprocurement.tender.core.procedure.validation.CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU",
@@ -5334,7 +5339,7 @@ def tender_contract_change_rationale_types(self):
 
     with mock.patch(
         "openprocurement.tender.core.procedure.state.tender_details.CONTRACT_CHANGE_RATIONALE_TYPES_SET_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config})
         self.assertNotIn("contractChangeRationaleTypes", response.json["data"])

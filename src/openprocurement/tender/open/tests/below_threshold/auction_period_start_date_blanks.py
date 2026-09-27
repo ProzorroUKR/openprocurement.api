@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
@@ -62,8 +62,8 @@ def tender_lot_put_auction_period_for_not_allowed_tender_status(self):
 def tender_lot_put_auction_period_in_active_tendering(self):
     self.app.authorization = ("Basic", ("administrator", ""))
     lot_id = self.initial_lots[0]["id"]
-    new_start = (get_now() + timedelta(days=self.days_till_auction_starts + 1)).isoformat()
-    start_date = (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+    new_start = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts + 1)).isoformat()
+    start_date = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts)).isoformat()
     self.set_status(
         "active.tendering", {"lots": [{"auctionPeriod": {"startDate": start_date}} for i in self.initial_lots]}
     )
@@ -77,7 +77,7 @@ def tender_lot_put_auction_period_in_active_auction(self):
     self.app.authorization = ("Basic", ("administrator", ""))
     self.set_status("active.auction")
     lot_id = self.initial_lots[0]["id"]
-    new_start = (get_now() + timedelta(days=self.days_till_auction_starts + 1)).isoformat()
+    new_start = calculate_date(get_now(), timedelta(days=self.days_till_auction_starts + 1)).isoformat()
     response = self.app.put_json(
         f"/tenders/{self.tender_id}/lots/{lot_id}/auctionPeriod", {"data": {"startDate": new_start}}, status=200
     )

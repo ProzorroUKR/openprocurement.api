@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.cfaua.tests.base import (
     BaseTenderWebTest,
     test_tender_cfaua_data,
@@ -41,7 +41,7 @@ class CFAUAAgreementResourceTest(BaseTenderWebTest, MockWebTestMixin):
         lot["id"] = uuid4().hex
         test_tender_cfaua_data["lots"] = [lot]
         test_tender_cfaua_data["items"][0]["relatedLot"] = lot["id"]
-        test_tender_cfaua_data["tenderPeriod"]["endDate"] = (get_now() + timedelta(days=31)).isoformat()
+        test_tender_cfaua_data["tenderPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=31)).isoformat()
 
         response = self.app.post_json(
             "/tenders",

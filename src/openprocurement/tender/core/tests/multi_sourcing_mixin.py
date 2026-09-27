@@ -5,7 +5,7 @@ from openprocurement.api.constants import (
     TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 
@@ -329,7 +329,7 @@ class MultiSourcingTestMixin:
         tender["status"] = "active.tendering"
         tender["tenderPeriod"] = {
             "startDate": (get_now() - timedelta(days=5)).isoformat(),
-            "endDate": (get_now() + timedelta(days=10)).isoformat(),
+            "endDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
         }
         lot_id = "1" * 32
         tender["lots"] = [

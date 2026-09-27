@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.api.constants import RATIONALE_TYPES_DECREE_1178
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 
 
@@ -580,7 +580,7 @@ def change_date_signed(self):
     change2 = response.json["data"]
     self.assertEqual(change["status"], "pending")
 
-    one_day_in_future = (get_now() + timedelta(days=1)).isoformat()
+    one_day_in_future = calculate_date(get_now(), timedelta(days=1)).isoformat()
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change2['id']}?acc_token={self.contract_token}",
         {"data": {"dateSigned": one_day_in_future}},
@@ -709,7 +709,7 @@ def date_signed_on_change_creation(self):
     )
     self.assertIn("can't be earlier than contract dateSigned", response.json["errors"][0]["description"])
 
-    one_day_in_future = (now + timedelta(days=1)).isoformat()
+    one_day_in_future = calculate_date(now, timedelta(days=1)).isoformat()
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.contract_token}",
         {

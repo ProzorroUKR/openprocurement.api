@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
     ban_milestone_data_with_documents,
@@ -30,7 +30,9 @@ class FrameworkAgreementResourceTest(BaseFrameworkWebTest, MockWebTestMixin):
         self.setUpMock()
         super().setUp()
         self.initial_data = deepcopy(self.initial_data)
-        self.initial_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=420)).isoformat()}
+        self.initial_data["qualificationPeriod"] = {
+            "endDate": calculate_date(get_now(), timedelta(days=420)).isoformat()
+        }
 
     def tearDown(self):
         super().tearDown()

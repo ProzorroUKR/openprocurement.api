@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
 from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
@@ -96,7 +96,7 @@ class TenderCOResourceTest(BaseTenderCOLongWebTest, TenderResourceTestMixin, Ten
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderCOProcessTest(BaseTenderCOLongWebTest, TenderCOProcessTestMixin):
     initial_data = test_tender_co_long_data

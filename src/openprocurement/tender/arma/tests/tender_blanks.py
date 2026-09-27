@@ -8,7 +8,7 @@ from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import change_auth, test_signer_info
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
@@ -182,12 +182,12 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=35)).isoformat(),
-        "endDate": (now + timedelta(days=35)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=35)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=35)).isoformat(),
     }
     self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=34)).isoformat(),
-        "endDate": (now + timedelta(days=34)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=34)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=34)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     del self.initial_data["auctionPeriod"]
@@ -1237,10 +1237,13 @@ def tender_financing_milestones(self):
     self.assertEqual(response.status, "201 Created")
 
 
-@patch("openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
+)
 @patch(
     "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
@@ -1530,11 +1533,11 @@ def patch_tender_lot_min_expected_income(self):
 
 @mock.patch(
     "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @mock.patch(
     "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_lot_min_expected_income_before_date_gate(self):
     data = deepcopy(self.initial_data)

@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import change_auth, snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.tests.award_blanks import (
     award_sign,
     create_acceptance_report_award_document,
@@ -66,7 +66,8 @@ class TenderAwardQualificationResourceTest(BaseTenderContentWebTest):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotAwardResourceTestMixin:
     test_create_tender_award = snitch(create_tender_lot_award)

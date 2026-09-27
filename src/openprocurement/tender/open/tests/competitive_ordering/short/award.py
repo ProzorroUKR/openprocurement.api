@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
@@ -69,7 +69,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardResourceTest(BaseTenderCOShortContentWebTest):
     initial_status = "active.qualification"
@@ -92,7 +92,7 @@ class TenderAwardResourceTest(BaseTenderCOShortContentWebTest):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotAwardResourceTest(BaseTenderCOShortContentWebTest):
     initial_status = "active.qualification"
@@ -107,7 +107,7 @@ class TenderLotAwardResourceTest(BaseTenderCOShortContentWebTest):
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class Tender2LotAwardResourceTest(BaseTenderCOShortContentWebTest):
     initial_status = "active.qualification"

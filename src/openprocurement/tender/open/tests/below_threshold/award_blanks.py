@@ -5,7 +5,7 @@ from unittest import mock
 from webtest import AppError
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
@@ -622,7 +622,7 @@ def patch_tender_award_unsuccessful_to_cancelled_cancels_all_lot_awards(self):
     # every award of the lot is cancelled, regardless of its status
     with mock.patch(
         "openprocurement.tender.core.procedure.state.award.QUALIFICATION_AFTER_COMPLAINT_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, first_award["id"], self.tender_token),

@@ -1,11 +1,11 @@
 from datetime import timedelta
 from unittest import mock
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.utils import change_auth
 
 RELEASE_2020_04_19_TEST_ENABLED = get_now() - timedelta(days=1)
-RELEASE_2020_04_19_TEST_DISABLED = get_now() + timedelta(days=1)
+RELEASE_2020_04_19_TEST_DISABLED = calculate_date(get_now(), timedelta(days=1))
 
 
 @mock.patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", RELEASE_2020_04_19_TEST_DISABLED)

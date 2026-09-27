@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.tests.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
@@ -146,7 +146,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         #### Modifying tender
 
-        tender_period_end_date = get_now() + timedelta(weeks=4, days=1)
+        tender_period_end_date = calculate_date(get_now(), timedelta(weeks=4, days=1))
         with open(TARGET_DIR + "patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
@@ -272,7 +272,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
 
-        tender_period_end_date = get_now() + timedelta(days=8)
+        tender_period_end_date = calculate_date(get_now(), timedelta(days=8))
         with open(TARGET_DIR + "update-tender-after-enquiry-with-update-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),

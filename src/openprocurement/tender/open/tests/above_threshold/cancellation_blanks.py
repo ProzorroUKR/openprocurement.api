@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
@@ -463,7 +463,7 @@ def cancellation_lot_during_qualification_before_winner_chosen(self):
     self.assertEqual(response.json["data"]["status"], "active.awarded")
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def create_tender_cancellation_before_19_04_2020(self):
     cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.update({"reasonType": "noDemand"})
@@ -520,7 +520,7 @@ def create_tender_cancellation_before_19_04_2020(self):
     self.assertIn(cancellation["id"], response.headers["Location"])
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def patch_tender_cancellation_before_19_04_2020(self):
     cancellation = deepcopy(test_tender_below_cancellation)
     if RELEASE_2020_04_19 < get_now():
@@ -636,7 +636,7 @@ def create_tender_cancellation_2020_04_19(self):
 @patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() - timedelta(days=1))
 @patch(
     "openprocurement.tender.core.procedure.state.cancellation.NO_LOCALIZATION_CANCELLATION_REASON_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_cancellation_before_localization(self):
     reasonType_choices = list(self.valid_reasonType_choices)
@@ -1557,7 +1557,7 @@ def activate_cancellation(self):
 
         with patch(
             "openprocurement.tender.core.procedure.utils.get_request_now",
-            return_value=get_now() + timedelta(days=11),
+            return_value=calculate_date(get_now(), timedelta(days=11)),
         ):
             response = self.check_chronograph()
 
@@ -1715,7 +1715,7 @@ def create_tender_cancellation_complaint(self):
 
     with patch(
         "openprocurement.tender.core.procedure.state.cancellation_complaint.get_request_now",
-        return_value=get_now() + timedelta(days=11),
+        return_value=calculate_date(get_now(), timedelta(days=11)),
     ):
         response = self.app.post_json(
             "/tenders/{}/cancellations/{}/complaints?acc_token={}".format(

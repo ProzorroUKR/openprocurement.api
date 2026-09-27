@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from openprocurement.api.constants import TZ
 from openprocurement.api.constants_utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_full_date
@@ -58,7 +58,7 @@ def patch_tender_period(self):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender(self):
     response = self.app.get("/tenders")

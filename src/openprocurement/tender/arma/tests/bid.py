@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.tests.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
@@ -135,7 +135,8 @@ class Tender2LotBidResourceTest(BaseTenderContentWebTest):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderBidDocumentResourceTestMixin:
     test_not_found = snitch(not_found)

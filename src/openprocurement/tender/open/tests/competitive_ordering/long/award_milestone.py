@@ -1,7 +1,7 @@
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.open.tests.competitive_ordering.long.award import (
     BaseTenderCOLongContentWebTest,
@@ -19,7 +19,7 @@ from openprocurement.tender.core.tests.qualification_milestone import (
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardMilestone24HTestCase(TenderAwardMilestone24HMixin, TenderAwardPendingResourceTestCase):
     initial_lots = test_tender_below_lots

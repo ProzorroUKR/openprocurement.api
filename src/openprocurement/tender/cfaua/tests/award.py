@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     create_award_document_bot,
     create_tender_award_complaint_document,
@@ -60,7 +60,8 @@ from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"
@@ -93,7 +94,8 @@ class TenderAwardBidsOverMaxAwardsResourceTest(TenderAwardResourceTest):
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotAwardResourceTest(BaseTenderContentWebTest):
     initial_status = "active.qualification"

@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
@@ -114,7 +114,7 @@ def create_tender_cancellation_invalid(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def create_tender_cancellation(self):
     cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.pop("reasonType", None)
@@ -165,7 +165,7 @@ def create_tender_cancellation(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def create_tender_cancellation_before_19_04_2020(self):
     request_path = "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token)
     cancellation = deepcopy(test_tender_below_cancellation)
@@ -190,7 +190,7 @@ def create_tender_cancellation_before_19_04_2020(self):
     )
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def patch_tender_cancellation(self):
     cancellation = deepcopy(test_tender_below_cancellation)
     cancellation.pop("reasonType", None)

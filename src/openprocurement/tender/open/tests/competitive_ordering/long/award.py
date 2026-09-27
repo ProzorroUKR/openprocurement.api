@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
@@ -82,7 +82,7 @@ from openprocurement.tender.open.tests.above_threshold.award_blanks import (
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderCOAwardComplaintResourceTestMixin:
     test_create_tender_award_claim = snitch(create_tender_award_claim)
@@ -118,7 +118,7 @@ class TenderAwardRequirementResponseEvidenceTestMixin:
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardResourceTest(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
@@ -141,7 +141,7 @@ class TenderAwardResourceTest(BaseTenderCOLongContentWebTest):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotAwardResourceTest(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
@@ -156,7 +156,7 @@ class TenderLotAwardResourceTest(BaseTenderCOLongContentWebTest):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class Tender2LotAwardResourceTest(BaseTenderCOLongContentWebTest):
     initial_status = "active.qualification"
@@ -197,7 +197,7 @@ class TenderAwardPendingResourceTestCase(BaseTenderCOLongContentWebTest):
 )
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderAwardQualificationResourceTest(TenderAwardPendingResourceTestCase):
     initial_status = "active.qualification"

@@ -10,7 +10,7 @@ from openprocurement.api.constants_env import (
     EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     RELEASE_2020_04_19,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_base_organization,
     test_tender_below_cancellation,
@@ -50,7 +50,7 @@ def patch_tender_eu(self):
     self.app.authorization = ("Basic", ("broker", ""))
     items = deepcopy(tender["items"])
     items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
-    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    items[0]["deliveryDate"]["endDate"] = calculate_date(get_now(), timedelta(days=2)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": items}},
@@ -174,7 +174,7 @@ def patch_tender_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
     items = deepcopy(tender["items"])
     items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
-    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    items[0]["deliveryDate"]["endDate"] = calculate_date(get_now(), timedelta(days=2)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": items}},
@@ -1077,8 +1077,8 @@ def patch_tender_1(self):
         [{"location": "body", "name": "items.classification", "description": "Field change's not allowed"}],
     )
 
-    deliveryDateStart = (get_now() + timedelta(days=10)).isoformat()
-    deliveryDateEnd = (get_now() + timedelta(days=15)).isoformat()
+    deliveryDateStart = calculate_date(get_now(), timedelta(days=10)).isoformat()
+    deliveryDateEnd = calculate_date(get_now(), timedelta(days=15)).isoformat()
 
     updates = {
         "description": "Шолом Дарта Вейдера",
@@ -1331,7 +1331,7 @@ def one_valid_bid_tender_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # switch to active.tendering XXX temporary action.
     response = self.set_status(
-        "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        "active.tendering", {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
     )
     self.assertIn("auctionPeriod", response.json["data"])
 

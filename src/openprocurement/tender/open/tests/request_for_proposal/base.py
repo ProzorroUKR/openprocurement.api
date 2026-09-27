@@ -5,7 +5,7 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
@@ -165,8 +165,8 @@ test_tender_rfp_item = {
     },
     "quantity": 5,
     "deliveryDate": {
-        "startDate": (now + timedelta(days=2)).isoformat(),
-        "endDate": (now + timedelta(days=5)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
     },
     "deliveryAddress": {
         "countryName": "Україна",

@@ -4,6 +4,7 @@ from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
+from openprocurement.api.utils import calculate_date
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_bids,
     test_tender_below_data,
@@ -28,7 +29,7 @@ test_tender_openuadefense_procuring_entity["contactPoint"] = test_tender_openuad
 test_tender_openuadefense_procuring_entity["additionalContactPoints"] = [test_tender_openuadefense_contact_point.copy()]
 test_tender_openuadefense_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
 del test_tender_openuadefense_data["enquiryPeriod"]
-test_tender_openuadefense_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_openuadefense_data["tenderPeriod"] = {"endDate": calculate_date(now, timedelta(days=16)).isoformat()}
 test_tender_openuadefense_data["items"] = [
     {
         "description": "футляри до державних нагород",
@@ -40,8 +41,8 @@ test_tender_openuadefense_data["items"] = [
         "unit": {"name": "item", "code": "KGM"},
         "quantity": 5,
         "deliveryDate": {
-            "startDate": (now + timedelta(days=2)).isoformat(),
-            "endDate": (now + timedelta(days=5)).isoformat(),
+            "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+            "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
         },
         "deliveryAddress": {
             "countryName": "Україна",
@@ -58,7 +59,9 @@ test_tender_openuadefense_features_data = test_tender_below_features_data.copy()
 test_tender_openuadefense_features_data["procurementMethodType"] = "aboveThresholdUA.defense"
 test_tender_openuadefense_features_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
 del test_tender_openuadefense_features_data["enquiryPeriod"]
-test_tender_openuadefense_features_data["tenderPeriod"] = {"endDate": (now + timedelta(days=16)).isoformat()}
+test_tender_openuadefense_features_data["tenderPeriod"] = {
+    "endDate": calculate_date(now, timedelta(days=16)).isoformat()
+}
 test_tender_openuadefense_features_data["items"][0]["deliveryDate"] = test_tender_openuadefense_data["items"][0][
     "deliveryDate"
 ]

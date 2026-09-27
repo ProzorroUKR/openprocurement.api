@@ -4,7 +4,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.open.tests.below_threshold.lot import (
     TenderLotFeatureResourceTestMixin,
@@ -158,11 +158,11 @@ class TenderLotFeatureBidderResourceTest(BaseTenderCOShortContentWebTest):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @mock.patch(
     "openprocurement.tender.core.procedure.state.award.NEW_ARTICLE_17_CRITERIA_REQUIRED",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotProcessTest(BaseTenderCOShortContentWebTest, TenderLotProcessTestMixin, TenderCOLotProcessTestMixin):
     initial_data = test_tender_co_short_data

@@ -1,7 +1,7 @@
 from datetime import timedelta
 from unittest import mock
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 
 
 def delete_requirement_evidence(self):
@@ -72,7 +72,7 @@ def delete_requirement_evidence(self):
         self.set_status("active.auction")
         with mock.patch(
             "openprocurement.tender.core.procedure.state" ".tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
-            get_now() + timedelta(days=1),
+            calculate_date(get_now(), timedelta(days=1)),
         ):
             response = self.app.delete(
                 "{}/{}?acc_token={}".format(base_request_path, evidence_id, self.tender_token),

@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
@@ -782,7 +782,7 @@ def patch_tender_cancellation_2020_04_19(self):
 
     with patch(
         "openprocurement.tender.core.procedure.validation.get_request_now",
-        return_value=get_now() + timedelta(days=20),
+        return_value=calculate_date(get_now(), timedelta(days=20)),
     ) as mock_date:
         response = self.app.patch_json(
             "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),

@@ -10,7 +10,7 @@ from openprocurement.api.constants_env import (
     RELEASE_ECRITERIA_ARTICLE_17,
 )
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
@@ -45,7 +45,9 @@ with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
 # Prepare test_tender_cfaua_data
 with open(os.path.join(BASE_DIR, "data/test_tender.json")) as fd:
     test_tender_cfaua_data = json.load(fd)
-    test_tender_cfaua_data["tenderPeriod"]["endDate"] = (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()
+    test_tender_cfaua_data["tenderPeriod"]["endDate"] = calculate_date(
+        now, timedelta(days=TENDERING_DAYS + 1)
+    ).isoformat()
 
 
 # Prepare features_tender

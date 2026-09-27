@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import change_auth
@@ -12,7 +12,7 @@ from openprocurement.tender.pricequotation.tests.data import test_tender_pq_supp
 
 @patch(
     "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_award_invalid(self):
     self.app.authorization = ("Basic", ("token", ""))
