@@ -5,7 +5,11 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement import
     BaseRequirementResource,
 )
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.limited.procedure.state.criterion_rg_requirement import LimitedRequirementState
+from openprocurement.tender.limited.procedure.state.criterion_rg_requirement import (
+    NegotiationQuickRequirementState,
+    NegotiationRequirementState,
+    ReportingRequirementState,
+)
 
 
 @resource(
@@ -18,7 +22,7 @@ from openprocurement.tender.limited.procedure.state.criterion_rg_requirement imp
     description="Tender requirement group requirement",
 )
 class ReportingRequirementResource(BaseRequirementResource):
-    state_class = LimitedRequirementState
+    state_class = ReportingRequirementState
 
     def put(self):
         raise_operation_error(self.request, "Method Not Allowed", status=405)
@@ -34,7 +38,7 @@ class ReportingRequirementResource(BaseRequirementResource):
     description="Tender requirement group requirement",
 )
 class NegotiationRequirementResource(ReportingRequirementResource):
-    pass
+    state_class = NegotiationRequirementState
 
 
 @resource(
@@ -47,4 +51,4 @@ class NegotiationRequirementResource(ReportingRequirementResource):
     description="Tender requirement group requirement",
 )
 class NegotiationQuickRequirementResource(ReportingRequirementResource):
-    pass
+    state_class = NegotiationQuickRequirementState

@@ -1,10 +1,8 @@
-from openprocurement.tender.cfaselectionua.procedure.state.tender import (
-    CFASelectionTenderState,
+from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
+    CFASelectionTenderDetailsState,
 )
-from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import EligibleEvidenceStateMixin
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement_evidence import EligibleEvidenceStateMixin
 
 
-class CFASelectionEligibleEvidenceState(EligibleEvidenceStateMixin, CFASelectionTenderState):
-    requirement_models_by_classification = False
-    requirement_change_allowed_tender_statuses = ("draft",)
-    requirement_change_legacy_status = "active.enquiries"
+class CFASelectionEligibleEvidenceState(EligibleEvidenceStateMixin, CFASelectionTenderDetailsState):
+    pass

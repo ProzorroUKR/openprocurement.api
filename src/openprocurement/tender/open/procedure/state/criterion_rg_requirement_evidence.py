@@ -1,32 +1,38 @@
-from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import (
-    EligibleEvidenceStateMixin,
-)
-from openprocurement.tender.open.procedure.state.criterion_rg_requirement import (
-    BelowThresholdRequirementValidationsMixin,
-    RFPRequirementValidationsMixin,
-)
-from openprocurement.tender.open.procedure.state.tender import (
-    AboveThresholdEUTenderState,
-    BelowThresholdTenderState,
-    RFPTenderState,
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement_evidence import EligibleEvidenceStateMixin
+from openprocurement.tender.open.procedure.state.tender_details import (
+    AboveThresholdEUTenderDetailsState,
+    AboveThresholdTenderDetailsState,
+    AboveThresholdUATenderDetailsState,
+    BelowThresholdTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
+    RFPTenderDetailsState,
 )
 
 
-class AboveThresholdEUEligibleEvidenceState(EligibleEvidenceStateMixin, AboveThresholdEUTenderState):
+class AboveThresholdEligibleEvidenceState(EligibleEvidenceStateMixin, AboveThresholdTenderDetailsState):
     pass
 
 
-class BelowThresholdEligibleEvidenceStateMixin(BelowThresholdRequirementValidationsMixin, EligibleEvidenceStateMixin):
+class AboveThresholdUAEligibleEvidenceState(EligibleEvidenceStateMixin, AboveThresholdUATenderDetailsState):
     pass
 
 
-class BelowThresholdEligibleEvidenceState(BelowThresholdEligibleEvidenceStateMixin, BelowThresholdTenderState):
+class AboveThresholdEUEligibleEvidenceState(EligibleEvidenceStateMixin, AboveThresholdEUTenderDetailsState):
     pass
 
 
-class RFPEligibleEvidenceStateMixin(RFPRequirementValidationsMixin, EligibleEvidenceStateMixin):
+class COShortEligibleEvidenceState(EligibleEvidenceStateMixin, COShortTenderDetailsState):
     pass
 
 
-class RFPEligibleEvidenceState(RFPEligibleEvidenceStateMixin, RFPTenderState):
+class COLongEligibleEvidenceState(EligibleEvidenceStateMixin, COLongTenderDetailsState):
+    pass
+
+
+class BelowThresholdEligibleEvidenceState(EligibleEvidenceStateMixin, BelowThresholdTenderDetailsState):
+    pass
+
+
+class RFPEligibleEvidenceState(EligibleEvidenceStateMixin, RFPTenderDetailsState):
     pass

@@ -2,7 +2,8 @@ from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.criterion_rg_requirement_evidence import (
-    CDStage2EligibleEvidenceState,
+    CDStage2EUEligibleEvidenceState,
+    CDStage2UAEligibleEvidenceState,
 )
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement_evidence import (
     BaseEligibleEvidenceResource,
@@ -23,7 +24,7 @@ class BaseStage2EligibleEvidenceResource(BaseEligibleEvidenceResource):
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
 class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
-    state_class = CDStage2EligibleEvidenceState
+    state_class = CDStage2EUEligibleEvidenceState
 
 
 @resource(
@@ -36,4 +37,4 @@ class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
 class Stage2UAEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
-    state_class = CDStage2EligibleEvidenceState
+    state_class = CDStage2UAEligibleEvidenceState

@@ -202,6 +202,7 @@ class ReportingTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin, 
     tender_period_start_date_required = False
     # unit price is only meaningful where there is no bidding
     items_unit_value_allowed = True
+    criterion_source_choices = ("procuringEntity",)
 
     def on_post(self, tender):
         self.validate_cause_required(tender)
@@ -241,6 +242,7 @@ class NegotiationTenderDetailsState(LimitedCauseDetailsMixin, TenderDetailsMixin
     tender_period_start_date_required = False
     # unit price is only meaningful where there is no bidding
     items_unit_value_allowed = True
+    criterion_source_choices = ("procuringEntity",)
 
     def on_post(self, tender):
         self.validate_cause_required(tender)

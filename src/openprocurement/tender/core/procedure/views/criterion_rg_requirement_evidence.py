@@ -9,7 +9,7 @@ from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_evidence import (
     EligibleEvidenceSerializer,
 )
-from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import (
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement_evidence import (
     EligibleEvidenceState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
@@ -119,9 +119,8 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         evidence = self.request.validated["evidence"]
         requirement = self.request.validated["requirement"]
 
-        self.state.evidence_on_patch(evidence, updated_evidence)
-
         set_item(requirement, "eligibleEvidences", evidence["id"], updated_evidence)
+        self.state.evidence_on_patch(evidence, updated_evidence)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -139,11 +138,10 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
         evidence = self.request.validated["evidence"]
         requirement = self.request.validated["requirement"]
 
-        self.state.evidence_on_delete(evidence)
-
         requirement["eligibleEvidences"].remove(evidence)
         if not requirement["eligibleEvidences"]:
             del requirement["eligibleEvidences"]
+        self.state.evidence_on_delete(evidence)
 
         self.state.always(self.request.validated["tender"])
 

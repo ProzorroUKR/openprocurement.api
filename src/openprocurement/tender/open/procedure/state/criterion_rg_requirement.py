@@ -1,67 +1,38 @@
-from openprocurement.tender.core.procedure.state.criterion_rg_requirement import (
-    RequirementStateMixin,
-)
-from openprocurement.tender.open.procedure.state.criterion import (
-    BelowThresholdCriterionStatusesMixin,
-    RFPCriterionStatusesMixin,
-)
-from openprocurement.tender.open.procedure.state.tender import (
-    AboveThresholdEUTenderState,
-    AboveThresholdTenderState,
-    AboveThresholdUATenderState,
-    BelowThresholdTenderState,
-    COTenderState,
-    RFPTenderState,
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement import RequirementStateMixin
+from openprocurement.tender.open.procedure.state.tender_details import (
+    AboveThresholdEUTenderDetailsState,
+    AboveThresholdTenderDetailsState,
+    AboveThresholdUATenderDetailsState,
+    BelowThresholdTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
+    RFPTenderDetailsState,
 )
 
 
-class AboveThresholdRequirementState(RequirementStateMixin, AboveThresholdTenderState):
+class AboveThresholdRequirementState(RequirementStateMixin, AboveThresholdTenderDetailsState):
     pass
 
 
-class AboveThresholdUARequirementState(RequirementStateMixin, AboveThresholdUATenderState):
+class AboveThresholdUARequirementState(RequirementStateMixin, AboveThresholdUATenderDetailsState):
     pass
 
 
-class AboveThresholdEURequirementState(RequirementStateMixin, AboveThresholdEUTenderState):
+class AboveThresholdEURequirementState(RequirementStateMixin, AboveThresholdEUTenderDetailsState):
     pass
 
 
-class CORequirementState(RequirementStateMixin, COTenderState):
+class COShortRequirementState(RequirementStateMixin, COShortTenderDetailsState):
     pass
 
 
-class BelowThresholdRequirementValidationsMixin:
-    requirement_models_by_classification = False
-    requirement_change_allowed_tender_statuses = ("draft",)
-    requirement_change_legacy_status = "active.enquiries"
-
-
-class BelowThresholdRequirementStateMixin(
-    BelowThresholdRequirementValidationsMixin,
-    BelowThresholdCriterionStatusesMixin,
-    RequirementStateMixin,
-):
+class COLongRequirementState(RequirementStateMixin, COLongTenderDetailsState):
     pass
 
 
-class BelowThresholdRequirementState(BelowThresholdRequirementStateMixin, BelowThresholdTenderState):
-    requirement_put_allowed_tender_statuses = ["active.enquiries"]
-
-
-class RFPRequirementValidationsMixin:
-    requirement_models_by_classification = False
-    requirement_change_allowed_tender_statuses = ("draft",)
-    requirement_change_legacy_status = "active.enquiries"
-
-
-class RFPRequirementStateMixin(
-    RFPRequirementValidationsMixin,
-    RFPCriterionStatusesMixin,
-    RequirementStateMixin,
-):
+class BelowThresholdRequirementState(RequirementStateMixin, BelowThresholdTenderDetailsState):
     pass
 
 
-class RFPRequirementState(RFPRequirementStateMixin, RFPTenderState):
-    requirement_put_allowed_tender_statuses = ["active.enquiries"]
+class RFPRequirementState(RequirementStateMixin, RFPTenderDetailsState):
+    pass

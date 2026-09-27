@@ -1,5 +1,7 @@
+import dataclasses
 from collections import defaultdict
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
@@ -36,6 +38,7 @@ from openprocurement.api.constants_env import (
     MPC_REQUIRED_FROM,
     NOTICE_DOC_REQUIRED_FROM,
     RELATED_LOT_REQUIRED_FROM,
+    RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
     TENDER_CONFIG_OPTIONALITY,
     TENDER_ITEMS_DIFFERENT_CPV_FROM,
@@ -60,6 +63,7 @@ from openprocurement.api.utils import (
     request_fetch_plans,
     request_fetch_root_tender_for_tender,
 )
+from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.contracting.core.procedure.serializers.rationale_types import (
     get_change_rationale_types_reference,
 )
@@ -82,12 +86,17 @@ from openprocurement.tender.core.constants import (
     ReqStatuses,
 )
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.criterion import (
+    validate_criteria_requirement_uniq,
+    validate_requirement_eligibleEvidences,
+)
 from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
 from openprocurement.tender.core.procedure.models.tender_base import (
     MAIN_PROCUREMENT_CATEGORY_CHOICES,
     MainProcurementCategory,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.utils import validation_error_handler
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_contract_template_names_for_classification_ids,
@@ -100,6 +109,7 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.validation import (
     OPERATIONS,
+    check_requirements_active,
     get_items_unit_value_amounts,
     validate_doc_type_quantity,
     validate_doc_type_required,
@@ -111,6 +121,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_milestone_duration_days,
     validate_milestone_sums,
     validate_milestones_sequence_number,
+    validate_object_id_uniq,
     validate_required_nested_fields,
     validate_tender_milestones_required,
     validate_value_vat_disabled,
@@ -265,7 +276,7 @@ class TenderDetailsRequestMixin(BaseState):
     # belowThreshold: tenders of BELOWTHRESHOLD_FUNDERS_IDS can also be patched in these statuses
     tender_patch_allowed_statuses_for_funder: tuple = ()
 
-    def get_patch_data_model(self):
+    def get_tender_patch_data_model(self):
         models = self.tender_patch_models_by_status or {}
         return models.get(self.request.validated["tender"].get("status", ""), self.patch_data_model)
 
@@ -288,7 +299,7 @@ class TenderDetailsRequestMixin(BaseState):
             self.validate_item_owner("tender")
         if role != "Administrator":
             self.validate_tender_patch_allowed()
-        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_input_data(self.get_tender_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "tender")
 
     def validate_tender_patch_allowed(self):
@@ -1577,6 +1588,87 @@ class TenderLotRulesMixin(BaseState):
             del tender["auctionPeriod"]
 
 
+def _without(data: dict, key: str) -> dict:
+    return {k: v for k, v in data.items() if k != key}
+
+
+@dataclass
+class ItemsDiff:
+    """changes of a list of objects with ids (the objects are matched by id)"""
+
+    added: list = dataclasses.field(default_factory=list)
+    deleted: list = dataclasses.field(default_factory=list)
+    kept: list = dataclasses.field(default_factory=list)  # the objects present before, in their new state
+    changed: list = dataclasses.field(default_factory=list)  # (before, after) pairs whose own fields differ
+    nested: list = dataclasses.field(default_factory=list)  # (before, after) pairs whose children differ
+
+    def __bool__(self):
+        return bool(self.added or self.deleted or self.changed or self.nested)
+
+    @property
+    def changed_after(self) -> list:
+        return [item for _, item in self.changed]
+
+
+def diff_items(before: list, after: list, children: str) -> ItemsDiff:
+    """
+    :param children: the field with the child objects, compared apart from the own fields
+    """
+    diff = ItemsDiff()
+    before_by_id = {item["id"]: item for item in before}
+    after_ids = {item["id"] for item in after}
+    diff.deleted = [item for item in before if item["id"] not in after_ids]
+    for item in after:
+        item_before = before_by_id.get(item["id"])
+        if item_before is None:
+            diff.added.append(item)
+            continue
+        diff.kept.append(item)
+        if _without(item_before, children) != _without(item, children):
+            diff.changed.append((item_before, item))
+        if item_before.get(children) != item.get(children):
+            diff.nested.append((item_before, item))
+    return diff
+
+
+@dataclass
+class RequirementsDiff:
+    """
+    changes of the requirements of a requirement group
+
+    A requirement replaced by a new version (PUT) keeps its id and the previous version is cancelled,
+    so the versions of an id are matched by position.
+    """
+
+    added: list = dataclasses.field(default_factory=list)
+    replaced: list = dataclasses.field(default_factory=list)  # (previous version, new version) pairs
+    changed: list = dataclasses.field(default_factory=list)  # (before, after) pairs of the same version
+    nested: list = dataclasses.field(default_factory=list)  # (before, after) pairs whose eligibleEvidences differ
+
+
+def diff_requirements(before: list, after: list) -> RequirementsDiff:
+    diff = RequirementsDiff()
+    before_versions: dict = {}
+    for requirement in before:
+        before_versions.setdefault(requirement["id"], []).append(requirement)
+    after_versions: dict = {}
+    for requirement in after:
+        after_versions.setdefault(requirement["id"], []).append(requirement)
+    for req_id, versions in after_versions.items():
+        previous = before_versions.get(req_id, [])
+        for version_before, version in zip(previous, versions):
+            if _without(version_before, "eligibleEvidences") != _without(version, "eligibleEvidences"):
+                diff.changed.append((version_before, version))
+            if version_before.get("eligibleEvidences") != version.get("eligibleEvidences"):
+                diff.nested.append((version_before, version))
+        for version in versions[len(previous) :]:
+            if previous:
+                diff.replaced.append((previous[-1], version))
+            else:
+                diff.added.append(version)
+    return diff
+
+
 class TenderCriteriaRulesMixin(BaseState):
     """criteria, features and awardCriteria"""
 
@@ -1587,6 +1679,29 @@ class TenderCriteriaRulesMixin(BaseState):
     # allowed / default awardCriteria (None = the tender has no awardCriteria)
     award_criteria_choices: tuple | None = (AWARD_CRITERIA_LOWEST_COST, AWARD_CRITERIA_LIFE_CYCLE_COST)
     award_criteria_default: str | None = AWARD_CRITERIA_LOWEST_COST
+    # roles that may change the criteria without being the tender owner (competitiveDialogue stage 2: + admins)
+    criterion_owner_exempt_roles: tuple = ("Administrator",)
+    # tender statuses in which criteria / requirement groups can be added and changed (through any endpoint)
+    criterion_allowed_tender_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
+    # exclusion criteria and their requirement groups can't be changed (bt / rfp / cfaselectionua: they can)
+    criterion_patch_exclusion_check = True
+    # allowed criterion `source` values (None = any value allowed by the model; limited: procuringEntity only)
+    criterion_source_choices: tuple | None = None
+    # tender statuses that allow changing requirements / eligible evidences (bt / rfp / cfaselectionua / pq: draft)
+    requirement_change_allowed_tender_statuses: tuple = ("draft", "draft.pending", "draft.stage2")
+    # ... plus this status for tenders created before CRITERION_REQUIREMENT_STATUSES_FROM
+    # (bt / rfp / cfaselectionua: active.enquiries, pq: none)
+    requirement_change_legacy_status: str | None = "active.tendering"
+    # tender statuses in which a requirement can be replaced by a new version (PUT)
+    requirement_put_allowed_tender_statuses = ["active.tendering"]
+    # the requirement PATCH / PUT models depend on the criterion classification (bt / rfp / cfaselectionua: fixed)
+    requirement_models_by_classification = True
+    # cfaselectionua: the requirement ids uniqueness isn't checked when a requirement is added
+    requirement_post_ids_uniq_check = True
+    # set by the requirement PUT request: the replaced requirement may be cancelled in the PUT statuses
+    requirement_replacement = False
+    # pq: any requirement / evidence change is limited to criterion_allowed_tender_statuses as well
+    requirement_status_check_always = False
 
     def validate_award_criteria_change(self, after, before):
         if before.get("awardCriteria") != after.get("awardCriteria"):
@@ -1740,6 +1855,289 @@ class TenderCriteriaRulesMixin(BaseState):
             validate_features_custom_weight(tender, features, max_weight_decimal)
         except ValidationError as e:
             raise_operation_error(self.request, e.messages, status=422, name="features")
+
+    # --- criteria: the same rules for the criteria endpoints and for the criteria changed through the tender ---
+
+    def validate_criterion_owner(self):
+        if self.request.authenticated_role not in self.criterion_owner_exempt_roles:
+            self.validate_item_owner("tender")
+
+    def validate_ecriteria_operation(self, statuses, tender_status: str | None = None) -> None:
+        """
+        :param tender_status: the tender status before the change (the tender endpoint may change the status
+                              together with the criteria); None - the current status
+        """
+        validate_tender_first_revision_date(self.request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
+        if tender_status is None:
+            tender_status = self.request.validated["tender"]["status"]
+        if tender_status not in statuses:
+            raise_operation_error(
+                self.request,
+                "Can't {} object if tender not in {} statuses".format(self.request.method.lower(), list(statuses)),
+            )
+
+    def validate_criteria_operation_allowed(self, tender: dict, tender_status: str | None = None) -> None:
+        self.validate_ecriteria_operation(self.criterion_allowed_tender_statuses, tender_status)
+
+    def validate_criteria_delete_allowed(self, tender: dict, tender_status: str | None = None) -> None:
+        if (tender_status or tender["status"]) not in ("draft", "draft.stage2"):
+            raise_operation_error(self.request, "Only allowed in draft tender status")
+
+    def validate_requirement_change_allowed(
+        self, tender: dict, tender_status: str | None = None, cancellation: bool = False
+    ) -> None:
+        """
+        :param cancellation: the requirement is replaced by a new version (PUT): allowed in the PUT statuses too
+        """
+        valid_statuses = list(self.requirement_change_allowed_tender_statuses)
+        if self.requirement_change_legacy_status and tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM, tender):
+            valid_statuses.append(self.requirement_change_legacy_status)
+        if cancellation:
+            valid_statuses.extend(
+                status for status in self.requirement_put_allowed_tender_statuses if status not in valid_statuses
+            )
+        self.validate_ecriteria_operation(valid_statuses, tender_status)
+
+    def validate_requirement_put_allowed(self, tender: dict) -> None:
+        """a requirement can be replaced by a new version only in tenders created after the requirement statuses release"""
+        validate_tender_first_revision_date(self.request, validation_date=CRITERION_REQUIREMENT_STATUSES_FROM)
+        self.validate_ecriteria_operation(self.requirement_put_allowed_tender_statuses)
+        # the diff of the tender allows the cancellation of the replaced requirement in the PUT statuses
+        self.requirement_replacement = True
+
+    def validate_criteria_change(self, before: dict, after: dict, on_post: bool = False) -> None:
+        """
+        :param on_post: the tender is created: the operations aren't gated by the tender status
+        """
+        self.validate_criteria_ids_uniq(after)
+        diff = diff_items(before.get("criteria") or [], after.get("criteria") or [], children="requirementGroups")
+        if not diff:
+            return
+        # the tender endpoint may change the status together with the criteria: the rules apply to the status before
+        status = before.get("status")
+        if not on_post:
+            self.validate_criteria_operations_allowed(after, status, diff)
+        self.validate_criteria_rules(after, diff)
+        for criterion_before, criterion in diff.nested:
+            self.validate_requirement_groups_change(after, status, criterion_before, criterion, on_post)
+
+    def validate_criteria_operations_allowed(self, tender: dict, status: str | None, diff: ItemsDiff) -> None:
+        self.validate_action_with_exist_inspector_review_request()
+        if diff.deleted:
+            self.validate_criteria_delete_allowed(tender, status)
+        if diff.added or diff.changed:
+            self.validate_criteria_operation_allowed(tender, status)
+        for criterion_before, _ in diff.changed:
+            self.validate_criterion_exclusion_unchanged(criterion_before)
+
+    def validate_criteria_rules(self, tender: dict, diff: ItemsDiff) -> None:
+        self.validate_criterion_source(diff.added + diff.changed_after)
+        self._validate_criterion_uniq(diff.added, previous_criteria=diff.kept)
+        for criterion_before, criterion in diff.changed:
+            self.validate_criterion_uniq_patch(tender, criterion_before, criterion)
+        self.validate_tech_feature_localization_criteria(tender, diff.added + diff.changed_after)
+        for criterion in diff.added:
+            for requirement_group in criterion.get("requirementGroups") or []:
+                self.validate_requirement_group_rules(criterion, requirement_group)
+
+    def validate_requirement_groups_change(
+        self, tender: dict, status: str | None, criterion_before: dict, criterion: dict, on_post: bool
+    ) -> None:
+        diff = diff_items(
+            criterion_before.get("requirementGroups") or [],
+            criterion.get("requirementGroups") or [],
+            children="requirements",
+        )
+        if not on_post and (diff.added or diff.changed):
+            self.validate_criteria_operation_allowed(tender, status)
+            self.validate_criterion_exclusion_unchanged(criterion_before)
+        for requirement_group in diff.added + diff.changed_after:
+            self.validate_requirement_group_rules(criterion, requirement_group)
+        for requirement_group in diff.added:
+            for requirement in requirement_group.get("requirements") or []:
+                self.validate_requirement_rules(tender, criterion, requirement)
+        for group_before, requirement_group in diff.nested:
+            self.validate_requirements_change(tender, status, criterion, group_before, requirement_group, on_post)
+
+    def validate_requirements_change(
+        self, tender: dict, status: str | None, criterion: dict, group_before: dict, group: dict, on_post: bool
+    ) -> None:
+        diff = diff_requirements(group_before.get("requirements") or [], group.get("requirements") or [])
+        if not on_post:
+            self.validate_requirement_operations_allowed(tender, status, diff)
+        for requirement_before, requirement in diff.changed + diff.replaced:
+            self.validate_patch_requirement_values(criterion, requirement_before, requirement)
+        for requirement_before, requirement in diff.changed:
+            if (
+                requirement_before.get("status") != ReqStatuses.ACTIVE
+                and requirement.get("status") == ReqStatuses.ACTIVE
+            ):
+                self.validate_tech_feature_localization_criteria(tender, [criterion])
+            self.validate_requirement_evidences(criterion, requirement)
+        for requirement in diff.added + [requirement for _, requirement in diff.replaced]:
+            self.validate_requirement_rules(tender, criterion, requirement)
+        # a changed or replaced requirement is checked against the market; an added one - at activation
+        for _, requirement in diff.changed + diff.replaced:
+            self.validate_requirement_from_market(criterion, requirement)
+        for requirement_before, requirement in diff.nested:
+            self.validate_evidences_change(tender, status, criterion, requirement_before, requirement, on_post)
+
+    def validate_requirement_operations_allowed(self, tender: dict, status: str | None, diff: RequirementsDiff):
+        if diff.added:
+            self.validate_criteria_operation_allowed(tender, status)
+        if (diff.replaced or diff.changed) and self.requirement_status_check_always:
+            self.validate_criteria_operation_allowed(tender, status)
+        if diff.replaced:
+            self.validate_requirement_change_allowed(tender, status, cancellation=True)
+        for requirement_before, requirement in diff.changed:
+            cancellation = self.is_requirement_cancellation(diff, requirement_before, requirement)
+            self.validate_requirement_change_allowed(tender, status, cancellation=cancellation)
+
+    def is_requirement_cancellation(self, diff: RequirementsDiff, before: dict, after: dict) -> bool:
+        """the previous version of a replaced requirement (PUT) is cancelled, which is allowed in the PUT statuses"""
+        if not (diff.replaced or self.requirement_replacement):
+            return False
+        if after.get("status") != ReqStatuses.CANCELLED:
+            return False
+        changed_fields = {key for key in set(before) | set(after) if before.get(key) != after.get(key)}
+        return changed_fields <= {"status", "dateModified"}
+
+    def validate_requirement_rules(self, tender: dict, criterion: dict, requirement: dict) -> None:
+        self.validate_tech_feature_localization_criteria(tender, [criterion])
+        self.validate_requirement_evidences(criterion, requirement)
+
+    def validate_evidences_change(
+        self, tender: dict, status: str | None, criterion: dict, requirement_before: dict, requirement: dict, on_post
+    ) -> None:
+        if not on_post:
+            if self.requirement_status_check_always:
+                self.validate_criteria_operation_allowed(tender, status)
+            self.validate_requirement_change_allowed(tender, status)
+        self.validate_evidence_criterion(criterion)
+        self.validate_evidences_ids_uniq(requirement)
+
+    def validate_criterion_exclusion_unchanged(self, criterion_before: dict) -> None:
+        if self.criterion_patch_exclusion_check and criterion_before["classification"]["id"].startswith(
+            "CRITERION.EXCLUSION"
+        ):
+            raise_operation_error(self.request, "Can't update exclusion ecriteria objects")
+
+    def validate_criterion_source(self, criteria: list) -> None:
+        choices = self.criterion_source_choices
+        if choices is None:
+            return
+        for criterion in criteria:
+            if criterion.get("source") not in choices:
+                raise_operation_error(
+                    self.request, [f"Value must be one of {list(choices)}."], status=422, name="source"
+                )
+
+    def validate_criteria_uniq(self, tender: dict) -> None:
+        """
+        criteria are unique by classification and relatesTo / relatedItem; a criterion whose requirements
+        are all cancelled doesn't count (it can be replaced by a new one with the same classification)
+        """
+        criteria = tender.get("criteria") or []
+        if not tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM, tender):
+            criteria = [criterion for criterion in criteria if check_requirements_active(criterion)]
+        self._validate_criterion_uniq(criteria)
+
+    def validate_criterion_uniq_patch(self, tender: dict, before: dict, after: dict) -> None:
+        updated_criterion_classification = after.get("classification", {}).get("id", "")
+        if updated_criterion_classification == before["classification"]["id"]:
+            return
+        for existed_criterion in tender.get("criteria") or []:
+            if existed_criterion["id"] == after["id"]:
+                continue
+            if after.get("relatesTo") == existed_criterion.get("relatesTo") and after.get(
+                "relatedItem", ""
+            ) == existed_criterion.get("relatedItem", ""):
+                if updated_criterion_classification == existed_criterion["classification"]["id"]:
+                    if check_requirements_active(existed_criterion):
+                        raise_operation_error(self.request, "Criteria are not unique")
+
+    def validate_tech_feature_localization_criteria(self, tender: dict, criteria: list) -> None:
+        for criterion in criteria:
+            if criterion["classification"]["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
+                item = next(
+                    (item for item in tender.get("items") or [] if item["id"] == criterion.get("relatedItem")),
+                    None,
+                )
+                if not item:
+                    raise_operation_error(
+                        self.request,
+                        f'For {criterion["classification"]["id"]} criteria `relatedItem` should be item from tender',
+                        status=422,
+                    )
+                elif criterion["classification"]["id"] == CRITERION_TECHNICAL_FEATURES:
+                    if not (item.get("category") or item.get("profile")):
+                        raise_operation_error(
+                            self.request,
+                            "For technical feature criteria item should have category or profile",
+                            status=422,
+                        )
+                elif criterion["classification"]["id"] == CRITERION_LOCALIZATION:
+                    if not item.get("category"):
+                        raise_operation_error(
+                            self.request,
+                            "For localization criteria item should have category",
+                            status=422,
+                        )
+
+    @validation_error_handler
+    def validate_criteria_ids_uniq(self, tender: dict) -> None:
+        criteria = tender.get("criteria") or []
+        validate_object_id_uniq(criteria, obj_name="Criterion")
+        for criterion in criteria:
+            validate_object_id_uniq(criterion.get("requirementGroups") or [], obj_name="requirementGroup")
+        if self.requirement_post_ids_uniq_check:
+            validate_criteria_requirement_uniq(criteria)
+
+    @validation_error_handler
+    def validate_evidences_ids_uniq(self, requirement: dict) -> None:
+        validate_object_id_uniq(requirement.get("eligibleEvidences") or [], obj_name="eligibleEvidence")
+
+    def validate_requirement_group_rules(self, criterion: dict, requirement_group: dict) -> None:
+        """requirement titles unique among the active requirements of the group; evidences allowed for the criterion"""
+        req_titles = [
+            req["title"]
+            for req in requirement_group.get("requirements") or []
+            if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+        ]
+        if len(set(req_titles)) != len(req_titles):
+            raise_operation_error(
+                self.request,
+                "Requirement title should be uniq for one requirementGroup",
+                status=422,
+            )
+        for requirement in requirement_group.get("requirements") or []:
+            self.validate_requirement_evidences(criterion, requirement)
+
+    def validate_requirement_evidences(self, criterion: dict, requirement: dict) -> None:
+        try:
+            validate_requirement_eligibleEvidences(criterion, requirement)
+        except ValidationError as e:
+            self.request.errors.status = 422
+            self.request.errors.add("body", "requirements", e.messages)
+            raise error_handler(self.request)
+
+    def validate_evidence_criterion(self, criterion: dict) -> None:
+        classification = criterion["classification"]
+        if classification["id"] and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE"):
+            raise_operation_error(self.request, "Forbidden for current criterion")
+
+    def validate_patch_requirement_values(self, criterion: dict, before: dict, after: dict) -> None:
+        if criterion["classification"]["id"] != CRITERION_TECHNICAL_FEATURES:
+            return
+        if after.get("dataType") == "boolean":
+            return
+        for field in ("expectedValue", "expectedValues", "minValue", "maxValue"):
+            if before.get(field) is not None and after.get(field) is None:
+                raise_operation_error(
+                    self.request,
+                    f"Disallowed remove {field} field and set other value fields.",
+                    status=422,
+                )
 
 
 class TenderDocumentsRulesMixin(BaseState):
@@ -2093,6 +2491,7 @@ class BaseTenderDetailsMixin(
         self.validate_tender_period_duration(tender)
         self.validate_change_item_profile_or_category(tender, {})
         self.validate_contract_template_name(tender, {})
+        self.validate_criteria_change({}, tender, on_post=True)
         self.validate_criteria_classification(tender.get("criteria", []))
         self.validate_criteria_requirements_rules(tender.get("criteria", []))
         if tender_period_end_date := tender.get("tenderPeriod", {}).get("endDate"):
@@ -2154,8 +2553,9 @@ class BaseTenderDetailsMixin(
         self.watch_value_meta_changes(after)
         self.validate_items_unit_value(after)
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
-            self._validate_criterion_uniq(after.get("criteria", []))
+            self.validate_criteria_uniq(after)
         if before.get("criteria") != after.get("criteria"):
+            self.validate_criteria_change(before, after)
             self.validate_criteria_classification(after.get("criteria", []))
             self.validate_criteria_requirements_rules(after.get("criteria", []))
         self.invalidate_review_requests()

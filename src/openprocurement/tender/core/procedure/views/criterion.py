@@ -53,7 +53,6 @@ class BaseCriterionResource(TenderBaseResource):
         if "criteria" not in tender:
             tender["criteria"] = []
 
-        self.state.validate_on_post(criteria)
         tender["criteria"].extend(criteria)
         self.state.criterion_on_post(criteria)
         self.state.always(self.request.validated["tender"])
@@ -95,8 +94,8 @@ class BaseCriterionResource(TenderBaseResource):
             return None
         criterion = self.request.validated["criterion"]
         tender = self.request.validated["tender"]
-        self.state.criterion_on_patch(criterion, updated_criterion)
         set_item(tender, "criteria", criterion["id"], updated_criterion)
+        self.state.criterion_on_patch(criterion, updated_criterion)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -119,6 +118,8 @@ class BaseCriterionResource(TenderBaseResource):
         ]
         if not tender["criteria"]:
             del tender["criteria"]
+        self.state.criterion_on_delete(deleted_criterion)
+        self.state.always(tender)
 
         if save_tender(self.request):
             self.LOGGER.info(

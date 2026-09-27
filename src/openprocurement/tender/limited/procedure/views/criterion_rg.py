@@ -4,7 +4,11 @@ from openprocurement.tender.core.procedure.views.criterion_rg import (
     BaseRequirementGroupResource,
 )
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.limited.procedure.state.criterion_rg import LimitedRequirementGroupState
+from openprocurement.tender.limited.procedure.state.criterion_rg import (
+    NegotiationQuickRequirementGroupState,
+    NegotiationRequirementGroupState,
+    ReportingRequirementGroupState,
+)
 
 
 @resource(
@@ -15,7 +19,7 @@ from openprocurement.tender.limited.procedure.state.criterion_rg import LimitedR
     description="Tender criteria requirement group",
 )
 class ReportingRequirementGroupResource(BaseRequirementGroupResource):
-    state_class = LimitedRequirementGroupState
+    state_class = ReportingRequirementGroupState
 
 
 @resource(
@@ -26,7 +30,7 @@ class ReportingRequirementGroupResource(BaseRequirementGroupResource):
     description="Tender criteria requirement group",
 )
 class NegotiationRequirementGroupResource(ReportingRequirementGroupResource):
-    pass
+    state_class = NegotiationRequirementGroupState
 
 
 @resource(
@@ -37,4 +41,4 @@ class NegotiationRequirementGroupResource(ReportingRequirementGroupResource):
     description="Tender criteria requirement group",
 )
 class NegotiationQuickRequirementGroupResource(ReportingRequirementGroupResource):
-    pass
+    state_class = NegotiationQuickRequirementGroupState

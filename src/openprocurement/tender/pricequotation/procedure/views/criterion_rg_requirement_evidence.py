@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement_eviden
     BaseEligibleEvidenceResource,
 )
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.procedure.state.criterion_rq_requirement_evidence import (
+from openprocurement.tender.pricequotation.procedure.state.criterion_rg_requirement_evidence import (
     PQEligibleEvidenceState,
 )
 

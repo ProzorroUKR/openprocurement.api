@@ -5,7 +5,9 @@ from openprocurement.tender.core.procedure.views.criterion_rg_requirement_eviden
 )
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.state.criterion_rg_requirement_evidence import (
-    LimitedEligibleEvidenceState,
+    NegotiationEligibleEvidenceState,
+    NegotiationQuickEligibleEvidenceState,
+    ReportingEligibleEvidenceState,
 )
 
 
@@ -19,7 +21,7 @@ from openprocurement.tender.limited.procedure.state.criterion_rg_requirement_evi
     description="Tender requirement evidence",
 )
 class ReportingEligibleEvidenceResource(BaseEligibleEvidenceResource):
-    state_class = LimitedEligibleEvidenceState
+    state_class = ReportingEligibleEvidenceState
 
 
 @resource(
@@ -32,7 +34,7 @@ class ReportingEligibleEvidenceResource(BaseEligibleEvidenceResource):
     description="Tender requirement evidence",
 )
 class NegotiationEligibleEvidenceResource(ReportingEligibleEvidenceResource):
-    pass
+    state_class = NegotiationEligibleEvidenceState
 
 
 @resource(
@@ -45,4 +47,4 @@ class NegotiationEligibleEvidenceResource(ReportingEligibleEvidenceResource):
     description="Tender requirement evidence",
 )
 class NegotiationQuickEligibleEvidenceResource(ReportingEligibleEvidenceResource):
-    pass
+    state_class = NegotiationQuickEligibleEvidenceState

@@ -1,59 +1,38 @@
-from openprocurement.tender.core.procedure.state.criterion_rg import (
-    RequirementGroupStateMixin,
-)
-from openprocurement.tender.open.procedure.state.criterion import (
-    BelowThresholdCriterionStatusesMixin,
-    RFPCriterionStatusesMixin,
-)
-from openprocurement.tender.open.procedure.state.tender import (
-    AboveThresholdEUTenderState,
-    AboveThresholdTenderState,
-    AboveThresholdUATenderState,
-    BelowThresholdTenderState,
-    COTenderState,
-    RFPTenderState,
+from openprocurement.tender.core.procedure.state.criterion_rg import RequirementGroupStateMixin
+from openprocurement.tender.open.procedure.state.tender_details import (
+    AboveThresholdEUTenderDetailsState,
+    AboveThresholdTenderDetailsState,
+    AboveThresholdUATenderDetailsState,
+    BelowThresholdTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
+    RFPTenderDetailsState,
 )
 
 
-class AboveThresholdRequirementGroupState(RequirementGroupStateMixin, AboveThresholdTenderState):
+class AboveThresholdRequirementGroupState(RequirementGroupStateMixin, AboveThresholdTenderDetailsState):
     pass
 
 
-class AboveThresholdUARequirementGroupState(RequirementGroupStateMixin, AboveThresholdUATenderState):
+class AboveThresholdUARequirementGroupState(RequirementGroupStateMixin, AboveThresholdUATenderDetailsState):
     pass
 
 
-class AboveThresholdEURequirementGroupState(RequirementGroupStateMixin, AboveThresholdEUTenderState):
+class AboveThresholdEURequirementGroupState(RequirementGroupStateMixin, AboveThresholdEUTenderDetailsState):
     pass
 
 
-class CORequirementGroupState(RequirementGroupStateMixin, COTenderState):
+class COShortRequirementGroupState(RequirementGroupStateMixin, COShortTenderDetailsState):
     pass
 
 
-class BelowThresholdRequirementGroupStateMixin(
-    BelowThresholdCriterionStatusesMixin,
-    RequirementGroupStateMixin,
-):
+class COLongRequirementGroupState(RequirementGroupStateMixin, COLongTenderDetailsState):
     pass
 
 
-class BelowThresholdRequirementGroupState(
-    BelowThresholdRequirementGroupStateMixin,
-    BelowThresholdTenderState,
-):
+class BelowThresholdRequirementGroupState(RequirementGroupStateMixin, BelowThresholdTenderDetailsState):
     pass
 
 
-class RFPRequirementGroupStateMixin(
-    RFPCriterionStatusesMixin,
-    RequirementGroupStateMixin,
-):
-    pass
-
-
-class RFPRequirementGroupState(
-    RFPRequirementGroupStateMixin,
-    RFPTenderState,
-):
+class RFPRequirementGroupState(RequirementGroupStateMixin, RFPTenderDetailsState):
     pass

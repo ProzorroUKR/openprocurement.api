@@ -117,11 +117,8 @@ class BaseRequirementResource(TenderBaseResource):
         requirement = self.request.validated["requirement"]
         requirement_group = self.request.validated["requirement_group"]
 
-        self.state.requirement_on_patch(requirement, updated_requirement)
-
         set_item(requirement_group, "requirements", requirement["id"], updated_requirement)
-        self.state.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.state.validate_requirement_from_market(self.request.validated["criterion"], updated_requirement)
+        self.state.requirement_on_patch(requirement, updated_requirement)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -139,8 +136,6 @@ class BaseRequirementResource(TenderBaseResource):
         self.state.validate_requirement_put_request()
         requirement = self.request.validated["requirement"]
         updated_requirement = self.request.validated["data"]
-
-        self.state.requirement_on_put(requirement, updated_requirement)
 
         if (
             not updated_requirement
@@ -162,8 +157,7 @@ class BaseRequirementResource(TenderBaseResource):
             requirement["status"] = "cancelled"
             requirement["dateModified"] = now
 
-        self.state.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.state.validate_requirement_from_market(self.request.validated["criterion"], updated_requirement)
+        self.state.requirement_on_put(requirement, updated_requirement)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):

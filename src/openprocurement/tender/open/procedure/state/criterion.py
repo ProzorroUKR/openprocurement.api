@@ -1,49 +1,38 @@
 from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
-from openprocurement.tender.open.procedure.state.tender import (
-    AboveThresholdEUTenderState,
-    AboveThresholdTenderState,
-    AboveThresholdUATenderState,
-    BelowThresholdTenderState,
-    COTenderState,
-    RFPTenderState,
+from openprocurement.tender.open.procedure.state.tender_details import (
+    AboveThresholdEUTenderDetailsState,
+    AboveThresholdTenderDetailsState,
+    AboveThresholdUATenderDetailsState,
+    BelowThresholdTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
+    RFPTenderDetailsState,
 )
 
 
-class AboveThresholdCriterionState(CriterionStateMixin, AboveThresholdTenderState):
+class AboveThresholdCriterionState(CriterionStateMixin, AboveThresholdTenderDetailsState):
     pass
 
 
-class AboveThresholdUACriterionState(CriterionStateMixin, AboveThresholdUATenderState):
+class AboveThresholdUACriterionState(CriterionStateMixin, AboveThresholdUATenderDetailsState):
     pass
 
 
-class AboveThresholdEUCriterionState(CriterionStateMixin, AboveThresholdEUTenderState):
+class AboveThresholdEUCriterionState(CriterionStateMixin, AboveThresholdEUTenderDetailsState):
     pass
 
 
-class COCriterionState(CriterionStateMixin, COTenderState):
+class COShortCriterionState(CriterionStateMixin, COShortTenderDetailsState):
     pass
 
 
-class BelowThresholdCriterionStatusesMixin:
-    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]
-
-
-class BelowThresholdCriterionStateMixin(BelowThresholdCriterionStatusesMixin, CriterionStateMixin):
-    criterion_patch_exclusion_check = False
-
-
-class BelowThresholdCriterionState(BelowThresholdCriterionStateMixin, BelowThresholdTenderState):
+class COLongCriterionState(CriterionStateMixin, COLongTenderDetailsState):
     pass
 
 
-class RFPCriterionStatusesMixin:
-    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]
+class BelowThresholdCriterionState(CriterionStateMixin, BelowThresholdTenderDetailsState):
+    pass
 
 
-class RFPCriterionStateMixin(RFPCriterionStatusesMixin, CriterionStateMixin):
-    criterion_patch_exclusion_check = False
-
-
-class RFPCriterionState(RFPCriterionStateMixin, RFPTenderState):
+class RFPCriterionState(CriterionStateMixin, RFPTenderDetailsState):
     pass

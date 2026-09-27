@@ -156,6 +156,12 @@ class BelowThresholdTenderDetailsMixin(TenderDetailsMixin):
     items_classification_prefix_change_check = False
     items_delivery_required = False
     tender_period_start_date_required = False
+    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]
+    criterion_patch_exclusion_check = False
+    requirement_change_allowed_tender_statuses = ("draft",)
+    requirement_change_legacy_status = "active.enquiries"
+    requirement_put_allowed_tender_statuses = ["active.enquiries"]
+    requirement_models_by_classification = False
 
 
 class BelowThresholdTenderDetailsState(BelowThresholdTenderDetailsMixin, BelowThresholdTenderState):
@@ -199,6 +205,12 @@ class RFPTenderDetailsMixin(TenderDetailsMixin):
     items_classification_prefix_change_check = False
     items_delivery_required = False
     tender_period_start_date_required = False
+    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]
+    criterion_patch_exclusion_check = False
+    requirement_change_allowed_tender_statuses = ("draft",)
+    requirement_change_legacy_status = "active.enquiries"
+    requirement_put_allowed_tender_statuses = ["active.enquiries"]
+    requirement_models_by_classification = False
 
 
 class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):

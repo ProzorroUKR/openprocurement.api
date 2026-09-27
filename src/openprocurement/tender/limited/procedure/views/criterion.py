@@ -2,7 +2,11 @@ from cornice.resource import resource
 
 from openprocurement.tender.core.procedure.views.criterion import BaseCriterionResource
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.limited.procedure.state.criterion import LimitedCriterionState
+from openprocurement.tender.limited.procedure.state.criterion import (
+    NegotiationCriterionState,
+    NegotiationQuickCriterionState,
+    ReportingCriterionState,
+)
 
 
 @resource(
@@ -13,7 +17,7 @@ from openprocurement.tender.limited.procedure.state.criterion import LimitedCrit
     description="Tender criteria",
 )
 class ReportingCriterionResource(BaseCriterionResource):
-    state_class = LimitedCriterionState
+    state_class = ReportingCriterionState
 
 
 @resource(
@@ -24,7 +28,7 @@ class ReportingCriterionResource(BaseCriterionResource):
     description="Tender criteria",
 )
 class NegotiationCriterionResource(ReportingCriterionResource):
-    pass
+    state_class = NegotiationCriterionState
 
 
 @resource(
@@ -35,4 +39,4 @@ class NegotiationCriterionResource(ReportingCriterionResource):
     description="Tender criteria",
 )
 class NegotiationQuickCriterionResource(ReportingCriterionResource):
-    pass
+    state_class = NegotiationQuickCriterionState

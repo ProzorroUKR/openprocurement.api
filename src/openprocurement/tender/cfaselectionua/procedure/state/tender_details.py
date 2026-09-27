@@ -113,6 +113,13 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     items_classification_prefix_change_check = False
     items_delivery_required = False
     tender_period_start_date_required = False
+    criterion_allowed_tender_statuses = ["draft", "active.enquiries"]
+    criterion_patch_exclusion_check = False
+    requirement_change_allowed_tender_statuses = ("draft",)
+    requirement_change_legacy_status = "active.enquiries"
+    requirement_put_allowed_tender_statuses = ["active.enquiries", "active.tendering"]
+    requirement_models_by_classification = False
+    requirement_post_ids_uniq_check = False
 
     def on_post(self, tender):
         super().on_post(tender)
@@ -205,11 +212,11 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
                         "Can't update procuringEntity in active.enquiries",
                     )
 
-                if "items" in get_request().validated["json_data"]:
+                if "items" in get_request().validated.get("json_data", {}):
                     calculate_agreement_contracts_value_amount(after)
             else:
                 allowed_fields = ("procurementMethodDetails", "contractTemplateName")
-                for k in get_request().validated["json_data"].keys():
+                for k in get_request().validated.get("json_data", {}).keys():
                     if k not in allowed_fields:
                         if before.get(k) != after.get(k):
                             raise_operation_error(
@@ -217,9 +224,13 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
                                 f"Only fields {allowed_fields} can be updated at {after['status']}",
                             )
         if tender_created_after(CRITERIA_CLASSIFICATION_UNIQ_FROM):
-            self._validate_criterion_uniq(after.get("criteria", []))
+            self.validate_criteria_uniq(after)
         self.validate_tender_lots(after, before=before)
         self.validate_lots_change(before, after)
+        if before.get("criteria") != after.get("criteria"):
+            self.validate_criteria_change(before, after)
+            self.validate_criteria_classification(after.get("criteria", []))
+            self.validate_criteria_requirements_rules(after.get("criteria", []))
         self.validate_docs(after, before)
         self.always(after)
 

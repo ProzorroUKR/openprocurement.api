@@ -387,8 +387,12 @@ def patch_tender_criteria_valid(self):
         response.json["errors"], [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
     )
 
+    # a criterion related to the tender and one related to the tenderer have the same scope
     updated_data["relatesTo"] = "tenderer"
-    self.app.patch_json(request_path, {"data": updated_data}, status=200)
+    response = self.app.patch_json(request_path, {"data": updated_data}, status=403)
+    self.assertEqual(
+        response.json["errors"], [{"location": "body", "name": "data", "description": "Criteria are not unique"}]
+    )
 
 
 def patch_tender_criteria_invalid(self):
@@ -1897,7 +1901,7 @@ def put_rg_requirement_invalid(self):
     )
 
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() + timedelta(days=1),
     ):
         response = self.app.put_json(
@@ -1914,7 +1918,7 @@ def put_rg_requirement_invalid(self):
         )
 
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         self.set_status("active.auction")
@@ -2143,7 +2147,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.tendering")
 
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(
@@ -2167,7 +2171,7 @@ def delete_requirement_evidence(self):
 
     self.set_status("active.auction")
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() + timedelta(days=1),
     ):
         response = self.app.delete(
@@ -2190,7 +2194,7 @@ def delete_requirement_evidence(self):
         )
 
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(
@@ -2911,11 +2915,12 @@ def criterion_from_market_profile(self):
 
         tender_criteria = response.json["data"]
         tender_criteria[-1]["requirementGroups"][0]["requirements"][-2]["expectedValues"] = ["value 4", "value 5"]
-        self.app.patch_json(
+        # the changed requirement is checked against the market through the tender endpoint as well
+        response = self.app.patch_json(
             f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
             {"data": {"criteria": tender_criteria}},
+            status=422,
         )
-        response = activate_tender(status=422)
         self.assertEqual(
             response.json["errors"],
             [

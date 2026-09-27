@@ -45,3 +45,5 @@ class PQTenderDetailsState(TenderDetailsMixin, PQTenderState):
     bids_invalidation_enabled = False
     items_classification_prefix_change_check = False
     items_delivery_required = False
+    criterion_allowed_tender_statuses = ["draft"]
+    requirement_status_check_always = True

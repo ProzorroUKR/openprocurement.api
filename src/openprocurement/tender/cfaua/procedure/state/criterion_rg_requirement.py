@@ -1,10 +1,8 @@
-from openprocurement.tender.core.procedure.state.criterion_rg_requirement import (
-    RequirementStateMixin,
+from openprocurement.tender.cfaua.procedure.state.tender_details import (
+    CFAUATenderDetailsState,
 )
-from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement import RequirementStateMixin
 
 
-class CFAUARequirementState(RequirementStateMixin, TenderState):
-    generate_award_milestones = False
-    tender_lots_awarding_events = False
-    tender_value_from_lots_without_tender_value = True
+class CFAUARequirementState(RequirementStateMixin, CFAUATenderDetailsState):
+    pass

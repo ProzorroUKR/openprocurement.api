@@ -896,6 +896,25 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             self.assertEqual(response.status, "200 OK")
             self.new_tender_token = response.json["access"]["token"]
 
+        with open(TARGET_DIR + "tender_stage2_add_milestones.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(new_tender_id, self.new_tender_token),
+                {"data": {"milestones": tender.get("milestones")}},
+            )
+            self.assertEqual(response.status, "200 OK")
+
+        response = self.app.get("/tenders/{}".format(new_tender_id))
+        stage2_tender = response.json["data"]
+        test_criteria_data = deepcopy(test_tender_cdeu_criteria)
+        set_tender_criteria(test_criteria_data, stage2_tender.get("lots", []), stage2_tender["items"])
+
+        with open(TARGET_DIR + "tender_stage2_add_criteria.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                "/tenders/{}/criteria?acc_token={}".format(new_tender_id, self.new_tender_token),
+                {"data": test_criteria_data},
+            )
+            self.assertEqual(response.status, "201 Created")
+
         with open(TARGET_DIR + "tender_stage2_modify_status.http", "w") as self.app.file_obj:
             with mock.patch(
                 "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
@@ -903,7 +922,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
             ):
                 response = self.app.patch_json(
                     "/tenders/{}?acc_token={}".format(new_tender_id, self.new_tender_token),
-                    {"data": {"status": "active.tendering", "milestones": tender.get("milestones")}},
+                    {"data": {"status": "active.tendering"}},
                 )
                 self.assertEqual(response.status, "200 OK")
                 self.assertEqual(response.json["data"]["status"], "active.tendering")
@@ -1989,6 +2008,14 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         test_criteria_data = deepcopy(test_tender_cdeu_criteria)
         set_tender_criteria(test_criteria_data, tender["lots"], tender["items"])
 
+        # the stage 2 tender is validated as a whole on every change, so the milestones come first
+        with open(TARGET_DIR_MULTIPLE + "tender_stage2_add_milestones.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                "/tenders/{}?acc_token={}".format(new_tender_id, self.new_tender_token),
+                {"data": {"milestones": tender.get("milestones")}},
+            )
+            self.assertEqual(response.status, "200 OK")
+
         with open(TARGET_DIR_MULTIPLE + "tender_stage2_add_criteria.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders/{}/criteria?acc_token={}".format(new_tender_id, self.new_tender_token),
@@ -2000,7 +2027,7 @@ class TenderResourceTest(BaseCompetitiveDialogEUWebTest, MockWebTestMixin, Tende
         with open(TARGET_DIR_MULTIPLE + "tender_stage2_modify_status.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(new_tender_id, self.new_tender_token),
-                {"data": {"status": "active.tendering", "milestones": tender.get("milestones")}},
+                {"data": {"status": "active.tendering"}},
             )
             self.assertEqual(response.status, "200 OK")
             self.assertEqual(response.json["data"]["status"], "active.tendering")

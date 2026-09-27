@@ -1,6 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.context import get_object
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD,
@@ -23,6 +22,7 @@ from openprocurement.tender.open.procedure.state.lot import (
     DefenseTenderLotState,
     RFPTenderLotState,
 )
+from openprocurement.tender.open.procedure.views.base import COStateResourceMixin
 
 
 @resource(
@@ -59,21 +59,6 @@ class OpenTenderLotResource(TenderLotResource):
     procurementMethodType=COMPETITIVE_ORDERING,
     description="Tender lots",
 )
-class COTenderLotResource(TenderLotResource):
-    state_class = None
+class COTenderLotResource(COStateResourceMixin, TenderLotResource):
     state_short_class = COShortTenderLotState
     state_long_class = COLongTenderLotState
-
-    def __init__(self, request, context=None):
-        self.state_short = self.state_short_class(request)
-        self.state_long = self.state_long_class(request)
-        super().__init__(request, context)
-
-    @property
-    def state(self):
-        agreement = get_object("agreement")
-        agreement_has_items = bool(agreement.get("items"))
-        if agreement_has_items:
-            return self.state_short
-        else:
-            return self.state_long

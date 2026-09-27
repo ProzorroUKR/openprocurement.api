@@ -16,9 +16,11 @@ from openprocurement.tender.open.procedure.state.criterion import (
     AboveThresholdEUCriterionState,
     AboveThresholdUACriterionState,
     BelowThresholdCriterionState,
-    COCriterionState,
+    COLongCriterionState,
+    COShortCriterionState,
     RFPCriterionState,
 )
+from openprocurement.tender.open.procedure.views.base import COStateResourceMixin
 
 
 @resource(
@@ -31,7 +33,6 @@ from openprocurement.tender.open.procedure.state.criterion import (
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
         SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
         REQUEST_FOR_PROPOSAL,
     ],
@@ -42,7 +43,18 @@ class OpenBaseCriterionResource(BaseCriterionResource):
         ABOVE_THRESHOLD_UA: AboveThresholdUACriterionState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUCriterionState,
         SIMPLE_DEFENSE: AboveThresholdUACriterionState,
-        COMPETITIVE_ORDERING: COCriterionState,
         BELOW_THRESHOLD: BelowThresholdCriterionState,
         REQUEST_FOR_PROPOSAL: RFPCriterionState,
     }
+
+
+@resource(
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Criteria (competitiveOrdering)",
+    collection_path="/tenders/{tender_id}/criteria",
+    path="/tenders/{tender_id}/criteria/{criterion_id}",
+    description="Tender criteria",
+    procurementMethodType=COMPETITIVE_ORDERING,
+)
+class COCriterionResource(COStateResourceMixin, BaseCriterionResource):
+    state_short_class = COShortCriterionState
+    state_long_class = COLongCriterionState

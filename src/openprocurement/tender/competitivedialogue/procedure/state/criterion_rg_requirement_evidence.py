@@ -1,10 +1,8 @@
-from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender import (
-    CDStage1TenderState,
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
+    CDStage1TenderDetailsStateMixin,
 )
-from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import (
-    EligibleEvidenceStateMixin,
-)
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement_evidence import EligibleEvidenceStateMixin
 
 
-class CDEligibleEvidenceState(EligibleEvidenceStateMixin, CDStage1TenderState):
+class CDEligibleEvidenceState(EligibleEvidenceStateMixin, CDStage1TenderDetailsStateMixin):
     pass

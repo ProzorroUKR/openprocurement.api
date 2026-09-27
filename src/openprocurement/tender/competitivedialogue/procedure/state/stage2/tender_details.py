@@ -68,6 +68,7 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
     item_profile_category_check_on_post = False
     # the stage 2 tender is validated while the stage 1 tender (hasAuction=False) is the request context
     minimal_step_regardless_of_auction = True
+    criterion_owner_exempt_roles = ("Administrator", "admins")
 
     def validate_tender_patch_request(self):
         role = self.request.authenticated_role
@@ -75,7 +76,7 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
             self.validate_item_owner("tender")
         if role != "Administrator":
             self.validate_tender_patch_allowed()
-        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_input_data(self.get_tender_patch_data_model())
         if role != "Administrator":
             self.validate_patch_fields_allowed()
         self.validate_patch_data_simple(self.get_data_model(), "tender")

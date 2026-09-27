@@ -12,15 +12,15 @@ from openprocurement.tender.open.constants import (
     SIMPLE_DEFENSE,
 )
 from openprocurement.tender.open.procedure.state.criterion_rg_requirement_evidence import (
+    AboveThresholdEligibleEvidenceState,
     AboveThresholdEUEligibleEvidenceState,
+    AboveThresholdUAEligibleEvidenceState,
     BelowThresholdEligibleEvidenceState,
+    COLongEligibleEvidenceState,
+    COShortEligibleEvidenceState,
     RFPEligibleEvidenceState,
 )
-from openprocurement.tender.open.procedure.state.criterion_rq_requirement_evidence import (
-    AboveThresholdEligibleEvidenceState,
-    AboveThresholdUAEligibleEvidenceState,
-    COEligibleEvidenceState,
-)
+from openprocurement.tender.open.procedure.views.base import COStateResourceMixin
 
 
 @resource(
@@ -33,7 +33,6 @@ from openprocurement.tender.open.procedure.state.criterion_rq_requirement_eviden
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
         SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
         REQUEST_FOR_PROPOSAL,
     ],
@@ -44,7 +43,18 @@ class OpenBaseEligibleEvidenceResource(BaseEligibleEvidenceResource):
         ABOVE_THRESHOLD_UA: AboveThresholdUAEligibleEvidenceState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUEligibleEvidenceState,
         SIMPLE_DEFENSE: AboveThresholdUAEligibleEvidenceState,
-        COMPETITIVE_ORDERING: COEligibleEvidenceState,
         BELOW_THRESHOLD: BelowThresholdEligibleEvidenceState,
         REQUEST_FOR_PROPOSAL: RFPEligibleEvidenceState,
     }
+
+
+@resource(
+    name=f"{OPEN_ROUTE_PREFIX}:Requirement Eligible Evidence (competitiveOrdering)",
+    collection_path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
+    path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
+    description="Tender requirement evidence",
+    procurementMethodType=COMPETITIVE_ORDERING,
+)
+class COEligibleEvidenceResource(COStateResourceMixin, BaseEligibleEvidenceResource):
+    state_short_class = COShortEligibleEvidenceState
+    state_long_class = COLongEligibleEvidenceState
