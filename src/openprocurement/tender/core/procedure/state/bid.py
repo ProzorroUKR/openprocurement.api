@@ -22,6 +22,7 @@ from openprocurement.api.utils import (
     get_tender_product,
     raise_operation_error,
 )
+from openprocurement.tender.core.constants import BID_LOTVALUES_VALIDATION_FROM
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.bid import (
     AdministratorPatchBid,
@@ -45,7 +46,6 @@ from openprocurement.tender.core.procedure.utils import (
 )
 from openprocurement.tender.core.procedure.validation import (
     TYPEMAP,
-    validate_bid_value,
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_econtract_fields_bid,
@@ -90,15 +90,13 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
     self_eligible_rogue_after_ecriteria = True
     # openuadefense bids have no requirementResponses
     requirement_responses_allowed = True
-    # open-family procedures don't validate value of a draft bid on patch
-    draft_bid_value_check = True
     # competitiveDialogue stage 1 bids have no value / parameters
     bid_value_allowed = True
     bid_parameters_allowed = True
+    # open-family procedures don't validate the value of a draft bid on patch
+    draft_bid_value_check = True
     # bid items quantity (former BaseItem.validate_quantity, UNIT_PRICE_REQUIRED_FROM)
     bid_items_quantity_required = True
-    # esco / competitiveDialogue: the bid value is validated by the procedure's own bid model, not on patch
-    bid_value_patch_check = True
     # cfaselectionua: the agreement is a full copy inside the tender (tender.agreements[0]) and is checked on patch too
     bid_agreement_from_tender = False
     bid_agreement_check_on_patch = False
@@ -119,6 +117,9 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
     def on_post(self, data):
         now = get_request_now().isoformat()
         data["date"] = now
+        self.validate_bid_data(data, on_post=True)
+        if self.bid_post_shortlisted_firms_check:
+            self.validate_shortlisted_firms_bid(data)
         self.validate_self_eligible(data)
         self.validate_requirement_responses_allowed(data)
         self.validate_requirement_responses_change({}, data)
@@ -145,7 +146,7 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
     def on_patch(self, before, after):
         if self.bid_agreement_check_on_patch:
             self.validate_bid_vs_agreement(after)
-        self.validate_bid_value_on_patch(after)
+        self.validate_bid_data(after)
         self.validate_self_eligible(after)
         self.validate_requirement_responses_allowed(after)
         self.validate_requirement_responses_change(before, after)
@@ -182,8 +183,6 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
         self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
         self.validate_bid_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
-        if self.bid_post_shortlisted_firms_check:
-            self.validate_shortlisted_firms_bid(self.request.validated["data"])
         self.validate_data_documents(route_key="bid_id", uid_key="id")
 
     def validate_bid_patch_request(self):
@@ -271,15 +270,96 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
         if not (bid_keys <= firm_keys):
             raise_operation_error(self.request, "Firm can't create bid")
 
-    def validate_bid_value_on_patch(self, data):
-        if not self.bid_value_patch_check:
-            return
-        if not self.draft_bid_value_check and data.get("status") == "draft":
-            return
+    def validate_bid_data(self, data, on_post=False):
+        """
+        former model validators of CommonBid (value, lotValues, parameters): the rules depend on the tender,
+        their errors are reported together as the model did
+        """
+        errors = []
+        for name, messages in (
+            ("value", self.validate_bid_value(data, on_post)),
+            ("lotValues", self.validate_bid_lot_values(data)),
+            ("parameters", self.validate_bid_parameters(data)),
+        ):
+            if messages:
+                errors.append((name, messages))
+        if errors:
+            for name, messages in errors:
+                self.request.errors.add("body", name, messages)
+            self.request.errors.status = 422
+            raise error_handler(self.request)
+
+    def validate_bid_value(self, data, on_post=False) -> list:
+        """former CommonBid.validate_value: the value of a bid is checked against the tender value"""
+        if not self.bid_value_allowed:
+            return []  # the field is rogue (validate_bid_fields_allowed)
+        if not on_post and not self.draft_bid_value_check and data.get("status") == "draft":
+            return []
         try:
-            validate_bid_value(get_tender(), data.get("value"))
+            self.validate_bid_value_against_tender(get_tender(), data.get("value"))
         except ValidationError as e:
-            raise_operation_error(self.request, e.messages, status=422, name="value")
+            return e.messages
+        return []
+
+    def validate_bid_value_against_tender(self, tender, value):
+        if tender.get("lots"):
+            if value:
+                raise ValidationError("value should be posted for each lot of bid")
+        else:
+            tender_value = tender.get("value")
+            if not value:
+                raise ValidationError("This field is required.")
+            config = tender["config"]
+            if config.get("valueCurrencyEquality"):
+                if tender_value["currency"] != value["currency"]:
+                    raise ValidationError("currency of bid should be identical to currency of value of tender")
+                if config.get("hasValueRestriction") and to_decimal(tender_value["amount"]) < to_decimal(
+                    value["amount"]
+                ):
+                    raise ValidationError("value of bid should be less than value of tender")
+            if tender_value["valueAddedTaxIncluded"] != value["valueAddedTaxIncluded"]:
+                raise ValidationError(
+                    "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
+                )
+
+    def validate_bid_lot_values(self, data) -> list:
+        """former CommonBid.validate_lotValues: a proposal for every lot of the bid, one per lot"""
+        lot_values = data.get("lotValues")
+        tender = get_tender()
+        if tender.get("lots") and not lot_values:
+            return ["This field is required."]
+        if tender_created_after(BID_LOTVALUES_VALIDATION_FROM) and lot_values:
+            lots = [i["relatedLot"] for i in lot_values]
+            if len(lots) != len(set(lots)):
+                return ["bids don't allow duplicated proposals"]
+        return []
+
+    def validate_bid_parameters(self, data) -> list:
+        """former CommonBid.validate_parameters: a parameter for every feature of the bid lots"""
+        if not self.bid_parameters_allowed:
+            return []  # the field is rogue (validate_bid_fields_allowed)
+        lot_values = data.get("lotValues") or ""
+        tender = get_tender()
+        parameters = data.get("parameters") or []
+        if tender.get("lots"):
+            lots = [i["relatedLot"] for i in lot_values]
+            items = [i["id"] for i in tender.get("items", "") if i.get("relatedLot") in lots]
+            codes = {
+                i["code"]: [x["value"] for x in i["enum"]]
+                for i in tender.get("features", "")
+                if i["featureOf"] == "tenderer"
+                or i["featureOf"] == "lot"
+                and i["relatedItem"] in lots
+                or i["featureOf"] == "item"
+                and i["relatedItem"] in items
+            }
+            if {i["code"] for i in parameters} != set(codes):
+                return ["All features parameters is required."]
+        elif not parameters and tender.get("features"):
+            return ["This field is required."]
+        elif {i["code"] for i in parameters} != {i["code"] for i in tender.get("features", "")}:
+            return ["All features parameters is required."]
+        return []
 
     def validate_bid_items_quantity_required(self, data):
         if self.bid_items_quantity_required:

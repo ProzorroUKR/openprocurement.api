@@ -20,7 +20,6 @@ from openprocurement.tender.core.procedure.models.organization import (
 )
 from openprocurement.tender.core.procedure.models.req_response import (
     ObjResponseMixin,
-    PatchObjResponsesMixin,
 )
 from openprocurement.tender.core.procedure.models.value import (
     WeightedValue,
@@ -59,7 +58,7 @@ class PostAward(BaseAward):
             raise ValidationError("lotID should be one of lots")
 
 
-class PatchAward(PatchObjResponsesMixin, BaseAward):
+class PatchAward(ObjResponseMixin, BaseAward):
     status = StringType(choices=["pending", "unsuccessful", "active", "cancelled"])
     qualified = BooleanType()
     eligible = BooleanType()

@@ -13,11 +13,10 @@ from openprocurement.tender.core.procedure.models.milestone import (
 )
 from openprocurement.tender.core.procedure.models.req_response import (
     ObjResponseMixin,
-    PatchObjResponsesMixin,
 )
 
 
-class PatchQualification(PatchObjResponsesMixin):
+class PatchQualification(ObjResponseMixin):
     title = StringType()
     title_en = StringType()
     title_ru = StringType()
@@ -29,7 +28,7 @@ class PatchQualification(PatchObjResponsesMixin):
     eligible = BooleanType()
 
 
-class Qualification(ObjResponseMixin, PatchQualification, QualificationMilestoneListMixin):
+class Qualification(PatchQualification, QualificationMilestoneListMixin):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
     bidID = StringType(required=True)
     lotID = MD5Type()

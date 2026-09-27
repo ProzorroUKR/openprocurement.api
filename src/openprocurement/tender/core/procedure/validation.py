@@ -63,7 +63,6 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.utils import (
     find_item_by_id,
     find_lot,
-    get_requirement_obj,
     is_multi_currency_tender,
     prepare_shortlisted_firms_author_key,
     prepare_shortlisted_firms_keys,
@@ -120,26 +119,6 @@ def validate_lot_value_vat(tender_lot_value, value, name="value"):
         raise ValidationError(
             f"valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of {name} of lot"
         )
-
-
-def validate_bid_value(tender, value):
-    if tender.get("lots"):
-        if value:
-            raise ValidationError("value should be posted for each lot of bid")
-    else:
-        tender_value = tender.get("value")
-        if not value:
-            raise ValidationError("This field is required.")
-        config = get_tender()["config"]
-        if config.get("valueCurrencyEquality"):
-            if tender_value["currency"] != value["currency"]:
-                raise ValidationError("currency of bid should be identical to currency of value of tender")
-            if config.get("hasValueRestriction") and to_decimal(tender_value["amount"]) < to_decimal(value["amount"]):
-                raise ValidationError("value of bid should be less than value of tender")
-        if tender_value["valueAddedTaxIncluded"] != value["valueAddedTaxIncluded"]:
-            raise ValidationError(
-                "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
-            )
 
 
 def validate_related_lot(tender, related_lot):
@@ -519,25 +498,6 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
     errors = validation(data, required_fields)
     if errors:
         raise_operation_error(request, errors, name=name, status=422)
-
-
-def validate_req_response_values(response):
-    requirement, *_ = get_requirement_obj(response["requirement"]["id"])
-    if requirement:
-        if requirement.get("expectedValues") is not None and response.get("value") is not None:
-            raise_operation_error(
-                get_request(),
-                f"only 'values' allowed in response for requirement {requirement['id']}",
-                name="requirementResponses",
-                status=422,
-            )
-        elif requirement.get("expectedValues") is None and response.get("values") is not None:
-            raise_operation_error(
-                get_request(),
-                f"only 'value' allowed in response for requirement {requirement['id']}",
-                name="requirementResponses",
-                status=422,
-            )
 
 
 def validate_field_change(field_name, before_obj, after_obj, validator, args):
