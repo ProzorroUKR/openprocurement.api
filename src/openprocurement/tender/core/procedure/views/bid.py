@@ -1,3 +1,4 @@
+from copy import deepcopy
 from logging import getLogger
 
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
@@ -26,6 +27,7 @@ def resolve_bid(request):
         bid_id = match_dict["bid_id"]
         bids = get_items(request, request.validated["tender"], "bids", bid_id)
         request.validated["bid"] = bids[0]
+        request.validated["bid_src"] = deepcopy(bids[0])
 
 
 class TenderBidResource(TenderBaseResource):

@@ -1,9 +1,6 @@
 from typing import Optional
 
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.req_response_evidence import (
-    AwardReqResponseEvidenceState,
-)
 from openprocurement.tender.core.procedure.views.award_req_response import (
     resolve_award,
     resolve_req_response,
@@ -15,7 +12,6 @@ from openprocurement.tender.core.procedure.views.base_req_response_evidence impo
 
 
 class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
-    state_class = AwardReqResponseEvidenceState
     parent_obj_name = "award"
 
     def __init__(self, request, context=None):

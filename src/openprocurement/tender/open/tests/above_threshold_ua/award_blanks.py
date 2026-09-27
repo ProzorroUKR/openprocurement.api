@@ -2252,8 +2252,8 @@ def create_award_requirement_response(self):
         [
             {
                 "location": "body",
-                "name": "requirementResponses.0",
-                "description": {"value": 'Response required at least one of field ["value", "values"]'},
+                "name": "requirementResponses",
+                "description": [{"value": 'Response required at least one of field ["value", "values"]'}],
             },
         ],
     )
@@ -2452,7 +2452,13 @@ def create_award_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["type should be one of eligibleEvidences types"], "location": "body", "name": "type"}],
+        [
+            {
+                "description": [{"type": ["type should be one of eligibleEvidences types"]}],
+                "location": "body",
+                "name": "requirementResponses",
+            }
+        ],
     )
 
     response = self.app.post_json(
@@ -2498,9 +2504,9 @@ def create_award_requirement_response_evidence(self):
         response.json["errors"],
         [
             {
-                "description": ["relatedDocument.id should be one of award documents"],
+                "description": [{"relatedDocument": ["relatedDocument.id should be one of award documents"]}],
                 "location": "body",
-                "name": "relatedDocument",
+                "name": "requirementResponses",
             }
         ],
     )

@@ -28,7 +28,7 @@ from openprocurement.tender.core.procedure.models.parameter import (
     PatchParameter,
 )
 from openprocurement.tender.core.procedure.models.req_response import (
-    BidResponsesMixin,
+    ObjResponseMixin,
     PatchObjResponsesMixin,
 )
 from openprocurement.tender.core.procedure.models.value import (
@@ -148,7 +148,7 @@ class CommonBid(BaseBid):
 
 
 # POST DATA ---
-class PostBid(BidResponsesMixin, CommonBid):
+class PostBid(ObjResponseMixin, CommonBid):
     @serializable
     def id(self):
         return uuid4().hex
@@ -195,7 +195,7 @@ class MetaBid(Model):
 
 
 # model to validate a bid after patch
-class Bid(MetaBid, BidResponsesMixin, CommonBid):
+class Bid(MetaBid, ObjResponseMixin, CommonBid):
     documents = ListType(ModelType(Document, required=True))
     financialDocuments = ListType(ModelType(Document, required=True))
     eligibilityDocuments = ListType(ModelType(Document, required=True))

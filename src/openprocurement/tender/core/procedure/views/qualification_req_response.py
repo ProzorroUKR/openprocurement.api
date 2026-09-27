@@ -3,7 +3,7 @@ from typing import Optional
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.req_response import (
+from openprocurement.tender.core.procedure.state.qualification_req_response import (
     QualificationReqResponseState,
 )
 from openprocurement.tender.core.procedure.views.base_req_response import (

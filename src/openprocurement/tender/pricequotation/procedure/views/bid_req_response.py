@@ -4,6 +4,9 @@ from openprocurement.tender.core.procedure.views.bid_req_response import (
     BidReqResponseResource as BaseBidReqResponseResource,
 )
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.pricequotation.procedure.state.bid_req_response import (
+    PQBidReqResponseState,
+)
 
 
 @resource(
@@ -14,4 +17,4 @@ from openprocurement.tender.pricequotation.constants import PQ
     description=f"{PQ} Tender UA bidder requirement responses",
 )
 class PQBidReqResponseResource(BaseBidReqResponseResource):
-    pass
+    state_class = PQBidReqResponseState

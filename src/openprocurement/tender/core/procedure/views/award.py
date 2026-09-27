@@ -1,3 +1,4 @@
+from copy import deepcopy
 from logging import getLogger
 
 from pyramid.security import Allow, Everyone
@@ -32,6 +33,7 @@ def resolve_award(request):
     if match_dict.get("award_id"):
         awards = get_items(request, request.validated["tender"], "awards", match_dict["award_id"])
         request.validated["award"] = awards[0]
+        request.validated["award_src"] = deepcopy(awards[0])
         # used by item validator in pq award patch endpoint
         if "bid_id" in awards[0]:  # reporting
             bids = get_items(request, request.validated["tender"], "bids", awards[0]["bid_id"])

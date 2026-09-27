@@ -1899,8 +1899,8 @@ def patch_bid_requirement_response(self):
         [
             {
                 "location": "body",
-                "name": "requirement",
-                "description": "Items should be unique by fields: requirement.id",
+                "name": "requirementResponses",
+                "description": [{"requirement": "Items should be unique by fields: requirement.id"}],
             }
         ],
     )

@@ -4,6 +4,9 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
     BidReqResponseEvidenceResource as BaseBidReqResponseEvidenceResource,
 )
 from openprocurement.tender.pricequotation.constants import PQ
+from openprocurement.tender.pricequotation.procedure.state.bid_req_response_evidence import (
+    PQBidReqResponseEvidenceState,
+)
 
 
 @resource(
@@ -14,4 +17,4 @@ from openprocurement.tender.pricequotation.constants import PQ
     description=f"{PQ} Tender UA bidder evidences",
 )
 class PQBidReqResponseResource(BaseBidReqResponseEvidenceResource):
-    pass
+    state_class = PQBidReqResponseEvidenceState

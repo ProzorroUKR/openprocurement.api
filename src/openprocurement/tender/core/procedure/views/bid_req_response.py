@@ -1,7 +1,6 @@
 from typing import Optional
 
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.req_response import BidReqResponseState
 from openprocurement.tender.core.procedure.views.base_req_response import (
     BaseReqResponseResource,
     resolve_req_response,
@@ -10,7 +9,6 @@ from openprocurement.tender.core.procedure.views.bid import resolve_bid
 
 
 class BidReqResponseResource(BaseReqResponseResource):
-    state_class = BidReqResponseState
     parent_obj_name = "bid"
 
     def __init__(self, request, context=None):

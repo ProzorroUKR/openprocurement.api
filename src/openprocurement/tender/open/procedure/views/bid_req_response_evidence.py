@@ -11,6 +11,15 @@ from openprocurement.tender.open.constants import (
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
+from openprocurement.tender.open.procedure.state.bid_req_response_evidence import (
+    AboveThresholdBidReqResponseEvidenceState,
+    AboveThresholdEUBidReqResponseEvidenceState,
+    AboveThresholdUABidReqResponseEvidenceState,
+    BelowThresholdBidReqResponseEvidenceState,
+    COBidReqResponseEvidenceState,
+    RFPBidReqResponseEvidenceState,
+    SimpleDefenseBidReqResponseEvidenceState,
+)
 
 
 @resource(
@@ -29,4 +38,12 @@ from openprocurement.tender.open.constants import (
     ],
 )
 class OpenBidReqResponseEvidenceResource(BidReqResponseEvidenceResource):
-    pass
+    state_classes = {
+        ABOVE_THRESHOLD: AboveThresholdBidReqResponseEvidenceState,
+        ABOVE_THRESHOLD_UA: AboveThresholdUABidReqResponseEvidenceState,
+        ABOVE_THRESHOLD_EU: AboveThresholdEUBidReqResponseEvidenceState,
+        SIMPLE_DEFENSE: SimpleDefenseBidReqResponseEvidenceState,
+        COMPETITIVE_ORDERING: COBidReqResponseEvidenceState,
+        BELOW_THRESHOLD: BelowThresholdBidReqResponseEvidenceState,
+        REQUEST_FOR_PROPOSAL: RFPBidReqResponseEvidenceState,
+    }

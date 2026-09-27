@@ -1,7 +1,5 @@
-import dataclasses
 from collections import defaultdict
 from copy import deepcopy
-from dataclasses import dataclass
 from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
@@ -96,7 +94,13 @@ from openprocurement.tender.core.procedure.models.tender_base import (
     MainProcurementCategory,
 )
 from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.state.utils import validation_error_handler
+from openprocurement.tender.core.procedure.state.utils import (
+    ItemsDiff,
+    RequirementsDiff,
+    diff_items,
+    diff_requirements,
+    validation_error_handler,
+)
 from openprocurement.tender.core.procedure.utils import (
     dt_from_iso,
     get_contract_template_names_for_classification_ids,
@@ -257,11 +261,13 @@ class TenderDetailsRequestMixin(BaseState):
     data_model = Tender
     # bt/rfp: the patch model depends on the tender status
     tender_patch_models_by_status: dict | None = None
+
     # competitiveDialogue stage 2 tenders are created by the system, the broker accreditation isn't checked
     tender_create_accreditation_check = True
     tender_create_accreditations = (AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5)
     tender_central_accreditations = (AccreditationLevel.ACCR_5,)
     tender_edit_accreditations = (AccreditationLevel.ACCR_4,)
+
     # config used when the request has no "config" (competitiveDialogue stage 2)
     tender_config_default: dict | None = None
     # roles that may patch the tender without being its owner
@@ -1586,87 +1592,6 @@ class TenderLotRulesMixin(BaseState):
         # if auctionPeriod was calculated in draft tender before lots were added
         if tender.get("auctionPeriod"):
             del tender["auctionPeriod"]
-
-
-def _without(data: dict, key: str) -> dict:
-    return {k: v for k, v in data.items() if k != key}
-
-
-@dataclass
-class ItemsDiff:
-    """changes of a list of objects with ids (the objects are matched by id)"""
-
-    added: list = dataclasses.field(default_factory=list)
-    deleted: list = dataclasses.field(default_factory=list)
-    kept: list = dataclasses.field(default_factory=list)  # the objects present before, in their new state
-    changed: list = dataclasses.field(default_factory=list)  # (before, after) pairs whose own fields differ
-    nested: list = dataclasses.field(default_factory=list)  # (before, after) pairs whose children differ
-
-    def __bool__(self):
-        return bool(self.added or self.deleted or self.changed or self.nested)
-
-    @property
-    def changed_after(self) -> list:
-        return [item for _, item in self.changed]
-
-
-def diff_items(before: list, after: list, children: str) -> ItemsDiff:
-    """
-    :param children: the field with the child objects, compared apart from the own fields
-    """
-    diff = ItemsDiff()
-    before_by_id = {item["id"]: item for item in before}
-    after_ids = {item["id"] for item in after}
-    diff.deleted = [item for item in before if item["id"] not in after_ids]
-    for item in after:
-        item_before = before_by_id.get(item["id"])
-        if item_before is None:
-            diff.added.append(item)
-            continue
-        diff.kept.append(item)
-        if _without(item_before, children) != _without(item, children):
-            diff.changed.append((item_before, item))
-        if item_before.get(children) != item.get(children):
-            diff.nested.append((item_before, item))
-    return diff
-
-
-@dataclass
-class RequirementsDiff:
-    """
-    changes of the requirements of a requirement group
-
-    A requirement replaced by a new version (PUT) keeps its id and the previous version is cancelled,
-    so the versions of an id are matched by position.
-    """
-
-    added: list = dataclasses.field(default_factory=list)
-    replaced: list = dataclasses.field(default_factory=list)  # (previous version, new version) pairs
-    changed: list = dataclasses.field(default_factory=list)  # (before, after) pairs of the same version
-    nested: list = dataclasses.field(default_factory=list)  # (before, after) pairs whose eligibleEvidences differ
-
-
-def diff_requirements(before: list, after: list) -> RequirementsDiff:
-    diff = RequirementsDiff()
-    before_versions: dict = {}
-    for requirement in before:
-        before_versions.setdefault(requirement["id"], []).append(requirement)
-    after_versions: dict = {}
-    for requirement in after:
-        after_versions.setdefault(requirement["id"], []).append(requirement)
-    for req_id, versions in after_versions.items():
-        previous = before_versions.get(req_id, [])
-        for version_before, version in zip(previous, versions):
-            if _without(version_before, "eligibleEvidences") != _without(version, "eligibleEvidences"):
-                diff.changed.append((version_before, version))
-            if version_before.get("eligibleEvidences") != version.get("eligibleEvidences"):
-                diff.nested.append((version_before, version))
-        for version in versions[len(previous) :]:
-            if previous:
-                diff.replaced.append((previous[-1], version))
-            else:
-                diff.added.append(version)
-    return diff
 
 
 class TenderCriteriaRulesMixin(BaseState):

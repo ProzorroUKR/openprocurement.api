@@ -3836,8 +3836,8 @@ def create_award_requirement_response(self):
         [
             {
                 "location": "body",
-                "name": "requirementResponses.0",
-                "description": {"value": 'Response required at least one of field ["value", "values"]'},
+                "name": "requirementResponses",
+                "description": [{"value": 'Response required at least one of field ["value", "values"]'}],
             },
         ],
     )

@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
@@ -22,6 +24,7 @@ def resolve_qualification(request):
         qualification_id = match_dict["qualification_id"]
         qualification = get_items(request, request.validated["tender"], "qualifications", qualification_id)
         request.validated["qualification"] = qualification[0]
+        request.validated["qualification_src"] = deepcopy(qualification[0])
 
 
 @resource(

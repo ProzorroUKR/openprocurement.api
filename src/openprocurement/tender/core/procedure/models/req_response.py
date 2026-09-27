@@ -356,153 +356,122 @@ class PatchObjResponsesMixin(Model):
 
 
 class ObjResponseMixin(PatchObjResponsesMixin):
+    """the responses are validated by the state of the bid / award / qualification (RequirementResponsesRulesMixin)"""
+
     def validate_requirementResponses(self, data: dict, requirement_responses: Optional[List[dict]]) -> None:
-        requirement_responses = requirement_responses or []
-
-        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17):
-            if requirement_responses:
-                raise ValidationError("Rogue field.")
-            return
-
-        validation_statuses = ["pending", "active"]
-        if data["status"] not in validation_statuses:
-            return
-
-        parent_obj_name = self.__name__.lower()
-        for name in ["award", "qualification", "bid"]:
-            if name in parent_obj_name:
-                parent_obj_name = name
-                break
-
-        self._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)  # type: ignore[arg-type,call-arg]
-
-    def _validate_requirement_responses_data(
-        self, data: dict, requirement_responses: List[dict], parent_obj_name: str
-    ) -> None:
-        for response in requirement_responses:
-            validate_req_response_requirement(response, parent_obj_name=parent_obj_name)
-            MatchResponseValue.match(response, parent_data=data)
-            validate_req_response_related_tenderer(data, response)
-            validate_req_response_evidences_relatedDocument(data, response, parent_obj_name=parent_obj_name)
+        if tender_created_before(RELEASE_ECRITERIA_ARTICLE_17) and requirement_responses:
+            raise ValidationError("Rogue field.")
 
 
-class BidResponsesMixin(ObjResponseMixin):
-    """
-    this model is used to update "full" data during patch and post requests
-    """
+def validate_bid_requirement_responses_coverage(data: dict, requirement_responses: list) -> None:
+    """every criterion with source tenderer / winner of the bid lots must be answered, one requirement group per criterion"""
 
-    def _validate_requirement_responses_data(
-        self, data: dict, requirement_responses: List[dict], parent_obj_name: str
-    ) -> None:
-        super()._validate_requirement_responses_data(self, data, requirement_responses, parent_obj_name)  # type: ignore[arg-type,call-arg]
+    tender = get_tender()
 
-        tender = get_tender()
+    # Lists for criteria ids that failed validation
+    missed_full_criteria_ids = []
+    multiple_group_criteria_ids = []
+    missed_partial_criteria_ids = []
 
-        # Lists for criteria ids that failed validation
-        missed_full_criteria_ids = []
-        multiple_group_criteria_ids = []
-        missed_partial_criteria_ids = []
+    # Get all answered requirements
+    all_answered_requirements_ids = [i["requirement"]["id"] for i in requirement_responses]
 
-        # Get all answered requirements
-        all_answered_requirements_ids = [i["requirement"]["id"] for i in requirement_responses]
+    # Iterate criteria
+    for criteria in tender.get("criteria", []):
+        # Initialize variable for lot relation
+        related_lot = None
 
-        # Iterate criteria
-        for criteria in tender.get("criteria", []):
-            # Initialize variable for lot relation
-            related_lot = None
+        # Find direct relation to lot
+        if criteria.get("relatesTo") == "lot":
+            related_lot = criteria["relatedItem"]
 
-            # Find direct relation to lot
-            if criteria.get("relatesTo") == "lot":
-                related_lot = criteria["relatedItem"]
+        # Find relation to lot through item
+        if criteria.get("relatesTo") == "item":
+            items = tender.get("items", [])
+            item = next((item for item in items if item["id"] == criteria["relatedItem"]), None)
+            if item is None:
+                # Non existing item: skip criteria
+                # Should not happen in theory, but happens in practice (i.e. item was deleted)
+                continue
+            related_lot = item.get("relatedLot")
 
-            # Find relation to lot through item
-            if criteria.get("relatesTo") == "item":
-                items = tender.get("items", [])
-                item = next((item for item in items if item["id"] == criteria["relatedItem"]), None)
-                if item is None:
-                    # Non existing item: skip criteria
-                    # Should not happen in theory, but happens in practice (i.e. item was deleted)
-                    continue
-                related_lot = item.get("relatedLot")
-
-            # Skip criteria of lots in which bid is not participating
-            if related_lot:
-                # Relation to lot is present
-                # Check if bid participates in the lot
-                for lotVal in data.get("lotValues", ""):
-                    if related_lot == lotVal["relatedLot"]:
-                        break
-                else:
-                    # Bid does not participate in the lot
-                    # Skip criteria
-                    continue
-
-            # Skip non-bid criteria
-            if criteria.get("source", "tenderer") not in ("tenderer", "winner"):
+        # Skip criteria of lots in which bid is not participating
+        if related_lot:
+            # Relation to lot is present
+            # Check if bid participates in the lot
+            for lotVal in data.get("lotValues", ""):
+                if related_lot == lotVal["relatedLot"]:
+                    break
+            else:
+                # Bid does not participate in the lot
+                # Skip criteria
                 continue
 
-            # Skip criteria that have no active requirements
-            if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
-                active_requirements = [
-                    requirement
-                    for rg in criteria.get("requirementGroups", [])
-                    for requirement in rg.get("requirements", [])
-                    if requirement.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
-                ]
-                if not active_requirements:
-                    continue
+        # Skip non-bid criteria
+        if criteria.get("source", "tenderer") not in ("tenderer", "winner"):
+            continue
 
-            criteria_ids = {}
-            group_answered_requirement_ids = {}
+        # Skip criteria that have no active requirements
+        if tender_created_after(CRITERION_REQUIREMENT_STATUSES_FROM):
+            active_requirements = [
+                requirement
+                for rg in criteria.get("requirementGroups", [])
+                for requirement in rg.get("requirements", [])
+                if requirement.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
+            ]
+            if not active_requirements:
+                continue
 
-            # Search for answered requirements
-            for rg in criteria.get("requirementGroups", []):
-                # Get all requirement ids for group
-                requirement_ids = {
-                    i["id"]
-                    for i in rg.get("requirements", [])
-                    if i.get("status", ReqStatuses.DEFAULT) != ReqStatuses.CANCELLED
-                }
+        criteria_ids = {}
+        group_answered_requirement_ids = {}
 
-                # Get all answered requirement ids for group
-                answered_requirement_ids = {i for i in all_answered_requirements_ids if i in requirement_ids}
+        # Search for answered requirements
+        for rg in criteria.get("requirementGroups", []):
+            # Get all requirement ids for group
+            requirement_ids = {
+                i["id"]
+                for i in rg.get("requirements", [])
+                if i.get("status", ReqStatuses.DEFAULT) != ReqStatuses.CANCELLED
+            }
 
-                if answered_requirement_ids:
-                    group_answered_requirement_ids[rg["id"]] = answered_requirement_ids
+            # Get all answered requirement ids for group
+            answered_requirement_ids = {i for i in all_answered_requirements_ids if i in requirement_ids}
 
-                # Save all requirements for each group
-                criteria_ids[rg["id"]] = requirement_ids
+            if answered_requirement_ids:
+                group_answered_requirement_ids[rg["id"]] = answered_requirement_ids
 
-            if not group_answered_requirement_ids:
-                # No answers for this criteria
-                missed_full_criteria_ids.append(criteria["id"])
-            else:
-                # Check if there are multiple groups with answers
-                if len(group_answered_requirement_ids) > 1:
-                    multiple_group_criteria_ids.append(criteria["id"])
+            # Save all requirements for each group
+            criteria_ids[rg["id"]] = requirement_ids
 
-                # Check if all requirements in a group are answered
-                rg_id = list(group_answered_requirement_ids.keys())[0]
-                if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
-                    missed_partial_criteria_ids.append(criteria["id"])
+        if not group_answered_requirement_ids:
+            # No answers for this criteria
+            missed_full_criteria_ids.append(criteria["id"])
+        else:
+            # Check if there are multiple groups with answers
+            if len(group_answered_requirement_ids) > 1:
+                multiple_group_criteria_ids.append(criteria["id"])
 
-        if missed_full_criteria_ids:
-            raise ValidationError(
-                "Responses are required for all criteria with source tenderer/winner, "
-                f"failed for criteria {', '.join(missed_full_criteria_ids)}"
-            )
+            # Check if all requirements in a group are answered
+            rg_id = list(group_answered_requirement_ids.keys())[0]
+            if set(criteria_ids[rg_id]).difference(set(group_answered_requirement_ids[rg_id])):
+                missed_partial_criteria_ids.append(criteria["id"])
 
-        if multiple_group_criteria_ids:
-            raise ValidationError(
-                "Responses are allowed for only one group of requirements per criterion, "
-                f"failed for criteria {', '.join(multiple_group_criteria_ids)}"
-            )
+    if missed_full_criteria_ids:
+        raise ValidationError(
+            "Responses are required for all criteria with source tenderer/winner, "
+            f"failed for criteria {', '.join(missed_full_criteria_ids)}"
+        )
 
-        if missed_partial_criteria_ids:
-            raise ValidationError(
-                "Responses are required for all requirements in a requirement group, "
-                f"failed for criteria {', '.join(missed_partial_criteria_ids)}"
-            )
+    if multiple_group_criteria_ids:
+        raise ValidationError(
+            "Responses are allowed for only one group of requirements per criterion, "
+            f"failed for criteria {', '.join(multiple_group_criteria_ids)}"
+        )
 
+    if missed_partial_criteria_ids:
+        raise ValidationError(
+            "Responses are required for all requirements in a requirement group, "
+            f"failed for criteria {', '.join(missed_partial_criteria_ids)}"
+        )
 
-# --- requirementResponses mixin
+    # --- requirementResponses mixin

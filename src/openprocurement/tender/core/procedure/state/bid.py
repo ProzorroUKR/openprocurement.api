@@ -11,7 +11,6 @@ from openprocurement.api.constants_env import (
     ITEM_QUANTITY_REQUIRED_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
-    REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
@@ -31,6 +30,9 @@ from openprocurement.tender.core.procedure.models.bid import (
     PatchQualificationBid,
     PostBid,
 )
+from openprocurement.tender.core.procedure.state.req_response import (
+    BidRequirementResponsesRulesMixin,
+)
 from openprocurement.tender.core.procedure.utils import (
     equals_decimal_and_corrupted,
     get_supplier_contract,
@@ -49,14 +51,13 @@ from openprocurement.tender.core.procedure.validation import (
     validate_econtract_fields_bid,
     validate_items_required_fields,
     validate_items_unit_amount,
-    validate_req_response_values,
     validate_required_fields,
 )
 
 logger = logging.getLogger(__name__)
 
 
-class BidState(BaseState):
+class BidState(BidRequirementResponsesRulesMixin, BaseState):
     post_data_model = PostBid
     patch_data_model = PatchBid
     patch_qualification_data_model = PatchQualificationBid
@@ -120,6 +121,7 @@ class BidState(BaseState):
         data["date"] = now
         self.validate_self_eligible(data)
         self.validate_requirement_responses_allowed(data)
+        self.validate_requirement_responses_change({}, data)
         self.validate_bid_fields_allowed(data)
         self.validate_bid_items_quantity_required(data)
         self.validate_items_required_field(data)
@@ -132,7 +134,6 @@ class BidState(BaseState):
         self.validate_items_quantity_against_tender({}, data)
         self.validate_items_related_product(data, {})
         self.validate_proposal_docs(data)
-        self.validate_req_responses(data)
 
         lot_values = data.get("lotValues")
         if lot_values:  # TODO: move to post model as serializible
@@ -147,6 +148,7 @@ class BidState(BaseState):
         self.validate_bid_value_on_patch(after)
         self.validate_self_eligible(after)
         self.validate_requirement_responses_allowed(after)
+        self.validate_requirement_responses_change(before, after)
         self.validate_bid_fields_allowed(after)
         self.validate_bid_items_quantity_required(after)
         self.validate_items_required_field(after)
@@ -162,7 +164,6 @@ class BidState(BaseState):
         self.validate_items_related_product(after, before)
         self.validate_proposal_docs(after, before)
         self.invalidate_pending_bid_after_patch(after, before)
-        self.validate_req_responses(after)
         super().on_patch(before, after)
 
     def get_patch_data_model(self):
@@ -566,11 +567,6 @@ class BidState(BaseState):
             return
         if before.get("status") == after.get("status") == "pending" and before != after:
             after["status"] = "invalid"
-
-    def validate_req_responses(self, data):
-        if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
-            for resp in data.get("requirementResponses", []):
-                validate_req_response_values(resp)
 
     def update_date_for_new_lot_values(self, after, before):
         now = get_request_now().isoformat()

@@ -1,9 +1,6 @@
 from typing import Optional
 
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.state.req_response_evidence import (
-    BidReqResponseEvidenceState,
-)
 from openprocurement.tender.core.procedure.views.base_req_response_evidence import (
     BaseReqResponseEvidenceResource,
     resolve_evidence,
@@ -15,7 +12,6 @@ from openprocurement.tender.core.procedure.views.bid_req_response import (
 
 
 class BidReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
-    state_class = BidReqResponseEvidenceState
     parent_obj_name = "bid"
 
     def __init__(self, request, context=None):

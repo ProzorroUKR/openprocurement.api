@@ -4,6 +4,11 @@ from openprocurement.tender.core.procedure.views.award_req_response import (
     AwardReqResponseResource as BaseAwardReqResponseResource,
 )
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.limited.procedure.state.award_req_response import (
+    NegotiationAwardReqResponseState,
+    NegotiationQuickAwardReqResponseState,
+    ReportingAwardReqResponseState,
+)
 
 
 @resource(
@@ -14,7 +19,7 @@ from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QU
     description="Tender award requirement responses",
 )
 class ReportingAwardReqResponseResource(BaseAwardReqResponseResource):
-    pass
+    state_class = ReportingAwardReqResponseState
 
 
 @resource(
@@ -25,7 +30,7 @@ class ReportingAwardReqResponseResource(BaseAwardReqResponseResource):
     description="Tender award requirement responses",
 )
 class NegotiationAwardReqResponseResource(BaseAwardReqResponseResource):
-    pass
+    state_class = NegotiationAwardReqResponseState
 
 
 @resource(
@@ -36,4 +41,4 @@ class NegotiationAwardReqResponseResource(BaseAwardReqResponseResource):
     description="Tender award requirement responses",
 )
 class NegotiationQuickAwardReqResponseResource(BaseAwardReqResponseResource):
-    pass
+    state_class = NegotiationQuickAwardReqResponseState

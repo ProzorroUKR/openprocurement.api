@@ -53,11 +53,10 @@ class IgnoredClaimMixin(BaseState):
 
 
 class ChronographEventsMixin:
-    # provided by TenderStateAwardingMixin in the composed TenderState (declared for mypy)
-    calc_weighted_value: Callable
-
     chronograph_patch_data_model = TenderChronographData
 
+    # provided by TenderStateAwardingMixin in the composed TenderState (declared for mypy)
+    calc_weighted_value: Callable
     # bt/rfp: complaints are claims — answered/pending claims are resolved by the chronograph,
     # claims of completed lots/tenders are ignored, and the tendering end doesn't wait for unanswered complaints/questions
     tender_claims_events = False

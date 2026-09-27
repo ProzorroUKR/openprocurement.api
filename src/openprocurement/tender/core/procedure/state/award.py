@@ -6,7 +6,6 @@ from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
     QUALIFICATION_AFTER_COMPLAINT_FROM,
-    REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -14,6 +13,9 @@ from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts, append_contracts_cancelled
 from openprocurement.tender.core.procedure.models.award import Award, PatchAward, PostAward
+from openprocurement.tender.core.procedure.state.req_response import (
+    AwardRequirementResponsesRulesMixin,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
@@ -26,12 +28,11 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_econtract_fields_award,
     validate_items_required_fields,
-    validate_req_response_values,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
-class AwardStateMixin:
+class AwardStateMixin(AwardRequirementResponsesRulesMixin):
     post_data_model = PostAward
     patch_data_model = PatchAward
     data_model = Award
@@ -307,6 +308,7 @@ class AwardStateMixin:
             )
 
     def validate_award_patch(self, before, after):
+        self.validate_requirement_responses_change(before, after)
         if self.award_status_change_waits_for_milestone_due_date:
             self.validate_status_change_before_milestone_due_date(before, after)
         self.validate_award_qualified_eligible(after)
@@ -321,9 +323,6 @@ class AwardStateMixin:
             unit=self.items_unit_required,
             quantity=self.items_quantity_required,
         )
-        if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
-            for resp in after.get("requirementResponses", []):
-                validate_req_response_values(resp)
 
     def validate_award_lot_is_active(self, award):
         tender = get_tender()

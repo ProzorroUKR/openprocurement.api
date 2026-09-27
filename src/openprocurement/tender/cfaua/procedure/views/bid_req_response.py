@@ -1,5 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaua.procedure.state.bid_req_response import (
+    CFAUABidReqResponseState,
+)
 from openprocurement.tender.core.procedure.views.bid_req_response import (
     BidReqResponseResource as BaseBidReqResponseResource,
 )
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.bid_req_response import (
     description="Tender bidder requirement responses",
 )
 class BidReqResponseResource(BaseBidReqResponseResource):
-    pass
+    state_class = CFAUABidReqResponseState

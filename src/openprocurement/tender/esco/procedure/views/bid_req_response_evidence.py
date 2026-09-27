@@ -3,6 +3,9 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.bid_req_response_evidence import (
     BidReqResponseEvidenceResource as BaseBidReqResponseEvidenceResource,
 )
+from openprocurement.tender.esco.procedure.state.bid_req_response_evidence import (
+    ESCOBidReqResponseEvidenceState,
+)
 
 
 @resource(
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
     description="Tender UA bidder evidences",
 )
 class BidReqResponseResource(BaseBidReqResponseEvidenceResource):
-    pass
+    state_class = ESCOBidReqResponseEvidenceState
