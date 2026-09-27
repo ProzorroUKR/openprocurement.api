@@ -22,7 +22,7 @@ from openprocurement.tender.open.procedure.state.lot import (
     DefenseTenderLotState,
     RFPTenderLotState,
 )
-from openprocurement.tender.open.procedure.views.base import COStateResourceMixin
+from openprocurement.tender.open.procedure.views.base import COStateClass
 
 
 @resource(
@@ -36,6 +36,7 @@ from openprocurement.tender.open.procedure.views.base import COStateResourceMixi
         ABOVE_THRESHOLD_EU,
         ABOVE_THRESHOLD_UA_DEFENSE,
         SIMPLE_DEFENSE,
+        COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
         REQUEST_FOR_PROPOSAL,
     ],
@@ -47,18 +48,7 @@ class OpenTenderLotResource(TenderLotResource):
         ABOVE_THRESHOLD_EU: AboveThresholdEUTenderLotState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderLotState,
         SIMPLE_DEFENSE: DefenseTenderLotState,
+        COMPETITIVE_ORDERING: COStateClass(COShortTenderLotState, COLongTenderLotState),
         BELOW_THRESHOLD: BelowThresholdTenderLotState,
         REQUEST_FOR_PROPOSAL: RFPTenderLotState,
     }
-
-
-@resource(
-    name=f"{OPEN_ROUTE_PREFIX}:Tender Lots (competitiveOrdering)",
-    collection_path="/tenders/{tender_id}/lots",
-    path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=COMPETITIVE_ORDERING,
-    description="Tender lots",
-)
-class COTenderLotResource(COStateResourceMixin, TenderLotResource):
-    state_short_class = COShortTenderLotState
-    state_long_class = COLongTenderLotState

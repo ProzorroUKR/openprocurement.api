@@ -1,24 +1,24 @@
 from openprocurement.api.procedure.context import get_object
+from openprocurement.api.utils import raise_operation_error
 
 
-class COStateResourceMixin:
+class COStateClass:
     """
-    competitiveOrdering: the state depends on the agreement of the tender
-    (the short procedure - an agreement with items, the long one - without)
+    competitiveOrdering state class resolver for state_classes: the state depends on the agreement
+    of the tender (the short procedure - an agreement with items, the long one - without)
     """
 
-    state_class = None
-    state_short_class = None
-    state_long_class = None
+    def __init__(self, short_state_class, long_state_class):
+        self.short_state_class = short_state_class
+        self.long_state_class = long_state_class
 
-    def __init__(self, request, context=None):
-        self.state_short = self.state_short_class(request)
-        self.state_long = self.state_long_class(request)
-        super().__init__(request, context)
-
-    @property
-    def state(self):
+    def __call__(self, request):
         agreement = get_object("agreement")
+        if not agreement:
+            if "tender" not in request.validated or request.method in ("GET", "HEAD"):
+                # POST /tenders: the agreement is fetched later; GET: the agreement isn't fetched at all
+                return self.long_state_class
+            raise_operation_error(request, "Agreement not provided or not exist", status=422, name="agreements")
         if agreement.get("items"):
-            return self.state_short
-        return self.state_long
+            return self.short_state_class
+        return self.long_state_class
