@@ -5,4 +5,5 @@ from openprocurement.tender.core.procedure.state.criterion_rg_requirement import
 
 
 class CFASelectionRequirementState(RequirementStateMixin, CFASelectionTenderDetailsState):
-    pass
+    # the requirement ids uniqueness isn't checked when a requirement is added through the endpoint
+    requirement_post_ids_uniq_check = False

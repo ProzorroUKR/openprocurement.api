@@ -26,6 +26,8 @@ class PQTenderDetailsState(TenderDetailsMixin, PQTenderState):
     items_related_lot_error = "Rogue field."
     milestones_required = False
     items_classification_id_check = False
+    criterion_classification_required = False
+    criterion_relates_to_required = False
     award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
     patch_status_choices = ("draft", "active.tendering")
     cpv_prefix_check = False

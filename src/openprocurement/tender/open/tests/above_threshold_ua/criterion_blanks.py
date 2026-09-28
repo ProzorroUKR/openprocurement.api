@@ -246,16 +246,23 @@ def create_tender_criteria_invalid(self):
             {
                 "location": "body",
                 "name": "requirementGroups",
-                "description": [
-                    {
-                        "requirements": [
-                            {
-                                "relatedFeature": ["relatedFeature should be one of features"],
-                                "expectedValue": ["Must be either true or false."],
-                            }
-                        ]
-                    }
-                ],
+                "description": [{"requirements": [{"expectedValue": ["Must be either true or false."]}]}],
+            }
+        ],
+    )
+
+    requirement_1["expectedValue"] = True
+    response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "requirementGroups",
+                "description": [{"requirements": [{"relatedFeature": ["relatedFeature should be one of features"]}]}],
             }
         ],
     )

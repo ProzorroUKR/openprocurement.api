@@ -15,6 +15,7 @@ class EligibleEvidenceStateMixin(TenderCriteriaRulesMixin):
 
     # items get their relatedLot through the tender endpoint, in a separate request
     related_lot_in_items_check = False
+    criteria_error_path_strip = 4
 
     def validate_evidence_post_request(self):
         self.validate_criterion_owner()

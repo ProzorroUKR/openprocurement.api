@@ -36,18 +36,18 @@ class TenderCriterionMixin:
             if class_id := new_criterion.get("classification", {}).get("id"):
                 if class_id in new_criteria:
                     if new_criterion.get("relatesTo") in ("lot", "item"):
-                        if new_criterion["relatedItem"] in new_criteria[class_id].get("lots", []):
+                        if new_criterion.get("relatedItem") in new_criteria[class_id].get("lots", []):
                             raise_operation_error(self.request, "Criteria are not unique")
                         elif not new_criteria[class_id].get("lots", []):
-                            new_criteria[class_id]["lots"] = [new_criterion["relatedItem"]]
+                            new_criteria[class_id]["lots"] = [new_criterion.get("relatedItem")]
                         else:
-                            new_criteria[class_id]["lots"].append(new_criterion["relatedItem"])
+                            new_criteria[class_id]["lots"].append(new_criterion.get("relatedItem"))
                     elif not new_criteria[class_id].get("tenderer", False):
                         new_criteria[class_id] = {"tenderer": True}
                     else:
                         raise_operation_error(self.request, "Criteria are not unique")
                 elif new_criterion.get("relatesTo") in ("lot", "item"):
-                    new_criteria[class_id] = {"lots": [new_criterion["relatedItem"]]}
+                    new_criteria[class_id] = {"lots": [new_criterion.get("relatedItem")]}
                 else:
                     new_criteria[class_id] = {"tenderer": True}
 

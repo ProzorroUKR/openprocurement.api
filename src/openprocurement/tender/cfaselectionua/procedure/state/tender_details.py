@@ -119,7 +119,6 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     requirement_change_legacy_status = "active.enquiries"
     requirement_put_allowed_tender_statuses = ["active.enquiries", "active.tendering"]
     requirement_models_by_classification = False
-    requirement_post_ids_uniq_check = False
 
     def on_post(self, tender):
         super().on_post(tender)
