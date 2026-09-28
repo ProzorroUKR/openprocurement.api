@@ -14,6 +14,8 @@ class ReqResponseEvidenceStateMixin(RequirementResponsesRulesMixin):
     patch_data_model = PatchEvidence
     data_model = Evidence
 
+    requirement_responses_error_path_strip = 2
+
     def validate_req_response_evidence_post_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_evidence_operation_allowed()

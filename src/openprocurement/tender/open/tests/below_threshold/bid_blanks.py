@@ -2077,13 +2077,9 @@ def create_tender_bid_document_with_award_json(self):
         [
             {
                 "location": "body",
-                "name": "requirementResponses",
+                "name": "evidences",
                 "description": [
-                    {
-                        "evidences": [
-                            "available only in ['active.awarded', 'active.qualification', 'active.pre-qualification'] status"
-                        ]
-                    }
+                    "available only in ['active.awarded', 'active.qualification', 'active.pre-qualification'] status"
                 ],
             }
         ],

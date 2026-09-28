@@ -3131,8 +3131,8 @@ def create_award_requirement_response(self):
         [
             {
                 "location": "body",
-                "name": "requirementResponses",
-                "description": [{"value": 'Response required at least one of field ["value", "values"]'}],
+                "name": "value",
+                "description": 'Response required at least one of field ["value", "values"]',
             },
         ],
     )
@@ -3325,9 +3325,9 @@ def create_award_requirement_response_evidence(self):
         response.json["errors"],
         [
             {
-                "description": [{"type": ["type should be one of eligibleEvidences types"]}],
+                "description": ["type should be one of eligibleEvidences types"],
                 "location": "body",
-                "name": "requirementResponses",
+                "name": "type",
             }
         ],
     )
@@ -3375,9 +3375,9 @@ def create_award_requirement_response_evidence(self):
         response.json["errors"],
         [
             {
-                "description": [{"relatedDocument": ["relatedDocument.id should be one of award documents"]}],
+                "description": ["relatedDocument.id should be one of award documents"],
                 "location": "body",
-                "name": "requirementResponses",
+                "name": "relatedDocument",
             }
         ],
     )

@@ -7,10 +7,10 @@ from openprocurement.api.constants_env import (
     RELEASE_ECRITERIA_ARTICLE_17,
     REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
-from openprocurement.api.context import get_request, get_request_now
+from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.constants import CRITERION_LOCALIZATION, CRITERION_TECHNICAL_FEATURES, ReqStatuses
 from openprocurement.tender.core.procedure.context import get_bid
@@ -47,6 +47,9 @@ class RequirementResponsesRulesMixin(BaseState):
         "DELETE": ("Administrator",),
     }
     req_response_owner_item = "tender"
+    # the errors of the responses rules are reported relative to the endpoint object: the parent (bid / award /
+    # qualification) endpoint nests them under `requirementResponses`, the responses / evidences endpoints strip the path
+    requirement_responses_error_path_strip = 0
 
     def validate_requirement_responses_change(self, before: dict, after: dict) -> None:
         """
@@ -75,31 +78,78 @@ class RequirementResponsesRulesMixin(BaseState):
         try:
             validate_response_requirement_uniq(responses)
         except ValidationError as e:
-            errors.extend(e.messages)
-        if errors:
-            raise_operation_error(self.request, errors, status=422, name="requirementResponses")
+            errors.extend(self.response_error(message) for message in e.messages)
+        self.raise_requirement_responses_errors(errors)
         checked_status = after.get("status") in self.requirement_responses_checked_statuses
         if checked_status:
             for response in checked_responses:
                 try:
                     self.validate_requirement_response(after, response)
                 except ValidationError as e:
-                    errors.extend(e.messages)
+                    errors.extend(self.response_error(message) for message in e.messages)
             for response, evidence in checked_evidences:
                 try:
                     self.validate_requirement_response_evidence(after, response, evidence)
                 except ValidationError as e:
-                    errors.extend(e.messages)
-            if errors:
-                raise_operation_error(self.request, errors, status=422, name="requirementResponses")
+                    errors.extend(self.response_error(message, evidence=True) for message in e.messages)
+            self.raise_requirement_responses_errors(errors)
         if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
             for response in checked_responses:
-                self.validate_response_values(response)
+                try:
+                    self.validate_response_values(response)
+                except ValidationError as e:
+                    self.raise_requirement_responses_errors([(["requirementResponses"], e.messages[0])])
         if checked_status:
             try:
                 self.validate_requirement_responses_coverage(after, responses)
             except ValidationError as e:
-                raise_operation_error(self.request, e.messages, status=422, name="requirementResponses")
+                self.raise_requirement_responses_errors([(["requirementResponses"], e.messages)])
+
+    def response_error(self, message, evidence: bool = False) -> tuple:
+        """
+        turns a rule error message into (path, messages): {"value": [...]} -> ["requirementResponses", "value"],
+        {"evidences": [{"relatedDocument": [...]}]} and evidence errors -> ["requirementResponses", "evidences", ...]
+        """
+        path = ["requirementResponses"]
+        if evidence:
+            path.append("evidences")
+        if isinstance(message, dict):
+            field, messages = next(iter(message.items()))
+            if field == "evidences" and evidence:
+                return path, messages  # a rule of the response about its evidences, reported for an evidence
+            if field == "evidences" and isinstance(messages, list) and messages and isinstance(messages[0], dict):
+                path.append("evidences")
+                field, messages = next(iter(messages[0].items()))
+            return path + [field], messages
+        return path, [message]
+
+    def raise_requirement_responses_errors(self, errors: list) -> None:
+        """
+        :param errors: (path, messages) pairs; the path starts with "requirementResponses"
+        The errors are shaped as the models used to shape them for the endpoint object: list fields nest a list of
+        one dict, dict fields nest a dict; the errors with the same name are reported together.
+        """
+        if not errors:
+            return
+        list_fields = ("requirementResponses", "evidences")
+        shaped: dict = {}
+        for path, messages in errors:
+            keys = path[self.requirement_responses_error_path_strip :] or [path[-1]]
+            name, description = keys[0], messages
+            for key in reversed(keys[1:]):
+                description = {
+                    key: [description] if key in list_fields and isinstance(description, dict) else description
+                }
+            if name in list_fields and isinstance(description, dict):
+                description = [description]
+            if name in shaped and isinstance(shaped[name], list) and isinstance(description, list):
+                shaped[name].extend(description)
+            else:
+                shaped[name] = description
+        for name, description in shaped.items():
+            self.request.errors.add("body", name, description)
+        self.request.errors.status = 422
+        raise error_handler(self.request)
 
     def validate_requirement_response(self, parent: dict, response: dict) -> None:
         self.validate_response_requirement(response)
@@ -256,19 +306,9 @@ class RequirementResponsesRulesMixin(BaseState):
         requirement, *_ = get_requirement_obj(response["requirement"]["id"])
         if requirement:
             if requirement.get("expectedValues") is not None and response.get("value") is not None:
-                raise_operation_error(
-                    get_request(),
-                    f"only 'values' allowed in response for requirement {requirement['id']}",
-                    name="requirementResponses",
-                    status=422,
-                )
+                raise ValidationError(f"only 'values' allowed in response for requirement {requirement['id']}")
             elif requirement.get("expectedValues") is None and response.get("values") is not None:
-                raise_operation_error(
-                    get_request(),
-                    f"only 'value' allowed in response for requirement {requirement['id']}",
-                    name="requirementResponses",
-                    status=422,
-                )
+                raise ValidationError(f"only 'value' allowed in response for requirement {requirement['id']}")
 
     @classmethod
     def _match_expected_value(cls, datatype, requirement, value):
@@ -592,6 +632,8 @@ class ReqResponseStateMixin(RequirementResponsesRulesMixin):
     post_data_model = RequirementResponse
     patch_data_model = PatchRequirementResponse
     data_model = RequirementResponse
+
+    requirement_responses_error_path_strip = 1
 
     def validate_req_response_post_request(self):
         self.validate_req_response_owner()
