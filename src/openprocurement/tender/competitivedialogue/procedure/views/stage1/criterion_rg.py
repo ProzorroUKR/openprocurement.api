@@ -1,8 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.state.criterion_rg import (
-    CDRequirementGroupState,
+from openprocurement.tender.competitivedialogue.procedure.state.stage1.criterion_rg import (
+    CDStage1EURequirementGroupState,
+    CDStage1UARequirementGroupState,
 )
 from openprocurement.tender.core.procedure.views.criterion_rg import (
     BaseRequirementGroupResource,
@@ -17,7 +18,7 @@ from openprocurement.tender.core.procedure.views.criterion_rg import (
     description="Competitive Dialogue EU requirement group",
 )
 class CDEURequirementGroupResource(BaseRequirementGroupResource):
-    state_class = CDRequirementGroupState
+    state_class = CDStage1EURequirementGroupState
 
 
 @resource(
@@ -28,4 +29,4 @@ class CDEURequirementGroupResource(BaseRequirementGroupResource):
     description="Competitive Dialogue UA requirement group",
 )
 class CDUARequirementGroupResource(BaseRequirementGroupResource):
-    state_class = CDRequirementGroupState
+    state_class = CDStage1UARequirementGroupState

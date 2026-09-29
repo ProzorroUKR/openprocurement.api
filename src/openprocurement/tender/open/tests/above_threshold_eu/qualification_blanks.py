@@ -435,10 +435,6 @@ def lot_patch_tender_qualifications_lots_none(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
     )
-    self.assertIn(
-        {"location": "body", "name": "items", "description": [{"relatedLot": ["relatedLot should be one of lots"]}]},
-        response.json["errors"],
-    )
 
 
 def lot_get_tender_qualifications_collection(self):

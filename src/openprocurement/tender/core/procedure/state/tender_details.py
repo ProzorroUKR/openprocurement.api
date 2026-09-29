@@ -1178,6 +1178,8 @@ class TenderItemsRulesMixin(BaseState):
 
     cpv_prefix_check = True
     related_lot_in_items_check = True
+    # every item relatedLot must be a lot of the tender (the sub-resource endpoints don't change items / lots)
+    items_related_lot_check = True
     items_profile_required = False
     items_classifications_prefix_check = True
     items_zero_quantity_check = True
@@ -1356,6 +1358,16 @@ class TenderItemsRulesMixin(BaseState):
                         if req.get("id") in before_requirements_ids:
                             req["status"] = ReqStatuses.CANCELLED
                             req["dateModified"] = now.isoformat()
+
+    def validate_items_related_lot(self, tender):
+        """former validate_items_related_lot model validator: every item relatedLot is a lot of the tender"""
+        if self.items_related_lot_error is not None:
+            return  # relatedLot is not allowed at all (validate_items_related_lot_allowed)
+        related_lots = {item["relatedLot"] for item in tender.get("items") or [] if item.get("relatedLot")}
+        if related_lots - {lot["id"] for lot in tender.get("lots") or []}:
+            raise_operation_error(
+                self.request, [{"relatedLot": ["relatedLot should be one of lots"]}], status=422, name="items"
+            )
 
     def validate_items_related_lot_allowed(self, tender):
         if self.items_related_lot_error is None:
@@ -2531,6 +2543,8 @@ class BaseTenderDetailsMixin(
         validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):
+        if self.items_related_lot_check:
+            self.validate_items_related_lot(tender)
         self.validate_contract_template_name_allowed(tender)
         self.validate_main_procurement_category(tender)
         self.validate_award_criteria(tender, on_post=True)
@@ -2585,6 +2599,8 @@ class BaseTenderDetailsMixin(
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        if self.items_related_lot_check:
+            self.validate_items_related_lot(after)
         if self.items_classification_prefix_change_check:
             self.validate_items_classification_prefix_unchanged(before, after)
         self.validate_contract_template_name_allowed(after)

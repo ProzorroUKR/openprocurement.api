@@ -25,8 +25,6 @@ from openprocurement.tender.limited.procedure.models.tender_base import LimitedC
 
 
 class ReportingPostTender(PostTenderItemsMixin, TenderMilestonesMixin, PostBaseTender):
-    _items_related_lot_check = False
-
     procurementMethodType = StringType(choices=[REPORTING], default=REPORTING)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value)
@@ -64,8 +62,6 @@ class ReportingPatchTender(PatchTenderItemsMixin, PatchTenderMilestonesMixin, Co
 
 
 class ReportingTender(TenderItemsMixin, TenderMilestonesMixin, BaseTender):
-    _items_related_lot_check = False
-
     procurementMethodType = StringType(choices=[REPORTING], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value)

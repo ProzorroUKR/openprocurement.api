@@ -71,15 +71,6 @@ from openprocurement.tender.limited.constants import cause_choices_quick_new as 
 from openprocurement.tender.open.constants import BELOW_THRESHOLD
 
 
-def validate_items_related_lot(data, items):
-    related_lots = {i["relatedLot"] for i in items if i.get("relatedLot")}
-
-    if related_lots:
-        lot_ids = {lot["id"] for lot in data.get("lots") or []}
-        if related_lots - lot_ids:
-            raise ValidationError([{"relatedLot": ["relatedLot should be one of lots"]}])
-
-
 def validate_award_period(data, period):
     if (
         period
@@ -153,8 +144,6 @@ class TenderPeriodsMixin(Model):
 
 
 class PostTenderItemsMixin(Model):
-    _items_related_lot_check = True  # reporting: relatedLot availability is reported by the state
-
     items = ListType(
         ModelType(Item, required=True),
         required=True,
@@ -164,8 +153,6 @@ class PostTenderItemsMixin(Model):
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
-        if self._items_related_lot_check:
-            validate_items_related_lot(data, items)
 
 
 class PatchTenderItemsMixin(Model):
@@ -177,8 +164,6 @@ class PatchTenderItemsMixin(Model):
 
 
 class TenderItemsMixin(Model):
-    _items_related_lot_check = True
-
     items = ListType(
         ModelType(Item, required=True),
         required=True,
@@ -188,8 +173,6 @@ class TenderItemsMixin(Model):
 
     def validate_items(self, data, items):
         validate_related_buyer_in_items(data, items)
-        if self._items_related_lot_check:
-            validate_items_related_lot(data, items)
 
 
 class PatchTenderFeaturesMixin(Model):

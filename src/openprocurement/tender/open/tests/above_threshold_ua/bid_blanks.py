@@ -2402,10 +2402,6 @@ def patch_tender_with_bids_lots_none(self):
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
     )
-    self.assertIn(
-        {"location": "body", "name": "items", "description": [{"relatedLot": ["relatedLot should be one of lots"]}]},
-        response.json["errors"],
-    )
 
 
 def bids_related_product(self):

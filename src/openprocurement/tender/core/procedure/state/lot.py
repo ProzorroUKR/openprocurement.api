@@ -20,6 +20,7 @@ class LotStateMixin(TenderLotRulesMixin):
 
     # items get their relatedLot through the tender endpoint, in a separate request
     related_lot_in_items_check = False
+    items_related_lot_check = False
 
     def validate_lot_post_request(self):
         self.validate_lot_request_allowed()

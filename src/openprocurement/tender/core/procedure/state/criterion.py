@@ -20,6 +20,7 @@ class CriterionStateMixin(TenderCriteriaRulesMixin):
 
     # items get their relatedLot through the tender endpoint, in a separate request
     related_lot_in_items_check = False
+    items_related_lot_check = False
     criteria_error_path_strip = 1
 
     def validate_criterion_post_request(self):

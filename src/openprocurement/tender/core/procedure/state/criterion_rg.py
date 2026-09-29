@@ -18,6 +18,7 @@ class RequirementGroupStateMixin(TenderCriteriaRulesMixin):
 
     # items get their relatedLot through the tender endpoint, in a separate request
     related_lot_in_items_check = False
+    items_related_lot_check = False
     criteria_error_path_strip = 2
 
     def validate_requirement_group_post_request(self):
