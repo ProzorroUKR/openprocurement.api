@@ -1238,6 +1238,10 @@ def tender_financing_milestones(self):
 
 
 @patch("openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM", get_now() + timedelta(days=1))
+@patch(
+    "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
+    get_now() + timedelta(days=1),
+)
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
     self.assertEqual(response.status, "200 OK")
