@@ -1,12 +1,16 @@
 import os
-
-import pkg_resources
+from importlib import resources
 
 
 def resolve_path(spec, cwd=""):
     if os.path.isfile(os.path.normpath(os.path.join(cwd, spec))):
         return os.path.normpath(os.path.join(cwd, spec))
-    elif spec.count(":") and pkg_resources.resource_exists(*spec.split(":", 1)):
-        return pkg_resources.resource_filename(*spec.split(":", 1))
-    else:
-        return spec
+    elif spec.count(":"):
+        package, path = spec.split(":", 1)
+        try:
+            resource = resources.files(package).joinpath(path)
+        except (ModuleNotFoundError, TypeError):
+            return spec
+        if resource.is_file() or resource.is_dir():
+            return str(resource)
+    return spec

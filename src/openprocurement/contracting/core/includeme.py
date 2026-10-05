@@ -1,7 +1,5 @@
 from logging import getLogger
 
-from pkg_resources import iter_entry_points
-
 from openprocurement.contracting.core.database import ContractCollection
 from openprocurement.contracting.core.procedure.serializers.config import (
     ContractConfigSerializer,
@@ -22,10 +20,3 @@ def includeme(config):
     config.add_route_predicate("contractType", ContractTypePredicate)
     config.add_config_serializer("contract", ContractConfigSerializer)
     config.scan("openprocurement.contracting.core.procedure.views")
-
-    settings = config.get_settings()
-    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
-    for entry_point in iter_entry_points("openprocurement.contracting.core.plugins"):
-        if not plugins or entry_point.name in plugins:
-            plugin = entry_point.load()
-            plugin(config)

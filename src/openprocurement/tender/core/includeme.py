@@ -1,7 +1,5 @@
 from logging import getLogger
 
-from pkg_resources import iter_entry_points
-
 from openprocurement.tender.core.database import PQTenderCollection, TenderCollection
 from openprocurement.tender.core.procedure.serializers.config import (
     TenderConfigSerializer,
@@ -33,11 +31,3 @@ def includeme(config):
     config.add_config_serializer("tender", TenderConfigSerializer)
     config.scan("openprocurement.tender.core.procedure.views")
     config.scan("openprocurement.tender.core.subscribers")
-
-    # search for plugins
-    settings = config.get_settings()
-    plugins = settings.get("plugins") and [plugin.strip() for plugin in settings["plugins"].split(",")]
-    for entry_point in iter_entry_points("openprocurement.tender.core.plugins"):
-        if not plugins or entry_point.name in plugins:
-            plugin = entry_point.load()
-            plugin(config)
