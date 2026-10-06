@@ -3,16 +3,16 @@ from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_milestones,
-)
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
     test_tech_feature_criteria,
 )
-from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers, set_tender_periods
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_milestones,
+)
 from openprocurement.tender.pricequotation.constants import PQ
 
 now = get_now()
@@ -136,13 +136,13 @@ test_tender_pq_data = {
     "mainProcurementCategory": "goods",
     "procuringEntity": test_tender_pq_procuring_entity,
     "value": {"amount": 22000, "currency": "UAH"},
-    "tenderPeriod": {"endDate": calculate_date(now, timedelta(days=14)).isoformat()},
     "procurementMethodType": PQ,
     "procurementMethod": "selective",
     "items": [test_tender_pq_item],
     "agreement": {"id": "0" * 32},
     "milestones": test_tender_pq_milestones,
 }
+set_tender_periods(test_tender_pq_data, start=now)
 
 if SANDBOX_MODE:
     test_tender_pq_data["procurementMethodDetails"] = "quick, accelerator=1440"

@@ -1,17 +1,12 @@
 import os
 from copy import deepcopy
-from datetime import timedelta
 from hashlib import sha512
 from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_buyer,
-    test_tender_below_supplier,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
     CD_UA_TYPE,
@@ -30,6 +25,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.utils import (
     set_bid_responses,
     set_tender_multi_buyers,
+    set_tender_periods,
 )
 from openprocurement.tender.open.tests.above_threshold_eu.base import (
     test_tender_openeu_bids,
@@ -40,6 +36,10 @@ from openprocurement.tender.open.tests.above_threshold_ua.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
 )
 from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_data
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_buyer,
+    test_tender_below_supplier,
+)
 
 test_tender_cd_bids = deepcopy(test_tender_openeu_bids)
 test_tender_cd_bids.append(deepcopy(test_tender_cd_bids[0]))  # Minimal number of bits is 3
@@ -59,7 +59,7 @@ test_tender_cdeu_data["mainProcurementCategory"] = "services"
 test_tender_cdua_data = deepcopy(test_tender_cdeu_data)
 del test_tender_cdua_data["title_en"]
 test_tender_cdua_data["procurementMethodType"] = CD_UA_TYPE
-test_tender_cdua_data["tenderPeriod"]["endDate"] = calculate_date(now, timedelta(days=31)).isoformat()
+set_tender_periods(test_tender_cdua_data, start=now)
 
 
 # stage 2
@@ -298,16 +298,8 @@ test_tender_cdua_stage2_multi_buyers_data = set_tender_multi_buyers(
     test_tender_below_buyer,
 )
 
-test_tender_cdeu_stage2_data["tenderPeriod"] = {
-    "endDate": calculate_date(
-        now, timedelta(days=test_tender_cdeu_stage2_config["minTenderingDuration"] + 1)
-    ).isoformat()
-}
-test_tender_cdua_stage2_data["tenderPeriod"] = {
-    "endDate": calculate_date(
-        now, timedelta(days=test_tender_cdua_stage2_config["minTenderingDuration"] + 1)
-    ).isoformat()
-}
+set_tender_periods(test_tender_cdeu_stage2_data, start=now)
+set_tender_periods(test_tender_cdua_stage2_data, start=now)
 
 
 class BaseCompetitiveDialogApiWebTest(BaseWebTest):

@@ -7,16 +7,14 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.constants import BELOW_THRESHOLD_MIN_BIDS_NUMBER
-from openprocurement.tender.open.tests.below_threshold.periods import PERIODS
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     get_criteria_by_ids,
     test_criteria_all,
 )
-from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
-from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers, set_tender_periods
+from openprocurement.tender.open.constants import BELOW_THRESHOLD_MIN_BIDS_NUMBER
+from openprocurement.tender.open.tests.below_threshold.periods import PERIODS
 
 now = get_now()
 
@@ -124,25 +122,7 @@ if SANDBOX_MODE:
     test_tender_below_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 
-def set_tender_below_periods(data, start=None):
-    start = start or get_now()
-    data["enquiryPeriod"] = {
-        "endDate": calculate_tender_full_date(
-            start,
-            timedelta(days=9),
-            tender=data,
-        ).isoformat()
-    }
-    data["tenderPeriod"] = {
-        "endDate": calculate_tender_full_date(
-            dt_from_iso(data["enquiryPeriod"]["endDate"]),
-            timedelta(days=10),
-            tender=data,
-        ).isoformat()
-    }
-
-
-set_tender_below_periods(test_tender_below_data, start=now)
+set_tender_periods(test_tender_below_data, start=now)
 
 # A valid funder's identifier (scheme + id) must be one of the tender_funder.json
 # dictionary entries (World Bank here).
@@ -339,8 +319,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     def setUp(self):
         super().setUp()
-        if self.initial_data and "enquiryPeriod" in self.initial_data:
-            set_tender_below_periods(self.initial_data)
 
     def set_enquiry_period_end(self):
         self.set_status("active.tendering", extra={"status": "active.enquires"})

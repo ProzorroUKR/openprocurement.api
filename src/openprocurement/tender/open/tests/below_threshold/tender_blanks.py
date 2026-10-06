@@ -26,25 +26,14 @@ from openprocurement.api.procedure.models.organization import (
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import test_signer_info
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.tests.below_threshold.base import (
-    set_tender_below_periods,
-    test_tender_below_base_organization,
-    test_tender_below_buyer,
-    test_tender_below_cancellation,
-    test_tender_below_claim,
-    test_tender_below_data,
-    test_tender_below_draft_claim,
-    test_tender_below_funder,
-    test_tender_below_supplier,
-)
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
 from openprocurement.tender.core.tests.base import (
+    ocds_release_schema,
+    ocds_resolver,
     test_contract_guarantee_criteria,
     test_default_criteria,
     test_tender_guarantee_criteria,
-    ocds_release_schema,
-    ocds_resolver,
 )
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_after_2020_04_19,
@@ -59,8 +48,19 @@ from openprocurement.tender.core.tests.utils import (
     set_bid_lotvalues,
     set_tender_criteria,
     set_tender_lots,
+    set_tender_periods,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_base_organization,
+    test_tender_below_buyer,
+    test_tender_below_cancellation,
+    test_tender_below_claim,
+    test_tender_below_data,
+    test_tender_below_draft_claim,
+    test_tender_below_funder,
+    test_tender_below_supplier,
+)
 
 
 def listing(self):
@@ -2591,7 +2591,7 @@ def guarantee(self):
                     "/tenders/{}?acc_token={}".format(tender["id"], token),
                     {"data": {"status": "active.tendering"}},
                 )
-            except Exception as e:
+            except Exception:
                 self.app.patch_json(
                     "/tenders/{}?acc_token={}".format(tender["id"], token),
                     {"data": {"status": "active.enquiries"}},
@@ -3871,7 +3871,7 @@ def patch_enquiry_tender_periods(self):
 )
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_below_data)
-    set_tender_below_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     data["minimalStep"] = {"amount": 15}  # minimalStep is required for hasAuction True and if tender doesn't have lots
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -3893,7 +3893,7 @@ def tender_created_before_related_lot_is_required(self):
 )
 def tender_created_after_related_lot_is_required(self):
     data = deepcopy(test_tender_below_data)
-    set_tender_below_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
@@ -4273,7 +4273,7 @@ def tender_milestones_sequence_number(self):
 
 def check_notice_doc_during_activation(self):
     data = deepcopy(test_tender_below_data)
-    set_tender_below_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     lots = deepcopy(self.test_lots_data)
     set_tender_lots(data, lots)
@@ -4351,7 +4351,7 @@ def check_notice_doc_during_activation(self):
 
 def check_minimal_step_during_activation(self):
     data = deepcopy(test_tender_below_data)
-    set_tender_below_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     data["minimalStep"] = {"amount": 15, "currency": "UAH"}
     # if tender doesn't have lots it is allowed to add minimalStep

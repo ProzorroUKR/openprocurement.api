@@ -10,12 +10,9 @@ from openprocurement.api.constants_env import (
     RELEASE_ECRITERIA_ARTICLE_17,
 )
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_cancellation,
-)
+from openprocurement.api.utils import get_now
 from openprocurement.tender.cfaua.constants import CFA_UA_MIN_BIDS_NUMBER
-from openprocurement.tender.cfaua.tests.periods import PERIODS, TENDERING_DAYS
+from openprocurement.tender.cfaua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
@@ -23,10 +20,13 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
-from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots
+from openprocurement.tender.core.tests.utils import set_bid_lotvalues, set_tender_lots, set_tender_periods
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.tests.above_threshold_ua.base import (
     BaseTenderUAWebTest as BaseBaseTenderWebTest,
+)
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_cancellation,
 )
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -45,9 +45,7 @@ with open(os.path.join(BASE_DIR, "data/test_bids.json")) as fd:
 # Prepare test_tender_cfaua_data
 with open(os.path.join(BASE_DIR, "data/test_tender.json")) as fd:
     test_tender_cfaua_data = json.load(fd)
-    test_tender_cfaua_data["tenderPeriod"]["endDate"] = calculate_date(
-        now, timedelta(days=TENDERING_DAYS + 1)
-    ).isoformat()
+    set_tender_periods(test_tender_cfaua_data, start=now)
 
 
 # Prepare features_tender

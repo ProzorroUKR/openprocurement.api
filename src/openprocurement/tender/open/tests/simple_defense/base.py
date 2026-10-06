@@ -1,20 +1,15 @@
 import os
 from copy import deepcopy
-from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import calculate_date
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_bids,
-    test_tender_below_buyer,
-)
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import (
     set_tender_multi_buyers,
+    set_tender_periods,
 )
 from openprocurement.tender.open.tests.above_threshold_ua.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
@@ -26,6 +21,10 @@ from openprocurement.tender.open.tests.above_threshold_ua.base import (
 from openprocurement.tender.open.tests.above_threshold_ua_defense.base import (
     test_tender_openuadefense_data,
     test_tender_openuadefense_procuring_entity,
+)
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_bids,
+    test_tender_below_buyer,
 )
 from openprocurement.tender.open.tests.simple_defense.periods import PERIODS
 
@@ -40,9 +39,7 @@ test_tender_simpledefense_features_data = test_tender_below_features_data.copy()
 test_tender_simpledefense_features_data["procurementMethodType"] = "simple.defense"
 test_tender_simpledefense_features_data["procuringEntity"] = test_tender_simpledefense_procuring_entity
 del test_tender_simpledefense_features_data["enquiryPeriod"]
-test_tender_simpledefense_features_data["tenderPeriod"] = {
-    "endDate": calculate_date(now, timedelta(days=16)).isoformat()
-}
+set_tender_periods(test_tender_simpledefense_features_data, start=now)
 test_tender_simpledefense_features_data["items"][0]["deliveryDate"] = test_tender_simpledefense_data["items"][0][
     "deliveryDate"
 ]

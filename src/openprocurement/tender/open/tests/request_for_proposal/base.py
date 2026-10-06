@@ -6,7 +6,6 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
     get_criteria_by_ids,
@@ -17,8 +16,8 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_criteria,
     set_tender_lots,
     set_tender_multi_buyers,
+    set_tender_periods,
 )
-from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL_MIN_BIDS_NUMBER
 from openprocurement.tender.open.tests.request_for_proposal.periods import PERIODS
 
@@ -202,25 +201,7 @@ if SANDBOX_MODE:
     test_tender_rfp_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
 
-def set_tender_rfp_periods(data, start=None):
-    start = start or get_now()
-    data["enquiryPeriod"] = {
-        "endDate": calculate_tender_full_date(
-            start,
-            timedelta(days=9),
-            tender=data,
-        ).isoformat()
-    }
-    data["tenderPeriod"] = {
-        "endDate": calculate_tender_full_date(
-            dt_from_iso(data["enquiryPeriod"]["endDate"]),
-            timedelta(days=10),
-            tender=data,
-        ).isoformat()
-    }
-
-
-set_tender_rfp_periods(test_tender_rfp_data, start=now)
+set_tender_periods(test_tender_rfp_data, start=now)
 
 test_tender_rfp_with_inspector_data = deepcopy(test_tender_rfp_data)
 test_tender_rfp_with_inspector_data.update({"funders": [funder], "inspector": funder})
@@ -418,8 +399,6 @@ class BaseTenderWebTest(BaseCoreWebTest):
         super().setUp()
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
-        if self.initial_data and "enquiryPeriod" in self.initial_data:
-            set_tender_rfp_periods(self.initial_data)
         if self.initial_lots:
             self.initial_lots = deepcopy(self.initial_lots)
             set_tender_lots(self.initial_data, self.initial_lots)

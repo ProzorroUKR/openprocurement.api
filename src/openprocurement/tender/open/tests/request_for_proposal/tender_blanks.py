@@ -12,10 +12,10 @@ from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.utils import (
     set_tender_lots,
+    set_tender_periods,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.tests.request_for_proposal.base import (
-    set_tender_rfp_periods,
     test_tender_rfp_base_organization,
     test_tender_rfp_data,
     test_tender_rfp_supplier,
@@ -543,7 +543,7 @@ def tender_with_main_procurement_category(self):
 )
 def tender_created_before_related_lot_is_required(self):
     data = deepcopy(test_tender_rfp_data)
-    set_tender_rfp_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     data["minimalStep"] = {"amount": 15, "currency": "UAH"}  # as tender doesn't have lots
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
@@ -564,7 +564,7 @@ def tender_created_before_related_lot_is_required(self):
 )
 def tender_created_after_related_lot_is_required(self):
     data = deepcopy(test_tender_rfp_data)
-    set_tender_rfp_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
     self.tender_id = response.json["data"]["id"]
@@ -604,7 +604,7 @@ def tender_created_after_related_lot_is_required(self):
 
 def check_notice_doc_during_activation(self):
     data = deepcopy(test_tender_rfp_data)
-    set_tender_rfp_periods(data)
+    set_tender_periods(data)
     data["status"] = "draft"
     lots = deepcopy(self.test_lots_data)
     set_tender_lots(data, lots)

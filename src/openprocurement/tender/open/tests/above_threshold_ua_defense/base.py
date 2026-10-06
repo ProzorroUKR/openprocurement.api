@@ -5,11 +5,7 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import calculate_date
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_bids,
-    test_tender_below_data,
-    test_tender_below_procuring_entity,
-)
+from openprocurement.tender.core.tests.utils import set_tender_periods
 from openprocurement.tender.open.tests.above_threshold_ua.base import (
     BaseTenderUAWebTest as BaseTenderWebTest,
 )
@@ -18,6 +14,11 @@ from openprocurement.tender.open.tests.above_threshold_ua.base import (
     test_tender_below_features_data,
 )
 from openprocurement.tender.open.tests.above_threshold_ua_defense.periods import PERIODS
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_bids,
+    test_tender_below_data,
+    test_tender_below_procuring_entity,
+)
 
 test_tender_openuadefense_data = test_tender_below_data.copy()
 test_tender_openuadefense_data["procurementMethodType"] = "aboveThresholdUA.defense"
@@ -29,7 +30,7 @@ test_tender_openuadefense_procuring_entity["contactPoint"] = test_tender_openuad
 test_tender_openuadefense_procuring_entity["additionalContactPoints"] = [test_tender_openuadefense_contact_point.copy()]
 test_tender_openuadefense_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
 del test_tender_openuadefense_data["enquiryPeriod"]
-test_tender_openuadefense_data["tenderPeriod"] = {"endDate": calculate_date(now, timedelta(days=16)).isoformat()}
+set_tender_periods(test_tender_openuadefense_data, start=now)
 test_tender_openuadefense_data["items"] = [
     {
         "description": "футляри до державних нагород",
@@ -59,9 +60,7 @@ test_tender_openuadefense_features_data = test_tender_below_features_data.copy()
 test_tender_openuadefense_features_data["procurementMethodType"] = "aboveThresholdUA.defense"
 test_tender_openuadefense_features_data["procuringEntity"] = test_tender_openuadefense_procuring_entity
 del test_tender_openuadefense_features_data["enquiryPeriod"]
-test_tender_openuadefense_features_data["tenderPeriod"] = {
-    "endDate": calculate_date(now, timedelta(days=16)).isoformat()
-}
+set_tender_periods(test_tender_openuadefense_features_data, start=now)
 test_tender_openuadefense_features_data["items"][0]["deliveryDate"] = test_tender_openuadefense_data["items"][0][
     "deliveryDate"
 ]

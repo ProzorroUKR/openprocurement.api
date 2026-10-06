@@ -1,23 +1,23 @@
 import copy
 import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import test_signer_info
-from openprocurement.api.utils import get_now
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_buyer,
-    test_tender_below_milestones,
-)
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
     test_criteria_all,
 )
-from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers
-from openprocurement.tender.open.tests.above_threshold_eu.periods import PERIODS, TENDERING_DAYS
+from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers, set_tender_periods
+from openprocurement.tender.open.tests.above_threshold_eu.periods import PERIODS
 from openprocurement.tender.open.tests.above_threshold_ua.base import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_buyer,
+    test_tender_below_milestones,
+)
 
 test_tender_openeu_milestones = copy.deepcopy(test_tender_below_milestones)
 
@@ -73,7 +73,7 @@ for bid in test_tender_openeu_three_bids:
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
 
-now = datetime.now()
+now = get_now()
 
 test_tender_openeu_procuring_entity = {
     "kind": "general",
@@ -121,8 +121,8 @@ test_tender_openeu_data = {
             "unit": {"name": "item", "code": "KGM"},
             "quantity": 5,
             "deliveryDate": {
-                "startDate": (now + timedelta(days=2)).isoformat(),
-                "endDate": (now + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
             },
             "deliveryAddress": {
                 "countryName": "Україна",
@@ -133,10 +133,10 @@ test_tender_openeu_data = {
             },
         }
     ],
-    "tenderPeriod": {"endDate": (now + timedelta(days=TENDERING_DAYS + 1)).isoformat()},
     "procurementMethodType": "aboveThresholdEU",
     "milestones": test_tender_openeu_milestones,
 }
+set_tender_periods(test_tender_openeu_data, start=now)
 if SANDBOX_MODE:
     test_tender_openeu_data["procurementMethodDetails"] = "quick, accelerator=1440"
 

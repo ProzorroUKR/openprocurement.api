@@ -1,18 +1,18 @@
 import copy
 import os
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.tests.periods import PERIODS, TENDERING_DURATION
+from openprocurement.tender.arma.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
     test_criteria_all,
 )
-from openprocurement.tender.core.tests.utils import change_auth
+from openprocurement.tender.core.tests.utils import change_auth, set_tender_periods
 from openprocurement.tender.open.tests.above_threshold_ua.base import BaseTenderUAWebTest
 
 test_tender_arma_supplier = {
@@ -66,7 +66,7 @@ for bid in test_tender_arma_three_bids:
     if get_now() < RELEASE_ECRITERIA_ARTICLE_17:
         bid["selfEligible"] = True
 
-now = datetime.now()
+now = get_now()
 
 test_tender_arma_procuring_entity = {
     "kind": "authority",
@@ -112,8 +112,8 @@ test_tender_arma_data = {
             "unit": {"name": "item", "code": "KGM"},
             "quantity": 5,
             "deliveryDate": {
-                "startDate": (now + timedelta(days=2)).isoformat(),
-                "endDate": (now + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
             },
             "deliveryAddress": {
                 "countryName": "Україна",
@@ -124,9 +124,9 @@ test_tender_arma_data = {
             },
         }
     ],
-    "tenderPeriod": {"endDate": (now + TENDERING_DURATION).isoformat()},
     "procurementMethodType": COMPLEX_ASSET_ARMA,
 }
+set_tender_periods(test_tender_arma_data, start=now)
 if SANDBOX_MODE:
     test_tender_arma_data["procurementMethodDetails"] = "quick, accelerator=1440"
 

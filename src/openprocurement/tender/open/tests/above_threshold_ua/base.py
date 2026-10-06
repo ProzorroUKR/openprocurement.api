@@ -6,6 +6,13 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.core.tests.base import (
+    get_criteria_by_ids,
+    test_article_16_criteria,
+    test_criteria_all,
+)
+from openprocurement.tender.core.tests.utils import set_tender_multi_buyers, set_tender_periods
+from openprocurement.tender.open.tests.above_threshold_ua.periods import PERIODS
 from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
@@ -14,20 +21,13 @@ from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_features_data,
     test_tender_below_supplier,
 )
-from openprocurement.tender.core.tests.base import (
-    get_criteria_by_ids,
-    test_article_16_criteria,
-    test_criteria_all,
-)
-from openprocurement.tender.core.tests.utils import set_tender_multi_buyers
-from openprocurement.tender.open.tests.above_threshold_ua.periods import PERIODS
 
 now = get_now()
 
 test_tender_openua_data = test_tender_below_data.copy()
 test_tender_openua_data["procurementMethodType"] = "aboveThresholdUA"
 del test_tender_openua_data["enquiryPeriod"]
-test_tender_openua_data["tenderPeriod"] = {"endDate": calculate_date(now, timedelta(days=16)).isoformat()}
+set_tender_periods(test_tender_openua_data, start=now)
 test_tender_openua_data["items"] = [
     {
         "description": "футляри до державних нагород",
@@ -70,7 +70,7 @@ test_tender_openua_three_bids.append(
 test_tender_openua_features_data = test_tender_below_features_data.copy()
 test_tender_openua_features_data["procurementMethodType"] = "aboveThresholdUA"
 del test_tender_openua_features_data["enquiryPeriod"]
-test_tender_openua_features_data["tenderPeriod"] = {"endDate": calculate_date(now, timedelta(days=16)).isoformat()}
+set_tender_periods(test_tender_openua_features_data, start=now)
 test_tender_openua_features_data["items"][0]["deliveryDate"] = test_tender_openua_data["items"][0]["deliveryDate"]
 test_tender_openua_features_data["items"][0]["deliveryAddress"] = test_tender_openua_data["items"][0]["deliveryAddress"]
 
