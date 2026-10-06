@@ -21,6 +21,7 @@ from openprocurement.tender.open.procedure.state.lot import (
     COShortTenderLotState,
     DefenseTenderLotState,
     RFPTenderLotState,
+    SimpleDefenseTenderLotState,
 )
 from openprocurement.tender.open.procedure.views.base import COStateClass
 
@@ -47,7 +48,7 @@ class OpenTenderLotResource(TenderLotResource):
         ABOVE_THRESHOLD_UA: AboveThresholdUATenderLotState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUTenderLotState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderLotState,
-        SIMPLE_DEFENSE: DefenseTenderLotState,
+        SIMPLE_DEFENSE: SimpleDefenseTenderLotState,
         COMPETITIVE_ORDERING: COStateClass(COShortTenderLotState, COLongTenderLotState),
         BELOW_THRESHOLD: BelowThresholdTenderLotState,
         REQUEST_FOR_PROPOSAL: RFPTenderLotState,

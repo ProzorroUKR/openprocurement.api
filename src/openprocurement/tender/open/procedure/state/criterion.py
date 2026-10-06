@@ -7,6 +7,7 @@ from openprocurement.tender.open.procedure.state.tender_details import (
     COLongTenderDetailsState,
     COShortTenderDetailsState,
     RFPTenderDetailsState,
+    SimpleDefenseTenderDetailsState,
 )
 
 
@@ -35,4 +36,8 @@ class BelowThresholdCriterionState(CriterionStateMixin, BelowThresholdTenderDeta
 
 
 class RFPCriterionState(CriterionStateMixin, RFPTenderDetailsState):
+    pass
+
+
+class SimpleDefenseCriterionState(CriterionStateMixin, SimpleDefenseTenderDetailsState):
     pass

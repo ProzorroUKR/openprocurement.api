@@ -8,6 +8,7 @@ from openprocurement.tender.open.procedure.state.tender_details import (
     COShortTenderDetailsState,
     DefenseTenderDetailsState,
     RFPTenderDetailsState,
+    SimpleDefenseTenderDetailsState,
 )
 
 
@@ -40,4 +41,8 @@ class BelowThresholdTenderLotState(LotStateMixin, BelowThresholdTenderDetailsSta
 
 
 class RFPTenderLotState(LotStateMixin, RFPTenderDetailsState):
+    pass
+
+
+class SimpleDefenseTenderLotState(LotStateMixin, SimpleDefenseTenderDetailsState):
     pass

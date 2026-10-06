@@ -19,6 +19,7 @@ from openprocurement.tender.open.procedure.state.criterion import (
     COLongCriterionState,
     COShortCriterionState,
     RFPCriterionState,
+    SimpleDefenseCriterionState,
 )
 from openprocurement.tender.open.procedure.views.base import COStateClass
 
@@ -43,7 +44,7 @@ class OpenBaseCriterionResource(BaseCriterionResource):
         ABOVE_THRESHOLD: AboveThresholdCriterionState,
         ABOVE_THRESHOLD_UA: AboveThresholdUACriterionState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUCriterionState,
-        SIMPLE_DEFENSE: AboveThresholdUACriterionState,
+        SIMPLE_DEFENSE: SimpleDefenseCriterionState,
         COMPETITIVE_ORDERING: COStateClass(COShortCriterionState, COLongCriterionState),
         BELOW_THRESHOLD: BelowThresholdCriterionState,
         REQUEST_FOR_PROPOSAL: RFPCriterionState,
