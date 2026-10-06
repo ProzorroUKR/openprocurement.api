@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4687f36b2f3d45ae9974b4ca238948a4/cancellations/13e041023703472b8bcec84943058bc3/complaints/8cce7bd9ccb24ff2a53cd0f8d6e354be HTTP/1.0
+PATCH /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/3254f878888c442c9a7351491c0ec82f HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,14 +15,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "8cce7bd9ccb24ff2a53cd0f8d6e354be",
+    "id": "3254f878888c442c9a7351491c0ec82f",
     "complaintID": "UA-2027-01-01-000001-a.a1",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "satisfied",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "7be3c7a557a643c6a8e35d4519426a50",
+        "id": "4c988094fb1847c888708a166d99c334",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -35,7 +35,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "d024be1af91d49139d3c3849fb81081b",
+        "id": "3d25b8a9e47f46c3ac75b0ad038390af",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
@@ -74,11 +74,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "4a3151fe30ac40c897c6007c9cee4cf6",
+        "id": "631fd6262f6644a4a47705b479b99d91",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "cancellation",
-        "relatedItem": "13e041023703472b8bcec84943058bc3",
+        "relatedItem": "508bf010ec78469eb7980c819aa5e330",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -86,14 +86,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "5c0691ecac6843bab6ba947efca10f20",
+            "id": "c6554ba9ef7645a09801d13b6aac7378",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "0652f51c2d924ed9887d6a033d7e795d",
+            "id": "f96ef29790784a13aa1b6ed30610d8a3",
             "description": "test argument"
           }
         ],

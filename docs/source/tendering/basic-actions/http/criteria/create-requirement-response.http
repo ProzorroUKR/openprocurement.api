@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/b25aeafd54e1487bb077be93668f3c21/bids/5abe81cd14f742cb8d4cf0903585d320/requirement_responses?acc_token=4da99b9899a34292a6c75627a95f3d93 HTTP/1.0
+POST /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/8ab3d204c64a4284993b608050c1031d/requirement_responses?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,13 +7,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": [
     {
       "requirement": {
-        "id": "74b1c241611b4b08b23cd74e4f392ec9"
+        "id": "9eb1d6a481d548db9bf82eb78193c734"
       },
       "evidences": [
         {
           "title": "Requirement response",
           "relatedDocument": {
-            "id": "b4d31b1e52b24a019beb89f0a43f9c9a",
+            "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
             "title": "name.doc"
           },
           "type": "document"
@@ -32,7 +32,7 @@ Content-Type: application/json
   "data": [
     {
       "requirement": {
-        "id": "74b1c241611b4b08b23cd74e4f392ec9",
+        "id": "9eb1d6a481d548db9bf82eb78193c734",
         "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
       },
       "evidences": [
@@ -40,14 +40,14 @@ Content-Type: application/json
           "title": "Requirement response",
           "type": "document",
           "relatedDocument": {
-            "id": "b4d31b1e52b24a019beb89f0a43f9c9a",
+            "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
             "title": "name.doc"
           },
-          "id": "6040a904824240aab8a0dd72e62ce313"
+          "id": "670f46082bbb454199f143189270c4a1"
         }
       ],
       "value": true,
-      "id": "d397dabf99c54c5aafecc6ebaa9716c5",
+      "id": "f8d20a131491446992a4a7e275bbd9c5",
       "classification": {
         "scheme": "LAW922",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"

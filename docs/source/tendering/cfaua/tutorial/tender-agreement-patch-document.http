@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/agreements/9ed77f9be3594c058f334504330db2a0/documents/65fcf9dfd3104b80adcced87180bc3c5?acc_token=216c4c5722b74bbbaaaf1498070dc772 HTTP/1.0
+PATCH /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/agreements/9ed77f9be3594c058f334504330db2a0/documents/57c2b45aa7d34752a2d999736850ba4d?acc_token=2a6de43658e2421ebba95a5081d6b8e7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
     "confidentiality": "public",
     "title_en": "Title of Document",
     "description_en": "Description of Document",
-    "id": "65fcf9dfd3104b80adcced87180bc3c5",
+    "id": "57c2b45aa7d34752a2d999736850ba4d",
     "datePublished": "2027-01-01T00:02:01+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_second_document.doc",

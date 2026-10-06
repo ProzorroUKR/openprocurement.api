@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/50c6f4476f67447ab6ddd300f4d89b0f?acc_token=565c37899c66474e9f73dd973d368739 HTTP/1.0
+PATCH /api/2.5/tenders/db1b04eb8ce84e7cac926d276cb1acb7?acc_token=0dbb85b39f3042b2994a32b25ee60c71 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "df2b7cb267ed4ef9a980f09b579d5040",
+        "id": "6648baee9a954c998e50d914596e7a1f",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -220,7 +220,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "df2b7cb267ed4ef9a980f09b579d5040",
+        "id": "6648baee9a954c998e50d914596e7a1f",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -300,7 +300,7 @@ Content-Type: application/json
       "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "id": "50c6f4476f67447ab6ddd300f4d89b0f"
+    "id": "db1b04eb8ce84e7cac926d276cb1acb7"
   },
   "config": {
     "hasAuction": false,

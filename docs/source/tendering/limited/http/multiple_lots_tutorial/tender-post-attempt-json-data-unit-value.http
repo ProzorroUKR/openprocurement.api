@@ -223,7 +223,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f05ff90ca2564765b2a749316a7bb176
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af8c224fbe006b01e5
 
 {
   "data": {
@@ -278,7 +278,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f05ff90ca2564765
     ],
     "items": [
       {
-        "id": "68c1fc17735648619a9548152a7a418f",
+        "id": "35111c6ae5f14b0d9ca94f8b7bb19508",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -316,7 +316,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f05ff90ca2564765
         "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b"
       },
       {
-        "id": "6ff391ed0f6449769415fd847491cbf2",
+        "id": "8d903a30c6ac4d3a86e5c4887844a1af",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -543,7 +543,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f05ff90ca2564765
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "f05ff90ca2564765b2a749316a7bb176"
+    "id": "eed496e1d6fe45af8c224fbe006b01e5"
   },
   "config": {
     "hasAuction": false,
@@ -572,8 +572,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f05ff90ca2564765
     "hasMultiSourcing": false
   },
   "access": {
-    "token": "52dbb8d9b2d740b485b13144c7a66704",
-    "transfer": "85012cda7f094d79a7a8e7e135d9c400"
+    "token": "19dcad98b0c94f409d29463ccbda97c3",
+    "transfer": "c493c450ff354789b4ba95f0ee562f70"
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/afbae9188b434d3bb77426b13e9a5165?acc_token=b67eb5061d5445afa4ea2a1bffb1ee5a HTTP/1.0
+PATCH /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
+        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
       }
     ]
   }
@@ -186,7 +186,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
+        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -216,7 +216,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
       }
     ],
     "procurementMethodType": "aboveThresholdUA",
@@ -260,7 +260,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "9b38261d286443aa8f962bbc2f967733",
+        "id": "ac6a3f9689df4f6eba8d8bd3377618e0",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -278,7 +278,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "afbae9188b434d3bb77426b13e9a5165"
+    "id": "cfe5c8353224465681cea90b38b3ba5d"
   },
   "config": {
     "hasAuction": true,

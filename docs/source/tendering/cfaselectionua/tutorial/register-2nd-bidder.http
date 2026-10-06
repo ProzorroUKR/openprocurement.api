@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids HTTP/1.0
+POST /api/2.5/tenders/529089515689411f84e10eb418118905/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -83,7 +83,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480fb413c261d6cea972/bids/570a8e1d582b45db9b79dcd3f2553c1b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/529089515689411f84e10eb418118905/bids/ff865be4381845ce8248a54a187faca5
 
 {
   "data": {
@@ -149,7 +149,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3fa6d35497f649faafdc2dba7dcdecd5?Signature=wQyre6x8c9J%2BhDgF6s0ErHWpfTvY69rKWh0zTeBuAV%2FRCG3ULxdMVg0A3neC1CYwgROArxgXYK6efVfhOxzqDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "7858cb309ac945909ba275cccee11ba6",
+        "id": "91781f018b214d2a842cb402886cff97",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "dateModified": "2027-01-01T00:01:00+02:00"
       },
@@ -161,7 +161,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/df847d0a972a47449fdbcfb6d0552db4?Signature=3Eg3y4sxqiCqbOiXdkha%2B6Yi%2BZm4mqrMqTB14pCZ8FRRMuk%2FyL2JMzmSEP3jkVfF%2FWRTTOeUjlfC29X8UShQDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "fd192eba9b2c4ce6b8928b22ee62aec1",
+        "id": "7f1d89c2625f41ee9ce8c2a343b08028",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "dateModified": "2027-01-01T00:01:00+02:00"
       }
@@ -176,12 +176,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b4bcd8f9ee82480f
         "value": 0.1
       }
     ],
-    "id": "570a8e1d582b45db9b79dcd3f2553c1b",
+    "id": "ff865be4381845ce8248a54a187faca5",
     "date": "2027-01-01T00:01:00+02:00"
   },
   "access": {
-    "token": "c14459cfcd3e4101b2bb1f83f04d0047",
-    "transfer": "47bde89e410f46efbf09a354b531427d"
+    "token": "4815e1cf57014d228f2809ed47dab58e",
+    "transfer": "e2eaf6b9569145b282c2f7d80252909a"
   }
 }
 

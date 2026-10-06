@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/58a3e3d684d84a899541a00d032ad46b/complaints/e76a5cbbf76445cd88ecb58c67dae3f9?acc_token=d1ca6ea71a5547a1a5a3affc26016842 HTTP/1.0
+PATCH /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60/complaints/8213d84c7c314c0da6e7eb5af95623a1?acc_token=d1ca6ea71a5547a1a5a3affc26016842 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e76a5cbbf76445cd88ecb58c67dae3f9",
+    "id": "8213d84c7c314c0da6e7eb5af95623a1",
     "complaintID": "UA-2027-01-01-000001-a.a7",
     "date": "2027-01-01T00:00:03+02:00",
     "author": {
@@ -48,8 +48,8 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:03+02:00",
     "satisfied": true,
     "type": "claim",
-    "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
-    "bid_id": "3088275f136046dab34594e16227bb54"
+    "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
+    "bid_id": "716a0f6c194c4fc7821cce4f4110d4e1"
   }
 }
 

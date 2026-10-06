@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9ced6e51f90943439764928675f07e53?acc_token=bf0080ab5dfc458db33c0823644645d9 HTTP/1.0
+PATCH /api/2.5/tenders/d8b95fea90044d2abb3ad2f23869cf68?acc_token=53d810c6184e45e08c250a247d4300eb HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "milestones": [
       {
-        "id": "a2a02b9393cf44bf996c7477bb5f11c0",
+        "id": "36c3fa7f21964df390b60f3cab1d3039",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -19,7 +19,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 1
       },
       {
-        "id": "3158ad6b45c44e8f9e48991053ebc67c",
+        "id": "b22582c2faec4e0bb521759d3f531412",
         "title": "anotherEvent",
         "type": "financing",
         "code": "postpayment",
@@ -32,7 +32,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "description": "Підозрілий опис"
       },
       {
-        "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
+        "id": "72f43d674c334f7f89d4d95fbcffdef4",
         "title": "signingTheContract",
         "type": "delivery",
         "code": "standard",
@@ -138,7 +138,7 @@ Content-Type: application/json
     },
     "milestones": [
       {
-        "id": "a2a02b9393cf44bf996c7477bb5f11c0",
+        "id": "36c3fa7f21964df390b60f3cab1d3039",
         "title": "signingTheContract",
         "type": "financing",
         "code": "prepayment",
@@ -150,7 +150,7 @@ Content-Type: application/json
         "sequenceNumber": 1
       },
       {
-        "id": "3158ad6b45c44e8f9e48991053ebc67c",
+        "id": "b22582c2faec4e0bb521759d3f531412",
         "title": "anotherEvent",
         "description": "Підозрілий опис",
         "type": "financing",
@@ -163,7 +163,7 @@ Content-Type: application/json
         "sequenceNumber": 2
       },
       {
-        "id": "4a847d0eedeb4cb2b1ca7f336a026c98",
+        "id": "72f43d674c334f7f89d4d95fbcffdef4",
         "title": "signingTheContract",
         "type": "delivery",
         "code": "standard",
@@ -253,7 +253,7 @@ Content-Type: application/json
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "id": "9ced6e51f90943439764928675f07e53"
+    "id": "d8b95fea90044d2abb3ad2f23869cf68"
   },
   "config": {
     "hasAuction": true,

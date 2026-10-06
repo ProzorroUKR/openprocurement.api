@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0c99535af6024017bcbdec7b4a5c49da/bids/9d1348ad3820464db3213aaf48a1f51b?acc_token=66a6b63fed61401a8d6a987739bf9a9c HTTP/1.0
+PATCH /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/c58478830ccc441d84deb25d61992ffd?acc_token=e821726838304fff98409ab63dc9e230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "id": "67dea3c4aabb41469f3f500178762300",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -28,7 +28,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -65,14 +65,14 @@ Content-Type: application/json
     ],
     "status": "pending",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "9d1348ad3820464db3213aaf48a1f51b",
+    "id": "c58478830ccc441d84deb25d61992ffd",
     "date": "2027-01-01T00:03:00+02:00",
     "submissionDate": "2027-01-01T00:03:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "d92cdc351e6646409151f57e545482ce",
+        "id": "5f4600dbd2014d69aca4bb919b34f1da",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
@@ -85,12 +85,12 @@ Content-Type: application/json
       {
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "id": "fac93d0286504617aedc1b56fc7a636f",
+        "id": "02388451ca6c47bda1da134ec86ac4c6",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017bcbdec7b4a5c49da/bids/9d1348ad3820464db3213aaf48a1f51b/documents/fac93d0286504617aedc1b56fc7a636f?download=68a6b3e65371402492995faa5acc2582",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/c58478830ccc441d84deb25d61992ffd/documents/02388451ca6c47bda1da134ec86ac4c6?download=68a6b3e65371402492995faa5acc2582",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"
@@ -98,7 +98,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "d92cdc351e6646409151f57e545482ce",
+        "id": "5f4600dbd2014d69aca4bb919b34f1da",
         "datePublished": "2027-01-01T00:01:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -111,7 +111,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "d92cdc351e6646409151f57e545482ce",
+        "id": "5f4600dbd2014d69aca4bb919b34f1da",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -125,7 +125,7 @@ Content-Type: application/json
     "financialDocuments": [
       {
         "confidentiality": "public",
-        "id": "e2b7f7a5f8d94dc7b8a717f44d806376",
+        "id": "0085d5a03e634309a201a3c029a01d91",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
@@ -137,7 +137,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "08883c56c35646d887c14b9a17f45e91",
+        "id": "af8d1390cd3f4e2a99001ca77b894b87",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc2.pdf",
@@ -151,7 +151,7 @@ Content-Type: application/json
     "eligibilityDocuments": [
       {
         "confidentiality": "public",
-        "id": "9365d1dc1e784d3eaaa8fdaa6d3a8384",
+        "id": "fa7e9a2e8b8f4c1e807dec1a6bccb8c1",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
@@ -165,7 +165,7 @@ Content-Type: application/json
     "qualificationDocuments": [
       {
         "confidentiality": "public",
-        "id": "4745cdc3c50c4d699513781a60a084c8",
+        "id": "e427d2726a034b549aa277c27e2e878b",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",

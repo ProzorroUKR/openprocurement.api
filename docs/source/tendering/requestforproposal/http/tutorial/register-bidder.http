@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/513a5729b98b4078a5e0c1ffb39e3c9a/bids HTTP/1.0
+POST /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,7 +43,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
       }
     ],
     "items": [
@@ -51,7 +51,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 5,
         "description": "папір",
         "id": "ffffffffffffffffffffffffffffffff",
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040",
+        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292",
         "unit": {
           "name": "кг",
           "code": "KGM",
@@ -69,7 +69,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078a5e0c1ffb39e3c9a/bids/eda8b77c847a4109b458fe197906eeaf
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/bids/fe9ce48f8190490c87bff7bb57ba1218
 
 {
   "data": {
@@ -87,7 +87,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
       }
     ],
     "tenderers": [
@@ -130,17 +130,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/513a5729b98b4078
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040",
+        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292",
         "date": "2027-01-07T00:14:06+02:00"
       }
     ],
     "status": "draft",
-    "id": "eda8b77c847a4109b458fe197906eeaf",
+    "id": "fe9ce48f8190490c87bff7bb57ba1218",
     "date": "2027-01-07T00:14:06+02:00"
   },
   "access": {
-    "token": "43aaf0a1f5de4ff883e9f3b663a2f79b",
-    "transfer": "a03fe841fcd6490ea881b0508f9a652c"
+    "token": "7f0b032afb1d4c3286caac655b16c6f7",
+    "transfer": "7275d3d2c5224670b908db70ab95be0b"
   }
 }
 

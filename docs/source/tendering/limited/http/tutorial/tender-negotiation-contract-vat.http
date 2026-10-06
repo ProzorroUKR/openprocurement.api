@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/defb283d556941fdaabe513b01a0f270?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+PATCH /api/2.5/contracts/a0e7cff9bcdf4f3facf684e461aa853e?acc_token=9f1d4cdf82404f209b1e87365abe4ad7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "345855608866465ca26099e80512a017",
+    "awardID": "4cee881db18d4c12b5cead034f2748ec",
     "contractID": "UA-2027-01-01-000002-a-a1",
     "title": "Лот №1",
     "description": "Опис Лот №1",
@@ -28,7 +28,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "0e0fad68392d43da8864f70e31818aa6",
+        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "classification": {
@@ -58,10 +58,10 @@ Content-Type: application/json
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
         },
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ],
-    "tender_id": "3f2cabf45461412fa1b382f25474ef88",
+    "tender_id": "2575ed14dceb462d944015ff06ce6400",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -276,7 +276,7 @@ Content-Type: application/json
         "status": "scheduled"
       }
     ],
-    "id": "defb283d556941fdaabe513b01a0f270"
+    "id": "a0e7cff9bcdf4f3facf684e461aa853e"
   },
   "config": {
     "restricted": false

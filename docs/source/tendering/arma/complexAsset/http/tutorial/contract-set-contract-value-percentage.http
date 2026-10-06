@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/d69b7c39624147f2ab946cf5406181f9?acc_token=c09bfd8bd3964ff4a95d9cb9477f7dfd HTTP/1.0
+PATCH /api/2.5/contracts/b01ebe16ab7e4d9682b5a1908e7614d0?acc_token=8fae24a80c614a26b8a50c09bf7533a1 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "3b7b085f99d94a93b689b245be47b717",
+    "awardID": "d438e9ea719f4bde954984da89d981b7",
     "contractID": "UA-2027-01-01-000001-a-a1",
     "title": "Лот №1",
     "description": "Опис Лот №1",
@@ -25,7 +25,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:03:00+02:00",
     "items": [
       {
-        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "id": "67dea3c4aabb41469f3f500178762300",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
@@ -59,7 +59,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
@@ -93,7 +93,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
     ],
-    "tender_id": "0c99535af6024017bcbdec7b4a5c49da",
+    "tender_id": "ee8464b688974d51b379fe16104cce62",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -210,7 +210,7 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "id": "d69b7c39624147f2ab946cf5406181f9"
+    "id": "b01ebe16ab7e4d9682b5a1908e7614d0"
   },
   "config": {
     "restricted": false

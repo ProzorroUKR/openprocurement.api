@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/896f80313bfc43d2aa3f0f44fc56a513/cancellations/e2f602d1d8bb4d56afbe3b05eb613ac0?acc_token=f63fd82030a24dfc961d6995dc3f33d1 HTTP/1.0
+PATCH /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/cancellations/24129d3926ce4de4a3e24d896f18328c?acc_token=b9c88c159830478b817a78182b04aad0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e2f602d1d8bb4d56afbe3b05eb613ac0",
+    "id": "24129d3926ce4de4a3e24d896f18328c",
     "status": "draft",
     "date": "2027-01-01T00:06:00+02:00",
     "reasonType": "forceMajeure",

@@ -1,4 +1,4 @@
-DELETE /api/2.5/tenders/b25aeafd54e1487bb077be93668f3c21/bids/5abe81cd14f742cb8d4cf0903585d320/requirement_responses/d397dabf99c54c5aafecc6ebaa9716c5/evidences/92a84cb006144944832f34e9f722cb1f?acc_token=4da99b9899a34292a6c75627a95f3d93 HTTP/1.0
+DELETE /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/8ab3d204c64a4284993b608050c1031d/requirement_responses/f8d20a131491446992a4a7e275bbd9c5/evidences/b49687d5fe6242dd8600fdc0de2acfd8?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
 Authorization: Bearer broker
 Host: lb-api-sandbox.prozorro.gov.ua
 
@@ -11,10 +11,10 @@ Content-Type: application/json
     "title": "Update evidence title",
     "type": "document",
     "relatedDocument": {
-      "id": "b4d31b1e52b24a019beb89f0a43f9c9a",
+      "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
       "title": "name.doc"
     },
-    "id": "92a84cb006144944832f34e9f722cb1f"
+    "id": "b49687d5fe6242dd8600fdc0de2acfd8"
   }
 }
 

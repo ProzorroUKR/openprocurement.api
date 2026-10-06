@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/896f80313bfc43d2aa3f0f44fc56a513/bids HTTP/1.0
+POST /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -44,12 +44,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
+        "relatedLot": "df9c3adce866432c812aef76c33d62e0"
       }
     ],
     "items": [
       {
-        "id": "4e596572eb504331bc37c2a1a893cec2",
+        "id": "bbeae1084e134060a21c27bbfc19d7ec",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -61,7 +61,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
+        "relatedLot": "df9c3adce866432c812aef76c33d62e0"
       }
     ]
   }
@@ -70,13 +70,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/896f80313bfc43d2aa3f0f44fc56a513/bids/26bd5b9cfa8f49f8b655b790775944ec
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/bids/c99fa178e3614f26b854edb366fbd9be
 
 {
   "data": {
     "items": [
       {
-        "id": "4e596572eb504331bc37c2a1a893cec2",
+        "id": "bbeae1084e134060a21c27bbfc19d7ec",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -88,7 +88,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/896f80313bfc43d2
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025"
+        "relatedLot": "df9c3adce866432c812aef76c33d62e0"
       }
     ],
     "tenderers": [
@@ -131,18 +131,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/896f80313bfc43d2
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "acb82db513f64825a62e3caaa29cc025",
+        "relatedLot": "df9c3adce866432c812aef76c33d62e0",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
-    "id": "26bd5b9cfa8f49f8b655b790775944ec",
+    "id": "c99fa178e3614f26b854edb366fbd9be",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "d838be06648343148752cdb7c643774f",
-    "transfer": "403e7bfd5f494591a2f8dc6759597472"
+    "token": "97c57a8eae5440cfabf78e0aff339948",
+    "transfer": "89815cb578a941ea89d8582de735905b"
   }
 }
 

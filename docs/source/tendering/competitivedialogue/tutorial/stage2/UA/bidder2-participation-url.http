@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/fecb381c7ebf43d080a71159cd541164/bids/674200ca953f4486a6be8b1c82a549bc?acc_token=39ea52c8808d4050a93fdd85ee2dea0d HTTP/1.0
+GET /api/2.5/tenders/1f63b71c7e6b459eb5823bed9bdb72ab/bids/ffa2b56d456b4b88b3b6ec310f2e900f?acc_token=cf5d63a9984641ff9cc279010811d4fe HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "40de4769766945ee95d7df59d91cb811",
+        "id": "c8e2ea3b349d46a9a16a32f2d2b42324",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -23,10 +23,10 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "10098f084434468aa19a0bb3524d5517"
+        "relatedLot": "8ffa927f367742a291e0ea6e661a32fb"
       },
       {
-        "id": "9bf5d3e19a0b4ee9bc5bd4ef0e236ac5",
+        "id": "44ecd84705f54f978ac2c58695e9a7f6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -39,7 +39,7 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "10098f084434468aa19a0bb3524d5517"
+        "relatedLot": "8ffa927f367742a291e0ea6e661a32fb"
       }
     ],
     "tenderers": [
@@ -82,13 +82,13 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "10098f084434468aa19a0bb3524d5517",
+        "relatedLot": "8ffa927f367742a291e0ea6e661a32fb",
         "date": "2027-01-01T00:03:00+02:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/fecb381c7ebf43d080a71159cd541164_10098f084434468aa19a0bb3524d5517?key_for_bid=674200ca953f4486a6be8b1c82a549bc"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/1f63b71c7e6b459eb5823bed9bdb72ab_8ffa927f367742a291e0ea6e661a32fb?key_for_bid=ffa2b56d456b4b88b3b6ec310f2e900f"
       }
     ],
     "status": "draft",
-    "id": "674200ca953f4486a6be8b1c82a549bc",
+    "id": "ffa2b56d456b4b88b3b6ec310f2e900f",
     "date": "2027-01-01T00:03:00+02:00"
   }
 }

@@ -177,7 +177,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "e24cf829a87b40059a5c4389cfbeb831",
+    "tender_id": "2563fd75900b43499138810b16db8181",
     "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {

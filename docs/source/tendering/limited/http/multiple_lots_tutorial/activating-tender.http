@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/63cee41dcb6d41f78d01c3032aaa90b9?acc_token=4d4a63099eb4444ea39e8c0fcab3a157 HTTP/1.0
+PATCH /api/2.5/tenders/9c59ca33a88e4ef3b8c91de75769beff?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -182,7 +182,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "5297f0bfbb2742a580e31fb968314584",
+        "id": "48072595b6464cac88210666697d628c",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -212,7 +212,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "a2f39dedc39a4788ae22752af33cdffb"
+        "relatedLot": "bcd8947ab93146f38e29c3a79e6d9cef"
       }
     ],
     "procurementMethodType": "negotiation",
@@ -264,7 +264,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "a2f39dedc39a4788ae22752af33cdffb",
+        "id": "bcd8947ab93146f38e29c3a79e6d9cef",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -273,7 +273,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "63cee41dcb6d41f78d01c3032aaa90b9"
+    "id": "9c59ca33a88e4ef3b8c91de75769beff"
   },
   "config": {
     "hasAuction": false,

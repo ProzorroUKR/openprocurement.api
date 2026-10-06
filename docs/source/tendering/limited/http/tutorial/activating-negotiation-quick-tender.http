@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3f2cabf45461412fa1b382f25474ef88?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+PATCH /api/2.5/tenders/2575ed14dceb462d944015ff06ce6400?acc_token=9f1d4cdf82404f209b1e87365abe4ad7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -154,7 +154,7 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 1,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -167,7 +167,7 @@ Content-Type: application/json
           "type": "banking"
         },
         "sequenceNumber": 2,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -180,12 +180,12 @@ Content-Type: application/json
           "type": "calendar"
         },
         "sequenceNumber": 3,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ],
     "items": [
       {
-        "id": "0e0fad68392d43da8864f70e31818aa6",
+        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -215,7 +215,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ],
     "procuringEntity": {
@@ -257,7 +257,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "a40018b790aa497981813a1a78c05f6d",
+        "id": "2963a96f7cad41cdb25ec529ecad68d0",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -276,7 +276,7 @@ Content-Type: application/json
       "description_en": "An urgent need to make a purchase, in particular, but not limited to the following cases: appeals against the contracting authority’s decisions, actions, or inaction regarding open tenders that are ongoing after the review/evaluation of participants’ bids, in an amount not exceeding 20 percent of the expected value of the open tender, excluding value-added tax, which is being appealed",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "id": "3f2cabf45461412fa1b382f25474ef88"
+    "id": "2575ed14dceb462d944015ff06ce6400"
   },
   "config": {
     "hasAuction": false,

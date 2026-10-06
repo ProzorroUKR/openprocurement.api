@@ -235,7 +235,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb8a6c9c6330fcdb43
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e99a4bfce80cd8ba39
 
 {
   "data": {
@@ -317,7 +317,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb
     },
     "items": [
       {
-        "id": "5414ee00e135412abe24aad4aca2c174",
+        "id": "af6b231782884bb39f6651cbf7200081",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -348,7 +348,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb
         }
       },
       {
-        "id": "f2baea00683f450095b8ff92f0daaca8",
+        "id": "43b2d38ede754630aefd2b4d9bbf61c4",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -379,7 +379,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb
         }
       },
       {
-        "id": "53eae0f3ec5b48158ae97dcfbc13e924",
+        "id": "98aa29513eb74c50bc9bbd92b9161476",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -530,7 +530,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "7310367a870e48cb8a6c9c6330fcdb43",
+    "id": "0839356ddf0f42e99a4bfce80cd8ba39",
     "plans": [
       {
         "id": "4a7c458e07784574b40bf4e1e09a0ec3"
@@ -564,8 +564,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/7310367a870e48cb
     "hasMultiSourcing": false
   },
   "access": {
-    "token": "63f9d966480a40df9f880ac8924d8f3e",
-    "transfer": "c6df0271a63b4224a9758fa9374f26c7"
+    "token": "5bcc1d748b904220b0215550ceb3c740",
+    "transfer": "70b7325970464206a3041b4bfa22b971"
   }
 }
 

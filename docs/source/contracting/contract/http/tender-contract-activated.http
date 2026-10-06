@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/f2a340122e754b528c3f516d8e34de7a/contracts/5e1ed225fd3b411c9e51121f2767710f HTTP/1.0
+GET /api/2.5/tenders/1faecc8cb6944a658737af002d96c9b7/contracts/ecd25be608804fc085fc7377b63a88f4 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "5e1ed225fd3b411c9e51121f2767710f",
+    "id": "ecd25be608804fc085fc7377b63a88f4",
     "status": "active",
     "awardID": "765d1e83c038413ab7717ec5e820fdfd",
     "date": "2027-01-01T00:00:00+02:00",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/39973d49982f4ce5a74ef255a4390f3d?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+PATCH /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/fa4dfc620aaf4f8da6da7b1677ddaf57?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -14,20 +14,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/58a3e3d684d84a899541a00d032ad46b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60
 
 {
   "data": {
     "milestones": [
       {
-        "id": "7237e58915b949df9c07a98cfc4bdcd4",
+        "id": "d7e558dce1314a479bb0240c2c653125",
         "dueDate": "2027-01-29T00:00:00+02:00",
         "description": "Обгрунтування продовження строків розгляду",
         "date": "2027-01-01T00:00:00+02:00",
         "code": "extensionPeriod"
       }
     ],
-    "id": "39973d49982f4ce5a74ef255a4390f3d",
+    "id": "fa4dfc620aaf4f8da6da7b1677ddaf57",
     "status": "unsuccessful",
     "date": "2027-01-01T00:00:00+02:00",
     "value": {
@@ -67,13 +67,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
         }
       }
     ],
-    "bid_id": "103392b1764c41fd86ea8723e67f203d",
-    "lotID": "5b0412bd862347cfb29c8de0b4736b58",
+    "bid_id": "a89d39d529764ad2bc10938e881c0bf1",
+    "lotID": "dfc479e5269a43ba88eca688c70d3b05",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "extensionReport",
-        "id": "be8b000df60942e492f44d8ad62c78d7",
+        "id": "f376615f61544ca6bce3f6c2a7eb5f3d",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -86,7 +86,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
       },
       {
         "confidentiality": "public",
-        "id": "3171147c4f5a4f848c08fff9415c45db",
+        "id": "39775886f95642309cf5384467722739",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Unsuccessful_Reason.pdf",
@@ -100,7 +100,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/4a2a576c85d54712
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "5ef5490c7c84481493cee3f4c8763884",
+        "id": "b9365c5f6488463a867d78e43e8111ad",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

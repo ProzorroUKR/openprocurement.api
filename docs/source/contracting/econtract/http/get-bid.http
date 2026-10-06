@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e24cf829a87b40059a5c4389cfbeb831/bids/a89799772a0f473e80bcad84c1e665c9?acc_token=59d78bf3d096420083e6123a1a8f570e HTTP/1.0
+GET /api/2.5/tenders/2563fd75900b43499138810b16db8181/bids/a07e0a218f774a889a17ff721c332ae7?acc_token=534d10cd1e9e4135a8382091dda51455 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,13 +11,13 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "3cc05effcb7f4bce90118bf6319ae71a",
+          "id": "820031d3d5394c3ba127426e870bdbbf",
           "title": "Форма випуску"
         },
         "values": [
           "Розчин для інфузій"
         ],
-        "id": "957ca6f725be4df6865a3e68980b8265",
+        "id": "dc08aad3b137482d886df02bc906c9b1",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -25,11 +25,11 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "9cf1779dd88b4a168f82bdbfef9f7dd7",
+          "id": "1e7ced146e3f463185d4b8166569f8e1",
           "title": "Доза діючої речовини"
         },
         "value": 5,
-        "id": "55a6bdd6f0c24725a0b8508ef9e15d1b",
+        "id": "003bf00e1af748058c117589e715ff5f",
         "unit": {
           "code": "KGM",
           "name": "кілограми"
@@ -41,14 +41,14 @@ Content-Type: application/json
       },
       {
         "requirement": {
-          "id": "27c0255b67124227b0fc25760f780fda",
+          "id": "61e37494cfc246d0991ff6eb72f2da0a",
           "title": "Форма випуску 1"
         },
         "values": [
           "Відповідь1",
           "Відповідь2"
         ],
-        "id": "117900365429455da4f561d40382f04c",
+        "id": "940d88dd94cc466691d59ca93229e842",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -124,7 +124,7 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
-    "id": "a89799772a0f473e80bcad84c1e665c9",
+    "id": "a07e0a218f774a889a17ff721c332ae7",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00"
   }

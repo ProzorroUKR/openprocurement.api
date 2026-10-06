@@ -11,13 +11,13 @@ Content-Type: application/json
     {
       "status": "pending",
       "dateModified": "2027-01-01T00:00:00+02:00",
-      "id": "220153069a7c45dfb1ed4f250d17299d"
+      "id": "140c1549722f49e2a2ddabb3bf59a8e0"
     }
   ],
   "next_page": {
-    "offset": "1798754400.0.1.c9bcf56c01cfa22bbb1838a727ae41ff",
-    "path": "/api/2.5/contracts?opt_fields=status&offset=1798754400.0.1.c9bcf56c01cfa22bbb1838a727ae41ff",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts?opt_fields=status&offset=1798754400.0.1.c9bcf56c01cfa22bbb1838a727ae41ff"
+    "offset": "1798754400.0.1.29401f134708b46e9b34ef62111f6695",
+    "path": "/api/2.5/contracts?opt_fields=status&offset=1798754400.0.1.29401f134708b46e9b34ef62111f6695",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts?opt_fields=status&offset=1798754400.0.1.29401f134708b46e9b34ef62111f6695"
   }
 }
 

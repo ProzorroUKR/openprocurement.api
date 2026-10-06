@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/197ab221daff4d87b98cf8e0d03cb393/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/43b369b101664c48be3959cdb9926838/documents?acc_token=f1d3b3c9cfc742009dac829e68c047a6 HTTP/1.0
+POST /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/5b669a6114ef4a78a9f5a2d8d7489d6d/documents?acc_token=eb770aa4542a4ea09844f4923f46a4d2 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,25 +10,25 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf",
     "documentOf": "post",
-    "relatedItem": "951bf9f29bb44912a055c98d3853c468"
+    "relatedItem": "81d946c2e8884da9a8b5f2b3d054309c"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/197ab221daff4d87b98cf8e0d03cb393/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/43b369b101664c48be3959cdb9926838/documents/5e311aa3b42d44dba0316187ce472195
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/5b669a6114ef4a78a9f5a2d8d7489d6d/documents/77874e5af508474ab9e5736631130833
 
 {
   "data": {
     "confidentiality": "public",
-    "relatedItem": "951bf9f29bb44912a055c98d3853c468",
+    "relatedItem": "81d946c2e8884da9a8b5f2b3d054309c",
     "hash": "md5:00000000000000000000000000000000",
     "title": "post_document_tender.pdf",
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/49f578e96f5b42a18dead2c2259ea044?Signature=MQjwk5ex7srNRc53%2FVZJzEVSawrIZ1LmWo7q1Md9y8tF0MowbCzrLrwXwJ27rRpFwVeCiqtsiHaJCI1G0CIpBQ%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "5e311aa3b42d44dba0316187ce472195",
+    "id": "77874e5af508474ab9e5736631130833",
     "documentOf": "post",
     "datePublished": "2027-01-01T00:00:01+02:00",
     "dateModified": "2027-01-01T00:00:01+02:00",

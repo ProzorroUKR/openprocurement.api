@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3f2cabf45461412fa1b382f25474ef88?acc_token=876109ab3fbf46ca81bae8f2e668687a HTTP/1.0
+PATCH /api/2.5/tenders/2575ed14dceb462d944015ff06ce6400?acc_token=9f1d4cdf82404f209b1e87365abe4ad7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "0e0fad68392d43da8864f70e31818aa6",
+        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "code": "MON",
@@ -56,11 +56,11 @@ Content-Type: application/json
     "description_ru": "Услуги школьных столовых",
     "criteria": [
       {
-        "id": "824ddbe117a34664a01aad4fa108f433",
+        "id": "ac48b0acf82c4adebc1ab870a72fee4c",
         "description": "Товар включений до додаткового переліку, що затверджений Кабінетом Міністрів України, і має ступінь локалізації виробництва, який перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік. Ці вимоги не застосовуються до закупівель, які підпадають під дію положень Закону України \"Про приєднання України до Угоди про державні закупівлі\", а також положень про державні закупівлі інших міжнародних договорів України, згода на обов’язковість яких надана Верховною Радою України",
         "source": "procuringEntity",
         "relatesTo": "item",
-        "relatedItem": "0e0fad68392d43da8864f70e31818aa6",
+        "relatedItem": "e89e54d5598e4696a1a9fa6c0e81d491",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.LOCAL_ORIGIN_LEVEL"
@@ -100,11 +100,11 @@ Content-Type: application/json
         ],
         "requirementGroups": [
           {
-            "id": "1241ae9cd3e04d17a4d21ba3050960ca",
+            "id": "717704724bf44b68a8a3aa685c00e00b",
             "description": "За наявності складових вітчизняного виробництва у собівартості товару, підтверджується, що",
             "requirements": [
               {
-                "id": "9eb40fb3195740bcaba2bdda4f60e15b",
+                "id": "c65b40b11f0145eb91383cb59d9bc933",
                 "title": "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік",
                 "dataType": "number",
                 "status": "active",
@@ -118,11 +118,11 @@ Content-Type: application/json
             ]
           },
           {
-            "id": "1cadc4ea3b5047c7b4a288ef550bd5eb",
+            "id": "cf7369516f4142a78f377648a2805316",
             "description": "За відсутності складових вітчизняного виробництва у собівартості товару, підтверджується, що",
             "requirements": [
               {
-                "id": "87ceeb8959834bca9434d8d1fb3958eb",
+                "id": "adc92e3b81a74661a09cd912df32a818",
                 "title": "Товар походить з однієї з країн, що підписала Угоду про державні закупівлі Світової Організації торгівлі (GPA) або іншої країни з якою Україна має міжнародні договори про державні закупівлі",
                 "dataType": "string",
                 "status": "active",
@@ -347,7 +347,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "0e0fad68392d43da8864f70e31818aa6",
+        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "month",
@@ -424,7 +424,7 @@ Content-Type: application/json
       "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "id": "3f2cabf45461412fa1b382f25474ef88"
+    "id": "2575ed14dceb462d944015ff06ce6400"
   },
   "config": {
     "hasAuction": false,

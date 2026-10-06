@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/20570f0f6c354a03b0ff0062f3cd1524/review_requests/0b98081079674cf1834f21d5e0e3d3ac HTTP/1.0
+PATCH /api/2.5/tenders/f207d4d08ef846c0b06c02db703949e2/review_requests/0b98081079674cf1834f21d5e0e3d3ac HTTP/1.0
 Authorization: Bearer inspector
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

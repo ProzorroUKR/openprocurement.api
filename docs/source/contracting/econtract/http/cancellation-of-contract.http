@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/220153069a7c45dfb1ed4f250d17299d HTTP/1.0
+GET /api/2.5/contracts/140c1549722f49e2a2ddabb3bf59a8e0 HTTP/1.0
 Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -177,7 +177,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "e24cf829a87b40059a5c4389cfbeb831",
+    "tender_id": "2563fd75900b43499138810b16db8181",
     "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {
@@ -341,9 +341,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/220153069a7c45dfb1ed4f250d17299d/documents/7037d7287e0f41278b4e5917a26651da?download=acdee3c5fbb14da0b63000963dea8a81",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/140c1549722f49e2a2ddabb3bf59a8e0/documents/ad1c9eb5df674a9f8124c3394a630193?download=acdee3c5fbb14da0b63000963dea8a81",
         "documentOf": "contract",
-        "id": "7037d7287e0f41278b4e5917a26651da",
+        "id": "ad1c9eb5df674a9f8124c3394a630193",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"
@@ -353,7 +353,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/220153069a7c45dfb1ed4f250d17299d/documents/0722714a00d140e3b8fad17803b89f80?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/140c1549722f49e2a2ddabb3bf59a8e0/documents/0722714a00d140e3b8fad17803b89f80?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "contract",
         "documentType": "contractSignature",
         "id": "0722714a00d140e3b8fad17803b89f80",
@@ -380,7 +380,7 @@ Content-Type: application/json
         "author": "supplier"
       }
     ],
-    "id": "220153069a7c45dfb1ed4f250d17299d"
+    "id": "140c1549722f49e2a2ddabb3bf59a8e0"
   },
   "config": {
     "restricted": false

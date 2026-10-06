@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/896f80313bfc43d2aa3f0f44fc56a513/bids/26bd5b9cfa8f49f8b655b790775944ec/documents?acc_token=d838be06648343148752cdb7c643774f HTTP/1.0
+GET /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/bids/c99fa178e3614f26b854edb366fbd9be/documents?acc_token=97c57a8eae5440cfabf78e0aff339948 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "confidentiality": "public",
       "documentType": "proposal",
-      "id": "212bcfbd99c64b11b3e307c491e3f69a",
+      "id": "3d5c23632e564faba894e691cd033db6",
       "datePublished": "2027-01-01T00:00:00+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal.p7s",

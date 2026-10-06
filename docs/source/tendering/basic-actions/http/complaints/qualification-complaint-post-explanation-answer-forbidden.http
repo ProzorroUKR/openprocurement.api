@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/197ab221daff4d87b98cf8e0d03cb393/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/43b369b101664c48be3959cdb9926838/posts?acc_token=72ce97a3f67b4f5280d57ba22f0e597a HTTP/1.0
+POST /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/5b669a6114ef4a78a9f5a2d8d7489d6d/posts?acc_token=72ce97a3f67b4f5280d57ba22f0e597a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,8 +8,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Відповідь до пояснення",
     "description": "Відсутній документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedObjection": "e424fd9b73c046268255bd219f528456",
-    "relatedPost": "acb635ad760448b6b0cc6bfd1803b8db"
+    "relatedObjection": "42f9f1d48b6a43bbbf3b7221224782bb",
+    "relatedPost": "bc18717aae3d459eb7432aeac3dacc63"
   }
 }
 

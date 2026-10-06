@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/42757d2c9683415e96bf7b9f95a9ff1f/bids HTTP/1.0
+POST /api/2.5/tenders/d49405485fb04e66baf89bd0a5fd3b46/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -44,7 +44,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "c877d1255cf64f17b141859249e3b873"
+        "relatedLot": "79b2dfd1699b482082c096c0510ce506"
       }
     ],
     "items": [
@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5.0,
-        "relatedLot": "c877d1255cf64f17b141859249e3b873"
+        "relatedLot": "79b2dfd1699b482082c096c0510ce506"
       }
     ]
   }
@@ -72,7 +72,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e96bf7b9f95a9ff1f/bids/1dfb6963bdda42449ce4ef465342892a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d49405485fb04e66baf89bd0a5fd3b46/bids/eafb1dd15f7d4d72afaab4415e8a4951
 
 {
   "data": {
@@ -92,7 +92,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "c877d1255cf64f17b141859249e3b873"
+        "relatedLot": "79b2dfd1699b482082c096c0510ce506"
       }
     ],
     "subcontractingDetails": "ДКП «Орфей», Україна",
@@ -136,17 +136,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42757d2c9683415e
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "c877d1255cf64f17b141859249e3b873",
+        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
-    "id": "1dfb6963bdda42449ce4ef465342892a",
+    "id": "eafb1dd15f7d4d72afaab4415e8a4951",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "bef671829e384d009a69a2baaa3a9e29",
-    "transfer": "fe1a65688160408a8aa7c03f92d8fd4e"
+    "token": "5192b6a6756948bea06f91f28112895a",
+    "transfer": "5043ab4fb0374846a1a7d6c4fe778cc3"
   }
 }
 

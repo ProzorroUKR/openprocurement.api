@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/16ed9c73a8f34ed89787edcf423f4267/bids/3a72053b989b4af38489c09ebe5765dc?acc_token=4d7feff188c5479ba9b421f97a1a7aa8 HTTP/1.0
+GET /api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e/bids/dc38576ffc9342c4bd21158c77eeaa5c?acc_token=9b19cdd2c23743e88912d8dd606e9acf HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "id": "401574cc6ca74de4a2537a04a061e298",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -18,7 +18,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       }
     ],
     "tenderers": [
@@ -54,11 +54,11 @@ Content-Type: application/json
       }
     ],
     "status": "invalid",
-    "id": "3a72053b989b4af38489c09ebe5765dc",
+    "id": "dc38576ffc9342c4bd21158c77eeaa5c",
     "date": "2027-01-01T00:00:00+02:00",
     "lotValues": [
       {
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
@@ -68,7 +68,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "0b17f63be39e4e11a82c96161059d0f4",
+        "id": "abfca4f14dce46d5bbcc45fd3fff4b66",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/afbae9188b434d3bb77426b13e9a5165/bids HTTP/1.0
+POST /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,12 +43,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
       }
     ],
     "items": [
       {
-        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
+        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -60,7 +60,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
       }
     ]
   }
@@ -69,13 +69,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3bb77426b13e9a5165/bids/8f7b7813c3d04628a37093d1a351d354
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/be5aad837ad045dbb81d995b46b679d1
 
 {
   "data": {
     "items": [
       {
-        "id": "26d42cd74032477d8e0abd7dca1fdb8f",
+        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -87,7 +87,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "9b38261d286443aa8f962bbc2f967733"
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
       }
     ],
     "tenderers": [
@@ -130,17 +130,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/afbae9188b434d3b
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "9b38261d286443aa8f962bbc2f967733",
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0",
         "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "status": "draft",
-    "id": "8f7b7813c3d04628a37093d1a351d354",
+    "id": "be5aad837ad045dbb81d995b46b679d1",
     "date": "2027-01-01T00:02:01+02:00"
   },
   "access": {
-    "token": "e7296312eaf94104950ea2ccd976f154",
-    "transfer": "9b49d82349b94047963012bdd6f39e13"
+    "token": "895a86e260064d02a93caf5cc310b589",
+    "transfer": "31614cb35cc94858b885c42eea8d1e89"
   }
 }
 

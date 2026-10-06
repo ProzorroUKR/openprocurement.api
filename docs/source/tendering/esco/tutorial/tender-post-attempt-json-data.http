@@ -166,7 +166,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5bd81d1d72a477b24
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba
 
 {
   "data": {
@@ -218,7 +218,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
     },
     "items": [
       {
-        "id": "45bb257ff1554e798e6c7a4096b3aabf",
+        "id": "eeb9e227cfc143d3968605e4f4aa1ca4",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
@@ -243,7 +243,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
         }
       },
       {
-        "id": "994db85df9984f048a1ba611a69e6927",
+        "id": "8405e8fb34d54b5fbe926a120259df2f",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "quantity": 1.0,
@@ -407,7 +407,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "d083afc12b7747e5bd81d1d72a477b24"
+    "id": "3eed1dac730f4b268ef8a2a9186faaba"
   },
   "config": {
     "hasAuction": true,
@@ -436,8 +436,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d083afc12b7747e5
     "hasMultiSourcing": false
   },
   "access": {
-    "token": "4d8039c4e08d4c278190842955a84ce4",
-    "transfer": "551f7db3898a40b1860691a9e28f4e24"
+    "token": "0f883e2ec1a5435f884f057009b67294",
+    "transfer": "dd3bc79ef73240a5b94c75f7acadbdcd"
   }
 }
 

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e331845136c14af1a03b59e13c030ae1/ownership HTTP/1.0
+POST /api/2.5/tenders/84491165a551419092cec31690c5b003/ownership HTTP/1.0
 Authorization: Bearer broker1
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "id": "efa43e6ae91e40e3bf1cc9e7c08a51c5",
-    "transfer": "6d25791d89994de4bb70f222c937647f"
+    "transfer": "96871bb626c94a67a5bf0cd7fb12fd59"
   }
 }
 
@@ -17,7 +17,7 @@ Content-Type: application/json
 {
   "data": {
     "owner": "broker1",
-    "id": "e331845136c14af1a03b59e13c030ae1"
+    "id": "84491165a551419092cec31690c5b003"
   }
 }
 

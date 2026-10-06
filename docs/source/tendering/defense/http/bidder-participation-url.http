@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/b2ccf978cbbe4d5998adc7057db41ca4/bids/11234e730d0942acaea212b0b93d8ead?acc_token=bffaf919d1064ac388ff623686e2e87c HTTP/1.0
+GET /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/fe59f1bf1a5b4e51a70ecfc0d736f391?acc_token=5e3db2d4c32a4444b731e134e16e9f07 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -47,12 +47,12 @@ Content-Type: application/json
     ],
     "status": "active",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "11234e730d0942acaea212b0b93d8ead",
+    "id": "fe59f1bf1a5b4e51a70ecfc0d736f391",
     "date": "2027-01-01T00:00:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "335007d5e7bc459388e9fa2cc9cf5e5f",
+        "id": "ee6a1c5ce78c41e297b381875ea8618a",
         "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
@@ -65,7 +65,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "b41baa0a63d04e708260d1ad5c57ec73",
+        "id": "9e42afae748b40d595912951dc43bcf5",
         "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -83,7 +83,7 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/b2ccf978cbbe4d5998adc7057db41ca4?key_for_bid=11234e730d0942acaea212b0b93d8ead"
+    "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/cafcd819d62040129cffcd9b3f3687df?key_for_bid=fe59f1bf1a5b4e51a70ecfc0d736f391"
   }
 }
 

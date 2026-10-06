@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1716d96d03e04c7796d356071586d519/awards?acc_token=4246b655689f455395aad04affbf84cc HTTP/1.0
+GET /api/2.5/tenders/e8b352731fa84c98a0666c98e5a42d4e/awards?acc_token=efc4ac214da7476cb1860681db9dd024 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "baac1accaf5f48dc9a5e5c2c93f3351e",
+      "id": "47cc7ce5c6f4469e858bb998506c40f1",
       "status": "unsuccessful",
       "date": "2027-01-01T00:00:00+02:00",
       "suppliers": [
@@ -35,12 +35,12 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "554ec9558fcb46169a26e8926e797ef4",
+      "bid_id": "ded519d9a307407d96e4094c73a5f0bb",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "b294fa82fc814a3c85ba9ae752deec2e",
+          "id": "ae094f93ef664b92b84da9f295c669a4",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
@@ -64,7 +64,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "d2a44c716910446598377dc0854d99fb",
+      "id": "1a6b435cacb3460c8ff5dee70c4f06b8",
       "status": "cancelled",
       "date": "2027-01-01T00:00:00+02:00",
       "value": {
@@ -95,7 +95,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "27ccf166254e430c8c3eadb7c7cae7b7",
+      "bid_id": "6d6264cc4f1948bfa909735b6c3b59d1",
       "complaintPeriod": {
         "startDate": "2027-01-01T00:00:00+02:00",
         "endDate": "2027-01-07T00:00:00+02:00"
@@ -104,7 +104,7 @@ Content-Type: application/json
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "2b579d34f5f841819214a8df84a02108",
+          "id": "fd973cf8cec04ba0808649be99166498",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
@@ -124,7 +124,7 @@ Content-Type: application/json
       "eligible": true
     },
     {
-      "id": "be776ed990ac4200a84dae8d3cf05129",
+      "id": "cdd5c34c40c94308bc64a58caa29deb7",
       "status": "unsuccessful",
       "date": "2027-01-01T00:00:00+02:00",
       "value": {
@@ -155,12 +155,12 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "27ccf166254e430c8c3eadb7c7cae7b7",
+      "bid_id": "6d6264cc4f1948bfa909735b6c3b59d1",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "68784b3ff37c41b8882a58cde3134fb1",
+          "id": "4eae800215de458cbbab210de4092b22",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
@@ -184,7 +184,7 @@ Content-Type: application/json
       }
     },
     {
-      "id": "9b95765d64dd4eb8a09241695d49d69d",
+      "id": "31827f7719004ab98410561caac6acee",
       "status": "active",
       "date": "2027-01-02T00:00:00+02:00",
       "value": {
@@ -215,12 +215,12 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "1780ed33bc424a0584404bb458da8ef8",
+      "bid_id": "9693cedd86e34cb89c7bb63ab08c3e04",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "a67f77f1630e46a5bb9536bf807dd373",
+          "id": "d78ba3d80f774ac09f2fbb8ad7dc9df9",
           "datePublished": "2027-01-02T00:00:00+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",

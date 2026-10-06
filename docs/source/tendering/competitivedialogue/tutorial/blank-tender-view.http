@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/77e829220cef46c89b232c408c771bff HTTP/1.0
+GET /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -56,7 +56,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "b147656012414e84984969eedb0d1f6a",
+        "id": "8fba10d170794a12a8ccd313990265ea",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -89,7 +89,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "5c3c5cf88e844f5aa88f6748c519c933",
+        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -255,7 +255,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "77e829220cef46c89b232c408c771bff"
+    "id": "e94eaa64aef8454cbe03535ec53ac9e1"
   },
   "config": {
     "hasAuction": false,

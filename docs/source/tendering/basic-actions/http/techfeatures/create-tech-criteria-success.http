@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/afc408f9dd524cafbbd160c36ccd47b2/criteria?acc_token=d104fce0287e495fbf1b01bc8a677617 HTTP/1.0
+POST /api/2.5/tenders/0de5d5b64d5147e085134c4bc27ea641/criteria?acc_token=e3ad090aabc1405f9432c9ba4101a386 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -143,7 +143,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "3da20123c7624a388a65cf7dceffeb08",
+      "id": "b2170a14909741d4b24e813ea3422349",
       "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
       "source": "tenderer",
       "relatesTo": "item",
@@ -187,11 +187,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "e959bc6ad8ce4225bc3bef8290a63980",
+          "id": "7ef6734197a1478e895c94709c687149",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "13f0716cebb6401a84586cbc69da0060",
+              "id": "0a966c026c094388bb46e815848c74e4",
               "title": "Діагональ екрану",
               "dataType": "number",
               "status": "active",
@@ -203,7 +203,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "9ac27c8e881d406fb6e39c3748e69f51",
+              "id": "44301899b6a540ddad719b3ae6a9a9dc",
               "title": "Роздільна здатність",
               "dataType": "string",
               "status": "active",
@@ -214,7 +214,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "2b30bd8d3efc4598ac563ba4c92224f0",
+              "id": "823290faa06641d78d3ad40ab4ca88fd",
               "title": "Співвідношення сторін",
               "dataType": "string",
               "status": "active",
@@ -225,7 +225,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "b9168514ffac4778b87f8e68fcae508b",
+              "id": "a1f5b92b75f44deca447e3cc203a438f",
               "title": "Яскравість дисплея",
               "dataType": "integer",
               "status": "active",
@@ -238,7 +238,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "d59c46d444b64a1a821634a7dbac6204",
+              "id": "f51cc39058494e94989ffb9ccbe55d90",
               "title": "Контрастність (статична)",
               "dataType": "string",
               "status": "active",
@@ -249,7 +249,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "7366c8aa21344a51b885af9f33efa443",
+              "id": "44c265c4504443f3bce5ba843807e331",
               "title": "Кількість портів HDMI",
               "dataType": "integer",
               "status": "active",
@@ -261,7 +261,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "ae62d638aafe44f7ab7e521715fae73c",
+              "id": "e9970755062d4b62a8dd06796fbb10c8",
               "title": "Кількість портів D-sub",
               "dataType": "integer",
               "status": "active",
@@ -273,7 +273,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "83a8797114ff463eb3b5f0f13278a25d",
+              "id": "90274848704b4314811ac3a5ca8df656",
               "title": "Кабель для під’єднання",
               "dataType": "string",
               "status": "active",
@@ -284,7 +284,7 @@ Content-Type: application/json
               "datePublished": "2027-01-01T00:00:00+02:00"
             },
             {
-              "id": "e8fc4641100c44659654d50e162903ac",
+              "id": "21b9a4eebb314a208809f1f338a9b3b1",
               "title": "Гарантія",
               "dataType": "integer",
               "status": "active",

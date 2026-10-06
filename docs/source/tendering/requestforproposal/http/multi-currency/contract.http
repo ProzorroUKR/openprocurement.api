@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/6cd2067778794a42b0a045eb9cff49f7?acc_token=311147631e5c4ac888797f1586f375cf HTTP/1.0
+GET /api/2.5/contracts/ed6f1505d3ac498289f59e7553c59c81?acc_token=469d319ab1704e8b87138d1a32f48fdd HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -20,7 +20,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "991761a10cb14c239cf05842c4cfa729",
+        "id": "3efeda87127145b28f48da8634dd4cf3",
         "description": "папір",
         "quantity": 1.0,
         "classification": {
@@ -55,7 +55,7 @@ Content-Type: application/json
           "startDate": "2027-01-21T00:00:00+02:00",
           "endDate": "2027-02-20T00:00:00+02:00"
         },
-        "relatedLot": "e932e2282dd44ca38478282c9b65d683"
+        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2"
       }
     ],
     "buyer": {
@@ -110,7 +110,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "73862f0482bd4d22a4bf40cd491a2b20",
+    "tender_id": "da2f9b55865040d385492b6c64bdb121",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -229,7 +229,7 @@ Content-Type: application/json
     "status": "pending",
     "dateCreated": "2027-01-31T00:00:00+02:00",
     "dateModified": "2027-01-31T00:00:00+02:00",
-    "id": "6cd2067778794a42b0a045eb9cff49f7"
+    "id": "ed6f1505d3ac498289f59e7553c59c81"
   },
   "config": {
     "restricted": false

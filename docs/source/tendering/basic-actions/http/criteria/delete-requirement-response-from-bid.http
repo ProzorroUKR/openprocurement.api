@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b25aeafd54e1487bb077be93668f3c21/bids/5abe81cd14f742cb8d4cf0903585d320?acc_token=4da99b9899a34292a6c75627a95f3d93 HTTP/1.0
+PATCH /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/8ab3d204c64a4284993b608050c1031d?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "6fb93fc98c2348a9a7fdc1527c71fab9",
+        "id": "a3c4c2e580c244b6a95a1e561014cf80",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -30,10 +30,10 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
+        "relatedLot": "201f008a454b44a8a6079e1d437202c1"
       },
       {
-        "id": "9eef2efe9bdf4241a279f49e875eee85",
+        "id": "e7eabb702cfd4a01b1b4d363a94f26ad",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -46,7 +46,7 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476"
+        "relatedLot": "201f008a454b44a8a6079e1d437202c1"
       }
     ],
     "lotValues": [
@@ -56,7 +56,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "1d0c518aa10648b596d5bb3ed6731476",
+        "relatedLot": "201f008a454b44a8a6079e1d437202c1",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }
@@ -95,12 +95,12 @@ Content-Type: application/json
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "5abe81cd14f742cb8d4cf0903585d320",
+    "id": "8ab3d204c64a4284993b608050c1031d",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "b4d31b1e52b24a019beb89f0a43f9c9a",
+        "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",

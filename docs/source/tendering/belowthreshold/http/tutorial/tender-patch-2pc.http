@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b039ca9f9bfb4ba5ba814e1cb8b767f8?acc_token=4d3df0436c314cad94ffe53ee0190adf HTTP/1.0
+PATCH /api/2.5/tenders/3c12a5064e504f949e90b84023c8e1a8?acc_token=57a77f7d3c834cafbb6f067fc4efd58e HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -23,7 +23,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "contractProforma",
-        "id": "05b2e2516b324ade89d9333b1eee0b8a",
+        "id": "a027463a730b4180a984efa57557d964",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
@@ -37,7 +37,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "033d99ad0ccb44eb9ca2c8325dab8fe2",
+        "id": "8eeb9a42e3704cd996169d91ab147b9b",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -199,7 +199,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "220d888eaee145e6b886776c4103cb7f"
+        "relatedLot": "a09e49503a374e9abff60fed9f8ab6a5"
       }
     ],
     "procurementMethodType": "belowThreshold",
@@ -242,7 +242,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "220d888eaee145e6b886776c4103cb7f",
+        "id": "a09e49503a374e9abff60fed9f8ab6a5",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -262,7 +262,7 @@ Content-Type: application/json
     ],
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-01-08T00:00:00+02:00",
-    "id": "b039ca9f9bfb4ba5ba814e1cb8b767f8"
+    "id": "3c12a5064e504f949e90b84023c8e1a8"
   },
   "config": {
     "hasAuction": true,

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e3ba356ffdb04f32b1864a591633a385/complaints/87323fb969f9439a8921fdd9bb6e1c26/posts?acc_token=e3de4cad10924527927b751b1ceeae1b HTTP/1.0
+POST /api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/cae54a2ec5224b5da4e80926c99ba0d6/posts?acc_token=e3de4cad10924527927b751b1ceeae1b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,24 +8,24 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "cf8f6fd6279a43799826dfeb75fde9c3",
-    "relatedObjection": "21fd7cec213743589b967e42ed0752bd"
+    "relatedPost": "04ed6da5d13e4ac78ee58c4e3c6cdccb",
+    "relatedObjection": "217cb5ed771c467c843d130032517a4a"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e3ba356ffdb04f32b1864a591633a385/complaints/87323fb969f9439a8921fdd9bb6e1c26/posts/7d58a8cca29444598c401bec4464d3d7
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/cae54a2ec5224b5da4e80926c99ba0d6/posts/bfa0aef9365b4a5d9d394c7aae002d34
 
 {
   "data": {
     "title": "Уточнення по вимозі",
     "description": "Додано документ",
     "recipient": "aboveThresholdReviewers",
-    "relatedPost": "cf8f6fd6279a43799826dfeb75fde9c3",
-    "relatedObjection": "21fd7cec213743589b967e42ed0752bd",
-    "id": "7d58a8cca29444598c401bec4464d3d7",
+    "relatedPost": "04ed6da5d13e4ac78ee58c4e3c6cdccb",
+    "relatedObjection": "217cb5ed771c467c843d130032517a4a",
+    "id": "bfa0aef9365b4a5d9d394c7aae002d34",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "author": "complaint_owner"
   }

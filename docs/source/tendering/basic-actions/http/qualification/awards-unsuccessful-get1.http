@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/819ce9265d72420da42a87c17a6b443e?acc_token=5a55c72486d8489d95277757843eee3c HTTP/1.0
+GET /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/2040dff0408644c499528897cc3ae555?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,7 +8,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "819ce9265d72420da42a87c17a6b443e",
+    "id": "2040dff0408644c499528897cc3ae555",
     "status": "unsuccessful",
     "date": "2027-01-01T00:00:03+02:00",
     "value": {
@@ -48,12 +48,12 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "3088275f136046dab34594e16227bb54",
-    "lotID": "5b0412bd862347cfb29c8de0b4736b58",
+    "bid_id": "716a0f6c194c4fc7821cce4f4110d4e1",
+    "lotID": "dfc479e5269a43ba88eca688c70d3b05",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "0c3bcb73a4d04a4085fa999face6b7ce",
+        "id": "5a2f87429e1c4ae5a410315f50600854",
         "datePublished": "2027-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Cancellation_Reason.pdf",
@@ -67,7 +67,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "64ee89d60dbc4a49bb9e98ce30446648",
+        "id": "2ad2c221ad674c41b56ec70b285f5f5a",
         "datePublished": "2027-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

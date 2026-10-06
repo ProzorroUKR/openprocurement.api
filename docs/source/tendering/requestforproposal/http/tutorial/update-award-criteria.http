@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/513a5729b98b4078a5e0c1ffb39e3c9a/documents/ecd7f9a7032e454e92e48ae5d882cfaa?acc_token=76e7037e0a9a445f8bfe44a967308c41 HTTP/1.0
+PUT /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/documents/18fbee73a760419a996f5d640231292b?acc_token=d8581d628a634368ba91d9c19c84fcc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -24,7 +24,7 @@ Content-Type: application/json
     "confidentiality": "public",
     "description": "Нова версія AwardCriteria документу",
     "description_en": "new version of the AwardCriteria document",
-    "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
+    "id": "18fbee73a760419a996f5d640231292b",
     "datePublished": "2027-01-01T00:10:05+02:00",
     "hash": "md5:11111111111111111111111111111111",
     "title": "AwardCriteria.pdf",

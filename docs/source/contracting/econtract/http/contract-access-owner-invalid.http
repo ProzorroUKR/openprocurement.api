@@ -1,4 +1,4 @@
-POST /api/2.5/contracts/220153069a7c45dfb1ed4f250d17299d/access HTTP/1.0
+POST /api/2.5/contracts/140c1549722f49e2a2ddabb3bf59a8e0/access HTTP/1.0
 Authorization: Bearer token
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

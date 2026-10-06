@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0c99535af6024017bcbdec7b4a5c49da/bids HTTP/1.0
+POST /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -40,7 +40,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "id": "67dea3c4aabb41469f3f500178762300",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -51,7 +51,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -68,13 +68,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017bcbdec7b4a5c49da/bids/df99d252198c4688997da7d2968f57f3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/806612d4d3e349ca8d55675fc43d5582
 
 {
   "data": {
     "items": [
       {
-        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "id": "67dea3c4aabb41469f3f500178762300",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -85,7 +85,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -131,12 +131,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0c99535af6024017
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "id": "df99d252198c4688997da7d2968f57f3",
+    "id": "806612d4d3e349ca8d55675fc43d5582",
     "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
-    "token": "300dff68efc647b495a30c9bf76ed796",
-    "transfer": "c3772ecb26724e679beccaca461e06eb"
+    "token": "e6ff6b6b167b4577b4751f0632a1b178",
+    "transfer": "c40dbe1e27c6483aafd54ab46626a38a"
   }
 }
 

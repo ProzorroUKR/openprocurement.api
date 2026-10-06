@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids HTTP/1.0
+POST /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -48,7 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "items": [
       {
-        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+        "id": "fc82244e20cd47cf985e40b362a78cc7",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -64,7 +64,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "1065f03b083b486d810ef3d29ad67913",
+        "id": "7cb44f6498334186a6ce95698d970c67",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -86,13 +86,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/d4ca8cf01fcb46c48c640cbd19b8e1c4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids/adab8b563fa54099aa559dc9798af467
 
 {
   "data": {
     "items": [
       {
-        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+        "id": "fc82244e20cd47cf985e40b362a78cc7",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -108,7 +108,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "1065f03b083b486d810ef3d29ad67913",
+        "id": "7cb44f6498334186a6ce95698d970c67",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -169,12 +169,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
       }
     ],
     "status": "draft",
-    "id": "d4ca8cf01fcb46c48c640cbd19b8e1c4",
+    "id": "adab8b563fa54099aa559dc9798af467",
     "date": "2027-01-01T00:02:01+02:00"
   },
   "access": {
-    "token": "98806e658582441582fca4428e21836a",
-    "transfer": "88c818f4fde04237b0c6f7131bc472d2"
+    "token": "8fc077fb99574255b49c8f8aed0bd7f2",
+    "transfer": "562ac9dd5e2c4a7cbfaa7e26eb35313d"
   }
 }
 

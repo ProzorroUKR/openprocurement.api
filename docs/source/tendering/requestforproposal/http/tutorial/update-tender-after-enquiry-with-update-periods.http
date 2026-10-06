@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/513a5729b98b4078a5e0c1ffb39e3c9a?acc_token=76e7037e0a9a445f8bfe44a967308c41 HTTP/1.0
+PATCH /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387?acc_token=d8581d628a634368ba91d9c19c84fcc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -51,9 +51,9 @@ Content-Type: application/json
     "tenderID": "UA-2027-01-01-000001-a",
     "questions": [
       {
-        "id": "1d89d93355e44ffab8ae3545109d7bd1",
+        "id": "b9d4534a99634f729b33bbee839a035a",
         "author": {
-          "hash": "0008badd6aa9dd04675d471581d21e5f"
+          "hash": "de0ae6b3e78dc1fe517f2eef1ae8b8fe"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -70,7 +70,7 @@ Content-Type: application/json
         "description": "змінений опис документа",
         "description_en": "document description modified",
         "relatedItem": "ffffffffffffffffffffffffffffffff",
-        "id": "6a7a9cebe2704f2ab6258c8d8a7789e2",
+        "id": "985d54386fcb430ba48b456c5742bc8a",
         "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.doc",
@@ -83,7 +83,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
+        "id": "18fbee73a760419a996f5d640231292b",
         "datePublished": "2027-01-01T00:06:04+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -98,7 +98,7 @@ Content-Type: application/json
         "confidentiality": "public",
         "description": "Нова версія AwardCriteria документу",
         "description_en": "new version of the AwardCriteria document",
-        "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
+        "id": "18fbee73a760419a996f5d640231292b",
         "datePublished": "2027-01-01T00:10:05+02:00",
         "hash": "md5:11111111111111111111111111111111",
         "title": "AwardCriteria.pdf",
@@ -242,8 +242,7 @@ Content-Type: application/json
     "enquiryPeriod": {
       "startDate": "2026-12-22T00:10:05+02:00",
       "endDate": "2027-01-01T00:10:05+02:00",
-      "clarificationsUntil": "2027-01-06T00:00:00+02:00",
-      "invalidationDate": "2027-01-07T00:14:06+02:00"
+      "clarificationsUntil": "2027-01-06T00:00:00+02:00"
     },
     "tenderPeriod": {
       "startDate": "2027-01-01T00:10:05+02:00",
@@ -272,7 +271,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
-        "relatedLot": "31ec05e9aa3b44eeae2a94279b1e3040"
+        "relatedLot": "85cde4d4a1ff46a6827912a154b6a292"
       }
     ],
     "procurementMethodType": "requestForProposal",
@@ -315,7 +314,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "31ec05e9aa3b44eeae2a94279b1e3040",
+        "id": "85cde4d4a1ff46a6827912a154b6a292",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -333,7 +332,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "513a5729b98b4078a5e0c1ffb39e3c9a"
+    "id": "c43b02880a284022ad414c5d3fff5387"
   },
   "config": {
     "hasAuction": true,
