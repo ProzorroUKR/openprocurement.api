@@ -2033,7 +2033,7 @@ def tender_with_main_procurement_category(self):
 @mock.patch("openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")
