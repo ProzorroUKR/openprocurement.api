@@ -427,7 +427,7 @@ https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/Framework
 
 .. code-block:: python
 
-    enquiry_period_lasts_until_qualification = False
+    enquiry_period_lasts_until_qualification = True
 
 https://prozorro-ua.atlassian.net/wiki/spaces/Knowledge/pages/607780865#%D0%9F%D0%B5%D1%80%D1%96%D0%BE%D0%B4%D0%B8
 
