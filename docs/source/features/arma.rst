@@ -328,9 +328,9 @@ https://github.com/ProzorroUKR/standards/blob/master/organizations/kind_procurem
 Загальний опис
 ~~~~~~~~~~~~~~
 
-Створити новий тип відбору (``frameworkType``) та його похідних на основі requirementsForProposal. Налаштувати обмеження конфігурацій. Відключити непотрібну функціональність.
+Створити новий тип відбору (``frameworkType``) та його похідних на основі internationalFinancialInstitutions. Налаштувати обмеження конфігурацій. Відключити непотрібну функціональність.
 
-Створити новий тип закупівлі (``procurementMethodType``) на основі процедури складних активів. Налаштувати обмеження конфігурацій. Відключити непотрібну функціональність. Реалізувати новий тип ``value`` для проведення тендеру по розміру винагороди (у відсотках).
+Створити новий тип закупівлі (``procurementMethodType``) на основі процедури складних активів. Налаштувати обмеження конфігурацій. Відключити непотрібну функціональність. Використати вже ралізований в складних активах новий тип ``value`` для проведення тендеру по розміру винагороди (у відсотках).
 
 `Закупівля АРМА (загальна інформація) <https://prozorro-ua.atlassian.net/wiki/spaces/Knowledge/pages/578715650>`_
 
@@ -341,7 +341,214 @@ https://github.com/ProzorroUKR/standards/blob/master/organizations/kind_procurem
 Загальний план
 ~~~~~~~~~~~~~~
 
-TBD
+API ЦБД
+"""""""
+
+- Створити новий тип відбору
+
+  - Створити новий модуль в frameworks з новим ``frameworkType`` (див. нижче)
+  - Зареєструвати модуль в ``pyproject.toml``
+  - Налаштувати для нового типу відбору словники standards (див. нижче)
+  - Відключити непотрібну функціональність (див. нижче)
+  - Доробити періоди
+
+- Створити новий тип тендера
+
+  - Створити новий вид тендерінгу з новим ``procurementMethodType`` в модулі arma (див. нижче)
+  - Налаштувати для нового типу процедури словники standards (див. нижче)
+  - Відключити непотрібну функціональність (див. нижче)
+  - Налаштувати зв'язок з відбором через ``agreement`` (див. нижче)
+  - Використати новий тип поля ``value`` (наслідуємо зі складних активів)
+  - Додати нецінові критерії (`tender.features`)
+  - Відключити життєвий цикл (наслідуємо зі складних активів)
+  - Заборонити використання ``contractTemplateName`` (наслідуємо зі складних активів)
+  - Адаптувати логіку роботи milestones (див. нижче)
+  - Повний набір тестів процедури по аналогії з іншими типами процедур
+
+- Налаштувати роботу контрактів
+
+  - Використати роботу з новим типом поля ``value`` зі складних активів
+  - Заборонити створювати електронний контракт
+
+- Оновлення документації
+
+  - Туторіал нової процедури
+
+Модуль аукціонів
+~~~~~~~~~~~~~~~~
+
+Додати новий procurementMethodType в модуль аукціонів
+
+Billing
+~~~~~~~~
+
+Додати новий procurementMethodType в білінг
+
+ЦБД - Створити новий модуль відбору з новим ``frameworkType``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Створити новий тип відбору (``frameworkType``) на основі internationalFinancialInstitutions.
+Назва: `assetRecoveryManagementAgency`.
+
+Стейт класи краще унаслідувати з `core`, менше пропертів треба буде перевизначати.
+
+Standards - Налаштувати для нового типу відбору словники
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Налаштувати конфігурації для створення відбору відповідно до ТЗ
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/FrameworkConfig
+
+Адаптація функціоналу
+~~~~~~~~~~~~~~~~~~~~~
+
+Додати обов'язковий підпис рішення по кваліфкації:
+
+.. code-block:: python
+
+    evaluation_reports_doc_required = True
+
+Вимкнути функціонал перевірки мінімальної кількості учасників для успішного відбору:
+
+.. code-block:: python
+
+    min_submissions_number = 0
+    min_submissions_number_days = 0  # щоб вимкнути перехід відбору у unsuccessful
+
+``get_next_check`` для ``active``-відбору завжди додає ``qualificationPeriod.endDate``, тому хронограф переведе відбір у ``complete``, коли прийде час.
+
+Доробити періоди
+~~~~~~~~~~~~~~~~~
+
+Період уточнення має тривати стільки же, скільки період поданя заявок і закінчуватися за 30 к.д. до періоду розгляду заявок (`qualificationPeriod.endDate - 30 к. д.`).
+
+Додати нову проперті на рівні стейт класу, яка буде вмикати безтерміновий період уточнення:
+
+.. code-block:: python
+
+    enquiry_period_lasts_until_qualification = False
+
+https://prozorro-ua.atlassian.net/wiki/spaces/Knowledge/pages/607780865#%D0%9F%D0%B5%D1%80%D1%96%D0%BE%D0%B4%D0%B8
+
+ЦБД - Створити новий вид тендерінгу з новим ``procurementMethodType``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Додати в модуль тендерінгу arma новий ``procurementMethodType`` для простих активів (`simpleAsset.arma`).
+
+Структура в'юх
+""""""""""""""
+
+За приклад беремо модуль ``tender/open``, де в одному модулі живуть вісім ``procurementMethodType``: один ``@resource`` зі списком PMT і словник ``state_classes``, з якого ``TenderBaseResource.get_state_class`` обирає стейт за PMT запиту.
+
+.. code-block:: python
+
+   @resource(
+       name=f"{ARMA_ROUTE_PREFIX}:Tenders",
+       collection_path="/tenders",
+       path="/tenders/{tender_id}",
+       procurementMethodType=ARMA_PROCUREMENT_METHOD_TYPES,
+       description="ARMA tenders",
+       accept="application/json",
+   )
+   class ARMATendersResource(TendersResource):
+       serializer_class = TenderBaseSerializer
+       state_classes = {
+           COMPLEX_ASSET_ARMA: ARMATenderDetailsState,
+           SIMPLE_ASSET_ARMA: SimpleAssetTenderDetailsState,
+       }
+
+
+Standards - Налаштувати для нового типу процедури словники
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. Налаштувати конфігурації для створення процедури відповідно до ТЗ
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+https://github.com/ProzorroUKR/standards/tree/master/data_model/schema/TenderConfig
+
+2. Налаштувати перелік критеріїв
+""""""""""""""""""""""""""""""""
+
+Обов'язкових критеріїв немає тому зробити пустим масивом
+
+https://github.com/ProzorroUKR/standards/tree/master/criteria/rules
+
+3. Налаштувати перелік дозволених типів організацій
+"""""""""""""""""""""""""""""""""""""""""""""""""""
+
+https://github.com/ProzorroUKR/standards/blob/master/organizations/kind_procurementMethodType_mapping.json
+
+Перелік значень для нового типу процедури
+
+.. code-block:: json
+
+   [
+     "authority"
+   ]
+
+Адаптація функціоналу
+~~~~~~~~~~~~~~~~~~~~~
+
+1) Вимкнути функціонал прекваліфікацій (на відміну від складних активів):
+
+.. code-block:: python
+
+   {"hasPrequalification": False}
+
+2) Додати в модель тендера `TenderFeaturesMixin` (нецінові критерії)
+
+Приведена ціна (``weightedValue``) рахується за наявною в системі формулою, нічого нового реалізовувати не треба.
+Механізм вмикається автоматично, щойно в тендері з'являються нецінові критерії: хронограф на завершенні ``active.tendering`` рахує ``weightedValue`` для кожної ставки.
+
+.. code-block:: python
+
+   awarding_criteria_key = "amountPercentage"
+   weighted_value_with_currency = False
+
+3) Налаштувати зв'язок з відбором:
+
+В модель тендеру додати:
+
+.. code-block:: python
+
+   agreement = ModelType(AgreementUUID, required=True)
+
+Конфіг:
+
+.. code-block:: python
+
+   hasPreSelectionAgreement: true
+
+Стейт клас:
+
+.. code-block:: python
+
+   agreement_field = "agreement"
+   agreement_allowed_types = [ARMA_FRAMEWORK_TYPE]
+   agreement_min_active_contracts = 2
+   should_match_agreement_procuring_entity = True
+
+4) Обмежити статуси, які замовник може виставити через PATCH:
+
+.. code-block:: python
+
+   patch_status_choices = ("draft", "active.tendering")
+
+Що не переносимо зі складного активу
+""""""""""""""""""""""""""""""""""""
+
+- Питання (``views/question.py``, ``state/question.py`` і пов'язані константи) — періоду уточнення в тендері немає, питання живуть на рівні відбору.
+- Усі ``qualification_*`` в'юхи і стейти (у простого актива ``hasPrequalification: False``).
+
+Адаптація ``award.milestones``
+"""""""""""""""""""""""""""""""""
+Функціональність майлстоунів для нової процедури аналогічна стандартній функціональності майлстоунів за виключенням того що:
+
+- alp ``dueDate`` має бути через 1 робочий день після спрацювання
+- прибрати ``extensionPeriod`` та ``24h`` з допустимих значень для ``award.milestones.сode``
+
+Так як ``extensionPeriod`` та ``24h`` не застосовується, то прибираємо в'юхи і стейти для ``award_milestones``.
 
 Етап 3: Білінг
 --------------
