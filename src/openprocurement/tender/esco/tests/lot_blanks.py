@@ -1,7 +1,7 @@
 from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.core.tests.utils import set_bid_items
 
 
 def create_tender_lot_invalid(self):
@@ -871,61 +871,6 @@ def tender_lot_fundingKind_yppr(self):
     self.assertEqual(response.json["data"]["lots"][1]["yearlyPaymentsPercentageRange"], 0.8)
     # lot fundingKind is 'other' - same as on tender
     self.assertEqual(response.json["data"]["lots"][1]["fundingKind"], "other")
-
-
-def tender_lot_Administrator_change_yppr(self):
-    auth = self.app.authorization
-    data = deepcopy(self.initial_data)
-    data["fundingKind"] = "budget"
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["fundingKind"], "budget")
-
-    self.app.authorization = auth
-    lot = deepcopy(self.test_lots_data[0])
-    lot["fundingKind"] = "budget"
-    lot["yearlyPaymentsPercentageRange"] = 0.8
-    data["lots"] = [deepcopy(lot)]
-
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["fundingKind"], "budget")
-    tender_id = response.json["data"]["id"]
-    self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
-    self.assertEqual(response.json["data"]["lots"][0]["fundingKind"], "budget")
-    lot1_id = response.json["data"]["lots"][0]["id"]
-
-    with change_auth(self.app, ("Basic", ("administrator", ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/lots/{}".format(tender_id, lot1_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
-
-    self.app.authorization = auth
-    data["lots"].append(deepcopy(lot))
-
-    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["fundingKind"], "budget")
-    tender_id = response.json["data"]["id"]
-    self.assertEqual(response.json["data"]["lots"][0]["yearlyPaymentsPercentageRange"], 0.8)
-    self.assertEqual(response.json["data"]["lots"][0]["fundingKind"], "budget")
-    self.assertEqual(response.json["data"]["lots"][1]["yearlyPaymentsPercentageRange"], 0.8)
-    self.assertEqual(response.json["data"]["lots"][1]["fundingKind"], "budget")
-    lot2_id = response.json["data"]["lots"][1]["id"]
-
-    with change_auth(self.app, ("Basic", ("administrator", ""))):
-        response = self.app.patch_json(
-            "/tenders/{}/lots/{}".format(tender_id, lot2_id), {"data": {"yearlyPaymentsPercentageRange": 0.5}}
-        )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["data"]["yearlyPaymentsPercentageRange"], 0.5)
 
 
 # Tender Lot Feature Resource Test

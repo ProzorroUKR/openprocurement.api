@@ -12,7 +12,7 @@ from openprocurement.tender.arma.tests.contract_blanks import (
     patch_tender_contract_datesigned,
     patch_tender_contract_value,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )

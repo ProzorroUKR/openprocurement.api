@@ -6,7 +6,7 @@ from openprocurement.api.context import set_request_now
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.tests.base import app, change_auth, singleton_app, unwrap_app
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_config
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_config
 
 fixtures = (app, singleton_app)
 

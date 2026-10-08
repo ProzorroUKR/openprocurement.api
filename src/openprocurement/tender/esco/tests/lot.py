@@ -6,10 +6,10 @@ from unittest import mock
 from esculator import escp, npv
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
-from openprocurement.tender.belowthreshold.tests.lot import TenderLotProcessTestMixin
-from openprocurement.tender.belowthreshold.tests.lot_blanks import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_author
+from openprocurement.tender.open.tests.below_threshold.lot import TenderLotProcessTestMixin
+from openprocurement.tender.open.tests.below_threshold.lot_blanks import (
     create_tender_lot,
     delete_tender_lot,
     patch_tender_lot,
@@ -42,14 +42,13 @@ from openprocurement.tender.esco.tests.lot_blanks import (
     tender_1lot_fundingKind_default,
     tender_2lot_fundingKind_default,
     tender_features_invalid,
-    tender_lot_Administrator_change_yppr,
     tender_lot_funding_kind,
     tender_lot_fundingKind_yppr,
     tender_lot_yearlyPaymentsPercentageRange,
     tender_min_value,
 )
-from openprocurement.tender.openeu.tests.lot import TenderLotEdgeCasesTestMixin
-from openprocurement.tender.openeu.tests.lot_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.lot import TenderLotEdgeCasesTestMixin
+from openprocurement.tender.open.tests.above_threshold_eu.lot_blanks import (
     one_lot_1bid,
     one_lot_2bid,
     one_lot_2bid_1unqualified,
@@ -100,7 +99,7 @@ lot_bid_amount = round(
 )
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotResourceTest(BaseESCOContentWebTest):
     initial_auth = ("Basic", ("broker", ""))
@@ -126,7 +125,6 @@ class TenderLotResourceTest(BaseESCOContentWebTest):
     test_tender_2lot_fundingKind_default = snitch(tender_2lot_fundingKind_default)
     test_tender_lot_yearlyPaymentsPercentageRange = snitch(tender_lot_yearlyPaymentsPercentageRange)
     test_tender_lot_fundingKind_yppr = snitch(tender_lot_fundingKind_yppr)
-    test_tender_lot_Administrator_change_yppr = snitch(tender_lot_Administrator_change_yppr)
 
 
 class TenderLotEdgeCasesTest(BaseESCOContentWebTest, TenderLotEdgeCasesTestMixin):
@@ -233,7 +231,7 @@ class TenderLotFeatureBidResourceTest(BaseESCOContentWebTest):
 
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotProcessTest(BaseESCOContentWebTest, TenderLotProcessTestMixin):
     setUp = BaseESCOContentWebTest.setUp

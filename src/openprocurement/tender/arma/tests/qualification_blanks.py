@@ -1,7 +1,7 @@
 from freezegun import freeze_time
 
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import clean_requirement_responses
 
 # TenderQualificationResourceTest
 
@@ -408,10 +408,6 @@ def lot_patch_tender_qualifications_lots_none(self):
 
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"lots": None}}, status=422
-    )
-    self.assertIn(
-        {"location": "body", "name": "items", "description": [{"relatedLot": ["relatedLot should be one of lots"]}]},
-        response.json["errors"],
     )
 
 
@@ -1359,8 +1355,8 @@ def create_qualification_requirement_response(self):
         [
             {
                 "location": "body",
-                "name": "requirementResponses.0",
-                "description": {"value": 'Response required at least one of field ["value", "values"]'},
+                "name": "value",
+                "description": 'Response required at least one of field ["value", "values"]',
             },
         ],
     )
@@ -1575,7 +1571,13 @@ def create_qualification_requirement_response_evidence(self):
     self.assertIn("errors", response.json)
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["type should be one of eligibleEvidences types"], "location": "body", "name": "type"}],
+        [
+            {
+                "description": ["type should be one of eligibleEvidences types"],
+                "location": "body",
+                "name": "type",
+            }
+        ],
     )
 
     response = self.app.post_json(

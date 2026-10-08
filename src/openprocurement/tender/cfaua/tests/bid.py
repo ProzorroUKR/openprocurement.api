@@ -4,11 +4,11 @@ from copy import deepcopy
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+from openprocurement.tender.open.tests.below_threshold.bid_blanks import (
     create_tender_bid_document_json_bulk,
 )
 from openprocurement.tender.cfaua.tests.base import (
@@ -52,15 +52,15 @@ from openprocurement.tender.cfaua.tests.bid_blanks import (
     put_tender_bidder_document_private_json,
     view_bid_in_qualification_st_st,
 )
-from openprocurement.tender.openeu.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.bid_blanks import (
     not_found,
     patch_tender_bidder_document_private_json,
 )
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
-from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import bids_related_product
 
 
 class BaseTenderLotsContentWebTest(BaseTenderContentWebTest):

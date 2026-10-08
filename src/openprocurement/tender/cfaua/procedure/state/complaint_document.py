@@ -1,7 +1,5 @@
-from openprocurement.tender.open.procedure.state.complaint_document import (
-    OpenComplaintDocumentState,
-)
+from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
 
 
-class CFAUAComplaintDocumentState(OpenComplaintDocumentState):
+class CFAUAComplaintDocumentState(ComplaintDocumentState):
     all_documents_should_be_public = True

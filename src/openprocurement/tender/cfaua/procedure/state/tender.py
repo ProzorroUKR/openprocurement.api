@@ -3,9 +3,9 @@ from logging import getLogger
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import context_unpack
-from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.cfaua.constants import CFA_UA_CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.procedure.awarding import (
-    CFAUATenderStateAwardingMixing,
+    CFAUATenderStateAwardingMixin,
 )
 from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement
 from openprocurement.tender.core.procedure.context import get_request
@@ -15,8 +15,7 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 LOGGER = getLogger(__name__)
 
 
-class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
-    active_bid_statuses = ("active", "pending")
+class CFAUATenderState(CFAUATenderStateAwardingMixin, TenderState):
     tender_contract_events = False
 
     def qualification_stand_still_events(self, tender):
@@ -55,7 +54,7 @@ class CFAUATenderState(CFAUATenderStateAwardingMixing, TenderState):
             self.get_change_tender_status_handler("active.awarded")(tender)
             clarification_date = calculate_tender_full_date(
                 get_request_now(),
-                CLARIFICATIONS_UNTIL_PERIOD,
+                CFA_UA_CLARIFICATIONS_UNTIL_PERIOD,
                 tender=tender,
                 working_days=False,
             )

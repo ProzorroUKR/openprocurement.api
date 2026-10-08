@@ -3,7 +3,7 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.cfaselectionua.tests.base import (
     BaseTenderWebTest,
     test_tender_cfaselectionua_agreement,
@@ -90,8 +90,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         for item in test_tender_cfaselectionua_data["items"]:
             item["relatedLot"] = lot["id"]
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
 
         with open(TARGET_DIR + "tender-post-attempt-json-data.http", "w") as self.app.file_obj:
@@ -173,7 +173,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         # Modifying tender
 
-        tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
+        tender_period_end_date = calculate_date(get_now(), timedelta(days=15, seconds=10))
         items = deepcopy(response.json["data"]["items"])
         items[0]["quantity"] = 10
         with open(TARGET_DIR + "patch-items-value-periods.http", "w") as self.app.file_obj:

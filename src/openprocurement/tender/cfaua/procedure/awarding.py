@@ -3,7 +3,7 @@ from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.award import Award
 
 
-class CFAUATenderStateAwardingMixing:
+class CFAUATenderStateAwardingMixin:
     award_class = Award
     awarding_criteria_key: str = "amount"
     reverse_awarding_criteria: bool = False

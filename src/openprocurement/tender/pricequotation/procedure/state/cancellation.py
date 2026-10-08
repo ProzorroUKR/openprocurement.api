@@ -1,20 +1,14 @@
-from openprocurement.tender.belowthreshold.procedure.state.cancellation import (
-    BelowThresholdCancellationStateMixing,
-)
+from openprocurement.tender.core.procedure.state.cancellation import CancellationStateMixin
 from openprocurement.tender.pricequotation.procedure.state.tender import (
-    PriceQuotationTenderState,
+    PQTenderState,
 )
 
 
-class PQCancellationStateMixing(BelowThresholdCancellationStateMixing):
-    _after_release_reason_types = [
-        "noDemand",
-        "unFixable",
-        "forceMajeure",
-        "expensesCut",
-    ]
+class PQCancellationStateMixin(CancellationStateMixin):
+    _before_release_reason_types = None
+    cancellation_complaint_period_check = False
     procurement_kinds_not_required_sign = ("other",)
 
 
-class PQCancellationState(PQCancellationStateMixing, PriceQuotationTenderState):
+class PQCancellationState(PQCancellationStateMixin, PQTenderState):
     pass

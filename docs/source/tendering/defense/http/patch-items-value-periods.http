@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/b2ccf978cbbe4d5998adc7057db41ca4?acc_token=0686dbcd3079442fb4777eee185e6cd7 HTTP/1.0
+PATCH /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df?acc_token=7f29cbfc95b44762a0c2323e2e1af078 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -161,7 +161,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "1d31ac0134ca43c7af07b864e5e48944",
+        "id": "59c9cef27f1c4c4690caa01ed079c58c",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -235,7 +235,7 @@ Content-Type: application/json
       "amount": 5.0,
       "valueAddedTaxIncluded": false
     },
-    "id": "b2ccf978cbbe4d5998adc7057db41ca4"
+    "id": "cafcd819d62040129cffcd9b3f3687df"
   },
   "config": {
     "hasAuction": true,

@@ -1,23 +1,10 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.competitivedialogue.procedure.models.award import CDAward, CDPatchAward, CDPostAward
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.award import (
     CDStage2AwardState,
 )
-from openprocurement.tender.openeu.procedure.views.award import EUTenderAwardResource
-from openprocurement.tender.openua.procedure.views.award import UATenderAwardResource
+from openprocurement.tender.core.procedure.views.award import TenderAwardResource
 
 
 @resource(
@@ -27,28 +14,8 @@ from openprocurement.tender.openua.procedure.views.award import UATenderAwardRes
     description="Competitive Dialogue Stage 2 EU awards",
     procurementMethodType=STAGE_2_EU_TYPE,
 )
-class CDStage2EUTenderAwardResource(EUTenderAwardResource):
+class CDStage2EUTenderAwardResource(TenderAwardResource):
     state_class = CDStage2AwardState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_award",  # admins only
-        validators=(validate_input_data(CDPostAward),),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_award",  # brokers
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(CDPatchAward),
-            validate_patch_data_simple(CDAward, item_name="award"),
-        ),
-    )
-    def patch(self):
-        return super().patch()
 
 
 @resource(
@@ -58,25 +25,5 @@ class CDStage2EUTenderAwardResource(EUTenderAwardResource):
     description="Competitive Dialogue Stage 2 UA awards",
     procurementMethodType=STAGE_2_UA_TYPE,
 )
-class CDStage2UATenderAwardResource(UATenderAwardResource):
+class CDStage2UATenderAwardResource(TenderAwardResource):
     state_class = CDStage2AwardState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_award",  # admins only
-        validators=(validate_input_data(CDPostAward),),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_award",  # brokers
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(CDPatchAward),
-            validate_patch_data_simple(CDAward, item_name="award"),
-        ),
-    )
-    def patch(self):
-        return super().patch()

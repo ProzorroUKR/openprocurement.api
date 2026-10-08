@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/58a3e3d684d84a899541a00d032ad46b/complaints/8a7c767d454f4235862798c08b8818b9 HTTP/1.0
+GET /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60/complaints/a23523ad0da9415a876c876f4ab5ada1 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -7,14 +7,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "8a7c767d454f4235862798c08b8818b9",
+    "id": "a23523ad0da9415a876c876f4ab5ada1",
     "complaintID": "UA-2027-01-01-000001-a.a2",
     "date": "2027-01-01T00:00:03+02:00",
     "status": "satisfied",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "0d73331e01a145e8be598726490c7664",
+        "id": "59ce2a6d53c34220bd987c4a6df498b1",
         "datePublished": "2027-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -27,7 +27,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "753e4c8ff0d04861938f6c407d1689f0",
+        "id": "d240b10139e943338a20ec7abbe6a6ae",
         "datePublished": "2027-01-01T00:00:03+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "ComplaintResolution.pdf",
@@ -40,8 +40,8 @@ Content-Type: application/json
       }
     ],
     "type": "complaint",
-    "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
-    "bid_id": "3088275f136046dab34594e16227bb54",
+    "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
+    "bid_id": "716a0f6c194c4fc7821cce4f4110d4e1",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -68,11 +68,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:03+02:00",
     "objections": [
       {
-        "id": "ddbd2fd5858f489395e974595bd0ef18",
+        "id": "33b7fae0f6184f618311e5110eda78e6",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
-        "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
+        "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -80,14 +80,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "725f2be3b268415ca2a504502d147c82",
+            "id": "0215ec3cc675485f91867ffee94d6793",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "a0d3e9736e35448a98f6da3e954644fe",
+            "id": "f024afaba1e047728c9ba372d028fa80",
             "description": "test argument"
           }
         ],

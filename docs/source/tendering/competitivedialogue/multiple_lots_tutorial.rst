@@ -119,6 +119,21 @@
 Другий етап
 -----------
 
+Спочатку підготуємо тендер другого етапу: додамо етапи оплати (``milestones``):
+
+.. http:example:: multiple_lots_tutorial/tender_stage2_add_milestones.http
+   :code:
+
+Потім додамо критерії:
+
+.. http:example:: multiple_lots_tutorial/tender_stage2_add_criteria.http
+   :code:
+
+І змінимо статус ``draft.stage2`` на ``active.tendering``:
+
+.. http:example:: multiple_lots_tutorial/tender_stage2_modify_status.http
+   :code:
+
 На другому етапі ми повині реєструвати нові пропозіції, але реєструвати можуть тільки учасники, які були допущени на першому етапі.
 
 Спробуємо

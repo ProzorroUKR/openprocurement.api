@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.chronograph_blanks import (
+from openprocurement.tender.open.tests.below_threshold.chronograph_blanks import (
     reset_auction_period,
     set_auction_period,
 )

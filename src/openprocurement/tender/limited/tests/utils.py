@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 
 def get_award_data(self, **kwargs):

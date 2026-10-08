@@ -1,15 +1,17 @@
+from datetime import timedelta
+
 # constants for procurementMethodtype
 CD_UA_TYPE = "competitiveDialogueUA"
 CD_EU_TYPE = "competitiveDialogueEU"
 STAGE_2_EU_TYPE = "competitiveDialogueEU.stage2"
 STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
 
-STAGE2_STATUS = "draft.stage2"
+CD_STAGE2_STATUS = "draft.stage2"
 
-FEATURES_MAX_SUM = 0.99
-MINIMAL_NUMBER_OF_BIDS = 3
+CD_FEATURES_MAX_SUM = 0.99
+CD_MINIMAL_NUMBER_OF_BIDS = 3
 
-STAGE_2_EU_DEFAULT_CONFIG = {
+CD_STAGE_2_EU_DEFAULT_CONFIG = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
@@ -35,7 +37,7 @@ STAGE_2_EU_DEFAULT_CONFIG = {
     "restricted": False,
     "hasMultiSourcing": False,
 }
-STAGE_2_UA_DEFAULT_CONFIG = {
+CD_STAGE_2_UA_DEFAULT_CONFIG = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
@@ -62,7 +64,7 @@ STAGE_2_UA_DEFAULT_CONFIG = {
     "hasMultiSourcing": False,
 }
 
-STAGE_1_EU_WORKING_DAYS_CONFIG = {
+CD_STAGE_1_EU_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,
@@ -71,7 +73,7 @@ STAGE_1_EU_WORKING_DAYS_CONFIG = {
     "qualificationComplainDuration": False,
 }
 
-STAGE_1_UA_WORKING_DAYS_CONFIG = {
+CD_STAGE_1_UA_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,
@@ -80,7 +82,7 @@ STAGE_1_UA_WORKING_DAYS_CONFIG = {
     "qualificationComplainDuration": False,
 }
 
-STAGE_2_EU_WORKING_DAYS_CONFIG = {
+CD_STAGE_2_EU_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,
@@ -89,7 +91,7 @@ STAGE_2_EU_WORKING_DAYS_CONFIG = {
     "qualificationComplainDuration": False,
 }
 
-STAGE_2_UA_WORKING_DAYS_CONFIG = {
+CD_STAGE_2_UA_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,
@@ -97,3 +99,5 @@ STAGE_2_UA_WORKING_DAYS_CONFIG = {
     "tenderComplainRegulation": False,
     "qualificationComplainDuration": False,
 }
+CD_CLAIM_SUBMIT_TIME = timedelta(days=10)
+CD_TENDERING_EXTRA_PERIOD = timedelta(days=7)

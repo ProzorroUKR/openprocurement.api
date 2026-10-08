@@ -1,12 +1,9 @@
 from cornice.resource import resource
 
-from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_cd2_lot_operation,
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.lot import (
+    CDStage2EUTenderLotState,
+    CDStage2UATenderLotState,
 )
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
@@ -19,28 +16,7 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
     description="Tender stage2 EU lots",
 )
 class TenderStage2EULotResource(TenderLotResource):
-    @json_view(
-        content_type="application/json",
-        permission="create_lot",
-        validators=(validate_cd2_lot_operation,),
-    )
-    def collection_post(self):
-        """Add a lot"""
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_lot",
-        validators=(validate_cd2_lot_operation,),
-    )
-    def patch(self):
-        """Update of lot"""
-
-    @json_view(
-        permission="edit_lot",
-        validators=(validate_cd2_lot_operation,),
-    )
-    def delete(self):
-        """Lot deleting"""
+    state_class = CDStage2EUTenderLotState
 
 
 @resource(
@@ -51,25 +27,4 @@ class TenderStage2EULotResource(TenderLotResource):
     description="Tender stage2 UA lots",
 )
 class TenderStage2UALotResource(TenderLotResource):
-    @json_view(
-        content_type="application/json",
-        permission="create_lot",
-        validators=(validate_cd2_lot_operation,),
-    )
-    def collection_post(self):
-        """Add a lot"""
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_lot",
-        validators=(validate_cd2_lot_operation,),
-    )
-    def patch(self):
-        """Update of lot"""
-
-    @json_view(
-        permission="edit_lot",
-        validators=(validate_cd2_lot_operation,),
-    )
-    def delete(self):
-        """Lot deleting"""
+    state_class = CDStage2UATenderLotState

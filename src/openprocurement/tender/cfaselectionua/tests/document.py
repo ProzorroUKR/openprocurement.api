@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.document_blanks import (
+from openprocurement.tender.open.tests.below_threshold.document_blanks import (
     create_tender_document_json,
     create_tender_document_json_bulk,
     create_tender_document_json_invalid,

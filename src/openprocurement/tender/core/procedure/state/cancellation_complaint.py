@@ -11,6 +11,7 @@ from openprocurement.tender.core.procedure.models.complaint import (
     BotPatchComplaint,
     CancellationPatchComplaint,
     DraftPatchCancellationComplaint,
+    PostCancellationComplaint,
     ReviewPatchComplaint,
     TendererActionPatchComplaint,
     TendererResolvePatchComplaint,
@@ -27,7 +28,9 @@ LOGGER = getLogger(__name__)
 
 
 class CancellationComplaintStateMixin(ComplaintStateMixin):
-    update_allowed_tender_statuses = None
+    post_data_model = PostCancellationComplaint
+
+    complaint_patch_allowed_tender_statuses = None
     complaints_configuration = "hasCancellationComplaints"
     # limited: anyone may post a cancellation complaint (no bid owner check); award complaint periods are prolonged
     cancellation_complaint_bid_owner_check = True

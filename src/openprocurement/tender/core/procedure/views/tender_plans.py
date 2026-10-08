@@ -5,15 +5,12 @@ from cornice.resource import resource
 from schematics.exceptions import ModelValidationError, ValidationError
 
 from openprocurement.api.database import atomic_transaction
-from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-)
 from openprocurement.api.utils import error_handler, handle_data_exceptions, json_view
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.utils import save_plan
-from openprocurement.tender.core.procedure.models.tender_base import PlanRelation, validate_plans
+from openprocurement.tender.core.procedure.models.tender_base import validate_plans
 from openprocurement.tender.core.procedure.serializers.plan import PlanSerializer
+from openprocurement.tender.core.procedure.state.tender_plans import TenderPlansState
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
@@ -27,6 +24,7 @@ LOGGER = getLogger(__name__)
 )
 class TenderPlansResource(TenderBaseResource):
     serializer_class = PlanSerializer
+    state_class = TenderPlansState
     plan_state_class = PlanState
 
     @json_view()
@@ -37,13 +35,10 @@ class TenderPlansResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_input_data(PlanRelation),
-        ),
         permission="edit_tender",
     )
     def post(self):
+        self.state.validate_tender_plans_post_request()
         tender = self.request.validated["tender"]
         plan_relation = self.request.validated["data"]
 

@@ -14,11 +14,11 @@ artifact auctionPeriod {
 
 
 cloud API {
-    component ShouldStartAfterMixing
-    ShouldStartAfterMixing --> shouldStartAfter: заповнює
+    component ShouldStartAfterMixin
+    ShouldStartAfterMixin --> shouldStartAfter: заповнює
 
-    component ShouldStartAfterMixing
-    ShouldStartAfterMixing --> startDate: заповнює
+    component ShouldStartAfterMixin
+    ShouldStartAfterMixin --> startDate: заповнює
 
     component "CancellationComplaintStateMixin\nrecalculate_tender_periods" as recalculate_tender_periods
     recalculate_tender_periods --> startDate: переносить на N днів

@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 # CompetitiveDialogEUBidResourceTest
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues

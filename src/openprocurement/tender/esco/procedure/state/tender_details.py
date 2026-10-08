@@ -1,19 +1,32 @@
+from decimal import Decimal
+
 from openprocurement.api.constants_env import NOTICE_DOC_REQUIRED_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
+from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA, EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
+from openprocurement.tender.core.procedure.models.award import Award
+from openprocurement.tender.core.procedure.state.tender import TenderState
+from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.procedure.utils import (
     tender_created_before,
 )
 from openprocurement.tender.core.procedure.validation import validate_value_vat_disabled
-from openprocurement.tender.esco.constants import WORKING_DAYS_CONFIG
-from openprocurement.tender.openeu.procedure.state.tender_details import (
-    OpenEUTenderDetailsState as BaseTenderDetailsState,
-)
+from openprocurement.tender.esco.constants import ESCO_TENDERING_EXTRA_PERIOD
+from openprocurement.tender.esco.procedure.models.tender import ESCOPatchTender, ESCOPostTender, ESCOTender
 
 
-class ESCOTenderDetailsState(BaseTenderDetailsState):
-    contract_template_required = False
+class ESCOTenderDetailsState(TenderDetailsMixin, TenderState):
+    auction_results_model = DecimalAuctionResults
+    auction_lot_results_model = DecimalAuctionLotResults
+    award_class = Award
+    post_data_model = ESCOPostTender
+    patch_data_model = ESCOPatchTender
+    data_model = ESCOTender
+
+    required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
+    procuring_entity_available_language_default = "uk"
+    tender_period_extra = ESCO_TENDERING_EXTRA_PERIOD
     items_delivery_required = False
     items_unit_required = False
     items_quantity_required = False
@@ -21,12 +34,8 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
     milestones_required = False
     milestones_delivery_financing_required = False
     features_max_weight = 0.25
-    tender_period_start_date_required = True
     award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
     award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
-    contract_template_name_patch_statuses = ("draft", "active.tendering")
-
-    working_days_config = WORKING_DAYS_CONFIG
     minimal_step_fields = ("minimalStepPercentage", "yearlyPaymentsPercentageRange")
 
     def on_post(self, tender):
@@ -81,28 +90,28 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             )
 
         # CS-21518 - for ESCO tenders we need to validate that minValue has valueAddedTaxIncluded False
-        if self.should_validate_vat_not_included:
+        if self.vat_not_included_check:
             validate_value_vat_disabled(
                 self.request, tender_min_value, "minValue", self.vat_not_included_validation_from
             )
 
     def validate_tender_lots(self, tender: dict, before=None) -> None:
-        """Validate lot minValue.
+        """Validate lots minValue, set the lot data derived from the tender and validate the minimal step fields.
 
-        Validation includes lot minValue.
-
-        :param tender: Tender dictionary
-        :param lot: Lot dictionary
+        :param tender: Tender dictionary.
+        :param before: Tender dictionary before patch, optional
         :return: None
         """
-        has_value_estimation = tender["config"]["hasValueEstimation"]
-
+        before_lots = {lot["id"]: lot for lot in (before or {}).get("lots") or []}
         for lot in tender.get("lots", {}):
-            lot_min_value = lot.get("minValue", {})
+            self.validate_lot_min_value(tender, lot)
+            self.set_tender_lot_data(tender, lot)
+            self.validate_lot_minimal_step(lot, before_lots.get(lot["id"]))
 
-            if not lot_min_value:
-                return
-
+    def validate_lot_min_value(self, tender: dict, lot: dict) -> None:
+        has_value_estimation = tender["config"]["hasValueEstimation"]
+        lot_min_value = lot.get("minValue", {})
+        if lot_min_value:
             lot_value_amount = lot_min_value.get("amount")
 
             if has_value_estimation is True and lot_value_amount is None:
@@ -122,13 +131,10 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
                 )
 
             # CS-21518 - for ESCO tenders we need to validate that lot minValue has valueAddedTaxIncluded False
-            if self.should_validate_vat_not_included:
+            if self.vat_not_included_check:
                 validate_value_vat_disabled(
                     self.request, lot_min_value, "lots.minValue", self.vat_not_included_validation_from
                 )
-
-            self.set_tender_lot_data(tender, lot)
-            self.validate_lot_minimal_step(lot, before)
 
     def set_tender_lot_data(self, tender, lot):
         self.set_lot_guarantee(tender, lot)
@@ -137,3 +143,24 @@ class ESCOTenderDetailsState(BaseTenderDetailsState):
             "currency": tender["minValue"]["currency"],
             "valueAddedTaxIncluded": tender["minValue"]["valueAddedTaxIncluded"],
         }
+
+    def validate_lot(self, tender: dict, lot: dict) -> None:
+        self.validate_yearly_payments_percentage_range(tender, lot)
+
+    def validate_yearly_payments_percentage_range(self, tender: dict, lot: dict) -> None:
+        value = lot.get("yearlyPaymentsPercentageRange")
+        if tender["fundingKind"] == "other" and value != Decimal("0.8"):
+            raise_operation_error(
+                self.request,
+                "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8",
+                status=422,
+                name="yearlyPaymentsPercentageRange",
+            )
+        if tender["fundingKind"] == "budget" and (value is None or value > Decimal("0.8") or value < Decimal("0")):
+            raise_operation_error(
+                self.request,
+                "when tender fundingKind is budget, yearlyPaymentsPercentageRange "
+                "should be less or equal 0.8, and more or equal 0",
+                status=422,
+                name="yearlyPaymentsPercentageRange",
+            )

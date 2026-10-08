@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/513a5729b98b4078a5e0c1ffb39e3c9a/cancellations/877dff2f25f14e2b953a129d3c5ff8d2/documents/85dc26f8e3d64f7ea43eeae912fa404f?acc_token=76e7037e0a9a445f8bfe44a967308c41 HTTP/1.0
+PUT /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/cancellations/58e9cfbcb068475ea6f47ff28532d456/documents/2a5e1d3684a0435dbff400d8de690181?acc_token=d8581d628a634368ba91d9c19c84fcc9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "confidentiality": "public",
     "description": "Changed description",
-    "id": "85dc26f8e3d64f7ea43eeae912fa404f",
+    "id": "2a5e1d3684a0435dbff400d8de690181",
     "datePublished": "2027-01-07T00:15:06+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "Notice.pdf",

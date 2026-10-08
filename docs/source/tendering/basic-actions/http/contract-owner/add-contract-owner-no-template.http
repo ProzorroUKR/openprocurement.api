@@ -40,9 +40,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 22000,
       "currency": "UAH"
     },
-    "tenderPeriod": {
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
     "procurementMethodType": "priceQuotation",
     "procurementMethod": "selective",
     "items": [
@@ -156,6 +153,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
     "criteria": [
       {
         "description": "Форма випуску",

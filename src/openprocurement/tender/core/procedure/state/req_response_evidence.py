@@ -1,61 +1,41 @@
-from schematics.exceptions import ValidationError
-
-from openprocurement.api.procedure.state.base import BaseState
-from openprocurement.api.utils import error_handler
-from openprocurement.tender.core.procedure.models.req_response import (
-    validate_evidence_relatedDocument,
-    validate_evidence_type,
+from openprocurement.tender.core.procedure.models.evidence import Evidence, PatchEvidence
+from openprocurement.tender.core.procedure.state.req_response import (
+    RequirementResponsesRulesMixin,
 )
-from openprocurement.tender.core.procedure.state.utils import invalidate_pending_bid
 
 
-class ReqResponseEvidenceState(BaseState):
-    parent_obj_name: str
+class ReqResponseEvidenceStateMixin(RequirementResponsesRulesMixin):
+    """
+    requirement response evidences endpoint of a bid / award / qualification: request validation and hooks
+    (the rules are the parent object's, see ReqResponseStateMixin)
+    """
 
-    def always(self, data: dict) -> None:
-        self.pre_save_validations(data)
+    post_data_model = Evidence
+    patch_data_model = PatchEvidence
+    data_model = Evidence
 
-    def pre_save_validations(self, data: dict) -> None:
-        req_response = self.request.validated["requirement_response"]
+    requirement_responses_error_path_strip = 2
 
-        try:
-            self.validate_evidence_data(req_response, data)
-        except ValidationError as e:
-            error_name = list(e.messages[0].keys())[0]
-            error_msg = e.messages[0][error_name]
-            self.request.errors.status = 422
-            self.request.errors.add("body", error_name, error_msg)
-            raise error_handler(self.request)
+    def validate_req_response_evidence_post_request(self):
+        self.validate_req_response_owner()
+        self.validate_req_response_evidence_operation_allowed()
+        self.validate_input_data(self.get_post_data_model())
 
-    def validate_evidence_data(self, req_response: dict, evidence: dict) -> None:
-        parent = self.request.validated[self.parent_obj_name]
-        validate_evidence_relatedDocument(parent, evidence, self.parent_obj_name)
-        validate_evidence_type(req_response, evidence)
+    def validate_req_response_evidence_patch_request(self):
+        self.validate_req_response_owner()
+        self.validate_req_response_evidence_operation_allowed()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "evidence")
 
-    def on_delete(self):
-        pass
+    def validate_req_response_evidence_delete_request(self):
+        self.validate_req_response_owner()
+        self.validate_req_response_evidence_operation_allowed()
 
+    def req_response_evidence_on_post(self, evidence: dict) -> None:
+        self.requirement_responses_parent_on_patch()
 
-class BidReqResponseEvidenceState(ReqResponseEvidenceState):
-    parent_obj_name = "bid"
+    def req_response_evidence_on_patch(self, before: dict, after: dict) -> None:
+        self.requirement_responses_parent_on_patch()
 
-    def pre_save_validations(self, data: dict) -> None:
-        bid = self.request.validated["bid"]
-        if bid["status"] not in ["active", "pending"]:
-            return
-        super().pre_save_validations(data)
-
-    def always(self, data: dict) -> None:
-        super().always(data)
-        invalidate_pending_bid()
-
-    def on_delete(self):
-        invalidate_pending_bid()
-
-
-class AwardReqResponseEvidenceState(ReqResponseEvidenceState):
-    parent_obj_name = "award"
-
-
-class QualificationReqResponseEvidenceState(ReqResponseEvidenceState):
-    parent_obj_name = "qualification"
+    def req_response_evidence_on_delete(self, evidence: dict) -> None:
+        self.requirement_responses_parent_on_patch()

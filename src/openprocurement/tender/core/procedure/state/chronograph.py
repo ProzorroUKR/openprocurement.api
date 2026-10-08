@@ -8,6 +8,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
@@ -17,6 +18,7 @@ from openprocurement.tender.core.procedure.contracting import (
     append_contracts_added,
     append_contracts_cancelled,
 )
+from openprocurement.tender.core.procedure.models.chronograph import TenderChronographData
 from openprocurement.tender.core.procedure.models.qualification import Qualification
 from openprocurement.tender.core.procedure.state.utils import awarding_is_unsuccessful
 from openprocurement.tender.core.procedure.utils import (
@@ -34,10 +36,8 @@ from openprocurement.tender.core.utils import calculate_tender_date, calculate_t
 LOGGER = getLogger(__name__)
 
 
-class IgnoredClaimMixing:
+class IgnoredClaimMixin(BaseState):
     """bt/rfp (and their contracts): claims of completed lots/tenders are ignored"""
-
-    set_object_status: Callable
 
     def check_ignored_claim(self, tender):
         statuses = ("complete", "cancelled", "unsuccessful")
@@ -52,8 +52,11 @@ class IgnoredClaimMixing:
                     self.set_object_status(complaint, "ignored")
 
 
-class ChronographEventsMixing:
-    # --- mainstream procedure differences (chronograph events and handlers) ---
+class ChronographEventsMixin:
+    chronograph_patch_data_model = TenderChronographData
+
+    # provided by TenderStateAwardingMixin in the composed TenderState (declared for mypy)
+    calc_weighted_value: Callable
     # bt/rfp: complaints are claims — answered/pending claims are resolved by the chronograph,
     # claims of completed lots/tenders are ignored, and the tendering end doesn't wait for unanswered complaints/questions
     tender_claims_events = False
@@ -69,6 +72,11 @@ class ChronographEventsMixing:
     tender_contract_events = True
     # competitiveDialogue stage 1: the pre-qualification stand-still ends with this tender status instead of auction/qualification
     pre_qualification_stand_still_next_status: str | None = None
+    # Pre-calculate weighted values for bids in the end of tendering period
+    tender_weighted_value_pre_calculation: bool = True
+
+    def validate_chronograph_patch_request(self):
+        self.validate_patch_input_data(self.chronograph_patch_data_model)
 
     def new_defense_complaints_rules_apply(self):
         return self.tender_new_defense_complaints_rules and tender_created_in(
@@ -86,15 +94,10 @@ class ChronographEventsMixing:
 
     def check_ignored_claim(self, tender):
         if self.tender_claims_events:
-            IgnoredClaimMixing.check_ignored_claim(self, tender)
+            IgnoredClaimMixin.check_ignored_claim(self, tender)
 
     # CHRONOGRAPH
     # events that happen in tenders on a schedule basis
-
-    calc_weighted_value: Callable
-
-    # Pre-calculate weighted values for bids in the end of tendering period
-    tender_weighted_value_pre_calculation: bool = True
 
     def update_next_check(self, data):
         # next_check is field that shows tender's expectation to be triggered at a certain time

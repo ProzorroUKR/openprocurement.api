@@ -1,11 +1,16 @@
 from datetime import timedelta
 from logging import getLogger
 
+from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.procedure.context import get_request
-from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
+from openprocurement.tender.core.procedure.models.qualification_milestone import (
+    PostQualificationMilestone,
+    QualificationMilestoneCode,
+)
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_date
 
@@ -13,10 +18,20 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationMilestoneState(BaseState):
+    post_data_model = PostQualificationMilestone
+
+    # milestones exist since RELEASE_2020_04_19 (limited: not checked)
+    milestone_post_release_check = True
     # rfp: the user may set a dueDate later than 24h (24h is only the minimum)
     milestone_24h_due_date_extendable = False
     milestone_post_allowed_tender_statuses: tuple = ("active.pre-qualification",)
     milestone_post_requires_active_lot = True
+
+    def validate_milestone_post_request(self):
+        self.validate_item_owner("tender")
+        if self.milestone_post_release_check:
+            validate_tender_first_revision_date(self.request, validation_date=RELEASE_2020_04_19)
+        self.validate_input_data(self.get_post_data_model())
 
     def get_24h_milestone_dueDate(self, milestone):
         min_due_date = calculate_tender_date(

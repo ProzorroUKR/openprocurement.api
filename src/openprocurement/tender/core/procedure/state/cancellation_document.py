@@ -6,9 +6,9 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_cancellation, get_request
 from openprocurement.tender.core.procedure.state.cancellation import (
-    CancellationStateMixing,
+    CancellationStateMixin,
 )
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
@@ -17,7 +17,10 @@ from openprocurement.tender.core.procedure.utils import (
 from openprocurement.tender.core.procedure.validation import validate_doc_type_quantity
 
 
-class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationStateMixing):
+class CancellationDocumentStateMixin(BaseDocumentStateMixin, CancellationStateMixin):
+    document_post_owner_exempt_roles = ("admins",)
+    document_update_owner_exempt_roles = ("admins",)
+
     def document_always(self, data):
         self.validate_confidentiality(data)
         self.validate_sign_documents_already_exists(data)
@@ -59,5 +62,5 @@ class CancellationDocumentStateMixing(BaseDocumentStateMixing, CancellationState
             validate_doc_type_quantity(cancellation_docs, document_type="cancellationReport")
 
 
-class CancellationDocumentState(CancellationDocumentStateMixing, TenderState):
+class CancellationDocumentState(CancellationDocumentStateMixin, TenderState):
     pass

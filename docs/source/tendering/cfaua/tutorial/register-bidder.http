@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids HTTP/1.0
+POST /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -49,7 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "items": [
       {
-        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+        "id": "fc82244e20cd47cf985e40b362a78cc7",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -65,7 +65,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "1065f03b083b486d810ef3d29ad67913",
+        "id": "7cb44f6498334186a6ce95698d970c67",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -87,13 +87,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f0782747918bb1e96f34787c24/bids/6635c3c3fd2a42e5bcdac5aa9882fdf2
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids/49183635c9204358999ae5010b662d19
 
 {
   "data": {
     "items": [
       {
-        "id": "6bf9b6cb7f5448a79d84865a8af80caa",
+        "id": "fc82244e20cd47cf985e40b362a78cc7",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -109,7 +109,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
         "relatedLot": "1045105100a341998426114b17a5c1ff"
       },
       {
-        "id": "1065f03b083b486d810ef3d29ad67913",
+        "id": "7cb44f6498334186a6ce95698d970c67",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -171,12 +171,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ae2274f078274791
       }
     ],
     "status": "draft",
-    "id": "6635c3c3fd2a42e5bcdac5aa9882fdf2",
+    "id": "49183635c9204358999ae5010b662d19",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "ace4a353c5094bfaa3c4d20485941548",
-    "transfer": "0bd52ae3b4e343b0a33300c98ed54875"
+    "token": "38e41f42bd9a4452bac74a0911186a8a",
+    "transfer": "4fd3cdaa24d041f3a2f79e93303672af"
   }
 }
 

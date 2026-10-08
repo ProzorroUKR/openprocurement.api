@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e331845136c14af1a03b59e13c030ae1?acc_token=ea357a658e9a472c9f73726b3de03f0b HTTP/1.0
+PATCH /api/2.5/tenders/84491165a551419092cec31690c5b003?acc_token=ea357a658e9a472c9f73726b3de03f0b HTTP/1.0
 Authorization: Bearer broker1
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -211,7 +211,7 @@ Content-Type: application/json
       "amount": 500.0,
       "valueAddedTaxIncluded": false
     },
-    "id": "e331845136c14af1a03b59e13c030ae1"
+    "id": "84491165a551419092cec31690c5b003"
   },
   "config": {
     "hasAuction": true,

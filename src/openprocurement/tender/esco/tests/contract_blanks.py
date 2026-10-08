@@ -6,7 +6,7 @@ import jmespath
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
 )
 from openprocurement.tender.core.tests.utils import change_auth

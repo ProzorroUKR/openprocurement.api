@@ -50,9 +50,9 @@ from openprocurement.api.utils import (
 )
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_DEFAULT_CONFIG,
+    CD_STAGE_2_EU_DEFAULT_CONFIG,
+    CD_STAGE_2_UA_DEFAULT_CONFIG,
     STAGE_2_EU_TYPE,
-    STAGE_2_UA_DEFAULT_CONFIG,
     STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.core.constants import (
@@ -66,7 +66,7 @@ from openprocurement.tender.core.procedure.serializers.tender_credentials import
     tender_token_serializer,
 )
 from openprocurement.tender.core.utils import QUICK, calculate_tender_full_date
-from openprocurement.tender.limited.constants import VALUE_AMOUNT_THRESHOLD_MAPPING
+from openprocurement.tender.limited.constants import LIMITED_VALUE_AMOUNT_THRESHOLD_MAPPING
 
 LOGGER = getLogger(__name__)
 
@@ -871,9 +871,9 @@ def reporting_cause_is_required(data):
                 data.get("value")
                 and data["value"].get("amount")
                 and data.get("mainProcurementCategory")
-                and VALUE_AMOUNT_THRESHOLD_MAPPING.get(procedure_kind, {}).get(data["mainProcurementCategory"])
+                and LIMITED_VALUE_AMOUNT_THRESHOLD_MAPPING.get(procedure_kind, {}).get(data["mainProcurementCategory"])
                 and data["value"]["amount"]
-                >= VALUE_AMOUNT_THRESHOLD_MAPPING[procedure_kind][data["mainProcurementCategory"]]
+                >= LIMITED_VALUE_AMOUNT_THRESHOLD_MAPPING[procedure_kind][data["mainProcurementCategory"]]
             ),
         ]
     )
@@ -975,10 +975,10 @@ def prepare_stage2_tender_data(tender: dict) -> dict:
 
     if tender["procurementMethodType"].endswith("EU"):
         new_tender["procurementMethodType"] = STAGE_2_EU_TYPE
-        config = STAGE_2_EU_DEFAULT_CONFIG
+        config = CD_STAGE_2_EU_DEFAULT_CONFIG
     else:
         new_tender["procurementMethodType"] = STAGE_2_UA_TYPE
-        config = STAGE_2_UA_DEFAULT_CONFIG
+        config = CD_STAGE_2_UA_DEFAULT_CONFIG
 
     new_tender["tenderPeriod"] = {
         "startDate": get_request_now().isoformat(),

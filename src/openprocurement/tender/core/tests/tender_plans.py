@@ -8,13 +8,13 @@ from nacl.encoding import HexEncoder
 
 from openprocurement.api.tests.base import app, singleton_app, unwrap_app
 from openprocurement.planning.api.tests.base import test_plan_data
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_lots,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.utils import set_tender_lots
-from openprocurement.tender.openua.tests.base import (
+from openprocurement.tender.open.tests.above_threshold_ua.base import (
     test_tender_openua_config,
     test_tender_openua_data,
 )

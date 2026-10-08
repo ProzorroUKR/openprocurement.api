@@ -3,12 +3,12 @@ from copy import deepcopy
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import (
-    ContractState as BaseContractState,
+    ContractState,
 )
 from openprocurement.contracting.core.procedure.utils import get_tender_award_by_contract
 
 
-class SignatoryState(BaseContractState):
+class SignatoryState(ContractState):
     def signatory_on_post(self, data):
         self.validate_contract_is_ready_for_activation()
         self.set_author_of_object(data, "role")

@@ -9,7 +9,7 @@ from openprocurement.tender.arma.tests.base import (
 from openprocurement.tender.arma.tests.document_blanks import (
     create_acceptance_report_document_pre_qualification,
 )
-from openprocurement.tender.belowthreshold.tests.document import (
+from openprocurement.tender.open.tests.below_threshold.document import (
     TenderDocumentResourceTestMixin,
 )
 

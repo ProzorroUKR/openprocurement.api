@@ -1,9 +1,9 @@
+from copy import deepcopy
 from logging import getLogger
 
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import unless_item_owner
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
 from openprocurement.tender.core.procedure.serializers.bid import BidSerializer
@@ -12,7 +12,6 @@ from openprocurement.tender.core.procedure.serializers.tender import (
 )
 from openprocurement.tender.core.procedure.state.bid import BidState
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
-from openprocurement.tender.core.procedure.validation import validate_view_bids
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import (
     ProcurementMethodTypePredicate,
@@ -28,6 +27,7 @@ def resolve_bid(request):
         bid_id = match_dict["bid_id"]
         bids = get_items(request, request.validated["tender"], "bids", bid_id)
         request.validated["bid"] = bids[0]
+        request.validated["bid_src"] = deepcopy(bids[0])
 
 
 class TenderBidResource(TenderBaseResource):
@@ -49,7 +49,12 @@ class TenderBidResource(TenderBaseResource):
         if context and request.matchdict:
             resolve_bid(request)
 
+    @json_view(
+        content_type="application/json",
+        permission="create_bid",
+    )
     def collection_post(self):
+        self.state.validate_bid_post_request()
         update_logging_context(self.request, {"bid_id": "__new__"})
 
         tender = self.request.validated["tender"]
@@ -82,21 +87,15 @@ class TenderBidResource(TenderBaseResource):
 
     @json_view(
         permission="view_tender",
-        validators=(validate_view_bids,),
     )
     def collection_get(self):
+        self.state.validate_bid_get_request()
         tender = self.request.validated["tender"]
         data = tuple(self.serializer_class(bid, tender=tender).data for bid in tender.get("bids", ""))
         return {"data": data}
 
     @json_view(
         permission="view_tender",
-        validators=(
-            unless_item_owner(
-                validate_view_bids,
-                item_name="bid",
-            ),
-        ),
     )
     @context_view(
         objs={
@@ -104,12 +103,18 @@ class TenderBidResource(TenderBaseResource):
         }
     )
     def get(self):
+        self.state.validate_bid_get_request()
         bid = self.request.validated["bid"]
         tender = self.request.validated["tender"]
         data = self.serializer_class(bid, tender=tender).data
         return {"data": data}
 
+    @json_view(
+        content_type="application/json",
+        permission="edit_bid",
+    )
     def patch(self):
+        self.state.validate_bid_patch_request()
         updated_bid = self.request.validated["data"]
         if updated_bid:
             tender = self.request.validated["tender"]
@@ -123,7 +128,11 @@ class TenderBidResource(TenderBaseResource):
                 )
                 return {"data": self.serializer_class(updated_bid, tender=tender).data}
 
+    @json_view(
+        permission="edit_bid",
+    )
     def delete(self):
+        self.state.validate_bid_delete_request()
         tender = self.request.validated["tender"]
         bid = self.request.validated["bid"]
 

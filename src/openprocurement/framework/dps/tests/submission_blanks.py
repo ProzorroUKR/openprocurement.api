@@ -7,7 +7,7 @@ from freezegun import freeze_time
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
@@ -770,9 +770,9 @@ def patch_submission_draft(self):
     self.assertEqual(submission["status"], "draft")
 
     submission_invalid_patch_data = {
-        "date": (get_now() + timedelta(days=2)).isoformat(),
-        "dateModified": (get_now() + timedelta(days=1)).isoformat(),
-        "datePublished": (get_now() + timedelta(days=1)).isoformat(),
+        "date": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+        "dateModified": calculate_date(get_now(), timedelta(days=1)).isoformat(),
+        "datePublished": calculate_date(get_now(), timedelta(days=1)).isoformat(),
         "owner": "changed",
         "qualificationID": "0" * 32,
         "submissionType": "changed",
@@ -1293,7 +1293,7 @@ def date_submission(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["date"], date)
 
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         response = self.app.patch_json(
             "/submissions/{}?acc_token={}".format(submission["id"], token), {"data": {"status": "deleted"}}
         )
@@ -1325,7 +1325,7 @@ def dateModified_submission(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["dateModified"], dateModified)
 
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         tenderer = deepcopy(self.initial_submission_data["tenderers"][0])
         tenderer["name"] = "Draft_change"
         response = self.app.patch_json(
@@ -1658,7 +1658,7 @@ def put_submission_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         response = self.app.put_json(
             "/submissions/{}/documents/{}?acc_token={}".format(self.submission_id, doc_id, self.submission_token),
             {

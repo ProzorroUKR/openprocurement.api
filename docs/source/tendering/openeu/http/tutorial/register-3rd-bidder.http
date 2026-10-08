@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/32d3b5becccb479ea62a23dc50237f60/bids HTTP/1.0
+POST /api/2.5/tenders/8468f9a75eb743fabcd2719e3a72ea99/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -81,12 +81,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 499
         },
-        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
+        "relatedLot": "3391c98a80004abfa6ed67aa91640cbb"
       }
     ],
     "items": [
       {
-        "id": "fb176617b6cb475a8f840c191a132f04",
+        "id": "8393364737ff4f0ebc2404f10ebbde81",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -99,10 +99,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
+        "relatedLot": "3391c98a80004abfa6ed67aa91640cbb"
       },
       {
-        "id": "200c94edf9ae44aaafe4f033cbe89411",
+        "id": "7f2f6a28f3c243d29560f11099753552",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -115,7 +115,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
+        "relatedLot": "3391c98a80004abfa6ed67aa91640cbb"
       }
     ]
   }
@@ -124,13 +124,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479ea62a23dc50237f60/bids/3e4cddf56dd9467088292c70b86d87b4
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8468f9a75eb743fabcd2719e3a72ea99/bids/590db5712f1e4ffb829f11cf251b18e5
 
 {
   "data": {
     "items": [
       {
-        "id": "fb176617b6cb475a8f840c191a132f04",
+        "id": "8393364737ff4f0ebc2404f10ebbde81",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -143,10 +143,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
+        "relatedLot": "3391c98a80004abfa6ed67aa91640cbb"
       },
       {
-        "id": "200c94edf9ae44aaafe4f033cbe89411",
+        "id": "7f2f6a28f3c243d29560f11099753552",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -159,7 +159,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5"
+        "relatedLot": "3391c98a80004abfa6ed67aa91640cbb"
       }
     ],
     "tenderers": [
@@ -202,7 +202,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "72b2cd000ed54fbaa3c6a255ddd072b5",
+        "relatedLot": "3391c98a80004abfa6ed67aa91640cbb",
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],
@@ -216,7 +216,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6979c0f48f244b9d84c6081a87e1f2cd?Signature=Om9BM7pT%2BRceiy4BraFtsEiRyRWQwnQTgpgfEqaQQX9h1zA4gQ4GuW8UajUJoE0MyNBipu09wK9S5NiWsg42Cg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "34e648fb35a444a8a122a9ff2c129cdf",
+        "id": "db49f0424c124f9cabf42ab2680cb088",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       },
@@ -228,7 +228,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/429c6fa5f65442319b9284a45e01d72c?Signature=3kxJDsZewYnA2iwACj10ODqOzi5DMvlxL8NepmufB%2FtqsEg%2BduWv53IWYDdjJJgnzrFBLhk4vXh%2FrINLYZBjAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "161c52b7eede489ca5d85fb7a88d858b",
+        "id": "f7d0e5819c6b4ea1ae888f95ad045d20",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -242,7 +242,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2c987124e4144a90baa65773d194b4d3?Signature=8NGt9K%2BLG2mKYzlBiExve5IwcjVEqZ82ZvNKZh2lqczUgWQTB1I%2BeMGUZNABc%2F5ny2coLI2dJpVPI635GhwsCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "266cb5572e4e4fe2af6b7b119bdb30e2",
+        "id": "4560594d89fa423fa1c33f54a7208528",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -256,7 +256,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2d5aef6e514a47a5918e07da35af002c?Signature=EQdjAIFiva4EWMFxHk9S482JdVjN960PG7oord8IVmnlob3%2FuFHWcTSgUBHDfwlOwlcAFPcgDMFr0qgTrx4hAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "3900a7c4de384543b39f746b3bdd3123",
+        "id": "55fbd43bd83e45a2a8f77033587e5681",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -270,17 +270,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/32d3b5becccb479e
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/47e478fadec04b31bc8b379b68dfa5ba?Signature=rnecNifXi8AALwHesyDDQp5GtRh%2Bcd9VZZwfXHPKDlnc06ONN%2BW5BgzYMA1sbrcJ91EWSX0Ggtmb%2B5SJ341nCg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "10324c156f9f425cb12dc8ceacce9ea6",
+        "id": "1755e4fa5b8f4337981986fb38aa92aa",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "id": "3e4cddf56dd9467088292c70b86d87b4",
+    "id": "590db5712f1e4ffb829f11cf251b18e5",
     "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
-    "token": "8d605d670e734c7aaf4ea53706060b5e",
-    "transfer": "fe0a2ff021944bf8b8e04110cb9e56b2"
+    "token": "c277e6cba1024fdab69b4117fa7d8995",
+    "transfer": "a658caef18474993acd1e74802e04916"
   }
 }
 

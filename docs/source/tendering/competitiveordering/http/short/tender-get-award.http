@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/24f7ca95c9174dbeb2c12241865695a7/awards/f501845baae24952be0c4af5ad9b1289 HTTP/1.0
+GET /api/2.5/tenders/30be7d1046bf473b90c9afce3cf89863/awards/24e85203c92847c89ccec9955bb389fb HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,14 +10,14 @@ Content-Type: application/json
   "data": {
     "milestones": [
       {
-        "id": "dd12650301464839bdb1a1cb7cadd582",
+        "id": "fa4a574336ef4b1788802e4be6a165a6",
         "dueDate": "2026-12-31T00:00:00+02:00",
         "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
         "date": "2027-01-01T00:00:00+02:00",
         "code": "alp"
       }
     ],
-    "id": "f501845baae24952be0c4af5ad9b1289",
+    "id": "24e85203c92847c89ccec9955bb389fb",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
     "value": {
@@ -52,13 +52,13 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "bid_id": "46efa21c02244d9abeaf307e43f3ea37",
+    "bid_id": "28aeb527310e4cca9d770c3475a8b554",
     "lotID": "b57af820b63544f6a1ebe63bfb940e49",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "0e2f8c1b69324fe198e68689582fe87a",
+        "id": "70ef4af7c8de4041995f985bee12eddc",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

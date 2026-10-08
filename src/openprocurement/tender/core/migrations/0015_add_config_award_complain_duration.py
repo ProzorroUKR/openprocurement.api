@@ -2,20 +2,19 @@ import logging
 import os
 
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
-from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
-from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
-from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    BELOW_THRESHOLD,
+    COMPETITIVE_ORDERING,
+    SIMPLE_DEFENSE,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

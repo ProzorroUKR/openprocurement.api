@@ -1,7 +1,7 @@
 from copy import deepcopy
 from unittest.mock import patch
 
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
 )
@@ -13,8 +13,8 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cd_stage1_bids,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
-from openprocurement.tender.open.tests.base import test_tender_open_complaint_objection
-from openprocurement.tender.open.tests.post import (
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_complaint_objection
+from openprocurement.tender.open.tests.above_threshold.post import (
     ClaimPostResourceMixin,
     ComplaintPostResourceMixin,
     TenderCancellationComplaintPostResourceMixin,
@@ -247,11 +247,13 @@ class TenderCompetitiveDialogEUQualificationComplaintPostResourceTest(
         self.assertEqual(response.content_type, "application/json")
 
 
-@patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+@patch("openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19", date_after_2020_04_19)
 class TenderCancellationComplaintPostResourceTest(
     BaseCompetitiveDialogUAContentWebTest, ComplaintPostResourceMixin, TenderCancellationComplaintPostResourceMixin
 ):
-    @patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", date_after_2020_04_19)
+    @patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19", date_after_2020_04_19
+    )
     def setUp(self):
         super().setUp()
         self.set_complaint_period_end()

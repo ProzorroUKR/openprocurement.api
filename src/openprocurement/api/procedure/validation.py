@@ -127,16 +127,6 @@ def unless_bots(*validations):
     return decorated
 
 
-def unless_item_owner(*validations, item_name):
-    def decorated(request, **_):
-        item = request.validated[item_name]
-        if not is_item_owner(request, item):
-            for validation in validations:
-                validation(request)
-
-    return decorated
-
-
 def unless_bots_or_auction(*validations):
     def decorated(request, **_):
         if request.authenticated_role not in ("bots", "auction"):

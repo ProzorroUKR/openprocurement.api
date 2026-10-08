@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e24cf829a87b40059a5c4389cfbeb831/contracts HTTP/1.0
+GET /api/2.5/tenders/2563fd75900b43499138810b16db8181/contracts HTTP/1.0
 Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "220153069a7c45dfb1ed4f250d17299d",
+      "id": "140c1549722f49e2a2ddabb3bf59a8e0",
       "status": "cancelled",
       "awardID": "f10947246ab44416ab8f1f75df484ded",
       "date": "2027-01-01T00:00:00+02:00",

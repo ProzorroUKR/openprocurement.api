@@ -7,7 +7,7 @@ from openprocurement.tender.core.procedure.state.complaint_document import (
 
 
 class QualificationComplaintDocumentState(ComplaintDocumentState):
-    allowed_tender_statuses = (
+    complaint_document_allowed_tender_statuses = (
         "active.pre-qualification",
         "active.pre-qualification.stand-still",
     )

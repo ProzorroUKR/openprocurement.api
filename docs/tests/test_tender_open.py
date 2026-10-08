@@ -2,11 +2,11 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import set_bid_items, set_tender_criteria
-from openprocurement.tender.open.tests.base import test_tender_open_criteria
-from openprocurement.tender.open.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_criteria
+from openprocurement.tender.open.tests.above_threshold.tender import BaseTenderUAWebTest
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
@@ -156,7 +156,7 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         #### Modifying tender
 
         self.app.authorization = ("Basic", ("broker", ""))
-        tender_period_end_date = get_now() + timedelta(days=16)
+        tender_period_end_date = calculate_date(get_now(), timedelta(days=16))
         with open(TARGET_DIR + "patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender_id, owner_token),
@@ -292,7 +292,7 @@ class TenderResourceTest(BaseTenderUAWebTest, MockWebTestMixin, TenderConfigCSVM
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
         with open(TARGET_DIR + "update-tender-after-enqiery-with-update-periods.http", "w") as self.app.file_obj:
-            tender_period_end_date = get_now() + timedelta(days=8)
+            tender_period_end_date = calculate_date(get_now(), timedelta(days=8))
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
                 {

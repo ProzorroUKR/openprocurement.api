@@ -1,6 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
+from openprocurement.tender.arma.procedure.state.award_req_response_evidence import (
+    ARMAAwardReqResponseEvidenceState,
+)
 from openprocurement.tender.core.procedure.views.award_req_response_evidence import (
     AwardReqResponseEvidenceResource as BaseReqResponseEvidenceResource,
 )
@@ -14,4 +17,4 @@ from openprocurement.tender.core.procedure.views.award_req_response_evidence imp
     description="Tender award evidences",
 )
 class AwardReqResponseEvidenceResource(BaseReqResponseEvidenceResource):
-    pass
+    state_class = ARMAAwardReqResponseEvidenceState

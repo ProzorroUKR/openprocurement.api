@@ -2,7 +2,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
     test_tender_below_complaint,
@@ -13,10 +13,10 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.tests.utils import change_auth
 
 # TenderAwardResourceTest
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     bot_patch_tender_award_complaint as bot_patch_tender_award_complaint_base,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     bot_patch_tender_award_complaint_forbidden as bot_patch_tender_award_complaint_forbidden_base,
 )
 

@@ -1,11 +1,11 @@
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import (
-    ContractState as BaseContractState,
+    ContractState,
 )
 
 
-class SignatoryState(BaseContractState):
+class SignatoryState(ContractState):
     def signatory_on_post(self, data):
         self.set_author_of_object(data, "role")
         data["date"] = get_request_now().isoformat()

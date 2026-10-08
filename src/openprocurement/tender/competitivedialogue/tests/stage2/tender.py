@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     validate_procurement_entity_kind,
 )
 from openprocurement.tender.competitivedialogue.tests.base import (
@@ -44,7 +44,7 @@ from openprocurement.tender.competitivedialogue.tests.stage2.tender_blanks impor
     tender_not_found,
 )
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.openua.tests.tender_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
     empty_listing as empty_listing_ua,  # TenderStage2UAResourceTest
 )
 

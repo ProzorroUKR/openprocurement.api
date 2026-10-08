@@ -3,7 +3,7 @@ from uuid import uuid4
 from openprocurement.api.context import set_request_now
 from openprocurement.api.utils import get_now
 from openprocurement.contracting.core.procedure.models.contract import PostContract
-from openprocurement.tender.open.tests.base import test_tender_open_config
+from openprocurement.tender.open.tests.above_threshold.base import test_tender_open_config
 
 
 def create_minimal_tender_for_contract(mongodb, contract):

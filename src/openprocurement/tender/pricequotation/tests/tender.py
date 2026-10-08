@@ -2,7 +2,7 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     contract_template_name_set,
     create_tender_with_required_unit,
     dateModified_tender,
@@ -20,7 +20,7 @@ from openprocurement.tender.belowthreshold.tests.tender_blanks import (
     validate_procurement_entity_kind_patch,
 )
 from openprocurement.tender.core.tests.mock import MockCriteriaIDMixin, MockMarketMixin
-from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import create_tender_invalid_config
 from openprocurement.tender.pricequotation.tests.base import (
     BaseTenderWebTest,
     TenderContentWebTest,

@@ -6,9 +6,11 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.procedure.models.claim import (
+    Claim,
     ClaimOwnerClaimCancellation,
     ClaimOwnerClaimDraft,
     ClaimOwnerClaimSatisfy,
+    PostClaim,
     TenderOwnerClaimAnswer,
 )
 from openprocurement.tender.core.procedure.state.complaint import (
@@ -22,17 +24,24 @@ LOGGER = getLogger(__name__)
 
 
 class ClaimStateMixin(BaseComplaintStateMixin):
+    post_data_model = PostClaim
+    data_model = Claim
+
+    complaint_item_name = "claim"
+    complaint_documents_route_key = "claim_id"
+    complaint_patch_owner_item_names = ("claim", "tender")
+    complaint_patch_owner_exempt_roles = ("admins",)
     tender_claim_submit_time = timedelta(days=3)
-    create_allowed_tender_statuses = ()
-    update_allowed_tender_statuses = (
+    complaint_post_allowed_tender_statuses = ()
+    complaint_patch_allowed_tender_statuses = (
         "active.tendering",
         "active.auction",
         "active.qualification",
         "active.awarded",
     )
     patch_as_complaint_owner_tender_statuses = ("active.tendering",)
-    should_validate_is_satisfied = True
-    claim_submit_validation = True  # bt/rfp: no restrictions on claim submission time / award status
+    is_satisfied_check = True
+    claim_submit_check = True  # bt/rfp: no restrictions on claim submission time / award status
 
     def claim_on_post(self, complaint):
         if complaint.get("status") == "claim":
@@ -63,7 +72,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
     def validate_claim_on_post(self, complaint):
         tender = get_tender()
         status = tender["status"]
-        if status not in self.create_allowed_tender_statuses:
+        if status not in self.complaint_post_allowed_tender_statuses:
             raise_operation_error(
                 self.request,
                 f"Can't add complaint in current ({status}) tender status",
@@ -101,7 +110,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
         new_status = request_data.get("status") or status
 
         # TODO: merge these two checks with the scenarios
-        if tender_status not in self.update_allowed_tender_statuses:
+        if tender_status not in self.complaint_patch_allowed_tender_statuses:
             raise_operation_error(
                 self.request,
                 f"Can't update complaint in current ({tender_status}) tender status",
@@ -186,7 +195,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             raise_operation_error(request, f"Cannot perform any action on complaint as {auth_role}")
 
     def validate_submit_claim(self, claim):
-        if not self.claim_submit_validation:
+        if not self.claim_submit_check:
             return
         request = self.request
         tender = request.validated["tender"]
@@ -210,7 +219,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
             )
 
     def validate_satisfied(self, satisfied):
-        if self.should_validate_is_satisfied:
+        if self.is_satisfied_check:
             return satisfied is True
         return isinstance(satisfied, bool)
 

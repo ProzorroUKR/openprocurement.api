@@ -1,9 +1,9 @@
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.framework.cfaua.procedure.validation import validate_related_item
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 
 
-class AgreementDocumentState(BaseDocumentStateMixing, BaseState):
+class AgreementDocumentState(BaseDocumentStateMixin, BaseState):
     item_name = "agreement"
 
     def validate_document_post(self, data):

@@ -1,7 +1,5 @@
-from openprocurement.tender.open.procedure.state.complaint_document import (
-    OpenComplaintDocumentState,
-)
+from openprocurement.tender.core.procedure.state.complaint_document import ComplaintDocumentState
 
 
-class NegotiationCancellationComplaintDocumentState(OpenComplaintDocumentState):
-    allowed_tender_statuses = ("active",)
+class NegotiationCancellationComplaintDocumentState(ComplaintDocumentState):
+    complaint_document_allowed_tender_statuses = ("active",)

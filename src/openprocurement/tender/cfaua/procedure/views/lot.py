@@ -1,15 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.state.lot import TenderLotState
-from openprocurement.tender.core.procedure.models.lot import PostLot
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-)
+from openprocurement.tender.cfaua.procedure.state.lot import CFAUATenderLotState
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 
@@ -21,26 +12,4 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
     description="Tender EU lots",
 )
 class CFAUATenderLotResource(TenderLotResource):
-    state_class = TenderLotState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PostLot),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        permission="edit_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-        ),
-    )
-    def delete(self):
-        return super().delete()
+    state_class = CFAUATenderLotState

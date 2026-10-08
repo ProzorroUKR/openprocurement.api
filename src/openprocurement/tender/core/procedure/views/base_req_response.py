@@ -56,7 +56,7 @@ class BaseReqResponseResource(TenderBaseResource):
             parent["requirementResponses"] = []
         parent["requirementResponses"].extend(req_responses)
 
-        self.state.on_post(req_responses)
+        self.state.req_response_on_post(req_responses)
 
         if save_tender(self.request, modified=self.modify_tender()):
             for req_response in req_responses:
@@ -90,7 +90,7 @@ class BaseReqResponseResource(TenderBaseResource):
         req_response = self.request.validated["requirement_response"]
         parent = self.get_parent()
         set_item(parent, "requirementResponses", req_response["id"], updated_req_response)
-        self.state.on_patch(req_response, updated_req_response)
+        self.state.req_response_on_patch(req_response, updated_req_response)
 
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
@@ -111,7 +111,7 @@ class BaseReqResponseResource(TenderBaseResource):
         if not parent["requirementResponses"]:
             del parent["requirementResponses"]
 
-        self.state.on_delete()
+        self.state.req_response_on_delete(req_response)
 
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(

@@ -6,7 +6,7 @@ from openprocurement.api.constants import (
     MILESTONE_TITLES,
     RATIONALE_TYPES_DECREE_1178,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.utils import set_items_unit
 
 
@@ -1411,7 +1411,7 @@ def change_tender_contract_items_change(self):
 
     # update allowed item fields
     startDate = get_now().isoformat()
-    endDate = (get_now() + timedelta(days=90)).isoformat()
+    endDate = calculate_date(get_now(), timedelta(days=90)).isoformat()
     response = self.app.post_json(
         f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
         {

@@ -2,11 +2,11 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
-from openprocurement.tender.belowthreshold.tests.contract import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
+from openprocurement.tender.open.tests.below_threshold.contract import (
     TenderEcontractResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (  # TenderStage2EU(UA)ContractResourceTest
+from openprocurement.tender.open.tests.below_threshold.contract_blanks import (  # TenderStage2EU(UA)ContractResourceTest
     create_tender_contract,
     patch_contract_multi_items_unit_value,
     patch_contract_single_item_unit_value,
@@ -27,10 +27,10 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_stage2_multi_buyers_data,
     test_tender_openeu_bids,
 )
-from openprocurement.tender.openeu.tests.contract_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.contract_blanks import (
     patch_tender_contract,  # as patch_tender_contract_eu,  # TenderStage2EUContractResourceTest
 )
-from openprocurement.tender.openua.tests.contract_blanks import (  # TenderStage2EU(UA)ContractResourceTest; TenderStage2UAContractResourceTest,; patch_tender_contract,
+from openprocurement.tender.open.tests.above_threshold_ua.contract_blanks import (  # TenderStage2EU(UA)ContractResourceTest; TenderStage2UAContractResourceTest,; patch_tender_contract,
     patch_tender_contract_datesigned,
 )
 

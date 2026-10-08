@@ -8,7 +8,7 @@ from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.mask import MASK_STRING
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import calculate_full_date, get_now
+from openprocurement.api.utils import calculate_date, calculate_full_date, get_now
 
 
 def listing(self):
@@ -241,8 +241,8 @@ def patch_submission_pending(self):
     qualification_id = response.json["data"]["qualificationID"]
 
     qualification_invalid_patch_data = {
-        "date": (get_now() + timedelta(days=2)).isoformat(),
-        "dateModified": (get_now() + timedelta(days=1)).isoformat(),
+        "date": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+        "dateModified": calculate_date(get_now(), timedelta(days=1)).isoformat(),
         "qualificationType": "changed",
         "submissionID": "0" * 32,
     }
@@ -1023,7 +1023,7 @@ def date_qualification(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["data"]["date"], date)
 
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         response = self.app.patch_json(
             "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
             {"data": {"status": "unsuccessful"}},
@@ -1051,7 +1051,7 @@ def dateModified_qualification(self):
     qualification = response.json["data"]
     dateModified = qualification["dateModified"]
 
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(qualification_id, self.framework_token),
             {
@@ -1377,7 +1377,7 @@ def put_qualification_document(self):
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
 
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         response = self.app.put_json(
             "/qualifications/{}/documents/{}?acc_token={}".format(self.qualification_id, doc_id, self.framework_token),
             {
@@ -1410,7 +1410,7 @@ def put_qualification_document(self):
     self.assertEqual(dateModified, response.json["data"][0]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][1]["dateModified"])
 
-    with freeze_time((get_now() + timedelta(days=2)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=2)).isoformat()):
         response = self.app.post_json(
             "/qualifications/{}/documents?acc_token={}".format(self.qualification_id, self.framework_token),
             {

@@ -2,8 +2,8 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest import mock
 
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     now,
     test_tender_below_supplier,
 )
@@ -165,7 +165,7 @@ def bids_invalidation_on_tender_change_eu(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     items = deepcopy(response.json["data"]["items"])
     items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
-    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    items[0]["deliveryDate"]["endDate"] = calculate_date(get_now(), timedelta(days=2)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": items}}
     )
@@ -767,8 +767,8 @@ def create_tender_bidder_ua(self):
     # set tender period in future
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["tenderPeriod"] = {
-        "startDate": (now + timedelta(days=1)).isoformat(),
-        "endDate": (now + timedelta(days=17)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=1)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=17)).isoformat(),
     }
     self.mongodb.tenders.save(tender)
 
@@ -818,7 +818,7 @@ def bids_invalidation_on_tender_change_ua(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     items = deepcopy(response.json["data"]["items"])
     items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
-    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    items[0]["deliveryDate"]["endDate"] = calculate_date(get_now(), timedelta(days=2)).isoformat()
     self.app.patch_json(
         "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token), {"data": {"items": items}}
     )

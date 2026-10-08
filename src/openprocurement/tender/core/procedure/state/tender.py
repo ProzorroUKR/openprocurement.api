@@ -9,8 +9,8 @@ from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
-from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixing
+from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixin
+from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixin
 from openprocurement.tender.core.procedure.criteria import TenderCriterionMixin
 from openprocurement.tender.core.procedure.models.qualification_milestone import (
     QualificationMilestoneCode,
@@ -18,16 +18,16 @@ from openprocurement.tender.core.procedure.models.qualification_milestone import
 from openprocurement.tender.core.procedure.reviewing_request import (
     ReviewRequestBlockMixin,
 )
-from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
+from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixin
 from openprocurement.tender.core.procedure.state.chronograph import (
-    ChronographEventsMixing,
+    ChronographEventsMixin,
 )
 from openprocurement.tender.core.procedure.utils import tender_created_after
 
 LOGGER = getLogger(__name__)
 
 
-class BlockComplaintMixing:
+class BlockComplaintMixin:
     # complaints (by type) that block awards/contracts/cancellations processing
     block_complaint_status = {
         "complaint": ("pending", "accepted", "satisfied", "stopping"),
@@ -53,13 +53,13 @@ class BlockComplaintMixing:
 
 
 class TenderState(
-    ShouldStartAfterMixing,
-    CancellationBlockMixing,
-    TenderStateAwardingMixing,
-    ChronographEventsMixing,
+    ShouldStartAfterMixin,
+    CancellationBlockMixin,
+    TenderStateAwardingMixin,
+    ChronographEventsMixin,
     ReviewRequestBlockMixin,
     TenderCriterionMixin,
-    BlockComplaintMixing,
+    BlockComplaintMixin,
     BaseState,
 ):
     active_bid_statuses = ("active", "pending")
@@ -71,6 +71,8 @@ class TenderState(
         "draft.unsuccessful",
     )
     calendar = WORKING_DAYS
+    # priceQuotation: bids are never invalidated by tender changes
+    bids_invalidation_enabled = True
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
@@ -106,9 +108,6 @@ class TenderState(
                     status=422,
                     name="procuringEntity",
                 )
-
-    # priceQuotation: bids are never invalidated by tender changes
-    bids_invalidation_enabled = True
 
     def invalidate_bids_data(self, tender):
         if not self.bids_invalidation_enabled:

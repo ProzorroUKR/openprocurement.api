@@ -14,7 +14,7 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_UA_TYPE,
 )
 from openprocurement.tender.competitivedialogue.procedure.models.item import CDItem
-from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_uniq
+from openprocurement.tender.core.procedure.models.criterion import Criterion
 from openprocurement.tender.core.procedure.models.tender import (
     PatchTender,
     PostTender,
@@ -79,7 +79,7 @@ class CDStage2EUPostTender(PostTender):
 
     criteria = ListType(
         ModelType(Criterion, required=True),
-        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+        validators=[validate_object_id_uniq],
     )
 
     @serializable(serialized_name="tenderID")

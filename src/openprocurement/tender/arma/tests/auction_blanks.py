@@ -1,4 +1,4 @@
-from openprocurement.tender.belowthreshold.tests.auction_blanks import update_patch_data
+from openprocurement.tender.open.tests.below_threshold.auction_blanks import update_patch_data
 
 
 def get_tender_auction(self):

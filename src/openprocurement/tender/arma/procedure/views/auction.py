@@ -2,16 +2,9 @@ from typing import Callable
 
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults as AuctionLotResults
-from openprocurement.tender.core.procedure.models.auction import DecimalAuctionResults as AuctionResults
-from openprocurement.tender.core.procedure.validation import (
-    validate_active_lot,
-    validate_auction_tender_status,
-)
+from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
 from openprocurement.tender.core.procedure.views.auction import TenderAuctionResource
 
 
@@ -23,7 +16,7 @@ from openprocurement.tender.core.procedure.views.auction import TenderAuctionRes
     description="Tender auction data",
 )
 class AuctionResource(TenderAuctionResource):
-    state_class = TenderState
+    state_class = ARMATenderState
     patch_value_field_names = {"value", "initialValue", "weightedValue", "minimalStep"}
 
     @staticmethod
@@ -70,34 +63,26 @@ class AuctionResource(TenderAuctionResource):
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_input_data(AuctionResults),
-        ),
     )
     def collection_post(self):
+        self.state.validate_auction_post_request()
         self.request.validated["data"] = self.convert_value_data(
             self.request.validated["data"], self.convert_value_from_auction
         )
-        return super().collection_post()
+        return self.report_auction_results()
 
     @json_view(
         permission="auction",
-        validators=(
-            validate_auction_tender_status,
-            validate_active_lot,
-            validate_input_data(AuctionLotResults),
-        ),
     )
     def post(self):
+        self.state.validate_auction_post_request()
         self.request.validated["data"] = self.convert_value_data(
             self.request.validated["data"], self.convert_value_from_auction
         )
-        return super().post()
+        return self.report_lot_auction_results()
 
     @json_view(
         permission="auction",
-        validators=(validate_auction_tender_status,),
     )
     def collection_get(self):
         res = super().collection_get()

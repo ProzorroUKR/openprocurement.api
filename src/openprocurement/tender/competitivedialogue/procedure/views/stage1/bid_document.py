@@ -1,10 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitivedialogue.procedure.models.document import (
-    CDBidDocument,
-    CDBidPatchDocument,
-    CDBidPostDocument,
+from openprocurement.tender.competitivedialogue.procedure.state.bid_document import (
+    CDBidDocumentState,
+    CDBidFinancialDocumentState,
 )
 from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidDocumentResource,
@@ -22,9 +21,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     description="Tender bidder documents",
 )
 class TenderEUBidDocumentResource(BaseTenderBidDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidDocumentState
 
 
 @resource(
@@ -35,9 +32,7 @@ class TenderEUBidDocumentResource(BaseTenderBidDocumentResource):
     description="Tender bidder eligibility documents",
 )
 class TenderEUBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidDocumentState
 
 
 @resource(
@@ -48,9 +43,7 @@ class TenderEUBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentRes
     description="Tender bidder financial documents",
 )
 class TenderEUBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidFinancialDocumentState
 
 
 @resource(
@@ -61,9 +54,7 @@ class TenderEUBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResourc
     description="Tender bidder qualification documents",
 )
 class TenderEUBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidFinancialDocumentState
 
 
 @resource(
@@ -74,9 +65,7 @@ class TenderEUBidQualificationDocumentResource(BaseTenderBidQualificationDocumen
     description="Tender bidder documents",
 )
 class TenderUABidDocumentResource(BaseTenderBidDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidDocumentState
 
 
 @resource(
@@ -87,9 +76,7 @@ class TenderUABidDocumentResource(BaseTenderBidDocumentResource):
     description="Tender bidder eligibility documents",
 )
 class TenderUABidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidDocumentState
 
 
 @resource(
@@ -100,9 +87,7 @@ class TenderUABidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentRes
     description="Tender bidder financial documents",
 )
 class TenderUABidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidFinancialDocumentState
 
 
 @resource(
@@ -113,6 +98,4 @@ class TenderUABidFinancialDocumentResource(BaseTenderBidFinancialDocumentResourc
     description="Tender bidder qualification documents",
 )
 class TenderUABidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
-    model_class = CDBidDocument
-    create_model_class = CDBidPostDocument
-    update_model_class = CDBidPatchDocument
+    state_class = CDBidFinancialDocumentState

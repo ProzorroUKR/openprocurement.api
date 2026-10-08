@@ -1,9 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.openeu.procedure.views.cancellation_document import (
-    EUCancellationDocumentResource,
-)
+from openprocurement.tender.core.procedure.views.cancellation_document import CancellationDocumentResource
 
 
 @resource(
@@ -13,7 +11,7 @@ from openprocurement.tender.openeu.procedure.views.cancellation_document import 
     procurementMethodType=CD_EU_TYPE,
     description="Competitive Dialogue  EU cancellation documents",
 )
-class CDEUCancellationDocumentResource(EUCancellationDocumentResource):
+class CDEUCancellationDocumentResource(CancellationDocumentResource):
     pass
 
 
@@ -24,5 +22,5 @@ class CDEUCancellationDocumentResource(EUCancellationDocumentResource):
     procurementMethodType=CD_UA_TYPE,
     description="Competitive Dialogue UA cancellation documents",
 )
-class CDUACancellationDocumentResource(EUCancellationDocumentResource):
+class CDUACancellationDocumentResource(CancellationDocumentResource):
     pass

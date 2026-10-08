@@ -5,14 +5,14 @@ from unittest import mock
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import (
+from openprocurement.tender.open.tests.below_threshold.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
     TenderCancellationResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.below_threshold.cancellation_blanks import (
     create_tender_lot_cancellation,
     create_tender_lots_cancellation,
     patch_tender_lot_cancellation,
@@ -23,10 +23,10 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_bids,
     test_tender_esco_lots,
 )
-from openprocurement.tender.openeu.tests.cancellation import (
+from openprocurement.tender.open.tests.above_threshold_eu.cancellation import (
     TenderCancellationBidsAvailabilityUtils,
 )
-from openprocurement.tender.openeu.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.cancellation_blanks import (
     bids_on_tender_cancellation_in_auction,
     bids_on_tender_cancellation_in_awarded,
     bids_on_tender_cancellation_in_pre_qualification,
@@ -41,12 +41,12 @@ from openprocurement.tender.openeu.tests.cancellation_blanks import (
     cancellation_unsuccessful_qualification,
     create_cancellation_in_qualification_complaint_period,
 )
-from openprocurement.tender.openua.tests.cancellation import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation import (
     TenderAwardsCancellationResourceTestMixin,
     TenderCancellationComplaintResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation_blanks import (
     access_create_tender_cancellation_complaint,
     activate_cancellation,
     create_cancellation_in_award_complaint_period,
@@ -134,7 +134,10 @@ class TenderAwardsCancellationResourceTest(BaseESCOContentWebTest, TenderAwardsC
 class TenderCancellationComplaintResourceTest(BaseESCOContentWebTest, TenderCancellationComplaintResourceTestMixin):
     initial_bids = test_tender_esco_bids
 
-    @mock.patch("openprocurement.tender.core.procedure.validation.RELEASE_2020_04_19", get_now() - timedelta(days=1))
+    @mock.patch(
+        "openprocurement.tender.core.procedure.state.qualification_milestone.RELEASE_2020_04_19",
+        get_now() - timedelta(days=1),
+    )
     def setUp(self):
         super().setUp()
 

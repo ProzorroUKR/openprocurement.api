@@ -6,13 +6,16 @@ from openprocurement.api.constants_env import (
     NEW_DEFENSE_COMPLAINTS_FROM,
     NEW_DEFENSE_COMPLAINTS_TO,
     QUALIFICATION_AFTER_COMPLAINT_FROM,
-    REQ_RESPONSE_VALUES_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.contracting import add_contracts, append_contracts_cancelled
+from openprocurement.tender.core.procedure.models.award import Award, PatchAward, PostAward
+from openprocurement.tender.core.procedure.state.req_response import (
+    AwardRequirementResponsesRulesMixin,
+)
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import (
     tender_created_after,
@@ -25,13 +28,15 @@ from openprocurement.tender.core.procedure.validation import (
     validate_doc_type_required,
     validate_econtract_fields_award,
     validate_items_required_fields,
-    validate_req_response_values,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
-class AwardStateMixing:
-    # --- award operations rules (procedure differences) ---
+class AwardStateMixin(AwardRequirementResponsesRulesMixin):
+    post_data_model = PostAward
+    patch_data_model = PatchAward
+    data_model = Award
+
     # tender statuses in which awards can be created / updated
     award_post_allowed_tender_statuses: tuple = ("active.qualification",)
     award_patch_allowed_tender_statuses: tuple = ("active.qualification", "active.awarded")
@@ -42,8 +47,6 @@ class AwardStateMixing:
     award_post_lot_cancellation_pending_check: bool = False
     # cfaua: awards of a lot can't be updated while the lot has an accepted award complaint
     award_patch_forbidden_with_accepted_lot_complaint: bool = False
-
-    # --- award data rules (procedure differences) ---
     # procedures without bids (limited) have no award items
     award_items_allowed: bool = True
     items_delivery_required: bool = False
@@ -54,18 +57,14 @@ class AwardStateMixing:
     # activation/rejection requires a signed award notice (unless the procuring entity kind is excluded)
     sign_award_required: bool = True
     procurement_kinds_not_required_sign: tuple = ()
-
-    # --- qualified/eligible rules (procedure differences) ---
     # procedures whose awards use `eligible` next to `qualified` (open family, cfaua, esco, arma, limited)
-    award_has_eligible: bool = False
+    award_has_eligible: bool = True
     # activation requires eligible=True (limited procedures only check it for the unsuccessful status)
     award_eligible_required_for_activation: bool = True
     # the unsuccessful status requires eligible=False as well (limited: only qualified=False)
     award_eligible_in_unsuccessful_rule: bool | None = None  # None = same as award_has_eligible
     # competitiveOrdering: the qualified/eligible rules depend on the tender creation date (NEW_ARTICLE_17_CRITERIA_REQUIRED)
     award_eligible_rules_by_creation_date: bool = False
-
-    # --- status transition rules (procedure differences) ---
     # the next award is generated automatically after a status change (limited: awards are created manually)
     award_next_award_on_status_change: bool = True
     # 24h / low price milestones postpone the award decision until milestone.dueDate
@@ -77,17 +76,26 @@ class AwardStateMixing:
     # rfp: awards after the current one only, regardless of hasAwardingOrder
     award_unsuccessful_cancel_all_lot_awards: bool = True
     # open family/defense/CO: a satisfied complaint cancels all awards of the lot available for cancellation
-    award_cancel_lot_awards_on_satisfied_complaint: bool = False
+    award_cancel_lot_awards_on_satisfied_complaint: bool = True
     # bt/rfp: cancelling an award also cancels its claims
     award_cancel_claims_on_cancel: bool = False
-
-    # --- complaint period rules (procedure differences) ---
     # the stand-still period is calculated in working days
-    award_stand_still_working_days: bool = True
+    award_stand_still_working_days: bool = False
     # complaintPeriod is set on the unsuccessful status (negotiation: only active awards get a complaint period)
     award_complaint_period_on_unsuccessful: bool = True
     # openuadefense: tenders created in NEW_DEFENSE_COMPLAINTS_FROM..TO use the new complaints rules (complaintPeriod handling)
     award_new_defense_complaints_rules: bool = False
+
+    def validate_award_post_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_award_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "award")
 
     # --- hooks (called from the views) ---
 
@@ -300,6 +308,7 @@ class AwardStateMixing:
             )
 
     def validate_award_patch(self, before, after):
+        self.validate_requirement_responses_change(before, after)
         if self.award_status_change_waits_for_milestone_due_date:
             self.validate_status_change_before_milestone_due_date(before, after)
         self.validate_award_qualified_eligible(after)
@@ -314,9 +323,6 @@ class AwardStateMixing:
             unit=self.items_unit_required,
             quantity=self.items_quantity_required,
         )
-        if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
-            for resp in after.get("requirementResponses", []):
-                validate_req_response_values(resp)
 
     def validate_award_lot_is_active(self, award):
         tender = get_tender()
@@ -544,5 +550,5 @@ class AwardStateMixing:
 
 
 # example use
-class AwardState(AwardStateMixing, TenderState):
+class AwardState(AwardStateMixin, TenderState):
     pass

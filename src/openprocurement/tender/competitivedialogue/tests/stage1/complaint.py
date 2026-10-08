@@ -1,10 +1,10 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
 )
-from openprocurement.tender.belowthreshold.tests.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
+from openprocurement.tender.open.tests.below_threshold.complaint_blanks import (  # TenderStage2EU(UA)ComplaintDocumentResourceTest
     create_tender_complaint_document,
     not_found,
 )
@@ -13,10 +13,10 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogUAContentWebTest,
     test_tender_cd_author,
 )
-from openprocurement.tender.openua.tests.complaint import (
+from openprocurement.tender.open.tests.above_threshold_ua.complaint import (
     TenderUAComplaintResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
+from openprocurement.tender.open.tests.above_threshold_ua.complaint_blanks import (  # TenderStage2EU(UA)LotAwardComplaintResourceTest; TenderStage2EU(UA)ComplaintDocumentResourceTest
     patch_tender_complaint_document,
     put_tender_complaint_document,
 )

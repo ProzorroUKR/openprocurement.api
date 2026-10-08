@@ -327,7 +327,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.tendering")
 
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(
@@ -351,7 +351,7 @@ def delete_requirement_evidence(self):
     self.set_status("active.auction")
 
     with patch(
-        "openprocurement.tender.core.procedure.state.criterion_rg_requirement.CRITERION_REQUIREMENT_STATUSES_FROM",
+        "openprocurement.tender.core.procedure.state.tender_details.CRITERION_REQUIREMENT_STATUSES_FROM",
         get_now() - timedelta(days=1),
     ):
         response = self.app.delete(

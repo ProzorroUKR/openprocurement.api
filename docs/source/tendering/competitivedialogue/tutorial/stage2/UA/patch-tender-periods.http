@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/fecb381c7ebf43d080a71159cd541164?acc_token=1ce7204d96e84cd78d475fddc5220b8d HTTP/1.0
+PATCH /api/2.5/tenders/1f63b71c7e6b459eb5823bed9bdb72ab?acc_token=1ce7204d96e84cd78d475fddc5220b8d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -201,7 +201,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "10098f084434468aa19a0bb3524d5517",
+        "id": "8ffa927f367742a291e0ea6e661a32fb",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -220,10 +220,10 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "competitiveDialogueEU.stage2",
-    "dialogueID": "6047696fd611421ebb95a23904c7d234",
+    "dialogueID": "f61a1db969ce4af7933751fc5fcdc08b",
     "items": [
       {
-        "id": "40de4769766945ee95d7df59d91cb811",
+        "id": "c8e2ea3b349d46a9a16a32f2d2b42324",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -249,7 +249,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "10098f084434468aa19a0bb3524d5517",
+        "relatedLot": "8ffa927f367742a291e0ea6e661a32fb",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -257,7 +257,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "9bf5d3e19a0b4ee9bc5bd4ef0e236ac5",
+        "id": "44ecd84705f54f978ac2c58695e9a7f6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -283,7 +283,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "10098f084434468aa19a0bb3524d5517",
+        "relatedLot": "8ffa927f367742a291e0ea6e661a32fb",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -302,7 +302,7 @@ Content-Type: application/json
         "name": "ДКП «Школяр»",
         "lots": [
           {
-            "id": "10098f084434468aa19a0bb3524d5517"
+            "id": "8ffa927f367742a291e0ea6e661a32fb"
           }
         ]
       },
@@ -316,7 +316,7 @@ Content-Type: application/json
         "name": "ДКП «Книга»",
         "lots": [
           {
-            "id": "10098f084434468aa19a0bb3524d5517"
+            "id": "8ffa927f367742a291e0ea6e661a32fb"
           }
         ]
       },
@@ -329,12 +329,12 @@ Content-Type: application/json
         "name": "«Снігур»",
         "lots": [
           {
-            "id": "10098f084434468aa19a0bb3524d5517"
+            "id": "8ffa927f367742a291e0ea6e661a32fb"
           }
         ]
       }
     ],
-    "id": "fecb381c7ebf43d080a71159cd541164"
+    "id": "1f63b71c7e6b459eb5823bed9bdb72ab"
   },
   "config": {
     "hasAuction": true,

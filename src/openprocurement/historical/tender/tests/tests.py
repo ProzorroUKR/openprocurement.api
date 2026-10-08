@@ -9,7 +9,7 @@ from openprocurement.historical.core.constants import PREVIOUS_HASH as PHASH
 from openprocurement.historical.core.constants import VERSION
 from openprocurement.historical.core.tests.tests import mock_doc
 from openprocurement.historical.core.utils import parse_hash
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
     test_tender_below_config,
     test_tender_below_data,

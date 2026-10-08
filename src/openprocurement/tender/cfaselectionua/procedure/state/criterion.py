@@ -1,10 +1,8 @@
-from openprocurement.tender.belowthreshold.procedure.state.criterion import (
-    BelowThresholdCriterionStateMixin,
+from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
+    CFASelectionTenderDetailsState,
 )
-from openprocurement.tender.cfaselectionua.procedure.state.tender import (
-    CFASelectionTenderState,
-)
+from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
 
 
-class CFASelectionCriterionState(BelowThresholdCriterionStateMixin, CFASelectionTenderState):
+class CFASelectionCriterionState(CriterionStateMixin, CFASelectionTenderDetailsState):
     pass

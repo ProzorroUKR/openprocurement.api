@@ -4,8 +4,8 @@ from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.core.procedure.views.cancellation_complaint_document import (
     CancellationComplaintDocumentResource as BaseCancellationComplaintDocumentResource,
 )
-from openprocurement.tender.openua.procedure.state.complaint_document import (
-    OpenUAComplaintDocumentState,
+from openprocurement.tender.open.procedure.state.complaint_document import (
+    AboveThresholdUAComplaintDocumentState,
 )
 
 
@@ -17,4 +17,4 @@ from openprocurement.tender.openua.procedure.state.complaint_document import (
     description="Tender cancellation complaint documents",
 )
 class CancellationComplaintDocumentResource(BaseCancellationComplaintDocumentResource):
-    state_class = OpenUAComplaintDocumentState
+    state_class = AboveThresholdUAComplaintDocumentState

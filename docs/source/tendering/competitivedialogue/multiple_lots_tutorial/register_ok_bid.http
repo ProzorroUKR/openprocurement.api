@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/fe96bc44a8b74699b48690d3444c0b0c/bids HTTP/1.0
+POST /api/2.5/tenders/322d6d6862fe4fbe8511146329eb5529/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -44,12 +44,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       }
     ],
     "items": [
       {
-        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "id": "401574cc6ca74de4a2537a04a061e298",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -62,7 +62,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       }
     ]
   }
@@ -71,13 +71,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe96bc44a8b74699b48690d3444c0b0c/bids/a570e3b12dbf4f9f9b4b10ab1b17ca6f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/322d6d6862fe4fbe8511146329eb5529/bids/063db43ac4844c21a9288c32978ebbc2
 
 {
   "data": {
     "items": [
       {
-        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "id": "401574cc6ca74de4a2537a04a061e298",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -90,7 +90,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe96bc44a8b74699
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       }
     ],
     "tenderers": [
@@ -133,18 +133,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe96bc44a8b74699
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a",
         "subcontractingDetails": "ДКП «Орфей», Україна",
         "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "status": "draft",
-    "id": "a570e3b12dbf4f9f9b4b10ab1b17ca6f",
+    "id": "063db43ac4844c21a9288c32978ebbc2",
     "date": "2027-01-01T00:01:00+02:00"
   },
   "access": {
-    "token": "83cd77ef6cb141478248c8ff09529e31",
-    "transfer": "f032e52121a74e1787c1e91877bed16f"
+    "token": "e1d527bd945c4de79f51758440402eb7",
+    "transfer": "934375ffae6b4c22ac583cb3e2aa461e"
   }
 }
 

@@ -5,14 +5,14 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import (
+from openprocurement.tender.open.tests.below_threshold.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (  # TenderNegotiationLotsCancellationResourceTest; TenderCancellationResourceTest
+from openprocurement.tender.open.tests.below_threshold.cancellation_blanks import (  # TenderNegotiationLotsCancellationResourceTest; TenderCancellationResourceTest
     get_tender_cancellation,
     get_tender_cancellations,
     patch_tender_cancellation_2020_04_19,
@@ -41,11 +41,11 @@ from openprocurement.tender.limited.tests.cancellation_blanks import (  # Tender
     delete_first_lot_second_cancel,
     negotiation_create_cancellation_on_lot,
 )
-from openprocurement.tender.openua.tests.cancellation import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation import (
     TenderCancellationComplaintResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
 )
-from openprocurement.tender.openua.tests.cancellation_blanks import (  # TenderCancellationResourceTest
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation_blanks import (  # TenderCancellationResourceTest
     activate_cancellation,
     patch_tender_cancellation,
 )

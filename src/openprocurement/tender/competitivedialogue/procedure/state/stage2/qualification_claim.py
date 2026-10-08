@@ -1,10 +1,10 @@
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender import (
-    CDEUStage2TenderState,
+    CDStage2EUTenderState,
 )
 from openprocurement.tender.core.procedure.state.qualification_claim import (
     QualificationClaimStateMixin,
 )
 
 
-class CDEUStage2QualificationClaimState(QualificationClaimStateMixin, CDEUStage2TenderState):
+class CDStage2EUQualificationClaimState(QualificationClaimStateMixin, CDStage2EUTenderState):
     pass

@@ -1,12 +1,9 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.cancellation_complaint import (
-    CDEUStage2CancellationComplaintState,
-    CDUAStage2CancellationComplaintState,
+    CDStage2EUCancellationComplaintState,
+    CDStage2UACancellationComplaintState,
 )
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
@@ -36,7 +33,7 @@ class CD2EUCancellationClaimAndComplaintGetResource(CancellationComplaintGetReso
     # complaintType="complaint",  you cannot set a different complaintType for Cancellation Complaint
 )
 class CD2EUCancellationComplaintWriteResource(CancellationComplaintWriteResource):
-    state_class = CDEUStage2CancellationComplaintState
+    state_class = CDStage2EUCancellationComplaintState
 
 
 @resource(
@@ -61,4 +58,4 @@ class CD2UACancellationClaimAndComplaintGetResource(CancellationComplaintGetReso
     # complaintType="complaint",  you cannot set a different complaintType for Cancellation Complaint
 )
 class CD2UACancellationComplaintWriteResource(CancellationComplaintWriteResource):
-    state_class = CDUAStage2CancellationComplaintState
+    state_class = CDStage2UACancellationComplaintState

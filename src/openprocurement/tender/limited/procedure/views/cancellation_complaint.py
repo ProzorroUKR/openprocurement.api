@@ -1,11 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.complaint import PostCancellationComplaint
 from openprocurement.tender.core.procedure.views.cancellation_complaint import (
     CancellationComplaintGetResource,
     CancellationComplaintWriteResource,
@@ -39,17 +33,6 @@ class NegotiationCancellationClaimAndComplaintGetResource(CancellationComplaintG
 class NegotiationCancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = NegotiationCancellationComplaintState
 
-    @json_view(
-        content_type="application/json",
-        permission="create_complaint",
-        validators=(
-            validate_input_data(PostCancellationComplaint),
-            validate_data_documents(route_key="complaint_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
 
 @resource(
     name="negotiation.quick:Tender Cancellation Complaints Get",
@@ -74,14 +57,3 @@ class NegotiationQuickCancellationClaimAndComplaintGetResource(CancellationCompl
 )
 class NegotiationQuickCancellationComplaintWriteResource(CancellationComplaintWriteResource):
     state_class = NegotiationCancellationComplaintState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_complaint",
-        validators=(
-            validate_input_data(PostCancellationComplaint),
-            validate_data_documents(route_key="complaint_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()

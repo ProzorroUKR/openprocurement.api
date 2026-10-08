@@ -6,8 +6,8 @@ import pytest
 from openprocurement.api.context import set_request, set_request_now
 from openprocurement.api.utils import get_now
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
-from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixing
-from openprocurement.tender.openua.tests.base import test_tender_openua_data
+from openprocurement.tender.core.procedure.awarding import TenderStateAwardingMixin
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_data
 
 
 @pytest.mark.parametrize("tender_status", ("active.qualification", "active.auction"))
@@ -77,7 +77,7 @@ def test_milestone_data_cases(test_data, tender_status):
     tender.update(tender_patch)
     request.validated["tender"] = tender
 
-    milestones = TenderStateAwardingMixing().prepare_award_milestones(tender, bids[0], bids)
+    milestones = TenderStateAwardingMixin().prepare_award_milestones(tender, bids[0], bids)
     if expected_reason_indexes:
         assert len(milestones) == 1
         assert milestones[0]["code"] == "alp"

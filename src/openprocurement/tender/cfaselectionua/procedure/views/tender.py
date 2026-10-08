@@ -3,32 +3,12 @@ from copy import deepcopy
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import set_request_now
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_config_data,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.cfaselectionua.procedure.models.tender import (
-    CFASelectionPatchTender,
-    CFASelectionPostTender,
-    CFASelectionTender,
-)
 from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
     CFASelectionTenderDetailsState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    unless_selection_bot,
-    validate_tender_status_allows_update,
-)
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
@@ -52,43 +32,6 @@ class CFASelectionTenderResource(TendersResource):
 
     @json_view(
         content_type="application/json",
-        permission="create_tender",
-        validators=(
-            validate_input_data(CFASelectionPostTender),
-            validate_config_data(),
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5),
-                kind_central_levels=(AccreditationLevel.ACCR_5,),
-                item="tender",
-                operation="creation",
-                source="data",
-            ),
-            validate_data_documents(),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_selection_bot(  # TODO: make a distinct endpoint for unless_selection_bot
-                unless_administrator(validate_item_owner("tender"))
-            ),
-            unless_administrator(
-                validate_tender_status_allows_update(
-                    "draft",
-                    "draft.pending",  # only selection_bot can update here ?
-                    "active.enquiries",
-                    "active.tendering",
-                    "active.pre-qualification",  # state class only allows status change  pre-qualification.stand-still
-                    "active.pre-qualification.stand-still",
-                    "active.qualification",  # state class only allows status change to qualification.stand-still
-                )
-            ),
-            validate_patch_input_data(CFASelectionPatchTender),
-            validate_patch_data_simple(CFASelectionTender, item_name="tender"),
-        ),
         permission="edit_tender",
     )
     def patch(self):

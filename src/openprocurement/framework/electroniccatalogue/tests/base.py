@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest, change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.tests.base import BaseFrameworkCoreWebTest
 from openprocurement.framework.dps.tests.base import test_submission_config
 from openprocurement.framework.electroniccatalogue.procedure.models.framework import (
@@ -57,7 +57,7 @@ test_framework_electronic_catalogue_data = {
     "classification": {"scheme": "ДК021", "description": "Mustard seeds", "id": "03111600-8"},
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
-    "qualificationPeriod": {"endDate": (now + timedelta(days=366)).isoformat()},
+    "qualificationPeriod": {"endDate": calculate_date(now, timedelta(days=366)).isoformat()},
 }
 
 test_framework_electronic_catalogue_config = {

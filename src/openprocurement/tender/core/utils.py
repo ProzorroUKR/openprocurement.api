@@ -63,7 +63,36 @@ class ProcurementMethodTypePredicate:
 
     @classmethod
     def route_prefix(cls, request):
-        return cls.procurement_method_type(request)
+        # resources shared by several procurement method types are registered under a common prefix
+        # (see openprocurement.tender.open): it is taken from the matched route or from the registry
+        route = request.matched_route
+        if route is not None and ":" in route.name:
+            return split_route_name(route.name)[0]
+        procurement_method_type = cls.procurement_method_type(request)
+        return ROUTE_PREFIXES.get(procurement_method_type, procurement_method_type)
+
+
+# {procurementMethodType: route prefix} for procedures whose resources are registered under a shared prefix
+ROUTE_PREFIXES = {}
+
+
+def register_route_prefix(prefix, procurement_method_types):
+    for procurement_method_type in procurement_method_types:
+        ROUTE_PREFIXES[procurement_method_type] = prefix
+
+
+def split_route_name(name):
+    """
+    "collection_open:Tenders (competitiveOrdering)" -> ("open", "Tenders")
+
+    Resource route names are "<prefix>:<resource name>"; a variant of a shared resource registered
+    for a subset of procurement method types has the variant marker appended in parentheses.
+    """
+    name = name.removeprefix("collection_")
+    prefix, sep, resource_name = name.partition(":")
+    if not sep:  # resources of a single procurement method type family have no prefix (e.g. "Plan Milestones")
+        prefix, resource_name = "", name
+    return prefix, resource_name.split(" (", 1)[0]
 
 
 class ComplaintTypePredicate:

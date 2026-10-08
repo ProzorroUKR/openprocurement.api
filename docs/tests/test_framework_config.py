@@ -7,7 +7,7 @@ from datetime import timedelta
 import standards
 
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.procedure.mask import (
     AGREEMENT_MASK_MAPPING_OPTIMIZED,
     QUALIFICATION_MASK_MAPPING_RAW,
@@ -135,7 +135,7 @@ class FrameworkRestrictedResourceTest(FrameworkConfigBaseResouceTest):
     def test_docs(self):
         # empty frameworks listing
         data = deepcopy(self.initial_data)
-        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
+        data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=400)).isoformat()
         data["procuringEntity"]["kind"] = "defense"
 
         config = deepcopy(self.initial_config)
@@ -347,7 +347,7 @@ class FrameworkHasItemsResourceTest(FrameworkConfigBaseResouceTest):
 
     def test_docs(self):
         data = deepcopy(self.initial_data)
-        data["qualificationPeriod"]["endDate"] = (get_now() + timedelta(days=400)).isoformat()
+        data["qualificationPeriod"]["endDate"] = calculate_date(get_now(), timedelta(days=400)).isoformat()
 
         config = deepcopy(self.initial_config)
 

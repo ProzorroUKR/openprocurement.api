@@ -5,15 +5,7 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data_from_resolved_model,
-)
 from openprocurement.api.utils import context_unpack, get_now, json_view
-from openprocurement.tender.core.procedure.models.criterion import PostRequirement, Requirement
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement import (
     PutCancelledRequirementSerializer,
     RequirementSerializer,
@@ -67,13 +59,10 @@ class BaseRequirementResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(PostRequirement),
-        ),
         permission="create_requirement",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_requirement_post_request()
         requirement = self.request.validated["data"]
         requirement_group = self.request.validated["requirement_group"]
 
@@ -118,25 +107,18 @@ class BaseRequirementResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data_simple(Requirement, "requirement"),
-        ),
         permission="edit_requirement",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_requirement_patch_request()
         updated_requirement = self.request.validated["data"]
         if not updated_requirement:
             return None
         requirement = self.request.validated["requirement"]
         requirement_group = self.request.validated["requirement_group"]
 
-        self.state.requirement_on_patch(requirement, updated_requirement)
-
         set_item(requirement_group, "requirements", requirement["id"], updated_requirement)
-        self.state.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.state.validate_requirement_from_market(self.request.validated["criterion"], updated_requirement)
+        self.state.requirement_on_patch(requirement, updated_requirement)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -148,18 +130,12 @@ class BaseRequirementResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data_simple(Requirement, "requirement"),
-        ),
         permission="edit_requirement",
     )
     def put(self):
+        self.state.validate_requirement_put_request()
         requirement = self.request.validated["requirement"]
         updated_requirement = self.request.validated["data"]
-
-        self.state.requirement_on_put(requirement, updated_requirement)
 
         if (
             not updated_requirement
@@ -181,8 +157,7 @@ class BaseRequirementResource(TenderBaseResource):
             requirement["status"] = "cancelled"
             requirement["dateModified"] = now
 
-        self.state.validate_criteria_requirements_rules(self.request.validated["criterion"])
-        self.state.validate_requirement_from_market(self.request.validated["criterion"], updated_requirement)
+        self.state.requirement_on_put(requirement, updated_requirement)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):

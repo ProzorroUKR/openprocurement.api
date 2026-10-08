@@ -35,7 +35,7 @@ from openprocurement.tender.arma.tests.qualification_blanks import (
     tender_owner_create_qualification_document,
     tender_qualification_cancelled,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_author
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_author
 from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.core.tests.utils import generate_req_response
 

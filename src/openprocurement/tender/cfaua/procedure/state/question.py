@@ -1,9 +1,6 @@
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
-from openprocurement.tender.openua.procedure.state.question import (
-    UATenderQuestionStateMixin,
-)
+from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
 
 
-class CFAUATenderQuestionState(UATenderQuestionStateMixin, CFAUATenderState):
-    question_create_accreditations = (AccreditationLevel.ACCR_4,)
+class CFAUATenderQuestionState(TenderQuestionStateMixin, CFAUATenderState):
+    pass

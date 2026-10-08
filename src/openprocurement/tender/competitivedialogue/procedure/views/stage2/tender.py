@@ -1,41 +1,13 @@
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_config_data,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_DEFAULT_CONFIG,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_DEFAULT_CONFIG,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.competitivedialogue.procedure.models.tender import (
-    CDStage2EUPatchTender,
-    CDStage2EUPostTender,
-    CDStage2EUTender,
-    CDStage2UAPatchTender,
-    CDStage2UAPostTender,
-    CDStage2UATender,
-)
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
+    CDStage2EUTenderDetailsState,
+    CDStage2UATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_cd2_allowed_patch_fields,
-    validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 
@@ -60,43 +32,10 @@ def stage2_acl():
 )
 class TenderStage2UEResource(TendersResource):
     serializer_class = TenderBaseSerializer
-    state_class = CDEUStage2TenderDetailsState
+    state_class = CDStage2EUTenderDetailsState
 
     def __acl__(self):
         return stage2_acl()
-
-    @json_view(
-        content_type="application/json",
-        permission="create_tender",
-        validators=(
-            validate_input_data(CDStage2EUPostTender),
-            validate_config_data(default=STAGE_2_EU_DEFAULT_CONFIG),
-            validate_data_documents(),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_admins(unless_administrator(validate_item_owner("tender"))),
-            unless_administrator(
-                validate_tender_status_allows_update(
-                    "draft.stage2",
-                    "active.tendering",
-                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
-                    "active.pre-qualification.stand-still",
-                )
-            ),
-            validate_patch_input_data(CDStage2EUPatchTender),
-            unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
-            validate_patch_data_simple(CDStage2EUTender, item_name="tender"),
-        ),
-        permission="edit_tender",
-    )
-    def patch(self):
-        return super().patch()
 
 
 # ============= UA
@@ -112,40 +51,7 @@ class TenderStage2UEResource(TendersResource):
 )
 class TenderStage2UAResource(TendersResource):
     serializer_class = TenderBaseSerializer
-    state_class = CDUAStage2TenderDetailsState
+    state_class = CDStage2UATenderDetailsState
 
     def __acl__(self):
         return stage2_acl()
-
-    @json_view(
-        content_type="application/json",
-        permission="create_tender",
-        validators=(
-            validate_input_data(CDStage2UAPostTender),
-            validate_config_data(default=STAGE_2_UA_DEFAULT_CONFIG),
-            validate_data_documents(),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_admins(unless_administrator(validate_item_owner("tender"))),
-            unless_administrator(
-                validate_tender_status_allows_update(
-                    "draft.stage2",
-                    "active.tendering",
-                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
-                    "active.pre-qualification.stand-still",
-                )
-            ),
-            validate_patch_input_data(CDStage2UAPatchTender),
-            unless_administrator(validate_cd2_allowed_patch_fields),  # TODO make models only allow these fields
-            validate_patch_data_simple(CDStage2UATender, item_name="tender"),
-        ),
-        permission="edit_tender",
-    )
-    def patch(self):
-        return super().patch()

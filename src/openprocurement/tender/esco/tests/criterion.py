@@ -1,13 +1,13 @@
 import unittest
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.esco.tests.base import (
     BaseESCOContentWebTest,
     test_tender_esco_data,
     test_tender_esco_lots,
     test_tender_esco_required_criteria_ids,
 )
-from openprocurement.tender.openua.tests.criterion import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,

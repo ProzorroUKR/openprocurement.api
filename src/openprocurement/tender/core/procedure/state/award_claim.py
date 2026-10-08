@@ -6,6 +6,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import get_first_revision_date, raise_operation_error
 from openprocurement.api.validation import OPERATIONS
 from openprocurement.tender.core.procedure.context import get_award
+from openprocurement.tender.core.procedure.models.claim import PostClaimFromBid
 from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -14,8 +15,12 @@ LOGGER = getLogger(__name__)
 
 
 class AwardClaimStateMixin(ClaimStateMixin):
-    create_allowed_tender_statuses = ("active.qualification", "active.awarded")
-    update_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    post_data_model = PostClaimFromBid
+
+    complaint_documents_route_key = "claim"
+    complaint_post_bid_owner_statuses = ("active",)
+    complaint_post_allowed_tender_statuses = ("active.qualification", "active.awarded")
+    complaint_patch_allowed_tender_statuses = ("active.qualification", "active.awarded")
     patch_as_complaint_owner_tender_statuses = (
         "active.qualification",
         "active.awarded",
@@ -47,7 +52,7 @@ class AwardClaimStateMixin(ClaimStateMixin):
         raise_operation_error(self.request, f"Can {operation} complaint only in complaintPeriod")
 
     def validate_submit_claim(self, claim):
-        if not self.claim_submit_validation:
+        if not self.claim_submit_check:
             return
         award = get_award()
         if award.get("status") == "unsuccessful" and award.get("bid_id") != claim.get("bid_id"):

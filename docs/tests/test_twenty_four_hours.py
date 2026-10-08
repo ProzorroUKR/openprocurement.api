@@ -2,16 +2,16 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import (
     set_bid_items,
     set_bid_lotvalues,
     set_tender_criteria,
 )
-from openprocurement.tender.openua.tests.base import test_tender_openua_criteria
-from openprocurement.tender.openua.tests.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_criteria
+from openprocurement.tender.open.tests.above_threshold_ua.tender import BaseTenderUAWebTest
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2,
@@ -391,7 +391,7 @@ class TenderAwardMilestoneResourceTest(BaseTenderUAWebTest, MockWebTestMixin):
         tender["procuringEntity"]["identifier"]["legalName_en"] = " "
         tender["procuringEntity"]["contactPoint"]["name_en"] = " "
         tender["status"] = "active.pre-qualification"
-        tender_end = get_now() + timedelta(days=30, seconds=10)
+        tender_end = calculate_date(get_now(), timedelta(days=30, seconds=10))
         tender["tenderPeriod"]["endDate"] = tender_end.isoformat()
         tender["awardPeriod"]["startDate"] = tender_end.isoformat()
         qualification_id = "1234" * 8

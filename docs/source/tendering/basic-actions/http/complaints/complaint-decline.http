@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e3ba356ffdb04f32b1864a591633a385/complaints/92b6e0e14e6e487f89a03734052877b5 HTTP/1.0
+PATCH /api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/6125baa209fa4a489380ffed32e4fd26 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,14 +15,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "92b6e0e14e6e487f89a03734052877b5",
+    "id": "6125baa209fa4a489380ffed32e4fd26",
     "complaintID": "UA-2027-01-01-000001-a.a2",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "declined",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "51a22fb261fe4e789fc381030f959fbb",
+        "id": "897e20a6100145a8bbb886e9fdd52ded",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -61,11 +61,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "8e00d15ba8384a5f8f94a65ada538194",
+        "id": "910816c5786b441da1f8ad682cbc0c9a",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "e3ba356ffdb04f32b1864a591633a385",
+        "relatedItem": "e63e46e61afa46d090031bd68974d8e4",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -73,14 +73,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "5c6012fe715b4a22a50cf61edc0794a5",
+            "id": "c91794aaf9c6406e93446d24b227b8b3",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "aa11747c8df6417aa7e1702ba5191960",
+            "id": "3865b0b91e45406abf2c4f8c26da53de",
             "description": "test argument"
           }
         ],

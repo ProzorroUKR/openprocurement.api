@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/08491ba95a5c4fa6b21a91707d1dca31/complaints/7464db1cc3dd43ea99bb70f11b8f7269?acc_token=3249b93eba9d4119831a7f3708450101 HTTP/1.0
+PATCH /api/2.5/tenders/1a08c0c252064a9a8cf24c8264e29e6d/complaints/db6a05c688124b2ba65786d893147b8b?acc_token=3249b93eba9d4119831a7f3708450101 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,7 +10,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "08491ba95a5c4fa6b21a91707d1dca31",
+        "relatedItem": "1a08c0c252064a9a8cf24c8264e29e6d",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -29,13 +29,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
               {
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "cf1816af331c4e8d9a4d28a38c0920ed"
+                "relatedDocument": "2caa957fee3c4112a639ede03ab3939c"
               }
             ]
           }
         ],
         "sequenceNumber": 1,
-        "id": "ea3ceee4feae482daa8b2594ce50bcfa"
+        "id": "9afba24395dd423ba1058ee97dcf96cf"
       }
     ]
   }
@@ -47,14 +47,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "7464db1cc3dd43ea99bb70f11b8f7269",
+    "id": "db6a05c688124b2ba65786d893147b8b",
     "complaintID": "UA-2027-01-01-000001-a.a2",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "draft",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "cf1816af331c4e8d9a4d28a38c0920ed",
+        "id": "2caa957fee3c4112a639ede03ab3939c",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Evidence_Attachment.pdf",
@@ -92,11 +92,11 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "ea3ceee4feae482daa8b2594ce50bcfa",
+        "id": "9afba24395dd423ba1058ee97dcf96cf",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "08491ba95a5c4fa6b21a91707d1dca31",
+        "relatedItem": "1a08c0c252064a9a8cf24c8264e29e6d",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -104,21 +104,21 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "e3850a261f1c4a24b2ac3e3b500e0161",
+            "id": "aaaa830997264097bddb9657a1823304",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "9caded20c79a42ae81bc75f625e03fd3",
+            "id": "77544f719ee14c8eaf7a499fa36a2085",
             "description": "test argument",
             "evidences": [
               {
-                "id": "46254b86e2204059a1fc5889fa2fb9dd",
+                "id": "b7b49f4109cc4edcbd8d4be51b1dad80",
                 "title": "Evidence",
                 "description": "Test evidence",
-                "relatedDocument": "cf1816af331c4e8d9a4d28a38c0920ed"
+                "relatedDocument": "2caa957fee3c4112a639ede03ab3939c"
               }
             ]
           }

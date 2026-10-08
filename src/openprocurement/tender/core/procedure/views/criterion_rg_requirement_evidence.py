@@ -5,19 +5,11 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import EligibleEvidence, PatchEligibleEvidence
 from openprocurement.tender.core.procedure.serializers.criterion_rg_requirement_evidence import (
     EligibleEvidenceSerializer,
 )
-from openprocurement.tender.core.procedure.state.criterion_rq_requirement_evidence import (
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement_evidence import (
     EligibleEvidenceState,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
@@ -68,13 +60,10 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(EligibleEvidence),
-        ),
         permission="create_evidence",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_evidence_post_request()
         evidence = self.request.validated["data"]
         requirement = self.request.validated["requirement"]
 
@@ -120,23 +109,18 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchEligibleEvidence),
-            validate_patch_data_simple(EligibleEvidence, "evidence"),
-        ),
         permission="edit_evidence",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_evidence_patch_request()
         updated_evidence = self.request.validated["data"]
         if not updated_evidence:
             return None
         evidence = self.request.validated["evidence"]
         requirement = self.request.validated["requirement"]
 
-        self.state.evidence_on_patch(evidence, updated_evidence)
-
         set_item(requirement, "eligibleEvidences", evidence["id"], updated_evidence)
+        self.state.evidence_on_patch(evidence, updated_evidence)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -147,18 +131,17 @@ class BaseEligibleEvidenceResource(TenderBaseResource):
             return {"data": self.serializer_class(updated_evidence).data}
 
     @json_view(
-        validators=(unless_administrator(validate_item_owner("tender"))),
         permission="edit_evidence",
     )
     def delete(self):
+        self.state.validate_evidence_delete_request()
         evidence = self.request.validated["evidence"]
         requirement = self.request.validated["requirement"]
-
-        self.state.evidence_on_delete(evidence)
 
         requirement["eligibleEvidences"].remove(evidence)
         if not requirement["eligibleEvidences"]:
             del requirement["eligibleEvidences"]
+        self.state.evidence_on_delete(evidence)
 
         self.state.always(self.request.validated["tender"])
 

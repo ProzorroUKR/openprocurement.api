@@ -3,8 +3,8 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
 )
@@ -259,8 +259,8 @@ def patch_tender_lot(self):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixing.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_vat(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
@@ -1223,7 +1223,7 @@ def proc_1lot_1can(self):
     # switch to active.tendering
     # TODO: set auctionPeriod.startDate for lots
     # response = self.set_status('active.tendering', {"lots": [
-    #     {"auctionPeriod": {"startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()}}
+    #     {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=self.days_till_auction_starts)).isoformat()}}
     # ]})
     # self.assertTrue(all("auctionPeriod" in i for i in response.json['data']['lots']))
     # cancel lot

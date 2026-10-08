@@ -1,9 +1,9 @@
 from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.planning.api.procedure.state.plan import PlanState
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 
 
-class PlanDocumentState(BaseDocumentStateMixing, PlanState):
+class PlanDocumentState(BaseDocumentStateMixin, PlanState):
     allow_deletion = True
 
     def validate_document_post(self, data):

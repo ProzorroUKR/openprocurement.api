@@ -1,10 +1,10 @@
 from datetime import timedelta
 
 COMPLEX_ASSET_ARMA: str = "complexAsset.arma"
-CLAIM_SUBMIT_TIME = timedelta(days=10)
-TENDERING_EXTRA_PERIOD = timedelta(days=7)
+ARMA_CLAIM_SUBMIT_TIME = timedelta(days=10)
+ARMA_TENDERING_EXTRA_PERIOD = timedelta(days=7)
 
-WORKING_DAYS_CONFIG = {
+ARMA_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": True,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,

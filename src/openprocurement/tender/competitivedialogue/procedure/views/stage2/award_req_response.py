@@ -1,8 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_req_response import (
+    CDStage2AwardReqResponseState,
 )
 from openprocurement.tender.core.procedure.views.award_req_response import (
     AwardReqResponseResource as BaseAwardReqResponseResource,
@@ -17,7 +17,7 @@ from openprocurement.tender.core.procedure.views.award_req_response import (
     description="Competitive Dialogue Stage 2 EU award requirement responses",
 )
 class CDEUAwardReqResponseResource(BaseAwardReqResponseResource):
-    pass
+    state_class = CDStage2AwardReqResponseState
 
 
 @resource(
@@ -28,4 +28,4 @@ class CDEUAwardReqResponseResource(BaseAwardReqResponseResource):
     description="Competitive Dialogue Stage 2 UA award requirement responses",
 )
 class CDUAAwardReqResponseResource(BaseAwardReqResponseResource):
-    pass
+    state_class = CDStage2AwardReqResponseState

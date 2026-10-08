@@ -2,20 +2,9 @@ from typing import Optional
 
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.req_response import PatchRequirementResponse, RequirementResponse
-from openprocurement.tender.core.procedure.state.req_response import (
+from openprocurement.tender.core.procedure.state.qualification_req_response import (
     QualificationReqResponseState,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_operation_qualification_requirement_response,
 )
 from openprocurement.tender.core.procedure.views.base_req_response import (
     BaseReqResponseResource,
@@ -44,14 +33,10 @@ class QualificationReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_qualification_requirement_response,
-            validate_input_data(RequirementResponse, allow_bulk=True),
-        ),
         permission="create_req_response",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_req_response_post_request()
         return super().collection_post()
 
     @json_view(permission="view_tender")
@@ -64,23 +49,15 @@ class QualificationReqResponseResource(BaseReqResponseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_qualification_requirement_response,
-            validate_patch_input_data(PatchRequirementResponse),
-            validate_patch_data_simple(RequirementResponse, "requirement_response"),
-        ),
         permission="edit_req_response",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_req_response_patch_request()
         return super().patch()
 
     @json_view(
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_operation_qualification_requirement_response,
-        ),
         permission="edit_req_response",
     )
     def delete(self) -> Optional[dict]:
+        self.state.validate_req_response_delete_request()
         return super().delete()

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/5429c1a3494f4034839597408f6cde96/bids HTTP/1.0
+POST /api/2.5/tenders/a5da18c74cea4c11b40a51939ebb318f/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -43,19 +43,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
+        "relatedLot": "494018740b284299a86856a818a9d288"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "value": {
           "amount": 500
         },
-        "relatedLot": "aef5c67828b748e0b88c758d31fe70de"
+        "relatedLot": "97452d5b4e4a4e30823239e20a854d19"
       }
     ],
     "items": [
       {
-        "id": "084929e27e534486a8714d51fcfe07b3",
+        "id": "cc9713d2b33f4f0f9e3c19388e11d1c6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -68,10 +68,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
+        "relatedLot": "494018740b284299a86856a818a9d288"
       },
       {
-        "id": "ed3cef1802f140abbbf88d53f140f1d5",
+        "id": "50ea6c99511447bcb963fb6d6c1fc441",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -84,7 +84,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 1.0,
-        "relatedLot": "aef5c67828b748e0b88c758d31fe70de"
+        "relatedLot": "97452d5b4e4a4e30823239e20a854d19"
       }
     ]
   }
@@ -93,13 +93,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034839597408f6cde96/bids/4a592d21eb654f789fe95af01b02c81f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11b40a51939ebb318f/bids/0f13cbbc3d404dc1ae4ffcb247246724
 
 {
   "data": {
     "items": [
       {
-        "id": "084929e27e534486a8714d51fcfe07b3",
+        "id": "cc9713d2b33f4f0f9e3c19388e11d1c6",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -112,10 +112,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae"
+        "relatedLot": "494018740b284299a86856a818a9d288"
       },
       {
-        "id": "ed3cef1802f140abbbf88d53f140f1d5",
+        "id": "50ea6c99511447bcb963fb6d6c1fc441",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -128,7 +128,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "aef5c67828b748e0b88c758d31fe70de"
+        "relatedLot": "97452d5b4e4a4e30823239e20a854d19"
       }
     ],
     "tenderers": [
@@ -171,7 +171,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "c1a54168e7a14ad38b3b3788c2d93aae",
+        "relatedLot": "494018740b284299a86856a818a9d288",
         "date": "2027-01-01T00:00:00+02:00"
       },
       {
@@ -181,18 +181,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/5429c1a3494f4034
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "aef5c67828b748e0b88c758d31fe70de",
+        "relatedLot": "97452d5b4e4a4e30823239e20a854d19",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
     "status": "draft",
-    "id": "4a592d21eb654f789fe95af01b02c81f",
+    "id": "0f13cbbc3d404dc1ae4ffcb247246724",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "3296bb4ab91d435a8668ec01f972223f",
-    "transfer": "cd65f5c9158f4656b15f824937d50722"
+    "token": "80a55cb82f49407cb87987221dd9d3de",
+    "transfer": "84748d819f0044288e4a34bcc15ac17e"
   }
 }
 

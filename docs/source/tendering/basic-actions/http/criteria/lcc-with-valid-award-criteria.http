@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/2f4575ae3c2d4478bc5f4104b0af2797/criteria?acc_token=6a887c0ae3274895869a7417fbf5f36d HTTP/1.0
+POST /api/2.5/tenders/17fc330917f845e2b38efc26e3a0b388/criteria?acc_token=07637dd756264becb136090e764af09e HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -167,7 +167,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "6a499db8ece047c9b0ce3f1c9a9a7114",
+      "id": "c652024a8b2e453591f3e0b0466c3e68",
       "description": "Для розрахунку витрат, пов’язаних з користуванням, замовник визначає в тендерній документації одиницю виміру життєвого циклу та зазначає вартість споживання електроенергії та інших ресурсів (наприклад, поточні ціни на бензин або дані від Національної комісії, що здійснює державне регулювання у сферах енергетики та комунальних послуг, щодо вартості електроенергії тощо)",
       "source": "tenderer",
       "relatesTo": "tender",
@@ -190,11 +190,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "3430802e21d6477b8a3abe51292c5dfa",
+          "id": "2552549ad63a4ac5841ec7d75313e6a4",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "840dac267e8c4d90937324bcff423ecd",
+              "id": "74da4903842244d984c72078f268d640",
               "title": "Витрати в частині споживання ресурсу під час користування протягом визначеного замовником періоду оцінки життєвого циклу",
               "dataType": "number",
               "status": "active",
@@ -210,7 +210,7 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "e3d7af001dae48d3a8291b9c325895c8",
+      "id": "038a2a29de794d90a64273bac3112994",
       "description": "Для розрахунку витрат, пов’язаних з обслуговуванням, замовник у тендерній документації серед переліку інформації, що надає учасник, може запитати інформацію щодо вартості обслуговування, ремонту та/або заміни складових предмета закупівлі за одиницю виміру життєвого циклу, а також документи від виробника про характеристики предмета закупівлі",
       "source": "tenderer",
       "relatesTo": "tender",
@@ -233,11 +233,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "07568f2b11e942fdb38be82b86275de3",
+          "id": "ff74db458ef74087a5339eb86b6d53dd",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "7c517f2d279b4193bab40c5c58723b97",
+              "id": "cf779e610d9343da81b06b834d17395e",
               "title": "Витрати пов’язані з обслуговуванням протягом визначеного замовником періоду оцінки життєвого циклу",
               "dataType": "number",
               "status": "active",
@@ -253,7 +253,7 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "ab3caa94d78a4e839bebe1d5a7647c88",
+      "id": "0766129e37d045d4ad2ce29574ce49ab",
       "description": "Для розрахунку витрат, пов’язаних з завершенням користування, замовник у тендерній документації серед переліку інформації, що надає учасник процедури закупівлі, може запитати інформацію щодо вартості демонтажу, утилізації, переробки та інших витрат",
       "source": "tenderer",
       "relatesTo": "tender",
@@ -276,11 +276,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "8d99d3721edd4dca87eecec6b8daa966",
+          "id": "7a7980ba10e7400383992b582c3eec0b",
           "description": "Підтверджується, щ",
           "requirements": [
             {
-              "id": "66428de02b2c45fa91ae7d5cfeb6eeac",
+              "id": "bc54de322a2b46e082c0c4c614be23e6",
               "title": "Витрати пов’язані з завершенням користування",
               "dataType": "number",
               "status": "active",
@@ -296,7 +296,7 @@ Content-Type: application/json
       ]
     },
     {
-      "id": "11ea2affd1174279b69c166d1ead2ec1",
+      "id": "72e7e07636b34a2c91b051a8ee7c76f2",
       "description": "Замовник додатково для розрахунку вартості життєвого циклу може використовувати параметри витрат, пов’язаних із захистом навколишнього природного середовища (вартість екологічних витрат)",
       "source": "tenderer",
       "relatesTo": "tender",
@@ -319,11 +319,11 @@ Content-Type: application/json
       ],
       "requirementGroups": [
         {
-          "id": "a6e854b3323b4b579c07106bc625f897",
+          "id": "c04909d4d7814fc2a3bf6425d675673b",
           "description": "Підтверджується, що",
           "requirements": [
             {
-              "id": "362c123846eb4aac86d5abdd6d2300fb",
+              "id": "8ef645634e904f6fa8d10dc89208b184",
               "title": "Витрати, пов’язані з захистом навколишнього середовища протягом визначеного замовником періоду оцінки життєвого циклу",
               "dataType": "number",
               "status": "active",

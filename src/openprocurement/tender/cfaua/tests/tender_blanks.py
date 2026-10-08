@@ -8,9 +8,9 @@ from isodate import duration_isoformat
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.cfaua.constants import CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.utils import calculate_tender_full_date
 
@@ -189,12 +189,12 @@ def create_tender_invalid(self):
     )
 
     self.initial_data["auctionPeriod"] = {
-        "startDate": (now + timedelta(days=35)).isoformat(),
-        "endDate": (now + timedelta(days=35)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=35)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=35)).isoformat(),
     }
     self.initial_data["awardPeriod"] = {
-        "startDate": (now + timedelta(days=34)).isoformat(),
-        "endDate": (now + timedelta(days=34)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=34)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=34)).isoformat(),
     }
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=422)
     del self.initial_data["auctionPeriod"]
@@ -1826,7 +1826,9 @@ def agreement_duration_period(self):
         [
             {
                 "description": [
-                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement duration period is greater than {}".format(
+                        duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)
+                    )
                 ],
                 "location": "body",
                 "name": "agreementDuration",
@@ -1842,7 +1844,9 @@ def agreement_duration_period(self):
         [
             {
                 "description": [
-                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement duration period is greater than {}".format(
+                        duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)
+                    )
                 ],
                 "location": "body",
                 "name": "agreementDuration",
@@ -1858,7 +1862,9 @@ def agreement_duration_period(self):
         [
             {
                 "description": [
-                    "Agreement duration period is greater than {}".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement duration period is greater than {}".format(
+                        duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)
+                    )
                 ],
                 "location": "body",
                 "name": "agreementDuration",
@@ -2027,7 +2033,7 @@ def tender_with_main_procurement_category(self):
 @mock.patch("openprocurement.tender.core.procedure.validation.UNIT_PRICE_REQUIRED_FROM", get_now() - timedelta(days=1))
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_tender_with_required_unit(self):
     response = self.app.get("/tenders")

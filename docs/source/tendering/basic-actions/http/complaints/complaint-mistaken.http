@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e3ba356ffdb04f32b1864a591633a385/complaints/662d27197e774cb28ac705b27e0ace01?acc_token=5a9f09c5bf63436199781177dfd3ca03 HTTP/1.0
+PATCH /api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/b50246cabaad470d8c683a5c211c097d?acc_token=5a9f09c5bf63436199781177dfd3ca03 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "662d27197e774cb28ac705b27e0ace01",
+    "id": "b50246cabaad470d8c683a5c211c097d",
     "complaintID": "UA-2027-01-01-000001-a.a8",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "mistaken",
@@ -45,11 +45,11 @@ Content-Type: application/json
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "a8aa8a1b9bf44dc786a0fb2d0be82e35",
+        "id": "e066f36f485440488c0c81d2292c3b3e",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "e3ba356ffdb04f32b1864a591633a385",
+        "relatedItem": "e63e46e61afa46d090031bd68974d8e4",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -57,14 +57,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "c5165bbdee5f45a583ab8e21ac384dc2",
+            "id": "08026c500a324a608d26ef77419d1b00",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "11b45d4f58be4a48a64a170a5d753fc9",
+            "id": "d1e0da213b4a422c8aac274910010c7f",
             "description": "test argument"
           }
         ],

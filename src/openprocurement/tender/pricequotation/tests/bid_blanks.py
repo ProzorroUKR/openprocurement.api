@@ -2,8 +2,8 @@ from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import patch
 
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.base import test_tech_feature_criteria
 from openprocurement.tender.core.tests.mock import patch_market_product
 from openprocurement.tender.core.tests.utils import (
@@ -1740,7 +1740,7 @@ def bid_items_unit_value_validations(self):
 
     with patch(
         "openprocurement.tender.core.procedure.validation.ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         bid_data["items"][0]["unit"]["value"]["amount"] = 0
         response = self.app.post_json(

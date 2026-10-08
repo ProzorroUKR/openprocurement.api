@@ -3,8 +3,8 @@ from datetime import datetime, timedelta
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.cfaua.constants import CLARIFICATIONS_UNTIL_PERIOD
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.cfaua.constants import CFA_UA_CLARIFICATIONS_UNTIL_PERIOD
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
 from openprocurement.tender.core.tests.utils import (
     change_auth,
@@ -2850,7 +2850,7 @@ def get_tender_bidder_document_ds(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
-        datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+        datetime.now() - CFA_UA_CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
     self.mongodb.tenders.save(tender)

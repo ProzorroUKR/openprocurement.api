@@ -11,7 +11,7 @@ from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.cfaua.constants import MAX_AGREEMENT_PERIOD
+from openprocurement.tender.cfaua.constants import CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.procedure.models.agreement_contract import CFAAgreementContract
 from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
@@ -83,8 +83,8 @@ class CFAAgreement(Model):
             if not value.startDate or not value.endDate:
                 raise ValidationError("startDate and endDate are required in agreement.period.")
 
-            calculated_end_date = value.startDate + MAX_AGREEMENT_PERIOD
+            calculated_end_date = value.startDate + CFA_UA_MAX_AGREEMENT_PERIOD
             if value.endDate > calculated_end_date:
                 raise ValidationError(
-                    f"Agreement period can't be greater than {duration_isoformat(MAX_AGREEMENT_PERIOD)}."
+                    f"Agreement period can't be greater than {duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD)}."
                 )

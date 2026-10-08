@@ -1,7 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_draft_complaint,
 )
@@ -16,11 +16,11 @@ from openprocurement.tender.cfaua.tests.qualification_blanks import (
     create_tender_qualification_complaint,
     switch_bid_status_unsuccessul_to_active,
 )
-from openprocurement.tender.openeu.tests.qualification import (
+from openprocurement.tender.open.tests.above_threshold_eu.qualification import (
     TenderQualificationRequirementResponseEvidenceTestMixin,
     TenderQualificationRequirementResponseTestMixin,
 )
-from openprocurement.tender.openeu.tests.qualification_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.qualification_blanks import (
     bot_patch_tender_qualification_complaint,
     bot_patch_tender_qualification_complaint_forbidden,
     change_status_to_standstill_with_complaint,

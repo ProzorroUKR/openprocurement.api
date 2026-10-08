@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/fa2e9cbf88314cb6ae4f240dacbb041f/bids/4733aa8525304b52bccee93b11ea1c1c?acc_token=50487c35299d4cb2971a97f7beb1bb1d HTTP/1.0
+GET /api/2.5/tenders/39a36a1c01d8459faf619c1481e2d5b1/bids/33057dbe122b47bdbc75209e460404d9?acc_token=b8e62cbf0dbb4c1cbb370a089a061b39 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -22,7 +22,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14"
+        "relatedLot": "c330ae93c18a48ae86738dfb367a290c"
       }
     ],
     "lotValues": [
@@ -32,7 +32,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "16b57ad88e0c4726ae34f727f1b9ba14",
+        "relatedLot": "c330ae93c18a48ae86738dfb367a290c",
         "status": "active",
         "date": "2027-01-07T00:15:06+02:00",
         "initialValue": {
@@ -40,7 +40,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/fa2e9cbf88314cb6ae4f240dacbb041f_16b57ad88e0c4726ae34f727f1b9ba14?key_for_bid=4733aa8525304b52bccee93b11ea1c1c"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/39a36a1c01d8459faf619c1481e2d5b1_c330ae93c18a48ae86738dfb367a290c?key_for_bid=33057dbe122b47bdbc75209e460404d9"
       }
     ],
     "tenderers": [
@@ -76,14 +76,14 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "4733aa8525304b52bccee93b11ea1c1c",
+    "id": "33057dbe122b47bdbc75209e460404d9",
     "date": "2027-01-07T00:15:06+02:00",
     "submissionDate": "2027-01-07T00:15:06+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "3dfd279949a743c793d7822aa5fff850",
+        "id": "95bd28be87764822baa30b2c3b49cff1",
         "datePublished": "2027-01-07T00:14:06+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
@@ -96,7 +96,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "3dfd279949a743c793d7822aa5fff850",
+        "id": "95bd28be87764822baa30b2c3b49cff1",
         "datePublished": "2027-01-07T00:15:06+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",

@@ -1,11 +1,13 @@
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
-    CDStage1TenderDetailsStateMixin,
+    CDStage1EUTenderDetailsState,
+    CDStage1UATenderDetailsState,
 )
-from openprocurement.tender.openua.procedure.state.question import (
-    UATenderQuestionStateMixin,
-)
+from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
 
 
-class CDStage1TenderQuestionState(UATenderQuestionStateMixin, CDStage1TenderDetailsStateMixin):
-    question_create_accreditations = (AccreditationLevel.ACCR_4,)
+class CDStage1EUTenderQuestionState(TenderQuestionStateMixin, CDStage1EUTenderDetailsState):
+    pass
+
+
+class CDStage1UATenderQuestionState(TenderQuestionStateMixin, CDStage1UATenderDetailsState):
+    pass

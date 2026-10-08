@@ -4,6 +4,11 @@ from openprocurement.tender.core.procedure.views.award_req_response_evidence imp
     AwardReqResponseEvidenceResource as BaseReqResponseEvidenceResource,
 )
 from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.limited.procedure.state.award_req_response_evidence import (
+    NegotiationAwardReqResponseEvidenceState,
+    NegotiationQuickAwardReqResponseEvidenceState,
+    ReportingAwardReqResponseEvidenceState,
+)
 
 
 @resource(
@@ -14,7 +19,7 @@ from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QU
     description="Tender award evidences",
 )
 class ReportingAwardReqResponseResource(BaseReqResponseEvidenceResource):
-    pass
+    state_class = ReportingAwardReqResponseEvidenceState
 
 
 @resource(
@@ -25,7 +30,7 @@ class ReportingAwardReqResponseResource(BaseReqResponseEvidenceResource):
     description="Tender award evidences",
 )
 class NegotiationAwardReqResponseResource(BaseReqResponseEvidenceResource):
-    pass
+    state_class = NegotiationAwardReqResponseEvidenceState
 
 
 @resource(
@@ -36,4 +41,4 @@ class NegotiationAwardReqResponseResource(BaseReqResponseEvidenceResource):
     description="Tender award evidences",
 )
 class NegotiationQuickAwardReqResponseResource(BaseReqResponseEvidenceResource):
-    pass
+    state_class = NegotiationQuickAwardReqResponseEvidenceState

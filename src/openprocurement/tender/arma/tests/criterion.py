@@ -6,7 +6,7 @@ from openprocurement.tender.arma.tests.base import (
     test_tender_arma_lots,
     test_tender_arma_required_criteria_ids,
 )
-from openprocurement.tender.openua.tests.criterion import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/abbc9a0c6f034659b3b28397ceceaac1 HTTP/1.0
+GET /api/2.5/tenders/4a370cddba9e4d9791dff10c6e02b9ee HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -44,7 +44,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "6903daff2bac4c2a96601d5d5730d569",
+        "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -538,7 +538,7 @@ Content-Type: application/json
         "id": "8887db77f71c4a0496b39ac2c4eea78c",
         "items": [
           {
-            "id": "6903daff2bac4c2a96601d5d5730d569",
+            "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
             "description": "футляри до державних нагород",
             "description_en": "Cases for state awards",
             "unit": {
@@ -607,7 +607,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
+                "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -649,7 +649,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
+                "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -691,7 +691,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "6903daff2bac4c2a96601d5d5730d569",
+                "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -731,7 +731,7 @@ Content-Type: application/json
         ]
       }
     ],
-    "id": "abbc9a0c6f034659b3b28397ceceaac1"
+    "id": "4a370cddba9e4d9791dff10c6e02b9ee"
   },
   "config": {
     "hasAuction": true,

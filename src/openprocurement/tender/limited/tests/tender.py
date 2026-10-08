@@ -2,7 +2,7 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     contract_template_name_set,
     create_tender_central,
     create_tender_central_invalid,
@@ -66,8 +66,8 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_with_main_procurement_category,
     tender_items_related_product,
 )
-from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
-from openprocurement.tender.openua.tests.tender_blanks import empty_listing
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import empty_listing
 
 
 class AccreditationTenderTest(BaseTenderWebTest):

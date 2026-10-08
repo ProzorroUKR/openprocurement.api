@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_cancellation,
     test_tender_below_claim,
@@ -171,7 +171,7 @@ def create_tender_lot_minimalstep_validation(self):
 
     with patch(
         "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json(request_path, {"data": data}, status=201)
         self.assertEqual(response.status, "201 Created")
@@ -1011,7 +1011,9 @@ def two_lot_2bid_1lot_del(self):
             "lots": [
                 {
                     "auctionPeriod": {
-                        "startDate": (get_now() + timedelta(days=self.days_till_auction_starts)).isoformat()
+                        "startDate": calculate_date(
+                            get_now(), timedelta(days=self.days_till_auction_starts)
+                        ).isoformat()
                     }
                 }
                 for i in lots
@@ -1971,7 +1973,7 @@ def patch_tender_lot_minimalstep_validation(self):
     lot = response.json["data"]
     with patch(
         "openprocurement.tender.core.procedure.state.tender_details.MINIMAL_STEP_VALIDATION_FROM",
-        get_now() + timedelta(days=1),
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.patch_json(
             "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
@@ -1983,7 +1985,7 @@ def patch_tender_lot_minimalstep_validation(self):
 
 
 @patch(
-    "openprocurement.tender.arma.procedure.state.lot.ARMA_MIN_EXPECTED_INCOME_FROM",
+    "openprocurement.tender.arma.procedure.state.tender_details.ARMA_MIN_EXPECTED_INCOME_FROM",
     get_now() - timedelta(days=1),
 )
 def lot_min_expected_income(self):

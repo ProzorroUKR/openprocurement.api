@@ -1,16 +1,10 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import json_view
-from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement, CFAPatchAgreement
 from openprocurement.tender.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
-from openprocurement.tender.cfaua.procedure.state.agreement import AgreementState
+from openprocurement.tender.cfaua.procedure.state.agreement import CFAUAAgreementState
 from openprocurement.tender.core.procedure.views.agreement import (
     TenderAgreementResource,
 )
@@ -25,16 +19,11 @@ from openprocurement.tender.core.procedure.views.agreement import (
 )
 class CFAUAAgreementResource(TenderAgreementResource):
     serializer_class = AgreementSerializer
-    state_class = AgreementState
+    state_class = CFAUAAgreementState
 
     @json_view(
         content_type="application/json",
         permission="edit_tender",
-        validators=(
-            validate_item_owner("tender"),
-            validate_patch_input_data(CFAPatchAgreement),
-            validate_patch_data_simple(CFAAgreement, item_name="agreement"),
-        ),
     )
     def patch(self):
         return super().patch()

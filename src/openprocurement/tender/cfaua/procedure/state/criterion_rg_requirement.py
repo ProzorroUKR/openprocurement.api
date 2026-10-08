@@ -1,10 +1,8 @@
-from openprocurement.tender.cfaselectionua.procedure.state.tender import (
-    CFASelectionTenderState,
+from openprocurement.tender.cfaua.procedure.state.tender_details import (
+    CFAUATenderDetailsState,
 )
-from openprocurement.tender.core.procedure.state.criterion_rg_requirement import (
-    RequirementStateMixin,
-)
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement import RequirementStateMixin
 
 
-class CFAUARequirementState(RequirementStateMixin, CFASelectionTenderState):
+class CFAUARequirementState(RequirementStateMixin, CFAUATenderDetailsState):
     pass

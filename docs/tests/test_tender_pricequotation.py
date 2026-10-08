@@ -6,7 +6,7 @@ from uuid import uuid4
 
 from pyramid.response import Response
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.constants import CRITERION_TECHNICAL_FEATURES
 from openprocurement.tender.core.tests.mock import patch_market, patch_market_product
 from openprocurement.tender.core.tests.utils import (
@@ -92,8 +92,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         for item in test_tender_data["items"]:
             item["deliveryDate"] = {
-                "startDate": (get_now() + timedelta(days=2)).isoformat(),
-                "endDate": (get_now() + timedelta(days=5)).isoformat(),
+                "startDate": calculate_date(get_now(), timedelta(days=2)).isoformat(),
+                "endDate": calculate_date(get_now(), timedelta(days=5)).isoformat(),
             }
 
         test_criteria = deepcopy(test_tender_pq_criteria)
@@ -104,7 +104,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
 
         test_tender_data.update(
             {
-                "tenderPeriod": {"endDate": (get_now() + timedelta(days=14)).isoformat()},
+                "tenderPeriod": {"endDate": calculate_date(get_now(), timedelta(days=14)).isoformat()},
                 "criteria": test_criteria,
             }
         )
@@ -137,7 +137,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
 
-        tenderPeriod_endDate = get_now() + timedelta(days=15, seconds=10)
+        tenderPeriod_endDate = calculate_date(get_now(), timedelta(days=15, seconds=10))
         with (
             patch_market(test_tender_pq_short_profile, test_tender_pq_category),
             open(TARGET_DIR + "patch-tender-data.http", "w") as self.app.file_obj,

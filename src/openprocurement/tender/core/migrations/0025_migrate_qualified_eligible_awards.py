@@ -6,15 +6,10 @@ from pymongo import UpdateOne
 from pymongo.errors import OperationFailure
 
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
-)
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.open.constants import BELOW_THRESHOLD, SIMPLE_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

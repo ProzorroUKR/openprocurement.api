@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4687f36b2f3d45ae9974b4ca238948a4/cancellations/13e041023703472b8bcec84943058bc3/complaints/5afe3cf697ab41a18765fa6a5006a8b4 HTTP/1.0
+PATCH /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints/b7f922cc112b4acdaf2c6c00407219f1 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "5afe3cf697ab41a18765fa6a5006a8b4",
+    "id": "b7f922cc112b4acdaf2c6c00407219f1",
     "complaintID": "UA-2027-01-01-000001-a.a3",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "invalid",
@@ -48,11 +48,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "b16efdde272c4d8e8276894a8ef6c672",
+        "id": "ce23cec1eb704b77ac46b2312fe94387",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "cancellation",
-        "relatedItem": "13e041023703472b8bcec84943058bc3",
+        "relatedItem": "508bf010ec78469eb7980c819aa5e330",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -60,14 +60,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "80f2ffef92f343288dde208bed90aa36",
+            "id": "89bb1506d8dd4dd6b74b92acf74ba1b5",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "5d52854fff7a431abe353b742ead114d",
+            "id": "1ce4a40ea7704442a30dad2450f5bef7",
             "description": "test argument"
           }
         ],

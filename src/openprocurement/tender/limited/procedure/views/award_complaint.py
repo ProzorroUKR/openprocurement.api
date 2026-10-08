@@ -1,11 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.complaint import PostAwardComplaint
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
     AwardComplaintWriteResource,
@@ -39,17 +33,6 @@ class NegotiationAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
 class NegotiationAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = NegotiationAwardComplaintState
 
-    @json_view(
-        content_type="application/json",
-        permission="create_complaint",
-        validators=(
-            validate_input_data(PostAwardComplaint),
-            validate_data_documents(route_key="complaint_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
 
 @resource(
     name="negotiation.quick:Tender Award Complaints Get",
@@ -74,14 +57,3 @@ class NegotiationQuickAwardClaimAndComplaintGetResource(AwardComplaintGetResourc
 )
 class NegotiationQuickAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_class = NegotiationAwardComplaintState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_complaint",
-        validators=(
-            validate_input_data(PostAwardComplaint),
-            validate_data_documents(route_key="complaint_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()

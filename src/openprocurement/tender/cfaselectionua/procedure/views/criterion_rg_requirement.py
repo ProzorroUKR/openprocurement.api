@@ -1,11 +1,9 @@
 from cornice.resource import resource
 
-from openprocurement.tender.belowthreshold.procedure.views.criterion_rg_requirement import (
-    RequirementResource as BaseRequirementResource,
-)
 from openprocurement.tender.cfaselectionua.procedure.state.criterion_rg_requirement import (
     CFASelectionRequirementState,
 )
+from openprocurement.tender.core.procedure.views.criterion_rg_requirement import BaseRequirementResource
 
 
 @resource(

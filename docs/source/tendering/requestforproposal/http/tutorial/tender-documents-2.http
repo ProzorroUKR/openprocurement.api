@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/513a5729b98b4078a5e0c1ffb39e3c9a/documents HTTP/1.0
+GET /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/documents HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -14,7 +14,7 @@ Content-Type: application/json
       "description": "змінений опис документа",
       "description_en": "document description modified",
       "relatedItem": "ffffffffffffffffffffffffffffffff",
-      "id": "6a7a9cebe2704f2ab6258c8d8a7789e2",
+      "id": "985d54386fcb430ba48b456c5742bc8a",
       "datePublished": "2027-01-01T00:00:01+02:00",
       "hash": "md5:00000000000000000000000000000000",
       "title": "Notice.doc",
@@ -33,7 +33,7 @@ Content-Type: application/json
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/67b500f3327a4160bff847fa3b925862?Signature=QDxTKt%2F6a6o%2F969%2BED3IcEBTGuad5zzNYo28gOuxadXnyR0axXnzhPWvrEHCP4VwkSewBFtL2VvUFUHm%2FE9PBw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "language": "uk",
-      "id": "ecd7f9a7032e454e92e48ae5d882cfaa",
+      "id": "18fbee73a760419a996f5d640231292b",
       "datePublished": "2027-01-01T00:06:04+02:00",
       "dateModified": "2027-01-01T00:06:04+02:00",
       "author": "tender_owner"

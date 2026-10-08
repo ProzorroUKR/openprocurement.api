@@ -1,22 +1,20 @@
 from datetime import timedelta
 
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    BELOW_THRESHOLD,
+    COMPETITIVE_ORDERING,
+    REQUEST_FOR_PROPOSAL,
+    SIMPLE_DEFENSE,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
-from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
-from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
-from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 PROCEDURES = {
     "": ("", "centralizedProcurement"),

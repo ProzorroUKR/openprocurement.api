@@ -8,7 +8,7 @@ from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.procedure.state.req_response_evidence import (
-    ReqResponseEvidenceState,
+    ReqResponseEvidenceStateMixin,
 )
 from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
@@ -35,7 +35,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         ]
 
     serializer_class = BaseSerializer
-    state_class: ReqResponseEvidenceState
+    state_class: ReqResponseEvidenceStateMixin
     parent_obj_name: str
 
     def modify_tender(self):
@@ -51,7 +51,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
             req_response["evidences"] = []
         req_response["evidences"].append(evidence)
 
-        self.state.on_post(evidence)
+        self.state.req_response_evidence_on_post(evidence)
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
                 f"Created {self.parent_obj_name} requirement response evidence {evidence['id']}",
@@ -80,7 +80,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         evidence = self.request.validated["evidence"]
         req_response = self.request.validated["requirement_response"]
         set_item(req_response, "evidences", evidence["id"], updated_evidence)
-        self.state.on_patch(evidence, updated_evidence)
+        self.state.req_response_evidence_on_patch(evidence, updated_evidence)
 
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(
@@ -100,7 +100,7 @@ class BaseReqResponseEvidenceResource(TenderBaseResource):
         if not req_response["evidences"]:
             del req_response["evidences"]
 
-        self.state.on_delete()
+        self.state.req_response_evidence_on_delete(evidence)
 
         if save_tender(self.request, modified=self.modify_tender()):
             self.LOGGER.info(

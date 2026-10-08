@@ -3,15 +3,6 @@ from typing import Type
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-    validate_upload_document,
-)
 from openprocurement.api.utils import (
     context_unpack,
     delete_nones,
@@ -23,15 +14,11 @@ from openprocurement.tender.core.procedure.documents import (
     get_file,
     update_document_url,
 )
-from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
 from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )
 from openprocurement.tender.core.procedure.state.document import BaseDocumentState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_download_tender_document,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
@@ -208,43 +195,30 @@ class BaseDocumentResource(DocumentResourceMixin, TenderBaseResource):
         return super().collection_get()
 
     @json_view(
-        validators=(
-            validate_item_owner("tender"),
-            validate_input_data(PostDocument, allow_bulk=True),
-        ),
         permission="edit_tender",
     )
     def collection_post(self):
+        self.state.validate_document_post_request()
         return super().collection_post()
 
     @json_view(
-        validators=(validate_download_tender_document,),
         permission="view_tender",
     )
     def get(self):
+        self.state.validate_document_get_request()
         return super().get()
 
     @json_view(
-        validators=(
-            validate_item_owner("tender"),
-            validate_input_data(PostDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
         permission="edit_tender",
     )
     def put(self):
+        self.state.validate_document_put_request()
         return super().put()
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_patch_input_data(PatchDocument),
-            validate_patch_data(Document, item_name="document"),
-        ),
         permission="edit_tender",
     )
     def patch(self):
+        self.state.validate_document_patch_request()
         return super().patch()

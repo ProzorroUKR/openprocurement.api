@@ -1,14 +1,11 @@
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import validate_item_owner
 from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.tender_document import (
     TenderDocumentState,
 )
 from openprocurement.tender.core.procedure.validation import (
     get_tender_document_role,
-    validate_download_tender_document,
-    validate_tender_document_update_not_by_author_or_tender_owner,
 )
 from openprocurement.tender.core.procedure.views.document import (
     BaseDocumentResource,
@@ -45,19 +42,34 @@ class TenderDocumentResource(BaseDocumentResource):
         return super().collection_get()
 
     @json_view(
-        validators=(validate_download_tender_document,),
         permission="view_tender",
     )
     def get(self):
         return super().get()
 
     @json_view(
+        permission="upload_tender_documents",
+    )
+    def collection_post(self):
+        return super().collection_post()
+
+    @json_view(
+        permission="upload_tender_documents",
+    )
+    def put(self):
+        return super().put()
+
+    @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_tender_document_update_not_by_author_or_tender_owner,
-        ),
+        permission="upload_tender_documents",
+    )
+    def patch(self):
+        return super().patch()
+
+    @json_view(
+        content_type="application/json",
         permission="upload_tender_documents",
     )
     def delete(self):
+        self.state.validate_document_delete_request()
         return super().delete()

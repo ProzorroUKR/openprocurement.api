@@ -2,8 +2,8 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender import TenderResourceTestMixin
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     create_tender_with_required_unit,
@@ -39,8 +39,8 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     update_status_complete_owner_ua,
     contract_template_name_set,
 )
-from openprocurement.tender.open.tests.tender_blanks import tender_finance_milestones
-from openprocurement.tender.openua.tests.tender_blanks import empty_listing
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import empty_listing
 
 
 class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderResourceTestMixin):

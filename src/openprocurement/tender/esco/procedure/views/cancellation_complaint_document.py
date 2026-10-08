@@ -3,8 +3,8 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.cancellation_complaint_document import (
     CancellationComplaintDocumentResource,
 )
-from openprocurement.tender.openua.procedure.state.complaint_document import (
-    OpenUAComplaintDocumentState,
+from openprocurement.tender.open.procedure.state.complaint_document import (
+    AboveThresholdUAComplaintDocumentState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.openua.procedure.state.complaint_document import (
     description="Tender cancellation complaint documents",
 )
 class ESCOCancellationComplaintDocumentResource(CancellationComplaintDocumentResource):
-    state_class = OpenUAComplaintDocumentState
+    state_class = AboveThresholdUAComplaintDocumentState

@@ -7,8 +7,7 @@ import pymongo
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
-from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_UA_DEFENSE, SIMPLE_DEFENSE
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

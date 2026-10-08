@@ -8,18 +8,12 @@ from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import (
-    BID_GUARANTEE_ALLOWED_TENDER_TYPES,
-    CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES,
     COUNTRIES_MAP,
-    CRITERION_LIFE_CYCLE_COST_IDS,
-    GUARANTEE_ALLOWED_TENDER_TYPES,
     LANGUAGE_CODES,
 )
 from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
     PQ_CRITERIA_ID_FROM,
-    RELEASE_GUARANTEE_CRITERION_FROM,
-    UNIFIED_CRITERIA_LOGIC_FROM,
 )
 from openprocurement.api.context import get_json_data, get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -33,9 +27,6 @@ from openprocurement.api.procedure.models.unit import Unit as BaseUnit
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
-    CRITERION_LOCALIZATION,
-    CRITERION_TECHNICAL_FEATURES,
     ReqStatuses,
 )
 from openprocurement.tender.core.procedure.models.identifier import (
@@ -69,33 +60,6 @@ class ValidateIdMixing(Model):
 class CriterionClassification(BaseClassification):
     description = StringType()
 
-    def validate_id(self, data, code):
-        tender = get_tender() or get_json_data()
-        self._validate_guarantee_id(code, tender)
-        self._validate_lcc_id(code, tender)
-
-    @staticmethod
-    def _validate_guarantee_id(code, tender):
-        tender_created = get_first_revision_date(tender, default=get_request_now())
-        criteria_to_check = {
-            "CRITERION.OTHER.CONTRACT.GUARANTEE": CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES,
-            "CRITERION.OTHER.BID.GUARANTEE": BID_GUARANTEE_ALLOWED_TENDER_TYPES,
-        }
-        if tender_created >= UNIFIED_CRITERIA_LOGIC_FROM:
-            if code in criteria_to_check and tender["procurementMethodType"] not in criteria_to_check[code]:
-                raise ValidationError(f"{code} is available only in {criteria_to_check[code]}")
-        elif (
-            tender_created >= RELEASE_GUARANTEE_CRITERION_FROM
-            and code in criteria_to_check
-            and tender["procurementMethodType"] not in GUARANTEE_ALLOWED_TENDER_TYPES
-        ):
-            raise ValidationError("{} is available only in {}".format(code, GUARANTEE_ALLOWED_TENDER_TYPES))
-
-    @staticmethod
-    def _validate_lcc_id(code, tender):
-        if code in CRITERION_LIFE_CYCLE_COST_IDS and tender["awardCriteria"] != AWARD_CRITERIA_LIFE_CYCLE_COST:
-            raise ValidationError(f"{code} is available only with {AWARD_CRITERIA_LIFE_CYCLE_COST} awardCriteria")
-
 
 class LegislationItem(Model):
     version = StringType()
@@ -123,12 +87,6 @@ class BaseEligibleEvidence(Model):
 
 class EligibleEvidence(BaseEligibleEvidence):
     id = MD5Type(required=True, default=lambda: uuid4().hex)
-
-    def validate_relatedDocument(self, data, document_reference):
-        if document_reference:
-            tender = get_tender() or get_json_data()
-            if document_reference.id not in [document["id"] for document in tender.get("documents", [])]:
-                raise ValidationError("relatedDocument.id should be one of tender documents")
 
 
 class PatchEligibleEvidence(BaseEligibleEvidence):
@@ -261,13 +219,6 @@ class PostRequirement(ValidateIdMixing, BaseRequirement):
 
         elif expected_min_items or expected_max_items:
             raise ValidationError("expectedMinItems and expectedMaxItems couldn't exist without expectedValues")
-
-    def validate_relatedFeature(self, data, feature_id):
-        if feature_id:
-            tender = get_tender() or get_json_data()
-            features = [] if not tender.get("features") else tender.get("features")
-            if feature_id not in [feature.id for feature in features]:
-                raise ValidationError("relatedFeature should be one of features")
 
     @serializable(serialized_name="status", serialize_when_none=False)
     def set_status(self):
@@ -407,78 +358,6 @@ class Criterion(ValidateIdMixing, BaseCriterion):
         ],
     )
 
-    def validate_classification(self, data, value):
-        tender = get_tender() or get_json_data()
-        if tender.get("procurementMethodType") in (PQ,):
-            # classification is not required for PQ
-            return
-        if not value:
-            raise ValidationError("This field is required.")
-
-    def validate_relatesTo(self, data, value):
-        tender = get_tender() or get_json_data()
-        classification = data.get("classification")
-
-        if tender.get("procurementMethodType") not in (PQ,):
-            if get_first_revision_date(tender, default=get_request_now()) > RELEASE_GUARANTEE_CRITERION_FROM:
-                if not value:
-                    raise ValidationError("This field is required.")
-
-        if classification and classification["id"] in CRITERION_LIFE_CYCLE_COST_IDS:
-            if not tender.get("lots") and value != "tender":
-                raise ValidationError(
-                    f"{classification['id']} criteria relatesTo should be `tender` if tender has no lots"
-                )
-
-            if tender.get("lots") and value != "lot":
-                raise ValidationError(f"{classification['id']} criteria relatesTo should be `lot` if tender has lots")
-
-        elif classification and classification["id"] in (CRITERION_TECHNICAL_FEATURES, CRITERION_LOCALIZATION):
-            if value != "item":
-                raise ValidationError(f"{classification['id']} criteria relatesTo should be `item`")
-
-    def validate_relatedItem(self, data, value):
-        if not value and data.get("relatesTo") in ["item", "lot"]:
-            raise ValidationError("This field is required.")
-
-        is_criterion_active = not data.get("requirementGroups") or any(
-            req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
-            for rg in data.get("requirementGroups") or ""
-            for req in rg.get("requirements") or ""
-        )
-
-        if value and is_criterion_active:
-            json_data = get_json_data()
-            tender = get_tender()
-
-            if data.get("relatesTo") == "lot":
-                # if lots was changed
-                if "lots" in json_data:
-                    tender = json_data
-
-                lot_ids = [i["id"] for i in tender.get("lots") or []]
-                if value not in lot_ids:
-                    raise ValidationError("relatedItem should be one of lots")
-
-            if data.get("relatesTo") == "item":
-                # if items was changed
-                if "items" in json_data:
-                    tender = json_data
-
-                # FIXME: id is not required for item,
-                # will be key error if id is not present in item patch data
-                item_ids = [i["id"] for i in tender.get("items") or []]
-                if value not in item_ids:
-                    raise ValidationError("relatedItem should be one of items")
-
-    def validate_requirementGroups(self, data, requirement_groups: list):
-        for rg in requirement_groups:
-            requirements = rg.get("requirements", [])
-            if not requirements:
-                return
-            for requirement in requirements:
-                validate_requirement_eligibleEvidences(data, requirement)
-
     def validate_legislation(self, data, value):
         if data.get("classification", {}).get("id") != "CRITERION.OTHER.CONTRACT.GUARANTEE":
             if not value:
@@ -491,40 +370,3 @@ class PatchCriterion(BaseCriterion):
 
 
 # Criterion ----
-
-
-def validate_criteria_requirement_uniq(criteria, *_) -> None:
-    if criteria:
-        if get_first_revision_date(get_tender(), default=get_request_now()) > CRITERION_REQUIREMENT_STATUSES_FROM:
-            req_ids = [
-                req["id"]
-                for c in criteria
-                for rg in c.get("requirementGroups", []) or []
-                for req in rg.get("requirements", []) or []
-                if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
-            ]
-        else:
-            req_ids = [
-                req["id"]
-                for c in criteria
-                for rg in c.get("requirementGroups", []) or []
-                for req in rg.get("requirements", []) or []
-            ]
-        if req_ids and len(set(req_ids)) != len(req_ids):
-            raise ValidationError("Requirement id should be uniq for all requirements in tender")
-        for criterion in criteria:
-            for rg in criterion.get("requirementGroups", []) or []:
-                req_titles = [
-                    req["title"]
-                    for req in rg.get("requirements", []) or []
-                    if req.get("status", ReqStatuses.DEFAULT) == ReqStatuses.ACTIVE
-                ]
-                if len(set(req_titles)) != len(req_titles):
-                    raise ValidationError("Requirement title should be uniq for one requirementGroup")
-
-
-def validate_requirement_eligibleEvidences(criterion: dict, requirement: dict) -> None:
-    if requirement.get("eligibleEvidences"):
-        classification = criterion.get("classification")
-        if classification and classification["id"] and classification["id"].startswith("CRITERION.OTHER.BID.LANGUAGE"):
-            raise ValidationError([{"eligibleEvidences": ["This field is forbidden for current criterion"]}])

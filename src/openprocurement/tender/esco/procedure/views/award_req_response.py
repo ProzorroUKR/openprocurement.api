@@ -3,6 +3,9 @@ from cornice.resource import resource
 from openprocurement.tender.core.procedure.views.award_req_response import (
     AwardReqResponseResource as BaseAwardReqResponseResource,
 )
+from openprocurement.tender.esco.procedure.state.award_req_response import (
+    ESCOAwardReqResponseState,
+)
 
 
 @resource(
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.award_req_response import (
     description="Tender UA award requirement responses",
 )
 class AwardReqResponseResource(BaseAwardReqResponseResource):
-    pass
+    state_class = ESCOAwardReqResponseState

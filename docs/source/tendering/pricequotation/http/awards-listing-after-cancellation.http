@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2874d5c2acd649bbb8679e9439621113/awards HTTP/1.0
+GET /api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/awards HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -39,12 +39,12 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "043cc1c9dc98435889550049b5697d28",
+      "bid_id": "7958b212657a4f648cfe7b27e05fd774",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "178255de5ed44cabbf6cfd00f616e715",
+          "id": "6cf4aeb7b06f43de9eda56f1497ae91e",
           "datePublished": "2024-01-01T00:00:01+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
@@ -63,7 +63,7 @@ Content-Type: application/json
       "qualified": true
     },
     {
-      "id": "c15ed1009e084afdbfe97442df3baa2c",
+      "id": "6cdc0cc5440f4bc29cd082c8395be48f",
       "status": "pending",
       "date": "2024-01-01T00:00:01+02:00",
       "value": {
@@ -93,7 +93,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "043cc1c9dc98435889550049b5697d28",
+      "bid_id": "7958b212657a4f648cfe7b27e05fd774",
       "period": {
         "startDate": "2024-01-01T00:00:01+02:00",
         "endDate": "2024-01-04T00:00:00+02:00"

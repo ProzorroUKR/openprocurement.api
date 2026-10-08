@@ -34,16 +34,16 @@ from openprocurement.tender.competitivedialogue.tests.stage1.bid_blanks import (
     status_jumping,
 )
 from openprocurement.tender.core.tests.utils import set_bid_lotvalues
-from openprocurement.tender.openeu.tests.bid import CreateBidMixin
-from openprocurement.tender.openeu.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.bid import CreateBidMixin
+from openprocurement.tender.open.tests.above_threshold_eu.bid_blanks import (
     bids_activation_on_tender_documents,
 )
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidDocumentResourceTestMixin,
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
-from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import bids_related_product
 
 
 @mock.patch(

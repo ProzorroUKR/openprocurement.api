@@ -6,48 +6,48 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidFinancialDocumentResource,
     BaseTenderBidQualificationDocumentResource,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
+from openprocurement.tender.open.constants import OPEN_PROCUREMENT_METHOD_TYPES, OPEN_ROUTE_PREFIX
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Bid Documents",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Bid Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender bidder documents",
+    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
 )
-class TenderBidDocumentResource(BaseTenderBidDocumentResource):
+class OpenBaseTenderBidDocumentResource(BaseTenderBidDocumentResource):
     pass
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Bid Eligibility Documents",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender bidder eligibility documents",
+    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
 )
-class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
+class OpenBaseTenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
     pass
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Bid Financial Documents",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Bid Financial Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender bidder financial documents",
+    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
 )
-class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
+class OpenBaseTenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
     pass
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Bid Qualification Documents",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Bid Qualification Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender bidder qualification documents",
+    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
 )
-class TenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
+class OpenBaseTenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):
     pass

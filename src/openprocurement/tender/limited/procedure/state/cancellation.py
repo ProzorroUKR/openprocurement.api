@@ -1,28 +1,18 @@
-from openprocurement.tender.belowthreshold.procedure.state.cancellation import (
-    BelowThresholdCancellationStateMixing,
-)
 from openprocurement.tender.core.procedure.state.cancellation import (
-    CancellationStateMixing,
+    CancellationStateMixin,
 )
 from openprocurement.tender.limited.procedure.state.tender import NegotiationTenderState
 
 
-class ReportingCancellationStateMixing(BelowThresholdCancellationStateMixing):
-    _before_release_reason_types = ["cancelled", "unsuccessful"]
-    _after_release_reason_types = [
-        "noDemand",
-        "unFixable",
-        "forceMajeure",
-        "expensesCut",
-    ]
+class ReportingCancellationStateMixin(CancellationStateMixin):
+    cancellation_complaint_period_check = False
 
 
-class ReportingCancellationState(ReportingCancellationStateMixing, NegotiationTenderState):
+class ReportingCancellationState(ReportingCancellationStateMixin, NegotiationTenderState):
     pass
 
 
-class NegotiationCancellationStateMixing(CancellationStateMixing):
-    _before_release_reason_types = ["cancelled", "unsuccessful"]
+class NegotiationCancellationStateMixin(CancellationStateMixin):
     _after_release_reason_types = [
         "noObjectiveness",
         "unFixable",
@@ -34,5 +24,5 @@ class NegotiationCancellationStateMixing(CancellationStateMixing):
     cancellation_deprecated_activation_without_active_award = True
 
 
-class NegotiationCancellationState(NegotiationCancellationStateMixing, NegotiationTenderState):
+class NegotiationCancellationState(NegotiationCancellationStateMixin, NegotiationTenderState):
     pass

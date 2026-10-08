@@ -277,6 +277,7 @@ Content-Type: application/json
           "satisfied": true,
           "type": "claim",
           "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
+          "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
           "cancellationReason": "cancelled",
           "dateCanceled": "2027-01-01T00:00:00+02:00"
         }

@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.bid_blanks import (
+from openprocurement.tender.open.tests.below_threshold.bid_blanks import (
     create_tender_bid_document_json_bulk,
 )
 from openprocurement.tender.cfaselectionua.tests.base import (
@@ -34,7 +34,7 @@ from openprocurement.tender.cfaselectionua.tests.bid_blanks import (
     put_tender_bid_document_json,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )

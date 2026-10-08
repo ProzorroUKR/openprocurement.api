@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids HTTP/1.0
+POST /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -40,12 +40,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       }
     ],
     "items": [
       {
-        "id": "b147656012414e84984969eedb0d1f6a",
+        "id": "8fba10d170794a12a8ccd313990265ea",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -53,10 +53,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       },
       {
-        "id": "5c3c5cf88e844f5aa88f6748c519c933",
+        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -64,7 +64,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       }
     ]
   }
@@ -73,13 +73,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/2caee4fba6df43daa9f432069ff4f83e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/03cd258e1a0e4e11aa2facb1308a70f7
 
 {
   "data": {
     "items": [
       {
-        "id": "b147656012414e84984969eedb0d1f6a",
+        "id": "8fba10d170794a12a8ccd313990265ea",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -87,10 +87,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       },
       {
-        "id": "5c3c5cf88e844f5aa88f6748c519c933",
+        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -98,7 +98,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       }
     ],
     "tenderers": [
@@ -136,17 +136,17 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63",
         "status": "pending",
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "id": "2caee4fba6df43daa9f432069ff4f83e",
+    "id": "03cd258e1a0e4e11aa2facb1308a70f7",
     "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
-    "token": "7b3871704f0b452f950ea9db708dfc6f",
-    "transfer": "5052ac9671db4aa883dfd03d8373483d"
+    "token": "a7fb47afda2b4773a2936b2f18d519e1",
+    "transfer": "e16d6d4c7b6c486b97d12c707a6c4dbb"
   }
 }
 

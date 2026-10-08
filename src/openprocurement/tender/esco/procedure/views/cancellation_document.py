@@ -1,8 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.openeu.procedure.views.cancellation_document import (
-    EUCancellationDocumentResource,
-)
+from openprocurement.tender.core.procedure.views.cancellation_document import CancellationDocumentResource
 
 
 @resource(
@@ -12,5 +10,5 @@ from openprocurement.tender.openeu.procedure.views.cancellation_document import 
     procurementMethodType="esco",
     description="Tender ESCO cancellation documents",
 )
-class ESCOCancellationDocumentResource(EUCancellationDocumentResource):
+class ESCOCancellationDocumentResource(CancellationDocumentResource):
     pass

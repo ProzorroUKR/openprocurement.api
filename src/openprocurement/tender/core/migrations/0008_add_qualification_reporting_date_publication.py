@@ -5,13 +5,9 @@ from datetime import timedelta
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    STAGE_2_EU_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE, STAGE_2_EU_TYPE
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
+from openprocurement.tender.open.constants import ABOVE_THRESHOLD_EU
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)

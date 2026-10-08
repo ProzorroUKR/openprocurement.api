@@ -3,7 +3,7 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.tests.base import change_auth, snitch
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.tests.award_blanks import (
     award_sign,
     create_acceptance_report_award_document,
@@ -23,20 +23,20 @@ from openprocurement.tender.arma.tests.base import (
     test_tender_arma_lots,
     test_tender_arma_three_bids,
 )
-from openprocurement.tender.belowthreshold.tests.award import (
+from openprocurement.tender.open.tests.below_threshold.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     patch_tender_lot_award_lots_none,
 )
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.open.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.above_threshold.award_blanks import (
     patch_tender_award_unsuccessful_first,
     patch_tender_award_unsuccessful_forbidden,
     patch_tender_award_unsuccessful_second,
 )
-from openprocurement.tender.openua.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.award_blanks import (
     create_tender_award_no_scale_invalid,
 )
 
@@ -66,7 +66,8 @@ class TenderAwardQualificationResourceTest(BaseTenderContentWebTest):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderLotAwardResourceTestMixin:
     test_create_tender_award = snitch(create_tender_lot_award)

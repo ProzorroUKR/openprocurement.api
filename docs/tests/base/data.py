@@ -5,7 +5,7 @@ from hashlib import sha512
 from dateutil.parser import parse
 
 from openprocurement.api.tests.base import test_signer_info
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_milestones,
 )
 from tests.base.constants import MOCK_DATETIME

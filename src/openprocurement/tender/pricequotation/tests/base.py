@@ -5,7 +5,7 @@ from uuid import uuid4
 from openprocurement.api.constants import TZ
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.constants import MIN_BIDS_NUMBER
+from openprocurement.tender.open.constants import BELOW_THRESHOLD_MIN_BIDS_NUMBER
 from openprocurement.tender.core.tests.base import BaseCoreWebTest
 from openprocurement.tender.core.tests.mock import patch_market, patch_market_product
 from openprocurement.tender.pricequotation.tests.data import (
@@ -36,7 +36,7 @@ class BaseTenderWebTest(BaseCoreWebTest):
 
     initial_bids = None
     initial_auth = ("Basic", ("broker", ""))
-    min_bids_number = MIN_BIDS_NUMBER
+    min_bids_number = BELOW_THRESHOLD_MIN_BIDS_NUMBER
     # Statuses for test, that will be imported from others procedures
     primary_tender_status = "active.tendering"  # status, to which tender should be switched from 'draft'
     forbidden_document_modification_actions_status = (

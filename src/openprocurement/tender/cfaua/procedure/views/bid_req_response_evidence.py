@@ -1,5 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.tender.cfaua.procedure.state.bid_req_response_evidence import (
+    CFAUABidReqResponseEvidenceState,
+)
 from openprocurement.tender.core.procedure.views.bid_req_response_evidence import (
     BidReqResponseEvidenceResource as BaseBidReqResponseEvidenceResource,
 )
@@ -13,4 +16,4 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
     description="Tender bidder evidences",
 )
 class BidReqResponseResource(BaseBidReqResponseEvidenceResource):
-    pass
+    state_class = CFAUABidReqResponseEvidenceState

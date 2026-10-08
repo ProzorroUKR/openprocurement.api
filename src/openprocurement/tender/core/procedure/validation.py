@@ -1,11 +1,9 @@
 import logging
 from collections import defaultdict
-from copy import deepcopy
 from datetime import datetime
 from decimal import Decimal
 from hashlib import sha512
 
-from pyramid.httpexceptions import HTTPError
 from pyramid.interfaces import IAuthenticationPolicy
 from schematics.exceptions import ValidationError
 from schematics.types import (
@@ -32,7 +30,6 @@ from openprocurement.api.constants import (
     UA_ROAD_SCHEME,
 )
 from openprocurement.api.constants_env import (
-    BELOWTHRESHOLD_FUNDERS_IDS,
     CONFIDENTIAL_EDRPOU_LIST,
     CONTRACT_OWNER_REQUIRED_FROM,
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
@@ -40,7 +37,6 @@ from openprocurement.api.constants_env import (
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
     MILESTONES_VALIDATION_FROM,
     PQ_CRITERIA_ID_FROM,
-    RELEASE_2020_04_19,
     RELEASE_ECRITERIA_ARTICLE_17,
     REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM,
     TENDER_SIGNER_INFO_REQUIRED_FROM,
@@ -49,7 +45,6 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.document import ConfidentialityType
-from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.utils import is_item_owner, is_obj_const_active, to_decimal
 from openprocurement.api.utils import (
     error_handler,
@@ -68,52 +63,17 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.utils import (
     find_item_by_id,
     find_lot,
-    get_criterion_requirement,
-    get_requirement_obj,
     is_multi_currency_tender,
     prepare_shortlisted_firms_author_key,
-    prepare_shortlisted_firms_bid_keys,
     prepare_shortlisted_firms_keys,
     tender_created_after,
-    tender_created_after_2020_rules,
     tender_created_before,
 )
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.pricequotation.constants import PROFILE_PATTERN as PQ_PROFILE_PATTERN
+from openprocurement.tender.pricequotation.constants import PQ_PROFILE_PATTERN as PQ_PROFILE_PATTERN
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
-
-
-def validate_item_operation_in_disallowed_tender_statuses(item_name, allowed_statuses):
-    """
-    Factory sallowed operation in specified statuses
-    :param item_name: str
-    :param allowed_statuses: list
-    :return:
-    """
-
-    def validate(request, **_):
-        tender = request.validated["tender"]
-        if tender["status"] not in allowed_statuses:
-            raise_operation_error(
-                request,
-                f"Can't {OPERATIONS.get(request.method)} {item_name} in current ({tender['status']}) tender status",
-            )
-
-    return validate
-
-
-def validate_any_bid_owner(statuses=("active", "unsuccessful")):
-    def validator(request, **_):
-        tender = request.validated["tender"]
-        for bid in tender.get("bids", ""):
-            if bid["status"] in statuses and is_item_owner(request, bid):
-                return
-
-        raise_operation_error(request, "Forbidden", location="url", name="permission")
-
-    return validator
 
 
 def validate_dialogue_owner(request, **_):
@@ -131,100 +91,6 @@ def unless_bots_or_auction(*validations):
                 validation(request)
 
     return decorated
-
-
-def unless_reviewers(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role != "aboveThresholdReviewers":
-            for validation in validations:
-                validation(request)
-
-    return decorated
-
-
-def validate_any(*validations):
-    """
-    use case:
-    @json_view(
-        validators=(
-            validate_any(
-                validate_item_owner("tender"),
-                validate_item_owner("bid"),
-            ),
-            ...
-        ),
-        ...
-    )
-    :param validations:
-    :return:
-    """
-
-    def decorated(request, **_):
-        e = AssertionError("validations list can't be empty")
-        errors_on_start = deepcopy(request.errors)
-        for validation in validations:
-            try:
-                validation(request)
-            except HTTPError as err:
-                e = err
-            else:  # on success
-                request.errors = errors_on_start
-                break
-        else:
-            raise e
-
-    return decorated
-
-
-# bids
-def validate_bid_operation_period(request, **_):
-    tender = request.validated["tender"]
-    tender_period = tender.get("tenderPeriod", {})
-    if (
-        tender_period.get("startDate")
-        and get_request_now().isoformat() < tender_period.get("startDate")
-        or get_request_now().isoformat() > tender_period.get("endDate", "")  # TODO: may "endDate" be missed ?
-    ):
-        operation = "added" if request.method == "POST" else "deleted"
-        if request.authenticated_role != "Administrator" and request.method in (
-            "PUT",
-            "PATCH",
-        ):
-            operation = "updated"
-        raise_operation_error(
-            request,
-            "Bid can be {} only during the tendering period: from ({}) to ({}).".format(
-                operation,
-                tender_period.get("startDate"),
-                tender_period.get("endDate"),
-            ),
-        )
-
-
-def validate_bid_operation_in_tendering(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    if tender_status == "active.tendering":
-        raise_operation_error(
-            request,
-            "Can't view {} in current ({}) tender status".format(
-                "bid" if request.matchdict.get("bid_id") else "bids", tender_status
-            ),
-        )
-
-
-def validate_bid_operation_not_in_tendering(request, **_):
-    status = request.validated["tender"]["status"]
-    if status != "active.tendering":
-        operation = "add" if request.method == "POST" else "delete"
-        if request.authenticated_role != "Administrator" and request.method in (
-            "PUT",
-            "PATCH",
-        ):
-            operation = "update"
-        raise_operation_error(
-            request,
-            "Can't {} bid in current ({}) tender status".format(operation, status),
-        )
 
 
 def validate_lotvalue_value(tender, related_lot, value):
@@ -255,80 +121,9 @@ def validate_lot_value_vat(tender_lot_value, value, name="value"):
         )
 
 
-def validate_bid_value(tender, value):
-    if tender.get("lots"):
-        if value:
-            raise ValidationError("value should be posted for each lot of bid")
-    else:
-        tender_value = tender.get("value")
-        if not value:
-            raise ValidationError("This field is required.")
-        config = get_tender()["config"]
-        if config.get("valueCurrencyEquality"):
-            if tender_value["currency"] != value["currency"]:
-                raise ValidationError("currency of bid should be identical to currency of value of tender")
-            if config.get("hasValueRestriction") and to_decimal(tender_value["amount"]) < to_decimal(value["amount"]):
-                raise ValidationError("value of bid should be less than value of tender")
-        if tender_value["valueAddedTaxIncluded"] != value["valueAddedTaxIncluded"]:
-            raise ValidationError(
-                "valueAddedTaxIncluded of bid should be identical to valueAddedTaxIncluded of value of tender"
-            )
-
-
 def validate_related_lot(tender, related_lot):
     if related_lot not in [lot["id"] for lot in tender.get("lots") or [] if lot]:
         raise ValidationError("relatedLot should be one of lots")
-
-
-def validate_view_bid_document(request, **_):
-    config = get_tender()["config"]
-    if config.get("hasPrequalification"):
-        forbidden_tender_statuses = ("active.tendering",)
-    else:
-        forbidden_tender_statuses = ("active.tendering", "active.auction")
-    tender_status = request.validated["tender"]["status"]
-    if tender_status in forbidden_tender_statuses and not is_item_owner(request, request.validated["bid"]):
-        raise_operation_error(
-            request,
-            "Can't view bid documents in current ({}) tender status".format(tender_status),
-        )
-
-
-def validate_view_bids(request, **_):
-    config = get_tender()["config"]
-    if config.get("hasPrequalification"):
-        forbidden_tender_statuses = ("active.tendering",)
-    else:
-        forbidden_tender_statuses = ("active.tendering", "active.auction")
-    tender_status = request.validated["tender"]["status"]
-    if tender_status in forbidden_tender_statuses:
-        raise_operation_error(
-            request,
-            "Can't view {} in current ({}) tender status".format(
-                "bid" if request.matchdict.get("bid_id") else "bids", tender_status
-            ),
-        )
-
-
-def validate_update_deleted_bid(request, **_):
-    if request.validated["bid"]["status"] == "deleted":
-        raise_operation_error(request, "Can't update bid in (deleted) status")
-
-
-def validate_bid_document_operation_period(request, **_):
-    tender = request.validated["tender"]
-    now = get_request_now().isoformat()
-    if tender["status"] == "active.tendering":
-        tender_period = tender["tenderPeriod"]
-        if tender_period.get("startDate") and now < tender_period["startDate"] or now > tender_period["endDate"]:
-            raise_operation_error(
-                request,
-                "Document can be {} only during the tendering period: from ({}) to ({}).".format(
-                    "added" if request.method == "POST" else "updated",
-                    tender_period.get("startDate"),
-                    tender_period["endDate"],
-                ),
-            )
 
 
 # bids req response
@@ -340,154 +135,6 @@ def base_validate_operation_ecriteria_objects(request, valid_statuses="", obj_na
             request,
             "Can't {} object if {} not in {} statuses".format(request.method.lower(), obj_name, valid_statuses),
         )
-
-
-def validate_operation_ecriteria_on_tender_status(request, **_):
-    valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
-    base_validate_operation_ecriteria_objects(request, valid_statuses)
-
-
-def validate_operation_award_requirement_response(request, **kwargs):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    valid_tender_statuses = ["active.qualification", "active"]
-    base_validate_operation_ecriteria_objects(request, valid_tender_statuses)
-
-
-def validate_view_requirement_responses(request, **_):
-    pre_qualification_tenders = [
-        "aboveThresholdEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU",
-        "competitiveDialogueEU.stage2",
-        "esco",
-        "closeFrameworkAgreementUA",
-    ]
-
-    tender_type = request.validated["tender"]["procurementMethodType"]
-    if tender_type in pre_qualification_tenders:
-        invalid_tender_statuses = ["active.tendering"]
-    else:
-        invalid_tender_statuses = ["active.tendering", "active.auction"]
-
-    tender_status = request.validated["tender"]["status"]
-    if tender_status in invalid_tender_statuses:
-        raise_operation_error(
-            request,
-            f"Can't view {'bid' if request.matchdict.get('bid_id') else 'bids'} "
-            f"in current ({tender_status}) tender status",
-        )
-
-
-# qualification req response
-def validate_operation_qualification_requirement_response(request, **_):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_ECRITERIA_ARTICLE_17)
-    base_validate_operation_ecriteria_objects(request, ["pending"], "qualification")
-
-
-# bid req response evidence
-def validate_operation_ecriteria_objects_evidences(request, **_):
-    valid_statuses = ["draft", "draft.pending", "draft.stage2", "active.tendering"]
-
-    tender = request.validated["tender"]
-    requirement_id = request.validated["requirement_response"]["requirement"]["id"]
-    criterion = get_criterion_requirement(tender, requirement_id)
-
-    if criterion and criterion["source"] == "winner":
-        awarded_status = ["active.awarded", "active.qualification"]
-        if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
-            awarded_status.append("active.qualification.stand-still")
-        valid_statuses.extend(awarded_status)
-        if tender["status"] not in awarded_status:
-            raise_operation_error(request, f"available only in {awarded_status} statuses")
-
-        bid_id = request.validated["bid"]["id"]
-        active_award = None
-        for award in tender.get("awards", ""):
-            if award["status"] == "active" and award["bid_id"] == bid_id:
-                active_award = award
-                break
-
-        if active_award is None:
-            raise_operation_error(request, "Winner criteria available only with active award")
-
-        current_contract = None
-        for contract in tender.get("contracts", ""):
-            if contract.get("awardId") == active_award["id"]:
-                current_contract = contract
-                break
-        if current_contract and current_contract.status == "pending":
-            raise_operation_error(request, "forbidden if contract not in status `pending`")
-
-    base_validate_operation_ecriteria_objects(request, valid_statuses)
-
-
-# for openua, openeu
-def unless_allowed_by_qualification_milestone(*validations):
-    """
-    decorator for 24hours and anomaly low price features to skip some view validator functions
-    :param validation: a function runs unless it's disabled by an active qualification milestone
-    :return:
-    """
-
-    def decorated_validation(request, **_):
-        now = get_request_now().isoformat()
-        tender = request.validated["tender"]
-        bid_id = request.validated["bid"]["id"]
-        awards = [q for q in tender.get("awards", "") if q["status"] == "pending" and q["bid_id"] == bid_id]
-
-        # 24 hours
-        if "qualifications" in tender:  # for procedures with pre-qualification
-            qualifications = [q for q in tender["qualifications"] if q["status"] == "pending" and q["bidID"] == bid_id]
-        else:
-            qualifications = awards
-
-        for q in qualifications:
-            for milestone in q.get("milestones", ""):
-                if milestone["code"] == "24h" and milestone["date"] <= now <= milestone["dueDate"]:
-                    return  # skipping the validation because of 24 hour milestone
-
-        # low price
-        for award in awards:
-            for milestone in award.get("milestones", ""):
-                if milestone["date"] <= now <= milestone["dueDate"]:
-                    if milestone["code"] == "alp":
-                        return  # skipping the validation because of low price milestone
-
-        # else
-        for validation in validations:
-            validation(request)
-
-    return decorated_validation
-
-
-def unless_allowed_by_qualification_milestone_24(*validations):
-    """
-    decorator for 24hours features to skip some view validator functions
-    :param validation: a function runs unless it's disabled by an active qualification milestone
-    :return:
-    """
-
-    def decorated_validation(request, **_):
-        now = get_request_now().isoformat()
-        tender = request.validated["tender"]
-        bid_id = request.validated["bid"]["id"]
-        awards = [q for q in tender.get("awards", "") if q["status"] == "pending" and q["bid_id"] == bid_id]
-
-        if "qualifications" in tender:  # for procedures with pre-qualification
-            qualifications = [q for q in tender["qualifications"] if q["status"] == "pending" and q["bidID"] == bid_id]
-        else:
-            qualifications = awards
-
-        for q in qualifications:
-            for milestone in q.get("milestones", ""):
-                if milestone["code"] == "24h" and milestone["date"] <= now <= milestone["dueDate"]:
-                    return  # skipping the validation because of 24 hour milestone
-
-        # else
-        for validation in validations:
-            validation(request)
-
-    return decorated_validation
 
 
 # auction
@@ -505,57 +152,6 @@ def validate_auction_tender_status(request, **_):
         )
 
 
-def validate_auction_tender_non_lot(request, **_):
-    tender = request.validated["tender"]
-    if tender.get("lots"):
-        raise_operation_error(
-            request,
-            [{"participationUrl": ["url should be posted for each lot of bid"]}],
-            location="body",
-            name="bids",
-            status=422,
-        )
-
-
-def validate_active_lot(request, **_):
-    tender = request.validated["tender"]
-    lot_id = request.matchdict.get("auction_lot_id")
-    if not any(lot["status"] == "active" for lot in tender.get("lots", "") if lot["id"] == lot_id):
-        raise_operation_error(
-            request,
-            "Can {} only in active lot status".format(
-                "report auction results" if request.method == "POST" else "update auction urls"
-            ),
-        )
-
-
-# award
-# AWARD DOCUMENTS
-def validate_award_document_tender_not_in_allowed_status_base(request, allowed_bot_statuses=("active.awarded",), **_):
-    allowed_tender_statuses = ["active.qualification"]
-    if request.authenticated_role == "bots":
-        allowed_tender_statuses.extend(allowed_bot_statuses)
-    status = request.validated["tender"]["status"]
-    if status not in allowed_tender_statuses:
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status",
-        )
-
-
-def validate_award_document_lot_not_in_allowed_status(request, **_):
-    award_lot_id = request.validated["award"].get("lotID")
-    if any(
-        i.get("status", "active") != "active"
-        for i in request.validated["tender"].get("lots", "")
-        if i["id"] == award_lot_id
-    ):
-        raise_operation_error(
-            request,
-            f"Can {OPERATIONS.get(request.method)} document only in active lot status",
-        )
-
-
 def get_award_document_role(request):
     tender = request.validated["tender"]
     if is_item_owner(request, tender):
@@ -565,74 +161,7 @@ def get_award_document_role(request):
     return role
 
 
-def validate_award_document_author(request, **_):
-    doc_author = request.validated["document"].get("author") or "tender_owner"
-    role = get_award_document_role(request)
-    if doc_author == "bots" and role != "bots":
-        # if role != doc_author:   # TODO: unkoment when "author": "brokers" fixed
-        raise_operation_error(
-            request,
-            "Can update document only author",
-            location="url",
-            name="role",
-        )
-
-
 # TENDER
-def validate_tender_status_allows_update(*statuses):
-    def validate(request, **_):
-        tender_status = get_tender()["status"]
-        if tender_status not in statuses:
-            raise_operation_error(request, f"Can't update tender in current ({tender_status}) status")
-
-    return validate
-
-
-# tender documents
-def validate_document_operation_in_allowed_tender_statuses(allowed_statuses):
-    """
-    Factory allowed operation in specified statuses
-    :param allowed_statuses: list
-    :return:
-    """
-
-    def validate(request, **_):
-        valid_statuses = list(allowed_statuses)
-
-        if request.authenticated_role == "auction":
-            valid_statuses = [
-                "active.auction",
-                "active.qualification",
-            ]
-        else:
-            data = request.validated["data"]
-            documents = data if isinstance(data, list) else [data]
-
-            # Check if all documents are evaluation reports (sign docs)
-            if all(doc.get("documentType") == "evaluationReports" for doc in documents):
-                # If it's only sign docs, then we can allow operation in pre-qualification status
-                valid_statuses.append("active.pre-qualification")
-
-        tender_status = request.validated["tender"]["status"]
-        if tender_status not in valid_statuses:
-            raise_operation_error(
-                request,
-                f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
-            )
-
-    return validate
-
-
-validate_tender_document_operation_in_allowed_tender_statuses = validate_document_operation_in_allowed_tender_statuses(
-    (
-        "draft",
-        "draft.stage2",  # competitive dialogue
-        "active.enquiries",
-        "active.tendering",
-    )
-)
-
-
 def get_tender_document_role(request):
     tender = request.validated["tender"]
     if is_item_owner(request, tender):
@@ -640,15 +169,6 @@ def get_tender_document_role(request):
     else:
         role = request.authenticated_role
     return role
-
-
-def validate_tender_document_update_not_by_author_or_tender_owner(request, **_):
-    document = request.validated["document"]
-    role = get_tender_document_role(request)
-    if role != (document.get("author") or "tender_owner"):
-        request.errors.add("url", "role", "Can update document only author")
-        request.errors.status = 403
-        raise error_handler(request)
 
 
 # QUALIFICATION
@@ -662,211 +182,12 @@ def get_qualification_document_role(request):
     return role
 
 
-def validate_qualification_update_with_cancellation_lot_pending(request, **kwargs):
-    if not tender_created_after_2020_rules():
-        return
-
-    qualification = request.validated["qualification"]
-    lot_id = qualification.get("lotID")
-
-    if not lot_id:
-        return
-
-    tender = request.validated["tender"]
-    accept_lot = all(
-        [
-            any(j["status"] == "resolved" for j in i["complaints"])
-            for i in tender.get("cancellations", [])
-            if i["status"] == "unsuccessful" and getattr(i, "complaints", None) and i["relatedLot"] == lot_id
-        ]
-    )
-
-    if request.authenticated_role == "tender_owner" and (
-        any(
-            i["status"] == "pending" and i.get("relatedLot") and i["relatedLot"] == lot_id
-            for i in tender.get("cancellations", "")
-        )
-        or not accept_lot
-    ):
-        raise_operation_error(
-            request,
-            "Can't update qualification with pending cancellation lot",
-        )
-
-
-def validate_qualification_document_operation_not_in_allowed_status(request, **_):
-    if request.validated["tender"]["status"] != "active.pre-qualification":
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current ({request.validated['tender']['status']}) tender status",
-        )
-
-
-def validate_qualification_document_operation_not_in_pending(request, **_):
-    qualification = request.validated["qualification"]
-    if qualification["status"] != "pending":
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current qualification status",
-        )
-
-
 # lot
-
-
-validate_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
-    "lot", ("active.tendering", "draft", "draft.stage2")
-)
-
-
-def validate_24h_milestone_released(request, **kwargs):
-    validate_tender_first_revision_date(request, validation_date=RELEASE_2020_04_19)
 
 
 def is_positive_float(value):
     if value <= 0:
         raise ValidationError("Float value should be greater than 0.")
-
-
-def validate_bid_document_operation_in_award_status(request, **_):
-    tender = request.validated["tender"]
-    bid = request.validated["bid"]
-
-    allowed_award_statuses = ("active",)
-
-    if tender["status"] in ("active.qualification", "active.awarded") and not any(
-        award["status"] in allowed_award_statuses and award["bid_id"] == bid["id"] for award in tender.get("awards", "")
-    ):
-        raise_operation_error(
-            request,
-            "Can't {} document because award of bid is not in one of statuses {}".format(
-                OPERATIONS.get(request.method), allowed_award_statuses
-            ),
-        )
-
-
-def validate_bid_document_in_tender_status_base(request, allowed_statuses):
-    """
-    active.tendering - tendering docs
-    active.qualification - multi-lot procedure may be in this status despite the active award
-    active.awarded - qualification docs that should be posted into award (another temp solution)
-    """
-    tender = request.validated["tender"]
-    status = tender["status"]
-    if status not in allowed_statuses:
-        operation = OPERATIONS.get(request.method)
-        raise_operation_error(
-            request,
-            "Can't {} document in current ({}) tender status".format(operation, status),
-        )
-
-
-def validate_bid_document_in_tender_status(request, **_):
-    """
-    active.tendering - tendering docs
-    active.awarded - qualification docs that should be posted into award (another temp solution)
-    """
-    tender = request.validated["tender"]
-    allowed_statuses = (
-        "active.tendering",
-        "active.qualification",
-        "active.awarded",
-    )
-
-    if tender["procurementMethodType"] in ("closeFrameworkAgreementUA",):
-        allowed_statuses += ("active.qualification.stand-still",)
-
-    validate_bid_document_in_tender_status_base(request, allowed_statuses)
-
-
-def validate_download_tender_document(request, **_):
-    if request.params.get("download"):
-        document = request.validated["document"]
-        if (
-            document.get("confidentiality", "") == ConfidentialityType.BUYER_ONLY
-            and request.authenticated_role not in ("aboveThresholdReviewers", "sas")
-            and not ("bid" in request.validated and is_item_owner(request, request.validated["bid"]))
-            and not is_item_owner(request, request.validated["tender"])
-        ):
-            raise_operation_error(request, "Document download forbidden.")
-
-
-def validate_bid_document_operation_in_bid_status(request, **_):
-    bid = request.validated["bid"]
-    if bid["status"] in ("unsuccessful", "deleted"):
-        raise_operation_error(
-            request,
-            "Can't {} document at '{}' bid status".format(OPERATIONS.get(request.method), bid["status"]),
-        )
-
-
-def validate_view_bid_documents_allowed_in_bid_status(request, **_):
-    bid_status = request.validated["bid"]["status"]
-    if bid_status in ("invalid", "deleted") and not is_item_owner(request, request.validated["bid"]):
-        raise_operation_error(request, f"Can't view bid documents in current ({bid_status}) bid status")
-
-
-def validate_view_financial_bid_documents_allowed_in_tender_status(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    forbidden_tender_statuses = (
-        "active.tendering",
-        "active.pre-qualification",
-        "active.pre-qualification.stand-still",
-        "active.auction",
-    )
-    if tender_status in forbidden_tender_statuses and not is_item_owner(request, request.validated["bid"]):
-        raise_operation_error(
-            request,
-            f"Can't view bid documents in current ({tender_status}) tender status",
-        )
-
-
-def validate_view_financial_bid_documents_allowed_in_bid_status(request, **_):
-    bid_status = request.validated["bid"]["status"]
-    forbidden_bid_statuses = (
-        "invalid",
-        "deleted",
-        "invalid.pre-qualification",
-        "unsuccessful",
-    )
-    if bid_status in forbidden_bid_statuses and not is_item_owner(request, request.validated["bid"]):
-        raise_operation_error(request, f"Can't view bid documents in current ({bid_status}) bid status")
-
-
-def validate_tender_status_for_put_action_period(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    if tender_status not in (
-        "active.auction",
-        "active.pre-qualification",
-        "active.tendering",
-    ):
-        raise_operation_error(
-            request,
-            f"Can't update auctionPeriod in current ({tender_status}) tender status",
-        )
-
-
-def validate_lot_status_active(request, **_):
-    tender = request.validated["tender"]
-    lot_id = request.matchdict.get("lot_id")
-    if not any(lot["status"] == "active" for lot in tender.get("lots", "") if lot["id"] == lot_id):
-        raise_operation_error(
-            request,
-            "Can update auction urls only in active lot status",
-        )
-
-
-# Plans
-def validate_procurement_kind_is_central(request, **kwargs):
-    if request.validated["tender"]["procuringEntity"]["kind"] != ProcuringEntityKind.CENTRAL:
-        raise raise_operation_error(
-            request, "Only allowed for procurementEntity.kind = '{}'".format(ProcuringEntityKind.CENTRAL)
-        )
-
-
-def validate_tender_in_draft(request, **kwargs):
-    if request.validated["tender"]["status"] not in ("draft", "draft.stage2"):
-        raise raise_operation_error(request, "Only allowed in draft tender status")
 
 
 def check_requirements_active(criterion):
@@ -1177,25 +498,6 @@ def validate_required_fields(request, data: dict, required_fields: dict, name="d
     errors = validation(data, required_fields)
     if errors:
         raise_operation_error(request, errors, name=name, status=422)
-
-
-def validate_req_response_values(response):
-    requirement, *_ = get_requirement_obj(response["requirement"]["id"])
-    if requirement:
-        if requirement.get("expectedValues") is not None and response.get("value") is not None:
-            raise_operation_error(
-                get_request(),
-                f"only 'values' allowed in response for requirement {requirement['id']}",
-                name="requirementResponses",
-                status=422,
-            )
-        elif requirement.get("expectedValues") is None and response.get("values") is not None:
-            raise_operation_error(
-                get_request(),
-                f"only 'value' allowed in response for requirement {requirement['id']}",
-                name="requirementResponses",
-                status=422,
-            )
 
 
 def validate_field_change(field_name, before_obj, after_obj, validator, args):
@@ -1604,175 +906,16 @@ def validate_tender_milestones_required(request, tender, required=True, delivery
 # --- belowThreshold ---
 
 
-# tender
-def tender_for_funder(tender):
-    return tender.get("_id") in BELOWTHRESHOLD_FUNDERS_IDS
-
-
-def validate_bt_tender_status_allows_update_operation(request, **_):
-    allowed_statuses = [
-        "draft",
-        "active.enquiries",
-        "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
-        "active.pre-qualification.stand-still",
-    ]
-
-    if tender_for_funder(request.validated["tender"]):
-        allowed_statuses.append("active.tendering")
-
-    validate_tender_status_allows_update(*allowed_statuses)(request, **_)
-
-
-def validate_bt_tender_document_operation_in_allowed_tender_statuses(request, **_):
-    allowed_statuses = ["draft", "active.enquiries"]
-
-    if tender_for_funder(request.validated["tender"]):
-        allowed_statuses.append("active.tendering")
-
-    validate_document_operation_in_allowed_tender_statuses(allowed_statuses)(request, **_)
-
-
-# lot
-validate_bt_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
-    "lot",
-    ("active.enquiries", "draft"),
-)
-
-
 # --- requestForProposal ---
 
-# lot
-validate_rfp_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
-    "lot",
-    ("active.enquiries", "active.tendering", "draft"),
-)
-
-
 # --- closeFrameworkAgreementSelectionUA ---
-
-
-def unless_selection_bot(*validations):
-    def decorated(request, **_):
-        if request.authenticated_role != "agreement_selection":
-            for validation in validations:
-                validation(request)
-
-    return decorated
-
-
-# tender
-validate_cfa_selection_tender_document_operation_in_allowed_tender_statuses = (
-    validate_document_operation_in_allowed_tender_statuses(("draft", "draft.pending", "active.enquiries"))
-)
-
-
-# lot
-validate_cfa_selection_lot_operation_in_disallowed_tender_statuses = (
-    validate_item_operation_in_disallowed_tender_statuses(
-        "lot",
-        ("active.enquiries", "draft"),
-    )
-)
 
 
 # --- closeFrameworkAgreementUA ---
 
 
-# award
-def validate_cfa_award_document_tender_not_in_allowed_status(request, **_):
-    if request.authenticated_role == "bots":
-        allowed_tender_statuses = (
-            "active.awarded",
-            "active.qualification.stand-still",
-            "active.qualification",
-        )
-    else:
-        allowed_tender_statuses = ("active.qualification",)
-
-    status = request.validated["tender"]["status"]
-    if status not in allowed_tender_statuses:
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status",
-        )
-
-
 # lot
-# award document
-def validate_cfa_accepted_complaints(request, **kwargs):
-    award_lot = request.validated["award"].get("lotID")
-    if any(
-        any(c.get("status") == "accepted" for c in i.get("complaints", ""))
-        for i in request.validated["tender"].get("awards", "")
-        if i.get("lotID") == award_lot
-    ):
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document with accepted complaint",
-        )
-
-
 # --- competitiveDialogue ---
-
-
-def validate_cd2_firm_to_create_bid(request, **_):
-    tender = request.validated["tender"]
-    bid = request.validated["data"]
-    firm_keys = prepare_shortlisted_firms_keys(tender.get("shortlistedFirms") or "")
-    bid_keys = prepare_shortlisted_firms_bid_keys(bid)
-    if not (bid_keys <= firm_keys):
-        raise_operation_error(request, "Firm can't create bid")
-
-
-def validate_cd2_allowed_patch_fields(request, **_):
-    changes = request.validated["data"]
-    tender = request.validated["tender"]
-
-    status = tender["status"]
-    patchable_fields_by_status = {
-        "draft.stage2": {"tenderPeriod", "complaintPeriod", "items", "mainProcurementCategory", "status"},
-        "active.tendering": {"tenderPeriod", "complaintPeriod", "items"},
-    }
-    if tender_created_after(REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM):
-        patchable_fields_by_status["draft.stage2"].add("milestones")
-
-    if status in patchable_fields_by_status:
-        for f in changes:
-            if f not in patchable_fields_by_status[status] and tender.get(f) != changes[f]:
-                return raise_operation_error(
-                    request,
-                    "Field change's not allowed",
-                    location="body",
-                    name=f,
-                    status=422,
-                )
-
-        items = changes.get("items")
-        if items:
-            before_items = tender["items"]
-            if len(items) != len(before_items):
-                return raise_operation_error(
-                    request,
-                    "List size change's not allowed",
-                    location="body",
-                    name="items",
-                )
-
-            item_public_fields = {"deliveryDate", "profile", "category"}
-            for a, b in zip(items, before_items):
-                for f in a:
-                    if f not in item_public_fields and a[f] != b.get(f):
-                        return raise_operation_error(
-                            request,
-                            "Field change's not allowed",
-                            location="body",
-                            name=f"items.{f}",
-                            status=422,
-                        )
-
-
-def validate_cd2_lot_operation(request, **_):
-    raise_operation_error(request, "Can't {} lot for tender stage2".format(OPERATIONS.get(request.method)))
 
 
 def validate_shortlisted_firms_author(request, tender, obj, obj_name):
@@ -1801,46 +944,3 @@ def validate_shortlisted_firms_author(request, tender, obj, obj_name):
 
 
 # award
-# award document
-def validate_limited_document_operation_not_in_active(request, **kwargs):
-    status = request.validated["tender"]["status"]
-    if status != "active":
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current ({status}) tender status",
-        )
-
-
-def validate_limited_award_document_add_not_in_pending(request, **kwargs):
-    status = request.validated["award"]["status"]
-    if status != "pending":
-        raise_operation_error(
-            request,
-            f"Can't add document in current ({status}) award status",
-        )
-
-
-# tender documents
-def validate_limited_document_operation_in_not_allowed_tender_status(request, **_):
-    tender_status = request.validated["tender"]["status"]
-    if tender_status not in ("draft", "active"):
-        raise_operation_error(
-            request,
-            f"Can't {OPERATIONS.get(request.method)} document in current ({tender_status}) tender status",
-        )
-
-
-# contract document
-def validate_limited_contract_document_operation_not_in_allowed_contract_status(operation):
-    def validate(request, **_):
-        if request.validated["contract"]["status"] not in {"pending", "active"}:
-            raise_operation_error(request, f"Can't {operation} document in current contract status")
-
-    return validate
-
-
-# lot
-validate_limited_lot_operation_in_disallowed_tender_statuses = validate_item_operation_in_disallowed_tender_statuses(
-    "lot",
-    ("draft", "active"),
-)

@@ -2,12 +2,21 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement, CFAPatchAgreement
 from openprocurement.tender.cfaua.procedure.state.tender import CFAUATenderState
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
-class AgreementStateMixing:
+class CFAUAAgreementStateMixin:
+    patch_data_model = CFAPatchAgreement
+    data_model = CFAAgreement
+
+    def validate_agreement_patch_request(self):
+        self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "agreement")
+
     def agreement_on_patch(self, before, after):
         if before["status"] != after["status"]:
             self.agreement_status_up(before["status"], after["status"], after)
@@ -105,7 +114,7 @@ class AgreementStateMixing:
             raise_operation_error(request, "Can't update agreement with accepted complaint")
 
 
-class AgreementState(AgreementStateMixing, CFAUATenderState):
+class CFAUAAgreementState(CFAUAAgreementStateMixin, CFAUATenderState):
     def agreement_on_patch(self, before, after):
         super().agreement_on_patch(before, after)
         self.check_tender_status_on_active_awarded()

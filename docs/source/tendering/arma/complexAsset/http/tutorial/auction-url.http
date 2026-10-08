@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/0c99535af6024017bcbdec7b4a5c49da HTTP/1.0
+GET /api/2.5/tenders/ee8464b688974d51b379fe16104cce62 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -17,7 +17,7 @@ Content-Type: application/json
       {
         "items": [
           {
-            "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+            "id": "67dea3c4aabb41469f3f500178762300",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -28,7 +28,7 @@ Content-Type: application/json
             "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
           },
           {
-            "id": "832a07855e1642dd883da3c2c355e6c6",
+            "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -64,12 +64,12 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "9d1348ad3820464db3213aaf48a1f51b",
+        "id": "c58478830ccc441d84deb25d61992ffd",
         "documents": [
           {
             "confidentiality": "public",
             "documentType": "proposal",
-            "id": "d92cdc351e6646409151f57e545482ce",
+            "id": "5f4600dbd2014d69aca4bb919b34f1da",
             "datePublished": "2027-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal.p7s",
@@ -82,7 +82,7 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "fac93d0286504617aedc1b56fc7a636f",
+            "id": "02388451ca6c47bda1da134ec86ac4c6",
             "datePublished": "2027-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
@@ -94,7 +94,7 @@ Content-Type: application/json
           {
             "confidentiality": "public",
             "documentType": "proposal",
-            "id": "d92cdc351e6646409151f57e545482ce",
+            "id": "5f4600dbd2014d69aca4bb919b34f1da",
             "datePublished": "2027-01-01T00:01:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
@@ -107,7 +107,7 @@ Content-Type: application/json
           {
             "confidentiality": "public",
             "documentType": "proposal",
-            "id": "d92cdc351e6646409151f57e545482ce",
+            "id": "5f4600dbd2014d69aca4bb919b34f1da",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
@@ -121,7 +121,7 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "9365d1dc1e784d3eaaa8fdaa6d3a8384",
+            "id": "fa7e9a2e8b8f4c1e807dec1a6bccb8c1",
             "datePublished": "2027-01-01T00:00:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -142,7 +142,7 @@ Content-Type: application/json
       {
         "items": [
           {
-            "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+            "id": "67dea3c4aabb41469f3f500178762300",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -153,7 +153,7 @@ Content-Type: application/json
             "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
           },
           {
-            "id": "832a07855e1642dd883da3c2c355e6c6",
+            "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
             "description": "Послуги шкільних їдалень",
             "description_en": "Services in school canteens",
             "unit": {
@@ -189,12 +189,12 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "df99d252198c4688997da7d2968f57f3",
+        "id": "806612d4d3e349ca8d55675fc43d5582",
         "documents": [
           {
             "confidentiality": "public",
             "documentType": "proposal",
-            "id": "5fc617aa6d3b4586b9b2464182f824d1",
+            "id": "0a0222155d2544c5a66a0d336b9fded5",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
@@ -238,11 +238,11 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "ec61ff4dff6e4acc8d78e1f819212cb9",
+        "id": "aee0ed97116949c99f997c21d076dcc1",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "1091aa8d39434f8db09f658187a89443",
+            "id": "7d2f6fdee7354dc08da55ff6e2569e98",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -254,7 +254,7 @@ Content-Type: application/json
           },
           {
             "confidentiality": "public",
-            "id": "ab0b2256d0914983843c3ede89e6a6f1",
+            "id": "815f4afe76ab41cc952edc13a01ce3ec",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
@@ -267,7 +267,7 @@ Content-Type: application/json
           {
             "confidentiality": "public",
             "documentType": "proposal",
-            "id": "e1b70613e87d41799bb59736614a0155",
+            "id": "adcb2c9cb8c04f318ce7aa5cc5fa95f5",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
@@ -281,7 +281,7 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "0ff59b8975c84f73b22f95b7ed811c6b",
+            "id": "0e5c79d2d9fe42f9953f07edbd606157",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -302,9 +302,9 @@ Content-Type: application/json
     ],
     "questions": [
       {
-        "id": "b939fb9b2a6948cdb3b00fab72f65874",
+        "id": "e472e02a142842c7b2c10e37a640383c",
         "author": {
-          "hash": "eefc2e295999e44a89a6a72fdd9a7edf"
+          "hash": "1a8f608d2051f7059104eea9c6e8484a"
         },
         "title": "Калорійність",
         "description": "Просимо додати таблицю потрібної калорійності харчування",
@@ -318,7 +318,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "478f4d136f2449d1b9ffb7b64e323b2b",
+        "id": "dd0198716ac94db49475ffb444e4bd55",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -331,7 +331,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "238c572bb514470fa6f943a5d3df94e1",
+        "id": "9811729e89504bc8a6fe7c49dcc492fb",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -344,7 +344,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "db00d3decba042cdac551218ed395bb4",
+        "id": "c598881d59144426bf26078bce8d3448",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -357,7 +357,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "238c572bb514470fa6f943a5d3df94e1",
+        "id": "9811729e89504bc8a6fe7c49dcc492fb",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
@@ -371,7 +371,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "evaluationReports",
-        "id": "3390ad28b6054496bec5c430349a84d5",
+        "id": "26531500dbf94b1a8b216e0cf0907ed3",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -392,7 +392,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "c29c905d6d9049b086108508281cfcf0",
-        "bidID": "9d1348ad3820464db3213aaf48a1f51b",
+        "bidID": "c58478830ccc441d84deb25d61992ffd",
         "lotID": "d9c1c86a51294d9f9e128b780416b344",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -401,7 +401,7 @@ Content-Type: application/json
       },
       {
         "id": "408057cd725c4451982e0a42bfc03b5e",
-        "bidID": "df99d252198c4688997da7d2968f57f3",
+        "bidID": "806612d4d3e349ca8d55675fc43d5582",
         "lotID": "d9c1c86a51294d9f9e128b780416b344",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -410,7 +410,7 @@ Content-Type: application/json
       },
       {
         "id": "2896d1591f314d42865277bf08da65ea",
-        "bidID": "ec61ff4dff6e4acc8d78e1f819212cb9",
+        "bidID": "aee0ed97116949c99f997c21d076dcc1",
         "lotID": "d9c1c86a51294d9f9e128b780416b344",
         "status": "unsuccessful",
         "date": "2027-01-01T00:03:00+02:00",
@@ -510,7 +510,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "3dfb9ab212474595a4cbfdde0ab1d6d9",
+        "id": "67dea3c4aabb41469f3f500178762300",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -544,7 +544,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "832a07855e1642dd883da3c2c355e6c6",
+        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -627,12 +627,12 @@ Content-Type: application/json
           "startDate": "2027-01-04T15:28:52.219000+02:00",
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/0c99535af6024017bcbdec7b4a5c49da_d9c1c86a51294d9f9e128b780416b344"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/ee8464b688974d51b379fe16104cce62_d9c1c86a51294d9f9e128b780416b344"
       }
     ],
     "next_check": "2027-01-04T15:28:52.219000+02:00",
     "auctionPeriod": {},
-    "id": "0c99535af6024017bcbdec7b4a5c49da"
+    "id": "ee8464b688974d51b379fe16104cce62"
   },
   "config": {
     "hasAuction": true,

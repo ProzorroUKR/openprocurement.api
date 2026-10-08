@@ -1,14 +1,11 @@
 from cornice.resource import resource
 from pyramid.security import Allow
 
-from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.auction import AuctionPeriodStartDate
-from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_status_active,
-    validate_tender_status_for_put_action_period,
+from openprocurement.tender.core.procedure.state.auction_period_start_date import (
+    AuctionPeriodStartDateState,
 )
+from openprocurement.tender.core.procedure.utils import save_tender
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
@@ -19,18 +16,17 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
     description="Tender auctionPeriod start date",
 )
 class TenderAuctionPeriodResource(TenderBaseResource):
+    state_class = AuctionPeriodStartDateState
+
     def __acl__(self):
         return [(Allow, "g:Administrator", "edit_action_period")]
 
     @json_view(
         content_type="application/json",
         permission="edit_action_period",
-        validators=(
-            validate_tender_status_for_put_action_period,
-            validate_input_data(AuctionPeriodStartDate),
-        ),
     )
     def collection_put(self):
+        self.state.validate_auction_period_put_request()
         tender = self.request.validated["tender"]
         data = self.request.validated["data"]
         self.state.validate_auction_period_start_date(tender, data)
@@ -44,13 +40,9 @@ class TenderAuctionPeriodResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_action_period",
-        validators=(
-            validate_tender_status_for_put_action_period,
-            validate_lot_status_active,
-            validate_input_data(AuctionPeriodStartDate),
-        ),
     )
     def put(self):
+        self.state.validate_auction_period_put_request()
         lot_id = self.request.matchdict["lot_id"]
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]

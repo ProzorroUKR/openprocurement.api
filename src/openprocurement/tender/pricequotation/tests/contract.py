@@ -1,7 +1,7 @@
 import unittest
 from copy import deepcopy
 
-# from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+# from openprocurement.tender.open.tests.below_threshold.contract_blanks import (
 #     create_tender_contract,
 #     patch_contract_multi_items_unit_value,
 #     patch_contract_single_item_unit_value,

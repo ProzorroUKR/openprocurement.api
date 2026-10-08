@@ -3,8 +3,8 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_supplier,
 )
@@ -311,8 +311,8 @@ def patch_tender_currency(self):
 
 
 @mock.patch(
-    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixing.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    "openprocurement.tender.core.procedure.state.tender_details.BaseTenderDetailsMixin.vat_not_included_validation_from",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_vat(self):
     # set tender VAT
@@ -1062,7 +1062,8 @@ def create_tender_with_features_bidder(self):
 def one_lot_0bid(self):
     self.create_tender(self.test_lots_data)
     response = self.set_status(
-        "active.tendering", {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=10)).isoformat()}}]}
+        "active.tendering",
+        {"lots": [{"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=10)).isoformat()}}]},
     )
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # switch to unsuccessful
@@ -1324,7 +1325,7 @@ def two_lot_2bid_1lot_del(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
                 for i in self.initial_lots
             ]
         },
@@ -2150,7 +2151,8 @@ def one_lot_0bid_ua(self):
     self.create_tender(initial_lots=self.test_lots_data)
     # switch to active.tendering
     response = self.set_status(
-        "active.tendering", {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]}
+        "active.tendering",
+        {"lots": [{"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}]},
     )
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # switch to unsuccessful
@@ -2167,7 +2169,8 @@ def one_lot_2bid_ua(self):
     tenderers = self.create_tenderers(2)
     # switch to active.tendering
     response = self.set_status(
-        "active.tendering", {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]}
+        "active.tendering",
+        {"lots": [{"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}]},
     )
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bid
@@ -2268,7 +2271,8 @@ def one_lot_3bid_1un_ua(self):
     self.create_tender(initial_lots=self.test_lots_data)
     tenderers = self.create_tenderers(3)
     response = self.set_status(
-        "active.tendering", {"lots": [{"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}]}
+        "active.tendering",
+        {"lots": [{"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}]},
     )
     self.assertIn("auctionPeriod", response.json["data"]["lots"][0])
     # create bids
@@ -2428,7 +2432,8 @@ def two_lot_0bid_ua(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in self.lots_id
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in self.lots_id
             ]
         },
     )
@@ -2462,7 +2467,8 @@ def two_lot_1bid_0com_1can_ua(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in self.lots_id
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in self.lots_id
             ]
         },
     )
@@ -2500,7 +2506,8 @@ def two_lot_1bid_2com_1win_ua(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in self.lots_id
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in self.lots_id
             ]
         },
     )
@@ -2587,7 +2594,8 @@ def two_lot_1bid_0com_0win_ua(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in self.lots_id
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in self.lots_id
             ]
         },
     )
@@ -2637,7 +2645,8 @@ def two_lot_1bid_1com_1win_ua(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in self.lots_id
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in self.lots_id
             ]
         },
     )
@@ -2686,7 +2695,8 @@ def two_lot_2bid_2com_2win_ua(self):
         "active.tendering",
         {
             "lots": [
-                {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}} for i in self.lots_id
+                {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
+                for i in self.lots_id
             ]
         },
     )

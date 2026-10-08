@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/bids/3088275f136046dab34594e16227bb54?acc_token=3634b8e20194444080f3e3f609d4c167&opt_context=true HTTP/1.0
+GET /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/bids/716a0f6c194c4fc7821cce4f4110d4e1?acc_token=d7e7090b347b47dcb3fe96a8ffd23c79&opt_context=true HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "732297dbdac1483485eee96e6aca8d14",
+        "id": "163865a07539490a92a32fc6e2165d02",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -23,10 +23,10 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "5b0412bd862347cfb29c8de0b4736b58"
+        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05"
       },
       {
-        "id": "937c5435d83140948736e70562c45b4e",
+        "id": "81d5d39f9c204847953a11a4ddca5fb0",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -39,7 +39,7 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "5b0412bd862347cfb29c8de0b4736b58"
+        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05"
       }
     ],
     "lotValues": [
@@ -49,7 +49,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
+        "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }
@@ -88,13 +88,13 @@ Content-Type: application/json
     ],
     "status": "pending",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "3088275f136046dab34594e16227bb54",
+    "id": "716a0f6c194c4fc7821cce4f4110d4e1",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "2606f14d4d5345b486c3f42881f68eb3",
+        "id": "2212067d0d7140d48e7634c66b4af20a",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -251,7 +251,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "732297dbdac1483485eee96e6aca8d14",
+          "id": "163865a07539490a92a32fc6e2165d02",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -282,10 +282,10 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedLot": "5b0412bd862347cfb29c8de0b4736b58"
+          "relatedLot": "dfc479e5269a43ba88eca688c70d3b05"
         },
         {
-          "id": "937c5435d83140948736e70562c45b4e",
+          "id": "81d5d39f9c204847953a11a4ddca5fb0",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -316,7 +316,7 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedLot": "5b0412bd862347cfb29c8de0b4736b58"
+          "relatedLot": "dfc479e5269a43ba88eca688c70d3b05"
         }
       ],
       "procurementMethodType": "aboveThresholdEU",
@@ -364,7 +364,7 @@ Content-Type: application/json
           "title": "Лот №1",
           "description": "Опис Лот №1",
           "status": "active",
-          "id": "5b0412bd862347cfb29c8de0b4736b58",
+          "id": "dfc479e5269a43ba88eca688c70d3b05",
           "date": "2027-01-01T00:00:00+02:00",
           "value": {
             "currency": "UAH",
@@ -383,7 +383,7 @@ Content-Type: application/json
         }
       ],
       "next_check": "2027-02-01T00:00:00+02:00",
-      "id": "4a2a576c85d54712935397876296f0d9"
+      "id": "0d54cbd89469424aba8641fad61fadf4"
     }
   }
 }

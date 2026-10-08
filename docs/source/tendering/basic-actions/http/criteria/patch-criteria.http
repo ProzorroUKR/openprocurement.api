@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/7e0cabc0e0554ae1a8dfb85f7d43849c/criteria/06b2dc1a48b740b0b1a0af87f2d4ba1f?acc_token=eb6b48c2dc7d4861892c0a5b340af985 HTTP/1.0
+PATCH /api/2.5/tenders/c47eb908d737465e8a509f1c7ef57071/criteria/2adf2b4aa45043d383e4f7aa15f8d154?acc_token=47032dab34dc479cbde6b06ab3939299 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "06b2dc1a48b740b0b1a0af87f2d4ba1f",
+    "id": "2adf2b4aa45043d383e4f7aa15f8d154",
     "description": "Cуб’єкт господарювання (учасник) протягом останніх трьох років притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів",
     "source": "tenderer",
     "relatesTo": "tender",
@@ -58,11 +58,11 @@ Content-Type: application/json
     ],
     "requirementGroups": [
       {
-        "id": "9f8ecb1c4a504e69b8b537680c9936c9",
+        "id": "e33b17ae2a224b2aab606af748427630",
         "description": "Підтверджується, що",
         "requirements": [
           {
-            "id": "6a008b2bbf684416a57ffde1d714ba4c",
+            "id": "27ffd4badc514b27be9dc622f99b40de",
             "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів",
             "dataType": "boolean",
             "eligibleEvidences": [
@@ -70,7 +70,7 @@ Content-Type: application/json
                 "title": "Документальне підтвердження",
                 "description": "Довідка в довільній формі",
                 "type": "document",
-                "id": "0c6d6abed5f44c4cab245874c5340c15"
+                "id": "a8ade1a318b34316b68f30d9c7609dc2"
               }
             ],
             "status": "active",

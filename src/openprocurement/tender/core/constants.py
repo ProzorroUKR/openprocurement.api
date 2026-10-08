@@ -3,7 +3,6 @@ from decimal import Decimal
 from enum import StrEnum
 
 from openprocurement.api.constants import TZ
-from openprocurement.tender.belowthreshold.constants import BELOW_THRESHOLD
 from openprocurement.tender.cfaua.constants import CFA_UA
 from openprocurement.tender.competitivedialogue.constants import (
     CD_EU_TYPE,
@@ -11,20 +10,19 @@ from openprocurement.tender.competitivedialogue.constants import (
     STAGE_2_EU_TYPE,
     STAGE_2_UA_TYPE,
 )
-from openprocurement.tender.competitiveordering.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    BELOW_THRESHOLD,
+    COMPETITIVE_ORDERING,
+    REQUEST_FOR_PROPOSAL,
+    SIMPLE_DEFENSE,
 )
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.openeu.constants import ABOVE_THRESHOLD_EU
-from openprocurement.tender.openua.constants import ABOVE_THRESHOLD_UA
-from openprocurement.tender.openuadefense.constants import ABOVE_THRESHOLD_UA_DEFENSE
 from openprocurement.tender.pricequotation.constants import PQ as PRICEQUOTATION
-from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
-from openprocurement.tender.simpledefense.constants import SIMPLE_DEFENSE
 
 
 class ReqStatuses:
@@ -143,7 +141,16 @@ AGREEMENT_MILESTONES_MISMATCH_MESSAGE = "Agreement milestones does not match ten
 
 CONTRACT_PERIOD_START_DAYS = 5
 
+# which period calculations use working days (the open family value); calendar days everywhere otherwise
 DEFAULT_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+CALENDAR_DAYS_CONFIG = {
     "minTenderingDuration": False,
     "minEnquiriesDuration": False,
     "enquiryPeriodRegulation": False,
@@ -177,3 +184,14 @@ CHRONOGRAPH_PATCH_LOG_FIELDS = [
     "dateModified",
     "next_check",
 ]
+
+# multilingual fields required by the EU-type procedures (openeu, esco, competitiveDialogue)
+EU_REQUIRED_MULTILINGUAL_FIELDS = {
+    "procuringEntity": {
+        "name_en": True,
+        "identifier": {"legalName_en": True},
+        "contactPoint": {"name_en": True},
+        "additionalContactPoints": {"name_en": True},
+    },
+    "items": {"description_en": True},
+}

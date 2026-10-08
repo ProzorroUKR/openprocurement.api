@@ -3,6 +3,7 @@ from datetime import timedelta
 from freezegun import freeze_time
 
 from openprocurement.api.context import get_request_now
+from openprocurement.api.utils import calculate_date
 from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.framework.dps.tests.base import test_question_data
 from openprocurement.tender.core.procedure.utils import dt_from_iso
@@ -211,8 +212,8 @@ def create_question_check_enquiry_period(self):
     self.framework_document = self.mongodb.frameworks.get(self.framework_id)
     self.framework_document_patch = {
         "enquiryPeriod": {
-            "startDate": (get_request_now() + timedelta(days=1)).isoformat(),
-            "endDate": (get_request_now() + timedelta(days=11)).isoformat(),
+            "startDate": calculate_date(get_request_now(), timedelta(days=1)).isoformat(),
+            "endDate": calculate_date(get_request_now(), timedelta(days=11)).isoformat(),
         }
     }
     self.save_changes()

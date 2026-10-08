@@ -3,10 +3,7 @@ from uuid import uuid4
 
 from isodate import duration_isoformat
 
-from openprocurement.tender.cfaua.constants import (
-    CLARIFICATIONS_UNTIL_PERIOD,
-    MAX_AGREEMENT_PERIOD,
-)
+from openprocurement.tender.cfaua.constants import CFA_UA_CLARIFICATIONS_UNTIL_PERIOD, CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
 
@@ -175,7 +172,7 @@ def patch_tender_agreement_datesigned(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
-        datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+        datetime.now() - CFA_UA_CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
     self.mongodb.tenders.save(tender)
@@ -210,7 +207,7 @@ def patch_tender_agreement_datesigned(self):
         [
             {
                 "description": [
-                    "Agreement period can't be greater than {}.".format(duration_isoformat(MAX_AGREEMENT_PERIOD))
+                    "Agreement period can't be greater than {}.".format(duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD))
                 ],
                 "location": "body",
                 "name": "period",
@@ -637,7 +634,7 @@ def patch_tender_agreement(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
-        datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+        datetime.now() - CFA_UA_CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
     self.mongodb.tenders.save(tender)
@@ -1149,7 +1146,7 @@ def four_contracts_one_unsuccessful(self):
 
     tender = self.mongodb.tenders.get(self.tender_id)
     tender["contractPeriod"]["startDate"] = (
-        datetime.now() - CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
+        datetime.now() - CFA_UA_CLARIFICATIONS_UNTIL_PERIOD - timedelta(days=1)
     ).isoformat()
     tender["contractPeriod"]["clarificationsUntil"] = (datetime.now() - timedelta(days=1)).isoformat()
     self.mongodb.tenders.save(tender)

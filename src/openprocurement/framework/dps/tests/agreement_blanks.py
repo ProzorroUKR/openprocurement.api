@@ -8,7 +8,7 @@ from freezegun import freeze_time
 
 from openprocurement.api.mask import MASK_STRING, MASK_STRING_EN
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.procedure.models.milestone import (
     CONTRACT_BAN_DURATION,
 )
@@ -453,7 +453,7 @@ def post_submission_with_active_contract(self):
 
 
 def patch_agreement_terminated_status(self):
-    end_date = get_now() + timedelta(days=CONTRACT_BAN_DURATION - 1)
+    end_date = calculate_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION - 1))
     response = self.app.post_json(
         f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
@@ -521,7 +521,7 @@ def patch_contract_active_status(self):
             "data": {
                 "modifications": {
                     "qualificationPeriod": {
-                        "endDate": (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()
+                        "endDate": calculate_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION + 2)).isoformat()
                     },
                 },
                 "rationale": "Треба",
@@ -586,7 +586,7 @@ def patch_contract_active_status(self):
 
 
 def patch_several_contracts_active_status(self):
-    qualification_end_date = (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
+    qualification_end_date = calculate_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
     response = self.app.post_json(
         f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
@@ -659,7 +659,7 @@ def patch_several_contracts_active_status(self):
 
 
 def agreement_chronograph_milestones(self):
-    qualification_end_date = (get_now() + timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
+    qualification_end_date = calculate_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION + 3)).isoformat()
     response = self.app.post_json(
         f"/frameworks/{self.framework_id}/changes?acc_token={self.framework_token}",
         {
@@ -978,7 +978,7 @@ def put_milestone_document(self):
     doc_id = response.json["data"]["id"]
     dateModified = response.json["data"]["dateModified"]
     self.assertIn(doc_id, response.headers["Location"])
-    with freeze_time((get_now() + timedelta(days=1)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=1)).isoformat()):
         response = self.app.put_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
             f"/documents/{doc_id}?acc_token={self.framework_token}",
@@ -1026,7 +1026,7 @@ def put_milestone_document(self):
     self.assertEqual(dateModified, response.json["data"][1]["dateModified"])
     self.assertEqual(dateModified2, response.json["data"][2]["dateModified"])
 
-    with freeze_time((get_now() + timedelta(days=2)).isoformat()):
+    with freeze_time(calculate_date(get_now(), timedelta(days=2)).isoformat()):
         response = self.app.post_json(
             f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
             f"/documents?acc_token={self.framework_token}",

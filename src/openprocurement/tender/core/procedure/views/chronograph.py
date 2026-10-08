@@ -1,7 +1,6 @@
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import apply_data_patch
-from openprocurement.api.procedure.validation import validate_patch_input_data
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.constants import CHRONOGRAPH_PATCH_LOG_FIELDS
 from openprocurement.tender.core.procedure.contracting import (
@@ -10,7 +9,6 @@ from openprocurement.tender.core.procedure.contracting import (
     prepare_contracting_contracts_cancelled,
     save_contracting_contracts,
 )
-from openprocurement.tender.core.procedure.models.chronograph import TenderChronographData
 from openprocurement.tender.core.procedure.serializers.chronograph import (
     ChronographSerializer,
 )
@@ -34,13 +32,13 @@ class TenderChronographResource(TenderBaseResource):
 
     @json_view(
         permission="chronograph",
-        validators=(validate_patch_input_data(TenderChronographData),),
     )
     def patch(self):
         # 1 we convert [{"auctionPeriod": {"startDate": "2020.."}}, {"auctionPeriod": None}]
         #           to [{"auctionPeriod": {"startDate": "2020.."}}, {}]
         # TODO find a better way to specify partial update
 
+        self.state.validate_chronograph_patch_request()
         data = self.request.validated["data"]
         tender = self.request.validated["tender"]
         tender_src = self.request.validated["tender_src"]

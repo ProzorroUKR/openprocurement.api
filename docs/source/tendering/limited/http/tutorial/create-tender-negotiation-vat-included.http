@@ -36,7 +36,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "name": "папір"
         },
         "quantity": 1,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ],
     "procurementMethod": "limited",
@@ -93,7 +93,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "sequenceNumber": 1,
         "code": "standard",
         "percentage": 100,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       },
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -106,7 +106,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 2,
         "percentage": 45.55,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       },
       {
         "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -119,7 +119,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "sequenceNumber": 3,
         "percentage": 54.45,
-        "relatedLot": "a40018b790aa497981813a1a78c05f6d"
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ],
     "mainProcurementCategory": "services",
@@ -137,7 +137,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "id": "a40018b790aa497981813a1a78c05f6d"
+        "id": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ]
   },

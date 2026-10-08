@@ -3,8 +3,8 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
     test_tender_reporting_config,
     test_tender_reporting_data,
@@ -920,11 +920,12 @@ confidential_documents_tender_params = [
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 @patch(
     "openprocurement.tender.core.procedure.state.tender_details.RELATED_LOT_REQUIRED_FROM",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def limited_contract_confidential_document(self, _, init_tender_data, init_tender_config, cause_details_data):
     tender_data = deepcopy(init_tender_data)
@@ -1183,7 +1184,8 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def limited_contract_confidential_document_energy_crisis(self):
     tender_data = deepcopy(test_tender_reporting_data)

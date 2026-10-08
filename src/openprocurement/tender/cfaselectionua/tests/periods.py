@@ -1,8 +1,8 @@
 from datetime import timedelta
 
 from openprocurement.tender.cfaselectionua.constants import (
-    AUCTION_DURATION,
-    COMPLAINT_DURATION,
+    CFA_SELECTION_AUCTION_DURATION,
+    CFA_SELECTION_COMPLAINT_DURATION,
 )
 
 CLARIFICATIONS_DURATION = timedelta(days=5)
@@ -47,79 +47,123 @@ PERIODS = {
         },
         "end": {
             "enquiryPeriod": {
-                "startDate": (-ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION - timedelta(days=3)),
-                "endDate": (-TENDERING_DURATION - AUCTION_DURATION - timedelta(days=2)),
+                "startDate": (
+                    -ENQUIRY_PERIOD - TENDERING_DURATION - CFA_SELECTION_AUCTION_DURATION - timedelta(days=3)
+                ),
+                "endDate": (-TENDERING_DURATION - CFA_SELECTION_AUCTION_DURATION - timedelta(days=2)),
             },
             "tenderPeriod": {
-                "startDate": (-TENDERING_DURATION - AUCTION_DURATION - timedelta(days=2)),
-                "endDate": (-AUCTION_DURATION - timedelta(days=1)),
+                "startDate": (-TENDERING_DURATION - CFA_SELECTION_AUCTION_DURATION - timedelta(days=2)),
+                "endDate": (-CFA_SELECTION_AUCTION_DURATION - timedelta(days=1)),
             },
-            "auctionPeriod": {"startDate": (-AUCTION_DURATION - timedelta(days=1)), "endDate": timedelta()},
+            "auctionPeriod": {
+                "startDate": (-CFA_SELECTION_AUCTION_DURATION - timedelta(days=1)),
+                "endDate": timedelta(),
+            },
         },
     },
     "active.qualification": {
         "start": {
             "enquiryPeriod": {
-                "startDate": (-ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION - timedelta(days=3)),
-                "endDate": (-TENDERING_DURATION - AUCTION_DURATION - timedelta(days=2)),
+                "startDate": (
+                    -ENQUIRY_PERIOD - TENDERING_DURATION - CFA_SELECTION_AUCTION_DURATION - timedelta(days=3)
+                ),
+                "endDate": (-TENDERING_DURATION - CFA_SELECTION_AUCTION_DURATION - timedelta(days=2)),
             },
             "tenderPeriod": {
-                "startDate": (-TENDERING_DURATION - AUCTION_DURATION - timedelta(days=2)),
-                "endDate": (-AUCTION_DURATION - timedelta(days=1)),
+                "startDate": (-TENDERING_DURATION - CFA_SELECTION_AUCTION_DURATION - timedelta(days=2)),
+                "endDate": (-CFA_SELECTION_AUCTION_DURATION - timedelta(days=1)),
             },
-            "auctionPeriod": {"startDate": (-AUCTION_DURATION - timedelta(days=1)), "endDate": timedelta()},
+            "auctionPeriod": {
+                "startDate": (-CFA_SELECTION_AUCTION_DURATION - timedelta(days=1)),
+                "endDate": timedelta(),
+            },
             "awardPeriod": {"startDate": timedelta()},
-        },
-        "end": {
-            "enquiryPeriod": {
-                "startDate": (
-                    -ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=3)
-                ),
-                "endDate": (-TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=2)),
-            },
-            "tenderPeriod": {
-                "startDate": (-TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=2)),
-                "endDate": (-AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=1)),
-            },
-            "auctionPeriod": {
-                "startDate": (-AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=1)),
-                "endDate": (-COMPLAINT_DURATION - timedelta(days=1)),
-            },
-            "awardPeriod": {"startDate": (-COMPLAINT_DURATION - timedelta(days=1)), "endDate": timedelta()},
-        },
-    },
-    "active.awarded": {
-        "start": {
-            "enquiryPeriod": {
-                "startDate": (
-                    -ENQUIRY_PERIOD - TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=3)
-                ),
-                "endDate": (-TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=2)),
-            },
-            "tenderPeriod": {
-                "startDate": (-TENDERING_DURATION - AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=2)),
-                "endDate": (-AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=1)),
-            },
-            "auctionPeriod": {
-                "startDate": (-AUCTION_DURATION - COMPLAINT_DURATION - timedelta(days=1)),
-                "endDate": (-COMPLAINT_DURATION - timedelta(days=1)),
-            },
-            "awardPeriod": {"startDate": (-COMPLAINT_DURATION - timedelta(days=1)), "endDate": timedelta()},
         },
         "end": {
             "enquiryPeriod": {
                 "startDate": (
                     -ENQUIRY_PERIOD
                     - TENDERING_DURATION
-                    - AUCTION_DURATION
-                    - COMPLAINT_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - timedelta(days=3)
+                ),
+                "endDate": (
+                    -TENDERING_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - timedelta(days=2)
+                ),
+            },
+            "tenderPeriod": {
+                "startDate": (
+                    -TENDERING_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - timedelta(days=2)
+                ),
+                "endDate": (-CFA_SELECTION_AUCTION_DURATION - CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+            },
+            "auctionPeriod": {
+                "startDate": (-CFA_SELECTION_AUCTION_DURATION - CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+                "endDate": (-CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+            },
+            "awardPeriod": {
+                "startDate": (-CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+                "endDate": timedelta(),
+            },
+        },
+    },
+    "active.awarded": {
+        "start": {
+            "enquiryPeriod": {
+                "startDate": (
+                    -ENQUIRY_PERIOD
+                    - TENDERING_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - timedelta(days=3)
+                ),
+                "endDate": (
+                    -TENDERING_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - timedelta(days=2)
+                ),
+            },
+            "tenderPeriod": {
+                "startDate": (
+                    -TENDERING_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - timedelta(days=2)
+                ),
+                "endDate": (-CFA_SELECTION_AUCTION_DURATION - CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+            },
+            "auctionPeriod": {
+                "startDate": (-CFA_SELECTION_AUCTION_DURATION - CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+                "endDate": (-CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+            },
+            "awardPeriod": {
+                "startDate": (-CFA_SELECTION_COMPLAINT_DURATION - timedelta(days=1)),
+                "endDate": timedelta(),
+            },
+        },
+        "end": {
+            "enquiryPeriod": {
+                "startDate": (
+                    -ENQUIRY_PERIOD
+                    - TENDERING_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
                     - timedelta(days=3)
                 ),
                 "endDate": (
                     -TENDERING_DURATION
-                    - AUCTION_DURATION
-                    - COMPLAINT_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
                     - timedelta(days=2)
                 ),
@@ -127,19 +171,29 @@ PERIODS = {
             "tenderPeriod": {
                 "startDate": (
                     -TENDERING_DURATION
-                    - AUCTION_DURATION
-                    - COMPLAINT_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
                     - timedelta(days=2)
                 ),
-                "endDate": (-AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
+                "endDate": (
+                    -CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
             },
             "auctionPeriod": {
-                "startDate": (-AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
-                "endDate": (-COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
+                "startDate": (
+                    -CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
+                "endDate": (-CFA_SELECTION_COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
             },
             "awardPeriod": {
-                "startDate": (-COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
+                "startDate": (-CFA_SELECTION_COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
                 "endDate": (-CLARIFICATIONS_DURATION),
             },
         },
@@ -150,15 +204,15 @@ PERIODS = {
                 "startDate": (
                     -ENQUIRY_PERIOD
                     - TENDERING_DURATION
-                    - AUCTION_DURATION
-                    - COMPLAINT_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
                     - timedelta(days=3)
                 ),
                 "endDate": (
                     -TENDERING_DURATION
-                    - AUCTION_DURATION
-                    - COMPLAINT_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
                     - timedelta(days=2)
                 ),
@@ -166,19 +220,29 @@ PERIODS = {
             "tenderPeriod": {
                 "startDate": (
                     -TENDERING_DURATION
-                    - AUCTION_DURATION
-                    - COMPLAINT_DURATION
+                    - CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
                     - CLARIFICATIONS_DURATION
                     - timedelta(days=2)
                 ),
-                "endDate": (-AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
+                "endDate": (
+                    -CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
             },
             "auctionPeriod": {
-                "startDate": (-AUCTION_DURATION - COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
-                "endDate": (-COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
+                "startDate": (
+                    -CFA_SELECTION_AUCTION_DURATION
+                    - CFA_SELECTION_COMPLAINT_DURATION
+                    - CLARIFICATIONS_DURATION
+                    - timedelta(days=1)
+                ),
+                "endDate": (-CFA_SELECTION_COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
             },
             "awardPeriod": {
-                "startDate": (-COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
+                "startDate": (-CFA_SELECTION_COMPLAINT_DURATION - CLARIFICATIONS_DURATION - timedelta(days=1)),
                 "endDate": (-CLARIFICATIONS_DURATION),
             },
         }

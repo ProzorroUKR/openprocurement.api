@@ -1,6 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.bid_req_response import (
+    CDBidReqResponseState,
+)
 from openprocurement.tender.core.procedure.views.bid_req_response import (
     BidReqResponseResource as BaseBidReqResponseResource,
 )
@@ -14,7 +17,7 @@ from openprocurement.tender.core.procedure.views.bid_req_response import (
     description="Competitive Dialogue EU bidder requirement responses",
 )
 class CDEUBidReqResponseResource(BaseBidReqResponseResource):
-    pass
+    state_class = CDBidReqResponseState
 
 
 @resource(
@@ -25,4 +28,4 @@ class CDEUBidReqResponseResource(BaseBidReqResponseResource):
     description="Competitive Dialogue UA bidder requirement responses",
 )
 class CDUABidReqResponseResource(BaseBidReqResponseResource):
-    pass
+    state_class = CDBidReqResponseState

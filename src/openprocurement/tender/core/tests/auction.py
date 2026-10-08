@@ -5,7 +5,7 @@ import pytest
 
 from openprocurement.api.constants import AUCTION_DAY_END, AUCTION_DAY_START
 from openprocurement.api.context import set_request, set_request_now
-from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixing
+from openprocurement.tender.core.procedure.state.auction import ShouldStartAfterMixin
 
 
 @pytest.mark.parametrize(
@@ -47,7 +47,7 @@ def test_validation_before_release(
         },
     }
 
-    state_instance = ShouldStartAfterMixing()
+    state_instance = ShouldStartAfterMixin()
     state_instance.count_lot_bids_number = Mock(return_value=3)
 
     state_instance.calc_auction_periods(tender)
@@ -112,7 +112,7 @@ def test_update_auction_period_start_dates(
         "startDate": start_date,
     }
 
-    state_instance = ShouldStartAfterMixing()
+    state_instance = ShouldStartAfterMixin()
     state_instance.update_auction_period_start_dates(
         period=period, should_start_after=new_should_start_after, number_of_bids=3, quick=False
     )

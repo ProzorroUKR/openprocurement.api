@@ -202,19 +202,19 @@ https://github.com/ProzorroUKR/openprocurement.api/tree/master/src/openprocureme
 - `BelowThresholdTenderDetailsState`
 - `BelowThresholdTenderDocumentState`
 - `BelowThresholdTenderClaimState`
-- `BTComplaintDocumentState`
-- `ReviewRequestState`
+- `BelowThresholdComplaintDocumentState`
+- `BelowThresholdReviewRequestState`
 - `BelowThresholdBidState`
-- `AwardState`
+- `BelowThresholdAwardState`
 - `BelowThresholdAwardClaimState`
-- `BTAwardComplaintDocumentState`
+- `BelowThresholdAwardComplaintDocumentState`
 - `BelowThresholdContractState`
 - `BelowThresholdCriterionState`
 - `BelowThresholdRequirementGroupState`
 - `BelowThresholdRequirementState`
 - `BelowThresholdEligibleEvidenceState`
-- `TenderLotState`
-- `BelowThresholdTenderQuestionStateMixin`
+- `BelowThresholdTenderLotState`
+- `BelowThresholdTenderQuestionState`
 - `BelowThresholdCancellationState`
-- `BTCancellationDocumentState`
+- `BelowThresholdCancellationDocumentState`
 

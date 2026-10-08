@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/73862f0482bd4d22a4bf40cd491a2b20/bids/29e82c95c11444ffa82e0b58ef1de086?acc_token=1467d27f344048078986666d6af3355e HTTP/1.0
+PATCH /api/2.5/tenders/da2f9b55865040d385492b6c64bdb121/bids/57439488ecd84b04a69720eda31baf0c?acc_token=213117fb030b4866a5b608d163c0cef7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -11,22 +11,22 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "amount": 200,
           "currency": "USD"
         },
-        "relatedLot": "e932e2282dd44ca38478282c9b65d683"
+        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2"
       },
       {
         "value": {
           "amount": 400,
           "currency": "EUR"
         },
-        "relatedLot": "ffecdd78783d41ea8db264ed749853d9"
+        "relatedLot": "f1f783c62bb344558b4c1774fff00ca5"
       }
     ],
     "items": [
       {
         "quantity": 5,
         "description": "папір",
-        "id": "991761a10cb14c239cf05842c4cfa729",
-        "relatedLot": "e932e2282dd44ca38478282c9b65d683",
+        "id": "3efeda87127145b28f48da8634dd4cf3",
+        "relatedLot": "48bdc93d443647c48e7c604cdb5196a2",
         "unit": {
           "name": "кг",
           "code": "KGM",
@@ -40,8 +40,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
       {
         "quantity": 1,
         "description": "степлер",
-        "id": "d97b0743145b4e4d89e908039a069506",
-        "relatedLot": "ffecdd78783d41ea8db264ed749853d9",
+        "id": "c9b65b3130b14a83baabfff4a6725c24",
+        "relatedLot": "f1f783c62bb344558b4c1774fff00ca5",
         "unit": {
           "name": "кг",
           "code": "KGM",

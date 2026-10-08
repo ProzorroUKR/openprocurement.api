@@ -9,7 +9,7 @@ from openprocurement.api.constants import ROUTE_PREFIX, TZ
 from openprocurement.api.context import set_request_now
 from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.planning.api.constants import PROCEDURES
 
 # PlanTest
@@ -969,7 +969,8 @@ def create_plan_invalid_procuring_entity(self):
     initial_data["tender"]["procurementMethodType"] = "aboveThresholdUA.defense"
 
     with mock.patch(
-        "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)
+        "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json(request_path, {"data": initial_data}, status=403)
 
@@ -995,7 +996,8 @@ def create_plan_invalid_procuring_entity(self):
 
     initial_data["procuringEntity"]["kind"] = "defense"
     with mock.patch(
-        "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)
+        "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
+        calculate_date(get_now(), timedelta(days=1)),
     ):
         response = self.app.post_json(request_path, {"data": initial_data})
     self.assertEqual(response.status, "201 Created")
@@ -1694,7 +1696,8 @@ def patch_plan_to_simpledefense(self):
 
 
 @mock.patch(
-    "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM", get_now() + timedelta(days=1)
+    "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_plan_to_openuadefense(self):
     data = deepcopy(self.initial_data)
@@ -2092,7 +2095,8 @@ def create_plan_with_breakdown_required(self):
 
 
 @mock.patch(
-    "openprocurement.planning.api.procedure.models.plan.BUDGET_BREAKDOWN_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.planning.api.procedure.models.plan.BUDGET_BREAKDOWN_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def create_plan_with_breakdown_not_required(self):
     data = deepcopy(self.initial_data)

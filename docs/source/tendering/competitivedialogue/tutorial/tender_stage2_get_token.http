@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1728553c9d4d4137903ea335b721c726/credentials?acc_token=209807bd7ed9439eaa4a4da4e94c818f HTTP/1.0
+PATCH /api/2.5/tenders/7a7ea8c2d26f4f5ba21e255e5589cb5e/credentials?acc_token=adb38d0e81e8429eb97de989bbf0b077 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -58,7 +58,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "date": "2027-01-01T00:03:00+02:00",
-        "id": "1ce862da3d7f4b8ca7160edab3452691",
+        "id": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "value": {
           "currency": "UAH",
@@ -79,7 +79,7 @@ Content-Type: application/json
     "procurementMethodType": "competitiveDialogueEU.stage2",
     "owner": "broker",
     "tenderID": "UA-2027-01-01-000001-a.2",
-    "dialogueID": "77e829220cef46c89b232c408c771bff",
+    "dialogueID": "e94eaa64aef8454cbe03535ec53ac9e1",
     "shortlistedFirms": [
       {
         "identifier": {
@@ -91,7 +91,7 @@ Content-Type: application/json
         "name": "Школяр",
         "lots": [
           {
-            "id": "1ce862da3d7f4b8ca7160edab3452691"
+            "id": "aa7e372b99b24b5395149839bde29a63"
           }
         ]
       },
@@ -105,7 +105,7 @@ Content-Type: application/json
         "name": "ДКП «Книга»",
         "lots": [
           {
-            "id": "1ce862da3d7f4b8ca7160edab3452691"
+            "id": "aa7e372b99b24b5395149839bde29a63"
           }
         ]
       },
@@ -118,14 +118,14 @@ Content-Type: application/json
         "name": "«Кенгуру»",
         "lots": [
           {
-            "id": "1ce862da3d7f4b8ca7160edab3452691"
+            "id": "aa7e372b99b24b5395149839bde29a63"
           }
         ]
       }
     ],
     "items": [
       {
-        "id": "b147656012414e84984969eedb0d1f6a",
+        "id": "8fba10d170794a12a8ccd313990265ea",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -151,7 +151,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -159,7 +159,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "5c3c5cf88e844f5aa88f6748c519c933",
+        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -185,7 +185,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63",
         "classification": {
           "description": "Test",
           "scheme": "ДК021",
@@ -289,7 +289,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:03:00+02:00",
     "dateModified": "2027-01-01T00:03:00+02:00",
-    "id": "1728553c9d4d4137903ea335b721c726"
+    "id": "7a7ea8c2d26f4f5ba21e255e5589cb5e"
   },
   "access": {
     "token": "7daf4a43d2eb4322865a73d28689213b",

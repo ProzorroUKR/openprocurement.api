@@ -6,8 +6,8 @@ from uuid import uuid4
 
 from openprocurement.api.constants import SANDBOX_MODE, TZ
 from openprocurement.api.tests.base import BaseWebTest
-from openprocurement.api.utils import get_now
-from openprocurement.tender.cfaselectionua.constants import MINIMAL_STEP_PERCENTAGE
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION_MINIMAL_STEP_PERCENTAGE
 from openprocurement.tender.cfaselectionua.tests.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     BaseCoreWebTest,
@@ -60,8 +60,8 @@ test_tender_cfaselectionua_buyer.pop("additionalContactPoints")
 
 test_tender_cfaselectionua_items[0]["id"] = test_tender_cfaselectionua_agreement["items"][0]["id"]
 test_tender_cfaselectionua_items[0]["deliveryDate"] = {
-    "startDate": (now + timedelta(days=2)).isoformat(),
-    "endDate": (now + timedelta(days=5)).isoformat(),
+    "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+    "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
 }
 
 with open(os.path.join(here, "data/tender_data.json")) as _in:
@@ -236,7 +236,9 @@ class BaseTenderWebTest(BaseCoreWebTest):
         self.tender_document["value"] = max_value
         self.tender_document["lots"][0]["value"] = max_value
         self.tender_document["lots"][0]["minimalStep"] = deepcopy(max_value)
-        self.tender_document["lots"][0]["minimalStep"]["amount"] = max_value["amount"] * MINIMAL_STEP_PERCENTAGE
+        self.tender_document["lots"][0]["minimalStep"]["amount"] = (
+            max_value["amount"] * CFA_SELECTION_MINIMAL_STEP_PERCENTAGE
+        )
 
     def generate_awards(self, status, start_end="start"):
         bids = self.tender_document.get("bids", []) or self.tender_document_patch.get("bids", [])

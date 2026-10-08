@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/4a2a576c85d54712935397876296f0d9/awards/58a3e3d684d84a899541a00d032ad46b/complaints/75a502de5378460db158500a3a4fd162 HTTP/1.0
+PATCH /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60/complaints/2c41012a3a0e4e2383b19797af712aed HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,13 +16,13 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "75a502de5378460db158500a3a4fd162",
+    "id": "2c41012a3a0e4e2383b19797af712aed",
     "complaintID": "UA-2027-01-01-000001-a.a3",
     "date": "2027-01-01T00:00:03+02:00",
     "status": "invalid",
     "type": "complaint",
-    "relatedLot": "5b0412bd862347cfb29c8de0b4736b58",
-    "bid_id": "3088275f136046dab34594e16227bb54",
+    "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
+    "bid_id": "716a0f6c194c4fc7821cce4f4110d4e1",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -49,11 +49,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:03+02:00",
     "objections": [
       {
-        "id": "b423b5fccdb34ee0b3f95604fedb7a21",
+        "id": "13d3ddae5b0a40abb66b7d20aecabe5a",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "award",
-        "relatedItem": "39973d49982f4ce5a74ef255a4390f3d",
+        "relatedItem": "fa4dfc620aaf4f8da6da7b1677ddaf57",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -61,14 +61,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "a6c3456fd7d04d5c8ce94f358fedd244",
+            "id": "6f7efe5f680547029fb3f863c299c104",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "0839bb6c7c9a4d6a91a9eff50c60f644",
+            "id": "c0a06faaf6004d6f9b63046d8f98e1e0",
             "description": "test argument"
           }
         ],

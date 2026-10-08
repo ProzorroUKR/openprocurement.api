@@ -425,8 +425,17 @@
 Зробимо зміни на другому етапі
 ------------------------------
 
-Добре, ми отримали токен, і можемо робити зміни в другому етапі. Спробуемо змінити статус ``draft.stage2`` на ``active.tendering``.
+Добре, ми отримали токен, і можемо робити зміни в другому етапі. Спочатку додамо етапи оплати (``milestones``):
 
+.. http:example:: tutorial/tender_stage2_add_milestones.http
+    :code:
+
+Потім додамо критерії:
+
+.. http:example:: tutorial/tender_stage2_add_criteria.http
+    :code:
+
+Тепер спробуемо змінити статус ``draft.stage2`` на ``active.tendering``.
 
 .. http:example:: tutorial/tender_stage2_modify_status.http
     :code:

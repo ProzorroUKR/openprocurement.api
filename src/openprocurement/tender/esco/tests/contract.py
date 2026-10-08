@@ -6,7 +6,7 @@ from esculator import escp, npv
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_supplier,
 )
@@ -31,7 +31,7 @@ from openprocurement.tender.esco.tests.contract_blanks import (  # TenderContrac
     put_tender_contract_document,
     put_tender_contract_document_by_others,
 )
-from openprocurement.tender.openeu.tests.base import test_tender_openeu_data
+from openprocurement.tender.open.tests.above_threshold_eu.base import test_tender_openeu_data
 
 amount_precision = 2
 

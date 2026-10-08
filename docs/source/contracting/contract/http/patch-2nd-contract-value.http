@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/66570cc698414ed6a3d9f41e21430ffd?acc_token=0aff03b619d44f96b3106053625a7357 HTTP/1.0
+PATCH /api/2.5/contracts/b4c23b1270fb4fddbbc1b5b3ccb29a52?acc_token=f723af219b7c46d9b083d55edb6a8c19 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -11,7 +11,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "24116e2d04d54836b7915292bc0aaecd",
+        "id": "9ab2525378ed4c76b4558e836f4859ea",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -49,7 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "08b71213150947bb873b39f0fd29af3c",
+        "id": "b558107579ce4cf69a06040d6c715cee",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -104,7 +104,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "24116e2d04d54836b7915292bc0aaecd",
+        "id": "9ab2525378ed4c76b4558e836f4859ea",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -142,7 +142,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       },
       {
-        "id": "08b71213150947bb873b39f0fd29af3c",
+        "id": "b558107579ce4cf69a06040d6c715cee",
         "description": "портфелі",
         "quantity": 5.0,
         "classification": {
@@ -180,7 +180,7 @@ Content-Type: application/json
         "relatedBuyer": "22222222222222222222222222222222"
       }
     ],
-    "tender_id": "1e348b7fcc2c4e208c3acb538a30a9bb",
+    "tender_id": "4cfaeb49bb7a41ec8d7d8b5acf44d86f",
     "owner": "broker",
     "status": "pending",
     "buyer": {
@@ -340,7 +340,7 @@ Content-Type: application/json
         "status": "scheduled"
       }
     ],
-    "id": "66570cc698414ed6a3d9f41e21430ffd"
+    "id": "b4c23b1270fb4fddbbc1b5b3ccb29a52"
   },
   "config": {
     "restricted": false

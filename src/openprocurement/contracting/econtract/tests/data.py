@@ -1,7 +1,7 @@
 from copy import deepcopy
 from datetime import timedelta
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import (
     test_contract_data as base_test_contract_data,
 )
@@ -35,8 +35,8 @@ test_econtract_data.update(
             }
         ],
         "period": {
-            "startDate": (get_now() + timedelta(days=CONTRACT_PERIOD_START_DAYS)).isoformat(),
-            "endDate": (get_now() + timedelta(days=CONTRACT_PERIOD_START_DAYS))
+            "startDate": calculate_date(get_now(), timedelta(days=CONTRACT_PERIOD_START_DAYS)).isoformat(),
+            "endDate": calculate_date(get_now(), timedelta(days=CONTRACT_PERIOD_START_DAYS))
             .replace(month=12, day=31, hour=23, minute=59, second=59)
             .isoformat(),
         },

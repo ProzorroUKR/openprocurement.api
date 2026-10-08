@@ -6,7 +6,7 @@ from openprocurement.api.constants import SESSION
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest as BaseApiWebTest
 from openprocurement.api.tests.base import change_auth
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.utils import calculate_framework_full_date
 from openprocurement.tender.core.tests.base import BaseWebTest
 
@@ -33,8 +33,8 @@ test_framework_item_data = {
     },
     "quantity": 5,
     "deliveryDate": {
-        "startDate": (now + timedelta(days=2)).isoformat(),
-        "endDate": (now + timedelta(days=5)).isoformat(),
+        "startDate": calculate_date(now, timedelta(days=2)).isoformat(),
+        "endDate": calculate_date(now, timedelta(days=5)).isoformat(),
     },
     "deliveryAddress": {
         "countryName": "Україна",

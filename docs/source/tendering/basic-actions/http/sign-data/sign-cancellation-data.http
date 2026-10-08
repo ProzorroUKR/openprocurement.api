@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4687f36b2f3d45ae9974b4ca238948a4/cancellations/13e041023703472b8bcec84943058bc3?opt_context=true HTTP/1.0
+GET /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330?opt_context=true HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "reasonType": "noDemand",
     "reason": "cancellation reason",
-    "id": "13e041023703472b8bcec84943058bc3",
+    "id": "508bf010ec78469eb7980c819aa5e330",
     "date": "2027-01-01T00:00:00+02:00",
     "cancellationOf": "tender",
     "status": "draft"
@@ -159,7 +159,7 @@ Content-Type: application/json
       },
       "items": [
         {
-          "id": "6b89e0767b7b4976a4bbe16357d84139",
+          "id": "05f6f6892ce846e6b4c92c17ea87a82e",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -190,10 +190,10 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedLot": "68c9fd66159b4fa3938dd4dcc3ab6402"
+          "relatedLot": "388cde0c97f644a4b6c494ff8d31dd15"
         },
         {
-          "id": "e77d14c0bf5c419b8081f24ec54a9492",
+          "id": "0d9f73e221614993a20e178902931d94",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -224,7 +224,7 @@ Content-Type: application/json
             "postalCode": "79000",
             "countryName": "Україна"
           },
-          "relatedLot": "68c9fd66159b4fa3938dd4dcc3ab6402"
+          "relatedLot": "388cde0c97f644a4b6c494ff8d31dd15"
         }
       ],
       "procurementMethodType": "aboveThresholdEU",
@@ -272,7 +272,7 @@ Content-Type: application/json
           "title": "Лот №1",
           "description": "Опис Лот №1",
           "status": "active",
-          "id": "68c9fd66159b4fa3938dd4dcc3ab6402",
+          "id": "388cde0c97f644a4b6c494ff8d31dd15",
           "date": "2027-01-01T00:00:00+02:00",
           "value": {
             "currency": "UAH",
@@ -294,14 +294,14 @@ Content-Type: application/json
         {
           "reasonType": "noDemand",
           "reason": "cancellation reason",
-          "id": "13e041023703472b8bcec84943058bc3",
+          "id": "508bf010ec78469eb7980c819aa5e330",
           "date": "2027-01-01T00:00:00+02:00",
           "cancellationOf": "tender",
           "status": "draft"
         }
       ],
       "next_check": "2027-02-01T00:00:00+02:00",
-      "id": "4687f36b2f3d45ae9974b4ca238948a4"
+      "id": "19a5d9d36c2143d8bfb8c1dfbabc14ef"
     }
   }
 }

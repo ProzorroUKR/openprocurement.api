@@ -1,6 +1,8 @@
 import unittest
+from copy import deepcopy
 
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
+from openprocurement.tender.core.tests.base import test_exclusion_criteria
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUContentWebTest,
     BaseCompetitiveDialogUAContentWebTest,
@@ -9,7 +11,7 @@ from openprocurement.tender.competitivedialogue.tests.base import (
     test_tender_cdua_data,
     test_tender_cdua_required_criteria_ids,
 )
-from openprocurement.tender.openua.tests.criterion import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,
@@ -29,6 +31,22 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUCon
 class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUAContentWebTest):
     initial_data = test_tender_cdua_data
     initial_lots = test_tender_below_lots
+
+    def test_create_tender_criteria_without_english_fields(self):
+        data = deepcopy(self.initial_data)
+        del data["procuringEntity"]["name_en"]
+        del data["procuringEntity"]["identifier"]["legalName_en"]
+        del data["procuringEntity"]["contactPoint"]["name_en"]
+        response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+        self.assertEqual(response.status, "201 Created")
+        tender_id = response.json["data"]["id"]
+        tender_token = response.json["access"]["token"]
+
+        response = self.app.post_json(
+            f"/tenders/{tender_id}/criteria?acc_token={tender_token}", {"data": deepcopy(test_exclusion_criteria)}
+        )
+        self.assertEqual(response.status, "201 Created")
+
     initial_status = "draft"
 
     required_criteria = test_tender_cdua_required_criteria_ids

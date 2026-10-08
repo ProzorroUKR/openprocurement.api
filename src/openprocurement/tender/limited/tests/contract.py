@@ -1,12 +1,12 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
-from openprocurement.tender.belowthreshold.tests.contract import (
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.contract import (
     TenderEContractMultiBuyersResourceTestMixin,
     TenderEcontractResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+from openprocurement.tender.open.tests.below_threshold.contract_blanks import (
     patch_contract_single_item_unit_value,
     patch_contract_single_item_unit_value_with_status,
     patch_tender_contract_value,

@@ -10,18 +10,15 @@ from openprocurement.api.constants_env import (
     EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     RELEASE_2020_04_19,
 )
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_base_organization,
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_central as create_tender_central_base,
 )
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE2_STATUS,
-    STAGE_2_EU_TYPE,
-)
+from openprocurement.tender.competitivedialogue.constants import CD_STAGE2_STATUS, STAGE_2_EU_TYPE
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.tests.base import ocds_release_schema, ocds_resolver
 from openprocurement.tender.core.tests.cancellation import (
@@ -53,7 +50,7 @@ def patch_tender_eu(self):
     self.app.authorization = ("Basic", ("broker", ""))
     items = deepcopy(tender["items"])
     items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
-    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    items[0]["deliveryDate"]["endDate"] = calculate_date(get_now(), timedelta(days=2)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": items}},
@@ -177,7 +174,7 @@ def patch_tender_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
     items = deepcopy(tender["items"])
     items[0]["deliveryDate"]["startDate"] = get_now().isoformat()
-    items[0]["deliveryDate"]["endDate"] = (get_now() + timedelta(days=2)).isoformat()
+    items[0]["deliveryDate"]["endDate"] = calculate_date(get_now(), timedelta(days=2)).isoformat()
     response = self.app.patch_json(
         "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
         {"data": {"items": items}},
@@ -998,7 +995,7 @@ def tender_features(self):
     token = response.json["access"]["token"]
     self.tender_id = response.json["data"]["id"]
     # switch to draft.stage2
-    self.set_status(STAGE2_STATUS)
+    self.set_status(CD_STAGE2_STATUS)
     response = self.app.get("/tenders/{}?acc_token={}".format(tender["id"], token))
     self.assertEqual(response.status, "200 OK")
     self.assertIn("features", response.json["data"])
@@ -1021,7 +1018,7 @@ def patch_tender_1(self):
     self.tender_id = response.json["data"]["id"]
     owner_token = response.json["access"]["token"]
 
-    self.set_status(STAGE2_STATUS)
+    self.set_status(CD_STAGE2_STATUS)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.patch_json(
@@ -1080,8 +1077,8 @@ def patch_tender_1(self):
         [{"location": "body", "name": "items.classification", "description": "Field change's not allowed"}],
     )
 
-    deliveryDateStart = (get_now() + timedelta(days=10)).isoformat()
-    deliveryDateEnd = (get_now() + timedelta(days=15)).isoformat()
+    deliveryDateStart = calculate_date(get_now(), timedelta(days=10)).isoformat()
+    deliveryDateEnd = calculate_date(get_now(), timedelta(days=15)).isoformat()
 
     updates = {
         "description": "Шолом Дарта Вейдера",
@@ -1334,7 +1331,7 @@ def one_valid_bid_tender_ua(self):
     self.app.authorization = ("Basic", ("broker", ""))
     # switch to active.tendering XXX temporary action.
     response = self.set_status(
-        "active.tendering", {"auctionPeriod": {"startDate": (get_now() + timedelta(days=16)).isoformat()}}
+        "active.tendering", {"auctionPeriod": {"startDate": calculate_date(get_now(), timedelta(days=16)).isoformat()}}
     )
     self.assertIn("auctionPeriod", response.json["data"])
 

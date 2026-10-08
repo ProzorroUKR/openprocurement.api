@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e3ba356ffdb04f32b1864a591633a385/complaints/a4a856276f2f489fa0f0a6b5518025e6 HTTP/1.0
+PATCH /api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/9feefd5fa4864e34bf3a20b4024eae4e HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "a4a856276f2f489fa0f0a6b5518025e6",
+    "id": "9feefd5fa4864e34bf3a20b4024eae4e",
     "complaintID": "UA-2027-01-01-000001-a.a7",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "invalid",
@@ -47,11 +47,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "635810a8209e4824ad6322bc3ca971e5",
+        "id": "2e5759277ce14a399b144fb1e864c1cd",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "e3ba356ffdb04f32b1864a591633a385",
+        "relatedItem": "e63e46e61afa46d090031bd68974d8e4",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -59,14 +59,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "9655c44fc95e4f4d9e55b8091db397c7",
+            "id": "138623e69047467d805366b04fd1d207",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "8f48e982243e4302b8732289354e444e",
+            "id": "d4aced6074844e1cbdfcca5bbf419d1f",
             "description": "test argument"
           }
         ],

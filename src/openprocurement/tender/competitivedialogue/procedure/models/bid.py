@@ -25,18 +25,9 @@ class CDPostBid(PostBid):
     eligibilityDocuments = ListType(ModelType(CDBidPostDocument, required=True))
     qualificationDocuments = ListType(ModelType(CDBidPostDocument, required=True))
 
-    def validate_value(self, data, value):
-        pass  # stage 1 bids have no value
-
-    def validate_parameters(self, data, parameters):
-        pass  # stage 1 bids have no parameters
-
 
 class CDBid(Bid):
     lotValues = ListType(ModelType(CDLotValue, required=True))
-
-    def validate_parameters(self, data, parameters):
-        pass  # stage 1 bids have no parameters
 
     documents = ListType(ModelType(CDBidDocument, required=True))
     financialDocuments = ListType(ModelType(CDBidDocument, required=True))

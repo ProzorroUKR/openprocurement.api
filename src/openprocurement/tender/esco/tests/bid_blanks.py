@@ -6,7 +6,7 @@ from esculator import escp, npv
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_supplier
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.core.tests.utils import change_auth, set_bid_items
 from openprocurement.tender.core.procedure.utils import (
     fraction_to_decimal,

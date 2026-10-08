@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/197ab221daff4d87b98cf8e0d03cb393/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/1e1d74c6b8d64c23adee53907931accf HTTP/1.0
+PATCH /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/050de06197314bfcbc78653f63b89fc9 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,14 +17,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "1e1d74c6b8d64c23adee53907931accf",
+    "id": "050de06197314bfcbc78653f63b89fc9",
     "complaintID": "UA-2027-01-01-000001-a.a1",
     "date": "2027-01-01T00:00:01+02:00",
     "status": "accepted",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "b823440a5bd044c1bedeb8900d9365ed",
+        "id": "774a1ac746644b04a1312ee77ab03af2",
         "datePublished": "2027-01-01T00:00:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
@@ -37,8 +37,8 @@ Content-Type: application/json
       }
     ],
     "type": "complaint",
-    "relatedLot": "6010c37920ed40da8e5b29fd7e32bd0f",
-    "bid_id": "27eddc20a94644c7af620395f1147d70",
+    "relatedLot": "5395b459908140bba8ed9266a17b40b4",
+    "bid_id": "b3390caed5e74635b13b426c678cbc8d",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {
@@ -65,7 +65,7 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:01+02:00",
     "objections": [
       {
-        "id": "1c81f011a7af4e7e81fd72e63de2f721",
+        "id": "5d4cf69b316d45969d654178eed1b7ec",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "qualification",
@@ -77,14 +77,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "dd7f4cacb0e946cba44a5bea8ea11e89",
+            "id": "0e57f427e8164c1ea37464b7fa275b8f",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "8c39cae52251427aa373c9dc68c247cf",
+            "id": "2268ce726cb44c06b8b0a6dcc2a48342",
             "description": "test argument"
           }
         ],

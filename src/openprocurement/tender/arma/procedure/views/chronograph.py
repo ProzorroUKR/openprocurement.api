@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.tender import TenderState
+from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
 from openprocurement.tender.core.procedure.views.chronograph import (
     TenderChronographResource,
 )
@@ -14,4 +14,4 @@ from openprocurement.tender.core.procedure.views.chronograph import (
     description="Tender chronograph",
 )
 class ChronographResource(TenderChronographResource):
-    state_class = TenderState
+    state_class = ARMATenderState

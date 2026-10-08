@@ -4,7 +4,7 @@ from openprocurement.tender.core.procedure.views.complaint_document import (
     TenderComplaintDocumentResource,
 )
 from openprocurement.tender.open.procedure.state.complaint_document import (
-    OpenComplaintDocumentState,
+    AboveThresholdComplaintDocumentState,
 )
 
 
@@ -16,4 +16,4 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
     description="Tender ESCO Complaint documents",
 )
 class ESCOComplaintDocumentResource(TenderComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = AboveThresholdComplaintDocumentState

@@ -1,7 +1,6 @@
-from openprocurement.tender.open.procedure.state.tender_document import (
-    UATenderDocumentState,
-)
+from openprocurement.tender.core.procedure.state.tender_document import TenderDocumentState
 
 
-class CFAUATenderDocumentState(UATenderDocumentState):
+class CFAUATenderDocumentState(TenderDocumentState):
+    invalidate_bids_on_document_change = True
     all_documents_should_be_public = True

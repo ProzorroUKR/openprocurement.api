@@ -2,10 +2,10 @@ from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.procedure.state.qualification_claim import (
-    QualificationClaimState,
+    ARMAQualificationClaimState,
 )
 from openprocurement.tender.arma.procedure.state.qualification_complaint import (
-    QualificationComplaintState,
+    ARMAQualificationComplaintState,
 )
 from openprocurement.tender.core.procedure.views.qualification_claim import (
     QualificationClaimResource as BaseQualificationClaimResource,
@@ -40,7 +40,7 @@ class QualificationClaimAndComplaintGetResource(QualificationComplaintGetResourc
     description="Tender qualification claims",
 )
 class QualificationClaimResource(BaseQualificationClaimResource):
-    state_class = QualificationClaimState
+    state_class = ARMAQualificationClaimState
 
 
 @resource(
@@ -53,4 +53,4 @@ class QualificationClaimResource(BaseQualificationClaimResource):
     description="Tender qualification complaints",
 )
 class QualificationComplaintWriteResource(BaseQualificationComplaintWriteResource):
-    state_class = QualificationComplaintState
+    state_class = ARMAQualificationComplaintState

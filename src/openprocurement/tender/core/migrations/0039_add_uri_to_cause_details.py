@@ -5,11 +5,7 @@ from pymongo import UpdateOne
 
 from openprocurement.api.deprecated.cause_details import PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
-from openprocurement.tender.limited.constants import (
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    REPORTING,
-)
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.serializers.cause import enrich_cause_details, get_cause_details_reference
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")

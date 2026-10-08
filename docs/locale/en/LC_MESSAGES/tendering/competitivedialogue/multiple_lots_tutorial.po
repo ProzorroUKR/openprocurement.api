@@ -100,6 +100,15 @@ msgstr "There is 10 day stand-still period set in `qualificationPeriod`."
 msgid "Другий етап"
 msgstr "Second stage"
 
+msgid "Спочатку підготуємо тендер другого етапу: додамо етапи оплати (``milestones``):"
+msgstr "First, let's prepare the second stage tender: add the milestones:"
+
+msgid "Потім додамо критерії:"
+msgstr "Then, let's add the criteria:"
+
+msgid "І змінимо статус ``draft.stage2`` на ``active.tendering``:"
+msgstr "And change the status from ``draft.stage2`` to ``active.tendering``:"
+
 msgid "На другому етапі ми повині реєструвати нові пропозіції, але реєструвати можуть тільки учасники, які були допущени на першому етапі."
 msgstr "On second stage we must register new bids, but register bid can only users who was approved on first stage"
 

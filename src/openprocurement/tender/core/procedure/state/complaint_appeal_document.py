@@ -7,6 +7,9 @@ from openprocurement.tender.core.procedure.state.document import BaseDocumentSta
 
 
 class ComplaintAppealDocumentState(ComplaintAppealValidationsMixin, BaseDocumentState):
+    def validate_document_owner(self, exempt_roles):
+        self.validate_any_item_owner("complaint", "tender")
+
     def validate_document_post(self, data):
         if document := self.request.validated.get("document"):  # POST new version via PUT method
             self.validate_document_author(document)

@@ -1,5 +1,6 @@
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.state.award_document import (
     AwardDocumentState,
 )
@@ -34,3 +35,22 @@ class BaseAwardDocumentResource(BaseDocumentResource):
     def set_doc_author(self, doc):
         doc["author"] = get_award_document_role(self.request)
         return doc
+
+    @json_view(
+        permission="upload_award_documents",
+    )
+    def collection_post(self):
+        return super().collection_post()
+
+    @json_view(
+        permission="upload_award_documents",
+    )
+    def put(self):
+        return super().put()
+
+    @json_view(
+        content_type="application/json",
+        permission="edit_award_documents",
+    )
+    def patch(self):
+        return super().patch()

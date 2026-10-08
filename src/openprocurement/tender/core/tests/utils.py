@@ -11,6 +11,7 @@ from openprocurement.api.constants import TZ
 from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.utils import parse_date
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.procedure.utils import (
     extract_tender_doc,
     extract_tender_id,
@@ -219,6 +220,53 @@ def change_auth(app, auth):
     app.authorization = auth
     yield app
     app.authorization = authorization
+
+
+# the periods of the test tenders by procurementMethodType: the tender period ends `tender` days after its creation;
+# for the procedures with enquiries the enquiry period lasts `enquiry` full days and the tender period `tender` full
+# days after it
+TEST_TENDER_PERIODS = {
+    "belowThreshold": {"enquiry": 9, "tender": 10},
+    "requestForProposal": {"enquiry": 9, "tender": 10},
+    "aboveThreshold": {"tender": 16},
+    "aboveThresholdUA": {"tender": 16},
+    "aboveThresholdUA.defense": {"tender": 16},
+    "simple.defense": {"tender": 16},
+    "aboveThresholdEU": {"tender": 31},
+    "esco": {"tender": 31},
+    "closeFrameworkAgreementUA": {"tender": 31},
+    "competitiveDialogueUA": {"tender": 31},
+    "competitiveDialogueEU": {"tender": 31},
+    "competitiveDialogueEU.stage2": {"tender": 31},
+    "competitiveDialogueUA.stage2": {"tender": 16},
+    "competitiveOrdering": {"tender": 8},
+    "complexAsset.arma": {"tender": 29},
+    "priceQuotation": {"tender": 14},
+}
+
+
+def set_tender_periods(data, start=None):
+    """
+    Sets the periods of test tender data counted from `start` (default: now).
+
+    The test data is built when the test modules are imported, a tender is created later (BaseCoreWebTest.setUp
+    calls this again on its copy of initial_data): if a test run crosses midnight, a period of "minimal duration +
+    1 day" counted from the import time becomes a few minutes short (the API counts full days from the next
+    midnight). The dates are DST-aware.
+    """
+    periods = TEST_TENDER_PERIODS.get(data.get("procurementMethodType"))
+    if not periods:
+        return
+    start = start or get_now()
+    if enquiry_days := periods.get("enquiry"):
+        enquiry_end = calculate_tender_full_date(start, timedelta(days=enquiry_days), tender=data)
+        data["enquiryPeriod"] = {"endDate": enquiry_end.isoformat()}
+        tender_end = calculate_tender_full_date(enquiry_end, timedelta(days=periods["tender"]), tender=data)
+        data["tenderPeriod"] = {"endDate": tender_end.isoformat()}
+    else:
+        tender_end = calculate_date(start, timedelta(days=periods["tender"]))
+        # a new dict: test data of several procedures may share the nested period dicts (shallow copies)
+        data["tenderPeriod"] = {**(data.get("tenderPeriod") or {}), "endDate": tender_end.isoformat()}
 
 
 def set_tender_lots(tender, lots):

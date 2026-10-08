@@ -4,7 +4,7 @@ from schematics.types.compound import ModelType
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType
 from openprocurement.api.validation import validate_uniq_id
-from openprocurement.tender.core.procedure.models.criterion import Criterion, validate_criteria_requirement_uniq
+from openprocurement.tender.core.procedure.models.criterion import Criterion
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.tender import (
     PatchTenderItemsMixin,
@@ -25,8 +25,6 @@ from openprocurement.tender.limited.procedure.models.tender_base import LimitedC
 
 
 class ReportingPostTender(PostTenderItemsMixin, TenderMilestonesMixin, PostBaseTender):
-    _items_related_lot_check = False
-
     procurementMethodType = StringType(choices=[REPORTING], default=REPORTING)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value)
@@ -59,13 +57,11 @@ class ReportingPatchTender(PatchTenderItemsMixin, PatchTenderMilestonesMixin, Co
     causeDetails = ModelType(LimitedCauseDetails)
     criteria = ListType(
         ModelType(Criterion, required=True),
-        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+        validators=[validate_object_id_uniq],
     )
 
 
 class ReportingTender(TenderItemsMixin, TenderMilestonesMixin, BaseTender):
-    _items_related_lot_check = False
-
     procurementMethodType = StringType(choices=[REPORTING], required=True)
     procuringEntity = ModelType(ProcuringEntity, required=True)
     value = ModelType(Value)
@@ -111,7 +107,7 @@ class NegotiationPatchTender(PatchTenderItemsMixin, PatchTenderMilestonesMixin, 
 
     criteria = ListType(
         ModelType(Criterion, required=True),
-        validators=[validate_object_id_uniq, validate_criteria_requirement_uniq],
+        validators=[validate_object_id_uniq],
     )
 
 

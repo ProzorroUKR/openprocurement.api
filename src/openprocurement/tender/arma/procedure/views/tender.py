@@ -1,27 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_config_data,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.models.tender import ARMAPatchTender, ARMAPostTender, ARMATender
 from openprocurement.tender.arma.procedure.state.tender_details import (
-    TenderDetailsState,
+    ARMATenderDetailsState,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_status_allows_update,
 )
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 
@@ -36,43 +20,4 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
 )
 class TenderResource(TendersResource):
     serializer_class = TenderBaseSerializer
-    state_class = TenderDetailsState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_tender",
-        validators=(
-            validate_input_data(ARMAPostTender),
-            validate_config_data(),
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
-                kind_central_levels=(AccreditationLevel.ACCR_5,),
-                item="tender",
-                operation="creation",
-                source="data",
-            ),
-            validate_data_documents(),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            unless_administrator(
-                validate_tender_status_allows_update(
-                    "draft",
-                    "active.tendering",
-                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
-                    "active.pre-qualification.stand-still",
-                )
-            ),
-            validate_patch_input_data(ARMAPatchTender),
-            validate_patch_data_simple(ARMATender, item_name="tender"),
-        ),
-        permission="edit_tender",
-    )
-    def patch(self):
-        return super().patch()
+    state_class = ARMATenderDetailsState

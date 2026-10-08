@@ -1,23 +1,34 @@
-from typing import Callable
-
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.api.utils import raise_operation_error, request_fetch_agreement
 from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.models.question import PatchQuestion, PostQuestion, Question
 from openprocurement.tender.core.procedure.state.tender import TenderState
 from openprocurement.tender.core.procedure.utils import get_supplier_contract
 from openprocurement.tender.core.procedure.validation import validate_shortlisted_firms_author
 
 
 class TenderQuestionStateMixin:
-    always: Callable  # method from TenderState
+    post_data_model = PostQuestion
+    patch_data_model = PatchQuestion
+    data_model = Question
 
-    question_create_accreditations: set = None  # formerly tender.edit_accreditations
+    question_create_accreditations: set = (AccreditationLevel.ACCR_4,)  # formerly tender.edit_accreditations
+
     # open family: questions can be added/updated only in these tender statuses (None = no extra check)
-    question_operation_allowed_tender_statuses: tuple | None = None
+    question_operation_allowed_tender_statuses: tuple | None = ("active.tendering",)
     # tenders with shortlistedFirms (e.g. competitiveDialogue stage 2): only shortlisted firms may ask
     question_shortlisted_firms_author_check = False
+
+    def validate_question_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_question_patch_request(self):
+        self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "question")
 
     def question_on_post(self, question):
         self.validate_question_accreditation_level()

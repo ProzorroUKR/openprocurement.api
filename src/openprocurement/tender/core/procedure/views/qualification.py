@@ -1,16 +1,11 @@
+from copy import deepcopy
+
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
 from openprocurement.tender.core.procedure.serializers.qualification import (
     QualificationSerializer,
 )
@@ -29,6 +24,7 @@ def resolve_qualification(request):
         qualification_id = match_dict["qualification_id"]
         qualification = get_items(request, request.validated["tender"], "qualifications", qualification_id)
         request.validated["qualification"] = qualification[0]
+        request.validated["qualification_src"] = deepcopy(qualification[0])
 
 
 @resource(
@@ -84,15 +80,11 @@ class TenderQualificationResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(PatchQualification),
-            validate_patch_data(Qualification, item_name="qualification"),
-        ),
         permission="edit_qualification",
     )
     def patch(self):
         """Post a qualification resolution"""
+        self.state.validate_qualification_patch_request()
         updated = self.request.validated["data"]
         tender = self.request.validated["tender"]
         qualification = self.request.validated["qualification"]

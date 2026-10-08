@@ -447,8 +447,14 @@ msgstr "Form making changes in second stage we need token"
 msgid "Зробимо зміни на другому етапі"
 msgstr "Make changes second stage"
 
-msgid "Добре, ми отримали токен, і можемо робити зміни в другому етапі. Спробуемо змінити статус ``draft.stage2`` на ``active.tendering``."
-msgstr "Good, now we get token, and can make changes, so lets change status from ``draft.stage2`` to ``active.tendering``"
+msgid "Добре, ми отримали токен, і можемо робити зміни в другому етапі. Спочатку додамо етапи оплати (``milestones``):"
+msgstr "Good, now we have the token and can make changes to the second stage. First, let's add the milestones:"
+
+msgid "Потім додамо критерії:"
+msgstr "Then, let's add the criteria:"
+
+msgid "Тепер спробуемо змінити статус ``draft.stage2`` на ``active.tendering``."
+msgstr "Now let's change the status from ``draft.stage2`` to ``active.tendering``."
 
 msgid "Другий етап EU"
 msgstr "Stage2 EU"

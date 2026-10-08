@@ -18,11 +18,11 @@ from openprocurement.tender.limited.tests.criterion_blanks import (
     patch_rg_requirement,
     tender_criteria_source_validation,
 )
-from openprocurement.tender.openua.tests.criterion import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion import (
     TenderCriteriaTestMixin,
 )
 from openprocurement.tender.core.tests.base import test_localization_criteria
-from openprocurement.tender.openua.tests.criterion_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion_blanks import (
     create_criteria_rg,
     get_criteria_rg,
     create_rg_requirement_valid,

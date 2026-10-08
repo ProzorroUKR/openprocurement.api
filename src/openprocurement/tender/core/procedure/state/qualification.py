@@ -1,18 +1,27 @@
 from logging import getLogger
 
-from openprocurement.api.constants_env import REQ_RESPONSE_VALUES_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.core.procedure.state.tender import TenderState
-from openprocurement.tender.core.procedure.validation import (
-    validate_req_response_values,
+from openprocurement.tender.core.procedure.models.qualification import PatchQualification, Qualification
+from openprocurement.tender.core.procedure.state.req_response import (
+    QualificationRequirementResponsesRulesMixin,
 )
+from openprocurement.tender.core.procedure.state.tender import TenderState
 
 LOGGER = getLogger(__name__)
 
 
-class QualificationState(TenderState):
+class QualificationState(QualificationRequirementResponsesRulesMixin, TenderState):
+    patch_data_model = PatchQualification
+    data_model = Qualification
+
+    def validate_qualification_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_item_owner("tender")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), "qualification")
+
     def set_bid_status(self, bid_id, status, lot_id=None):
         tender = get_tender()
         if lot_id:
@@ -58,6 +67,7 @@ class QualificationState(TenderState):
             raise_operation_error(self.request, "Can't update qualification in current cancelled qualification status")
 
     def qualification_on_patch(self, before, qualification):
+        self.validate_requirement_responses_change(before, qualification)
         self.validate_status_change_before_milestone_due_date(before, qualification)
         tender = get_tender()
         self.validate_cancellation_blocks(self.request, tender, lot_id=qualification.get("lotID"))
@@ -65,9 +75,6 @@ class QualificationState(TenderState):
             self.qualification_status_up(before["status"], qualification["status"], qualification)
         elif before["status"] != "pending":
             raise_operation_error(self.request, "Can't update qualification status")
-        if get_request_now() > REQ_RESPONSE_VALUES_VALIDATION_FROM:
-            for resp in qualification.get("requirementResponses", []):
-                validate_req_response_values(resp)
 
     def qualification_status_up(self, before, after, qualification):
         qualification["date"] = get_request_now().isoformat()

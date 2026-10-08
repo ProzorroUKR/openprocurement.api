@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/0c99535af6024017bcbdec7b4a5c49da/cancellations/e96d3a80f51e4be1a4c72a031db1a4b4?acc_token=c09bfd8bd3964ff4a95d9cb9477f7dfd HTTP/1.0
+PATCH /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/cancellations/4c2e9f17f1a248ce8e562c089ed484de?acc_token=8fae24a80c614a26b8a50c09bf7533a1 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "e96d3a80f51e4be1a4c72a031db1a4b4",
+    "id": "4c2e9f17f1a248ce8e562c089ed484de",
     "status": "active",
     "date": "2027-01-01T00:03:00+02:00",
     "reasonType": "unFixable",
@@ -25,7 +25,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "description": "Changed description",
-        "id": "8d0ffb7162e1435cb3eaa55bdde51318",
+        "id": "9d76e14dbba44abab0dfbdc6dd858cb2",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -38,7 +38,7 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "description": "Changed description",
-        "id": "8d0ffb7162e1435cb3eaa55bdde51318",
+        "id": "9d76e14dbba44abab0dfbdc6dd858cb2",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
@@ -57,7 +57,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9bfbd7c54ff346ddb088143da736acd4?Signature=f3vjAlDaulX6cKfNmiIBRA3h6qNIrL8X%2BfrOGUguAh5jfJfbk3N2V4BhIgArmsJeqvS%2FeXQeaZxgkh49grHiCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8d997ad024d8450fa27f503677a4a9c9",
+        "id": "5c34cba2e3a74b0fbe52f01ae4b48097",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }

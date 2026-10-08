@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids HTTP/1.0
+POST /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -55,12 +55,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       }
     ],
     "items": [
       {
-        "id": "b147656012414e84984969eedb0d1f6a",
+        "id": "8fba10d170794a12a8ccd313990265ea",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -68,10 +68,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       },
       {
-        "id": "5c3c5cf88e844f5aa88f6748c519c933",
+        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -79,7 +79,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       }
     ]
   }
@@ -88,13 +88,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c89b232c408c771bff/bids/8f96451aec6a48e4a98b361b7cdecddb
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/6c89b75a28ce4a09878dea690540bca2
 
 {
   "data": {
     "items": [
       {
-        "id": "b147656012414e84984969eedb0d1f6a",
+        "id": "8fba10d170794a12a8ccd313990265ea",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -102,10 +102,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       },
       {
-        "id": "5c3c5cf88e844f5aa88f6748c519c933",
+        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -113,7 +113,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691"
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
       }
     ],
     "tenderers": [
@@ -150,7 +150,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "1ce862da3d7f4b8ca7160edab3452691",
+        "relatedLot": "aa7e372b99b24b5395149839bde29a63",
         "status": "pending",
         "date": "2027-01-01T00:03:00+02:00"
       }
@@ -164,7 +164,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b7b590b143b479e8961e0eb9f0efdf7?Signature=p0BVZZN0W8rahmse3aPqn8wLlrCsJY90g%2B%2BcEIRbWb9B1DN9E6QR4VWgrfjFTGYQ9ni%2FggCGIa%2BJSS%2BtzYhPDw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "ab6fa46bb8d440bdb6b4ef9c3960e60f",
+        "id": "9c2703956a2e4b6787bc31068505e601",
         "isDescriptionDecision": false,
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
@@ -177,18 +177,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/77e829220cef46c8
         "format": "application/pdf",
         "documentOf": "tender",
         "language": "uk",
-        "id": "e6e6a0898ffd4ad9bd8bb025de66ae53",
+        "id": "4e96340e2ef64fe495c9af71f9a49216",
         "isDescriptionDecision": false,
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "id": "8f96451aec6a48e4a98b361b7cdecddb",
+    "id": "6c89b75a28ce4a09878dea690540bca2",
     "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {
-    "token": "b91ab4000edb49f787fc69313e42fda4",
-    "transfer": "3b7c93257bca4a289e488d9c01542235"
+    "token": "9e2d3ffd8dec41898954eef8d71a40d9",
+    "transfer": "c363e3530d8348adb6387a937da54328"
   }
 }
 

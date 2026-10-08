@@ -2,10 +2,10 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.cancellation import CancellationState
-from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixing
+from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 
 
-class AgreementDocumentStateMixing(BaseDocumentStateMixing):
+class CFAUAAgreementDocumentStateMixin(BaseDocumentStateMixin):
     @staticmethod
     def validate_agreement_document(request, tender, agreement, operation):
         tender_status = tender["status"]
@@ -32,7 +32,7 @@ class AgreementDocumentStateMixing(BaseDocumentStateMixing):
         return True
 
 
-class AgreementDocumentState(AgreementDocumentStateMixing, CancellationState):
+class CFAUAAgreementDocumentState(CFAUAAgreementDocumentStateMixin, CancellationState):
     all_documents_should_be_public = True
 
     def validate_document_post(self, data):

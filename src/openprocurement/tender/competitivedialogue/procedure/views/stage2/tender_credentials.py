@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.api.utils import json_view, raise_operation_error
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_credentials import (
+    CDStage2CredentialsState,
 )
 from openprocurement.tender.core.procedure.serializers.tender import (
     TenderBaseSerializer,
@@ -13,7 +13,6 @@ from openprocurement.tender.core.procedure.utils import (
     save_tender,
     set_ownership,
 )
-from openprocurement.tender.core.procedure.validation import validate_dialogue_owner
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 
@@ -24,13 +23,14 @@ from openprocurement.tender.core.procedure.views.base import TenderBaseResource
     description="Tender stage2 UE credentials",
 )
 class CD2EUCredentialsResource(TenderBaseResource):
+    state_class = CDStage2CredentialsState
     serializer_class = TenderBaseSerializer
 
     @json_view(
         permission="edit_tender",
-        validators=(validate_dialogue_owner,),
     )
     def patch(self):
+        self.state.validate_tender_credentials_patch_request()
         tender = self.request.validated["tender"]
         if tender["status"] != "draft.stage2":
             raise_operation_error(

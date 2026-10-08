@@ -1,76 +1,42 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-    validate_upload_document,
+from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    BELOW_THRESHOLD,
+    COMPETITIVE_ORDERING,
+    OPEN_PROCUREMENT_METHOD_TYPES,
+    OPEN_ROUTE_PREFIX,
+    REQUEST_FOR_PROPOSAL,
+    SIMPLE_DEFENSE,
 )
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
-from openprocurement.tender.core.procedure.validation import (
-    unless_bots_or_auction,
-    validate_tender_document_operation_in_allowed_tender_statuses,
-    validate_tender_document_update_not_by_author_or_tender_owner,
-)
-from openprocurement.tender.core.procedure.views.tender_document import (
-    TenderDocumentResource,
-)
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.procedure.state.tender_document import (
-    UATenderDocumentState,
+    AboveThresholdTenderDocumentState,
+    AboveThresholdUATenderDocumentState,
+    BelowThresholdTenderDocumentState,
+    COTenderDocumentState,
+    RFPTenderDocumentState,
 )
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Documents",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender related binary files (PDFs, etc.)",
+    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
 )
-class UATenderDocumentResource(TenderDocumentResource):
-    state_class = UATenderDocumentState
-
-    @json_view(
-        validators=(
-            unless_bots_or_auction(validate_item_owner("tender")),
-            validate_input_data(PostDocument, allow_bulk=True),
-            validate_tender_document_operation_in_allowed_tender_statuses,
-        ),
-        permission="upload_tender_documents",
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        validators=(
-            unless_bots_or_auction(validate_item_owner("tender")),
-            validate_input_data(PostDocument),
-            update_doc_fields_on_put_document,
-            validate_tender_document_operation_in_allowed_tender_statuses,
-            validate_tender_document_update_not_by_author_or_tender_owner,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
-        permission="upload_tender_documents",
-    )
-    def put(self):
-        return super().put()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_bots_or_auction(validate_item_owner("tender")),
-            validate_patch_input_data(PatchDocument),
-            validate_patch_data(Document, item_name="document"),
-            validate_tender_document_operation_in_allowed_tender_statuses,
-            validate_tender_document_update_not_by_author_or_tender_owner,
-        ),
-        permission="upload_tender_documents",
-    )
-    def patch(self):
-        return super().patch()
+class OpenTenderDocumentResource(TenderDocumentResource):
+    state_classes = {
+        ABOVE_THRESHOLD: AboveThresholdTenderDocumentState,
+        ABOVE_THRESHOLD_UA: AboveThresholdUATenderDocumentState,
+        ABOVE_THRESHOLD_EU: AboveThresholdUATenderDocumentState,
+        ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdUATenderDocumentState,
+        SIMPLE_DEFENSE: AboveThresholdUATenderDocumentState,
+        COMPETITIVE_ORDERING: COTenderDocumentState,
+        BELOW_THRESHOLD: BelowThresholdTenderDocumentState,
+        REQUEST_FOR_PROPOSAL: RFPTenderDocumentState,
+    }

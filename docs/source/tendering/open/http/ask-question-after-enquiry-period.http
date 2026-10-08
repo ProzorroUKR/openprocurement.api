@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/896f80313bfc43d2aa3f0f44fc56a513/questions HTTP/1.0
+POST /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/questions HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

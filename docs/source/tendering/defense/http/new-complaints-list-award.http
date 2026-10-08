@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/1716d96d03e04c7796d356071586d519/awards?acc_token=4246b655689f455395aad04affbf84cc HTTP/1.0
+GET /api/2.5/tenders/e8b352731fa84c98a0666c98e5a42d4e/awards?acc_token=efc4ac214da7476cb1860681db9dd024 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,8 +33,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "554ec9558fcb46169a26e8926e797ef4",
-      "id": "baac1accaf5f48dc9a5e5c2c93f3351e",
+      "bid_id": "ded519d9a307407d96e4094c73a5f0bb",
+      "id": "47cc7ce5c6f4469e858bb998506c40f1",
       "date": "2027-01-01T00:00:00+02:00",
       "period": {
         "startDate": "2027-01-01T00:00:00+02:00",

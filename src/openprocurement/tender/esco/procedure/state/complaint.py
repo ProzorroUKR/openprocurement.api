@@ -1,9 +1,7 @@
 from logging import getLogger
-from typing import Callable
-
-from pyramid.request import Request
 
 from openprocurement.api.auth import extract_access_token
+from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
 from openprocurement.tender.core.constants import (
@@ -23,10 +21,7 @@ from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 LOGGER = getLogger(__name__)
 
 
-class ESCOComplaintStateMixin:
-    request: Request
-    get_related_lot_obj: Callable  # from tender.core.state.complaint.ComplaintState
-
+class ESCOComplaintStateMixin(BaseState):
     def get_complaint_amount(self, tender, complaint):
         if tender["status"] in (
             "active.tendering",

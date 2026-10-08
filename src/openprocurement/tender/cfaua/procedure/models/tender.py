@@ -5,8 +5,8 @@ from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDurationType, ListType
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.cfaua.constants import LOTS_MAX_SIZE as CFA_LOTS_MAX_SIZE
-from openprocurement.tender.cfaua.constants import LOTS_MIN_SIZE as CFA_LOTS_MIN_SIZE
+from openprocurement.tender.cfaua.constants import CFA_UA_LOTS_MAX_SIZE as CFA_LOTS_MAX_SIZE
+from openprocurement.tender.cfaua.constants import CFA_UA_LOTS_MIN_SIZE as CFA_LOTS_MIN_SIZE
 from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchTenderLot, PostTenderLot
 from openprocurement.tender.core.procedure.models.tender import (

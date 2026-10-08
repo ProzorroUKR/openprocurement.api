@@ -1,8 +1,9 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import (
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
+from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.tender.competitivedialogue.procedure.state.stage2.bid_req_response_evidence import (
+    CDStage2EUBidReqResponseEvidenceState,
+    CDStage2UABidReqResponseEvidenceState,
 )
 from openprocurement.tender.core.procedure.views.bid_req_response_evidence import (
     BidReqResponseEvidenceResource as BaseBidReqResponseEvidenceResource,
@@ -17,7 +18,7 @@ from openprocurement.tender.core.procedure.views.bid_req_response_evidence impor
     description="Competitive Dialogue Stage 2 EU bidder evidences",
 )
 class CDEUBidReqResponseResource(BaseBidReqResponseEvidenceResource):
-    pass
+    state_class = CDStage2EUBidReqResponseEvidenceState
 
 
 @resource(
@@ -28,4 +29,4 @@ class CDEUBidReqResponseResource(BaseBidReqResponseEvidenceResource):
     description="Competitive Dialogue Stage 2 EU bidder evidences",
 )
 class CDUABidReqResponseResource(BaseBidReqResponseEvidenceResource):
-    pass
+    state_class = CDStage2UABidReqResponseEvidenceState

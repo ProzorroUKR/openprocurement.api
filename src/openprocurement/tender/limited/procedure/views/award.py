@@ -1,23 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
 from openprocurement.tender.core.procedure.views.award import TenderAwardResource
-from openprocurement.tender.limited.procedure.models.award import (
-    LimitedAward,
-    LimitedPatchAward,
-    LimitedPostAward,
-    ReportingAward,
-    ReportingPatchAward,
-    ReportingPostAward,
-)
 from openprocurement.tender.limited.procedure.state.award import (
     NegotiationAwardState,
     NegotiationQuickAwardState,
@@ -50,29 +34,6 @@ class ReportingAwardResource(TenderAwardResource):
         ]
         return acl
 
-    @json_view(
-        content_type="application/json",
-        permission="create_award",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_input_data(ReportingPostAward),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_award",  # brokers
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(ReportingPatchAward),
-            validate_patch_data_simple(ReportingAward, item_name="award"),
-        ),
-    )
-    def patch(self):
-        return super().patch()
-
 
 @resource(
     name="negotiation:Tender Awards",
@@ -98,29 +59,6 @@ class NegotiationAwardResource(TenderAwardResource):
             (Allow, "g:bots", "upload_award_documents"),
         ]
         return acl
-
-    @json_view(
-        content_type="application/json",
-        permission="create_award",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_input_data(LimitedPostAward),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_award",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(LimitedPatchAward),
-            validate_patch_data_simple(LimitedAward, item_name="award"),
-        ),
-    )
-    def patch(self):
-        return super().patch()
 
 
 @resource(

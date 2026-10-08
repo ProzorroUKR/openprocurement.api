@@ -1,20 +1,20 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
-    CDEUStage2TenderDetailsState,
-    CDUAStage2TenderDetailsState,
+    CDStage2EUTenderDetailsState,
+    CDStage2UATenderDetailsState,
 )
-from openprocurement.tender.openua.procedure.state.question import (
-    UATenderQuestionStateMixin,
-)
+from openprocurement.tender.core.procedure.state.question import TenderQuestionStateMixin
 
 
-class CDStage2TenderQuestionStateMixin(UATenderQuestionStateMixin):
+class CDStage2TenderQuestionStateMixin(TenderQuestionStateMixin):
+    question_create_accreditations = None
+
     question_shortlisted_firms_author_check = True
 
 
-class CDEUStage2TenderQuestionState(CDStage2TenderQuestionStateMixin, CDEUStage2TenderDetailsState):
+class CDStage2EUTenderQuestionState(CDStage2TenderQuestionStateMixin, CDStage2EUTenderDetailsState):
     question_create_accreditations = (AccreditationLevel.ACCR_4,)
 
 
-class CDUAStage2TenderQuestionState(CDStage2TenderQuestionStateMixin, CDUAStage2TenderDetailsState):
+class CDStage2UATenderQuestionState(CDStage2TenderQuestionStateMixin, CDStage2UATenderDetailsState):
     question_create_accreditations = (AccreditationLevel.ACCR_4,)

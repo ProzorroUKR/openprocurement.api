@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/08491ba95a5c4fa6b21a91707d1dca31/complaints HTTP/1.0
+POST /api/2.5/tenders/1a08c0c252064a9a8cf24c8264e29e6d/complaints HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -35,7 +35,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "08491ba95a5c4fa6b21a91707d1dca31",
+        "relatedItem": "1a08c0c252064a9a8cf24c8264e29e6d",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -61,7 +61,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/08491ba95a5c4fa6b21a91707d1dca31/complaints/a69a9467a4c546b69552aa1af317f6c9
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a08c0c252064a9a8cf24c8264e29e6d/complaints/9999852c01ec4b2ea774bf6da3320959
 
 {
   "data": {
@@ -92,10 +92,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/08491ba95a5c4fa6
     "type": "complaint",
     "objections": [
       {
-        "id": "19ec7698043246b8b613efa5036ebe04",
+        "id": "ff4de431f3814528a53e6fd7e4184da4",
         "title": "My objection",
         "description": "Test objection",
-        "relatedItem": "08491ba95a5c4fa6b21a91707d1dca31",
+        "relatedItem": "1a08c0c252064a9a8cf24c8264e29e6d",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -103,14 +103,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/08491ba95a5c4fa6
         },
         "requestedRemedies": [
           {
-            "id": "cba0caaf23c2449eaef5b6311a8c9ad9",
+            "id": "334db67b9ffa4e43bdfee9f3e4a350e9",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "c69b99ee8f624879a03b7686998a6391",
+            "id": "6e6475e6604e4bec9141cb57c6f88850",
             "description": "test argument"
           }
         ],
@@ -118,7 +118,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/08491ba95a5c4fa6
         "relatesTo": "tender"
       }
     ],
-    "id": "a69a9467a4c546b69552aa1af317f6c9",
+    "id": "9999852c01ec4b2ea774bf6da3320959",
     "date": "2027-01-01T00:00:00+02:00",
     "complaintID": "UA-2027-01-01-000001-a.a1",
     "value": {

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/197ab221daff4d87b98cf8e0d03cb393/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/2d957bda0dac4105bc10319477b8227e?acc_token=f1d3b3c9cfc742009dac829e68c047a6 HTTP/1.0
+PATCH /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/8574cd332a044169b100c60da9e1fcb3?acc_token=eb770aa4542a4ea09844f4923f46a4d2 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "2d957bda0dac4105bc10319477b8227e",
+    "id": "8574cd332a044169b100c60da9e1fcb3",
     "complaintID": "UA-2027-01-01-000001-a.a6",
     "date": "2027-01-01T00:00:01+02:00",
     "title": "Недостатньо інформації",
@@ -27,8 +27,8 @@ Content-Type: application/json
     "resolutionType": "resolved",
     "dateSubmitted": "2027-01-01T00:00:01+02:00",
     "type": "claim",
-    "relatedLot": "6010c37920ed40da8e5b29fd7e32bd0f",
-    "bid_id": "27eddc20a94644c7af620395f1147d70",
+    "relatedLot": "5395b459908140bba8ed9266a17b40b4",
+    "bid_id": "b3390caed5e74635b13b426c678cbc8d",
     "dateAnswered": "2027-01-01T00:00:01+02:00"
   }
 }

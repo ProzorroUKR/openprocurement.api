@@ -2,8 +2,8 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_claim
-from openprocurement.tender.cfaselectionua.constants import BOT_NAME
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_claim
+from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION_BOT_NAME
 from openprocurement.tender.cfaselectionua.tests.base import (
     test_tender_cfaselectionua_agreement,
 )
@@ -14,7 +14,7 @@ from openprocurement.tender.cfaselectionua.tests.base import (
 def switch_to_tendering(self):
     self.set_status("draft.pending")
 
-    self.app.authorization = ("Basic", (BOT_NAME, ""))
+    self.app.authorization = ("Basic", (CFA_SELECTION_BOT_NAME, ""))
     agreement = deepcopy(test_tender_cfaselectionua_agreement)
     agreement["contracts"][1]["unitPrices"][0]["value"]["amount"] = (
         agreement["contracts"][2]["unitPrices"][0]["value"]["amount"] * 2

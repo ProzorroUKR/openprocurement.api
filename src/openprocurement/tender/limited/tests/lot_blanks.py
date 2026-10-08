@@ -3,8 +3,8 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_complaint,
     test_tender_below_supplier,
@@ -348,7 +348,7 @@ def patch_tender_currency(self):
 
 @patch(
     "openprocurement.tender.limited.procedure.state.tender_details.NegotiationTenderDetailsState.vat_not_included_validation_from",
-    get_now() + timedelta(days=1),
+    calculate_date(get_now(), timedelta(days=1)),
 )
 def patch_tender_vat(self):
     response = self.app.get("/tenders/{}".format(self.tender_id))

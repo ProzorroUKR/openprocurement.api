@@ -1,24 +1,9 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-    validate_upload_document,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.document import Document, PatchDocument, PostDocument
-from openprocurement.tender.core.procedure.validation import (
-    unless_bots_or_auction,
-    validate_limited_document_operation_in_not_allowed_tender_status,
-    validate_tender_document_update_not_by_author_or_tender_owner,
-)
 from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,
 )
+from openprocurement.tender.limited.procedure.state.tender_document import LimitedTenderDocumentState
 
 
 @resource(
@@ -29,45 +14,7 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     description="Tender related binary files (PDFs, etc.)",
 )
 class ReportingTenderDocumentResource(TenderDocumentResource):
-    @json_view(
-        validators=(
-            unless_bots_or_auction(validate_item_owner("tender")),
-            validate_input_data(PostDocument, allow_bulk=True),
-            validate_limited_document_operation_in_not_allowed_tender_status,
-        ),
-        permission="upload_tender_documents",
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        validators=(
-            unless_bots_or_auction(validate_item_owner("tender")),
-            validate_input_data(PostDocument),
-            update_doc_fields_on_put_document,
-            validate_limited_document_operation_in_not_allowed_tender_status,
-            validate_tender_document_update_not_by_author_or_tender_owner,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
-        permission="upload_tender_documents",
-    )
-    def put(self):
-        return super().put()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_bots_or_auction(validate_item_owner("tender")),
-            validate_patch_input_data(PatchDocument),
-            validate_patch_data(Document, item_name="document"),
-            validate_limited_document_operation_in_not_allowed_tender_status,
-            validate_tender_document_update_not_by_author_or_tender_owner,
-        ),
-        permission="upload_tender_documents",
-    )
-    def patch(self):
-        return super().patch()
+    state_class = LimitedTenderDocumentState
 
 
 @resource(

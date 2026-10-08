@@ -1,10 +1,10 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.cancellation import (
+from openprocurement.tender.open.tests.below_threshold.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.below_threshold.cancellation_blanks import (
     get_tender_cancellation,
     get_tender_cancellations,
 )

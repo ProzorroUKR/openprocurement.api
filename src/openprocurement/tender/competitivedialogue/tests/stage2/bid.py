@@ -27,34 +27,34 @@ from openprocurement.tender.competitivedialogue.tests.stage2.bid_blanks import (
     ukrainian_author_id,
 )
 from openprocurement.tender.core.tests.utils import set_bid_lotvalues
-from openprocurement.tender.openeu.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_eu.bid import (
     Tender2BidResourceTestMixin,
     TenderBidDocumentResourceTestMixin,
     TenderBidResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidDocumentResourceTestMixin as TenderUABidDocumentResourceTestMixin,
 )
-from openprocurement.tender.openua.tests.bid import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid import (
     TenderBidRequirementResponseEvidenceTestMixin,
     TenderBidRequirementResponseTestMixin,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     bid_Administrator_change as bid_Administrator_change_ua,
 )
-from openprocurement.tender.openua.tests.bid_blanks import bids_related_product
-from openprocurement.tender.openua.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import bids_related_product
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     delete_tender_bidder as delete_tender_bidder_ua,
 )
-from openprocurement.tender.openua.tests.bid_blanks import draft1_bid as one_draft_bid
-from openprocurement.tender.openua.tests.bid_blanks import draft2_bids as two_draft_bids
-from openprocurement.tender.openua.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import draft1_bid as one_draft_bid
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import draft2_bids as two_draft_bids
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     get_tender_bidder as get_tender_bidder_ua,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     get_tender_tenderers as get_tender_tenderers_ua,
 )
-from openprocurement.tender.openua.tests.bid_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import (
     patch_tender_bidder as patch_tender_bidder_ua,  # TenderStage2UABidResourceTest
 )
 

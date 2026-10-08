@@ -3,8 +3,8 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_2020_04_19
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_claim,
     test_tender_below_complaint,
@@ -14,7 +14,7 @@ from openprocurement.tender.belowthreshold.tests.base import (
 from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
 from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
-from openprocurement.tender.openua.tests.bid_blanks import clean_requirement_responses
+from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import clean_requirement_responses
 
 
 def create_tender_award_invalid(self):
@@ -1972,7 +1972,7 @@ def bot_patch_tender_award_complaint(self):
         self.assertEqual(response.json["data"]["status"], "pending")
 
 
-@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", get_now() + timedelta(days=1))
+@patch("openprocurement.tender.core.procedure.utils.RELEASE_2020_04_19", calculate_date(get_now(), timedelta(days=1)))
 def bot_patch_tender_award_complaint_forbidden(self):
     response = self.app.patch_json(
         "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, self.tender_token),
@@ -3836,8 +3836,8 @@ def create_award_requirement_response(self):
         [
             {
                 "location": "body",
-                "name": "requirementResponses.0",
-                "description": {"value": 'Response required at least one of field ["value", "values"]'},
+                "name": "value",
+                "description": 'Response required at least one of field ["value", "values"]',
             },
         ],
     )

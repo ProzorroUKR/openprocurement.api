@@ -2,7 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.auction_blanks import update_patch_data
+from openprocurement.tender.open.tests.below_threshold.auction_blanks import update_patch_data
 
 
 def post_tender_1lot_auction_not_changed(self):

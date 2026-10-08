@@ -2,34 +2,9 @@ from logging import getLogger
 
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_item_owner,
-    validate_accreditation_level,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data_from_resolved_model,
-)
-from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.serializers.bid import BidSerializer
-from openprocurement.tender.cfaua.procedure.serializers.tender import (
-    CFAUATenderSerializer,
-)
 from openprocurement.tender.cfaua.procedure.state.bid import CFAUABidState
-from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.bid import Bid, PostBid
-from openprocurement.tender.core.procedure.validation import (
-    unless_allowed_by_qualification_milestone_24,
-    validate_bid_operation_in_tendering,
-    validate_bid_operation_not_in_tendering,
-    validate_bid_operation_period,
-    validate_update_deleted_bid,
-)
-from openprocurement.tender.core.utils import context_view
-from openprocurement.tender.openua.procedure.views.bid import OpenUATenderBidResource
+from openprocurement.tender.core.procedure.views.bid import TenderBidResource
 
 LOGGER = getLogger(__name__)
 
@@ -41,65 +16,6 @@ LOGGER = getLogger(__name__)
     procurementMethodType="closeFrameworkAgreementUA",
     description="Tender EU bids",
 )
-class CFAUATenderBidResource(OpenUATenderBidResource):
+class CFAUATenderBidResource(TenderBidResource):
     state_class = CFAUABidState
     serializer_class = BidSerializer
-
-    @json_view(
-        permission="view_tender",
-        validators=(validate_bid_operation_in_tendering,),
-    )
-    def collection_get(self):
-        return super().collection_get()
-
-    @json_view(
-        permission="view_tender",
-        validators=(
-            unless_item_owner(
-                validate_bid_operation_in_tendering,
-                item_name="bid",
-            ),
-        ),
-    )
-    @context_view(
-        objs={
-            "tender": (CFAUATenderSerializer, TENDER_MASK_MAPPING),
-        }
-    )
-    def get(self):
-        return super().get()
-
-    @json_view(
-        content_type="application/json",
-        permission="create_bid",
-        validators=(
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_4,),
-                item="bid",
-                operation="creation",
-            ),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
-            validate_input_data(PostBid),
-            validate_data_documents(route_key="bid_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_bid",
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            validate_update_deleted_bid,
-            unless_allowed_by_qualification_milestone_24(
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-            ),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data_simple(Bid, item_name="bid"),
-        ),
-    )
-    def patch(self):
-        return super().patch()

@@ -1,8 +1,8 @@
-from openprocurement.tender.core.procedure.state.criterion_rg import (
-    RequirementGroupStateMixin,
+from openprocurement.tender.core.procedure.state.criterion_rg import RequirementGroupStateMixin
+from openprocurement.tender.esco.procedure.state.tender_details import (
+    ESCOTenderDetailsState,
 )
-from openprocurement.tender.esco.procedure.state.tender import ESCOTenderState
 
 
-class ESCORequirementGroupState(RequirementGroupStateMixin, ESCOTenderState):
+class ESCORequirementGroupState(RequirementGroupStateMixin, ESCOTenderDetailsState):
     pass

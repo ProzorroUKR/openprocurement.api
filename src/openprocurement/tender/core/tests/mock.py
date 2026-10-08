@@ -2,7 +2,7 @@ from datetime import timedelta
 from unittest.mock import Mock, patch
 
 from openprocurement.api.tests.mock import ContextDecorator, patch_multiple
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.utils import generate_product_responses
 from openprocurement.tender.pricequotation.tests.data import (
     test_bid_pq_product,
@@ -110,7 +110,7 @@ class MockMarketMixin:
 class MockCriteriaIDMixin:
     def setUp(self):
         target = "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM"
-        patch_obj = patch(target, get_now() + timedelta(days=1))
+        patch_obj = patch(target, calculate_date(get_now(), timedelta(days=1)))
         patch_obj.start()
         self.addCleanup(patch_obj.stop)
         super().setUp()

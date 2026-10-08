@@ -1,6 +1,7 @@
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.tender.core.procedure.models.document import PatchComplaintDocument, PostComplaintDocument
 from openprocurement.tender.core.procedure.state.complaint_post import (
     ComplaintPostValidationsMixin,
 )
@@ -8,6 +9,11 @@ from openprocurement.tender.core.procedure.state.document import BaseDocumentSta
 
 
 class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
+    post_data_model = PostComplaintDocument
+    patch_data_model = PatchComplaintDocument
+
+    document_post_owner_exempt_roles = ("admins", "aboveThresholdReviewers")
+    document_update_owner_exempt_roles = ("admins", "aboveThresholdReviewers")
     allowed_complaint_status_for_role = {  # copied from open.constants.STATUS4ROLE
         "complaint_owner": [
             "draft",
@@ -20,14 +26,17 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
         "aboveThresholdReviewers": ["pending", "accepted", "stopping"],
         "tender_owner": ["claim", "pending", "accepted", "satisfied"],
     }
-    allowed_tender_statuses = (
+    complaint_document_allowed_tender_statuses = (
         "active.enquiries",
         "active.tendering",
-        "active.pre-qualification",
         "active.auction",
         "active.qualification",
         "active.awarded",
     )
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_any_item_owner("complaint", "tender")
 
     def validate_document_post(self, data):
         if document := self.request.validated.get("document"):  # POST new version via PUT method
@@ -55,7 +64,7 @@ class ComplaintDocumentState(ComplaintPostValidationsMixin, BaseDocumentState):
     def validate_tender_status(self):
         tender = get_tender()
         status = tender["status"]
-        if status not in self.allowed_tender_statuses:
+        if status not in self.complaint_document_allowed_tender_statuses:
             operation = OPERATIONS.get(self.request.method)
             raise_operation_error(
                 self.request,

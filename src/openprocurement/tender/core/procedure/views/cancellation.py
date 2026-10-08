@@ -4,20 +4,12 @@ from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.tender.core.procedure.contracting import (
     prepare_contracting_contracts_cancelled,
     save_contracting_contracts,
 )
 from openprocurement.tender.core.procedure.mask import TENDER_MASK_MAPPING
-from openprocurement.tender.core.procedure.models.cancellation import Cancellation, PatchCancellation, PostCancellation
 from openprocurement.tender.core.procedure.serializers.cancellation import (
     CancellationSerializer,
 )
@@ -64,12 +56,9 @@ class BaseCancellationResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_cancellation",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_input_data(PostCancellation),
-        ),
     )
     def collection_post(self):
+        self.state.validate_cancellation_post_request()
         tender = self.request.validated["tender"]
         cancellation = self.request.validated["data"]
 
@@ -129,13 +118,9 @@ class BaseCancellationResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_cancellation",
-        validators=(
-            unless_admins(validate_item_owner("tender")),
-            validate_patch_input_data(PatchCancellation),
-            validate_patch_data_simple(Cancellation, item_name="cancellation"),
-        ),
     )
     def patch(self):
+        self.state.validate_cancellation_patch_request()
         updated = self.request.validated["data"]
         if updated:
             cancellation = self.request.validated["cancellation"]

@@ -25,15 +25,15 @@ from openprocurement.tender.arma.tests.cancellation_blanks import (
     check_sign_doc_before_cancellation_activation,
     create_cancellation_in_qualification_complaint_period,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation import (
+from openprocurement.tender.open.tests.below_threshold.cancellation import (
     TenderCancellationDocumentResourceTestMixin,
     TenderCancellationResourceNewReleaseTestMixin,
     TenderCancellationResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.below_threshold.cancellation_blanks import (
     create_tender_lot_cancellation,
     create_tender_lots_cancellation,
     patch_tender_lot_cancellation,
@@ -42,7 +42,7 @@ from openprocurement.tender.core.tests.cancellation import (
     activate_cancellation_with_complaints_after_2020_04_19,
 )
 from openprocurement.tender.core.tests.utils import change_auth
-from openprocurement.tender.openua.tests.cancellation_blanks import (
+from openprocurement.tender.open.tests.above_threshold_ua.cancellation_blanks import (
     create_tender_cancellation_before_19_04_2020,
     patch_tender_cancellation_before_19_04_2020,
 )

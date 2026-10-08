@@ -3,14 +3,14 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import test_tender_below_lots
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.competitivedialogue.tests.base import (
     BaseCompetitiveDialogEUStage2ContentWebTest,
     BaseCompetitiveDialogUAStage2ContentWebTest,
     test_tender_cdeu_stage2_data,
     test_tender_cdua_stage2_data,
 )
-from openprocurement.tender.openua.tests.criterion import (
+from openprocurement.tender.open.tests.above_threshold_ua.criterion import (
     TenderCriteriaRGRequirementEvidenceTestMixin,
     TenderCriteriaRGRequirementTestMixin,
     TenderCriteriaRGTestMixin,
@@ -30,7 +30,7 @@ class TenderCDEUCriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogEUSta
         mock.Mock(return_value={}),
     )
     @mock.patch(
-        "openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
+        "openprocurement.tender.core.procedure.state.req_response.RELEASE_ECRITERIA_ARTICLE_17",
         get_now() - timedelta(days=1),
     )
     def setUp(self):
@@ -49,7 +49,7 @@ class TenderCDUACriteriaTest(TenderCriteriaTestMixin, BaseCompetitiveDialogUASta
         mock.Mock(return_value={}),
     )
     @mock.patch(
-        "openprocurement.tender.core.procedure.models.req_response.RELEASE_ECRITERIA_ARTICLE_17",
+        "openprocurement.tender.core.procedure.state.req_response.RELEASE_ECRITERIA_ARTICLE_17",
         get_now() - timedelta(days=1),
     )
     def setUp(self):

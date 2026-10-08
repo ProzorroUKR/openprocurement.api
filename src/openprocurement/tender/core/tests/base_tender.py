@@ -8,8 +8,8 @@ from schematics.exceptions import ModelValidationError
 from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.context import set_request, set_request_now
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_data,
     test_tender_below_lots,
 )
@@ -84,7 +84,7 @@ class TestTenderMilestones(unittest.TestCase):
             patch(
                 "openprocurement.tender.core.procedure.validation."
                 "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
-                get_now() + timedelta(days=1),
+                calculate_date(get_now(), timedelta(days=1)),
             ),
         ):
             with self.assertRaises(MilestonesValidationError) as e:
@@ -104,12 +104,12 @@ class TestTenderMilestones(unittest.TestCase):
         with (
             patch(
                 "openprocurement.tender.core.procedure.validation.MILESTONES_VALIDATION_FROM",
-                get_now() + timedelta(days=1),
+                calculate_date(get_now(), timedelta(days=1)),
             ),
             patch(
                 "openprocurement.tender.core.procedure.validation."
                 "REQUIRED_DELIVERY_AND_FINANCING_MILESTONES_VALIDATION_FROM",
-                get_now() + timedelta(days=1),
+                calculate_date(get_now(), timedelta(days=1)),
             ),
         ):
             data = check_milestones_required(self.initial_tender_data)

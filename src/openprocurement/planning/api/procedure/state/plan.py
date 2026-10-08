@@ -37,8 +37,8 @@ from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
 from openprocurement.tender.core.procedure.utils import tender_created_after
 from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL
 from openprocurement.tender.pricequotation.constants import PQ
-from openprocurement.tender.requestforproposal.constants import REQUEST_FOR_PROPOSAL
 
 
 class PlanState(BaseState):

@@ -1,74 +1,56 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_config_data,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.tender import PatchTender, PostTender, Tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_tender_status_allows_update,
-)
 from openprocurement.tender.core.procedure.views.tender import TendersResource
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.procedure.state.tender_details import (
-    OpenTenderDetailsState,
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    BELOW_THRESHOLD,
+    COMPETITIVE_ORDERING,
+    OPEN_ROUTE_PREFIX,
+    REQUEST_FOR_PROPOSAL,
+    SIMPLE_DEFENSE,
 )
+from openprocurement.tender.open.procedure.state.tender_details import (
+    AboveThresholdEUTenderDetailsState,
+    AboveThresholdTenderDetailsState,
+    AboveThresholdUATenderDetailsState,
+    BelowThresholdTenderDetailsState,
+    COLongTenderDetailsState,
+    COShortTenderDetailsState,
+    DefenseTenderDetailsState,
+    RFPTenderDetailsState,
+    SimpleDefenseTenderDetailsState,
+)
+from openprocurement.tender.open.procedure.views.base import COStateClass
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tenders",
+    name=f"{OPEN_ROUTE_PREFIX}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tenders",
     accept="application/json",
+    procurementMethodType=[
+        ABOVE_THRESHOLD,
+        ABOVE_THRESHOLD_UA,
+        ABOVE_THRESHOLD_EU,
+        ABOVE_THRESHOLD_UA_DEFENSE,
+        SIMPLE_DEFENSE,
+        COMPETITIVE_ORDERING,
+        BELOW_THRESHOLD,
+        REQUEST_FOR_PROPOSAL,
+    ],
 )
-class AboveThresholdTenderResource(TendersResource):
-    state_class = OpenTenderDetailsState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_tender",
-        validators=(
-            validate_input_data(PostTender),
-            validate_config_data(),
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
-                kind_central_levels=(AccreditationLevel.ACCR_5,),
-                item="tender",
-                operation="creation",
-                source="data",
-            ),
-            validate_data_documents(),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            unless_administrator(
-                validate_tender_status_allows_update(
-                    "draft",
-                    "active.tendering",
-                    "active.pre-qualification",  # state class only allows status change (pre-qualification.stand-still)
-                    "active.pre-qualification.stand-still",
-                )
-            ),
-            validate_patch_input_data(PatchTender),
-            validate_patch_data_simple(Tender, item_name="tender"),
-        ),
-        permission="edit_tender",
-    )
-    def patch(self):
-        return super().patch()
+class OpenTendersResource(TendersResource):
+    state_classes = {
+        ABOVE_THRESHOLD: AboveThresholdTenderDetailsState,
+        ABOVE_THRESHOLD_UA: AboveThresholdUATenderDetailsState,
+        ABOVE_THRESHOLD_EU: AboveThresholdEUTenderDetailsState,
+        ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderDetailsState,
+        SIMPLE_DEFENSE: SimpleDefenseTenderDetailsState,
+        COMPETITIVE_ORDERING: COStateClass(COShortTenderDetailsState, COLongTenderDetailsState),
+        BELOW_THRESHOLD: BelowThresholdTenderDetailsState,
+        REQUEST_FOR_PROPOSAL: RFPTenderDetailsState,
+    }

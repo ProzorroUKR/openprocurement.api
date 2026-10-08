@@ -5,25 +5,15 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import (
     context_unpack,
     get_now,
     json_view,
     update_logging_context,
 )
-from openprocurement.tender.core.procedure.models.lot import Lot, PatchLot, PostLot
 from openprocurement.tender.core.procedure.serializers.lot import LotSerializer
 from openprocurement.tender.core.procedure.state.lot import LotState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import (
-    validate_lot_operation_in_disallowed_tender_statuses,
-)
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 
@@ -60,23 +50,18 @@ class TenderLotResource(TenderBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_input_data(PostLot),
-        ),
     )
     def collection_post(self) -> Optional[dict]:
         """
         Lot creation
         """
+        self.state.validate_lot_post_request()
 
         update_logging_context(self.request, {"lot_id": "__new__"})
 
         tender = self.request.validated["tender"]
         lot = self.request.validated["data"]
         lot["date"] = get_now().isoformat()
-        self.state.validate_lot_post(lot)
 
         if "lots" not in tender:
             tender["lots"] = []
@@ -127,25 +112,19 @@ class TenderLotResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-            validate_patch_input_data(PatchLot),
-            validate_patch_data_simple(Lot, item_name="lot"),
-        ),
         permission="edit_lot",
     )
     def patch(self) -> Optional[dict]:
         """
         Lot updating
         """
+        self.state.validate_lot_patch_request()
 
         updated = self.request.validated["data"]
         if not updated:
             return None
 
         lot = self.request.validated["lot"]
-        self.state.validate_lot_patch(lot, updated)
 
         set_item(self.request.validated["tender"], "lots", lot["id"], updated)
 
@@ -161,20 +140,15 @@ class TenderLotResource(TenderBaseResource):
 
     @json_view(
         permission="edit_lot",
-        validators=(
-            validate_item_owner("tender"),
-            validate_lot_operation_in_disallowed_tender_statuses,
-        ),
     )
     def delete(self) -> Optional[dict]:
         """
         Lot deleting
         """
+        self.state.validate_lot_delete_request()
 
         lot = self.request.validated["lot"]
         tender = self.request.validated["tender"]
-
-        self.state.validate_lot_delete(lot)
 
         tender["lots"].remove(lot)
         if not tender["lots"]:

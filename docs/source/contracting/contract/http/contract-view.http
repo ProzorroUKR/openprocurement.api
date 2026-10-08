@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/5e1ed225fd3b411c9e51121f2767710f HTTP/1.0
+GET /api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4 HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -154,7 +154,7 @@ Content-Type: application/json
       }
     ],
     "owner": "broker",
-    "tender_id": "f2a340122e754b528c3f516d8e34de7a",
+    "tender_id": "1faecc8cb6944a658737af002d96c9b7",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -313,7 +313,7 @@ Content-Type: application/json
     "status": "pending",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "5e1ed225fd3b411c9e51121f2767710f"
+    "id": "ecd25be608804fc085fc7377b63a88f4"
   },
   "config": {
     "restricted": false

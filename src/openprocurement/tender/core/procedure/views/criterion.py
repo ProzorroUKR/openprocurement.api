@@ -5,21 +5,12 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import Criterion, PatchCriterion
 from openprocurement.tender.core.procedure.serializers.criterion import (
     CriterionSerializer,
 )
 from openprocurement.tender.core.procedure.state.criterion import CriterionState
 from openprocurement.tender.core.procedure.utils import save_tender
-from openprocurement.tender.core.procedure.validation import validate_tender_in_draft
 from openprocurement.tender.core.procedure.views.base import TenderBaseResource
 
 LOGGER = getLogger(__name__)
@@ -53,19 +44,15 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(Criterion, allow_bulk=True),
-        ),
         permission="create_criterion",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_criterion_post_request()
         tender = self.request.validated["tender"]
         criteria = self.request.validated["data"]
         if "criteria" not in tender:
             tender["criteria"] = []
 
-        self.state.validate_on_post(criteria)
         tender["criteria"].extend(criteria)
         self.state.criterion_on_post(criteria)
         self.state.always(self.request.validated["tender"])
@@ -98,21 +85,17 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchCriterion),
-            validate_patch_data_simple(Criterion, "criterion"),
-        ),
         permission="edit_criterion",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_criterion_patch_request()
         updated_criterion = self.request.validated["data"]
         if not updated_criterion:
             return None
         criterion = self.request.validated["criterion"]
         tender = self.request.validated["tender"]
-        self.state.criterion_on_patch(criterion, updated_criterion)
         set_item(tender, "criteria", criterion["id"], updated_criterion)
+        self.state.criterion_on_patch(criterion, updated_criterion)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
@@ -124,13 +107,10 @@ class BaseCriterionResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_tender_in_draft,
-        ),
         permission="edit_criterion",
     )
     def delete(self):
+        self.state.validate_criterion_delete_request()
         deleted_criterion = self.request.validated["criterion"]
         tender = self.request.validated["tender"]
         tender["criteria"] = [
@@ -138,6 +118,8 @@ class BaseCriterionResource(TenderBaseResource):
         ]
         if not tender["criteria"]:
             del tender["criteria"]
+        self.state.criterion_on_delete(deleted_criterion)
+        self.state.always(tender)
 
         if save_tender(self.request):
             self.LOGGER.info(

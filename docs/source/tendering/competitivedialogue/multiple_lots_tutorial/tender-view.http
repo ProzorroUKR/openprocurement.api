@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/16ed9c73a8f34ed89787edcf423f4267 HTTP/1.0
+GET /api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -148,7 +148,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "id": "401574cc6ca74de4a2537a04a061e298",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -179,10 +179,10 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       },
       {
-        "id": "ab43ef6483bc4201b9d92626a5618b46",
+        "id": "9e843f9862fe479bad8d40e86ceb43b1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -213,7 +213,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d"
       }
     ],
     "awardCriteria": "lowestCost",
@@ -260,7 +260,7 @@ Content-Type: application/json
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "id": "ff4f4f0485884f85b5326a1d023bdc8a",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -277,7 +277,7 @@ Content-Type: application/json
         "title": "Лот №2",
         "description": "Опис Лот №2",
         "status": "active",
-        "id": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "id": "2fc24d8e18f640418b99fa2501e5263d",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -292,7 +292,7 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "competitiveDialogueEU",
-    "id": "16ed9c73a8f34ed89787edcf423f4267"
+    "id": "90c9e8f5a88448a3999266904a459e9e"
   },
   "config": {
     "hasAuction": false,

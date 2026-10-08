@@ -3,7 +3,7 @@ from copy import deepcopy
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.tender_blanks import (
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     contract_template_name_set,
     create_tender_central,
     create_tender_central_invalid,
@@ -62,7 +62,7 @@ from openprocurement.tender.core.tests.base import (
     test_language_criteria,
 )
 from openprocurement.tender.core.tests.utils import set_tender_lots
-from openprocurement.tender.open.tests.tender_blanks import create_tender_invalid_config
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import create_tender_invalid_config
 
 test_tender_cfaselectionua_data = deepcopy(test_tender_cfaselectionua_data)
 set_tender_lots(test_tender_cfaselectionua_data, test_tender_cfaselectionua_lots)

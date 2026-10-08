@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/16ed9c73a8f34ed89787edcf423f4267/bids HTTP/1.0
+POST /api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -40,16 +40,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "lotValues": [
       {
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d"
       }
     ],
     "items": [
       {
-        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "id": "401574cc6ca74de4a2537a04a061e298",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -57,10 +57,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       },
       {
-        "id": "ab43ef6483bc4201b9d92626a5618b46",
+        "id": "9e843f9862fe479bad8d40e86ceb43b1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -68,7 +68,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d"
       }
     ]
   }
@@ -77,13 +77,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed89787edcf423f4267/bids/7245888520724e91a7d4959da5ca033c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e/bids/fbb0db39118445eaa741ef9f7c5698dd
 
 {
   "data": {
     "items": [
       {
-        "id": "77323aaaef9a4db1887c8e2334147bc7",
+        "id": "401574cc6ca74de4a2537a04a061e298",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -91,10 +91,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed8
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9"
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
       },
       {
-        "id": "ab43ef6483bc4201b9d92626a5618b46",
+        "id": "9e843f9862fe479bad8d40e86ceb43b1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -102,7 +102,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed8
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3"
+        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d"
       }
     ],
     "tenderers": [
@@ -140,23 +140,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/16ed9c73a8f34ed8
     "status": "draft",
     "lotValues": [
       {
-        "relatedLot": "d1f58c0ba35f44a9aa2176f9213056b9",
+        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       },
       {
-        "relatedLot": "ab754f91fa1a4efdb9b978d10a93e1b3",
+        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d",
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "id": "7245888520724e91a7d4959da5ca033c",
+    "id": "fbb0db39118445eaa741ef9f7c5698dd",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {
-    "token": "e4b02cd63c0043b797c182e47876a189",
-    "transfer": "582b13b899854eb59081e37f77d62dac"
+    "token": "f1c2256e48ea4b2e9323bf119e129ce6",
+    "transfer": "6ec1a2cfd7f94a8da64c84bb72126f7a"
   }
 }
 

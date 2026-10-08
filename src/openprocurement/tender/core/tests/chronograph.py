@@ -5,8 +5,8 @@ from unittest.mock import patch
 from freezegun import freeze_time
 
 from openprocurement.api.procedure.utils import parse_date
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_cancellation,
     test_tender_below_draft_complaint,
 )
@@ -68,7 +68,7 @@ def switch_tender_cancellation_complaints_draft(self):
     cancellation_data["status"] = "pending"
     cancellation_data["complaintPeriod"] = {
         "startDate": get_now().isoformat(),
-        "endDate": (get_now() + timedelta(days=10)).isoformat(),
+        "endDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
     }
     tender.update(cancellations=[cancellation_data])
     self.mongodb.tenders.save(tender)

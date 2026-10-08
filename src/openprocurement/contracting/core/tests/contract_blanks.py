@@ -7,7 +7,7 @@ from openprocurement.api.constants import (
     MILESTONE_TITLES,
     ROUTE_PREFIX,
 )
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.contracting.core.tests.utils import create_contract
 from openprocurement.tender.core.tests.utils import set_items_unit
@@ -1017,7 +1017,7 @@ def contract_items_change(self):
 
     # update allowed item fields
     startDate = get_now().isoformat()
-    endDate = (get_now() + timedelta(days=90)).isoformat()
+    endDate = calculate_date(get_now(), timedelta(days=90)).isoformat()
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
         {
@@ -1143,7 +1143,7 @@ def patch_tender_contract(self):
     )
 
     custom_period_start_date = get_now().isoformat()
-    custom_period_end_date = (get_now() + timedelta(days=3)).isoformat()
+    custom_period_end_date = calculate_date(get_now(), timedelta(days=3)).isoformat()
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}?acc_token={self.contract_token}",
         {"data": {"period": {"startDate": custom_period_start_date, "endDate": custom_period_end_date}}},

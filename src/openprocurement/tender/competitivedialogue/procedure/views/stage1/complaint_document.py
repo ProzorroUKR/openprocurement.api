@@ -5,7 +5,7 @@ from openprocurement.tender.core.procedure.views.complaint_document import (
     TenderComplaintDocumentResource,
 )
 from openprocurement.tender.open.procedure.state.complaint_document import (
-    OpenComplaintDocumentState,
+    AboveThresholdComplaintDocumentState,
 )
 
 
@@ -17,7 +17,7 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
     description="Competitive Dialogue complaint documents",
 )
 class CDEUComplaintDocumentResource(TenderComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = AboveThresholdComplaintDocumentState
 
 
 @resource(
@@ -28,4 +28,4 @@ class CDEUComplaintDocumentResource(TenderComplaintDocumentResource):
     description="Competitive Dialogue complaint documents",
 )
 class CDUAComplaintDocumentResource(TenderComplaintDocumentResource):
-    state_class = OpenComplaintDocumentState
+    state_class = AboveThresholdComplaintDocumentState

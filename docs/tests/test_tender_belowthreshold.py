@@ -3,14 +3,14 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.core.procedure.utils import dt_from_iso
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues, set_tender_lots
+from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
     test_tender_below_bids,
     test_tender_below_lots,
 )
-from openprocurement.tender.core.procedure.utils import dt_from_iso
-from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues, set_tender_lots
 from tests.base.constants import AUCTIONS_URL, DOCS_URL
 from tests.base.data import (
     test_docs_bid2_with_docs,
@@ -272,7 +272,7 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
 
-        tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
+        tender_period_end_date = calculate_date(get_now(), timedelta(days=15, seconds=10))
         with open(TARGET_DIR + "tutorial/patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -864,8 +864,8 @@ class TenderResourceTest(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMix
                 {
                     "data": {
                         "tenderPeriod": {
-                            "startDate": (get_now() + timedelta(days=10)).isoformat(),
-                            "endDate": (get_now() + timedelta(days=15)).isoformat(),
+                            "startDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
+                            "endDate": calculate_date(get_now(), timedelta(days=15)).isoformat(),
                         }
                     }
                 },

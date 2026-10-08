@@ -2,7 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.belowthreshold.tests.auction import (
+from openprocurement.tender.open.tests.below_threshold.auction import (
     TenderAuctionResourceTestMixin,
     TenderMultipleLotAuctionResourceTestMixin,
 )

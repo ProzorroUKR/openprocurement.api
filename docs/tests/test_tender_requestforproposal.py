@@ -5,7 +5,7 @@ from uuid import uuid4
 
 from dateutil.parser import parse
 
-from openprocurement.api.utils import get_now
+from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
 from openprocurement.framework.ifi.constants import IFI_TYPE
@@ -22,7 +22,7 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_criteria,
     set_tender_lots,
 )
-from openprocurement.tender.requestforproposal.tests.base import (
+from openprocurement.tender.open.tests.request_for_proposal.base import (
     BaseTenderWebTest,
     test_tender_rfp_base_organization,
     test_tender_rfp_bids,
@@ -134,7 +134,7 @@ class TenderResourceTest(
         # Create agreement
 
         framework_data = deepcopy(test_framework_ifi_data)
-        framework_data["qualificationPeriod"] = {"endDate": (get_now() + timedelta(days=420)).isoformat()}
+        framework_data["qualificationPeriod"] = {"endDate": calculate_date(get_now(), timedelta(days=420)).isoformat()}
         framework_config = deepcopy(test_framework_ifi_config)
 
         self.create_framework(data=framework_data, config=framework_config)
@@ -306,7 +306,7 @@ class TenderResourceTest(
         response = self.app.get(f"/tenders/{self.tender_id}")
         tender = response.json["data"]
 
-        tender_period_end_date = get_now() + timedelta(days=15, seconds=10)
+        tender_period_end_date = calculate_date(get_now(), timedelta(days=15, seconds=10))
         with open(TARGET_DIR + "tutorial/patch-items-value-periods.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(tender["id"], owner_token),
@@ -1293,8 +1293,8 @@ class TenderResourceTest(
                 {
                     "data": {
                         "tenderPeriod": {
-                            "startDate": (get_now() + timedelta(days=10)).isoformat(),
-                            "endDate": (get_now() + timedelta(days=18)).isoformat(),
+                            "startDate": calculate_date(get_now(), timedelta(days=10)).isoformat(),
+                            "endDate": calculate_date(get_now(), timedelta(days=18)).isoformat(),
                         }
                     }
                 },

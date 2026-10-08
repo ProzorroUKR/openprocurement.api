@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.procedure.state.cancellation import CancellationState
+from openprocurement.tender.arma.procedure.state.cancellation import ARMACancellationState
 from openprocurement.tender.core.procedure.views.cancellation import (
     BaseCancellationResource,
 )
@@ -15,4 +15,4 @@ from openprocurement.tender.core.procedure.views.cancellation import (
     description="Tender cancellations",
 )
 class CancellationResource(BaseCancellationResource):
-    state_class = CancellationState
+    state_class = ARMACancellationState

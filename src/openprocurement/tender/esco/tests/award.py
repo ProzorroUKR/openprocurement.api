@@ -5,17 +5,17 @@ from esculator import escp, npv
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.award import (
+from openprocurement.tender.open.tests.below_threshold.award import (
     Tender2LotAwardDocumentResourceTestMixin,
     TenderAwardComplaintDocumentResourceTestMixin,
     TenderAwardComplaintResourceTestMixin,
     TenderAwardDocumentResourceTestMixin,
     TenderLotAwardCheckResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.award_blanks import (
+from openprocurement.tender.open.tests.below_threshold.award_blanks import (
     create_tender_award_document_json_bulk,
 )
-from openprocurement.tender.belowthreshold.tests.base import (
+from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,
     test_tender_below_supplier,
 )
@@ -30,19 +30,19 @@ from openprocurement.tender.esco.tests.base import (
     test_tender_esco_bids,
     test_tender_esco_lots,
 )
-from openprocurement.tender.openeu.tests.award import (
+from openprocurement.tender.open.tests.above_threshold_eu.award import (
     Tender2LotAwardComplaintResourceTestMixin,
     TenderLotAwardComplaintResourceTestMixin,
     TenderLotAwardResourceTestMixin,
 )
-from openprocurement.tender.openeu.tests.award_blanks import (
+from openprocurement.tender.open.tests.above_threshold_eu.award_blanks import (
     check_tender_award_complaint_period_dates,
     create_tender_2lot_award_complaint_document,
     patch_tender_2lot_award_complaint_document,
     patch_tender_award_complaint_document,
     put_tender_2lot_award_complaint_document,
 )
-from openprocurement.tender.openua.tests.award import (
+from openprocurement.tender.open.tests.above_threshold_ua.award import (
     TenderUAAwardComplaintResourceTestMixin,
 )
 

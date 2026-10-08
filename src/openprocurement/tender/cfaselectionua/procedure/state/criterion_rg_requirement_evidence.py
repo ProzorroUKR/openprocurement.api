@@ -1,10 +1,8 @@
-from openprocurement.tender.belowthreshold.procedure.state.criterion_rg_requirement_evidence import (
-    BelowThresholdEligibleEvidenceStateMixin,
+from openprocurement.tender.cfaselectionua.procedure.state.tender_details import (
+    CFASelectionTenderDetailsState,
 )
-from openprocurement.tender.cfaselectionua.procedure.state.tender import (
-    CFASelectionTenderState,
-)
+from openprocurement.tender.core.procedure.state.criterion_rg_requirement_evidence import EligibleEvidenceStateMixin
 
 
-class CFASelectionEligibleEvidenceState(BelowThresholdEligibleEvidenceStateMixin, CFASelectionTenderState):
+class CFASelectionEligibleEvidenceState(EligibleEvidenceStateMixin, CFASelectionTenderDetailsState):
     pass

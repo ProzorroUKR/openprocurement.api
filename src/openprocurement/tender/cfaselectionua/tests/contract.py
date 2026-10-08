@@ -4,12 +4,12 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.api.utils import get_now
-from openprocurement.tender.belowthreshold.tests.contract import (
+from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.open.tests.below_threshold.contract import (
     TenderEContractMultiBuyersResourceTestMixin,
     TenderEcontractResourceTestMixin,
 )
-from openprocurement.tender.belowthreshold.tests.contract_blanks import (
+from openprocurement.tender.open.tests.below_threshold.contract_blanks import (
     create_tender_contract,
     patch_tender_contract_value,
     patch_tender_contract_value_vat_not_included,
@@ -64,7 +64,8 @@ class CreateActiveAwardMixin:
 
 
 @patch(
-    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM", get_now() + timedelta(days=1)
+    "openprocurement.tender.core.procedure.state.award.AWARD_NOTICE_DOC_REQUIRED_FROM",
+    calculate_date(get_now(), timedelta(days=1)),
 )
 class TenderContractResourceTest(TenderContentWebTest, TenderEcontractResourceTestMixin):
     def setUp(self):

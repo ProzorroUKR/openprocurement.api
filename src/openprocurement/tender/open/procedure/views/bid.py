@@ -1,84 +1,45 @@
-from logging import getLogger
-
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data_from_resolved_model,
-)
-from openprocurement.api.utils import json_view
-from openprocurement.tender.core.procedure.models.bid import Bid, PostBid
-from openprocurement.tender.core.procedure.validation import (
-    unless_allowed_by_qualification_milestone_24,
-    validate_bid_operation_not_in_tendering,
-    validate_bid_operation_period,
-    validate_update_deleted_bid,
-)
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
-from openprocurement.tender.open.procedure.state.bid import OpenBidState
-
-LOGGER = getLogger(__name__)
+from openprocurement.tender.open.constants import (
+    ABOVE_THRESHOLD,
+    ABOVE_THRESHOLD_EU,
+    ABOVE_THRESHOLD_UA,
+    ABOVE_THRESHOLD_UA_DEFENSE,
+    BELOW_THRESHOLD,
+    COMPETITIVE_ORDERING,
+    OPEN_PROCUREMENT_METHOD_TYPES,
+    OPEN_ROUTE_PREFIX,
+    REQUEST_FOR_PROPOSAL,
+    SIMPLE_DEFENSE,
+)
+from openprocurement.tender.open.procedure.state.bid import (
+    AboveThresholdBidState,
+    AboveThresholdEUBidState,
+    AboveThresholdUABidState,
+    BelowThresholdBidState,
+    COBidState,
+    DefenseBidState,
+    RFPBidState,
+    SimpleDefenseBidState,
+)
 
 
 @resource(
-    name=f"{ABOVE_THRESHOLD}:Tender Bids",
+    name=f"{OPEN_ROUTE_PREFIX}:Tender Bids",
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
-    procurementMethodType=ABOVE_THRESHOLD,
     description="Tender bids",
+    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
 )
 class OpenTenderBidResource(TenderBidResource):
-    state_class = OpenBidState
-
-    @json_view(
-        content_type="application/json",
-        permission="create_bid",
-        validators=(
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_4,),
-                item="bid",
-                operation="creation",
-            ),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
-            validate_input_data(PostBid),
-            validate_data_documents(route_key="bid_id", uid_key="id"),
-        ),
-    )
-    def collection_post(self):
-        return super().collection_post()
-
-    @json_view(
-        content_type="application/json",
-        permission="edit_bid",
-        validators=(
-            unless_administrator(validate_item_owner("bid")),
-            validate_update_deleted_bid,
-            unless_allowed_by_qualification_milestone_24(
-                validate_bid_operation_not_in_tendering,
-                validate_bid_operation_period,
-            ),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data_simple(Bid, item_name="bid"),
-        ),
-    )
-    def patch(self):
-        return super().patch()
-
-    @json_view(
-        permission="edit_bid",
-        validators=(
-            validate_item_owner("bid"),
-            validate_bid_operation_not_in_tendering,
-            validate_bid_operation_period,
-        ),
-    )
-    def delete(self):
-        return super().delete()
+    state_classes = {
+        ABOVE_THRESHOLD: AboveThresholdBidState,
+        ABOVE_THRESHOLD_UA: AboveThresholdUABidState,
+        ABOVE_THRESHOLD_EU: AboveThresholdEUBidState,
+        ABOVE_THRESHOLD_UA_DEFENSE: DefenseBidState,
+        SIMPLE_DEFENSE: SimpleDefenseBidState,
+        COMPETITIVE_ORDERING: COBidState,
+        BELOW_THRESHOLD: BelowThresholdBidState,
+        REQUEST_FOR_PROPOSAL: RFPBidState,
+    }

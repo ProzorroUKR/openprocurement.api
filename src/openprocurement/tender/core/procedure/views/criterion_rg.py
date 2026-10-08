@@ -5,15 +5,7 @@ from pyramid.request import Request
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.tender.core.procedure.models.criterion import PatchRequirementGroup, RequirementGroup
 from openprocurement.tender.core.procedure.serializers.criterion_rg import (
     RequirementGroupSerializer,
 )
@@ -61,13 +53,10 @@ class BaseRequirementGroupResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_input_data(RequirementGroup),
-        ),
         permission="create_rg",
     )
     def collection_post(self) -> Optional[dict]:
+        self.state.validate_requirement_group_post_request()
         requirement_group = self.request.validated["data"]
         criterion = self.request.validated["criterion"]
 
@@ -103,27 +92,22 @@ class BaseRequirementGroupResource(TenderBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("tender")),
-            validate_patch_input_data(PatchRequirementGroup),
-            validate_patch_data_simple(RequirementGroup, "requirement_group"),
-        ),
         permission="edit_rg",
     )
     def patch(self) -> Optional[dict]:
+        self.state.validate_requirement_group_patch_request()
         updated_requirement_group = self.request.validated["data"]
         if not updated_requirement_group:
             return None
         requirement_group = self.request.validated["requirement_group"]
         criterion = self.request.validated["criterion"]
-        self.state.requirement_group_on_patch(requirement_group, updated_requirement_group)
         set_item(
             criterion,
             "requirementGroups",
             requirement_group["id"],
             updated_requirement_group,
         )
-        self.state.validate_criteria_requirements_rules(criterion)
+        self.state.requirement_group_on_patch(requirement_group, updated_requirement_group)
         self.state.always(self.request.validated["tender"])
 
         if save_tender(self.request):
