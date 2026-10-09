@@ -564,6 +564,7 @@ class BaseTenderAwardMilestoneALPMixin:
 )
 class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
     alp_period_work_days = 1
+    alp_milestone_reasons = ALP_MILESTONE_REASONS
 
     def test_milestone(self):
         """
@@ -594,7 +595,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         self.assertEqual(len(award.get("milestones", [])), 1)
         milestone = award["milestones"][0]
         self.assertEqual(milestone["code"], "alp")
-        self.assertEqual(milestone["description"], ALP_MILESTONE_REASONS[0])
+        self.assertEqual(milestone["description"], self.alp_milestone_reasons[0])
 
         # try to change award status
         if procurement_method_type in ("belowThreshold", "simple.defense", "competitiveOrdering", "requestForProposal"):
@@ -654,7 +655,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         second_award = self.find_award(response.json["data"], lot_id)
 
         self.assertEqual(len(second_award.get("milestones", [])), 1)
-        self.assertEqual(second_award["milestones"][0]["description"], " / ".join(ALP_MILESTONE_REASONS))
+        self.assertEqual(second_award["milestones"][0]["description"], " / ".join(self.alp_milestone_reasons))
 
         # proceed to the third award
         self.wait_until_award_milestone_due_date()
@@ -669,7 +670,7 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token), status=200)
         third_award = self.find_award(response.json["data"], lot_id)
         self.assertEqual(len(third_award.get("milestones", [])), 1)
-        self.assertEqual(third_award["milestones"][0]["description"], ALP_MILESTONE_REASONS[1])
+        self.assertEqual(third_award["milestones"][0]["description"], self.alp_milestone_reasons[1])
 
         # proceed to the last award
         self.wait_until_award_milestone_due_date()
@@ -684,6 +685,65 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
         response = self.app.get("/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token), status=200)
         last_award = self.find_award(response.json["data"], lot_id)
         self.assertNotIn("milestones", last_award)
+
+    def test_alp_milestone_not_retriggered_after_award_cancellation(self):
+        """
+        pending -> active -> cancelled -> pending (same bid_id/lotID) must not re-trigger
+        the ALP milestone a second time - the buyer shouldn't have to wait for a new
+        dueDate to decide on a bid that already passed the ALP check once.
+        """
+        auction_results = self.generate_auction_results()
+        response = self.send_auction_results(auction_results)
+        lot_id = self.initial_lots[0]["id"] if self.initial_lots else None
+
+        procurement_method_type = response.json["data"]["procurementMethodType"]
+        award = self.find_award(response.json["data"]["awards"], lot_id)
+        bid_id = award["bid_id"]
+
+        if get_now() < RELEASE_2020_04_19:
+            self.assertEqual(len(award.get("milestones", [])), 0)
+            return
+        self.assertEqual(len(award.get("milestones", [])), 1)
+
+        self.wait_until_award_milestone_due_date()
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award['id']}/documents")
+
+        if procurement_method_type in ("belowThreshold", "simple.defense", "competitiveOrdering", "requestForProposal"):
+            activation_data = {"status": "active", "qualified": True}
+        else:
+            activation_data = {"status": "active", "qualified": True, "eligible": True}
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+            {"data": activation_data},
+        )
+        self.assertEqual(response.json["data"]["status"], "active")
+
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award["id"], self.tender_token),
+            {"data": {"status": "cancelled"}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+        tender = self.mongodb.tenders.get(self.tender_id)
+        new_awards = [
+            a for a in tender["awards"] if a["bid_id"] == bid_id and a.get("lotID") == lot_id and a["status"] == "pending"
+        ]
+        self.assertEqual(len(new_awards), 1, "same bid/lot should be re-awarded with a new pending award")
+        new_award = new_awards[0]
+        # same bid/lot already went through the ALP check - no milestone should block it again
+        self.assertEqual(new_award.get("milestones", []), [])
+
+        if procurement_method_type in ("belowThreshold", "simple.defense", "competitiveOrdering", "requestForProposal"):
+            unsuccessful_data = {"status": "unsuccessful", "qualified": False}
+        else:
+            unsuccessful_data = {"status": "unsuccessful", "qualified": False, "eligible": False}
+        self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{new_award['id']}/documents")
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, new_award["id"], self.tender_token),
+            {"data": unsuccessful_data},
+            status=200,
+        )
+        self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
     def wait_until_award_milestone_due_date(self):
         tender = self.mongodb.tenders.get(self.tender_id)

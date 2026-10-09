@@ -25,8 +25,10 @@ from openprocurement.tender.open.tests.above_threshold_ua.base import test_tende
             (1,),  # indexes of milestone reasons
         ),
         (
-            (600, 1000, 1000),  # first check:  1 - (600/ MEAN(1000 + 1000)) = 40%      = 40%
-            (600, 857.14, 850),  # second check: 1 - (600/857.14) = 29.99%               < 30%
+            (0, 0, 0),  # tendering_amounts - ignored now, mean is computed from post-auction amounts only
+            # first check:  1 - (600/ MEAN(800, 1200)) = 40%      = 40%
+            # second check: 1 - (600/800) = 25%                  < 30%
+            (600, 800, 1200),
             (0,),  # indexes of milestone reasons
         ),
         (
