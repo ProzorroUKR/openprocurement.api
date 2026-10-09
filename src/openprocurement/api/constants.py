@@ -256,6 +256,9 @@ FRAMEWORK_CONFIG_JSONSCHEMAS = {
     "internationalFinancialInstitutions": standards.load(
         "data_model/schema/FrameworkConfig/internationalFinancialInstitutions.json"
     ),
+    "assetRecoveryManagementAgency": standards.load(
+        "data_model/schema/FrameworkConfig/assetRecoveryManagementAgency.json"
+    ),
 }
 
 # Framework period change causes
