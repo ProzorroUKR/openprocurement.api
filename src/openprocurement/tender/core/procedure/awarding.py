@@ -482,9 +482,7 @@ class TenderStateAwardingMixin:
 
         # append an "alp" milestone if it's the case, unless this bid/lot pair already went
         # through the ALP check on a previous (e.g. cancelled) award
-        if hasattr(self.award_class, "milestones") and not self.bid_already_passed_alp_check(
-            tender, bid["id"], lot_id
-        ):
+        if hasattr(self.award_class, "milestones") and not self.bid_already_passed_alp_check(tender, bid["id"], lot_id):
             milestones = self.prepare_award_milestones(tender, bid, all_bids, lot_id)
             if milestones:
                 award_data["milestones"] = milestones

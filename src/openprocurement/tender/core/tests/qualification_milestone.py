@@ -726,7 +726,9 @@ class TenderAwardMilestoneALPMixin(BaseTenderAwardMilestoneALPMixin):
 
         tender = self.mongodb.tenders.get(self.tender_id)
         new_awards = [
-            a for a in tender["awards"] if a["bid_id"] == bid_id and a.get("lotID") == lot_id and a["status"] == "pending"
+            a
+            for a in tender["awards"]
+            if a["bid_id"] == bid_id and a.get("lotID") == lot_id and a["status"] == "pending"
         ]
         self.assertEqual(len(new_awards), 1, "same bid/lot should be re-awarded with a new pending award")
         new_award = new_awards[0]
