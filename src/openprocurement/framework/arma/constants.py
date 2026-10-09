@@ -1,0 +1,1 @@
+ARMA_TYPE = "assetRecoveryManagementAgency"
