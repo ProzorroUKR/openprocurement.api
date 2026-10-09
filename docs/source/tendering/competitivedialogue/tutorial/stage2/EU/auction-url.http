@@ -1802,6 +1802,7 @@ Content-Type: application/json
     "status": "active.auction",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "procurementMethod": "selective",
     "qualifications": [
       {

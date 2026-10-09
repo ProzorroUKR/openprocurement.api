@@ -32,6 +32,7 @@ from openprocurement.tender.competitivedialogue.tests.stage1.tender_blanks impor
     patch_tender_eu_ua,
     patch_tender_lots_none,
     path_complete_tender,
+    stage2_items_with_different_cpv_eu,
     tender_features_invalid,
     tender_milestones_sequence_number,
     tender_with_main_procurement_category,
@@ -66,6 +67,7 @@ class CompetitiveDialogEUResourceTest(BaseCompetitiveDialogEUWebTest, TenderReso
     test_patch_tender_eu = snitch(patch_tender_eu_ua)
     test_guarantee = snitch(guarantee)
     test_multiple_bidders_tender = snitch(multiple_bidders_tender_eu)
+    test_stage2_items_with_different_cpv = snitch(stage2_items_with_different_cpv_eu)
     test_try_go_to_ready_stage = snitch(try_go_to_ready_stage_eu)
     test_tender_with_main_procurement_category = snitch(tender_with_main_procurement_category)
     test_tender_finance_milestones = snitch(tender_finance_milestones)

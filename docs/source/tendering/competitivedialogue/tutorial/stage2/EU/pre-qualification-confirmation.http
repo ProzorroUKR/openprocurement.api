@@ -1811,6 +1811,7 @@ Content-Type: application/json
     "status": "active.pre-qualification.stand-still",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "procurementMethod": "selective",
     "qualifications": [
       {

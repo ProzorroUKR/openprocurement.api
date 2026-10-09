@@ -896,6 +896,7 @@ CD_STAGE2_COPY_FIELDS = (
     "submissionMethodDetails",
     "buyers",
     "contractTemplateName",
+    "mainProcurementCategory",
 )
 
 
