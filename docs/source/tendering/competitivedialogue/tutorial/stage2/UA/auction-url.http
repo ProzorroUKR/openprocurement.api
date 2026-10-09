@@ -1335,6 +1335,7 @@ Content-Type: application/json
     "status": "active.auction",
     "owner": "broker",
     "title": "Послуги шкільних їдалень",
+    "mainProcurementCategory": "services",
     "procurementMethod": "selective",
     "qualificationPeriod": {
       "startDate": "2026-12-27T00:03:00+02:00",

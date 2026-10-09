@@ -605,6 +605,79 @@ def multiple_bidders_tender_eu(self):
     self.assertEqual(response.json["data"]["dialogueID"], tender_id)
     self.assertEqual(response.json["data"]["status"], "draft.stage2")
     self.assertIn("shortlistedFirms", response.json["data"])
+    self.assertEqual(
+        response.json["data"]["mainProcurementCategory"],
+        self.initial_data["mainProcurementCategory"],
+    )
+
+
+def stage2_items_with_different_cpv_eu(self):
+    self.app.authorization = ("Basic", ("broker", ""))
+    data = deepcopy(self.initial_data)
+    self.assertEqual(data["mainProcurementCategory"], "services")
+    data["items"][0]["classification"]["id"] = "73000000-2"
+    second_item = deepcopy(data["items"][0])
+    second_item["classification"]["id"] = "98910000-5"
+    data["items"].append(second_item)
+
+    # create tender
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender_id = self.tender_id = response.json["data"]["id"]
+    tender_owner_token = response.json["access"]["token"]
+    self.set_initial_status(response.json)
+
+    # create bids
+    bidder_data = deepcopy(test_tender_below_supplier)
+    bid_data = deepcopy(test_tender_cd_stage1_bids[0])
+    bid_data["tenderers"] = [bidder_data]
+    set_bid_lotvalues(bid_data, self.initial_lots)
+    self.create_bid(tender_id, bid_data, "pending")
+    bidder_data["identifier"]["id"] = "00037257"
+    self.create_bid(tender_id, bid_data, "pending")
+    bidder_data["identifier"]["id"] = "00037259"
+    self.create_bid(tender_id, bid_data, "pending")
+
+    # switch to active.pre-qualification and approve all the bids
+    self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
+    self.check_chronograph()
+    response = self.app.get("/tenders/{}/qualifications".format(tender_id))
+    qualifications = response.json["data"]
+    self.assertEqual(len(qualifications), 3)
+    for qualification in qualifications:
+        response = self.app.patch_json(
+            "/tenders/{}/qualifications/{}?acc_token={}".format(tender_id, qualification["id"], tender_owner_token),
+            {"data": {"status": "active", "qualified": True, "eligible": True}},
+        )
+        self.assertEqual(response.status, "200 OK")
+
+    self.add_sign_doc(tender_id, tender_owner_token, document_type="evaluationReports")
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
+        {"data": {"status": "active.pre-qualification.stand-still"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # time travel
+    self.set_status("active.stage2.pending", {"id": tender_id, "status": "active.pre-qualification.stand-still"})
+    response = self.check_chronograph()
+    self.assertEqual(response.json["data"]["status"], "active.stage2.pending")
+
+    # create stage 2
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender_id, tender_owner_token),
+        {"data": {"status": "active.stage2.waiting"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    stage_2_id = response.json["data"]["stage2TenderID"]
+
+    response = self.app.get("/tenders/{}".format(stage_2_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "draft.stage2")
+    self.assertEqual(response.json["data"]["mainProcurementCategory"], "services")
+    self.assertEqual(
+        {item["classification"]["id"] for item in response.json["data"]["items"]},
+        {"73000000-2", "98910000-5"},
+    )
 
 
 def try_go_to_ready_stage_eu(self):

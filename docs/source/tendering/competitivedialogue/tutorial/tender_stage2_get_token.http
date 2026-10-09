@@ -11,6 +11,7 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
     "title_en": "Services in school canteens",
     "procurementMethod": "selective",
     "title": "Послуги шкільних їдалень",

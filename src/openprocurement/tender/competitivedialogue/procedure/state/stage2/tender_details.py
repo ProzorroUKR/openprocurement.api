@@ -57,6 +57,7 @@ class CDStage2EUTenderDetailsState(TenderDetailsMixin, TenderState):
     milestones_required = False
     milestones_delivery_financing_required_on_post = False
     items_classification_id_check = False
+    main_procurement_category_choices = ("services", "works")
     main_procurement_category_required = False
     award_criteria_lcc_features_check = False
     notice_doc_required_check = False
