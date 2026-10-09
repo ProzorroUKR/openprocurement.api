@@ -2,6 +2,7 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.core.tests.base import test_documents
 from openprocurement.framework.dps.tests.document_blanks import (
     create_framework_document,
     create_framework_document_forbidden,
@@ -13,7 +14,6 @@ from openprocurement.framework.dps.tests.document_blanks import (
 )
 from openprocurement.framework.electroniccatalogue.tests.base import (
     FrameworkContentWebTest,
-    test_electronicCatalogue_documents,
     test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )
@@ -24,7 +24,7 @@ class DocumentGetTest(FrameworkContentWebTest):
     initial_config = test_framework_electronic_catalogue_config
 
     def setUp(self):
-        self.initial_data["documents"] = deepcopy(test_electronicCatalogue_documents)
+        self.initial_data["documents"] = deepcopy(test_documents)
         for document in self.initial_data["documents"]:
             document["url"] = self.generate_docservice_url()
         super().setUp()

@@ -4,8 +4,8 @@ from freezegun import freeze_time
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.utils import calculate_date
+from openprocurement.framework.core.tests.base import test_question_data
 from openprocurement.framework.core.utils import calculate_framework_full_date
-from openprocurement.framework.dps.tests.base import test_question_data
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 

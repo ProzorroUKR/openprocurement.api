@@ -46,6 +46,99 @@ test_framework_item_data = {
 }
 
 
+test_documents = [
+    {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework.doc",
+        "format": "application/msword",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "id": "cd52b90af77e4f5b8cb0f210e83987b5",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+    },
+    {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "id": "3fe9486c38a1473ca201e42ebbf9b648",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+    },
+    {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "framework_additional_docs.doc",
+        "format": "application/msword",
+        "datePublished": "2020-09-08T01:00:00+03:00",
+        "id": "3fe9486c38a1473ca201e42ebbf9b643",
+        "dateModified": "2020-09-08T01:00:00+03:00",
+    },
+]
+
+tenderer = {
+    "name": "Державне управління справами",
+    "name_en": "State administration",
+    "identifier": {
+        "legalName_en": "dus.gov.ua",
+        "legalName": "Державне управління справами",
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/",
+    },
+    "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "locality": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+    },
+    "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com",
+    },
+    "scale": "micro",
+}
+
+test_submission_config = {
+    "restricted": False,
+}
+
+ban_milestone_data = {"type": "ban"}
+
+ban_milestone_data_with_documents = {
+    "type": "ban",
+    "documents": [
+        {
+            "hash": "md5:00000000000000000000000000000000",
+            "title": "milestone.doc",
+            "format": "application/msword",
+        }
+    ],
+}
+
+test_question_data = {
+    "description": "Просимо додати таблицю потрібної калорійності харчування",
+    "title": "Калорійність",
+    "author": {
+        "address": {
+            "countryName": "Україна",
+            "locality": "м. Львів",
+            "postalCode": "79013",
+            "region": "Львівська область",
+            "streetAddress": "вул. Островського, 34",
+        },
+        "contactPoint": {"email": "aagt@gmail.com", "name": "Андрій Олексюк", "telephone": "+380322916930"},
+        "identifier": {
+            "scheme": "UA-EDR",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+            "id": "00137226",
+            "uri": "http://www.sc.gov.ua/",
+        },
+        "name": "ДКП «Книга»",
+    },
+}
+
+
 class BaseFrameworkTest(BaseApiWebTest):
     relative_to = os.path.dirname(__file__)
 
