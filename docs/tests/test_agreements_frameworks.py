@@ -4,9 +4,9 @@ from datetime import timedelta
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.framework.core.tests.base import ban_milestone_data_with_documents
 from openprocurement.framework.electroniccatalogue.tests.base import (
     BaseFrameworkWebTest,
-    ban_milestone_data_with_documents,
     test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
 )

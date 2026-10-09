@@ -1,11 +1,11 @@
 from openprocurement.api.tests.base import change_auth
-from openprocurement.framework.dps.tests.base import test_dps_documents
+from openprocurement.framework.core.tests.base import test_documents
 
 
 def get_documents_list(self):
     response = self.app.get("/frameworks/{}/documents".format(self.framework_id))
     documents = response.json["data"]
-    self.assertEqual(len(documents), len(test_dps_documents))
+    self.assertEqual(len(documents), len(test_documents))
 
 
 def get_document_by_id(self):

@@ -20,12 +20,14 @@ from openprocurement.contracting.core.tests.data import (
     test_signer_info,
 )
 from openprocurement.contracting.core.tests.utils import create_contract
-from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
+from openprocurement.framework.core.tests.base import (
+    FrameworkActionsTestMixin,
+    test_submission_config,
+)
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
-    test_submission_config,
     test_submission_data,
 )
 from openprocurement.tender.cfaselectionua.constants import (

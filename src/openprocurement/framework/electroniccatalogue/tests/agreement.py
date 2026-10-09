@@ -1,6 +1,7 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.core.tests.base import ban_milestone_data_with_documents
 from openprocurement.framework.dps.tests.agreement_blanks import (
     agreement_chronograph_milestones,
     change_agreement,
@@ -26,7 +27,6 @@ from openprocurement.framework.dps.tests.agreement_blanks import (
 from openprocurement.framework.electroniccatalogue.tests.base import (
     AgreementContentWebTest,
     MilestoneContentWebTest,
-    ban_milestone_data_with_documents,
     test_framework_electronic_catalogue_config,
     test_framework_electronic_catalogue_data,
     test_submission_data,

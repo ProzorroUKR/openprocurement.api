@@ -3,12 +3,14 @@ from copy import deepcopy
 from datetime import timedelta
 
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.framework.core.tests.base import BaseFrameworkCoreWebTest
+from openprocurement.framework.core.tests.base import (
+    BaseFrameworkCoreWebTest,
+    test_question_data,
+)
 from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
-    test_question_data,
 )
 from tests.base.constants import DOCS_URL
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
