@@ -1,0 +1,38 @@
+POST /api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057/documents?acc_token=816862aad01045b6990c5d92fa43a83d HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "specs.doc",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/07b7c6880f574d9eba920c11d9e891eb?Signature=GT%2FFFOfw7s8QPwfU6j9kTVn0gO%2FAYvQHyjcnQ%2B8Gwg2noX5rsF05axLNcgFJ60LYpHfbQ5Z6FupgYdr5Q5E%2BCQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/msword",
+    "documentType": "technicalSpecifications",
+    "confidentiality": "buyerOnly",
+    "confidentialityRationale": "Дуже конфіденційний файл, треба приховати"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057/documents/524ec3cd02d0446d9fb46cb61f0ab03e
+
+{
+  "data": {
+    "documentType": "technicalSpecifications",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "specs.doc",
+    "format": "application/msword",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057/documents/524ec3cd02d0446d9fb46cb61f0ab03e?download=07b7c6880f574d9eba920c11d9e891eb",
+    "language": "uk",
+    "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+    "confidentiality": "buyerOnly",
+    "id": "524ec3cd02d0446d9fb46cb61f0ab03e",
+    "datePublished": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00"
+  }
+}
+

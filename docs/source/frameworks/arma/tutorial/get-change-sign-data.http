@@ -1,0 +1,143 @@
+GET /api/2.5/frameworks/efbc346fdff943caa5523b9a313d8954/changes/c661ab2463524659bf0b281e9df8ede4?acc_token=cee9eb6518094660a3f497fa88a6bb33&opt_context=true HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+    "rationaleType": "noDemandFramework",
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2027-03-08T00:00:00+02:00"
+      }
+    },
+    "id": "c661ab2463524659bf0b281e9df8ede4",
+    "previous": {
+      "qualificationPeriod": {
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2028-02-05T00:00:00+02:00"
+      }
+    },
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00"
+  },
+  "context": {
+    "framework": {
+      "prettyID": "UA-F-2027-01-01-000001",
+      "title": "updated in draft status",
+      "description": "Назва предмета закупівлі1",
+      "status": "active",
+      "classification": {
+        "description": "Mustard seeds",
+        "scheme": "ДК021",
+        "id": "03111600-8"
+      },
+      "additionalClassifications": [
+        {
+          "scheme": "ДК003",
+          "id": "17.21.1",
+          "description": "папір і картон гофровані, паперова й картонна тара"
+        }
+      ],
+      "documents": [
+        {
+          "id": "e063408e7d684b918112934a7671cf7f",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "framework.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/04862167af794e1aad7552919ad2b153?Signature=d6Q2EING0J%2F3s4AKC0XbkjWYMpz3SPW9ghA%2BWSq4nVO0NGn2E%2BXzzTXgHLEArzRtESNuL0pdqYebiiWn6pTTAA%3D%3D&KeyID=a8968c46",
+          "dateModified": "2027-01-01T00:00:00+02:00",
+          "language": "uk"
+        },
+        {
+          "id": "850fc59bd974475fb2447834baee604e",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "framework_additional_docs.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e9a8d7f716cd418b803ae2b11e43ca68?Signature=n69hNOMkY%2BQ41RT8es6SHFHWZxuwv3gmCfeLaNU3fLRN3ruwGySkgVO4IS8UBuwNdsZDrLNdmI1EpBPrYDvlDg%3D%3D&KeyID=a8968c46",
+          "dateModified": "2027-01-01T00:00:00+02:00",
+          "language": "uk"
+        },
+        {
+          "id": "850fc59bd974475fb2447834baee604e",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "title": "framework_additional_docs.doc",
+          "format": "application/msword",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f32685fc035144189461853ad5f671e7?Signature=ARnFKXTRwTQRUkp4A6laIikLdWeIQxWpd0vhEWpeudOmKGFYXIivtLWOsmALEa8JvGa0%2B%2BS0yTTs4v1hr5WOCQ%3D%3D&KeyID=a8968c46",
+          "dateModified": "2027-01-01T00:00:00+02:00",
+          "language": "uk"
+        }
+      ],
+      "agreementID": "b4ca5c4cd572494ba8690ad06f96e0db",
+      "owner": "broker",
+      "date": "2027-01-01T00:00:00+02:00",
+      "dateCreated": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-17T00:00:00+02:00",
+      "period": {
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-02-06T00:00:00+02:00"
+      },
+      "qualificationPeriod": {
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-03-08T00:00:00+02:00"
+      },
+      "enquiryPeriod": {
+        "startDate": "2027-01-01T00:00:00+02:00",
+        "endDate": "2027-02-06T00:00:00+02:00",
+        "clarificationsUntil": "2027-02-13T00:00:00+02:00"
+      },
+      "next_check": "2027-01-01T00:00:00+02:00",
+      "frameworkType": "assetRecoveryManagementAgency",
+      "procuringEntity": {
+        "name": "Державне управління справами",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00037256",
+          "legalName": "Назва організації"
+        },
+        "address": {
+          "countryName": "Україна",
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "locality": "м. Київ",
+          "region": "м. Київ",
+          "postalCode": "01220"
+        },
+        "contactPoint": {
+          "name": "зміна",
+          "telephone": "+0440000002",
+          "email": "ab@aa.com"
+        },
+        "kind": "authority"
+      },
+      "changes": [
+        {
+          "rationale": "Відсутня подальша потреба в закупівлі з використанням рамкової угоди",
+          "rationaleType": "noDemandFramework",
+          "modifications": {
+            "qualificationPeriod": {
+              "endDate": "2027-03-08T00:00:00+02:00"
+            }
+          },
+          "id": "c661ab2463524659bf0b281e9df8ede4",
+          "previous": {
+            "qualificationPeriod": {
+              "startDate": "2027-01-01T00:00:00+02:00",
+              "endDate": "2028-02-05T00:00:00+02:00"
+            }
+          },
+          "date": "2027-01-17T00:00:00+02:00",
+          "dateModified": "2027-01-17T00:00:00+02:00"
+        }
+      ],
+      "id": "efbc346fdff943caa5523b9a313d8954"
+    }
+  }
+}
+

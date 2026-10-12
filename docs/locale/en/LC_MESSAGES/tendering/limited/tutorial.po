@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-21 17:20+0300\n"
+"POT-Creation-Date: 2026-10-09 13:23+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -566,7 +566,8 @@ msgstr "Change `confidentiality` as `buyerOnly` and look what we've got:"
 msgid "Додамо поле обґрунтування `confidentialityRational`:"
 msgstr "Let's add `confidentialityRationale`:"
 
-msgid "Власник звіту бачить такі документи і може завантажиити їх:"
+#, fuzzy
+msgid "Власник звіту бачить такі документи і може завантажити їх:"
 msgstr "The customer see these kind of documents and can download:"
 
 msgid "Всі інші користувачі не можуть переглянути документ:"

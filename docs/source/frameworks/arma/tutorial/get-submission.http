@@ -1,0 +1,72 @@
+GET /api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "scale": "micro",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+        },
+        "address": {
+          "countryName": "Україна",
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930",
+          "email": "soleksuk@gmail.com"
+        }
+      }
+    ],
+    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "status": "draft",
+    "submissionType": "assetRecoveryManagementAgency",
+    "owner": "broker",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
+    "documents": [
+      {
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "submission_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b47a4f5b104a404092e8d33a6049f3fd?Signature=g4bx59SQBrn0X2zAa11JNMHjTq7q20ojWGKhVn%2BoQPaQ0gSbcmpRGp2cpnrZujJmXFTbUd%2Bu5AabcXWHq1N1AQ%3D%3D&KeyID=a8968c46",
+        "language": "uk",
+        "confidentiality": "public",
+        "id": "322c9826211a43acb2ff97a1b8227c20",
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "dateModified": "2027-01-17T00:00:00+02:00"
+      },
+      {
+        "documentType": "technicalSpecifications",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "specs.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+        "confidentiality": "buyerOnly",
+        "id": "524ec3cd02d0446d9fb46cb61f0ab03e",
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "dateModified": "2027-01-17T00:00:00+02:00"
+      }
+    ],
+    "id": "38ee034dc7a24e27a55ed4ed619d8057"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+

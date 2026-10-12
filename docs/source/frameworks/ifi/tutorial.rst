@@ -187,7 +187,7 @@
 .. http:example:: tutorial/upload-submission-conf-docs.http
    :code:
 
-Власник заявки та власник відбору бачить такі документи і може завантажиити їх:
+Власник заявки та власник відбору бачить такі документи і може завантажити їх:
 
 .. http:example:: tutorial/get-submission-conf-docs-by-owner.http
    :code:
@@ -267,7 +267,7 @@
 .. http:example:: tutorial/unsuccessful-qualification.http
    :code:
 
-Після відміни рішення, пов'язана завявка змінює статус з `active` на `complete`.
+Після відміни рішення, пов'язана заявка змінює статус з `active` на `complete`.
 
 Перевіримо що сталося з заявками після відміни рішення:
 
@@ -301,7 +301,7 @@
 .. http:example:: tutorial/get-agreement.http
    :code:
 
-Як ви можете побачити реєстр в статусі `active` та має контракт, щож ми можемо побачити цей реєстр в потоці даних:
+Як ви можете побачити реєстр в статусі `active` та має контракт, тож ми можемо побачити цей реєстр в потоці даних:
 
 .. http:example:: tutorial/agreement-listing.http
    :code:

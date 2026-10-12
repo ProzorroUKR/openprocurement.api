@@ -1,0 +1,26 @@
+PATCH /api/2.5/qualifications/c2579ad5c86d4c5a8f56b1376c8bd1ae?acc_token=cee9eb6518094660a3f497fa88a6bb33 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "unsuccessful"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "documents",
+      "description": "Document with type 'evaluationReports' and format pkcs7-signature is required"
+    }
+  ]
+}
+

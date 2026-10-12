@@ -471,7 +471,7 @@
 .. http:example:: http/tutorial/tender-reporting-contract-conf-docs.http
    :code:
 
-Власник звіту бачить такі документи і може завантажиити їх:
+Власник звіту бачить такі документи і може завантажити їх:
 
 .. http:example:: http/tutorial/get-tender-reporting-contract-conf-docs-by-owner.http
    :code:

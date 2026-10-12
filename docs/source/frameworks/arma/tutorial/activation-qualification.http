@@ -1,0 +1,44 @@
+PATCH /api/2.5/qualifications/9c914725c97747e985a307738c228ced?acc_token=cee9eb6518094660a3f497fa88a6bb33 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "documents": [
+      {
+        "documentType": "evaluationReports",
+        "id": "126ed7767dfb47a1aad81e0cfad2c4d6",
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/080b2e8fe4054713aeb4d481e52bd0ad?Signature=xdoeXgJCc3M2F3jn7R%2BMDc8XHTv1rYipuCuP9wtQWZWlY6fGorHL72m2XTw1brfyaKV5XGr2y2gHbnwRNjYHCw%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-17T00:00:00+02:00",
+        "language": "uk"
+      }
+    ],
+    "submissionID": "c8156d5097084587a931f1d125d9ee00",
+    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "status": "active",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
+    "qualificationType": "assetRecoveryManagementAgency",
+    "id": "9c914725c97747e985a307738c228ced"
+  },
+  "config": {
+    "restricted": false,
+    "qualificationComplainDuration": 0
+  }
+}
+
