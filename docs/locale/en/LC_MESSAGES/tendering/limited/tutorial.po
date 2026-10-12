@@ -566,7 +566,6 @@ msgstr "Change `confidentiality` as `buyerOnly` and look what we've got:"
 msgid "Додамо поле обґрунтування `confidentialityRational`:"
 msgstr "Let's add `confidentialityRationale`:"
 
-#, fuzzy
 msgid "Власник звіту бачить такі документи і може завантажити їх:"
 msgstr "The customer see these kind of documents and can download:"
 
