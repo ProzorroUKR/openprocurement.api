@@ -10,9 +10,13 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.core.constants import ALP_MILESTONE_REASONS
-from openprocurement.tender.core.procedure.context import get_request
+from openprocurement.tender.core.procedure.context import (
+    get_bids_before_auction_results_context,
+    get_request,
+)
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.utils import (
+    activate_bids,
     filter_features,
     get_lot_value_status,
     tender_created_after_2020_rules,
@@ -49,6 +53,9 @@ class TenderStateAwardingMixin:
     # ARMA procedure uses "amountPercentage" key
     alp_amount_key: str = "amount"
     alp_milestone_reasons: tuple = ALP_MILESTONE_REASONS
+    # ARMA keeps the old ALP calculation: mean is based on pre-auction (tendering) amounts.
+    # Everyone else uses the post-auction (final) bid amounts.
+    alp_mean_from_tendering_bids: bool = False
     # arma: weighted values have no currency
     weighted_value_with_currency: bool = True
 
@@ -375,7 +382,14 @@ class TenderStateAwardingMixin:
         return bids
 
     def get_mean_value_tendering_bids(self, tender, bids, exclude_bid_id, lot_id=None):
-        values = [float(b["value"][self.alp_amount_key]) for b in bids if b["id"] != exclude_bid_id]
+        if self.alp_mean_from_tendering_bids:
+            before_auction_bids = get_bids_before_auction_results_context()
+            before_auction_bids = activate_bids(before_auction_bids)
+            before_auction_bids = self.prepare_bids_for_awarding(tender, before_auction_bids, lot_id=lot_id)
+            amounts = {b["id"]: float(b["value"][self.alp_amount_key]) for b in before_auction_bids}
+            values = [amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id]
+        else:
+            values = [float(b["value"][self.alp_amount_key]) for b in bids if b["id"] != exclude_bid_id]
         mean_value = sum(values) / float(len(values))
         return mean_value
 
