@@ -1,0 +1,22 @@
+GET /api/2.5/submissions HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2027-01-17T00:00:00+02:00",
+      "id": "97f9afc6911c49e9bfae2d294e2ca46d"
+    }
+  ],
+  "next_page": {
+    "offset": "1800136800.0.1.eabee4c2bd6c705ea4b294500ab499e5",
+    "path": "/api/2.5/submissions?offset=1800136800.0.1.eabee4c2bd6c705ea4b294500ab499e5",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.1.eabee4c2bd6c705ea4b294500ab499e5"
+  }
+}
+

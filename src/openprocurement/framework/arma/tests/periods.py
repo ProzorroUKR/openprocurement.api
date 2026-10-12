@@ -1,7 +1,5 @@
 from datetime import timedelta
 
-# enquiryPeriod repeats period: for ARMA enquiries are open for the whole
-# submission period (see ARMAFrameworkState.enquiry_period_lasts_until_qualification)
 PERIODS = {
     "active": {
         "start": {

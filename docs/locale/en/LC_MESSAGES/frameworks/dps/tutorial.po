@@ -1,15 +1,16 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-14 12:39+0300\n"
+"POT-Creation-Date: 2026-10-09 13:23+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.15.0\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Туторіал"
 msgstr "Tutorial"
@@ -176,7 +177,7 @@ msgstr "Let's add documents with `confidentiality` as `buyerOnly` and look what 
 msgid "Додамо поле обґрунтування `confidentialityRational`:"
 msgstr "Let's add `confidentialityRationale`:"
 
-msgid "Власник заявки та власник відбору бачить такі документи і може завантажиити їх:"
+msgid "Власник заявки та власник відбору бачить такі документи і може завантажити їх:"
 msgstr "The bidder and framework owner see these kind of documents and can download:"
 
 msgid "Всі інші користувачі не можуть переглянути документ:"
@@ -236,7 +237,7 @@ msgstr "Sign document should have `documentType: evaluationReports` and `title: 
 msgid "Тепер можна відмінити рішення по заявці:"
 msgstr "Then it is allowed to cancel qualification:"
 
-msgid "Після відміни рішення, пов'язана завявка змінює статус з `active` на `complete`."
+msgid "Після відміни рішення, пов'язана заявка змінює статус з `active` на `complete`."
 msgstr "After cancelling qualification, related submission changed status from `active` to `complete`."
 
 msgid "Перевіримо що сталося з заявками після відміни рішення:"
@@ -263,7 +264,7 @@ msgstr "Let's check current framework"
 msgid "Ви можете побачити, що в кваліфікації з'явилось поле `agreementID`, тож давайте перевіримо реєстр:"
 msgstr "You can see that `agreementID` appeared in current framework, so let's check that agreement:"
 
-msgid "Як ви можете побачити реєстр в статусі `active` та має контракт, щож ми можемо побачити цей реєстр в потоці даних:"
+msgid "Як ви можете побачити реєстр в статусі `active` та має контракт, тож ми можемо побачити цей реєстр в потоці даних:"
 msgstr "As you can see agreement now in `active` status, and already have contract, so we can see that agreement in agreement feed:"
 
 msgid "Перевіримо, що містить реєстр рішення по заявці:"

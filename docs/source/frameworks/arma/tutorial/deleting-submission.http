@@ -1,0 +1,80 @@
+PATCH /api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057?acc_token=816862aad01045b6990c5d92fa43a83d HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "deleted"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "НАЗВА",
+        "scale": "micro",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+        },
+        "address": {
+          "countryName": "Україна",
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930",
+          "email": "soleksuk@gmail.com"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "id": "322c9826211a43acb2ff97a1b8227c20",
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "submission_docs.doc",
+        "format": "application/msword",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b47a4f5b104a404092e8d33a6049f3fd?Signature=g4bx59SQBrn0X2zAa11JNMHjTq7q20ojWGKhVn%2BoQPaQ0gSbcmpRGp2cpnrZujJmXFTbUd%2Bu5AabcXWHq1N1AQ%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-17T00:00:00+02:00",
+        "language": "uk",
+        "confidentiality": "public"
+      },
+      {
+        "documentType": "technicalSpecifications",
+        "id": "524ec3cd02d0446d9fb46cb61f0ab03e",
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "specs.doc",
+        "format": "application/msword",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057/documents/524ec3cd02d0446d9fb46cb61f0ab03e?download=07b7c6880f574d9eba920c11d9e891eb",
+        "dateModified": "2027-01-17T00:00:00+02:00",
+        "language": "uk",
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати"
+      }
+    ],
+    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "status": "deleted",
+    "dateModified": "2027-01-17T00:00:00+02:00",
+    "date": "2027-01-17T00:00:00+02:00",
+    "owner": "broker",
+    "submissionType": "assetRecoveryManagementAgency",
+    "id": "38ee034dc7a24e27a55ed4ed619d8057"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+

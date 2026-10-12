@@ -1,0 +1,32 @@
+POST /api/2.5/frameworks/efbc346fdff943caa5523b9a313d8954/changes?acc_token=cee9eb6518094660a3f497fa88a6bb33 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "modifications": {
+      "qualificationPeriod": {
+        "endDate": "2027-02-01T00:00:00+02:00"
+      }
+    },
+    "rationaleType": "other",
+    "rationale": "Треба закінчити швидше відбір"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "modifications.qualificationPeriod",
+      "description": "qualificationPeriod.endDate couldn't be less than 30 full calendar days from now"
+    }
+  ]
+}
+
