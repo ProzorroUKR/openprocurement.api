@@ -11,6 +11,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -32,6 +33,7 @@ class OpenCancellationDocumentResource(CancellationDocumentResource):
         ABOVE_THRESHOLD: CancellationDocumentState,
         ABOVE_THRESHOLD_UA: CancellationDocumentState,
         ABOVE_THRESHOLD_EU: CancellationDocumentState,
+        OPEN_TENDERING: CancellationDocumentState,
         ABOVE_THRESHOLD_UA_DEFENSE: CancellationDocumentState,
         SIMPLE_DEFENSE: CancellationDocumentState,
         COMPETITIVE_ORDERING: CancellationDocumentState,

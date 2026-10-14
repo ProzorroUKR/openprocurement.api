@@ -6,6 +6,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     BelowThresholdTenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     RFPTenderState,
     SimpleDefenseTenderState,
 )
@@ -49,3 +50,7 @@ class RFPAwardClaimState(AwardClaimStateMixin, RFPTenderState):
     complaint_post_bid_owner_statuses = ("active", "unsuccessful")
     is_satisfied_check = False
     claim_submit_check = False
+
+
+class OpenTenderingAwardClaimState(AwardClaimStateMixin, OpenTenderingTenderState):
+    pass

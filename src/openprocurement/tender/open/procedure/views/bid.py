@@ -10,6 +10,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -20,6 +21,7 @@ from openprocurement.tender.open.procedure.state.bid import (
     BelowThresholdBidState,
     COBidState,
     DefenseBidState,
+    OpenTenderingBidState,
     RFPBidState,
     SimpleDefenseBidState,
 )
@@ -37,6 +39,7 @@ class OpenTenderBidResource(TenderBidResource):
         ABOVE_THRESHOLD: AboveThresholdBidState,
         ABOVE_THRESHOLD_UA: AboveThresholdUABidState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUBidState,
+        OPEN_TENDERING: OpenTenderingBidState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseBidState,
         SIMPLE_DEFENSE: SimpleDefenseBidState,
         COMPETITIVE_ORDERING: COBidState,

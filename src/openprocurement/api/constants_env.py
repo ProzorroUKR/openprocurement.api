@@ -221,6 +221,11 @@ TENDER_CONFIG_OPTIONALITY = {
         "TENDER_CONFIG_HAS_MULTI_SOURCING_OPTIONAL",
         parse_func=parse_bool,
     ),
+    "openTenderingType": get_constant(
+        CONSTANTS_CONFIG,
+        "TENDER_CONFIG_OPEN_TENDERING_TYPE_OPTIONAL",
+        parse_func=parse_bool,
+    ),
 }
 
 # Related lot is required

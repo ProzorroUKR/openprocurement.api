@@ -10,12 +10,14 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_UA_DEFENSE,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     SIMPLE_DEFENSE,
 )
 from openprocurement.tender.open.procedure.state.complaint_document import (
     AboveThresholdComplaintDocumentState,
     AboveThresholdUAComplaintDocumentState,
     COComplaintDocumentState,
+    OpenTenderingCancellationComplaintDocumentState,
 )
 
 
@@ -28,6 +30,7 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         ABOVE_THRESHOLD_UA_DEFENSE,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,
@@ -38,6 +41,7 @@ class OpenCancellationComplaintDocumentResource(CancellationComplaintDocumentRes
         ABOVE_THRESHOLD: AboveThresholdComplaintDocumentState,
         ABOVE_THRESHOLD_UA: AboveThresholdUAComplaintDocumentState,
         ABOVE_THRESHOLD_EU: AboveThresholdUAComplaintDocumentState,
+        OPEN_TENDERING: OpenTenderingCancellationComplaintDocumentState,
         ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdUAComplaintDocumentState,
         SIMPLE_DEFENSE: AboveThresholdUAComplaintDocumentState,
         COMPETITIVE_ORDERING: COComplaintDocumentState,

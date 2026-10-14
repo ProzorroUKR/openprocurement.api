@@ -59,6 +59,11 @@ def active_tendering_to_unsuccessful(self):
     self.assertEqual(response.json["data"]["status"], "active.tendering")
 
     response = self.check_chronograph()
+    if self.initial_config["minBidsNumber"] == 1:
+        # openTendering: a single bid is enough, the tender proceeds to the pre-qualification
+        self.assertEqual(response.json["data"]["status"], "active.pre-qualification")
+        self.assertEqual(len(response.json["data"]["qualifications"]), 1)
+        return
     self.assertEqual(response.json["data"]["status"], "unsuccessful")
 
     response = self.app.get(f"/tenders/{self.tender_id}")

@@ -11,6 +11,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_UA_DEFENSE,
     BELOW_THRESHOLD,
     COMPETITIVE_ORDERING,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -30,6 +31,7 @@ PROCEDURES = {
         ESCO,
         CFA_UA,
         REQUEST_FOR_PROPOSAL,
+        OPEN_TENDERING,
     ),
     "selective": (
         PQ,

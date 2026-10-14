@@ -6,6 +6,8 @@ from openprocurement.tender.open.procedure.state.tender_details import (
     BelowThresholdTenderDetailsState,
     COLongTenderDetailsState,
     COShortTenderDetailsState,
+    OpenTenderingEUTenderDetailsState,
+    OpenTenderingUATenderDetailsState,
     RFPTenderDetailsState,
     SimpleDefenseTenderDetailsState,
 )
@@ -40,4 +42,12 @@ class RFPRequirementState(RequirementStateMixin, RFPTenderDetailsState):
 
 
 class SimpleDefenseRequirementState(RequirementStateMixin, SimpleDefenseTenderDetailsState):
+    pass
+
+
+class OpenTenderingUARequirementState(RequirementStateMixin, OpenTenderingUATenderDetailsState):
+    pass
+
+
+class OpenTenderingEURequirementState(RequirementStateMixin, OpenTenderingEUTenderDetailsState):
     pass

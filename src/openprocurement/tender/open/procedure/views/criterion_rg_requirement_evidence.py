@@ -8,6 +8,7 @@ from openprocurement.tender.open.constants import (
     BELOW_THRESHOLD,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -18,10 +19,15 @@ from openprocurement.tender.open.procedure.state.criterion_rg_requirement_eviden
     BelowThresholdEligibleEvidenceState,
     COLongEligibleEvidenceState,
     COShortEligibleEvidenceState,
+    OpenTenderingEUEligibleEvidenceState,
+    OpenTenderingUAEligibleEvidenceState,
     RFPEligibleEvidenceState,
     SimpleDefenseEligibleEvidenceState,
 )
-from openprocurement.tender.open.procedure.views.base import COStateClass
+from openprocurement.tender.open.procedure.views.base import (
+    COStateClass,
+    OpenTenderingStateClass,
+)
 
 
 @resource(
@@ -33,6 +39,7 @@ from openprocurement.tender.open.procedure.views.base import COStateClass
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
@@ -44,6 +51,9 @@ class OpenBaseEligibleEvidenceResource(BaseEligibleEvidenceResource):
         ABOVE_THRESHOLD: AboveThresholdEligibleEvidenceState,
         ABOVE_THRESHOLD_UA: AboveThresholdUAEligibleEvidenceState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUEligibleEvidenceState,
+        OPEN_TENDERING: OpenTenderingStateClass(
+            OpenTenderingUAEligibleEvidenceState, OpenTenderingEUEligibleEvidenceState
+        ),
         SIMPLE_DEFENSE: SimpleDefenseEligibleEvidenceState,
         COMPETITIVE_ORDERING: COStateClass(COShortEligibleEvidenceState, COLongEligibleEvidenceState),
         BELOW_THRESHOLD: BelowThresholdEligibleEvidenceState,

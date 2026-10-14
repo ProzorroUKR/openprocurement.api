@@ -374,6 +374,18 @@ test_tender_request_for_proposal:
     - .test_tender_request_for_proposal
 
 
+.test_tender_open_tendering:
+  variables:
+    TESTS_PATH: src/openprocurement/tender/open/tests/open_tendering
+    COV_PATH: src/openprocurement/tender/open
+    COV_FILE: .coveragerc
+
+test_tender_open_tendering:
+  extends:
+    - .test
+    - .test_tender_open_tendering
+
+
 .test_tender_cfaselectionua:
   variables:
     TESTS_PATH: src/openprocurement/tender/cfaselectionua/tests

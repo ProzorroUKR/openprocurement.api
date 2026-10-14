@@ -10,6 +10,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -20,6 +21,7 @@ from openprocurement.tender.open.procedure.state.question import (
     BelowThresholdTenderQuestionState,
     COTenderQuestionState,
     DefenseTenderQuestionState,
+    OpenTenderingTenderQuestionState,
     RFPTenderQuestionState,
 )
 
@@ -36,6 +38,7 @@ class OpenTenderQuestionResource(TenderQuestionResource):
         ABOVE_THRESHOLD: AboveThresholdTenderQuestionState,
         ABOVE_THRESHOLD_UA: AboveThresholdUATenderQuestionState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUTenderQuestionState,
+        OPEN_TENDERING: OpenTenderingTenderQuestionState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderQuestionState,
         SIMPLE_DEFENSE: AboveThresholdUATenderQuestionState,
         COMPETITIVE_ORDERING: COTenderQuestionState,

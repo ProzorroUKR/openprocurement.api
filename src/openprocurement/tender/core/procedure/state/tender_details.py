@@ -20,8 +20,8 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
-    TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
+    TENDER_EXTRA_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
     WORKING_DAYS,
 )
@@ -149,11 +149,14 @@ class TenderConfigMixin(ConfigMixin):
 
         return config_schema
 
-    # competitiveOrdering: an additional config schema (short/long) is validated on top of the procedure schema
+    # competitiveOrdering (short/long), openTendering (UA/EU): an additional config schema
+    # is validated on top of the procedure schema
     extra_config_schema_name: str | None = None
+    # openTendering: valueCurrencyEquality=False is allowed with the auction/awarding order/value restriction
+    value_currency_equality_check = True
 
     def validate_extra_config(self, data):
-        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.extra_config_schema_name)
+        config_schema = TENDER_EXTRA_CONFIG_JSONSCHEMAS[self.extra_config_schema_name]
         config_schema = deepcopy(config_schema)
         config_schema.pop("required", None)
         self.validate_config_schema(data, config_schema)
@@ -187,7 +190,8 @@ class TenderConfigMixin(ConfigMixin):
         self.validate_config(data)
         self.validate_restricted_config(data)
         self.validate_estimated_value_config(data)
-        self.validate_value_currency_equality(data)
+        if self.value_currency_equality_check:
+            self.validate_value_currency_equality(data)
         super().on_post(data)
 
     def validate_value_currency_equality(self, data):

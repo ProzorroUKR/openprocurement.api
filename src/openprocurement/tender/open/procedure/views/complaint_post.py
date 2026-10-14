@@ -8,6 +8,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_UA_DEFENSE,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     SIMPLE_DEFENSE,
 )
 
@@ -21,6 +22,7 @@ from openprocurement.tender.open.constants import (
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         ABOVE_THRESHOLD_UA_DEFENSE,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,

@@ -769,10 +769,11 @@ def one_bid_tender(self):
     # switch to active.pre-qualification
     self.set_status("active.pre-qualification", {"id": tender_id, "status": "active.tendering"})
     response = self.check_chronograph()
-    # tender should switch to "unsuccessful"
+    # tender should switch to "unsuccessful" (minBidsNumber=1: it proceeds with the single bid)
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.pre-qualification"
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 def unsuccessful_after_prequalification_tender(self):
@@ -942,10 +943,11 @@ def one_qualificated_bid_tender(self):
     # tender should switch to "unsuccessful"
     self.set_status("active.auction", {"id": tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
-    # ensure that tender has been switched to "unsuccessful"
+    # ensure that tender has been switched to "unsuccessful" (minBidsNumber=1: it proceeds with the single bid)
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.qualification"
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 def multiple_bidders_tender(self):
