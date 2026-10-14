@@ -347,50 +347,33 @@ def patch_tender_bidder(self):
     bid = response.json["data"]
     bid_token = response.json["access"]["token"]
     lot_values = bid["lotValues"]
-    if self.initial_config.get("valueCurrencyEquality", True) and self.initial_config.get("hasValueRestriction", True):
-        lot_values[0]["value"]["amount"] = 600
-        set_items_unit(bid_items, lot_values[0]["value"])
-        response = self.app.patch_json(
-            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
+    lot_values[0]["value"]["amount"] = 600
+    set_items_unit(bid_items, lot_values[0]["value"])
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
+        {
+            "data": {
+                "status": "pending",
+                "lotValues": lot_values,
+                "parameters": None,
+                "items": bid_items,
+            }
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
             {
-                "data": {
-                    "status": "pending",
-                    "lotValues": lot_values,
-                    "parameters": None,
-                    "items": bid_items,
-                }
-            },
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [{"value": ["value of bid should be less than value of lot"]}],
-                    "location": "body",
-                    "name": "lotValues",
-                }
-            ],
-        )
-    else:
-        # multi-currency tender (valueCurrencyEquality=False): the value isn't validated
-        lot_values[0]["value"]["amount"] = 600
-        set_items_unit(bid_items, lot_values[0]["value"])
-        response = self.app.patch_json(
-            "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, bid["id"], bid_token),
-            {
-                "data": {
-                    "status": "pending",
-                    "lotValues": lot_values,
-                    "parameters": None,
-                    "items": bid_items,
-                }
-            },
-            status=200,
-        )
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
+            }
+        ],
+    )
 
     lot_values[0]["value"]["amount"] = 500
     set_items_unit(bid_items, lot_values[0]["value"])
@@ -2640,29 +2623,20 @@ def patch_bid_during_qualification_with_24h_milestone(self):
 
     # try to change unit.value.amount to invalid value
     items = deepcopy(bids[0]["items"])
-    if self.initial_config.get("valueCurrencyEquality", True):
-        items[0]["unit"]["value"]["amount"] = 5000
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
-            {"data": {"items": items}},
-            status=422,
-        )
-        self.assertEqual(
-            response.json["errors"][0],
-            {
-                "location": "body",
-                "name": "items",
-                "description": "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
-            },
-        )
-    else:
-        # multi-currency tender (valueCurrencyEquality=False): the value isn't validated
-        items[0]["unit"]["value"]["amount"] = 5000
-        response = self.app.patch_json(
-            f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
-            {"data": {"items": items}},
-            status=200,
-        )
+    items[0]["unit"]["value"]["amount"] = 5000
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{self.initial_bids[0]['id']}?acc_token={self.bid_token}",
+        {"data": {"items": items}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"][0],
+        {
+            "location": "body",
+            "name": "items",
+            "description": "Total amount of unit values should be equal bid.value.amount if VAT is not included in bid",
+        },
+    )
 
     # successfully change unit.value.amount and subcontractingDetails
     set_items_unit(items, bids[0]["value"])

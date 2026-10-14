@@ -192,7 +192,7 @@ test_tender_open_tendering_eu_config = {
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,
-    "valueCurrencyEquality": False,
+    "valueCurrencyEquality": True,
     "hasPrequalification": True,
     "minBidsNumber": 1,
     "hasPreSelectionAgreement": False,

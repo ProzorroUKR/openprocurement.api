@@ -33,7 +33,7 @@ def create_tender_invalid_config(self):
         self.assertIn(str(value), response.json["errors"][0]["description"])
 
     # the values fixed for both variants
-    for config_name, value in (("minBidsNumber", 2), ("valueCurrencyEquality", True)):
+    for config_name, value in (("minBidsNumber", 2), ("valueCurrencyEquality", False)):
         config = deepcopy(self.initial_config)
         config[config_name] = value
         response = self.app.post_json(request_path, {"data": self.initial_data, "config": config}, status=422)

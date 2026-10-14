@@ -151,8 +151,6 @@ class TenderConfigMixin(ConfigMixin):
     # competitiveOrdering (short/long), openTendering (UA/EU): an additional config schema
     # is validated on top of the procedure schema
     extra_config_schema_name: str | None = None
-    # openTendering: valueCurrencyEquality=False is allowed with the auction/awarding order/value restriction
-    value_currency_equality_check = True
 
     def validate_extra_config(self, data):
         config_schema = TENDER_EXTRA_CONFIG_JSONSCHEMAS[self.extra_config_schema_name]
@@ -189,8 +187,7 @@ class TenderConfigMixin(ConfigMixin):
         self.validate_config(data)
         self.validate_restricted_config(data)
         self.validate_estimated_value_config(data)
-        if self.value_currency_equality_check:
-            self.validate_value_currency_equality(data)
+        self.validate_value_currency_equality(data)
         super().on_post(data)
 
     def validate_value_currency_equality(self, data):

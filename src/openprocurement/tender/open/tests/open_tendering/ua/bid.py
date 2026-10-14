@@ -4,7 +4,6 @@ from datetime import timedelta
 from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.open.tests.open_tendering.ua.bid_blanks import post_bid_multi_currency
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
@@ -18,6 +17,8 @@ from openprocurement.tender.open.tests.below_threshold.bid_blanks import (
     create_tender_bid_with_documents,
     not_found,
     patch_pending_bid,
+    patch_tender_bid_with_exceeded_lot_values,
+    post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.core.tests.utils import (
     set_bid_items,
@@ -224,7 +225,8 @@ class Tender2LotBidResourceTest(BaseTenderOpenTenderingUAContentWebTest):
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
     test_create_bid_after_removing_lot = snitch(create_bid_after_removing_lot)
-    test_post_bid_multi_currency = snitch(post_bid_multi_currency)
+    test_post_tender_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderOpenTenderingUAContentWebTest):

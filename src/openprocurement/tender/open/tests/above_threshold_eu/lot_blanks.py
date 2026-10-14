@@ -260,34 +260,25 @@ def create_tender_bidder_invalid(self):
         ],
     )
 
-    if self.initial_config.get("valueCurrencyEquality", True) and self.initial_config.get("hasValueRestriction", True):
-        bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.initial_lots[0]["id"]}]
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [{"value": ["value of bid should be less than value of lot"]}],
-                    "location": "body",
-                    "name": "lotValues",
-                }
-            ],
-        )
-    else:
-        # multi-currency tender (valueCurrencyEquality=False): the value isn't validated
-        bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.initial_lots[0]["id"]}]
-        bid_data["lotValues"][0]["value"]["valueAddedTaxIncluded"] = self.app.get(f"/tenders/{self.tender_id}").json[
-            "data"
-        ]["value"]["valueAddedTaxIncluded"]
-        response = self.app.post_json(request_path, {"data": bid_data}, status="*")
-        self.assertNotIn("value of bid should be less than value of lot", str(response.json))
+    bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.initial_lots[0]["id"]}]
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
+            }
+        ],
+    )
 
     bid_data["lotValues"] = [
         {"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.initial_lots[0]["id"]}
@@ -317,38 +308,25 @@ def create_tender_bidder_invalid(self):
         ],
     )
 
-    if self.initial_config.get("valueCurrencyEquality", True):
-        bid_data["lotValues"] = [
-            {"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.initial_lots[0]["id"]}
-        ]
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
-                    "location": "body",
-                    "name": "lotValues",
-                }
-            ],
-        )
-    else:
-        # multi-currency tender (valueCurrencyEquality=False): the value isn't validated
-        bid_data["lotValues"] = [
-            {"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.initial_lots[0]["id"]}
-        ]
-        bid_data["lotValues"][0]["value"]["valueAddedTaxIncluded"] = self.app.get(f"/tenders/{self.tender_id}").json[
-            "data"
-        ]["value"]["valueAddedTaxIncluded"]
-        response = self.app.post_json(request_path, {"data": bid_data}, status="*")
-        self.assertNotIn("currency of bid should be identical to currency of value of lot", str(response.json))
+    bid_data["lotValues"] = [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.initial_lots[0]["id"]}]
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
+            }
+        ],
+    )
 
     bid_data["value"] = {"amount": 500}
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.initial_lots[0]["id"]}]
@@ -499,36 +477,26 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    if self.initial_config.get("valueCurrencyEquality", True) and self.initial_config.get("hasValueRestriction", True):
-        bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.lot_id}]
+    bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.lot_id}]
 
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [{"value": ["value of bid should be less than value of lot"]}],
-                    "location": "body",
-                    "name": "lotValues",
-                }
-            ],
-        )
-    else:
-        # multi-currency tender (valueCurrencyEquality=False): the value isn't validated
-        bid_data["lotValues"] = [{"value": {"amount": 5000000}, "relatedLot": self.lot_id}]
-
-        bid_data["lotValues"][0]["value"]["valueAddedTaxIncluded"] = self.app.get(f"/tenders/{self.tender_id}").json[
-            "data"
-        ]["value"]["valueAddedTaxIncluded"]
-        response = self.app.post_json(request_path, {"data": bid_data}, status="*")
-        self.assertNotIn("value of bid should be less than value of lot", str(response.json))
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [{"value": ["value of bid should be less than value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
+            }
+        ],
+    )
 
     bid_data["lotValues"] = [{"value": {"amount": 500, "valueAddedTaxIncluded": True}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
@@ -556,35 +524,25 @@ def create_tender_feature_bidder_invalid(self):
         ],
     )
 
-    if self.initial_config.get("valueCurrencyEquality", True):
-        bid_data["lotValues"] = [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.lot_id}]
-        response = self.app.post_json(
-            request_path,
-            {"data": bid_data},
-            status=422,
-        )
-        self.assertEqual(response.status, "422 Unprocessable Entity")
-        self.assertEqual(response.content_type, "application/json")
-        self.assertEqual(response.json["status"], "error")
-        self.assertEqual(
-            response.json["errors"],
-            [
-                {
-                    "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
-                    "location": "body",
-                    "name": "lotValues",
-                }
-            ],
-        )
-    else:
-        # multi-currency tender (valueCurrencyEquality=False): the value isn't validated
-        bid_data["lotValues"] = [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.lot_id}]
-
-        bid_data["lotValues"][0]["value"]["valueAddedTaxIncluded"] = self.app.get(f"/tenders/{self.tender_id}").json[
-            "data"
-        ]["value"]["valueAddedTaxIncluded"]
-        response = self.app.post_json(request_path, {"data": bid_data}, status="*")
-        self.assertNotIn("currency of bid should be identical to currency of value of lot", str(response.json))
+    bid_data["lotValues"] = [{"value": {"amount": 500, "currency": "USD"}, "relatedLot": self.lot_id}]
+    response = self.app.post_json(
+        request_path,
+        {"data": bid_data},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(response.content_type, "application/json")
+    self.assertEqual(response.json["status"], "error")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "description": [{"value": ["currency of bid should be identical to currency of value of lot"]}],
+                "location": "body",
+                "name": "lotValues",
+            }
+        ],
+    )
 
     bid_data["lotValues"] = [{"value": {"amount": 500}, "relatedLot": self.lot_id}]
     response = self.app.post_json(
@@ -744,10 +702,9 @@ def one_lot_1bid(self):
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
-    # switch to unsuccessful
+    # switch to unsuccessful (minBidsNumber=1: the tender proceeds with the single bid)
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}?acc_token={}".format(tender_id, owner_token))
-    # minBidsNumber=1 (openTendering): the tender proceeds with the single bid
     expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.pre-qualification"
     self.assertEqual(response.json["data"]["status"], expected_status)
 
