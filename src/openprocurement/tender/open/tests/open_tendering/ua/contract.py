@@ -1,12 +1,16 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.open.tests.open_tendering.ua.contract_blanks import (
-    patch_contract_value_multi_currency,
-)
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.open.tests.below_threshold.contract_blanks import (
+    patch_contract_multi_items_unit_value,
+    patch_contract_single_item_unit_value,
+    patch_contract_single_item_unit_value_with_status,
+    patch_tender_contract_value,
+    patch_tender_contract_value_vat_not_included,
+    patch_tender_multi_contracts,
     patch_tender_multi_contracts_cancelled,
+    patch_tender_multi_contracts_cancelled_validate_amount,
     patch_tender_multi_contracts_cancelled_with_one_activated,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.base import (
@@ -58,8 +62,10 @@ class TenderContractResourceTest(BaseTenderOpenTenderingUAContentWebTest):
 
     test_patch_tender_contract_datesigned = snitch(patch_tender_contract_datesigned)
     test_patch_tender_contract = snitch(patch_tender_contract)
-    # valueCurrencyEquality=False: the contract value/currency aren't limited by the award
-    test_patch_contract_value_multi_currency = snitch(patch_contract_value_multi_currency)
+    test_patch_tender_contract_value = snitch(patch_tender_contract_value)
+    test_patch_contract_single_item_unit_value = snitch(patch_contract_single_item_unit_value)
+    test_patch_contract_single_item_unit_value_with_status = snitch(patch_contract_single_item_unit_value_with_status)
+    test_patch_contract_multi_items_unit_value = snitch(patch_contract_multi_items_unit_value)
 
 
 class TenderContractVATNotIncludedResourceTest(BaseTenderOpenTenderingUAContentWebTest):
@@ -99,6 +105,8 @@ class TenderContractVATNotIncludedResourceTest(BaseTenderOpenTenderingUAContentW
         super().setUp()
         self.create_award()
 
+    test_patch_tender_contract_value_vat_not_included = snitch(patch_tender_contract_value_vat_not_included)
+
 
 class TenderContractMultiBuyersResourceTest(BaseTenderOpenTenderingUAContentWebTest):
     initial_status = "active.qualification"
@@ -109,9 +117,13 @@ class TenderContractMultiBuyersResourceTest(BaseTenderOpenTenderingUAContentWebT
         super().setUp()
         TenderContractResourceTest.create_award(self)
 
+    test_patch_tender_multi_contracts = snitch(patch_tender_multi_contracts)
     test_patch_tender_multi_contracts_cancelled = snitch(patch_tender_multi_contracts_cancelled)
     test_patch_tender_multi_contracts_cancelled_with_one_activated = snitch(
         patch_tender_multi_contracts_cancelled_with_one_activated
+    )
+    test_patch_tender_multi_contracts_cancelled_validate_amount = snitch(
+        patch_tender_multi_contracts_cancelled_validate_amount
     )
 
 

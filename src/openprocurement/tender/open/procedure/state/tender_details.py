@@ -225,8 +225,6 @@ class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):
 # openTendering (Law 4888): the UA/EU variant is chosen by config.openTenderingType at the tender creation
 class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderState):
     contract_template_required = True
-    # valueCurrencyEquality is always False for openTendering (regardless of the auction/awarding order settings)
-    value_currency_equality_check = False
 
 
 class OpenTenderingUATenderDetailsState(OpenTenderingTenderDetailsState):

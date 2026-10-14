@@ -5,7 +5,6 @@ from unittest.mock import patch
 
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.open.tests.open_tendering.ua.bid_blanks import post_bid_multi_currency
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
@@ -18,7 +17,9 @@ from openprocurement.tender.open.tests.below_threshold.bid_blanks import (  # Te
     create_tender_bid_with_document_invalid,
     create_tender_bid_with_documents,
     patch_pending_bid,
+    patch_tender_bid_with_exceeded_lot_values,
     patch_tender_lot_values_any_order,
+    post_tender_bid_with_exceeded_lot_values,
 )
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.open.tests.open_tendering.eu.base import (
@@ -137,7 +138,8 @@ class Tender2LotBidResourceTest(BaseTenderContentWebTest):
 
     test_patch_tender_with_bids_lots_none = snitch(patch_tender_with_bids_lots_none)
     test_patch_tender_lot_values_any_order = snitch(patch_tender_lot_values_any_order)
-    test_post_bid_multi_currency = snitch(post_bid_multi_currency)
+    test_post_tender_bid_with_exceeded_lot_values = snitch(post_tender_bid_with_exceeded_lot_values)
+    test_patch_tender_bid_with_exceeded_lot_values = snitch(patch_tender_bid_with_exceeded_lot_values)
 
 
 class TenderBidFeaturesResourceTest(BaseTenderContentWebTest):
