@@ -20,7 +20,9 @@ def set_auction_period_0bid(self):
 def switch_to_unsuccessful_1bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # minBidsNumber=1 (openTendering): the tender proceeds with the single bid
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.qualification"
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 # TenderSwitchAuctionResourceTest
@@ -96,7 +98,9 @@ def set_auction_period_lot_0bid(self):
 def switch_to_unsuccessful_lot_1bid(self):
     self.set_status("active.auction", {"status": self.initial_status})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # minBidsNumber=1 (openTendering): the tender proceeds with the single bid
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.qualification"
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 # TnederLotSwitchAuctionResourceTest

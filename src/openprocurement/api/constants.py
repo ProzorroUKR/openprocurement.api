@@ -1,5 +1,6 @@
 import os
 import re
+from collections import ChainMap
 from datetime import time
 from logging import getLogger
 
@@ -54,6 +55,7 @@ GUARANTEE_ALLOWED_TENDER_TYPES = (
     "closeFrameworkAgreementUA",
     "closeFrameworkAgreementSelectionUA",
     "requestForProposal",
+    "openTendering",
 )
 
 CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES = (
@@ -69,6 +71,7 @@ CONTRACT_GUARANTEE_ALLOWED_TENDER_TYPES = (
     "closeFrameworkAgreementSelectionUA",
     "requestForProposal",
     "simple.defense",
+    "openTendering",
 )
 
 BID_GUARANTEE_ALLOWED_TENDER_TYPES = (
@@ -84,6 +87,7 @@ BID_GUARANTEE_ALLOWED_TENDER_TYPES = (
     "closeFrameworkAgreementSelectionUA",
     "requestForProposal",
     "simple.defense",
+    "openTendering",
 )
 
 BID_REQUIRED_ITEMS_TENDER_TYPES = (
@@ -101,6 +105,7 @@ BID_REQUIRED_ITEMS_TENDER_TYPES = (
     "esco",
     "priceQuotation",
     "requestForProposal",
+    "openTendering",
 )
 
 # Calendar
@@ -242,12 +247,23 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
     "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
     "complexAsset.arma": standards.load("data_model/schema/TenderConfig/complexAsset.arma.json"),
+    "openTendering": standards.load("data_model/schema/TenderConfig/openTendering.json"),
 }
 
 TENDER_CO_CONFIG_JSONSCHEMAS = {
     "competitiveOrdering.long": standards.load("data_model/schema/TenderConfig/competitiveOrdering.long.json"),
     "competitiveOrdering.short": standards.load("data_model/schema/TenderConfig/competitiveOrdering.short.json"),
 }
+
+# openTendering: the UA/EU variant config schemas (selected by config.openTenderingType)
+TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS = {
+    "openTendering.UA": standards.load("data_model/schema/TenderConfig/openTendering.UA.json"),
+    "openTendering.EU": standards.load("data_model/schema/TenderConfig/openTendering.EU.json"),
+}
+
+# the additional config schemas validated on top of the procedure schema (competitiveOrdering, openTendering)
+# (a ChainMap: the tests replace the schemas of the dicts above in place)
+TENDER_EXTRA_CONFIG_JSONSCHEMAS = ChainMap(TENDER_CO_CONFIG_JSONSCHEMAS, TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS)
 
 # Framework config
 FRAMEWORK_CONFIG_JSONSCHEMAS = {
@@ -356,6 +372,7 @@ TENDER_CRITERIA_RULES = {
     "reporting": load_criteria_rules("reporting", constants_env),
     "simple.defense": load_criteria_rules("simple.defense", constants_env),
     "complexAsset.arma": load_criteria_rules("complexAsset.arma", constants_env),
+    "openTendering": load_criteria_rules("openTendering", constants_env),
 }
 
 # Auction plannning configuration

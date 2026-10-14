@@ -1,5 +1,9 @@
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.tender.open.constants import (
+    OPEN_TENDERING_TYPE_CONFIG,
+    OPEN_TENDERING_TYPE_EU,
+)
 
 
 class COStateClass:
@@ -22,3 +26,28 @@ class COStateClass:
         if agreement.get("items"):
             return self.short_state_class
         return self.long_state_class
+
+
+class OpenTenderingStateClass:
+    """
+    openTendering state class resolver for state_classes: the state depends on the UA/EU variant of the tender
+    set by config.openTenderingType (POST /tenders: read from the request body, otherwise from the tender)
+    """
+
+    def __init__(self, ua_state_class, eu_state_class):
+        self.ua_state_class = ua_state_class
+        self.eu_state_class = eu_state_class
+
+    def __call__(self, request):
+        tender = request.validated.get("tender")
+        if tender:
+            config = tender.get("config") or {}
+        else:
+            # POST /tenders: the body is already parsed by the route predicate (validate_json_data)
+            json_data = request.validated.get("json_data") or {}
+            config = json_data.get("config") if isinstance(json_data, dict) else None
+            config = config if isinstance(config, dict) else {}
+        # an invalid/missing value is rejected by the config schema validation (the UA state does it)
+        if config.get(OPEN_TENDERING_TYPE_CONFIG) == OPEN_TENDERING_TYPE_EU:
+            return self.eu_state_class
+        return self.ua_state_class

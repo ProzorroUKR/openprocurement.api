@@ -192,7 +192,7 @@ class BaseCoreWebTest(BaseWebTest):
         self.initial_data = deepcopy(self.initial_data)
         self.initial_config = deepcopy(self.initial_config)
         if self.initial_data and ("tenderPeriod" in self.initial_data or "enquiryPeriod" in self.initial_data):
-            set_tender_periods(self.initial_data)
+            set_tender_periods(self.initial_data, config=self.initial_config)
         if self.initial_lots:
             self.initial_lots = deepcopy(self.initial_lots)
             set_tender_lots(self.initial_data, self.initial_lots)
@@ -498,7 +498,7 @@ class BaseCoreWebTest(BaseWebTest):
             "aboveThresholdUA.defense",
             "simple.defense",
             "competitiveDialogueUA.stage2",
-        ):
+        ) or (tender["procurementMethodType"] == "openTendering" and not tender["config"]["hasPrequalification"]):
             qualification["bid_id"] = bid_id
             del qualification["bidID"]
             tender["awards"] = [qualification]

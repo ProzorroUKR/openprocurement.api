@@ -10,6 +10,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -20,6 +21,7 @@ from openprocurement.tender.open.procedure.state.cancellation import (
     BelowThresholdCancellationState,
     COCancellationState,
     DefenseCancellationState,
+    OpenTenderingCancellationState,
     RFPCancellationState,
 )
 
@@ -36,6 +38,7 @@ class OpenBaseCancellationResource(BaseCancellationResource):
         ABOVE_THRESHOLD: AboveThresholdCancellationState,
         ABOVE_THRESHOLD_UA: AboveThresholdUACancellationState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUCancellationState,
+        OPEN_TENDERING: OpenTenderingCancellationState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseCancellationState,
         SIMPLE_DEFENSE: DefenseCancellationState,
         COMPETITIVE_ORDERING: COCancellationState,

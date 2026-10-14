@@ -34,6 +34,7 @@ from openprocurement.tender.open.procedure.state.tender_details import (
     AboveThresholdUATenderDetailsState,
     BelowThresholdTenderDetailsState,
     DefenseTenderDetailsState,
+    OpenTenderingTenderDetailsState,
     SimpleDefenseTenderDetailsState,
 )
 
@@ -68,6 +69,7 @@ def validate_tender_transfer_accreditation_level(request, **kwargs):
         "closeFrameworkAgreementSelectionUA": CFASelectionTenderDetailsState,
         "priceQuotation": None,
         "simple.defense": SimpleDefenseTenderDetailsState,
+        "openTendering": OpenTenderingTenderDetailsState,
     }
     state = state_mapping.get(request.validated["tender"]["procurementMethodType"], None)
     if state is None:

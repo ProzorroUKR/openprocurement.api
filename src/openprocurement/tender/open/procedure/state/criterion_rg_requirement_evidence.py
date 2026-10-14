@@ -6,6 +6,8 @@ from openprocurement.tender.open.procedure.state.tender_details import (
     BelowThresholdTenderDetailsState,
     COLongTenderDetailsState,
     COShortTenderDetailsState,
+    OpenTenderingEUTenderDetailsState,
+    OpenTenderingUATenderDetailsState,
     RFPTenderDetailsState,
     SimpleDefenseTenderDetailsState,
 )
@@ -40,4 +42,12 @@ class RFPEligibleEvidenceState(EligibleEvidenceStateMixin, RFPTenderDetailsState
 
 
 class SimpleDefenseEligibleEvidenceState(EligibleEvidenceStateMixin, SimpleDefenseTenderDetailsState):
+    pass
+
+
+class OpenTenderingUAEligibleEvidenceState(EligibleEvidenceStateMixin, OpenTenderingUATenderDetailsState):
+    pass
+
+
+class OpenTenderingEUEligibleEvidenceState(EligibleEvidenceStateMixin, OpenTenderingEUTenderDetailsState):
     pass

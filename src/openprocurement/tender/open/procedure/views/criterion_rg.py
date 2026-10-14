@@ -8,6 +8,7 @@ from openprocurement.tender.open.constants import (
     BELOW_THRESHOLD,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -18,10 +19,15 @@ from openprocurement.tender.open.procedure.state.criterion_rg import (
     BelowThresholdRequirementGroupState,
     COLongRequirementGroupState,
     COShortRequirementGroupState,
+    OpenTenderingEURequirementGroupState,
+    OpenTenderingUARequirementGroupState,
     RFPRequirementGroupState,
     SimpleDefenseRequirementGroupState,
 )
-from openprocurement.tender.open.procedure.views.base import COStateClass
+from openprocurement.tender.open.procedure.views.base import (
+    COStateClass,
+    OpenTenderingStateClass,
+)
 
 
 @resource(
@@ -33,6 +39,7 @@ from openprocurement.tender.open.procedure.views.base import COStateClass
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
@@ -44,6 +51,9 @@ class OpenBaseRequirementGroupResource(BaseRequirementGroupResource):
         ABOVE_THRESHOLD: AboveThresholdRequirementGroupState,
         ABOVE_THRESHOLD_UA: AboveThresholdUARequirementGroupState,
         ABOVE_THRESHOLD_EU: AboveThresholdEURequirementGroupState,
+        OPEN_TENDERING: OpenTenderingStateClass(
+            OpenTenderingUARequirementGroupState, OpenTenderingEURequirementGroupState
+        ),
         SIMPLE_DEFENSE: SimpleDefenseRequirementGroupState,
         COMPETITIVE_ORDERING: COStateClass(COShortRequirementGroupState, COLongRequirementGroupState),
         BELOW_THRESHOLD: BelowThresholdRequirementGroupState,

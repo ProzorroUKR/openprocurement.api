@@ -69,3 +69,7 @@ class RFPTenderState(RFPIgnoredClaimMixin, TenderState):
     # during active.tendering don't touch the bids
     bids_invalidation_enabled = False
     generate_award_milestones = False
+
+
+class OpenTenderingTenderState(TenderState):
+    award_class = Award

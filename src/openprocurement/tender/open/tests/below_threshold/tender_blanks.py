@@ -4794,6 +4794,7 @@ def contract_template_name_set(self):
         "aboveThresholdEU",
         "simple.defense",
         "competitiveOrdering",
+        "openTendering",
     )
 
     # Test activation

@@ -41,3 +41,7 @@ class RFPBidState(BidState):
     bid_patch_deleted_check = False
     items_unit_value_required_for_funders = True
     self_eligible_required = False
+
+
+class OpenTenderingBidState(BidState):
+    draft_bid_value_check = False

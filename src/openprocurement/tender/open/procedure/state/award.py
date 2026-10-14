@@ -7,6 +7,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     BelowThresholdTenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     RFPTenderState,
 )
 
@@ -55,3 +56,7 @@ class RFPAwardState(AwardStateMixin, RFPTenderState):
     award_cancel_lot_awards_on_satisfied_complaint = False
     award_has_eligible = False
     award_stand_still_working_days = True
+
+
+class OpenTenderingAwardState(AwardStateMixin, OpenTenderingTenderState):
+    items_delivery_required: bool = True

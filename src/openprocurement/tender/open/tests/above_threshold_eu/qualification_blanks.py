@@ -276,7 +276,7 @@ def check_reporting_date_publication(self):
         else:
             # Use calendar days to avoid DST issues (timedelta.days counts 24h periods)
             delta = end_date.date() - reporting_date.date()
-        self.assertEqual(delta.days, 5)
+        self.assertEqual(delta.days, self.initial_config["qualificationComplainDuration"])
 
 
 # Tender2LotQualificationResourceTest
