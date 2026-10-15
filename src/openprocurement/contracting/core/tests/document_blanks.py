@@ -916,6 +916,12 @@ confidential_documents_tender_params = [
         test_tender_negotiation_config,
         {"code": "criticalInfrastructure", "description": "Товари, роботи і послуги для захисту"},
     ),
+    (
+        "reporting tender with causeDetails veteransSportsEventsServices (contract-only)",
+        test_tender_reporting_data,
+        test_tender_reporting_config,
+        {"code": "veteransSportsEventsServices", "description": "Veterans sport events"},
+    ),
 ]
 
 
@@ -1181,6 +1187,41 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
     # get directly as public
     response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
     self.assertIn("url", response.json["data"])
+
+    if cause_details_data["code"] == "veteransSportsEventsServices":
+        # this cause requires confidentiality only for documentOf=contract (already proven above
+        # with doc_id_2), documents of contract changes must stay public
+        contract_document = self.mongodb.contracts.get(contract_id)
+        contract_document["changes"] = [
+            {
+                "id": "f" * 32,
+                "status": "pending",
+                "rationale": "причина зміни",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+            }
+        ]
+        self.mongodb.contracts.save(contract_document)
+
+        change_doc_data = {
+            "title": "annexe.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+            "documentType": "contractAnnexe",
+            "documentOf": "change",
+            "relatedItem": "f" * 32,
+            "confidentiality": "buyerOnly",
+            "confidentialityRationale": "coz it is hidden because of the law",
+        }
+        response = self.app.post_json(
+            f"/contracts/{contract_id}/documents?acc_token={contract_token}",
+            {"data": change_doc_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [{"location": "body", "name": "confidentiality", "description": "Document should be public"}],
+        )
 
 
 @patch(
