@@ -43,13 +43,13 @@ class ContractDocumentState(BaseDocumentStateMixin, ContractState):
             return
         tender = get_tender()
         cause = tender.get("cause") or tender.get("causeDetails", {}).get("code")
-        contract_only_cause = cause in CONFIDENTIAL_DOCS_CAUSES_CONTRACT_ONLY
-        document_only_cause = cause in CONFIDENTIAL_DOCS_CAUSES
-        document_ofs = ("contract",) if contract_only_cause else ("contract", "change")
+        contract_cause = cause in CONFIDENTIAL_DOCS_CAUSES_CONTRACT_ONLY
+        contract_and_change_cause = cause in CONFIDENTIAL_DOCS_CAUSES
+        document_ofs = ("contract",) if contract_cause else ("contract", "change")
         if (
             data.get("documentOf") in document_ofs
             and data.get("documentType") in ("contractSigned", "contractAnnexe")
-            and (contract_only_cause or document_only_cause)
+            and (contract_cause or contract_and_change_cause)
         ) or (
             data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"

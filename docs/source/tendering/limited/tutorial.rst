@@ -443,6 +443,7 @@
     * naturalGas
     * UZ
     * defencePurchase
+    * stateDebtServices
     * energyCrisisRecovery
     * criticalInfrastructure0109
     * energyCrisisRecovery0109
@@ -454,7 +455,9 @@
     * contractSigned - Підписаний договір
     * contractAnnexe - Додатки до договору
 
-Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`.
+Приховання (конфіденційність) має бути застосована для documents з полем `"documentOf": "contract"` та `"documentOf": "change"`, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`.
+
+Якщо звіт має підставу `veteransSportsEventsServices` (Підпункт 3 пункту 9² Постанови №1178), приховання застосовується лише до документів самого договору (`"documentOf": "contract"`). Документи змін до договору (`"documentOf": "change"`) при цій підставі мають залишатися публічними (`confidentiality: public`) — встановити для них `confidentiality: buyerOnly` заборонено.
 
 Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:
 
