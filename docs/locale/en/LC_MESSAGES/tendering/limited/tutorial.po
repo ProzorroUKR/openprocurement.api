@@ -548,6 +548,9 @@ msgstr ""
 msgid "restorationOfEnergyFacilities"
 msgstr ""
 
+msgid "veteransSportsEventsServices"
+msgstr ""
+
 msgid "і має один з перерахованих типів документів:"
 msgstr "and has one of document types:"
 
@@ -557,11 +560,11 @@ msgstr "contractSigned - Signed contract"
 msgid "contractAnnexe - Додатки до договору"
 msgstr "contractAnnexe - Annexes to the contract"
 
-msgid "Приховання (конфіденційність) має бути застосована для documents з полем `\"documentOf\": \"contract\"` та `\"documentOf\": \"change\"`, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
-msgstr "Confidentiality should be applied for documents with `\"documentOf\": \"contract\"` and `\"documentOf\": \"change\"`, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
+msgid "Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
+msgstr "Confidentiality should be applied for documents, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
 
-msgid "Якщо звіт має підставу `veteransSportsEventsServices` (Підпункт 3 пункту 9² Постанови №1178), приховання застосовується лише до документів самого договору (`\"documentOf\": \"contract\"`). Документи змін до договору (`\"documentOf\": \"change\"`) при цій підставі мають залишатися публічними (`confidentiality: public`) — встановити для них `confidentiality: buyerOnly` заборонено."
-msgstr "If the report has the `veteransSportsEventsServices` cause (Subparagraph 3 of paragraph 9² of Resolution No. 1178), confidentiality applies only to the documents of the contract itself (`\"documentOf\": \"contract\"`). Documents of contract changes (`\"documentOf\": \"change\"`) must remain public (`confidentiality: public`) under this cause — setting `confidentiality: buyerOnly` for them is forbidden."
+msgid "Виняток: для підстави `veteransSportsEventsServices` приховання застосовується лише до `\"documentOf\": \"contract\"`, документи `\"documentOf\": \"change\"` залишаються публічними."
+msgstr "Exception: for the `veteransSportsEventsServices` cause, confidentiality applies only to `\"documentOf\": \"contract\"`, `\"documentOf\": \"change\"` documents remain public."
 
 msgid "Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:"
 msgstr "Let's add documents to contract and set `confidentiality` as public, we will see an error:"
