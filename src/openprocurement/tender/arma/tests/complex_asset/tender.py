@@ -3,13 +3,13 @@ import unittest
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderWebTest,
     test_tender_arma_bids,
     test_tender_arma_data,
     test_tender_arma_lots,
 )
-from openprocurement.tender.arma.tests.tender_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.tender_blanks import (
     create_tender_generated,
     create_tender_invalid,
     create_tender_with_required_unit,

@@ -2,12 +2,12 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
     test_tender_arma_lots,
 )
-from openprocurement.tender.arma.tests.contract_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.contract_blanks import (
     patch_tender_contract,
     patch_tender_contract_datesigned,
     patch_tender_contract_value,

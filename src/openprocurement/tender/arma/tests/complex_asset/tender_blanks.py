@@ -9,20 +9,20 @@ from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import change_auth, test_signer_info
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
+from openprocurement.tender.core.tests.criteria_utils import add_criteria
+from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
+from openprocurement.tender.core.utils import calculate_tender_full_date
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_supplier,
 )
-from openprocurement.tender.core.tests.criteria_utils import add_criteria
-from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues
-from openprocurement.tender.core.utils import calculate_tender_full_date
 
 # TenderResourceTest
 
 
 def create_tender_invalid(self):
     request_path = "/tenders"
+    pmt = self.initial_data["procurementMethodType"]
 
     response = self.app.post_json(request_path, "data", status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -52,7 +52,7 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": COMPLEX_ASSET_ARMA, "invalid_field": "invalid_value"}},
+        {"data": {"procurementMethodType": pmt, "invalid_field": "invalid_value"}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -63,7 +63,7 @@ def create_tender_invalid(self):
     )
 
     response = self.app.post_json(
-        request_path, {"data": {"procurementMethodType": COMPLEX_ASSET_ARMA, "value": "invalid_value"}}, status=422
+        request_path, {"data": {"procurementMethodType": pmt, "value": "invalid_value"}}, status=422
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
@@ -75,7 +75,7 @@ def create_tender_invalid(self):
 
     response = self.app.post_json(
         request_path,
-        {"data": {"procurementMethodType": COMPLEX_ASSET_ARMA, "procurementMethod": "invalid_value"}},
+        {"data": {"procurementMethodType": pmt, "procurementMethod": "invalid_value"}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -97,42 +97,43 @@ def create_tender_invalid(self):
         {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
 
-    response = self.app.post_json(
-        request_path,
-        {"data": {"procurementMethodType": COMPLEX_ASSET_ARMA, "enquiryPeriod": {"endDate": "invalid_value"}}},
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [
-            {
-                "description": {"endDate": ["Could not parse invalid_value. Should be ISO8601."]},
-                "location": "body",
-                "name": "enquiryPeriod",
-            }
-        ],
-    )
+    if self.enquiry_period_allowed:
+        response = self.app.post_json(
+            request_path,
+            {"data": {"procurementMethodType": pmt, "enquiryPeriod": {"endDate": "invalid_value"}}},
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": {"endDate": ["Could not parse invalid_value. Should be ISO8601."]},
+                    "location": "body",
+                    "name": "enquiryPeriod",
+                }
+            ],
+        )
 
-    response = self.app.post_json(
-        request_path,
-        {
-            "data": {
-                "procurementMethodType": COMPLEX_ASSET_ARMA,
-                "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"},
-            }
-        },
-        status=422,
-    )
-    self.assertEqual(response.status, "422 Unprocessable Entity")
-    self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["status"], "error")
-    self.assertEqual(
-        response.json["errors"],
-        [{"description": {"endDate": ["date value out of range"]}, "location": "body", "name": "enquiryPeriod"}],
-    )
+        response = self.app.post_json(
+            request_path,
+            {
+                "data": {
+                    "procurementMethodType": pmt,
+                    "enquiryPeriod": {"endDate": "9999-12-31T23:59:59.999999"},
+                }
+            },
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(response.content_type, "application/json")
+        self.assertEqual(response.json["status"], "error")
+        self.assertEqual(
+            response.json["errors"],
+            [{"description": {"endDate": ["date value out of range"]}, "location": "body", "name": "enquiryPeriod"}],
+        )
 
     data = self.initial_data["tenderPeriod"]
     self.initial_data["tenderPeriod"] = {"startDate": "2014-10-31T00:00:00", "endDate": "2014-10-01T00:00:00"}

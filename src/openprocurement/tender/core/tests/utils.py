@@ -241,6 +241,7 @@ TEST_TENDER_PERIODS = {
     "competitiveDialogueUA.stage2": {"tender": 16},
     "competitiveOrdering": {"tender": 8},
     "complexAsset.arma": {"tender": 29},
+    "simpleAsset.arma": {"tender": 17},
     "priceQuotation": {"tender": 14},
 }
 

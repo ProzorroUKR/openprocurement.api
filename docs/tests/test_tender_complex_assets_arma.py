@@ -4,7 +4,7 @@ from datetime import timedelta
 from uuid import uuid4
 
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.arma.tests.tender import BaseTenderWebTest
+from openprocurement.tender.arma.tests.complex_asset.tender import BaseTenderWebTest
 from openprocurement.tender.core.tests.criteria_utils import generate_responses
 from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from tests.base.constants import AUCTIONS_URL, DOCS_URL

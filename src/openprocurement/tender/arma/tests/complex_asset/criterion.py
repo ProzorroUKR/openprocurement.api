@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_data,
     test_tender_arma_lots,

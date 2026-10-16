@@ -1,12 +1,12 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
     test_tender_arma_lots,
 )
-from openprocurement.tender.arma.tests.qualification_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.qualification_blanks import (
     check_reporting_date_publication,
     check_sign_doc_qualifications_before_stand_still,
     create_qualification_document,

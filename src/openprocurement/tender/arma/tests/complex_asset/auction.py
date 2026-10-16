@@ -5,13 +5,13 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.arma.tests.auction_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.auction_blanks import (
     get_tender_auction,
     post_tender_auction,
     post_tender_auction_not_changed,
     post_tender_auction_reversed,
 )
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
     test_tender_arma_lots,

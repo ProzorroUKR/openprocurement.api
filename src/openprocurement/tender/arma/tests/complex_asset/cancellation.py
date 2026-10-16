@@ -4,12 +4,12 @@ from copy import deepcopy
 from openprocurement.api.constants_env import RELEASE_2020_04_19
 from openprocurement.api.tests.base import snitch
 from openprocurement.api.utils import get_now
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
     test_tender_arma_lots,
 )
-from openprocurement.tender.arma.tests.cancellation_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.cancellation_blanks import (
     bids_on_tender_cancellation_in_auction,
     bids_on_tender_cancellation_in_awarded,
     bids_on_tender_cancellation_in_pre_qualification,

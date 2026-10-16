@@ -4,7 +4,7 @@ from unittest import mock
 
 from openprocurement.api.tests.base import change_auth, snitch
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.arma.tests.award_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.award_blanks import (
     award_sign,
     create_acceptance_report_award_document,
     create_tender_2lot_award,
@@ -17,7 +17,7 @@ from openprocurement.tender.arma.tests.award_blanks import (
     patch_tender_lot_award_unsuccessful,
     prolongation_award,
 )
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
     test_tender_arma_lots,

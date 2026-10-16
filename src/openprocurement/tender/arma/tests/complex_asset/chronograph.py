@@ -1,12 +1,12 @@
 import unittest
 
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.arma.tests.base import (
+from openprocurement.tender.arma.tests.complex_asset.base import (
     BaseTenderContentWebTest,
     test_tender_arma_bids,
     test_tender_arma_lots,
 )
-from openprocurement.tender.arma.tests.chronograph_blanks import (
+from openprocurement.tender.arma.tests.complex_asset.chronograph_blanks import (
     active_tendering_to_pre_qual,
     active_tendering_to_pre_qual_unsuccessful,
     active_tendering_to_unsuccessful,

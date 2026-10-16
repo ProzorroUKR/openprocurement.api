@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.tender.arma.tests import tender
+from openprocurement.tender.arma.tests.complex_asset import tender
 
 
 def suite():

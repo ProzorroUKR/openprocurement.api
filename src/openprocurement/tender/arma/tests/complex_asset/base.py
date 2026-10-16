@@ -6,7 +6,7 @@ from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
-from openprocurement.tender.arma.tests.periods import PERIODS
+from openprocurement.tender.arma.tests.complex_asset.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
     test_article_16_criteria,
@@ -194,6 +194,7 @@ class BaseTenderWebTest(BaseTenderUAWebTest):
     forbidden_auction_document_create_actions_status = (
         "active.pre-qualification.stand-still"  # status, in which adding document to tender auction is forbidden
     )
+    enquiry_period_allowed = True
     periods = PERIODS
 
     def set_enquiry_period_end(self):
