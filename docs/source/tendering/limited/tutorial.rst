@@ -443,11 +443,13 @@
     * naturalGas
     * UZ
     * defencePurchase
+    * stateDebtServices
     * energyCrisisRecovery
     * criticalInfrastructure0109
     * energyCrisisRecovery0109
     * criticalInfrastructureLifeSupportProtection
     * restorationOfEnergyFacilities
+    * veteransSportsEventsServices
 
 і має один з перерахованих типів документів:
 
@@ -455,6 +457,8 @@
     * contractAnnexe - Додатки до договору
 
 Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`.
+
+Виняток: для підстави `veteransSportsEventsServices` приховання застосовується лише до `"documentOf": "contract"`, документи `"documentOf": "change"` залишаються публічними.
 
 Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:
 

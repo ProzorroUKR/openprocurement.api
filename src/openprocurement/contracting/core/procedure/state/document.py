@@ -28,6 +28,8 @@ CONFIDENTIAL_DOCS_CAUSES = (
     "defenseNeeds",
 )
 
+CONFIDENTIAL_DOCS_CAUSES_CONTRACT_ONLY = ("veteransSportsEventsServices",)
+
 
 class ContractDocumentState(BaseDocumentStateMixin, ContractState):
     def validate_document_post(self, data):
@@ -40,13 +42,14 @@ class ContractDocumentState(BaseDocumentStateMixin, ContractState):
         if tender_created_before(CONTRACT_CONFIDENTIAL_DOCS_FROM):
             return
         tender = get_tender()
+        cause = tender.get("cause") or tender.get("causeDetails", {}).get("code")
+        contract_cause = cause in CONFIDENTIAL_DOCS_CAUSES_CONTRACT_ONLY
+        contract_and_change_cause = cause in CONFIDENTIAL_DOCS_CAUSES
+        document_ofs = ("contract",) if contract_cause else ("contract", "change")
         if (
-            data.get("documentOf") in ("contract", "change")
+            data.get("documentOf") in document_ofs
             and data.get("documentType") in ("contractSigned", "contractAnnexe")
-            and (
-                tender.get("cause") in CONFIDENTIAL_DOCS_CAUSES
-                or tender.get("causeDetails", {}).get("code") in CONFIDENTIAL_DOCS_CAUSES
-            )
+            and (contract_cause or contract_and_change_cause)
         ) or (
             data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"
