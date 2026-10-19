@@ -9,14 +9,12 @@ from freezegun import freeze_time
 from openprocurement.api.mask import MASK_STRING, MASK_STRING_EN
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.framework.core.procedure.models.milestone import (
-    CONTRACT_BAN_DURATION,
-)
-from openprocurement.framework.core.utils import MILESTONE_CONTRACT_STATUSES
-from openprocurement.framework.dps.tests.base import (
+from openprocurement.framework.core.procedure.models.milestone import CONTRACT_BAN_DURATION
+from openprocurement.framework.core.tests.base import (
     ban_milestone_data,
     ban_milestone_data_with_documents,
 )
+from openprocurement.framework.core.utils import MILESTONE_CONTRACT_STATUSES
 
 
 def create_agreement(self):

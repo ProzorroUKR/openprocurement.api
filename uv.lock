@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = "==3.13.*"
 
 [[package]]
@@ -995,7 +995,7 @@ requires-dist = [
     { name = "sentry-sdk", specifier = "==2.29.1" },
     { name = "setuptools", specifier = "==78.1.0" },
     { name = "simplejson", specifier = "==3.17.2" },
-    { name = "standards", git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.290" },
+    { name = "standards", git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.291" },
     { name = "tzlocal", specifier = "==2.1" },
     { name = "uvicorn", specifier = ">=0.35.0" },
     { name = "webob", specifier = "==1.8.9" },
@@ -1933,8 +1933,8 @@ wheels = [
 
 [[package]]
 name = "standards"
-version = "1.0.290"
-source = { git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.290#c9e80f19126d1f4d8bc790430382a47ab963aac8" }
+version = "1.0.291"
+source = { git = "https://github.com/ProzorroUKR/standards.git?rev=1.0.291#47720f99c8a336f01ec80b95ab968362511441e4" }
 
 [[package]]
 name = "statsd"

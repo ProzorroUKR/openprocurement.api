@@ -2,11 +2,13 @@ import unittest
 from copy import deepcopy
 
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.core.tests.base import (
+    test_documents,
+    test_submission_config,
+)
 from openprocurement.framework.dps.tests.base import (
     SubmissionContentWebTest,
-    test_dps_documents,
     test_framework_dps_data,
-    test_submission_config,
     test_submission_data,
 )
 from openprocurement.framework.dps.tests.submission_blanks import (  # Documents
@@ -86,7 +88,7 @@ class TestSubmissionDocumentGet(SubmissionContentWebTest):
     test_get_document_by_id = snitch(get_document_by_id)
 
     def setUp(self):
-        self.initial_submission_data["documents"] = deepcopy(test_dps_documents)
+        self.initial_submission_data["documents"] = deepcopy(test_documents)
         for document in self.initial_submission_data["documents"]:
             document["url"] = self.generate_docservice_url()
         super().setUp()

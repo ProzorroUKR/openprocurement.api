@@ -253,6 +253,18 @@ test_framework_ifi:
     - .test_framework_ifi
 
 
+.test_framework_arma:
+  variables:
+    TESTS_PATH: src/openprocurement/framework/arma/tests
+    COV_PATH: src/openprocurement/framework/arma
+    COV_FILE: .coveragerc
+
+test_framework_arma:
+  extends:
+    - .test
+    - .test_framework_arma
+
+
 .test_tender_comp_stage1:
   variables:
     TESTS_PATH: src/openprocurement/tender/competitivedialogue/tests/stage1

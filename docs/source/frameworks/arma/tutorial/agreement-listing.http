@@ -1,0 +1,22 @@
+GET /api/2.5/agreements HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "dateModified": "2027-01-17T00:00:00+02:00",
+      "id": "b4ca5c4cd572494ba8690ad06f96e0db"
+    }
+  ],
+  "next_page": {
+    "offset": "1800136800.0.1.cde62cde5a63a2b0f5fa10775b095ef9",
+    "path": "/api/2.5/agreements?offset=1800136800.0.1.cde62cde5a63a2b0f5fa10775b095ef9",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/agreements?offset=1800136800.0.1.cde62cde5a63a2b0f5fa10775b095ef9"
+  }
+}
+

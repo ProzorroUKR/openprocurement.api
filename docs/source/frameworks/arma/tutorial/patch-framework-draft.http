@@ -1,0 +1,77 @@
+PATCH /api/2.5/frameworks/efbc346fdff943caa5523b9a313d8954?acc_token=cee9eb6518094660a3f497fa88a6bb33 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "procuringEntity": {
+      "contactPoint": {
+        "telephone": "+0440000001"
+      }
+    },
+    "title": "updated in draft status"
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "prettyID": "UA-F-2027-01-01-000001",
+    "title": "updated in draft status",
+    "description": "Назва предмета закупівлі",
+    "status": "draft",
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "owner": "broker",
+    "date": "2027-01-01T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "qualificationPeriod": {
+      "endDate": "2028-02-05T00:00:00+02:00"
+    },
+    "frameworkType": "assetRecoveryManagementAgency",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000001",
+        "email": "aa@aa.com"
+      },
+      "kind": "authority"
+    },
+    "id": "efbc346fdff943caa5523b9a313d8954"
+  },
+  "config": {
+    "restrictedDerivatives": false,
+    "clarificationUntilDuration": 5,
+    "qualificationComplainDuration": 0,
+    "hasItems": false
+  }
+}
+

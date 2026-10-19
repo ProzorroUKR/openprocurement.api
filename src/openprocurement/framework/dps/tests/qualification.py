@@ -4,11 +4,11 @@ from unittest.mock import patch
 
 from openprocurement.api.constants import FRAMEWORK_CONFIG_JSONSCHEMAS
 from openprocurement.api.tests.base import snitch
+from openprocurement.framework.core.tests.base import test_submission_config
 from openprocurement.framework.dps.tests.base import (
     SubmissionContentWebTest,
     test_framework_dps_config,
     test_framework_dps_data,
-    test_submission_config,
     test_submission_data,
 )
 from openprocurement.framework.dps.tests.qualification_blanks import (  # Documents

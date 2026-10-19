@@ -1,0 +1,86 @@
+POST /api/2.5/submissions HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "frameworkID": "efbc346fdff943caa5523b9a313d8954"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "scale": "micro",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+        },
+        "address": {
+          "countryName": "Україна",
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930",
+          "email": "soleksuk@gmail.com"
+        }
+      }
+    ],
+    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "status": "draft",
+    "submissionType": "assetRecoveryManagementAgency",
+    "owner": "broker",
+    "date": "2027-01-17T00:00:00+02:00",
+    "dateModified": "2027-01-17T00:00:00+02:00",
+    "id": "38ee034dc7a24e27a55ed4ed619d8057"
+  },
+  "access": {
+    "token": "816862aad01045b6990c5d92fa43a83d",
+    "transfer": "64bc319639fa4e4bb37fbc20d8416165"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+

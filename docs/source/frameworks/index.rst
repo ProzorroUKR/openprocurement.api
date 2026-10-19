@@ -14,3 +14,4 @@ Frameworks API для операцій з відбором до закупівл
    dps/index
    electroniccatalogue/index
    ifi/index
+   arma/index

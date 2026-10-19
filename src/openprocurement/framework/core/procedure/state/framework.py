@@ -75,6 +75,7 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
     working_days = True
     min_qualification_duration = MIN_QUALIFICATION_DURATION
     enquiry_period_working_days = True
+    enquiry_period_lasts_until_qualification = False
 
     def __init__(self, request):
         super().__init__(request)
@@ -237,7 +238,20 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
         else:
             enquiry_period_start_date = now
 
-        if enquiry_end := data.get("enquiryPeriod", {}).get("endDate"):
+        qualification_end_date = dt_from_iso(data["qualificationPeriod"]["endDate"])
+        if period_start := data.get("period", {}).get("startDate"):
+            period_start_date = dt_from_iso(period_start)
+        else:
+            period_start_date = now
+        period_end_date = calculate_framework_full_date(
+            qualification_end_date,
+            timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
+            framework=data,
+        )
+
+        if self.enquiry_period_lasts_until_qualification:
+            enquiry_period_end_date = period_end_date
+        elif enquiry_end := data.get("enquiryPeriod", {}).get("endDate"):
             enquiry_period_end_date = dt_from_iso(enquiry_end)
         else:
             enquiry_period_end_date = calculate_framework_full_date(
@@ -261,16 +275,6 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
             "clarificationsUntil": clarifications_until.isoformat(),
         }
 
-        qualification_end_date = dt_from_iso(data["qualificationPeriod"]["endDate"])
-        if period_start := data.get("period", {}).get("startDate"):
-            period_start_date = dt_from_iso(period_start)
-        else:
-            period_start_date = now
-        period_end_date = calculate_framework_full_date(
-            qualification_end_date,
-            timedelta(days=-SUBMISSION_STAND_STILL_DURATION),
-            framework=data,
-        )
         data["period"] = {
             "startDate": period_start_date.isoformat(),
             "endDate": period_end_date.isoformat(),
