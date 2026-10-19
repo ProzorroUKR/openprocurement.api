@@ -52,6 +52,10 @@ class TenderStateAwardingMixin:
     alp_due_date_period: timedelta = timedelta(days=1)
     # ARMA procedure uses "amountPercentage" key
     alp_amount_key: str = "amount"
+    alp_milestone_reasons: tuple = ALP_MILESTONE_REASONS
+    # ARMA keeps the old ALP calculation: mean is based on pre-auction (tendering) amounts.
+    # Everyone else uses the post-auction (final) bid amounts.
+    alp_mean_from_tendering_bids: bool = False
     # arma: weighted values have no currency
     weighted_value_with_currency: bool = True
 
@@ -377,18 +381,26 @@ class TenderStateAwardingMixin:
         bids = tuple(b for b in bids if b["id"] not in ignore_bid_ids)
         return bids
 
-    def get_mean_value_tendering_bids(self, tender, bids, lot_id, exclude_bid_id):
-        before_auction_bids = get_bids_before_auction_results_context()
-        before_auction_bids = activate_bids(before_auction_bids)
-        before_auction_bids = self.prepare_bids_for_awarding(
-            tender,
-            before_auction_bids,
-            lot_id=lot_id,
-        )
-        initial_amounts = {b["id"]: float(b["value"][self.alp_amount_key]) for b in before_auction_bids}
-        initial_values = [initial_amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id]
-        mean_value = sum(initial_values) / float(len(initial_values))
+    def get_mean_value_tendering_bids(self, tender, bids, exclude_bid_id, lot_id=None):
+        if self.alp_mean_from_tendering_bids:
+            before_auction_bids = get_bids_before_auction_results_context()
+            before_auction_bids = activate_bids(before_auction_bids)
+            before_auction_bids = self.prepare_bids_for_awarding(tender, before_auction_bids, lot_id=lot_id)
+            amounts = {b["id"]: float(b["value"][self.alp_amount_key]) for b in before_auction_bids}
+            values = [amounts[b["id"]] for b in bids if b["id"] != exclude_bid_id]
+        else:
+            values = [float(b["value"][self.alp_amount_key]) for b in bids if b["id"] != exclude_bid_id]
+        mean_value = sum(values) / float(len(values))
         return mean_value
+
+    @staticmethod
+    def bid_already_passed_alp_check(tender, bid_id, lot_id):
+        return any(
+            award["bid_id"] == bid_id
+            and award.get("lotID") == lot_id
+            and any(m["code"] == "alp" for m in award.get("milestones", []))
+            for award in tender.get("awards", [])
+        )
 
     def prepare_award_milestones(self, tender, bid, all_bids, lot_id=None):
         """
@@ -419,11 +431,11 @@ class TenderStateAwardingMixin:
             mean_value = self.get_mean_value_tendering_bids(
                 tender,
                 all_bids,
-                lot_id=lot_id,
                 exclude_bid_id=bid["id"],
+                lot_id=lot_id,
             )
             if mean_value and ratio_of_two_values(amount, mean_value) >= Decimal("0.4"):
-                reasons.append(ALP_MILESTONE_REASONS[0])
+                reasons.append(self.alp_milestone_reasons[0])
 
             # 2nd criteria
             for n, b in enumerate(all_bids):
@@ -439,7 +451,7 @@ class TenderStateAwardingMixin:
                 following_bid = all_bids[following_index]
                 following_amount = following_bid["value"][self.alp_amount_key]
                 if following_amount and ratio_of_two_values(amount, following_amount) >= Decimal("0.3"):
-                    reasons.append(ALP_MILESTONE_REASONS[1])
+                    reasons.append(self.alp_milestone_reasons[1])
             if reasons:
                 date = get_request_now()
                 due_date = calculate_tender_full_date(date, self.alp_due_date_period, tender=tender, working_days=True)
@@ -482,8 +494,9 @@ class TenderStateAwardingMixin:
         if "weightedValue" in bid:
             award_data["weightedValue"] = bid["weightedValue"]
 
-        # append an "alp" milestone if it's the case
-        if hasattr(self.award_class, "milestones"):
+        # append an "alp" milestone if it's the case, unless this bid/lot pair already went
+        # through the ALP check on a previous (e.g. cancelled) award
+        if hasattr(self.award_class, "milestones") and not self.bid_already_passed_alp_check(tender, bid["id"], lot_id):
             milestones = self.prepare_award_milestones(tender, bid, all_bids, lot_id)
             if milestones:
                 award_data["milestones"] = milestones

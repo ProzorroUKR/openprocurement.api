@@ -45,3 +45,6 @@ class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseSimpleDe
 
         # check that a milestone's been created
         self.assertNotIn("milestones", award)
+
+    def test_alp_milestone_not_retriggered_after_award_cancellation(self):
+        """ALP milestones are disabled for this procedure, see test_milestone above."""

@@ -1,6 +1,7 @@
 from datetime import timedelta
 
 from openprocurement.tender.arma.procedure.models.award import ARMAAward
+from openprocurement.tender.core.constants import ARMA_ALP_MILESTONE_REASONS
 from openprocurement.tender.core.procedure.models.auction import DecimalAuctionLotResults, DecimalAuctionResults
 from openprocurement.tender.core.procedure.state.tender import TenderState
 
@@ -12,5 +13,8 @@ class ARMATenderState(TenderState):
 
     alp_due_date_period = timedelta(days=2)
     alp_amount_key: str = "amountPercentage"
+    alp_milestone_reasons: tuple = ARMA_ALP_MILESTONE_REASONS
+    # ARMA keeps the pre-auction ALP calculation: mean is based on initial tendering prices.
+    alp_mean_from_tendering_bids: bool = True
     awarding_criteria_key: str = "amountPercentage"
     weighted_value_with_currency = False

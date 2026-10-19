@@ -5,6 +5,7 @@ from openprocurement.tender.arma.tests.base import (
     test_tender_arma_bids,
     test_tender_arma_lots,
 )
+from openprocurement.tender.core.constants import ARMA_ALP_MILESTONE_REASONS
 from openprocurement.tender.core.tests.qualification_milestone import (
     TenderAwardMilestoneALPMixin,
 )
@@ -14,6 +15,7 @@ class TenderAwardMilestoneALPTestCase(TenderAwardMilestoneALPMixin, BaseTenderCo
     initial_bids = test_tender_arma_bids
     initial_lots = test_tender_arma_lots
     alp_period_work_days = 2
+    alp_milestone_reasons = ARMA_ALP_MILESTONE_REASONS
 
     def setUp(self):
         more_bids = 4 - len(self.initial_bids)
