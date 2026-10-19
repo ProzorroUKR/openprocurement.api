@@ -83,7 +83,6 @@ Content-Type: application/json
         }
       }
     ],
-    "procurementMethodType": "complexAsset.arma",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -133,6 +132,7 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethodType": "complexAsset.arma",
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "awardCriteria": "ratedCriteria",

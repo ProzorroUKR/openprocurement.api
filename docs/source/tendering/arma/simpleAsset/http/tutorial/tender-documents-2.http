@@ -1,0 +1,53 @@
+GET /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/documents?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentiality": "public",
+      "documentType": "notice",
+      "id": "e874e85cc7d34abb83aaeef3c67a0467",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "sign.p7s",
+      "format": "application/pkcs7-signature",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/160624db04d544858159de7ce1186f0d?Signature=5PQMJiK3eWOYu8uv%2BtTxCGEfcquXeaZ4VWZIeGLPa84%2BzuUjJO7BZjySlIy52a95mqct%2FQW%2BdF151VLB%2BB4MCg%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "Notice.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/16b9977b2d9746d7b46fa5f1ae5c33d8?Signature=GrIK4pdB1krre7DiF3WPArMiixiYrrEKLvpX%2BKSXCRO7eOmtQKJwz4TWCClplOO%2FNdGYqGYwFPuZiQ3uMIuEAg%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "b0acf0c685ba4f389a4985ed7011fe2f",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "AwardCriteria.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/872409cb3f4a465bad8c03c8dc523e0d?Signature=IHVmRIbaBrb2MdtbAgIXPNM6twR03HqvC5JR1GVBwNz8ivftzyqJhH0e4c2aJJ5iata%2BO9yL%2F8Mg0HvibK6PDw%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "e8bca4d5f64b4edd9cee0d6fddf6e85f",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner"
+    }
+  ]
+}
+

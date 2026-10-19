@@ -30,6 +30,7 @@ from openprocurement.framework.dps.tests.base import (
     test_framework_dps_data,
     test_submission_data,
 )
+from openprocurement.tender.arma.constants import ARMA_WORKING_DAYS_CONFIG
 from openprocurement.tender.cfaselectionua.constants import (
     CFA_SELECTION_WORKING_DAYS_CONFIG as CFASELECTIONUA_WORKING_DAYS_CONFIG,
 )
@@ -141,6 +142,8 @@ class TenderConfigCSVMixin:
         "reporting": LIMITED_WORKING_DAYS_CONFIG,
         "simple.defense": SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
         "requestForProposal": RFP_WORKING_DAYS_CONFIG,
+        "complexAsset.arma": ARMA_WORKING_DAYS_CONFIG,
+        "simpleAsset.arma": ARMA_WORKING_DAYS_CONFIG,
     }
 
     def write_config_values_csv(self, config_name, file_path):

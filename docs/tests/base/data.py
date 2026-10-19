@@ -946,3 +946,12 @@ test_docs_tender_complex_assets_arma = {
     "items": test_docs_items_en,
     "mainProcurementCategory": "services",
 }
+
+test_docs_tender_simple_assets_arma = {
+    "tenderPeriod": {"endDate": (parse(MOCK_DATETIME) + timedelta(weeks=4, days=1)).isoformat()},
+    "title": "Послуги шкільних їдалень",
+    "procurementMethodType": "simpleAsset.arma",
+    "procuringEntity": test_docs_arma_procuring_entity,
+    "items": test_docs_items_en,
+    "mainProcurementCategory": "services",
+}
