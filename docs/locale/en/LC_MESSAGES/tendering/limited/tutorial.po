@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.tender.limited 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-09 13:23+0300\n"
+"POT-Creation-Date: 2026-10-16 12:07+0300\n"
 "PO-Revision-Date: 2022-08-08 16:50+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -530,6 +530,9 @@ msgstr ""
 msgid "defencePurchase"
 msgstr ""
 
+msgid "stateDebtServices"
+msgstr ""
+
 msgid "energyCrisisRecovery"
 msgstr ""
 
@@ -554,8 +557,11 @@ msgstr "contractSigned - Signed contract"
 msgid "contractAnnexe - Додатки до договору"
 msgstr "contractAnnexe - Annexes to the contract"
 
-msgid "Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
-msgstr "Confidentiality should be applied for documents, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
+msgid "Приховання (конфіденційність) має бути застосована для documents з полем `\"documentOf\": \"contract\"` та `\"documentOf\": \"change\"`, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
+msgstr "Confidentiality should be applied for documents with `\"documentOf\": \"contract\"` and `\"documentOf\": \"change\"`, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
+
+msgid "Якщо звіт має підставу `veteransSportsEventsServices` (Підпункт 3 пункту 9² Постанови №1178), приховання застосовується лише до документів самого договору (`\"documentOf\": \"contract\"`). Документи змін до договору (`\"documentOf\": \"change\"`) при цій підставі мають залишатися публічними (`confidentiality: public`) — встановити для них `confidentiality: buyerOnly` заборонено."
+msgstr "If the report has the `veteransSportsEventsServices` cause (Subparagraph 3 of paragraph 9² of Resolution No. 1178), confidentiality applies only to the documents of the contract itself (`\"documentOf\": \"contract\"`). Documents of contract changes (`\"documentOf\": \"change\"`) must remain public (`confidentiality: public`) under this cause — setting `confidentiality: buyerOnly` for them is forbidden."
 
 msgid "Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:"
 msgstr "Let's add documents to contract and set `confidentiality` as public, we will see an error:"
@@ -583,6 +589,9 @@ msgstr "Documents should be confidential if negotiation procedure has one ot the
 
 msgid "defenseNeeds"
 msgstr ""
+
+msgid "Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
+msgstr "Confidentiality should be applied for documents, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
 
 msgid "Власник переговорної процедури бачить такі документи і може завантажиити їх:"
 msgstr "The customer of negotiation procedure see these kind of documents and can download:"
