@@ -1038,7 +1038,7 @@ class TenderValueRulesMixin(BaseState):
         # unit value VAT is forced to False by validate_items_unit_value for newer tenders,
         # so it is no longer inherited from tender.value
         copy_item_tax_inc = tender_created_before(TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM, tender)
-        for item in tender["items"]:
+        for item in tender.get("items") or []:
             if "unit" in item and "value" in item["unit"]:
                 item["unit"]["value"]["currency"] = currency
                 if copy_item_tax_inc:
@@ -1290,7 +1290,7 @@ class TenderItemsRulesMixin(BaseState):
             tender_created_after(RELATED_LOT_REQUIRED_FROM)
             or after.get("procurementMethodType") in [ABOVE_THRESHOLD, COMPETITIVE_ORDERING]
         ) and after["status"] != "draft":
-            for item in after["items"]:
+            for item in after.get("items") or []:
                 if not item.get("relatedLot"):
                     raise_operation_error(
                         get_request(),
@@ -1359,6 +1359,11 @@ class TenderItemsRulesMixin(BaseState):
                             req["status"] = ReqStatuses.CANCELLED
                             req["dateModified"] = now.isoformat()
 
+    def validate_items_required(self, tender):
+        """a draft tender may be created without items, they are required to leave the draft status"""
+        if tender.get("status") != "draft" and not tender.get("items"):
+            raise_operation_error(self.request, ["This field is required."], status=422, name="items")
+
     def validate_items_related_lot(self, tender):
         """former validate_items_related_lot model validator: every item relatedLot is a lot of the tender"""
         if self.items_related_lot_error is not None:
@@ -1404,7 +1409,7 @@ class TenderItemsRulesMixin(BaseState):
             and tender.get("procuringEntity", {}).get("kind")
             not in (ProcuringEntityKind.SPECIAL, ProcuringEntityKind.DEFENSE, ProcuringEntityKind.OTHER)
         )
-        for item in tender["items"]:
+        for item in tender.get("items") or []:
             med_category_used = False
             if category_id := item.get("category"):
                 category = get_tender_category(self.request, category_id)
@@ -2543,6 +2548,7 @@ class BaseTenderDetailsMixin(
         validate_funders_match_plan_programs(request, tender, plans)
 
     def on_post(self, tender):
+        self.validate_items_required(tender)
         if self.items_related_lot_check:
             self.validate_items_related_lot(tender)
         self.validate_contract_template_name_allowed(tender)
@@ -2599,6 +2605,7 @@ class BaseTenderDetailsMixin(
             doc["author"] = "tender_owner"
 
     def on_patch(self, before, after):
+        self.validate_items_required(after)
         if self.items_related_lot_check:
             self.validate_items_related_lot(after)
         if self.items_classification_prefix_change_check:

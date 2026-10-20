@@ -144,9 +144,9 @@ class TenderPeriodsMixin(Model):
 
 
 class PostTenderItemsMixin(Model):
+    # a draft tender may be created without items, they are required to activate it (TenderItemsRulesMixin)
     items = ListType(
         ModelType(Item, required=True),
-        required=True,
         min_size=1,
         validators=[validate_uniq_id],
     )
@@ -164,9 +164,9 @@ class PatchTenderItemsMixin(Model):
 
 
 class TenderItemsMixin(Model):
+    # a draft tender may be created without items, they are required to activate it (TenderItemsRulesMixin)
     items = ListType(
         ModelType(Item, required=True),
-        required=True,
         min_size=1,
         validators=[validate_uniq_id],
     )

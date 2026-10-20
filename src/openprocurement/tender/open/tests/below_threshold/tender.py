@@ -22,6 +22,7 @@ from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     create_tender_central,
     create_tender_central_invalid,
     create_tender_draft,
+    create_tender_draft_without_items,
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
@@ -95,6 +96,7 @@ class TenderResourceTestMixin:
     test_listing_draft = snitch(listing_draft)
     test_listing = snitch(listing)
     test_create_tender_draft = snitch(create_tender_draft)
+    test_create_tender_draft_without_items = snitch(create_tender_draft_without_items)
     test_patch_tender_draft = snitch(patch_tender_draft)
     test_create_tender = snitch(create_tender)
     test_tender_features = snitch(tender_features)

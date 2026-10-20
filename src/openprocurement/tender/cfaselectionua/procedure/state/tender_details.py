@@ -125,6 +125,7 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
         self.check_owner_forbidden_fields(tender)
 
     def on_patch(self, before, after):
+        self.validate_items_required(after)
         if self.items_related_lot_check:
             self.validate_items_related_lot(after)
         if before.get("procuringEntity") != after.get("procuringEntity"):
