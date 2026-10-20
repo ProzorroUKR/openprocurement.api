@@ -1,9 +1,12 @@
-FROM python:3.13-alpine3.20
+# glibc-based image: musl's allocator is slow for allocation-heavy Python workloads
+FROM python:3.13-slim-bookworm
 
-RUN apk --no-cache add gcc build-base git openssl-dev libffi-dev
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gcc build-essential git libssl-dev libffi-dev && \
+    rm -rf /var/lib/apt/lists/*
 
-RUN addgroup -g 10000 user && \
-    adduser -S -u 10000 -G user -h /app user
+RUN groupadd -g 10000 user && \
+    useradd -r -u 10000 -g user -d /app -m user
 
 ENV APP_HOME=/app
 WORKDIR ${APP_HOME}
