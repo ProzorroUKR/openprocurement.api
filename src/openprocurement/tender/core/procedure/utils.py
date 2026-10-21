@@ -45,6 +45,7 @@ from openprocurement.api.utils import (
     error_handler,
     get_child_items,
     get_first_revision_date,
+    get_tender_by_id,
     raise_operation_error,
     request_init_tender,
 )
@@ -475,11 +476,7 @@ def extract_tender_id(request) -> Optional[str]:
 def extract_tender_doc(request):
     tender_id = extract_tender_id(request)
     if tender_id:
-        doc = request.registry.mongodb.tenders.get(tender_id)
-        if doc is None:
-            request.errors.add("url", "tender_id", "Not Found")
-            request.errors.status = 404
-            raise error_handler(request)
+        doc = get_tender_by_id(request, tender_id)
 
         # wartime measures
         mask_object_data_deprecated(request, doc)

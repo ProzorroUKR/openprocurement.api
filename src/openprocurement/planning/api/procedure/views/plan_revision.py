@@ -18,6 +18,7 @@ LOGGER = getLogger(__name__)
 )
 class PlansRevisionsResource(PlanBaseResource):
     serializer_class = PlanRevisionsSerializer
+    revisions_required = True
 
     @json_view(permission="revision_plan")
     def get(self):

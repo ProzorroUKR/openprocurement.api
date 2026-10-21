@@ -18,7 +18,8 @@ logger = logging.getLogger(__name__)
 
 async def get_contract_or_404(contract_id: str) -> Contract:
     db = get_mongodb()
-    contract = await db.contract.get(contract_id)
+    # tenders, contracts and agreements are only read here, their revisions history isn't needed
+    contract = await db.contract.get(contract_id, first_revision_only=True)
     if contract is None:
         raise web.HTTPNotFound(text="Contract not found.")
     return Contract.model_validate(contract)
@@ -26,7 +27,7 @@ async def get_contract_or_404(contract_id: str) -> Contract:
 
 async def get_pq_tender_or_error(tender_id: str) -> Tender:
     db = get_mongodb()
-    tender = await db.tender.get(tender_id)
+    tender = await db.tender.get(tender_id, first_revision_only=True)
     if tender is None:
         raise web.HTTPNotFound(text="Tender not found.")
     if tender["procurementMethodType"] != PQ:
@@ -36,7 +37,7 @@ async def get_pq_tender_or_error(tender_id: str) -> Tender:
 
 async def get_agreement_or_404(agreement_id: str) -> Agreement:
     db = get_mongodb()
-    tender = await db.agreement.get(agreement_id)
+    tender = await db.agreement.get(agreement_id, first_revision_only=True)
     if tender is None:
         raise web.HTTPNotFound(text="Agreement not found.")
     return Agreement.model_validate(tender)

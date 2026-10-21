@@ -159,13 +159,18 @@ class MongodbStore:
         return next_rev
 
     @staticmethod
-    async def get(collection, uid):
+    async def get(collection, uid, first_revision_only=False):
+        projection = {
+            "is_public": False,
+            "is_test": False,
+        }
+        if first_revision_only:
+            # read-only requests need only the first revision (get_first_revision_date),
+            # so the whole history is neither transferred nor decoded
+            projection["revisions"] = {"$slice": 1}
         res = await collection.find_one(
             {"_id": uid},
-            projection={
-                "is_public": False,
-                "is_test": False,
-            },
+            projection=projection,
             session=get_db_session_async(),
         )
         return res
@@ -377,10 +382,10 @@ class BaseCollection:
         update_obj = obj.model_copy(update=update)
         return update_obj
 
-    async def get(self, uid):
+    async def get(self, uid, first_revision_only=False):
         # if a client doesn't use SESSION cookie, reading from primary solves the issues.
         # So client should use the cookie.
-        doc = await self.store.get(self.collection, uid)
+        doc = await self.store.get(self.collection, uid, first_revision_only=first_revision_only)
         return doc
 
     async def list(self, **kwargs):
