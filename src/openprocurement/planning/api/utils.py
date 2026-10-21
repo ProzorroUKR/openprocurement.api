@@ -1,7 +1,7 @@
 from logging import getLogger
 
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.utils import error_handler, get_now
+from openprocurement.api.utils import get_now, get_obj_by_id
 
 LOGGER = getLogger("openprocurement.planning.api")
 
@@ -19,13 +19,9 @@ def generate_plan_id(request):
     return "UA-P-{:04}-{:02}-{:02}-{:06}-a".format(now.year, now.month, now.day, index)
 
 
-def extract_plan_doc(request, plan_id=None):
+def extract_plan_doc(request, plan_id=None, first_revision_only=None):
     plan_id = plan_id or request.matchdict["plan_id"]
-    doc = request.registry.mongodb.plans.get(plan_id)
-    if doc is None:
-        request.errors.add("url", "plan_id", "Not Found")
-        request.errors.status = 404
-        raise error_handler(request)
+    doc = get_obj_by_id(request, "plans", plan_id, first_revision_only=first_revision_only)
 
     mask_object_data_deprecated(request, doc)  # war time measures
 

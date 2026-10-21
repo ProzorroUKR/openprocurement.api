@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 from decimal import Decimal
+from functools import cache
 from typing import Any, Callable, Generic, Optional, TypeVar, Union
 
 from openprocurement.api.context import get_request
@@ -10,8 +11,14 @@ from openprocurement.api.procedure.utils import to_decimal
 T = TypeVar("T")
 
 
+@cache
+def accepts_kwargs(serializer: Callable) -> bool:
+    # inspect.signature is slow and serializers are evaluated for every field of every nested object
+    return len(inspect.signature(serializer).parameters) > 1
+
+
 def evaluate_serializer(serializer: Callable, value: Any, **kwargs) -> Any:
-    if len(inspect.signature(serializer).parameters) > 1:
+    if accepts_kwargs(serializer):
         instance = serializer(value, **kwargs)
     else:
         instance = serializer(value)
