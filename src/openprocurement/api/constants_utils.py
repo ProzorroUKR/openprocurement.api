@@ -3,6 +3,10 @@ from configparser import DEFAULTSECT, ConfigParser
 
 import standards
 from ciso8601 import parse_datetime
+from pytz import timezone
+
+# Timezone
+TZ = timezone(os.environ["TZ"] if "TZ" in os.environ else "Europe/Kiev")
 
 
 def parse_criteria_rules_date(value, constants):
@@ -57,11 +61,6 @@ def load_constants(file_path):
 def parse_date(value):
     date = parse_datetime(value)
     if not date.tzinfo:
-        # We're using this only on project initialization,
-        # so it's fine to import outside toplevel
-        # pylint: disable-next=import-outside-toplevel
-        from openprocurement.api.constants import TZ
-
         date = TZ.localize(date)
     return date
 

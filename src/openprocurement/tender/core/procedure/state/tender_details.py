@@ -46,7 +46,6 @@ from openprocurement.api.constants_env import (
     TENDER_ITEMS_UNIT_VALUE_VALIDATION_FROM,
     UNIFIED_CRITERIA_LOGIC_FROM,
 )
-from openprocurement.api.constants_utils import parse_date
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
@@ -607,12 +606,12 @@ class TenderPeriodRulesMixin(BaseState):
 
         min_duration = timedelta(days=tender["config"]["minEnquiriesDuration"])
         min_end_date = calculate_tender_full_date(
-            parse_date(start_date),
+            dt_from_iso(start_date),
             min_duration,
             tender=tender,
             working_days=self.working_days_config["minEnquiriesDuration"],
         )
-        if parse_date(end_date) < min_end_date:
+        if dt_from_iso(end_date) < min_end_date:
             type = "business" if self.working_days_config["minEnquiriesDuration"] else "calendar"
             raise_operation_error(
                 get_request(),
@@ -657,14 +656,14 @@ class TenderPeriodRulesMixin(BaseState):
         if start_date := data.get("tenderPeriod", {}).get("startDate"):
             min_duration = timedelta(days=data["config"]["minTenderingDuration"])
             tender_period_end_date = calculate_tender_full_date(
-                parse_date(start_date),
+                dt_from_iso(start_date),
                 min_duration,
                 tender=data,
                 working_days=self.working_days_config["minTenderingDuration"],
                 calendar=self.calendar,
             )
             end_date = data.get("tenderPeriod", {}).get("endDate")
-            if end_date and tender_period_end_date > parse_date(end_date):
+            if end_date and tender_period_end_date > dt_from_iso(end_date):
                 type = "business" if self.working_days_config["minTenderingDuration"] else "calendar"
                 raise_operation_error(
                     get_request(),

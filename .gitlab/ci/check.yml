@@ -55,7 +55,7 @@ pylint:
   before_script:
     - uv sync --frozen
   script:
-    - uv run pylint src
+    - uv run pylint src -j 2
   when: manual
 
 docs:

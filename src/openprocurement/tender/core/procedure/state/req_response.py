@@ -621,7 +621,8 @@ class QualificationRequirementResponsesRulesMixin(RequirementResponsesRulesMixin
         )
 
 
-class ReqResponseStateMixin(RequirementResponsesRulesMixin):
+# the operation rules and the parent patch hooks come from the bid / award / qualification state it's combined with
+class ReqResponseStateMixin(RequirementResponsesRulesMixin):  # pylint: disable=abstract-method
     """
     requirement responses endpoint of a bid / award / qualification: request validation and hooks
 
