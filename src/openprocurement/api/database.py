@@ -228,13 +228,18 @@ class MongodbStore:
         return next_rev
 
     @staticmethod
-    def get(collection, uid):
+    def get(collection, uid, first_revision_only=False):
+        projection = {
+            "is_public": False,
+            "is_test": False,
+        }
+        if first_revision_only:
+            # read-only requests need only the first revision (get_first_revision_date),
+            # so the whole history is neither transferred nor decoded
+            projection["revisions"] = {"$slice": 1}
         res = collection.find_one(
             {"_id": uid},
-            projection={
-                "is_public": False,
-                "is_test": False,
-            },
+            projection=projection,
             session=get_db_session(),
         )
         return res
@@ -457,7 +462,7 @@ class BaseCollection:
         updated = self.store.save_data(self.collection, data, insert=insert, modified=modified)
         o.import_data(updated)
 
-    def get(self, uid):
+    def get(self, uid, first_revision_only=False):
         # if a client doesn't use SESSION cookie
         # reading from primary solves the issues
         # when write operation is allowed because of a state object from a secondary replica
@@ -467,7 +472,7 @@ class BaseCollection:
         collection = (
             self.collection if getattr(get_request(), "method", None) in ("GET", "HEAD") else self.collection_primary
         )
-        doc = self.store.get(collection, uid)
+        doc = self.store.get(collection, uid, first_revision_only=first_revision_only)
         return doc
 
     def list(self, **kwargs):

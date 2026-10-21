@@ -11,7 +11,7 @@ from openprocurement.api.mask import mask_object_data
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
 from openprocurement.api.procedure.utils import append_revision, get_revision_changes
 from openprocurement.api.procedure.utils import save_object as base_save_object
-from openprocurement.api.utils import error_handler
+from openprocurement.api.utils import get_obj_by_id
 from openprocurement.framework.core.procedure.mask import (
     AGREEMENT_MASK_MAPPING,
     QUALIFICATION_MASK_MAPPING,
@@ -49,11 +49,7 @@ def extract_object_id(request, obj_name):
 def extract_object_doc(request, obj_name, mask_mapping=None):
     object_id = extract_object_id(request, obj_name)
     if object_id:
-        doc = getattr(request.registry.mongodb, f"{obj_name}s").get(object_id)
-        if doc is None:
-            request.errors.add("url", f"{obj_name}_id", "Not Found")
-            request.errors.status = 404
-            raise error_handler(request)
+        doc = get_obj_by_id(request, f"{obj_name}s", object_id)
 
         # wartime measures
         mask_object_data_deprecated(request, doc)

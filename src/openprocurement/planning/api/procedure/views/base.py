@@ -9,6 +9,7 @@ from openprocurement.planning.api.procedure.serializers.document import (
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.state.plan_document import PlanDocumentState
 from openprocurement.planning.api.procedure.utils import save_plan
+from openprocurement.planning.api.utils import extract_plan_doc
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.tender.core.procedure.views.document import (
     DocumentResourceMixin,
@@ -18,6 +19,8 @@ from openprocurement.tender.core.procedure.views.document import (
 
 class PlanBaseResource(BaseResource):
     state_class = PlanState
+    # read-only requests load only the first revision, unless the resource returns the whole history
+    revisions_required = False
 
     def __acl__(self):
         acl = [
@@ -46,7 +49,11 @@ class PlanBaseResource(BaseResource):
             # getting plan
             match_dict = request.matchdict
             if match_dict and match_dict.get("plan_id"):
-                request_init_plan(request, request.plan_doc)
+                if self.revisions_required:
+                    plan_doc = extract_plan_doc(request, first_revision_only=False)
+                else:
+                    plan_doc = request.plan_doc
+                request_init_plan(request, plan_doc)
 
 
 class BaseDocumentResource(PlanBaseResource, DocumentResourceMixin):

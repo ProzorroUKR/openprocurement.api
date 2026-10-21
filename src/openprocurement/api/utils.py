@@ -6,6 +6,7 @@ from datetime import datetime
 from functools import partial
 from json import dumps
 from time import time as ttime
+from typing import Optional
 from urllib.parse import urlencode, urlparse, urlunsplit
 from uuid import uuid4
 
@@ -73,11 +74,20 @@ def json_error(request, **kw):
     return JSONError(json_dumps, kw, request.errors, request.errors.status)
 
 
-def get_obj_by_id(request, collection_name: str, obj_id: str, raise_error: bool = True):
+def get_obj_by_id(
+    request,
+    collection_name: str,
+    obj_id: str,
+    raise_error: bool = True,
+    first_revision_only: Optional[bool] = None,
+):
     if not obj_id:
         return
+    if first_revision_only is None:
+        # the full revisions history is needed only for writes
+        first_revision_only = is_read_only_request(request)
     collection = getattr(request.registry.mongodb, collection_name)
-    obj = collection.get(obj_id)
+    obj = collection.get(obj_id, first_revision_only=first_revision_only)
     obj_name = collection_name[:-1]
     if obj is None and raise_error:
         request.errors.add("url", f"{obj_name}_id", "Not Found")
@@ -129,11 +139,16 @@ def get_agreement_by_id(request, agreement_id: str, raise_error: bool = True):
     return get_obj_by_id(request, "agreements", agreement_id, raise_error)
 
 
+def is_read_only_request(request) -> bool:
+    return request.method in ("GET", "HEAD")
+
+
 def request_init_object(request, obj_name, obj, obj_src=None):
     if obj is None:
         return
     if obj_src is None:
-        obj_src = deepcopy(obj)
+        # the source copy is needed only to diff changes on save
+        obj_src = obj if is_read_only_request(request) else deepcopy(obj)
     request.validated[obj_name] = obj
     request.validated[f"{obj_name}_src"] = obj_src
     init_object(request, obj_name, obj)
@@ -144,7 +159,7 @@ def request_init_objects(request, obj_name, objs_name, objs, objs_src=None):
     if objs is None:
         return
     if objs_src is None:
-        objs_src = [deepcopy(obj) for obj in objs]
+        objs_src = objs if is_read_only_request(request) else deepcopy(objs)
     request.validated[objs_name] = objs
     request.validated[f"{objs_name}_srcs"] = objs_src
     for obj in objs:
