@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = "==3.13.*"
 
 [[package]]
@@ -946,7 +946,6 @@ dev = [
     { name = "polib" },
     { name = "pre-commit" },
     { name = "pylint" },
-    { name = "pylint-pytest" },
     { name = "pytest" },
     { name = "pytest-aiohttp" },
     { name = "pytest-cov" },
@@ -1016,7 +1015,6 @@ dev = [
     { name = "polib", specifier = "==1.2.0" },
     { name = "pre-commit" },
     { name = "pylint", specifier = "==3.0.3" },
-    { name = "pylint-pytest", specifier = "==1.1.9.post1" },
     { name = "pytest", specifier = "==9.1.1" },
     { name = "pytest-aiohttp", specifier = "~=1.0" },
     { name = "pytest-cov", specifier = "==7.1.0" },
@@ -1413,19 +1411,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/24/4f/5ca8d654d69006b3a5d52332e56359448b5c5ce242574a8ff26cb260ac3d/pylint-3.0.3.tar.gz", hash = "sha256:58c2398b0301e049609a8429789ec6edf3aabe9b6c5fec916acd18639c16de8b", size = 441807, upload-time = "2023-12-11T13:20:22.023Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/0b/59/289c76e3ebdaa2ce9910b366aea437dbc1e0e602a0a513abca757fc4997a/pylint-3.0.3-py3-none-any.whl", hash = "sha256:7a1585285aefc5165db81083c3e06363a27448f6b467b3b0f30dbd0ac1f73810", size = 510642, upload-time = "2023-12-11T13:20:16.441Z" },
-]
-
-[[package]]
-name = "pylint-pytest"
-version = "1.1.9.post1"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pylint" },
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/42/11/86f97af405888731d0b1372389e2cf0f55a24ae4dadcda14e445a979a20f/pylint_pytest-1.1.9.post1.tar.gz", hash = "sha256:38dd69126bdfdd3162d9e91bfde90c7ec347a5a21f732f3a13f227cad8931cad", size = 13080, upload-time = "2026-09-29T19:13:36.514Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/aa/62efb5cb22b8bbdd7eed512aed006c6b3e0899532ce3c4f234caf4a67c50/pylint_pytest-1.1.9.post1-py3-none-any.whl", hash = "sha256:857bccbad6c0069b0030df9becbb2e54036f26204648d2f65cb81fc556d5298d", size = 11014, upload-time = "2026-09-29T19:13:35.48Z" },
 ]
 
 [[package]]

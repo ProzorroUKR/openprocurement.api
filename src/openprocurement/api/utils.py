@@ -44,8 +44,8 @@ from openprocurement.api.constants_env import (
     PRODUCT_CATEGORY_VALIDATION_FROM,
 )
 from openprocurement.api.context import get_local_cache, get_request, get_request_now
-from openprocurement.api.database import MongodbResourceConflict
 from openprocurement.api.events import ErrorDescriptorEvent
+from openprocurement.api.exceptions import MongodbResourceConflict
 from openprocurement.api.procedure.context import get_tender
 
 json_view = partial(view, renderer="json")

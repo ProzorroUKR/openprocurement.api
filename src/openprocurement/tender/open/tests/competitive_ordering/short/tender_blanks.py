@@ -4,7 +4,7 @@ from unittest import mock
 from uuid import uuid4
 
 from openprocurement.api.constants import TZ
-from openprocurement.api.constants_utils import parse_date
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_draft_complaint,

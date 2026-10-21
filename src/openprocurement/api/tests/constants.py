@@ -2,7 +2,7 @@ import datetime
 import unittest
 
 from openprocurement.api.constants import COORDINATES_REG_EXP
-from openprocurement.api.constants_utils import parse_date
+from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.tests.base import BaseWebTest
 
 

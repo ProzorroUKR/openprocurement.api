@@ -4,7 +4,8 @@ from openprocurement.tender.core.procedure.state.req_response import (
 )
 
 
-class ReqResponseEvidenceStateMixin(RequirementResponsesRulesMixin):
+# the operation rules and the parent patch hooks come from the bid / award / qualification state it's combined with
+class ReqResponseEvidenceStateMixin(RequirementResponsesRulesMixin):  # pylint: disable=abstract-method
     """
     requirement response evidences endpoint of a bid / award / qualification: request validation and hooks
     (the rules are the parent object's, see ReqResponseStateMixin)

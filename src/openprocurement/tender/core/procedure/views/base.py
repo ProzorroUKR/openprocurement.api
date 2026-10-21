@@ -55,7 +55,7 @@ class TenderBaseResource(BaseResource):
         state_class = self.get_state_class(self.request)
         if state_class is None:
             return None
-        if self._state is None or type(self._state) is not state_class:
+        if self._state is None or self._state.__class__ is not state_class:
             self._state = state_class(self.request)
         return self._state
 

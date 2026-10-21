@@ -62,7 +62,6 @@ dev = [
     "bandit[toml]==1.7.7",
     "mypy==1.11.2",
     "pylint==3.0.3",
-    "pylint-pytest==1.1.9.post1",
     "ruff==0.6.9",
     "docutils<0.19",
     "sphinx>=7.1.0",
@@ -158,10 +157,7 @@ recursive = true
 
 [tool.pylint]
 [tool.pylint.main]
-jobs = 1
-load-plugins = [
-    "pylint_pytest",
-]
+jobs = 6
 disable = [
     "anomalous-backslash-in-string",
     "arguments-differ",

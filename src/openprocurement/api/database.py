@@ -19,19 +19,10 @@ from pymongo.read_concern import ReadConcern
 from pymongo.write_concern import WriteConcern
 
 from openprocurement.api.context import get_db_session, get_request, get_request_now
+from openprocurement.api.exceptions import MongodbResourceConflict
+from openprocurement.api.utils import update_logging_context
 
 LOGGER = getLogger("{}.init".format(__name__))
-
-
-#  mongodb
-class MongodbResourceConflict(Exception):
-    """
-    On doc update we pass _id and _rev as filter
-    _rev can be changed by concurrent requests
-    then update_one(or replace_one) doesn't find any document to update and returns matched_count = 0
-    that causes MongodbResourceConflict that is shown to the User as 409 response code
-    that means they have to retry his request
-    """
 
 
 class DecimalCodec(TypeCodec):
@@ -126,9 +117,6 @@ class MongoServerLoggingListener(CommandListener):
                 params.update(self._mongo_settings(store))
             except (AttributeError, TypeError):
                 LOGGER.warning("Failed to get mongo settings from store for logging context", exc_info=True)
-
-        # pylint: disable-next=import-outside-toplevel
-        from openprocurement.api.utils import update_logging_context
 
         update_logging_context(request, {"MONGO_LAST_COMMAND_INFO": params})
 
