@@ -6,6 +6,8 @@ competitiveOrdering.long,3,3,calendar
 aboveThresholdEU,3,3,working
 aboveThresholdUA.defense,3,3,working
 aboveThresholdUA,3,3,working
+openTendering.UA,3,3,calendar
+openTendering.EU,3,3,working
 belowThreshold,1,1,working
 closeFrameworkAgreementSelectionUA,0,0,
 closeFrameworkAgreementUA,3,3,working

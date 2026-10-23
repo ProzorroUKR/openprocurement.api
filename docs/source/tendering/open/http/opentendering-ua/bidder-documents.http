@@ -1,0 +1,26 @@
+GET /api/2.5/tenders/59f6669d275f495199ced247031beb34/bids/ee125d39d89d4afe8aac022ebd223048/documents?acc_token=a16bfe78001e415aade129abc1d9bcc6 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentiality": "public",
+      "documentType": "proposal",
+      "id": "fe054b1a8954408d90742fcffe8dad8c",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "Proposal.p7s",
+      "format": "sign/p7s",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cae0dc16aa6b4fcb9e79407a7dc2616c?Signature=cpeq9iUJwLuXE%2FlDYlD0FE5byHOV9uS0ZiqDHxA1%2BfMN%2F%2FXymANoEq7NesebrmibZCH0LdhqIrthjHcAYdJmDA%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "language": "uk"
+    }
+  ]
+}
+

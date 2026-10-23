@@ -58,4 +58,5 @@ Legacy відкриті торги (``aboveThreshold``, ``aboveThresholdUA``, ``
 --------------
 
 Етапи процедури та їх обмеження описано в :ref:`opentendering_tendering`, значення конфігурації - в
-:ref:`opentendering_config`.
+:ref:`opentendering_config`. Приклади запитів для кожного різновиду наведено в туторіалах
+:ref:`opentendering_tutorial_ua` та :ref:`opentendering_tutorial_eu`.

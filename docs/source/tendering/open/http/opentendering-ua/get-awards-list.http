@@ -1,0 +1,70 @@
+GET /api/2.5/tenders/59f6669d275f495199ced247031beb34/awards?acc_token=35add3f737cc4f5e90317d079270b548 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "milestones": [
+        {
+          "id": "fa8835dce0b343b2967b0557d69fe44a",
+          "dueDate": "2027-01-05T00:00:00+02:00",
+          "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
+          "date": "2027-01-01T00:02:01+02:00",
+          "code": "alp"
+        }
+      ],
+      "id": "3062c68a6377456dba7cbc8d3b464bfc",
+      "status": "pending",
+      "date": "2027-01-01T00:02:01+02:00",
+      "value": {
+        "amount": 250.0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": false
+      },
+      "suppliers": [
+        {
+          "name": "Школяр",
+          "identifier": {
+            "scheme": "UA-EDR",
+            "id": "00137256",
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
+          },
+          "address": {
+            "streetAddress": "вул. Островського, 33",
+            "locality": "м. Вінниця",
+            "region": "Вінницька область",
+            "postalCode": "21100",
+            "countryName": "Україна"
+          },
+          "contactPoint": {
+            "name": "Сергій Олексюк",
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          },
+          "scale": "micro",
+          "signerInfo": {
+            "name": "Test Testovich",
+            "email": "example@email.com",
+            "telephone": "+380950000000",
+            "iban": "111111111111111",
+            "position": "Генеральний директор",
+            "authorizedBy": "Статут компанії"
+          }
+        }
+      ],
+      "bid_id": "ee125d39d89d4afe8aac022ebd223048",
+      "lotID": "1d0ce5828f664b00830bedd5e32b02c4",
+      "period": {
+        "startDate": "2027-01-01T00:02:01+02:00",
+        "endDate": "2027-01-09T00:00:00+02:00"
+      }
+    }
+  ]
+}
+

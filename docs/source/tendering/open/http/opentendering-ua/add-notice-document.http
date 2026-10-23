@@ -1,0 +1,37 @@
+POST /api/2.5/tenders/59f6669d275f495199ced247031beb34/documents?acc_token=35add3f737cc4f5e90317d079270b548 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "sign.p7s",
+    "documentType": "notice",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/034d5a931bf34f61b0cd3bcb6cda6eb4?Signature=Pksw1VfpT8pRewVd%2Fe%2Bm%2Bc9wWjRAMgXp5mRjG9NxorL0wFKzlZarpyL%2Fn20op1lSL6xNZnhThr%2BsTnqt3vRiDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f495199ced247031beb34/documents/b3f698ceafab4e2494bbb1c2c90ea7a6
+
+{
+  "data": {
+    "confidentiality": "public",
+    "documentType": "notice",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "sign.p7s",
+    "format": "application/pkcs7-signature",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/034d5a931bf34f61b0cd3bcb6cda6eb4?Signature=lF2jk%2F%2FAdNWYfsB2UGOI2Suc7nwOE4b4tsKgVK1WLk%2B%2FvPq5z0fJJfCDZMdTKUoiFChAuUV38Jlhb9D49GUFCw%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "b3f698ceafab4e2494bbb1c2c90ea7a6",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "author": "tender_owner"
+  }
+}
+

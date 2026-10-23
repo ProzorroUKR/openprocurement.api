@@ -6,6 +6,8 @@ competitiveOrdering.long,1,1
 aboveThresholdEU,2,2
 aboveThresholdUA.defense,1,1
 aboveThresholdUA,2,2
+openTendering.UA,1,1
+openTendering.EU,1,1
 belowThreshold,1,1
 closeFrameworkAgreementSelectionUA,1,1
 closeFrameworkAgreementUA,3,3

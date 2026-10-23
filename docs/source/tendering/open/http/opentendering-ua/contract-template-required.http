@@ -1,0 +1,26 @@
+PATCH /api/2.5/tenders/59f6669d275f495199ced247031beb34?acc_token=35add3f737cc4f5e90317d079270b548 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active.tendering"
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "contractTemplateName",
+      "description": "Either contractTemplateName or contractProforma document is required"
+    }
+  ]
+}
+

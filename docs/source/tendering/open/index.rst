@@ -25,3 +25,5 @@
    opentendering-overview
    opentendering-tendering
    opentendering-config
+   opentendering-tutorial-ua
+   opentendering-tutorial-eu
