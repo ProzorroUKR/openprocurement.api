@@ -16,7 +16,7 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal.p7s",
       "format": "sign/p7s",
-      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/cae0dc16aa6b4fcb9e79407a7dc2616c?Signature=cpeq9iUJwLuXE%2FlDYlD0FE5byHOV9uS0ZiqDHxA1%2BfMN%2F%2FXymANoEq7NesebrmibZCH0LdhqIrthjHcAYdJmDA%3D%3D&KeyID=a8968c46",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/204ab8f3bb6c479d8093f3024cef4c92?Signature=SJ%2BXiFp8WgYh0OFidU5jzr5hdhpg0qPGR9o%2FB21v%2B8EzAxhEcsTKxlxcQMKp21%2BNO4XlTTft16LvaPzDkDE%2BAA%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
       "dateModified": "2027-01-01T00:00:00+02:00",
       "language": "uk"
@@ -29,7 +29,7 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "Proposal_top_secrets.pdf",
       "format": "application/pdf",
-      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/ee125d39d89d4afe8aac022ebd223048/documents/3af0a99505b241faae61db1d8d1375d9?download=112d641c7b624e1ab4b3eed91b39e335",
+      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/ee125d39d89d4afe8aac022ebd223048/documents/3af0a99505b241faae61db1d8d1375d9?download=9e018290bb0840f180432ce56b07c9df",
       "documentOf": "tender",
       "dateModified": "2027-01-01T00:00:00+02:00",
       "language": "uk"

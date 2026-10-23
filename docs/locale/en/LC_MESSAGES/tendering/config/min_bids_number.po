@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-20 00:31+0300\n"
+"POT-Creation-Date: 2026-10-23 13:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -57,6 +57,12 @@ msgid "aboveThresholdUA.defense"
 msgstr ""
 
 msgid "aboveThresholdUA"
+msgstr ""
+
+msgid "openTendering.UA"
+msgstr ""
+
+msgid "openTendering.EU"
 msgstr ""
 
 msgid "belowThreshold"
@@ -151,3 +157,4 @@ msgstr "Let's create a tender `belowThreshold` with configuration `minBidsNumber
 
 msgid "Після закінчення `active.auction`, система повинна запустити `active.qualification`. Дивимось знову на значення `minBidsNumber:2` та перевіряємо наявність активних bids. Їх два? Так, запускаємо `active.qualification`:"
 msgstr "After `active.auction` is finished, the system should run `active.qualification`. We look again at the `minBidsNumber:2` value and check for active bids. are there two of them? Yes, let's run `active.qualification`:"
+

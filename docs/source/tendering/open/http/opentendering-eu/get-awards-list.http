@@ -50,7 +50,7 @@ Content-Type: application/json
         }
       ],
       "bid_id": "9465db2925834cd29ec2c5171f90cc67",
-      "lotID": "95f81e96d7a1441cae066ca5490945e5",
+      "lotID": "0e2a00931fe6450685c11d73534c35f7",
       "period": {
         "startDate": "2027-01-01T00:03:00+02:00",
         "endDate": "2027-01-09T00:00:00+02:00"

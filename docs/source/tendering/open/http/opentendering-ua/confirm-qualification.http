@@ -21,7 +21,7 @@ Content-Type: application/json
       {
         "id": "fa8835dce0b343b2967b0557d69fe44a",
         "dueDate": "2026-12-31T00:02:01+02:00",
-        "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників на початковому етапі аукціону / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
+        "description": "найбільш економічно вигідна пропозиція є меншою на 40 або більше відсотків від середньоарифметичного значення ціни/приведеної ціни тендерних пропозицій інших учасників / найбільш економічно вигідна пропозиція є меншою на 30 або більше відсотків від наступної ціни/приведеної ціни тендерної пропозиції за результатами проведеного електронного аукціону",
         "date": "2027-01-01T00:02:01+02:00",
         "code": "alp"
       }
@@ -67,17 +67,17 @@ Content-Type: application/json
       }
     ],
     "bid_id": "ee125d39d89d4afe8aac022ebd223048",
-    "lotID": "1d0ce5828f664b00830bedd5e32b02c4",
+    "lotID": "063b6eeb2fa2412e8ec9eeec32b8c659",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "5716569c41a94f8f8f671dab3e3c3a6e",
+        "id": "03677f0fa7ce45d68128ae96201a4c56",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ba1bf7bb1114f3e94bdef9b59b577c2?Signature=PhxeFL1hUAA7C%2BGEPFxkfz1Z0DGh3Pr6zq0nh29xqoUKpGt10WSyPPxQ9fDxCf9r4zethViV1XlOvn7pjgjkBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ec4107d065e484683e08604ac3602bd?Signature=0LJOwHN0pVPWcdkRkM9ulMfiKKDly1LB%2F4prwqp9IXk5puaGs8OcxhUHJIWfZtJvVXcB9ySHzbXBz92ujMWfCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:02:01+02:00",
         "author": "tender_owner",

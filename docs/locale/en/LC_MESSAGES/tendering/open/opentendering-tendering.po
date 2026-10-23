@@ -1,0 +1,123 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-23 13:32+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Етапи відкритих торгів ``openTendering``"
+msgstr ""
+
+msgid "Оголошення та редагування"
+msgstr ""
+
+msgid "Закупівля переходить у статус ``active.tendering`` одразу після активації: окремого періоду уточнень немає, звернення подаються протягом ``enquiryPeriod``, який є частиною ``tenderPeriod``. Замовник може вносити зміни протягом усього періоду подання пропозицій; після зміни всі подані пропозиції стають ``invalid`` і потребують повторного підтвердження."
+msgstr ""
+
+msgid "Продовження періоду подання пропозицій після змін:"
+msgstr ""
+
+msgid "зміну закупівлі в статусі ``active.tendering`` дозволено, якщо після неї до ``tenderPeriod.endDate`` залишається не менше **N повних календарних днів**: UA - N = 4, EU - N = 7;"
+msgstr ""
+
+msgid "день внесення зміни не враховується: відлік ведеться з 00:00 наступного дня;"
+msgstr ""
+
+msgid "якщо днів залишається менше, зміна відхиляється з помилкою ``tenderPeriod should be extended by N days``; замовник має в тому самому запиті перенести ``tenderPeriod.endDate`` так, щоб умова виконувалась;"
+msgstr ""
+
+msgid "приклад: зміна 10.11 о 15:00 - для UA ``tenderPeriod.endDate`` має бути не раніше 15.11 00:00 (повні дні 11, 12, 13, 14), для EU - не раніше 18.11 00:00."
+msgstr ""
+
+msgid "Мова оголошення:"
+msgstr ""
+
+msgid "UA - оголошення українською; англійські поля (``*_en``) не обов'язкові, але не заборонені;"
+msgstr ""
+
+msgid "EU - оголошення додатково публікується англійською, обов'язкові поля: ``procuringEntity.name_en``, ``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en``, ``procuringEntity.additionalContactPoints[].name_en``, ``items[].description_en`` (як в ``aboveThresholdEU``); ``title_en`` та ``description_en`` тендера не обов'язкові; ``procuringEntity.contactPoint.availableLanguage`` за замовчуванням - ``uk``."
+msgstr ""
+
+msgid "Шаблон договору визначається на рівні тендера: при оголошенні (вихід зі статусу ``draft``) обов'язково вказується або ``contractTemplateName``, або документ з ``documentType`` = ``contractProforma`` (але не обидва одночасно); ``contractTemplateName`` можна змінювати у статусах ``draft`` та ``active.tendering``."
+msgstr ""
+
+msgid "Вимоги та скарги"
+msgstr ""
+
+msgid "Вимоги можна подавати не пізніше ніж за 10 днів до завершення періоду подання пропозицій."
+msgstr ""
+
+msgid "Скаргу на умови закупівлі можна подати не пізніше ніж за 4 дні до кінцевого строку подання пропозицій."
+msgstr ""
+
+msgid "Зареєстрована скарга зупиняє перебіг закупівлі (аукціон, розкриття); під час її розгляду замовник не може скасувати закупівлю чи укласти договір."
+msgstr ""
+
+msgid "Подання пропозицій та торги, що не відбулися"
+msgstr ""
+
+msgid "Кожен учасник подає одну пропозицію протягом періоду подання; резидент накладає підпис. Якщо не подано жодної пропозиції - закупівля переходить у ``unsuccessful``."
+msgstr ""
+
+msgid "Документи пропозиції подаються за існуючим механізмом конвертів (як в ``aboveThresholdUA`` / ``aboveThresholdEU``) - для обох різновидів доступні ``documents``, ``eligibilityDocuments``, ``financialDocuments``, ``qualificationDocuments``. Видимість документів визначається конфігурацією ``hasPrequalification``:"
+msgstr ""
+
+msgid "UA (``hasPrequalification`` = ``false``) - ``documents`` та ``eligibilityDocuments`` закриті під час ``active.tendering`` та ``active.auction``, ``financialDocuments`` та ``qualificationDocuments`` - також до завершення аукціону; після аукціону відкриваються всі документи;"
+msgstr ""
+
+msgid "EU (``hasPrequalification`` = ``true``) - на попередній кваліфікації розкриваються ``documents`` та ``eligibilityDocuments``, ``financialDocuments`` та ``qualificationDocuments`` - після аукціону."
+msgstr ""
+
+msgid "UA:"
+msgstr ""
+
+msgid "одна пропозиція - аукціон не проводиться, учасник потрапляє на розгляд (``award`` у ``pending``), закупівля переходить у ``active.qualification``;"
+msgstr ""
+
+msgid "дві та більше пропозицій та ``hasAuction`` = ``true`` - проводиться аукціон;"
+msgstr ""
+
+msgid "дві та більше пропозицій та ``hasAuction`` = ``false`` - на розгляд потрапляє пропозиція з найнижчою ціною."
+msgstr ""
+
+msgid "EU:"
+msgstr ""
+
+msgid "хоча б одна пропозиція - закупівля переходить у ``active.pre-qualification``;"
+msgstr ""
+
+msgid "після попередньої кваліфікації: допущено дві й більше пропозицій та ``hasAuction`` = ``true`` - аукціон; допущено одну пропозицію або аукціон не застосовується - визначення переможця; не допущено жодної - ``unsuccessful``."
+msgstr ""
+
+msgid "Попередня кваліфікація (EU)"
+msgstr ""
+
+msgid "Пропозиції розкриваються без ціни; по кожному учаснику замовник приймає рішення ``active`` / ``unsuccessful`` та підтверджує ``qualified`` і ``eligible``. На цьому етапі застосовується норма 24 години (milestone ``24h`` кваліфікації). Етап завершується підписанням протоколу (``evaluationReports``), після чого триває період оскарження 10 календарних днів."
+msgstr ""
+
+msgid "Аукціон, аномально низька ціна та визначення переможця"
+msgstr ""
+
+msgid "Аукціон проводиться за наявності ``hasAuction`` = ``true`` та двох і більше (допущених) пропозицій. Правила аномально низької ціни лишаються загальними для системи, розрахунок не прив'язаний до аукціону. Після ранжування пропозицій замовник визначає переможця або відхиляє пропозицію (із підтвердженням ``qualified`` / ``eligible``); строк розгляду - 5 робочих днів з продовженням до 20 (milestone ``extensionPeriod``). Milestone ``24h`` на етапі визначення переможця доступний лише в UA (в EU він застосовується на попередній кваліфікації). Період оскарження рішення про переможця - 10 календарних днів."
+msgstr ""
+
+msgid "Скасування та договір"
+msgstr ""
+
+msgid "Скасування закупівлі/лоту - із зазначенням причини, заборонене під час розгляду скарги; період оскарження скасування - 10 календарних днів. Договір публікується не раніше ніж через 10 днів після визначення переможця за відсутності нерозглянутих скарг; після активації договору закупівля (лот) переходить у ``complete``. Якщо в тендері обрано шаблон договору (``contractTemplateName``) і майданчики замовника та постачальника підтримують електронний договір (``contract_owner``), договір проходить за сценарієм електронного договору."
+msgstr ""
+

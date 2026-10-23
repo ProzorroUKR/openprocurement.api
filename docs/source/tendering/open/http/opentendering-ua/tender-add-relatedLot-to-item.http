@@ -37,7 +37,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "1d0ce5828f664b00830bedd5e32b02c4"
+        "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ]
   }
@@ -216,7 +216,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "1d0ce5828f664b00830bedd5e32b02c4"
+        "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
     "awardCriteria": "lowestCost",
@@ -259,7 +259,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "1d0ce5828f664b00830bedd5e32b02c4",
+        "id": "063b6eeb2fa2412e8ec9eeec32b8c659",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",

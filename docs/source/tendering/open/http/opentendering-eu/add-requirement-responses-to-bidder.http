@@ -294,7 +294,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "95f81e96d7a1441cae066ca5490945e5"
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
       },
       {
         "id": "d6034942f4224bb993e55ae87f2aacce",
@@ -310,7 +310,7 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "95f81e96d7a1441cae066ca5490945e5"
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
       }
     ],
     "lotValues": [
@@ -320,7 +320,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "95f81e96d7a1441cae066ca5490945e5",
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }

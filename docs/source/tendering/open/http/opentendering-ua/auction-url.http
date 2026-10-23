@@ -942,12 +942,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "contractProforma",
-        "id": "0529a14cc13147ed8af6c50455dc1447",
+        "id": "239ef09b7b3d48f889dad4ef7a8dab99",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2e1738e91de4ca2be6f5c0524a83e26?Signature=u5iFqPoJWomqG8LuRoWNU42IMA%2BNQ395fxZbuBzLLOxY7hYbUWcvDfw5mN2Ahyi1lEmjRvlQMolL%2F7lc%2BtJoAA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9be826c91918489bbdad01d12c79fec2?Signature=naDtoyclc8zKhbv2awEuUkSnXDo9ZFAfhbJbzZbYgQT6D6aBVaswsq70VLIMer4BWJqxYcyccGrO09OsHJUGDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -956,12 +956,12 @@ Content-Type: application/json
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "b3f698ceafab4e2494bbb1c2c90ea7a6",
+        "id": "38adfa45181641c3bca043dcda76e542",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/034d5a931bf34f61b0cd3bcb6cda6eb4?Signature=lF2jk%2F%2FAdNWYfsB2UGOI2Suc7nwOE4b4tsKgVK1WLk%2B%2FvPq5z0fJJfCDZMdTKUoiFChAuUV38Jlhb9D49GUFCw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1dfcd36be944437b710d46128ff77c8?Signature=FOB8BgkvFqslyH4qvnwieQvhO4Dw7fRMEbFXuEMffGrM9dV73jH8kNG2HNM8%2BIwYeorAh4oOpdpKvisQWem%2FAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -974,7 +974,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Notice.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1cb583f815b1437a81f5bdf06994516d?Signature=A3MMO%2BpQ7RPrheWWRsw4ZZUh1QyLytb0YyRjTE3BDT5OGMXo4it9IHdvPGkD%2FGvKQPSZLHmKHSbuZxB%2BrAhKBw%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ded21de346bb44f29589aafc20813a70?Signature=kuXt9x0Y3C3uV%2BW9Ge1GaruQWUcdIZYz%2FlkN0fTWzW4hWbRg8xvjuc2Z%2BDRgJKWjU5mlh27MN3RQI3bkf7CWDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -987,7 +987,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/173ef88797d749d889e79c2e8cf62635?Signature=ZcbH1AU3Q%2BroUwln1pO%2F4yT3fzdVDv9JOlUMO2ZkacAKacj6haA789LLK3wlSAqrjLngq4w8bSycocEeTUKyDA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/62c4d9b31c0f46619ab7a8e01051fd1a?Signature=M99BfegXzCw%2B2qhDfOkLocIMG%2BAnkxI9iyNVExa30KD1Lqox%2FZ9o4Fj60Fv73kCzo1F4WHQyKSVt2p8B7mGqCQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -1000,7 +1000,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "AwardCriteria.pdf",
         "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/799f16ea5b0f44f980351e848d7108a2?Signature=gAY21WO8ZdJXkrr4AQbUWCmmGi0BUoxma8sIehEEvozBI6gdTP0UY5cDCZyFomLyPtCinZnO0RHtyUtjvytMAQ%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b6745ed328204129beffcedcbb93aa08?Signature=g6B98EP6b6ITShL3uiaQa13iqSuvv21eCSnKHS7m09taigGNVNUB4Qht3AP%2BqS3xLVv81TrNZoEOTlb1oDpGDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "tender_owner",
@@ -1177,7 +1177,7 @@ Content-Type: application/json
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "1d0ce5828f664b00830bedd5e32b02c4"
+        "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
     "awardCriteria": "lowestCost",
@@ -1220,7 +1220,7 @@ Content-Type: application/json
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "1d0ce5828f664b00830bedd5e32b02c4",
+        "id": "063b6eeb2fa2412e8ec9eeec32b8c659",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -1236,7 +1236,7 @@ Content-Type: application/json
           "startDate": "2027-01-04T15:28:52.219000+02:00",
           "shouldStartAfter": "2027-01-02T00:00:00+02:00"
         },
-        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/59f6669d275f495199ced247031beb34_1d0ce5828f664b00830bedd5e32b02c4"
+        "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/59f6669d275f495199ced247031beb34_063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
     "procurementMethodType": "openTendering",

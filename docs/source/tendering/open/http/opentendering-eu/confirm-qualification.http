@@ -58,17 +58,17 @@ Content-Type: application/json
       }
     ],
     "bid_id": "9465db2925834cd29ec2c5171f90cc67",
-    "lotID": "95f81e96d7a1441cae066ca5490945e5",
+    "lotID": "0e2a00931fe6450685c11d73534c35f7",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "5716569c41a94f8f8f671dab3e3c3a6e",
+        "id": "03677f0fa7ce45d68128ae96201a4c56",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7ba1bf7bb1114f3e94bdef9b59b577c2?Signature=PhxeFL1hUAA7C%2BGEPFxkfz1Z0DGh3Pr6zq0nh29xqoUKpGt10WSyPPxQ9fDxCf9r4zethViV1XlOvn7pjgjkBA%3D%3D&KeyID=a8968c46",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3ec4107d065e484683e08604ac3602bd?Signature=0LJOwHN0pVPWcdkRkM9ulMfiKKDly1LB%2F4prwqp9IXk5puaGs8OcxhUHJIWfZtJvVXcB9ySHzbXBz92ujMWfCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:03:00+02:00",
         "author": "tender_owner",

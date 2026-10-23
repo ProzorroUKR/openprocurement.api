@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "title": "AwardCriteria.pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/799f16ea5b0f44f980351e848d7108a2?Signature=YM6lGIndXWf4567sgShrs4s%2FHfawlSNf9mhFwImazwaj6euqZdlOuxszL5Lqy8uQ8jtQ%2FPydA%2FRdaZT4BKGADQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b6745ed328204129beffcedcbb93aa08?Signature=s9OzhWQdZxT4tE%2FlSzHWYPghr3kOfw6DVXvSrLuOmYCH2jQj%2BtGwRDvBoOYh%2BesqD6IaC8VBU%2BXUmBk3TpNGCA%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf"
   }
@@ -24,7 +24,7 @@ Content-Type: application/json
     "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/799f16ea5b0f44f980351e848d7108a2?Signature=gAY21WO8ZdJXkrr4AQbUWCmmGi0BUoxma8sIehEEvozBI6gdTP0UY5cDCZyFomLyPtCinZnO0RHtyUtjvytMAQ%3D%3D&KeyID=a8968c46",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b6745ed328204129beffcedcbb93aa08?Signature=g6B98EP6b6ITShL3uiaQa13iqSuvv21eCSnKHS7m09taigGNVNUB4Qht3AP%2BqS3xLVv81TrNZoEOTlb1oDpGDQ%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "author": "tender_owner",

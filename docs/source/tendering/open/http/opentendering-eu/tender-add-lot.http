@@ -15,20 +15,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "amount": 5,
       "currency": "UAH"
     },
-    "id": "95f81e96d7a1441cae066ca5490945e5"
+    "id": "0e2a00931fe6450685c11d73534c35f7"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/lots/95f81e96d7a1441cae066ca5490945e5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/lots/0e2a00931fe6450685c11d73534c35f7
 
 {
   "data": {
     "title": "Лот №1",
     "description": "Опис Лот №1",
-    "id": "95f81e96d7a1441cae066ca5490945e5",
+    "id": "0e2a00931fe6450685c11d73534c35f7",
     "status": "active",
     "value": {
       "currency": "UAH",

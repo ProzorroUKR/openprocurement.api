@@ -293,7 +293,7 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "1d0ce5828f664b00830bedd5e32b02c4"
+        "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
     "lotValues": [
@@ -303,7 +303,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "1d0ce5828f664b00830bedd5e32b02c4",
+        "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00"
       }

@@ -12,7 +12,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebff1b92c289416892a4a557efd7877f/awards/0c1e5fb43b2d4ceeb6d5a0769a19a95e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebff1b92c289416892a4a557efd7877f/awards/b8d2cd20edc3480db0c0cfc8bf645f17
 
 {
   "data": {
@@ -33,7 +33,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebff1b92c2894168
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "1d0ce5828f664b00830bedd5e32b02c4",
+        "id": "063b6eeb2fa2412e8ec9eeec32b8c659",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "currency": "UAH",
@@ -52,7 +52,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebff1b92c2894168
     },
     "awards": [
       {
-        "id": "0c1e5fb43b2d4ceeb6d5a0769a19a95e",
+        "id": "b8d2cd20edc3480db0c0cfc8bf645f17",
         "status": "pending",
         "date": "2027-01-01T00:00:00+02:00",
         "value": {
@@ -93,7 +93,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ebff1b92c2894168
           }
         ],
         "bid_id": "0b4520350b084d44aa8165e4e6901f70",
-        "lotID": "1d0ce5828f664b00830bedd5e32b02c4",
+        "lotID": "063b6eeb2fa2412e8ec9eeec32b8c659",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
           "endDate": "2027-01-08T00:00:00+02:00"
