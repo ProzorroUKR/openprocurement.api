@@ -21,4 +21,3 @@ Contents:
    auction_planning
    modify_framework_period
    arma
-   open_tendering
