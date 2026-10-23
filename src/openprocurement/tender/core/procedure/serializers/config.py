@@ -33,9 +33,9 @@ def tender_config_co_default_value(tender, key):
 
 
 def tender_config_open_tendering_default_value(tender, key):
-    """openTendering: the defaults depend on the UA/EU variant (config.openTenderingType)"""
-    open_tendering_type = (tender.get("config") or {}).get("openTenderingType")
-    config_schema = TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS.get(f"openTendering.{open_tendering_type}")
+    """openTendering: the defaults depend on the UA/EU variant (the tender field procurementMethodSubtype)"""
+    subtype = tender.get("procurementMethodSubtype")
+    config_schema = TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS.get(f"openTendering.{subtype}")
     if config_schema is None:
         config_schema = TENDER_CONFIG_JSONSCHEMAS["openTendering"]
     return config_schema["properties"][key]["default"]

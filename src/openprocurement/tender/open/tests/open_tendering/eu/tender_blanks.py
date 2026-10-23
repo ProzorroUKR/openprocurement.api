@@ -1,20 +1,21 @@
 from copy import deepcopy
 
 from openprocurement.tender.open.tests.open_tendering.ua.tender_blanks import (  # noqa: F401
-    patch_tender_config_is_immutable,
+    create_tender_generated,
+    patch_tender_procurement_method_subtype_is_immutable,
 )
 
 
-def create_tender_invalid_config(self):
-    """config.openTenderingType is required and the EU variant pins the config values"""
+def create_tender_invalid_subtype_and_config(self):
+    """procurementMethodSubtype is required for openTendering and the EU variant pins the config values"""
     request_path = "/tenders"
 
-    config = deepcopy(self.initial_config)
-    del config["openTenderingType"]
-    response = self.app.post_json(request_path, {"data": self.initial_data, "config": config}, status=422)
+    data = deepcopy(self.initial_data)
+    del data["procurementMethodSubtype"]
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"description": "This field is required.", "location": "body", "name": "config.openTenderingType"}],
+        [{"description": ["This field is required."], "location": "body", "name": "procurementMethodSubtype"}],
     )
 
     # the values pinned by the variant
@@ -38,6 +39,9 @@ def create_tender_invalid_config(self):
         config[config_name] = value
         response = self.app.post_json(request_path, {"data": self.initial_data, "config": config}, status=422)
         self.assertEqual(response.json["errors"][0]["name"], f"config.{config_name}")
+
+    response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=201)
+    self.assertEqual(response.json["data"]["procurementMethodSubtype"], "EU")
 
 
 def create_tender_multilingual_fields_required(self):

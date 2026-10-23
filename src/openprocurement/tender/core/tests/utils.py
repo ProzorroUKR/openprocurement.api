@@ -242,13 +242,13 @@ TEST_TENDER_PERIODS = {
     "competitiveOrdering": {"tender": 8},
     "complexAsset.arma": {"tender": 29},
     "priceQuotation": {"tender": 14},
-    # openTendering: the minimal tender period depends on the UA/EU variant (config.openTenderingType)
+    # openTendering: the minimal tender period depends on the UA/EU variant (procurementMethodSubtype)
     "openTendering.UA": {"tender": 16},
     "openTendering.EU": {"tender": 31},
 }
 
 
-def set_tender_periods(data, start=None, config=None):
+def set_tender_periods(data, start=None):
     """
     Sets the periods of test tender data counted from `start` (default: now).
 
@@ -259,8 +259,8 @@ def set_tender_periods(data, start=None, config=None):
     """
     procurement_method_type = data.get("procurementMethodType")
     periods = TEST_TENDER_PERIODS.get(procurement_method_type)
-    if open_tendering_type := (config or {}).get("openTenderingType"):
-        periods = TEST_TENDER_PERIODS.get(f"{procurement_method_type}.{open_tendering_type}", periods)
+    if subtype := data.get("procurementMethodSubtype"):
+        periods = TEST_TENDER_PERIODS.get(f"{procurement_method_type}.{subtype}", periods)
     if not periods:
         return
     start = start or get_now()

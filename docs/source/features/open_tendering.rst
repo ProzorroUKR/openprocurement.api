@@ -11,7 +11,7 @@
 - для нових відкритих торгів створено **окремий** ``procurementMethodType`` - ``openTendering``
   (назва українською - "Відкриті торги");
 - один ``procurementMethodType`` охоплює і національні торги (UA), і торги вище європейських порогів (EU);
-  різновид задається окремою ознакою в системі - конфігурацією ``openTenderingType``;
+  різновид задається окремою ознакою в системі - полем тендера ``procurementMethodSubtype``;
 - legacy відкриті торги (``aboveThresholdUA``, ``aboveThresholdEU``, ``aboveThreshold``) не змінюються;
 - ``aboveThresholdUA`` на UI перейменовується на "Відкриті торги з публікацією українською мовою"
   (зміни на UI, ЦБД не стосується);
@@ -29,9 +29,10 @@
 Різновиди UA та EU
 ~~~~~~~~~~~~~~~~~~
 
-Під час створення закупівлі замовник обов'язково вказує різновид відкритих торгів конфігурацією
-``openTenderingType`` (``UA`` або ``EU``). Різновид визначає решту значень конфігурації та не може бути
-змінений після створення закупівлі.
+Під час створення закупівлі замовник обов'язково вказує різновид відкритих торгів полем тендера
+``procurementMethodSubtype`` (``UA`` або ``EU``). Різновид визначає значення конфігурації та не може бути
+змінений після створення закупівлі (поля немає в моделі ``PATCH``, спроба зміни відхиляється з помилкою
+``Rogue field``). Для інших процедур поле не приймається.
 
 Спільне для обох різновидів:
 
@@ -147,9 +148,6 @@ EU:
    * - Config
      - UA
      - EU
-   * - openTenderingType
-     - UA
-     - EU
    * - hasAuction
      - true / false (default true)
      - true / false (default true)
@@ -221,11 +219,11 @@ EU:
   окремого API ЦБД для отримання переліку конфігурацій немає (як і для ``competitiveOrdering``);
 - майданчик при виборі замовником різновиду бере відповідну схему ``openTendering.<UA|EU>.json`` і формує
   ``config``: фіксовані значення - зі схеми, ``hasAuction`` та ``hasValueRestriction`` - на вибір замовника;
-- майданчик передає ``procurementMethodType`` = ``openTendering`` та повний ``config`` разом з
-  ``openTenderingType`` (поле обов'язкове);
+- майданчик передає ``procurementMethodType`` = ``openTendering``, ``procurementMethodSubtype`` = ``UA`` | ``EU``
+  (поле обов'язкове; довідник - ``codelists/tender/tender_procurement_method_subtype.json``) та повний ``config``;
 - ЦБД валідує ``config`` за базовою схемою та схемою різновиду; значення, що не відповідає різновиду
   (наприклад, ``minTenderingDuration`` = 30 для UA), відхиляється з помилкою 422;
-- після створення закупівлі ``config`` (зокрема ``openTenderingType``) змінити не можна.
+- після створення закупівлі ``procurementMethodSubtype`` та ``config`` змінити не можна.
 
 Технічне рішення
 -------------------------------------
@@ -236,14 +234,16 @@ Standards
 https://github.com/ProzorroUKR/standards
 
 - ``data_model/schema/TenderConfig/openTendering.json`` - базова схема конфігурації процедури: усі наявні
-  поля конфігурації плюс обов'язкове ``openTenderingType`` (``enum: ["UA", "EU"]``, без значення за
-  замовчуванням); поля, що відрізняються між різновидами, мають об'єднані переліки значень
+  поля конфігурації; поля, що відрізняються між різновидами, мають об'єднані переліки значень
   (``minTenderingDuration: [15, 30]``, ``enquiryPeriodRegulation: [4, 6]`` тощо).
 - ``data_model/schema/TenderConfig/openTendering.UA.json`` та ``openTendering.EU.json`` - повні схеми
   різновидів, що фіксують по одному значенню кожного поля (за аналогією з ``competitiveOrdering.short`` /
   ``competitiveOrdering.long``).
 - ``codelists/tender/tender_procurement_method_type.json`` - новий запис ``openTendering``
   ("Відкриті торги", ``procurementMethod: open``).
+- ``codelists/tender/tender_procurement_method_subtype.json`` - довідник значень ``procurementMethodSubtype``
+  (``UA`` - "Відкриті торги з публікацією українською мовою", ``EU`` - "Відкриті торги з публікацією англійською
+  мовою").
 - ``organizations/kind_procurementMethodType_mapping.json`` - ``authority, social, central, general,
   defense, special``.
 - ``criteria/rules/openTendering.json`` - копія правил ``aboveThresholdUA`` (критерії за Законом 4888 -
@@ -261,8 +261,12 @@ API ЦБД
   ``FIRST_STAGE_PROCUREMENT_TYPES``, переліки гарантій та обов'язкових ``bid.items``
   (``openprocurement.api.constants``), ``TENDER_CONFIG_JSONSCHEMAS``, ``TENDER_CRITERIA_RULES``,
   планування (``PROCEDURES["open"]``), передача прав (``relocation``), CI job ``test_tender_open_tendering``.
+- ``openprocurement.tender.open.procedure.models.tender`` - ``OpenTenderingPostTender`` /
+  ``OpenTenderingTender`` з обов'язковим полем ``procurementMethodSubtype`` (``UA`` / ``EU``); модель ``PATCH``
+  поля не містить (незмінність), базові моделі ``tender.core`` не змінюються (для legacy процедур поле
+  відхиляється як ``Rogue field``). Поле доступне у фіді через ``opt_fields``.
 - Вибір різновиду: ``OpenTenderingStateClass`` (``tender/open/procedure/views/base.py``) - резолвер
-  стейт-класу за ``config.openTenderingType`` (при ``POST /tenders`` - з тіла запиту, далі - з тендера).
+  стейт-класу за полем ``procurementMethodSubtype`` (при ``POST /tenders`` - з тіла запиту, далі - з тендера).
   Використовується для тендера, лотів, критеріїв та milestones авардів; решта ресурсів мають спільні
   стейт-класи ``OpenTendering*``.
 - ``OpenTenderingUATenderDetailsState`` / ``OpenTenderingEUTenderDetailsState`` - відрізняються
@@ -281,7 +285,7 @@ API ЦБД
   логіки не потребує.
 - Тести: ``tender/open/tests/open_tendering/{ua,eu}`` на основі тестів ``aboveThresholdUA`` /
   ``aboveThresholdEU`` з перевірками, специфічними для openTendering (валідація та незмінність
-  ``openTenderingType``, значення різновидів, одна пропозиція).
+  ``procurementMethodSubtype``, відхилення поля для legacy процедур, значення різновидів, одна пропозиція).
 
 Відкриті питання та припущення
 ------------------------------
@@ -290,7 +294,7 @@ API ЦБД
 - Строк подання вимог (claims) - 10 днів до кінця подання пропозицій, як у legacy процедурах.
 - EU: ``title_en`` та ``description_en`` тендера не обов'язкові (як в ``aboveThresholdEU``); якщо потрібно - треба
   додати їх до ``EU_REQUIRED_MULTILINGUAL_FIELDS``.
-- Публічна документація процедури (туторіали UA/EU, сторінка конфігурації ``openTenderingType``) буде
+- Публічна документація процедури (туторіали UA/EU, опис поля ``procurementMethodSubtype``) буде
   додана після релізу standards та запуску процедури.
 
 Наступні кроки

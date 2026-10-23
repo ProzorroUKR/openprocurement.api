@@ -255,7 +255,7 @@ TENDER_CO_CONFIG_JSONSCHEMAS = {
     "competitiveOrdering.short": standards.load("data_model/schema/TenderConfig/competitiveOrdering.short.json"),
 }
 
-# openTendering: the UA/EU variant config schemas (selected by config.openTenderingType)
+# openTendering: the UA/EU variant config schemas (selected by the tender field procurementMethodSubtype)
 TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS = {
     "openTendering.UA": standards.load("data_model/schema/TenderConfig/openTendering.UA.json"),
     "openTendering.EU": standards.load("data_model/schema/TenderConfig/openTendering.EU.json"),

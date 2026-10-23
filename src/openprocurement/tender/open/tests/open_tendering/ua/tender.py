@@ -2,32 +2,10 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
-from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
-from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
-    create_tender_central,
-    create_tender_central_invalid,
-    create_tender_with_inn,
-    create_tender_with_required_unit,
-    guarantee,
-    invalid_tender_conditions,
-    patch_tender_lots_none,
-    patch_tender_minimalstep_validation,
-    tender_lot_minimalstep_validation,
-    tender_milestones_required,
-)
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
 from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
-from openprocurement.tender.open.tests.open_tendering.ua.base import (
-    BaseApiWebTest,
-    BaseTenderOpenTenderingUAWebTest,
-    test_tender_open_tendering_ua_bids,
-    test_tender_open_tendering_ua_data,
-    BaseTenderOpenTenderingUAContentWebTest,
-    test_tender_open_tendering_ua_config,
-)
 from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
     activate_bid_after_adding_lot,
-    create_tender_generated,
     create_tender_invalid,
     create_tender_with_criteria_lcc,
     empty_listing,
@@ -44,10 +22,33 @@ from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
     tender_items_category_profile,
     tender_with_main_procurement_category,
 )
-from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
+from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
+    create_tender_central,
+    create_tender_central_invalid,
+    create_tender_with_inn,
+    create_tender_with_required_unit,
+    guarantee,
+    invalid_tender_conditions,
+    patch_tender_lots_none,
+    patch_tender_minimalstep_validation,
+    tender_lot_minimalstep_validation,
+    tender_milestones_required,
+)
+from openprocurement.tender.open.tests.open_tendering.ua.base import (
+    BaseApiWebTest,
+    BaseTenderOpenTenderingUAContentWebTest,
+    BaseTenderOpenTenderingUAWebTest,
+    test_tender_open_tendering_ua_bids,
+    test_tender_open_tendering_ua_config,
+    test_tender_open_tendering_ua_data,
+)
 from openprocurement.tender.open.tests.open_tendering.ua.tender_blanks import (
-    create_tender_invalid_config,
-    patch_tender_config_is_immutable,
+    create_tender_generated,
+    create_tender_invalid_subtype_and_config,
+    create_tender_subtype_forbidden_for_legacy,
+    patch_tender_procurement_method_subtype_is_immutable,
 )
 
 
@@ -76,8 +77,11 @@ class TenderOpenTenderingUAResourceTest(
     allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["openTendering"]
 
     test_create_tender_invalid = snitch(create_tender_invalid)
-    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
-    test_patch_tender_config_is_immutable = snitch(patch_tender_config_is_immutable)
+    test_create_tender_invalid_subtype_and_config = snitch(create_tender_invalid_subtype_and_config)
+    test_create_tender_subtype_forbidden_for_legacy = snitch(create_tender_subtype_forbidden_for_legacy)
+    test_patch_tender_procurement_method_subtype_is_immutable = snitch(
+        patch_tender_procurement_method_subtype_is_immutable
+    )
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

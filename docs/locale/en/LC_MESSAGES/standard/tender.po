@@ -134,8 +134,23 @@ msgstr "above threshold EU procedure indentifier"
 msgid "`openTendering`"
 msgstr ""
 
-msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає конфігурація `openTenderingType`)"
-msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `openTenderingType` config)"
+msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procurementMethodSubtype`)"
+msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procurementMethodSubtype` field)"
+
+msgid "`UA`"
+msgstr ""
+
+msgid "`EU`"
+msgstr ""
+
+msgid "національні відкриті торги (оголошення українською мовою, без попередньої кваліфікації)"
+msgstr "national open tendering (the announcement in Ukrainian, no prequalification)"
+
+msgid "відкриті торги вище європейських порогів (оголошення додатково англійською мовою, з попередньою кваліфікацією)"
+msgstr "open tendering above the EU thresholds (the announcement in English as well, with prequalification)"
+
+msgid "Різновид відкритих торгів за Законом № 4888-IX. Обов'язкове поле лише для `openTendering`: задається при створенні закупівлі та не може бути змінене."
+msgstr "The variant of the open tendering under the Law No. 4888-IX. Required only for `openTendering`: set at the tender creation and can't be changed."
 
 msgid "`aboveThresholdUA.defense`"
 msgstr ""

@@ -12,12 +12,12 @@ from openprocurement.tender.core.tests.base import (
     test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import change_auth, set_tender_multi_buyers, set_tender_periods
-from openprocurement.tender.open.tests.open_tendering.eu.periods import PERIODS
-from openprocurement.tender.open.tests.open_tendering.ua.base import BaseTenderOpenTenderingUAWebTest
 from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_buyer,
     test_tender_below_milestones,
 )
+from openprocurement.tender.open.tests.open_tendering.eu.periods import PERIODS
+from openprocurement.tender.open.tests.open_tendering.ua.base import BaseTenderOpenTenderingUAWebTest
 
 test_tender_open_tendering_eu_milestones = copy.deepcopy(test_tender_below_milestones)
 
@@ -134,9 +134,10 @@ test_tender_open_tendering_eu_data = {
         }
     ],
     "procurementMethodType": "openTendering",
+    "procurementMethodSubtype": "EU",
     "milestones": test_tender_open_tendering_eu_milestones,
 }
-set_tender_periods(test_tender_open_tendering_eu_data, start=now, config={"openTenderingType": "EU"})
+set_tender_periods(test_tender_open_tendering_eu_data, start=now)
 if SANDBOX_MODE:
     test_tender_open_tendering_eu_data["procurementMethodDetails"] = "quick, accelerator=1440"
 
@@ -188,7 +189,6 @@ test_tender_open_tendering_eu_restricted_data = test_tender_open_tendering_eu_fe
 test_tender_open_tendering_eu_restricted_bids = test_tender_open_tendering_eu_bids
 
 test_tender_open_tendering_eu_config = {
-    "openTenderingType": "EU",
     "hasAuction": True,
     "hasAwardingOrder": True,
     "hasValueRestriction": True,

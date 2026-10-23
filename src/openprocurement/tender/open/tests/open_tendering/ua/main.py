@@ -1,6 +1,6 @@
 import unittest
 
-from openprocurement.tender.open.tests.above_threshold_ua import (
+from openprocurement.tender.open.tests.open_tendering.ua import (
     auction,
     award,
     bid,
@@ -8,6 +8,7 @@ from openprocurement.tender.open.tests.above_threshold_ua import (
     chronograph,
     complaint,
     contract,
+    criterion,
     document,
     lot,
     question,
@@ -16,6 +17,7 @@ from openprocurement.tender.open.tests.above_threshold_ua import (
 
 
 def suite():
+    suite = unittest.TestSuite()
     suite.addTest(auction.suite())
     suite.addTest(award.suite())
     suite.addTest(bid.suite())
@@ -23,6 +25,7 @@ def suite():
     suite.addTest(chronograph.suite())
     suite.addTest(complaint.suite())
     suite.addTest(contract.suite())
+    suite.addTest(criterion.suite())
     suite.addTest(document.suite())
     suite.addTest(lot.suite())
     suite.addTest(question.suite())

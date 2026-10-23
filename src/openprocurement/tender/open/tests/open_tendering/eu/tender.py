@@ -2,6 +2,23 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
+from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
+from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
+from openprocurement.tender.open.tests.above_threshold_eu.tender_blanks import (
+    create_tender_invalid,
+    invalid_bid_tender_features,
+    invalid_bid_tender_lot,
+    lost_contract_for_active_award,
+    multiple_bidders_tender,
+    one_bid_tender,
+    one_qualificated_bid_tender,
+    patch_tender,
+    unsuccessful_after_prequalification_tender,
+)
+from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
+    create_tender_with_criteria_lcc,
+    tender_with_main_procurement_category,
+)
 from openprocurement.tender.open.tests.below_threshold.tender import TenderResourceTestMixin
 from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     activate_bid_guarantee_multilot,
@@ -18,38 +35,21 @@ from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     tender_milestones_required,
     tender_with_guarantee_multilot,
 )
-from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
 from openprocurement.tender.open.tests.open_tendering.eu.base import (
+    BaseTenderContentWebTest,
     BaseTenderWebTest,
     test_tender_open_tendering_eu_bids,
+    test_tender_open_tendering_eu_config,
     test_tender_open_tendering_eu_data,
     test_tender_open_tendering_eu_lots,
-    BaseTenderContentWebTest,
-    test_tender_open_tendering_eu_config,
 )
-from openprocurement.tender.open.tests.above_threshold_eu.tender_blanks import (
+from openprocurement.tender.open.tests.open_tendering.eu.tender_blanks import (
     create_tender_generated,
-    create_tender_invalid,
-    invalid_bid_tender_features,
-    invalid_bid_tender_lot,
-    lost_contract_for_active_award,
-    multiple_bidders_tender,
-    one_bid_tender,
-    one_qualificated_bid_tender,
-    patch_tender,
-    unsuccessful_after_prequalification_tender,
+    create_tender_invalid_subtype_and_config,
+    create_tender_multilingual_fields_required,
+    patch_tender_procurement_method_subtype_is_immutable,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.tender import TenderOpenTenderingUAResourceTestMixin
-from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
-    create_tender_with_criteria_lcc,
-    tender_with_main_procurement_category,
-)
-from openprocurement.tender.core.tests.multi_sourcing_mixin import MultiSourcingTestMixin
-from openprocurement.tender.open.tests.open_tendering.eu.tender_blanks import (
-    create_tender_invalid_config,
-    create_tender_multilingual_fields_required,
-    patch_tender_config_is_immutable,
-)
 
 
 class TenderTest(BaseTenderWebTest):
@@ -64,8 +64,10 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderOpenT
     allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["openTendering"]
 
     test_create_tender_invalid = snitch(create_tender_invalid)
-    test_create_tender_invalid_config = snitch(create_tender_invalid_config)
-    test_patch_tender_config_is_immutable = snitch(patch_tender_config_is_immutable)
+    test_create_tender_invalid_subtype_and_config = snitch(create_tender_invalid_subtype_and_config)
+    test_patch_tender_procurement_method_subtype_is_immutable = snitch(
+        patch_tender_procurement_method_subtype_is_immutable
+    )
     test_create_tender_multilingual_fields_required = snitch(create_tender_multilingual_fields_required)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
