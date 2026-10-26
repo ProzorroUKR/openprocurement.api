@@ -813,7 +813,11 @@ Content-Type: application/json
           "changes": [
             {
               "op": "remove",
-              "path": "/documents"
+              "path": "/id"
+            },
+            {
+              "op": "remove",
+              "path": "/contractChangeRationaleTypes"
             },
             {
               "op": "remove",
@@ -825,47 +829,7 @@ Content-Type: application/json
             },
             {
               "op": "remove",
-              "path": "/value"
-            },
-            {
-              "op": "remove",
-              "path": "/transfer_token"
-            },
-            {
-              "op": "remove",
-              "path": "/tender_id"
-            },
-            {
-              "op": "remove",
-              "path": "/items"
-            },
-            {
-              "op": "remove",
-              "path": "/buyer"
-            },
-            {
-              "op": "remove",
-              "path": "/title"
-            },
-            {
-              "op": "remove",
-              "path": "/suppliers"
-            },
-            {
-              "op": "remove",
-              "path": "/config"
-            },
-            {
-              "op": "remove",
-              "path": "/period"
-            },
-            {
-              "op": "remove",
-              "path": "/contractChangeRationaleTypes"
-            },
-            {
-              "op": "remove",
-              "path": "/status"
+              "path": "/_id"
             },
             {
               "op": "remove",
@@ -873,15 +837,27 @@ Content-Type: application/json
             },
             {
               "op": "remove",
-              "path": "/id"
+              "path": "/suppliers"
             },
             {
               "op": "remove",
-              "path": "/awardID"
+              "path": "/value"
             },
             {
               "op": "remove",
-              "path": "/milestones"
+              "path": "/period"
+            },
+            {
+              "op": "remove",
+              "path": "/transfer_token"
+            },
+            {
+              "op": "remove",
+              "path": "/config"
+            },
+            {
+              "op": "remove",
+              "path": "/status"
             },
             {
               "op": "remove",
@@ -889,7 +865,31 @@ Content-Type: application/json
             },
             {
               "op": "remove",
-              "path": "/_id"
+              "path": "/documents"
+            },
+            {
+              "op": "remove",
+              "path": "/milestones"
+            },
+            {
+              "op": "remove",
+              "path": "/items"
+            },
+            {
+              "op": "remove",
+              "path": "/tender_id"
+            },
+            {
+              "op": "remove",
+              "path": "/awardID"
+            },
+            {
+              "op": "remove",
+              "path": "/title"
+            },
+            {
+              "op": "remove",
+              "path": "/buyer"
             }
           ],
           "rev": null,

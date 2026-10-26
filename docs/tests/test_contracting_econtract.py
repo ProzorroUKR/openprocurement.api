@@ -756,8 +756,6 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                 )
             mock_upload_contract_change_pdf.assert_called_once()
 
-        # terminationDetails: звіт про виконання договору
-
         with open(TARGET_DIR + "termination-details-patch.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
                 f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
