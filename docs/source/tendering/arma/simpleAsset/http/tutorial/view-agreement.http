@@ -1,0 +1,148 @@
+GET /api/2.5/agreements/0bb343f347124a3dbe08e138e0629852 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "agreementID": "UA-2027-01-01-000001",
+    "frameworkID": "861eb3e119fd413db5cc47f26577c860",
+    "agreementType": "assetRecoveryManagementAgency",
+    "status": "active",
+    "period": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2028-02-25T00:00:00+02:00"
+    },
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "address": {
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "+0440000000",
+        "email": "aa@aa.com"
+      },
+      "kind": "authority"
+    },
+    "classification": {
+      "description": "Mustard seeds",
+      "scheme": "ДК021",
+      "id": "03111600-8"
+    },
+    "additionalClassifications": [
+      {
+        "scheme": "ДК003",
+        "id": "17.21.1",
+        "description": "папір і картон гофровані, паперова й картонна тара"
+      }
+    ],
+    "contracts": [
+      {
+        "id": "455ea070c79341fc9167bb9f8481bfef",
+        "qualificationID": "c1f18985df4649d1b145665f2207594a",
+        "submissionID": "831ab2dddfca4b89b36070735f6a58ee",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "ДКП «Школяр»",
+            "scale": "micro",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137256",
+              "uri": "http://www.sc.gov.ua/",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+            },
+            "address": {
+              "countryName": "Україна",
+              "streetAddress": "вул. Островського, 33",
+              "locality": "м. Вінниця",
+              "region": "Вінницька область",
+              "postalCode": "21100"
+            },
+            "contactPoint": {
+              "name": "Сергій Олексюк",
+              "telephone": "+380432216930",
+              "email": "soleksuk@gmail.com"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "aab9c40e438f477a83efb54e711778cf",
+            "status": "scheduled",
+            "type": "activation",
+            "dueDate": "2028-02-25T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
+          }
+        ],
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
+      },
+      {
+        "id": "10872f2dc68c427b965dba4ec18e8cb5",
+        "qualificationID": "f6258bc818dc476f8dcd9b5dd7a37655",
+        "submissionID": "c80f7a25129b4b8fb10a67fe76235375",
+        "status": "active",
+        "suppliers": [
+          {
+            "name": "ДКП «Книга»",
+            "scale": "sme",
+            "identifier": {
+              "scheme": "UA-EDR",
+              "id": "00137226",
+              "uri": "http://www.sc.gov.ua/",
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»"
+            },
+            "address": {
+              "countryName": "Україна",
+              "streetAddress": "вул. Островського, 34",
+              "locality": "м. Львів",
+              "region": "Львівська область",
+              "postalCode": "79013"
+            },
+            "contactPoint": {
+              "name": "Андрій Олексюк",
+              "telephone": "+380322916930",
+              "email": "aagt@gmail.com"
+            }
+          }
+        ],
+        "milestones": [
+          {
+            "id": "b7c2ab8c366d403798865c88701c5643",
+            "status": "scheduled",
+            "type": "activation",
+            "dueDate": "2028-02-25T00:00:00+02:00",
+            "dateModified": "2027-01-01T00:00:00+02:00"
+          }
+        ],
+        "date": "2027-01-01T00:00:00+02:00",
+        "dateModified": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "owner": "broker",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "date": "2027-01-01T00:00:00+02:00",
+    "next_check": "2028-02-25T00:00:00+02:00",
+    "dateCreated": "2027-01-01T00:00:00+02:00",
+    "id": "0bb343f347124a3dbe08e138e0629852"
+  },
+  "config": {
+    "restricted": false
+  }
+}
+

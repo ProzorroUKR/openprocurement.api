@@ -1,8 +1,13 @@
 from openprocurement.tender.arma.procedure.state.award import (
-    ARMAAwardState,
+    ComplexAssetAwardState,
+    SimpleAssetAwardState,
 )
 from openprocurement.tender.core.procedure.state.req_response import ReqResponseStateMixin
 
 
-class ARMAAwardReqResponseState(ReqResponseStateMixin, ARMAAwardState):
+class ComplexAssetAwardReqResponseState(ReqResponseStateMixin, ComplexAssetAwardState):
+    pass
+
+
+class SimpleAssetAwardReqResponseState(ReqResponseStateMixin, SimpleAssetAwardState):
     pass

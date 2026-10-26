@@ -20,3 +20,5 @@ priceQuotation,false,false
 reporting,false,false
 simple.defense,false,false
 requestForProposal,true,true
+complexAsset.arma,false,false
+simpleAsset.arma,false,false

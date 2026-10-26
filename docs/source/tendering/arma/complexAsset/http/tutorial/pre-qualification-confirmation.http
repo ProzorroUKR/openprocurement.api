@@ -586,7 +586,6 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       }
     ],
-    "procurementMethodType": "complexAsset.arma",
     "awardCriteria": "ratedCriteria",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -637,6 +636,7 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethodType": "complexAsset.arma",
     "next_check": "2027-01-02T00:00:00+02:00",
     "id": "ee8464b688974d51b379fe16104cce62"
   },

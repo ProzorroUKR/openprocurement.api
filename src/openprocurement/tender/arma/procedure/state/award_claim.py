@@ -1,6 +1,13 @@
-from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
+from openprocurement.tender.arma.procedure.state.tender import (
+    ComplexAssetTenderState,
+    SimpleAssetTenderState,
+)
 from openprocurement.tender.core.procedure.state.award_claim import AwardClaimStateMixin
 
 
-class ARMAAwardClaimState(AwardClaimStateMixin, ARMATenderState):
+class ComplexAssetAwardClaimState(AwardClaimStateMixin, ComplexAssetTenderState):
+    pass
+
+
+class SimpleAssetAwardClaimState(AwardClaimStateMixin, SimpleAssetTenderState):
     pass

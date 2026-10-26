@@ -1,0 +1,24 @@
+GET /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/documents/b0acf0c685ba4f389a4985ed7011fe2f?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "confidentiality": "public",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Notice.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/16b9977b2d9746d7b46fa5f1ae5c33d8?Signature=GrIK4pdB1krre7DiF3WPArMiixiYrrEKLvpX%2BKSXCRO7eOmtQKJwz4TWCClplOO%2FNdGYqGYwFPuZiQ3uMIuEAg%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "b0acf0c685ba4f389a4985ed7011fe2f",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "author": "tender_owner"
+  }
+}
+

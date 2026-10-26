@@ -1,0 +1,248 @@
+POST /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 34"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "name": "Андрій Олексюк",
+          "telephone": "+380322916930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "scale": "sme"
+      }
+    ],
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b5c00b2e55244ddcb4ba02fc3e10dd89?Signature=3QeiViRD%2FEuPzOTHclLXkDQ3oZtLgprbTBpk0L4CIxvbZA7UpYfGkQpygYsfbEMyyf%2BiQIQTohxDTCrmABUYAg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      },
+      {
+        "title": "Proposal_part2.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/35ce34dd297043b38961d04bf27dad85?Signature=QRGC4yS7TaiJ4QaxY%2Bo766L1N%2BNlggr%2Fx5MQ3wUpqi9LMk5W6ILgeWga6Gz6EF4Rmnc0huVHYfvSIOOrmyI3Cw%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "title": "eligibility_doc.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f52b6532247420288d14307da078ccf?Signature=pQ5823nuZl1koc1uoGyUkL6iodK1q0IYUwy1WDa8HfxpCce5WQ1PlocROX%2BZKeUR9XdOCVsWucdojTYOUcVZDA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "title": "financial_doc.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec27f537e3054f109e366dad788a6e94?Signature=iYcykMy%2BSIs3dx0cDmJ%2Bzr4l%2FRPtDmKUKh5SLvK0LjGR0rLGr9ZBP7pR0Ho7F11u37QCwJSZP0rGeIbaP0BxDw%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "title": "qualification_document.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2fa2d3bc7a484b3bb40ff57909cbd6ca?Signature=k6gR8Gviz9%2F2iZOvdeSlDr1FYISFloL2Pgf29xXhO74u1Cgede0z2z3bohHh7LRqwGQUjbI9tDBvymy7S1JoAQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amountPercentage": 50
+        },
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      }
+    ],
+    "items": [
+      {
+        "id": "986fe60dd1744bae9e0db008b0839458",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      },
+      {
+        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/bids/7ea276fa236740e6b428e5b0a05e99ce
+
+{
+  "data": {
+    "items": [
+      {
+        "id": "986fe60dd1744bae9e0db008b0839458",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      },
+      {
+        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        },
+        "scale": "sme"
+      }
+    ],
+    "status": "draft",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b5c00b2e55244ddcb4ba02fc3e10dd89?Signature=mTO2pciHfec9WTVTtdPXBigufXdEl1IAyAlAqBUwQF56TMTcBHew%2BRZAytHtCZa2hLAsMybxDsVELL8gl4sqAg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "73caad3494de4d6399f048dea9319588",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      },
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/35ce34dd297043b38961d04bf27dad85?Signature=uKEmL25PcuH3LxkZiQNWiZ0IsM43iPD4O%2FmXluc%2BKEsa1m6ZCzPNp6m8KEjxKpx9kBVn%2F96crnjsNYJSuD4jDQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "555c39a906a547f38e74f77d870f1448",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "financial_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ec27f537e3054f109e366dad788a6e94?Signature=ZWIdpRgWE1lCRjgiS8c6f%2F%2FA0I0cmCgG7S6jFSGnOj7VYVPdhUv0195DIv0FkzXV2WOMXjeEMEYa4lVbQ6DgAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "908a0e5cc4664c3a9aa7f3b4fb208a25",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "eligibility_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3f52b6532247420288d14307da078ccf?Signature=WBYujH9JnFN0Mv9YtCzTuylZCe%2BsCwsW7lp42Mm7GSky8rTGUYnccTAB9dqIltwT1IE8%2F1ow9Kf%2Ft9UwWyucBg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "fb59266047bc4b0fa2e40b14c8c42393",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "qualification_document.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/2fa2d3bc7a484b3bb40ff57909cbd6ca?Signature=aF%2BDi5jTBHP%2Fm%2BiC6WOi6hYI7WP3N4wOGq%2BFsMG%2F4RBFy2pm8hqh324M2Mgb%2FMKqsmYCx9K0p1KYSZQ6E3v9CQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "9403aa7796f24dfca937210e59f609d6",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amountPercentage": 50.0
+        },
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d",
+        "date": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "id": "7ea276fa236740e6b428e5b0a05e99ce",
+    "date": "2027-01-01T00:03:00+02:00"
+  },
+  "access": {
+    "token": "02ad3cb66ed248a59034325cd8e89191",
+    "transfer": "acc7e5cd4af943af878d5b9e922d0525"
+  }
+}
+
