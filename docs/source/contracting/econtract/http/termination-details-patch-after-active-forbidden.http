@@ -1,0 +1,29 @@
+PATCH /api/2.5/contracts/cfd0dda789df491dbe20d9575e87e19d/termination_details?acc_token=8c9628c99a194055aa41579ce72ea2a7 HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "terminationDetails": {
+      "reasonType": "disrupted",
+      "reason": "інша причина"
+    }
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "data",
+      "description": "Can't update contract in current (terminated) status"
+    }
+  ]
+}
+

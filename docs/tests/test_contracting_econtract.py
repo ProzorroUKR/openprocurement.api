@@ -755,3 +755,57 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                     },
                 )
             mock_upload_contract_change_pdf.assert_called_once()
+
+        # terminationDetails: звіт про виконання договору
+
+        with open(TARGET_DIR + "termination-details-patch.http", "w") as self.app.file_obj:
+            response = self.app.patch_json(
+                f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
+                {
+                    "data": {
+                        "terminationDetails": {
+                            "reasonType": "disrupted",
+                            "reason": "Договір розірвано достроково за згодою сторін",
+                            "amountPaid": {"amount": 200, "currency": "UAH"},
+                        }
+                    }
+                },
+            )
+        self.assertEqual(response.json["data"]["status"], "draft")
+
+        with open(TARGET_DIR + "termination-details-get.http", "w") as self.app.file_obj:
+            self.app.get(f"/contracts/{self.contract_id}/termination_details?opt_context=true")
+
+        termination_signature_data = {
+            "documentType": "terminationSignature",
+            "title": "termination_sign.p7s",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/pkcs7-signature",
+        }
+
+        with open(TARGET_DIR + "termination-signature-forbidden.http", "w") as self.app.file_obj:
+            self.app.post_json(
+                f"/contracts/{self.contract_id}/termination_details/documents?acc_token={supplier_token}",
+                {"data": termination_signature_data},
+                status=403,
+            )
+
+        with open(TARGET_DIR + "termination-signature-activate.http", "w") as self.app.file_obj:
+            response = self.app.post_json(
+                f"/contracts/{self.contract_id}/termination_details/documents?acc_token={buyer_token_2}",
+                {"data": termination_signature_data},
+            )
+        self.assertEqual(response.status, "201 Created")
+
+        with open(TARGET_DIR + "contract-terminated.http", "w") as self.app.file_obj:
+            response = self.app.get(f"/contracts/{self.contract_id}")
+        self.assertEqual(response.json["data"]["status"], "terminated")
+        self.assertEqual(response.json["data"]["terminationDetails"]["status"], "active")
+
+        with open(TARGET_DIR + "termination-details-patch-after-active-forbidden.http", "w") as self.app.file_obj:
+            self.app.patch_json(
+                f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
+                {"data": {"terminationDetails": {"reasonType": "disrupted", "reason": "інша причина"}}},
+                status=403,
+            )
