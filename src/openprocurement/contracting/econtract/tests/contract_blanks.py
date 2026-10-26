@@ -267,8 +267,8 @@ def post_new_version_of_contract(self):
     )
 
     # try to change forbidden field
-    title_ru_before = initial_contract_data.get("title_ru")
-    contract_data["title_ru"] = "New contract"
+    contract_number_before = initial_contract_data.get("contractNumber")
+    contract_data["contractNumber"] = "New contract"
     response = self.app.post_json(
         f"/contracts?acc_token={self.supplier_token}",
         {"data": contract_data},
@@ -284,14 +284,14 @@ def post_new_version_of_contract(self):
                 "description": (
                     "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', "
                     "'description_en', 'dateSigned', 'milestones', 'suppliers') "
-                    "in contract, title_ru change forbidden: "
-                    f"{title_ru_before} -> New contract"
+                    "in contract, contractNumber change forbidden: "
+                    f"{contract_number_before} -> New contract"
                 ),
             }
         ],
     )
 
-    del contract_data["title_ru"]
+    del contract_data["contractNumber"]
     delivery_date_before = initial_contract_data["items"][0]["deliveryDate"]
     delivery_date_after = {"startDate": "2022-01-01T00:00:00+02:00"}
     contract_data["items"][0]["deliveryDate"] = delivery_date_after

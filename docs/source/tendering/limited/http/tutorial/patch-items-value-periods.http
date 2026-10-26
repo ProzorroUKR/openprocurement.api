@@ -51,7 +51,6 @@ Content-Type: application/json
 {
   "data": {
     "title_en": "Services in school canteens",
-    "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "criteria": [

@@ -369,7 +369,6 @@ def patch_tender_criteria_valid(self):
     updated_data = {
         "title": "Оновлена назва",
         "title_en": "Updated title",
-        "title_ru": "Обновлённое название",
         "description": "Оновлений опис",
     }
     response = self.app.patch_json(
@@ -381,7 +380,6 @@ def patch_tender_criteria_valid(self):
 
     self.assertEqual(criteria["title"], updated_data["title"])
     self.assertEqual(criteria["title_en"], updated_data["title_en"])
-    self.assertEqual(criteria["title_ru"], updated_data["title_ru"])
     self.assertEqual(criteria["description"], updated_data["description"])
 
     updated_data = {
@@ -423,7 +421,6 @@ def patch_tender_criteria_invalid(self):
     updated_data = {
         "title": "Оновлена назва",
         "title_en": "Updated title",
-        "title_ru": "Обновлённое название",
         "description": "Оновлений опис",
     }
 
@@ -1672,7 +1669,6 @@ def put_rg_requirement_valid(self):
     # put_exclusion_ignore_data = {
     #     "title": "111",
     #     "title_en": "",
-    #     "title_ru": "",
     #     "description": "",
     #     "description_en": "",
     #     "description_ru": "",

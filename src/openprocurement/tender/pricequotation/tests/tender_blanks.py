@@ -1311,7 +1311,7 @@ def tender_owner_can_change_in_draft(self):
         "procurementMethodRationale_en": "Some text 5",
         "procurementMethodRationale_ru": "Some text 6",
     }
-    titles = {"title": "Test title 1", "title_en": "Test title 2", "title_ru": "Test title 3"}
+    titles = {"title": "Test title 1", "title_en": "Test title 2"}
     criterias = {
         "eligibilityCriteria": "Test criteria 1",
         "eligibilityCriteria_en": "Test criteria 2",
@@ -1381,8 +1381,6 @@ def tender_owner_can_change_in_draft(self):
     self.assertNotEqual(tender["title"], data.get("title"))
     self.assertEqual(tender["title_en"], titles["title_en"])
     self.assertNotEqual(tender["title_en"], data.get("title_en"))
-    self.assertEqual(tender["title_ru"], titles["title_ru"])
-    self.assertNotEqual(tender["title_ru"], data.get("title_ru"))
 
     # criterias
     response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": criterias})

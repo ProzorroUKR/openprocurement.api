@@ -404,7 +404,7 @@ def create_framework_draft_invalid(self):
 
     data = {
         "frameworkType": self.initial_data["frameworkType"],
-        "title_ru": "invalid_value",
+        "title_en": "invalid_value",
     }
     response = self.app.post_json(request_path, {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")

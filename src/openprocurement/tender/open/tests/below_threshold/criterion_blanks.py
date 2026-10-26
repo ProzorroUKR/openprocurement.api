@@ -24,7 +24,6 @@ def patch_tender_criteria_invalid(self):
     updated_data = {
         "title": "Оновлена назва",
         "title_en": "Updated title",
-        "title_ru": "Обновлённое название",
         "description": "Оновлений опис",
         "relatesTo": "lot",
     }
