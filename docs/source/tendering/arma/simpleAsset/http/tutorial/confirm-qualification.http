@@ -1,0 +1,76 @@
+PATCH /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/awards/454579430d5641b28f3a76fdfbc3a835?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "status": "active",
+    "qualified": true,
+    "eligible": true
+  }
+}
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": {
+    "id": "454579430d5641b28f3a76fdfbc3a835",
+    "status": "active",
+    "date": "2027-01-01T00:03:00+02:00",
+    "suppliers": [
+      {
+        "name": "Школяр",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "bid_id": "8414ebb5ea734e6785e481968a588433",
+    "lotID": "e213c834ada84d04a1da0e74dd81125d",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "documentType": "notice",
+        "id": "0b4c45463cb24218b033b9f81a04b4bf",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "sign.p7s",
+        "format": "application/pkcs7-signature",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/db141727478d48cd846f737ce7078695?Signature=dKIp9tb2aIP5tL0iBVEWtOSPmN1gVHJ5Dy3mPDr3eKHi%2Bq6bTaalTnyXCI8F0ctrulRFCcBFDFMgBnnWdQt3CA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:03:00+02:00",
+        "author": "tender_owner",
+        "language": "uk"
+      }
+    ],
+    "period": {
+      "startDate": "2027-01-01T00:03:00+02:00",
+      "endDate": "2027-01-09T00:00:00+02:00"
+    },
+    "qualified": true,
+    "eligible": true,
+    "value": {
+      "amountPercentage": 50.0
+    }
+  }
+}
+

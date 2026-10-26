@@ -422,14 +422,26 @@ test_violation_report:
     - .test_violation_report
 
 
-.test_tender_arma:
+.test_tender_arma_complex_asset:
   variables:
-    TESTS_PATH: src/openprocurement/tender/arma/tests
+    TESTS_PATH: src/openprocurement/tender/arma/tests/complex_asset
     COV_PATH: src/openprocurement/tender/arma
     COV_FILE: .coveragerc
 
-test_tender_arma:
+test_tender_arma_complex_asset:
   extends:
     - .test
-    - .test_tender_arma
+    - .test_tender_arma_complex_asset
+
+
+.test_tender_arma_simple_asset:
+  variables:
+    TESTS_PATH: src/openprocurement/tender/arma/tests/simple_asset
+    COV_PATH: src/openprocurement/tender/arma
+    COV_FILE: .coveragerc
+
+test_tender_arma_simple_asset:
+  extends:
+    - .test
+    - .test_tender_arma_simple_asset
 

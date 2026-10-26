@@ -242,6 +242,7 @@ TENDER_CONFIG_JSONSCHEMAS = {
     "simple.defense": standards.load("data_model/schema/TenderConfig/simple.defense.json"),
     "requestForProposal": standards.load("data_model/schema/TenderConfig/requestForProposal.json"),
     "complexAsset.arma": standards.load("data_model/schema/TenderConfig/complexAsset.arma.json"),
+    "simpleAsset.arma": standards.load("data_model/schema/TenderConfig/simpleAsset.arma.json"),
 }
 
 TENDER_CO_CONFIG_JSONSCHEMAS = {
@@ -356,6 +357,7 @@ TENDER_CRITERIA_RULES = {
     "reporting": load_criteria_rules("reporting", constants_env),
     "simple.defense": load_criteria_rules("simple.defense", constants_env),
     "complexAsset.arma": load_criteria_rules("complexAsset.arma", constants_env),
+    "simpleAsset.arma": load_criteria_rules("simpleAsset.arma", constants_env),
 }
 
 # Auction plannning configuration

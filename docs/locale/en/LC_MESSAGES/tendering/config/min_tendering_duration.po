@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 14:45+0300\n"
+"POT-Creation-Date: 2026-10-16 00:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -132,6 +132,18 @@ msgid "requestForProposal"
 msgstr ""
 
 msgid "4"
+msgstr ""
+
+msgid "complexAsset.arma"
+msgstr ""
+
+msgid "20"
+msgstr ""
+
+msgid "simpleAsset.arma"
+msgstr ""
+
+msgid "10"
 msgstr ""
 
 #~ msgid "7 / 15"

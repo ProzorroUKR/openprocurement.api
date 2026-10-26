@@ -11,10 +11,17 @@ class ARMATenderState(TenderState):
     auction_lot_results_model = DecimalAuctionLotResults
     award_class = ARMAAward
 
-    alp_due_date_period = timedelta(days=2)
     alp_amount_key: str = "amountPercentage"
     alp_milestone_reasons: tuple = ARMA_ALP_MILESTONE_REASONS
     # ARMA keeps the pre-auction ALP calculation: mean is based on initial tendering prices.
     alp_mean_from_tendering_bids: bool = True
     awarding_criteria_key: str = "amountPercentage"
     weighted_value_with_currency = False
+
+
+class ComplexAssetTenderState(ARMATenderState):
+    alp_due_date_period = timedelta(days=2)
+
+
+class SimpleAssetTenderState(ARMATenderState):
+    pass

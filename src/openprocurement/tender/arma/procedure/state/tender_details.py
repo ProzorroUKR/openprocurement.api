@@ -1,18 +1,25 @@
 from openprocurement.api.constants_env import ARMA_MIN_EXPECTED_INCOME_FROM
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.tender.arma.constants import ARMA_TENDERING_EXTRA_PERIOD, ARMA_WORKING_DAYS_CONFIG
-from openprocurement.tender.arma.procedure.models.tender import ARMAPatchTender, ARMAPostTender, ARMATender
-from openprocurement.tender.arma.procedure.state.tender import ARMATenderState
+from openprocurement.tender.arma.procedure.models.tender import (
+    ARMAPatchTender,
+    ComplexAssetPostTender,
+    ComplexAssetTender,
+    SimpleAssetPatchTender,
+    SimpleAssetPostTender,
+    SimpleAssetTender,
+)
+from openprocurement.tender.arma.procedure.state.tender import (
+    ComplexAssetTenderState,
+    SimpleAssetTenderState,
+)
 from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
 
 class ARMATenderDetailsMixin(TenderDetailsMixin):
-    post_data_model = ARMAPostTender
-    patch_data_model = ARMAPatchTender
-    data_model = ARMATender
-
     procuring_entity_available_language_default = "uk"
     contract_template_name_allowed = False
     milestones_required = False
@@ -104,5 +111,18 @@ class ARMATenderDetailsMixin(TenderDetailsMixin):
         return {lot["id"]: lot.get("minExpectedIncome") for lot in tender.get("lots") or [] if lot.get("id")}
 
 
-class ARMATenderDetailsState(ARMATenderDetailsMixin, ARMATenderState):
-    pass
+class ComplexAssetTenderDetailsState(ARMATenderDetailsMixin, ComplexAssetTenderState):
+    post_data_model = ComplexAssetPostTender
+    patch_data_model = ARMAPatchTender
+    data_model = ComplexAssetTender
+
+
+class SimpleAssetTenderDetailsState(ARMATenderDetailsMixin, SimpleAssetTenderState):
+    post_data_model = SimpleAssetPostTender
+    patch_data_model = SimpleAssetPatchTender
+    data_model = SimpleAssetTender
+
+    agreement_field = "agreement"
+    agreement_allowed_types = [ARMA_TYPE]
+    agreement_min_active_contracts = 2
+    patch_status_choices = ("draft", "active.tendering")

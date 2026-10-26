@@ -1,0 +1,144 @@
+POST /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Вінниця",
+          "postalCode": "21100",
+          "region": "Вінницька область",
+          "streetAddress": "вул. Островського, 33"
+        },
+        "contactPoint": {
+          "email": "soleksuk@gmail.com",
+          "name": "Сергій Олексюк",
+          "telephone": "+380432216930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "scale": "micro"
+      }
+    ],
+    "status": "draft",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "value": {
+          "amountPercentage": 50
+        },
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      }
+    ],
+    "items": [
+      {
+        "id": "986fe60dd1744bae9e0db008b0839458",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      },
+      {
+        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/bids/8414ebb5ea734e6785e481968a588433
+
+{
+  "data": {
+    "items": [
+      {
+        "id": "986fe60dd1744bae9e0db008b0839458",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      },
+      {
+        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+      }
+    ],
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "tenderers": [
+      {
+        "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця",
+          "region": "Вінницька область",
+          "postalCode": "21100",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
+      }
+    ],
+    "status": "draft",
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amountPercentage": 50.0
+        },
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
+    "id": "8414ebb5ea734e6785e481968a588433",
+    "date": "2027-01-01T00:00:00+02:00"
+  },
+  "access": {
+    "token": "3328afa5d29c43a0856be110bae584ac",
+    "transfer": "75b27645526945a6a86e084499f7a97c"
+  }
+}
+

@@ -22,3 +22,11 @@ class ARMABidState(BidState):
     }
     item_unit_amount_check = False
     bid_value_amount_field = "amountPercentage"
+
+
+class ComplexAssetBidState(ARMABidState):
+    pass
+
+
+class SimpleAssetBidState(ARMABidState):
+    pass

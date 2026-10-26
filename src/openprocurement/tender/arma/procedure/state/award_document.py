@@ -5,3 +5,11 @@ from openprocurement.tender.core.procedure.state.award_document import (
 
 class ARMAAwardDocumentState(AwardDocumentState):
     award_document_allowed_tender_statuses = ("active.qualification", "active.awarded")
+
+
+class ComplexAssetAwardDocumentState(ARMAAwardDocumentState):
+    pass
+
+
+class SimpleAssetAwardDocumentState(ARMAAwardDocumentState):
+    pass

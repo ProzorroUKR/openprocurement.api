@@ -40,7 +40,7 @@ from openprocurement.contracting.core.procedure.utils import (
     is_bid_owner,
     is_contract_owner,
 )
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
+from openprocurement.tender.arma.constants import ARMA_PROCUREMENT_METHOD_TYPES
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
 from openprocurement.tender.core.procedure.cancelling import CancellationBlockMixin
 from openprocurement.tender.core.procedure.state.tender import BlockComplaintMixin
@@ -639,7 +639,7 @@ class ContractState(
     def validate_value(self, value: dict):
         if value:
             tender = get_tender()
-            if tender.get("procurementMethodType") == COMPLEX_ASSET_ARMA:
+            if tender.get("procurementMethodType") in ARMA_PROCUREMENT_METHOD_TYPES:
                 validate_field(value, "amountPercentage")
             else:
                 validate_field(value, "amount")

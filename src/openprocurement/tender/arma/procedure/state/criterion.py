@@ -1,8 +1,13 @@
 from openprocurement.tender.arma.procedure.state.tender_details import (
-    ARMATenderDetailsState,
+    ComplexAssetTenderDetailsState,
+    SimpleAssetTenderDetailsState,
 )
 from openprocurement.tender.core.procedure.state.criterion import CriterionStateMixin
 
 
-class ARMACriterionState(CriterionStateMixin, ARMATenderDetailsState):
+class ComplexAssetCriterionState(CriterionStateMixin, ComplexAssetTenderDetailsState):
+    pass
+
+
+class SimpleAssetCriterionState(CriterionStateMixin, SimpleAssetTenderDetailsState):
     pass
