@@ -82,7 +82,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
-    "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "milestones": [
@@ -166,7 +165,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/db1b04eb8ce84e7c
   "data": {
     "mainProcurementCategory": "services",
     "title_en": "Services in school canteens",
-    "title_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "procurementMethod": "limited",
