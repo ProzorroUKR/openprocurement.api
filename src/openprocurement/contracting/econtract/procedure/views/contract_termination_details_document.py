@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import unless_admins, unless_administrator, validate_input_data
+from openprocurement.api.procedure.validation import unless_administrator, unless_admins, validate_input_data
 from openprocurement.api.utils import json_view
 from openprocurement.contracting.core.procedure.validation import (
     validate_contract_in_active_status,

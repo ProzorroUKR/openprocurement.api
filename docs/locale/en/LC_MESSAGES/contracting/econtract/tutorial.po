@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-01-19 11:37+0200\n"
+"POT-Creation-Date: 2026-10-26 10:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -542,4 +542,50 @@ msgstr "But there is still a validation for unit prices of all items:"
 
 msgid "Відредагуємо `quantity` в першому `item` і додамо новий `item` з коректною ціною `unit.value`:"
 msgstr "Let's update quantity in first item and add new item with correct `unit.value`:"
+
+msgid "Завершення виконання договору (terminationDetails)"
+msgstr ""
+
+msgid "Після того, як сторони виконали всі зобов'язання за договором, або договір розірвано достроково, замовник має зафіксувати дані, достатні для формування звіту про виконання договору, та підписати їх."
+msgstr ""
+
+msgid "За це відповідає поле `terminationDetails` (:ref:`TerminationDetails`), яке може мати два статуси:"
+msgstr ""
+
+msgid "`draft` - замовник заповнює дані (причина завершення, фактично сплачена сума);"
+msgstr ""
+
+msgid "`active` - дані підписані замовником та зафіксовані остаточно."
+msgstr ""
+
+msgid "Перехід `draft` -> `active` відбувається **лише** як побічний ефект завантаження підпису і ніколи напряму через `PATCH`. Одночасно з активацією `terminationDetails` договір автоматично переходить у статус `terminated`."
+msgstr ""
+
+msgid "Заповнення terminationDetails"
+msgstr ""
+
+#, python-brace-format
+msgid "Замовник заповнює `terminationDetails`, передаючи об'єкт повністю (аналогічно до `amountPaid`), через `PATCH /contracts/{id}/termination_details`. Якщо поле `amountPaid` не передано, сервер підставляє значення за замовчуванням (`amount: 0`). Для `reasonType` `disrupted` сума `amountPaid.amount` не повинна перевищувати поточну вартість договору (`value.amount`, з урахуванням останньої активної зміни), а валюта повинна збігатися з валютою договору:"
+msgstr ""
+
+msgid "Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - набір даних який має бути підписаний замовником:"
+msgstr ""
+
+msgid "Підписання"
+msgstr "Signing"
+
+msgid "Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationSignature`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`."
+msgstr ""
+
+msgid "Підписувати може лише замовник:"
+msgstr ""
+
+msgid "Замовник завантажує підпис:"
+msgstr ""
+
+msgid "Контракт автоматично перейшов у статус `terminated`, а `terminationDetails` - в `active`:"
+msgstr ""
+
+msgid "Після активації `terminationDetails` зміни заборонені:"
+msgstr ""
 

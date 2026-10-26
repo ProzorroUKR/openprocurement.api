@@ -1,8 +1,8 @@
 from cornice.resource import resource
 
 from openprocurement.api.procedure.validation import (
-    unless_admins,
     unless_administrator,
+    unless_admins,
     validate_input_data,
     validate_patch_data_simple,
 )
