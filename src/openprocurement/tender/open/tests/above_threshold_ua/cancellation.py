@@ -33,8 +33,11 @@ from openprocurement.tender.open.tests.above_threshold_ua.cancellation_blanks im
     cancellation_unsuccessful_award,
     check_sign_doc_before_cancellation_activation,
     create_cancellation_in_award_complaint_period,
+    create_cancellation_moves_tender_draft_complaints_to_mistaken,
     create_cancellation_with_award_complaint,
     create_cancellation_with_tender_complaint,
+    create_last_lot_cancellation_moves_all_draft_complaints_to_mistaken,
+    create_lot_cancellation_moves_lot_draft_complaints_to_mistaken,
     create_lot_cancellation_with_tender_cancellation,
     create_tender_cancellation,
     create_tender_cancellation_2020_04_19,
@@ -83,6 +86,9 @@ class TenderCancellationResourceTest(
     test_create_tender_cancellation = snitch(create_tender_cancellation)
     test_patch_tender_cancellation = snitch(patch_tender_cancellation)
     test_activate_cancellation = snitch(activate_cancellation)
+    test_create_cancellation_moves_tender_draft_complaints_to_mistaken = snitch(
+        create_cancellation_moves_tender_draft_complaints_to_mistaken
+    )
 
 
 class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
@@ -90,6 +96,9 @@ class TenderLotCancellationResourceTest(BaseTenderUAContentWebTest):
 
     test_create_tender_lot_cancellation = snitch(create_tender_lot_cancellation)
     test_patch_tender_lot_cancellation = snitch(patch_tender_lot_cancellation)
+    test_create_last_lot_cancellation_moves_all_draft_complaints_to_mistaken = snitch(
+        create_last_lot_cancellation_moves_all_draft_complaints_to_mistaken
+    )
 
 
 class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
@@ -99,6 +108,9 @@ class TenderLotsCancellationResourceTest(BaseTenderUAContentWebTest):
     test_create_tender_cancellation_with_cancellation_lots = snitch(create_tender_cancellation_with_cancellation_lots)
     test_create_lot_cancellation_with_tender_cancellation = snitch(create_lot_cancellation_with_tender_cancellation)
     test_create_tender_lots_cancellation_complaint = snitch(create_tender_lots_cancellation_complaint)
+    test_create_lot_cancellation_moves_lot_draft_complaints_to_mistaken = snitch(
+        create_lot_cancellation_moves_lot_draft_complaints_to_mistaken
+    )
     # test_patch_tender_lots_cancellation = snitch(patch_tender_lots_cancellation)
 
 

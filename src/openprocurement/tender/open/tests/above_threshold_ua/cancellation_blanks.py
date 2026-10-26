@@ -2048,3 +2048,163 @@ def check_sign_doc_before_cancellation_activation(self):
     )
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.json["data"]["status"], "pending")
+
+
+def create_cancellation_moves_tender_draft_complaints_to_mistaken(self):
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    complaint_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    cancellation_data = deepcopy(test_tender_below_cancellation)
+    cancellation_data.update({"reasonType": self.valid_reasonType_choices[0]})
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    # complaint stays draft while cancellation is still draft
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, complaint_id))
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, complaint_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "mistaken")
+    self.assertEqual(response.json["data"]["rejectReason"], "tenderOrLotCancelledBeforePayment")
+
+
+def create_lot_cancellation_moves_lot_draft_complaints_to_mistaken(self):
+    lot_id = self.initial_lots[0]["id"]
+    other_lot_id = self.initial_lots[1]["id"]
+
+    # complaint for the lot being cancelled
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["relatedLot"] = lot_id
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    lot_complaint_id = response.json["data"]["id"]
+
+    # complaint for the other lot — must stay draft
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["relatedLot"] = other_lot_id
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    other_complaint_id = response.json["data"]["id"]
+
+    cancellation_data = deepcopy(test_tender_below_cancellation)
+    cancellation_data["relatedLot"] = lot_id
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    # complaints stay draft while cancellation is still draft
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, lot_complaint_id))
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, lot_complaint_id))
+    self.assertEqual(response.json["data"]["status"], "mistaken")
+    self.assertEqual(response.json["data"]["rejectReason"], "tenderOrLotCancelledBeforePayment")
+
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, other_complaint_id))
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+
+def create_last_lot_cancellation_moves_all_draft_complaints_to_mistaken(self):
+    lot_id = self.initial_lots[0]["id"]
+
+    # complaint related to the lot
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["relatedLot"] = lot_id
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    lot_complaint_id = response.json["data"]["id"]
+
+    # complaint without relatedLot
+    complaint_data = deepcopy(test_tender_below_draft_complaint)
+    response = self.app.post_json(
+        "/tenders/{}/complaints".format(self.tender_id),
+        {"data": complaint_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    tender_complaint_id = response.json["data"]["id"]
+
+    cancellation_data = deepcopy(test_tender_below_cancellation)
+    cancellation_data["relatedLot"] = lot_id
+    response = self.app.post_json(
+        "/tenders/{}/cancellations?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": cancellation_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    cancellation_id = response.json["data"]["id"]
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    # complaints stay draft while cancellation is still draft
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, lot_complaint_id))
+    self.assertEqual(response.json["data"]["status"], "draft")
+
+    self.add_sign_doc(
+        self.tender_id,
+        self.tender_token,
+        docs_url=f"/cancellations/{cancellation_id}/documents",
+        document_type="cancellationReport",
+    )
+    response = self.app.patch_json(
+        "/tenders/{}/cancellations/{}?acc_token={}".format(self.tender_id, cancellation_id, self.tender_token),
+        {"data": {"status": "pending"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "pending")
+
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, lot_complaint_id))
+    self.assertEqual(response.json["data"]["status"], "mistaken")
+    self.assertEqual(response.json["data"]["rejectReason"], "tenderOrLotCancelledBeforePayment")
+
+    response = self.app.get("/tenders/{}/complaints/{}".format(self.tender_id, tender_complaint_id))
+    self.assertEqual(response.json["data"]["status"], "mistaken")
+    self.assertEqual(response.json["data"]["rejectReason"], "tenderOrLotCancelledBeforePayment")
