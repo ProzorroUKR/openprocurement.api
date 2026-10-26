@@ -1,4 +1,4 @@
-PATCH /api/2.5/contracts/cfd0dda789df491dbe20d9575e87e19d/termination_details?acc_token=8c9628c99a194055aa41579ce72ea2a7 HTTP/1.0
+PATCH /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details?acc_token=095f224d5ed54436b623b406684b80f1 HTTP/1.0
 Authorization: Bearer broker6
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
