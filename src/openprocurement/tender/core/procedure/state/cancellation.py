@@ -278,6 +278,33 @@ class CancellationStateMixin:
 
     # END Validations
 
+    def cancel_draft_complaints_on_cancellation(self, cancellation):
+        tender = get_tender()
+        draft_complaints = [
+            complaint
+            for complaint in tender.get("complaints", [])
+            if complaint.get("type") == "complaint" and complaint.get("status") == "draft"
+        ]
+
+        if cancellation.get("cancellationOf") == "lot":
+            cancelled_lot = cancellation["relatedLot"]
+            lots_with_pending_cancellation = {
+                c["relatedLot"]
+                for c in tender.get("cancellations", [])
+                if c.get("cancellationOf") == "lot" and c.get("status") == "pending"
+            }
+            has_active_lot_without_pending_cancellation = any(
+                lot.get("status") == "active" and lot["id"] not in lots_with_pending_cancellation
+                for lot in tender.get("lots", [])
+            )
+            for complaint in draft_complaints:
+                if complaint.get("relatedLot") == cancelled_lot or not has_active_lot_without_pending_cancellation:
+                    self.set_complaint_status(complaint, "mistaken", "tenderOrLotCancelledBeforePayment")
+            return
+
+        for complaint in draft_complaints:
+            self.set_complaint_status(complaint, "mistaken", "tenderOrLotCancelledBeforePayment")
+
     def cancellation_on_post(self, data):
         if data["status"] == "active":
             self.cancel(data)
@@ -305,6 +332,7 @@ class CancellationStateMixin:
                     status=422,
                 )
             self.validate_absence_of_pending_accepted_satisfied_complaints(request, tender, cancellation)
+            self.cancel_draft_complaints_on_cancellation(cancellation)
             if (
                 self.cancellation_report_doc_required_check
                 and tender_created_after(CANCELLATION_REPORT_DOC_REQUIRED_FROM)

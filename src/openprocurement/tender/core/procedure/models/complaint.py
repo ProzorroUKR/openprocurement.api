@@ -210,6 +210,7 @@ class BotPatchComplaint(Model):
             "cancelledByComplainant",
             "complaintPeriodEnded",
             "incorrectPayment",
+            "tenderOrLotCancelledBeforePayment",
         ]
     )
 
@@ -239,6 +240,7 @@ class ReviewPatchComplaint(Model):
             "cancelledByComplainant",
             "complaintPeriodEnded",
             "incorrectPayment",
+            "tenderOrLotCancelledBeforePayment",
         ]
     )
     rejectReasonDescription = StringType()
@@ -325,6 +327,7 @@ class Complaint(Model):
             "cancelledByComplainant",
             "complaintPeriodEnded",
             "incorrectPayment",
+            "tenderOrLotCancelledBeforePayment",
         ]
     )
 

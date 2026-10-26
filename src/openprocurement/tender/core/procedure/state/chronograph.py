@@ -419,8 +419,7 @@ class ChronographEventsMixin:
     # HANDLERS
     def draft_complaint_handler(self, complaint):
         def handler(*_):
-            self.set_object_status(complaint, "mistaken")
-            complaint["rejectReason"] = "complaintPeriodEnded"
+            self.set_complaint_status(complaint, "mistaken", "complaintPeriodEnded")
 
         return handler
 
@@ -588,6 +587,10 @@ class ChronographEventsMixin:
             self.cancel(cancellation)
 
         return handler
+
+    def set_complaint_status(self, complaint, status, reject_reason):
+        self.set_object_status(complaint, status)
+        complaint["rejectReason"] = reject_reason
 
     def cancel(self, cancellation):
         tender = get_tender()
