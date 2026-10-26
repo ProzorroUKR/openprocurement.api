@@ -2,26 +2,6 @@ import unittest
 
 from openprocurement.api.constants import KIND_PROCUREMENT_METHOD_TYPE_MAPPING
 from openprocurement.api.tests.base import snitch
-from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
-    contract_template_name_set,
-    create_tender_central,
-    create_tender_central_invalid,
-    create_tender_draft,
-    create_tender_with_inn,
-    create_tender_with_required_unit,
-    dateModified_tender,
-    get_tender,
-    listing_draft,
-    patch_items_related_buyer_id,
-    patch_tender_draft,
-    patch_tender_lots_none,
-    tender_delivery_milestones,
-    tender_funders,
-    tender_milestones_required,
-    tender_not_found,
-    validate_procurement_entity_kind,
-    validate_procurement_entity_kind_patch,
-)
 from openprocurement.tender.limited.tests.base import (
     BaseTenderWebTest,
     test_lots,
@@ -55,6 +35,7 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_cause_desc,
     tender_cause_quick,
     tender_cause_reporting,
+    tender_items_related_product,
     tender_items_unit_value,
     tender_items_unit_value_from_tender,
     tender_items_unit_value_with_lots,
@@ -64,10 +45,30 @@ from openprocurement.tender.limited.tests.tender_blanks import (
     tender_vat_not_included,
     tender_vat_not_included_before_constant,
     tender_with_main_procurement_category,
-    tender_items_related_product,
 )
 from openprocurement.tender.open.tests.above_threshold.tender_blanks import tender_finance_milestones
 from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import empty_listing
+from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
+    contract_template_name_set,
+    create_tender_central,
+    create_tender_central_invalid,
+    create_tender_draft,
+    create_tender_draft_without_items,
+    create_tender_with_inn,
+    create_tender_with_required_unit,
+    dateModified_tender,
+    get_tender,
+    listing_draft,
+    patch_items_related_buyer_id,
+    patch_tender_draft,
+    patch_tender_lots_none,
+    tender_delivery_milestones,
+    tender_funders,
+    tender_milestones_required,
+    tender_not_found,
+    validate_procurement_entity_kind,
+    validate_procurement_entity_kind_patch,
+)
 
 
 class AccreditationTenderTest(BaseTenderWebTest):
@@ -100,6 +101,7 @@ class TenderResourceTest(BaseTenderWebTest):
     test_field_relatedLot = snitch(field_relatedLot)
     test_create_tender_generated = snitch(create_tender_generated)
     test_create_tender_draft = snitch(create_tender_draft)
+    test_create_tender_draft_without_items = snitch(create_tender_draft_without_items)
     test_create_tender = snitch(create_tender)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)

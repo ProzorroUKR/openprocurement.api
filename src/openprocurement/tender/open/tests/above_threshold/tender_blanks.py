@@ -170,13 +170,7 @@ def create_tender_invalid(self):
         response.json["errors"],
     )
     self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
-    )
-    self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "value"}, response.json["errors"]
-    )
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
 
     response = self.app.post_json(

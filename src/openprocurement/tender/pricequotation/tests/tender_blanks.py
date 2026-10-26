@@ -322,10 +322,6 @@ def create_tender_invalid(self):
         response.json["errors"],
     )
 
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
-    )
-
     data = deepcopy(self.initial_data)
     data["procurementMethod"] = "open"
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)

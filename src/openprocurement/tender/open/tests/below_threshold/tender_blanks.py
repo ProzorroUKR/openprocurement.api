@@ -451,15 +451,7 @@ def create_tender_invalid(self):
     )
 
     self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
-    )
-
-    self.assertIn(
         {"description": ["This field is required."], "location": "body", "name": "value"}, response.json["errors"]
-    )
-
-    self.assertIn(
-        {"description": ["This field is required."], "location": "body", "name": "items"}, response.json["errors"]
     )
 
     data = deepcopy(self.initial_data)
@@ -1408,6 +1400,41 @@ def create_tender_draft(self):
     self.assertEqual(response.content_type, "application/json")
     tender = response.json["data"]
     self.assertEqual(tender["status"], self.primary_tender_status)
+
+
+def create_tender_draft_without_items(self):
+    data = deepcopy(self.initial_data)
+    data.update({"status": "draft"})
+    items = data.pop("items")
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.assertEqual(tender["status"], "draft")
+    self.assertNotIn("items", tender)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token),
+        {"data": {"status": self.primary_tender_status}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "items", "description": ["This field is required."]}],
+    )
+
+    response = self.app.patch_json("/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"items": items}})
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(len(response.json["data"]["items"]), len(items))
+
+    add_criteria(self, tender["id"], token)
+    self.add_contract_proforma_doc(tender["id"], token)
+    self.add_sign_doc(tender["id"], token)
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(tender["id"], token), {"data": {"status": self.primary_tender_status}}
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], self.primary_tender_status)
 
 
 def patch_tender_draft(self):
