@@ -449,6 +449,19 @@ def post_submission_with_active_contract(self):
         "Can't add submission when contract in agreement with same identifier.id in active status",
     )
 
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    agreement["contracts"][0]["status"] = "terminated"
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.post_json(
+        "/submissions",
+        {
+            "data": self.initial_submission_data,
+            "config": self.initial_submission_config,
+        },
+    )
+    self.assertEqual(response.status, "201 Created")
+
 
 def patch_agreement_terminated_status(self):
     end_date = calculate_date(get_now(), timedelta(days=CONTRACT_BAN_DURATION - 1))
@@ -494,6 +507,85 @@ def patch_agreement_manually_to_terminated_status(self):
     self.assertEqual(response.json["data"]["status"], "terminated")
     self.assertEqual(response.json["data"]["terminationDetails"], "Some termination details")
     self.assertIsNone(response.json["data"].get("next_check"))
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}?acc_token={self.framework_token}",
+        {"data": {"terminationDetails": "Other termination details"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update object in current (terminated) agreement status",
+            }
+        ],
+    )
+
+    supplier = deepcopy(self.initial_submission_data["tenderers"][0])
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}?acc_token={self.framework_token}",
+        {"data": {"suppliers": [supplier]}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update object in current (terminated) agreement status",
+            }
+        ],
+    )
+
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones?acc_token={self.framework_token}",
+        {"data": {"type": "ban"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add object in current (terminated) agreement status",
+            }
+        ],
+    )
+
+    response = self.app.get(f"/agreements/{self.agreement_id}/contracts/{self.contract_id}")
+    activation_milestone_id = response.json["data"]["milestones"][0]["id"]
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
+        f"/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add document in current (terminated) agreement status",
+            }
+        ],
+    )
 
 
 def patch_contract_active_status(self):
@@ -1213,6 +1305,63 @@ def patch_ban_milestone(self):
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
         response.json["errors"][0]["description"], "Can't update ban milestone for contract in suspended status"
+    )
+
+    # the ban milestone is not active anymore (contract is active), the activation milestone is not met
+    agreement = self.mongodb.agreements.get(self.agreement_id)
+    contract = agreement["contracts"][0]
+    contract["status"] = "active"
+    activation_milestone_id = contract["milestones"][0]["id"]
+    contract["milestones"][0]["status"] = "notMet"
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{self.milestone_id}"
+        f"?acc_token={self.framework_token}",
+        {"data": {"status": "met"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Can't patch `ban` milestone"}],
+    )
+
+    response = self.app.patch_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
+        f"?acc_token={self.framework_token}",
+        {"data": {"status": "met"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Can't update milestone in current (notMet) status"}],
+    )
+
+    response = self.app.post_json(
+        f"/agreements/{self.agreement_id}/contracts/{self.contract_id}/milestones/{activation_milestone_id}"
+        f"/documents?acc_token={self.framework_token}",
+        {
+            "data": {
+                "title": "name.doc",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/msword",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add milestone document in current (notMet) status",
+            }
+        ],
     )
 
 

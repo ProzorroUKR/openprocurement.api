@@ -372,6 +372,27 @@ def create_change(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
 
+    agreement = self.mongodb.agreements.get(self.agreement["id"])
+    agreement["status"] = "terminated"
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.post_json(
+        "/agreements/{}/changes?acc_token={}".format(self.agreement["id"], self.agreement_token),
+        {"data": data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add agreement change in current (terminated) agreement status",
+            }
+        ],
+    )
+
 
 def create_change_item_price_variation_modifications_boundaries(self):
     data = deepcopy(self.initial_change)
