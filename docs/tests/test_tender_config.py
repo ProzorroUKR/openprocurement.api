@@ -80,6 +80,12 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING_SHORT_WORKING_DAYS_CONFIG as CO_SHORT_WORKING_DAYS_CONFIG,
 )
 from openprocurement.tender.open.constants import COMPETITIVE_ORDERING_WORKING_DAYS_CONFIG as CO_WORKING_DAYS_CONFIG
+from openprocurement.tender.open.constants import (
+    OPEN_TENDERING_EU_WORKING_DAYS_CONFIG as OPENTENDERING_EU_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.open.constants import (
+    OPEN_TENDERING_UA_WORKING_DAYS_CONFIG as OPENTENDERING_UA_WORKING_DAYS_CONFIG,
+)
 from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL_WORKING_DAYS_CONFIG as RFP_WORKING_DAYS_CONFIG
 from openprocurement.tender.open.constants import (
     SIMPLE_DEFENSE_WORKING_DAYS_CONFIG as SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
@@ -128,6 +134,8 @@ class TenderConfigCSVMixin:
         "aboveThresholdEU": OPENEU_WORKING_DAYS_CONFIG,
         "aboveThresholdUA.defense": OPENUADEFENSE_WORKING_DAYS_CONFIG,
         "aboveThresholdUA": OPENUA_WORKING_DAYS_CONFIG,
+        "openTendering.UA": OPENTENDERING_UA_WORKING_DAYS_CONFIG,
+        "openTendering.EU": OPENTENDERING_EU_WORKING_DAYS_CONFIG,
         "belowThreshold": BELOWTHRESHOLD_WORKING_DAYS_CONFIG,
         "closeFrameworkAgreementSelectionUA": CFASELECTIONUA_WORKING_DAYS_CONFIG,
         "closeFrameworkAgreementUA": CFAUA_WORKING_DAYS_CONFIG,

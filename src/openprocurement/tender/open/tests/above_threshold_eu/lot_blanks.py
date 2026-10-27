@@ -411,8 +411,11 @@ def patch_tender_bidder(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
+    # minBidsNumber=1 (openTendering): the tender proceeds with the single bid
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.pre-qualification"
     self.assertEqual(
-        response.json["errors"][0]["description"], "Can't update bid in current (unsuccessful) tender status"
+        response.json["errors"][0]["description"],
+        f"Can't update bid in current ({expected_status}) tender status",
     )
 
 
@@ -699,10 +702,11 @@ def one_lot_1bid(self):
     # switch to active.pre-qualification
     self.time_shift("active.pre-qualification")
     self.check_chronograph()
-    # switch to unsuccessful
+    # switch to unsuccessful (minBidsNumber=1: the tender proceeds with the single bid)
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}?acc_token={}".format(tender_id, owner_token))
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.pre-qualification"
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 def one_lot_2bid_1unqualified(self):
@@ -772,7 +776,9 @@ def one_lot_2bid_1unqualified(self):
     self.set_status("active.auction", {"id": tender_id, "status": "active.pre-qualification.stand-still"})
     response = self.check_chronograph()
     self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # minBidsNumber=1 (openTendering): the tender proceeds with the single qualified bid
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.qualification"
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 def one_lot_2bid(self):

@@ -7,6 +7,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdUATenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     SimpleDefenseTenderState,
 )
 
@@ -36,3 +37,7 @@ class SimpleDefenseTenderComplaintState(TenderComplaintState, SimpleDefenseTende
 
 class COTenderComplaintState(TenderComplaintState, COTenderState):
     complaint_author_qualified_supplier_check = True
+
+
+class OpenTenderingTenderComplaintState(TenderComplaintState, OpenTenderingTenderState):
+    pass

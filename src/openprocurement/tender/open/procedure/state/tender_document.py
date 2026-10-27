@@ -23,3 +23,7 @@ class BelowThresholdTenderDocumentState(TenderDocumentState):
 
 class RFPTenderDocumentState(TenderDocumentState):
     invalidate_bids_on_document_change = True
+
+
+class OpenTenderingTenderDocumentState(TenderDocumentState):
+    invalidate_bids_on_document_change = True

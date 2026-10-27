@@ -987,7 +987,7 @@ def create_plan_invalid_procuring_entity(self):
                 "aboveThreshold, aboveThresholdUA, aboveThresholdEU, "
                 "competitiveDialogueUA, competitiveDialogueEU, esco, "
                 "closeFrameworkAgreementUA, requestForProposal, "
-                "priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.",
+                "openTendering, priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.",
                 "location": "body",
                 "name": "kind",
             }
@@ -1025,7 +1025,7 @@ def create_plan_invalid_procuring_entity(self):
                 "aboveThreshold, aboveThresholdUA, aboveThresholdEU, "
                 "competitiveDialogueUA, competitiveDialogueEU, esco, "
                 "closeFrameworkAgreementUA, requestForProposal, "
-                "priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.",
+                "openTendering, priceQuotation, competitiveOrdering, reporting, negotiation, negotiation.quick.",
                 "location": "body",
                 "name": "kind",
             }

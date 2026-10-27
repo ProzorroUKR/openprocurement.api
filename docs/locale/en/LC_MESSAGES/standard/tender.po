@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 23:24+0300\n"
+"POT-Creation-Date: 2026-10-23 13:32+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -131,6 +131,12 @@ msgstr ""
 msgid "вище порогового ідентифікатора процедури з публікацією на англійській мові"
 msgstr "above threshold EU procedure indentifier"
 
+msgid "`openTendering`"
+msgstr ""
+
+msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procurementMethodSubtype`)"
+msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procurementMethodSubtype` field)"
+
 msgid "`aboveThresholdUA.defense`"
 msgstr ""
 
@@ -190,6 +196,24 @@ msgstr ""
 
 msgid "`competitiveDialogueUA.stage2`"
 msgstr ""
+
+msgid "procurementMethodSubtype"
+msgstr ""
+
+msgid "`UA`"
+msgstr ""
+
+msgid "національні відкриті торги (оголошення українською мовою, без попередньої кваліфікації)"
+msgstr "national open tendering (the announcement in Ukrainian, no prequalification)"
+
+msgid "`EU`"
+msgstr ""
+
+msgid "відкриті торги вище європейських порогів (оголошення додатково англійською мовою, з попередньою кваліфікацією)"
+msgstr "open tendering above the EU thresholds (the announcement in English as well, with prequalification)"
+
+msgid "Різновид відкритих торгів за Законом № 4888-IX. Обов'язкове поле лише для `openTendering`: задається при створенні закупівлі та не може бути змінене."
+msgstr "The variant of the open tendering under the Law No. 4888-IX. Required only for `openTendering`: set at the tender creation and can't be changed."
 
 msgid "awardCriteria"
 msgstr ""

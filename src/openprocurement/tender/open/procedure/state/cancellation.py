@@ -9,6 +9,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     BelowThresholdTenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     RFPTenderState,
 )
 
@@ -86,4 +87,12 @@ class RFPCancellationStateMixin(CancellationStateMixin):
 
 
 class RFPCancellationState(RFPCancellationStateMixin, RFPTenderState):
+    pass
+
+
+class OpenTenderingCancellationStateMixin(CancellationStateMixin):
+    cancellation_unsuccessful_items_check = True
+
+
+class OpenTenderingCancellationState(OpenTenderingCancellationStateMixin, OpenTenderingTenderState):
     pass

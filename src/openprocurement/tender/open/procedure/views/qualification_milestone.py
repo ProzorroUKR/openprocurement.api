@@ -11,6 +11,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -29,6 +30,7 @@ class OpenQualificationMilestoneResource(QualificationMilestoneResource):
         ABOVE_THRESHOLD: QualificationMilestoneState,
         ABOVE_THRESHOLD_UA: QualificationMilestoneState,
         ABOVE_THRESHOLD_EU: QualificationMilestoneState,
+        OPEN_TENDERING: QualificationMilestoneState,
         ABOVE_THRESHOLD_UA_DEFENSE: QualificationMilestoneState,
         SIMPLE_DEFENSE: QualificationMilestoneState,
         COMPETITIVE_ORDERING: QualificationMilestoneState,

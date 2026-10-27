@@ -14,12 +14,16 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
 from openprocurement.tender.open.procedure.state.award_milestone import (
     BelowThresholdAwardMilestoneState,
     RFPAwardMilestoneState,
+)
+from openprocurement.tender.open.procedure.views.base import (
+    OpenTenderingStateClass,
 )
 
 
@@ -35,6 +39,7 @@ class OpenBaseAwardMilestoneResource(BaseAwardMilestoneResource):
         ABOVE_THRESHOLD: AwardMilestoneState,
         ABOVE_THRESHOLD_UA: AwardMilestoneState,
         ABOVE_THRESHOLD_EU: AwardExtensionMilestoneState,
+        OPEN_TENDERING: OpenTenderingStateClass(AwardMilestoneState, AwardExtensionMilestoneState),
         ABOVE_THRESHOLD_UA_DEFENSE: AwardMilestoneState,
         SIMPLE_DEFENSE: AwardMilestoneState,
         COMPETITIVE_ORDERING: AwardMilestoneState,

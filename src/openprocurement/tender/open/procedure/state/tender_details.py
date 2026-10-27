@@ -20,10 +20,18 @@ from openprocurement.tender.open.constants import (
     BELOW_THRESHOLD_WORKING_DAYS_CONFIG,
     COMPETITIVE_ORDERING_SHORT_WORKING_DAYS_CONFIG,
     COMPETITIVE_ORDERING_TENDERING_EXTRA_PERIOD,
+    OPEN_TENDERING_EU_TENDERING_EXTRA_PERIOD,
+    OPEN_TENDERING_EU_WORKING_DAYS_CONFIG,
+    OPEN_TENDERING_UA_TENDERING_EXTRA_PERIOD,
+    OPEN_TENDERING_UA_WORKING_DAYS_CONFIG,
     REQUEST_FOR_PROPOSAL_TENDERING_EXTRA_PERIOD,
     REQUEST_FOR_PROPOSAL_WORKING_DAYS_CONFIG,
     SIMPLE_DEFENSE_TENDERING_EXTRA_PERIOD,
     SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
+)
+from openprocurement.tender.open.procedure.models.tender import (
+    OpenTenderingPostTender,
+    OpenTenderingTender,
 )
 from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdEUTenderState,
@@ -31,6 +39,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdUATenderState,
     BelowThresholdTenderState,
     COTenderState,
+    OpenTenderingTenderState,
     RFPTenderState,
 )
 
@@ -215,3 +224,24 @@ class RFPTenderDetailsMixin(TenderDetailsMixin):
 
 class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):
     pass
+
+
+class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderState):
+    post_data_model = OpenTenderingPostTender
+    data_model = OpenTenderingTender
+    contract_template_required = True
+
+
+class OpenTenderingUATenderDetailsState(OpenTenderingTenderDetailsState):
+    extra_config_schema_name = "openTendering.UA"
+    tender_period_extra = OPEN_TENDERING_UA_TENDERING_EXTRA_PERIOD
+    working_days_config = OPEN_TENDERING_UA_WORKING_DAYS_CONFIG
+
+
+class OpenTenderingEUTenderDetailsState(OpenTenderingTenderDetailsState):
+    extra_config_schema_name = "openTendering.EU"
+    tender_period_extra = OPEN_TENDERING_EU_TENDERING_EXTRA_PERIOD
+    working_days_config = OPEN_TENDERING_EU_WORKING_DAYS_CONFIG
+    # the announcement is published in English as well
+    required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
+    procuring_entity_available_language_default = "uk"

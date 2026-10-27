@@ -11,6 +11,7 @@ from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_UA_DEFENSE,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     SIMPLE_DEFENSE,
 )
 from openprocurement.tender.open.procedure.state.cancellation_complaint import (
@@ -19,6 +20,7 @@ from openprocurement.tender.open.procedure.state.cancellation_complaint import (
     AboveThresholdUACancellationComplaintState,
     COCancellationComplaintState,
     DefenseCancellationComplaintState,
+    OpenTenderingCancellationComplaintState,
     SimpleDefenseCancellationComplaintState,
 )
 
@@ -33,6 +35,7 @@ from openprocurement.tender.open.procedure.state.cancellation_complaint import (
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         ABOVE_THRESHOLD_UA_DEFENSE,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,
@@ -52,6 +55,7 @@ class OpenCancellationComplaintGetResource(CancellationComplaintGetResource):
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         ABOVE_THRESHOLD_UA_DEFENSE,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,
@@ -62,6 +66,7 @@ class OpenCancellationComplaintWriteResource(CancellationComplaintWriteResource)
         ABOVE_THRESHOLD: AboveThresholdCancellationComplaintState,
         ABOVE_THRESHOLD_UA: AboveThresholdUACancellationComplaintState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUCancellationComplaintState,
+        OPEN_TENDERING: OpenTenderingCancellationComplaintState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseCancellationComplaintState,
         SIMPLE_DEFENSE: SimpleDefenseCancellationComplaintState,
         COMPETITIVE_ORDERING: COCancellationComplaintState,

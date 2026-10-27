@@ -5,6 +5,7 @@ from openprocurement.tender.open.procedure.state.bid import (
     AboveThresholdUABidState,
     BelowThresholdBidState,
     COBidState,
+    OpenTenderingBidState,
     RFPBidState,
     SimpleDefenseBidState,
 )
@@ -35,4 +36,8 @@ class BelowThresholdBidReqResponseState(ReqResponseStateMixin, BelowThresholdBid
 
 
 class RFPBidReqResponseState(ReqResponseStateMixin, RFPBidState):
+    pass
+
+
+class OpenTenderingBidReqResponseState(ReqResponseStateMixin, OpenTenderingBidState):
     pass

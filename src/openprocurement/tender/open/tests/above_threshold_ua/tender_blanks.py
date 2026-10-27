@@ -856,19 +856,20 @@ def patch_tender_period(self):
     )
     self.assertEqual(response.status, "403 Forbidden")
     self.assertEqual(response.content_type, "application/json")
-    self.assertEqual(response.json["errors"][0]["description"], "tenderPeriod should be extended by 7 days")
+    extra_days = getattr(self, "tender_period_extra_days", 7)
+    self.assertEqual(response.json["errors"][0]["description"], f"tenderPeriod should be extended by {extra_days} days")
 
     tender_period_end_date = (
         calculate_tender_full_date(
             get_now(),
-            timedelta(days=7),
+            timedelta(days=extra_days),
             tender=tender,
         )
         + timedelta(seconds=1)
     ).astimezone(TZ)
     enquiry_period_end_date = calculate_tender_full_date(
         tender_period_end_date,
-        -timedelta(days=10),
+        -timedelta(days=self.initial_config["enquiryPeriodRegulation"]),
         tender=tender,
     )
     tender_period = deepcopy(tender["tenderPeriod"])
@@ -1068,7 +1069,9 @@ def invalid1_and_1draft_bids_tender(self):
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()
     # get awards
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # minBidsNumber=1 (openTendering): the tender proceeds with the single bid
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.qualification"
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 def activate_bid_after_adding_lot(self):
@@ -1130,7 +1133,9 @@ def activate_bid_after_adding_lot(self):
     # switch to active.qualification
     self.set_status("active.auction", {"auctionPeriod": {"startDate": None}, "status": "active.tendering"})
     response = self.check_chronograph()
-    self.assertEqual(response.json["data"]["status"], "unsuccessful")
+    # minBidsNumber=1 (openTendering): the tender proceeds with the single bid
+    expected_status = "unsuccessful" if self.initial_config["minBidsNumber"] > 1 else "active.qualification"
+    self.assertEqual(response.json["data"]["status"], expected_status)
 
 
 def first_bid_tender(self):

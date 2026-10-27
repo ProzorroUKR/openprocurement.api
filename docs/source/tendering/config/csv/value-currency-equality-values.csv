@@ -6,6 +6,8 @@ competitiveOrdering.long,true / false,true
 aboveThresholdEU,true,true
 aboveThresholdUA.defense,true,true
 aboveThresholdUA,true,true
+openTendering.UA,true,true
+openTendering.EU,true,true
 belowThreshold,true,true
 closeFrameworkAgreementSelectionUA,true,true
 closeFrameworkAgreementUA,true,true
