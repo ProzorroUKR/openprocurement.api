@@ -1,5 +1,3 @@
-import json
-
 from openprocurement.api.constants_env import SIGNATURE_VERIFICATION_ENABLED
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.serializers.document import load_document_content
@@ -7,7 +5,7 @@ from openprocurement.api.procedure.validation import (
     validate_apisign_signature_cert,
     validate_apisign_signature_type,
 )
-from openprocurement.api.utils import raise_operation_error, verify_signature_apisign
+from openprocurement.api.utils import json_dumps, raise_operation_error, verify_signature_apisign
 from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
@@ -49,7 +47,7 @@ class EContractTerminationDetailsDocumentState(ContractDocumentState):
         if not SIGNATURE_VERIFICATION_ENABLED:
             return
         contract = self.request.validated["contract"]
-        content = json.dumps(ContractContextSerializer(contract).data, sort_keys=True).encode()
+        content = json_dumps(ContractContextSerializer(contract).data, sort_keys=True).encode()
         signature = load_document_content(doc_data)
         verify_data = verify_signature_apisign(content, signature)
         validate_apisign_signature_type(verify_data)

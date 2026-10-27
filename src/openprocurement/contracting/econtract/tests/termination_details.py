@@ -3,6 +3,9 @@ from openprocurement.contracting.econtract.tests.base import BaseEContractConten
 from openprocurement.contracting.econtract.tests.termination_details_blanks import (
     activate_termination_details_completed,
     activate_termination_details_disrupted_amount_exceeds_value,
+    activate_termination_details_signature_invalid_cert,
+    activate_termination_details_signature_invalid_type,
+    activate_termination_details_signature_verified,
     activate_termination_details_without_required_fields,
     get_termination_details,
     get_termination_details_context,
@@ -29,3 +32,10 @@ class ContractTerminationDetailsTest(BaseEContractContentWebTest):
     )
     test_get_termination_details = snitch(get_termination_details)
     test_get_termination_details_context = snitch(get_termination_details_context)
+    test_activate_termination_details_signature_verified = snitch(activate_termination_details_signature_verified)
+    test_activate_termination_details_signature_invalid_type = snitch(
+        activate_termination_details_signature_invalid_type
+    )
+    test_activate_termination_details_signature_invalid_cert = snitch(
+        activate_termination_details_signature_invalid_cert
+    )
