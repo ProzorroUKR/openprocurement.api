@@ -19,3 +19,11 @@ test_0012_fix_cancelled_contract_revisions = create_collection_migration_test(
 test_0013_migrate_contract_item_attributes = create_collection_migration_test(
     "openprocurement.contracting.core.migrations.0013_migrate_contract_item_attributes.Migration"
 )
+
+test_0014_migrate_econtract_tender_fields = create_collection_migration_test(
+    "openprocurement.contracting.core.migrations.0014_migrate_econtract_tender_fields.Migration"
+)
+
+test_0015_migrate_contract_tender_fields = create_collection_migration_test(
+    "openprocurement.contracting.core.migrations.0015_migrate_contract_tender_fields.Migration"
+)

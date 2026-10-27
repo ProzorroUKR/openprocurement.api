@@ -1383,6 +1383,8 @@ def create_tender_contract(self):
         "dateModified",
         "items",
         "tender_id",
+        "tenderID",
+        "mainProcurementCategory",
         "owner",
         "status",
         "suppliers",

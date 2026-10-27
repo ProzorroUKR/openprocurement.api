@@ -6,6 +6,8 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.core.tests.base import BaseContractTest
 from openprocurement.contracting.core.tests.contract_blanks import (
     cancel_tender_award,
+    contract_tender_fields,
+    contract_tender_without_main_procurement_category,
     create_contract_transfer_token,
     empty_listing,
     get_contract,
@@ -14,13 +16,17 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     not_found,
     put_transaction_to_contract,
 )
-from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
+from openprocurement.contracting.econtract.tests.base import (
+    BaseEContractContentWebTest,
+    BaseEContractWebTest,
+)
 from openprocurement.contracting.econtract.tests.contract_blanks import (
     change_contract_milestones,
     change_contract_milestones_params,
     contract_cancellation_via_award,
     post_new_version_of_contract,
     post_new_version_of_contract_remove_field,
+    post_new_version_of_contract_tender_fields,
     post_new_version_of_contract_test_mode,
     post_new_version_of_restricted_contract,
 )
@@ -40,6 +46,16 @@ class ContractResourceTest(BaseEContractContentWebTest):
     test_get_contract = snitch(get_contract)
     test_not_found = snitch(not_found)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
+    test_contract_tender_fields = snitch(contract_tender_fields)
+
+
+class EContractTenderFieldsTest(BaseEContractWebTest):
+    """Award is created in setUp, the contract is created inside the test."""
+
+    def setUp(self):
+        BaseContractTest.setUp(self)
+
+    test_contract_tender_without_main_procurement_category = snitch(contract_tender_without_main_procurement_category)
 
 
 class ContractResource4BrokersTest(BaseEContractContentWebTest):
@@ -48,6 +64,7 @@ class ContractResource4BrokersTest(BaseEContractContentWebTest):
     test_post_new_version_of_contract = snitch(post_new_version_of_contract)
     test_post_new_version_of_contract_test_mode = snitch(post_new_version_of_contract_test_mode)
     test_post_new_version_of_contract_remove_field = snitch(post_new_version_of_contract_remove_field)
+    test_post_new_version_of_contract_tender_fields = snitch(post_new_version_of_contract_tender_fields)
     test_post_new_version_of_restricted_contract = snitch(post_new_version_of_restricted_contract)
     test_contract_cancellation_via_award = snitch(contract_cancellation_via_award)
 

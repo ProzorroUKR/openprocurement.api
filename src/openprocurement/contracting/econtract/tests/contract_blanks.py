@@ -1019,3 +1019,70 @@ def post_new_version_of_contract_remove_field(self):
     contract_doc = self.mongodb.contracts.get(new_contract["id"])
     self.assertNotIn("title_en", contract_doc)
     self.assertNotIn("milestones", contract_doc)
+
+
+def post_new_version_of_contract_tender_fields(self):
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    initial_contract_data = response.json["data"]
+    self.assertIn("tenderID", initial_contract_data)
+    self.assertIn("mainProcurementCategory", initial_contract_data)
+
+    contract_data = deepcopy(initial_contract_data)
+    del contract_data["dateCreated"]
+    del contract_data["dateModified"]
+    del contract_data["id"]
+    contract_data["tender_id"] = self.tender_id
+    contract_data["value"]["amount"] = self.award["value"]["amount"]
+    contract_data["value"]["amountNet"] = contract_data["value"]["amount"]
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract_id}/cancellations?acc_token={self.supplier_token}",
+        {"data": {"reasonType": "requiresChanges", "reason": "want to change info"}},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    for field_name, new_value in (("tenderID", "UA-2026-01-01-000001-a"), ("mainProcurementCategory", "works")):
+        changed_contract_data = deepcopy(contract_data)
+        changed_contract_data[field_name] = new_value
+        response = self.app.post_json(
+            f"/contracts?acc_token={self.supplier_token}",
+            {"data": changed_contract_data},
+            status=422,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "data",
+                    "description": (
+                        "Updated could be only ('items', 'value', 'period', 'title', 'title_en', 'description', "
+                        "'description_en', 'dateSigned', 'milestones', 'suppliers') "
+                        f"in contract, {field_name} change forbidden: {initial_contract_data[field_name]} -> {new_value}"
+                    ),
+                }
+            ],
+        )
+
+    del contract_data["tenderID"]
+    del contract_data["mainProcurementCategory"]
+    pdf_data = {
+        "url": self.generate_docservice_url(),
+        "format": "application/pdf",
+        "hash": "md5:" + "0" * 32,
+        "title": "contract.pdf",
+    }
+    with patch("openprocurement.tender.core.procedure.contracting.upload_contract_pdf") as mock_upload_contract_pdf:
+        mock_upload_contract_pdf.return_value = {"data": pdf_data}
+        response = self.app.post_json(
+            f"/contracts?acc_token={self.supplier_token}",
+            {"data": contract_data},
+        )
+    self.assertEqual(response.status, "201 Created")
+    new_contract = response.json["data"]
+    self.assertEqual(new_contract["tenderID"], initial_contract_data["tenderID"])
+    self.assertEqual(new_contract["mainProcurementCategory"], initial_contract_data["mainProcurementCategory"])
+
+    contract_doc = self.mongodb.contracts.get(new_contract["id"])
+    self.assertEqual(contract_doc["tenderID"], initial_contract_data["tenderID"])
+    self.assertEqual(contract_doc["mainProcurementCategory"], initial_contract_data["mainProcurementCategory"])

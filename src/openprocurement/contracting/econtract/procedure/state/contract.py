@@ -149,6 +149,10 @@ class EContractState(ContractState):
         if mode := tender.get("mode"):
             after["mode"] = mode
 
+        after["tenderID"] = tender["tenderID"]
+        if main_procurement_category := tender.get("mainProcurementCategory"):
+            after["mainProcurementCategory"] = main_procurement_category
+
         upload_contract_pdf_document(after, tender)
         self.set_object_status(before, "cancelled")
         self.set_object_status(before["cancellations"][0], "active", update_date=False)
