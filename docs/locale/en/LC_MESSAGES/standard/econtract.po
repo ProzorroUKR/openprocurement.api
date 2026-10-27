@@ -245,9 +245,3 @@ msgstr "Workflow"
 msgid "\\* позначає початковий стан"
 msgstr "\\* marks initial state"
 
-#~ msgid "рядок, обов’язковий для неуспішних договорів"
-#~ msgstr "string, required for unsuccessful contract"
-
-#~ msgid "Причина припинення договору. Наявність цього поля вказує, що договір є неуспішним."
-#~ msgstr "Reasons for contract termination. Presence of this field indicates that contract is unsuccessful."
-
