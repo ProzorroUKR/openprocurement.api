@@ -35,18 +35,24 @@ class EContractsSignatoriesResource(ContractBaseResource):
 
     def save(self, **kwargs):
         contract_was_changed = self.request.validated.get("contract_was_changed")
+        contract = self.request.validated["contract"]
+        # keep only db writes inside the transaction: the time between save_data and commit
+        # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
         with atomic_transaction(enabled=bool(contract_was_changed)):
-            contract = self.request.validated["contract"]
+            tender_saved = False
             if contract_was_changed:
-                if save_tender(self.request):
-                    self.LOGGER.info(
-                        f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
-                        extra=context_unpack(
-                            self.request,
-                            {"MESSAGE_ID": "tender_contract_update_status"},
-                        ),
-                    )
-            return save_contract(self.request, **kwargs)
+                tender_saved = save_tender(self.request)
+            contract_saved = save_contract(self.request, **kwargs)
+
+        if tender_saved:
+            self.LOGGER.info(
+                f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_contract_update_status"},
+                ),
+            )
+        return contract_saved
 
     @json_view(
         content_type="application/json",
@@ -69,27 +75,33 @@ class EContractsSignatoriesResource(ContractBaseResource):
 
         contract["signatories"].append(signatory)
 
-        with atomic_transaction(enabled=bool(self.request.validated.get("contract_was_changed"))):
-            if save_contract(self.request):
-                if self.request.validated.get("contract_was_changed"):
-                    if save_tender(self.request):
-                        self.LOGGER.info(
-                            f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
-                            extra=context_unpack(
-                                self.request,
-                                {"MESSAGE_ID": "tender_contract_update_status"},
-                            ),
-                        )
+        contract_was_changed = self.request.validated.get("contract_was_changed")
+        # keep only db writes inside the transaction: the time between save_data and commit
+        # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
+        with atomic_transaction(enabled=bool(contract_was_changed)):
+            tender_saved = False
+            contract_saved = save_contract(self.request)
+            if contract_saved and contract_was_changed:
+                tender_saved = save_tender(self.request)
 
-                self.LOGGER.info(
-                    f"Created signatory for contract {contract['_id']}",
-                    extra=context_unpack(
-                        self.request,
-                        {"MESSAGE_ID": "contract_signatory_create"},
-                        {"contract_id": contract["_id"]},
-                    ),
-                )
-                self.request.response.status = 201
-                if "tender" in self.request.validated:
-                    self.state.always(self.request.validated["tender"])
-                return {"data": self.serializer_class(signatory).data}
+        if tender_saved:
+            self.LOGGER.info(
+                f"Updated tender {self.request.validated['tender']['_id']} contract {contract['_id']}",
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_contract_update_status"},
+                ),
+            )
+        if contract_saved:
+            self.LOGGER.info(
+                f"Created signatory for contract {contract['_id']}",
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "contract_signatory_create"},
+                    {"contract_id": contract["_id"]},
+                ),
+            )
+            self.request.response.status = 201
+            if "tender" in self.request.validated:
+                self.state.always(self.request.validated["tender"])
+            return {"data": self.serializer_class(signatory).data}

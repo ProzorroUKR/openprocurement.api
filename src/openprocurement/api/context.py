@@ -1,7 +1,8 @@
 import threading
 from datetime import datetime
-from typing import Union
+from typing import Optional, Union
 
+from pymongo.client_session import ClientSession
 from pyramid.request import Request
 
 from openprocurement.api.constants import TZ
@@ -46,9 +47,9 @@ def get_request_now() -> datetime:
     return thread_context.now
 
 
-def get_db_session() -> Request:
+def get_db_session() -> Optional[ClientSession]:
     return getattr(thread_context, "db_session", None)
 
 
-def set_db_session(db_session):
+def set_db_session(db_session: Optional[ClientSession]):
     thread_context.db_session = db_session

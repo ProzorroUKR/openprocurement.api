@@ -168,28 +168,32 @@ class TendersResource(TenderBaseResource):
             self.state.validate_tender_patch(tender_src, tender)
             self.state.on_patch(tender_src, tender)
             stage_2_tender = self.request.validated.get("stage_2_tender")
+            # keep only db writes inside the transaction: the time between save_data and commit
+            # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
             with atomic_transaction(enabled=bool(stage_2_tender)):
-                if save_tender(self.request):
-                    if stage_2_tender:
-                        save_stage_2_tender(stage_2_tender)
-                        self.LOGGER.info(
-                            f"Successfully created tender stage2 id={stage_2_tender['_id']} "
-                            f"from competitive dialogue id={updated['_id']}",
-                            extra=context_unpack(
-                                self.request,
-                                {"MESSAGE_ID": "tender_create"},
-                                {
-                                    "tender_id": stage_2_tender["_id"],
-                                    "tenderID": stage_2_tender["tenderID"],
-                                    "tender_mode": stage_2_tender.get("mode"),
-                                },
-                            ),
-                        )
+                saved = save_tender(self.request)
+                if saved and stage_2_tender:
+                    save_stage_2_tender(stage_2_tender)
 
+            if saved:
+                if stage_2_tender:
                     self.LOGGER.info(
-                        f"Updated tender {updated['_id']}",
-                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
+                        f"Successfully created tender stage2 id={stage_2_tender['_id']} "
+                        f"from competitive dialogue id={updated['_id']}",
+                        extra=context_unpack(
+                            self.request,
+                            {"MESSAGE_ID": "tender_create"},
+                            {
+                                "tender_id": stage_2_tender["_id"],
+                                "tenderID": stage_2_tender["tenderID"],
+                                "tender_mode": stage_2_tender.get("mode"),
+                            },
+                        ),
                     )
+                self.LOGGER.info(
+                    f"Updated tender {updated['_id']}",
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_patch"}),
+                )
         return {
             "data": self.serializer_class(tender).data,
             "config": tender["config"],

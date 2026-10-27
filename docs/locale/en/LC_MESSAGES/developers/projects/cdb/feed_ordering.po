@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-23 12:01+0300\n"
+"POT-Creation-Date: 2026-09-26 15:13+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -119,6 +119,30 @@ msgid "За результатами навантажувального тест
 msgstr ""
 
 msgid "Значення можна перевизначити через змінну середовища ``FEED_WATERMARK_SECONDS``."
+msgstr ""
+
+msgid "Моніторинг тривалості транзакцій"
+msgstr ""
+
+msgid "У транзакції ``public_modified`` фіксується в момент виконання ``save_data``, а документ стає видимим лише після ``commitTransaction``. Усе, що виконується всередині ``with atomic_transaction()`` після першого ``save_*``, збільшує цей розрив. Тому в блоці транзакції мають бути лише записи в БД — логування, серіалізація відповіді тощо виносяться за його межі."
+msgstr ""
+
+msgid "``atomic_transaction`` вимірює тривалість кожної успішної транзакції і, якщо вона перевищує ``TRANSACTION_DURATION_WARNING_SECONDS`` (за замовчуванням ``FEED_WATERMARK_SECONDS / 2``), пише warning з ``MESSAGE_ID = transaction_duration_exceeded`` і полями:"
+msgstr ""
+
+msgid "``TRANSACTION_DURATION`` — загальна тривалість;"
+msgstr ""
+
+msgid "``TRANSACTION_BODY_DURATION`` — від старту транзакції до кінця блоку ``with`` (основне джерело ризику);"
+msgstr ""
+
+msgid "``TRANSACTION_COMMIT_DURATION`` — виклик ``commitTransaction``, включно з очікуванням write concern. Очікування реплікації саме по собі порядок фіду не порушує."
+msgstr ""
+
+msgid "Аналогічно ``save_data`` поза транзакцією (коли встановлюється ``public_modified``) вимірює тривалість ``update_one`` і, якщо вона перевищує ``SAVE_DATA_DURATION_WARNING_SECONDS`` (за замовчуванням ``FEED_WATERMARK_SECONDS / 2``), пише warning з ``MESSAGE_ID = save_data_duration_exceeded`` і полями ``SAVE_DATA_DURATION``, ``SAVE_DATA_COLLECTION``, ``SAVE_DATA_ID``. Типова причина — запис чекає, поки інша транзакція, що змінила той самий документ, завершиться; також черга WiredTiger tickets або eviction під навантаженням. Тривалість включає очікування write concern (majority)."
+msgstr ""
+
+msgid "Поки що це лише фіксація проблем; транзакції та записи не відкочуються і не обмежуються за часом."
 msgstr ""
 
 msgid "Альтернатива: Change Streams як pull feed"

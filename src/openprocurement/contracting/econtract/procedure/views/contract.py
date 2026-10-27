@@ -101,40 +101,47 @@ class EContractPostResource(ContractBaseResource):
         request_init_contract(self.request, contract, contract_src={})
         self.state.validate_on_post(prev_contract, contract)
         self.state.on_post(prev_contract, contract)
+        # keep only db writes inside the transaction: the time between save_data and commit
+        # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
         with atomic_transaction():
-            if save_contract(self.request, insert=True):
+            tender_saved = prev_contract_saved = False
+            contract_saved = save_contract(self.request, insert=True)
+            if contract_saved:
                 if self.request.validated.get("contract_was_changed"):
-                    if save_tender(self.request):
-                        self.LOGGER.info(
-                            f"Updated tender {tender['_id']} contract {contract['_id']}",
-                            extra=context_unpack(
-                                self.request,
-                                {"MESSAGE_ID": "tender_contract_update_status"},
-                            ),
-                        )
-                self.LOGGER.info(
-                    "Created contract {} ({})".format(contract["_id"], contract["tender_id"]),
-                    extra=context_unpack(
-                        self.request,
-                        {"MESSAGE_ID": "contract_create"},
-                    ),
-                )
-                self.request.response.status = 201
-                new_version_contract = deepcopy(contract)
+                    tender_saved = save_tender(self.request)
                 # save prev version of contract
                 request_init_contract(self.request, prev_contract, contract_src={})
-                if save_contract(self.request):
-                    self.LOGGER.info(
-                        f"Updated contract {prev_contract['_id']}",
-                        extra=context_unpack(
-                            self.request,
-                            {"MESSAGE_ID": "contract_patch"},
-                        ),
-                    )
-                return {
-                    "data": self.serializer_class(new_version_contract, tender=tender).data,
-                    "config": new_version_contract["config"],
-                }
+                prev_contract_saved = save_contract(self.request)
+
+        if tender_saved:
+            self.LOGGER.info(
+                f"Updated tender {tender['_id']} contract {contract['_id']}",
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "tender_contract_update_status"},
+                ),
+            )
+        if contract_saved:
+            self.LOGGER.info(
+                "Created contract {} ({})".format(contract["_id"], contract["tender_id"]),
+                extra=context_unpack(
+                    self.request,
+                    {"MESSAGE_ID": "contract_create"},
+                ),
+            )
+            if prev_contract_saved:
+                self.LOGGER.info(
+                    f"Updated contract {prev_contract['_id']}",
+                    extra=context_unpack(
+                        self.request,
+                        {"MESSAGE_ID": "contract_patch"},
+                    ),
+                )
+            self.request.response.status = 201
+            return {
+                "data": self.serializer_class(contract, tender=tender).data,
+                "config": contract["config"],
+            }
 
 
 @resource(

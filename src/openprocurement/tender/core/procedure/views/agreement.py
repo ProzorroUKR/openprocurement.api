@@ -60,13 +60,16 @@ class TenderAgreementResource(TenderBaseResource):
             self.state.always(self.request.validated["tender"])
 
             agreement_activated = self.request.validated.get("agreement_activated")
+            # keep only db writes inside the transaction: the time between save_data and commit
+            # must be minimal, see docs/source/developers/projects/cdb/feed_ordering.rst
             with atomic_transaction(enabled=bool(agreement_activated)):
-                if save_tender(self.request):
-                    if agreement_activated:
-                        save_agreements_agreement(agreement_activated)
+                saved = save_tender(self.request)
+                if saved and agreement_activated:
+                    save_agreements_agreement(agreement_activated)
 
-                    self.LOGGER.info(
-                        "Updated tender agreement {}".format(agreement["id"]),
-                        extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_patch"}),
-                    )
-                    return {"data": self.serializer_class(updated).data}
+            if saved:
+                self.LOGGER.info(
+                    "Updated tender agreement {}".format(agreement["id"]),
+                    extra=context_unpack(self.request, {"MESSAGE_ID": "tender_agreement_patch"}),
+                )
+                return {"data": self.serializer_class(updated).data}
