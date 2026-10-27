@@ -5,21 +5,11 @@ from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.constants import UKTZED_SCHEME
-from openprocurement.api.constants_env import (
-    BUDGET_BREAKDOWN_REQUIRED_FROM,
-    PLAN_BUYERS_REQUIRED_FROM,
-)
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.item import AdditionalClassification
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.procedure.utils import is_obj_const_active, to_decimal
 from openprocurement.api.validation import validate_uniq_id
-from openprocurement.planning.api.constants import (
-    MULTI_YEAR_BUDGET_MAX_YEARS,
-    MULTI_YEAR_BUDGET_PROCEDURES,
-)
-from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.planning.api.procedure.models.budget import Budget
 from openprocurement.planning.api.procedure.models.cancellation import (
     Cancellation,
@@ -44,9 +34,6 @@ from openprocurement.planning.api.procedure.models.rationale import RationaleObj
 from openprocurement.planning.api.procedure.models.tender import PlanTender
 from openprocurement.planning.api.utils import generate_plan_id
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.open.constants import BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL
 
 
 class PostPlan(Model):
@@ -76,15 +63,6 @@ class PostPlan(Model):
     documents = ListType(ModelType(PostDocument, required=True))
     rationale = ModelType(RationaleObject)
     project = ModelType(Project)
-
-    def validate_status(self, plan, status):
-        validate_status(plan, status)
-
-    def validate_budget(self, plan, budget):
-        validate_budget(plan, budget)
-
-    def validate_buyers(self, plan, buyers):
-        validate_buyers(plan, buyers)
 
     def validate_additionalClassifications(self, plan, classifications):
         if classifications is not None:
@@ -145,100 +123,12 @@ class Plan(Model):
 
     revisions = BaseType()
 
-    def validate_status(self, plan, status):
-        validate_status(plan, status)
-
-    def validate_budget(self, plan, budget):
-        validate_budget(plan, budget)
-
-    def validate_buyers(self, plan, buyers):
-        validate_buyers(plan, buyers)
-
     def validate_additionalClassifications(self, plan, classifications):
         if classifications is not None:
             validate_ccce_ua(classifications)
             validate_uktzed_forbidden(classifications)
 
 
-def validate_buyers(plan, buyers):
-    if not buyers and is_obj_const_active(get_plan(), PLAN_BUYERS_REQUIRED_FROM):
-        raise ValidationError("This field is required.")
-
-
 def validate_uktzed_forbidden(classifications):
     if any(classification["scheme"] == UKTZED_SCHEME for classification in classifications):
         raise ValidationError(f"Forbidden to add {UKTZED_SCHEME}. Should be added in items.additionalClassifications.")
-
-
-def validate_status(plan, status):
-    if status == "cancelled":
-        cancellation = plan.get("cancellation")
-        if not cancellation or cancellation.status != "active":
-            raise ValidationError("An active cancellation object is required")
-    elif status == "complete":
-        if not plan.get("tender_id"):
-            method = plan.get("tender").get("procurementMethodType")
-            if method not in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL, REPORTING, ""):
-                raise ValidationError("Can't complete plan with '{}' tender.procurementMethodType".format(method))
-
-
-def validate_budget(plan, budget):
-    method_type = plan["tender"]["procurementMethodType"]
-    validate_budget_required(plan, budget)
-    validate_budget_breakdown_required(plan, budget)
-    if method_type not in MULTI_YEAR_BUDGET_PROCEDURES:
-        validate_budget_end_date_single_year(plan, budget)
-    if method_type in MULTI_YEAR_BUDGET_PROCEDURES:
-        validate_budget_end_date_multi_year(plan, budget)
-    if method_type != ESCO:
-        validate_budget_breakdown_amounts(plan, budget)
-
-
-def validate_budget_required(plan, budget):
-    if not budget:
-        raise ValidationError("This field is required.")
-
-
-def validate_budget_breakdown_required(plan, budget):
-    if budget:
-        if is_obj_const_active(plan, BUDGET_BREAKDOWN_REQUIRED_FROM):
-            if not budget.get("breakdown"):
-                raise ValidationError("Breakdown field is required.")
-
-
-def validate_budget_breakdown_amounts(plan, budget):
-    if budget:
-        breakdown = budget.get("breakdown")
-        if breakdown:
-            amounts = [to_decimal(i["value"]["amount"]) for i in breakdown]
-            if sum(amounts) > to_decimal(budget["amount"]):
-                raise ValidationError("Sum of the breakdown values amounts can't be greater than budget amount")
-
-
-def validate_budget_end_date_multi_year(plan, budget):
-    if budget:
-        period = budget.get("period")
-        if period:
-            start_date = period["startDate"]
-            end_date = period["endDate"]
-            if end_date.year - start_date.year > MULTI_YEAR_BUDGET_MAX_YEARS:
-                raise ValidationError(
-                    "Period startDate and endDate must be within {} budget years for {}.".format(
-                        MULTI_YEAR_BUDGET_MAX_YEARS + 1,
-                        plan["tender"]["procurementMethodType"],
-                    )
-                )
-
-
-def validate_budget_end_date_single_year(plan, budget):
-    if budget:
-        period = budget.get("period")
-        if period:
-            start_date = period["startDate"]
-            end_date = period["endDate"]
-            if end_date.year != start_date.year:
-                raise ValidationError(
-                    "Period startDate and endDate must be within one year for {}.".format(
-                        plan["tender"]["procurementMethodType"]
-                    )
-                )

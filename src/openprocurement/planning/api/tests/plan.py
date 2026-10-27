@@ -148,7 +148,7 @@ class PlanBudgetYearTest(BasePlanTest):
 
 
 @mock.patch(
-    "openprocurement.planning.api.procedure.models.plan.PLAN_BUYERS_REQUIRED_FROM",
+    "openprocurement.planning.api.procedure.state.plan.PLAN_BUYERS_REQUIRED_FROM",
     calculate_date(get_now(), timedelta(days=1)),
 )
 class PlanBuyersTestCase(BasePlanTest):

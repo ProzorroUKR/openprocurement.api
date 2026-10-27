@@ -2,7 +2,9 @@ from copy import deepcopy
 from itertools import chain
 
 from dateorro import calc_working_datetime
+from schematics.types import BaseType
 
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
     KATOTTG_SCHEME,
     KPK_SCHEME,
@@ -11,7 +13,9 @@ from openprocurement.api.constants import (
     TKPKMB_SCHEME,
 )
 from openprocurement.api.constants_env import (
+    BUDGET_BREAKDOWN_REQUIRED_FROM,
     PLAN_ADDRESS_KIND_REQUIRED_FROM,
+    PLAN_BUYERS_REQUIRED_FROM,
     RELEASE_SIMPLE_DEFENSE_FROM,
     TENDER_ITEMS_DIFFERENT_CPV_FROM,
     UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
@@ -21,6 +25,7 @@ from openprocurement.api.procedure.models.organization import ProcuringEntityKin
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import (
     is_obj_const_active,
+    to_decimal,
     validate_funders_match_plan_programs,
 )
 from openprocurement.api.procedure.validation import (
@@ -29,19 +34,61 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.constants import (
     CENTRAL_PROCUREMENT_IDENTIFIER_ID,
+    MULTI_YEAR_BUDGET_MAX_YEARS,
+    MULTI_YEAR_BUDGET_PROCEDURES,
     PROCEDURES,
     PROCURING_ENTITY_STANDSTILL,
 )
 from openprocurement.planning.api.procedure.models.milestone import Milestone
+from openprocurement.planning.api.procedure.models.plan import PatchPlan, Plan, PostPlan
+from openprocurement.planning.api.procedure.models.tender import PreValidationTender
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
-from openprocurement.tender.core.procedure.utils import tender_created_after
+from openprocurement.tender.core.procedure.utils import dt_from_iso, tender_created_after
 from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL
+from openprocurement.tender.limited.constants import REPORTING
+from openprocurement.tender.open.constants import BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL
 from openprocurement.tender.pricequotation.constants import PQ
 
 
 class PlanState(BaseState):
+    post_data_model = PostPlan
+    patch_data_model = PatchPlan
+    data_model = Plan
+
+    plan_create_accreditations: tuple = (
+        AccreditationLevel.ACCR_1,
+        AccreditationLevel.ACCR_3,
+        AccreditationLevel.ACCR_5,
+    )
+
+    # roles that may update a plan without being its owner
+    plan_patch_owner_exempt_roles: tuple = ("Administrator",)
+
+    # --- request validation (called from the views) ---
+
+    def validate_plan_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_accreditation_level(
+            levels=self.plan_create_accreditations,
+            item="plan",
+            operation="creation",
+            source="data",
+        )
+        self.validate_data_documents(route_key="plan_id")
+
+    def validate_plan_patch_request(self):
+        if self.request.authenticated_role not in self.plan_patch_owner_exempt_roles:
+            self.validate_item_owner("plan")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), item_name="plan")
+
+    def validate_plan_tender_post_request(self):
+        # only the fields the plan rules need, the tender itself is validated by the tender view
+        self.validate_input_data(PreValidationTender, strict=False)
+
+    # --- hooks ---
+
     def status_up(self, before, after, data):
         super().status_up(before, after, data)
 
@@ -49,6 +96,11 @@ class PlanState(BaseState):
         super().always(data)
 
     def on_post(self, data):
+        self.validate_plan_status(data)
+        self.validate_plan_procuring_entity(data)
+        self.validate_plan_tender(data)
+        self.validate_plan_budget(data)
+        self.validate_plan_buyers(data)
         self.validate_on_post(data)
         self._switch_status({}, data)
         self._update_rationale_date(data)
@@ -56,11 +108,103 @@ class PlanState(BaseState):
         super().on_post(data)
 
     def on_patch(self, before, after):
+        # a plan change through the milestones / tenders endpoints that doesn't touch the fields isn't rechecked
+        if before.get("status") != after.get("status") or before.get("cancellation") != after.get("cancellation"):
+            self.validate_plan_status(after)
+        if before.get("procuringEntity") != after.get("procuringEntity"):
+            self.validate_plan_procuring_entity(after)
+        if before.get("tender") != after.get("tender"):
+            self.validate_plan_tender(after)
+        if before.get("budget") != after.get("budget") or before.get("tender") != after.get("tender"):
+            self.validate_plan_budget(after)
+        if before.get("buyers") != after.get("buyers"):
+            self.validate_plan_buyers(after)
         self.validate_on_patch(before, after)
         self._check_field_change_events(before, after)
         self._switch_status(before, after)
         self._update_rationale_date(after, before)
         super().on_patch(before, after)
+
+    def validate_plan_status(self, plan):
+        status = plan.get("status")
+        if status == "cancelled":
+            cancellation = plan.get("cancellation")
+            if not cancellation or cancellation.get("status") != "active":
+                raise_operation_error(
+                    self.request, ["An active cancellation object is required"], status=422, name="status"
+                )
+        elif status == "complete" and not plan.get("tender_id"):
+            method = plan["tender"].get("procurementMethodType")
+            if method not in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL, REPORTING, ""):
+                raise_operation_error(
+                    self.request,
+                    ["Can't complete plan with '{}' tender.procurementMethodType".format(method)],
+                    status=422,
+                    name="status",
+                )
+
+    def validate_plan_procuring_entity(self, plan):
+        if errors := self.organization_required_fields_errors(plan, plan.get("procuringEntity")):
+            raise_operation_error(self.request, errors, status=422, name="procuringEntity")
+
+    def validate_plan_buyers(self, plan):
+        buyers = plan.get("buyers")
+        if not buyers:
+            if is_obj_const_active(plan, PLAN_BUYERS_REQUIRED_FROM):
+                raise_operation_error(self.request, ["This field is required."], status=422, name="buyers")
+            return
+        errors = [self.organization_required_fields_errors(plan, buyer) for buyer in buyers]
+        if any(errors):
+            raise_operation_error(self.request, errors, status=422, name="buyers")
+
+    @staticmethod
+    def organization_required_fields_errors(plan, organization) -> dict:
+        """address and kind of the procuring entity / buyers are required for the plans created after the constant"""
+        if not organization or not is_obj_const_active(plan, PLAN_ADDRESS_KIND_REQUIRED_FROM):
+            return {}
+        return {field: [BaseType.MESSAGES["required"]] for field in ("address", "kind") if not organization.get(field)}
+
+    def validate_plan_tender(self, plan):
+        tender = plan.get("tender") or {}
+        method = tender.get("procurementMethod")
+        if is_obj_const_active(plan, PLAN_ADDRESS_KIND_REQUIRED_FROM) and method == "":
+            procurement_method_types = ("centralizedProcurement",)
+        else:
+            procurement_method_types = PROCEDURES[method]
+        if tender.get("procurementMethodType") not in procurement_method_types:
+            raise_operation_error(
+                self.request,
+                {"procurementMethodType": ["Value must be one of {!r}.".format(procurement_method_types)]},
+                status=422,
+                name="tender",
+            )
+
+    def validate_plan_budget(self, plan):
+        budget = plan.get("budget")
+        method_type = plan["tender"]["procurementMethodType"]
+
+        def error(message):
+            raise_operation_error(self.request, [message], status=422, name="budget")
+
+        if not budget:
+            error("This field is required.")
+        if is_obj_const_active(plan, BUDGET_BREAKDOWN_REQUIRED_FROM) and not budget.get("breakdown"):
+            error("Breakdown field is required.")
+        if period := budget.get("period"):
+            start_date, end_date = dt_from_iso(period["startDate"]), dt_from_iso(period["endDate"])
+            if method_type in MULTI_YEAR_BUDGET_PROCEDURES:
+                if end_date.year - start_date.year > MULTI_YEAR_BUDGET_MAX_YEARS:
+                    error(
+                        "Period startDate and endDate must be within {} budget years for {}.".format(
+                            MULTI_YEAR_BUDGET_MAX_YEARS + 1, method_type
+                        )
+                    )
+            elif end_date.year != start_date.year:
+                error("Period startDate and endDate must be within one year for {}.".format(method_type))
+        if method_type != ESCO and (breakdown := budget.get("breakdown")):
+            amounts = [to_decimal(i["value"]["amount"]) for i in breakdown]
+            if sum(amounts) > to_decimal(budget["amount"]):
+                error("Sum of the breakdown values amounts can't be greater than budget amount")
 
     def _update_rationale_date(self, after, before=None):
         before = before or {}

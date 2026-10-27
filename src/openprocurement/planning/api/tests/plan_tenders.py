@@ -738,6 +738,33 @@ def test_success_plan_tenders_creation(app, request_tender_data, request_tender_
     assert get_response.json["data"]["status"] == "complete"
 
 
+@patch_market(test_tender_pq_short_profile, test_tender_pq_category)
+def test_pq_tender_creation_from_below_threshold_plan(app):
+    """a priceQuotation tender may be created from a belowThreshold plan"""
+    app.authorization = ("Basic", ("broker", "broker"))
+    request_plan_data = deepcopy(test_plan_data)
+    plan = create_plan_for_tender(
+        app, {**test_tender_pq_data, "procurementMethodType": "belowThreshold"}, request_plan_data
+    )
+    assert plan["data"]["tender"]["procurementMethodType"] == "belowThreshold"
+
+    agreements_collection_original_get = unwrap_app(app).registry.mongodb.agreements.get
+    if "agreement" in test_tender_pq_data:
+        unwrap_app(app).registry.mongodb.agreements.get = MagicMock(
+            return_value={
+                "id": test_tender_pq_data["agreement"]["id"],
+                "agreementType": "electronicCatalogue",
+            },
+        )
+    response = app.post_json(
+        "/plans/{}/tenders".format(plan["data"]["id"]),
+        {"data": test_tender_pq_data, "config": test_tender_pq_config},
+    )
+    unwrap_app(app).registry.mongodb.agreements.get = agreements_collection_original_get
+    assert response.status == "201 Created"
+    assert response.json["data"]["plans"] == [{"id": plan["data"]["id"]}]
+
+
 def test_validations_before_and_after_tender(app):
     app.authorization = ("Basic", ("broker", "broker"))
     request_tender_data = deepcopy(test_tender_below_data)

@@ -3,19 +3,7 @@ from logging import getLogger
 from cornice.resource import resource
 
 from openprocurement.api.procedure.utils import get_items, set_item
-from openprocurement.api.procedure.validation import (
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.planning.api.procedure.models.milestone import (
-    Milestone,
-    PatchMilestone,
-    PostMilestone,
-)
 from openprocurement.planning.api.procedure.serializers.milestone import (
     MilestoneSerializer,
 )
@@ -56,12 +44,9 @@ class PlanMilestoneResource(PlanBaseResource):
     @json_view(
         content_type="application/json",
         permission="post_plan_milestone",
-        validators=(
-            validate_input_data(PostMilestone),
-            validate_data_documents(route_key="milestone_id", uid_key="id"),
-        ),
     )
     def collection_post(self):
+        self.state.validate_milestone_post_request()
         update_logging_context(self.request, {"milestone_id": "__new__"})
 
         plan = self.request.validated["plan"]
@@ -96,13 +81,9 @@ class PlanMilestoneResource(PlanBaseResource):
     @json_view(
         content_type="application/json",
         permission="update_milestone",
-        validators=(
-            validate_item_owner("milestone"),
-            validate_patch_input_data(PatchMilestone),
-            validate_patch_data_simple(Milestone, item_name="milestone"),
-        ),
     )
     def patch(self):
+        self.state.validate_milestone_patch_request()
         plan = self.request.validated["plan"]
         milestone = self.request.validated["milestone"]
         updated_milestone = self.request.validated["data"]

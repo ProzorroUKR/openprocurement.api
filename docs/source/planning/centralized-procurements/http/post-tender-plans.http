@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "id": "d1b27c777c30402190752796d48859fd"
+    "id": "b5611a5d614e41dcab385c6e015ee969"
   }
 }
 
@@ -16,7 +16,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "d1b27c777c30402190752796d48859fd"
+      "id": "b5611a5d614e41dcab385c6e015ee969"
     }
   ]
 }

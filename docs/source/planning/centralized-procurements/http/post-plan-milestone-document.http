@@ -1,4 +1,4 @@
-POST /api/2.5/plans/d1b27c777c30402190752796d48859fd/milestones/04b31c34c6764aaa84b70277d97cf712/documents?acc_token=583e6285b176451ab4f7fd7c9196bd43 HTTP/1.0
+POST /api/2.5/plans/b5611a5d614e41dcab385c6e015ee969/milestones/820cd56a57014d20b0b3f2beade024f1/documents?acc_token=583e6285b176451ab4f7fd7c9196bd43 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/d1b27c777c30402190752796d48859fd/milestones/04b31c34c6764aaa84b70277d97cf712/documents/4449109ab1d84e9da384fde7591208c1
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/b5611a5d614e41dcab385c6e015ee969/milestones/820cd56a57014d20b0b3f2beade024f1/documents/314ff032773e413d862dc34678b7e1fc
 
 {
   "data": {
@@ -24,7 +24,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/plans/d1b27c777c30402190
     "format": "application/pdf",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e02eb47c177f4e078fd10eb781a99616?Signature=rN9%2BwQqp%2FjcIsh194eH4myfxHp7SzO3wXo9uAwzsF8ktudixiljJfdi7VP8qVHaRw4IhD6zi%2BmVMWZpLDOO0AA%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "4449109ab1d84e9da384fde7591208c1",
+    "id": "314ff032773e413d862dc34678b7e1fc",
     "datePublished": "2027-01-01T00:00:10+02:00",
     "dateModified": "2027-01-01T00:00:10+02:00"
   }
