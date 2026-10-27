@@ -1,0 +1,200 @@
+POST /api/2.5/tenders?opt_pretty=1 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00"
+    },
+    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
+    "procurementMethodType": "openTendering",
+    "value": {
+      "currency": "UAH",
+      "amount": 500
+    },
+    "procuringEntity": {
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "locality": "м. Вінниця",
+        "postalCode": "21027",
+        "region": "Вінницька область",
+        "streetAddress": "вул. Стахурського. 22"
+      },
+      "contactPoint": {
+        "name": "Куца Світлана Валентинівна",
+        "name_en": "Kutsa Svitlana V.",
+        "telephone": "+380432465302",
+        "availableLanguage": "uk",
+        "url": "http://sch10.edu.vn.ua/"
+      },
+      "identifier": {
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"",
+        "scheme": "UA-EDR"
+      },
+      "name": "ЗОСШ #10 м.Вінниці",
+      "name_en": "School #10 of Vinnytsia",
+      "signerInfo": {
+        "name": "Test Testovich",
+        "telephone": "+380950000000",
+        "email": "example@email.com",
+        "iban": "111111111111111",
+        "authorizedBy": "Статут компанії",
+        "position": "Генеральний директор"
+      }
+    },
+    "items": [
+      {
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "37810000-9",
+          "description": "Test"
+        },
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        },
+        "unit": {
+          "code": "KGM",
+          "name": "кілограм"
+        },
+        "quantity": 1
+      },
+      {
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "Послуги шкільних їдалень"
+          }
+        ],
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "37810000-9",
+          "description": "Test"
+        },
+        "unit": {
+          "code": "PK",
+          "name": "упаковка"
+        },
+        "quantity": 1,
+        "deliveryDate": {
+          "startDate": "2027-01-21T00:00:00+02:00",
+          "endDate": "2027-02-20T00:00:00+02:00"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "locality": "м. Київ",
+          "streetAddress": "вул. Банкова 1"
+        }
+      }
+    ],
+    "milestones": [
+      {
+        "id": "cccccccccccccccccccccccccccccccc",
+        "title": "signingTheContract",
+        "type": "delivery",
+        "duration": {
+          "days": 2,
+          "type": "calendar"
+        },
+        "sequenceNumber": 1,
+        "code": "standard",
+        "percentage": 100
+      },
+      {
+        "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 2,
+        "percentage": 45.55
+      },
+      {
+        "id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "title": "deliveryOfGoods",
+        "code": "postpayment",
+        "type": "financing",
+        "duration": {
+          "days": 900,
+          "type": "calendar"
+        },
+        "sequenceNumber": 3,
+        "percentage": 54.45
+      }
+    ],
+    "mainProcurementCategory": "services",
+    "procurementMethodSubtype": "EU"
+  },
+  "config": {
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false,
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": true,
+    "hasAwardComplaints": true,
+    "hasCancellationComplaints": true,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 10,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20,
+    "minTenderingDuration": 30,
+    "hasEnquiries": false,
+    "minEnquiriesDuration": 0,
+    "enquiryPeriodRegulation": 6,
+    "restricted": false,
+    "hasMultiSourcing": false
+  }
+}
+
+
+HTTP/1.0 422 Unprocessable Entity
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "body",
+      "name": "config.hasPrequalification",
+      "description": "False is not one of [True]"
+    }
+  ]
+}
+
