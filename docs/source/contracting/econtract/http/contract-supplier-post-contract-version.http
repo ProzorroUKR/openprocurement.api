@@ -175,6 +175,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "owner": "broker",
     "tender_id": "2563fd75900b43499138810b16db8181",
+    "tenderID": "UA-2027-01-01-000002-a",
+    "mainProcurementCategory": "goods",
     "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {
@@ -511,6 +513,8 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "tender_id": "2563fd75900b43499138810b16db8181",
+    "tenderID": "UA-2027-01-01-000002-a",
+    "mainProcurementCategory": "goods",
     "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {

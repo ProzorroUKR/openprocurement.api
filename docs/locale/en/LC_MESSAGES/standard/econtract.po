@@ -43,6 +43,18 @@ msgstr ""
 msgid "рядок, генерується автоматично, лише для читання"
 msgstr "string, auto-generated, read-only"
 
+msgid "tenderID"
+msgstr ""
+
+msgid "Ідентифікатор закупівлі (`Tender.tenderID`), за якою укладено договір. Копіюється з закупівлі при створенні договору."
+msgstr "The identifier of the tender (`Tender.tenderID`) the contract was concluded under. Copied from the tender when the contract is created."
+
+msgid "mainProcurementCategory"
+msgstr ""
+
+msgid "Основна категорія закупівлі (`goods`, `services` або `works`). Копіюється з `Tender.mainProcurementCategory` при створенні договору; відсутня, якщо закупівля не має цього поля."
+msgstr "The main procurement category (`goods`, `services` or `works`). Copied from `Tender.mainProcurementCategory` when the contract is created; absent if the tender has no such field."
+
 msgid "contractNumber"
 msgstr ""
 

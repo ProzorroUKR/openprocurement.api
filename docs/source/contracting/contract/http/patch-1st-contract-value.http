@@ -105,6 +105,8 @@ Content-Type: application/json
       }
     ],
     "tender_id": "4cfaeb49bb7a41ec8d7d8b5acf44d86f",
+    "tenderID": "UA-2027-01-01-000001-a",
+    "mainProcurementCategory": "goods",
     "owner": "broker",
     "status": "pending",
     "buyer": {
