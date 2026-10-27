@@ -4,20 +4,10 @@ from cornice.resource import resource
 from pyramid.request import Request
 from pyramid.security import Allow, Everyone
 
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import ROUTE_PREFIX
 from openprocurement.api.context import get_db_session, set_db_session
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.mask_deprecated import mask_object_data_deprecated
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_data_documents,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import (
     context_unpack,
     json_error,
@@ -27,8 +17,6 @@ from openprocurement.api.utils import (
     update_logging_context,
 )
 from openprocurement.api.views.base import MongodbResourceListing
-from openprocurement.planning.api.procedure.models.plan import PatchPlan, Plan, PostPlan
-from openprocurement.planning.api.procedure.models.tender import PreValidationTender
 from openprocurement.planning.api.procedure.serializers.plan import PlanSerializer
 from openprocurement.planning.api.procedure.utils import save_plan
 from openprocurement.planning.api.procedure.views.base import PlanBaseResource
@@ -101,18 +89,9 @@ class PlansResource(PlanBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_plan",
-        validators=(
-            validate_input_data(PostPlan),
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
-                item="plan",
-                operation="creation",
-                source="data",
-            ),
-            validate_data_documents(route_key="plan_id"),
-        ),
     )
     def collection_post(self):
+        self.state.validate_plan_post_request()
         update_logging_context(self.request, {"plan_id": "__new__"})
         plan = self.request.validated["data"]
         request_init_plan(self.request, plan, plan_src={})
@@ -139,14 +118,10 @@ class PlansResource(PlanBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("plan")),
-            validate_patch_input_data(PatchPlan),
-            validate_patch_data_simple(Plan, item_name="plan"),
-        ),
         permission="edit_plan",
     )
     def patch(self):
+        self.state.validate_plan_patch_request()
         updated = self.request.validated["data"]
         plan = self.request.validated["plan"]
         plan_src = self.request.validated["plan_src"]
@@ -176,10 +151,10 @@ class PlanTendersResource(PlanBaseResource):
 
     @json_view(
         content_type="application/json",
-        validators=(validate_input_data(PreValidationTender, strict=False),),
         permission="create_tender_from_plan",
     )
     def post(self):
+        self.state.validate_plan_tender_post_request()
         plan = self.request.validated["plan"]
         tender = self.request.validated["json_data"]
 

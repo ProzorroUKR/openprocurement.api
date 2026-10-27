@@ -1,19 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-    validate_upload_document,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.planning.api.procedure.models.document import (
     Document,
-    PatchDocument,
-    PostDocument,
 )
 from openprocurement.planning.api.procedure.serializers.document import (
     DocumentSerializer,
@@ -65,36 +54,23 @@ class PlanMilestoneDocumentResource(PlanBaseResource, DocumentResourceMixin):
         return super().get()
 
     @json_view(
-        validators=(
-            validate_item_owner("milestone"),
-            validate_input_data(PostDocument, allow_bulk=True),
-        ),
         permission="update_milestone",
     )
     def collection_post(self):
+        self.state.validate_document_post_request()
         return super().collection_post()
 
     @json_view(
-        validators=(
-            validate_item_owner("milestone"),
-            validate_input_data(PostDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
         permission="update_milestone",
     )
     def put(self):
+        self.state.validate_document_put_request()
         return super().put()
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("milestone"),
-            validate_patch_input_data(PatchDocument),
-            validate_patch_data_simple(Document, item_name="document"),
-        ),
         permission="update_milestone",
     )
     def patch(self):
+        self.state.validate_document_patch_request()
         return super().patch()

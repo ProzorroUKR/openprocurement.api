@@ -1,11 +1,32 @@
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.procedure.context import get_plan
-from openprocurement.planning.api.procedure.models.milestone import Milestone
+from openprocurement.planning.api.procedure.models.milestone import (
+    Milestone,
+    PatchMilestone,
+    PostMilestone,
+)
 from openprocurement.planning.api.procedure.state.plan import PlanState
 
 
 class MilestoneState(PlanState):
+    post_data_model = PostMilestone
+    patch_data_model = PatchMilestone
+    data_model = Milestone
+
+    # --- request validation (called from the views) ---
+
+    def validate_milestone_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_data_documents(route_key="milestone_id", uid_key="id")
+
+    def validate_milestone_patch_request(self):
+        self.validate_item_owner("milestone")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), item_name="milestone")
+
+    # --- hooks ---
+
     def milestone_always(self, data):
         data["dateModified"] = get_request_now().isoformat()
 
