@@ -231,7 +231,7 @@ Content-Type: application/json
     "dateModified": "2027-01-01T00:00:00+02:00",
     "changes": [
       {
-        "id": "763394fc5c714348b33cea25674f6916",
+        "id": "4d2ff9f48f7c44f58df69aad8b60bbb9",
         "status": "active",
         "date": "2027-01-01T00:00:00+02:00",
         "rationale": "Друга і третя поставка має бути розфасована",
@@ -248,8 +248,8 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "relatedItem": "763394fc5c714348b33cea25674f6916",
-        "id": "2dca769710034e8cb17e18c4431a6261",
+        "relatedItem": "4d2ff9f48f7c44f58df69aad8b60bbb9",
+        "id": "fde2e2edbb704b668d459653bef6dd57",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "agreement_changes.doc",

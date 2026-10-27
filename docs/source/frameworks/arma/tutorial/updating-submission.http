@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057?acc_token=816862aad01045b6990c5d92fa43a83d HTTP/1.0
+PATCH /api/2.5/submissions/8c615538188b443e90ad63788fda2f5f?acc_token=816862aad01045b6990c5d92fa43a83d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -64,7 +64,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "322c9826211a43acb2ff97a1b8227c20",
+        "id": "7ce34a1a5a8b4498922ec6c3bc32dd15",
         "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "submission_docs.doc",
@@ -76,25 +76,25 @@ Content-Type: application/json
       },
       {
         "documentType": "technicalSpecifications",
-        "id": "524ec3cd02d0446d9fb46cb61f0ab03e",
+        "id": "81090217a2874adcbeff4a7837ce8aff",
         "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "specs.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057/documents/524ec3cd02d0446d9fb46cb61f0ab03e?download=07b7c6880f574d9eba920c11d9e891eb",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/8c615538188b443e90ad63788fda2f5f/documents/81090217a2874adcbeff4a7837ce8aff?download=07b7c6880f574d9eba920c11d9e891eb",
         "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk",
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Дуже конфіденційний файл, треба приховати"
       }
     ],
-    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
     "status": "draft",
     "dateModified": "2027-01-17T00:00:00+02:00",
     "date": "2027-01-17T00:00:00+02:00",
     "owner": "broker",
     "submissionType": "assetRecoveryManagementAgency",
-    "id": "38ee034dc7a24e27a55ed4ed619d8057"
+    "id": "8c615538188b443e90ad63788fda2f5f"
   },
   "config": {
     "restricted": false

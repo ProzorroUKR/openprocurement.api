@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/efbc346fdff943caa5523b9a313d8954/submissions HTTP/1.0
+GET /api/2.5/frameworks/694d326a48af44acb0a8c77f9663fe35/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,14 +33,14 @@ Content-Type: application/json
           }
         }
       ],
-      "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+      "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "c2579ad5c86d4c5a8f56b1376c8bd1ae",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "97f9afc6911c49e9bfae2d294e2ca46d"
+      "id": "9b5222e8bc6448cdb6d020a4cc87adee"
     },
     {
       "tenderers": [
@@ -67,20 +67,20 @@ Content-Type: application/json
           }
         }
       ],
-      "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+      "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "9c914725c97747e985a307738c228ced",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "c8156d5097084587a931f1d125d9ee00"
+      "id": "b545af91a7834ebf81901eecf74c9d07"
     }
   ],
   "next_page": {
-    "offset": "1800136800.0.2.fdbc6dbe01cfd59445b79e034d1330e6",
-    "path": "/api/2.5/submissions?offset=1800136800.0.2.fdbc6dbe01cfd59445b79e034d1330e6",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.fdbc6dbe01cfd59445b79e034d1330e6"
+    "offset": "1800136800.0.2.8b30f158fbb4c0387db93cfc8571946a",
+    "path": "/api/2.5/submissions?offset=1800136800.0.2.8b30f158fbb4c0387db93cfc8571946a",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.8b30f158fbb4c0387db93cfc8571946a"
   }
 }
 

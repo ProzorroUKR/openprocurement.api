@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/79215d0ea54f4a04b04d7fadf4090ca1/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+GET /api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2/documents?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -14,7 +14,7 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f5cb842886f141e681b47175faee1ea1?Signature=G7BvnAz3bGtcoEJQ4VMw2s9ARIPKFD0ZsNnTzvkGoYumAUv61r%2BTP0NXiTQhwebXxqUJM1d5aNg5AU8LtKBSCw%3D%3D&KeyID=a8968c46",
       "language": "uk",
-      "id": "fa81182a8ca44a08bcbca5d7128c8640",
+      "id": "087512e0ed714ace947142ed5ddf6e23",
       "datePublished": "2027-01-01T00:00:00+02:00",
       "dateModified": "2027-01-01T00:00:00+02:00"
     }

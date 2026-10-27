@@ -1,4 +1,4 @@
-PATCH /api/2.5/agreements/8887db77f71c4a0496b39ac2c4eea78c/documents/2dca769710034e8cb17e18c4431a6261?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
+PATCH /api/2.5/agreements/8887db77f71c4a0496b39ac2c4eea78c/documents/fde2e2edbb704b668d459653bef6dd57?acc_token=9870067ea6e64d14adf4016d24d15f0c HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -6,7 +6,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 {
   "data": {
     "documentOf": "change",
-    "relatedItem": "763394fc5c714348b33cea25674f6916"
+    "relatedItem": "4d2ff9f48f7c44f58df69aad8b60bbb9"
   }
 }
 
@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "relatedItem": "763394fc5c714348b33cea25674f6916",
-    "id": "2dca769710034e8cb17e18c4431a6261",
+    "relatedItem": "4d2ff9f48f7c44f58df69aad8b60bbb9",
+    "id": "fde2e2edbb704b668d459653bef6dd57",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "hash": "md5:00000000000000000000000000000000",
     "title": "agreement_changes.doc",

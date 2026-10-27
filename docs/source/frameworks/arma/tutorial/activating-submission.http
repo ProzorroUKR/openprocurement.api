@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/97f9afc6911c49e9bfae2d294e2ca46d?acc_token=6663117bc0464e6492e61c47a254cff3 HTTP/1.0
+PATCH /api/2.5/submissions/9b5222e8bc6448cdb6d020a4cc87adee?acc_token=6663117bc0464e6492e61c47a254cff3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -39,7 +39,7 @@ Content-Type: application/json
         }
       }
     ],
-    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
     "status": "active",
     "dateModified": "2027-01-17T00:00:00+02:00",
     "date": "2027-01-17T00:00:00+02:00",
@@ -47,7 +47,7 @@ Content-Type: application/json
     "submissionType": "assetRecoveryManagementAgency",
     "qualificationID": "c2579ad5c86d4c5a8f56b1376c8bd1ae",
     "datePublished": "2027-01-17T00:00:00+02:00",
-    "id": "97f9afc6911c49e9bfae2d294e2ca46d"
+    "id": "9b5222e8bc6448cdb6d020a4cc87adee"
   },
   "config": {
     "restricted": false

@@ -29,7 +29,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "efbc346fdff943caa5523b9a313d8954"
+    "frameworkID": "694d326a48af44acb0a8c77f9663fe35"
   },
   "config": {
     "restricted": false
@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a24e27a55ed4ed619d8057
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/8c615538188b443e90ad63788fda2f5f
 
 {
   "data": {
@@ -67,13 +67,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/38ee034dc7a2
         }
       }
     ],
-    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
     "status": "draft",
     "submissionType": "assetRecoveryManagementAgency",
     "owner": "broker",
     "date": "2027-01-17T00:00:00+02:00",
     "dateModified": "2027-01-17T00:00:00+02:00",
-    "id": "38ee034dc7a24e27a55ed4ed619d8057"
+    "id": "8c615538188b443e90ad63788fda2f5f"
   },
   "access": {
     "token": "816862aad01045b6990c5d92fa43a83d",

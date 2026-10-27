@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-17-000001",
-    "frameworkID": "79215d0ea54f4a04b04d7fadf4090ca1",
+    "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "209af725e14a4ede8edc1720b0f84d65",
         "qualificationID": "37edcfe4b6484dee80eecfdb03a03a08",
-        "submissionID": "0c3ac4255ccc46e4b317616f23fa6766",
+        "submissionID": "9b0585dfa2b947c98c7b97d353418798",
         "status": "active",
         "suppliers": [
           {

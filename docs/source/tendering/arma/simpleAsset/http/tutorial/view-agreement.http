@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001",
-    "frameworkID": "861eb3e119fd413db5cc47f26577c860",
+    "frameworkID": "b836151a46564f33ace9d7feb2848323",
     "agreementType": "assetRecoveryManagementAgency",
     "status": "active",
     "period": {
@@ -54,7 +54,7 @@ Content-Type: application/json
       {
         "id": "455ea070c79341fc9167bb9f8481bfef",
         "qualificationID": "c1f18985df4649d1b145665f2207594a",
-        "submissionID": "831ab2dddfca4b89b36070735f6a58ee",
+        "submissionID": "ebfbe353ea6b4c638371a928762059e1",
         "status": "active",
         "suppliers": [
           {
@@ -95,7 +95,7 @@ Content-Type: application/json
       {
         "id": "10872f2dc68c427b965dba4ec18e8cb5",
         "qualificationID": "f6258bc818dc476f8dcd9b5dd7a37655",
-        "submissionID": "c80f7a25129b4b8fb10a67fe76235375",
+        "submissionID": "d67cf6e6c5cb4f5b9ad8f2e6c8de149a",
         "status": "active",
         "suppliers": [
           {

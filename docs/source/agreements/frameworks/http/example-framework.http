@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/bd5117535efe491e9c4459caa7289e83 HTTP/1.0
+GET /api/2.5/frameworks/60ce681b504d42d5a9c88d2e99426985 HTTP/1.0
 Authorization: Bearer token
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -65,7 +65,7 @@ Content-Type: application/json
     },
     "next_check": "2023-01-28T00:00:00+02:00",
     "agreementID": "6a527caaceb94ad398f77579768a6d67",
-    "id": "bd5117535efe491e9c4459caa7289e83"
+    "id": "60ce681b504d42d5a9c88d2e99426985"
   },
   "config": {
     "restrictedDerivatives": false,

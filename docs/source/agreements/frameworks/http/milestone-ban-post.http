@@ -31,13 +31,13 @@ Content-Type: application/json
         "format": "application/msword",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
         "language": "uk",
-        "id": "27f0526262fb4beb9d54bd12f260aee6",
+        "id": "62c2ac6748f84b03a113bb5954118cd7",
         "datePublished": "2023-01-16T00:00:00+02:00",
         "dateModified": "2023-01-16T00:00:00+02:00"
       }
     ],
     "status": "scheduled",
-    "id": "cc92280883ae45fcb2bc0603fa1c476d",
+    "id": "0ca99bfc15a94412a09d374837309470",
     "dueDate": "2023-04-16T00:00:00+03:00",
     "dateModified": "2023-01-16T00:00:00+02:00"
   }

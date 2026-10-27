@@ -1,4 +1,4 @@
-POST /api/2.5/frameworks/79215d0ea54f4a04b04d7fadf4090ca1/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+POST /api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2/changes?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,7 +18,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79215d0ea54f4a04b04d7fadf4090ca1/changes/ebfecaa7b5e549afaa31883a22e390f3
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2/changes/3f7773ac4ef2447ca3ee1ea99727416d
 
 {
   "data": {
@@ -29,7 +29,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/79215d0ea54f4
         "endDate": "2027-03-08T00:00:00+02:00"
       }
     },
-    "id": "ebfecaa7b5e549afaa31883a22e390f3",
+    "id": "3f7773ac4ef2447ca3ee1ea99727416d",
     "previous": {
       "qualificationPeriod": {
         "startDate": "2027-01-01T00:00:00+02:00",

@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/79215d0ea54f4a04b04d7fadf4090ca1?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
+PATCH /api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2?acc_token=2a5f07868aed43bfb10588a5ac40185a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -65,7 +65,7 @@ Content-Type: application/json
       },
       "kind": "general"
     },
-    "id": "79215d0ea54f4a04b04d7fadf4090ca1"
+    "id": "a7be11b733044b6eb74d7712f3c91ad2"
   },
   "config": {
     "restrictedDerivatives": false,
