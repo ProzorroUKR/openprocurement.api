@@ -1,4 +1,4 @@
-POST /api/2.5/plans/cccb8928810c4bda97b1eabb9c4c4f9b/tenders HTTP/1.0
+POST /api/2.5/plans/54bce4a1b606481499b5a27fa4061d05/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     },
     "items": [
       {
-        "id": "72406d30465d4a66b6c2867545edd942",
+        "id": "ce79c9ad9e6744abac1cce7c68152a5f",
         "classification": {
           "description": "Vegetable seeds",
           "scheme": "ДК021",
@@ -198,7 +198,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
     },
     "items": [
       {
-        "id": "72406d30465d4a66b6c2867545edd942",
+        "id": "ce79c9ad9e6744abac1cce7c68152a5f",
         "description": "Насіння овочевих культур",
         "unit": {
           "name": "кг",
@@ -345,7 +345,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6463abeed6914b38
     "id": "6463abeed6914b389f85cda24396b107",
     "plans": [
       {
-        "id": "cccb8928810c4bda97b1eabb9c4c4f9b"
+        "id": "54bce4a1b606481499b5a27fa4061d05"
       }
     ]
   },

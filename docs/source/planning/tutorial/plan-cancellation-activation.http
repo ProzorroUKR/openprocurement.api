@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/6701056dc6fd4e12a83fcb4a6b9e8c02?acc_token=d995817ea96d4dd897846ab1f81b9eb8 HTTP/1.0
+PATCH /api/2.5/plans/0b6127bcf7f945de8348cf09521d87ed?acc_token=d995817ea96d4dd897846ab1f81b9eb8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -20,7 +20,7 @@ Content-Type: application/json
   "data": {
     "status": "cancelled",
     "procuringEntity": {
-      "id": "2072317ee04141ae81b6cc9e6cebd71c",
+      "id": "d479277b4de640f2be0271da681519cd",
       "name": "ДУС",
       "identifier": {
         "scheme": "UA-EDR",
@@ -67,7 +67,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "bc4eb9875ee341f6b2c5f7a09b93b988",
+          "id": "c3b82005506940e6bc123f6a0b3a5c3f",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -92,7 +92,7 @@ Content-Type: application/json
     "planID": "UA-P-2027-01-02-000002-a",
     "items": [
       {
-        "id": "bbc03c520ecb49f08ebd90262484d8c8",
+        "id": "c8dcdfa07e7245e28ab61bd4ddab4a2a",
         "classification": {
           "description": "Mustard seeds",
           "scheme": "ДК021",
@@ -123,7 +123,7 @@ Content-Type: application/json
         "description": "Насіння гірчиці"
       },
       {
-        "id": "f4e03ef0e02f447fa3be363d660c54b1",
+        "id": "2401dfdfecaf4bddbe0fd540b932036e",
         "classification": {
           "description": "Sunflower seeds",
           "scheme": "ДК021",
@@ -154,7 +154,7 @@ Content-Type: application/json
         "description": "Насіння соняшнику"
       },
       {
-        "id": "5cde49e88fd447059a4fa7da01ca73c2",
+        "id": "f6544f11e4f34498a977caaf725957f7",
         "classification": {
           "description": "Cotton seeds",
           "scheme": "ДК021",
@@ -187,7 +187,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "0f691a1d70e7424e805daab926fc39a5",
+        "id": "05deb89f86554b49aed7706b14302592",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -215,7 +215,7 @@ Content-Type: application/json
     "cancellation": {
       "reason": "Підстава для скасування",
       "status": "active",
-      "id": "69f03e5b5e7c4b919bd13bbc0a68558e",
+      "id": "8df86e0624d44cca9b8aac64803e6207",
       "date": "2027-01-02T01:00:33+02:00"
     },
     "rationale": {
@@ -230,7 +230,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-02T01:00:33+02:00",
     "dateModified": "2027-01-02T01:00:33+02:00",
     "datePublished": "2027-01-02T01:00:33+02:00",
-    "id": "6701056dc6fd4e12a83fcb4a6b9e8c02"
+    "id": "0b6127bcf7f945de8348cf09521d87ed"
   }
 }
 

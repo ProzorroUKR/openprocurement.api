@@ -1,4 +1,4 @@
-POST /api/2.5/plans/5e6819d2385c4c6a8a7877b87488074c/ownership HTTP/1.0
+POST /api/2.5/plans/d713345214024fb7ad04d68a2aeca146/ownership HTTP/1.0
 Authorization: Bearer brokerx
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua

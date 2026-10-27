@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/d1b27c777c30402190752796d48859fd/milestones/04b31c34c6764aaa84b70277d97cf712?acc_token=583e6285b176451ab4f7fd7c9196bd43 HTTP/1.0
+PATCH /api/2.5/plans/b5611a5d614e41dcab385c6e015ee969/milestones/820cd56a57014d20b0b3f2beade024f1?acc_token=583e6285b176451ab4f7fd7c9196bd43 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,14 +17,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "04b31c34c6764aaa84b70277d97cf712",
+    "id": "820cd56a57014d20b0b3f2beade024f1",
     "status": "met",
     "title": "Підготовка до проведення процедури",
     "description": "Доповнений опис відповіді",
     "type": "approval",
     "dueDate": "2027-01-01T00:00:07+02:00",
     "author": {
-      "id": "17b0a4f99ca24834b22e585424fbea1f",
+      "id": "65a79a5a26424868a396a5a9ddf8a79c",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
