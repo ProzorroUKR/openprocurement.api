@@ -102,7 +102,27 @@ class FrameworkBaseResource(BaseResource):  # TODO: make more specific classes
             request_create_or_update_object(self.request, "agreement")
 
 
-class BaseDocumentResource(FrameworkBaseResource, DocumentResourceMixin):
+class FrameworkDocumentResourceMixin(DocumentResourceMixin):
+    """the views of the documents start with the request validation of the state"""
+
+    def collection_post(self):
+        self.state.validate_document_post_request()
+        return super().collection_post()
+
+    def get(self):
+        self.state.validate_document_get_request()
+        return super().get()
+
+    def put(self):
+        self.state.validate_document_put_request()
+        return super().put()
+
+    def patch(self):
+        self.state.validate_document_patch_request()
+        return super().patch()
+
+
+class BaseDocumentResource(FrameworkBaseResource, FrameworkDocumentResourceMixin):
     state_class = BaseFrameworkDocumentState
     serializer_class = DocumentSerializer
     model_class = Document

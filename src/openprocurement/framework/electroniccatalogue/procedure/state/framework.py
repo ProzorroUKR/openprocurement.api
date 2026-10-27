@@ -5,15 +5,22 @@ from openprocurement.framework.core.procedure.models.framework import (
 )
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.electroniccatalogue.procedure.models.framework import (
+    Framework,
     PatchActiveFramework,
     PatchFramework,
+    PostFramework,
 )
+from openprocurement.framework.electroniccatalogue.procedure.state.agreement import ElectronicDialogueAgreementState
 
 from .qualification import ElectronicDialogueQualificationState
 from .submission import ElectronicDialogueSubmissionState
 
 
 class ElectronicDialogueFrameworkState(FrameworkState):
+    post_data_model = PostFramework
+    data_model = Framework
+    agreement_class = ElectronicDialogueAgreementState
+
     qualification_class = ElectronicDialogueQualificationState
     submission_class = ElectronicDialogueSubmissionState
     working_days = True

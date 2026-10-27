@@ -4,10 +4,12 @@ from logging import getLogger
 
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.framework.core.constants import (
     MAX_QUALIFICATION_DURATION,
     SUBMISSION_STAND_STILL_DURATION,
 )
+from openprocurement.framework.core.procedure.models.change import PostChange
 from openprocurement.framework.core.procedure.state.agreement import AgreementState
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.core.utils import calculate_framework_full_date
@@ -17,7 +19,25 @@ LOGGER = getLogger(__name__)
 
 
 class ChangeState(FrameworkState):
+    # post_data_model of the procedure states is the framework one
+    change_post_data_model = PostChange
+
     agreement_class = AgreementState
+
+    # --- request validation (called from the views) ---
+
+    def validate_change_post_request(self):
+        self.validate_item_owner("framework")
+        self.validate_input_data(self.change_post_data_model)
+        self.validate_change_framework_status()
+
+    def validate_change_framework_status(self):
+        status = self.request.validated["framework"].get("status", "")
+        if status != "active":
+            raise_operation_error(
+                self.request,
+                f"Can't {OPERATIONS.get(self.request.method)} change in current ({status}) framework status",
+            )
 
     def validate_change_on_post(self, data, framework):
         self.validate_modifications(data, framework)

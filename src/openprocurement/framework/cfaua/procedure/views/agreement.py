@@ -1,29 +1,12 @@
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.procedure.context import get_agreement
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    validate_accreditation_level,
-    validate_config_data,
-    validate_input_data,
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data_from_resolved_model,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.framework.cfaua.constants import CFA_UA
-from openprocurement.framework.cfaua.procedure.models.agreement import (
-    Agreement,
-    PostAgreement,
-)
 from openprocurement.framework.cfaua.procedure.serializers.agreement import (
     AgreementSerializer,
 )
 from openprocurement.framework.cfaua.procedure.state.agreement import AgreementState
-from openprocurement.framework.cfaua.procedure.validation import (
-    validate_update_agreement_status,
-)
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.agreement import (
@@ -46,18 +29,9 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
     @json_view(
         content_type="application/json",
         permission="create_agreement",
-        validators=(
-            validate_input_data(PostAgreement),
-            validate_config_data(),
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_3, AccreditationLevel.ACCR_5),
-                item="agreement",
-                operation="creation",
-                source="data",
-            ),
-        ),
     )
     def collection_post(self):
+        self.state.validate_agreement_post_request()
         return super().collection_post()
 
     @json_view(permission="view_agreement")
@@ -70,15 +44,10 @@ class AgreementResource(AgreementBaseResource, BaseFrameworkAgreementResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_administrator(validate_item_owner("agreement")),
-            validate_patch_input_data_from_resolved_model(),
-            validate_patch_data(Agreement, item_name="agreement"),
-            validate_update_agreement_status,
-        ),
         permission="edit_agreement",
     )
     def patch(self):
+        self.state.validate_agreement_patch_request()
         updated = self.request.validated["data"]
         agreement = self.request.validated["agreement"]
         agreement_src = self.request.validated["agreement_src"]

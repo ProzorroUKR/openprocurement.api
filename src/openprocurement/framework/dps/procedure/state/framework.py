@@ -10,9 +10,12 @@ from openprocurement.framework.core.procedure.state.framework import (
     FrameworkState,
 )
 from openprocurement.framework.dps.procedure.models.framework import (
+    Framework,
     PatchActiveFramework,
     PatchFramework,
+    PostFramework,
 )
+from openprocurement.framework.dps.procedure.state.agreement import DPSAgreementState
 from openprocurement.framework.dps.procedure.state.qualification import (
     DPSQualificationState,
 )
@@ -43,6 +46,10 @@ class DPSFrameworkConfigMixin(FrameworkConfigMixin):
 
 
 class DPSFrameworkState(DPSFrameworkConfigMixin, FrameworkState):
+    post_data_model = PostFramework
+    data_model = Framework
+    agreement_class = DPSAgreementState
+
     qualification_class = DPSQualificationState
     submission_class = DPSSubmissionState
     working_days = True

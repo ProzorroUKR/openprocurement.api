@@ -1789,7 +1789,7 @@ def put_submission_document(self):
 
 
 def put_submission_document_fast(self):
-    target = "openprocurement.framework.core.procedure.validation.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+    target = "openprocurement.framework.core.procedure.state.document.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
 
     with mock.patch(target, self.framework_id):
         response = self.app.post_json(

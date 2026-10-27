@@ -71,6 +71,7 @@ class FrameworksResource(FrameworkBaseResource):
     state_class = FrameworkState
 
     def collection_post(self):
+        self.state.validate_framework_post_request()
         update_logging_context(self.request, {"framework_id": "__new__"})
         framework = self.request.validated["data"]
         request_init_framework(self.request, framework, framework_src={})
@@ -109,6 +110,7 @@ class FrameworksResource(FrameworkBaseResource):
         }
 
     def patch(self):
+        self.state.validate_framework_patch_request()
         updated = self.request.validated["data"]
         framework = self.request.validated["framework"]
         framework_src = self.request.validated["framework_src"]

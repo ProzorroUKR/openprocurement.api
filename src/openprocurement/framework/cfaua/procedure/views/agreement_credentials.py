@@ -2,12 +2,8 @@ from cornice.resource import resource
 
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.framework.cfaua.constants import CFA_UA
-from openprocurement.framework.cfaua.procedure.validation import (
-    validate_credentials_generate,
-)
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
-from openprocurement.framework.core.procedure.validation import validate_tender_owner
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 
@@ -20,12 +16,9 @@ from openprocurement.tender.core.procedure.utils import set_ownership
 class AgreementCredentialsResource(AgreementBaseResource):
     @json_view(
         permission="view_agreement",
-        validators=(
-            validate_tender_owner("agreement"),
-            validate_credentials_generate,
-        ),
     )
     def patch(self):
+        self.state.validate_credentials_patch_request()
         agreement = self.request.validated["agreement"]
 
         access = set_ownership(agreement, self.request)

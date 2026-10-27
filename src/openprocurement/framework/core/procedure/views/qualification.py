@@ -76,6 +76,7 @@ class QualificationsResource(FrameworkBaseResource):
         }
 
     def patch(self):
+        self.state.qualification.validate_qualification_patch_request()
         updated = self.request.validated["data"]
         qualification = self.request.validated["qualification"]
         qualification_src = self.request.validated["qualification_src"]

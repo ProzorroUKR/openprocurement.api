@@ -1,18 +1,10 @@
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.api.procedure.validation import (
-    validate_input_data,
-    validate_item_owner,
-)
 from openprocurement.api.utils import context_unpack, json_view, update_logging_context
-from openprocurement.framework.core.procedure.models.change import PostChange
 from openprocurement.framework.core.procedure.serializers.change import ChangeSerializer
 from openprocurement.framework.core.procedure.serializers.framework import (
     FrameworkSerializer,
 )
 from openprocurement.framework.core.procedure.state.change import ChangeState
-from openprocurement.framework.core.procedure.validation import (
-    validate_action_in_not_allowed_framework_status,
-)
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 from openprocurement.tender.core.utils import context_view
 
@@ -61,13 +53,9 @@ class CoreChangeResource(FrameworkBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_framework",
-        validators=(
-            validate_item_owner("framework"),
-            validate_input_data(PostChange),
-            validate_action_in_not_allowed_framework_status("change"),
-        ),
     )
     def collection_post(self):
+        self.state.validate_change_post_request()
         update_logging_context(self.request, {"change_id": "__new__"})
 
         framework = self.request.validated["framework"]

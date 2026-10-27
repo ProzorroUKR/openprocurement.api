@@ -5,9 +5,12 @@ from openprocurement.framework.core.procedure.models.framework import (
 )
 from openprocurement.framework.core.procedure.state.framework import FrameworkState
 from openprocurement.framework.ifi.procedure.models.framework import (
+    Framework,
     PatchActiveFramework,
     PatchFramework,
+    PostFramework,
 )
+from openprocurement.framework.ifi.procedure.state.agreement import IFIAgreementState
 from openprocurement.framework.ifi.procedure.state.qualification import (
     IFIQualificationState,
 )
@@ -15,6 +18,10 @@ from openprocurement.framework.ifi.procedure.state.submission import IFISubmissi
 
 
 class IFIFrameworkState(FrameworkState):
+    post_data_model = PostFramework
+    data_model = Framework
+    agreement_class = IFIAgreementState
+
     qualification_class = IFIQualificationState
     submission_class = IFISubmissionState
     working_days = True

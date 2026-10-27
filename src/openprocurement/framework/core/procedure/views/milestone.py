@@ -51,6 +51,7 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
         return {"data": self.serializer_class(get_object("milestone")).data}
 
     def collection_post(self):
+        self.state.validate_milestone_post_request()
         update_logging_context(self.request, {"milestone_id": "__new__"})
         milestone = self.request.validated["data"]
         contract = self.request.validated["contract"]
@@ -69,6 +70,7 @@ class AgreementContractMilestonesResource(FrameworkBaseResource):
             return {"data": self.serializer_class(milestone).data}
 
     def patch(self):
+        self.state.validate_milestone_patch_request()
         updated = self.request.validated["data"]
         if updated:
             milestone = self.request.validated["milestone"]

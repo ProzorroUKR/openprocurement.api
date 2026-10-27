@@ -1,18 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    validate_item_owner,
-    validate_patch_data,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import json_view
-from openprocurement.framework.core.procedure.models.contract import (
-    Contract,
-    PatchContract,
-)
-from openprocurement.framework.core.procedure.validation import (
-    validate_agreement_operation_not_in_allowed_status,
-)
 from openprocurement.framework.core.procedure.views.contract import (
     AgreementContractsResource,
 )
@@ -30,12 +18,6 @@ from openprocurement.framework.dps.constants import DPS_TYPE
 class DPSAgreementContractsResource(AgreementContractsResource):
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_item_owner("framework"),
-            validate_patch_input_data(PatchContract),
-            validate_patch_data(Contract, item_name="contract"),
-            validate_agreement_operation_not_in_allowed_status,
-        ),
         permission="edit_agreement",
     )
     def patch(self):

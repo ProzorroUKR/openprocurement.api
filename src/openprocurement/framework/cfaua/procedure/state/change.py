@@ -1,5 +1,9 @@
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.validation import (
+    validate_input_data_from_resolved_model,
+    validate_patch_input_data_from_resolved_model,
+)
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.cfaua.procedure.models.change import (
@@ -20,6 +24,49 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 class ChangeState(BaseState):
+    # --- request validation (called from the views) ---
+
+    def validate_change_post_request(self):
+        if self.request.authenticated_role != "Administrator":
+            self.validate_item_owner("agreement")
+        validate_input_data_from_resolved_model()(self.request)
+        self.validate_change_date_signed_not_in_future()
+        self.validate_change_agreement_status()
+        self.validate_change_no_pending()
+
+    def validate_change_patch_request(self):
+        if self.request.authenticated_role != "Administrator":
+            self.validate_item_owner("agreement")
+        validate_patch_input_data_from_resolved_model()(self.request)
+        self.validate_change_date_signed_not_in_future()
+        self.validate_patch_data(self.get_parent_patch_data_model(), item_name="change")
+        self.validate_change_update_allowed()
+
+    def validate_change_date_signed_not_in_future(self):
+        date_signed = self.request.validated["data"].get("dateSigned")
+        if date_signed and dt_from_iso(date_signed) > get_request_now():
+            raise_operation_error(
+                self.request,
+                ["Agreement signature date can't be in the future"],
+                status=422,
+                name="dateSigned",
+            )
+
+    def validate_change_agreement_status(self):
+        status = self.request.validated["agreement"]["status"]
+        if status != "active":
+            raise_operation_error(self.request, f"Can't add agreement change in current ({status}) agreement status")
+
+    def validate_change_no_pending(self):
+        changes = self.request.validated["agreement"].get("changes")
+        if changes and changes[-1]["status"] == "pending":
+            raise_operation_error(self.request, "Can't create new agreement change while any (pending) change exists")
+
+    def validate_change_update_allowed(self):
+        status = self.request.validated["change"]["status"]
+        if status in ("active", "cancelled"):
+            raise_operation_error(self.request, f"Can't update agreement change in current ({status}) status")
+
     def get_post_data_model(self):
         request = get_request()
         data = validate_json_data(request)

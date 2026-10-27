@@ -110,6 +110,7 @@ class AgreementsResource(FrameworkBaseResource):
         }
 
     def patch(self):
+        self.state.validate_agreement_patch_request()
         updated = self.request.validated["data"]
         agreement = self.request.validated["agreement"]
         agreement_src = self.request.validated["agreement_src"]

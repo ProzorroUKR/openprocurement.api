@@ -3,7 +3,7 @@ from openprocurement.framework.core.procedure.serializers.document import (
     SubmissionDocumentSerializer,
 )
 from openprocurement.framework.core.procedure.state.document import (
-    BaseFrameworkDocumentState,
+    FrameworkChangeDocumentState,
     MilestoneDocumentState,
     QualificationDocumentState,
     SubmissionDocumentState,
@@ -12,6 +12,7 @@ from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import (
     BaseDocumentResource,
     FrameworkBaseResource,
+    FrameworkDocumentResourceMixin,
 )
 from openprocurement.framework.core.procedure.views.change import resolve_change
 from openprocurement.framework.core.procedure.views.contract import resolve_contract
@@ -21,7 +22,6 @@ from openprocurement.tender.core.procedure.serializers.document import (
     DocumentSerializer,
 )
 from openprocurement.tender.core.procedure.views.document import (
-    DocumentResourceMixin,
     resolve_document,
 )
 
@@ -41,7 +41,7 @@ class CoreQualificationDocumentResource(BaseDocumentResource):
     state_class = QualificationDocumentState
 
 
-class CoreMilestoneDocumentResource(FrameworkBaseResource, DocumentResourceMixin):
+class CoreMilestoneDocumentResource(FrameworkBaseResource, FrameworkDocumentResourceMixin):
     item_name = "milestone"
     state_class = MilestoneDocumentState
     serializer_class = DocumentSerializer
@@ -72,9 +72,9 @@ class CoreMilestoneDocumentResource(FrameworkBaseResource, DocumentResourceMixin
         return get_file_docservice(self.request, db_doc_id, key)
 
 
-class CoreFrameworkChangeDocumentResource(FrameworkBaseResource, DocumentResourceMixin):
+class CoreFrameworkChangeDocumentResource(FrameworkBaseResource, FrameworkDocumentResourceMixin):
     item_name = "change"
-    state_class = BaseFrameworkDocumentState
+    state_class = FrameworkChangeDocumentState
     serializer_class = DocumentSerializer
     model_class = Document
 

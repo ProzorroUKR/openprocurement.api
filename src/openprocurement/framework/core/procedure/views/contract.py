@@ -7,6 +7,7 @@ from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.framework.core.procedure.serializers.contract import (
     ContractSerializer,
 )
+from openprocurement.framework.core.procedure.state.contract import ContractState
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.framework.core.procedure.views.base import FrameworkBaseResource
 
@@ -27,6 +28,7 @@ def resolve_contract(request):
 
 class AgreementContractsResource(FrameworkBaseResource):
     serializer_class = ContractSerializer
+    state_class = ContractState
 
     def __init__(self, request, context=None):
         super().__init__(request, context)
@@ -48,6 +50,7 @@ class AgreementContractsResource(FrameworkBaseResource):
         return {"data": self.serializer_class(get_object("contract")).data}
 
     def patch(self):
+        self.state.validate_contract_patch_request()
         updated = self.request.validated["data"]
         if updated:
             updated["dateModified"] = get_request_now().isoformat()
