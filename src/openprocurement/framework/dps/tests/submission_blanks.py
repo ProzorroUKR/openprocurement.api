@@ -304,6 +304,49 @@ def create_submission_after_period_ends(self):
             response.json["errors"][0]["description"],
         )
 
+    response = self.app.post_json("/frameworks", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["status"], "draft")
+    data["frameworkID"] = response.json["data"]["id"]
+    response = self.app.post_json(
+        "/submissions",
+        {
+            "data": data,
+            "config": self.initial_submission_config,
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Submission cannot be add without framework period"}],
+    )
+
+    framework = self.mongodb.frameworks.get(self.framework_id)
+    framework["status"] = "unsuccessful"
+    self.mongodb.frameworks.save(framework)
+
+    data["frameworkID"] = self.framework_id
+    response = self.app.post_json(
+        "/submissions",
+        {
+            "data": data,
+            "config": self.initial_submission_config,
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add submission in current (unsuccessful) framework status",
+            }
+        ],
+    )
+
 
 def create_submission_draft_invalid(self):
     request_path = "/submissions"
@@ -473,6 +516,30 @@ def create_submission_draft(self):
     self.assertEqual(response.content_type, "application/json")
     submission = response.json["data"]
     self.assertEqual(submission["status"], "active")
+
+    # framework without restrictedDerivatives
+    with change_auth(self.app, ("Basic", ("brokerr", ""))):
+        config = deepcopy(self.initial_submission_config)
+        config["restricted"] = True
+        response = self.app.post_json(
+            "/submissions",
+            {
+                "data": data,
+                "config": config,
+            },
+            status=422,
+        )
+        self.assertEqual(response.status, "422 Unprocessable Entity")
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "location": "body",
+                    "name": "config.restricted",
+                    "description": ["restricted must be false for framework with restrictedDerivatives false"],
+                }
+            ],
+        )
 
 
 def create_submission_config_restricted(self):
@@ -768,6 +835,23 @@ def patch_submission_draft(self):
     submission = response.json["data"]
     token = response.json["access"]["token"]
     self.assertEqual(submission["status"], "draft")
+
+    response = self.app.patch_json(
+        "/submissions/{}?acc_token={}".format(submission["id"], token),
+        {"data": {"status": "complete"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update submission from current (draft) to new (complete) status",
+            }
+        ],
+    )
 
     submission_invalid_patch_data = {
         "date": calculate_date(get_now(), timedelta(days=2)).isoformat(),
@@ -1789,7 +1873,7 @@ def put_submission_document(self):
 
 
 def put_submission_document_fast(self):
-    target = "openprocurement.framework.core.procedure.validation.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
+    target = "openprocurement.framework.core.procedure.state.document.FAST_CATALOGUE_FLOW_FRAMEWORK_IDS"
 
     with mock.patch(target, self.framework_id):
         response = self.app.post_json(

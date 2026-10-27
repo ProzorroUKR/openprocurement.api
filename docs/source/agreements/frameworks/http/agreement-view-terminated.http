@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2023-01-16-000001",
-    "frameworkID": "bd5117535efe491e9c4459caa7289e83",
+    "frameworkID": "60ce681b504d42d5a9c88d2e99426985",
     "agreementType": "electronicCatalogue",
     "status": "active",
     "period": {
@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "a2ac96f0669b459981b24978efb9c192",
         "qualificationID": "cea184071f4b4f95b854eede0a95f34f",
-        "submissionID": "391913229e8144d6a59d5559ebdacaa5",
+        "submissionID": "815698e246a14dd187471752b2917c1a",
         "status": "terminated",
         "suppliers": [
           {
@@ -97,13 +97,13 @@ Content-Type: application/json
                 "format": "application/msword",
                 "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ce8807b1c3340f39913e264387d8f38?Signature=h3Xve9Q40jQWKAczqvya8%2F1QKyovh%2BCCuhd2EU5WKt0Z%2FreOLgIX%2B1ErKONH%2FdxtPueIkcw3d9JJN%2BfCJUG4Cw%3D%3D&KeyID=a8968c46",
                 "language": "uk",
-                "id": "27f0526262fb4beb9d54bd12f260aee6",
+                "id": "62c2ac6748f84b03a113bb5954118cd7",
                 "datePublished": "2023-01-16T00:00:00+02:00",
                 "dateModified": "2023-01-16T00:00:00+02:00"
               }
             ],
             "status": "met",
-            "id": "cc92280883ae45fcb2bc0603fa1c476d",
+            "id": "0ca99bfc15a94412a09d374837309470",
             "dueDate": "2023-04-16T00:00:00+03:00",
             "dateModified": "2023-04-16T01:00:00+03:00",
             "dateMet": "2023-04-16T01:00:00+03:00"
@@ -115,7 +115,7 @@ Content-Type: application/json
       {
         "id": "67143902200745ca9004a1b0a564b4aa",
         "qualificationID": "a71870dfe19945ff859377d40e58a660",
-        "submissionID": "5969c92b79e8482ab65e39033157c295",
+        "submissionID": "a1584a25a76943799435f449763eab58",
         "status": "active",
         "suppliers": [
           {

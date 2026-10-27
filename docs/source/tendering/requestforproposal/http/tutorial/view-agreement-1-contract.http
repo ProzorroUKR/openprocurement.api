@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001",
-    "frameworkID": "f1ee996a087848558040d1856f61951c",
+    "frameworkID": "7ca3dfbaac644890b81602451a5ecc78",
     "agreementType": "internationalFinancialInstitutions",
     "status": "active",
     "period": {
@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "0024966553564a8f812f84689d34148c",
         "qualificationID": "da120b087f8c42f18d4c12b374cdf2eb",
-        "submissionID": "f15c2bc181b04836b6601a83d53dfed5",
+        "submissionID": "1be10d8fb9814b6cbe44356c7dcbde36",
         "status": "active",
         "suppliers": [
           {
@@ -97,7 +97,7 @@ Content-Type: application/json
       {
         "id": "71493e93a3804e8b8c23cfcc21d838cf",
         "qualificationID": "93225b64f2dc409292bfe706bf11b712",
-        "submissionID": "70604914a0074120b8a619d455e60dc8",
+        "submissionID": "21ded78b23d24107959202d004917bb6",
         "status": "active",
         "suppliers": [
           {
@@ -141,7 +141,7 @@ Content-Type: application/json
       {
         "id": "a4ff7ab0a7794f20af93e8f54678b8f6",
         "qualificationID": "1de5a50bb22b483baf5812ade87f8d0a",
-        "submissionID": "3d8d4a199ae5445181bc81c2f820871d",
+        "submissionID": "fe7bfe058fcf4c668863a6225d4d1b30",
         "status": "active",
         "suppliers": [
           {

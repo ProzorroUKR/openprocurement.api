@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000002",
-    "frameworkID": "e2c427b62ce74eb0a3aad129279e9cb8",
+    "frameworkID": "cbcaf826288e47eb9fb2b0b772acf2a3",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "b68dbac1cb764c26b721248d7c0fa580",
         "qualificationID": "670f61175e264618a43b8a4bf7713f07",
-        "submissionID": "550c00047a64417d8c5357ea2051b696",
+        "submissionID": "435ffafc8bfe4de39caee9d3b68de0e8",
         "status": "active",
         "suppliers": [
           {
@@ -100,7 +100,7 @@ Content-Type: application/json
     "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "283029253de8403eba22f14443f421e4",
+        "id": "235d7e37be21494f8aa6ecd8b2117faa",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "classification": {

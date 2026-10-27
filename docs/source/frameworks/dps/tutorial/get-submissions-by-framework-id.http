@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/79215d0ea54f4a04b04d7fadf4090ca1/submissions HTTP/1.0
+GET /api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,14 +33,14 @@ Content-Type: application/json
           }
         }
       ],
-      "frameworkID": "79215d0ea54f4a04b04d7fadf4090ca1",
+      "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "6dc22ab2c87f41bb91375ca71951687c",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "2653e869246f4cb6900d45568c0a7e2b"
+      "id": "1dfc9dddb3e6490ca00aa209ab8e2559"
     },
     {
       "tenderers": [
@@ -67,20 +67,20 @@ Content-Type: application/json
           }
         }
       ],
-      "frameworkID": "79215d0ea54f4a04b04d7fadf4090ca1",
+      "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "37edcfe4b6484dee80eecfdb03a03a08",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "0c3ac4255ccc46e4b317616f23fa6766"
+      "id": "9b0585dfa2b947c98c7b97d353418798"
     }
   ],
   "next_page": {
-    "offset": "1800136800.0.2.8cec0c0133c83aba3557062ef7fdcccc",
-    "path": "/api/2.5/submissions?offset=1800136800.0.2.8cec0c0133c83aba3557062ef7fdcccc",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.8cec0c0133c83aba3557062ef7fdcccc"
+    "offset": "1800136800.0.2.d25f4fa67eca31a7005ad8cc52c0687a",
+    "path": "/api/2.5/submissions?offset=1800136800.0.2.d25f4fa67eca31a7005ad8cc52c0687a",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.d25f4fa67eca31a7005ad8cc52c0687a"
   }
 }
 

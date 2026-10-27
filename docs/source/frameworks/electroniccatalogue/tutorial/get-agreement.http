@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-17-000001",
-    "frameworkID": "2e17a7116854417a9ce9709b87369783",
+    "frameworkID": "85ae6daa569a4dfcb59731aedee2628e",
     "agreementType": "electronicCatalogue",
     "status": "active",
     "period": {
@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "835a18a5042142a1b24c75b5e938446e",
         "qualificationID": "2efd8f11d2914763ab331e36e358d306",
-        "submissionID": "df5dc7536f7d45ff992315d32ec972a0",
+        "submissionID": "8d24e29adfa14354a13fec4e2c7f532e",
         "status": "active",
         "suppliers": [
           {

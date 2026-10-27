@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import timedelta
 from logging import getLogger
 
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
     FRAMEWORK_CONFIG_JSONSCHEMAS,
     KIND_FRAMEWORK_TYPE_MAPPING,
@@ -11,6 +12,7 @@ from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
+    validate_patch_input_data_from_resolved_model,
 )
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.framework.core.constants import (
@@ -69,6 +71,15 @@ class FrameworkConfigMixin(ConfigMixin):
 
 
 class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, BaseState):
+    # post_data_model / data_model: the framework models of the procedure
+
+    framework_create_accreditations: tuple = (
+        AccreditationLevel.ACCR_1,
+        AccreditationLevel.ACCR_3,
+        AccreditationLevel.ACCR_5,
+    )
+    framework_create_kind_central_accreditations: tuple = (AccreditationLevel.ACCR_5,)
+
     agreement_class = AgreementState
     qualification_class = QualificationState
     submission_class = SubmissionState
@@ -82,6 +93,26 @@ class FrameworkState(FrameworkConfigMixin, FrameworkChronographEventsMixing, Bas
         self.agreement = self.agreement_class(request, framework=self)
         self.qualification = self.qualification_class(request, framework=self)
         self.submission = self.submission_class(request, framework=self)
+
+    # --- request validation (called from the views) ---
+
+    def validate_framework_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_config_data()
+        self.validate_accreditation_level(
+            levels=self.framework_create_accreditations,
+            kind_central_levels=self.framework_create_kind_central_accreditations,
+            item="framework",
+            operation="creation",
+            source="data",
+        )
+        self.validate_data_documents(route_key="framework_id")
+
+    def validate_framework_patch_request(self):
+        if self.request.authenticated_role not in ("chronograph", "Administrator"):
+            self.validate_item_owner("framework")
+        validate_patch_input_data_from_resolved_model()(self.request)
+        self.validate_patch_data(self.get_data_model(), item_name="framework")
 
     def status_up(self, before, after, data):
         super().status_up(before, after, data)

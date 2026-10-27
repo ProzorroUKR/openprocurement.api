@@ -4,12 +4,27 @@ from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.api.validation import OPERATIONS
+from openprocurement.framework.core.procedure.models.question import PatchQuestion, PostQuestion, Question
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 LOGGER = getLogger(__name__)
 
 
 class QuestionState(BaseState):
+    post_data_model = PostQuestion
+    patch_data_model = PatchQuestion
+    data_model = Question
+
+    # --- request validation (called from the views) ---
+
+    def validate_question_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+
+    def validate_question_patch_request(self):
+        self.validate_item_owner("framework")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), item_name="question")
+
     def validate_question_on_post(self):
         self.validate_framework_question_operation_not_in_allowed_status()
         self.validate_framework_question_operation_not_in_enquiry_period()

@@ -1,9 +1,12 @@
 from openprocurement.api.context import get_request
 from openprocurement.api.validation import validate_json_data
 from openprocurement.framework.arma.procedure.models.framework import (
+    Framework,
     PatchActiveFramework,
     PatchFramework,
+    PostFramework,
 )
+from openprocurement.framework.arma.procedure.state.agreement import ARMAAgreementState
 from openprocurement.framework.arma.procedure.state.qualification import (
     ARMAQualificationState,
 )
@@ -17,6 +20,10 @@ from openprocurement.framework.core.procedure.state.framework import FrameworkSt
 
 
 class ARMAFrameworkState(FrameworkState):
+    post_data_model = PostFramework
+    data_model = Framework
+    agreement_class = ARMAAgreementState
+
     qualification_class = ARMAQualificationState
     submission_class = ARMASubmissionState
     enquiry_period_lasts_until_qualification = True

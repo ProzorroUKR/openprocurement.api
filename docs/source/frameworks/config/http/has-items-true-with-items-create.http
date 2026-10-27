@@ -89,7 +89,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/e2c427b62ce74eb0a3aad129279e9cb8
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/cbcaf826288e47eb9fb2b0b772acf2a3
 
 {
   "data": {
@@ -101,7 +101,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/e2c427b62ce74
     },
     "items": [
       {
-        "id": "283029253de8403eba22f14443f421e4",
+        "id": "235d7e37be21494f8aa6ecd8b2117faa",
         "description": "футляри до державних нагород",
         "quantity": 5.0,
         "classification": {
@@ -172,7 +172,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/frameworks/e2c427b62ce74
     "date": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "e2c427b62ce74eb0a3aad129279e9cb8"
+    "id": "cbcaf826288e47eb9fb2b0b772acf2a3"
   },
   "access": {
     "token": "0f2f2fe38721429aa3306518dd9dd942",

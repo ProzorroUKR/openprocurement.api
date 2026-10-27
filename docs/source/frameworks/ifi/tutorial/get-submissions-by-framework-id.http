@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/932c7023588f40f4aec26aef109f4998/submissions HTTP/1.0
+GET /api/2.5/frameworks/cdf2c8387a964d0ea9fd3090a5f2ca27/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,14 +33,14 @@ Content-Type: application/json
           }
         }
       ],
-      "frameworkID": "932c7023588f40f4aec26aef109f4998",
+      "frameworkID": "cdf2c8387a964d0ea9fd3090a5f2ca27",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "61da52d3fbea49129c50b9171ce98c39",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "39f4e30e72c846039972b697c874c995"
+      "id": "565935ddad40407499971f153fd688e7"
     },
     {
       "tenderers": [
@@ -67,20 +67,20 @@ Content-Type: application/json
           }
         }
       ],
-      "frameworkID": "932c7023588f40f4aec26aef109f4998",
+      "frameworkID": "cdf2c8387a964d0ea9fd3090a5f2ca27",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "78d4a13a5f274438a568fb8e618862a7",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "46d70854657844d8899811e773f0f410"
+      "id": "1a87020ca6204212994a3517891df0e6"
     }
   ],
   "next_page": {
-    "offset": "1800136800.0.2.b7841bf97e0f04b04aab57da684d75bf",
-    "path": "/api/2.5/submissions?offset=1800136800.0.2.b7841bf97e0f04b04aab57da684d75bf",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.b7841bf97e0f04b04aab57da684d75bf"
+    "offset": "1800136800.0.2.ad6a64c50e59909ec532a09e2b9906b6",
+    "path": "/api/2.5/submissions?offset=1800136800.0.2.ad6a64c50e59909ec532a09e2b9906b6",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.ad6a64c50e59909ec532a09e2b9906b6"
   }
 }
 

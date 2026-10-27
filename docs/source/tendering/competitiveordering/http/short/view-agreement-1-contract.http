@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001",
-    "frameworkID": "18368c155064411d9da262831819698a",
+    "frameworkID": "20709ae644bc4b7c92671484e6fc0484",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -53,7 +53,7 @@ Content-Type: application/json
       {
         "id": "e9a70bb65a3e4826a93b8bcd57308ef6",
         "qualificationID": "fe438cdd20114c49a0d43ef1687410f3",
-        "submissionID": "38cee8f1e860477ea699c3555cfb7ebc",
+        "submissionID": "1a9e997066dc46b182cc552ba08aba04",
         "status": "active",
         "suppliers": [
           {
@@ -100,7 +100,7 @@ Content-Type: application/json
     "date": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "b17159b00e1743a281bc4bb384af273f",
+        "id": "28cb7bb922b44b8bbfe76f436c4bcd28",
         "description": "Послуги шкільних їдалень",
         "quantity": 1.0,
         "classification": {

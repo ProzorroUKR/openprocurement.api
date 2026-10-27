@@ -29,7 +29,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "932c7023588f40f4aec26aef109f4998"
+    "frameworkID": "cdf2c8387a964d0ea9fd3090a5f2ca27"
   },
   "config": {
     "restricted": false
@@ -39,7 +39,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9c1ec0cf104142db84d35398c609cd4b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/e7263bb7e91a4ce9ba0ad98bcfe26940
 
 {
   "data": {
@@ -67,13 +67,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/9c1ec0cf1041
         }
       }
     ],
-    "frameworkID": "932c7023588f40f4aec26aef109f4998",
+    "frameworkID": "cdf2c8387a964d0ea9fd3090a5f2ca27",
     "status": "draft",
     "submissionType": "internationalFinancialInstitutions",
     "owner": "broker",
     "date": "2027-01-17T00:00:00+02:00",
     "dateModified": "2027-01-17T00:00:00+02:00",
-    "id": "9c1ec0cf104142db84d35398c609cd4b"
+    "id": "e7263bb7e91a4ce9ba0ad98bcfe26940"
   },
   "access": {
     "token": "2cac1d46cb17481595607b2d32aef48f",

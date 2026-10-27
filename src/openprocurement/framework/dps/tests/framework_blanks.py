@@ -1757,6 +1757,23 @@ def modify_framework_period(self):
     token = response.json["access"]["token"]
     self.assertEqual(framework["status"], "draft")
 
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": {"endDate": framework["qualificationPeriod"]["endDate"]}},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Can't add change in current (draft) framework status"}],
+    )
+
     response = self.app.patch_json(
         "/frameworks/{}?acc_token={}".format(framework["id"], token), {"data": {"status": "active"}}
     )
@@ -2136,6 +2153,68 @@ def modify_framework_period(self):
     self.assertIn("framework", response.json["context"])
     self.assertEqual(response.json["context"]["framework"]["status"], "active")
     self.assertEqual(len(response.json["context"]["framework"]["changes"]), 2)
+
+    response = self.app.post_json(
+        f"/frameworks/{framework['id']}/changes?acc_token={token}",
+        {
+            "data": {
+                "modifications": {"qualificationPeriod": changed_framework["qualificationPeriod"]},
+                "rationaleType": "other",
+                "rationale": "Мені дозволили",
+            },
+        },
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "No changes detected between framework and current modifications",
+            }
+        ],
+    )
+
+    framework_doc = self.mongodb.frameworks.get(framework["id"])
+    framework_doc["status"] = "complete"
+    self.mongodb.frameworks.save(framework_doc)
+
+    response = self.app.post_json(
+        "/frameworks/{}/changes/{}/documents?acc_token={}".format(framework["id"], change_id, token),
+        {
+            "data": {
+                "title": "sign.p7s",
+                "url": self.generate_docservice_url(),
+                "hash": "md5:" + "0" * 32,
+                "format": "application/pkcs7-signature",
+            }
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add change in current (complete) framework status",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        "/frameworks/{}?acc_token={}".format(framework["id"], token),
+        {"data": {"title": "Нова назва"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "data", "description": "Can't switch to complete status"}],
+    )
 
 
 def create_framework_remove_field(self):

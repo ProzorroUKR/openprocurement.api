@@ -70,6 +70,7 @@ class SubmissionsResource(FrameworkBaseResource):
     state_class = FrameworkState
 
     def collection_post(self):
+        self.state.submission.validate_submission_post_request()
         update_logging_context(self.request, {"submission_id": "__new__"})
         submission = self.request.validated["data"]
         request_init_submission(self.request, submission, submission_src={})
@@ -109,6 +110,7 @@ class SubmissionsResource(FrameworkBaseResource):
         }
 
     def patch(self):
+        self.state.submission.validate_submission_patch_request()
         updated = self.request.validated["data"]
         submission = self.request.validated["submission"]
         submission_src = self.request.validated["submission_src"]

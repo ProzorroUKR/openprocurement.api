@@ -16,7 +16,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/c2579ad5c86d4c5a8f56b1376c8bd1ae/documents/6849fa650bb34f65bd9ac133f2aa4f07
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/c2579ad5c86d4c5a8f56b1376c8bd1ae/documents/871f2e0314b140168fe497b22555a0ff
 
 {
   "data": {
@@ -26,7 +26,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/c2579ad5c
     "format": "application/pkcs7-signature",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9c97ab9f4bec426092784d12850f9078?Signature=p5r8IZ9MYB0bId3H5kz85Jz7g7UlCXKa993S2lDo2j73Kfqo9ZEXFJ4BKaQQKI2qBGNlLcmatX3oqsS691lBDA%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "6849fa650bb34f65bd9ac133f2aa4f07",
+    "id": "871f2e0314b140168fe497b22555a0ff",
     "datePublished": "2027-01-17T00:00:00+02:00",
     "dateModified": "2027-01-17T00:00:00+02:00"
   }

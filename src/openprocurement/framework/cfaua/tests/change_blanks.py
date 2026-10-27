@@ -372,6 +372,27 @@ def create_change(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(len(response.json["data"]), 2)
 
+    agreement = self.mongodb.agreements.get(self.agreement["id"])
+    agreement["status"] = "terminated"
+    self.mongodb.agreements.save(agreement)
+
+    response = self.app.post_json(
+        "/agreements/{}/changes?acc_token={}".format(self.agreement["id"], self.agreement_token),
+        {"data": data},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't add agreement change in current (terminated) agreement status",
+            }
+        ],
+    )
+
 
 def create_change_item_price_variation_modifications_boundaries(self):
     data = deepcopy(self.initial_change)
@@ -1142,8 +1163,8 @@ def multi_change(self):
 
 
 @patch("openprocurement.tender.core.procedure.models.agreement.get_request_now")  # shared Change base
-@patch("openprocurement.framework.cfaua.procedure.models.change.get_request_now")
-def activate_change_after_1_cancelled(self, mocked_model_get_now, mocked_core_get_now):
+@patch("openprocurement.framework.cfaua.procedure.state.change.get_request_now")
+def activate_change_after_1_cancelled(self, mocked_state_get_now, mocked_core_get_now):
     # first change
     data = deepcopy(self.initial_change)
     data["rationaleType"] = "itemPriceVariation"
@@ -1158,7 +1179,7 @@ def activate_change_after_1_cancelled(self, mocked_model_get_now, mocked_core_ge
     self.assertIn("date", change)
 
     date_signed = get_now() + timedelta(minutes=10)
-    mocked_model_get_now.return_value = date_signed
+    mocked_state_get_now.return_value = date_signed
     mocked_core_get_now.return_value = date_signed
     response = self.app.patch_json(
         "/agreements/{}/changes/{}?acc_token={}".format(self.agreement["id"], change["id"], self.agreement_token),

@@ -18,7 +18,7 @@ Content-Type: application/json
     "documents": [
       {
         "documentType": "evaluationReports",
-        "id": "126ed7767dfb47a1aad81e0cfad2c4d6",
+        "id": "9ab5466881e147b4be4954ced0f1381e",
         "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
@@ -28,8 +28,8 @@ Content-Type: application/json
         "language": "uk"
       }
     ],
-    "submissionID": "c8156d5097084587a931f1d125d9ee00",
-    "frameworkID": "efbc346fdff943caa5523b9a313d8954",
+    "submissionID": "b545af91a7834ebf81901eecf74c9d07",
+    "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
     "status": "active",
     "date": "2027-01-17T00:00:00+02:00",
     "dateModified": "2027-01-17T00:00:00+02:00",

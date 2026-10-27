@@ -4,42 +4,6 @@ from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.utils import raise_operation_error
 
-
-def validate_update_agreement_status(request, **kwargs):
-    if changes := request.validated["agreement"].get("changes"):
-        data = request.validated["data"]
-        pending_changes = [change for change in changes if change["status"] == "pending"]
-        if data.get("status") == "terminated" and pending_changes:
-            raise_operation_error(request, "Can't update agreement status with pending change.")
-
-
-def validate_agreement_change_add_not_in_allowed_agreement_status(request, **kwargs):
-    agreement = request.validated["agreement"]
-    if agreement["status"] != "active":
-        raise_operation_error(
-            request,
-            f"Can't add agreement change in current ({agreement['status']}) agreement status",
-        )
-
-
-def validate_agreement_change_update_not_in_allowed_change_status(request, **kwargs):
-    change = request.validated["change"]
-    if change["status"] in {"active", "cancelled"}:
-        raise_operation_error(
-            request,
-            f"Can't update agreement change in current ({change['status']}) status",
-        )
-
-
-def validate_create_agreement_change(request, **kwargs):
-    agreement = request.validated["agreement"]
-    if agreement.get("changes") and agreement["changes"][-1]["status"] == "pending":
-        raise_operation_error(
-            request,
-            "Can't create new agreement change while any (pending) change exists",
-        )
-
-
 # changes modifications validators
 
 
@@ -59,15 +23,6 @@ def validate_modifications_contracts_uniq(modifications):
         contracts_ids = {mod["contractId"] for mod in modifications if mod["contractId"] in agreement_contracts_id}
         if len(contracts_ids) != len(modifications):
             raise ValidationError("Contract id should be uniq for all modifications and one of agreement:contracts")
-
-
-def validate_credentials_generate(request, **kwargs):
-    agreement = request.validated["agreement"]
-    if agreement["status"] != "active":
-        raise_operation_error(
-            request,
-            f"Can't generate credentials in current ({agreement['status']}) agreement status",
-        )
 
 
 def validate_related_item(related_item: str, document_of: str) -> None:

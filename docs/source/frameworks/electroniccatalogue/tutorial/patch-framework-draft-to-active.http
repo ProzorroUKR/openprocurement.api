@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/2e17a7116854417a9ce9709b87369783?acc_token=9572f49b75ef46ed864c472ca9eff903 HTTP/1.0
+PATCH /api/2.5/frameworks/85ae6daa569a4dfcb59731aedee2628e?acc_token=9572f49b75ef46ed864c472ca9eff903 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -33,7 +33,7 @@ Content-Type: application/json
     ],
     "documents": [
       {
-        "id": "b3560558137b492bac22f5dc230ce1de",
+        "id": "9b0dc8549d0a4fd09a1c2a5de4e9c00e",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework.doc",
@@ -43,7 +43,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "927ddabfb980421ca7757c6c5460f9a7",
+        "id": "1ee5de8639ec469c8abff45e8652d6e2",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
@@ -53,7 +53,7 @@ Content-Type: application/json
         "language": "uk"
       },
       {
-        "id": "927ddabfb980421ca7757c6c5460f9a7",
+        "id": "1ee5de8639ec469c8abff45e8652d6e2",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "framework_additional_docs.doc",
@@ -103,7 +103,7 @@ Content-Type: application/json
       "endDate": "2028-01-06T00:00:00+02:00"
     },
     "next_check": "2027-01-29T00:00:00+02:00",
-    "id": "2e17a7116854417a9ce9709b87369783"
+    "id": "85ae6daa569a4dfcb59731aedee2628e"
   },
   "config": {
     "restrictedDerivatives": false,

@@ -728,6 +728,31 @@ def patch_qualification_unsuccessful(self):
     self.assertEqual(response.status, "201 Created")
     document_id = response.json["data"]["id"]
 
+    framework = self.mongodb.frameworks.get(self.framework_id)
+    framework["status"] = "complete"
+    self.mongodb.frameworks.save(framework)
+
+    response = self.app.patch_json(
+        "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
+        {"data": {"status": "unsuccessful"}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update qualification in current (complete) framework status",
+            }
+        ],
+    )
+
+    framework = self.mongodb.frameworks.get(self.framework_id)
+    framework["status"] = "active"
+    self.mongodb.frameworks.save(framework)
+
     response = self.app.patch_json(
         "/qualifications/{}?acc_token={}".format(qualification_id, self.framework_token),
         {"data": {"status": "unsuccessful"}},

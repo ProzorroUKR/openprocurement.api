@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "frameworkID": "79215d0ea54f4a04b04d7fadf4090ca1",
-    "submissionID": "2653e869246f4cb6900d45568c0a7e2b",
+    "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
+    "submissionID": "1dfc9dddb3e6490ca00aa209ab8e2559",
     "qualificationType": "dynamicPurchasingSystem",
     "status": "pending",
     "date": "2027-01-17T00:00:00+02:00",

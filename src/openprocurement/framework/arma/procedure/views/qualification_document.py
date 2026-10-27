@@ -1,24 +1,7 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-    validate_upload_document,
-)
 from openprocurement.api.utils import json_view
 from openprocurement.framework.arma.constants import ARMA_TYPE
-from openprocurement.framework.core.procedure.models.document import (
-    Document,
-    PatchDocument,
-    PostDocument,
-)
-from openprocurement.framework.core.procedure.validation import (
-    validate_document_operation_in_not_allowed_status,
-    validate_framework_owner,
-)
 from openprocurement.framework.core.procedure.views.document import (
     CoreQualificationDocumentResource,
 )
@@ -41,25 +24,12 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
         return super().get()
 
     @json_view(
-        validators=(
-            validate_framework_owner("qualification"),
-            validate_document_operation_in_not_allowed_status,
-            validate_input_data(PostDocument, allow_bulk=True),
-        ),
         permission="edit_qualification",
     )
     def collection_post(self):
         return super().collection_post()
 
     @json_view(
-        validators=(
-            validate_framework_owner("qualification"),
-            validate_document_operation_in_not_allowed_status,
-            validate_input_data(PostDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(Document),
-        ),
         permission="edit_qualification",
     )
     def put(self):
@@ -67,12 +37,6 @@ class QualificationDocumentResource(CoreQualificationDocumentResource):
 
     @json_view(
         content_type="application/json",
-        validators=(
-            validate_framework_owner("qualification"),
-            validate_document_operation_in_not_allowed_status,
-            validate_patch_input_data(PatchDocument),
-            validate_patch_data_simple(Document, item_name="document"),
-        ),
         permission="edit_qualification",
     )
     def patch(self):
