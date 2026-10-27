@@ -4,6 +4,7 @@ from openprocurement.tender.open.procedure.state.award import (
     AboveThresholdUAAwardState,
     BelowThresholdAwardState,
     COAwardState,
+    OpenTenderingAwardState,
     RFPAwardState,
 )
 
@@ -25,4 +26,8 @@ class BelowThresholdAwardReqResponseEvidenceState(ReqResponseEvidenceStateMixin,
 
 
 class RFPAwardReqResponseEvidenceState(ReqResponseEvidenceStateMixin, RFPAwardState):
+    pass
+
+
+class OpenTenderingAwardReqResponseEvidenceState(ReqResponseEvidenceStateMixin, OpenTenderingAwardState):
     pass

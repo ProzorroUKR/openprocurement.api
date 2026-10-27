@@ -13,9 +13,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
+msgid "Відкриті торги - ``aboveThreshold`` та ``openTendering``"
+msgstr "Open procedures - ``aboveThreshold`` and ``openTendering``"
+
+msgid "Пакет відкритих торгів обслуговує дві процедури: відкриті торги з особливостями (``aboveThreshold``) та відкриті торги за Законом № 4888-IX (``openTendering``, різновиди UA та EU)."
+msgstr "The open procedures package serves two procedures: the open procedure under martial law (``aboveThreshold``) and the open tendering under the Law No. 4888-IX (``openTendering``, the UA and EU variants)."
+
 msgid "Відкриті торги з особливостями - ``aboveThreshold``"
 msgstr "Open procedure - ``aboveThreshold``"
 
-msgid "Зміст:"
-msgstr "Contents:"
+msgid "Відкриті торги за Законом № 4888 - ``openTendering``"
+msgstr "Open tendering under the Law No. 4888 - ``openTendering``"
 

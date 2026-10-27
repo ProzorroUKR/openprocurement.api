@@ -498,7 +498,7 @@ class BaseCoreWebTest(BaseWebTest):
             "aboveThresholdUA.defense",
             "simple.defense",
             "competitiveDialogueUA.stage2",
-        ):
+        ) or (tender["procurementMethodType"] == "openTendering" and not tender["config"]["hasPrequalification"]):
             qualification["bid_id"] = bid_id
             del qualification["bidID"]
             tender["awards"] = [qualification]

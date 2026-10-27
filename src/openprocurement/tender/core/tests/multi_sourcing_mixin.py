@@ -4,9 +4,17 @@ from datetime import timedelta
 from openprocurement.api.constants import (
     TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
+    TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
+
+
+def _extra_schema_dict(key):
+    """the dict holding the additional (variant) config schema: competitiveOrdering short/long, openTendering UA/EU"""
+    if key in TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS:
+        return TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS
+    return TENDER_CO_CONFIG_JSONSCHEMAS
 
 
 def _patch_schema(schema_dict, key):
@@ -30,7 +38,7 @@ class MultiSourcingTestMixin:
         cls._original_ms_schema = _patch_schema(TENDER_CONFIG_JSONSCHEMAS, cls.multi_sourcing_pmt)
         cls._original_co_schemas = {}
         for key in cls.multi_sourcing_co_keys:
-            cls._original_co_schemas[key] = _patch_schema(TENDER_CO_CONFIG_JSONSCHEMAS, key)
+            cls._original_co_schemas[key] = _patch_schema(_extra_schema_dict(key), key)
         cls.initial_config = deepcopy(cls.initial_config)
         cls.initial_config["hasMultiSourcing"] = True
         super().setUpClass()
@@ -39,7 +47,7 @@ class MultiSourcingTestMixin:
     def tearDownClass(cls):
         TENDER_CONFIG_JSONSCHEMAS[cls.multi_sourcing_pmt] = cls._original_ms_schema
         for key, original in cls._original_co_schemas.items():
-            TENDER_CO_CONFIG_JSONSCHEMAS[key] = original
+            _extra_schema_dict(key)[key] = original
         super().tearDownClass()
 
     def _seed_one_lot_two_bids_one_pending_award(self):

@@ -29,3 +29,18 @@ class BelowThresholdComplaintDocumentState(ComplaintDocumentState):
 
 class RFPComplaintDocumentState(ComplaintDocumentState):
     allowed_complaint_status_for_role = REQUEST_FOR_PROPOSAL_STATUS4ROLE
+
+
+class OpenTenderingComplaintDocumentState(ComplaintDocumentState):
+    pass
+
+
+class OpenTenderingCancellationComplaintDocumentState(ComplaintDocumentState):
+    complaint_document_allowed_tender_statuses = (
+        "active.enquiries",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.auction",
+        "active.qualification",
+        "active.awarded",
+    )

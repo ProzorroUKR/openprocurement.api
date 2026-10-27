@@ -7,6 +7,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdUATenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     SimpleDefenseTenderState,
 )
 
@@ -32,4 +33,8 @@ class SimpleDefenseCancellationComplaintState(CancellationComplaintStateMixin, S
 
 
 class COCancellationComplaintState(CancellationComplaintStateMixin, COTenderState):
+    pass
+
+
+class OpenTenderingCancellationComplaintState(CancellationComplaintStateMixin, OpenTenderingTenderState):
     pass

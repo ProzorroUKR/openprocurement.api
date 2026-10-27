@@ -11,6 +11,7 @@ SIMPLE_DEFENSE = "simple.defense"
 COMPETITIVE_ORDERING = "competitiveOrdering"
 BELOW_THRESHOLD = "belowThreshold"
 REQUEST_FOR_PROPOSAL = "requestForProposal"
+OPEN_TENDERING = "openTendering"
 
 OPEN_PROCUREMENT_METHOD_TYPES = [
     ABOVE_THRESHOLD,
@@ -21,6 +22,7 @@ OPEN_PROCUREMENT_METHOD_TYPES = [
     COMPETITIVE_ORDERING,
     BELOW_THRESHOLD,
     REQUEST_FOR_PROPOSAL,
+    OPEN_TENDERING,
 ]
 
 # route name prefix of the resources shared by the open procedures
@@ -210,4 +212,35 @@ REQUEST_FOR_PROPOSAL_WORKING_DAYS_CONFIG = {
     "clarificationUntilDuration": False,
     "tenderComplainRegulation": False,
     "qualificationComplainDuration": True,
+}
+
+
+# openTendering: one procedure, the UA/EU variant is set by the tender field procurementMethodSubtype
+PROCUREMENT_METHOD_SUBTYPE_UA = "UA"
+PROCUREMENT_METHOD_SUBTYPE_EU = "EU"
+OPEN_TENDERING_SUBTYPES = [PROCUREMENT_METHOD_SUBTYPE_UA, PROCUREMENT_METHOD_SUBTYPE_EU]
+
+OPEN_TENDERING_CLAIM_SUBMIT_TIME = timedelta(days=10)
+# the tender period is extended on changes so that at least N days remain: 4 (UA) / 7 (EU)
+OPEN_TENDERING_UA_TENDERING_EXTRA_PERIOD = timedelta(days=4)
+OPEN_TENDERING_EU_TENDERING_EXTRA_PERIOD = timedelta(days=7)
+
+# UA: all the config durations are counted in calendar days
+OPEN_TENDERING_UA_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": False,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
+}
+
+# EU: the clarifications are answered within working days
+OPEN_TENDERING_EU_WORKING_DAYS_CONFIG = {
+    "minTenderingDuration": False,
+    "minEnquiriesDuration": False,
+    "enquiryPeriodRegulation": False,
+    "clarificationUntilDuration": True,
+    "tenderComplainRegulation": False,
+    "qualificationComplainDuration": False,
 }
