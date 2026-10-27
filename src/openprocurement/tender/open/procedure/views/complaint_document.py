@@ -10,6 +10,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -17,6 +18,7 @@ from openprocurement.tender.open.procedure.state.complaint_document import (
     AboveThresholdComplaintDocumentState,
     BelowThresholdComplaintDocumentState,
     COComplaintDocumentState,
+    OpenTenderingComplaintDocumentState,
     RFPComplaintDocumentState,
 )
 
@@ -33,6 +35,7 @@ class OpenTenderComplaintDocumentResource(TenderComplaintDocumentResource):
         ABOVE_THRESHOLD: AboveThresholdComplaintDocumentState,
         ABOVE_THRESHOLD_UA: AboveThresholdComplaintDocumentState,
         ABOVE_THRESHOLD_EU: AboveThresholdComplaintDocumentState,
+        OPEN_TENDERING: OpenTenderingComplaintDocumentState,
         ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdComplaintDocumentState,
         SIMPLE_DEFENSE: AboveThresholdComplaintDocumentState,
         COMPETITIVE_ORDERING: COComplaintDocumentState,

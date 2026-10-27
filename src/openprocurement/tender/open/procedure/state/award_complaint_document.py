@@ -24,3 +24,7 @@ class BelowThresholdAwardComplaintDocumentState(AwardComplaintDocumentState):
 class RFPAwardComplaintDocumentState(AwardComplaintDocumentState):
     allowed_complaint_status_for_role = REQUEST_FOR_PROPOSAL_STATUS4ROLE
     complaint_document_allowed_tender_statuses = ("active.qualification", "active.awarded")
+
+
+class OpenTenderingAwardComplaintDocumentState(AwardComplaintDocumentState):
+    pass

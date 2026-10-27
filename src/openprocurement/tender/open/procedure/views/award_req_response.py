@@ -8,6 +8,7 @@ from openprocurement.tender.open.constants import (
     BELOW_THRESHOLD,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
 )
 from openprocurement.tender.open.procedure.state.award_req_response import (
@@ -15,6 +16,7 @@ from openprocurement.tender.open.procedure.state.award_req_response import (
     AboveThresholdUAAwardReqResponseState,
     BelowThresholdAwardReqResponseState,
     COAwardReqResponseState,
+    OpenTenderingAwardReqResponseState,
     RFPAwardReqResponseState,
 )
 
@@ -28,6 +30,7 @@ from openprocurement.tender.open.procedure.state.award_req_response import (
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
         REQUEST_FOR_PROPOSAL,
@@ -38,6 +41,7 @@ class OpenAwardReqResponseResource(AwardReqResponseResource):
         ABOVE_THRESHOLD: AboveThresholdAwardReqResponseState,
         ABOVE_THRESHOLD_UA: AboveThresholdUAAwardReqResponseState,
         ABOVE_THRESHOLD_EU: AboveThresholdUAAwardReqResponseState,
+        OPEN_TENDERING: OpenTenderingAwardReqResponseState,
         COMPETITIVE_ORDERING: COAwardReqResponseState,
         BELOW_THRESHOLD: BelowThresholdAwardReqResponseState,
         REQUEST_FOR_PROPOSAL: RFPAwardReqResponseState,
