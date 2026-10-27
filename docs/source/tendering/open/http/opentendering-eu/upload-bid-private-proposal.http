@@ -1,0 +1,34 @@
+POST /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/ee125d39d89d4afe8aac022ebd223048/documents?acc_token=a16bfe78001e415aade129abc1d9bcc6 HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "title": "Proposal_top_secrets.pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e018290bb0840f180432ce56b07c9df?Signature=n7ERe7t5NDUBKiIehJZXlwZ4EzQQznrTw7TvQdnVbEhooJYNfafB694DN%2F9A7nP3brHb%2FgPQSIfAAoGOyiurDQ%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pdf"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/ee125d39d89d4afe8aac022ebd223048/documents/3af0a99505b241faae61db1d8d1375d9
+
+{
+  "data": {
+    "confidentiality": "public",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "Proposal_top_secrets.pdf",
+    "format": "application/pdf",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9e018290bb0840f180432ce56b07c9df?Signature=ErKKqop%2FqU1lLwXDW7j8ZaULmTOFcNE%2F3%2Fl6p9zvc87L6IBjZDf1vtkUfFiwLWAsSVS5va6x2XAsOMf4XpGwAA%3D%3D&KeyID=a8968c46",
+    "documentOf": "tender",
+    "language": "uk",
+    "id": "3af0a99505b241faae61db1d8d1375d9",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00"
+  }
+}
+

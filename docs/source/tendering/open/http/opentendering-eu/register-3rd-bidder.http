@@ -1,0 +1,286 @@
+POST /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids HTTP/1.0
+Authorization: Bearer broker
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 34"
+        },
+        "contactPoint": {
+          "email": "aagt@gmail.com",
+          "name": "Андрій Олексюк",
+          "telephone": "+380322916930"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "scale": "sme",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "telephone": "+380950000000",
+          "email": "example@email.com",
+          "iban": "111111111111111",
+          "authorizedBy": "Статут компанії",
+          "position": "Генеральний директор"
+        }
+      }
+    ],
+    "documents": [
+      {
+        "title": "Proposal_part1.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/91cd936b8bcd4c2d8db4b194e0faa8ec?Signature=Y2ndOrlQSNsSuoCv%2B75OStkIFSMBM9ZxGDqxtbXZwPs%2Fr%2BYtw6cj9rjc6TX8di1Uz1S5GpG6QApzmy1iRwE4BA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      },
+      {
+        "title": "Proposal_part2.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d764a01d452340359b2050958d856a43?Signature=zTy5AGpBQvtuut%2Fw4gOEjc6y8rfbUEvE3tW9U5IcOxOEnC6Otw4eFmoX%2F5QosuanjXaJHFnGfYDMG6XBBn%2FxDQ%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "title": "eligibility_doc.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/82cde1eb18f540b7a16db21d31432516?Signature=8xC1wqkJSfTaQs%2FsxVtdrNukxL363vAdIwICCFPmbZrqaGJTSKOXdUNKpBf8vXaDEk6CqYFbV0DDktNgqjrXAg%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "title": "financial_doc.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c5932b499bfd4b5193754a24855c01cc?Signature=RmyPKil1O%2FjlDC%2BSn13%2BfJm1TdyhD1X6afl9SuRiVbfZtzRP84MmIHhK6to3N%2F7OZpsrnswsgGDGgQWzLuN3CA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "title": "qualification_document.pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0347b4a19eb4399a01a756a27cb32cb?Signature=uuEr6yEGFjIMhZHdxz1Dpvs3OKG8um%2FIhggo9iZAaPUk9DMM4J8q8%2F50rX8ASClf8o9F%2B389BLUyx7TmhX0WCA%3D%3D&KeyID=a8968c46",
+        "hash": "md5:00000000000000000000000000000000",
+        "format": "application/pdf"
+      }
+    ],
+    "status": "draft",
+    "lotValues": [
+      {
+        "value": {
+          "amount": 499
+        },
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
+      }
+    ],
+    "items": [
+      {
+        "id": "0312b31e7a2c4339bb2683e392062338",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 249.5
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
+      },
+      {
+        "id": "d6034942f4224bb993e55ae87f2aacce",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "code": "PK",
+          "value": {
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false,
+            "amount": 249.5
+          }
+        },
+        "quantity": 1.0,
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
+      }
+    ]
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/7b389f633bfa4c66840f346f4ef60dfc
+
+{
+  "data": {
+    "items": [
+      {
+        "id": "0312b31e7a2c4339bb2683e392062338",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "кілограм",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "KGM"
+        },
+        "quantity": 1.0,
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
+      },
+      {
+        "id": "d6034942f4224bb993e55ae87f2aacce",
+        "description": "Послуги шкільних їдалень",
+        "description_en": "Services in school canteens",
+        "unit": {
+          "name": "упаковка",
+          "value": {
+            "amount": 249.5,
+            "currency": "UAH",
+            "valueAddedTaxIncluded": false
+          },
+          "code": "PK"
+        },
+        "quantity": 1.0,
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
+      }
+    ],
+    "tenderers": [
+      {
+        "name": "ДКП «Книга»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "address": {
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів",
+          "region": "Львівська область",
+          "postalCode": "79013",
+          "countryName": "Україна"
+        },
+        "contactPoint": {
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com",
+          "telephone": "+380322916930"
+        },
+        "scale": "sme",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "0e2a00931fe6450685c11d73534c35f7",
+        "date": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "status": "draft",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part1.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/91cd936b8bcd4c2d8db4b194e0faa8ec?Signature=5slI9uhzLGSU4Q5LSE4wgiXWmQLr16srLnskweKbpJJpsXCQPHOy1ld%2FMOgqpl3TfzTQ9Orv7Lx6dlugqTPgCw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "017955d9b13c4d37b38c3c8d02bb885f",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      },
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "Proposal_part2.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d764a01d452340359b2050958d856a43?Signature=7HZX1l5iN6lxJ3afEYninxIXGIAIWlztHXCJDMT5TjaIUrBly7WJKRjWnvhuEbM9PoVYLkxmDzsJQ0i%2BO5pWCg%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "9e09b175d190420f81ea7b703fd12dc4",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "financial_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c5932b499bfd4b5193754a24855c01cc?Signature=a%2FxUeBDX4VYgpn1GU1%2Fsk6AQt8klMT5GZbsLlyG4NcZivwmjegydkfreumWde7W51Tm7CmzQAgbjcN9jmtlkAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "3ac3edb6815849dfb58d2e7f60fe188a",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "eligibility_doc.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/82cde1eb18f540b7a16db21d31432516?Signature=%2FpMCJeeMK9oUfhAasxLuSAORz5W%2Bhc65GgGJ3NFwEONqGpw%2F4V4T3ICYt4W5lR8TRR61Y4ADt6M52JOJf43OBQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "49ef2efdc16d4244ac25fb4a2fc0246a",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "confidentiality": "public",
+        "hash": "md5:00000000000000000000000000000000",
+        "title": "qualification_document.pdf",
+        "format": "application/pdf",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e0347b4a19eb4399a01a756a27cb32cb?Signature=8SUz012O%2BywyjGqcsbi4XSNJMzpSpPoGu53USF8SDVotWm4Sba%2FQcKSPewv205hvNFoljzCeYDSnHL%2FX7ik2DQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "language": "uk",
+        "id": "0d85dbe6439f4124b8e3d281ca6a2fdf",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "dateModified": "2027-01-01T00:03:00+02:00"
+      }
+    ],
+    "id": "7b389f633bfa4c66840f346f4ef60dfc",
+    "date": "2027-01-01T00:03:00+02:00"
+  },
+  "access": {
+    "token": "3f1b21ccdb0246f8ad1a2cc9a2626a09",
+    "transfer": "193c8ee8c6a7410f9092929e34da8228"
+  }
+}
+
