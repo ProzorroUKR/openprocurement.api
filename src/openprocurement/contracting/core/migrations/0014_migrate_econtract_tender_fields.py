@@ -78,11 +78,8 @@ class Migration(PymongoCollectionMigration):
         context = {"tenders": self._get_tenders(tender_ids)}
         return super().process_bulk(bulk, context=context)
 
-    def _get_tender(self, tender_id, context=None):
-        if context and "tenders" in context:
-            return context["tenders"].get(tender_id)
-        # one-by-one fallback after a failed bulk runs without context
-        return self._tenders_collection.find_one({"_id": tender_id}, TENDER_PROJECTION)
+    def _get_tender(self, tender_id, context):
+        return context["tenders"].get(tender_id)
 
     def update_document(self, doc, context=None):
         tender_id = doc.get("tender_id")
@@ -90,7 +87,7 @@ class Migration(PymongoCollectionMigration):
             logger.warning(f"Contract {doc['_id']} has no tender_id, skipped")
             return None
 
-        tender = self._get_tender(tender_id, context=context)
+        tender = self._get_tender(tender_id, context)
         if not tender:
             logger.warning(f"Tender {tender_id} not found for contract {doc['_id']}, skipped")
             return None
@@ -175,7 +172,6 @@ class Migration(PymongoCollectionMigration):
         assert mock_tenders_collection.find.call_args_list == [
             call({"_id": {"$in": sorted([tender_1_id, tender_2_id, tender_3_id, tender_4_id])}}, TENDER_PROJECTION),
         ]
-        mock_tenders_collection.find_one.assert_not_called()
 
         feed_position_stage = {
             "$set": {

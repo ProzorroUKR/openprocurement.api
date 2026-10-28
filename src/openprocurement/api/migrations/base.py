@@ -430,13 +430,14 @@ class PymongoCollectionMigration(CollectionMigration):
                 f"Bulk operation failed, switching to one-by-one processing. {type(e).__name__}: {str(e)}",
                 exc_info=e,
             )
-            return self.process_one_by_one(bulk)
+            return self.process_one_by_one(bulk, context=context)
         return result
 
-    def process_one_by_one(self, bulk: list[dict]) -> MigrationResult:
+    def process_one_by_one(self, bulk: list[dict], context: dict = None) -> MigrationResult:
         """Process each update operation individually with retries.
 
         :param bulk: List of dict of documents to process
+        :param context: dict of context
         :return: MigrationResult of successfully updated count, failed count
         """
         result = MigrationResult()
@@ -459,7 +460,7 @@ class PymongoCollectionMigration(CollectionMigration):
 
                 # Reapply update logic
                 try:
-                    pipeline = self.process_pipeline(doc)
+                    pipeline = self.process_pipeline(doc, context=context)
                 except Exception as e:
                     logger.exception(
                         f"Failed to process document {doc_id}. {type(e).__name__}: {str(e)}",
