@@ -115,7 +115,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "procurementMethodSubtype": "UA"
+    "procurementAspects": [
+      "UA"
+    ]
   },
   "config": {
     "hasAuction": true,
@@ -148,7 +150,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f495199ced247031beb34
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49
 
 {
   "data": {
@@ -199,7 +201,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f4951
     },
     "items": [
       {
-        "id": "955e9a9a1eb0400fa2a96c670aee5b1c",
+        "id": "3eb56d59001945dc867398e7879b1a2d",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -266,8 +268,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f4951
       "valueAddedTaxIncluded": false
     },
     "procurementMethodType": "openTendering",
-    "procurementMethodSubtype": "UA",
-    "tenderID": "UA-2027-01-01-000002-a",
+    "procurementAspects": [
+      "UA"
+    ],
+    "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "procurementMethod": "open",
@@ -362,7 +366,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f4951
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "59f6669d275f495199ced247031beb34"
+    "id": "b53c538bd44a4fb48d1a7fc2b0503a49"
   },
   "config": {
     "hasAuction": true,
@@ -391,8 +395,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f4951
     "hasMultiSourcing": false
   },
   "access": {
-    "token": "35add3f737cc4f5e90317d079270b548",
-    "transfer": "c799c87b79084947a392097a69acc76f"
+    "token": "c141ab16f02f48b0a657e70b992df056",
+    "transfer": "f1c71b31749c4266b5bfc14443541406"
   }
 }
 
