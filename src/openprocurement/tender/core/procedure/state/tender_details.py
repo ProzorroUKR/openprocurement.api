@@ -2496,6 +2496,33 @@ class TenderMilestonesRulesMixin(BaseState):
         )
 
 
+class ProcurementAspectsRulesMixin(BaseState):
+    """tender procurementAspects"""
+
+    # allowed combinations of procurementAspects: the field must be exactly one of them (the order doesn't matter)
+    # None = the procedure has no procurementAspects
+    procurement_aspects_combinations: tuple | None = None
+
+    def on_post(self, data):
+        # before the config validation: the config schema may depend on the variant set by the aspects
+        self.validate_procurement_aspects(data)
+        super().on_post(data)
+
+    def validate_procurement_aspects(self, data):
+        if self.procurement_aspects_combinations is None:
+            return
+        aspects = sorted(data.get("procurementAspects") or [])
+        if not any(aspects == sorted(combination) for combination in self.procurement_aspects_combinations):
+            combinations = ", ".join(str(combination) for combination in self.procurement_aspects_combinations)
+            raise_operation_error(
+                self.request,
+                [f"Value must be one of the combinations: {combinations}."],
+                status=422,
+                location="body",
+                name="procurementAspects",
+            )
+
+
 class BaseTenderDetailsMixin(
     TenderDetailsRequestMixin,
     TenderAgreementRulesMixin,
@@ -2938,7 +2965,7 @@ class BaseTenderDetailsMixin(
             raise_operation_error(self.request, [f"Value must be one of {list(choices)}."], status=422, name="status")
 
 
-class TenderDetailsMixin(TenderConfigMixin, BaseTenderDetailsMixin):
+class TenderDetailsMixin(ProcurementAspectsRulesMixin, TenderConfigMixin, BaseTenderDetailsMixin):
     pass
 
 

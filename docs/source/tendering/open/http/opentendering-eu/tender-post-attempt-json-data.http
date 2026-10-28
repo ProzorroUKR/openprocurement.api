@@ -153,7 +153,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "procurementMethodSubtype": "EU"
+    "procurementAspects": [
+      "EU"
+    ]
   },
   "config": {
     "hasAuction": true,
@@ -343,7 +345,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb4
       "valueAddedTaxIncluded": false
     },
     "procurementMethodType": "openTendering",
-    "procurementMethodSubtype": "EU",
+    "procurementAspects": [
+      "EU"
+    ],
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",

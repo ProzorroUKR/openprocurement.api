@@ -134,8 +134,8 @@ msgstr "above threshold EU procedure indentifier"
 msgid "`openTendering`"
 msgstr ""
 
-msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procurementMethodSubtype`)"
-msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procurementMethodSubtype` field)"
+msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procurementAspects`)"
+msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procurementAspects` field)"
 
 msgid "`aboveThresholdUA.defense`"
 msgstr ""
@@ -197,8 +197,11 @@ msgstr ""
 msgid "`competitiveDialogueUA.stage2`"
 msgstr ""
 
-msgid "procurementMethodSubtype"
+msgid "procurementAspects"
 msgstr ""
+
+msgid "список рядків"
+msgstr "list of strings"
 
 msgid "`UA`"
 msgstr ""
@@ -212,8 +215,8 @@ msgstr ""
 msgid "відкриті торги вище європейських порогів (оголошення додатково англійською мовою, з попередньою кваліфікацією)"
 msgstr "open tendering above the EU thresholds (the announcement in English as well, with prequalification)"
 
-msgid "Різновид відкритих торгів за Законом № 4888-IX. Обов'язкове поле лише для `openTendering`: задається при створенні закупівлі та не може бути змінене."
-msgstr "The variant of the open tendering under the Law No. 4888-IX. Required only for `openTendering`: set at the tender creation and can't be changed."
+msgid "Аспекти закупівлі, що визначають різновид відкритих торгів за Законом № 4888-IX. Обов'язкове поле лише для `openTendering`: задається при створенні закупівлі та не може бути змінене. Список не може бути порожнім і має відповідати одній з дозволених комбінацій: `[\"UA\"]` або `[\"EU\"]`."
+msgstr "The procurement aspects that set the variant of the open tendering under the Law No. 4888-IX. Required only for `openTendering`: set at the tender creation and can't be changed. The list can't be empty and must match one of the allowed combinations: `[\"UA\"]` or `[\"EU\"]`."
 
 msgid "awardCriteria"
 msgstr ""

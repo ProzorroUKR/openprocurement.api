@@ -8,6 +8,7 @@ from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import request_fetch_agreement
+from openprocurement.tender.open.procedure.utils import get_open_tendering_variant
 
 
 def tender_config_default_value(tender, key):
@@ -33,9 +34,9 @@ def tender_config_co_default_value(tender, key):
 
 
 def tender_config_open_tendering_default_value(tender, key):
-    """openTendering: the defaults depend on the UA/EU variant (the tender field procurementMethodSubtype)"""
-    subtype = tender.get("procurementMethodSubtype")
-    config_schema = TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS.get(f"openTendering.{subtype}")
+    """openTendering: the defaults depend on the UA/EU variant (the tender field procurementAspects)"""
+    variant = get_open_tendering_variant(tender)
+    config_schema = TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS.get(f"openTendering.{variant}")
     if config_schema is None:
         config_schema = TENDER_CONFIG_JSONSCHEMAS["openTendering"]
     return config_schema["properties"][key]["default"]

@@ -1919,7 +1919,7 @@ wheels = [
 [[package]]
 name = "standards"
 version = "1.0.294"
-source = { git = "https://github.com/ProzorroUKR/standards.git?branch=CS-22762#4fd2fe8ca723826a1968e9c2d87956627b1f929e" }
+source = { git = "https://github.com/ProzorroUKR/standards.git?branch=CS-22762#0e0cc03061a8654ef8ee21b29e0349ab00bfe4a2" }
 
 [[package]]
 name = "statsd"
