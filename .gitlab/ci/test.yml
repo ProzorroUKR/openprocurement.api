@@ -21,16 +21,17 @@
     - build
   script:
     - cd $PROJECT_DIR
-    - uv run pytest $TESTS_PATH -v
+    - pytest $TESTS_PATH -v
       --color=yes
       --cov=src/openprocurement
       --cov-config=.coveragerc
-      --cov-report xml
+      --cov-report xml:/tmp/coverage.xml
       --dist=each
       --tx=$TX_SANDBOX
       --tx=$TX_PROD
-    - sed -i -e "s|$PROJECT_DIR|$CI_PROJECT_DIR|g" coverage.xml
-    - cp coverage.xml $CI_PROJECT_DIR
+      -p no:cacheprovider
+    - sed -i -e "s|$PROJECT_DIR|$CI_PROJECT_DIR|g" /tmp/coverage.xml
+    - cp /tmp/coverage.xml $CI_PROJECT_DIR
   artifacts:
     reports:
       coverage_report:
@@ -44,6 +45,10 @@
     # sys.monitoring based coverage (python 3.12+) has almost no overhead,
     # the default C tracer doubles the CPU time of the tests
     COVERAGE_CORE: sysmon
+    # /app is read-only in the image, so coverage data goes to /tmp
+    COVERAGE_FILE: /tmp/.coverage
+    # and Python keeps its bytecode cache (incl. pytest's rewritten asserts) there too
+    PYTHONPYCACHEPREFIX: /tmp/pycache
     PROJECT_DIR: /app
     # every test runs on both xdist workers: regular mode and sandbox mode, each with its own database
     TX_SANDBOX: popen//id=sand//env:DB_NAME=test_sandbox//env:SANDBOX_MODE=1//env:SINGLE_APP=1
