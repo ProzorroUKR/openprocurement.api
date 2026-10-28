@@ -1,7 +1,7 @@
 import logging
 from unittest.mock import ANY, MagicMock, call, patch
 
-from pymongo import DESCENDING, UpdateOne
+from pymongo import ASCENDING, UpdateOne
 
 from openprocurement.api.migrations.base import (
     PymongoCollectionMigration,
@@ -44,7 +44,10 @@ class Migration(PymongoCollectionMigration):
     update_feed_position: bool = True
 
     def process_data(self, cursor):
-        cursor.sort([("public_modified", DESCENDING)])
+        # ascending, unlike sibling migrations: an updated contract gets public_modified = now
+        # and moves to the end of the index, so the cursor still reaches contracts edited
+        # by brokers during the run; already migrated ones are excluded by the tenderID filter
+        cursor.sort([("public_modified", ASCENDING)])
         return super().process_data(cursor)
 
     def get_filter(self) -> dict:
