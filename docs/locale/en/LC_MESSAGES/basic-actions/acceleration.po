@@ -1,18 +1,18 @@
+
 msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.12a1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-13 16:36+0200\n"
+"POT-Creation-Date: 2026-10-28 15:43+0200\n"
 "PO-Revision-Date: 2016-12-13 16:38+0200\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
-"Language-Team: Ukrainian <info@quintagroup.com>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.3.4\n"
 "Language: en\n"
+"Language-Team: Ukrainian <info@quintagroup.com>\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 2.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
 
 msgid "Режим прискорення в пісочниці"
 msgstr "Acceleration mode for sandbox"
@@ -55,4 +55,13 @@ msgstr "To enable this option: set ``quick(mode:fast-forward)`` as a value for `
 
 msgid "Опція ``fast-forward`` дозволяє провести закупівлю, \\\"пропустивши\\\" етап  аукціону. Це означає, що етап `active.auction` буде завершений по результатах вхідних пропозицій; хоча посилання `auctionURL` буде створено і буде можливість переглянути по ньому аукціон."
 msgstr "``fast-forward`` option allows skipping auction stage. This means that `active.auction` stage will be completed based on the primary bid proposals; although `auctionURL` will be created and auction can be viewed."
+
+msgid "**Опція verify-signature**"
+msgstr "**verify-signature option**"
+
+msgid "Встановлення цієї опції: додати додатковий параметр ``verify-signature=true`` для параметра `procurementMethodDetails`."
+msgstr "To enable this option: add additional parameter ``verify-signature=true`` to `procurementMethodDetails`."
+
+msgid "Опція ``verify-signature`` дозволяє увімкнути перевірку підпису документів контракту (`contractSignature`, `terminationSignature`) для окремого тестового тендера на пісочниці. Це означає, що перевірка підпису відбудеться для цього тендера незалежно від глобального налаштування середовища, яке керує цією перевіркою за замовчуванням."
+msgstr "``verify-signature`` option allows enabling contract document signature verification (`contractSignature`, `terminationSignature`) for a specific test tender in the sandbox. This means that signature verification will take place for this tender regardless of the global environment setting that controls this verification by default."
 
