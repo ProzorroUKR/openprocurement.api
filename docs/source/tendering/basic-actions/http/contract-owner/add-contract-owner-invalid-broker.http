@@ -216,7 +216,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedItem": "b7fa8976d57c48e9842ede4ef92ccbf3"
       }
     ],
-    "contractTemplateName": "00000000.0002.01"
+    "contractTemplateName": "GENERAL.0001.01"
   },
   "config": {
     "hasAuction": false,

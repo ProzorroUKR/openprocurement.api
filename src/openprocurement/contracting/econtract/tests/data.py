@@ -64,6 +64,6 @@ test_tender_pq_e_bids = [
 ]
 
 test_tender_pq_e_data = deepcopy(test_tender_pq_data)
-test_tender_pq_e_data["contractTemplateName"] = "00000000.0002.01"
+test_tender_pq_e_data["contractTemplateName"] = "GENERAL.0001.01"
 test_tender_pq_e_data["procuringEntity"]["signerInfo"] = test_signer_info
 test_tender_pq_e_data["procuringEntity"]["contract_owner"] = "broker"

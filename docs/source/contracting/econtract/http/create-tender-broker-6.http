@@ -216,7 +216,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedItem": "29cbde01600848de837efe5448e726fb"
       }
     ],
-    "contractTemplateName": "00000000.0002.01"
+    "contractTemplateName": "GENERAL.0001.01"
   },
   "config": {
     "hasAuction": false,
@@ -254,7 +254,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2563fd75900b4349
   "data": {
     "mainProcurementCategory": "goods",
     "procurementMethod": "selective",
-    "contractTemplateName": "00000000.0002.01",
+    "contractTemplateName": "GENERAL.0001.01",
     "title": "Комп’ютерне обладнання",
     "status": "draft",
     "milestones": [
