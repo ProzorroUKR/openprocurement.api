@@ -19,6 +19,7 @@ from openprocurement.api.validation import validate_json_data
 LOGGER = getLogger("openprocurement.tender.core")
 
 ACCELERATOR_RE = re.compile(r".accelerator=(?P<accelerator>\d+)")
+VERIFY_SIGNATURE_RE = re.compile(r".verify-signature=(?P<verify_signature>\w+)")
 
 
 QUICK = "quick"
@@ -116,6 +117,14 @@ def get_tender_accelerator(context):
         if re_obj and "accelerator" in re_obj.groupdict():
             return int(re_obj.groupdict()["accelerator"])
     return None
+
+
+def tender_signature_verification_enabled(tender):
+    if tender and tender.get("procurementMethodDetails"):
+        re_obj = VERIFY_SIGNATURE_RE.search(tender["procurementMethodDetails"])
+        if re_obj:
+            return bool(is_boolean(re_obj.groupdict()["verify_signature"]))
+    return False
 
 
 def accelerated_tender(wrapped):
