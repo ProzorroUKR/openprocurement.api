@@ -134,7 +134,7 @@ test_tender_open_tendering_eu_data = {
         }
     ],
     "procurementMethodType": "openTendering",
-    "procurementMethodSubtype": "EU",
+    "procurementAspects": ["EU"],
     "milestones": test_tender_open_tendering_eu_milestones,
 }
 set_tender_periods(test_tender_open_tendering_eu_data, start=now)

@@ -45,9 +45,9 @@ from openprocurement.tender.open.tests.open_tendering.eu.base import (
 )
 from openprocurement.tender.open.tests.open_tendering.eu.tender_blanks import (
     create_tender_generated,
-    create_tender_invalid_subtype_and_config,
+    create_tender_invalid_procurement_aspects_and_config,
     create_tender_multilingual_fields_required,
-    patch_tender_procurement_method_subtype_is_immutable,
+    patch_tender_procurement_aspects_is_immutable,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.tender import TenderOpenTenderingUAResourceTestMixin
 
@@ -64,10 +64,10 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderOpenT
     allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["openTendering"]
 
     test_create_tender_invalid = snitch(create_tender_invalid)
-    test_create_tender_invalid_subtype_and_config = snitch(create_tender_invalid_subtype_and_config)
-    test_patch_tender_procurement_method_subtype_is_immutable = snitch(
-        patch_tender_procurement_method_subtype_is_immutable
+    test_create_tender_invalid_procurement_aspects_and_config = snitch(
+        create_tender_invalid_procurement_aspects_and_config
     )
+    test_patch_tender_procurement_aspects_is_immutable = snitch(patch_tender_procurement_aspects_is_immutable)
     test_create_tender_multilingual_fields_required = snitch(create_tender_multilingual_fields_required)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)

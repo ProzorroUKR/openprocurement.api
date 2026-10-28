@@ -215,10 +215,10 @@ REQUEST_FOR_PROPOSAL_WORKING_DAYS_CONFIG = {
 }
 
 
-# openTendering: one procedure, the UA/EU variant is set by the tender field procurementMethodSubtype
-PROCUREMENT_METHOD_SUBTYPE_UA = "UA"
-PROCUREMENT_METHOD_SUBTYPE_EU = "EU"
-OPEN_TENDERING_SUBTYPES = [PROCUREMENT_METHOD_SUBTYPE_UA, PROCUREMENT_METHOD_SUBTYPE_EU]
+# openTendering: one procedure, the UA/EU variant is set by the tender field procurementAspects
+PROCUREMENT_ASPECT_UA = "UA"
+PROCUREMENT_ASPECT_EU = "EU"
+OPEN_TENDERING_PROCUREMENT_ASPECTS = [PROCUREMENT_ASPECT_UA, PROCUREMENT_ASPECT_EU]
 
 OPEN_TENDERING_CLAIM_SUBMIT_TIME = timedelta(days=10)
 # the tender period is extended on changes so that at least N days remain: 4 (UA) / 7 (EU)

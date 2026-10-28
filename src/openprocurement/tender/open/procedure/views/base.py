@@ -1,6 +1,7 @@
 from openprocurement.api.procedure.context import get_object
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.tender.open.constants import PROCUREMENT_METHOD_SUBTYPE_EU
+from openprocurement.tender.open.constants import PROCUREMENT_ASPECT_EU
+from openprocurement.tender.open.procedure.utils import get_open_tendering_variant
 
 
 class COStateClass:
@@ -28,7 +29,7 @@ class COStateClass:
 class OpenTenderingStateClass:
     """
     openTendering state class resolver for state_classes: the state depends on the UA/EU variant of the tender
-    set by its procurementMethodSubtype field (POST /tenders: read from the request body, otherwise from the tender)
+    set by its procurementAspects field (POST /tenders: read from the request body, otherwise from the tender)
     """
 
     def __init__(self, ua_state_class, eu_state_class):
@@ -40,8 +41,7 @@ class OpenTenderingStateClass:
         if not tender:
             # POST /tenders: the body is already parsed by the route predicate (validate_json_data)
             tender = request.validated.get("json_data")
-        subtype = tender.get("procurementMethodSubtype") if isinstance(tender, dict) else None
         # a missing/invalid value is rejected by the post data model (the UA state does it)
-        if subtype == PROCUREMENT_METHOD_SUBTYPE_EU:
+        if get_open_tendering_variant(tender) == PROCUREMENT_ASPECT_EU:
             return self.eu_state_class
         return self.ua_state_class

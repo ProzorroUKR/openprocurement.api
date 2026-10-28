@@ -19,6 +19,7 @@ from openprocurement.tender.core.procedure.utils import (
     get_contract_template_names_for_classification_ids,
 )
 from openprocurement.tender.core.utils import calculate_tender_full_date
+from openprocurement.tender.open.procedure.utils import get_open_tendering_variant
 
 
 class TestUtilsBase(unittest.TestCase):
@@ -243,7 +244,7 @@ TEST_TENDER_PERIODS = {
     "complexAsset.arma": {"tender": 29},
     "simpleAsset.arma": {"tender": 17},
     "priceQuotation": {"tender": 14},
-    # openTendering: the minimal tender period depends on the UA/EU variant (procurementMethodSubtype)
+    # openTendering: the minimal tender period depends on the UA/EU variant (procurementAspects)
     "openTendering.UA": {"tender": 16},
     "openTendering.EU": {"tender": 31},
 }
@@ -260,8 +261,8 @@ def set_tender_periods(data, start=None):
     """
     procurement_method_type = data.get("procurementMethodType")
     periods = TEST_TENDER_PERIODS.get(procurement_method_type)
-    if subtype := data.get("procurementMethodSubtype"):
-        periods = TEST_TENDER_PERIODS.get(f"{procurement_method_type}.{subtype}", periods)
+    if variant := get_open_tendering_variant(data):
+        periods = TEST_TENDER_PERIODS.get(f"{procurement_method_type}.{variant}", periods)
     if not periods:
         return
     start = start or get_now()
