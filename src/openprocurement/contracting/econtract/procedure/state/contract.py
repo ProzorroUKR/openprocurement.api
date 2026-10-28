@@ -143,13 +143,13 @@ class EContractState(ContractState):
                 "id": uuid4().hex,
                 "date": get_request_now().isoformat(),
                 "contractID": f"{tender['tenderID']}-a{contract_number}",
+                "tenderID": tender["tenderID"],
             }
         )
 
         if mode := tender.get("mode"):
             after["mode"] = mode
 
-        after["tenderID"] = tender["tenderID"]
         if main_procurement_category := tender.get("mainProcurementCategory"):
             after["mainProcurementCategory"] = main_procurement_category
 
