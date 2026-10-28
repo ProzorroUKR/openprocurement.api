@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/59f6669d275f495199ced247031beb34/bids HTTP/1.0
+POST /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -49,7 +49,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "955e9a9a1eb0400fa2a96c670aee5b1c",
+        "id": "3eb56d59001945dc867398e7879b1a2d",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -70,13 +70,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/59f6669d275f495199ced247031beb34/bids/ee125d39d89d4afe8aac022ebd223048
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/ee125d39d89d4afe8aac022ebd223048
 
 {
   "data": {
     "items": [
       {
-        "id": "955e9a9a1eb0400fa2a96c670aee5b1c",
+        "id": "3eb56d59001945dc867398e7879b1a2d",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",

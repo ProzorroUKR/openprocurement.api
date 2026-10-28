@@ -161,7 +161,9 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false
     },
     "procurementMethodType": "openTendering",
-    "procurementMethodSubtype": "EU",
+    "procurementAspects": [
+      "EU"
+    ],
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",

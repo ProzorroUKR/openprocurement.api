@@ -2148,7 +2148,9 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "openTendering",
-    "procurementMethodSubtype": "EU",
+    "procurementAspects": [
+      "EU"
+    ],
     "qualifications": [
       {
         "id": "6803bc3ac7974edd8e7c511b96a4e982",

@@ -153,7 +153,7 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "procurementMethodSubtype",
+      "name": "procurementAspects",
       "description": [
         "This field is required."
       ]

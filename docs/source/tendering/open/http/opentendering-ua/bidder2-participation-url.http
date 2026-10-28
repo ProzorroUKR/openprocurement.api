@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/59f6669d275f495199ced247031beb34/bids/99c96560027f45c6ad846e1661068832?acc_token=facc00c347224d2aa7607f867506f1c5 HTTP/1.0
+GET /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/99c96560027f45c6ad846e1661068832?acc_token=facc00c347224d2aa7607f867506f1c5 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -187,7 +187,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "955e9a9a1eb0400fa2a96c670aee5b1c",
+        "id": "3eb56d59001945dc867398e7879b1a2d",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -217,7 +217,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/59f6669d275f495199ced247031beb34_063b6eeb2fa2412e8ec9eeec32b8c659?key_for_bid=99c96560027f45c6ad846e1661068832"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/b53c538bd44a4fb48d1a7fc2b0503a49_063b6eeb2fa2412e8ec9eeec32b8c659?key_for_bid=99c96560027f45c6ad846e1661068832"
       }
     ],
     "tenderers": [

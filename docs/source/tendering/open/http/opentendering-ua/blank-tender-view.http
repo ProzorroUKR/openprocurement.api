@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/59f6669d275f495199ced247031beb34 HTTP/1.0
+GET /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -55,7 +55,7 @@ Content-Type: application/json
     },
     "items": [
       {
-        "id": "955e9a9a1eb0400fa2a96c670aee5b1c",
+        "id": "3eb56d59001945dc867398e7879b1a2d",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -122,8 +122,10 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false
     },
     "procurementMethodType": "openTendering",
-    "procurementMethodSubtype": "UA",
-    "tenderID": "UA-2027-01-01-000002-a",
+    "procurementAspects": [
+      "UA"
+    ],
+    "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",
     "procurementMethod": "open",
@@ -218,7 +220,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "59f6669d275f495199ced247031beb34"
+    "id": "b53c538bd44a4fb48d1a7fc2b0503a49"
   },
   "config": {
     "hasAuction": true,

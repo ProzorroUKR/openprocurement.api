@@ -5,7 +5,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "procurementMethodSubtype": "UA"
+    "procurementAspects": [
+      "UA"
+    ]
   }
 }
 
@@ -18,7 +20,7 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "procurementMethodSubtype",
+      "name": "procurementAspects",
       "description": "Rogue field"
     }
   ]
