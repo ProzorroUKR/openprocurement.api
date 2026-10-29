@@ -6,9 +6,20 @@ from openprocurement.contracting.core.procedure.state.contract import (
     ContractState,
 )
 from openprocurement.contracting.core.procedure.utils import get_tender_award_by_contract
+from openprocurement.contracting.econtract.procedure.models.signatory import PostSignatory
 
 
 class SignatoryState(ContractState):
+    post_data_model = PostSignatory
+
+    # --- request validation (called from the views) ---
+
+    def validate_signatory_post_request(self):
+        if self.request.authenticated_role not in ("Administrator", "admins"):
+            self.validate_contract_participant()
+        self.validate_contract_status_pending()
+        self.validate_input_data(self.get_post_data_model())
+
     def signatory_on_post(self, data):
         self.validate_contract_is_ready_for_activation()
         self.set_author_of_object(data, "role")

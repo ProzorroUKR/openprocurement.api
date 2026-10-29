@@ -36,6 +36,7 @@ class ContractsChangesResource(ContractBaseResource):
 
     def collection_post(self):
         """Contract Change create"""
+        self.state.validate_change_post_request()
         contract = self.request.validated["contract"]
 
         change = self.request.validated["data"]

@@ -1,31 +1,15 @@
 from cornice.resource import resource
 
 from openprocurement.api.database import atomic_transaction
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_patch_data_simple,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.models.access import AccessRole
-from openprocurement.contracting.core.procedure.models.contract import Contract
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
-    validate_contract_update_not_in_allowed_status,
-    validate_credentials_generate,
-    validate_tender_owner,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.core.procedure.views.contract import (
     ContractResource as BaseContractResource,
-)
-from openprocurement.contracting.core.procedure.views.contract import (
-    conditional_contract_model,
 )
 from openprocurement.tender.core.procedure.utils import save_tender, set_ownership
 
@@ -41,15 +25,10 @@ class ContractResource(BaseContractResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_admins(unless_administrator(validate_contract_owner)),
-            validate_patch_input_data(conditional_contract_model),
-            validate_patch_data_simple(Contract, item_name="contract"),
-            unless_admins(unless_administrator(validate_contract_update_not_in_allowed_status)),
-        ),
     )
     def patch(self):
         """Contract Edit (partial)"""
+        self.state.validate_contract_patch_request()
         updated = self.request.validated["data"]
         contract_src = self.request.validated["contract_src"]
         if updated:
@@ -94,12 +73,9 @@ class ContractCredentialsResource(ContractBaseResource):
 
     @json_view(
         permission="edit_contract",
-        validators=(
-            unless_admins(validate_tender_owner),
-            validate_credentials_generate,
-        ),
     )
     def patch(self):
+        self.state.validate_credentials_patch_request()
         contract = self.request.validated["contract"]
         access = set_ownership(contract, self.request, access_role=AccessRole.CONTRACT)
         if save_contract(self.request):

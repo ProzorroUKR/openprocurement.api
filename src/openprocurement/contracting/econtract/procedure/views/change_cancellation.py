@@ -2,23 +2,10 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_change_action_not_in_allowed_contract_status,
-    validate_contract_change_update_not_in_allowed_change_status,
-    validate_contract_participant,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.core.procedure.views.change import resolve_change
-from openprocurement.contracting.econtract.procedure.models.cancellation import (
-    PostCancellation,
-)
 from openprocurement.contracting.econtract.procedure.state.change_cancellation import (
     ChangeCancellationState,
 )
@@ -67,15 +54,10 @@ class EContractsCancellationsResource(ContractBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_administrator(unless_admins(validate_contract_participant)),
-            validate_input_data(PostCancellation),
-            validate_contract_change_action_not_in_allowed_contract_status,
-            validate_contract_change_update_not_in_allowed_change_status,
-        ),
     )
     def collection_post(self):
         """Contract change cancellation create"""
+        self.state.validate_cancellation_post_request()
         contract = self.request.validated["contract"]
         change = self.request.validated["change"]
 

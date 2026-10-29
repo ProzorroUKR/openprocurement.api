@@ -11,6 +11,7 @@ from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
+from openprocurement.contracting.econtract.procedure.models.document import PostTerminationDetailsDocument
 from openprocurement.contracting.econtract.procedure.serializers.termination_details import (
     ContractContextSerializer,
 )
@@ -30,6 +31,27 @@ class EContractTerminationDetailsDocumentState(ContractDocumentState):
     signature activates terminationDetails and terminates the contract as a
     side effect of this same request - there is no separate activation call.
     """
+
+    post_data_model = PostTerminationDetailsDocument
+
+    document_post_owner_exempt_roles: tuple = ("admins", "Administrator")
+    document_download_confidentiality_check = False
+
+    # --- request validation (called from the views) ---
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_contract_buyer()
+
+    def validate_document_operation_allowed(self):
+        if self.request.authenticated_role not in ("admins", "Administrator"):
+            self.validate_contract_status_active()
+        status = self.request.validated["termination_details"].get("status")
+        if status != "draft":
+            raise_operation_error(
+                self.request,
+                f"Can't add document to terminationDetails in current ({status}) status",
+            )
 
     def validate_document_post(self, data):
         contract = self.request.validated["contract"]

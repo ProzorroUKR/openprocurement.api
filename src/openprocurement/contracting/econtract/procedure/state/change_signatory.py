@@ -3,9 +3,21 @@ from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.state.contract import (
     ContractState,
 )
+from openprocurement.contracting.econtract.procedure.models.signatory import PostSignatory
 
 
 class SignatoryState(ContractState):
+    post_data_model = PostSignatory
+
+    # --- request validation (called from the views) ---
+
+    def validate_signatory_post_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_contract_participant()
+        self.validate_contract_change_allowed()
+        self.validate_contract_change_update_allowed()
+        self.validate_input_data(self.get_post_data_model())
+
     def signatory_on_post(self, data):
         self.set_author_of_object(data, "role")
         data["date"] = get_request_now().isoformat()

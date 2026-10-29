@@ -1,22 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.models.signer_info import SignerInfo
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.contract.procedure.state.signer_info import (
     ContractSignerInfoState,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_pending_status,
-    validate_contract_owner,
-    validate_contract_supplier,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 
 
@@ -61,13 +50,9 @@ class ContractBuyerSignerInfoResource(BaseSignerInfoResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_admins(unless_administrator(validate_contract_owner)),
-            validate_input_data(SignerInfo),
-            unless_admins(unless_administrator(validate_contract_in_pending_status)),
-        ),
     )
     def put(self):
+        self.state.validate_buyer_signer_info_put_request()
         return super().put()
 
 
@@ -84,11 +69,7 @@ class ContractSuppliersSignerInfoResource(BaseSignerInfoResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_admins(unless_administrator(validate_contract_supplier)),
-            validate_input_data(SignerInfo),
-            unless_admins(unless_administrator(validate_contract_in_pending_status)),
-        ),
     )
     def put(self):
+        self.state.validate_suppliers_signer_info_put_request()
         return super().put()

@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.validation import validate_field_change
 from openprocurement.api.utils import raise_operation_error
@@ -7,12 +8,62 @@ from openprocurement.contracting.core.procedure.models.access import AccessRole
 from openprocurement.contracting.core.procedure.state.contract import (
     ContractState,
 )
+from openprocurement.contracting.econtract.procedure.models.contract import Contract as EContract
+from openprocurement.contracting.econtract.procedure.models.contract import PostContract
+from openprocurement.contracting.econtract.procedure.models.termination_details import PatchContractTerminationDetails
 from openprocurement.tender.core.procedure.contracting import (
     upload_contract_pdf_document,
 )
 
 
 class EContractState(ContractState):
+    post_data_model = PostContract
+    # PATCH of terminationDetails is validated with the eContract model
+    termination_details_patch_data_model = PatchContractTerminationDetails
+    termination_details_data_model = EContract
+
+    contract_create_accreditations: tuple = (AccreditationLevel.ACCR_6,)
+
+    # --- request validation (called from the views) ---
+
+    def validate_contract_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_accreditation_level(
+            levels=self.contract_create_accreditations,
+            item="contract",
+            operation="creation",
+            source="data",
+        )
+
+    def validate_termination_details_patch_request(self):
+        exempt = self.request.authenticated_role in ("admins", "Administrator")
+        if not exempt:
+            self.validate_contract_buyer()
+            self.validate_contract_status_active()
+        self.validate_input_data(self.termination_details_patch_data_model)
+        self.prepare_termination_details_patch_data()
+        self.validate_patch_data_simple(self.termination_details_data_model, item_name="contract")
+
+    def prepare_termination_details_patch_data(self):
+        """
+        terminationDetails is replaced wholesale on PATCH (like amountPaid), but
+        status/dateCreated/documents are server-owned and must be carried over
+        before the merged payload is validated against the full Contract model.
+        status can only move draft -> active as a side effect of a verified
+        signature upload (see EContractTerminationDetailsDocumentState), never
+        directly via PATCH, so it is always forced back to its previous value.
+        """
+        request = self.request
+        if "terminationDetails" not in request.validated["json_data"]:
+            return
+        patch_td = request.validated["data"].setdefault("terminationDetails", {})
+        before_td = request.validated["contract"].get("terminationDetails") or {}
+        patch_td["status"] = before_td.get("status", "draft")
+        patch_td["documents"] = before_td.get("documents", [])
+        patch_td["dateCreated"] = before_td.get("dateCreated") or get_request_now().isoformat()
+        if "amountPaid" not in patch_td:
+            patch_td["amountPaid"] = {"amount": 0}
+
     def on_patch(self, before, after) -> None:
         if after["status"] == "pending" and any(
             doc.get("documentType") == "contractSignature" for doc in before.get("documents", [])

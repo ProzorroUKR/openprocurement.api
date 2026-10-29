@@ -2,13 +2,7 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    unless_bots,
-    validate_input_data,
-)
 from openprocurement.api.utils import json_view
-from openprocurement.contracting.core.procedure.models.transaction import PutTransaction
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
@@ -16,9 +10,6 @@ from openprocurement.contracting.core.procedure.state.contract_transaction impor
     TransactionState,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 
 
@@ -54,12 +45,9 @@ class ContractTransactionsResource(ContractBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract_transactions",
-        validators=(
-            unless_bots(unless_admins(validate_contract_owner)),
-            validate_input_data(PutTransaction),
-        ),
     )
     def put(self):
+        self.state.validate_transaction_put_request()
         new_transaction = self.request.validated["data"]
         transaction_id = self.request.matchdict["transaction_id"]
         new_transaction.update({"id": transaction_id})

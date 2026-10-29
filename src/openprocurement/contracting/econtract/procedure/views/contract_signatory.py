@@ -2,21 +2,9 @@ from cornice.resource import resource
 
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_pending_status,
-    validate_contract_participant,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.econtract.procedure.models.signatory import (
-    PostSignatory,
-)
 from openprocurement.contracting.econtract.procedure.state.contract_signatory import (
     SignatoryState,
 )
@@ -57,13 +45,9 @@ class EContractsSignatoriesResource(ContractBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_administrator(unless_admins(validate_contract_participant)),
-            validate_contract_in_pending_status,
-            validate_input_data(PostSignatory),
-        ),
     )
     def post(self):
+        self.state.validate_signatory_post_request()
         contract = self.request.validated["contract"]
 
         signatory = self.request.validated["data"]

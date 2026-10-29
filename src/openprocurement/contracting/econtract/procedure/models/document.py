@@ -73,9 +73,6 @@ class BaseChangeDocument(BaseTenderDocument):
     documentOf = StringType(default="change")
     documentType = StringType(choices=DOCUMENT_TYPES)
 
-    def validate_relatedItem(self, data, related_item):
-        pass
-
 
 class PostChangeDocument(BaseChangeDocument, PostDocument):
     pass

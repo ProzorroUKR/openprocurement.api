@@ -1,6 +1,5 @@
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
@@ -26,9 +25,6 @@ class PostChange(BaseChange):
     def date(self):
         return get_now().isoformat()
 
-    def validate_dateSigned(self, data, value):
-        validate_date_signed(data, value)
-
 
 class PatchChange(BaseChange):
     status = StringType(choices=["pending", "active"])
@@ -50,11 +46,3 @@ class Change(BaseChange):
     date = IsoDateTimeType()
     contractNumber = StringType()
     dateSigned = IsoDateTimeType()
-
-    def validate_dateSigned(self, data, value):
-        validate_date_signed(data, value)
-
-
-def validate_date_signed(change, date_signed):
-    if date_signed and date_signed > get_now():
-        raise ValidationError("Contract signature date can't be in the future")

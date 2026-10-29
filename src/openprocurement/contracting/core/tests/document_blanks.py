@@ -4,13 +4,13 @@ from unittest.mock import patch
 
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 from openprocurement.tender.limited.tests.base import (
+    test_tender_negotiation_config,
+    test_tender_negotiation_data,
     test_tender_reporting_config,
     test_tender_reporting_data,
-    test_tender_negotiation_data,
-    test_tender_negotiation_config,
 )
+from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
 
 
 def not_found(self):
@@ -1105,6 +1105,7 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
     # get directly as tender owner
     response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}")
     self.assertIn("url", response.json["data"])
+    key = response.json["data"]["url"].split("/")[-1].split("?")[0]
 
     # get directly as public
     response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
@@ -1112,7 +1113,7 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
 
     # download as tender owner
     response = self.app.get(
-        f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}&download=1",
+        f"/contracts/{contract_id}/documents/{doc_id_2}?acc_token={contract_token}&download={key}",
     )
     self.assertEqual(response.status_code, 302)
     self.assertIn("http://localhost/get/", response.location)
@@ -1122,7 +1123,7 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
 
     # download as tender public
     response = self.app.get(
-        f"/contracts/{contract_id}/documents/{doc_id_2}?download=1",
+        f"/contracts/{contract_id}/documents/{doc_id_2}?download={key}",
         status=403,
     )
     self.assertEqual(
@@ -1142,7 +1143,7 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
         response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
         self.assertIn("url", response.json["data"])
 
-        response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?download=1")
+        response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}?download={key}")
         self.assertEqual(response.status_code, 302)
         self.assertIn("http://localhost/get/", response.location)
         self.assertIn("Signature=", response.location)
