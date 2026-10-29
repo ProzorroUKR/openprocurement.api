@@ -1,4 +1,4 @@
-GET /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details?opt_context=true HTTP/1.0
+GET /api/2.5/contracts/cfd0dda789df491dbe20d9575e87e19d/termination_details?opt_context=true HTTP/1.0
 Authorization: Bearer broker6
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -19,19 +19,7 @@ Content-Type: application/json
   },
   "context": {
     "contract": {
-      "access": [
-        {
-          "owner": "broker6",
-          "token": "095f224d5ed54436b623b406684b80f1",
-          "role": "buyer"
-        },
-        {
-          "owner": "broker6",
-          "token": "8ff3555ff5734dac917f580f1d09995a",
-          "role": "supplier"
-        }
-      ],
-      "awardID": "eb74c3a872ed451abf7c6225c8918a7e",
+      "awardID": "41f4c3b3e5b9496798811426eb24ca5b",
       "buyer": {
         "name": "Державне управління справами",
         "identifier": {
@@ -64,7 +52,7 @@ Content-Type: application/json
           "rationaleTypes": [
             "priceReductionWithoutQuantity"
           ],
-          "id": "a0a23a4028a6428fa088098d0d137d71",
+          "id": "edf34600bac04805b396b183124afb4e",
           "status": "active",
           "date": "2027-01-01T00:00:00+02:00",
           "dateSigned": "2027-01-01T00:00:00+02:00",
@@ -77,7 +65,7 @@ Content-Type: application/json
             },
             "items": [
               {
-                "id": "29cbde01600848de837efe5448e726fb",
+                "id": "aeb6db02d16d47b9b4325a3d4ba4ad66",
                 "description": "Комп’ютерне обладнання для біда",
                 "quantity": 10.0,
                 "classification": {
@@ -139,7 +127,7 @@ Content-Type: application/json
                 "category": "655360-30230000-889652"
               },
               {
-                "id": "24726f3002834ed287ec1c07b91606cf",
+                "id": "ba23b4d986af42fab4bb08024f8ba60e",
                 "description": "Комп’ютерне обладнання",
                 "quantity": 5.0,
                 "classification": {
@@ -184,9 +172,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "contract_change.pdf",
               "format": "application/pdf",
-              "id": "88962047c28144d99916ae75c9a2a38a",
+              "id": "fe3b506ebba44c23a401ce7f68ba5425",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/changes/edf34600bac04805b396b183124afb4e/documents/fe3b506ebba44c23a401ce7f68ba5425?download=8763d089d88e4eca89f11cb245e69af4",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
@@ -196,9 +184,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "sign.p7s",
               "format": "application/pkcs7-signature",
-              "id": "647c84c6617a4d14b7b1a5f7aa17a79d",
+              "id": "bdaa46647ba1421d8805d5e93cdc5b88",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/647c84c6617a4d14b7b1a5f7aa17a79d?download=9dc6bfe4683b4e63a799bbe366ba9376",
+              "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/changes/edf34600bac04805b396b183124afb4e/documents/bdaa46647ba1421d8805d5e93cdc5b88?download=4bf9735c3b674209a11f7b7f45b49ab0",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "author": "supplier",
@@ -209,9 +197,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "sign.p7s",
               "format": "application/pkcs7-signature",
-              "id": "215698f490f544de97d8a8644e03094a",
+              "id": "742efc3458cc416688522aa8ba30243d",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/215698f490f544de97d8a8644e03094a?download=9dc6bfe4683b4e63a799bbe366ba9376",
+              "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/changes/edf34600bac04805b396b183124afb4e/documents/742efc3458cc416688522aa8ba30243d?download=4bf9735c3b674209a11f7b7f45b49ab0",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "author": "supplier",
@@ -222,9 +210,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "sign.p7s",
               "format": "application/pkcs7-signature",
-              "id": "4790f9f49c7b411092bac790f15b00ea",
+              "id": "492b0744223a4ec59829882c735915fb",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/4790f9f49c7b411092bac790f15b00ea?download=9dc6bfe4683b4e63a799bbe366ba9376",
+              "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/changes/edf34600bac04805b396b183124afb4e/documents/492b0744223a4ec59829882c735915fb?download=4bf9735c3b674209a11f7b7f45b49ab0",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "author": "buyer",
@@ -250,7 +238,7 @@ Content-Type: application/json
           "rationaleTypes": [
             "durationExtension"
           ],
-          "id": "9fb8feb2bc8f48ffa5d277c93f044523",
+          "id": "1b24e06c249d41da89bcb438c9e7d33f",
           "status": "cancelled",
           "date": "2027-01-01T00:00:00+02:00",
           "modifications": {
@@ -264,9 +252,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "contract_change.pdf",
               "format": "application/pdf",
-              "id": "9471624212664412824822e912a743df",
+              "id": "55fe0f25b2f849ce89cb8d53749e2746",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/9fb8feb2bc8f48ffa5d277c93f044523/documents/9471624212664412824822e912a743df?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/changes/1b24e06c249d41da89bcb438c9e7d33f/documents/55fe0f25b2f849ce89cb8d53749e2746?download=8763d089d88e4eca89f11cb245e69af4",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
@@ -275,7 +263,7 @@ Content-Type: application/json
           ],
           "cancellations": [
             {
-              "id": "c60fd04537794da283c535f92a149297",
+              "id": "d2d3c325d11a468e9a46ec16101e9926",
               "status": "active",
               "reason": "not actual change",
               "reasonType": "requiresChanges",
@@ -291,13 +279,13 @@ Content-Type: application/json
           "rationaleTypes": [
             "itemPriceChange"
           ],
-          "id": "0172df9f74c4411ea204ba83946371ff",
+          "id": "98ad2c9bc902436e9e917720af47c39b",
           "status": "pending",
           "date": "2027-01-01T00:00:00+02:00",
           "modifications": {
             "items": [
               {
-                "id": "29cbde01600848de837efe5448e726fb",
+                "id": "aeb6db02d16d47b9b4325a3d4ba4ad66",
                 "description": "Комп’ютерне обладнання для біда",
                 "quantity": 9.0,
                 "classification": {
@@ -359,7 +347,7 @@ Content-Type: application/json
                 "category": "655360-30230000-889652"
               },
               {
-                "id": "24726f3002834ed287ec1c07b91606cf",
+                "id": "ba23b4d986af42fab4bb08024f8ba60e",
                 "description": "Комп’ютерне обладнання",
                 "quantity": 5.0,
                 "classification": {
@@ -398,7 +386,7 @@ Content-Type: application/json
                 "category": "655360-30230000-889652"
               },
               {
-                "id": "7065cc13b8934418b9afd9579ca3f9de",
+                "id": "1b502f95bdde47c3ab3088d4f49d87d8",
                 "description": "Додаткове комп’ютерне обладнання",
                 "quantity": 15.0,
                 "classification": {
@@ -466,9 +454,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "contract_change.pdf",
               "format": "application/pdf",
-              "id": "0cb36779b6aa4253ac5e76601c1ad586",
+              "id": "c9a4ba1cf0ad416da23b6a35eea19bc5",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/0172df9f74c4411ea204ba83946371ff/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/changes/98ad2c9bc902436e9e917720af47c39b/documents/c9a4ba1cf0ad416da23b6a35eea19bc5?download=8763d089d88e4eca89f11cb245e69af4",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
@@ -478,9 +466,6 @@ Content-Type: application/json
           "author": "supplier"
         }
       ],
-      "config": {
-        "restricted": false
-      },
       "contractChangeRationaleTypes": {
         "durationExtension": {
           "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -604,11 +589,11 @@ Content-Type: application/json
       "documents": [
         {
           "confidentiality": "public",
-          "id": "8d38f4e981784f41af8d83394ab23dfa",
+          "id": "12d9cfc7097a4f359b0d4ea7ca3ebb92",
           "hash": "md5:00000000000000000000000000000000",
           "title": "contract.pdf",
           "format": "application/pdf",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/8d38f4e981784f41af8d83394ab23dfa?download=acdee3c5fbb14da0b63000963dea8a81",
+          "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/documents/12d9cfc7097a4f359b0d4ea7ca3ebb92?download=3d86ff1801f44dbf9fe93f9715fa560b",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",
@@ -616,11 +601,11 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "b8d838fb26e4454ebf9e4b5df33de6ee",
+          "id": "6523e9c339c4483aa1f3c83e49fb3bb1",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/b8d838fb26e4454ebf9e4b5df33de6ee?download=9dc6bfe4683b4e63a799bbe366ba9376",
+          "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/documents/6523e9c339c4483aa1f3c83e49fb3bb1?download=4bf9735c3b674209a11f7b7f45b49ab0",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",
@@ -629,11 +614,11 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "9a6fe646da8549b7a1643a0cbab5c11f",
+          "id": "0891db8fec57487bafedf0a9ea046f09",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/9a6fe646da8549b7a1643a0cbab5c11f?download=9dc6bfe4683b4e63a799bbe366ba9376",
+          "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/documents/0891db8fec57487bafedf0a9ea046f09?download=4bf9735c3b674209a11f7b7f45b49ab0",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",
@@ -642,11 +627,11 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "096f7c212afd44abb11d1202a624966a",
+          "id": "26fa7693eb1540df9faf6d2defa51613",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/096f7c212afd44abb11d1202a624966a?download=9dc6bfe4683b4e63a799bbe366ba9376",
+          "url": "/contracts/cfd0dda789df491dbe20d9575e87e19d/documents/26fa7693eb1540df9faf6d2defa51613?download=4bf9735c3b674209a11f7b7f45b49ab0",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",
@@ -654,10 +639,10 @@ Content-Type: application/json
           "author": "buyer"
         }
       ],
-      "id": "9747554b71504755b07fbc4dc78d9010",
+      "id": "cfd0dda789df491dbe20d9575e87e19d",
       "items": [
         {
-          "id": "29cbde01600848de837efe5448e726fb",
+          "id": "aeb6db02d16d47b9b4325a3d4ba4ad66",
           "description": "Комп’ютерне обладнання для біда",
           "quantity": 10.0,
           "classification": {
@@ -719,7 +704,7 @@ Content-Type: application/json
           "category": "655360-30230000-889652"
         },
         {
-          "id": "24726f3002834ed287ec1c07b91606cf",
+          "id": "ba23b4d986af42fab4bb08024f8ba60e",
           "description": "Комп’ютерне обладнання",
           "quantity": 5.0,
           "classification": {
@@ -804,98 +789,6 @@ Content-Type: application/json
         "startDate": "2027-01-06T00:00:00+02:00",
         "endDate": "2027-12-31T23:59:59+02:00"
       },
-      "public_modified": 1798754400.0,
-      "public_ts": "1798754400.0000000042",
-      "rev": "19-75546cad132343b6a0b01dcaa5601321",
-      "revisions": [
-        {
-          "author": "broker",
-          "changes": [
-            {
-              "op": "remove",
-              "path": "/id"
-            },
-            {
-              "op": "remove",
-              "path": "/contractChangeRationaleTypes"
-            },
-            {
-              "op": "remove",
-              "path": "/contractTemplateName"
-            },
-            {
-              "op": "remove",
-              "path": "/owner"
-            },
-            {
-              "op": "remove",
-              "path": "/_id"
-            },
-            {
-              "op": "remove",
-              "path": "/access"
-            },
-            {
-              "op": "remove",
-              "path": "/suppliers"
-            },
-            {
-              "op": "remove",
-              "path": "/value"
-            },
-            {
-              "op": "remove",
-              "path": "/period"
-            },
-            {
-              "op": "remove",
-              "path": "/transfer_token"
-            },
-            {
-              "op": "remove",
-              "path": "/config"
-            },
-            {
-              "op": "remove",
-              "path": "/status"
-            },
-            {
-              "op": "remove",
-              "path": "/contractID"
-            },
-            {
-              "op": "remove",
-              "path": "/documents"
-            },
-            {
-              "op": "remove",
-              "path": "/milestones"
-            },
-            {
-              "op": "remove",
-              "path": "/items"
-            },
-            {
-              "op": "remove",
-              "path": "/tender_id"
-            },
-            {
-              "op": "remove",
-              "path": "/awardID"
-            },
-            {
-              "op": "remove",
-              "path": "/title"
-            },
-            {
-              "op": "remove",
-              "path": "/buyer"
-            }
-          ],
-          "rev": null,
-          "date": "2027-01-01T00:00:00+02:00"
-        }
-      ],
       "signatories": [
         {
           "role": "supplier",
@@ -934,7 +827,7 @@ Content-Type: application/json
           }
         }
       ],
-      "tender_id": "2563fd75900b43499138810b16db8181",
+      "tender_id": "cff91199a91e406b865b93d98be689f0",
       "terminationDetails": {
         "reasonType": "disrupted",
         "reason": "Договір розірвано достроково за згодою сторін",
@@ -946,7 +839,6 @@ Content-Type: application/json
         "dateCreated": "2027-01-01T00:00:00+02:00"
       },
       "title": "Комп’ютерне обладнання",
-      "transfer_token": "a9a6a4fd9b3e1b8a5549d08c8ea77c6c18d32373939564fbe75159aa2e4ebeb682ebce30e3a64a41fcac179d75ba62c205a1d864a5bae965194b05184245e56e",
       "value": {
         "amount": 500.0,
         "currency": "UAH",

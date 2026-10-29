@@ -64,8 +64,6 @@ docs:
   services:
     - name: bitnamilegacy/mongodb:6.0.13-debian-11-r9
       alias: mongo
-  variables:
-    PYTHONHASHSEED: "0"
   before_script:
     - apt-get update
     - apt-get install -y git gcc libssl-dev
