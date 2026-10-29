@@ -17,7 +17,7 @@ from openprocurement.contracting.econtract.procedure.serializers.termination_det
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
 )
-from openprocurement.tender.core.utils import tender_signature_verification_enabled
+from openprocurement.tender.core.utils import tender_signature_verification_disabled
 
 
 class EContractTerminationDetailsDocumentState(ContractDocumentState):
@@ -46,7 +46,7 @@ class EContractTerminationDetailsDocumentState(ContractDocumentState):
         self.activate_termination_details(contract, termination_details)
 
     def validate_termination_signature(self, doc_data):
-        if not (SIGNATURE_VERIFICATION_ENABLED or tender_signature_verification_enabled(get_tender())):
+        if not SIGNATURE_VERIFICATION_ENABLED or tender_signature_verification_disabled(get_tender()):
             return
         contract = self.request.validated["contract"]
         content = json_dumps(ContractContextSerializer(contract).data, sort_keys=True).encode()

@@ -19,7 +19,7 @@ from openprocurement.api.validation import validate_json_data
 LOGGER = getLogger("openprocurement.tender.core")
 
 ACCELERATOR_RE = re.compile(r".accelerator=(?P<accelerator>\d+)")
-VERIFY_SIGNATURE_RE = re.compile(r".verify-signature=(?P<verify_signature>\w+)")
+SIGNATURE_VERIFICATION_DISABLED_FLAG = "signature-verification-disabled"
 
 
 QUICK = "quick"
@@ -119,12 +119,10 @@ def get_tender_accelerator(context):
     return None
 
 
-def tender_signature_verification_enabled(tender):
-    if tender and tender.get("procurementMethodDetails"):
-        re_obj = VERIFY_SIGNATURE_RE.search(tender["procurementMethodDetails"])
-        if re_obj:
-            return bool(is_boolean(re_obj.groupdict()["verify_signature"]))
-    return False
+def tender_signature_verification_disabled(tender):
+    details = (tender or {}).get("procurementMethodDetails") or ""
+    tokens = {token.strip() for token in details.split(",")}
+    return SIGNATURE_VERIFICATION_DISABLED_FLAG in tokens
 
 
 def accelerated_tender(wrapped):

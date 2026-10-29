@@ -56,12 +56,12 @@ msgstr "To enable this option: set ``quick(mode:fast-forward)`` as a value for `
 msgid "Опція ``fast-forward`` дозволяє провести закупівлю, \\\"пропустивши\\\" етап  аукціону. Це означає, що етап `active.auction` буде завершений по результатах вхідних пропозицій; хоча посилання `auctionURL` буде створено і буде можливість переглянути по ньому аукціон."
 msgstr "``fast-forward`` option allows skipping auction stage. This means that `active.auction` stage will be completed based on the primary bid proposals; although `auctionURL` will be created and auction can be viewed."
 
-msgid "**Опція verify-signature**"
-msgstr "**verify-signature option**"
+msgid "**Опція signature-verification-disabled**"
+msgstr "**signature-verification-disabled option**"
 
-msgid "Встановлення цієї опції: додати додатковий параметр ``verify-signature=true`` для параметра `procurementMethodDetails`."
-msgstr "To enable this option: add additional parameter ``verify-signature=true`` to `procurementMethodDetails`."
+msgid "Встановлення цієї опції: встановити значення ``quick, accelerator=1440, signature-verification-disabled`` для параметра `procurementMethodDetails`."
+msgstr "To enable this option: set ``quick, accelerator=1440, signature-verification-disabled`` as a value for `procurementMethodDetails`."
 
-msgid "Опція ``verify-signature`` дозволяє увімкнути перевірку підпису документів контракту (`contractSignature`, `terminationSignature`) для окремого тестового тендера на пісочниці. Це означає, що перевірка підпису відбудеться для цього тендера незалежно від глобального налаштування середовища, яке керує цією перевіркою за замовчуванням."
-msgstr "``verify-signature`` option allows enabling contract document signature verification (`contractSignature`, `terminationSignature`) for a specific test tender in the sandbox. This means that signature verification will take place for this tender regardless of the global environment setting that controls this verification by default."
+msgid "За замовчуванням перевірка підпису документів контракту (`contractSignature`, `terminationSignature`) увімкнена для всіх тендерів. Опція ``signature-verification-disabled`` дозволяє вимкнути цю перевірку для окремого тестового тендера на пісочниці. Це означає, що перевірка підпису не відбудеться для цього тендера незалежно від глобального налаштування середовища, яке керує цією перевіркою за замовчуванням."
+msgstr "By default, contract document signature verification (`contractSignature`, `terminationSignature`) is enabled for all tenders. The ``signature-verification-disabled`` option allows disabling this verification for a specific test tender in the sandbox. This means that signature verification will not take place for this tender regardless of the global environment setting that controls this verification by default."
 

@@ -9,7 +9,7 @@ from openprocurement.api.utils import raise_operation_error, verify_signature_ap
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
-from openprocurement.tender.core.utils import tender_signature_verification_enabled
+from openprocurement.tender.core.utils import tender_signature_verification_disabled
 
 
 class EContractDocumentState(ContractDocumentState):
@@ -43,7 +43,7 @@ class EContractDocumentState(ContractDocumentState):
             )
 
     def validate_contract_signature(self, doc_data):
-        if not (SIGNATURE_VERIFICATION_ENABLED or tender_signature_verification_enabled(get_tender())):
+        if not SIGNATURE_VERIFICATION_ENABLED or tender_signature_verification_disabled(get_tender()):
             return
         # Get signature file from ds
         signature = load_document_content(doc_data)
