@@ -131,7 +131,7 @@ Content-Type: application/json
         "category": "655360-30230000-889652"
       },
       {
-        "id": "1e91cae17daa4a4b90191ce5e0635ab5",
+        "id": "f5bd97a0b63f4e2989023a67ff026dfa",
         "description": "Картон ручного виготовлення",
         "quantity": 20.0,
         "classification": {
@@ -261,7 +261,7 @@ Content-Type: application/json
           "volumeCuts",
           "priceReductionWithoutQuantity"
         ],
-        "id": "eb794cf51a174e5ab8caa0dd717624a5",
+        "id": "b70265ab25aa44b1a2423373bf2835cd",
         "status": "active",
         "date": "2026-12-31T22:00:00",
         "dateSigned": "2027-01-01T00:00:00+02:00"
@@ -270,67 +270,67 @@ Content-Type: application/json
     "documents": [
       {
         "confidentiality": "public",
-        "id": "434095e42ea546f0994b6d0eedf9ed76",
+        "id": "eb12f9e9c2fd49e9b78423d137d85058",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/434095e42ea546f0994b6d0eedf9ed76?download=3ef4769b01194c3fb9b85667d21a1307",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/eb12f9e9c2fd49e9b78423d137d85058?download=3ef4769b01194c3fb9b85667d21a1307",
         "documentOf": "contract",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "id": "4c26e5cbbc3247deaa337a70dcc5dbdc",
+        "id": "4c4b5d8bac9a473c8cd2f3b108191ba9",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/4c26e5cbbc3247deaa337a70dcc5dbdc?download=fc53e793a7ae423e9d0b454a353d6e3e",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/4c4b5d8bac9a473c8cd2f3b108191ba9?download=fc53e793a7ae423e9d0b454a353d6e3e",
         "documentOf": "contract",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "relatedItem": "eb794cf51a174e5ab8caa0dd717624a5",
-        "id": "8287e847137047e982ef13a48b3d8807",
+        "relatedItem": "b70265ab25aa44b1a2423373bf2835cd",
+        "id": "5198ff2823674859826ee8df7511c0e0",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_changes.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/8287e847137047e982ef13a48b3d8807?download=8951da71589746199cc3c8345d51fe37",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/5198ff2823674859826ee8df7511c0e0?download=8951da71589746199cc3c8345d51fe37",
         "documentOf": "change",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "id": "2fbed46a899e494894f6224492348ac6",
+        "id": "e7e6575bf3d649c98e55fe7af0f98c87",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/2fbed46a899e494894f6224492348ac6?download=d2dfb81496b645a9ad5080512e3c40f4",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/e7e6575bf3d649c98e55fe7af0f98c87?download=d2dfb81496b645a9ad5080512e3c40f4",
         "documentOf": "contract",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "id": "a888cf00603840d1abb56cc931b8e6a4",
+        "id": "7adc0da6e12a488fbcc516a5ff74b0de",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/a888cf00603840d1abb56cc931b8e6a4?download=ef2fb5872c82422ca7d0ece4f4a3e8ed",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/7adc0da6e12a488fbcc516a5ff74b0de?download=ef2fb5872c82422ca7d0ece4f4a3e8ed",
         "documentOf": "contract",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
       {
         "confidentiality": "public",
-        "id": "a888cf00603840d1abb56cc931b8e6a4",
+        "id": "7adc0da6e12a488fbcc516a5ff74b0de",
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_additional_docs.doc",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/a888cf00603840d1abb56cc931b8e6a4?download=a9311975ab314480acfbb59c2e09b9a8",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/7adc0da6e12a488fbcc516a5ff74b0de?download=a9311975ab314480acfbb59c2e09b9a8",
         "documentOf": "contract",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"

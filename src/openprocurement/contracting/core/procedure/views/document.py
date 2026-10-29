@@ -1,18 +1,4 @@
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    update_doc_fields_on_put_document,
-    validate_data_model,
-    validate_input_data,
-    validate_patch_data,
-    validate_patch_input_data,
-    validate_upload_document,
-)
 from openprocurement.api.utils import json_view
-from openprocurement.contracting.core.procedure.models.document import (
-    BaseDocument,
-    BasePatchDocument,
-    BasePostDocument,
-)
 from openprocurement.contracting.core.procedure.serializers.document import (
     DocumentSerializer,
 )
@@ -20,11 +6,6 @@ from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_add_document_to_active_change,
-    validate_contract_document_operation_not_in_allowed_contract_status,
-    validate_contract_owner,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.tender.core.procedure.documents import get_file
 from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin
@@ -47,44 +28,28 @@ class BaseDocumentResource(DocumentResourceMixin, ContractBaseResource):
         return super().collection_get()
 
     @json_view(
-        validators=(
-            unless_admins(validate_contract_owner),
-            validate_input_data(BasePostDocument, allow_bulk=True),
-            validate_contract_document_operation_not_in_allowed_contract_status,
-        ),
         permission="upload_contract_documents",
     )
     def collection_post(self):
+        self.state.validate_document_post_request()
         return super().collection_post()
 
     @json_view(permission="view_contract")
     def get(self):
+        self.state.validate_document_get_request()
         return super().get()
 
     @json_view(
-        validators=(
-            unless_admins(validate_contract_owner),
-            validate_input_data(BasePostDocument),
-            update_doc_fields_on_put_document,
-            validate_upload_document,
-            validate_data_model(BaseDocument),
-            validate_contract_document_operation_not_in_allowed_contract_status,
-        ),
         permission="edit_contract_documents",
     )
     def put(self):
+        self.state.validate_document_put_request()
         return super().put()
 
     @json_view(
         content_type="application/json",
-        validators=(
-            unless_admins(validate_contract_owner),
-            validate_patch_input_data(BasePatchDocument),
-            validate_patch_data(BaseDocument, item_name="document"),
-            validate_contract_document_operation_not_in_allowed_contract_status,
-            validate_add_document_to_active_change,
-        ),
         permission="edit_contract_documents",
     )
     def patch(self):
+        self.state.validate_document_patch_request()
         return super().patch()

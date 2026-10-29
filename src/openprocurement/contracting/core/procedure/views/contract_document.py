@@ -4,9 +4,6 @@ from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_download_contract_document,
-)
 from openprocurement.contracting.core.procedure.views.document import (
     BaseDocumentResource,
 )
@@ -44,7 +41,6 @@ class ContractDocumentResource(BaseDocumentResource):
         return contract_saved
 
     @json_view(
-        validators=(validate_download_contract_document,),
         permission="view_contract",
     )
     def get(self):

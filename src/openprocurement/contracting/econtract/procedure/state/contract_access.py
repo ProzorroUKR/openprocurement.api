@@ -1,10 +1,20 @@
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.contracting.core.procedure.models.access import AccessRole
+from openprocurement.contracting.core.procedure.state.contract import ContractRequestRulesMixin
 from openprocurement.contracting.core.procedure.utils import get_access_fields_by_role
+from openprocurement.contracting.econtract.procedure.models.access import PostAccess
 
 
-class ContractAccessState(BaseState):
+class ContractAccessState(ContractRequestRulesMixin, BaseState):
+    post_data_model = PostAccess
+
+    # --- request validation (called from the views) ---
+
+    def validate_access_post_request(self):
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_contract_status_pending()
+
     def get_role(self, data, contract):
         def get_identifier(entity):
             try:

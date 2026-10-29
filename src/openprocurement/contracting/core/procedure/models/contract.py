@@ -1,11 +1,9 @@
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, StringType
 from schematics.types.compound import ModelType, PolyModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.context import get_contract, get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import (
@@ -212,9 +210,6 @@ class PatchContract(BasePatchContract):
         claim_function=get_contract_value_class,
     )
 
-    def validate_items(self, data, items):
-        validate_item_unit_values(data, items)
-
 
 class PatchContractPending(BasePatchContract):
     status = StringType(choices=["pending", "terminated", "active", "cancelled"])
@@ -228,9 +223,6 @@ class PatchContractPending(BasePatchContract):
         ),
         claim_function=get_contract_value_class,
     )
-
-    def validate_items(self, data, items):
-        validate_item_unit_values(data, items)
 
 
 class AdministratorPatchContract(Model):
@@ -247,20 +239,3 @@ class AdministratorPatchContract(Model):
     suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     buyer = ModelType(Buyer)
     mode = StringType(choices=["test"])
-
-
-def validate_item_unit_values(data, items):
-    base_value = data.get("value")
-    if base_value is None:
-        base_value = (get_contract() or {}).get("value")
-    if base_value and "amountPercentage" in base_value:
-        return
-    if base_value and items:
-        for item in items:
-            item_value = (item.get("unit") or {}).get("value")
-            if item_value:
-                if (
-                    get_tender()["config"]["valueCurrencyEquality"] is True
-                    and item_value["currency"] != base_value["currency"]
-                ):
-                    raise ValidationError(f"Value mismatch. Expected: currency {base_value['currency']}")

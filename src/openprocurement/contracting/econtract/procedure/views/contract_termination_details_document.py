@@ -1,22 +1,11 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import unless_administrator, unless_admins, validate_input_data
 from openprocurement.api.utils import json_view
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_active_status,
-)
 from openprocurement.contracting.core.procedure.views.document import (
     BaseDocumentResource,
 )
-from openprocurement.contracting.econtract.procedure.models.document import (
-    PostTerminationDetailsDocument,
-)
 from openprocurement.contracting.econtract.procedure.state.contract_termination_details_document import (
     EContractTerminationDetailsDocumentState,
-)
-from openprocurement.contracting.econtract.procedure.validation import (
-    validate_termination_details_buyer_only,
-    validate_termination_details_draft_status,
 )
 from openprocurement.contracting.econtract.procedure.views.contract_termination_details import (
     resolve_termination_details,
@@ -43,12 +32,6 @@ class EContractTerminationDetailsDocumentResource(BaseDocumentResource):
             resolve_document(request, self.item_name, self.container)
 
     @json_view(
-        validators=(
-            unless_admins(unless_administrator(validate_termination_details_buyer_only)),
-            validate_input_data(PostTerminationDetailsDocument, allow_bulk=True),
-            unless_admins(unless_administrator(validate_contract_in_active_status)),
-            validate_termination_details_draft_status,
-        ),
         permission="edit_contract",
     )
     def collection_post(self):

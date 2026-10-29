@@ -1,27 +1,9 @@
 from cornice.resource import resource
 
 from openprocurement.api.procedure.utils import set_item
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-    validate_patch_data,
-    validate_patch_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.contracting.contract.procedure.models.change import (
-    Change,
-    PatchChange,
-    PostChange,
-)
 from openprocurement.contracting.contract.procedure.state.change import ChangeState
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_change_action_not_in_allowed_contract_status,
-    validate_contract_change_update_not_in_allowed_change_status,
-    validate_contract_owner,
-    validate_create_contract_change,
-)
 from openprocurement.contracting.core.procedure.views.change import (
     ContractsChangesResource as BaseContractsChangesResource,
 )
@@ -40,12 +22,6 @@ class ContractsChangesResource(BaseContractsChangesResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_administrator(unless_admins(validate_contract_owner)),
-            validate_input_data(PostChange),
-            validate_contract_change_action_not_in_allowed_contract_status,
-            validate_create_contract_change,
-        ),
     )
     def collection_post(self):
         return super().collection_post()
@@ -53,16 +29,10 @@ class ContractsChangesResource(BaseContractsChangesResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_administrator(unless_admins(validate_contract_owner)),
-            validate_patch_input_data(PatchChange),
-            validate_patch_data(Change, item_name="change"),
-            validate_contract_change_action_not_in_allowed_contract_status,
-            validate_contract_change_update_not_in_allowed_change_status,
-        ),
     )
     def patch(self):
         """Contract change edit"""
+        self.state.validate_change_patch_request()
 
         updated = self.request.validated["data"]
         if updated:

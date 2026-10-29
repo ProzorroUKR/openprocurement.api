@@ -37,9 +37,9 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "annexe.doc",
       "format": "application/msword",
-      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/a0e7cff9bcdf4f3facf684e461aa853e/documents/64d727edf7a24a9d89031cf8fc890238?download=6867c78ea3ec4ca68a9bf8c374110b6a",
+      "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/a0e7cff9bcdf4f3facf684e461aa853e/documents/1f12423d320e4538b41b5880fd596769?download=6867c78ea3ec4ca68a9bf8c374110b6a",
       "documentOf": "contract",
-      "id": "64d727edf7a24a9d89031cf8fc890238",
+      "id": "1f12423d320e4538b41b5880fd596769",
       "datePublished": "2027-01-01T00:00:00+02:00",
       "dateModified": "2027-01-01T00:00:00+02:00"
     },
@@ -51,7 +51,7 @@ Content-Type: application/json
       "format": "application/msword",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f6128c1ec7ec4a4fa560a93aff6aa320?Signature=2CcIMWWPeGFa2oO8dCQYukxJzTxQhzkuQfv47W4evs33aUArp52w9AL2RAbgjIxJfQ%2F6P5OZWbPTTZ0VMGGlCA%3D%3D&KeyID=a8968c46",
       "documentOf": "contract",
-      "id": "00bcedaec7994d1da8bb19ac66a52657",
+      "id": "4beb0ac20df44f72a8c08dd788625df5",
       "datePublished": "2027-01-01T00:00:00+02:00",
       "dateModified": "2027-01-01T00:00:00+02:00"
     }

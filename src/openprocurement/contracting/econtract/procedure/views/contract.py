@@ -4,13 +4,8 @@ from uuid import uuid4
 
 from cornice.resource import resource
 
-from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.database import atomic_transaction
 from openprocurement.api.procedure.serializers.base import BaseSerializer
-from openprocurement.api.procedure.validation import (
-    validate_accreditation_level,
-    validate_input_data,
-)
 from openprocurement.api.utils import (
     context_unpack,
     get_contract_by_id,
@@ -25,13 +20,8 @@ from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_pending_status,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
 from openprocurement.contracting.core.procedure.views.contract import ContractResource
-from openprocurement.contracting.econtract.procedure.models.access import PostAccess
-from openprocurement.contracting.econtract.procedure.models.contract import PostContract
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
 )
@@ -82,17 +72,9 @@ class EContractPostResource(ContractBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            validate_input_data(PostContract),
-            validate_accreditation_level(
-                levels=(AccreditationLevel.ACCR_6,),
-                item="contract",
-                operation="creation",
-                source="data",
-            ),
-        ),
     )
     def post(self):
+        self.state.validate_contract_post_request()
         contract = self.request.validated["data"]
         tender = get_tender_by_id(self.request, contract.get("tender_id"), raise_error=True)
         request_init_tender(self.request, tender)
@@ -166,9 +148,10 @@ class ContractAccessResource(ContractBaseResource):
     serializer_class = BaseSerializer
 
     @json_view(
-        permission="edit_contract", validators=(validate_input_data(PostAccess), validate_contract_in_pending_status)
+        permission="edit_contract",
     )
     def post(self):
+        self.state.validate_access_post_request()
         contract = self.request.validated["contract"]
         data = self.request.validated["data"]
         role = self.state.get_role(data, contract)

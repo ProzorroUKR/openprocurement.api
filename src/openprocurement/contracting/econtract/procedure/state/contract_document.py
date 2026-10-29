@@ -6,13 +6,42 @@ from openprocurement.api.procedure.validation import (
     validate_apisign_signature_type,
 )
 from openprocurement.api.utils import raise_operation_error, verify_signature_apisign
+from openprocurement.api.validation import OPERATIONS
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
+from openprocurement.contracting.econtract.procedure.models.document import PostDocument
 from openprocurement.tender.core.utils import tender_signature_verification_disabled
 
 
 class EContractDocumentState(ContractDocumentState):
+    post_data_model = PostDocument
+
+    # --- request validation (called from the views) ---
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_contract_participant()
+
+    def validate_document_operation_allowed(self):
+        super().validate_document_operation_allowed()
+        self.validate_document_signature_operation()
+
+    def validate_document_signature_operation(self):
+        """the contract is signed only while it is pending"""
+        request = self.request
+        status = request.validated["contract"]["status"]
+        data = (
+            request.validated["data"][0] if isinstance(request.validated["data"], list) else request.validated["data"]
+        )
+        # documentType of the request data or of the updated document
+        document_type = data.get("documentType") or request.validated.get("document", {}).get("documentType")
+        if document_type == "contractSignature" and status != "pending":
+            raise_operation_error(
+                request,
+                f"Can't {OPERATIONS.get(request.method)} sign document in current ({status}) contract status",
+            )
+
     def validate_document_post(self, data):
         super().validate_document_post(data)
         if data.get("documentType") == "contractSignature":

@@ -355,10 +355,10 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/140c1549722f49e2a2ddabb3bf59a8e0/documents/0722714a00d140e3b8fad17803b89f80?download=9dc6bfe4683b4e63a799bbe366ba9376",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/140c1549722f49e2a2ddabb3bf59a8e0/documents/0da9623e26824534b79b31682f75b877?download=9dc6bfe4683b4e63a799bbe366ba9376",
         "documentOf": "contract",
         "documentType": "contractSignature",
-        "id": "0722714a00d140e3b8fad17803b89f80",
+        "id": "0da9623e26824534b79b31682f75b877",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "author": "buyer"
@@ -376,7 +376,7 @@ Content-Type: application/json
       {
         "reason": "want to change signerInfo",
         "reasonType": "requiresChanges",
-        "id": "9e88bf1f60e64823a471bfbfc6e23433",
+        "id": "115823f08c8242d4b126a5e4d642464b",
         "dateCreated": "2027-01-01T00:00:00+02:00",
         "status": "active",
         "author": "supplier"

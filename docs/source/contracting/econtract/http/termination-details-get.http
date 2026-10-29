@@ -52,7 +52,7 @@ Content-Type: application/json
           "rationaleTypes": [
             "priceReductionWithoutQuantity"
           ],
-          "id": "a0a23a4028a6428fa088098d0d137d71",
+          "id": "90b71c660536469081b7b8283ed0fcc1",
           "status": "active",
           "date": "2027-01-01T00:00:00+02:00",
           "dateSigned": "2027-01-01T00:00:00+02:00",
@@ -174,7 +174,7 @@ Content-Type: application/json
               "format": "application/pdf",
               "id": "88962047c28144d99916ae75c9a2a38a",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
@@ -184,9 +184,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "sign.p7s",
               "format": "application/pkcs7-signature",
-              "id": "647c84c6617a4d14b7b1a5f7aa17a79d",
+              "id": "11adc10d30f44ab48c034f1917549a52",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/647c84c6617a4d14b7b1a5f7aa17a79d?download=9dc6bfe4683b4e63a799bbe366ba9376",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/11adc10d30f44ab48c034f1917549a52?download=9dc6bfe4683b4e63a799bbe366ba9376",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "author": "supplier",
@@ -197,9 +197,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "sign.p7s",
               "format": "application/pkcs7-signature",
-              "id": "215698f490f544de97d8a8644e03094a",
+              "id": "efbfdd8cc1ce45baa1ee5ffdaecf640a",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/215698f490f544de97d8a8644e03094a?download=9dc6bfe4683b4e63a799bbe366ba9376",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/efbfdd8cc1ce45baa1ee5ffdaecf640a?download=9dc6bfe4683b4e63a799bbe366ba9376",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "author": "supplier",
@@ -210,9 +210,9 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "sign.p7s",
               "format": "application/pkcs7-signature",
-              "id": "4790f9f49c7b411092bac790f15b00ea",
+              "id": "4cd745cbf76e4c98895e2e056d2f3cbf",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/4790f9f49c7b411092bac790f15b00ea?download=9dc6bfe4683b4e63a799bbe366ba9376",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/4cd745cbf76e4c98895e2e056d2f3cbf?download=9dc6bfe4683b4e63a799bbe366ba9376",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "author": "buyer",
@@ -238,7 +238,7 @@ Content-Type: application/json
           "rationaleTypes": [
             "durationExtension"
           ],
-          "id": "9fb8feb2bc8f48ffa5d277c93f044523",
+          "id": "0229d3c171f64d19bbb10dcac0a4b49e",
           "status": "cancelled",
           "date": "2027-01-01T00:00:00+02:00",
           "modifications": {
@@ -254,7 +254,7 @@ Content-Type: application/json
               "format": "application/pdf",
               "id": "9471624212664412824822e912a743df",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/9fb8feb2bc8f48ffa5d277c93f044523/documents/9471624212664412824822e912a743df?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/0229d3c171f64d19bbb10dcac0a4b49e/documents/9471624212664412824822e912a743df?download=33830e473a1348d6a5a7e4eb3379672d",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
@@ -263,7 +263,7 @@ Content-Type: application/json
           ],
           "cancellations": [
             {
-              "id": "c60fd04537794da283c535f92a149297",
+              "id": "7d7f63e27c1b48b199af12d9525ceec4",
               "status": "active",
               "reason": "not actual change",
               "reasonType": "requiresChanges",
@@ -279,7 +279,7 @@ Content-Type: application/json
           "rationaleTypes": [
             "itemPriceChange"
           ],
-          "id": "0172df9f74c4411ea204ba83946371ff",
+          "id": "95ca49eac800462a8e7b12db26ff6199",
           "status": "pending",
           "date": "2027-01-01T00:00:00+02:00",
           "modifications": {
@@ -386,7 +386,7 @@ Content-Type: application/json
                 "category": "655360-30230000-889652"
               },
               {
-                "id": "7065cc13b8934418b9afd9579ca3f9de",
+                "id": "7ba43886518c4cd3be8f476843b39189",
                 "description": "Додаткове комп’ютерне обладнання",
                 "quantity": 15.0,
                 "classification": {
@@ -456,7 +456,7 @@ Content-Type: application/json
               "format": "application/pdf",
               "id": "0cb36779b6aa4253ac5e76601c1ad586",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/0172df9f74c4411ea204ba83946371ff/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/95ca49eac800462a8e7b12db26ff6199/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
@@ -601,11 +601,11 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "b8d838fb26e4454ebf9e4b5df33de6ee",
+          "id": "02d503972f2a4aaebe11717696ce8b73",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/b8d838fb26e4454ebf9e4b5df33de6ee?download=9dc6bfe4683b4e63a799bbe366ba9376",
+          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/02d503972f2a4aaebe11717696ce8b73?download=9dc6bfe4683b4e63a799bbe366ba9376",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",
@@ -614,11 +614,11 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "9a6fe646da8549b7a1643a0cbab5c11f",
+          "id": "bd388ffc9f0045b7943b74cebbf8aefb",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/9a6fe646da8549b7a1643a0cbab5c11f?download=9dc6bfe4683b4e63a799bbe366ba9376",
+          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/bd388ffc9f0045b7943b74cebbf8aefb?download=9dc6bfe4683b4e63a799bbe366ba9376",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",
@@ -627,11 +627,11 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "096f7c212afd44abb11d1202a624966a",
+          "id": "d29cf02ee7f64a8da84f593bb175ceb3",
           "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/096f7c212afd44abb11d1202a624966a?download=9dc6bfe4683b4e63a799bbe366ba9376",
+          "url": "/contracts/9747554b71504755b07fbc4dc78d9010/documents/d29cf02ee7f64a8da84f593bb175ceb3?download=9dc6bfe4683b4e63a799bbe366ba9376",
           "documentOf": "contract",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "dateModified": "2027-01-01T00:00:00+02:00",

@@ -2,21 +2,9 @@ from cornice.resource import resource
 
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-)
 from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_pending_status,
-    validate_contract_participant,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.econtract.procedure.models.cancellation import (
-    PostContractCancellation,
-)
 from openprocurement.contracting.econtract.procedure.state.contract_cancellation import (
     CancellationState,
 )
@@ -64,14 +52,10 @@ class EContractsCancellationsResource(ContractBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_administrator(unless_admins(validate_contract_participant)),
-            validate_input_data(PostContractCancellation),
-            validate_contract_in_pending_status,
-        ),
     )
     def collection_post(self):
         """Contract cancellation create"""
+        self.state.validate_cancellation_post_request()
         contract = self.request.validated["contract"]
 
         cancellation = self.request.validated["data"]

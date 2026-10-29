@@ -1,19 +1,8 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_admins,
-    unless_bots,
-    validate_input_data,
-)
 from openprocurement.api.utils import json_view
-from openprocurement.contracting.core.procedure.models.document import (
-    PostTransactionDocument,
-)
 from openprocurement.contracting.core.procedure.state.contract_transaction_document import (
     ContractTransactionDocumentState,
-)
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_owner,
 )
 from openprocurement.contracting.core.procedure.views.document import (
     BaseDocumentResource,
@@ -21,7 +10,7 @@ from openprocurement.contracting.core.procedure.views.document import (
 from openprocurement.contracting.core.procedure.views.transaction import (
     resolve_transaction,
 )
-from openprocurement.tender.core.procedure.views.document import resolve_document
+from openprocurement.tender.core.procedure.views.document import DocumentResourceMixin, resolve_document
 
 
 @resource(
@@ -41,11 +30,9 @@ class TransactionDocumentResource(BaseDocumentResource):
             resolve_document(request, self.item_name, self.container)
 
     @json_view(
-        validators=(
-            unless_bots(unless_admins(validate_contract_owner)),
-            validate_input_data(PostTransactionDocument, allow_bulk=True),
-        ),
         permission="edit_contract_transactions",
     )
     def post(self):
-        return super().collection_post()
+        self.state.validate_transaction_document_post_request()
+        # not super().collection_post(): it validates the collection POST
+        return DocumentResourceMixin.collection_post(self)

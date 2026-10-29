@@ -1,6 +1,5 @@
 from cornice.resource import resource
 
-from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_contract
 from openprocurement.api.utils import get_tender_by_id, json_view, request_init_tender
 from openprocurement.api.views.base import (
@@ -8,28 +7,11 @@ from openprocurement.api.views.base import (
     RestrictedResourceListingMixin,
 )
 from openprocurement.contracting.core.procedure.mask import CONTRACT_MASK_MAPPING
-from openprocurement.contracting.core.procedure.models.contract import (
-    AdministratorPatchContract,
-    PatchContract,
-    PatchContractPending,
-)
 from openprocurement.contracting.core.procedure.serializers.contract import (
     ContractBaseSerializer,
 )
 from openprocurement.contracting.core.procedure.state.contract import ContractState
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-
-
-def conditional_contract_model(data, *args, **kwargs):
-    request = get_request()
-    contract_status = request.validated["contract"]["status"]
-    if request.authenticated_role == "Administrator":
-        model = AdministratorPatchContract
-    elif contract_status == "pending":
-        model = PatchContractPending
-    else:
-        model = PatchContract
-    return model(data)
 
 
 @resource(

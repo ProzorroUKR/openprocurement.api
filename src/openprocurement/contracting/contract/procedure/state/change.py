@@ -1,12 +1,47 @@
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import get_now, raise_operation_error
+from openprocurement.contracting.contract.procedure.models.change import Change, PatchChange, PostChange
 from openprocurement.contracting.core.procedure.state.change import (
     ContractChangeStateMixin,
 )
+from openprocurement.contracting.core.procedure.state.contract import ContractRequestRulesMixin
 
 
-class ChangeState(BaseState, ContractChangeStateMixin):
+class ChangeState(ContractRequestRulesMixin, BaseState, ContractChangeStateMixin):
+    post_data_model = PostChange
+    patch_data_model = PatchChange
+    data_model = Change
+
+    # --- request validation (called from the views) ---
+
+    def validate_change_post_request(self):
+        if self.request.authenticated_role not in ("Administrator", "admins"):
+            self.validate_contract_owner()
+        self.validate_input_data(self.get_post_data_model())
+        self.validate_change_date_signed_not_in_future()
+        self.validate_contract_change_allowed()
+        self.validate_contract_change_no_pending()
+
+    def validate_change_patch_request(self):
+        if self.request.authenticated_role not in ("Administrator", "admins"):
+            self.validate_contract_owner()
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), item_name="change")
+        self.validate_change_date_signed_not_in_future()
+        self.validate_contract_change_allowed()
+        self.validate_contract_change_update_allowed()
+
+    def validate_change_date_signed_not_in_future(self):
+        date_signed = self.request.validated["data"].get("dateSigned")
+        if date_signed and parse_date(date_signed) > get_now():
+            raise_operation_error(
+                self.request,
+                ["Contract signature date can't be in the future"],
+                status=422,
+                name="dateSigned",
+            )
+
     def change_on_post(self, data):
         self.change_always(data)
 

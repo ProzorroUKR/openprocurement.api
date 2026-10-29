@@ -1,31 +1,14 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import (
-    unless_administrator,
-    unless_admins,
-    validate_input_data,
-    validate_patch_data_simple,
-)
 from openprocurement.api.utils import context_unpack, error_handler, json_view
 from openprocurement.contracting.core.procedure.utils import save_contract
-from openprocurement.contracting.core.procedure.validation import (
-    validate_contract_in_active_status,
-)
 from openprocurement.contracting.core.procedure.views.base import ContractBaseResource
-from openprocurement.contracting.econtract.procedure.models.contract import Contract
-from openprocurement.contracting.econtract.procedure.models.termination_details import (
-    PatchContractTerminationDetails,
-)
 from openprocurement.contracting.econtract.procedure.serializers.termination_details import (
     ContractContextSerializer,
     TerminationDetailsSerializer,
 )
 from openprocurement.contracting.econtract.procedure.state.contract import (
     EContractState,
-)
-from openprocurement.contracting.econtract.procedure.validation import (
-    prepare_termination_details_patch,
-    validate_termination_details_buyer_only,
 )
 from openprocurement.tender.core.utils import context_view
 
@@ -64,15 +47,9 @@ class EContractTerminationDetailsResource(ContractBaseResource):
     @json_view(
         content_type="application/json",
         permission="edit_contract",
-        validators=(
-            unless_admins(unless_administrator(validate_termination_details_buyer_only)),
-            unless_admins(unless_administrator(validate_contract_in_active_status)),
-            validate_input_data(PatchContractTerminationDetails),
-            prepare_termination_details_patch,
-            validate_patch_data_simple(Contract, item_name="contract"),
-        ),
     )
     def patch(self):
+        self.state.validate_termination_details_patch_request()
         updated = self.request.validated["data"]
         contract_src = self.request.validated["contract_src"]
         if not updated:

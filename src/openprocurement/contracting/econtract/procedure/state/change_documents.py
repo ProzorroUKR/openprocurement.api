@@ -9,10 +9,26 @@ from openprocurement.api.utils import raise_operation_error, verify_signature_ap
 from openprocurement.contracting.core.procedure.state.document import (
     ContractDocumentState,
 )
+from openprocurement.contracting.econtract.procedure.models.document import PostChangeDocument
 from openprocurement.tender.core.utils import tender_signature_verification_disabled
 
 
 class EContractChangeDocumentState(ContractDocumentState):
+    post_data_model = PostChangeDocument
+
+    document_download_confidentiality_check = False
+    document_related_item_check = False
+
+    # --- request validation (called from the views) ---
+
+    def validate_document_owner(self, exempt_roles):
+        if self.request.authenticated_role not in exempt_roles:
+            self.validate_contract_participant()
+
+    def validate_document_operation_allowed(self):
+        self.validate_contract_change_allowed()
+        self.validate_contract_change_update_allowed()
+
     def validate_document_post(self, data):
         if data.get("documentType") == "contractSignature":
             self.set_author_of_object(data)

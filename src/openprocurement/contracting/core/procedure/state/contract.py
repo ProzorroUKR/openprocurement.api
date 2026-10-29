@@ -34,11 +34,19 @@ from openprocurement.api.utils import (
     request_fetch_root_tender_for_tender,
 )
 from openprocurement.api.validation import OPERATIONS
-from openprocurement.contracting.core.procedure.models.access import ContractRole
+from openprocurement.contracting.core.procedure.models.access import AccessRole, ContractRole
+from openprocurement.contracting.core.procedure.models.contract import (
+    AdministratorPatchContract,
+    Contract,
+    PatchContract,
+    PatchContractPending,
+)
 from openprocurement.contracting.core.procedure.utils import (
     get_tender_award_by_contract,
     is_bid_owner,
     is_contract_owner,
+    is_owner_by_fields,
+    is_tender_owner,
 )
 from openprocurement.tender.arma.constants import ARMA_PROCUREMENT_METHOD_TYPES
 from openprocurement.tender.core.constants import AMOUNT_NET_COEF
@@ -613,7 +621,82 @@ class LimitedContractStateMixing:
             self.check_contracts_statuses(tender)
 
 
+class ContractRequestRulesMixin:
+    """Access and status checks of the contracting requests"""
+
+    request: Request
+
+    # --- access ---
+
+    def validate_contract_owner(self):
+        if not is_contract_owner(self.request, self.request.validated["contract"]):
+            raise_operation_error(self.request, "Forbidden", location="url", name="permission")
+
+    def validate_contract_tender_owner(self):
+        if not is_tender_owner(self.request, self.request.validated["contract"]):
+            raise_operation_error(self.request, "Forbidden", location="url", name="permission")
+
+    def validate_contract_supplier(self):
+        """the supplier (bid owner); the contract owner too for the limited procedures"""
+        contract = self.request.validated["contract"]
+        tender_type = self.request.validated["tender"]["procurementMethodType"]
+        limited_procedures = ("reporting", "negotiation", "negotiation.quick")
+        if not (
+            is_bid_owner(self.request, contract)
+            or tender_type in limited_procedures
+            and is_contract_owner(self.request, contract)
+        ):
+            raise_operation_error(self.request, "Forbidden", location="url", name="permission")
+
+    def validate_contract_participant(self):
+        contract = self.request.validated["contract"]
+        if not is_contract_owner(self.request, contract) and not is_bid_owner(self.request, contract):
+            raise_operation_error(self.request, "Forbidden", location="url", name="permission")
+
+    def validate_contract_buyer(self):
+        if not is_owner_by_fields(self.request, self.request.validated["contract"], role=AccessRole.BUYER):
+            raise_operation_error(self.request, "Forbidden", location="url", name="permission")
+
+    # --- contract status ---
+
+    def validate_contract_update_allowed(self):
+        status = self.request.validated["contract"]["status"]
+        if status not in ("pending", "active"):
+            raise_operation_error(self.request, f"Can't update contract in current ({status}) status")
+
+    def validate_contract_status_active(self):
+        status = self.request.validated["contract"]["status"]
+        if status != "active":
+            raise_operation_error(self.request, f"Can't update contract in current ({status}) status")
+
+    def validate_contract_status_pending(self):
+        status = self.request.validated["contract"]["status"]
+        if status != "pending":
+            raise_operation_error(self.request, f"Operation forbidden in current ({status}) status")
+
+    # --- contract changes ---
+
+    def validate_contract_change_allowed(self):
+        status = self.request.validated["contract"]["status"]
+        if status != "active":
+            raise_operation_error(
+                self.request,
+                f"Can't {OPERATIONS.get(self.request.method)} contract change in current ({status}) contract status",
+            )
+
+    def validate_contract_change_no_pending(self):
+        changes = self.request.validated["contract"].get("changes")
+        if changes and changes[-1]["status"] == "pending":
+            raise_operation_error(self.request, "Can't create new contract change while any (pending) change exists")
+
+    def validate_contract_change_update_allowed(self):
+        status = self.request.validated["change"]["status"]
+        if status in ("active", "cancelled"):
+            raise_operation_error(self.request, f"Can't update contract change in current ({status}) status")
+
+
 class ContractState(
+    ContractRequestRulesMixin,
     ContractStateMixing,
     ESCOContractStateMixing,
     CFASelectionContractStateMixing,
@@ -623,10 +706,62 @@ class ContractState(
     BlockComplaintMixin,
     BaseState,
 ):
+    data_model = Contract
+
     terminated_statuses = ("terminated", "cancelled")
     block_complaint_status = {
         "complaint": ("pending", "accepted", "satisfied"),
     }
+
+    # --- request validation (called from the views) ---
+
+    def validate_contract_patch_request(self):
+        exempt = self.request.authenticated_role in ("admins", "Administrator")
+        if not exempt:
+            self.validate_contract_owner()
+        self.validate_patch_input_data(self.get_contract_patch_data_model())
+        self.validate_contract_items_unit_value_currency()
+        self.validate_patch_data_simple(self.get_data_model(), item_name="contract")
+        if not exempt:
+            self.validate_contract_update_allowed()
+
+    def validate_contract_items_unit_value_currency(self):
+        """items unit.value currency of the posted items is the contract value currency (valueCurrencyEquality)"""
+        data = self.request.validated["data"]
+        items = data.get("items")
+        base_value = data.get("value")
+        if base_value is None:
+            base_value = self.request.validated["contract"].get("value")
+        if not base_value or not items or "amountPercentage" in base_value:
+            return
+        for item in items:
+            item_value = (item.get("unit") or {}).get("value")
+            if (
+                item_value
+                and self.request.validated["tender"]["config"]["valueCurrencyEquality"] is True
+                and item_value["currency"] != base_value["currency"]
+            ):
+                raise_operation_error(
+                    self.request,
+                    [f"Value mismatch. Expected: currency {base_value['currency']}"],
+                    status=422,
+                    name="items",
+                )
+
+    def get_contract_patch_data_model(self):
+        # not get_patch_data_model: the document states share this class
+        if self.request.authenticated_role == "Administrator":
+            return AdministratorPatchContract
+        if self.request.validated["contract"]["status"] == "pending":
+            return PatchContractPending
+        return PatchContract
+
+    def validate_credentials_patch_request(self):
+        if self.request.authenticated_role != "admins":
+            self.validate_contract_tender_owner()
+        status = self.request.validated["contract"]["status"]
+        if status not in ("pending", "active"):
+            raise_operation_error(self.request, f"Can't generate credentials in current ({status}) contract status")
 
     def always(self, data) -> None:
         self.set_mode_test(data)
