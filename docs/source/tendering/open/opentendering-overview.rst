@@ -14,31 +14,31 @@ Legacy відкриті торги (``aboveThreshold``, ``aboveThresholdUA``, ``
 ------------------
 
 Один ``procurementMethodType`` охоплює і національні торги (UA), і торги вище європейських порогів (EU).
-Різновид задається полем тендера ``procurementAspects`` - списком аспектів закупівлі:
+Різновид задається полем ``euPublished`` об'єкта тендера ``procedure``:
 
 .. list-table::
    :header-rows: 1
 
-   * - ``procurementAspects``
+   * - ``procedure.euPublished``
      - Різновид
-   * - ``["UA"]``
+   * - ``false``
      - Відкриті торги з публікацією українською мовою: без попередньої кваліфікації, період подання
        пропозицій - не менше 15 днів.
-   * - ``["EU"]``
+   * - ``true``
      - Відкриті торги з публікацією англійською мовою: з попередньою кваліфікацією, період подання
        пропозицій - не менше 30 днів.
 
 Правила заповнення поля:
 
-- поле обов'язкове при створенні закупівлі з ``procurementMethodType`` = ``openTendering``;
-- список не може бути порожнім і має відповідати одній з дозволених комбінацій аспектів: ``["UA"]`` або
-  ``["EU"]`` (порядок значень не має значення, поєднати ``UA`` та ``EU`` не можна);
+- об'єкт ``procedure`` та його поле ``euPublished`` обов'язкові при створенні закупівлі з
+  ``procurementMethodType`` = ``openTendering``;
+- структура об'єкта ``procedure`` визначається схемою ``procedureExtensionScheme`` типу процедури в довіднику
+  ``codelists/tender/tender_procurement_method_type.json`` у `standards <https://github.com/ProzorroUKR/standards>`_:
+  ``euPublished`` - булеве значення, інші поля не допускаються;
 - значення не можна змінити після створення закупівлі (поля немає в моделі ``PATCH``, спроба зміни
   відхиляється з помилкою ``Rogue field``);
 - для інших процедур поле не приймається;
-- довідник значень - ``codelists/tender/tender_procurement_aspects.json`` у
-  `standards <https://github.com/ProzorroUKR/standards>`_;
-- у фіді ``GET /tenders`` поле доступне через ``opt_fields=procurementAspects``.
+- у фіді ``GET /tenders`` поле доступне через ``opt_fields=procedure``.
 
 Різновид визначає значення конфігурації закупівлі (див. туторіали :ref:`opentendering_tutorial_ua` та
 :ref:`opentendering_tutorial_eu`).

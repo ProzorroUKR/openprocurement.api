@@ -244,7 +244,7 @@ TEST_TENDER_PERIODS = {
     "complexAsset.arma": {"tender": 29},
     "simpleAsset.arma": {"tender": 17},
     "priceQuotation": {"tender": 14},
-    # openTendering: the minimal tender period depends on the UA/EU variant (procurementAspects)
+    # openTendering: the minimal tender period depends on the UA/EU variant (procedure.euPublished)
     "openTendering.UA": {"tender": 16},
     "openTendering.EU": {"tender": 31},
 }

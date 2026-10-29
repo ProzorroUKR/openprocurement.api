@@ -256,7 +256,7 @@ TENDER_CO_CONFIG_JSONSCHEMAS = {
     "competitiveOrdering.short": standards.load("data_model/schema/TenderConfig/competitiveOrdering.short.json"),
 }
 
-# openTendering: the UA/EU variant config schemas (selected by the tender field procurementAspects)
+# openTendering: the UA/EU variant config schemas (selected by the tender field procedure.euPublished)
 TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS = {
     "openTendering.UA": standards.load("data_model/schema/TenderConfig/openTendering.UA.json"),
     "openTendering.EU": standards.load("data_model/schema/TenderConfig/openTendering.EU.json"),
@@ -265,6 +265,15 @@ TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS = {
 # the additional config schemas validated on top of the procedure schema (competitiveOrdering, openTendering)
 # (a ChainMap: the tests replace the schemas of the dicts above in place)
 TENDER_EXTRA_CONFIG_JSONSCHEMAS = ChainMap(TENDER_CO_CONFIG_JSONSCHEMAS, TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS)
+
+# the schemas of the tender field procedure: the procedure specific fields (procedureExtensionScheme)
+TENDER_PROCEDURE_JSONSCHEMAS = {
+    procurement_method_type: description["procedureExtensionScheme"]
+    for procurement_method_type, description in standards.load(
+        "codelists/tender/tender_procurement_method_type.json"
+    ).items()
+    if "procedureExtensionScheme" in description
+}
 
 # Framework config
 FRAMEWORK_CONFIG_JSONSCHEMAS = {

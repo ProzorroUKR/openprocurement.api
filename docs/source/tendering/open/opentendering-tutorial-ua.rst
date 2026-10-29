@@ -1,7 +1,7 @@
 .. _opentendering_tutorial_ua:
 
-Туторіал: відкриті торги UA (``procurementAspects`` = ``["UA"]``)
-=================================================================
+Туторіал: відкриті торги UA (``procedure.euPublished`` = ``false``)
+===================================================================
 
 .. index:: Tender
 
@@ -27,16 +27,16 @@
 -------------------
 
 Особливість відкритих торгів за Законом № 4888 в тому, що разом з ``procurementMethodType`` = ``openTendering``
-обов'язково передається список аспектів закупівлі ``procurementAspects``, що визначає різновид. Без нього
-закупівлю створити не вдасться:
+обов'язково передається об'єкт ``procedure`` з полем ``euPublished``, що визначає різновид
+(``false`` - UA, ``true`` - EU). Без нього закупівлю створити не вдасться:
 
-.. http:example:: http/opentendering-ua/tender-post-without-procurement-aspects.http
+.. http:example:: http/opentendering-ua/tender-post-without-procedure.http
    :code:
 
-Список не може бути порожнім і має відповідати одній з дозволених комбінацій: ``["UA"]`` або ``["EU"]``.
-Поєднати обидва різновиди не можна:
+Структура об'єкта ``procedure`` перевіряється схемою ``procedureExtensionScheme`` типу процедури зі standards:
+``euPublished`` має бути булевим значенням, інші поля не допускаються:
 
-.. http:example:: http/opentendering-ua/tender-post-invalid-procurement-aspects.http
+.. http:example:: http/opentendering-ua/tender-post-invalid-procedure.http
    :code:
 
 Значення конфігурації мають відповідати обраному різновиду. Спробуємо передати для ``UA`` мінімальний строк
@@ -61,7 +61,7 @@
 
 Різновид не можна змінити після створення закупівлі:
 
-.. http:example:: http/opentendering-ua/patch-procurement-aspects.http
+.. http:example:: http/opentendering-ua/patch-procedure.http
    :code:
 
 Подивимось, що показує список закупівель:
@@ -115,7 +115,7 @@
 .. http:example:: http/opentendering-ua/tender-activating.http
    :code:
 
-Подивимось, що показує список закупівель. Різновид доступний у списку через ``opt_fields=procurementAspects``:
+Подивимось, що показує список закупівель. Різновид доступний у списку через ``opt_fields=procedure``:
 
 .. http:example:: http/opentendering-ua/active-tender-listing-no-auth.http
    :code:

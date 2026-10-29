@@ -114,7 +114,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "percentage": 54.45
       }
     ],
-    "mainProcurementCategory": "services"
+    "mainProcurementCategory": "services",
+    "procedure": {
+      "euPublished": "yes"
+    }
   },
   "config": {
     "hasAuction": true,
@@ -153,10 +156,8 @@ Content-Type: application/json
   "errors": [
     {
       "location": "body",
-      "name": "procurementAspects",
-      "description": [
-        "This field is required."
-      ]
+      "name": "procedure.euPublished",
+      "description": "'yes' is not of type 'boolean'"
     }
   ]
 }

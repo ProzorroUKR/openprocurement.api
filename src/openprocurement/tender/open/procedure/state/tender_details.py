@@ -24,8 +24,6 @@ from openprocurement.tender.open.constants import (
     OPEN_TENDERING_EU_WORKING_DAYS_CONFIG,
     OPEN_TENDERING_UA_TENDERING_EXTRA_PERIOD,
     OPEN_TENDERING_UA_WORKING_DAYS_CONFIG,
-    PROCUREMENT_ASPECT_EU,
-    PROCUREMENT_ASPECT_UA,
     REQUEST_FOR_PROPOSAL_TENDERING_EXTRA_PERIOD,
     REQUEST_FOR_PROPOSAL_WORKING_DAYS_CONFIG,
     SIMPLE_DEFENSE_TENDERING_EXTRA_PERIOD,
@@ -232,10 +230,6 @@ class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderSta
     post_data_model = OpenTenderingPostTender
     data_model = OpenTenderingTender
     contract_template_required = True
-    procurement_aspects_combinations = (
-        [PROCUREMENT_ASPECT_UA],
-        [PROCUREMENT_ASPECT_EU],
-    )
 
 
 class OpenTenderingUATenderDetailsState(OpenTenderingTenderDetailsState):

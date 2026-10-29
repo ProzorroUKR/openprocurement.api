@@ -1,24 +1,20 @@
-from schematics.types import StringType
+from schematics.types import BaseType, StringType
 
-from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
-from openprocurement.tender.open.constants import (
-    OPEN_TENDERING,
-    OPEN_TENDERING_PROCUREMENT_ASPECTS,
-)
+from openprocurement.tender.open.constants import OPEN_TENDERING
 
 
 class OpenTenderingPostTender(PostTender):
     """
-    The UA/EU variant of the procedure is set by procurementAspects
+    The UA/EU variant of the procedure is set by procedure.euPublished
     at the tender creation; the field is not in the patch model, so it can't be changed afterwards
-    (the allowed combinations of the aspects are validated by the state class)
+    (the structure of procedure is validated by the state class against its schema from standards)
     """
 
     procurementMethodType = StringType(choices=[OPEN_TENDERING], default=OPEN_TENDERING)
-    procurementAspects = ListType(StringType(choices=OPEN_TENDERING_PROCUREMENT_ASPECTS), required=True, min_size=1)
+    procedure = BaseType(required=True)
 
 
 class OpenTenderingTender(Tender):
     procurementMethodType = StringType(choices=[OPEN_TENDERING], required=True)
-    procurementAspects = ListType(StringType(choices=OPEN_TENDERING_PROCUREMENT_ASPECTS), required=True, min_size=1)
+    procedure = BaseType(required=True)

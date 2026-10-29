@@ -115,9 +115,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       }
     ],
     "mainProcurementCategory": "services",
-    "procurementAspects": [
-      "UA"
-    ]
+    "procedure": {
+      "euPublished": false
+    }
   },
   "config": {
     "hasAuction": true,

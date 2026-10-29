@@ -23,6 +23,7 @@ from openprocurement.api.constants import (
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_EXTRA_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
+    TENDER_PROCEDURE_JSONSCHEMAS,
     WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
@@ -49,7 +50,11 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
-from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
+from openprocurement.api.procedure.state.base import (
+    BaseState,
+    ConfigMixin,
+    validate_json_schema,
+)
 from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
@@ -2496,31 +2501,23 @@ class TenderMilestonesRulesMixin(BaseState):
         )
 
 
-class ProcurementAspectsRulesMixin(BaseState):
-    """tender procurementAspects"""
-
-    # allowed combinations of procurementAspects: the field must be exactly one of them (the order doesn't matter)
-    # None = the procedure has no procurementAspects
-    procurement_aspects_combinations: tuple | None = None
+class TenderProcedureRulesMixin(BaseState):
+    """
+    tender procedure: the procedure specific fields,
+    validated by the procedureExtensionScheme of the procurementMethodType (standards)
+    (the field itself is declared only in the models of the procedures that have the scheme)
+    """
 
     def on_post(self, data):
-        # before the config validation: the config schema may depend on the variant set by the aspects
-        self.validate_procurement_aspects(data)
+        # before the config validation: the config schema may depend on the procedure fields (openTendering UA/EU)
+        self.validate_procedure(data)
         super().on_post(data)
 
-    def validate_procurement_aspects(self, data):
-        if self.procurement_aspects_combinations is None:
+    def validate_procedure(self, data):
+        procedure_schema = TENDER_PROCEDURE_JSONSCHEMAS.get(data.get("procurementMethodType"))
+        if procedure_schema is None or "procedure" not in data:
             return
-        aspects = sorted(data.get("procurementAspects") or [])
-        if not any(aspects == sorted(combination) for combination in self.procurement_aspects_combinations):
-            combinations = ", ".join(str(combination) for combination in self.procurement_aspects_combinations)
-            raise_operation_error(
-                self.request,
-                [f"Value must be one of the combinations: {combinations}."],
-                status=422,
-                location="body",
-                name="procurementAspects",
-            )
+        validate_json_schema(self.request, data["procedure"], procedure_schema, "procedure")
 
 
 class BaseTenderDetailsMixin(
@@ -2965,7 +2962,7 @@ class BaseTenderDetailsMixin(
             raise_operation_error(self.request, [f"Value must be one of {list(choices)}."], status=422, name="status")
 
 
-class TenderDetailsMixin(ProcurementAspectsRulesMixin, TenderConfigMixin, BaseTenderDetailsMixin):
+class TenderDetailsMixin(TenderProcedureRulesMixin, TenderConfigMixin, BaseTenderDetailsMixin):
     pass
 
 

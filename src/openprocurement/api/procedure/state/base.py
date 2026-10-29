@@ -130,6 +130,22 @@ class BaseState:
             logger.warning("Obj status already set")
 
 
+def validate_json_schema(request, instance, schema, name):
+    # same as jsonschema.validate() without check_schema(),
+    # which is the expensive part and is not needed for our static schemas
+    validator = validator_for(schema)(schema)
+    e = best_match(validator.iter_errors(instance))
+    if e is not None:
+        path = ".".join([name] + [str(i) for i in e.path])
+        raise_operation_error(
+            request,
+            e.message,
+            status=422,
+            location="body",
+            name=path,
+        )
+
+
 class ConfigMixin:
     default_config_schema = {}
 
@@ -141,16 +157,4 @@ class ConfigMixin:
         self.validate_config_schema(data, config_schema)
 
     def validate_config_schema(self, data, config_schema):
-        # same as jsonschema.validate() without check_schema(),
-        # which is the expensive part and is not needed for our static schemas
-        validator = validator_for(config_schema)(config_schema)
-        e = best_match(validator.iter_errors(data["config"]))
-        if e is not None:
-            path = ".".join(["config"] + list(e.path))
-            raise_operation_error(
-                self.request,
-                e.message,
-                status=422,
-                location="body",
-                name=path,
-            )
+        validate_json_schema(self.request, data["config"], config_schema, "config")
