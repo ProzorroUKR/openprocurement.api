@@ -34,14 +34,14 @@ from tests.base.data import (
 from tests.base.test import DumpsWebTestApp, MockWebTestMixin
 from tests.test_tender_config import TenderConfigCSVMixin
 
-# openTendering: the UA/EU variant is set by procurementAspects
+# openTendering: the UA/EU variant is set by procedure.euPublished
 test_tender_ua_data = deepcopy(test_docs_tender_openua)
 test_tender_ua_data["procurementMethodType"] = "openTendering"
-test_tender_ua_data["procurementAspects"] = ["UA"]
+test_tender_ua_data["procedure"] = {"euPublished": False}
 
 test_tender_eu_data = deepcopy(test_docs_tender_openeu)
 test_tender_eu_data["procurementMethodType"] = "openTendering"
-test_tender_eu_data["procurementAspects"] = ["EU"]
+test_tender_eu_data["procedure"] = {"euPublished": True}
 
 test_lots = deepcopy(test_docs_lots)
 test_lots[0]["value"] = test_tender_eu_data["value"]
@@ -96,17 +96,17 @@ class TenderOpenTenderingUAResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
 
         #### Creating tender
 
-        # the procurement aspects are required
+        # the procedure is required
         data = deepcopy(test_tender_ua_data)
-        del data["procurementAspects"]
-        with open(UA_TARGET_DIR + "tender-post-without-procurement-aspects.http", "w") as self.app.file_obj:
+        del data["procedure"]
+        with open(UA_TARGET_DIR + "tender-post-without-procedure.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders?opt_pretty=1", {"data": data, "config": self.initial_config}, status=422
             )
 
-        # only one of the allowed combinations of the procurement aspects
-        data["procurementAspects"] = ["UA", "EU"]
-        with open(UA_TARGET_DIR + "tender-post-invalid-procurement-aspects.http", "w") as self.app.file_obj:
+        # the procedure is validated by the procedureExtensionScheme of the procedure type (standards)
+        data["procedure"] = {"euPublished": "yes"}
+        with open(UA_TARGET_DIR + "tender-post-invalid-procedure.http", "w") as self.app.file_obj:
             response = self.app.post_json(
                 "/tenders?opt_pretty=1", {"data": data, "config": self.initial_config}, status=422
             )
@@ -133,11 +133,11 @@ class TenderOpenTenderingUAResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
             response = self.app.get("/tenders/{}".format(tender["id"]))
             self.assertEqual(response.status, "200 OK")
 
-        # the procurement aspects can't be changed
-        with open(UA_TARGET_DIR + "patch-procurement-aspects.http", "w") as self.app.file_obj:
+        # the procedure can't be changed
+        with open(UA_TARGET_DIR + "patch-procedure.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
-                {"data": {"procurementAspects": ["EU"]}},
+                {"data": {"procedure": {"euPublished": True}}},
                 status=422,
             )
 
@@ -206,7 +206,7 @@ class TenderOpenTenderingUAResourceTest(BaseTenderOpenTenderingUAWebTest, MockWe
 
         with open(UA_TARGET_DIR + "active-tender-listing-no-auth.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get(request_path + "&opt_fields=procurementAspects")
+            response = self.app.get(request_path + "&opt_fields=procedure")
             self.assertEqual(response.status, "200 OK")
 
         self.app.authorization = ("Basic", ("broker", ""))
@@ -866,11 +866,11 @@ class TenderOpenTenderingEUResourceTest(BaseTenderOpenTenderingEUWebTest, MockWe
             response = self.app.get("/tenders/{}".format(tender["id"]))
             self.assertEqual(response.status, "200 OK")
 
-        # the procurement aspects can't be changed
-        with open(EU_TARGET_DIR + "patch-procurement-aspects.http", "w") as self.app.file_obj:
+        # the procedure can't be changed
+        with open(EU_TARGET_DIR + "patch-procedure.http", "w") as self.app.file_obj:
             self.app.patch_json(
                 "/tenders/{}?acc_token={}".format(self.tender_id, owner_token),
-                {"data": {"procurementAspects": ["UA"]}},
+                {"data": {"procedure": {"euPublished": False}}},
                 status=422,
             )
 
@@ -934,7 +934,7 @@ class TenderOpenTenderingEUResourceTest(BaseTenderOpenTenderingEUWebTest, MockWe
 
         with open(EU_TARGET_DIR + "active-tender-listing-no-auth.http", "w") as self.app.file_obj:
             self.app.authorization = None
-            response = self.app.get(request_path + "&opt_fields=procurementAspects")
+            response = self.app.get(request_path + "&opt_fields=procedure")
             self.assertEqual(response.status, "200 OK")
 
         self.app.authorization = ("Basic", ("broker", ""))

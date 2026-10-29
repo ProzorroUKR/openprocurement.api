@@ -46,9 +46,9 @@ from openprocurement.tender.open.tests.open_tendering.ua.base import (
 )
 from openprocurement.tender.open.tests.open_tendering.ua.tender_blanks import (
     create_tender_generated,
-    create_tender_invalid_procurement_aspects_and_config,
-    create_tender_procurement_aspects_forbidden_for_legacy,
-    patch_tender_procurement_aspects_is_immutable,
+    create_tender_invalid_procedure_and_config,
+    create_tender_procedure_forbidden_for_legacy,
+    patch_tender_procedure_is_immutable,
 )
 
 
@@ -77,13 +77,9 @@ class TenderOpenTenderingUAResourceTest(
     allowed_proc_entity_kinds = KIND_PROCUREMENT_METHOD_TYPE_MAPPING["openTendering"]
 
     test_create_tender_invalid = snitch(create_tender_invalid)
-    test_create_tender_invalid_procurement_aspects_and_config = snitch(
-        create_tender_invalid_procurement_aspects_and_config
-    )
-    test_create_tender_procurement_aspects_forbidden_for_legacy = snitch(
-        create_tender_procurement_aspects_forbidden_for_legacy
-    )
-    test_patch_tender_procurement_aspects_is_immutable = snitch(patch_tender_procurement_aspects_is_immutable)
+    test_create_tender_invalid_procedure_and_config = snitch(create_tender_invalid_procedure_and_config)
+    test_create_tender_procedure_forbidden_for_legacy = snitch(create_tender_procedure_forbidden_for_legacy)
+    test_patch_tender_procedure_is_immutable = snitch(patch_tender_procedure_is_immutable)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

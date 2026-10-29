@@ -1943,8 +1943,13 @@ wheels = [
 
 [[package]]
 name = "standards"
+<<<<<<< HEAD
 version = "1.0.296"
 source = { git = "https://github.com/ProzorroUKR/standards.git?branch=CS-22762#ccbb34b4227f20d2d03ad319afc1e6b2b9af5a97" }
+=======
+version = "1.0.294"
+source = { git = "https://github.com/ProzorroUKR/standards.git?branch=CS-22762#76addbac31dc0013bceb59d17293c757bb9d9d61" }
+>>>>>>> e615888d5 (Replace procurementAspects with procedure.euPublished for openTendering)
 
 [[package]]
 name = "statsd"
