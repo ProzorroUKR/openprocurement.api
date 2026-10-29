@@ -43,6 +43,7 @@ from openprocurement.tender.open.tests.below_threshold.lot_blanks import (
     tender_lot_guarantee,
     tender_lot_milestones,
     tender_value,
+    tender_value_lots_sum_precision,
 )
 
 
@@ -87,6 +88,8 @@ class TenderLotFeatureResourceTest(TenderContentWebTest, TenderLotFeatureResourc
     invalid_feature_value = 0.5
     max_feature_value = 0.3
     sum_of_max_value_of_all_features = 0.3
+
+    test_tender_value_lots_sum_precision = snitch(tender_value_lots_sum_precision)
 
 
 class TenderLotBidResourceTest(TenderContentWebTest):

@@ -9,6 +9,7 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import context_unpack
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
@@ -993,7 +994,7 @@ class ChronographEventsMixin:
             if not all(i.get("value") for i in tender.get("lots", "")):
                 return
             tender["value"] = {
-                "amount": sum(i["value"]["amount"] for i in tender["lots"]),
+                "amount": float(sum(to_decimal(i["value"]["amount"]) for i in tender["lots"])),
                 "currency": tender["lots"][0]["value"]["currency"],
                 "valueAddedTaxIncluded": tender["lots"][0]["value"]["valueAddedTaxIncluded"],
             }
@@ -1016,7 +1017,7 @@ class ChronographEventsMixin:
         # 0 is legit for lot value amount if hasValueEstimation is False, so if user passed 0 as lot value amount - it
         # should be displayed.
         if lot_values:
-            tender["value"]["amount"] = sum(lot_values)
+            tender["value"]["amount"] = float(sum(to_decimal(i) for i in lot_values))
 
     @staticmethod
     def calc_tender_guarantee(tender: dict) -> None:
@@ -1025,7 +1026,7 @@ class ChronographEventsMixin:
         amounts = [i["guarantee"]["amount"] for i in tender.get("lots", "") if i.get("guarantee")]
         if not amounts:
             return
-        guarantee = {"amount": sum(amounts)}
+        guarantee = {"amount": float(sum(to_decimal(i) for i in amounts))}
         lots_currency = [i["guarantee"]["currency"] for i in tender["lots"] if i.get("guarantee")]
         guarantee["currency"] = lots_currency[0] if lots_currency else None
         if tender.get("guarantee"):
@@ -1051,9 +1052,9 @@ class ChronographEventsMixin:
 
         if not has_value_estimation:
             if lot_values:
-                tender["minValue"]["amount"] = sum(lot_values)
+                tender["minValue"]["amount"] = float(sum(to_decimal(i) for i in lot_values))
         else:
-            tender["minValue"]["amount"] = sum(lot_values)
+            tender["minValue"]["amount"] = float(sum(to_decimal(i) for i in lot_values))
 
     def calc_bids_values(self, tender):
         bids = tender.get("bids", "")
