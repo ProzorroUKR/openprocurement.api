@@ -134,8 +134,8 @@ msgstr "above threshold EU procedure indentifier"
 msgid "`openTendering`"
 msgstr ""
 
-msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procurementAspects`)"
-msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procurementAspects` field)"
+msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procedure.euPublished`)"
+msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procedure.euPublished` field)"
 
 msgid "`aboveThresholdUA.defense`"
 msgstr ""
@@ -197,26 +197,38 @@ msgstr ""
 msgid "`competitiveDialogueUA.stage2`"
 msgstr ""
 
-msgid "procurementAspects"
+msgid "procedure"
 msgstr ""
 
-msgid "список рядків"
-msgstr "list of strings"
+msgid "об'єкт"
+msgstr "object"
 
-msgid "`UA`"
+msgid "Специфічні поля процедури. Структура об'єкта визначається схемою `procedureExtensionScheme` типу процедури в довіднику `codelists/tender/tender_procurement_method_type.json` (standards). Поле приймається лише для процедур, що мають таку схему; задається при створенні закупівлі та не може бути змінене."
+msgstr "The procedure specific fields. The structure of the object is defined by the `procedureExtensionScheme` of the procedure type in the `codelists/tender/tender_procurement_method_type.json` codelist (standards). The field is accepted only for the procedures that have such a scheme; it is set at the tender creation and can't be changed."
+
+msgid "Поля об'єкта для `openTendering` (об'єкт обов'язковий, інші поля не допускаються):"
+msgstr "The object fields for `openTendering` (the object is required, other fields are not allowed):"
+
+msgid "euPublished"
 msgstr ""
 
-msgid "національні відкриті торги (оголошення українською мовою, без попередньої кваліфікації)"
-msgstr "national open tendering (the announcement in Ukrainian, no prequalification)"
+msgid "булеве значення, обов'язково"
+msgstr "boolean, required"
 
-msgid "`EU`"
+msgid "Чи публікується оголошення процедури в ЄС: визначає різновид відкритих торгів за Законом № 4888-IX."
+msgstr "Whether the procedure is published in the EU: sets the variant of the open tendering under the Law No. 4888-IX."
+
+msgid "`false`"
 msgstr ""
 
-msgid "відкриті торги вище європейських порогів (оголошення додатково англійською мовою, з попередньою кваліфікацією)"
-msgstr "open tendering above the EU thresholds (the announcement in English as well, with prequalification)"
+msgid "національні відкриті торги (UA: оголошення українською мовою, без попередньої кваліфікації)"
+msgstr "national open tendering (UA: the announcement in Ukrainian, no prequalification)"
 
-msgid "Аспекти закупівлі, що визначають різновид відкритих торгів за Законом № 4888-IX. Обов'язкове поле лише для `openTendering`: задається при створенні закупівлі та не може бути змінене. Список не може бути порожнім і має відповідати одній з дозволених комбінацій: `[\"UA\"]` або `[\"EU\"]`."
-msgstr "The procurement aspects that set the variant of the open tendering under the Law No. 4888-IX. Required only for `openTendering`: set at the tender creation and can't be changed. The list can't be empty and must match one of the allowed combinations: `[\"UA\"]` or `[\"EU\"]`."
+msgid "`true`"
+msgstr ""
+
+msgid "відкриті торги вище європейських порогів (EU: оголошення додатково англійською мовою, з попередньою кваліфікацією)"
+msgstr "open tendering above the EU thresholds (EU: the announcement in English as well, with prequalification)"
 
 msgid "awardCriteria"
 msgstr ""

@@ -2,20 +2,20 @@ from copy import deepcopy
 
 from openprocurement.tender.open.tests.open_tendering.ua.tender_blanks import (  # noqa: F401
     create_tender_generated,
-    patch_tender_procurement_aspects_is_immutable,
+    patch_tender_procedure_is_immutable,
 )
 
 
-def create_tender_invalid_procurement_aspects_and_config(self):
-    """procurementAspects is required for openTendering and the EU variant pins the config values"""
+def create_tender_invalid_procedure_and_config(self):
+    """procedure is required for openTendering and the EU variant (procedure.euPublished) pins the config values"""
     request_path = "/tenders"
 
     data = deepcopy(self.initial_data)
-    del data["procurementAspects"]
+    del data["procedure"]
     response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"description": ["This field is required."], "location": "body", "name": "procurementAspects"}],
+        [{"description": ["This field is required."], "location": "body", "name": "procedure"}],
     )
 
     # the values pinned by the variant
@@ -41,7 +41,7 @@ def create_tender_invalid_procurement_aspects_and_config(self):
         self.assertEqual(response.json["errors"][0]["name"], f"config.{config_name}")
 
     response = self.app.post_json(request_path, {"data": self.initial_data, "config": self.initial_config}, status=201)
-    self.assertEqual(response.json["data"]["procurementAspects"], ["EU"])
+    self.assertEqual(response.json["data"]["procedure"], {"euPublished": True})
 
 
 def create_tender_multilingual_fields_required(self):

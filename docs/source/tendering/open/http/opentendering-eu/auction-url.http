@@ -2181,9 +2181,9 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "openTendering",
-    "procurementAspects": [
-      "EU"
-    ],
+    "procedure": {
+      "euPublished": true
+    },
     "next_check": "2027-01-04T13:01:01.441000+02:00",
     "auctionPeriod": {},
     "id": "b53c538bd44a4fb48d1a7fc2b0503a49"

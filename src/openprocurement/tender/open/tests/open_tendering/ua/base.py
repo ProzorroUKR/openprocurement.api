@@ -26,7 +26,7 @@ now = get_now()
 
 test_tender_open_tendering_ua_data = test_tender_below_data.copy()
 test_tender_open_tendering_ua_data["procurementMethodType"] = "openTendering"
-test_tender_open_tendering_ua_data["procurementAspects"] = ["UA"]
+test_tender_open_tendering_ua_data["procedure"] = {"euPublished": False}
 del test_tender_open_tendering_ua_data["enquiryPeriod"]
 set_tender_periods(test_tender_open_tendering_ua_data, start=now)
 test_tender_open_tendering_ua_data["items"] = [
@@ -70,7 +70,7 @@ test_tender_open_tendering_ua_three_bids.append(
 
 test_tender_open_tendering_ua_features_data = test_tender_below_features_data.copy()
 test_tender_open_tendering_ua_features_data["procurementMethodType"] = "openTendering"
-test_tender_open_tendering_ua_features_data["procurementAspects"] = ["UA"]
+test_tender_open_tendering_ua_features_data["procedure"] = {"euPublished": False}
 del test_tender_open_tendering_ua_features_data["enquiryPeriod"]
 set_tender_periods(test_tender_open_tendering_ua_features_data, start=now)
 test_tender_open_tendering_ua_features_data["items"][0]["deliveryDate"] = test_tender_open_tendering_ua_data["items"][

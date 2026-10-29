@@ -122,9 +122,9 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false
     },
     "procurementMethodType": "openTendering",
-    "procurementAspects": [
-      "UA"
-    ],
+    "procedure": {
+      "euPublished": false
+    },
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",

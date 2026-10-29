@@ -1253,9 +1253,9 @@ Content-Type: application/json
       }
     ],
     "procurementMethodType": "openTendering",
-    "procurementAspects": [
-      "UA"
-    ],
+    "procedure": {
+      "euPublished": false
+    },
     "id": "b53c538bd44a4fb48d1a7fc2b0503a49"
   },
   "config": {

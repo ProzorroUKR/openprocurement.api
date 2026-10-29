@@ -1,7 +1,7 @@
 .. _opentendering_tutorial_eu:
 
-Туторіал: відкриті торги EU (``procurementAspects`` = ``["EU"]``)
-=================================================================
+Туторіал: відкриті торги EU (``procedure.euPublished`` = ``true``)
+==================================================================
 
 .. index:: Tender
 
@@ -27,7 +27,7 @@
 -------------------
 
 Разом з ``procurementMethodType`` = ``openTendering`` обов'язково передається різновид
-``procurementAspects`` = ``["EU"]``. Значення конфігурації мають відповідати різновиду: для ``EU``
+``procedure.euPublished`` = ``true``. Значення конфігурації мають відповідати різновиду: для ``EU``
 попередня кваліфікація обов'язкова, тому ``hasPrequalification`` = ``false`` відхиляється:
 
 .. http:example:: http/opentendering-eu/tender-post-invalid-config.http
@@ -56,7 +56,7 @@
 
 Різновид не можна змінити після створення закупівлі:
 
-.. http:example:: http/opentendering-eu/patch-procurement-aspects.http
+.. http:example:: http/opentendering-eu/patch-procedure.http
    :code:
 
 Подивимось, що показує список закупівель:
@@ -105,7 +105,7 @@
 .. http:example:: http/opentendering-eu/tender-activating.http
    :code:
 
-Подивимось, що показує список закупівель. Різновид доступний у списку через ``opt_fields=procurementAspects``:
+Подивимось, що показує список закупівель. Різновид доступний у списку через ``opt_fields=procedure``:
 
 .. http:example:: http/opentendering-eu/active-tender-listing-no-auth.http
    :code:
