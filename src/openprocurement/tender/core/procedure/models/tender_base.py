@@ -198,7 +198,7 @@ class PostBaseTender(CommonBaseTender):
         validate_related_buyer_in_items(data, items)
 
     def validate_procurementMethodDetails(self, data, value):
-        if self.mode and self.mode == "test" and self.procurementMethodDetails and self.procurementMethodDetails != "":
+        if not SANDBOX_MODE and value and data.get("mode") != "test":
             raise ValidationError("procurementMethodDetails should be used with mode test")
 
     def validate_inspector(self, data, value):
