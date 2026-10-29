@@ -7,16 +7,10 @@ from openprocurement.framework.core.procedure.views.base import FrameworkBaseRes
 from openprocurement.relocation.api.procedure.serializers.agreement import (
     TransferredAgreementSerializer,
 )
+from openprocurement.relocation.api.procedure.state.ownership import AgreementOwnershipState
 from openprocurement.relocation.api.procedure.utils import (
     save_transfer,
     update_ownership,
-)
-from openprocurement.relocation.api.procedure.validation import (
-    validate_agreement,
-    validate_agreement_owner_accreditation_level,
-    validate_agreement_transfer_accreditation_level,
-    validate_agreement_transfer_token,
-    validate_ownership_data,
 )
 from openprocurement.relocation.api.utils import (
     extract_transfer_doc,
@@ -31,18 +25,13 @@ from openprocurement.relocation.api.utils import (
 )
 class AgreementResource(FrameworkBaseResource):
     serializer_class = TransferredAgreementSerializer
+    state_class = AgreementOwnershipState
 
     @json_view(
         permission="edit_agreement",
-        validators=(
-            validate_agreement_transfer_accreditation_level,
-            validate_agreement_owner_accreditation_level,
-            validate_ownership_data,
-            validate_agreement,
-            validate_agreement_transfer_token,
-        ),
     )
     def post(self):
+        self.state.validate_ownership_post_request()
         agreement = self.request.validated["agreement"]
         data = self.request.validated["ownership_data"]
         route_name = "{}:Agreements".format(agreement["agreementType"])

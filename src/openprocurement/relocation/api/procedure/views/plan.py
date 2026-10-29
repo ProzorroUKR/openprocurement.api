@@ -7,16 +7,10 @@ from openprocurement.planning.api.procedure.views.base import PlanBaseResource
 from openprocurement.relocation.api.procedure.serializers.plan import (
     TransferredPlanSerializer,
 )
+from openprocurement.relocation.api.procedure.state.ownership import PlanOwnershipState
 from openprocurement.relocation.api.procedure.utils import (
     save_transfer,
     update_ownership,
-)
-from openprocurement.relocation.api.procedure.validation import (
-    validate_ownership_data,
-    validate_plan,
-    validate_plan_owner_accreditation_level,
-    validate_plan_transfer_accreditation_level,
-    validate_plan_transfer_token,
 )
 from openprocurement.relocation.api.utils import (
     extract_transfer_doc,
@@ -31,18 +25,13 @@ from openprocurement.relocation.api.utils import (
 )
 class PlanResource(PlanBaseResource):
     serializer_class = TransferredPlanSerializer
+    state_class = PlanOwnershipState
 
     @json_view(
         permission="create_plan",
-        validators=(
-            validate_plan_transfer_accreditation_level,
-            validate_plan_owner_accreditation_level,
-            validate_ownership_data,
-            validate_plan,
-            validate_plan_transfer_token,
-        ),
     )
     def post(self):
+        self.state.validate_ownership_post_request()
         plan = self.request.validated["plan"]
         data = self.request.validated["ownership_data"]
         route_name = "Plans"

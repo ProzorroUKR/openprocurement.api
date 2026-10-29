@@ -8,16 +8,10 @@ from openprocurement.contracting.core.procedure.views.base import ContractBaseRe
 from openprocurement.relocation.api.procedure.serializers.contract import (
     TransferredContractSerializer,
 )
+from openprocurement.relocation.api.procedure.state.ownership import ContractOwnershipState
 from openprocurement.relocation.api.procedure.utils import (
     save_transfer,
     update_ownership,
-)
-from openprocurement.relocation.api.procedure.validation import (
-    validate_contract,
-    validate_contract_owner_accreditation_level,
-    validate_contract_transfer_accreditation_level,
-    validate_contract_transfer_token,
-    validate_ownership_data,
 )
 from openprocurement.relocation.api.utils import (
     extract_transfer_doc,
@@ -32,18 +26,13 @@ from openprocurement.relocation.api.utils import (
 )
 class ContractResource(ContractBaseResource):
     serializer_class = TransferredContractSerializer
+    state_class = ContractOwnershipState
 
     @json_view(
         permission="edit_contract",
-        validators=(
-            validate_contract_transfer_accreditation_level,
-            validate_contract_owner_accreditation_level,
-            validate_ownership_data,
-            validate_contract,
-            validate_contract_transfer_token,
-        ),
     )
     def post(self):
+        self.state.validate_ownership_post_request()
         contract = self.request.validated["contract"]
         data = self.request.validated["ownership_data"]
         route_name = "Contract"

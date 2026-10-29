@@ -1,8 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.api.procedure.validation import validate_input_data
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.relocation.api.procedure.models.transfer import PostTransfer
 from openprocurement.relocation.api.procedure.serializers.transfer import (
     TransferSerializer,
 )
@@ -29,9 +27,9 @@ class TransferResource(TransferBaseResource):
     @json_view(
         content_type="application/json",
         permission="create_transfer",
-        validators=(validate_input_data(PostTransfer),),
     )
     def collection_post(self):
+        self.state.validate_transfer_post_request()
         transfer = self.request.validated["data"]
         access = set_ownership(transfer, self.request)
 
