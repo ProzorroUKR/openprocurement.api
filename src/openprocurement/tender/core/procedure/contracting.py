@@ -306,8 +306,12 @@ def get_additional_contract_data(request, contract, tender, award, buyer):
     contract_data = {
         "buyer": buyer,
         "tender_id": tender["_id"],
+        "tenderID": tender["tenderID"],
         "owner": tender["owner"],
     }
+
+    if tender.get("mainProcurementCategory"):
+        contract_data["mainProcurementCategory"] = tender["mainProcurementCategory"]
 
     if tender.get("mode"):
         contract_data["mode"] = tender["mode"]

@@ -75,6 +75,8 @@ class PostContract(Model):
     owner = StringType()
     access = ListType(ModelType(AccessDetails, required=True))
     tender_id = StringType(required=True)
+    tenderID = StringType()
+    mainProcurementCategory = StringType()
     mode = StringType(choices=["test"])
 
     amountPaid = ModelType(AmountPaid)
@@ -136,6 +138,8 @@ class Contract(Model):
     )
     tender_token = StringType()  # deprecated
     tender_id = StringType(required=True)
+    tenderID = StringType()
+    mainProcurementCategory = StringType()
     owner_token = StringType()  # deprecated
     transfer_token = StringType(default=lambda: uuid4().hex)
     owner = StringType()

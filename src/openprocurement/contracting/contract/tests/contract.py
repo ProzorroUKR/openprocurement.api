@@ -18,6 +18,8 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     contract_date_signed,
     contract_items_change,
     contract_status_change,
+    contract_tender_fields,
+    contract_tender_without_main_procurement_category,
     contract_token_invalid,
     contract_update_add_remove_items,
     contract_validate_signer_info,
@@ -29,6 +31,7 @@ from openprocurement.contracting.core.tests.contract_blanks import (
     listing_changes,
     not_found,
     patch_contract_remove_field,
+    patch_contract_tender_fields_forbidden,
     patch_tender_contract,
     patch_tender_contract_amount_paid_zero,
     patch_tender_contract_identical,
@@ -60,6 +63,16 @@ class ContractResourceTest(BaseContractContentWebTest):
     test_get_contract = snitch(get_contract)
     test_not_found = snitch(not_found)
     test_create_contract_transfer_token = snitch(create_contract_transfer_token)
+    test_contract_tender_fields = snitch(contract_tender_fields)
+
+
+class ContractTenderFieldsTest(BaseContractWebTest):
+    """Award is created in setUp, the contract is created inside the test."""
+
+    def setUp(self):
+        BaseContractTest.setUp(self)
+
+    test_contract_tender_without_main_procurement_category = snitch(contract_tender_without_main_procurement_category)
 
 
 class ContractResource4BrokersTest(BaseContractContentWebTest):
@@ -73,6 +86,7 @@ class ContractResource4BrokersTest(BaseContractContentWebTest):
     test_patch_tender_contract = snitch(patch_tender_contract)
     test_patch_tender_contract_readonly = snitch(patch_tender_contract_readonly)
     test_patch_contract_remove_field = snitch(patch_contract_remove_field)
+    test_patch_contract_tender_fields_forbidden = snitch(patch_contract_tender_fields_forbidden)
     test_put_transaction_to_contract = snitch(put_transaction_to_contract)
 
     test_change_contract_milestones = parameterized.expand(change_contract_milestones_params)(

@@ -178,6 +178,8 @@ Content-Type: application/json
     ],
     "owner": "broker",
     "tender_id": "b29ccfefe77c4e45bc0898315cdb3a6f",
+    "tenderID": "UA-2027-01-01-000003-a",
+    "mainProcurementCategory": "goods",
     "contractTemplateName": "00000000.0002.01",
     "milestones": [
       {

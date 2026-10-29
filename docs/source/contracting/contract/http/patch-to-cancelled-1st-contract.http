@@ -62,6 +62,8 @@ Content-Type: application/json
       }
     ],
     "tender_id": "6bbedf87e5834e7fb5352d419ad7dbcb",
+    "tenderID": "UA-2027-01-01-000001-a",
+    "mainProcurementCategory": "goods",
     "owner": "broker",
     "status": "cancelled",
     "buyer": {

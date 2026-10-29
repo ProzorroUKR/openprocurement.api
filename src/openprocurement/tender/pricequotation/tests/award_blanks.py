@@ -493,6 +493,8 @@ def move_award_contract_to_contracting(self):
         "dateModified",
         "items",
         "tender_id",
+        "tenderID",
+        "mainProcurementCategory",
         "owner",
         "status",
         "suppliers",

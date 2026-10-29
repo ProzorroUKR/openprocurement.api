@@ -214,11 +214,15 @@ class EContractState(ContractState):
                 "id": uuid4().hex,
                 "date": get_request_now().isoformat(),
                 "contractID": f"{tender['tenderID']}-a{contract_number}",
+                "tenderID": tender["tenderID"],
             }
         )
 
         if mode := tender.get("mode"):
             after["mode"] = mode
+
+        if main_procurement_category := tender.get("mainProcurementCategory"):
+            after["mainProcurementCategory"] = main_procurement_category
 
         upload_contract_pdf_document(after, tender)
         self.set_object_status(before, "cancelled")

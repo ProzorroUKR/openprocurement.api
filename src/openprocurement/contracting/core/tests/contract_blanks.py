@@ -10,7 +10,7 @@ from openprocurement.api.constants import (
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.contracting.core.tests.utils import create_contract
-from openprocurement.tender.core.tests.utils import set_items_unit
+from openprocurement.tender.core.tests.utils import change_auth, set_items_unit
 
 
 def empty_listing(self):
@@ -2239,3 +2239,64 @@ def patch_contract_remove_field(self):
 
     contract_doc = self.mongodb.contracts.get(self.contract_id)
     self.assertNotIn("description", contract_doc)
+
+
+def contract_tender_fields(self):
+    response = self.app.get(f"/tenders/{self.tender_id}")
+    tender = response.json["data"]
+
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    self.assertEqual(response.status, "200 OK")
+    contract = response.json["data"]
+    self.assertEqual(contract["tenderID"], tender["tenderID"])
+    self.assertEqual(contract["mainProcurementCategory"], tender["mainProcurementCategory"])
+
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    self.assertEqual(contract_doc["tenderID"], tender["tenderID"])
+    self.assertEqual(contract_doc["mainProcurementCategory"], tender["mainProcurementCategory"])
+
+
+def contract_tender_without_main_procurement_category(self):
+    tender_doc = self.mongodb.tenders.get(self.tender_id)
+    self.assertIn("mainProcurementCategory", tender_doc)
+    del tender_doc["mainProcurementCategory"]
+    self.mongodb.tenders.save(tender_doc)
+
+    self.activate_award()
+
+    self.assertEqual(self.contract["tenderID"], tender_doc["tenderID"])
+    self.assertNotIn("mainProcurementCategory", self.contract)
+
+    contract_doc = self.mongodb.contracts.get(self.contract_id)
+    self.assertEqual(contract_doc["tenderID"], tender_doc["tenderID"])
+    self.assertNotIn("mainProcurementCategory", contract_doc)
+
+
+def patch_contract_tender_fields_forbidden(self):
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}?acc_token={self.contract_token}",
+        {"data": {"tenderID": "UA-2026-01-01-000001-a", "mainProcurementCategory": "works"}},
+        status=422,
+    )
+    self.assertEqual(response.content_type, "application/json")
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "tenderID"}, response.json["errors"])
+    self.assertIn(
+        {"description": "Rogue field", "location": "body", "name": "mainProcurementCategory"},
+        response.json["errors"],
+    )
+
+    with change_auth(self.app, ("Basic", ("administrator", ""))):
+        response = self.app.patch_json(
+            f"/contracts/{self.contract_id}",
+            {"data": {"tenderID": "UA-2026-01-01-000001-a", "mainProcurementCategory": "works"}},
+            status=422,
+        )
+    self.assertIn({"description": "Rogue field", "location": "body", "name": "tenderID"}, response.json["errors"])
+    self.assertIn(
+        {"description": "Rogue field", "location": "body", "name": "mainProcurementCategory"},
+        response.json["errors"],
+    )
+
+    response = self.app.get(f"/contracts/{self.contract_id}")
+    self.assertEqual(response.json["data"]["tenderID"], self.contract["tenderID"])
+    self.assertEqual(response.json["data"]["mainProcurementCategory"], self.contract["mainProcurementCategory"])
