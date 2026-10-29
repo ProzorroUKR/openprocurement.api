@@ -5,16 +5,10 @@ from openprocurement.api.utils import context_unpack, json_view
 from openprocurement.relocation.api.procedure.serializers.tender import (
     TransferredTenderSerializer,
 )
+from openprocurement.relocation.api.procedure.state.ownership import TenderOwnershipState
 from openprocurement.relocation.api.procedure.utils import (
     save_transfer,
     update_ownership,
-)
-from openprocurement.relocation.api.procedure.validation import (
-    validate_ownership_data,
-    validate_tender,
-    validate_tender_owner_accreditation_level,
-    validate_tender_transfer_accreditation_level,
-    validate_tender_transfer_token,
 )
 from openprocurement.relocation.api.utils import (
     extract_transfer_doc,
@@ -32,18 +26,13 @@ from openprocurement.tender.core.utils import ProcurementMethodTypePredicate
 )
 class TenderResource(TenderBaseResource):
     serializer_class = TransferredTenderSerializer
+    state_class = TenderOwnershipState
 
     @json_view(
         permission="create_tender",
-        validators=(
-            validate_tender_transfer_accreditation_level,
-            validate_tender_owner_accreditation_level,
-            validate_ownership_data,
-            validate_tender,
-            validate_tender_transfer_token,
-        ),
     )
     def post(self):
+        self.state.validate_ownership_post_request()
         tender = self.request.validated["tender"]
         data = self.request.validated["ownership_data"]
         route_name = "{}:Tenders".format(ProcurementMethodTypePredicate.route_prefix(self.request))
