@@ -1011,6 +1011,30 @@ def tender_value(self):
     self.assertEqual(response.json["data"]["value"]["amount"], sum(i["value"]["amount"] for i in self.initial_lots))
 
 
+def tender_value_lots_sum_precision(self):
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    tender_value = response.json["data"]["value"]
+
+    # 13583303.45 + 27166606.9 == 40749910.349999994 with float arithmetic
+    for lot, amount, step in zip(self.initial_lots, (13583303.45, 27166606.9), (135833.03, 271666.07)):
+        response = self.app.patch_json(
+            "/tenders/{}/lots/{}?acc_token={}".format(self.tender_id, lot["id"], self.tender_token),
+            {
+                "data": {
+                    "value": {**tender_value, "amount": amount},
+                    "minimalStep": {**tender_value, "amount": step},
+                }
+            },
+        )
+        self.assertEqual(response.status, "200 OK")
+        self.assertEqual(response.json["data"]["value"]["amount"], amount)
+
+    response = self.app.get("/tenders/{}".format(self.tender_id))
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["value"]["amount"], 40749910.35)
+
+
 @mock.patch(
     "openprocurement.tender.core.procedure.state.tender_details.get_criteria_rules",
     mock.Mock(return_value={}),

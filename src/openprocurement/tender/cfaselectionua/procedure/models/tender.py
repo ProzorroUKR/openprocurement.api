@@ -7,6 +7,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import CFASelectionAgreement
@@ -125,7 +126,7 @@ class CFASelectionTender(
             lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
             if not lots_amount:
                 return self.guarantee
-            guarantee = {"amount": sum(lots_amount)}
+            guarantee = {"amount": float(sum(to_decimal(i) for i in lots_amount))}
             lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
             guarantee["currency"] = lots_currency[0] if lots_currency else None
             if self.guarantee:
