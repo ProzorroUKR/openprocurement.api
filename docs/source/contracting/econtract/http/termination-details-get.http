@@ -743,6 +743,7 @@ Content-Type: application/json
           "category": "655360-30230000-889652"
         }
       ],
+      "mainProcurementCategory": "goods",
       "milestones": [
         {
           "id": "cccccccccccccccccccccccccccccccc",
@@ -827,6 +828,7 @@ Content-Type: application/json
           }
         }
       ],
+      "tenderID": "UA-2027-01-01-000002-a",
       "tender_id": "2563fd75900b43499138810b16db8181",
       "terminationDetails": {
         "reasonType": "disrupted",
