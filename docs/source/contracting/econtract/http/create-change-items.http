@@ -294,7 +294,7 @@ Content-Type: application/json
           "category": "655360-30230000-889652"
         },
         {
-          "id": "7065cc13b8934418b9afd9579ca3f9de",
+          "id": "7ba43886518c4cd3be8f476843b39189",
           "description": "Додаткове комп’ютерне обладнання",
           "quantity": 15.0,
           "classification": {
@@ -357,7 +357,7 @@ Content-Type: application/json
         }
       ]
     },
-    "id": "0172df9f74c4411ea204ba83946371ff",
+    "id": "95ca49eac800462a8e7b12db26ff6199",
     "status": "pending",
     "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
@@ -367,7 +367,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_change.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/0172df9f74c4411ea204ba83946371ff/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/95ca49eac800462a8e7b12db26ff6199/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "id": "0cb36779b6aa4253ac5e76601c1ad586",
         "datePublished": "2027-01-01T00:00:00+02:00",

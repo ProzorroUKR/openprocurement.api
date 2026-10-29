@@ -244,7 +244,7 @@ Content-Type: application/json
         }
       ]
     },
-    "id": "a0a23a4028a6428fa088098d0d137d71",
+    "id": "90b71c660536469081b7b8283ed0fcc1",
     "status": "pending",
     "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
@@ -254,7 +254,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_change.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/a0a23a4028a6428fa088098d0d137d71/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
         "id": "88962047c28144d99916ae75c9a2a38a",
         "datePublished": "2027-01-01T00:00:00+02:00",

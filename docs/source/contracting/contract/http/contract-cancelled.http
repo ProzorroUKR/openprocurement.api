@@ -327,9 +327,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_first_document.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/434095e42ea546f0994b6d0eedf9ed76?download=3ef4769b01194c3fb9b85667d21a1307",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/eb12f9e9c2fd49e9b78423d137d85058?download=3ef4769b01194c3fb9b85667d21a1307",
         "documentOf": "contract",
-        "id": "434095e42ea546f0994b6d0eedf9ed76",
+        "id": "eb12f9e9c2fd49e9b78423d137d85058",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       },
@@ -338,9 +338,9 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "contract_second_document.doc",
         "format": "application/msword",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/4c26e5cbbc3247deaa337a70dcc5dbdc?download=fc53e793a7ae423e9d0b454a353d6e3e",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/contracts/ecd25be608804fc085fc7377b63a88f4/documents/4c4b5d8bac9a473c8cd2f3b108191ba9?download=fc53e793a7ae423e9d0b454a353d6e3e",
         "documentOf": "contract",
-        "id": "4c26e5cbbc3247deaa337a70dcc5dbdc",
+        "id": "4c4b5d8bac9a473c8cd2f3b108191ba9",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00"
       }
