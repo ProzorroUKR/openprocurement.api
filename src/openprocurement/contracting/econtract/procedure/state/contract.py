@@ -21,7 +21,78 @@ class EContractState(ContractState):
                 self.request,
                 f"Forbidden to patch already signed contract in status {after['status']}",
             )
+        if before.get("terminationDetails") != after.get("terminationDetails"):
+            self.validate_termination_details_patch(before, after)
         super().on_patch(before, after)
+
+    def validate_termination_details_patch(self, before: dict, after: dict) -> None:
+        before_td = before.get("terminationDetails") or {}
+        after_td = after["terminationDetails"]
+
+        if before_td.get("status") == "active":
+            raise_operation_error(
+                self.request,
+                "Can't modify terminationDetails after it has been published",
+                name="terminationDetails",
+            )
+
+        report_fields = ("reasonType", "reason", "amountPaid")
+        if any(after_td.get(f) != before_td.get(f) for f in report_fields):
+            self.validate_termination_details_requirements(after, after_td)
+
+    def validate_termination_details_requirements(self, contract: dict, termination_details: dict) -> None:
+        if not termination_details.get("reasonType"):
+            raise_operation_error(
+                self.request,
+                "reasonType is required to activate terminationDetails",
+                name="terminationDetails",
+                status=422,
+            )
+        if not termination_details.get("reason"):
+            raise_operation_error(
+                self.request,
+                "reason is required to activate terminationDetails",
+                name="terminationDetails",
+                status=422,
+            )
+
+        if termination_details["reasonType"] == "disrupted":
+            self.validate_termination_details_amount_paid_not_exceeds_value(contract, termination_details)
+
+    @staticmethod
+    def get_effective_contract_value(contract: dict) -> dict:
+        value_changes = [
+            change
+            for change in contract.get("changes", [])
+            if change.get("status") == "active" and change.get("modifications", {}).get("value")
+        ]
+
+        if not value_changes:
+            return contract.get("value") or {}
+        last_change = max(value_changes, key=lambda change: change.get("date") or "")
+        return last_change["modifications"]["value"]
+
+    def validate_termination_details_amount_paid_not_exceeds_value(
+        self, contract: dict, termination_details: dict
+    ) -> None:
+        amount_paid = termination_details["amountPaid"]
+        value = self.get_effective_contract_value(contract)
+
+        if amount_paid.get("currency") != value.get("currency"):
+            raise_operation_error(
+                self.request,
+                "terminationDetails.amountPaid currency must match contract value currency",
+                name="terminationDetails",
+                status=422,
+            )
+
+        if amount_paid.get("amount", 0) > value.get("amount", 0):
+            raise_operation_error(
+                self.request,
+                "terminationDetails.amountPaid.amount must not exceed contract value.amount",
+                name="terminationDetails",
+                status=422,
+            )
 
     def status_up(self, before: str, after: str, data: dict) -> None:
         super().status_up(before, after, data)

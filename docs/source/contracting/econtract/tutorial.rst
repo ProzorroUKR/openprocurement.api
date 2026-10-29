@@ -535,3 +535,55 @@
 
 .. http:example:: http/create-change-items.http
     :code:
+
+.. _econtracting_termination_details:
+
+Завершення виконання договору (terminationDetails)
+====================================================
+
+Після того, як сторони виконали всі зобов'язання за договором, або договір розірвано достроково, замовник має зафіксувати дані, достатні для формування звіту про виконання договору, та підписати їх.
+
+За це відповідає поле `terminationDetails` (:ref:`TerminationDetails`), яке може мати два статуси:
+
+* `draft` - замовник заповнює дані (причина завершення, фактично сплачена сума);
+* `active` - дані підписані замовником та зафіксовані остаточно.
+
+Перехід `draft` -> `active` відбувається **лише** як побічний ефект завантаження підпису і ніколи напряму через `PATCH`. Одночасно з активацією `terminationDetails` договір автоматично переходить у статус `terminated`.
+
+Заповнення terminationDetails
+------------------------------
+
+Замовник заповнює `terminationDetails`, передаючи об'єкт повністю (аналогічно до `amountPaid`), через `PATCH /contracts/{id}/termination_details`. Якщо поле `amountPaid` не передано, сервер підставляє значення за замовчуванням (`amount: 0`). Для `reasonType` `disrupted` сума `amountPaid.amount` не повинна перевищувати поточну вартість договору (`value.amount`, з урахуванням останньої активної зміни), а валюта повинна збігатися з валютою договору:
+
+.. http:example:: http/termination-details-patch.http
+   :code:
+
+Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - набір даних який має бути підписаний замовником:
+
+.. http:example:: http/termination-details-get.http
+   :code:
+
+Підписання
+----------
+
+Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationSignature`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`.
+
+Підписувати може лише замовник:
+
+.. http:example:: http/termination-signature-forbidden.http
+   :code:
+
+Замовник завантажує підпис:
+
+.. http:example:: http/termination-signature-activate.http
+   :code:
+
+Контракт автоматично перейшов у статус `terminated`, а `terminationDetails` - в `active`:
+
+.. http:example:: http/contract-terminated.http
+   :code:
+
+Після активації `terminationDetails` зміни заборонені:
+
+.. http:example:: http/termination-details-patch-after-active-forbidden.http
+   :code:

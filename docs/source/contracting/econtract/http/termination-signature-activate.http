@@ -1,0 +1,36 @@
+POST /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents?acc_token=095f224d5ed54436b623b406684b80f1 HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "documentType": "terminationSignature",
+    "title": "termination_sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b4bc8414f47359b80c29da2eb98fd?Signature=9jzeRozGUmm1FXBsPA1VlJB%2BwyDKjU37ypxkfxve2F4EElYn5ShQBghGqnY%2Beie9puwDdSxm%2BDxp%2FnlxVwDGDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature"
+  }
+}
+
+
+HTTP/1.0 201 Created
+Content-Type: application/json
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents/b909e70fd0474fdab7c7a2b4e0c46ce6
+
+{
+  "data": {
+    "confidentiality": "public",
+    "hash": "md5:00000000000000000000000000000000",
+    "title": "termination_sign.p7s",
+    "format": "application/pkcs7-signature",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b4bc8414f47359b80c29da2eb98fd?Signature=ikQrOdxi2j3Ff8513SRCRAa5Z8Sycv%2FcEyoL2bhqxcw4wCA4tcsUwMuSO%2Fv3cIFZuldYiYAuCdN0wJwZcrjLAg%3D%3D&KeyID=a8968c46",
+    "documentOf": "contract",
+    "documentType": "terminationSignature",
+    "id": "b909e70fd0474fdab7c7a2b4e0c46ce6",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "dateModified": "2027-01-01T00:00:00+02:00",
+    "author": "buyer"
+  }
+}
+

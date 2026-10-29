@@ -1,0 +1,124 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C)
+# This file is distributed under the same license as the openprocurement.api package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: openprocurement.api 2.5\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-26 10:39+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "TerminationDetails"
+msgstr ""
+
+msgid "Дані про завершення виконання електронного договору (``EContract``): причина завершення, фактично сплачена сума та підпис замовника, яким фіксується цей набір даних."
+msgstr ""
+
+#, python-brace-format
+msgid "Об’єкт можна оновлювати через ``PATCH /contracts/{id}/termination_details``, передаючи поле ``terminationDetails`` повністю (повна заміна, за аналогією з ``amountPaid``). Перехід зі статусу ``draft`` у ``active`` відбувається **лише** як побічний ефект успішного завантаження підпису (``terminationSignature``), і ніколи напряму через ``PATCH``."
+msgstr ""
+
+msgid "Схема"
+msgstr ""
+
+msgid "status"
+msgstr ""
+
+msgid "рядок, обов’язковий, генерується автоматично, лише для читання"
+msgstr ""
+
+msgid "Можливі значення:"
+msgstr ""
+
+msgid "`draft` - дані про завершення договору заповнюються замовником, ще не підписані."
+msgstr ""
+
+msgid "`active` - дані підписані замовником та зафіксовані остаточно."
+msgstr ""
+
+msgid "reasonType"
+msgstr ""
+
+msgid "рядок, обов’язковий для активації"
+msgstr ""
+
+msgid "`completed` - всі зобов’язання за договором виконано."
+msgstr ""
+
+msgid "`disrupted` - договір розірвано достроково."
+msgstr ""
+
+msgid "reason"
+msgstr ""
+
+msgid "Причина завершення договору."
+msgstr ""
+
+msgid "amountPaid"
+msgstr ""
+
+msgid ":ref:`AmountPaid`"
+msgstr ""
+
+msgid "Дані про фактично сплачену суму за договором. Якщо не передано при PATCH, сервер підставляє значення за замовчуванням (``amount: 0``). Якщо ``reasonType`` дорівнює ``disrupted``, сума (``amount``) не повинна перевищувати поточну вартість договору (``contract.value.amount``, з урахуванням останньої активної зміни), а валюта (``currency``) повинна збігатися з валютою договору."
+msgstr ""
+
+msgid "dateCreated"
+msgstr ""
+
+msgid "рядок, :ref:`date`, генерується автоматично, лише для читання"
+msgstr ""
+
+msgid "datePublished"
+msgstr ""
+
+msgid "Дата активації terminationDetails (встановлюється сервером в момент успішного завантаження підпису)."
+msgstr ""
+
+msgid "documents"
+msgstr ""
+
+msgid "Список об’єктів :ref:`Document`, генерується автоматично, лише для читання"
+msgstr ""
+
+msgid "Документ з типом ``terminationSignature`` - підпис замовника, яким підтверджується зафіксований набір даних terminationDetails."
+msgstr ""
+
+msgid "AmountPaid"
+msgstr ""
+
+msgid "amount"
+msgstr ""
+
+msgid "float, обов’язково"
+msgstr ""
+
+msgid "amountNet"
+msgstr ""
+
+msgid "float"
+msgstr ""
+
+msgid "currency"
+msgstr ""
+
+msgid "рядок, обов’язковий, за замовчуванням `UAH`"
+msgstr ""
+
+msgid "valueAddedTaxIncluded"
+msgstr ""
+
+msgid "логічний (bool) тип даних"
+msgstr ""
+

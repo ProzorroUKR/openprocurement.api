@@ -56,6 +56,7 @@
    qualification
    question
    tender
+   terminationdetails
    unit
    unitPrice
    util

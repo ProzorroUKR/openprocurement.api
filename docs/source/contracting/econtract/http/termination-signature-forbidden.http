@@ -1,0 +1,30 @@
+POST /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details/documents?acc_token=8ff3555ff5734dac917f580f1d09995a HTTP/1.0
+Authorization: Bearer broker6
+Content-Type: application/json
+Host: lb-api-sandbox.prozorro.gov.ua
+
+{
+  "data": {
+    "documentType": "terminationSignature",
+    "title": "termination_sign.p7s",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b4bc8414f47359b80c29da2eb98fd?Signature=9jzeRozGUmm1FXBsPA1VlJB%2BwyDKjU37ypxkfxve2F4EElYn5ShQBghGqnY%2Beie9puwDdSxm%2BDxp%2FnlxVwDGDg%3D%3D&KeyID=a8968c46",
+    "hash": "md5:00000000000000000000000000000000",
+    "format": "application/pkcs7-signature"
+  }
+}
+
+
+HTTP/1.0 403 Forbidden
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "url",
+      "name": "permission",
+      "description": "Forbidden"
+    }
+  ]
+}
+

@@ -154,20 +154,6 @@ class EContractPostResource(ContractBaseResource):
 class EContractResource(ContractResource):
     state_class = EContractState
 
-    # TODO: may be in the future we will use patch only for terminationDetails, amountPaid and `terminated` status
-    # @json_view(
-    #     content_type="application/json",
-    #     permission="edit_contract",
-    #     validators=(
-    #         unless_admins(unless_administrator(validate_contract_owner)),
-    #         unless_admins(unless_administrator(validate_contract_in_active_status)),
-    #         validate_input_data(conditional_contract_model),
-    #         validate_patch_data_simple(Contract, item_name="contract"),
-    #     ),
-    # )
-    # def patch(self):
-    #     return super().patch()
-
 
 @resource(
     name="EContract access",

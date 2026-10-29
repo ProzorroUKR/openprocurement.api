@@ -11,8 +11,12 @@ from openprocurement.contracting.core.procedure.models.contract import (
 from openprocurement.contracting.econtract.procedure.models.cancellation import (
     Cancellation,
 )
+from openprocurement.contracting.econtract.procedure.models.change import Change
 from openprocurement.contracting.econtract.procedure.models.document import Document
 from openprocurement.contracting.econtract.procedure.models.signatory import Signatory
+from openprocurement.contracting.econtract.procedure.models.termination_details import (
+    TerminationDetails,
+)
 
 
 class PostContract(BasePostContract):
@@ -20,7 +24,9 @@ class PostContract(BasePostContract):
 
 
 class Contract(BaseContract):
+    changes = ListType(ModelType(Change, required=True))
     documents = ListType(ModelType(Document, required=True))
     cancellations = ListType(ModelType(Cancellation, required=True))
     author = StringType()
     signatories = ListType(ModelType(Signatory, required=True))
+    terminationDetails = ModelType(TerminationDetails)
