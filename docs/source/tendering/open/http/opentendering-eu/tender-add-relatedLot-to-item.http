@@ -94,6 +94,9 @@ Content-Type: application/json
     "title": "Послуги шкільних їдалень",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "procedure": {
+      "euPublished": true
+    },
     "qualificationPeriod": {
       "startDate": "2027-02-01T00:00:00+02:00",
       "endDate": "2027-02-27T00:00:00+02:00"
@@ -294,6 +297,7 @@ Content-Type: application/json
         "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
       }
     ],
+    "procurementMethodType": "openTendering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -356,10 +360,6 @@ Content-Type: application/json
         }
       }
     ],
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": true
-    },
     "id": "b53c538bd44a4fb48d1a7fc2b0503a49"
   },
   "config": {

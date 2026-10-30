@@ -12,6 +12,9 @@ Content-Type: application/json
     "title_en": "Services in school canteens",
     "title": "Послуги шкільних їдалень",
     "status": "draft",
+    "procedure": {
+      "euPublished": true
+    },
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -122,6 +125,7 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethodType": "openTendering",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -159,10 +163,6 @@ Content-Type: application/json
       "currency": "UAH",
       "amount": 500.0,
       "valueAddedTaxIncluded": false
-    },
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": true
     },
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",

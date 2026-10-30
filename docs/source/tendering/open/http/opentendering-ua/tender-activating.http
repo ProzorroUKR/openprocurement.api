@@ -966,6 +966,9 @@ Content-Type: application/json
     "title": "футляри до державних нагород",
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
+    "procedure": {
+      "euPublished": false
+    },
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-28T00:00:00+02:00"
@@ -1128,6 +1131,7 @@ Content-Type: application/json
         "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
+    "procurementMethodType": "openTendering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -1186,10 +1190,6 @@ Content-Type: application/json
         }
       }
     ],
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": false
-    },
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "next_check": "2027-02-01T00:00:00+02:00",
     "id": "b53c538bd44a4fb48d1a7fc2b0503a49"

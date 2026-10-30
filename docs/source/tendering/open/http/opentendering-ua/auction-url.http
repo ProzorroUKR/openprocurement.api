@@ -1013,6 +1013,9 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "procedure": {
+      "euPublished": false
+    },
     "complaintPeriod": {
       "startDate": "2026-12-17T00:00:00+02:00",
       "endDate": "2027-01-02T00:00:00+02:00"
@@ -1180,6 +1183,7 @@ Content-Type: application/json
         "relatedLot": "063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
+    "procurementMethodType": "openTendering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -1239,10 +1243,6 @@ Content-Type: application/json
         "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/b53c538bd44a4fb48d1a7fc2b0503a49_063b6eeb2fa2412e8ec9eeec32b8c659"
       }
     ],
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": false
-    },
     "auctionPeriod": {},
     "id": "b53c538bd44a4fb48d1a7fc2b0503a49"
   },
