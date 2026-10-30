@@ -11,6 +11,9 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
     "status": "draft",
+    "procedure": {
+      "euPublished": false
+    },
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -87,6 +90,7 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethodType": "openTendering",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -120,10 +124,6 @@ Content-Type: application/json
       "currency": "UAH",
       "amount": 500.0,
       "valueAddedTaxIncluded": false
-    },
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": false
     },
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",

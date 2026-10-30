@@ -157,6 +157,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb4
     "mainProcurementCategory": "services",
     "title": "футляри до державних нагород",
     "status": "draft",
+    "procedure": {
+      "euPublished": false
+    },
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -233,6 +236,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb4
         }
       }
     ],
+    "procurementMethodType": "openTendering",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -266,10 +270,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb4
       "currency": "UAH",
       "amount": 500.0,
       "valueAddedTaxIncluded": false
-    },
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": false
     },
     "tenderID": "UA-2027-01-01-000003-a",
     "owner": "broker",
