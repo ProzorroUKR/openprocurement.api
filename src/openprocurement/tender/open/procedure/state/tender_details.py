@@ -29,10 +29,6 @@ from openprocurement.tender.open.constants import (
     SIMPLE_DEFENSE_TENDERING_EXTRA_PERIOD,
     SIMPLE_DEFENSE_WORKING_DAYS_CONFIG,
 )
-from openprocurement.tender.open.procedure.models.tender import (
-    OpenTenderingPostTender,
-    OpenTenderingTender,
-)
 from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdEUTenderState,
     AboveThresholdTenderState,
@@ -227,8 +223,6 @@ class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):
 
 
 class OpenTenderingTenderDetailsState(TenderDetailsMixin, OpenTenderingTenderState):
-    post_data_model = OpenTenderingPostTender
-    data_model = OpenTenderingTender
     contract_template_required = True
 
 

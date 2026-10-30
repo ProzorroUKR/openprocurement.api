@@ -125,13 +125,13 @@ def create_tender_generated(self):
 
 
 def create_tender_procedure_forbidden_for_legacy(self):
-    """procedure is an openTendering field: the legacy open procedures don't accept it"""
+    """procedure is allowed only for the procedures that have procedureExtensionScheme: not for the legacy ones"""
     data = deepcopy(self.initial_data)
     data["procurementMethodType"] = "aboveThresholdUA"
     response = self.app.post_json("/tenders", {"data": data}, status=422)
     self.assertEqual(
         response.json["errors"],
-        [{"description": "Rogue field", "location": "body", "name": "procedure"}],
+        [{"description": ["Rogue field."], "location": "body", "name": "procedure"}],
     )
 
 

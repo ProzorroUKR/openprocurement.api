@@ -462,6 +462,15 @@ def create_tender_invalid(self):
         [{"description": ["This field is required."], "location": "body", "name": "enquiryPeriod"}],
     )
 
+    # procedure is allowed only for the procedures that have procedureExtensionScheme in standards
+    data = deepcopy(self.initial_data)
+    data["procedure"] = {"euPublished": False}
+    response = self.app.post_json(request_path, {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"description": ["Rogue field."], "location": "body", "name": "procedure"}],
+    )
+
     response = self.app.post_json(request_path, {"data": {"enquiryPeriod": {"endDate": "invalid_value"}}}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")

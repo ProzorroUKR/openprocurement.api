@@ -2505,7 +2505,8 @@ class TenderProcedureRulesMixin(BaseState):
     """
     tender procedure: the procedure specific fields,
     validated by the procedureExtensionScheme of the procurementMethodType (standards)
-    (the field itself is declared only in the models of the procedures that have the scheme)
+    (the field is declared in the core tender models: required for the procedures that have the scheme
+    and rejected for the others)
     """
 
     def on_post(self, data):
