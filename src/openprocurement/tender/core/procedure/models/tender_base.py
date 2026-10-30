@@ -6,7 +6,7 @@ from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants import SANDBOX_MODE
+from openprocurement.api.constants import SANDBOX_MODE, TENDER_PROCEDURE_JSONSCHEMAS
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
@@ -186,6 +186,8 @@ class PostBaseTender(CommonBaseTender):
     agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
     inspector = ModelType(Organization)
     plans = ListType(ModelType(PlanRelation, required=True))
+    # the procedure specific fields: set only at the creation, the structure is validated by the state
+    procedure = BaseType()
 
     def validate_buyers(self, data, value):
         procuring_entity_kind = data.get("procuringEntity", {}).get("kind", "")
@@ -206,6 +208,14 @@ class PostBaseTender(CommonBaseTender):
 
     def validate_plans(self, data, value):
         validate_plans(data, value)
+
+    def validate_procedure(self, data, value):
+        # allowed (and required) only for the procedures that have procedureExtensionScheme in standards
+        if TENDER_PROCEDURE_JSONSCHEMAS.get(data.get("procurementMethodType")) is None:
+            if value is not None:
+                raise ValidationError("Rogue field.")
+        elif value is None:
+            raise ValidationError(BaseType.MESSAGES["required"])
 
 
 class BaseTender(PatchBaseTender):
@@ -238,6 +248,7 @@ class BaseTender(PatchBaseTender):
     procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
     noticePublicationDate = IsoDateTimeType()
     plans = ListType(ModelType(PlanRelation, required=True))
+    procedure = BaseType()
 
     if SANDBOX_MODE:
         procurementMethodDetails = StringType()
