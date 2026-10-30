@@ -12,7 +12,6 @@ from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
-from openprocurement.tender.core.procedure.validation import validate_related_lot
 
 
 class PostClaim(Model):
@@ -50,10 +49,6 @@ class PostClaim(Model):
                 raise ValidationError("This field is required")
             else:
                 data["type"] = "claim"
-
-    def validate_relatedLot(self, data, related_lot):
-        if related_lot:
-            validate_related_lot(get_tender(), related_lot)
 
 
 class PostClaimFromBid(PostClaim):

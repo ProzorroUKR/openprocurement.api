@@ -50,6 +50,7 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
     def validate_complaint_appeal_post_request(self):
         self.validate_any_item_owner("complaint", "tender")
         self.validate_input_data(self.get_post_data_model())
+        self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
         self.validate_data_documents(route_key="appeal_id", uid_key="id")
 
     def validate_complaint_appeal_patch_request(self):

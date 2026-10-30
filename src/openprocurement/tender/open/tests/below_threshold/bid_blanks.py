@@ -2414,6 +2414,31 @@ def put_tender_bid_document_json(self):
 
 def create_tender_bid_with_document_invalid(self):
     # test requires bid data stored on `bid_data_wo_docs` attribute of test class
+    docs_container = self.docs_container if hasattr(self, "docs_container") else "documents"
+    bid_data = deepcopy(self.bid_data_wo_docs)
+    bid_data[docs_container] = [
+        {
+            "title": "name.doc",
+            "url": self.generate_docservice_url(),
+            "hash": "md5:" + "0" * 32,
+            "format": "application/msword",
+            "documentOf": "item",
+            "relatedItem": "0" * 32,
+        }
+    ]
+    response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": bid_data}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": docs_container,
+                "description": [{"relatedItem": ["relatedItem should be one of items"]}],
+            }
+        ],
+    )
+
     docs = [
         {
             "title": "name.doc",

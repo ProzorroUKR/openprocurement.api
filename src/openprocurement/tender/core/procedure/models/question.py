@@ -5,7 +5,6 @@ from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ModelType
 from openprocurement.tender.core.procedure.models.organization import Organization
@@ -27,14 +26,8 @@ class PostQuestion(Model):
     relatedItem = StringType(min_length=1)
 
     def validate_relatedItem(self, data, related_item):
-        if not related_item and data.get("questionOf") in ["item", "lot"]:
+        if not related_item and data.get("questionOf") in ("item", "lot"):
             raise ValidationError("This field is required.")
-        if related_item:
-            tender = get_tender()
-            if data.get("questionOf") == "lot" and related_item not in [i["id"] for i in tender.get("lots", []) if i]:
-                raise ValidationError("relatedItem should be one of lots")
-            if data.get("questionOf") == "item" and related_item not in [i["id"] for i in tender.get("items", []) if i]:
-                raise ValidationError("relatedItem should be one of items")
 
 
 class PatchQuestion(Model):

@@ -21,6 +21,18 @@ class QualificationState(QualificationRequirementResponsesRulesMixin, TenderStat
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), "qualification")
+        self.validate_qualification_lot_id(self.request.validated["data"])
+
+    def validate_qualification_lot_id(self, qualification):
+        """a qualification of a multilot tender is related to one of its lots (checked when lotID is passed, as the model did)"""
+        lots = get_tender().get("lots")
+        if not lots or "lotID" not in qualification:
+            return
+        lot_id = qualification.get("lotID")
+        if not lot_id:
+            raise_operation_error(self.request, ["This field is required."], status=422, name="lotID")
+        if lot_id not in {lot["id"] for lot in lots if lot}:
+            raise_operation_error(self.request, ["lotID should be one of lots"], status=422, name="lotID")
 
     def set_bid_status(self, bid_id, status, lot_id=None):
         tender = get_tender()

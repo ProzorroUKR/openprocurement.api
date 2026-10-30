@@ -1,11 +1,9 @@
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
@@ -49,13 +47,6 @@ class PostAward(BaseAward):
     lotID = MD5Type()
     complaintPeriod = ModelType(Period)
     subcontractingDetails = StringType()
-
-    def validate_lotID(self, data, value):
-        tender = get_tender()
-        if not value and tender.get("lots"):
-            raise ValidationError("This field is required.")
-        if value and value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
-            raise ValidationError("lotID should be one of lots")
 
 
 class PatchAward(ObjResponseMixin, BaseAward):
@@ -101,13 +92,6 @@ class Award(AwardMilestoneListMixin, ObjResponseMixin, BaseAward):
     description = StringType()
     description_en = StringType()
     description_ru = StringType()
-
-    def validate_lotID(self, data, value):
-        tender = get_tender()
-        if not value and tender.get("lots"):
-            raise ValidationError("This field is required.")
-        if value and value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
-            raise ValidationError("lotID should be one of lots")
 
 
 # reporting: plain value (no defaults from the tender)

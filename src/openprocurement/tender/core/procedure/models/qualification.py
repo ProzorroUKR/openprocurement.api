@@ -75,11 +75,3 @@ class Qualification(PatchQualification, QualificationMilestoneListMixin):
         status = data.get("status")
         if status == "active" and eligible is not True:
             raise ValidationError("This field must be true.")
-
-    def validate_lotID(self, data, value):
-        lots = get_tender().get("lots")
-        if lots:
-            if not value:
-                raise ValidationError("This field is required.")
-            if value and value not in {lot["id"] for lot in lots if lot}:
-                raise ValidationError("lotID should be one of lots")

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from schematics.exceptions import ValidationError
 
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import error_handler
+from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_bid
 
 
@@ -129,3 +129,23 @@ def diff_requirements(before: list, after: list) -> RequirementsDiff:
             else:
                 diff.added.append(version)
     return diff
+
+
+class DocumentsRelatedItemRulesMixin:
+    def validate_documents_related_item(self, documents, name=None):
+        """
+        relatedItem of the item / lot documents is one of the tender items / lots;
+        name - the field of the documents list in the error (inline documents of bids, complaints, ...)
+        """
+        tender = self.request.validated["tender"]
+        for document in documents or "":
+            document_of = document.get("documentOf")
+            related_item = document.get("relatedItem")
+            for obj_name in ("lot", "item"):
+                if document_of == obj_name and not any(
+                    i and related_item == i["id"] for i in tender.get(f"{obj_name}s", "")
+                ):
+                    error = [f"relatedItem should be one of {obj_name}s"]
+                    if name:
+                        raise_operation_error(self.request, [{"relatedItem": error}], status=422, name=name)
+                    raise_operation_error(self.request, error, status=422, name="relatedItem")

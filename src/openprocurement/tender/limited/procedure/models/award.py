@@ -1,4 +1,3 @@
-from schematics.exceptions import ValidationError
 from schematics.types import BooleanType, MD5Type, StringType
 
 from openprocurement.api.procedure.context import get_tender
@@ -30,12 +29,6 @@ class LimitedPatchAward(PatchAward):
     suppliers = ListType(ModelType(Supplier, required=True), min_size=1, max_size=1)
     value = ModelType(LimitedAwardValue)
     lotID = MD5Type()
-
-    def validate_lotID(self, data, value):
-        if value:
-            tender = get_tender()
-            if value not in tuple(lot["id"] for lot in tender.get("lots", "") if lot):
-                raise ValidationError("lotID should be one of lots")
 
 
 class LimitedAward(Award):

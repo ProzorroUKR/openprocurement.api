@@ -24,6 +24,23 @@ class TenderQuestionStateMixin:
 
     def validate_question_post_request(self):
         self.validate_input_data(self.get_post_data_model())
+        self.validate_question_related_item(self.request.validated["data"])
+
+    def validate_question_related_item(self, question):
+        """a question of an item / lot is related to one of the tender items / lots"""
+        question_of = question.get("questionOf")
+        related_item = question.get("relatedItem")
+        if not related_item:
+            return
+        tender = get_tender()
+        for obj_name in ("lot", "item"):
+            if question_of == obj_name and related_item not in [i["id"] for i in tender.get(f"{obj_name}s", []) if i]:
+                raise_operation_error(
+                    self.request,
+                    [f"relatedItem should be one of {obj_name}s"],
+                    status=422,
+                    name="relatedItem",
+                )
 
     def validate_question_patch_request(self):
         self.validate_item_owner("tender")

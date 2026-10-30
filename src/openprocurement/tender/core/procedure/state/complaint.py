@@ -61,6 +61,8 @@ class BaseComplaintStateMixin:
         if self.complaint_post_bid_owner_statuses is not None and self.request.authenticated_role != "admins":
             self.validate_bid_owner(self.complaint_post_bid_owner_statuses)
         self.validate_input_data(self.get_post_data_model())
+        self.validate_complaint_related_lot(self.request.validated["data"])
+        self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
         self.validate_data_documents(route_key=self.complaint_documents_route_key, uid_key="id")
 
     def validate_complaint_patch_request(self):
@@ -68,6 +70,11 @@ class BaseComplaintStateMixin:
             self.validate_any_item_owner(*self.complaint_patch_owner_item_names)
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), self.complaint_item_name)
+
+    def validate_complaint_related_lot(self, complaint):
+        related_lot = complaint.get("relatedLot")
+        if related_lot and related_lot not in [lot["id"] for lot in get_tender().get("lots") or [] if lot]:
+            raise_operation_error(self.request, ["relatedLot should be one of lots"], status=422, name="relatedLot")
 
     def validate_bid_owner(self, statuses):
         request = self.request

@@ -66,6 +66,13 @@ class CancellationStateMixin:
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
+        self.validate_cancellation_related_lot(self.request.validated["data"])
+        self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
+
+    def validate_cancellation_related_lot(self, cancellation):
+        related_lot = cancellation.get("relatedLot")
+        if related_lot and not any(lot["id"] == related_lot for lot in get_tender().get("lots", "")):
+            raise_operation_error(self.request, ["relatedLot should be one of lots"], status=422, name="relatedLot")
 
     def validate_cancellation_patch_request(self):
         if self.request.authenticated_role != "admins":

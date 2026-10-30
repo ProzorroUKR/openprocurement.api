@@ -1142,6 +1142,14 @@ def objection_related_document_of_evidence(self):
 
 def objection_related_item_equals_related_lot(self):
     complaint_data = deepcopy(test_tender_below_draft_complaint)
+    complaint_data["relatedLot"] = "0" * 32
+    response = self.create_complaint(complaint_data, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "relatedLot", "description": ["relatedLot should be one of lots"]}],
+    )
+
     complaint_data["relatedLot"] = self.initial_data["lots"][0]["id"]
     invalid_objection_data = deepcopy(test_tender_open_complaint_objection)
     invalid_objection_data["relatesTo"] = "lot"

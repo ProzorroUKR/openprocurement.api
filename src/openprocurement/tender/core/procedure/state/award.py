@@ -90,12 +90,25 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
+        self.validate_award_lot_id(self.request.validated["data"])
 
     def validate_award_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "award")
+        # the award model checked lotID on PATCH only when the award has it
+        if "lotID" in self.request.validated["data"]:
+            self.validate_award_lot_id(self.request.validated["data"])
+
+    def validate_award_lot_id(self, award):
+        """an award of a multilot tender is related to one of its lots"""
+        lot_id = award.get("lotID")
+        lots = get_tender().get("lots")
+        if not lot_id and lots:
+            raise_operation_error(self.request, ["This field is required."], status=422, name="lotID")
+        if lot_id and lot_id not in tuple(lot["id"] for lot in lots or "" if lot):
+            raise_operation_error(self.request, ["lotID should be one of lots"], status=422, name="lotID")
 
     # --- hooks (called from the views) ---
 
