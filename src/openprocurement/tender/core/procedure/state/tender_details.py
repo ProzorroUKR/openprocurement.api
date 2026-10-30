@@ -823,10 +823,14 @@ class TenderValueRulesMixin(BaseState):
 
         bid_guarantee_criterion = "CRITERION.OTHER.BID.GUARANTEE"
 
+        criteria = before.get("criteria") or []
+        if not tender_created_before(CRITERION_REQUIREMENT_STATUSES_FROM):
+            criteria = [criterion for criterion in criteria if check_requirements_active(criterion)]
+
         if before.get("lots"):
             related_guarantee_lots = [
                 criterion.get("relatedItem")
-                for criterion in before.get("criteria", "")
+                for criterion in criteria
                 if criterion.get("relatesTo") == "lot"
                 and criterion.get("classification")
                 and criterion["classification"]["id"] == bid_guarantee_criterion
@@ -849,9 +853,7 @@ class TenderValueRulesMixin(BaseState):
         else:
             amount = after["guarantee"]["amount"] if after.get("guarantee") else 0
             tender_criteria = [
-                criterion["classification"]["id"]
-                for criterion in before.get("criteria", "")
-                if criterion.get("classification")
+                criterion["classification"]["id"] for criterion in criteria if criterion.get("classification")
             ]
             if (amount <= 0 and bid_guarantee_criterion in tender_criteria) or (
                 amount > 0 and bid_guarantee_criterion not in tender_criteria
