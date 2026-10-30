@@ -5,7 +5,6 @@ from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.tender.core.procedure.models.document import Document
@@ -45,11 +44,7 @@ class PostCancellation(Model):
     relatedLot = MD5Type()
 
     def validate_relatedLot(self, data, related_lot):
-        if related_lot:
-            if not any(lot["id"] == related_lot for lot in get_tender().get("lots", "")):
-                raise ValidationError("relatedLot should be one of lots")
-
-        elif data.get("cancellationOf") == "lot":
+        if not related_lot and data.get("cancellationOf") == "lot":
             raise ValidationError("This field is required.")
 
 

@@ -34,6 +34,7 @@ from openprocurement.tender.core.procedure.models.bid import (
 from openprocurement.tender.core.procedure.state.req_response import (
     BidRequirementResponsesRulesMixin,
 )
+from openprocurement.tender.core.procedure.state.utils import DocumentsRelatedItemRulesMixin
 from openprocurement.tender.core.procedure.utils import (
     equals_decimal_and_corrupted,
     get_supplier_contract,
@@ -57,7 +58,7 @@ from openprocurement.tender.core.procedure.validation import (
 logger = logging.getLogger(__name__)
 
 
-class BidState(BidRequirementResponsesRulesMixin, BaseState):
+class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin, BaseState):
     post_data_model = PostBid
     patch_data_model = PatchBid
     patch_qualification_data_model = PatchQualificationBid
@@ -183,6 +184,8 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
         self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
         self.validate_bid_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
+        for name in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+            self.validate_documents_related_item(self.request.validated["data"].get(name), name=name)
         self.validate_data_documents(route_key="bid_id", uid_key="id")
 
     def validate_bid_patch_request(self):

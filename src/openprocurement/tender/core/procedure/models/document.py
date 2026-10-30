@@ -5,7 +5,6 @@ from schematics.types import MD5Type, StringType
 from schematics.types.serializable import serializable
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.document import (
     ConfidentialDocumentMixin,
@@ -72,14 +71,9 @@ class BaseDocument(Model):
 
 
 def validate_relatedItem(related_item, document_of):
+    # the tender items / lots of relatedItem are checked by the state (TenderState.validate_documents_related_item)
     if not related_item and document_of in ("item", "lot"):
         raise ValidationError("This field is required.")
-
-    tender = get_tender()
-    if document_of == "lot" and not any(i and related_item == i["id"] for i in tender.get("lots", "")):
-        raise ValidationError("relatedItem should be one of lots")
-    if document_of == "item" and not any(i and related_item == i["id"] for i in tender.get("items", "")):
-        raise ValidationError("relatedItem should be one of items")
 
 
 def validate_tender_document_relations(data, documents):

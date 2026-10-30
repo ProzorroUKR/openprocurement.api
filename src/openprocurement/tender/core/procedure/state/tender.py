@@ -22,6 +22,7 @@ from openprocurement.tender.core.procedure.state.auction import ShouldStartAfter
 from openprocurement.tender.core.procedure.state.chronograph import (
     ChronographEventsMixin,
 )
+from openprocurement.tender.core.procedure.state.utils import DocumentsRelatedItemRulesMixin
 from openprocurement.tender.core.procedure.utils import tender_created_after
 
 LOGGER = getLogger(__name__)
@@ -53,6 +54,7 @@ class BlockComplaintMixin:
 
 
 class TenderState(
+    DocumentsRelatedItemRulesMixin,
     ShouldStartAfterMixin,
     CancellationBlockMixin,
     TenderStateAwardingMixin,

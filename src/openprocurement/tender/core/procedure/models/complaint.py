@@ -29,7 +29,6 @@ from openprocurement.tender.core.procedure.models.value import BasicValue
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import (
     validate_numerated,
-    validate_related_lot,
 )
 
 
@@ -93,10 +92,6 @@ class PostComplaint(Model):
                 raise ValidationError("This field is required")
             else:
                 data["type"] = "complaint"
-
-    def validate_relatedLot(self, data, related_lot):
-        if related_lot:
-            validate_related_lot(get_tender(), related_lot)
 
 
 class PostComplaintFromBid(PostComplaint):
