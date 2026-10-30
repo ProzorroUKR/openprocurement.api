@@ -1878,6 +1878,9 @@ Content-Type: application/json
     "mainProcurementCategory": "services",
     "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
+    "procedure": {
+      "euPublished": true
+    },
     "qualifications": [
       {
         "id": "6803bc3ac7974edd8e7c511b96a4e982",
@@ -2125,6 +2128,7 @@ Content-Type: application/json
         "relatedLot": "0e2a00931fe6450685c11d73534c35f7"
       }
     ],
+    "procurementMethodType": "openTendering",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -2187,10 +2191,6 @@ Content-Type: application/json
         }
       }
     ],
-    "procurementMethodType": "openTendering",
-    "procedure": {
-      "euPublished": true
-    },
     "next_check": "2027-01-12T00:00:00+02:00",
     "id": "b53c538bd44a4fb48d1a7fc2b0503a49"
   },
