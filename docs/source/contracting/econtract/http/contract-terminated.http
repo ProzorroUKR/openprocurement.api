@@ -179,7 +179,7 @@ Content-Type: application/json
         }
       }
     ],
-    "contractTemplateName": "00000000.0002.01",
+    "contractTemplateName": "GENERAL.0001.01",
     "value": {
       "amount": 500.0,
       "currency": "UAH",

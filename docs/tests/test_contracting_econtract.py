@@ -104,7 +104,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             self.app.get("/brokers")
 
         # try to create tender with broker1
-        tender_data["contractTemplateName"] = "00000000.0002.01"
+        tender_data["contractTemplateName"] = "GENERAL.0001.01"
         tender_data["procuringEntity"]["signerInfo"] = test_signer_info
         tender_data["procuringEntity"]["contract_owner"] = "broker1"
         with open(TARGET_DIR + "create-tender-broker-1-fail.http", "w") as self.app.file_obj:

@@ -4372,7 +4372,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {
                     "data": {
-                        "contractTemplateName": "00000000.0002.01",
+                        "contractTemplateName": "GENERAL.0001.01",
                         "procuringEntity": {
                             **deepcopy(self.initial_data["procuringEntity"]),
                             "signerInfo": test_signer_info,
@@ -4401,7 +4401,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
                 {
                     "data": {
-                        "contractTemplateName": "00000000.0002.01",
+                        "contractTemplateName": "GENERAL.0001.01",
                         "procuringEntity": {
                             **deepcopy(self.initial_data["procuringEntity"]),
                             "signerInfo": test_signer_info,
@@ -4424,7 +4424,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
         ) as self.app.file_obj:
             response = self.app.patch_json(
                 f"/tenders/{self.tender_id}?acc_token={self.tender_token}",
-                {"data": {"contractTemplateName": "00000000.0002.01"}},
+                {"data": {"contractTemplateName": "GENERAL.0001.01"}},
                 status=422,
             )
             self.assertEqual(response.status, "422 Unprocessable Entity")
@@ -4533,7 +4533,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with open(TARGET_DIR + "contract-owner/add-contract-owner-no-template.http", "w") as self.app.file_obj:
             self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
 
-        tender_data["contractTemplateName"] = "00000000.0002.01"
+        tender_data["contractTemplateName"] = "GENERAL.0001.01"
         with open(TARGET_DIR + "contract-owner/add-contract-owner-invalid-broker.http", "w") as self.app.file_obj:
             self.app.post_json("/tenders", {"data": tender_data, "config": self.initial_config}, status=422)
 
