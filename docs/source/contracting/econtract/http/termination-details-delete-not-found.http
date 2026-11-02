@@ -1,0 +1,19 @@
+GET /api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/termination_details HTTP/1.0
+Authorization: Bearer broker6
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 404 Not Found
+Content-Type: application/json
+
+{
+  "status": "error",
+  "errors": [
+    {
+      "location": "url",
+      "name": "termination_details",
+      "description": "Not Found"
+    }
+  ]
+}
+

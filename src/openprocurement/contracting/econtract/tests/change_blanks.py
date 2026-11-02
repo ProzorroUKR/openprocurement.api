@@ -1083,6 +1083,45 @@ def change_contract_period(self):
     self.assertEqual(response.json["data"]["modifications"]["period"]["startDate"], "2016-03-20T18:47:47.155143+02:00")
 
 
+def change_with_termination_details_draft_forbidden(self):
+    self.app.patch_json(
+        f"/contracts/{self.contract['id']}/termination_details?acc_token={self.contract_token}",
+        {
+            "data": {
+                "terminationDetails": {
+                    "reasonType": "completed",
+                    "reason": "all obligations fulfilled",
+                    "amountPaid": {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": False},
+                }
+            }
+        },
+    )
+
+    response = self.app.post_json(
+        f"/contracts/{self.contract['id']}/changes?acc_token={self.bid_token}",
+        {
+            "data": {
+                "rationale": "причина зміни укр",
+                "rationale_en": "change cause en",
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+                "modifications": {"title": "new contract"},
+            },
+        },
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't create change while contract has terminationDetails",
+            }
+        ],
+    )
+
+
 def change_for_pending_contract_forbidden(self):
     contract_doc = self.mongodb.contracts.get(self.contract["id"])
     contract_doc["status"] = "pending"

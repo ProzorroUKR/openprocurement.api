@@ -24,6 +24,15 @@ class EChangeState(EContractState, ContractChangeStateMixin):
         self.validate_input_data(self.get_post_data_model())
         self.validate_contract_change_allowed()
         self.validate_contract_change_no_pending()
+        self.validate_no_termination_details()
+
+    def validate_no_termination_details(self):
+        contract = self.request.validated["contract"]
+        if contract.get("terminationDetails"):
+            raise_operation_error(
+                self.request,
+                "Can't create change while contract has terminationDetails",
+            )
 
     def change_on_post(self, data):
         tender = self.request.validated["tender"]

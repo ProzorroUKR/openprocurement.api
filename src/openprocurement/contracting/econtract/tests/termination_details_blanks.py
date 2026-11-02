@@ -3,17 +3,17 @@ from unittest.mock import patch
 COMPLETED_TERMINATION_DETAILS = {
     "reasonType": "completed",
     "reason": "all obligations fulfilled",
-    "amountPaid": {"amount": 100, "currency": "UAH", "amountNet": 100},
+    "amountPaid": {"amount": 100, "currency": "UAH", "amountNet": 100, "valueAddedTaxIncluded": False},
 }
 
 DISRUPTED_TERMINATION_DETAILS = {
     "reasonType": "disrupted",
     "reason": "terminated by mutual agreement",
-    "amountPaid": {"amount": 50, "currency": "UAH", "amountNet": 50},
+    "amountPaid": {"amount": 50, "currency": "UAH", "amountNet": 50, "valueAddedTaxIncluded": False},
 }
 
 SIGN_DATA = {
-    "documentType": "terminationSignature",
+    "documentType": "terminationReport",
     "title": "sign.p7s",
     "format": "application/pkcs7-signature",
 }
@@ -54,6 +54,22 @@ def patch_termination_details_draft(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": {"reasonType": "completed", "reason": "all obligations fulfilled"}}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "terminationDetails",
+                "description": "amountPaid is required to activate terminationDetails",
+            }
+        ],
+    )
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
     )
     self.assertEqual(response.status, "200 OK")
@@ -62,6 +78,60 @@ def patch_termination_details_draft(self):
     self.assertEqual(termination_details["reasonType"], "completed")
     self.assertIn("dateCreated", termination_details)
     self.assertNotIn("datePublished", termination_details)
+
+
+def patch_termination_details_pending_change_forbidden(self):
+    pdf_data = {
+        "url": self.generate_docservice_url(),
+        "format": "application/pdf",
+        "hash": "md5:" + "0" * 32,
+        "title": "contract_change.pdf",
+    }
+    upload_patch = patch(
+        "openprocurement.tender.core.procedure.contracting.upload_contract_change_pdf",
+        return_value={"data": pdf_data},
+    )
+    upload_patch.start()
+    self.addCleanup(upload_patch.stop)
+
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/changes?acc_token={self.contract_token}",
+        {
+            "data": {
+                "rationale": "Опис причини змін контракту",
+                "rationale_en": "Contract change cause",
+                "modifications": {"title": "New title of contract"},
+                "rationaleTypes": ["priceReductionWithoutQuantity"],
+            }
+        },
+    )
+
+    # an empty patch doesn't touch terminationDetails, so the pending change check
+    # must not trigger for it
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "terminationDetails",
+                "description": "Can't create terminationDetails while contract has a pending change",
+            }
+        ],
+    )
+    response = self.app.get(f"/contracts/{self.contract_id}?acc_token={self.contract_token}")
+    self.assertNotIn("terminationDetails", response.json["data"])
 
 
 def activate_termination_details_without_required_fields(self):
@@ -175,7 +245,7 @@ def get_termination_details_context(self):
     self.assertEqual(termination_details["status"], "active")
     self.assertEqual(len(termination_details["documents"]), 1)
     document = termination_details["documents"][0]
-    self.assertEqual(document["documentType"], "terminationSignature")
+    self.assertEqual(document["documentType"], "terminationReport")
     self.assertEqual(document["title"], "sign.p7s")
 
     context = response.json["context"]
@@ -275,6 +345,79 @@ def activate_termination_details_signature_invalid_cert(
     self.assertIn("Invalid certificate key type", response.json["errors"][0]["description"])
 
 
+def delete_termination_details_not_found(self):
+    response = self.app.delete(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        status=404,
+    )
+    self.assertEqual(response.status, "404 Not Found")
+
+
+def delete_termination_details_buyer_only(self):
+    self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
+    )
+    response = self.app.delete(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.supplier_token}",
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "url", "name": "permission", "description": "Forbidden"}],
+    )
+
+
+def delete_termination_details_draft(self):
+    self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
+    )
+    response = self.app.delete(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["reasonType"], "completed")
+
+    response = self.app.get(
+        f"/contracts/{self.contract_id}/termination_details",
+        status=404,
+    )
+    self.assertEqual(response.status, "404 Not Found")
+
+    response = self.app.get(f"/contracts/{self.contract_id}?acc_token={self.contract_token}")
+    self.assertNotIn("terminationDetails", response.json["data"])
+
+
+def delete_termination_details_after_active_forbidden(self):
+    self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": COMPLETED_TERMINATION_DETAILS}},
+    )
+    sign_data = dict(SIGN_DATA, url=self.generate_docservice_url(), hash="md5:" + "0" * 32)
+    self.app.post_json(
+        f"/contracts/{self.contract_id}/termination_details/documents?acc_token={self.contract_token}",
+        {"data": sign_data},
+    )
+
+    response = self.app.delete(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        status=403,
+    )
+    self.assertEqual(response.status, "403 Forbidden")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Can't update contract in current (terminated) status",
+            }
+        ],
+    )
+
+
 def activate_termination_details_disrupted_amount_exceeds_value(self):
     # for reasonType `disrupted`, amountPaid must not exceed the contract value
     # (checked eagerly, not only at signing time)
@@ -282,7 +425,12 @@ def activate_termination_details_disrupted_amount_exceeds_value(self):
     value = contract["value"]
 
     too_much = dict(DISRUPTED_TERMINATION_DETAILS)
-    too_much["amountPaid"] = {"amount": value["amount"] + 1, "currency": value["currency"]}
+    too_much["amountPaid"] = {
+        "amount": value["amount"] + 1,
+        "amountNet": value["amount"] + 1,
+        "currency": value["currency"],
+        "valueAddedTaxIncluded": False,
+    }
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": too_much}},
@@ -301,7 +449,7 @@ def activate_termination_details_disrupted_amount_exceeds_value(self):
     )
 
     wrong_currency = dict(DISRUPTED_TERMINATION_DETAILS)
-    wrong_currency["amountPaid"] = {"amount": 1, "currency": "EUR"}
+    wrong_currency["amountPaid"] = {"amount": 1, "amountNet": 1, "currency": "EUR", "valueAddedTaxIncluded": False}
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": wrong_currency}},
@@ -314,7 +462,7 @@ def activate_termination_details_disrupted_amount_exceeds_value(self):
             {
                 "location": "body",
                 "name": "terminationDetails",
-                "description": "terminationDetails.amountPaid currency must match contract value currency",
+                "description": "currency of amountPaid should be identical to currency of value of contract",
             }
         ],
     )

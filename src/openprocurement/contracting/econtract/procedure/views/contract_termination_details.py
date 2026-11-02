@@ -28,7 +28,7 @@ def resolve_termination_details(request):
     path="/contracts/{contract_id}/termination_details",
     contractType="eContract",
     description="EContract terminationDetails",
-    request_method=("GET", "PATCH"),
+    request_method=("GET", "PATCH", "DELETE"),
 )
 class EContractTerminationDetailsResource(ContractBaseResource):
     state_class = EContractState
@@ -65,3 +65,16 @@ class EContractTerminationDetailsResource(ContractBaseResource):
                 "data": TerminationDetailsSerializer(contract.get("terminationDetails")).data,
                 "config": contract["config"],
             }
+
+    @json_view(permission="edit_contract")
+    def delete(self):
+        resolve_termination_details(self.request)
+        self.state.validate_termination_details_delete_request()
+        contract = self.request.validated["contract"]
+        termination_details = contract.pop("terminationDetails")
+        if save_contract(self.request):
+            self.LOGGER.info(
+                f"Deleted termination details of contract {contract['_id']}",
+                extra=context_unpack(self.request, {"MESSAGE_ID": "contract_termination_details_delete"}),
+            )
+            return {"data": TerminationDetailsSerializer(termination_details).data}

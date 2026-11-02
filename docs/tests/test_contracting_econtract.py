@@ -741,7 +741,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with patch(upload_change_mock_path) as mock_upload_contract_change_pdf:
             mock_upload_contract_change_pdf.return_value = {"data": pdf_data}
             with open(TARGET_DIR + "create-change-items.http", "w") as self.app.file_obj:
-                self.app.post_json(
+                response = self.app.post_json(
                     f"/contracts/{self.contract_id}/changes?acc_token={supplier_token}",
                     {
                         "data": {
@@ -754,7 +754,15 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         }
                     },
                 )
+                change_id_3 = response.json["data"]["id"]
             mock_upload_contract_change_pdf.assert_called_once()
+
+        # a pending change blocks terminationDetails creation, so it has to be
+        # resolved (here: cancelled) before the termination tutorial can continue
+        self.app.post_json(
+            f"/contracts/{self.contract_id}/changes/{change_id_3}/cancellations?acc_token={supplier_token}",
+            {"data": {"reasonType": "requiresChanges", "reason": "not actual change"}},
+        )
 
         with open(TARGET_DIR + "termination-details-patch.http", "w") as self.app.file_obj:
             response = self.app.patch_json(
@@ -764,7 +772,7 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         "terminationDetails": {
                             "reasonType": "disrupted",
                             "reason": "Договір розірвано достроково за згодою сторін",
-                            "amountPaid": {"amount": 200, "currency": "UAH"},
+                            "amountPaid": {"amount": 200, "amountNet": 200, "currency": "UAH", "valueAddedTaxIncluded": False},
                         }
                     }
                 },
@@ -774,8 +782,32 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
         with open(TARGET_DIR + "termination-details-get.http", "w") as self.app.file_obj:
             self.app.get(f"/contracts/{self.contract_id}/termination_details?opt_context=true")
 
+        with open(TARGET_DIR + "termination-details-delete.http", "w") as self.app.file_obj:
+            response = self.app.delete(
+                f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
+            )
+        self.assertEqual(response.json["data"]["reasonType"], "disrupted")
+
+        with open(TARGET_DIR + "termination-details-delete-not-found.http", "w") as self.app.file_obj:
+            self.app.get(f"/contracts/{self.contract_id}/termination_details", status=404)
+
+        # terminationDetails is re-created so the rest of the tutorial flow (signing,
+        # activation) can continue as if the deletion above never happened
+        self.app.patch_json(
+            f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
+            {
+                "data": {
+                    "terminationDetails": {
+                        "reasonType": "disrupted",
+                        "reason": "Договір розірвано достроково за згодою сторін",
+                        "amountPaid": {"amount": 200, "amountNet": 200, "currency": "UAH", "valueAddedTaxIncluded": False},
+                    }
+                }
+            },
+        )
+
         termination_signature_data = {
-            "documentType": "terminationSignature",
+            "documentType": "terminationReport",
             "title": "termination_sign.p7s",
             "url": self.generate_docservice_url(),
             "hash": "md5:" + "0" * 32,
@@ -805,5 +837,11 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
             self.app.patch_json(
                 f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
                 {"data": {"terminationDetails": {"reasonType": "disrupted", "reason": "інша причина"}}},
+                status=403,
+            )
+
+        with open(TARGET_DIR + "termination-details-delete-after-active-forbidden.http", "w") as self.app.file_obj:
+            self.app.delete(
+                f"/contracts/{self.contract_id}/termination_details?acc_token={buyer_token_2}",
                 status=403,
             )

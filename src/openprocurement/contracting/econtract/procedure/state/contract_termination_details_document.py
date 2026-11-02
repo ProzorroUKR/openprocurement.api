@@ -23,7 +23,7 @@ from openprocurement.tender.core.utils import tender_signature_verification_disa
 
 class EContractTerminationDetailsDocumentState(ContractDocumentState):
     """
-    Uploading a terminationSignature document is the only way terminationDetails
+    Uploading a terminationReport document is the only way terminationDetails
     moves draft -> active: the buyer signs the contract JSON as returned by
     ContractContextSerializer (the same data shown as `context.contract` on
     GET /termination_details?opt_context=true) offline with their own EDS
@@ -61,7 +61,7 @@ class EContractTerminationDetailsDocumentState(ContractDocumentState):
         if data["author"] != AccessRole.BUYER.value:
             raise_operation_error(
                 self.request,
-                "terminationSignature document must be signed by buyer",
+                "terminationReport document must be signed by buyer",
             )
         EContractState(self.request).validate_termination_details_requirements(contract, termination_details)
         self.validate_termination_signature(data)

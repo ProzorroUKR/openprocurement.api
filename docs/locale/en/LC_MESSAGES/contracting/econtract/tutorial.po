@@ -571,10 +571,17 @@ msgstr ""
 msgid "Отримати поточний стан terminationDetails можна окремим запитом. Параметр `opt_context=true` додатково повертає `context.contract` - набір даних який має бути підписаний замовником:"
 msgstr ""
 
+#, python-brace-format
+msgid "Поки terminationDetails у статусі `draft`, замовник може видалити terminationDetails через `DELETE /contracts/{id}/termination_details`:"
+msgstr ""
+
+msgid "Після видалення об'єкт terminationDetails відсутній:"
+msgstr ""
+
 msgid "Підписання"
 msgstr "Signing"
 
-msgid "Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationSignature`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`."
+msgid "Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`."
 msgstr ""
 
 msgid "Підписувати може лише замовник:"
@@ -587,5 +594,8 @@ msgid "Контракт автоматично перейшов у статус 
 msgstr ""
 
 msgid "Після активації `terminationDetails` зміни заборонені:"
+msgstr ""
+
+msgid "Після активації `terminationDetails` видалення так само заборонене:"
 msgstr ""
 

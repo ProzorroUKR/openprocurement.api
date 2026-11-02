@@ -17,7 +17,7 @@ class TerminationDetailsSerializer(BaseSerializer):
 class ContractContextSerializer(ContractBaseSerializer):
     """
     Keys are sorted so the JSON this is rendered into matches, byte-for-byte,
-    the `sort_keys=True` reconstruction used to verify the terminationSignature
+    the `sort_keys=True` reconstruction used to verify the terminationReport
     (see EContractTerminationDetailsDocumentState.validate_termination_signature).
     """
 

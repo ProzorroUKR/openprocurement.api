@@ -12,8 +12,16 @@ TerminationDetails
 Об’єкт можна оновлювати через ``PATCH /contracts/{id}/termination_details``, передаючи
 поле ``terminationDetails`` повністю (повна заміна, за аналогією з ``amountPaid``).
 Перехід зі статусу ``draft`` у ``active`` відбувається **лише** як побічний ефект
-успішного завантаження підпису (``terminationSignature``), і ніколи напряму через
+успішного завантаження підпису (``terminationReport``), і ніколи напряму через
 ``PATCH``.
+
+Поки terminationDetails у статусі ``draft``, terminationDetails можна видалити повністю через
+``DELETE /contracts/{id}/termination_details``. Після активації (``active``) як
+``PATCH``, так і ``DELETE`` заборонені.
+
+Створення terminationDetails заборонене, якщо в договорі є change у статусі
+``pending``. Так само створення change заборонене, якщо в договорі вже є
+terminationDetails у будь-якому статусі (``draft`` або ``active``).
 
 Схема
 -----
@@ -40,14 +48,17 @@ TerminationDetails
     Причина завершення договору.
 
 :amountPaid:
-    :ref:`AmountPaid`
+    :ref:`AmountPaid`, обов’язковий для активації
 
-    Дані про фактично сплачену суму за договором. Якщо не передано при
-    PATCH, сервер підставляє значення за замовчуванням (``amount: 0``).
-    Якщо ``reasonType`` дорівнює ``disrupted``, сума (``amount``) не повинна
-    перевищувати поточну вартість договору (``contract.value.amount``, з
-    урахуванням останньої активної зміни), а валюта (``currency``) повинна
-    збігатися з валютою договору.
+    Дані про фактично сплачену суму за договором.
+    Якщо ``reasonType`` дорівнює ``disrupted``: ``amount`` та ``amountNet``
+    повинні узгоджуватись між собою за тими самими правилами, що й для
+    ``contract.value`` (``amount`` та ``amountNet`` мають бути рівними,
+    якщо ``valueAddedTaxIncluded`` є ``false``, інакше ``amount`` не може
+    перевищувати ``amountNet`` більш ніж на 20%); сума (``amount``) не
+    повинна перевищувати поточну вартість договору
+    (``contract.value.amount``, з урахуванням останньої активної зміни),
+    а валюта (``currency``) повинна збігатися з валютою договору.
 
 :dateCreated:
     рядок, :ref:`date`, генерується автоматично, лише для читання
@@ -61,7 +72,7 @@ TerminationDetails
 :documents:
     Список об’єктів :ref:`Document`, генерується автоматично, лише для читання
 
-    Документ з типом ``terminationSignature`` - підпис замовника, яким
+    Документ з типом ``terminationReport`` - підпис замовника, яким
     підтверджується зафіксований набір даних terminationDetails.
 
 .. _AmountPaid:
@@ -82,4 +93,4 @@ AmountPaid
     рядок, обов’язковий, за замовчуванням `UAH`
 
 :valueAddedTaxIncluded:
-    логічний (bool) тип даних
+    логічний (bool) тип даних, обов’язковий

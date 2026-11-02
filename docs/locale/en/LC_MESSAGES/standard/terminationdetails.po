@@ -26,7 +26,14 @@ msgid "Дані про завершення виконання електрон�
 msgstr ""
 
 #, python-brace-format
-msgid "Об’єкт можна оновлювати через ``PATCH /contracts/{id}/termination_details``, передаючи поле ``terminationDetails`` повністю (повна заміна, за аналогією з ``amountPaid``). Перехід зі статусу ``draft`` у ``active`` відбувається **лише** як побічний ефект успішного завантаження підпису (``terminationSignature``), і ніколи напряму через ``PATCH``."
+msgid "Об’єкт можна оновлювати через ``PATCH /contracts/{id}/termination_details``, передаючи поле ``terminationDetails`` повністю (повна заміна, за аналогією з ``amountPaid``). Перехід зі статусу ``draft`` у ``active`` відбувається **лише** як побічний ефект успішного завантаження підпису (``terminationReport``), і ніколи напряму через ``PATCH``."
+msgstr ""
+
+#, python-brace-format
+msgid "Поки terminationDetails у статусі ``draft``, terminationDetails можна видалити повністю через ``DELETE /contracts/{id}/termination_details``. Після активації (``active``) як ``PATCH``, так і ``DELETE`` заборонені."
+msgstr ""
+
+msgid "Створення terminationDetails заборонене, якщо в договорі є change у статусі ``pending``. Так само створення change заборонене, якщо в договорі вже є terminationDetails у будь-якому статусі (``draft`` або ``active``)."
 msgstr ""
 
 msgid "Схема"
@@ -68,10 +75,10 @@ msgstr ""
 msgid "amountPaid"
 msgstr ""
 
-msgid ":ref:`AmountPaid`"
+msgid ":ref:`AmountPaid`, обов’язковий для активації"
 msgstr ""
 
-msgid "Дані про фактично сплачену суму за договором. Якщо не передано при PATCH, сервер підставляє значення за замовчуванням (``amount: 0``). Якщо ``reasonType`` дорівнює ``disrupted``, сума (``amount``) не повинна перевищувати поточну вартість договору (``contract.value.amount``, з урахуванням останньої активної зміни), а валюта (``currency``) повинна збігатися з валютою договору."
+msgid "Дані про фактично сплачену суму за договором. Якщо ``reasonType`` дорівнює ``disrupted``: ``amount`` та ``amountNet`` повинні узгоджуватись між собою за тими самими правилами, що й для ``contract.value`` (``amount`` та ``amountNet`` мають бути рівними, якщо ``valueAddedTaxIncluded`` є ``false``, інакше ``amount`` не може перевищувати ``amountNet`` більш ніж на 20%); сума (``amount``) не повинна перевищувати поточну вартість договору (``contract.value.amount``, з урахуванням останньої активної зміни), а валюта (``currency``) повинна збігатися з валютою договору."
 msgstr ""
 
 msgid "dateCreated"
@@ -92,7 +99,7 @@ msgstr ""
 msgid "Список об’єктів :ref:`Document`, генерується автоматично, лише для читання"
 msgstr ""
 
-msgid "Документ з типом ``terminationSignature`` - підпис замовника, яким підтверджується зафіксований набір даних terminationDetails."
+msgid "Документ з типом ``terminationReport`` - підпис замовника, яким підтверджується зафіксований набір даних terminationDetails."
 msgstr ""
 
 msgid "AmountPaid"
@@ -119,6 +126,6 @@ msgstr ""
 msgid "valueAddedTaxIncluded"
 msgstr ""
 
-msgid "логічний (bool) тип даних"
+msgid "логічний (bool) тип даних, обов’язковий"
 msgstr ""
 
