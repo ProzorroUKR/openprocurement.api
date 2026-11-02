@@ -163,7 +163,7 @@ def post_tender_bid_with_disabled_value_currency_equality(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
+                "name": items[0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
             },
@@ -193,7 +193,7 @@ def patch_tender_bid_with_disabled_value_currency_equality(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
+                "name": items[0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
             },
@@ -249,8 +249,8 @@ def post_tender_bid_with_disabled_lot_values_currency_equality(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
-                "code": "DMQ",
+                "name": items[0]["unit"]["name"],
+                "code": "KGM",
                 "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
             },
         },
@@ -280,7 +280,7 @@ def patch_tender_bid_with_disabled_lot_values_currency_equality(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
+                "name": items[0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
             },
@@ -347,7 +347,7 @@ def post_bid_multi_currency(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
+                "name": items[0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
             },
@@ -417,7 +417,7 @@ def patch_bid_multi_currency(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
+                "name": items[0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 100, "currency": "UAH", "valueAddedTaxIncluded": False},
             },
@@ -473,3 +473,69 @@ def patch_tender_with_bids_lots_none(self):
             {"location": "body", "name": "milestones", "description": ["relatedLot should be one of the lots."]},
         ],
     )
+
+
+def bid_items_unit_validation(self):
+    tender = self.app.get(f"/tenders/{self.tender_id}").json["data"]
+    item_id = tender["items"][0]["id"]
+    tender_unit = tender["items"][0]["unit"]
+
+    bid_data = {
+        "tenderers": [test_tender_rfp_supplier],
+        "value": {"amount": 500},
+    }
+    set_bid_items(self, bid_data)
+
+    # unit code matches the tender item's unit -> bid is accepted
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": bid_data},
+    )
+    self.assertEqual(response.status, "201 Created")
+    bid_id = response.json["data"]["id"]
+    bid_token = response.json["access"]["token"]
+
+    code_mismatch_data = deepcopy(bid_data)
+    code_mismatch_data["items"][0]["unit"]["code"] = "MTR"
+    code_error = {
+        "location": "body",
+        "name": "items",
+        "description": f"bid item.unit.code (MTR) should be equal to "
+        f"tender item.unit.code ({tender_unit['code']}) for item {item_id}",
+    }
+
+    response = self.app.post_json(
+        f"/tenders/{self.tender_id}/bids",
+        {"data": code_mismatch_data},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [code_error])
+
+    # the same mismatch is rejected on patch of an existing bid
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
+        {"data": {"items": code_mismatch_data["items"]}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], [code_error])
+
+    # unit name is not validated, only code
+    name_mismatch_data = deepcopy(bid_data)
+    name_mismatch_data["items"][0]["unit"]["name"] = "тонна"
+    response = self.app.patch_json(
+        f"/tenders/{self.tender_id}/bids/{bid_id}?acc_token={bid_token}",
+        {"data": {"items": name_mismatch_data["items"]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["items"][0]["unit"]["name"], "тонна")
+
+    # tenders created before the release date are not validated
+    with mock.patch(
+        "openprocurement.tender.core.procedure.state.bid.BID_UNIT_VALIDATION_FROM",
+        get_now() + timedelta(days=1),
+    ):
+        response = self.app.post_json(
+            f"/tenders/{self.tender_id}/bids",
+            {"data": code_mismatch_data},
+        )
+        self.assertEqual(response.status, "201 Created")

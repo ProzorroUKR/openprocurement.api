@@ -51,16 +51,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "quantity": 5,
         "description": "папір",
         "id": "ffffffffffffffffffffffffffffffff",
-        "relatedLot": "c330ae93c18a48ae86738dfb367a290c",
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "code": "KGM",
           "value": {
             "currency": "UAH",
             "valueAddedTaxIncluded": false,
             "amount": 101.0
           }
-        }
+        },
+        "relatedLot": "c330ae93c18a48ae86738dfb367a290c"
       }
     ]
   }

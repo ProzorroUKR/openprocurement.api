@@ -54,7 +54,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "id": "c9b65b3130b14a83baabfff4a6725c24",
         "relatedLot": "f1f783c62bb344558b4c1774fff00ca5",
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "code": "KGM",
           "value": {
             "currency": "EUR",

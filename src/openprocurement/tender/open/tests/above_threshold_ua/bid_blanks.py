@@ -2419,7 +2419,7 @@ def bids_related_product(self):
             "description": "футляри до державних нагород",
             "id": tender_item_1["id"],
             "unit": {
-                "name": "Item",
+                "name": tender_item_1.get("unit", {}).get("name", "Item"),
                 "code": "KGM",
             },
         },

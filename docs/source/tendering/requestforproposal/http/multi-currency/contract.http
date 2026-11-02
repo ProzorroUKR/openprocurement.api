@@ -36,7 +36,7 @@ Content-Type: application/json
           }
         ],
         "unit": {
-          "name": "кг",
+          "name": "папір",
           "value": {
             "amount": 200.0,
             "currency": "USD",

@@ -13,7 +13,7 @@ Content-Type: application/json
         "id": "ffffffffffffffffffffffffffffffff",
         "description": "папір",
         "unit": {
-          "name": "кг",
+          "name": "кілограм",
           "value": {
             "amount": 100.0,
             "currency": "UAH",
