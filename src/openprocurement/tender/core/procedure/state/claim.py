@@ -29,6 +29,7 @@ class ClaimStateMixin(BaseComplaintStateMixin):
 
     complaint_item_name = "claim"
     complaint_documents_route_key = "claim_id"
+    complaint_default_type = "claim"
     complaint_patch_owner_item_names = ("claim", "tender")
     complaint_patch_owner_exempt_roles = ("admins",)
     tender_claim_submit_time = timedelta(days=3)

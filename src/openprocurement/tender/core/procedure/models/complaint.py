@@ -1,17 +1,14 @@
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
 from schematics.types import BaseType, BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.constants_env import COMPLAINT_IDENTIFIER_REQUIRED_FROM
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
 from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.api.utils import get_first_revision_date
 from openprocurement.api.validation import validate_uniq_id
 from openprocurement.tender.core.procedure.models.complaint_objection import (
     AwardComplaintObjection,
@@ -26,7 +23,6 @@ from openprocurement.tender.core.procedure.models.document import (
 )
 from openprocurement.tender.core.procedure.models.organization import Organization
 from openprocurement.tender.core.procedure.models.value import BasicValue
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import (
     validate_numerated,
 )
@@ -35,18 +31,6 @@ from openprocurement.tender.core.procedure.validation import (
 class ComplaintIdentifier(Identifier):
     id = BaseType(required=True)
     legalName = StringType(required=True)
-
-    def validate_id(self, data, identifier_id):
-        if not identifier_id:
-            tender = get_tender()
-            if get_first_revision_date(tender, default=get_request_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
-                raise ValidationError("This field is required.")
-
-    def validate_legalName(self, data, value):
-        if not value:
-            tender = get_tender()
-            if get_first_revision_date(tender, default=get_request_now()) > COMPLAINT_IDENTIFIER_REQUIRED_FROM:
-                raise ValidationError("This field is required.")
 
 
 class ComplaintOrganization(Organization):
@@ -81,17 +65,6 @@ class PostComplaint(Model):
         ],
     )
     documents = ListType(ModelType(PostComplaintDocument, required=True))
-
-    def validate_status(self, data, value):
-        if tender_created_after_2020_rules():
-            data["status"] = "draft"
-
-    def validate_type(self, data, value):
-        if not value:
-            if tender_created_after_2020_rules():
-                raise ValidationError("This field is required")
-            else:
-                data["type"] = "complaint"
 
 
 class PostComplaintFromBid(PostComplaint):

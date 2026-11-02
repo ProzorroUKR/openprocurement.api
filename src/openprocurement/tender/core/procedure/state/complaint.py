@@ -1,10 +1,10 @@
 from logging import getLogger
 
-from openprocurement.api.constants_env import OBJECTIONS_ADDITIONAL_VALIDATION_FROM
+from openprocurement.api.constants_env import COMPLAINT_IDENTIFIER_REQUIRED_FROM, OBJECTIONS_ADDITIONAL_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_tender
 from openprocurement.api.procedure.utils import is_item_owner
-from openprocurement.api.utils import get_uah_amount_from_value, raise_operation_error
+from openprocurement.api.utils import get_first_revision_date, get_uah_amount_from_value, raise_operation_error
 from openprocurement.api.validation import validate_json_data
 from openprocurement.tender.core.constants import (
     COMPLAINT_AMOUNT_RATE,
@@ -56,12 +56,24 @@ class BaseComplaintStateMixin:
     # PATCH: the requester must own one of these objects, unless the role is exempt
     complaint_patch_owner_item_names: tuple = ("tender", "complaint")
     complaint_patch_owner_exempt_roles: tuple = ("Administrator", "bots", "aboveThresholdReviewers")
+    # the type of the posted complaint (claim) without the type by the pre-2020 rules (then the type is required)
+    complaint_default_type: str = "complaint"
+    # complaints are posted as drafts by the 2020 rules (claims choose the status)
+    complaint_post_draft_status: bool = False
+    # complaints: author.identifier id / legalName are required after COMPLAINT_IDENTIFIER_REQUIRED_FROM
+    complaint_author_identifier_required: bool = False
 
     def validate_complaint_post_request(self):
         if self.complaint_post_bid_owner_statuses is not None and self.request.authenticated_role != "admins":
             self.validate_bid_owner(self.complaint_post_bid_owner_statuses)
         self.validate_input_data(self.get_post_data_model())
-        self.validate_complaint_related_lot(self.request.validated["data"])
+        data = self.request.validated["data"]
+        if self.complaint_author_identifier_required:
+            self.validate_complaint_author_identifier(data)
+        self.validate_complaint_post_type(data)
+        if self.complaint_post_draft_status and tender_created_after_2020_rules():
+            data["status"] = "draft"
+        self.validate_complaint_related_lot(data)
         self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
         self.validate_data_documents(route_key=self.complaint_documents_route_key, uid_key="id")
 
@@ -69,7 +81,25 @@ class BaseComplaintStateMixin:
         if self.request.authenticated_role not in self.complaint_patch_owner_exempt_roles:
             self.validate_any_item_owner(*self.complaint_patch_owner_item_names)
         self.validate_patch_input_data(self.get_patch_data_model())
+        if self.complaint_author_identifier_required and "author" in self.request.validated["data"]:
+            self.validate_complaint_author_identifier(self.request.validated["data"])
         self.validate_patch_data(self.get_data_model(), self.complaint_item_name)
+
+    def validate_complaint_author_identifier(self, complaint):
+        tender = get_tender()
+        if get_first_revision_date(tender, default=get_request_now()) <= COMPLAINT_IDENTIFIER_REQUIRED_FROM:
+            return
+        identifier = complaint.get("author", {}).get("identifier", {})
+        errors = {field: ["This field is required."] for field in ("id", "legalName") if not identifier.get(field)}
+        if errors:
+            raise_operation_error(self.request, {"identifier": errors}, status=422, name="author")
+
+    def validate_complaint_post_type(self, complaint):
+        if complaint.get("type"):
+            return
+        if tender_created_after_2020_rules():
+            raise_operation_error(self.request, ["This field is required"], status=422, name="type")
+        complaint["type"] = self.complaint_default_type
 
     def validate_complaint_related_lot(self, complaint):
         related_lot = complaint.get("relatedLot")
@@ -96,6 +126,9 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
     post_data_model = PostComplaint
     data_model = Complaint
     draft_patch_model = DraftPatchComplaint
+
+    complaint_post_draft_status = True
+    complaint_author_identifier_required = True
 
     complaint_post_allowed_tender_statuses = ("active.tendering",)
     complaint_patch_allowed_tender_statuses = ("active.tendering",)
