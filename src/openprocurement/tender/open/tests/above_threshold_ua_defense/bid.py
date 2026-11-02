@@ -26,6 +26,9 @@ from openprocurement.tender.open.tests.above_threshold_ua_defense.base import (
     test_tender_openuadefense_bids,
     test_tender_openuadefense_features_data,
 )
+from openprocurement.tender.open.tests.above_threshold_ua_defense.bid_blanks import (
+    bid_items_without_unit,
+)
 
 
 class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMixin):
@@ -43,6 +46,8 @@ class TenderBidResourceTest(BaseTenderUAContentWebTest, TenderBidResourceTestMix
             bid_data = deepcopy(bid)
             set_bid_lotvalues(bid_data, self.tender_lots)
             self.test_bids_data.append(bid_data)
+
+    test_bid_items_without_unit = snitch(bid_items_without_unit)
 
 
 class Tender2LotBidResourceTest(BaseTenderUAContentWebTest):

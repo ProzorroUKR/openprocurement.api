@@ -863,7 +863,7 @@ def post_tender_bid_with_another_currency(self):
             "description": "футляри до державних нагород",
             "id": items[0]["id"],
             "unit": {
-                "name": "Item",
+                "name": items[0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 100, "currency": "EUR", "valueAddedTaxIncluded": False},
             },

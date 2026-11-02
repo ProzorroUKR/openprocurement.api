@@ -343,12 +343,22 @@ def set_tender_criteria(criteria, lots, items):
 
 
 def set_bid_items(self, bid, items=None, tender_id=None):
+    if not tender_id:
+        tender_id = self.tender_id
+
     if not items:
-        if not tender_id:
-            tender_id = self.tender_id
         response = self.app.get(f"/tenders/{tender_id}")
         tender = response.json["data"]
         items = tender["items"]
+    elif any(not item.get("unit") for item in items):
+        # bid item unit should match tender item unit,
+        # read tender from db so no extra request is recorded in docs
+        tender = self.mongodb.tenders.get(tender_id)
+        tender_items_by_id = {i["id"]: i for i in tender.get("items", [])}
+        for item in items:
+            tender_item = tender_items_by_id.get(item.get("id"))
+            if not item.get("unit") and tender_item and tender_item.get("unit"):
+                item["unit"] = deepcopy(tender_item["unit"])
 
     value = bid.get("value")
     lot_values = bid.get("lotValues") or []

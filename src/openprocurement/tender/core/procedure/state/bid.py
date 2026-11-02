@@ -8,6 +8,7 @@ from schematics.types import BaseType
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants_env import (
     BID_ITEMS_PRODUCT_REQUIRED_FROM,
+    BID_UNIT_VALIDATION_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -132,6 +133,7 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         self.validate_status(data)
         self.validate_bid_vs_agreement(data)
         self.validate_items_id(data)
+        self.validate_items_unit(data)
         self.validate_items_quantity(data)
         self.validate_items_quantity_against_tender({}, data)
         self.validate_items_related_product(data, {})
@@ -161,6 +163,7 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         self.validate_status_change(before, after)
         self.update_date_for_new_lot_values(after, before)
         self.validate_items_id(after)
+        self.validate_items_unit(after)
         self.validate_items_quantity(after)
         self.validate_items_quantity_against_tender(before, after)
         self.validate_items_related_product(after, before)
@@ -578,6 +581,29 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
             for lot_id, items_ids in items_with_quantity.items():
                 if not items_ids:
                     self.raise_items_error(f"At least one item should be with not empty quantity for lot {lot_id}")
+
+    def validate_items_unit(self, after):
+        if not tender_created_after(BID_UNIT_VALIDATION_FROM):
+            return
+
+        tender_items_by_id = {i["id"]: i for i in get_tender().get("items", []) if i.get("unit")}
+
+        for bid_item in after.get("items", []):
+            tender_item = tender_items_by_id.get(bid_item.get("id"))
+            if tender_item is None:
+                continue
+
+            bid_unit = bid_item.get("unit")
+            if not bid_unit:
+                self.raise_items_error(f"bid item.unit is required for item {bid_item['id']}")
+
+            bid_code = bid_unit.get("code")
+            tender_code = tender_item["unit"].get("code")
+            if bid_code != tender_code:
+                self.raise_items_error(
+                    f"bid item.unit.code ({bid_code}) should be equal to "
+                    f"tender item.unit.code ({tender_code}) for item {bid_item['id']}"
+                )
 
     def validate_items_quantity_against_tender(self, before, after):
         if after.get("status") != "pending":

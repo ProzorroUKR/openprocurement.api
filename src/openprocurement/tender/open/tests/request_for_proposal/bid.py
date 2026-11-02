@@ -70,6 +70,7 @@ from openprocurement.tender.open.tests.request_for_proposal.base import (
     test_tender_rfp_supplier,
 )
 from openprocurement.tender.open.tests.request_for_proposal.bid_blanks import (
+    bid_items_unit_validation,
     features_bid,
     patch_bid_multi_currency,
     patch_tender_bid_with_disabled_lot_values_currency_equality,
@@ -94,6 +95,7 @@ class TenderBidResourceTest(TenderContentWebTest):
     test_get_tender_tenderers = snitch(get_tender_tenderers)
     test_bid_Administrator_change = snitch(bid_Administrator_change)
     test_create_tender_bid_no_scale_invalid = snitch(create_tender_bid_no_scale_invalid)
+    test_bid_items_unit_validation = snitch(bid_items_unit_validation)
 
 
 class Tender2LotBidResourceTest(TenderContentWebTest):

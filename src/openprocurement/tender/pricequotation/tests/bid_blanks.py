@@ -1673,7 +1673,7 @@ def bid_items_unit_value_validations(self):
         {
             "quantity": 5,
             "unit": {
-                "name": "Item",
+                "name": tender["items"][0]["unit"]["name"],
                 "code": "KGM",
                 "value": {"amount": 80.0, "currency": "UAH", "valueAddedTaxIncluded": False},
             },
