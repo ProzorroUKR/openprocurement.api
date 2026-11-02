@@ -14,6 +14,7 @@ from openprocurement.tender.core.constants import (
     COMPLAINT_MAX_AMOUNT,
     COMPLAINT_MIN_AMOUNT,
 )
+from openprocurement.tender.core.procedure.context import get_complaint
 from openprocurement.tender.core.procedure.models.complaint import (
     AdministratorPatchComplaint,
     BotPatchComplaint,
@@ -74,6 +75,7 @@ class BaseComplaintStateMixin:
         if self.complaint_post_draft_status and tender_created_after_2020_rules():
             data["status"] = "draft"
         self.validate_complaint_related_lot(data)
+        self.validate_complaint_objections_evidences(data)
         self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
         self.validate_data_documents(route_key=self.complaint_documents_route_key, uid_key="id")
 
@@ -84,6 +86,8 @@ class BaseComplaintStateMixin:
         if self.complaint_author_identifier_required and "author" in self.request.validated["data"]:
             self.validate_complaint_author_identifier(self.request.validated["data"])
         self.validate_patch_data(self.get_data_model(), self.complaint_item_name)
+        if self.request.validated["data"]:
+            self.validate_complaint_objections_evidences(self.request.validated["data"])
 
     def validate_complaint_author_identifier(self, complaint):
         tender = get_tender()
@@ -100,6 +104,29 @@ class BaseComplaintStateMixin:
         if tender_created_after_2020_rules():
             raise_operation_error(self.request, ["This field is required"], status=422, name="type")
         complaint["type"] = self.complaint_default_type
+
+    def validate_complaint_objections_evidences(self, complaint):
+        """relatedDocument of the objection arguments evidences is one of the complaint documents"""
+        objections = complaint.get("objections")
+        if not objections:
+            return
+        parent = get_complaint() or self.request.validated.get("json_data") or {}
+        document_ids = [document.get("id") for document in parent.get("documents", [])]
+        errors = []
+        for objection in objections:
+            arguments_errors = []
+            for argument in objection.get("arguments") or "":
+                evidences_errors = [
+                    {"relatedDocument": ["relatedDocument should be one of complaint documents"]}
+                    for evidence in argument.get("evidences") or ""
+                    if evidence.get("relatedDocument") not in document_ids
+                ]
+                if evidences_errors:
+                    arguments_errors.append({"evidences": evidences_errors})
+            if arguments_errors:
+                errors.append({"arguments": arguments_errors})
+        if errors:
+            raise_operation_error(self.request, errors, status=422, name="objections")
 
     def validate_complaint_related_lot(self, complaint):
         related_lot = complaint.get("relatedLot")

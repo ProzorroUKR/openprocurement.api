@@ -23,7 +23,7 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
-from openprocurement.tender.limited.constants import REPORTING, NEGOTIATION, NEGOTIATION_QUICK
+from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
     test_tender_pq_short_profile,
@@ -181,6 +181,18 @@ def create_tender_criteria_invalid(self):
     self.assertEqual(response.json["status"], "error")
     self.assertEqual(
         response.json["errors"], [{"location": "body", "name": "data", "description": "Data not available"}]
+    )
+
+    invalid_id_criteria = deepcopy(test_exclusion_criteria)
+    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+        for criterion in invalid_id_criteria:
+            criterion["source"] = "procuringEntity"
+    invalid_id_criteria[0]["id"] = "abc"
+    response = self.app.post_json(request_path, {"data": invalid_id_criteria}, status=422)
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "id", "description": ["Hash value is wrong length."]}],
     )
 
     response = self.app.post_json(request_path, {"data": invalid_criteria}, status=422)

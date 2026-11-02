@@ -109,7 +109,7 @@ class MockMarketMixin:
 
 class MockCriteriaIDMixin:
     def setUp(self):
-        target = "openprocurement.tender.core.procedure.models.criterion.PQ_CRITERIA_ID_FROM"
+        target = "openprocurement.tender.core.procedure.state.tender_details.PQ_CRITERIA_ID_FROM"
         patch_obj = patch(target, calculate_date(get_now(), timedelta(days=1)))
         patch_obj.start()
         self.addCleanup(patch_obj.stop)

@@ -10,7 +10,7 @@ from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
-from openprocurement.api.utils import context_unpack
+from openprocurement.api.utils import context_unpack, raise_operation_error
 from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.constants import COMPLAINT_STAND_STILL_TIME
 from openprocurement.tender.core.procedure.context import get_request
@@ -78,6 +78,14 @@ class ChronographEventsMixin:
 
     def validate_chronograph_patch_request(self):
         self.validate_patch_input_data(self.chronograph_patch_data_model)
+        self.validate_chronograph_auction_period(self.request.validated["data"])
+
+    def validate_chronograph_auction_period(self, data):
+        """the auction period of a multilot tender is set on its lots"""
+        if data.get("auctionPeriod") and get_tender().get("lots"):
+            raise_operation_error(
+                self.request, ["Auction url at tender lvl forbidden"], status=422, name="auctionPeriod"
+            )
 
     def new_defense_complaints_rules_apply(self):
         return self.tender_new_defense_complaints_rules and tender_created_in(

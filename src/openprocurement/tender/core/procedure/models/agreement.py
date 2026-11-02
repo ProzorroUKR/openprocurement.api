@@ -47,10 +47,6 @@ class AgreementChange(Model):
     dateSigned = IsoDateTimeType()
     agreementNumber = StringType()
 
-    def validate_dateSigned(self, data, value):
-        if value and value > get_request_now():
-            raise ValidationError("Agreement signature date can't be in the future")
-
 
 class UnitPriceModification(Model):
     itemId = StringType()

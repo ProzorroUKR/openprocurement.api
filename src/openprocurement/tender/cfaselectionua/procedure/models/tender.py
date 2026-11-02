@@ -1,9 +1,7 @@
-from schematics.exceptions import ValidationError
 from schematics.types import StringType
 from schematics.types.compound import ModelType
 from schematics.types.serializable import serializable
 
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.period import PeriodEndRequired
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.api.procedure.types import ListType
@@ -80,10 +78,6 @@ class CFASelectionPatchTender(
     tenderPeriod = ModelType(PeriodEndRequired)
     # will be overwritten by serializable
     minimalStep = ModelType(Value)
-
-    def validate_tenderPeriod(self, data, period):
-        if period and get_tender()["status"] != "active.enquiries":
-            raise ValidationError("Rogue field")
 
 
 class CFASelectionTender(

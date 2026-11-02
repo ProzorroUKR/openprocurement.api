@@ -67,6 +67,7 @@ LOGGER = getLogger(__name__)
 class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     post_data_model = CFASelectionPostTender
     patch_data_model = CFASelectionPatchTender
+    tender_period_patch_allowed_statuses = ("active.enquiries",)
     data_model = CFASelectionTender
 
     tender_create_accreditations = (AccreditationLevel.ACCR_1, AccreditationLevel.ACCR_5)

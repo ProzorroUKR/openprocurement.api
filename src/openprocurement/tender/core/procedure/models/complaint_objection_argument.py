@@ -1,13 +1,10 @@
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ListType, ModelType
 
-from openprocurement.api.context import get_request
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.validation import validate_uniq_id
-from openprocurement.tender.core.procedure.context import get_complaint
 
 
 class Evidence(Model):
@@ -15,11 +12,6 @@ class Evidence(Model):
     title = StringType(required=True)
     description = StringType(serialize_when_none=True)
     relatedDocument = StringType(required=True)
-
-    def validate_relatedDocument(self, data, value):
-        complaint = get_complaint() or get_request().validated.get("json_data")
-        if not complaint or value not in [document.get("id") for document in complaint.get("documents", [])]:
-            raise ValidationError("relatedDocument should be one of complaint documents")
 
 
 class Argument(Model):

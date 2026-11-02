@@ -5,8 +5,6 @@ from schematics.exceptions import ValidationError
 from schematics.types import BaseType, MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
@@ -17,7 +15,6 @@ from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
 from openprocurement.tender.core.procedure.models.feature import validate_related_items
 from openprocurement.tender.core.procedure.models.item import Item
 from openprocurement.tender.core.procedure.models.milestone import Milestone
-from openprocurement.tender.core.procedure.utils import dt_from_iso
 
 
 class CFAPatchAgreement(Model):
@@ -58,23 +55,6 @@ class CFAAgreement(Model):
 
     def validate_features(self, data, features):
         validate_related_items(data, features)
-
-    def validate_dateSigned(self, data, value):
-        if value:
-            award_ids = [c["awardID"] for c in data["contracts"]]
-            award = next(i for i in get_tender().get("awards", []) if i["id"] in award_ids)
-            complaint_period = award.get("complaintPeriod")
-            if (
-                complaint_period
-                and complaint_period.get("endDate")
-                and value <= dt_from_iso(complaint_period["endDate"])
-            ):
-                raise ValidationError(
-                    "Agreement signature date should be after "
-                    f"award complaint period end date ({complaint_period['endDate']})"
-                )
-            if value > get_request_now():
-                raise ValidationError("Agreement signature date can't be in the future")
 
     def validate_period(self, data, value):
         if data.get("status") == "active":

@@ -21,7 +21,6 @@ from openprocurement.api.procedure.models.item import (
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.unit import Unit
 from openprocurement.api.procedure.types import ListType, ModelType
-from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.tender.core.procedure.validation import validate_ccce_ua
 from openprocurement.tender.core.procedure.validation import (
     validate_pq_profile_pattern as validate_profile_pattern,
@@ -54,6 +53,6 @@ class Item(Model):
             validate_profile_pattern(profile)
 
     def validate_additionalClassifications(self, item, classifications):
-        validate_additional_classifications(get_plan(), item, classifications)
+        validate_additional_classifications(item, classifications)
         if classifications is not None:
             validate_ccce_ua(classifications)

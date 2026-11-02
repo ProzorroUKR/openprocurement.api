@@ -21,6 +21,7 @@ from openprocurement.tender.core.procedure.models.req_response import (
 )
 from openprocurement.tender.core.procedure.state.utils import diff_items
 from openprocurement.tender.core.procedure.utils import (
+    bid_in_invalid_status,
     get_criterion_requirement,
     get_requirement_obj,
     tender_created_after,
@@ -280,6 +281,11 @@ class RequirementResponsesRulesMixin(BaseState):
     ) -> List[dict]:
         parent_obj_name = self.requirement_responses_parent_obj_name
         related_doc = evidence.get("relatedDocument")
+        if not related_doc and evidence.get("type") == "document" and not bid_in_invalid_status():
+            error_msg = [{"relatedDocument": ["This field is required."]}]
+            if not raise_error:
+                return error_msg
+            raise ValidationError(error_msg)
         if related_doc:
             doc_id = related_doc["id"]
             if (

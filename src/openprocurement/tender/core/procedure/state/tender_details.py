@@ -4,7 +4,8 @@ from datetime import timedelta
 from decimal import Decimal
 from math import ceil, floor
 
-from schematics.exceptions import ValidationError
+from schematics.exceptions import BaseError, ValidationError
+from schematics.types import MD5Type
 
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
@@ -38,6 +39,7 @@ from openprocurement.api.constants_env import (
     MINIMAL_STEP_VALIDATION_FROM,
     MPC_REQUIRED_FROM,
     NOTICE_DOC_REQUIRED_FROM,
+    PQ_CRITERIA_ID_FROM,
     RELATED_LOT_REQUIRED_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
     RELEASE_GUARANTEE_CRITERION_FROM,
@@ -133,6 +135,7 @@ from openprocurement.tender.core.utils import (
     get_criteria_rules,
 )
 from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
+from openprocurement.tender.pricequotation.constants import PQ
 
 
 class TenderConfigMixin(ConfigMixin):
@@ -270,6 +273,8 @@ class TenderDetailsRequestMixin(BaseState):
     tender_config_default: dict | None = None
     # roles that may patch the tender without being its owner
     tender_patch_owner_check_exempt_roles: tuple = ("Administrator",)
+    # cfaselectionua: tenderPeriod can be changed only in these tender statuses (None - always)
+    tender_period_patch_allowed_statuses: tuple | None = None
     # tender statuses in which the tender can be patched (Administrator isn't limited)
     tender_patch_allowed_statuses: tuple = (
         "draft",
@@ -304,7 +309,13 @@ class TenderDetailsRequestMixin(BaseState):
         if role != "Administrator":
             self.validate_tender_patch_allowed()
         self.validate_patch_input_data(self.get_tender_patch_data_model())
+        self.validate_tender_period_patch_allowed(self.request.validated["data"])
         self.validate_patch_data_simple(self.get_data_model(), "tender")
+
+    def validate_tender_period_patch_allowed(self, data):
+        statuses = self.tender_period_patch_allowed_statuses
+        if statuses is not None and data.get("tenderPeriod") and get_tender()["status"] not in statuses:
+            raise_operation_error(self.request, ["Rogue field"], status=422, name="tenderPeriod")
 
     def validate_tender_patch_allowed(self):
         tender = get_tender()
@@ -1878,6 +1889,7 @@ class TenderCriteriaRulesMixin(BaseState):
 
     def validate_criteria_rules(self, tender: dict, diff: ItemsDiff) -> None:
         for criterion in diff.added + diff.changed_after:
+            self.validate_criteria_object_id(tender, ["criteria"], criterion)
             self.validate_criterion_classification(tender, criterion)
             self.validate_criterion_relates_to(tender, criterion)
             self.validate_criterion_related_item(tender, criterion)
@@ -1954,6 +1966,7 @@ class TenderCriteriaRulesMixin(BaseState):
         return changed_fields <= {"status", "dateModified"}
 
     def validate_requirement_rules(self, tender: dict, criterion: dict, requirement: dict) -> None:
+        self.validate_criteria_object_id(tender, ["criteria", "requirementGroups", "requirements"], requirement)
         self.validate_requirement_related_feature(tender, requirement)
         self.validate_tech_feature_localization_criteria(tender, [criterion])
         self.validate_requirement_evidences(tender, criterion, requirement)
@@ -2081,6 +2094,7 @@ class TenderCriteriaRulesMixin(BaseState):
 
     def validate_requirement_group_rules(self, tender: dict, criterion: dict, requirement_group: dict) -> None:
         """requirement titles unique among the active requirements of the group; evidences allowed for the criterion"""
+        self.validate_criteria_object_id(tender, ["criteria", "requirementGroups"], requirement_group)
         req_titles = [
             req["title"]
             for req in requirement_group.get("requirements") or []
@@ -2116,6 +2130,21 @@ class TenderCriteriaRulesMixin(BaseState):
                     ["criteria", "requirementGroups", "requirements", "eligibleEvidences", "relatedDocument"],
                     ["relatedDocument.id should be one of tender documents"],
                 )
+
+    def validate_criteria_object_id(self, tender: dict, path: list, obj: dict) -> None:
+        """former ValidateIdMixing.validate_id: criteria, groups and requirements ids are md5 (legacy PQ: the profile ids)"""
+        if (
+            tender.get("procurementMethodType") == PQ
+            and get_first_revision_date(tender, default=get_request_now()) <= PQ_CRITERIA_ID_FROM
+        ):
+            return
+        if "id" not in obj:
+            return
+        field = MD5Type()
+        try:
+            field.validate(field.to_native(obj["id"]))
+        except BaseError as e:
+            self.raise_criteria_error(path + ["id"], e.messages)
 
     def raise_criteria_error(self, path: list, messages: list) -> None:
         """

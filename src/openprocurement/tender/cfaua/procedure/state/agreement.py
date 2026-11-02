@@ -16,6 +16,35 @@ class CFAUAAgreementStateMixin:
         self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "agreement")
+        if self.request.validated["data"]:
+            self.validate_agreement_date_signed(self.request.validated["data"])
+
+    def validate_agreement_date_signed(self, agreement):
+        """the agreement is signed after the award complaint period and not in the future"""
+        date_signed = agreement.get("dateSigned")
+        if not date_signed:
+            return
+        date_signed = dt_from_iso(date_signed)
+        award_ids = [c["awardID"] for c in agreement["contracts"]]
+        award = next(i for i in get_tender().get("awards", []) if i["id"] in award_ids)
+        complaint_period = award.get("complaintPeriod")
+        if (
+            complaint_period
+            and complaint_period.get("endDate")
+            and date_signed <= dt_from_iso(complaint_period["endDate"])
+        ):
+            raise_operation_error(
+                self.request,
+                [
+                    f"Agreement signature date should be after award complaint period end date ({complaint_period['endDate']})"
+                ],
+                status=422,
+                name="dateSigned",
+            )
+        if date_signed > get_request_now():
+            raise_operation_error(
+                self.request, ["Agreement signature date can't be in the future"], status=422, name="dateSigned"
+            )
 
     def agreement_on_patch(self, before, after):
         if before["status"] != after["status"]:
