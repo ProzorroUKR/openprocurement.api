@@ -48,7 +48,7 @@ DOCUMENT_TYPES = (
     "register",
     "contractSignature",
     "progressReport",
-    "terminationSignature",
+    "terminationReport",
 )
 
 
@@ -66,7 +66,7 @@ class Document(BaseDocument):
 
 
 class PostTerminationDetailsDocument(PostDocument):
-    documentType = StringType(required=True, choices=["terminationSignature"])
+    documentType = StringType(required=True, choices=["terminationReport"])
 
 
 class BaseChangeDocument(BaseTenderDocument):

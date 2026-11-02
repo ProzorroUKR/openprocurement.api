@@ -12,7 +12,9 @@ Content-Type: application/json
     "reason": "Договір розірвано достроково за згодою сторін",
     "amountPaid": {
       "amount": 200.0,
-      "currency": "UAH"
+      "currency": "UAH",
+      "amountNet": 200.0,
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "dateCreated": "2027-01-01T00:00:00+02:00"
@@ -279,8 +281,8 @@ Content-Type: application/json
           "rationaleTypes": [
             "itemPriceChange"
           ],
-          "id": "95ca49eac800462a8e7b12db26ff6199",
-          "status": "pending",
+          "id": "4aa3b6691346446c9bf3a51ebe2bef44",
+          "status": "cancelled",
           "date": "2027-01-01T00:00:00+02:00",
           "modifications": {
             "items": [
@@ -386,7 +388,7 @@ Content-Type: application/json
                 "category": "655360-30230000-889652"
               },
               {
-                "id": "7ba43886518c4cd3be8f476843b39189",
+                "id": "ef6fe4ce5c6d4850ae0b6becfb91fc90",
                 "description": "Додаткове комп’ютерне обладнання",
                 "quantity": 15.0,
                 "classification": {
@@ -454,13 +456,23 @@ Content-Type: application/json
               "confidentiality": "public",
               "title": "contract_change.pdf",
               "format": "application/pdf",
-              "id": "0cb36779b6aa4253ac5e76601c1ad586",
+              "id": "e88e0646bb134fff9cfe8e010569e63b",
               "hash": "md5:00000000000000000000000000000000",
-              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/95ca49eac800462a8e7b12db26ff6199/documents/0cb36779b6aa4253ac5e76601c1ad586?download=33830e473a1348d6a5a7e4eb3379672d",
+              "url": "/contracts/9747554b71504755b07fbc4dc78d9010/changes/4aa3b6691346446c9bf3a51ebe2bef44/documents/e88e0646bb134fff9cfe8e010569e63b?download=33830e473a1348d6a5a7e4eb3379672d",
               "datePublished": "2027-01-01T00:00:00+02:00",
               "dateModified": "2027-01-01T00:00:00+02:00",
               "documentOf": "change",
               "documentType": "contractNotice"
+            }
+          ],
+          "cancellations": [
+            {
+              "id": "83452e3904d545f0b785bc01b70582d7",
+              "status": "active",
+              "reason": "not actual change",
+              "reasonType": "requiresChanges",
+              "dateCreated": "2027-01-01T00:00:00+02:00",
+              "author": "supplier"
             }
           ],
           "author": "supplier"
@@ -835,7 +847,9 @@ Content-Type: application/json
         "reason": "Договір розірвано достроково за згодою сторін",
         "amountPaid": {
           "amount": 200.0,
-          "currency": "UAH"
+          "currency": "UAH",
+          "amountNet": 200.0,
+          "valueAddedTaxIncluded": false
         },
         "status": "draft",
         "dateCreated": "2027-01-01T00:00:00+02:00"

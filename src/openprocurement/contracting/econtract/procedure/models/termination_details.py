@@ -3,8 +3,8 @@ from schematics.types.compound import ModelType
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.contracting.core.procedure.models.value import AmountPaid
 from openprocurement.contracting.econtract.procedure.models.document import Document
+from openprocurement.contracting.econtract.procedure.models.value import AmountPaid
 
 
 class BaseTerminationDetails(Model):

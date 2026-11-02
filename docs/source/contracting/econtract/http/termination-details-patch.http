@@ -10,7 +10,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "reason": "Договір розірвано достроково за згодою сторін",
       "amountPaid": {
         "amount": 200,
-        "currency": "UAH"
+        "amountNet": 200,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": false
       }
     }
   }
@@ -26,7 +28,9 @@ Content-Type: application/json
     "reason": "Договір розірвано достроково за згодою сторін",
     "amountPaid": {
       "amount": 200.0,
-      "currency": "UAH"
+      "currency": "UAH",
+      "amountNet": 200.0,
+      "valueAddedTaxIncluded": false
     },
     "status": "draft",
     "dateCreated": "2027-01-01T00:00:00+02:00"

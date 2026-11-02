@@ -20,6 +20,7 @@ from openprocurement.contracting.econtract.tests.change_blanks import (
     change_documents,
     change_for_pending_contract_forbidden,
     change_tender_contract_items_change,
+    change_with_termination_details_draft_forbidden,
     contract_token_invalid,
     create_change,
     create_change_invalid,
@@ -91,6 +92,7 @@ class ContractChangesResourceTest(ContractChangesMixin, BaseEContractContentWebT
     test_activation_of_change = snitch(activation_of_change)
     test_cancellation_of_change = snitch(cancellation_of_change)
     test_change_for_pending_contract_forbidden = snitch(change_for_pending_contract_forbidden)
+    test_change_with_termination_details_draft_forbidden = snitch(change_with_termination_details_draft_forbidden)
     test_contract_token_invalid = snitch(contract_token_invalid)
     test_change_documents = snitch(change_documents)
 

@@ -5,7 +5,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 {
   "data": {
-    "documentType": "terminationSignature",
+    "documentType": "terminationReport",
     "title": "termination_sign.p7s",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a80b4bc8414f47359b80c29da2eb98fd?Signature=9jzeRozGUmm1FXBsPA1VlJB%2BwyDKjU37ypxkfxve2F4EElYn5ShQBghGqnY%2Beie9puwDdSxm%2BDxp%2FnlxVwDGDg%3D%3D&KeyID=a8968c46",
     "hash": "md5:00000000000000000000000000000000",

@@ -35,14 +35,38 @@ class EContractState(ContractState):
             source="data",
         )
 
-    def validate_termination_details_patch_request(self):
+    def validate_termination_details_access(self):
         exempt = self.request.authenticated_role in ("admins", "Administrator")
         if not exempt:
             self.validate_contract_buyer()
             self.validate_contract_status_active()
+
+    def validate_termination_details_patch_request(self):
+        self.validate_termination_details_access()
         self.validate_input_data(self.termination_details_patch_data_model)
         self.prepare_termination_details_patch_data()
         self.validate_patch_data_simple(self.termination_details_data_model, item_name="contract")
+        self.validate_no_pending_changes()
+
+    def validate_no_pending_changes(self):
+        if "terminationDetails" in self.request.validated["data"]:
+            contract = self.request.validated["contract"]
+            if any(change.get("status") == "pending" for change in contract.get("changes", [])):
+                raise_operation_error(
+                    self.request,
+                    "Can't create terminationDetails while contract has a pending change",
+                    name="terminationDetails",
+                )
+
+    def validate_termination_details_delete_request(self):
+        self.validate_termination_details_access()
+        termination_details = self.request.validated["termination_details"]
+        if termination_details.get("status") != "draft":
+            raise_operation_error(
+                self.request,
+                "Can't delete terminationDetails after it has been published",
+                name="terminationDetails",
+            )
 
     def prepare_termination_details_patch_data(self):
         """
@@ -61,8 +85,6 @@ class EContractState(ContractState):
         patch_td["status"] = before_td.get("status", "draft")
         patch_td["documents"] = before_td.get("documents", [])
         patch_td["dateCreated"] = before_td.get("dateCreated") or get_request_now().isoformat()
-        if "amountPaid" not in patch_td:
-            patch_td["amountPaid"] = {"amount": 0}
 
     def on_patch(self, before, after) -> None:
         if after["status"] == "pending" and any(
@@ -106,8 +128,18 @@ class EContractState(ContractState):
                 name="terminationDetails",
                 status=422,
             )
+        if not termination_details.get("amountPaid"):
+            raise_operation_error(
+                self.request,
+                "amountPaid is required to activate terminationDetails",
+                name="terminationDetails",
+                status=422,
+            )
 
         if termination_details["reasonType"] == "disrupted":
+            self.validate_contract_value_amount(
+                self.request, termination_details["amountPaid"], name="terminationDetails"
+            )
             self.validate_termination_details_amount_paid_not_exceeds_value(contract, termination_details)
 
     @staticmethod
@@ -129,13 +161,9 @@ class EContractState(ContractState):
         amount_paid = termination_details["amountPaid"]
         value = self.get_effective_contract_value(contract)
 
-        if amount_paid.get("currency") != value.get("currency"):
-            raise_operation_error(
-                self.request,
-                "terminationDetails.amountPaid currency must match contract value currency",
-                name="terminationDetails",
-                status=422,
-            )
+        self.validate_update_contracting_value_identical(
+            self.request, value, amount_paid, name="terminationDetails", status=422
+        )
 
         if amount_paid.get("amount", 0) > value.get("amount", 0):
             raise_operation_error(

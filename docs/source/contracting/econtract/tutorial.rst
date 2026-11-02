@@ -563,10 +563,21 @@
 .. http:example:: http/termination-details-get.http
    :code:
 
+Поки terminationDetails у статусі `draft`, замовник може видалити
+terminationDetails через `DELETE /contracts/{id}/termination_details`:
+
+.. http:example:: http/termination-details-delete.http
+   :code:
+
+Після видалення об'єкт terminationDetails відсутній:
+
+.. http:example:: http/termination-details-delete-not-found.http
+   :code:
+
 Підписання
 ----------
 
-Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationSignature`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`.
+Єдиний спосіб активувати `terminationDetails` - завантажити документ з `documentType` `terminationReport`, підписаний замовником. Підпис накладається на JSON, що повертається в `context.contract`.
 
 Підписувати може лише замовник:
 
@@ -586,4 +597,9 @@
 Після активації `terminationDetails` зміни заборонені:
 
 .. http:example:: http/termination-details-patch-after-active-forbidden.http
+   :code:
+
+Після активації `terminationDetails` видалення так само заборонене:
+
+.. http:example:: http/termination-details-delete-after-active-forbidden.http
    :code:

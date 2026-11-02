@@ -426,30 +426,35 @@ class ContractStateMixing:
                 raise_operation_error(request, "Can't update currency for contract value", name="value")
 
     @staticmethod
-    def validate_update_contract_value_amount(request, before, after, name="value"):
+    def validate_contract_value_amount(request, value, name="value"):
+        amount = to_decimal(value.get("amount") or 0)
+        amount_net = to_decimal(value.get("amountNet") or 0)
+        tax_included = value.get("valueAddedTaxIncluded")
+
+        if amount == 0 and amount_net == 0:
+            return
+        if tax_included:
+            amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
+            if amount < amount_net or amount > amount_max:
+                raise_operation_error(
+                    request,
+                    f"Amount should be equal or greater than amountNet and differ by "
+                    f"no more than {AMOUNT_NET_COEF * 100 - 100}%",
+                    name=name,
+                )
+        else:
+            if amount != amount_net:
+                raise_operation_error(
+                    request,
+                    "Amount and amountNet should be equal",
+                    name=name,
+                )
+
+    @classmethod
+    def validate_update_contract_value_amount(cls, request, before, after, name="value"):
         value = after.get(name)
         if value and (before.get(name) != after.get(name) or before.get("status") != after.get("status", "active")):
-            amount = to_decimal(value.get("amount") or 0)
-            amount_net = to_decimal(value.get("amountNet") or 0)
-            tax_included = value.get("valueAddedTaxIncluded")
-
-            if not (amount == 0 and amount_net == 0):
-                if tax_included:
-                    amount_max = (amount_net * AMOUNT_NET_COEF).quantize(Decimal("1E-2"), rounding=ROUND_UP)
-                    if amount < amount_net or amount > amount_max:
-                        raise_operation_error(
-                            request,
-                            f"Amount should be equal or greater than amountNet and differ by "
-                            f"no more than {AMOUNT_NET_COEF * 100 - 100}%",
-                            name="value",
-                        )
-                else:
-                    if amount != amount_net:
-                        raise_operation_error(
-                            request,
-                            "Amount and amountNet should be equal",
-                            name="value",
-                        )
+            cls.validate_contract_value_amount(request, value, name=name)
 
     @staticmethod
     def validate_activate_contract_with_review_request(
@@ -877,16 +882,15 @@ class ContractState(
             self._validate_contract_items_unit_value_amount(after)
 
     @staticmethod
-    def validate_update_contracting_value_identical(request, before, after):
-        value = after.get("value")
-        paid_data = request.validated["json_data"].get("amountPaid")
+    def validate_update_contracting_value_identical(request, value, paid_data, name="amountPaid", status=403):
         for attr in ("currency",):
             if value and paid_data and paid_data.get(attr) is not None:
                 if value.get(attr) != paid_data.get(attr):
                     raise_operation_error(
                         request,
                         f"{attr} of amountPaid should be identical to {attr} of value of contract",
-                        name="amountPaid",
+                        name=name,
+                        status=status,
                     )
 
     @staticmethod
@@ -1030,7 +1034,9 @@ class ContractState(
 
     def validate_contract_active_patch(self, request, before: dict, after: dict) -> None:
         if not self.is_percentage_value(after.get("value", {})):
-            self.validate_update_contracting_value_identical(request, before, after)
+            self.validate_update_contracting_value_identical(
+                request, after.get("value"), request.validated["json_data"].get("amountPaid")
+            )
             self.validate_update_contracting_items_unit_value_amount(request, before, after)
             self.validate_update_contract_value_net_required(request, before, after, name="amountPaid")
             self.validate_update_contract_paid_amount(request, before, after)
