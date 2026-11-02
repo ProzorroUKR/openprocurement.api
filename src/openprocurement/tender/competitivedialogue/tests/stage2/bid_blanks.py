@@ -3,11 +3,11 @@ from datetime import timedelta
 from unittest import mock
 
 from openprocurement.api.utils import calculate_date, get_now
+from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 from openprocurement.tender.open.tests.below_threshold.base import (
     now,
     test_tender_below_supplier,
 )
-from openprocurement.tender.core.tests.utils import set_bid_items, set_bid_lotvalues
 
 
 def create_tender_bidder_firm(self):
@@ -1046,7 +1046,7 @@ def features_bidder_invalid(self):
             }
         ],
     )
-    data["parameters"][1]["code"] = tender_data["features"][0]["code"]
+    data["parameters"][1]["code"] = tender_data["features"][1]["code"]
     data["parameters"][1]["value"] = 0.2
     response = self.app.post_json("/tenders/{}/bids".format(self.tender_id), {"data": data}, status=422)
     self.assertEqual(response.status, "422 Unprocessable Entity")

@@ -1,3 +1,5 @@
+from schematics.exceptions import ValidationError
+
 from openprocurement.tender.arma.procedure.models.bid import (
     ARMABid,
     ARMAPatchBid,
@@ -5,6 +7,7 @@ from openprocurement.tender.arma.procedure.models.bid import (
     ARMAPostBid,
 )
 from openprocurement.tender.core.procedure.state.bid import BidState
+from openprocurement.tender.core.procedure.utils import find_lot
 
 
 class ARMABidState(BidState):
@@ -22,6 +25,12 @@ class ARMABidState(BidState):
     }
     item_unit_amount_check = False
     bid_value_amount_field = "amountPercentage"
+
+    def validate_bid_lot_value_against_lot(self, tender, lot_value):
+        lot = find_lot(tender, lot_value.get("relatedLot"))
+        value = lot_value["value"]
+        if lot and value and lot["value"]["amountPercentage"] < value["amountPercentage"]:
+            raise ValidationError("value of bid should be less than value of lot")
 
 
 class ComplexAssetBidState(ARMABidState):
