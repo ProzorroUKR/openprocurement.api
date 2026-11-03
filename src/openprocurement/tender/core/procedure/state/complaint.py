@@ -68,26 +68,24 @@ class BaseComplaintStateMixin:
         if self.complaint_post_bid_owner_statuses is not None and self.request.authenticated_role != "admins":
             self.validate_bid_owner(self.complaint_post_bid_owner_statuses)
         self.validate_input_data(self.get_post_data_model())
-        data = self.request.validated["data"]
-        if self.complaint_author_identifier_required:
-            self.validate_complaint_author_identifier(data)
-        self.validate_complaint_post_type(data)
-        if self.complaint_post_draft_status and tender_created_after_2020_rules():
-            data["status"] = "draft"
-        self.validate_complaint_related_lot(data)
-        self.validate_complaint_objections_evidences(data)
-        self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
         self.validate_data_documents(route_key=self.complaint_documents_route_key, uid_key="id")
 
     def validate_complaint_patch_request(self):
         if self.request.authenticated_role not in self.complaint_patch_owner_exempt_roles:
             self.validate_any_item_owner(*self.complaint_patch_owner_item_names)
         self.validate_patch_input_data(self.get_patch_data_model())
-        if self.complaint_author_identifier_required and "author" in self.request.validated["data"]:
-            self.validate_complaint_author_identifier(self.request.validated["data"])
         self.validate_patch_data(self.get_data_model(), self.complaint_item_name)
-        if self.request.validated["data"]:
-            self.validate_complaint_objections_evidences(self.request.validated["data"])
+
+    def validate_complaint_post_data(self, complaint):
+        """former model validators of the posted complaint (claim): run first in validate_complaint/claim_on_post"""
+        if self.complaint_author_identifier_required:
+            self.validate_complaint_author_identifier(complaint)
+        self.validate_complaint_post_type(complaint)
+        if self.complaint_post_draft_status and tender_created_after_2020_rules():
+            complaint["status"] = "draft"
+        self.validate_complaint_related_lot(complaint)
+        self.validate_complaint_objections_evidences(complaint)
+        self.validate_documents_related_item(complaint.get("documents"), name="documents")
 
     def validate_complaint_author_identifier(self, complaint):
         tender = get_tender()
@@ -165,6 +163,7 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
     # POST
     def validate_complaint_on_post(self, complaint):
+        self.validate_complaint_post_data(complaint)
         tender = get_tender()
         self.validate_complaint_config()
         self.validate_create_allowed_tender_status()
@@ -239,6 +238,9 @@ class ComplaintStateMixin(BaseComplaintStateMixin):
 
     # PATCH
     def validate_complaint_on_patch(self, before, complaint):
+        if self.complaint_author_identifier_required and before.get("author") != complaint.get("author"):
+            self.validate_complaint_author_identifier(complaint)
+        self.validate_complaint_objections_evidences(complaint)
         # validate forbidden for update fields
         for k in ("id", "scheme", "legalName"):
             if before["author"]["identifier"][k] != complaint["author"]["identifier"][k]:

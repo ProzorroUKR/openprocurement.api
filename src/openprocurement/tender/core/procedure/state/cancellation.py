@@ -66,8 +66,6 @@ class CancellationStateMixin:
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
-        self.validate_cancellation_related_lot(self.request.validated["data"])
-        self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
 
     def validate_cancellation_related_lot(self, cancellation):
         related_lot = cancellation.get("relatedLot")
@@ -81,6 +79,8 @@ class CancellationStateMixin:
         self.validate_patch_data_simple(self.get_data_model(), "cancellation")
 
     def validate_cancellation_post(self, data):
+        self.validate_cancellation_related_lot(data)
+        self.validate_documents_related_item(data.get("documents"), name="documents")
         request, tender = get_request(), get_tender()
         self.validate_cancellation_in_allowed_tender_status(request, tender, data)
         self.validate_cancellation_of_active_lot(request, tender, data)

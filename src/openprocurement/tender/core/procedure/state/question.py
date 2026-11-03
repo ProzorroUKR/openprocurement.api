@@ -24,7 +24,6 @@ class TenderQuestionStateMixin:
 
     def validate_question_post_request(self):
         self.validate_input_data(self.get_post_data_model())
-        self.validate_question_related_item(self.request.validated["data"])
 
     def validate_question_related_item(self, question):
         """a question of an item / lot is related to one of the tender items / lots"""
@@ -48,6 +47,7 @@ class TenderQuestionStateMixin:
         self.validate_patch_data_simple(self.get_data_model(), "question")
 
     def question_on_post(self, question):
+        self.validate_question_related_item(question)
         self.validate_question_accreditation_level()
         self.validate_question_on_post(question)
 

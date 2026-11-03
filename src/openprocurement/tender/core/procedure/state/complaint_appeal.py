@@ -50,7 +50,6 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
     def validate_complaint_appeal_post_request(self):
         self.validate_any_item_owner("complaint", "tender")
         self.validate_input_data(self.get_post_data_model())
-        self.validate_documents_related_item(self.request.validated["data"].get("documents"), name="documents")
         self.validate_data_documents(route_key="appeal_id", uid_key="id")
 
     def validate_complaint_appeal_patch_request(self):
@@ -59,6 +58,7 @@ class ComplaintAppealState(ComplaintAppealValidationsMixin, TenderState):
         self.validate_patch_data(self.get_data_model(), "appeal")
 
     def complaint_appeal_on_post(self, appeal):
+        self.validate_documents_related_item(appeal.get("documents"), name="documents")
         author = self.request.authenticated_role
         appeal["author"] = author
         # set author for documents passed with tender data

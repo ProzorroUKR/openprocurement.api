@@ -21,7 +21,6 @@ class QualificationState(QualificationRequirementResponsesRulesMixin, TenderStat
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), "qualification")
-        self.validate_qualification_lot_id(self.request.validated["data"])
 
     def validate_qualification_lot_id(self, qualification):
         """a qualification of a multilot tender is related to one of its lots (checked when lotID is passed, as the model did)"""
@@ -79,6 +78,7 @@ class QualificationState(QualificationRequirementResponsesRulesMixin, TenderStat
             raise_operation_error(self.request, "Can't update qualification in current cancelled qualification status")
 
     def qualification_on_patch(self, before, qualification):
+        self.validate_qualification_lot_id(qualification)
         self.validate_requirement_responses_change(before, qualification)
         self.validate_status_change_before_milestone_due_date(before, qualification)
         tender = get_tender()

@@ -309,12 +309,15 @@ class TenderDetailsRequestMixin(BaseState):
         if role != "Administrator":
             self.validate_tender_patch_allowed()
         self.validate_patch_input_data(self.get_tender_patch_data_model())
-        self.validate_tender_period_patch_allowed(self.request.validated["data"])
         self.validate_patch_data_simple(self.get_data_model(), "tender")
 
-    def validate_tender_period_patch_allowed(self, data):
+    def validate_tender_period_patch_allowed(self, before, after):
         statuses = self.tender_period_patch_allowed_statuses
-        if statuses is not None and data.get("tenderPeriod") and get_tender()["status"] not in statuses:
+        if (
+            statuses is not None
+            and before.get("tenderPeriod") != after.get("tenderPeriod")
+            and before["status"] not in statuses
+        ):
             raise_operation_error(self.request, ["Rogue field"], status=422, name="tenderPeriod")
 
     def validate_tender_patch_allowed(self):
@@ -2560,6 +2563,7 @@ class BaseTenderDetailsMixin(
     status_up_allowed_transitions: tuple | None = None
 
     def validate_tender_patch(self, before, after):
+        self.validate_tender_period_patch_allowed(before, after)
         self.validate_status_change_with_lot_cancellation_pending(before, after)
         self.validate_items_zero_quantity(before, after)
         self.validate_guarantee_criterion(before, after)

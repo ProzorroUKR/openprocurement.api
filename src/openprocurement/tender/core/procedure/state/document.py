@@ -29,13 +29,11 @@ class BaseDocumentStateMixin:
     def validate_document_post_request(self):
         self.validate_document_owner(self.document_post_owner_exempt_roles)
         self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
-        self.validate_document_data()
         self.validate_document_operation_allowed()
 
     def validate_document_put_request(self):
         self.validate_document_owner(self.document_update_owner_exempt_roles)
         self.validate_input_data(self.get_post_data_model())
-        self.validate_document_data()
         self.update_doc_fields_on_put_document()
         self.validate_document_operation_allowed()
         self.validate_document_author_allowed()
@@ -46,7 +44,6 @@ class BaseDocumentStateMixin:
         self.validate_document_owner(self.document_update_owner_exempt_roles)
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), "document")
-        self.validate_document_data()
         self.validate_document_operation_allowed()
         self.validate_document_author_allowed()
 
@@ -60,9 +57,6 @@ class BaseDocumentStateMixin:
 
     def validate_document_view_allowed(self):
         pass
-
-    def validate_document_data(self):
-        """Rules of the parsed documents (request.validated["data"]) that depend on the parent objects"""
 
     def validate_document_operation_allowed(self):
         """Availability of the add / update operation: statuses of the tender and of the parent object"""
@@ -119,9 +113,13 @@ class BaseDocumentStateMixin:
 
 
 class BaseDocumentState(BaseDocumentStateMixin, TenderState):
-    def validate_document_data(self):
-        data = self.request.validated["data"]
-        self.validate_documents_related_item(data if isinstance(data, list) else [data])
+    def document_on_post(self, data):
+        self.validate_documents_related_item([data])
+        super().document_on_post(data)
+
+    def document_on_patch(self, before, after):
+        self.validate_documents_related_item([after])
+        super().document_on_patch(before, after)
 
     def validate_document_author(self, document):
         if self.request.authenticated_role != document["author"]:

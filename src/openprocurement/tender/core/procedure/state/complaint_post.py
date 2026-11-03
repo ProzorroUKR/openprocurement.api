@@ -43,9 +43,6 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
         if self.request.authenticated_role != "aboveThresholdReviewers":
             self.validate_any_item_owner("complaint", "tender")
         self.validate_input_data(self.get_post_data_model())
-        post = self.request.validated["data"]
-        self.validate_complaint_post_recipient(post)
-        self.validate_complaint_post_related_post(post)
         self.validate_data_documents(route_key="post_id", uid_key="id")
 
     def validate_complaint_post_recipient(self, post):
@@ -135,6 +132,8 @@ class ComplaintPostState(ComplaintPostValidationsMixin, TenderState):
             )
 
     def validate_complaint_post_on_post(self, post):
+        self.validate_complaint_post_recipient(post)
+        self.validate_complaint_post_related_post(post)
         complaint = get_complaint()
         if not tender_created_after_2020_rules():
             raise_operation_error(self.request, "Forbidden")

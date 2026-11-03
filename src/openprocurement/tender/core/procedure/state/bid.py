@@ -119,6 +119,11 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         super().status_up(before, after, data)
 
     def on_post(self, data):
+        self.validate_bid_value_fields(data)
+        self.validate_bid_lot_values_fields(data)
+        self.validate_bid_parameters_fields(data)
+        for name in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+            self.validate_documents_related_item(data.get(name), name=name)
         now = get_request_now().isoformat()
         data["date"] = now
         self.validate_bid_data(data, on_post=True)
@@ -149,6 +154,9 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_bid_value_fields(after)
+        self.validate_bid_lot_values_fields(after)
+        self.validate_bid_parameters_fields(after)
         if self.bid_agreement_check_on_patch:
             self.validate_bid_vs_agreement(after)
         self.validate_bid_data(after)
@@ -189,12 +197,6 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
         self.validate_bid_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
-        data = self.request.validated["data"]
-        self.validate_bid_value_fields(data)
-        self.validate_bid_lot_values_fields(data)
-        self.validate_bid_parameters_fields(data)
-        for name in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
-            self.validate_documents_related_item(self.request.validated["data"].get(name), name=name)
         self.validate_data_documents(route_key="bid_id", uid_key="id")
 
     def validate_bid_patch_request(self):
@@ -206,10 +208,6 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
             self.validate_bid_operation_allowed()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "bid")
-        if data := self.request.validated["data"]:
-            self.validate_bid_value_fields(data)
-            self.validate_bid_lot_values_fields(data)
-            self.validate_bid_parameters_fields(data)
 
     def validate_bid_delete_request(self):
         if self.request.authenticated_role != "Administrator":

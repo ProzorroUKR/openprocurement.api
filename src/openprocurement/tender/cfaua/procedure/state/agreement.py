@@ -16,8 +16,6 @@ class CFAUAAgreementStateMixin:
         self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "agreement")
-        if self.request.validated["data"]:
-            self.validate_agreement_date_signed(self.request.validated["data"])
 
     def validate_agreement_date_signed(self, agreement):
         """the agreement is signed after the award complaint period and not in the future"""
@@ -47,6 +45,7 @@ class CFAUAAgreementStateMixin:
             )
 
     def agreement_on_patch(self, before, after):
+        self.validate_agreement_date_signed(after)
         if before["status"] != after["status"]:
             self.agreement_status_up(before["status"], after["status"], after)
 

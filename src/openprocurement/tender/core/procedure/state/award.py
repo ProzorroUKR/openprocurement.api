@@ -90,16 +90,12 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_input_data(self.get_post_data_model())
-        self.validate_award_lot_id(self.request.validated["data"])
 
     def validate_award_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data_simple(self.get_data_model(), "award")
-        # the award model checked lotID on PATCH only when the award has it
-        if "lotID" in self.request.validated["data"]:
-            self.validate_award_lot_id(self.request.validated["data"])
 
     def validate_award_lot_id(self, award):
         """an award of a multilot tender is related to one of its lots"""
@@ -113,6 +109,7 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
     # --- hooks (called from the views) ---
 
     def award_on_post(self, award):
+        self.validate_award_lot_id(award)
         self.validate_award_post(award)
         self.validate_award_econtract_fields(award)
         if self.award_has_period:
@@ -127,6 +124,9 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
             }
 
     def award_on_patch(self, before, award):
+        # the award model checked lotID on PATCH only when the award has it
+        if "lotID" in award:
+            self.validate_award_lot_id(award)
         self.validate_award_econtract_fields(award)
         if before["status"] != award["status"]:
             self.invalidate_review_requests(lot_id=award.get("lotID", ""))

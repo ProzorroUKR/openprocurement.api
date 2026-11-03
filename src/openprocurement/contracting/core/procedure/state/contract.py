@@ -725,19 +725,15 @@ class ContractState(
         if not exempt:
             self.validate_contract_owner()
         self.validate_patch_input_data(self.get_contract_patch_data_model())
-        self.validate_contract_items_unit_value_currency()
         self.validate_patch_data_simple(self.get_data_model(), item_name="contract")
         if not exempt:
             self.validate_contract_update_allowed()
 
-    def validate_contract_items_unit_value_currency(self):
-        """items unit.value currency of the posted items is the contract value currency (valueCurrencyEquality)"""
-        data = self.request.validated["data"]
-        items = data.get("items")
-        base_value = data.get("value")
-        if base_value is None:
-            base_value = self.request.validated["contract"].get("value")
-        if not base_value or not items or "amountPercentage" in base_value:
+    def validate_contract_items_unit_value_currency(self, before, after):
+        """items unit.value currency of the changed items is the contract value currency (valueCurrencyEquality)"""
+        items = after.get("items")
+        base_value = after.get("value")
+        if before.get("items") == items or not base_value or not items or "amountPercentage" in base_value:
             return
         for item in items:
             item_value = (item.get("unit") or {}).get("value")
@@ -948,6 +944,7 @@ class ContractState(
             raise_operation_error(request, "Can't terminate contract while 'amountPaid' is not set")
 
     def on_patch(self, before, after) -> None:
+        self.validate_contract_items_unit_value_currency(before, after)
         after["id"] = after["_id"]
         before["id"] = before["_id"]
         self.validate_contract_patch(self.request, before, after)

@@ -43,6 +43,7 @@ class CancellationComplaintStateMixin(ComplaintStateMixin):
         super().complaint_on_post(complaint)
 
     def validate_complaint_on_post(self, complaint):
+        self.validate_complaint_post_data(complaint)
         tender = get_tender()
 
         self.validate_complaint_config()
