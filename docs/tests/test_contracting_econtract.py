@@ -772,7 +772,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                         "terminationDetails": {
                             "reasonType": "disrupted",
                             "reason": "Договір розірвано достроково за згодою сторін",
-                            "amountPaid": {"amount": 200, "amountNet": 200, "currency": "UAH", "valueAddedTaxIncluded": False},
+                            "amountPaid": {
+                                "amount": 200,
+                                "amountNet": 200,
+                                "currency": "UAH",
+                                "valueAddedTaxIncluded": False,
+                            },
                         }
                     }
                 },
@@ -800,7 +805,12 @@ class TenderPQResourceTest(BasePQWebTest, MockWebTestMixin):
                     "terminationDetails": {
                         "reasonType": "disrupted",
                         "reason": "Договір розірвано достроково за згодою сторін",
-                        "amountPaid": {"amount": 200, "amountNet": 200, "currency": "UAH", "valueAddedTaxIncluded": False},
+                        "amountPaid": {
+                            "amount": 200,
+                            "amountNet": 200,
+                            "currency": "UAH",
+                            "valueAddedTaxIncluded": False,
+                        },
                     }
                 }
             },

@@ -6,6 +6,7 @@ from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.state.bid import BidState
+from openprocurement.tender.core.procedure.validation import validate_esco_lotvalue_value
 from openprocurement.tender.esco.procedure.models.bid import (
     ESCOBid,
     ESCOPatchBid,
@@ -30,6 +31,27 @@ class ESCOBidState(BidState):
     def on_patch(self, before, after):
         super().on_patch(before, after)
         self.set_yearly_payments_percentage_for_lots(after)
+
+    def validate_bid_lot_value_against_lot(self, tender, lot_value):
+        if lot_value.get("status") != "draft" and lot_value["value"] is not None:
+            validate_esco_lotvalue_value(tender, lot_value.get("relatedLot"), lot_value["value"])
+
+    def get_bid_value_errors(self, tender, value) -> dict:
+        """former ESCODynamicValue.validate_yearlyPaymentsPercentage (lots: the lot range is checked on post / patch)"""
+        if not value or value.get("yearlyPaymentsPercentage") is None:
+            return {}
+        yearly = to_decimal(value["yearlyPaymentsPercentage"])
+        if tender["fundingKind"] == "other" and yearly < Decimal("0.8"):
+            return {"yearlyPaymentsPercentage": ["yearlyPaymentsPercentage should be greater than 0.8 and less than 1"]}
+        if not tender.get("lots") and tender["fundingKind"] == "budget":
+            max_value = tender["yearlyPaymentsPercentageRange"]
+            if yearly > Decimal(str(max_value)):
+                return {
+                    "yearlyPaymentsPercentage": [
+                        f"yearlyPaymentsPercentage should be greater than 0 and less than {max_value}"
+                    ]
+                }
+        return {}
 
     def validate_bid_value_against_tender(self, tender, value):
         """former ESCOBidMixin.validate_value: the bid value is checked against the tender minValue"""

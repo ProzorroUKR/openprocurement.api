@@ -30,7 +30,6 @@ class ChangeState(BaseState):
         if self.request.authenticated_role != "Administrator":
             self.validate_item_owner("agreement")
         validate_input_data_from_resolved_model()(self.request)
-        self.validate_change_date_signed_not_in_future()
         self.validate_change_agreement_status()
         self.validate_change_no_pending()
 
@@ -38,12 +37,11 @@ class ChangeState(BaseState):
         if self.request.authenticated_role != "Administrator":
             self.validate_item_owner("agreement")
         validate_patch_input_data_from_resolved_model()(self.request)
-        self.validate_change_date_signed_not_in_future()
         self.validate_patch_data(self.get_parent_patch_data_model(), item_name="change")
         self.validate_change_update_allowed()
 
-    def validate_change_date_signed_not_in_future(self):
-        date_signed = self.request.validated["data"].get("dateSigned")
+    def validate_change_date_signed_not_in_future(self, change):
+        date_signed = change.get("dateSigned")
         if date_signed and dt_from_iso(date_signed) > get_request_now():
             raise_operation_error(
                 self.request,
@@ -110,10 +108,13 @@ class ChangeState(BaseState):
         return ChangePartyWithdrawal
 
     def on_post(self, data):
+        self.validate_change_date_signed_not_in_future(data)
         self.validate_change_date_signed(data)
         super().on_post(data)
 
     def pre_patch(self, before, after):
+        if before.get("dateSigned") != after.get("dateSigned"):
+            self.validate_change_date_signed_not_in_future(after)
         if "status" in after and after["status"] != before["status"]:  # status change
             self.validate_update_agreement_change_status(after)
             after["date"] = get_request_now().isoformat()

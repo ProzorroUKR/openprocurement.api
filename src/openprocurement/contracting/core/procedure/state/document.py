@@ -51,37 +51,28 @@ class ContractDocumentState(BaseDocumentStateMixin, ContractState):
 
     # --- request validation (called from the views) ---
 
-    def validate_document_post_request(self):
-        self.validate_document_owner(self.document_post_owner_exempt_roles)
-        self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
-        self.validate_documents_related_item()
-        self.validate_document_operation_allowed()
-
     def validate_document_put_request(self):
         self.validate_document_owner(self.document_update_owner_exempt_roles)
         self.validate_input_data(self.get_post_data_model())
         self.update_doc_fields_on_put_document()
         self.validate_upload_document()
         self.validate_data_model(self.get_data_model())
-        self.validate_documents_related_item()
         self.validate_document_operation_allowed()
 
-    def validate_document_patch_request(self):
-        self.validate_document_owner(self.document_update_owner_exempt_roles)
-        self.validate_patch_input_data(self.get_patch_data_model())
-        self.validate_patch_data(self.get_data_model(), "document")
-        self.validate_documents_related_item()
-        self.validate_document_operation_allowed()
-        self.validate_document_related_change_pending()
+    def document_on_post(self, data):
+        self.validate_document_related_item(data)
+        super().document_on_post(data)
 
-    def validate_documents_related_item(self):
+    def document_on_patch(self, before, after):
+        self.validate_document_related_item(after)
+        self.validate_document_related_change_pending(after)
+        super().document_on_patch(before, after)
+
+    def validate_document_related_item(self, document):
         if not self.document_related_item_check:
             return
-        data = self.request.validated["data"]
-        for document in data if isinstance(data, list) else [data]:
-            document_of = document.get("documentOf")
-            if document_of not in ("item", "change", "lot"):
-                continue
+        document_of = document.get("documentOf")
+        if document_of in ("item", "change", "lot"):
             related_item = document.get("relatedItem")
             if not related_item:
                 raise_operation_error(self.request, ["This field is required."], status=422, name="relatedItem")
@@ -107,11 +98,10 @@ class ContractDocumentState(BaseDocumentStateMixin, ContractState):
                 f"Can't {OPERATIONS.get(self.request.method)} document in current ({status}) contract status",
             )
 
-    def validate_document_related_change_pending(self):
-        data = self.request.validated["data"]
-        if "relatedItem" in data and data.get("documentOf") == "change":
+    def validate_document_related_change_pending(self, document):
+        if "relatedItem" in document and document.get("documentOf") == "change":
             changes = self.request.validated["contract"].get("changes", "")
-            if not any(c["id"] == data["relatedItem"] and c["status"] == "pending" for c in changes):
+            if not any(c["id"] == document["relatedItem"] and c["status"] == "pending" for c in changes):
                 raise_operation_error(self.request, "Can't add document to 'active' change")
 
     def validate_document_download_allowed(self):

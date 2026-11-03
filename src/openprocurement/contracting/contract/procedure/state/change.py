@@ -19,7 +19,6 @@ class ChangeState(ContractRequestRulesMixin, BaseState, ContractChangeStateMixin
         if self.request.authenticated_role not in ("Administrator", "admins"):
             self.validate_contract_owner()
         self.validate_input_data(self.get_post_data_model())
-        self.validate_change_date_signed_not_in_future()
         self.validate_contract_change_allowed()
         self.validate_contract_change_no_pending()
 
@@ -28,12 +27,11 @@ class ChangeState(ContractRequestRulesMixin, BaseState, ContractChangeStateMixin
             self.validate_contract_owner()
         self.validate_patch_input_data(self.get_patch_data_model())
         self.validate_patch_data(self.get_data_model(), item_name="change")
-        self.validate_change_date_signed_not_in_future()
         self.validate_contract_change_allowed()
         self.validate_contract_change_update_allowed()
 
-    def validate_change_date_signed_not_in_future(self):
-        date_signed = self.request.validated["data"].get("dateSigned")
+    def validate_change_date_signed_not_in_future(self, change):
+        date_signed = change.get("dateSigned")
         if date_signed and parse_date(date_signed) > get_now():
             raise_operation_error(
                 self.request,
@@ -43,9 +41,11 @@ class ChangeState(ContractRequestRulesMixin, BaseState, ContractChangeStateMixin
             )
 
     def change_on_post(self, data):
+        self.validate_change_date_signed_not_in_future(data)
         self.change_always(data)
 
     def change_on_patch(self, before, after):
+        self.validate_change_date_signed_not_in_future(after)
         if "status" in after and before.get("status") != after["status"]:
             self.change_status_up(before["status"], after["status"], after)
         self.change_always(after)

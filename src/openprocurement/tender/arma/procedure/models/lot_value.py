@@ -1,13 +1,9 @@
-from schematics.exceptions import ValidationError
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import AmountPercentageValue
 from openprocurement.tender.core.procedure.models.value import AmountPercentageWeightedValue
-from openprocurement.tender.core.procedure.utils import find_lot
-from openprocurement.tender.core.procedure.validation import validate_related_lot
 
 
 class ARMAPostLotValue(Model):
@@ -15,16 +11,6 @@ class ARMAPostLotValue(Model):
     value = ModelType(AmountPercentageValue, required=True)
     relatedLot = MD5Type(required=True)
     subcontractingDetails = StringType()
-
-    def validate_value(self, data, value):
-        lot = find_lot(get_tender(), data["relatedLot"])
-        if lot and value:
-            tender_lot_value = lot.get("value")
-            if tender_lot_value["amountPercentage"] < value["amountPercentage"]:
-                raise ValidationError("value of bid should be less than value of lot")
-
-    def validate_relatedLot(self, data, related_lot):
-        validate_related_lot(get_tender(), related_lot)
 
 
 class ARMAPatchLotValue(ARMAPostLotValue):

@@ -13,7 +13,6 @@ from openprocurement.api.constants import (
 )
 from openprocurement.api.constants_env import (
     CRITERION_REQUIREMENT_STATUSES_FROM,
-    PQ_CRITERIA_ID_FROM,
 )
 from openprocurement.api.context import get_json_data, get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
@@ -37,24 +36,13 @@ from openprocurement.tender.core.procedure.validation import (
     validate_object_id_uniq,
     validate_value_type,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
 
 
 class ValidateIdMixing(Model):
+    # md5 is checked by the state (TenderCriteriaRulesMixin.validate_criteria_object_id): legacy PQ ids are the profile ones
     id = StringType(required=True, default=lambda: uuid4().hex)
-
-    def validate_id(self, data, value):
-        tender = get_tender() or get_json_data()
-        if (
-            tender.get("procurementMethodType") in (PQ,)
-            and get_first_revision_date(tender, default=get_request_now()) <= PQ_CRITERIA_ID_FROM
-        ):
-            return
-        field = MD5Type()
-        value = field.to_native(value)
-        field.validate(value)
 
 
 class CriterionClassification(BaseClassification):

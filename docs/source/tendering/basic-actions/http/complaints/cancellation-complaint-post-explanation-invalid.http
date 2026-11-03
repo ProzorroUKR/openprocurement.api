@@ -25,13 +25,6 @@ Content-Type: application/json
       "description": [
         "Forbidden to add recipient without relatedPost for ['complaint_owner', 'tender_owner']"
       ]
-    },
-    {
-      "location": "body",
-      "name": "relatedPost",
-      "description": [
-        "This field is required."
-      ]
     }
   ]
 }

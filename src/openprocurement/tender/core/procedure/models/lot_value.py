@@ -1,15 +1,10 @@
 from schematics.types import MD5Type, StringType
 from schematics.types.compound import ModelType
 
-from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import Value
 from openprocurement.tender.core.procedure.models.value import (
     WeightedValue,
-)
-from openprocurement.tender.core.procedure.validation import (
-    validate_lotvalue_value,
-    validate_related_lot,
 )
 
 
@@ -18,12 +13,6 @@ class PostLotValue(Model):
     value = ModelType(Value, required=True)
     relatedLot = MD5Type(required=True)
     subcontractingDetails = StringType()
-
-    def validate_value(self, data, value):
-        validate_lotvalue_value(get_tender(), data["relatedLot"], value)
-
-    def validate_relatedLot(self, data, related_lot):
-        validate_related_lot(get_tender(), related_lot)
 
 
 class PatchLotValue(PostLotValue):

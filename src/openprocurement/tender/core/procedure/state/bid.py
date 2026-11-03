@@ -53,6 +53,8 @@ from openprocurement.tender.core.procedure.validation import (
     validate_econtract_fields_bid,
     validate_items_required_fields,
     validate_items_unit_amount,
+    validate_lotvalue_value,
+    validate_related_lot,
     validate_required_fields,
 )
 
@@ -117,6 +119,11 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         super().status_up(before, after, data)
 
     def on_post(self, data):
+        self.validate_bid_value_fields(data)
+        self.validate_bid_lot_values_fields(data)
+        self.validate_bid_parameters_fields(data)
+        for name in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
+            self.validate_documents_related_item(data.get(name), name=name)
         now = get_request_now().isoformat()
         data["date"] = now
         self.validate_bid_data(data, on_post=True)
@@ -147,6 +154,9 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         super().on_post(data)
 
     def on_patch(self, before, after):
+        self.validate_bid_value_fields(after)
+        self.validate_bid_lot_values_fields(after)
+        self.validate_bid_parameters_fields(after)
         if self.bid_agreement_check_on_patch:
             self.validate_bid_vs_agreement(after)
         self.validate_bid_data(after)
@@ -187,8 +197,6 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
         self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
         self.validate_bid_operation_allowed()
         self.validate_input_data(self.get_post_data_model())
-        for name in ("documents", "financialDocuments", "eligibilityDocuments", "qualificationDocuments"):
-            self.validate_documents_related_item(self.request.validated["data"].get(name), name=name)
         self.validate_data_documents(route_key="bid_id", uid_key="id")
 
     def validate_bid_patch_request(self):
@@ -294,6 +302,68 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
                 self.request.errors.add("body", name, messages)
             self.request.errors.status = 422
             raise error_handler(self.request)
+
+    # former validators of the bid nested models (value, lotValues, parameters): the rules depend on the tender;
+    # a list error holds the failed items only, as the models reported it
+
+    def validate_bid_value_fields(self, data):
+        if errors := self.get_bid_value_errors(get_tender(), data.get("value")):
+            raise_operation_error(self.request, errors, status=422, name="value")
+
+    def validate_bid_lot_values_fields(self, data):
+        tender = get_tender()
+        errors = [e for e in (self.get_bid_lot_value_errors(tender, i) for i in data.get("lotValues") or "") if e]
+        if errors:
+            raise_operation_error(self.request, errors, status=422, name="lotValues")
+
+    def validate_bid_parameters_fields(self, data):
+        tender = get_tender()
+        errors = [e for e in (self.get_bid_parameter_errors(tender, i) for i in data.get("parameters") or "") if e]
+        if errors:
+            raise_operation_error(self.request, errors, status=422, name="parameters")
+
+    def get_bid_value_errors(self, tender, value) -> dict:
+        """errors of the value fields (esco: yearlyPaymentsPercentage)"""
+        return {}
+
+    def get_bid_lot_value_errors(self, tender, lot_value) -> dict:
+        errors = {}
+        if "relatedLot" in lot_value:
+            try:
+                validate_related_lot(tender, lot_value["relatedLot"])
+            except ValidationError as e:
+                errors["relatedLot"] = e.messages
+        for name in ("value", "initialValue"):
+            if name in lot_value and (value_errors := self.get_bid_value_errors(tender, lot_value[name])):
+                errors[name] = value_errors
+        if "value" in lot_value and "value" not in errors:
+            try:
+                self.validate_bid_lot_value_against_lot(tender, lot_value)
+            except ValidationError as e:
+                errors["value"] = e.messages
+        return errors
+
+    def validate_bid_lot_value_against_lot(self, tender, lot_value):
+        """the value of a lot proposal is checked against the lot value"""
+        validate_lotvalue_value(tender, lot_value.get("relatedLot"), lot_value["value"])
+
+    def get_bid_parameter_errors(self, tender, parameter) -> dict:
+        errors = {}
+        features = tender.get("features", "")
+        code = parameter.get("code")
+        if code is not None and not any(i["code"] == code for i in features):
+            errors["code"] = ["code should be one of feature code."]
+        value = parameter.get("value")
+        if value is not None:
+            for feature in features:
+                if feature["code"] == code and not any(
+                    self.is_bid_parameter_value_allowed(value, e["value"]) for e in feature["enum"]
+                ):
+                    errors["value"] = ["value should be one of feature value."]
+        return errors
+
+    def is_bid_parameter_value_allowed(self, value, feature_value):
+        return float(feature_value) == value
 
     def validate_bid_value(self, data, on_post=False) -> list:
         """former CommonBid.validate_value: the value of a bid is checked against the tender value"""

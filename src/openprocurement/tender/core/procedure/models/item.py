@@ -63,7 +63,7 @@ class Item(BaseItem):
     product = StringType()
 
     def validate_additionalClassifications(self, data, items):
-        validate_additional_classifications(get_tender(), data, items)
+        validate_additional_classifications(data, items)
         if items is not None:
             classification_id = data["classification"]["id"]
             validate_ua_road(classification_id, items)

@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from isodate import duration_isoformat
 
+from openprocurement.api.constants import TZ
 from openprocurement.tender.cfaua.constants import CFA_UA_CLARIFICATIONS_UNTIL_PERIOD, CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.procedure.models.agreement import CFAAgreement
 from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_period
@@ -90,6 +91,23 @@ def patch_tender_agreement_datesigned(self):
         )
         self.assertEqual(response.status, "200 OK")
         self.assertEqual(response.json["data"]["status"], "active")
+
+    future_date = (datetime.now(tz=TZ) + timedelta(days=1)).isoformat()
+    response = self.app.patch_json(
+        "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),
+        {"data": {"status": "active", "dateSigned": future_date, "period": test_tender_cfaua_agreement_period}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "dateSigned",
+                "description": ["Agreement signature date can't be in the future"],
+            }
+        ],
+    )
 
     response = self.app.patch_json(
         "/tenders/{}/agreements/{}?acc_token={}".format(self.tender_id, self.agreement_id, self.tender_token),

@@ -70,7 +70,7 @@ class AdditionalClassification(Classification):
             raise ValidationError("{} description invalid".format(UA_ROAD_SCHEME))
 
 
-def validate_additional_classifications(obj, data, items):
+def validate_additional_classifications(data, items):
     if (
         data["classification"]["id"] == CPV_NOT_CPV
         and items

@@ -88,28 +88,6 @@ class ESCODynamicValue(ESCOValue):
         if len(value) != 21:
             raise ValidationError("annual costs reduction should be set for 21 period")
 
-    def validate_yearlyPaymentsPercentage(self, data, value):
-        tender = get_tender()
-
-        if tender["fundingKind"] == "other":
-            min_value = 0.8
-            if value < Decimal(str(min_value)):
-                raise ValidationError(
-                    "yearlyPaymentsPercentage should be greater than {} and less than 1".format(min_value)
-                )
-
-        if tender.get("lots"):
-            # Validation for lots is done in the state
-            # (maybe this one further should be moved to the state as well)
-            return
-
-        if tender["fundingKind"] == "budget":
-            max_value = tender["yearlyPaymentsPercentageRange"]
-            if value > Decimal(str(max_value)):
-                raise ValidationError(
-                    "yearlyPaymentsPercentage should be greater than 0 and less than {}".format(max_value)
-                )
-
 
 class ESCOWeightedValue(ESCOBasicValue):
     # Calculated energy service contract performance indicator

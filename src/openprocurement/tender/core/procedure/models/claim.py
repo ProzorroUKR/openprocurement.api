@@ -1,6 +1,5 @@
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
 from schematics.types import BooleanType, MD5Type, StringType
 from schematics.types.serializable import serializable
 
@@ -11,7 +10,6 @@ from openprocurement.api.procedure.types import IsoDateTimeType, ListType, Model
 from openprocurement.api.procedure.utils import is_item_owner
 from openprocurement.tender.core.procedure.models.document import Document
 from openprocurement.tender.core.procedure.models.organization import Organization
-from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 
 
 class PostClaim(Model):
@@ -42,13 +40,6 @@ class PostClaim(Model):
     author = ModelType(Organization, required=True)
     title = StringType(required=True)
     description = StringType()
-
-    def validate_type(self, data, value):
-        if not value:
-            if tender_created_after_2020_rules():
-                raise ValidationError("This field is required")
-            else:
-                data["type"] = "claim"
 
 
 class PostClaimFromBid(PostClaim):
