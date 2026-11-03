@@ -250,13 +250,13 @@ def create_complaint_post_validate_related_post(self):
     self.assertEqual(response.json["status"], "error")
     self.assertIn("relatedPost invalid recipient.", str(response.json["errors"]))
 
-    # create answer by complaint owner invalid recipient
+    # create answer to own post by reviewer (the recipient is valid for the reviewer)
     with change_auth(self.app, ("Basic", ("reviewer", ""))):
         response = self.post_post(
             {
                 "title": "Lorem ipsum",
                 "description": "Lorem ipsum dolor sit amet",
-                "recipient": "aboveThresholdReviewers",
+                "recipient": "complaint_owner",
                 "relatedPost": post["id"],
                 "relatedObjection": self.objection_id,
             },
@@ -299,7 +299,10 @@ def create_complaint_post_validate_related_post(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(response.json["status"], "error")
-    self.assertIn("This field is required.", str(response.json["errors"]))
+    self.assertIn(
+        "Forbidden to add recipient without relatedPost for ['complaint_owner', 'tender_owner']",
+        str(response.json["errors"]),
+    )
 
     # create answer by tender owner
     response = self.post_post(
