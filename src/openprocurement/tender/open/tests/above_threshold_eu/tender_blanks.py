@@ -6,8 +6,18 @@ from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.procedure.utils import parse_date
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_supplier
-from openprocurement.tender.core.tests.base import test_exclusion_criteria
-from openprocurement.tender.core.tests.utils import activate_contract, set_bid_lotvalues, set_bid_items
+from openprocurement.tender.core.tests.base import (
+    test_default_criteria,
+    test_exclusion_criteria,
+    test_tender_guarantee_criteria,
+)
+from openprocurement.tender.core.tests.utils import (
+    activate_contract,
+    set_bid_lotvalues,
+    set_bid_items,
+    set_tender_criteria,
+    set_tender_lots,
+)
 from openprocurement.tender.core.utils import calculate_tender_full_date
 # TenderResourceTest
 
@@ -1219,3 +1229,81 @@ def lost_contract_for_active_award(self):
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}".format(tender_id))
     self.assertEqual(response.json["data"]["status"], "complete")
+
+
+def tender_with_cancelled_guarantee_criterion(self):
+    data = deepcopy(self.initial_data)
+    data["status"] = "draft"
+    set_tender_lots(data, deepcopy(self.test_lots_data))
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    tender = response.json["data"]
+    self.tender_id = tender["id"]
+    self.tender_token = response.json["access"]["token"]
+
+    related_lot_id = tender["lots"][0]["id"]
+
+    criteria = []
+    criteria.extend(test_default_criteria)
+    criteria.extend(test_tender_guarantee_criteria)
+    set_tender_criteria(criteria, tender["lots"], tender["items"])
+
+    for criterion in criteria:
+        if criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE":
+            criterion["relatesTo"] = "lot"
+            criterion["relatedItem"] = related_lot_id
+
+    response = self.app.post_json(
+        "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token),
+        {
+            "data": criteria,
+        },
+        status=201,
+    )
+    guarantee_criterion = [
+        criterion
+        for criterion in response.json["data"]
+        if criterion["classification"]["id"] == "CRITERION.OTHER.BID.GUARANTEE"
+    ][0]
+
+    self.add_contract_proforma_doc(self.tender_id, self.tender_token)
+    self.add_sign_doc(self.tender_id, self.tender_token)
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.tendering"}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "data",
+                "description": "Should be specified 'guarantee.amount' more than 0 to lot for CRITERION.OTHER.BID.GUARANTEE",
+            }
+        ],
+    )
+
+    for requirement_group in guarantee_criterion["requirementGroups"]:
+        for requirement in requirement_group["requirements"]:
+            response = self.app.patch_json(
+                "/tenders/{}/criteria/{}/requirement_groups/{}/requirements/{}?acc_token={}".format(
+                    self.tender_id,
+                    guarantee_criterion["id"],
+                    requirement_group["id"],
+                    requirement["id"],
+                    self.tender_token,
+                ),
+                {"data": {"status": "cancelled"}},
+                status=200,
+            )
+            self.assertEqual(response.json["data"]["status"], "cancelled")
+
+    response = self.app.patch_json(
+        "/tenders/{}?acc_token={}".format(self.tender_id, self.tender_token),
+        {"data": {"status": "active.tendering"}},
+        status=200,
+    )
+    self.assertEqual(response.json["data"]["status"], "active.tendering")
+    self.assertNotIn("guarantee", response.json["data"]["lots"][0])

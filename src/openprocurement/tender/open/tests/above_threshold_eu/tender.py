@@ -37,6 +37,7 @@ from openprocurement.tender.open.tests.above_threshold_eu.tender_blanks import (
     one_bid_tender,
     one_qualificated_bid_tender,
     patch_tender,
+    tender_with_cancelled_guarantee_criterion,
     unsuccessful_after_prequalification_tender,
 )
 from openprocurement.tender.open.tests.above_threshold_ua.tender import TenderUAResourceTestMixin
@@ -101,6 +102,7 @@ class TenderGuarantee(BaseTenderWebTest):
     initial_bids = test_bids_data = test_tender_openeu_bids
 
     test_tender_with_guarantee_multilot = snitch(tender_with_guarantee_multilot)
+    test_tender_with_cancelled_guarantee_criterion = snitch(tender_with_cancelled_guarantee_criterion)
     test_activate_bid_guarantee_multilot = snitch(activate_bid_guarantee_multilot)
 
 
