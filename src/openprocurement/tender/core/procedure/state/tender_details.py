@@ -21,6 +21,7 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
+    SANDBOX_MODE,
     TENDER_CONFIG_JSONSCHEMAS,
     TENDER_EXTRA_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
@@ -35,6 +36,7 @@ from openprocurement.api.constants_env import (
     EST_VALUE_VAT_NOT_INCLUDED_VALIDATION_FROM,
     EVALUATION_REPORTS_DOC_REQUIRED_FROM,
     ITEM_QUANTITY_REQUIRED_FROM,
+    LAW_4888_TENDERS_FROM,
     MILESTONES_SEQUENCE_NUMBER_VALIDATION_FROM,
     MINIMAL_STEP_TENDERS_WITH_LOTS_VALIDATION_FROM,
     MINIMAL_STEP_VALIDATION_FROM,
@@ -85,6 +87,8 @@ from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
     CRITERION_TECHNICAL_FEATURES,
     DEFAULT_WORKING_DAYS_CONFIG,
+    LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED,
+    LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED,
     LIMITED_PROCUREMENT_METHOD_TYPES,
     PROCUREMENT_METHOD_LIMITED,
     PROCUREMENT_METHOD_OPEN,
@@ -298,6 +302,7 @@ class TenderDetailsRequestMixin(BaseState):
 
     def validate_tender_post_request(self):
         self.validate_input_data(self.get_post_data_model())
+        self.validate_procurement_method_type_allowed()
         self.validate_config_data(self.tender_config_default)
         if self.tender_create_accreditation_check:
             self.validate_accreditation_level(
@@ -308,6 +313,20 @@ class TenderDetailsRequestMixin(BaseState):
                 source="data",
             )
         self.validate_data_documents()
+
+    def validate_procurement_method_type_allowed(self):
+        if SANDBOX_MODE:
+            return
+        pmt = self.request.validated["data"].get("procurementMethodType")
+        now = get_request_now()
+        if (pmt in LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED and now < LAW_4888_TENDERS_FROM) or (
+            pmt in LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED and now >= LAW_4888_TENDERS_FROM
+        ):
+            raise_operation_error(
+                self.request,
+                f"Forbidden to create tender with procurementMethodType {pmt}",
+                name="procurementMethodType",
+            )
 
     def validate_tender_patch_request(self):
         role = self.request.authenticated_role

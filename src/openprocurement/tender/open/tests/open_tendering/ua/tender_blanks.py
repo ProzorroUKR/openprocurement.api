@@ -1,4 +1,8 @@
 from copy import deepcopy
+from datetime import timedelta
+from unittest import mock
+
+from openprocurement.api.utils import get_now
 
 
 def create_tender_invalid_procedure_and_config(self):
@@ -133,6 +137,37 @@ def create_tender_procedure_forbidden_for_legacy(self):
         response.json["errors"],
         [{"description": ["Rogue field."], "location": "body", "name": "procedure"}],
     )
+
+
+def create_tender_before_law_4888(self):
+    """the procedures introduced by the law 4888 can't be created before it comes into force"""
+    state_module = "openprocurement.tender.core.procedure.state.tender_details"
+    with (
+        mock.patch(f"{state_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED", ["openTendering"]),
+        mock.patch(f"{state_module}.LAW_4888_TENDERS_FROM", get_now() + timedelta(days=1)),
+    ):
+        response = self.app.post_json(
+            "/tenders",
+            {"data": self.initial_data, "config": self.initial_config},
+            status=403,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": "Forbidden to create tender with procurementMethodType openTendering",
+                    "location": "body",
+                    "name": "procurementMethodType",
+                }
+            ],
+        )
+
+        with mock.patch(f"{state_module}.SANDBOX_MODE", True):
+            self.app.post_json(
+                "/tenders",
+                {"data": self.initial_data, "config": self.initial_config},
+                status=201,
+            )
 
 
 def patch_tender_procedure_is_immutable(self):

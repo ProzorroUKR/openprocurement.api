@@ -5,7 +5,19 @@ import pytest
 import openprocurement.api.database as db_module
 from openprocurement.api.utils import get_now
 from openprocurement.framework.core.procedure.state import framework
-from openprocurement.tender.core.procedure.state import tender
+from openprocurement.tender.core.procedure.state import tender, tender_details
+
+
+@pytest.fixture(autouse=True)
+def patch_law_4888_procurement_method_types_constants(monkeypatch):
+    """
+    Function patches constants:
+    - openprocurement.tender.core.procedure.state.tender_details.LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED
+    - openprocurement.tender.core.procedure.state.tender_details.LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED
+    in order to disable validation function regardless of LAW_4888_TENDERS_FROM
+    """
+    monkeypatch.setattr(tender_details, "LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED", [])
+    monkeypatch.setattr(tender_details, "LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED", [])
 
 
 @pytest.fixture(autouse=True)

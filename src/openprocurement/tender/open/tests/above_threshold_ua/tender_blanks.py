@@ -443,6 +443,36 @@ def create_tender_invalid_config(self):
     )
 
 
+def create_tender_after_law_4888(self):
+    state_module = "openprocurement.tender.core.procedure.state.tender_details"
+    with (
+        patch(f"{state_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED", ["aboveThresholdUA"]),
+        patch(f"{state_module}.LAW_4888_TENDERS_FROM", get_now() - timedelta(days=1)),
+    ):
+        response = self.app.post_json(
+            "/tenders",
+            {"data": self.initial_data, "config": self.initial_config},
+            status=403,
+        )
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": "Forbidden to create tender with procurementMethodType aboveThresholdUA",
+                    "location": "body",
+                    "name": "procurementMethodType",
+                }
+            ],
+        )
+
+        with patch(f"{state_module}.SANDBOX_MODE", True):
+            self.app.post_json(
+                "/tenders",
+                {"data": self.initial_data, "config": self.initial_config},
+                status=201,
+            )
+
+
 def create_tender_generated(self):
     data = self.initial_data.copy()
     # del data['awardPeriod']

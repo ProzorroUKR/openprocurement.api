@@ -27,6 +27,7 @@ from openprocurement.tender.open.tests.above_threshold_ua.base import (
 )
 from openprocurement.tender.open.tests.above_threshold_ua.tender_blanks import (
     activate_bid_after_adding_lot,
+    create_tender_after_law_4888,
     create_tender_generated,
     create_tender_invalid,
     create_tender_invalid_config,
@@ -72,6 +73,7 @@ class TenderUAResourceTest(BaseTenderUAWebTest, TenderResourceTestMixin, TenderU
 
     test_create_tender_invalid = snitch(create_tender_invalid)
     test_create_tender_invalid_config = snitch(create_tender_invalid_config)
+    test_create_tender_after_law_4888 = snitch(create_tender_after_law_4888)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)
