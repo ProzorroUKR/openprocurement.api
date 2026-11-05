@@ -121,13 +121,6 @@ class EContractState(ContractState):
                 name="terminationDetails",
                 status=422,
             )
-        if not termination_details.get("reason"):
-            raise_operation_error(
-                self.request,
-                "reason is required to activate terminationDetails",
-                name="terminationDetails",
-                status=422,
-            )
         if not termination_details.get("amountPaid"):
             raise_operation_error(
                 self.request,
@@ -137,10 +130,25 @@ class EContractState(ContractState):
             )
 
         if termination_details["reasonType"] == "disrupted":
-            self.validate_contract_value_amount(
-                self.request, termination_details["amountPaid"], name="terminationDetails"
-            )
-            self.validate_termination_details_amount_paid_not_exceeds_value(contract, termination_details)
+            if not termination_details.get("reason"):
+                raise_operation_error(
+                    self.request,
+                    "reason is required to activate terminationDetails",
+                    name="terminationDetails",
+                    status=422,
+                )
+
+        if termination_details["reasonType"] == "completed":
+            if termination_details["amountPaid"].get("amount", 0) == 0:
+                raise_operation_error(
+                    self.request,
+                    "terminationDetails.amountPaid.amount must be greater than 0",
+                    name="terminationDetails",
+                    status=422,
+                )
+
+        self.validate_contract_value_amount(self.request, termination_details["amountPaid"], name="terminationDetails")
+        self.validate_termination_details_amount_paid_not_exceeds_value(contract, termination_details)
 
     @staticmethod
     def get_effective_contract_value(contract: dict) -> dict:
