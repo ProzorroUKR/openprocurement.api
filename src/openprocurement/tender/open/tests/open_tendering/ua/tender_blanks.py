@@ -145,6 +145,7 @@ def create_tender_before_law_4888(self):
     with (
         mock.patch(f"{state_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED", ["openTendering"]),
         mock.patch(f"{state_module}.LAW_4888_TENDERS_FROM", get_now() + timedelta(days=1)),
+        mock.patch(f"{state_module}.SANDBOX_MODE", False),
     ):
         response = self.app.post_json(
             "/tenders",
