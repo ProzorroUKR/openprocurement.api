@@ -2,7 +2,9 @@ from openprocurement.api.tests.base import snitch
 from openprocurement.contracting.econtract.tests.base import BaseEContractContentWebTest
 from openprocurement.contracting.econtract.tests.termination_details_blanks import (
     activate_termination_details_completed,
+    activate_termination_details_completed_amount_paid_zero,
     activate_termination_details_disrupted_amount_exceeds_value,
+    activate_termination_details_reason_required,
     activate_termination_details_signature_invalid_cert,
     activate_termination_details_signature_invalid_type,
     activate_termination_details_signature_verified,
@@ -36,6 +38,10 @@ class ContractTerminationDetailsTest(BaseEContractContentWebTest):
     test_activate_termination_details_disrupted_amount_exceeds_value = snitch(
         activate_termination_details_disrupted_amount_exceeds_value
     )
+    test_activate_termination_details_completed_amount_paid_zero = snitch(
+        activate_termination_details_completed_amount_paid_zero
+    )
+    test_activate_termination_details_reason_required = snitch(activate_termination_details_reason_required)
     test_get_termination_details = snitch(get_termination_details)
     test_get_termination_details_context = snitch(get_termination_details_context)
     test_activate_termination_details_signature_verified = snitch(activate_termination_details_signature_verified)

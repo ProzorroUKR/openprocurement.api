@@ -34,6 +34,7 @@ def patch_termination_details_buyer_only(self):
 
 def patch_termination_details_draft(self):
     # touching reasonType without the rest of the required data fails and is not persisted
+    # `reason` is not required for `completed`, so the next missing field is `amountPaid`
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
         {"data": {"terminationDetails": {"reasonType": "completed"}}},
@@ -45,16 +46,29 @@ def patch_termination_details_draft(self):
             {
                 "location": "body",
                 "name": "terminationDetails",
-                "description": "reason is required to activate terminationDetails",
+                "description": "amountPaid is required to activate terminationDetails",
             }
         ],
     )
     response = self.app.get(f"/contracts/{self.contract_id}?acc_token={self.contract_token}")
     self.assertNotIn("terminationDetails", response.json["data"])
 
+    # `reason` is required for `disrupted`
     response = self.app.patch_json(
         f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
-        {"data": {"terminationDetails": {"reasonType": "completed", "reason": "all obligations fulfilled"}}},
+        {
+            "data": {
+                "terminationDetails": {
+                    "reasonType": "disrupted",
+                    "amountPaid": {
+                        "amount": 50,
+                        "currency": "UAH",
+                        "amountNet": 50,
+                        "valueAddedTaxIncluded": False,
+                    },
+                }
+            }
+        },
         status=422,
     )
     self.assertEqual(
@@ -63,7 +77,7 @@ def patch_termination_details_draft(self):
             {
                 "location": "body",
                 "name": "terminationDetails",
-                "description": "amountPaid is required to activate terminationDetails",
+                "description": "reason is required to activate terminationDetails",
             }
         ],
     )
@@ -463,6 +477,74 @@ def activate_termination_details_disrupted_amount_exceeds_value(self):
                 "location": "body",
                 "name": "terminationDetails",
                 "description": "currency of amountPaid should be identical to currency of value of contract",
+            }
+        ],
+    )
+
+
+def activate_termination_details_completed_amount_paid_zero(self):
+    zero_amount = dict(COMPLETED_TERMINATION_DETAILS)
+    zero_amount["amountPaid"] = {"amount": 0, "amountNet": 0, "currency": "UAH", "valueAddedTaxIncluded": False}
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": zero_amount}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "terminationDetails",
+                "description": "terminationDetails.amountPaid.amount must be greater than 0",
+            }
+        ],
+    )
+
+    zero_amount_disrupted = dict(DISRUPTED_TERMINATION_DETAILS)
+    zero_amount_disrupted["amountPaid"] = {
+        "amount": 0,
+        "amountNet": 0,
+        "currency": "UAH",
+        "valueAddedTaxIncluded": False,
+    }
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": zero_amount_disrupted}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["amountPaid"]["amount"], 0)
+
+
+def activate_termination_details_reason_required(self):
+    without_reason = dict(COMPLETED_TERMINATION_DETAILS)
+    del without_reason["reason"]
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": without_reason}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertNotIn("reason", response.json["data"])
+
+    self.app.delete(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+    )
+    without_reason = dict(DISRUPTED_TERMINATION_DETAILS)
+    del without_reason["reason"]
+    response = self.app.patch_json(
+        f"/contracts/{self.contract_id}/termination_details?acc_token={self.contract_token}",
+        {"data": {"terminationDetails": without_reason}},
+        status=422,
+    )
+    self.assertEqual(response.status, "422 Unprocessable Entity")
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "terminationDetails",
+                "description": "reason is required to activate terminationDetails",
             }
         ],
     )

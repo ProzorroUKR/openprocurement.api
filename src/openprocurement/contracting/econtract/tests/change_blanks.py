@@ -1091,7 +1091,7 @@ def change_with_termination_details_draft_forbidden(self):
                 "terminationDetails": {
                     "reasonType": "completed",
                     "reason": "all obligations fulfilled",
-                    "amountPaid": {"amount": 0, "currency": "UAH", "valueAddedTaxIncluded": False},
+                    "amountPaid": {"amount": 1, "amountNet": 1, "currency": "UAH", "valueAddedTaxIncluded": False},
                 }
             }
         },
