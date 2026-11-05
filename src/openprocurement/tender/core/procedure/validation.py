@@ -27,6 +27,7 @@ from openprocurement.api.constants import (
     GMDN_CPV_PREFIXES,
     INN_SCHEME,
     MILESTONE_ACTIVE_DURATION_TYPES,
+    SANDBOX_MODE,
     UA_ROAD_CPV_PREFIXES,
     UA_ROAD_SCHEME,
 )
@@ -36,6 +37,7 @@ from openprocurement.api.constants_env import (
     CONTRACT_OWNER_REQUIRED_FROM_BY_EDRPOU,
     ITEMS_UNIT_VALUE_AMOUNT_VALIDATION_FROM,
     ITEMS_UNIT_VALUE_AMOUNT_VAT_AWARE_VALIDATION_FROM,
+    LAW_4888_TENDERS_FROM,
     MILESTONES_VALIDATION_FROM,
     PQ_CRITERIA_ID_FROM,
     RELEASE_ECRITERIA_ARTICLE_17,
@@ -58,6 +60,8 @@ from openprocurement.api.utils import (
 from openprocurement.api.validation import validate_tender_first_revision_date
 from openprocurement.tender.core.constants import (
     AMOUNT_NET_COEF,
+    LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED,
+    LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED,
     ReqStatuses,
     TenderMilestoneType,
 )
@@ -74,6 +78,20 @@ from openprocurement.tender.pricequotation.constants import PQ, PQ_PROFILE_PATTE
 
 LOGGER = logging.getLogger(__name__)
 OPERATIONS = {"POST": "add", "PATCH": "update", "PUT": "update", "DELETE": "delete"}
+
+
+def validate_procurement_method_type_allowed_by_law_4888(procurement_method_type, item="tender"):
+    if SANDBOX_MODE:
+        return
+    now = get_request_now()
+    if (procurement_method_type in LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED and now < LAW_4888_TENDERS_FROM) or (
+        procurement_method_type in LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED and now >= LAW_4888_TENDERS_FROM
+    ):
+        raise_operation_error(
+            get_request(),
+            f"Forbidden to create {item} with procurementMethodType {procurement_method_type}",
+            name="procurementMethodType",
+        )
 
 
 def validate_dialogue_owner(request, **_):

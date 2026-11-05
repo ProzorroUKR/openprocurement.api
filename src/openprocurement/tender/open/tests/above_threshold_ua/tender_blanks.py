@@ -444,7 +444,7 @@ def create_tender_invalid_config(self):
 
 
 def create_tender_after_law_4888(self):
-    state_module = "openprocurement.tender.core.procedure.state.tender_details"
+    state_module = "openprocurement.tender.core.procedure.validation"
     with (
         patch(f"{state_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED", ["aboveThresholdUA"]),
         patch(f"{state_module}.LAW_4888_TENDERS_FROM", get_now() - timedelta(days=1)),

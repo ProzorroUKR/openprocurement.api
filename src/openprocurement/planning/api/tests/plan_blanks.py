@@ -1719,6 +1719,62 @@ def patch_plan_to_simpledefense(self):
     self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "simple.defense")
 
 
+def create_plan_law_4888(self):
+    validation_module = "openprocurement.tender.core.procedure.validation"
+    data = deepcopy(self.initial_data)
+    new_law_data = deepcopy(data)
+    new_law_data["tender"]["procurementMethodType"] = "openTendering"
+
+    with (
+        mock.patch(f"{validation_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED", ["openTendering"]),
+        mock.patch(f"{validation_module}.LAW_4888_TENDERS_FROM", get_now() + timedelta(days=1)),
+        mock.patch(f"{validation_module}.SANDBOX_MODE", False),
+    ):
+        response = self.app.post_json("/plans", {"data": new_law_data}, status=403)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": "Forbidden to create plan with procurementMethodType openTendering",
+                    "location": "body",
+                    "name": "procurementMethodType",
+                }
+            ],
+        )
+
+        with mock.patch(f"{validation_module}.SANDBOX_MODE", True):
+            self.app.post_json("/plans", {"data": new_law_data}, status=201)
+
+    response = self.app.post_json("/plans", {"data": data}, status=201)
+    plan = response.json["data"]
+    acc_token = response.json["access"]["token"]
+
+    tender = deepcopy(data["tender"])
+    tender["procurementMethodType"] = "aboveThresholdUA"
+    request_path = "/plans/{}?acc_token={}".format(plan["id"], acc_token)
+
+    with (
+        mock.patch(f"{validation_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED", ["aboveThresholdUA"]),
+        mock.patch(f"{validation_module}.LAW_4888_TENDERS_FROM", get_now() - timedelta(days=1)),
+        mock.patch(f"{validation_module}.SANDBOX_MODE", False),
+    ):
+        response = self.app.patch_json(request_path, {"data": {"tender": tender}}, status=403)
+        self.assertEqual(
+            response.json["errors"],
+            [
+                {
+                    "description": "Forbidden to create plan with procurementMethodType aboveThresholdUA",
+                    "location": "body",
+                    "name": "procurementMethodType",
+                }
+            ],
+        )
+
+        with mock.patch(f"{validation_module}.SANDBOX_MODE", True):
+            response = self.app.patch_json(request_path, {"data": {"tender": tender}})
+            self.assertEqual(response.json["data"]["tender"]["procurementMethodType"], "aboveThresholdUA")
+
+
 @mock.patch(
     "openprocurement.planning.api.procedure.state.plan.RELEASE_SIMPLE_DEFENSE_FROM",
     calculate_date(get_now(), timedelta(days=1)),

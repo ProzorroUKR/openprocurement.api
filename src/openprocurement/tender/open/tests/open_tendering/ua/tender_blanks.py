@@ -141,7 +141,7 @@ def create_tender_procedure_forbidden_for_legacy(self):
 
 def create_tender_before_law_4888(self):
     """the procedures introduced by the law 4888 can't be created before it comes into force"""
-    state_module = "openprocurement.tender.core.procedure.state.tender_details"
+    state_module = "openprocurement.tender.core.procedure.validation"
     with (
         mock.patch(f"{state_module}.LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED", ["openTendering"]),
         mock.patch(f"{state_module}.LAW_4888_TENDERS_FROM", get_now() + timedelta(days=1)),
