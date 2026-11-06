@@ -2102,7 +2102,7 @@
                 "code": "prepayment",
                 "duration": {
                     "days": 2,
-                    "type": "banking"
+                    "type": "calendar"
                 },
                 "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "percentage": 45.55,

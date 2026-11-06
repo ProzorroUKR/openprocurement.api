@@ -99,7 +99,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "type": "financing",
         "duration": {
           "days": 2,
-          "type": "banking"
+          "type": "calendar"
         },
         "sequenceNumber": 2,
         "percentage": 45.55

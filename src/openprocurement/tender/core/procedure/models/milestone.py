@@ -3,12 +3,21 @@ from uuid import uuid4
 from schematics.exceptions import ValidationError
 from schematics.types import FloatType, IntType, MD5Type, StringType
 
-from openprocurement.api.constants import MILESTONE_CODES, MILESTONE_TITLES
+from openprocurement.api.constants import (
+    MILESTONE_ACTIVE_DURATION_TYPES,
+    MILESTONE_CODES,
+    MILESTONE_DURATION_TYPES,
+    MILESTONE_TITLES,
+)
 from openprocurement.api.constants_env import MILESTONES_VALIDATION_FROM
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    IsoDateTimeType,
+    ListType,
+    ModelType,
+)
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.qualification_milestone import QualificationMilestoneCode
@@ -44,7 +53,11 @@ class QualificationMilestoneListMixin(Model):
 
 class Duration(Model):
     days = IntType(required=True, min_value=1)
-    type = StringType(required=True, choices=["working", "banking", "calendar"])
+    type = StringType(
+        required=True,
+        choices=MILESTONE_DURATION_TYPES,
+        messages={"choices": f"Value must be one of {list(MILESTONE_ACTIVE_DURATION_TYPES)}."},
+    )
 
 
 class Milestone(Model):

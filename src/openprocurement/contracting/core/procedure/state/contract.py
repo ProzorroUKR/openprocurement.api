@@ -67,6 +67,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_items_unit_amount,
     validate_milestone_duration_days,
     validate_milestone_sums,
+    validate_milestones_duration_type,
     validate_milestones_sequence_number,
 )
 from openprocurement.tender.open.constants import REQUEST_FOR_PROPOSAL
@@ -926,6 +927,8 @@ class ContractState(
 
         if milestones_before == milestones_after:
             return
+
+        validate_milestones_duration_type(milestones_after, milestones_before)
 
         for milestone in milestones_after:
             validate_milestone_duration_days(get_tender(), milestone)

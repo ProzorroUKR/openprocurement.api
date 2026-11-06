@@ -75,6 +75,7 @@ from openprocurement.tender.open.tests.below_threshold.tender_blanks import (
     tender_items_negative_quantity,
     tender_items_zero_quantity,
     tender_lot_minimalstep_validation,
+    tender_milestones_duration_type,
     tender_milestones_required,
     tender_milestones_sequence_number,
     tender_not_found,
@@ -116,6 +117,7 @@ class TenderResourceTestMixin:
     test_tender_financing_milestones = snitch(tender_financing_milestones)
     test_tender_delivery_milestones = snitch(tender_delivery_milestones)
     test_tender_milestones_sequence_number = snitch(tender_milestones_sequence_number)
+    test_tender_milestones_duration_type = snitch(tender_milestones_duration_type)
     test_tender_notice_documents = snitch(tender_notice_documents)
     test_contract_template_name_set = snitch(contract_template_name_set)
     test_set_procuring_entity_signer_info = snitch(set_procuring_entity_signer_info)

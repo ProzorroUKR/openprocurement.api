@@ -972,7 +972,7 @@ Content-Type: application/json
         "percentage": 100.0,
         "duration": {
           "days": 2,
-          "type": "banking"
+          "type": "calendar"
         },
         "sequenceNumber": 1
       },

@@ -307,6 +307,9 @@ MILESTONE_TITLES = {
         key for key, desc in standards.load("codelists/milestones/title.json").items() if "financing" in desc["type"]
     },
 }
+MILESTONE_ACTIVE_DURATION_TYPES = ("working", "calendar")
+MILESTONE_ARCHIVED_DURATION_TYPES = ("banking",)
+MILESTONE_DURATION_TYPES = MILESTONE_ACTIVE_DURATION_TYPES + MILESTONE_ARCHIVED_DURATION_TYPES
 
 # cause for reporting
 TENDER_CAUSE = {

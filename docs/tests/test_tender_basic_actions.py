@@ -3934,7 +3934,7 @@ class TenderBelowThresholdResourceTest(BelowThresholdBaseTenderWebTest, MockWebT
                 "title": "signingTheContract",
                 "code": "prepayment",
                 "type": "financing",
-                "duration": {"days": 5, "type": "banking"},
+                "duration": {"days": 5, "type": "calendar"},
                 "sequenceNumber": 1,
                 "percentage": 45.55,
             },

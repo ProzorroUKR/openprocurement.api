@@ -2439,6 +2439,29 @@ def edit_tender_in_active_enquiries(self):
     self.assertEqual(response.json["data"]["guarantee"], data["guarantee"])
 
 
+def milestones_archived_duration_type(self):
+    agreement = deepcopy(self.initial_agreement)
+    agreement["milestones"] = deepcopy(test_tender_cfaselectionua_milestones)
+    agreement["milestones"][0]["duration"]["type"] = "banking"
+    agreement["period"]["endDate"] = calculate_date(get_now(), timedelta(days=7, hours=1, minutes=1)).isoformat()
+    self.create_agreement(agreement)
+
+    data = deepcopy(self.initial_data)
+    data["agreements"] = [{"id": self.agreement_id}]
+    data["status"] = "draft"
+
+    data["milestones"] = deepcopy(agreement["milestones"])
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["milestones"][0]["duration"]["type"], "banking")
+
+    data["milestones"][1]["duration"] = {"days": 3, "type": "banking"}
+    data["milestones"][1]["id"] = uuid4().hex
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["milestones"][1]["duration"]["type"], "banking")
+
+
 def milestones_mismatch(self):
     agreement = deepcopy(self.initial_agreement)
     agreement["milestones"] = deepcopy(test_tender_cfaselectionua_milestones)

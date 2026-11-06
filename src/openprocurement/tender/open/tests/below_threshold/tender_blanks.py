@@ -3139,7 +3139,7 @@ def tender_finance_milestones(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 2,
             "percentage": 100,
         },
@@ -3977,7 +3977,7 @@ def tender_financing_milestones(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 2,
             "percentage": 100,
             "relatedLot": lot_id,
@@ -4044,7 +4044,7 @@ def tender_delivery_milestones(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 1,
             "percentage": 100,
             "relatedLot": lot_id,
@@ -4170,6 +4170,129 @@ def tender_delivery_milestones(self):
     )
 
 
+def tender_milestones_duration_type(self):
+    data = deepcopy(self.initial_data)
+    data["milestones"] = [
+        {
+            "title": "signingTheContract",
+            "type": "delivery",
+            "duration": {"days": 2, "type": "calendar"},
+            "sequenceNumber": 1,
+            "code": "standard",
+            "percentage": 100,
+        },
+        {
+            "title": "signingTheContract",
+            "code": "prepayment",
+            "type": "financing",
+            "duration": {"days": 2, "type": "banking"},
+            "sequenceNumber": 2,
+            "percentage": 100,
+        },
+    ]
+    expected_errors = [
+        {
+            "location": "body",
+            "name": "milestones",
+            "description": [{"duration": {"type": ["Value must be one of ['working', 'calendar']."]}}],
+        }
+    ]
+
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    data["milestones"][-1]["duration"]["type"] = "unknown"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [
+            {
+                "location": "body",
+                "name": "milestones",
+                "description": [{"duration": {"type": ["Value must be one of ['working', 'calendar']."]}}],
+            }
+        ],
+    )
+
+    data["milestones"][-1]["duration"]["type"] = "working"
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender = response.json["data"]
+    token = response.json["access"]["token"]
+    self.tender_id = tender["id"]
+
+    patch_milestones = deepcopy(tender["milestones"])
+    patch_milestones[-1]["duration"]["type"] = "banking"
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"milestones": patch_milestones}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    stored_tender = self.mongodb.tenders.get(tender["id"])
+    stored_tender["milestones"][-1]["duration"]["type"] = "banking"
+    self.mongodb.tenders.save(stored_tender)
+
+    patch_milestones = deepcopy(stored_tender["milestones"])
+    patch_milestones[-1]["description"] = "milestone description"
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"milestones": patch_milestones}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["milestones"][-1]["description"], "milestone description")
+    self.assertEqual(response.json["data"]["milestones"][-1]["duration"]["type"], "banking")
+
+    patch_milestones[-1]["duration"]["days"] = 3
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"milestones": patch_milestones}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    # stored banking duration can't be copied to another existing milestone
+    patch_milestones = deepcopy(stored_tender["milestones"])
+    patch_milestones[0]["duration"] = deepcopy(patch_milestones[-1]["duration"])
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"milestones": patch_milestones}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    # stored banking duration can't be used for a new milestone
+    patch_milestones = deepcopy(stored_tender["milestones"])
+    patch_milestones[-1]["percentage"] = 50
+    patch_milestones.append(
+        {
+            "title": "deliveryOfGoods",
+            "code": "postpayment",
+            "type": "financing",
+            "duration": deepcopy(patch_milestones[-1]["duration"]),
+            "sequenceNumber": 3,
+            "percentage": 50,
+        }
+    )
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"milestones": patch_milestones}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"], expected_errors)
+
+    patch_milestones = deepcopy(stored_tender["milestones"])
+    patch_milestones[-1]["duration"]["days"] = 3
+    patch_milestones[-1]["duration"]["type"] = "calendar"
+    response = self.app.patch_json(
+        f"/tenders/{tender['id']}?acc_token={token}",
+        {"data": {"milestones": patch_milestones}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["milestones"][-1]["duration"], {"days": 3, "type": "calendar"})
+
+
 def tender_milestones_sequence_number(self):
     data = deepcopy(self.initial_data)
     lot = deepcopy(self.initial_lots[0])
@@ -4190,7 +4313,7 @@ def tender_milestones_sequence_number(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 1,
             "percentage": 100,
             "relatedLot": lot["id"],
@@ -4199,7 +4322,7 @@ def tender_milestones_sequence_number(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 2,
             "percentage": 100,
             "relatedLot": lot["id"],
@@ -4243,7 +4366,7 @@ def tender_milestones_sequence_number(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 1,
             "percentage": 45.55,
             "relatedLot": self.initial_lots[0]["id"],
