@@ -135,7 +135,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "type": "financing",
         "duration": {
           "days": 2,
-          "type": "banking"
+          "type": "calendar"
         },
         "sequenceNumber": 2,
         "percentage": 45.55,
@@ -237,7 +237,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c90ea39f9051489e
         "percentage": 45.55,
         "duration": {
           "days": 2,
-          "type": "banking"
+          "type": "calendar"
         },
         "sequenceNumber": 2,
         "relatedLot": "047349442ebb49bea5933a2c6cbc6ad7"

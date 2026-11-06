@@ -26,6 +26,7 @@ from openprocurement.api.constants import (
     GMDN_2023_SCHEME,
     GMDN_CPV_PREFIXES,
     INN_SCHEME,
+    MILESTONE_ACTIVE_DURATION_TYPES,
     UA_ROAD_CPV_PREFIXES,
     UA_ROAD_SCHEME,
 )
@@ -676,6 +677,24 @@ def validate_milestone_duration_days(tender, milestone):
             status=422,
             name="milestones",
         )
+
+
+def validate_milestones_duration_type(milestones, reference_milestones=None):
+    # archived duration types (e.g. "banking") are allowed only when the same milestone (by id)
+    # already has exactly this duration in the reference data, so it can't spread to other milestones
+    reference_durations = {m.get("id"): m.get("duration") for m in reference_milestones or []}
+    for milestone in milestones:
+        duration = milestone.get("duration", {})
+        duration_type = duration.get("type")
+        is_active_type = duration_type is None or duration_type in MILESTONE_ACTIVE_DURATION_TYPES
+        is_unchanged_archived_type = reference_durations.get(milestone.get("id")) == duration
+        if not is_active_type and not is_unchanged_archived_type:
+            raise_operation_error(
+                get_request(),
+                [{"duration": {"type": [f"Value must be one of {list(MILESTONE_ACTIVE_DURATION_TYPES)}."]}}],
+                status=422,
+                name="milestones",
+            )
 
 
 def validate_milestone_sums(milestones):

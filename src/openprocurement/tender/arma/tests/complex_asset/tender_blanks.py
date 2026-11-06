@@ -1130,7 +1130,7 @@ def tender_financing_milestones(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 1,
             "percentage": 10,
             "relatedLot": lot_id,

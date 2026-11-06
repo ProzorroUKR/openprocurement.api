@@ -86,6 +86,7 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
     items_unit_required = False
     milestones_required = False
     milestones_delivery_financing_required = False
+    milestones_validation_required = False
     main_procurement_category_required = False
     procuring_entity_available_language_default = "uk"
     award_criteria_choices = (AWARD_CRITERIA_LOWEST_COST,)
@@ -99,6 +100,13 @@ class CFASelectionTenderDetailsMixin(TenderDetailsMixin):
         "active.qualification",
     )
     agreement_min_period_until_end = CFA_SELECTION_MIN_PERIOD_UNTIL_AGREEMENT_END
+
+    def get_milestones_reference(self, tender, before=None):
+        if before is None:
+            agreement = self.request.validated.get("agreement") or {}
+            return agreement.get("milestones", [])
+        return super().get_milestones_reference(tender, before)
+
     pre_selection_agreement_check = False
     contract_template_name_patch_statuses = ("draft", "active.enquiries", "active.tendering")
     # no tender/lot value meta propagation, minimal step is calculated on activation

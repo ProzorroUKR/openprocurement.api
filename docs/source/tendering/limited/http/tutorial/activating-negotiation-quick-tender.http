@@ -163,7 +163,7 @@ Content-Type: application/json
         "percentage": 45.55,
         "duration": {
           "days": 2,
-          "type": "banking"
+          "type": "calendar"
         },
         "sequenceNumber": 2,
         "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"

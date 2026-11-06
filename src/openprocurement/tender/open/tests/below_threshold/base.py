@@ -69,7 +69,7 @@ test_tender_below_milestones = [
         "title": "signingTheContract",
         "code": "prepayment",
         "type": "financing",
-        "duration": {"days": 2, "type": "banking"},
+        "duration": {"days": 2, "type": "calendar"},
         "sequenceNumber": 2,
         "percentage": 45.55,
     },

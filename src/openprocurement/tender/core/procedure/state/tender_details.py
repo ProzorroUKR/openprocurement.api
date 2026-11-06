@@ -124,6 +124,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_items_unit_amount,
     validate_milestone_duration_days,
     validate_milestone_sums,
+    validate_milestones_duration_type,
     validate_milestones_sequence_number,
     validate_object_id_uniq,
     validate_required_nested_fields,
@@ -2473,6 +2474,10 @@ class TenderMilestonesRulesMixin(BaseState):
     milestones_required = True
     milestones_delivery_financing_required = True
     milestones_delivery_financing_required_on_post = True  # CD stage2 checks it on the full model only
+    milestones_validation_required = True
+
+    def get_milestones_reference(self, tender, before=None):
+        return before.get("milestones", []) if before else []
 
     def validate_milestones(self, tender, before=None):
         grouped_data = defaultdict(list)
@@ -2486,6 +2491,8 @@ class TenderMilestonesRulesMixin(BaseState):
 
         request_fetch_root_tender_for_tender(self.request, tender["_id"], raise_error=False)
         root_tender = self.request.validated.get("root_tender") or self.request.validated["tender"]
+
+        validate_milestones_duration_type(milestones_after, self.get_milestones_reference(tender, before))
 
         for milestone in tender.get("milestones", []):
             validate_milestone_duration_days(tender, milestone)
@@ -2610,7 +2617,8 @@ class BaseTenderDetailsMixin(
         self.validate_tender_value(tender)
         self.validate_tender_lots(tender)
         self.validate_lots_change({}, tender, on_post=True)
-        self.validate_milestones(tender)
+        if self.milestones_validation_required:
+            self.validate_milestones(tender)
         self.validate_submission_method(tender)
         self.validate_items_classification_prefix(tender)
         self.validate_pre_selection_agreement(tender)
@@ -2671,7 +2679,8 @@ class BaseTenderDetailsMixin(
 
         self.validate_contract_template_name(after, before=before)
         self.validate_procurement_method(after, before=before)
-        self.validate_milestones(after, before=before)
+        if self.milestones_validation_required:
+            self.validate_milestones(after, before=before)
         self.validate_pre_qualification_status_change(before, after)
         self.validate_tender_period_duration(after)
         self.validate_tender_period_after_enquiry_period(after)

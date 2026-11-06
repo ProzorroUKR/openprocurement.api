@@ -1441,7 +1441,7 @@ def tender_finance_milestones(self):
             "title": "signingTheContract",
             "code": "prepayment",
             "type": "financing",
-            "duration": {"days": 2, "type": "banking"},
+            "duration": {"days": 2, "type": "calendar"},
             "sequenceNumber": 2,
             "percentage": 45.55,
             "relatedLot": self.initial_lots[0]["id"] if self.initial_lots else None,
