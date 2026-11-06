@@ -12,9 +12,10 @@ Tendering API для операцій з закупівлею
    config/index
    belowthreshold/index
    open/index
-   competitiveordering/index
-   openua/index
    openeu/index
+   openua/index
+   opentendering/index
+   competitiveordering/index
    competitivedialogue/index
    esco/index
    limited/index
