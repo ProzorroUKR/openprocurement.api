@@ -12,6 +12,7 @@ from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_supplier,
 )
 from openprocurement.tender.core.procedure.models.award_milestone import AwardMilestoneCode
+from openprocurement.tender.core.tests.mock import patch_market_category, patch_market_product
 from openprocurement.tender.core.tests.utils import activate_contract, change_auth
 from openprocurement.tender.limited.tests.utils import get_award_data
 from openprocurement.tender.open.tests.above_threshold_ua.bid_blanks import clean_requirement_responses
@@ -4018,3 +4019,65 @@ def get_award_requirement_response(self):
     for k, v in valid_data[0].items():
         self.assertIn(k, rr)
         self.assertEqual(v, rr[k])
+
+
+def award_activation_requires_product_for_localization_level_answer(self):
+    tender_document = self.mongodb.tenders.get(self.tender_id)
+    tender_document["items"][0].pop("product")
+    self.mongodb.tenders.save(tender_document)
+
+    request_path = "/tenders/{}/awards?acc_token={}".format(self.tender_id, self.tender_token)
+
+    # no answer to the localization level requirement: product is not required
+    response = self.app.post_json(request_path, {"data": get_award_data(self)})
+    self.assertEqual(response.status, "201 Created")
+    award_id = response.json["data"]["id"]
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "active", "qualified": True}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")
+
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "cancelled"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+
+    # answer the localization level requirement: product becomes required
+    response = self.app.post_json(request_path, {"data": get_award_data(self)})
+    self.assertEqual(response.status, "201 Created")
+    award_id = response.json["data"]["id"]
+
+    response = self.app.post_json(
+        "/tenders/{}/awards/{}/requirement_responses?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": [{"requirement": {"id": self.requirement_id}, "value": 50}]},
+    )
+    self.assertEqual(response.status, "201 Created")
+
+    self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
+    response = self.app.patch_json(
+        "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+        {"data": {"status": "active", "qualified": True}},
+        status=422,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "items", "description": [{"product": ["This field is required."]}]}],
+    )
+
+    # set the product back: activation succeeds
+    tender_document = self.mongodb.tenders.get(self.tender_id)
+    tender_document["items"][0]["product"] = self.product["id"]
+    self.mongodb.tenders.save(tender_document)
+
+    with patch_market_product(self.product), patch_market_category(self.category):
+        response = self.app.patch_json(
+            "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),
+            {"data": {"status": "active", "qualified": True}},
+        )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["status"], "active")

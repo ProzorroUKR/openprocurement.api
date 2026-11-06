@@ -64,6 +64,7 @@ from openprocurement.tender.limited.tests.award_blanks import (  # TenderAwardDo
     create_award_requirement_response,
     patch_award_requirement_response,
     get_award_requirement_response,
+    award_activation_requires_product_for_localization_level_answer,
 )
 from openprocurement.tender.limited.tests.base import (
     BaseTenderContentWebTest,
@@ -102,6 +103,9 @@ class TenderAwardResourceTest(TenderCriteriaBaseTestMixin, BaseTenderContentWebT
     test_create_award_requirement_response = snitch(create_award_requirement_response)
     test_patch_award_requirement_response = snitch(patch_award_requirement_response)
     test_get_award_requirement_response = snitch(get_award_requirement_response)
+    test_award_activation_requires_product_for_localization_level_answer = snitch(
+        award_activation_requires_product_for_localization_level_answer
+    )
 
 
 class TenderAwardComplaintResourceTest(BaseTenderContentWebTest):

@@ -2034,16 +2034,6 @@ def tender_items_related_product(self):
         )
         self.assertEqual(
             response.json["errors"],
-            [{"location": "body", "name": "items", "description": [{"product": ["This field is required."]}]}],
-        )
-        second_item["product"] = related_product_id
-        response = self.app.patch_json(
-            f"/tenders/{tender_id}?acc_token={owner_token}",
-            {"data": {"items": tender_items + [second_item]}},
-            status=422,
-        )
-        self.assertEqual(
-            response.json["errors"],
             [
                 {
                     "location": "body",
