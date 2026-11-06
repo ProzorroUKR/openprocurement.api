@@ -53,7 +53,7 @@ bid3 = deepcopy(test_docs_bid3_with_docs)
 
 bid.update(test_docs_subcontracting)
 
-BASE_DIR = "docs/source/tendering/open/"
+BASE_DIR = "docs/source/tendering/opentendering/"
 UA_TARGET_DIR = BASE_DIR + "http/opentendering-ua/"
 UA_TARGET_CSV_DIR = BASE_DIR + "csv/opentendering-ua/"
 EU_TARGET_DIR = BASE_DIR + "http/opentendering-eu/"

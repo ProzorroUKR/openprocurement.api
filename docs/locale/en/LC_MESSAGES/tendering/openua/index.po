@@ -13,8 +13,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.9.1\n"
 
-msgid "Відкриті торги - ``aboveThresholdUA``"
-msgstr "Open procedure - ``aboveThresholdUA``"
+msgid "Відкриті торги з публікацією українською мовою - ``aboveThresholdUA``"
+msgstr "Open procedure with publication in Ukrainian - ``aboveThresholdUA``"
 
 msgid "Зміст:"
 msgstr "Contents:"
