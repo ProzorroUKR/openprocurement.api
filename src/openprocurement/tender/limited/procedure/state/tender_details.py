@@ -10,7 +10,7 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.validation import validate_items_classifications_prefixes
-from openprocurement.api.utils import get_tender_category, get_tender_product, raise_operation_error
+from openprocurement.api.utils import get_tender_category, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.state.tender_details import (
     TenderDetailsMixin,
@@ -151,20 +151,10 @@ class LimitedCauseDetailsMixin(BaseState):
                     name="items",
                 )
 
-            if category_id and not product_id:
-                raise_operation_error(
-                    self.request,
-                    [{"product": ["This field is required."]}],
-                    status=422,
-                    name="items",
-                )
-
             if category_id is None:
                 continue
 
             category = get_tender_category(get_request(), category_id, ("active",))
-
-            get_tender_product(get_request(), product_id, related_category=category_id)
 
             validate_items_classifications_prefixes(
                 [after_rp["classification"]],

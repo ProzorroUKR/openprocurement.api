@@ -47,6 +47,10 @@ test_lots[0]["value"] = test_tender_negotiation_data["value"]
 BASE_DIR = "docs/source/tendering/limited/"
 TARGET_DIR = BASE_DIR + "http/"
 TARGET_CSV_DIR = BASE_DIR + "csv/"
+product_data = {
+    "relatedCategory": "655360-30230000-889652-00000",
+    "id": "655360-30230000-889652-11111",
+}
 
 
 class TenderLimitedResourceTestBase(BaseTenderWebTest, MockWebTestMixin, TenderConfigCSVMixin):
@@ -121,22 +125,26 @@ class TenderLimitedResourceTest(TenderLimitedResourceTestBase):
         }
 
         category_data = {
-            "classification": {"description": "Продукти харчування різні", "id": "15800000-6", "scheme": "ДК021"},
+            "classification": {"description": "Послуги їдалень та буфетів", "id": "55500000-5", "scheme": "ДК021"},
             "id": "655360-30230000-889652-00000",
             "criteria": test_localization_criteria,
         }
-        product_data = {
-            "relatedCategory": "655360-30230000-889652-00000",
-            "id": "655360-30230000-889652-11111",
-        }
         reporting_data["items"][0]["category"] = category_data["id"]
+        original_item_classification = deepcopy(reporting_data["items"][0]["classification"])
         with patch_market_product(product_data), patch_market_category(category_data):
             with open(
                 TARGET_DIR + "tutorial/create-tender-reporting-items-with-category-without-product.http", "w"
             ) as self.app.file_obj:
-                self.app.post_json(
-                    "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
+                response = self.app.post_json(
+                    "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}
                 )
+                self.assertEqual(response.status, "201 Created")
+
+            reporting_data["items"][0]["classification"] = {
+                "description": "Продукти харчування різні",
+                "id": "15800000-6",
+                "scheme": "ДК021",
+            }
             reporting_data["items"][0]["product"] = product_data["id"]
             with open(
                 TARGET_DIR + "tutorial/create-tender-reporting-items-with-invalid-classification.http", "w"
@@ -145,7 +153,7 @@ class TenderLimitedResourceTest(TenderLimitedResourceTestBase):
                     "/tenders?opt_pretty=1", {"data": reporting_data, "config": self.initial_config}, status=422
                 )
 
-            reporting_data["items"][0]["classification"] = category_data["classification"]
+            reporting_data["items"][0]["classification"] = original_item_classification
 
             with open(TARGET_DIR + "tutorial/create-tender-reporting-procuringEntity.http", "w") as self.app.file_obj:
                 response = self.app.post_json(
@@ -330,7 +338,10 @@ class TenderLimitedResourceTest(TenderLimitedResourceTestBase):
 
         #### Award confirmation
 
-        with open(TARGET_DIR + "tutorial/tender-award-approve.http", "w") as self.app.file_obj:
+        with (
+            patch_market_product(product_data),
+            open(TARGET_DIR + "tutorial/tender-award-approve.http", "w") as self.app.file_obj
+        ):
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, owner_token),
                 {"data": {"status": "active", "qualified": True}},
@@ -957,7 +968,10 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTestBase):
         #### Award confirmation
 
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
-        with open(TARGET_DIR + "multiple_lots_tutorial/tender-award-approve.http", "w") as self.app.file_obj:
+        with (
+            patch_market_product(product_data),
+            open(TARGET_DIR + "multiple_lots_tutorial/tender-award-approve.http", "w") as self.app.file_obj
+        ):
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, owner_token),
                 {"data": {"status": "active", "qualified": True}},

@@ -27,8 +27,8 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "streetAddress": "вул. Банкова 1"
         },
         "classification": {
-          "description": "Послуги з харчування у школах",
-          "id": "55523100-3",
+          "description": "Продукти харчування різні",
+          "id": "15800000-6",
           "scheme": "ДК021"
         },
         "unit": {
@@ -163,7 +163,7 @@ Content-Type: application/json
       "location": "body",
       "name": "items",
       "description": [
-        "CPV group of items (555) should be identical to category CPV group (158)"
+        "CPV group of items (158) should be identical to category CPV group (555)"
       ]
     }
   ]

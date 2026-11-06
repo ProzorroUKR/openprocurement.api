@@ -4,6 +4,8 @@ REPORTING = "reporting"
 NEGOTIATION = "negotiation"
 NEGOTIATION_QUICK = "negotiation.quick"
 
+LOCALIZATION_LEVEL_REQUIREMENT_TITLE = "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік"
+
 LIMITED_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": True,
     "minEnquiriesDuration": True,
