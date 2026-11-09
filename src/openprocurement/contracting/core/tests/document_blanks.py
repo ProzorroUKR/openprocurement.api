@@ -922,6 +922,12 @@ confidential_documents_tender_params = [
         test_tender_reporting_config,
         {"code": "veteransSportsEventsServices", "description": "Veterans sport events"},
     ),
+    (
+        "reporting tender with causeDetails combinedWaterCrossingsProject (contract-only)",
+        test_tender_reporting_data,
+        test_tender_reporting_config,
+        {"code": "combinedWaterCrossingsProject", "description": "Water crossing project"},
+    ),
 ]
 
 
@@ -1189,8 +1195,8 @@ def limited_contract_confidential_document(self, _, init_tender_data, init_tende
     response = self.app.get(f"/contracts/{contract_id}/documents/{doc_id_2}")
     self.assertIn("url", response.json["data"])
 
-    if cause_details_data["code"] == "veteransSportsEventsServices":
-        # this cause requires confidentiality only for documentOf=contract (already proven above
+    if cause_details_data["code"] in ["veteransSportsEventsServices", "combinedWaterCrossingsProject"]:
+        # these causes require confidentiality only for documentOf=contract (already proven above
         # with doc_id_2), documents of contract changes must stay public
         contract_document = self.mongodb.contracts.get(contract_id)
         contract_document["changes"] = [

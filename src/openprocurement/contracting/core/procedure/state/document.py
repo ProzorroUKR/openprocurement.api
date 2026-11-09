@@ -34,7 +34,10 @@ CONFIDENTIAL_DOCS_CAUSES = (
     "defenseNeeds",
 )
 
-CONFIDENTIAL_DOCS_CAUSES_CONTRACT_ONLY = ("veteransSportsEventsServices",)
+CONFIDENTIAL_DOCS_CAUSES_CONTRACT_ONLY = (
+    "veteransSportsEventsServices",
+    "combinedWaterCrossingsProject",
+)
 
 
 class ContractDocumentState(BaseDocumentStateMixin, ContractState):

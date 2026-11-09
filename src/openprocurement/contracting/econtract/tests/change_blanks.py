@@ -4,7 +4,9 @@ from datetime import timedelta
 from openprocurement.api.constants import (
     MILESTONE_CODES,
     MILESTONE_TITLES,
-    RATIONALE_TYPES_DECREE_1178,
+)
+from openprocurement.api.deprecated.rationale_types import (
+    FROZEN_RATIONALE_TYPES_DECREE_1178,
 )
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.tender.core.tests.utils import set_items_unit
@@ -172,7 +174,7 @@ def create_change(self):
             {
                 "location": "body",
                 "name": "rationaleTypes",
-                "description": [f"Value must be one of {tuple(RATIONALE_TYPES_DECREE_1178.keys())}."],
+                "description": [f"Value must be one of {tuple(FROZEN_RATIONALE_TYPES_DECREE_1178.keys())}."],
             }
         ],
     )
