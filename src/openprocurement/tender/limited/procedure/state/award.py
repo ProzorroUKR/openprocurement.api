@@ -1,8 +1,11 @@
+from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.utils import raise_operation_error
+from openprocurement.api.utils import get_tender_product, raise_operation_error
+from openprocurement.tender.core.constants import CRITERION_LOCALIZATION
 from openprocurement.tender.core.procedure.state.award import AwardStateMixin
 from openprocurement.tender.core.procedure.utils import tender_created_after_2020_rules
 from openprocurement.tender.core.procedure.validation import OPERATIONS
+from openprocurement.tender.limited.constants import LOCALIZATION_LEVEL_REQUIREMENT_TITLE
 from openprocurement.tender.limited.procedure.models.award import (
     LimitedAward,
     LimitedPatchAward,
@@ -38,6 +41,46 @@ class ReportingAwardState(AwardStateMixin, NegotiationTenderState):
     def validate_award_post_content(self, award):
         self.validate_create_new_award(award)
         super().validate_award_post_content(award)
+
+    def award_status_up_from_pending_to_active(self, award, tender):
+        self.validate_items_product_localization_exception(award, tender)
+        super().award_status_up_from_pending_to_active(award, tender)
+
+    def validate_items_product_localization_exception(self, award, tender):
+        answered_items = self.get_localization_level_answered_items(award, tender)
+
+        for item in answered_items:
+            category_id = item.get("category")
+            product_id = item.get("product")
+
+            if not category_id:
+                continue
+
+            if not product_id:
+                raise_operation_error(
+                    self.request,
+                    [{"product": ["This field is required."]}],
+                    status=422,
+                    name="items",
+                )
+
+            get_tender_product(get_request(), product_id, related_category=category_id)
+
+    @staticmethod
+    def get_localization_level_answered_items(award: dict, tender: dict) -> list:
+        requirement_response_ids = {response["requirement"]["id"] for response in award.get("requirementResponses", [])}
+
+        answered_item_ids = set()
+        for criteria in tender.get("criteria", []):
+            if criteria.get("classification", {}).get("id") == CRITERION_LOCALIZATION:
+                for group in criteria.get("requirementGroups", []):
+                    for req in group.get("requirements", []):
+                        if req["id"] in requirement_response_ids and req.get("title", "").strip() == (
+                            LOCALIZATION_LEVEL_REQUIREMENT_TITLE
+                        ):
+                            answered_item_ids.add(criteria.get("relatedItem"))
+
+        return [item for item in tender.get("items", []) if item["id"] in answered_item_ids]
 
     def validate_create_new_award(self, award):
         tender = get_tender()

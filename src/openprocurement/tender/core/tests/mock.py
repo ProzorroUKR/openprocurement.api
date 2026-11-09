@@ -23,7 +23,7 @@ get_tender_category_targets = [
 
 get_product_targets = [
     "openprocurement.tender.core.procedure.state.bid.get_tender_product",
-    "openprocurement.tender.limited.procedure.state.tender_details.get_tender_product",
+    "openprocurement.tender.limited.procedure.state.award.get_tender_product",
 ]
 
 
