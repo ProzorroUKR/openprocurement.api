@@ -4,6 +4,7 @@ import pytest
 from dateutil.parser import parse
 
 from openprocurement.framework.core.procedure.state import framework
+from openprocurement.tender.core.procedure import validation as tender_validation
 from openprocurement.tender.core.procedure.state import tender
 from tests.base.constants import MOCK_DATETIME
 
@@ -21,6 +22,12 @@ def patch_tender_procurement_entity_kind_validation_from_constant(monkeypatch):
         framework, "PROCUREMENT_ENTITY_KIND_VALIDATION_FROM", parse(MOCK_DATETIME) + timedelta(days=365)
     )
     monkeypatch.setattr(tender, "PROCUREMENT_ENTITY_KIND_VALIDATION_FROM", parse(MOCK_DATETIME) + timedelta(days=365))
+
+
+@pytest.fixture(autouse=True)
+def patch_law_4888_procurement_method_types_constants(monkeypatch):
+    monkeypatch.setattr(tender_validation, "LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED", [])
+    monkeypatch.setattr(tender_validation, "LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED", [])
 
 
 @pytest.fixture(autouse=True)

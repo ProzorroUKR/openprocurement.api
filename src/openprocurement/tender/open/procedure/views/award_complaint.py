@@ -14,6 +14,7 @@ from openprocurement.tender.open.constants import (
     COMPETITIVE_ORDERING,
     OPEN_PROCUREMENT_METHOD_TYPES,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
     SIMPLE_DEFENSE,
 )
@@ -23,6 +24,7 @@ from openprocurement.tender.open.procedure.state.award_claim import (
     BelowThresholdAwardClaimState,
     COAwardClaimState,
     DefenseAwardClaimState,
+    OpenTenderingAwardClaimState,
     RFPAwardClaimState,
     SimpleDefenseAwardClaimState,
 )
@@ -31,6 +33,7 @@ from openprocurement.tender.open.procedure.state.award_complaint import (
     AboveThresholdEUAwardComplaintState,
     COAwardComplaintState,
     DefenseAwardComplaintState,
+    OpenTenderingAwardComplaintState,
     SimpleDefenseAwardComplaintState,
 )
 
@@ -61,6 +64,7 @@ class OpenAwardClaimResource(AwardClaimResource):
         ABOVE_THRESHOLD: AboveThresholdAwardClaimState,
         ABOVE_THRESHOLD_UA: AboveThresholdAwardClaimState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUAwardClaimState,
+        OPEN_TENDERING: OpenTenderingAwardClaimState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseAwardClaimState,
         SIMPLE_DEFENSE: SimpleDefenseAwardClaimState,
         COMPETITIVE_ORDERING: COAwardClaimState,
@@ -80,6 +84,7 @@ class OpenAwardClaimResource(AwardClaimResource):
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         ABOVE_THRESHOLD_UA_DEFENSE,
         SIMPLE_DEFENSE,
         COMPETITIVE_ORDERING,
@@ -90,6 +95,7 @@ class OpenAwardComplaintWriteResource(AwardComplaintWriteResource):
         ABOVE_THRESHOLD: AboveThresholdAwardComplaintState,
         ABOVE_THRESHOLD_UA: AboveThresholdAwardComplaintState,
         ABOVE_THRESHOLD_EU: AboveThresholdEUAwardComplaintState,
+        OPEN_TENDERING: OpenTenderingAwardComplaintState,
         ABOVE_THRESHOLD_UA_DEFENSE: DefenseAwardComplaintState,
         SIMPLE_DEFENSE: SimpleDefenseAwardComplaintState,
         COMPETITIVE_ORDERING: COAwardComplaintState,

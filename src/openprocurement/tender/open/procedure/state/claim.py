@@ -2,6 +2,7 @@ from openprocurement.tender.core.procedure.state.claim import ClaimStateMixin
 from openprocurement.tender.open.constants import (
     ABOVE_THRESHOLD_EU_CLAIM_SUBMIT_TIME,
     ABOVE_THRESHOLD_UA_CLAIM_SUBMIT_TIME,
+    OPEN_TENDERING_CLAIM_SUBMIT_TIME,
 )
 from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdEUTenderState,
@@ -10,6 +11,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     BelowThresholdTenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     RFPTenderState,
     SimpleDefenseTenderState,
 )
@@ -69,3 +71,7 @@ class RFPTenderClaimState(ClaimStateMixin, RFPTenderState):
     )
     is_satisfied_check = False
     claim_submit_check = False
+
+
+class OpenTenderingTenderClaimState(ClaimStateMixin, OpenTenderingTenderState):
+    tender_claim_submit_time = OPEN_TENDERING_CLAIM_SUBMIT_TIME

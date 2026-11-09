@@ -57,6 +57,7 @@ class TendersListResource(RestrictedResourceListingMixin, MongodbResourceListing
         "agreements",
         "procuringEntity",
         "procurementMethodType",
+        "procedure",
         "procurementMethod",
         "next_check",
         "mode",

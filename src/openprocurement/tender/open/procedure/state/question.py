@@ -9,6 +9,7 @@ from openprocurement.tender.open.procedure.state.tender import (
     BelowThresholdTenderState,
     COTenderState,
     DefenseTenderState,
+    OpenTenderingTenderState,
     RFPTenderState,
 )
 
@@ -55,3 +56,7 @@ class RFPTenderQuestionState(TenderQuestionStateMixin, RFPTenderState):
     question_create_accreditations = (AccreditationLevel.ACCR_2,)
 
     question_operation_allowed_tender_statuses = None
+
+
+class OpenTenderingTenderQuestionState(TenderQuestionStateMixin, OpenTenderingTenderState):
+    question_create_accreditations = (AccreditationLevel.ACCR_4,)

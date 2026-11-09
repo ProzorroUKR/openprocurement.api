@@ -1,0 +1,67 @@
+GET /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/documents?acc_token=c141ab16f02f48b0a657e70b992df056 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentiality": "public",
+      "documentType": "contractProforma",
+      "id": "239ef09b7b3d48f889dad4ef7a8dab99",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "name.doc",
+      "format": "application/msword",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9be826c91918489bbdad01d12c79fec2?Signature=naDtoyclc8zKhbv2awEuUkSnXDo9ZFAfhbJbzZbYgQT6D6aBVaswsq70VLIMer4BWJqxYcyccGrO09OsHJUGDg%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "documentType": "notice",
+      "id": "38adfa45181641c3bca043dcda76e542",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "sign.p7s",
+      "format": "application/pkcs7-signature",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b1dfcd36be944437b710d46128ff77c8?Signature=FOB8BgkvFqslyH4qvnwieQvhO4Dw7fRMEbFXuEMffGrM9dV73jH8kNG2HNM8%2BIwYeorAh4oOpdpKvisQWem%2FAA%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner",
+      "language": "uk"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "Notice.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ded21de346bb44f29589aafc20813a70?Signature=kuXt9x0Y3C3uV%2BW9Ge1GaruQWUcdIZYz%2FlkN0fTWzW4hWbRg8xvjuc2Z%2BDRgJKWjU5mlh27MN3RQI3bkf7CWDg%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "1ee31d6b35fa47ab8296ac326e5111a7",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "AwardCriteria.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/62c4d9b31c0f46619ab7a8e01051fd1a?Signature=M99BfegXzCw%2B2qhDfOkLocIMG%2BAnkxI9iyNVExa30KD1Lqox%2FZ9o4Fj60Fv73kCzo1F4WHQyKSVt2p8B7mGqCQ%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "24d6229a91f74580a438f5f78ed82bf7",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00",
+      "author": "tender_owner"
+    }
+  ]
+}
+

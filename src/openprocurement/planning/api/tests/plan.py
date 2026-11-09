@@ -19,6 +19,7 @@ from openprocurement.planning.api.tests.plan_blanks import (  # PlanTest; Accred
     create_plan_invalid_funder_program_archived,
     create_plan_invalid_procurement_method_type,
     create_plan_invalid_procuring_entity,
+    create_plan_law_4888,
     create_plan_missing_budget_project_scheme,
     create_plan_remove_field,
     create_plan_with_breakdown,
@@ -92,6 +93,7 @@ class PlanResourceTest(BasePlanTest):
     test_create_plan_remove_field = snitch(create_plan_remove_field)
     test_patch_plan_remove_field = snitch(patch_plan_remove_field)
     test_create_plan_invalid_procurement_method_type = snitch(create_plan_invalid_procurement_method_type)
+    test_create_plan_law_4888 = snitch(create_plan_law_4888)
     test_create_plan_invalid_procuring_entity = snitch(create_plan_invalid_procuring_entity)
     test_create_plan_invalid_buyers = snitch(create_plan_invalid_buyers)
     test_create_plan_with_funder_program = snitch(create_plan_with_funder_program)

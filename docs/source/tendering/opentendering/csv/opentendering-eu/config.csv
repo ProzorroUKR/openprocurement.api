@@ -1,0 +1,25 @@
+name,values,default,days
+hasAuction,true / false,true,
+hasAwardingOrder,true,true,
+hasValueRestriction,true / false,true,
+valueCurrencyEquality,true,true,
+hasPrequalification,true,true,
+minBidsNumber,1,1,
+hasPreSelectionAgreement,false,false,
+hasTenderComplaints,true,true,
+hasAwardComplaints,true,true,
+hasCancellationComplaints,true,true,
+hasValueEstimation,true,true,
+hasQualificationComplaints,true,true,
+tenderComplainRegulation,4,4,calendar
+qualificationComplainDuration,10,10,calendar
+awardComplainDuration,10,10,
+cancellationComplainDuration,10,10,
+clarificationUntilDuration,3,3,working
+qualificationDuration,20,20,
+minTenderingDuration,30,30,calendar
+hasEnquiries,false,false,
+minEnquiriesDuration,0,0,
+enquiryPeriodRegulation,6,6,calendar
+restricted,false,false,
+hasMultiSourcing,false,false,

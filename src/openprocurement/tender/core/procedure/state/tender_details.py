@@ -21,9 +21,10 @@ from openprocurement.api.constants import (
     MINIMAL_STEP_VALIDATION_PRESCISSION,
     MINIMAL_STEP_VALIDATION_UPPER_LIMIT,
     PROFILE_REQUIRED_MIN_VALUE_AMOUNT,
-    TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
+    TENDER_EXTRA_CONFIG_JSONSCHEMAS,
     TENDER_PERIOD_START_DATE_STALE_MINUTES,
+    TENDER_PROCEDURE_JSONSCHEMAS,
     WORKING_DAYS,
 )
 from openprocurement.api.constants_env import (
@@ -51,7 +52,11 @@ from openprocurement.api.constants_env import (
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_agreement, get_object, get_tender
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
-from openprocurement.api.procedure.state.base import BaseState, ConfigMixin
+from openprocurement.api.procedure.state.base import (
+    BaseState,
+    ConfigMixin,
+    validate_json_schema,
+)
 from openprocurement.api.procedure.utils import validate_funders_match_plan_programs
 from openprocurement.api.procedure.validation import (
     validate_items_classifications_prefixes,
@@ -127,6 +132,7 @@ from openprocurement.tender.core.procedure.validation import (
     validate_milestones_duration_type,
     validate_milestones_sequence_number,
     validate_object_id_uniq,
+    validate_procurement_method_type_allowed_by_law_4888,
     validate_required_nested_fields,
     validate_tender_milestones_required,
     validate_value_vat_disabled,
@@ -152,11 +158,12 @@ class TenderConfigMixin(ConfigMixin):
 
         return config_schema
 
-    # competitiveOrdering: an additional config schema (short/long) is validated on top of the procedure schema
+    # competitiveOrdering (short/long), openTendering (UA/EU): an additional config schema
+    # is validated on top of the procedure schema
     extra_config_schema_name: str | None = None
 
     def validate_extra_config(self, data):
-        config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(self.extra_config_schema_name)
+        config_schema = TENDER_EXTRA_CONFIG_JSONSCHEMAS[self.extra_config_schema_name]
         config_schema = deepcopy(config_schema)
         config_schema.pop("required", None)
         self.validate_config_schema(data, config_schema)
@@ -292,6 +299,8 @@ class TenderDetailsRequestMixin(BaseState):
 
     def validate_tender_post_request(self):
         self.validate_input_data(self.get_post_data_model())
+        pmt = self.request.validated["data"].get("procurementMethodType")
+        validate_procurement_method_type_allowed_by_law_4888(pmt)
         self.validate_config_data(self.tender_config_default)
         if self.tender_create_accreditation_check:
             self.validate_accreditation_level(
@@ -2536,6 +2545,26 @@ class TenderMilestonesRulesMixin(BaseState):
         )
 
 
+class TenderProcedureRulesMixin(BaseState):
+    """
+    tender procedure: the procedure specific fields,
+    validated by the procedureExtensionScheme of the procurementMethodType (standards)
+    (the field is declared in the core tender models: required for the procedures that have the scheme
+    and rejected for the others)
+    """
+
+    def on_post(self, data):
+        # before the config validation: the config schema may depend on the procedure fields (openTendering UA/EU)
+        self.validate_procedure(data)
+        super().on_post(data)
+
+    def validate_procedure(self, data):
+        procedure_schema = TENDER_PROCEDURE_JSONSCHEMAS.get(data.get("procurementMethodType"))
+        if procedure_schema is None or "procedure" not in data:
+            return
+        validate_json_schema(self.request, data["procedure"], procedure_schema, "procedure")
+
+
 class BaseTenderDetailsMixin(
     TenderDetailsRequestMixin,
     TenderAgreementRulesMixin,
@@ -2981,7 +3010,7 @@ class BaseTenderDetailsMixin(
             raise_operation_error(self.request, [f"Value must be one of {list(choices)}."], status=422, name="status")
 
 
-class TenderDetailsMixin(TenderConfigMixin, BaseTenderDetailsMixin):
+class TenderDetailsMixin(TenderProcedureRulesMixin, TenderConfigMixin, BaseTenderDetailsMixin):
     pass
 
 
