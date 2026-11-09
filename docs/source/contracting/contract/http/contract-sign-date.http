@@ -281,6 +281,14 @@ Content-Type: application/json
         "title_uk": "Підпункт 11 пункту 19",
         "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/conv#n426",
         "scheme": "DECREE1178"
+      },
+      "culturalProjectAmendments": {
+        "description_en": "Amendments to the terms of the contract for the procurement of services related to the production (creation) cultural and artistic projects or works, concluded based on the results of artistic competitions in accordance with Resolution No. 404 of the Cabinet of Ministers of Ukraine dated March 25, 2026, \"Certain Issues Regarding the Organization and Conduct of Artistic Competitions for the Selection of Cultural and Artistic Projects Aimed at Implementing the Initiative of the President of Ukraine to Create a Ukrainian Cultural Product\" (Official Gazette of Ukraine, 2026, No. 32, Art. 2187), regarding the reallocation of expenditures among individual budget line items within the total amount of budgetary funding, the increase in the artistic competition winner’s own contribution under co-financing terms without changing the scope of the procurement, as well as regarding changes to the amount and structure of the budget line items provided for in the cost estimate, and the adjustment of the total estimated cost of a cultural and artistic project or work by changing such co-financing, provided that the amount of budgetary funding under the contract does not increase",
+        "title_en": "Subparagraph 13 of paragraph 19",
+        "description_uk": "Зміни умов договору про закупівлю послуг з виробництва (створення) культурно-мистецьких проектів або творів, укладеного за результатами проведення мистецьких конкурсів відповідно до постанови Кабінету Міністрів України від 25 березня 2026 р. № 404 \"Деякі питання організації та проведення мистецьких конкурсів з відбору культурномистецьких проектів, спрямованих на реалізацію ініціативи Президента України із створення українського культурного продукту\" (Офіційний вісник України, 2026 р., № 32, ст. 2187), в частині перерозподілу витрат між окремими статтями (позиціями) кошторису в межах загальної суми бюджетного фінансування, збільшення власної частки переможця мистецького конкурсу на умовах співфінансування без зміни обсягу предмета закупівлі, а також в частині зміни розміру, структури статей витрат, передбачених кошторисом, і коригування загальної кошторисної вартості культурно-мистецького проекту або твору за рахунок зміни такого співфінансування за умови, що сума бюджетного фінансування за договором не збільшується",
+        "title_uk": "Підпункт 13 пункту 19",
+        "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/conv#n426",
+        "scheme": "DECREE1178"
       }
     },
     "milestones": [

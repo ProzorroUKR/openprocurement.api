@@ -551,6 +551,9 @@ msgstr ""
 msgid "veteransSportsEventsServices"
 msgstr ""
 
+msgid "combinedWaterCrossingsProject"
+msgstr ""
+
 msgid "і має один з перерахованих типів документів:"
 msgstr "and has one of document types:"
 
@@ -563,8 +566,8 @@ msgstr "contractAnnexe - Annexes to the contract"
 msgid "Приховання (конфіденційність) має бути застосована для documents, у випадку застосування наведених підстав. Обов'язковим є додавання поля обґрунтування `confidentialityRationale` для `confidentiality: buyerOnly`."
 msgstr "Confidentiality should be applied for documents, in case of application of the above `causeDetails.code`. It is required to add `confidentialityRationale` with `confidentiality: buyerOnly`."
 
-msgid "Виняток: для підстави `veteransSportsEventsServices` приховання застосовується лише до `\"documentOf\": \"contract\"`, документи `\"documentOf\": \"change\"` залишаються публічними."
-msgstr "Exception: for the `veteransSportsEventsServices` cause, confidentiality applies only to `\"documentOf\": \"contract\"`, `\"documentOf\": \"change\"` documents remain public."
+msgid "Виняток: для підстав `veteransSportsEventsServices` та `combinedWaterCrossingsProject` приховання застосовується лише до `\"documentOf\": \"contract\"`, документи `\"documentOf\": \"change\"` залишаються публічними."
+msgstr "Exception: for the `veteransSportsEventsServices` and `combinedWaterCrossingsProject` causes, confidentiality applies only to `\"documentOf\": \"contract\"`, `\"documentOf\": \"change\"` documents remain public."
 
 msgid "Додамо документи до контракту і виставимо в полі `confidentiality` значення `public`:"
 msgstr "Let's add documents to contract and set `confidentiality` as public, we will see an error:"
