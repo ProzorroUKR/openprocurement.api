@@ -1,18 +1,22 @@
 from openprocurement.api.constants import (
     TENDER_CO_CONFIG_JSONSCHEMAS,
     TENDER_CONFIG_JSONSCHEMAS,
+    TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS,
 )
 from openprocurement.api.constants_env import TENDER_CONFIG_OPTIONALITY
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_agreement
 from openprocurement.api.procedure.serializers.config import BaseConfigSerializer
 from openprocurement.api.utils import request_fetch_agreement
+from openprocurement.tender.open.procedure.utils import get_open_tendering_variant
 
 
 def tender_config_default_value(tender, key):
     procurement_method_type = tender.get("procurementMethodType")
     if procurement_method_type == "competitiveOrdering":
         return tender_config_co_default_value(tender, key)
+    if procurement_method_type == "openTendering":
+        return tender_config_open_tendering_default_value(tender, key)
     config_schema = TENDER_CONFIG_JSONSCHEMAS.get(procurement_method_type)
     return config_schema["properties"][key]["default"]
 
@@ -26,6 +30,15 @@ def tender_config_co_default_value(tender, key):
     else:
         config_schema_name = "competitiveOrdering.long"
     config_schema = TENDER_CO_CONFIG_JSONSCHEMAS.get(config_schema_name)
+    return config_schema["properties"][key]["default"]
+
+
+def tender_config_open_tendering_default_value(tender, key):
+    """openTendering: the defaults depend on the UA/EU variant (the tender field procedure.euPublished)"""
+    variant = get_open_tendering_variant(tender)
+    config_schema = TENDER_OPEN_TENDERING_CONFIG_JSONSCHEMAS.get(f"openTendering.{variant}")
+    if config_schema is None:
+        config_schema = TENDER_CONFIG_JSONSCHEMAS["openTendering"]
     return config_schema["properties"][key]["default"]
 
 

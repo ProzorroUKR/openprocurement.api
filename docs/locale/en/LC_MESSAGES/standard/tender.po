@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-03 23:24+0300\n"
+"POT-Creation-Date: 2026-10-23 13:32+0300\n"
 "PO-Revision-Date: 2021-10-26 13:16+0300\n"
 "Last-Translator: Zoriana Zaiats <sorenabell@quintagroup.com>\n"
 "Language: en\n"
@@ -131,6 +131,12 @@ msgstr ""
 msgid "вище порогового ідентифікатора процедури з публікацією на англійській мові"
 msgstr "above threshold EU procedure indentifier"
 
+msgid "`openTendering`"
+msgstr ""
+
+msgid "ідентифікатор відкритих торгів за Законом № 4888-IX (різновид UA/EU визначає поле `procedure.euPublished`)"
+msgstr "the identifier of the open tendering under the Law No. 4888-IX (the UA/EU variant is set by the `procedure.euPublished` field)"
+
 msgid "`aboveThresholdUA.defense`"
 msgstr ""
 
@@ -190,6 +196,39 @@ msgstr ""
 
 msgid "`competitiveDialogueUA.stage2`"
 msgstr ""
+
+msgid "procedure"
+msgstr ""
+
+msgid "об'єкт"
+msgstr "object"
+
+msgid "Специфічні поля процедури. Структура об'єкта визначається схемою `procedureExtensionScheme` типу процедури в довіднику `codelists/tender/tender_procurement_method_type.json` (standards). Поле обов'язкове для процедур, що мають таку схему, і не допускається для інших; задається при створенні закупівлі та не може бути змінене."
+msgstr "The procedure specific fields. The structure of the object is defined by the `procedureExtensionScheme` of the procedure type in the `codelists/tender/tender_procurement_method_type.json` codelist (standards). The field is required for the procedures that have such a scheme and is not allowed for the others; it is set at the tender creation and can't be changed."
+
+msgid "Поля об'єкта для `openTendering` (об'єкт обов'язковий, інші поля не допускаються):"
+msgstr "The object fields for `openTendering` (the object is required, other fields are not allowed):"
+
+msgid "euPublished"
+msgstr ""
+
+msgid "булеве значення, обов'язково"
+msgstr "boolean, required"
+
+msgid "Чи публікується оголошення процедури в ЄС: визначає різновид відкритих торгів за Законом № 4888-IX."
+msgstr "Whether the procedure is published in the EU: sets the variant of the open tendering under the Law No. 4888-IX."
+
+msgid "`false`"
+msgstr ""
+
+msgid "національні відкриті торги (UA: оголошення українською мовою, без попередньої кваліфікації)"
+msgstr "national open tendering (UA: the announcement in Ukrainian, no prequalification)"
+
+msgid "`true`"
+msgstr ""
+
+msgid "відкриті торги вище європейських порогів (EU: оголошення додатково англійською мовою, з попередньою кваліфікацією)"
+msgstr "open tendering above the EU thresholds (EU: the announcement in English as well, with prequalification)"
 
 msgid "awardCriteria"
 msgstr ""

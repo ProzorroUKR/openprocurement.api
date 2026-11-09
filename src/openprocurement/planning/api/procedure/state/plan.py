@@ -45,6 +45,9 @@ from openprocurement.planning.api.procedure.models.tender import PreValidationTe
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
 from openprocurement.tender.core.procedure.models.tender_base import MainProcurementCategory
 from openprocurement.tender.core.procedure.utils import dt_from_iso, tender_created_after
+from openprocurement.tender.core.procedure.validation import (
+    validate_procurement_method_type_allowed_by_law_4888,
+)
 from openprocurement.tender.esco.constants import ESCO
 from openprocurement.tender.limited.constants import REPORTING
 from openprocurement.tender.open.constants import BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL
@@ -290,6 +293,7 @@ class PlanState(BaseState):
                     procurement_method_type,
                 ),
             )
+        validate_procurement_method_type_allowed_by_law_4888(procurement_method_type, item="plan")
 
     def _validate_tender_procurement_method_type(self, data):
         procedures = deepcopy(PROCEDURES)
@@ -351,6 +355,9 @@ class PlanState(BaseState):
         new_pmt = after.get("tender", {}).get("procurementMethodType", "")
         current_pmt = before["tender"]["procurementMethodType"]
         now = get_request_now()
+
+        if current_pmt != new_pmt:
+            validate_procurement_method_type_allowed_by_law_4888(new_pmt, item="plan")
 
         if current_pmt != new_pmt and (
             now < RELEASE_SIMPLE_DEFENSE_FROM

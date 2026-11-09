@@ -8,6 +8,7 @@ from openprocurement.tender.open.constants import (
     BELOW_THRESHOLD,
     COMPETITIVE_ORDERING,
     OPEN_ROUTE_PREFIX,
+    OPEN_TENDERING,
     REQUEST_FOR_PROPOSAL,
 )
 from openprocurement.tender.open.procedure.state.award_req_response_evidence import (
@@ -15,6 +16,7 @@ from openprocurement.tender.open.procedure.state.award_req_response_evidence imp
     AboveThresholdUAAwardReqResponseEvidenceState,
     BelowThresholdAwardReqResponseEvidenceState,
     COAwardReqResponseEvidenceState,
+    OpenTenderingAwardReqResponseEvidenceState,
     RFPAwardReqResponseEvidenceState,
 )
 
@@ -28,6 +30,7 @@ from openprocurement.tender.open.procedure.state.award_req_response_evidence imp
         ABOVE_THRESHOLD,
         ABOVE_THRESHOLD_UA,
         ABOVE_THRESHOLD_EU,
+        OPEN_TENDERING,
         COMPETITIVE_ORDERING,
         BELOW_THRESHOLD,
         REQUEST_FOR_PROPOSAL,
@@ -38,6 +41,7 @@ class OpenAwardReqResponseEvidenceResource(AwardReqResponseEvidenceResource):
         ABOVE_THRESHOLD: AboveThresholdAwardReqResponseEvidenceState,
         ABOVE_THRESHOLD_UA: AboveThresholdUAAwardReqResponseEvidenceState,
         ABOVE_THRESHOLD_EU: AboveThresholdUAAwardReqResponseEvidenceState,
+        OPEN_TENDERING: OpenTenderingAwardReqResponseEvidenceState,
         COMPETITIVE_ORDERING: COAwardReqResponseEvidenceState,
         BELOW_THRESHOLD: BelowThresholdAwardReqResponseEvidenceState,
         REQUEST_FOR_PROPOSAL: RFPAwardReqResponseEvidenceState,

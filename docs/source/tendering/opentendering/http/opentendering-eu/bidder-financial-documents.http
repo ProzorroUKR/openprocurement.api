@@ -1,0 +1,37 @@
+GET /api/2.5/tenders/b53c538bd44a4fb48d1a7fc2b0503a49/bids/ee125d39d89d4afe8aac022ebd223048/financial_documents?acc_token=a16bfe78001e415aade129abc1d9bcc6 HTTP/1.0
+Authorization: Bearer broker
+Host: public-api-sandbox.prozorro.gov.ua
+
+
+HTTP/1.0 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "financial_doc.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/42b4f4046b72481b885bf8e73f561699?Signature=rhqbE9tOw5WYwxiLPggEq0qX1SFGlTp1tq5UXz5JAQn2gZqzYKfANsKNQeX3Ubr9za7w1VbcBwksASitAfPuBA%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "1ceb2992851347d597dd9a183c25fbf7",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00"
+    },
+    {
+      "confidentiality": "public",
+      "hash": "md5:00000000000000000000000000000000",
+      "title": "financial_doc2.pdf",
+      "format": "application/pdf",
+      "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eeb3395c45184bd79b1ff419dd40cdce?Signature=XOIfBRtWqrgpkqUDReVB4bnBNpMiwzvgVt1cZGZiP257VdNYm6B3aD4GmMYcOia94X01ZiMdedti%2BGFTR%2BW0Dw%3D%3D&KeyID=a8968c46",
+      "documentOf": "tender",
+      "language": "uk",
+      "id": "258bb41430784081a46bddca4846680d",
+      "datePublished": "2027-01-01T00:00:00+02:00",
+      "dateModified": "2027-01-01T00:00:00+02:00"
+    }
+  ]
+}
+
