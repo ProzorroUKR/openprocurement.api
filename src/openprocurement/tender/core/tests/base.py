@@ -55,6 +55,21 @@ def get_criteria_by_ids_prefix(criteria, prefix):
     return [c for c in criteria if c["classification"]["id"].startswith(prefix)]
 
 
+def patch_string_requirements_without_expected_values(criteria):
+    string_titles_without_expected_values = {
+        "Рахунок Замовника (IBAN) для зарахування коштів забезпечення": {
+            "expectedValues": ["UA213223130000026007233566001"],
+            "expectedMinItems": 1,
+        },
+    }
+
+    for criterion in criteria:
+        for requirement_group in criterion.get("requirementGroups", []):
+            for requirement in requirement_group.get("requirements", []):
+                if patch := string_titles_without_expected_values.get(requirement.get("title")):
+                    requirement.update(patch)
+
+
 ocds_resolver = RefResolver(base_uri=f"file://{os.path.join(current_dir, 'data')}/", referrer=ocds_release_schema)
 
 test_criteria_other = standards.load("criteria/other.json")
@@ -68,6 +83,9 @@ test_criteria_ukraine_facility = standards.load("criteria/ukraine_facility.json"
 test_criteria_all = []
 test_criteria_all.extend(test_criteria_other)
 test_criteria_all.extend(test_criteria_article_17)
+
+# standards requirements with dataType=string but no expectedValues (free-text fields),
+patch_string_requirements_without_expected_values(test_criteria_all)
 
 test_other_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.OTHER")
 test_exclusion_criteria = get_criteria_by_ids_prefix(test_criteria_all, "CRITERION.EXCLUSION")

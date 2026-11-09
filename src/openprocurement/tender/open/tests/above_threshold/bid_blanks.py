@@ -9,6 +9,7 @@ from openprocurement.tender.open.tests.below_threshold.base import (
 )
 from openprocurement.tender.core.tests.utils import (
     change_auth,
+    generate_req_response,
     set_bid_items,
     set_bid_lotvalues,
     set_bid_responses,
@@ -2373,14 +2374,7 @@ def bid_activate(self):
             ],
         )
 
-        guarantee_rr = [
-            {
-                "requirement": {
-                    "id": guarantee_criterion["requirementGroups"][0]["requirements"][0]["id"],
-                },
-                "value": True,
-            }
-        ]
+        guarantee_rr = [generate_req_response(guarantee_criterion["requirementGroups"][0]["requirements"][0])]
         response = self.app.post_json(
             "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(
                 self.tender_id, self.bid_id, self.bid_token
