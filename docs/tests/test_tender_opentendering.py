@@ -44,6 +44,7 @@ test_tender_eu_data["procurementMethodType"] = "openTendering"
 test_tender_eu_data["procedure"] = {"euPublished": True}
 
 test_lots = deepcopy(test_docs_lots)
+test_lots[0]["title_en"] = "Lot #1"  # EU: lot.title_en is required
 test_lots[0]["value"] = test_tender_eu_data["value"]
 test_lots[0]["minimalStep"] = {"amount": 5, "currency": "UAH"}
 
@@ -845,6 +846,7 @@ class TenderOpenTenderingEUResourceTest(BaseTenderOpenTenderingEUWebTest, MockWe
 
         # the announcement is published in English as well
         data = deepcopy(test_tender_eu_data)
+        del data["title_en"]
         data["procuringEntity"] = deepcopy(data["procuringEntity"])
         del data["procuringEntity"]["name_en"]
         with open(EU_TARGET_DIR + "tender-post-without-english-fields.http", "w") as self.app.file_obj:

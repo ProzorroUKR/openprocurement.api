@@ -237,5 +237,9 @@ class OpenTenderingEUTenderDetailsState(OpenTenderingTenderDetailsState):
     tender_period_extra = OPEN_TENDERING_EU_TENDERING_EXTRA_PERIOD
     working_days_config = OPEN_TENDERING_EU_WORKING_DAYS_CONFIG
     # the announcement is published in English as well
-    required_multilingual_fields = EU_REQUIRED_MULTILINGUAL_FIELDS
+    required_multilingual_fields = {
+        **EU_REQUIRED_MULTILINGUAL_FIELDS,
+        "title_en": True,
+        "lots": {"title_en": True},
+    }
     procuring_entity_available_language_default = "uk"

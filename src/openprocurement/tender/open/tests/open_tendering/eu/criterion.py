@@ -1,9 +1,9 @@
 import unittest
 
-from openprocurement.tender.open.tests.below_threshold.base import test_tender_below_lots
 from openprocurement.tender.open.tests.open_tendering.eu.base import (
     BaseTenderContentWebTest,
     test_tender_open_tendering_eu_data,
+    test_tender_open_tendering_eu_lots,
     test_tender_open_tendering_eu_required_criteria_ids,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.criterion import (
@@ -17,7 +17,7 @@ from openprocurement.tender.open.tests.open_tendering.ua.criterion import (
 
 class TenderOpenTenderingEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaLccTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_open_tendering_eu_data
-    initial_lots = test_tender_below_lots
+    initial_lots = test_tender_open_tendering_eu_lots
     initial_auth = ("Basic", ("broker", ""))
     initial_status = "draft"
 
@@ -27,12 +27,12 @@ class TenderOpenTenderingEUCriteriaTest(TenderCriteriaTestMixin, TenderCriteriaL
 
 class TenderOpenTenderingEUCriteriaRGTest(TenderCriteriaRGTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_open_tendering_eu_data
-    test_lots_data = test_tender_below_lots
+    test_lots_data = test_tender_open_tendering_eu_lots
 
 
 class TenderOpenTenderingEUCriteriaRGRequirementTest(TenderCriteriaRGRequirementTestMixin, BaseTenderContentWebTest):
     initial_data = test_tender_open_tendering_eu_data
-    test_lots_data = test_tender_below_lots
+    test_lots_data = test_tender_open_tendering_eu_lots
 
 
 class TenderOpenTenderingEUCriteriaRGRequirementEvidenceTest(
@@ -40,7 +40,7 @@ class TenderOpenTenderingEUCriteriaRGRequirementEvidenceTest(
     BaseTenderContentWebTest,
 ):
     initial_data = test_tender_open_tendering_eu_data
-    test_lots_data = test_tender_below_lots
+    test_lots_data = test_tender_open_tendering_eu_lots
 
 
 def suite():

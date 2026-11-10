@@ -33,9 +33,9 @@
 .. http:example:: http/opentendering-eu/tender-post-invalid-config.http
    :code:
 
-Оголошення різновиду ``EU`` додатково публікується англійською мовою, тому поля ``procuringEntity.name_en``,
-``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en`` та ``items[].description_en``
-обов'язкові:
+Оголошення різновиду ``EU`` додатково публікується англійською мовою, тому поля ``title_en``, ``lots[].title_en``,
+``procuringEntity.name_en``, ``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en``
+та ``items[].description_en`` обов'язкові:
 
 .. http:example:: http/opentendering-eu/tender-post-without-english-fields.http
    :code:

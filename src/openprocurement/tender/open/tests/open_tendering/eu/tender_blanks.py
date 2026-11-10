@@ -57,3 +57,73 @@ def create_tender_multilingual_fields_required(self):
     response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
     self.assertEqual(response.json["errors"][0]["name"], "items")
     self.assertIn("description_en", str(response.json["errors"][0]["description"]))
+
+    data = deepcopy(self.initial_data)
+    del data["title_en"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "title_en", "description": ["This field is required."]}],
+    )
+
+    data = deepcopy(self.initial_data)
+    data["title_en"] = ""
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(response.json["errors"][0]["name"], "title_en")
+
+    data = deepcopy(self.initial_data)
+    data["lots"] = deepcopy(self.initial_lots)
+    del data["lots"][0]["title_en"]
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config}, status=422)
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "lots", "description": [{"title_en": ["This field is required."]}]}],
+    )
+
+
+def create_tender_lot_title_en_required(self):
+    """EU: lot.title_en is required via the lots endpoint as well"""
+    response = self.app.post_json("/tenders", {"data": self.initial_data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    lot = deepcopy(self.initial_lots[0])
+    lot.pop("id", None)
+    lot_without_title_en = deepcopy(lot)
+    del lot_without_title_en["title_en"]
+    response = self.app.post_json(
+        f"/tenders/{tender_id}/lots?acc_token={token}", {"data": lot_without_title_en}, status=422
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "lots", "description": [{"title_en": ["This field is required."]}]}],
+    )
+
+    response = self.app.post_json(f"/tenders/{tender_id}/lots?acc_token={token}", {"data": lot})
+    self.assertEqual(response.status, "201 Created")
+    self.assertEqual(response.json["data"]["title_en"], lot["title_en"])
+    lot_id = response.json["data"]["id"]
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"title_en": ""}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["name"], "lots")
+    self.assertIn("title_en", str(response.json["errors"][0]["description"]))
+
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}/lots/{lot_id}?acc_token={token}",
+        {"data": {"title_en": "new lot title en"}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["title_en"], "new lot title en")
+
+    # the tender title_en can't be removed via PATCH
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"title_en": ""}},
+        status=422,
+    )
+    self.assertEqual(response.json["errors"][0]["name"], "title_en")

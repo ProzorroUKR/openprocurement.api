@@ -14,7 +14,6 @@ from openprocurement.tender.open.tests.below_threshold.auction_blanks import (
     post_tender_lots_auction_features,
 )
 from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_lots,
     test_tender_below_supplier,
 )
 from openprocurement.tender.esco.tests.auction_blanks import patch_tender_auction
@@ -30,6 +29,7 @@ from openprocurement.tender.open.tests.open_tendering.eu.base import (
     BaseTenderContentWebTest,
     test_tender_open_tendering_eu_bids,
     test_tender_open_tendering_eu_features_data,
+    test_tender_open_tendering_eu_lots,
 )
 
 
@@ -37,7 +37,7 @@ class TenderAuctionResourceTest(BaseTenderContentWebTest, TenderAuctionResourceT
     # initial_data = tender_data
     initial_auth = ("Basic", ("broker", ""))
     initial_bids = test_tender_open_tendering_eu_bids
-    initial_lots = test_lots_data = test_tender_below_lots
+    initial_lots = test_lots_data = test_tender_open_tendering_eu_lots
 
     def setUp(self):
         super().setUp()
@@ -73,7 +73,7 @@ class TenderSameValueAuctionResourceTest(BaseTenderContentWebTest):
     initial_status = "active.auction"
     tenderer_info = deepcopy(test_tender_below_supplier)
     initial_bids = test_bids_data = [test_tender_open_tendering_eu_bids[0] for i in range(3)]
-    initial_lots = test_tender_below_lots
+    initial_lots = test_tender_open_tendering_eu_lots
 
     @patch(
         "openprocurement.tender.core.procedure.state.tender_details.EVALUATION_REPORTS_DOC_REQUIRED_FROM",
@@ -137,7 +137,7 @@ class TenderFeaturesAuctionResourceTest(TenderAuctionResourceTest):
 class TenderFeaturesMultilotAuctionResourceTest(
     TenderMultipleLotAuctionResourceTestMixin, TenderFeaturesAuctionResourceTest
 ):
-    initial_lots = test_tender_below_lots * 2
+    initial_lots = test_tender_open_tendering_eu_lots * 2
     test_get_tender_auction = snitch(get_tender_lots_auction_features)
     test_post_tender_auction = snitch(post_tender_lots_auction_features)
 
