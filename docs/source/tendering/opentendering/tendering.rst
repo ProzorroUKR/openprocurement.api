@@ -24,10 +24,10 @@
 Мова оголошення:
 
 - UA - оголошення українською; англійські поля (``*_en``) не обов'язкові, але не заборонені;
-- EU - оголошення додатково публікується англійською, обов'язкові поля: ``procuringEntity.name_en``,
-  ``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en``,
-  ``procuringEntity.additionalContactPoints[].name_en``, ``items[].description_en``
-  (як в ``aboveThresholdEU``); ``title_en`` та ``description_en`` тендера не обов'язкові;
+- EU - оголошення додатково публікується англійською, обов'язкові поля: ``title_en``, ``lots[].title_en``,
+  ``procuringEntity.name_en``, ``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en``,
+  ``procuringEntity.additionalContactPoints[].name_en``, ``items[].description_en``;
+  ``description_en`` тендера не обов'язкове;
   ``procuringEntity.contactPoint.availableLanguage`` за замовчуванням - ``uk``.
 
 Шаблон договору визначається на рівні тендера: при оголошенні (вихід зі статусу ``draft``) обов'язково

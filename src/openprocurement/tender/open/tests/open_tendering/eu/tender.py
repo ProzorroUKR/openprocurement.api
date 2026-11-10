@@ -46,6 +46,7 @@ from openprocurement.tender.open.tests.open_tendering.eu.base import (
 from openprocurement.tender.open.tests.open_tendering.eu.tender_blanks import (
     create_tender_generated,
     create_tender_invalid_procedure_and_config,
+    create_tender_lot_title_en_required,
     create_tender_multilingual_fields_required,
     patch_tender_procedure_is_immutable,
 )
@@ -67,6 +68,7 @@ class TenderResourceTest(BaseTenderWebTest, TenderResourceTestMixin, TenderOpenT
     test_create_tender_invalid_procedure_and_config = snitch(create_tender_invalid_procedure_and_config)
     test_patch_tender_procedure_is_immutable = snitch(patch_tender_procedure_is_immutable)
     test_create_tender_multilingual_fields_required = snitch(create_tender_multilingual_fields_required)
+    test_create_tender_lot_title_en_required = snitch(create_tender_lot_title_en_required)
     test_create_tender_central = snitch(create_tender_central)
     test_create_tender_central_invalid = snitch(create_tender_central_invalid)
     test_create_tender_generated = snitch(create_tender_generated)

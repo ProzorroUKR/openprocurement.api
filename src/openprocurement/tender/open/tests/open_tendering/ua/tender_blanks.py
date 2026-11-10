@@ -198,3 +198,24 @@ def patch_tender_procedure_is_immutable(self):
     self.assertEqual(response.json["data"]["procedure"], original)
     self.assertEqual(response.json["data"]["description"], "patched")
     self.assertEqual(response.json["config"]["hasAuction"], self.initial_config["hasAuction"])
+
+
+def create_tender_multilingual_fields_not_required(self):
+    """UA: the English fields (title_en, lots.title_en) are optional"""
+    data = deepcopy(self.initial_data)
+    data.pop("title_en", None)
+    data["lots"] = deepcopy(self.initial_lots)
+    for lot in data["lots"]:
+        lot.pop("title_en", None)
+    response = self.app.post_json("/tenders", {"data": data, "config": self.initial_config})
+    self.assertEqual(response.status, "201 Created")
+    self.assertNotIn("title_en", response.json["data"])
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+
+    lot = deepcopy(self.initial_lots[0])
+    lot.pop("id", None)
+    lot.pop("title_en", None)
+    response = self.app.post_json(f"/tenders/{tender_id}/lots?acc_token={token}", {"data": lot})
+    self.assertEqual(response.status, "201 Created")
+    self.assertNotIn("title_en", response.json["data"])

@@ -184,7 +184,7 @@ msgstr ""
 msgid "Разом з ``procurementMethodType`` = ``openTendering`` обов'язково передається різновид ``procedure.euPublished`` = ``true``. Значення конфігурації мають відповідати різновиду: для ``EU`` попередня кваліфікація обов'язкова, тому ``hasPrequalification`` = ``false`` відхиляється:"
 msgstr ""
 
-msgid "Оголошення різновиду ``EU`` додатково публікується англійською мовою, тому поля ``procuringEntity.name_en``, ``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en`` та ``items[].description_en`` обов'язкові:"
+msgid "Оголошення різновиду ``EU`` додатково публікується англійською мовою, тому поля ``title_en``, ``lots[].title_en``, ``procuringEntity.name_en``, ``procuringEntity.identifier.legalName_en``, ``procuringEntity.contactPoint.name_en`` та ``items[].description_en`` обов'язкові:"
 msgstr ""
 
 msgid "Введемо коректні data та config атрибути у поданому тілі:"

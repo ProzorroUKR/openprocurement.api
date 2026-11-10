@@ -7,6 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "title": "Лот №1",
     "description": "Опис Лот №1",
+    "title_en": "Lot #1",
     "value": {
       "currency": "UAH",
       "amount": 500
@@ -27,6 +28,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b53c538bd44a4fb4
 {
   "data": {
     "title": "Лот №1",
+    "title_en": "Lot #1",
     "description": "Опис Лот №1",
     "id": "0e2a00931fe6450685c11d73534c35f7",
     "status": "active",

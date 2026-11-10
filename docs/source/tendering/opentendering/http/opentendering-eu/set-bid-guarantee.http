@@ -1223,6 +1223,7 @@ Content-Type: application/json
     "lots": [
       {
         "title": "Лот №1",
+        "title_en": "Lot #1",
         "description": "Опис Лот №1",
         "status": "active",
         "id": "0e2a00931fe6450685c11d73534c35f7",

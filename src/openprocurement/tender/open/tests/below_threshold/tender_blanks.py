@@ -3308,6 +3308,7 @@ def tender_lot_minimalstep_validation(self):
     test_lots_data.append(
         {
             "title": "invalid lot title",
+            "title_en": "invalid lot title en",
             "description": "invalid lot description",
             "value": {"amount": 500},
             "minimalStep": {"amount": 35},
@@ -3349,6 +3350,7 @@ def patch_tender_minimalstep_validation(self):
     lots.append(
         {
             "title": "invalid lot title",
+            "title_en": "invalid lot title en",
             "description": "invalid lot description",
             "value": {"amount": 500},
             "minimalStep": {"amount": 15},
@@ -3580,6 +3582,7 @@ def tender_with_guarantee_multilot(self):
     lots.append(
         {
             "title": "invalid lot title",
+            "title_en": "invalid lot title en",
             "description": "invalid lot description",
             "value": {"amount": 500},
             "minimalStep": {"amount": 15},
@@ -3650,6 +3653,7 @@ def activate_bid_guarantee_multilot(self):
     lots.append(
         {
             "title": "invalid lot title",
+            "title_en": "invalid lot title en",
             "description": "invalid lot description",
             "value": {"amount": 500},
             "minimalStep": {"amount": 15},
@@ -3950,6 +3954,7 @@ def tender_created_after_related_lot_is_required(self):
     lots.append(
         {
             "title": "invalid lot title",
+            "title_en": "invalid lot title en",
             "description": "invalid lot description",
             "value": {"amount": 500},
             "minimalStep": {"amount": 15},

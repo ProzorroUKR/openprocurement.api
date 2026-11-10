@@ -111,6 +111,7 @@ def create_tender_lot_invalid(self):
         {
             "data": {
                 "title": "lot title",
+                "title_en": "lot title en",
                 "description": "lot description",
                 "value": {"amount": "100.0"},
             }
@@ -130,6 +131,7 @@ def create_tender_lot_invalid(self):
         {
             "data": {
                 "title": "lot title",
+                "title_en": "lot title en",
                 "description": "lot description",
                 "value": {"amount": "100.0"},
                 "minimalStep": {"amount": "500.0"},
@@ -150,6 +152,7 @@ def create_tender_lot_invalid(self):
         {
             "data": {
                 "title": "lot title",
+                "title_en": "lot title en",
                 "description": "lot description",
                 "value": {"amount": "500.0"},
                 "minimalStep": {"amount": "15.0", "currency": "USD"},
@@ -173,6 +176,7 @@ def create_tender_lot_invalid(self):
         {
             "data": {
                 "title": "lot title",
+                "title_en": "lot title en",
                 "description": "lot description",
                 "value": {"amount": "500.0"},
                 "minimalStep": {"amount": "15.0"},

@@ -9,7 +9,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
       "endDate": "2027-02-01T00:00:00+02:00"
     },
     "title": "Послуги шкільних їдалень",
-    "title_en": "Services in school canteens",
     "procurementMethodType": "openTendering",
     "value": {
       "currency": "UAH",
@@ -199,6 +198,13 @@ Content-Type: application/json
           "This field is required."
         ]
       }
+    },
+    {
+      "location": "body",
+      "name": "title_en",
+      "description": [
+        "This field is required."
+      ]
     }
   ]
 }

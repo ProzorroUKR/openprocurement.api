@@ -172,6 +172,7 @@ test_tender_open_tendering_eu_features_data["features"] = [
 test_tender_open_tendering_eu_lots = [
     {
         "title": "lot title",
+        "title_en": "lot title en",
         "description": "lot description",
         "value": test_tender_open_tendering_eu_data["value"],
         "minimalStep": {"amount": 15, "currency": "UAH"},
