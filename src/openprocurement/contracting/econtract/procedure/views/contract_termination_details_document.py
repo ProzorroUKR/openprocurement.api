@@ -19,7 +19,7 @@ from openprocurement.tender.core.procedure.views.document import resolve_documen
     path="/contracts/{contract_id}/termination_details/documents/{document_id}",
     contractType="eContract",
     description="EContract terminationDetails related binary files (signed termination notice, etc.)",
-    request_method=("POST",),
+    request_method=("POST", "GET"),
 )
 class EContractTerminationDetailsDocumentResource(BaseDocumentResource):
     state_class = EContractTerminationDetailsDocumentState
