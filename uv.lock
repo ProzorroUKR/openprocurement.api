@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = "==3.13.*"
 
 [[package]]
@@ -899,7 +899,7 @@ wheels = [
 
 [[package]]
 name = "openprocurement-api"
-version = "2.7.50rc2"
+version = "2.7.50rc3"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp" },
