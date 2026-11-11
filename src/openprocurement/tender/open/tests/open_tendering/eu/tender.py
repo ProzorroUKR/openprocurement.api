@@ -44,13 +44,15 @@ from openprocurement.tender.open.tests.open_tendering.eu.base import (
     test_tender_open_tendering_eu_lots,
 )
 from openprocurement.tender.open.tests.open_tendering.eu.tender_blanks import (
-    create_tender_generated,
     create_tender_invalid_procedure_and_config,
     create_tender_lot_title_en_required,
     create_tender_multilingual_fields_required,
-    patch_tender_procedure_is_immutable,
 )
 from openprocurement.tender.open.tests.open_tendering.ua.tender import TenderOpenTenderingUAResourceTestMixin
+from openprocurement.tender.open.tests.open_tendering.ua.tender_blanks import (
+    create_tender_generated,
+    patch_tender_procedure_is_immutable,
+)
 
 
 class TenderTest(BaseTenderWebTest):

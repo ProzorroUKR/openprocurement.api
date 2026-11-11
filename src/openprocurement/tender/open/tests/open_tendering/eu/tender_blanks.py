@@ -1,10 +1,5 @@
 from copy import deepcopy
 
-from openprocurement.tender.open.tests.open_tendering.ua.tender_blanks import (  # noqa: F401
-    create_tender_generated,
-    patch_tender_procedure_is_immutable,
-)
-
 
 def create_tender_invalid_procedure_and_config(self):
     """procedure is required for openTendering and the EU variant (procedure.euPublished) pins the config values"""
