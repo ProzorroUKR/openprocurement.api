@@ -1498,3 +1498,27 @@ def block_switch_to_pre_qualification_when_enabled(self):
     response = self.app.get(f"/tenders/{self.tender_id}")
     self.assertEqual(response.json["data"]["status"], "active.enquiries")
     self.assertNotIn("qualifications", response.json["data"])
+
+
+def create_tender_award_criteria(self):
+    for award_criteria in ("lowestCost", "lifeCycleCost", "ratedCriteria"):
+        data = deepcopy(self.initial_data)
+        data["awardCriteria"] = award_criteria
+        response = self.app.post_json(
+            "/tenders",
+            {"data": data, "config": self.initial_config},
+            status=201,
+        )
+        self.assertEqual(response.json["data"]["awardCriteria"], award_criteria)
+
+    tender_id = response.json["data"]["id"]
+    token = response.json["access"]["token"]
+    response = self.app.patch_json(
+        f"/tenders/{tender_id}?acc_token={token}",
+        {"data": {"awardCriteria": "lowestCost"}},
+        status=403,
+    )
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "awardCriteria", "description": "Can't change awardCriteria"}],
+    )

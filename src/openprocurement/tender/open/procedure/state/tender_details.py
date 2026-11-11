@@ -1,7 +1,13 @@
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import WORKING_DAYS_WITH_WORKING_WEEKENDS
 from openprocurement.framework.dps.constants import DPS_TYPE
-from openprocurement.tender.core.constants import CALENDAR_DAYS_CONFIG, EU_REQUIRED_MULTILINGUAL_FIELDS
+from openprocurement.tender.core.constants import (
+    AWARD_CRITERIA_LIFE_CYCLE_COST,
+    AWARD_CRITERIA_LOWEST_COST,
+    AWARD_CRITERIA_RATED_CRITERIA,
+    CALENDAR_DAYS_CONFIG,
+    EU_REQUIRED_MULTILINGUAL_FIELDS,
+)
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.tender import PatchActiveTender, PatchDraftTender
 from openprocurement.tender.core.procedure.state.tender import TenderState
@@ -216,6 +222,11 @@ class RFPTenderDetailsMixin(TenderDetailsMixin):
     requirement_change_legacy_status = "active.enquiries"
     requirement_put_allowed_tender_statuses = ["active.enquiries"]
     requirement_models_by_classification = False
+    award_criteria_choices = (
+        AWARD_CRITERIA_LOWEST_COST,
+        AWARD_CRITERIA_LIFE_CYCLE_COST,
+        AWARD_CRITERIA_RATED_CRITERIA,
+    )
 
 
 class RFPTenderDetailsState(RFPTenderDetailsMixin, RFPTenderState):
