@@ -13,14 +13,14 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationState(QualificationRequirementResponsesRulesMixin, TenderState):
-    patch_data_model = PatchQualification
-    data_model = Qualification
+    qualification_patch_data_model = PatchQualification
+    qualification_data_model = Qualification
 
     def validate_qualification_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
-        self.validate_patch_input_data(self.get_patch_data_model())
-        self.validate_patch_data(self.get_data_model(), "qualification")
+        self.validate_patch_input_data(self.qualification_patch_data_model)
+        self.validate_patch_data(self.qualification_data_model, "qualification")
 
     def validate_qualification_lot_id(self, qualification):
         """a qualification of a multilot tender is related to one of its lots (checked when lotID is passed, as the model did)"""

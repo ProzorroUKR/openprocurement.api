@@ -18,9 +18,9 @@ from openprocurement.tender.limited.procedure.state.tender import NegotiationTen
 
 
 class ReportingAwardState(AwardStateMixin, NegotiationTenderState):
-    post_data_model = ReportingPostAward
-    patch_data_model = ReportingPatchAward
-    data_model = ReportingAward
+    award_post_data_model = ReportingPostAward
+    award_patch_data_model = ReportingPatchAward
+    award_data_model = ReportingAward
 
     award_status_change_waits_for_milestone_due_date = False
     award_eligible_required_for_activation: bool = False
@@ -94,9 +94,9 @@ class ReportingAwardState(AwardStateMixin, NegotiationTenderState):
 
 
 class NegotiationAwardState(ReportingAwardState):
-    post_data_model = LimitedPostAward
-    patch_data_model = LimitedPatchAward
-    data_model = LimitedAward
+    award_post_data_model = LimitedPostAward
+    award_patch_data_model = LimitedPatchAward
+    award_data_model = LimitedAward
 
     award_stand_still_working_days: bool = False
     sign_award_required = True

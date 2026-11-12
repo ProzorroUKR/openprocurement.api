@@ -11,10 +11,10 @@ from openprocurement.tender.core.procedure.utils import equals_decimal_and_corru
 
 
 class CFASelectionBidState(BidState):
-    post_data_model = CFASelectionPostBid
-    patch_data_model = CFASelectionPatchBid
-    patch_qualification_data_model = CFASelectionPatchQualificationBid
-    data_model = CFASelectionBid
+    bid_post_data_model = CFASelectionPostBid
+    bid_patch_data_model = CFASelectionPatchBid
+    bid_patch_qualification_data_model = CFASelectionPatchQualificationBid
+    bid_data_model = CFASelectionBid
 
     def is_bid_parameter_value_allowed(self, value, feature_value):
         return equals_decimal_and_corrupted(to_decimal(value), feature_value)
