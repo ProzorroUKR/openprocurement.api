@@ -6,9 +6,9 @@ from openprocurement.tender.core.procedure.state.tender import TenderState
 
 class CDStage2AwardState(AwardStateMixin, TenderState):
     award_class = Award
-    post_data_model = CDPostAward
-    patch_data_model = CDPatchAward
-    data_model = CDAward
+    award_post_data_model = CDPostAward
+    award_patch_data_model = CDPatchAward
+    award_data_model = CDAward
 
     items_unit_required: bool = False
     items_quantity_required: bool = False

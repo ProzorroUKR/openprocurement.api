@@ -9,10 +9,10 @@ from openprocurement.tender.core.procedure.state.bid import BidState
 
 
 class CFASelectionBidState(BidState):
-    post_data_model = CFASelectionPostBid
-    patch_data_model = CFASelectionPatchBid
-    patch_qualification_data_model = CFASelectionPatchQualificationBid
-    data_model = CFASelectionBid
+    bid_post_data_model = CFASelectionPostBid
+    bid_patch_data_model = CFASelectionPatchBid
+    bid_patch_qualification_data_model = CFASelectionPatchQualificationBid
+    bid_data_model = CFASelectionBid
 
     bid_create_accreditations = (AccreditationLevel.ACCR_2,)
 
