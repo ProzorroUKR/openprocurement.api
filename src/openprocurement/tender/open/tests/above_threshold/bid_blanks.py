@@ -2250,6 +2250,47 @@ def patch_bid_requirement_response_evidence(self):
     self.assertEqual(evidence["title"], updated_data["title"])
     self.assertEqual(evidence["description"], updated_data["description"])
 
+    # patch during the 24h milestone of the bid award in active.qualification
+    response = self.app.get("/tenders/{}/criteria".format(self.tender_id))
+    rrs = set_bid_responses(response.json["data"])[1:]  # the first one is added in setUp
+    self.app.post_json(
+        "/tenders/{}/bids/{}/requirement_responses?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": rrs},
+    )
+    self.app.patch_json(
+        "/tenders/{}/bids/{}?acc_token={}".format(self.tender_id, self.bid_id, self.bid_token),
+        {"data": {"status": "pending"}},
+    )
+    self.set_status("active.qualification")
+    self.append_24hours_milestone(self.bid_id)
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}/evidences/{}?acc_token={}".format(
+            self.tender_id, self.bid_id, self.rr_id, evidence_id, self.bid_token
+        ),
+        {
+            "data": {
+                "type": "document",
+                "description": None,
+                "relatedDocument": {"id": self.doc_id, "title": "name.doc"},
+            }
+        },
+    )
+    self.assertEqual(response.status, "200 OK")
+    evidence = response.json["data"]
+    self.assertEqual(evidence["type"], "document")
+    self.assertNotIn("description", evidence)
+    self.assertEqual(evidence["relatedDocument"], {"id": self.doc_id, "title": "name.doc"})
+
+    response = self.app.patch_json(
+        "/tenders/{}/bids/{}/requirement_responses/{}?acc_token={}".format(
+            self.tender_id, self.bid_id, self.rr_id, self.bid_token
+        ),
+        {"data": {"evidences": [{**evidence, "title": "Title updated with response"}]}},
+    )
+    self.assertEqual(response.status, "200 OK")
+    self.assertEqual(response.json["data"]["evidences"][0]["title"], "Title updated with response")
+
 
 def get_bid_requirement_response_evidence(self):
     valid_data = {

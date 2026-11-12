@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/c58478830ccc441d84deb25d61992ffd?acc_token=e821726838304fff98409ab63dc9e230 HTTP/1.0
+PATCH /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/443cc352718e4c1188632be47405c01e?acc_token=e821726838304fff98409ab63dc9e230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -65,7 +65,7 @@ Content-Type: application/json
     ],
     "status": "pending",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "c58478830ccc441d84deb25d61992ffd",
+    "id": "443cc352718e4c1188632be47405c01e",
     "date": "2027-01-01T00:03:00+02:00",
     "submissionDate": "2027-01-01T00:03:00+02:00",
     "documents": [
@@ -90,7 +90,7 @@ Content-Type: application/json
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_top_secrets.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/c58478830ccc441d84deb25d61992ffd/documents/02388451ca6c47bda1da134ec86ac4c6?download=68a6b3e65371402492995faa5acc2582",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/443cc352718e4c1188632be47405c01e/documents/02388451ca6c47bda1da134ec86ac4c6?download=68a6b3e65371402492995faa5acc2582",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "language": "uk"

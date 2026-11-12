@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/70374a3904fd478dbe8db0bf1e874c5e/documents?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
+GET /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/ef73f51bda7746829191bc5705f6c88a/documents?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -14,7 +14,7 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "private.doc",
       "format": "application/msword",
-      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/70374a3904fd478dbe8db0bf1e874c5e/documents/9c640b1df12043109bedcf648570e338?download=bed8dcbd27644f418f3d0645d955859a",
+      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/ef73f51bda7746829191bc5705f6c88a/documents/9c640b1df12043109bedcf648570e338?download=bed8dcbd27644f418f3d0645d955859a",
       "documentOf": "tender",
       "language": "uk",
       "id": "9c640b1df12043109bedcf648570e338",
@@ -29,7 +29,7 @@ Content-Type: application/json
       "hash": "md5:00000000000000000000000000000000",
       "title": "public-to-private.doc",
       "format": "application/msword",
-      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/70374a3904fd478dbe8db0bf1e874c5e/documents/eacb95a836264a699a867e582258d949?download=48945373accd4d29ba34ccdf21d9804a",
+      "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/ef73f51bda7746829191bc5705f6c88a/documents/eacb95a836264a699a867e582258d949?download=48945373accd4d29ba34ccdf21d9804a",
       "documentOf": "tender",
       "dateModified": "2027-01-01T00:00:00+02:00",
       "language": "uk"

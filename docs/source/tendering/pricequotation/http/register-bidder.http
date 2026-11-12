@@ -132,7 +132,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/bids/7958b212657a4f648cfe7b27e05fd774
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/bids/71519ad0975c482da12799f92abe2116
 
 {
   "data": {
@@ -143,7 +143,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Діагональ екрану"
         },
         "value": 23.8,
-        "id": "1e1798700cc7421ab1748188edb43454",
+        "id": "83358f8351c24771b4382d52a8b384d4",
         "unit": {
           "code": "INH",
           "name": "дюйм"
@@ -161,7 +161,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         "values": [
           "1920x1080"
         ],
-        "id": "dc66a4dea0234349b189b3aba8ec5f35",
+        "id": "98bcf984a7f848bc92b5c3dbdae2d195",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -175,7 +175,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         "values": [
           "16:9"
         ],
-        "id": "9907b427ec9c49e190810ac060f8fc5b",
+        "id": "cb12a1ffcef94244b36f71dc430d0948",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -187,7 +187,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Яскравість дисплея"
         },
         "value": 0,
-        "id": "0680908ea06a4abca9fe023499250cc1",
+        "id": "44c3c98bd33f417ea4ddb232d720558f",
         "unit": {
           "code": "A24",
           "name": "кд/м²"
@@ -205,7 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         "values": [
           "1000:1"
         ],
-        "id": "3f778feeb71b433c874d1ace88eebf99",
+        "id": "3fb51b4b261d4ae58c57b654cb9e3356",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -217,7 +217,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Кількість портів HDMI"
         },
         "value": 1,
-        "id": "fcb89b9db3b147af8fd4b1935950ef6e",
+        "id": "39c6d41afcff46139594cd9957f52a74",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -233,7 +233,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Кількість портів D-sub"
         },
         "value": 1,
-        "id": "22f31ecef6a64cf1b70c44b52ff2167d",
+        "id": "e972970ff4d8405099da104fa62b7e2e",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -251,7 +251,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         "values": [
           "HDMI"
         ],
-        "id": "599fee0626e14805a0f23162354d41ce",
+        "id": "590749e7367544a9812c9449c36f40be",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -263,7 +263,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Гарантія"
         },
         "value": 36,
-        "id": "1f71c5681e60420b83bd8de225d0a14f",
+        "id": "853931f0a1e049779922e808cafa461e",
         "unit": {
           "code": "MON",
           "name": "місяців"
@@ -279,7 +279,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "value": true,
-        "id": "4bca54ee77b6471fab3481bda24d1c24",
+        "id": "6f41e6b812754187b578299ddd84dc9e",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -291,7 +291,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
         },
         "value": true,
-        "id": "3fff00be5c2f4e03ac64cdf769b0f908",
+        "id": "9992d96aaf6e49c6b4ce668d8d381fd1",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -343,7 +343,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
       }
     ],
     "status": "draft",
-    "id": "7958b212657a4f648cfe7b27e05fd774",
+    "id": "71519ad0975c482da12799f92abe2116",
     "date": "2024-01-01T00:00:01+02:00"
   },
   "access": {

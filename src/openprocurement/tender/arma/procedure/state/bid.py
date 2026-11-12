@@ -11,10 +11,10 @@ from openprocurement.tender.core.procedure.utils import find_lot
 
 
 class ARMABidState(BidState):
-    post_data_model = ARMAPostBid
-    patch_data_model = ARMAPatchBid
-    patch_qualification_data_model = ARMAPatchQualificationBid
-    data_model = ARMABid
+    bid_post_data_model = ARMAPostBid
+    bid_patch_data_model = ARMAPatchBid
+    bid_patch_qualification_data_model = ARMAPatchQualificationBid
+    bid_data_model = ARMABid
 
     draft_bid_value_check = False
     item_patch_fields_during_qualification = {

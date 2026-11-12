@@ -127,7 +127,7 @@ Content-Type: application/json
           }
         ],
         "awardID": "afd5c3adcc1243aa87e3bf06a3ab61ed",
-        "bidID": "e772d10daf704b14bd051ce8c7bcfdc1",
+        "bidID": "ad892ca0d51948ef9de994dff8f2c187",
         "date": "2027-01-01T00:02:01+02:00"
       },
       {
@@ -176,7 +176,7 @@ Content-Type: application/json
           }
         ],
         "awardID": "a7a392fa285d4e0589840ef1b2ef2eff",
-        "bidID": "adab8b563fa54099aa559dc9798af467",
+        "bidID": "614ff6243098459ebe9dcb840e648358",
         "date": "2027-01-01T00:02:01+02:00"
       },
       {
@@ -225,7 +225,7 @@ Content-Type: application/json
           }
         ],
         "awardID": "dca3e8cac9e54549a5f897bc4692be60",
-        "bidID": "49183635c9204358999ae5010b662d19",
+        "bidID": "de9abf3f40ee4ba3baa95d47fac2a948",
         "date": "2027-01-01T00:02:01+02:00"
       }
     ],

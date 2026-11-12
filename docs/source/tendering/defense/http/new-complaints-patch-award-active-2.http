@@ -48,7 +48,7 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "bid_id": "9693cedd86e34cb89c7bb63ab08c3e04",
+    "bid_id": "8f0ffca634bd4d97b5643875bb6d25e1",
     "documents": [
       {
         "confidentiality": "public",

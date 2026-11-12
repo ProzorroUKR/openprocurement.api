@@ -16,7 +16,7 @@ Content-Type: application/json
             "title": "Діагональ екрану"
           },
           "value": 23.8,
-          "id": "1e1798700cc7421ab1748188edb43454",
+          "id": "83358f8351c24771b4382d52a8b384d4",
           "unit": {
             "code": "INH",
             "name": "дюйм"
@@ -34,7 +34,7 @@ Content-Type: application/json
           "values": [
             "1920x1080"
           ],
-          "id": "dc66a4dea0234349b189b3aba8ec5f35",
+          "id": "98bcf984a7f848bc92b5c3dbdae2d195",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -48,7 +48,7 @@ Content-Type: application/json
           "values": [
             "16:9"
           ],
-          "id": "9907b427ec9c49e190810ac060f8fc5b",
+          "id": "cb12a1ffcef94244b36f71dc430d0948",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -60,7 +60,7 @@ Content-Type: application/json
             "title": "Яскравість дисплея"
           },
           "value": 0,
-          "id": "0680908ea06a4abca9fe023499250cc1",
+          "id": "44c3c98bd33f417ea4ddb232d720558f",
           "unit": {
             "code": "A24",
             "name": "кд/м²"
@@ -78,7 +78,7 @@ Content-Type: application/json
           "values": [
             "1000:1"
           ],
-          "id": "3f778feeb71b433c874d1ace88eebf99",
+          "id": "3fb51b4b261d4ae58c57b654cb9e3356",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -90,7 +90,7 @@ Content-Type: application/json
             "title": "Кількість портів HDMI"
           },
           "value": 1,
-          "id": "fcb89b9db3b147af8fd4b1935950ef6e",
+          "id": "39c6d41afcff46139594cd9957f52a74",
           "unit": {
             "code": "H87",
             "name": "штук"
@@ -106,7 +106,7 @@ Content-Type: application/json
             "title": "Кількість портів D-sub"
           },
           "value": 1,
-          "id": "22f31ecef6a64cf1b70c44b52ff2167d",
+          "id": "e972970ff4d8405099da104fa62b7e2e",
           "unit": {
             "code": "H87",
             "name": "штук"
@@ -124,7 +124,7 @@ Content-Type: application/json
           "values": [
             "HDMI"
           ],
-          "id": "599fee0626e14805a0f23162354d41ce",
+          "id": "590749e7367544a9812c9449c36f40be",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -136,7 +136,7 @@ Content-Type: application/json
             "title": "Гарантія"
           },
           "value": 36,
-          "id": "1f71c5681e60420b83bd8de225d0a14f",
+          "id": "853931f0a1e049779922e808cafa461e",
           "unit": {
             "code": "MON",
             "name": "місяців"
@@ -152,7 +152,7 @@ Content-Type: application/json
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
-          "id": "4bca54ee77b6471fab3481bda24d1c24",
+          "id": "6f41e6b812754187b578299ddd84dc9e",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -164,7 +164,7 @@ Content-Type: application/json
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
-          "id": "3fff00be5c2f4e03ac64cdf769b0f908",
+          "id": "9992d96aaf6e49c6b4ce668d8d381fd1",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -216,7 +216,7 @@ Content-Type: application/json
         }
       ],
       "status": "active",
-      "id": "7958b212657a4f648cfe7b27e05fd774",
+      "id": "71519ad0975c482da12799f92abe2116",
       "date": "2024-01-01T00:00:01+02:00",
       "submissionDate": "2024-01-01T00:00:01+02:00",
       "documents": [
@@ -248,7 +248,7 @@ Content-Type: application/json
             "title": "Діагональ екрану"
           },
           "value": 23.8,
-          "id": "05d479d9adf64f8dbbd1d2571105f3a4",
+          "id": "2610f3c0a0094f3cb73626ae43c3816c",
           "unit": {
             "code": "INH",
             "name": "дюйм"
@@ -266,7 +266,7 @@ Content-Type: application/json
           "values": [
             "1920x1080"
           ],
-          "id": "ddb86fbb9e5f4fdb8dfabd69a077f913",
+          "id": "d4b1408795d042788dd24d510b566edb",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -280,7 +280,7 @@ Content-Type: application/json
           "values": [
             "16:9"
           ],
-          "id": "4f5b03ef8bc6434db6a1bdc8cb9fc824",
+          "id": "5a170b8a6bfe4c488db04d23e0f6e7c5",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -292,7 +292,7 @@ Content-Type: application/json
             "title": "Яскравість дисплея"
           },
           "value": 0,
-          "id": "413fdbb360584982968d036bff6b6810",
+          "id": "ad35f8fb813943599d20a74505750884",
           "unit": {
             "code": "A24",
             "name": "кд/м²"
@@ -310,7 +310,7 @@ Content-Type: application/json
           "values": [
             "1000:1"
           ],
-          "id": "95c71319423240a3839ddf5b4a64953d",
+          "id": "71aa4c9f1c8a45d5a3d3a97c433e32f5",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -322,7 +322,7 @@ Content-Type: application/json
             "title": "Кількість портів HDMI"
           },
           "value": 1,
-          "id": "0c41b7e1a0a44748af8b83d293083ac4",
+          "id": "30f8236d3196424b997f41ad676c094c",
           "unit": {
             "code": "H87",
             "name": "штук"
@@ -338,7 +338,7 @@ Content-Type: application/json
             "title": "Кількість портів D-sub"
           },
           "value": 1,
-          "id": "05cba456cfe54f98881c3c5bfa12e9e5",
+          "id": "7a4279ed113a4963a10585d306a68526",
           "unit": {
             "code": "H87",
             "name": "штук"
@@ -356,7 +356,7 @@ Content-Type: application/json
           "values": [
             "HDMI"
           ],
-          "id": "f02909c86f7f4faa914a65f2e7a0b104",
+          "id": "45997a6b204a4ee783e59dbd36122591",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -368,7 +368,7 @@ Content-Type: application/json
             "title": "Гарантія"
           },
           "value": 36,
-          "id": "53b084fcc36e428d93068ab3fd0bf282",
+          "id": "c71fa3ca34a341a685ed9af67e1caf6f",
           "unit": {
             "code": "MON",
             "name": "місяців"
@@ -384,7 +384,7 @@ Content-Type: application/json
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
-          "id": "ba29428e134e4d9e80f377621d0ddad6",
+          "id": "9457ff4e4a3c4d0295e4cf55e0489439",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -396,7 +396,7 @@ Content-Type: application/json
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
-          "id": "ae6fc9a9d25241c09cf82c0315492145",
+          "id": "95c9f1dafdb248c3b04e88b9d895609b",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -448,12 +448,12 @@ Content-Type: application/json
         }
       ],
       "status": "active",
-      "id": "94d71f0619a34f99891f52aae7604882",
+      "id": "8450aac5773e4cb6bebd027ca545103e",
       "date": "2024-01-01T00:00:01+02:00",
       "documents": [
         {
           "confidentiality": "public",
-          "id": "fcff9357336c49fca657b8166eeb0659",
+          "id": "f60a4d066d6249eeaca746bdcf6bedf2",
           "datePublished": "2024-01-01T00:00:01+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
@@ -465,7 +465,7 @@ Content-Type: application/json
         },
         {
           "confidentiality": "public",
-          "id": "7f77d26537d44dcd8b632d89f4204c97",
+          "id": "75f155b6fc404fff82a5d9b04134808c",
           "datePublished": "2024-01-01T00:00:01+02:00",
           "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
@@ -485,7 +485,7 @@ Content-Type: application/json
     },
     {
       "status": "invalid",
-      "id": "5d37cf8b00bc496aadf56df4955df059"
+      "id": "4854abff3a0444d7b59d793507c55c7e"
     }
   ]
 }

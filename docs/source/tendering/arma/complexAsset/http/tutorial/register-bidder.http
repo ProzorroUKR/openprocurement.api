@@ -69,7 +69,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/c58478830ccc441d84deb25d61992ffd
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/443cc352718e4c1188632be47405c01e
 
 {
   "data": {
@@ -133,7 +133,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "id": "c58478830ccc441d84deb25d61992ffd",
+    "id": "443cc352718e4c1188632be47405c01e",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

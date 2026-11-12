@@ -33,8 +33,8 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "ded519d9a307407d96e4094c73a5f0bb",
-      "id": "47cc7ce5c6f4469e858bb998506c40f1",
+      "bid_id": "e600c615e6574970acf3f827c7bec5f4",
+      "id": "3a10c800ca0945d5bbf2ae09eac45148",
       "date": "2027-01-01T00:00:00+02:00",
       "period": {
         "startDate": "2027-01-01T00:00:00+02:00",

@@ -636,22 +636,22 @@ class ReqResponseStateMixin(RequirementResponsesRulesMixin):  # pylint: disable=
     change applied, so both endpoints validate the responses identically.
     """
 
-    post_data_model = RequirementResponse
-    patch_data_model = PatchRequirementResponse
-    data_model = RequirementResponse
+    req_response_post_data_model = RequirementResponse
+    req_response_patch_data_model = PatchRequirementResponse
+    req_response_data_model = RequirementResponse
 
     requirement_responses_error_path_strip = 1
 
     def validate_req_response_post_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
-        self.validate_input_data(self.get_post_data_model(), allow_bulk=True)
+        self.validate_input_data(self.req_response_post_data_model, allow_bulk=True)
 
     def validate_req_response_patch_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_operation_allowed()
-        self.validate_patch_input_data(self.get_patch_data_model())
-        self.validate_patch_data_simple(self.get_data_model(), "requirement_response")
+        self.validate_patch_input_data(self.req_response_patch_data_model)
+        self.validate_patch_data_simple(self.req_response_data_model, "requirement_response")
 
     def validate_req_response_delete_request(self):
         self.validate_req_response_owner()
