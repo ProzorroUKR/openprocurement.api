@@ -42,7 +42,7 @@ Content-Type: application/json
       ],
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -114,7 +114,7 @@ Content-Type: application/json
       "status": "invalid",
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -182,7 +182,7 @@ Content-Type: application/json
       "status": "declined",
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -252,7 +252,7 @@ Content-Type: application/json
       "status": "accepted",
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -321,7 +321,7 @@ Content-Type: application/json
       "status": "stopped",
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -401,7 +401,7 @@ Content-Type: application/json
       "satisfied": true,
       "type": "claim",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d"
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3"
     },
     {
       "id": "821e337711a044d6a409d2896e973673",
@@ -417,7 +417,7 @@ Content-Type: application/json
       "satisfied": false,
       "type": "claim",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d"
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3"
     },
     {
       "id": "5b669a6114ef4a78a9f5a2d8d7489d6d",
@@ -426,7 +426,7 @@ Content-Type: application/json
       "status": "pending",
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {
@@ -572,7 +572,7 @@ Content-Type: application/json
       "status": "claim",
       "type": "claim",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "dateSubmitted": "2027-01-01T00:00:01+02:00"
     },
     {
@@ -582,7 +582,7 @@ Content-Type: application/json
       "status": "mistaken",
       "type": "complaint",
       "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-      "bid_id": "b3390caed5e74635b13b426c678cbc8d",
+      "bid_id": "172e176bff73428ebcd29da8d8131aa3",
       "author": {
         "name": "ДКП «Школяр»",
         "address": {

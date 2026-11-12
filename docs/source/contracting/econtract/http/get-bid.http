@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2563fd75900b43499138810b16db8181/bids/a07e0a218f774a889a17ff721c332ae7?acc_token=534d10cd1e9e4135a8382091dda51455 HTTP/1.0
+GET /api/2.5/tenders/2563fd75900b43499138810b16db8181/bids/47e8d675f3c7439cbe604d35e92b3c6a?acc_token=534d10cd1e9e4135a8382091dda51455 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -17,7 +17,7 @@ Content-Type: application/json
         "values": [
           "Розчин для інфузій"
         ],
-        "id": "dc08aad3b137482d886df02bc906c9b1",
+        "id": "30598968e39a4541913b1cd43a5ac683",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -29,7 +29,7 @@ Content-Type: application/json
           "title": "Доза діючої речовини"
         },
         "value": 5,
-        "id": "003bf00e1af748058c117589e715ff5f",
+        "id": "c942762589af48359b665bc2a4026e8a",
         "unit": {
           "code": "KGM",
           "name": "кілограми"
@@ -48,7 +48,7 @@ Content-Type: application/json
           "Відповідь1",
           "Відповідь2"
         ],
-        "id": "940d88dd94cc466691d59ca93229e842",
+        "id": "5cb481368dc9439b9e3f8db9209621ae",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -124,7 +124,7 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
-    "id": "a07e0a218f774a889a17ff721c332ae7",
+    "id": "47e8d675f3c7439cbe604d35e92b3c6a",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00"
   }

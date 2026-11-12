@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/fe59f1bf1a5b4e51a70ecfc0d736f391/documents?acc_token=5e3db2d4c32a4444b731e134e16e9f07 HTTP/1.0
+POST /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/a7cf2df001244dc8b8c3cc5afe9400ca/documents?acc_token=5e3db2d4c32a4444b731e134e16e9f07 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,7 +15,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/fe59f1bf1a5b4e51a70ecfc0d736f391/documents/ee6a1c5ce78c41e297b381875ea8618a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/a7cf2df001244dc8b8c3cc5afe9400ca/documents/ee6a1c5ce78c41e297b381875ea8618a
 
 {
   "data": {

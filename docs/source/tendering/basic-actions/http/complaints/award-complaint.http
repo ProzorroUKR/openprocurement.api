@@ -41,7 +41,7 @@ Content-Type: application/json
     ],
     "type": "complaint",
     "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-    "bid_id": "716a0f6c194c4fc7821cce4f4110d4e1",
+    "bid_id": "7866b520f6ef4a22aeb8ecda3b2a175a",
     "author": {
       "name": "ДКП «Школяр»",
       "address": {

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea/bids/c2547f4cb35649479d4c3b761a395527/requirement_responses?acc_token=cc9c71a6465e4107bcd969a10eb66613 HTTP/1.0
+POST /api/2.5/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea/bids/495e2c50c8a2459ca9bf2531e5df2383/requirement_responses?acc_token=cc9c71a6465e4107bcd969a10eb66613 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -24,7 +24,7 @@ Content-Type: application/json
         "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
       },
       "value": true,
-      "id": "71c729b2f3664cf9971c37ec92a99189",
+      "id": "cffeb010f9c943b482b2dafaee2d5694",
       "classification": {
         "scheme": "LAW922",
         "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"

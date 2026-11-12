@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/aee0ed97116949c99f997c21d076dcc1?acc_token=8fae24a80c614a26b8a50c09bf7533a1 HTTP/1.0
+GET /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/35087c89c92146968e1c7c6e5bf05f6a?acc_token=8fae24a80c614a26b8a50c09bf7533a1 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -33,11 +33,11 @@ Content-Type: application/json
       }
     ],
     "status": "unsuccessful",
-    "id": "aee0ed97116949c99f997c21d076dcc1",
+    "id": "35087c89c92146968e1c7c6e5bf05f6a",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "7d2f6fdee7354dc08da55ff6e2569e98",
+        "id": "7588f4cea40a4442a465a6ee93a09814",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -49,7 +49,7 @@ Content-Type: application/json
       },
       {
         "confidentiality": "public",
-        "id": "815f4afe76ab41cc952edc13a01ce3ec",
+        "id": "117da208a41d40a98728f1915689c6ed",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
@@ -76,7 +76,7 @@ Content-Type: application/json
     "eligibilityDocuments": [
       {
         "confidentiality": "public",
-        "id": "0e5c79d2d9fe42f9953f07edbd606157",
+        "id": "ae2afdf0b2de4e02849f65a73988f609",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",

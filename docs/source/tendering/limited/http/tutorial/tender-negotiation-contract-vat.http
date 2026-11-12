@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "4cee881db18d4c12b5cead034f2748ec",
+    "awardID": "dc4d33bca0c6447eaee7472606860475",
     "contractID": "UA-2027-01-01-000002-a-a1",
     "title": "Лот №1",
     "description": "Опис Лот №1",

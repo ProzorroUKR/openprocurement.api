@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/8ab3d204c64a4284993b608050c1031d?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
+PATCH /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/057f7dfc93d147fd9a085e2622406257?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -62,11 +62,11 @@ Content-Type: application/json
               "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
               "title": "name.doc"
             },
-            "id": "035c5c0e05bb45dcab26816ae6a35158"
+            "id": "f8b84e430da444e9ab2e4cd39c92700f"
           }
         ],
         "value": true,
-        "id": "794ed29090c24c15a1b649b3b31d49f2",
+        "id": "b6e9dd7d774b436fa018986457b54dd0",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -85,11 +85,11 @@ Content-Type: application/json
               "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
               "title": "name.doc"
             },
-            "id": "63acc7b6b19541ac96975f9a54de7071"
+            "id": "527ced78e8374b2db45a845a8c1e06a7"
           }
         ],
         "value": true,
-        "id": "1f33c1b204584cb484e88f79827dbf7b",
+        "id": "9b1a191df04f4fdf8cae4943469ee47f",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
@@ -176,7 +176,7 @@ Content-Type: application/json
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "8ab3d204c64a4284993b608050c1031d",
+    "id": "057f7dfc93d147fd9a085e2622406257",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {

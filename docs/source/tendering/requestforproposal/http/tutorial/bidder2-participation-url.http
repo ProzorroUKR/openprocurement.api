@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/bids/87dce0ade2af4a95b87335ced321e849?acc_token=260a9cebc6f04230bb033c39eb07bb0c HTTP/1.0
+GET /api/2.5/tenders/c43b02880a284022ad414c5d3fff5387/bids/acabb4c3af2a423aa66cf6b08f433fcd?acc_token=260a9cebc6f04230bb033c39eb07bb0c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -67,7 +67,7 @@ Content-Type: application/json
         },
         "relatedLot": "85cde4d4a1ff46a6827912a154b6a292",
         "date": "2027-01-07T00:15:06+02:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c43b02880a284022ad414c5d3fff5387_85cde4d4a1ff46a6827912a154b6a292?key_for_bid=87dce0ade2af4a95b87335ced321e849"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/c43b02880a284022ad414c5d3fff5387_85cde4d4a1ff46a6827912a154b6a292?key_for_bid=acabb4c3af2a423aa66cf6b08f433fcd"
       }
     ],
     "status": "draft",
@@ -80,7 +80,7 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/231aaa76d39142b388c80d0ce567c1ee?Signature=umNNIjuZIzcikUd74nrYvvPmqcW01JAwbcNuDLTMWLul0cRMvIfeGyLpA59Zb1fsx%2FhNDqbszo1egr9mDZ9jAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "fb5ad541d0874f888a3ec1b79f36f0e2",
+        "id": "a8021713d16648bf91371214d6f40e25",
         "datePublished": "2027-01-07T00:15:06+02:00",
         "dateModified": "2027-01-07T00:15:06+02:00"
       },
@@ -92,12 +92,12 @@ Content-Type: application/json
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d2e51a1f596f40c2a6e90757c5058e53?Signature=4CDauzjPXP0ralUP1Zw26KLUlSVbfZoA6SNizWwDJ7Qi%2BGYK5l4vD3457WrcTut81MWf1ef8wgl%2FEWxEHo%2FaCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "aaa243db287b47088992fa4a50c0167b",
+        "id": "ae4cc3898e554de39c5ef4c902fb5afc",
         "datePublished": "2027-01-07T00:15:06+02:00",
         "dateModified": "2027-01-07T00:15:06+02:00"
       }
     ],
-    "id": "87dce0ade2af4a95b87335ced321e849",
+    "id": "acabb4c3af2a423aa66cf6b08f433fcd",
     "date": "2027-01-07T00:15:06+02:00"
   }
 }

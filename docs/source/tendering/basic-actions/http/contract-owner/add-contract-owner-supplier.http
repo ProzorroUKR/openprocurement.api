@@ -101,7 +101,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45bc0898315cdb3a6f/bids/2a59363879844618892169c34b3aaa5d
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45bc0898315cdb3a6f/bids/441668a7cc94474c831ffd62ae210ecd
 
 {
   "data": {
@@ -114,7 +114,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45
         "values": [
           "Розчин для інфузій"
         ],
-        "id": "e31c710621144857a3a7ad89a898bac1",
+        "id": "5937bfb298c64986b022d207858f0380",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -126,7 +126,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45
           "title": "Доза діючої речовини"
         },
         "value": 5,
-        "id": "b095d8249d134b7f95990359b009f5fb",
+        "id": "43cecc46c0e643729b0de0463f021410",
         "unit": {
           "code": "KGM",
           "name": "кілограми"
@@ -145,7 +145,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45
           "Відповідь1",
           "Відповідь2"
         ],
-        "id": "6789e5c276b74eca83a7310d3401eb1f",
+        "id": "2a2d52aff25049919198cb4a1c595c96",
         "classification": {
           "scheme": "ESPD211",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -221,7 +221,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b29ccfefe77c4e45
       }
     ],
     "status": "draft",
-    "id": "2a59363879844618892169c34b3aaa5d",
+    "id": "441668a7cc94474c831ffd62ae210ecd",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

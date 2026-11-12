@@ -48,7 +48,7 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "a89d39d529764ad2bc10938e881c0bf1",
+    "bid_id": "d6ecfb5f3f3e48dfa7266e4ccf2d0963",
     "lotID": "dfc479e5269a43ba88eca688c70d3b05",
     "period": {
       "startDate": "2027-01-01T00:00:00+02:00",
@@ -149,7 +149,7 @@ Content-Type: application/json
           ],
           "status": "active",
           "subcontractingDetails": "ДКП «Орфей», Україна",
-          "id": "716a0f6c194c4fc7821cce4f4110d4e1",
+          "id": "7866b520f6ef4a22aeb8ecda3b2a175a",
           "date": "2027-01-01T00:00:00+02:00",
           "documents": [
             {
@@ -253,7 +253,7 @@ Content-Type: application/json
             }
           ],
           "status": "active",
-          "id": "a89d39d529764ad2bc10938e881c0bf1",
+          "id": "d6ecfb5f3f3e48dfa7266e4ccf2d0963",
           "date": "2027-01-01T00:00:00+02:00",
           "submissionDate": "2027-01-01T00:00:00+02:00"
         }
@@ -282,7 +282,7 @@ Content-Type: application/json
       "qualifications": [
         {
           "id": "063cd6d3b836451785d7ad5954080796",
-          "bidID": "716a0f6c194c4fc7821cce4f4110d4e1",
+          "bidID": "7866b520f6ef4a22aeb8ecda3b2a175a",
           "lotID": "dfc479e5269a43ba88eca688c70d3b05",
           "status": "active",
           "date": "2027-01-01T00:00:00+02:00",
@@ -295,7 +295,7 @@ Content-Type: application/json
         },
         {
           "id": "089cdf2c9a9b409589e0df274088f454",
-          "bidID": "a89d39d529764ad2bc10938e881c0bf1",
+          "bidID": "d6ecfb5f3f3e48dfa7266e4ccf2d0963",
           "lotID": "dfc479e5269a43ba88eca688c70d3b05",
           "status": "active",
           "date": "2027-01-01T00:00:00+02:00",
@@ -617,7 +617,7 @@ Content-Type: application/json
               }
             }
           ],
-          "bid_id": "a89d39d529764ad2bc10938e881c0bf1",
+          "bid_id": "d6ecfb5f3f3e48dfa7266e4ccf2d0963",
           "lotID": "dfc479e5269a43ba88eca688c70d3b05",
           "period": {
             "startDate": "2027-01-01T00:00:00+02:00",

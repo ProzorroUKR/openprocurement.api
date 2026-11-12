@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/8ab3d204c64a4284993b608050c1031d?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
+PATCH /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/057f7dfc93d147fd9a085e2622406257?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -78,11 +78,11 @@ Content-Type: application/json
               "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
               "title": "name.doc"
             },
-            "id": "fc0a0a1b5bdb4283be71e7cbc9b0afed"
+            "id": "117bf3aa4bbf4bc49efd82ff45d1f0ac"
           }
         ],
         "value": true,
-        "id": "c275a2e8173f43ae96848d4f548ee55b",
+        "id": "d7468daf25ea4adf94c930d70cf7c508",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -101,11 +101,11 @@ Content-Type: application/json
               "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
               "title": "name.doc"
             },
-            "id": "0a1d958236544e9688c556d8d601467d"
+            "id": "e81c6e3811914eb2890d5f75746c42a4"
           }
         ],
         "value": true,
-        "id": "50d52df1280d49debb07c9ecff53e119",
+        "id": "0629f54b5b0449a1b826abb5bb12433e",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
@@ -124,11 +124,11 @@ Content-Type: application/json
               "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
               "title": "name.doc"
             },
-            "id": "a4bda58007c444cba6518e6602db4455"
+            "id": "2c218f765d2d4ca08e7d934866b31624"
           }
         ],
         "value": true,
-        "id": "ae9a253453f6494693373d2d54968556",
+        "id": "ff2b68208a7f4df0901d6c13d040a254",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
@@ -215,7 +215,7 @@ Content-Type: application/json
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "8ab3d204c64a4284993b608050c1031d",
+    "id": "057f7dfc93d147fd9a085e2622406257",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
