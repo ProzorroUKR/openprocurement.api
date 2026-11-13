@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/bids/71519ad0975c482da12799f92abe2116?acc_token=87d3bd2f99434d54b8f33d88e9debd3d HTTP/1.0
+PATCH /api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/bids/ccd56b1b9745435780c45e7836d90970?acc_token=87d3bd2f99434d54b8f33d88e9debd3d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -41,7 +41,7 @@ Content-Type: application/json
           "title": "Діагональ екрану"
         },
         "value": 23.8,
-        "id": "83358f8351c24771b4382d52a8b384d4",
+        "id": "592687e047c548e3965a743030fa50fe",
         "unit": {
           "code": "INH",
           "name": "дюйм"
@@ -59,7 +59,7 @@ Content-Type: application/json
         "values": [
           "1920x1080"
         ],
-        "id": "98bcf984a7f848bc92b5c3dbdae2d195",
+        "id": "4aa5dec0ab1f443195964a885549e1fe",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -73,7 +73,7 @@ Content-Type: application/json
         "values": [
           "16:9"
         ],
-        "id": "cb12a1ffcef94244b36f71dc430d0948",
+        "id": "d5b1a002cc224ef7beeb0025513d1f5e",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -85,7 +85,7 @@ Content-Type: application/json
           "title": "Яскравість дисплея"
         },
         "value": 0,
-        "id": "44c3c98bd33f417ea4ddb232d720558f",
+        "id": "7ecb617fab4f4f68bff5f7a679c7dd67",
         "unit": {
           "code": "A24",
           "name": "кд/м²"
@@ -103,7 +103,7 @@ Content-Type: application/json
         "values": [
           "1000:1"
         ],
-        "id": "3fb51b4b261d4ae58c57b654cb9e3356",
+        "id": "bdc54813fe3f4b67a3c98edef7d36fa2",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -115,7 +115,7 @@ Content-Type: application/json
           "title": "Кількість портів HDMI"
         },
         "value": 1,
-        "id": "39c6d41afcff46139594cd9957f52a74",
+        "id": "16c49a3dcd3547ffa48db66b218bff96",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -131,7 +131,7 @@ Content-Type: application/json
           "title": "Кількість портів D-sub"
         },
         "value": 1,
-        "id": "e972970ff4d8405099da104fa62b7e2e",
+        "id": "d48e15c75d1b42e4b848339e98425b8d",
         "unit": {
           "code": "H87",
           "name": "штук"
@@ -149,7 +149,7 @@ Content-Type: application/json
         "values": [
           "HDMI"
         ],
-        "id": "590749e7367544a9812c9449c36f40be",
+        "id": "fa19728bde534695b0482b09d31a5416",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -161,7 +161,7 @@ Content-Type: application/json
           "title": "Гарантія"
         },
         "value": 36,
-        "id": "853931f0a1e049779922e808cafa461e",
+        "id": "f58c6862b7a04e65be456b9cb62345fc",
         "unit": {
           "code": "MON",
           "name": "місяців"
@@ -177,7 +177,7 @@ Content-Type: application/json
           "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
         },
         "value": true,
-        "id": "6f41e6b812754187b578299ddd84dc9e",
+        "id": "ee80cfe402d4444891c8d7d67ce6e42c",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -189,7 +189,7 @@ Content-Type: application/json
           "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
         },
         "value": true,
-        "id": "9992d96aaf6e49c6b4ce668d8d381fd1",
+        "id": "563e2196b55d400db4abed1e33a9d0ef",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -241,7 +241,7 @@ Content-Type: application/json
       }
     ],
     "status": "draft",
-    "id": "71519ad0975c482da12799f92abe2116",
+    "id": "ccd56b1b9745435780c45e7836d90970",
     "date": "2024-01-01T00:00:01+02:00"
   }
 }

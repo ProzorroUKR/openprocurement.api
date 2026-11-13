@@ -1169,7 +1169,7 @@ Content-Type: application/json
         ],
         "status": "active",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "id": "006a4fdf28fb41da95c577380f7fd77f",
+        "id": "9733f1729c454748bd5f1e43e9b5b28c",
         "date": "2027-01-01T00:03:00+02:00",
         "submissionDate": "2027-01-01T00:03:00+02:00",
         "lotValues": [
@@ -1484,7 +1484,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "13053dcfed484f77a1495f29a38827ef",
+        "id": "bac3f23e6a424321a4692d2ab590716c",
         "date": "2027-01-01T00:03:00+02:00",
         "lotValues": [
           {
@@ -1721,7 +1721,7 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "9382168a2b8a4716a6f9afea0744829c",
+        "id": "212ab974d7194298a0ab69b8aad9a0aa",
         "lotValues": [
           {
             "relatedLot": "aa7e372b99b24b5395149839bde29a63",
@@ -1979,7 +1979,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "eabf239ceb17467bbb76f8b3992d16de",
+        "id": "820d2621c77c4aa785279d983e846e51",
         "date": "2027-01-01T00:03:00+02:00",
         "lotValues": [
           {
@@ -1991,7 +1991,7 @@ Content-Type: application/json
         "documents": [
           {
             "confidentiality": "public",
-            "id": "721229d4103248ce82078deb5c9dd4ec",
+            "id": "c2b299bb3ae44ba394b55f944cc67d5a",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -2005,7 +2005,7 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "cbac0eaad4c8496e931c1478acbbd034",
+            "id": "045a4468bedb44ff9f88b2dd41fc5c9a",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
@@ -2110,7 +2110,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "c29fd0e4e9d3459a80c4581fdfa75ef6",
-        "bidID": "006a4fdf28fb41da95c577380f7fd77f",
+        "bidID": "9733f1729c454748bd5f1e43e9b5b28c",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2123,7 +2123,7 @@ Content-Type: application/json
       },
       {
         "id": "f1c14917633d4811bc506954af4a91fc",
-        "bidID": "13053dcfed484f77a1495f29a38827ef",
+        "bidID": "bac3f23e6a424321a4692d2ab590716c",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2136,7 +2136,7 @@ Content-Type: application/json
       },
       {
         "id": "292dbf0af55b43f3993d9fcf7278f29e",
-        "bidID": "9382168a2b8a4716a6f9afea0744829c",
+        "bidID": "212ab974d7194298a0ab69b8aad9a0aa",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "unsuccessful",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2149,7 +2149,7 @@ Content-Type: application/json
       },
       {
         "id": "e7f05581f9e646a5a6e2e1117f4e33d6",
-        "bidID": "eabf239ceb17467bbb76f8b3992d16de",
+        "bidID": "820d2621c77c4aa785279d983e846e51",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",

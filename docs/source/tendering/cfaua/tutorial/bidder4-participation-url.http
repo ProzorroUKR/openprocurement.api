@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids/ad892ca0d51948ef9de994dff8f2c187?acc_token=0a96922b070e422f95250d3290600ba0 HTTP/1.0
+GET /api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids/377d1b722f0146da9263c3ad6e57ae75?acc_token=0a96922b070e422f95250d3290600ba0 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -217,7 +217,7 @@ Content-Type: application/json
         "relatedLot": "1045105100a341998426114b17a5c1ff",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/9cabee37d7454b998cebc007dcd9a71f_1045105100a341998426114b17a5c1ff?key_for_bid=ad892ca0d51948ef9de994dff8f2c187"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/9cabee37d7454b998cebc007dcd9a71f_1045105100a341998426114b17a5c1ff?key_for_bid=377d1b722f0146da9263c3ad6e57ae75"
       }
     ],
     "tenderers": [
@@ -252,12 +252,12 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "ad892ca0d51948ef9de994dff8f2c187",
+    "id": "377d1b722f0146da9263c3ad6e57ae75",
     "date": "2027-01-01T00:02:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "08c00a09dd524c659a714e1a4fceab07",
+        "id": "09ac029481254a4b9b41ff13377d11db",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -270,12 +270,12 @@ Content-Type: application/json
       {
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "id": "960afad77168409fb4766c4b6d9dc91e",
+        "id": "c7bf831bd4a245c58230d9a3ba91bbb7",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids/ad892ca0d51948ef9de994dff8f2c187/documents/960afad77168409fb4766c4b6d9dc91e?download=d8ada98b00e8489994f4f7f4039d099b",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f/bids/377d1b722f0146da9263c3ad6e57ae75/documents/c7bf831bd4a245c58230d9a3ba91bbb7?download=d8ada98b00e8489994f4f7f4039d099b",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
@@ -297,7 +297,7 @@ Content-Type: application/json
     "financialDocuments": [
       {
         "confidentiality": "public",
-        "id": "2adea444bccc44a68ad82b2d7637fbdf",
+        "id": "d182eff2384e43b998b20fb5325626c9",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "financial_doc.pdf",
@@ -311,7 +311,7 @@ Content-Type: application/json
     "eligibilityDocuments": [
       {
         "confidentiality": "public",
-        "id": "891596c1b2aa4a1ea5ae61a756df10ac",
+        "id": "c806d39af40b4e729ba0feaafa182368",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",
@@ -325,7 +325,7 @@ Content-Type: application/json
     "qualificationDocuments": [
       {
         "confidentiality": "public",
-        "id": "7609c0f7673f4442bcc992f5071fb3de",
+        "id": "81a916e377334ea6ade038ff111db524",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "qualification_document.pdf",

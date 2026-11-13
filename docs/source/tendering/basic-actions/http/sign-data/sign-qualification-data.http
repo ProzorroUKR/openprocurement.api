@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "id": "12341234123412341234123412341234",
-    "bidID": "495e2c50c8a2459ca9bf2531e5df2383",
+    "bidID": "799b83252c394060af46d34e5d6b9440",
     "status": "pending",
     "milestones": [
       {
@@ -1372,7 +1372,7 @@ Content-Type: application/json
                 "title": "Службова (посадова) особа учасника процедури закупівлі, яка підписала тендерну пропозицію (або уповноважена на підписання договору в разі переговорної процедури закупівлі), не була засуджена за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом, шахрайством та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
               },
               "value": true,
-              "id": "cffeb010f9c943b482b2dafaee2d5694",
+              "id": "71c729b2f3664cf9971c37ec92a99189",
               "evidences": [
                 {
                   "title": "Requirement response",
@@ -1381,7 +1381,7 @@ Content-Type: application/json
                     "id": "1984c1fb1f12432a94e8a149dff448ca",
                     "title": "name.doc"
                   },
-                  "id": "2360604c29364a468842ca6b8bdd45ee"
+                  "id": "c498ffb8798c452492b5590a9ace253a"
                 }
               ],
               "classification": {
@@ -1447,7 +1447,7 @@ Content-Type: application/json
           ],
           "status": "active",
           "subcontractingDetails": "ДП «Орфей»",
-          "id": "495e2c50c8a2459ca9bf2531e5df2383",
+          "id": "799b83252c394060af46d34e5d6b9440",
           "date": "2027-01-01T00:00:00+02:00",
           "submissionDate": "2027-01-01T00:00:00+02:00",
           "documents": [
@@ -1724,7 +1724,7 @@ Content-Type: application/json
             }
           ],
           "status": "active",
-          "id": "30c285aaaed941b180705602c8e00feb",
+          "id": "9ef63e5ebd26430882b6b14250ce2312",
           "date": "2027-01-01T00:00:00+02:00",
           "documents": [
             {
@@ -1752,7 +1752,7 @@ Content-Type: application/json
       "qualifications": [
         {
           "id": "12341234123412341234123412341234",
-          "bidID": "495e2c50c8a2459ca9bf2531e5df2383",
+          "bidID": "799b83252c394060af46d34e5d6b9440",
           "status": "pending",
           "milestones": [
             {

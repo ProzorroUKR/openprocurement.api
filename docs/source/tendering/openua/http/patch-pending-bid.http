@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/db40effcc3a84e3b9965d93d5d67340e?acc_token=e27d8052e9924b66835f418b0d7faed3 HTTP/1.0
+PATCH /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/4a71216d80e64394ac075e1e12892fb1?acc_token=e27d8052e9924b66835f418b0d7faed3 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -286,7 +286,7 @@ Content-Type: application/json
     ],
     "status": "invalid",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "db40effcc3a84e3b9965d93d5d67340e",
+    "id": "4a71216d80e64394ac075e1e12892fb1",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00",
     "documents": [

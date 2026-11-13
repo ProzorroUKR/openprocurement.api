@@ -1162,7 +1162,7 @@ Content-Type: application/json
         ],
         "status": "active",
         "subcontractingDetails": "ДКП «Орфей», Україна",
-        "id": "99634e97eadd4475ad67c178dc188f95",
+        "id": "fa1ef73f12454707b5abadf523211a4f",
         "date": "2027-01-01T00:02:01+02:00",
         "submissionDate": "2027-01-01T00:02:01+02:00",
         "documents": [
@@ -1187,7 +1187,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/99634e97eadd4475ad67c178dc188f95/documents/97d351f5df024930a1a14ce57f276037?download=4751b232227f4b73bc130f096dd47076",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/fa1ef73f12454707b5abadf523211a4f/documents/97d351f5df024930a1a14ce57f276037?download=4751b232227f4b73bc130f096dd47076",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
@@ -1584,7 +1584,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "730817966d2b4b9297a8bf9113cd2f46",
+        "id": "2859299be58247048555f7392a4d114c",
         "date": "2027-01-01T00:02:01+02:00",
         "documents": [
           {
@@ -1889,11 +1889,11 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "7e90c344342b4ea6b6ecbeb1994caa30",
+        "id": "f7b906ed6298454697a7f813b98a4c8c",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "62941594567e4a41a3fff6dfa1184906",
+            "id": "cc614fc82b1f4bdeac629b0c75f5175f",
             "datePublished": "2027-01-01T00:02:01+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1906,12 +1906,12 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "e6a34dce84564f6e804481b9725ac394",
+            "id": "47c486472c8945db9cc3d650084c392f",
             "datePublished": "2027-01-01T00:02:01+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/7e90c344342b4ea6b6ecbeb1994caa30/documents/e6a34dce84564f6e804481b9725ac394?download=ca2de305afba4b83a44719fb9386766f",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/f7b906ed6298454697a7f813b98a4c8c/documents/47c486472c8945db9cc3d650084c392f?download=ca2de305afba4b83a44719fb9386766f",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:02:01+02:00",
             "language": "uk"
@@ -1933,7 +1933,7 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "f1d29f5ac1004c7fab2572f728636b7e",
+            "id": "089571ca67f848c191c5c51b64bf11b7",
             "datePublished": "2027-01-01T00:02:01+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -2044,7 +2044,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "d9f6a5fc0b29462f8b8b93fe4f6ee738",
-        "bidID": "99634e97eadd4475ad67c178dc188f95",
+        "bidID": "fa1ef73f12454707b5abadf523211a4f",
         "lotID": "79dac9e70d9b4e33a6a22ac6d8c28ae3",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
@@ -2057,7 +2057,7 @@ Content-Type: application/json
       },
       {
         "id": "97ac9eb5153f4fa98f3b7f072a2ae7b3",
-        "bidID": "730817966d2b4b9297a8bf9113cd2f46",
+        "bidID": "2859299be58247048555f7392a4d114c",
         "lotID": "79dac9e70d9b4e33a6a22ac6d8c28ae3",
         "status": "active",
         "date": "2027-01-01T00:02:01+02:00",
@@ -2070,7 +2070,7 @@ Content-Type: application/json
       },
       {
         "id": "31816783d91a458b9df737c265d4e173",
-        "bidID": "7e90c344342b4ea6b6ecbeb1994caa30",
+        "bidID": "f7b906ed6298454697a7f813b98a4c8c",
         "lotID": "79dac9e70d9b4e33a6a22ac6d8c28ae3",
         "status": "unsuccessful",
         "date": "2027-01-01T00:02:01+02:00",
@@ -2376,7 +2376,7 @@ Content-Type: application/json
             }
           }
         ],
-        "bid_id": "99634e97eadd4475ad67c178dc188f95",
+        "bid_id": "fa1ef73f12454707b5abadf523211a4f",
         "lotID": "79dac9e70d9b4e33a6a22ac6d8c28ae3",
         "documents": [
           {

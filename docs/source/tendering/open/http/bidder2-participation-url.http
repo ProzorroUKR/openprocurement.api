@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/bids/3ca2beb52378457eb11890f844477eb0?acc_token=c0f6f78632064f508e2d7e1220a7c1b3 HTTP/1.0
+GET /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/bids/dcc2623b74704e90bbf8302195b45b0d?acc_token=c0f6f78632064f508e2d7e1220a7c1b3 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -222,7 +222,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/01138bc5e7e84ea188d95e681ade9584_df9c3adce866432c812aef76c33d62e0?key_for_bid=3ca2beb52378457eb11890f844477eb0"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/01138bc5e7e84ea188d95e681ade9584_df9c3adce866432c812aef76c33d62e0?key_for_bid=dcc2623b74704e90bbf8302195b45b0d"
       }
     ],
     "tenderers": [
@@ -258,7 +258,7 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "3ca2beb52378457eb11890f844477eb0",
+    "id": "dcc2623b74704e90bbf8302195b45b0d",
     "date": "2027-01-01T00:06:00+02:00",
     "submissionDate": "2027-01-01T00:06:00+02:00",
     "documents": [

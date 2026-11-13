@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/105daebdc651458683f67e400c8472dd/awards/dc4d33bca0c6447eaee7472606860475/requirement_responses?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
+POST /api/2.5/tenders/105daebdc651458683f67e400c8472dd/awards/4cee881db18d4c12b5cead034f2748ec/requirement_responses?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -26,7 +26,7 @@ Content-Type: application/json
         "title": "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік"
       },
       "value": 35,
-      "id": "8553189129af436a939f4f464c56fc4f",
+      "id": "d9cd791b112946bbaf8384c0fe38f2bc",
       "unit": {
         "code": "P1",
         "name": "відсоток"

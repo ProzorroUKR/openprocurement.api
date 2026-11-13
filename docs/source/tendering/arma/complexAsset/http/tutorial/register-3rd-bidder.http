@@ -106,7 +106,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/35087c89c92146968e1c7c6e5bf05f6a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/4f289a4cb9904a2eb460e8521af0e262
 
 {
   "data": {
@@ -168,7 +168,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3da35c056a0b4b43952d0ecbf914fc15?Signature=NKWI4ugkCjb%2Bc8Nf233WH3Hatz9zb9iOtkbydQsMRybg8aup%2FVFNjZl3OKADkSYqH4qBKXOPWwpEl1LrXPNICA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "7588f4cea40a4442a465a6ee93a09814",
+        "id": "ccc96feef48741b78cf8e9b623c26eb9",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       },
@@ -180,7 +180,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5ea295d5d35b423fa4348824a0a8422f?Signature=bgYRIF2Gvsw2FE2ElxUz%2FQcoQhbNYODuPnGryDEtfiCTzERejibJ0c%2BoYw%2BdirQDWVUYHpLqUcTC1aIvQGYODQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "117da208a41d40a98728f1915689c6ed",
+        "id": "9e75d26351e343f0b39011245d2478eb",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -194,7 +194,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9c5865c942e844e68a077681eb6b6218?Signature=7OPm%2B40JsxXxgXOutqzYXmu7p8aAsRrlNe4i2%2BNchh2ogAAytSQA5Kk%2BdCHFdjbROvHsIECv7s0x2oVnMU5gDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "8f13367a051345a09b7364d087befa4d",
+        "id": "3c940e944a3048f69583ad25da9cf8b9",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -208,7 +208,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/de26f3bd29214a70b4dadeb8861e79e2?Signature=z79UHn9n%2FD1jVJ40V1mKr31XMTE1wSyPKvLppaDO0DpyIWUiNfpLxE2ctSeKtX2N3s3xZJ7k13yy21sEbqEzBQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "ae2afdf0b2de4e02849f65a73988f609",
+        "id": "7ef5024b17dc45c5955965bbb783f2a5",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -222,7 +222,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a79b87e4e9494267ab574a045ffb95d4?Signature=tKfv1EbEgx5YU5MOtX92OfCKEBm9EkBaM4x%2FJgtTcKg7lQIuLlhnl99Eqs5FQcwqAsUb2Flbfs506auGsgexDA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "language": "uk",
-        "id": "29c52f9d005845d182c915bd9e20e04e",
+        "id": "466bd72eb2854d98b4cedc380de4501b",
         "datePublished": "2027-01-01T00:03:00+02:00",
         "dateModified": "2027-01-01T00:03:00+02:00"
       }
@@ -237,7 +237,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51
         "date": "2027-01-01T00:03:00+02:00"
       }
     ],
-    "id": "35087c89c92146968e1c7c6e5bf05f6a",
+    "id": "4f289a4cb9904a2eb460e8521af0e262",
     "date": "2027-01-01T00:03:00+02:00"
   },
   "access": {

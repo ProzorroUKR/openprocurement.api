@@ -62,11 +62,11 @@ Content-Type: application/json
               "id": "705b784752274d0394ec8353eae42eb5",
               "title": "name.doc"
             },
-            "id": "196528aac2f04aa1b33a3a586891650f"
+            "id": "e705d1df29474155a88c4bce0268c0a1"
           }
         ],
         "value": true,
-        "id": "706de68ee0364608be7e5d43ff63e455",
+        "id": "d26ca51261e64b008c1b51a1017b2757",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
@@ -85,11 +85,11 @@ Content-Type: application/json
               "id": "705b784752274d0394ec8353eae42eb5",
               "title": "name.doc"
             },
-            "id": "58268754064b4c0fb28a9a721f1a0c79"
+            "id": "52ab5fe8f1ce46b2824507a86799d372"
           }
         ],
         "value": true,
-        "id": "666417de9884434e95c97292d8b6b4f3",
+        "id": "975071f3feff40e188a176bac109517d",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION"
@@ -136,7 +136,7 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "d73ede27d8c3455dbf2e41d7fcec8379",
+    "bid_id": "1c960b2493fd418e974c02e5076cb74c",
     "lotID": "ab4e3319f77648148a09f629732158ac",
     "documents": [
       {

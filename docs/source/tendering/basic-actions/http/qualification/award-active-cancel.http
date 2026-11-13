@@ -56,7 +56,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         }
       }
     ],
-    "bid_id": "7866b520f6ef4a22aeb8ecda3b2a175a",
+    "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
     "lotID": "dfc479e5269a43ba88eca688c70d3b05",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:03+02:00",
@@ -119,7 +119,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         ],
         "id": "e54f08e780b649e48515365729c94b76",
         "date": "2027-01-01T00:00:03+02:00",
-        "bid_id": "7866b520f6ef4a22aeb8ecda3b2a175a",
+        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
         "complaintID": "UA-2027-01-01-000001-a.a11",
         "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
         "value": {
@@ -134,7 +134,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "status": "mistaken",
         "type": "complaint",
         "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "7866b520f6ef4a22aeb8ecda3b2a175a",
+        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
         "author": {
           "name": "ДКП «Школяр»",
           "address": {

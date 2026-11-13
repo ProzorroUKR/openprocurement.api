@@ -48,7 +48,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "ad892ca0d51948ef9de994dff8f2c187",
+      "bid_id": "377d1b722f0146da9263c3ad6e57ae75",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
@@ -114,7 +114,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "614ff6243098459ebe9dcb840e648358",
+      "bid_id": "bbc395d46c784ab39198465dcd6c0d82",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
@@ -180,7 +180,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "de9abf3f40ee4ba3baa95d47fac2a948",
+      "bid_id": "92751d52c5ca4c57a05b7a86f5dacaf2",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "documents": [
         {
@@ -245,7 +245,7 @@ Content-Type: application/json
           }
         }
       ],
-      "bid_id": "ad892ca0d51948ef9de994dff8f2c187",
+      "bid_id": "377d1b722f0146da9263c3ad6e57ae75",
       "lotID": "1045105100a341998426114b17a5c1ff",
       "period": {
         "startDate": "2027-01-01T00:02:01+02:00",

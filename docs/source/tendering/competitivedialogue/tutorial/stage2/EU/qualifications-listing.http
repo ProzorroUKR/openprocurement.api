@@ -1156,7 +1156,7 @@ Content-Type: application/json
           }
         ],
         "status": "pending",
-        "id": "c26f8d9e546a4ec0a9c8329c9de40b36",
+        "id": "801178d110434a9ea759024df2135c40",
         "documents": [
           {
             "confidentiality": "public",
@@ -1441,7 +1441,7 @@ Content-Type: application/json
           }
         ],
         "status": "pending",
-        "id": "e367535b0b814f75a82ba1e3c9288b49",
+        "id": "89de80414cb649d89f49196a1be9b919",
         "documents": [
           {
             "confidentiality": "public",
@@ -1687,11 +1687,11 @@ Content-Type: application/json
           }
         ],
         "status": "pending",
-        "id": "ae33a2adf3c3452e8f0d8f363205f93e",
+        "id": "6bdaf366ec6747b393ffcc52789e4d93",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "c0237a759bc44c3ebfb1e40076313ed1",
+            "id": "963c297cccce4b35ab71037125db3755",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1704,7 +1704,7 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "733e91ecd8a443bc94686d6500966507",
+            "id": "82ed8ee8c1014b2280724f6b7b219859",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
@@ -1730,7 +1730,7 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "22c14ef72ded44caadca4ab52b2166ab",
+            "id": "573b13c5f89d4e34964fcfbb74bd946f",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -2080,7 +2080,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "d38d108669794b50a50dc2a588371b08",
-        "bidID": "c26f8d9e546a4ec0a9c8329c9de40b36",
+        "bidID": "801178d110434a9ea759024df2135c40",
         "lotID": "6003054e963d42218233ee9322cd99fa",
         "status": "pending",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2089,7 +2089,7 @@ Content-Type: application/json
       },
       {
         "id": "dadc246c1761425aa64da65fc8929c92",
-        "bidID": "e367535b0b814f75a82ba1e3c9288b49",
+        "bidID": "89de80414cb649d89f49196a1be9b919",
         "lotID": "6003054e963d42218233ee9322cd99fa",
         "status": "pending",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2098,7 +2098,7 @@ Content-Type: application/json
       },
       {
         "id": "a72b6ea0a3be49349c634aa33a00b2ce",
-        "bidID": "ae33a2adf3c3452e8f0d8f363205f93e",
+        "bidID": "6bdaf366ec6747b393ffcc52789e4d93",
         "lotID": "6003054e963d42218233ee9322cd99fa",
         "status": "pending",
         "date": "2027-01-01T00:03:00+02:00",

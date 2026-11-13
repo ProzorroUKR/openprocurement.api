@@ -1168,7 +1168,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "006a4fdf28fb41da95c577380f7fd77f",
+        "id": "9733f1729c454748bd5f1e43e9b5b28c",
         "lotValues": [
           {
             "relatedLot": "aa7e372b99b24b5395149839bde29a63",
@@ -1211,7 +1211,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "DescriptiveProposal.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/006a4fdf28fb41da95c577380f7fd77f/documents/f221beeff02d4d1e94a7f40f1ec952b5?download=8b781eec9f744181a275c6919de639dc",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/9733f1729c454748bd5f1e43e9b5b28c/documents/f221beeff02d4d1e94a7f40f1ec952b5?download=8b781eec9f744181a275c6919de639dc",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:01:00+02:00",
             "language": "uk",
@@ -1225,7 +1225,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/006a4fdf28fb41da95c577380f7fd77f/documents/a5c08eac25bf4ee4bdb6660c747b5052?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/9733f1729c454748bd5f1e43e9b5b28c/documents/a5c08eac25bf4ee4bdb6660c747b5052?download=21c9ff3dd5e646208c8dd44b5853a9c0",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:01:00+02:00",
             "language": "uk",
@@ -1482,7 +1482,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "13053dcfed484f77a1495f29a38827ef",
+        "id": "bac3f23e6a424321a4692d2ab590716c",
         "lotValues": [
           {
             "relatedLot": "aa7e372b99b24b5395149839bde29a63",
@@ -1716,7 +1716,7 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "9382168a2b8a4716a6f9afea0744829c",
+        "id": "212ab974d7194298a0ab69b8aad9a0aa",
         "lotValues": [
           {
             "relatedLot": "aa7e372b99b24b5395149839bde29a63",
@@ -1974,7 +1974,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "eabf239ceb17467bbb76f8b3992d16de",
+        "id": "820d2621c77c4aa785279d983e846e51",
         "lotValues": [
           {
             "relatedLot": "aa7e372b99b24b5395149839bde29a63",
@@ -1984,7 +1984,7 @@ Content-Type: application/json
         "documents": [
           {
             "confidentiality": "public",
-            "id": "721229d4103248ce82078deb5c9dd4ec",
+            "id": "c2b299bb3ae44ba394b55f944cc67d5a",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -1998,12 +1998,12 @@ Content-Type: application/json
           {
             "confidentiality": "buyerOnly",
             "confidentialityRationale": "Only our company sells badgers with pink hair.",
-            "id": "cbac0eaad4c8496e931c1478acbbd034",
+            "id": "045a4468bedb44ff9f88b2dd41fc5c9a",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/eabf239ceb17467bbb76f8b3992d16de/documents/cbac0eaad4c8496e931c1478acbbd034?download=c747987375f140cdba81d516b2dca242",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/820d2621c77c4aa785279d983e846e51/documents/045a4468bedb44ff9f88b2dd41fc5c9a?download=c747987375f140cdba81d516b2dca242",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:03:00+02:00",
             "language": "uk",
@@ -2103,7 +2103,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "c29fd0e4e9d3459a80c4581fdfa75ef6",
-        "bidID": "006a4fdf28fb41da95c577380f7fd77f",
+        "bidID": "9733f1729c454748bd5f1e43e9b5b28c",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2116,7 +2116,7 @@ Content-Type: application/json
       },
       {
         "id": "f1c14917633d4811bc506954af4a91fc",
-        "bidID": "13053dcfed484f77a1495f29a38827ef",
+        "bidID": "bac3f23e6a424321a4692d2ab590716c",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2129,7 +2129,7 @@ Content-Type: application/json
       },
       {
         "id": "292dbf0af55b43f3993d9fcf7278f29e",
-        "bidID": "9382168a2b8a4716a6f9afea0744829c",
+        "bidID": "212ab974d7194298a0ab69b8aad9a0aa",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "unsuccessful",
         "date": "2027-01-01T00:03:00+02:00",
@@ -2142,7 +2142,7 @@ Content-Type: application/json
       },
       {
         "id": "e7f05581f9e646a5a6e2e1117f4e33d6",
-        "bidID": "eabf239ceb17467bbb76f8b3992d16de",
+        "bidID": "820d2621c77c4aa785279d983e846e51",
         "lotID": "aa7e372b99b24b5395149839bde29a63",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",

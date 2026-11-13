@@ -71,7 +71,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "443cc352718e4c1188632be47405c01e",
+        "id": "b5b8170db7cd44bc96ddc158023c3192",
         "documents": [
           {
             "confidentiality": "public",
@@ -94,7 +94,7 @@ Content-Type: application/json
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_top_secrets.pdf",
             "format": "application/pdf",
-            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/443cc352718e4c1188632be47405c01e/documents/02388451ca6c47bda1da134ec86ac4c6?download=68a6b3e65371402492995faa5acc2582",
+            "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/b5b8170db7cd44bc96ddc158023c3192/documents/02388451ca6c47bda1da134ec86ac4c6?download=68a6b3e65371402492995faa5acc2582",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "language": "uk"
@@ -197,7 +197,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "6b8782cbec5c4e499d2f0a3c2a7c758b",
+        "id": "fbaf0f36b97b4a6e9db555c5569a795e",
         "documents": [
           {
             "confidentiality": "public",
@@ -246,11 +246,11 @@ Content-Type: application/json
           }
         ],
         "status": "unsuccessful",
-        "id": "35087c89c92146968e1c7c6e5bf05f6a",
+        "id": "4f289a4cb9904a2eb460e8521af0e262",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "7588f4cea40a4442a465a6ee93a09814",
+            "id": "ccc96feef48741b78cf8e9b623c26eb9",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part1.pdf",
@@ -262,7 +262,7 @@ Content-Type: application/json
           },
           {
             "confidentiality": "public",
-            "id": "117da208a41d40a98728f1915689c6ed",
+            "id": "9e75d26351e343f0b39011245d2478eb",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "Proposal_part2.pdf",
@@ -289,7 +289,7 @@ Content-Type: application/json
         "eligibilityDocuments": [
           {
             "confidentiality": "public",
-            "id": "ae2afdf0b2de4e02849f65a73988f609",
+            "id": "7ef5024b17dc45c5955965bbb783f2a5",
             "datePublished": "2027-01-01T00:03:00+02:00",
             "hash": "md5:00000000000000000000000000000000",
             "title": "eligibility_doc.pdf",
@@ -400,7 +400,7 @@ Content-Type: application/json
     "qualifications": [
       {
         "id": "c29c905d6d9049b086108508281cfcf0",
-        "bidID": "443cc352718e4c1188632be47405c01e",
+        "bidID": "b5b8170db7cd44bc96ddc158023c3192",
         "lotID": "d9c1c86a51294d9f9e128b780416b344",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -409,7 +409,7 @@ Content-Type: application/json
       },
       {
         "id": "408057cd725c4451982e0a42bfc03b5e",
-        "bidID": "6b8782cbec5c4e499d2f0a3c2a7c758b",
+        "bidID": "fbaf0f36b97b4a6e9db555c5569a795e",
         "lotID": "d9c1c86a51294d9f9e128b780416b344",
         "status": "active",
         "date": "2027-01-01T00:03:00+02:00",
@@ -418,7 +418,7 @@ Content-Type: application/json
       },
       {
         "id": "2896d1591f314d42865277bf08da65ea",
-        "bidID": "35087c89c92146968e1c7c6e5bf05f6a",
+        "bidID": "4f289a4cb9904a2eb460e8521af0e262",
         "lotID": "d9c1c86a51294d9f9e128b780416b344",
         "status": "unsuccessful",
         "date": "2027-01-01T00:03:00+02:00",

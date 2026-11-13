@@ -366,7 +366,7 @@ Content-Type: application/json
             "values": [
               "Розчин для інфузій"
             ],
-            "id": "c6c392ac286f4ff8b93e6b1ccdca56ad",
+            "id": "9f2f4a06343f48a28de4865e684d5626",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -378,7 +378,7 @@ Content-Type: application/json
               "title": "Доза діючої речовини"
             },
             "value": 5,
-            "id": "966e657331704306b514260925f582c6",
+            "id": "78e7c611875c4be382e1bfab7019c6d0",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -397,7 +397,7 @@ Content-Type: application/json
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "fa71ff86935f4bacbcf2dda309642cec",
+            "id": "feb1eb00f0d44a179e25da34439ef71e",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -464,7 +464,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "aa63447d07a0451582e6c101ba794f10",
+        "id": "50d73034d8f140519e0938bd1cac6e8e",
         "date": "2027-01-01T00:00:00+02:00",
         "submissionDate": "2027-01-01T00:00:00+02:00",
         "initialValue": {
@@ -509,7 +509,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "aa63447d07a0451582e6c101ba794f10",
+        "bid_id": "50d73034d8f140519e0938bd1cac6e8e",
         "documents": [
           {
             "confidentiality": "public",
@@ -559,7 +559,7 @@ Content-Type: application/json
             "scale": "micro"
           }
         ],
-        "bid_id": "aa63447d07a0451582e6c101ba794f10",
+        "bid_id": "50d73034d8f140519e0938bd1cac6e8e",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
           "endDate": "2027-01-05T00:00:00+02:00"
