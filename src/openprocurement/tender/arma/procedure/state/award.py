@@ -4,8 +4,8 @@ from openprocurement.tender.core.procedure.state.award import AwardStateMixin
 
 
 class ARMAAwardState(AwardStateMixin, ARMATenderState):
-    award_post_data_model = ARMAPostAward
-    award_data_model = ARMAAward
+    post_data_model = ARMAPostAward
+    data_model = ARMAAward
     award_class = ARMAAward
 
     items_delivery_required: bool = True

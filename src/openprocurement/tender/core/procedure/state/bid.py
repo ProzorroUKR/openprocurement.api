@@ -58,11 +58,11 @@ logger = logging.getLogger(__name__)
 
 
 class BidState(BidRequirementResponsesRulesMixin, BaseState):
-    bid_post_data_model = PostBid
-    bid_patch_data_model = PatchBid
-    bid_patch_qualification_data_model = PatchQualificationBid
-    bid_patch_administrator_data_model = AdministratorPatchBid
-    bid_data_model = Bid
+    post_data_model = PostBid
+    patch_data_model = PatchBid
+    patch_qualification_data_model = PatchQualificationBid
+    patch_administrator_data_model = AdministratorPatchBid
+    data_model = Bid
 
     bid_create_accreditations: tuple = (AccreditationLevel.ACCR_4,)
 
@@ -167,12 +167,20 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
         self.invalidate_pending_bid_after_patch(after, before)
         super().on_patch(before, after)
 
+    # bid prefixed: the bid state is combined with the states of its nested objects (requirement responses,
+    # evidences), the generic get_*_data_model methods must return their models there
+    def get_bid_post_data_model(self):
+        return self.post_data_model
+
     def get_bid_patch_data_model(self):
         if self.request.authenticated_role == "Administrator":
-            return self.bid_patch_administrator_data_model
+            return self.patch_administrator_data_model
         if get_tender().get("status", "") in self.bid_patch_qualification_tender_statuses:
-            return self.bid_patch_qualification_data_model
-        return self.bid_patch_data_model
+            return self.patch_qualification_data_model
+        return self.patch_data_model
+
+    def get_bid_data_model(self):
+        return self.data_model
 
     def validate_bid_get_request(self):
         if "bid" in self.request.validated and self.is_item_owner("bid"):
@@ -182,7 +190,7 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
     def validate_bid_post_request(self):
         self.validate_accreditation_level(levels=self.bid_create_accreditations, item="bid", operation="creation")
         self.validate_bid_operation_allowed()
-        self.validate_input_data(self.bid_post_data_model)
+        self.validate_input_data(self.get_bid_post_data_model())
         self.validate_data_documents(route_key="bid_id", uid_key="id")
 
     def validate_bid_patch_request(self):
@@ -193,7 +201,7 @@ class BidState(BidRequirementResponsesRulesMixin, BaseState):
         if not self.bid_allowed_by_qualification_milestone_24():
             self.validate_bid_operation_allowed()
         self.validate_patch_input_data(self.get_bid_patch_data_model())
-        self.validate_patch_data_simple(self.bid_data_model, "bid")
+        self.validate_patch_data_simple(self.get_bid_data_model(), "bid")
 
     def validate_bid_delete_request(self):
         if self.request.authenticated_role != "Administrator":

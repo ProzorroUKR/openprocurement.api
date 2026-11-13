@@ -13,14 +13,14 @@ LOGGER = getLogger(__name__)
 
 
 class QualificationState(QualificationRequirementResponsesRulesMixin, TenderState):
-    qualification_patch_data_model = PatchQualification
-    qualification_data_model = Qualification
+    patch_data_model = PatchQualification
+    data_model = Qualification
 
     def validate_qualification_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
-        self.validate_patch_input_data(self.qualification_patch_data_model)
-        self.validate_patch_data(self.qualification_data_model, "qualification")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data(self.get_data_model(), "qualification")
 
     def set_bid_status(self, bid_id, status, lot_id=None):
         tender = get_tender()
