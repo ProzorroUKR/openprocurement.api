@@ -33,9 +33,9 @@ from openprocurement.tender.core.utils import calculate_tender_full_date
 
 
 class AwardStateMixin(AwardRequirementResponsesRulesMixin):
-    award_post_data_model = PostAward
-    award_patch_data_model = PatchAward
-    award_data_model = Award
+    post_data_model = PostAward
+    patch_data_model = PatchAward
+    data_model = Award
 
     # tender statuses in which awards can be created / updated
     award_post_allowed_tender_statuses: tuple = ("active.qualification",)
@@ -89,13 +89,13 @@ class AwardStateMixin(AwardRequirementResponsesRulesMixin):
     def validate_award_post_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
-        self.validate_input_data(self.award_post_data_model)
+        self.validate_input_data(self.get_post_data_model())
 
     def validate_award_patch_request(self):
         if self.request.authenticated_role != "admins":
             self.validate_item_owner("tender")
-        self.validate_patch_input_data(self.award_patch_data_model)
-        self.validate_patch_data_simple(self.award_data_model, "award")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "award")
 
     def validate_award_lot_id(self, award):
         """an award of a multilot tender is related to one of its lots"""

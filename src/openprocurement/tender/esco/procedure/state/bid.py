@@ -16,10 +16,10 @@ from openprocurement.tender.esco.procedure.models.bid import (
 
 
 class ESCOBidState(BidState):
-    bid_post_data_model = ESCOPostBid
-    bid_patch_data_model = ESCOPatchBid
-    bid_patch_qualification_data_model = ESCOPatchQualificationBid
-    bid_data_model = ESCOBid
+    post_data_model = ESCOPostBid
+    patch_data_model = ESCOPatchBid
+    patch_qualification_data_model = ESCOPatchQualificationBid
+    data_model = ESCOBid
 
     self_eligible_required = False
     bid_items_quantity_required = False
