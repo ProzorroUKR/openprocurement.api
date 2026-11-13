@@ -11,22 +11,22 @@ class ReqResponseEvidenceStateMixin(RequirementResponsesRulesMixin):  # pylint: 
     (the rules are the parent object's, see ReqResponseStateMixin)
     """
 
-    req_response_evidence_post_data_model = Evidence
-    req_response_evidence_patch_data_model = PatchEvidence
-    req_response_evidence_data_model = Evidence
+    post_data_model = Evidence
+    patch_data_model = PatchEvidence
+    data_model = Evidence
 
     requirement_responses_error_path_strip = 2
 
     def validate_req_response_evidence_post_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_evidence_operation_allowed()
-        self.validate_input_data(self.req_response_evidence_post_data_model)
+        self.validate_input_data(self.get_post_data_model())
 
     def validate_req_response_evidence_patch_request(self):
         self.validate_req_response_owner()
         self.validate_req_response_evidence_operation_allowed()
-        self.validate_patch_input_data(self.req_response_evidence_patch_data_model)
-        self.validate_patch_data_simple(self.req_response_evidence_data_model, "evidence")
+        self.validate_patch_input_data(self.get_patch_data_model())
+        self.validate_patch_data_simple(self.get_data_model(), "evidence")
 
     def validate_req_response_evidence_delete_request(self):
         self.validate_req_response_owner()

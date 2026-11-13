@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/7e90c344342b4ea6b6ecbeb1994caa30?acc_token=0f883e2ec1a5435f884f057009b67294 HTTP/1.0
+GET /api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/f7b906ed6298454697a7f813b98a4c8c?acc_token=0f883e2ec1a5435f884f057009b67294 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -218,11 +218,11 @@ Content-Type: application/json
       }
     ],
     "status": "unsuccessful",
-    "id": "7e90c344342b4ea6b6ecbeb1994caa30",
+    "id": "f7b906ed6298454697a7f813b98a4c8c",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "62941594567e4a41a3fff6dfa1184906",
+        "id": "cc614fc82b1f4bdeac629b0c75f5175f",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part1.pdf",
@@ -235,12 +235,12 @@ Content-Type: application/json
       {
         "confidentiality": "buyerOnly",
         "confidentialityRationale": "Only our company sells badgers with pink hair.",
-        "id": "e6a34dce84564f6e804481b9725ac394",
+        "id": "47c486472c8945db9cc3d650084c392f",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal_part2.pdf",
         "format": "application/pdf",
-        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/7e90c344342b4ea6b6ecbeb1994caa30/documents/e6a34dce84564f6e804481b9725ac394?download=ca2de305afba4b83a44719fb9386766f",
+        "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/f7b906ed6298454697a7f813b98a4c8c/documents/47c486472c8945db9cc3d650084c392f?download=ca2de305afba4b83a44719fb9386766f",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:02:01+02:00",
         "language": "uk"
@@ -262,7 +262,7 @@ Content-Type: application/json
     "eligibilityDocuments": [
       {
         "confidentiality": "public",
-        "id": "f1d29f5ac1004c7fab2572f728636b7e",
+        "id": "089571ca67f848c191c5c51b64bf11b7",
         "datePublished": "2027-01-01T00:02:01+02:00",
         "hash": "md5:00000000000000000000000000000000",
         "title": "eligibility_doc.pdf",

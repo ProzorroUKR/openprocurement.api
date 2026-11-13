@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/057f7dfc93d147fd9a085e2622406257/requirement_responses/338d670938734fe0aa2af52a812b4603 HTTP/1.0
+GET /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/6bc5faf11d8247659cdc6e1802e29d00/requirement_responses/f8d20a131491446992a4a7e275bbd9c5 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -20,7 +20,7 @@ Content-Type: application/json
           "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
           "title": "name.doc"
         },
-        "id": "5f8f578fe769418f8aa87f2af86cd78f"
+        "id": "670f46082bbb454199f143189270c4a1"
       },
       {
         "title": "Update evidence title",
@@ -29,11 +29,11 @@ Content-Type: application/json
           "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
           "title": "name.doc"
         },
-        "id": "137f0df8d1c8402684da76d0ad7c65a9"
+        "id": "b49687d5fe6242dd8600fdc0de2acfd8"
       }
     ],
     "value": false,
-    "id": "338d670938734fe0aa2af52a812b4603",
+    "id": "f8d20a131491446992a4a7e275bbd9c5",
     "classification": {
       "scheme": "LAW922",
       "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"

@@ -376,7 +376,7 @@ Content-Type: application/json
             "values": [
               "Розчин для інфузій"
             ],
-            "id": "30598968e39a4541913b1cd43a5ac683",
+            "id": "b09f155c46bf41ccb560614428bf87e2",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -388,7 +388,7 @@ Content-Type: application/json
               "title": "Доза діючої речовини"
             },
             "value": 5,
-            "id": "c942762589af48359b665bc2a4026e8a",
+            "id": "5c1fbeb5aced493995eb3bf5525eec00",
             "unit": {
               "code": "KGM",
               "name": "кілограми"
@@ -407,7 +407,7 @@ Content-Type: application/json
               "Відповідь1",
               "Відповідь2"
             ],
-            "id": "5cb481368dc9439b9e3f8db9209621ae",
+            "id": "7f10c29820e842979c9a72518c078ce3",
             "classification": {
               "scheme": "ESPD211",
               "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -483,7 +483,7 @@ Content-Type: application/json
           }
         ],
         "status": "active",
-        "id": "47e8d675f3c7439cbe604d35e92b3c6a",
+        "id": "22e4d4a6f1d34c2ea283f76b694729de",
         "date": "2027-01-01T00:00:00+02:00",
         "submissionDate": "2027-01-01T00:00:00+02:00",
         "initialValue": {
@@ -537,7 +537,7 @@ Content-Type: application/json
             "contract_owner": "broker6"
           }
         ],
-        "bid_id": "47e8d675f3c7439cbe604d35e92b3c6a",
+        "bid_id": "22e4d4a6f1d34c2ea283f76b694729de",
         "documents": [
           {
             "confidentiality": "public",
@@ -596,7 +596,7 @@ Content-Type: application/json
             "contract_owner": "broker6"
           }
         ],
-        "bid_id": "47e8d675f3c7439cbe604d35e92b3c6a",
+        "bid_id": "22e4d4a6f1d34c2ea283f76b694729de",
         "period": {
           "startDate": "2027-01-01T00:00:00+02:00",
           "endDate": "2027-01-05T00:00:00+02:00"

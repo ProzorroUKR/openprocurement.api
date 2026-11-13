@@ -56,7 +56,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         }
       }
     ],
-    "bid_id": "7866b520f6ef4a22aeb8ecda3b2a175a",
+    "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
     "lotID": "dfc479e5269a43ba88eca688c70d3b05",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:03+02:00",
@@ -96,7 +96,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424a
         "dateSubmitted": "2027-01-01T00:00:03+02:00",
         "type": "claim",
         "relatedLot": "dfc479e5269a43ba88eca688c70d3b05",
-        "bid_id": "7866b520f6ef4a22aeb8ecda3b2a175a",
+        "bid_id": "e73df1025b6d4b2b9fd911614d81793c",
         "dateAnswered": "2027-01-01T00:00:03+02:00"
       }
     ],

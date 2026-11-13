@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "3a10c800ca0945d5bbf2ae09eac45148",
+      "id": "47cc7ce5c6f4469e858bb998506c40f1",
       "status": "unsuccessful",
       "date": "2027-01-01T00:00:00+02:00",
       "suppliers": [
@@ -35,7 +35,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "e600c615e6574970acf3f827c7bec5f4",
+      "bid_id": "7ceec20b7ec44e7cb34b9cfa02af6a97",
       "documents": [
         {
           "confidentiality": "public",
@@ -95,7 +95,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "110ceaf5cc3c4681b1bf1bfff787afd1",
+      "bid_id": "7f6d420026dd4743b76620d03b8498b2",
       "complaintPeriod": {
         "startDate": "2027-01-01T00:00:00+02:00",
         "endDate": "2027-01-07T00:00:00+02:00"
@@ -155,7 +155,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "110ceaf5cc3c4681b1bf1bfff787afd1",
+      "bid_id": "7f6d420026dd4743b76620d03b8498b2",
       "documents": [
         {
           "confidentiality": "public",
@@ -215,7 +215,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "8f0ffca634bd4d97b5643875bb6d25e1",
+      "bid_id": "df742af974b74ae0856cfa0ad12df0e1",
       "documents": [
         {
           "confidentiality": "public",

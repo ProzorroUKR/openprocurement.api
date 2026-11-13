@@ -39,7 +39,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "71519ad0975c482da12799f92abe2116",
+      "bid_id": "ccd56b1b9745435780c45e7836d90970",
       "documents": [
         {
           "confidentiality": "public",
@@ -93,7 +93,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "71519ad0975c482da12799f92abe2116",
+      "bid_id": "ccd56b1b9745435780c45e7836d90970",
       "documents": [
         {
           "confidentiality": "public",
@@ -147,7 +147,7 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "8450aac5773e4cb6bebd027ca545103e",
+      "bid_id": "01bccf0ce44043548dacb501e5dff3b1",
       "documents": [
         {
           "confidentiality": "public",

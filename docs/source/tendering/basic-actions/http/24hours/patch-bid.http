@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea/bids/495e2c50c8a2459ca9bf2531e5df2383?acc_token=cc9c71a6465e4107bcd969a10eb66613 HTTP/1.0
+PATCH /api/2.5/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea/bids/799b83252c394060af46d34e5d6b9440?acc_token=cc9c71a6465e4107bcd969a10eb66613 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -53,7 +53,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea_64a69f7485664ad196c597b132d3b248?key_for_bid=495e2c50c8a2459ca9bf2531e5df2383",
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea_64a69f7485664ad196c597b132d3b248?key_for_bid=799b83252c394060af46d34e5d6b9440",
         "subcontractingDetails": "ДП «Орфей»"
       }
     ],
@@ -293,7 +293,7 @@ Content-Type: application/json
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea_64a69f7485664ad196c597b132d3b248?key_for_bid=495e2c50c8a2459ca9bf2531e5df2383"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/840676e9dd9a4fcb95eba4a2d72fb4ea_64a69f7485664ad196c597b132d3b248?key_for_bid=799b83252c394060af46d34e5d6b9440"
       }
     ],
     "tenderers": [
@@ -330,7 +330,7 @@ Content-Type: application/json
     ],
     "status": "active",
     "subcontractingDetails": "ДП «Орфей»",
-    "id": "495e2c50c8a2459ca9bf2531e5df2383",
+    "id": "799b83252c394060af46d34e5d6b9440",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00",
     "documents": [
