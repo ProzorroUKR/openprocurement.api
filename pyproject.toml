@@ -60,7 +60,7 @@ dependencies = [
 dev = [
     "autoflake==2.2.1",
     "bandit[toml]==1.7.7",
-    "mypy==1.11.2",
+    "mypy==2.4.1",
     "pylint==3.0.3",
     "ruff==0.17.5",
     "docutils<0.19",
@@ -382,7 +382,7 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.13"
 plugins = ["pydantic.mypy"]
 ignore_missing_imports = true
 check_untyped_defs = false
@@ -393,6 +393,8 @@ disable_error_code = [
     "assignment",
     "index",
     "return",
+    # the notes about the annotations in the untyped functions (check_untyped_defs is off)
+    "annotation-unchecked",
 ]
 
 exclude = '/(site-packages|__pycache__|\..*)/$'
@@ -407,10 +409,8 @@ warn_untyped_fields = true
 [[tool.mypy.overrides]]
 module = [
     "openprocurement.*",
-    "setuptools.*",
     "freezegun.*",
     "jmespath.*",
-    "pythonjsonlogger.*",
     "pymongo.*",
     "bson.*",
     "pytz.*",
@@ -430,12 +430,10 @@ module = [
     "jsonpath_ng.*",
     "simplejson.*",
     "pkg_resources.*",
-    "mock.*",
     "zope.*",
     "barbecue.*",
     "esculator.*",
     "parameterized.*",
-    "jinja2.*",
     "nacl.*",
     "ciso8601.*",
     "iso8601.*",

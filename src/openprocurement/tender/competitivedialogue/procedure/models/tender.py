@@ -96,9 +96,7 @@ class CDStage2EUPostTender(PostTender):
 
 
 class CDStage2EUPatchTender(PatchTender):
-    procurementMethodType: (  # type: ignore[valid-type]
-        Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2] | None
-    ) = None
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2] | None = None  # type: ignore[valid-type]
     items: list[CDItem] | None = Field(None, min_length=1)
 
     @field_validator("items")
@@ -133,9 +131,7 @@ class CDStage2UAPostTender(CDStage2EUPostTender):
 
 
 class CDStage2UAPatchTender(CDStage2EUPatchTender):
-    procurementMethodType: (  # type: ignore[valid-type]
-        Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2] | None
-    ) = None
+    procurementMethodType: Literal[ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2] | None = None  # type: ignore[valid-type]
 
 
 class CDStage2UATender(CDStage2EUTender):
