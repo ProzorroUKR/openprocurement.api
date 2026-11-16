@@ -29,18 +29,24 @@ bandit:
   script:
     - bandit -r . -c "pyproject.toml"
 
+# ruff and mypy come from uv.lock (the versions of pre-commit), not from the tool image
 ruff:
   extends: .tools_static
   stage: check
+  before_script:
+    - uv sync --frozen --no-cache --only-group dev
   script:
-    - ruff check src/
-    - ruff format src/ --check
+    - uv run --no-sync ruff check src/
+    - uv run --no-sync ruff format src/ --check
 
 mypy:
   extends: .tools_static
   stage: check
+  before_script:
+    # the whole project: the pydantic plugin of mypy and the imported packages
+    - uv sync --frozen --no-cache
   script:
-    - mypy src/ --explicit-package-bases
+    - uv run --no-sync mypy src/ --explicit-package-bases
 
 autoflake:
   extends: .tools_static
