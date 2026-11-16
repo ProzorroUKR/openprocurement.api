@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_complaint_document import (
     AwardComplaintDocumentResource,
 )
@@ -10,10 +10,10 @@ from openprocurement.tender.open.procedure.state.award_complaint_document import
 
 
 @resource(
-    name="{}:Tender Award Complaint Documents".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Award Complaint Documents".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Competitive Dialogue Stage 2 award complaint documents",
 )
 class CD2EUAwardComplaintDocumentResource(AwardComplaintDocumentResource):
@@ -21,10 +21,10 @@ class CD2EUAwardComplaintDocumentResource(AwardComplaintDocumentResource):
 
 
 @resource(
-    name="{}:Tender Award Complaint Documents".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Award Complaint Documents".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Competitive Dialogue Stage 2 award complaint documents",
 )
 class CD2UAAwardComplaintDocumentResource(AwardComplaintDocumentResource):

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/66109dffb86d447194edabaeeb4cfc25?acc_token=19cd89cedb8040b1934f7839154e4264 HTTP/1.0
+PATCH /api/2.5/tenders/ddb9accc087b498c932d6af7b6c66ff6?acc_token=19cd89cedb8040b1934f7839154e4264 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,14 +15,19 @@ Content-Type: application/json
 
 {
   "data": {
+    "status": "draft.pending",
+    "title": "футляри до державних нагород",
+    "procurementMethod": "selective",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "draft.pending",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "procurementMethod": "selective",
+    "agreements": [
+      {
+        "id": "53e68cfa78da42188f99f9e054e0e168"
+      }
+    ],
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -97,7 +102,6 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "submissionMethod": "electronicAuction",
     "items": [
       {
         "id": "1662b0e1d59f4e2f8e2c5bd48e03a7bc",
@@ -108,10 +112,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "classification": {
-          "description": "New Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "New Cartons"
         },
         "additionalClassifications": [
           {
@@ -130,10 +135,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+        }
       }
     ],
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -164,18 +169,13 @@ Content-Type: application/json
       ],
       "kind": "general"
     },
-    "agreements": [
-      {
-        "id": "53e68cfa78da42188f99f9e054e0e168"
-      }
-    ],
     "lots": [
       {
+        "id": "66bd7aa82b7d403cb3626390997acbaf",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "status": "active",
-        "date": "2027-01-01T00:00:00+02:00",
-        "id": "66bd7aa82b7d403cb3626390997acbaf"
+        "status": "active"
       }
     ],
     "enquiryPeriod": {
@@ -186,7 +186,7 @@ Content-Type: application/json
       "startDate": "2027-01-02T00:00:00+02:00",
       "endDate": "2027-01-05T00:00:00+02:00"
     },
-    "id": "66109dffb86d447194edabaeeb4cfc25"
+    "id": "ddb9accc087b498c932d6af7b6c66ff6"
   },
   "config": {
     "hasAuction": true,

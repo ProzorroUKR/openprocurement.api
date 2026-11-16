@@ -20,7 +20,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "awardID": "4cee881db18d4c12b5cead034f2748ec",
+    "awardID": "1fd04507afcf4809afa88cdb29669452",
     "contractID": "UA-2027-01-01-000002-a-a1",
     "title": "Лот №1",
     "description": "Опис Лот №1",
@@ -28,13 +28,12 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "items": [
       {
-        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
+        "id": "2ed74083b1d24e57b215e4783b460772",
         "description": "Послуги шкільних їдалень",
-        "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -43,6 +42,7 @@ Content-Type: application/json
             "description": "Послуги шкільних їдалень"
           }
         ],
+        "quantity": 1.0,
         "unit": {
           "name": "папір",
           "code": "KGM"
@@ -61,7 +61,7 @@ Content-Type: application/json
         "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
       }
     ],
-    "tender_id": "2575ed14dceb462d944015ff06ce6400",
+    "tender_id": "f7578a0f2ba1483eb537c17456a62655",
     "tenderID": "UA-2027-01-01-000002-a",
     "mainProcurementCategory": "services",
     "owner": "broker",

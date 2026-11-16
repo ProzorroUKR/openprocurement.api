@@ -1,6 +1,3 @@
-from schematics.types.compound import ModelType
-
-from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.competitivedialogue.procedure.models.document import CDBidDocument, CDBidPostDocument
 from openprocurement.tender.competitivedialogue.procedure.models.lot_value import (
     CDLotValue,
@@ -11,25 +8,24 @@ from openprocurement.tender.core.procedure.models.bid import Bid, PatchBid, Post
 
 
 class CDPatchBid(PatchBid):
-    lotValues = ListType(ModelType(CDPatchLotValue, required=True))
+    lotValues: list[CDPatchLotValue] | None = None
 
 
 class CDPatchQualificationBid(CDPatchBid):
-    lotValues = ListType(ModelType(CDLotValue, required=True))
+    lotValues: list[CDLotValue] | None = None
 
 
 class CDPostBid(PostBid):
-    lotValues = ListType(ModelType(CDPostLotValue, required=True))
-    documents = ListType(ModelType(CDBidPostDocument, required=True))
-    financialDocuments = ListType(ModelType(CDBidPostDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(CDBidPostDocument, required=True))
-    qualificationDocuments = ListType(ModelType(CDBidPostDocument, required=True))
+    lotValues: list[CDPostLotValue] | None = None
+    documents: list[CDBidPostDocument] | None = None
+    financialDocuments: list[CDBidPostDocument] | None = None
+    eligibilityDocuments: list[CDBidPostDocument] | None = None
+    qualificationDocuments: list[CDBidPostDocument] | None = None
 
 
 class CDBid(Bid):
-    lotValues = ListType(ModelType(CDLotValue, required=True))
-
-    documents = ListType(ModelType(CDBidDocument, required=True))
-    financialDocuments = ListType(ModelType(CDBidDocument, required=True))
-    eligibilityDocuments = ListType(ModelType(CDBidDocument, required=True))
-    qualificationDocuments = ListType(ModelType(CDBidDocument, required=True))
+    lotValues: list[CDLotValue] | None = None
+    documents: list[CDBidDocument] | None = None
+    financialDocuments: list[CDBidDocument] | None = None
+    eligibilityDocuments: list[CDBidDocument] | None = None
+    qualificationDocuments: list[CDBidDocument] | None = None

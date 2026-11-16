@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.esco.procedure.state.lot import ESCOTenderLotState
 
@@ -8,7 +9,7 @@ from openprocurement.tender.esco.procedure.state.lot import ESCOTenderLotState
     name="esco:Tender Lots",
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender ESCO lots",
 )
 class ESCOLotResource(TenderLotResource):

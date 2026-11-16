@@ -1,17 +1,17 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.document import (
     CoreFrameworkDocumentResource,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 @resource(
-    name=f"{DPS_TYPE}:Framework Documents",
+    name=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM}:Framework Documents",
     collection_path="/frameworks/{framework_id}/documents",
     path="/frameworks/{framework_id}/documents/{document_id}",
-    frameworkType=DPS_TYPE,
+    frameworkType=FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
     description="Framework related binary files (PDFs, etc.)",
 )
 class FrameworkDocumentResource(CoreFrameworkDocumentResource):

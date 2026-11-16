@@ -1,18 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.document import (
     CoreSubmissionDocumentResource,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 @resource(
-    name=f"{DPS_TYPE}:Submission Documents",
+    name=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM}:Submission Documents",
     collection_path="/submissions/{submission_id}/documents",
     path="/submissions/{submission_id}/documents/{document_id}",
     description="Submission related binary files (PDFs, etc.)",
-    submissionType=DPS_TYPE,
+    submissionType=FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
 )
 class SubmissionDocumentResource(CoreSubmissionDocumentResource):
     @json_view(

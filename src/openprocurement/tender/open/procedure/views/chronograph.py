@@ -1,19 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.chronograph import TenderChronographResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_PROCUREMENT_METHOD_TYPES,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 from openprocurement.tender.open.procedure.state.tender import (
     AboveThresholdEUTenderState,
     AboveThresholdTenderState,
@@ -31,17 +20,17 @@ from openprocurement.tender.open.procedure.state.tender import (
     name=f"{OPEN_ROUTE_PREFIX}:Tender Chronograph",
     path="/tenders/{tender_id}/chronograph",
     description="Tender chronograph",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenTenderChronographResource(TenderChronographResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdTenderState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUATenderState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUTenderState,
-        OPEN_TENDERING: OpenTenderingTenderState,
-        ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderState,
-        SIMPLE_DEFENSE: SimpleDefenseTenderState,
-        COMPETITIVE_ORDERING: COTenderState,
-        BELOW_THRESHOLD: BelowThresholdTenderState,
-        REQUEST_FOR_PROPOSAL: RFPTenderState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdTenderState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUATenderState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUTenderState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingTenderState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseTenderState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COTenderState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdTenderState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPTenderState,
     }

@@ -1,25 +1,27 @@
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.compound import ListType, ModelType
+from pydantic import Field, field_validator
 
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.validation import validate_uniq_id
+from openprocurement.api.procedure.models.base import Model, validate_uniq_id
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 
 
 class Evidence(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True)
-    description = StringType(serialize_when_none=True)
-    relatedDocument = StringType(required=True)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    title: str
+    description: str | None = None
+    relatedDocument: str
 
 
 class Argument(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    description = StringType(required=True)
-    evidences = ListType(
-        ModelType(Evidence, required=True),
-        serialize_when_none=True,
-        default=[],
-        validators=[validate_uniq_id],
-    )
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    description: str
+    evidences: list[Evidence] = []
+
+    @field_validator("evidences")
+    @classmethod
+    def validate_evidences_items(cls, value):
+        validate_uniq_id(value)
+        return value

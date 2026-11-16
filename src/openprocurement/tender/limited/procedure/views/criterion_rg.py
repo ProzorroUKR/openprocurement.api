@@ -1,9 +1,9 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.criterion_rg import (
     BaseRequirementGroupResource,
 )
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.state.criterion_rg import (
     NegotiationQuickRequirementGroupState,
     NegotiationRequirementGroupState,
@@ -12,10 +12,10 @@ from openprocurement.tender.limited.procedure.state.criterion_rg import (
 
 
 @resource(
-    name=f"{REPORTING}:Criteria Requirement Group",
+    name=f"{ProcurementMethodType.REPORTING}:Criteria Requirement Group",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups",
     path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}",
-    procurementMethodType=f"{REPORTING}",
+    procurementMethodType=f"{ProcurementMethodType.REPORTING}",
     description="Tender criteria requirement group",
 )
 class ReportingRequirementGroupResource(BaseRequirementGroupResource):
@@ -23,10 +23,10 @@ class ReportingRequirementGroupResource(BaseRequirementGroupResource):
 
 
 @resource(
-    name=f"{NEGOTIATION}:Criteria Requirement Group",
+    name=f"{ProcurementMethodType.NEGOTIATION}:Criteria Requirement Group",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups",
     path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}",
-    procurementMethodType=f"{NEGOTIATION}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION}",
     description="Tender criteria requirement group",
 )
 class NegotiationRequirementGroupResource(ReportingRequirementGroupResource):
@@ -34,10 +34,10 @@ class NegotiationRequirementGroupResource(ReportingRequirementGroupResource):
 
 
 @resource(
-    name=f"{NEGOTIATION_QUICK}:Criteria Requirement Group",
+    name=f"{ProcurementMethodType.NEGOTIATION_QUICK}:Criteria Requirement Group",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups",
     path="/tenders/{tender_id}/criteria/{criterion_id}/requirement_groups/{requirement_group_id}",
-    procurementMethodType=f"{NEGOTIATION_QUICK}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION_QUICK}",
     description="Tender criteria requirement group",
 )
 class NegotiationQuickRequirementGroupResource(ReportingRequirementGroupResource):

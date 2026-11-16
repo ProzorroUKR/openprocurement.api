@@ -137,15 +137,20 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/53118b2fca0c43a694e262a508ed1194
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cb016ba1c5f24fa490ea4a9290ac2fa7
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title_en": "[TESTING] Cases with state awards",
-    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
-    "mode": "test",
     "status": "draft",
+    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
+    "title_en": "[TESTING] Cases with state awards",
+    "mode": "test",
+    "agreements": [
+      {
+        "id": "53e68cfa78da42188f99f9e054e0e168"
+      }
+    ],
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -195,10 +200,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/53118b2fca0c43a6
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -206,8 +212,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/53118b2fca0c43a6
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "relatedLot": "66bd7aa82b7d403cb3626390997acbaf"
+        ]
       }
     ],
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
@@ -232,16 +237,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/53118b2fca0c43a6
       },
       "kind": "general"
     },
-    "agreements": [
-      {
-        "id": "53e68cfa78da42188f99f9e054e0e168"
-      }
-    ],
     "lots": [
       {
+        "id": "66bd7aa82b7d403cb3626390997acbaf",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "66bd7aa82b7d403cb3626390997acbaf",
         "status": "active",
         "date": "2027-01-01T00:00:00+02:00"
       }
@@ -328,7 +328,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/53118b2fca0c43a6
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "53118b2fca0c43a694e262a508ed1194"
+    "id": "cb016ba1c5f24fa490ea4a9290ac2fa7"
   },
   "config": {
     "hasAuction": true,

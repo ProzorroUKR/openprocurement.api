@@ -1,6 +1,7 @@
 from hashlib import sha512
 
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.procedure.validation import validate_accreditation_level
 from openprocurement.api.utils import error_handler
 from openprocurement.api.validation import (
@@ -52,24 +53,24 @@ def validate_ownership_data(request, **kwargs):
 
 def validate_tender_transfer_accreditation_level(request, **kwargs):
     state_mapping = {
-        "belowThreshold": BelowThresholdTenderDetailsState,
-        "aboveThreshold": AboveThresholdTenderDetailsState,
-        "aboveThresholdUA": AboveThresholdUATenderDetailsState,
-        "aboveThresholdEU": AboveThresholdEUTenderDetailsState,
-        "negotiation": NegotiationTenderDetailsState,
-        "negotiation.quick": NegotiationTenderDetailsState,
-        "aboveThresholdUA.defense": DefenseTenderDetailsState,
-        "competitiveDialogueUA": CDStage1UATenderDetailsState,
-        "competitiveDialogueEU": CDStage1EUTenderDetailsState,
-        "competitiveDialogueUA.stage2": CDStage2UATenderDetailsState,
-        "competitiveDialogueEU.stage2": CDStage2EUTenderDetailsState,
-        "reporting": ReportingTenderDetailsState,
-        "esco": ESCOTenderDetailsState,
-        "closeFrameworkAgreementUA": CFAUATenderDetailsState,
-        "closeFrameworkAgreementSelectionUA": CFASelectionTenderDetailsState,
-        "priceQuotation": None,
-        "simple.defense": SimpleDefenseTenderDetailsState,
-        "openTendering": OpenTenderingTenderDetailsState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdTenderDetailsState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdTenderDetailsState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUATenderDetailsState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUTenderDetailsState,
+        ProcurementMethodType.NEGOTIATION: NegotiationTenderDetailsState,
+        ProcurementMethodType.NEGOTIATION_QUICK: NegotiationTenderDetailsState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: DefenseTenderDetailsState,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA: CDStage1UATenderDetailsState,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU: CDStage1EUTenderDetailsState,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2: CDStage2UATenderDetailsState,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2: CDStage2EUTenderDetailsState,
+        ProcurementMethodType.REPORTING: ReportingTenderDetailsState,
+        ProcurementMethodType.ESCO: ESCOTenderDetailsState,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA: CFAUATenderDetailsState,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA: CFASelectionTenderDetailsState,
+        ProcurementMethodType.PRICE_QUOTATION: None,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseTenderDetailsState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingTenderDetailsState,
     }
     state = state_mapping.get(request.validated["tender"]["procurementMethodType"], None)
     if state is None:

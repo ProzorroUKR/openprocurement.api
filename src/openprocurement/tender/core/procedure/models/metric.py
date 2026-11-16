@@ -1,58 +1,59 @@
 import itertools
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.compound import ListType, ModelType
+from pydantic import Field
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, validate_list_uniq_factory
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.validation import validate_list_uniq_factory
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 
 
 class Unit(Model):
-    name = StringType()
-    id = StringType()
-    scheme = StringType()
-    uri = StringType()
+    name: str | None = None
+    id: str | None = None
+    scheme: str | None = None
+    uri: str | None = None
 
 
 class Dimension(Model):
-    description = StringType()
+    description: str | None = None
 
 
 class MilestoneReference(Model):
-    id = MD5Type()
-    title = StringType()
+    id: MD5 | None = None
+    title: str | None = None
 
 
 class PostObservation(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
-    value = ModelType(Value)
-    description = StringType()
-    period = ModelType(Period)
-    measure = StringType()
-    unit = ModelType(Unit)
-    dimensions = ListType(ModelType(Dimension))
-    notes = StringType()
-    relatedImplementationMilestone = ModelType(MilestoneReference)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    title: str = Field(min_length=1)
+    value: Value | None = None
+    description: str | None = None
+    period: Period | None = None
+    measure: str | None = None
+    unit: Unit | None = None
+    dimensions: list[Dimension] | None = None
+    notes: str | None = None
+    relatedImplementationMilestone: MilestoneReference | None = None
 
 
 class Observation(PostObservation):
-    id = MD5Type(required=True)
+    id: MD5
 
 
 class PostMetric(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, min_length=1)
-    description = StringType()
-    observations = ListType(ModelType(PostObservation))
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    title: str = Field(min_length=1)
+    description: str | None = None
+    observations: list[PostObservation] | None = None
 
 
 class Metric(PostMetric):
-    id = MD5Type(required=True)
-    observations = ListType(ModelType(Observation))
+    id: MD5
+    observations: list[Observation] | None = None
 
 
 def validate_observation_ids_uniq(metrics):

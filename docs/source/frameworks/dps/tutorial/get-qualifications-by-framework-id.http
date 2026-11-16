@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/a7be11b733044b6eb74d7712f3c91ad2/qualifications HTTP/1.0
+GET /api/2.5/frameworks/9530d2645fe54108ad6417065dc71e79/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,29 +11,29 @@ Content-Type: application/json
     {
       "documents": [
         {
-          "id": "71aeda82e8674b26acb49c0c1eb613b4",
-          "datePublished": "2027-01-17T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "qualification.doc",
           "format": "application/msword",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6dc22ab2c87f41bb91375ca71951687c/documents/71aeda82e8674b26acb49c0c1eb613b4?download=261302c61582415fa7ca7a5348f275ba",
-          "dateModified": "2027-01-17T00:00:00+02:00",
-          "language": "uk"
+          "language": "uk",
+          "id": "6f0a55ef0b5845b1a8a9ab43d48c9292",
+          "datePublished": "2027-01-17T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6dc22ab2c87f41bb91375ca71951687c/documents/6f0a55ef0b5845b1a8a9ab43d48c9292?download=261302c61582415fa7ca7a5348f275ba",
+          "dateModified": "2027-01-17T00:00:00+02:00"
         },
         {
           "documentType": "evaluationReports",
-          "id": "619d59ac9e15478da7e5c9f016f5dbfe",
-          "datePublished": "2027-01-17T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6dc22ab2c87f41bb91375ca71951687c/documents/619d59ac9e15478da7e5c9f016f5dbfe?download=9227b1be6f824b27a68117b66cb4d996",
-          "dateModified": "2027-01-17T00:00:00+02:00",
-          "language": "uk"
+          "language": "uk",
+          "id": "634ce48ca39540d3b77fae7424b4921c",
+          "datePublished": "2027-01-17T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/6dc22ab2c87f41bb91375ca71951687c/documents/634ce48ca39540d3b77fae7424b4921c?download=9227b1be6f824b27a68117b66cb4d996",
+          "dateModified": "2027-01-17T00:00:00+02:00"
         }
       ],
-      "submissionID": "1dfc9dddb3e6490ca00aa209ab8e2559",
-      "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
+      "submissionID": "e963a749632f4707830e91c936c93bc5",
+      "frameworkID": "9530d2645fe54108ad6417065dc71e79",
       "status": "unsuccessful",
       "date": "2027-01-17T00:00:00+02:00",
       "dateCreated": "2027-01-17T00:00:00+02:00",
@@ -44,18 +44,18 @@ Content-Type: application/json
       "documents": [
         {
           "documentType": "evaluationReports",
-          "id": "65403b6e016c4fac8e84712aa1409105",
-          "datePublished": "2027-01-17T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/37edcfe4b6484dee80eecfdb03a03a08/documents/65403b6e016c4fac8e84712aa1409105?download=8395d296066f4991a7f59f6f38e8134d",
-          "dateModified": "2027-01-17T00:00:00+02:00",
-          "language": "uk"
+          "language": "uk",
+          "id": "9f170f4f1c844bf194855cf706cec6f5",
+          "datePublished": "2027-01-17T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/qualifications/37edcfe4b6484dee80eecfdb03a03a08/documents/9f170f4f1c844bf194855cf706cec6f5?download=8395d296066f4991a7f59f6f38e8134d",
+          "dateModified": "2027-01-17T00:00:00+02:00"
         }
       ],
-      "submissionID": "9b0585dfa2b947c98c7b97d353418798",
-      "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
+      "submissionID": "bdb402017c264beb80cd9ddca7f6d8d3",
+      "frameworkID": "9530d2645fe54108ad6417065dc71e79",
       "status": "active",
       "date": "2027-01-17T00:00:00+02:00",
       "dateCreated": "2027-01-17T00:00:00+02:00",

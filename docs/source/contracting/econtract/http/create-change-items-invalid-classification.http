@@ -15,11 +15,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         {
           "id": "29cbde01600848de837efe5448e726fb",
           "description": "Комп’ютерне обладнання для біда",
-          "quantity": 10.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -28,6 +27,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 10.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -77,11 +77,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         {
           "id": "24726f3002834ed287ec1c07b91606cf",
           "description": "Комп’ютерне обладнання",
-          "quantity": 5.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -90,6 +89,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 5.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -115,7 +115,6 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         {
           "description": "Картон ручного виготовлення",
-          "quantity": 10.0,
           "classification": {
             "id": "22992000-0",
             "scheme": "ДК021",
@@ -128,6 +127,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 10.0,
           "unit": {
             "name": "кг",
             "value": {

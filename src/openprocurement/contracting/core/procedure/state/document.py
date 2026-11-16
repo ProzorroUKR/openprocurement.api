@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
     CONFIDENTIAL_EDRPOU_LIST,
     CONTRACT_CONFIDENTIAL_DOCS_FROM,
@@ -13,7 +14,6 @@ from openprocurement.contracting.core.procedure.utils import (
     is_confidential_document_allowed,
     is_contract_owner,
 )
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
 from openprocurement.tender.core.procedure.state.document import BaseDocumentStateMixin
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
@@ -137,7 +137,8 @@ class ContractDocumentState(BaseDocumentStateMixin, ContractState):
             data.get("title") == "sign.p7s"
             and data.get("format") == "application/pkcs7-signature"
             and is_contract_owner(self.request, self.request.validated["contract"])
-            and tender.get("procurementMethodType") != CFA_SELECTION  # in cfa all docs should be public
+            and tender.get("procurementMethodType")
+            != ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA  # in cfa all docs should be public
             and tender.get("procuringEntity", {}).get("identifier", {}).get("id") in CONFIDENTIAL_EDRPOU_LIST
         ):
             if data["confidentiality"] != ConfidentialityType.BUYER_ONLY:

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df HTTP/1.0
+GET /api/2.5/tenders/390b8a0af38a48188324c8003466a26e HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,8 +9,8 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -49,13 +49,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-01-27T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "59c9cef27f1c4c4690caa01ed079c58c",
+        "id": "da49154ed5344e74af4c7a38858e1b54",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -63,9 +59,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -87,6 +83,10 @@ Content-Type: application/json
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-01-27T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "aboveThresholdUA.defense",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -119,13 +119,13 @@ Content-Type: application/json
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "minimalStep": {
-      "currency": "UAH",
       "amount": 5.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -223,7 +223,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "cafcd819d62040129cffcd9b3f3687df"
+    "id": "390b8a0af38a48188324c8003466a26e"
   },
   "config": {
     "hasAuction": true,

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/105daebdc651458683f67e400c8472dd/awards?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
+POST /api/2.5/tenders/227382e2f47f47ed9c32b49097b38e23/awards?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -49,11 +49,16 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/105daebdc651458683f67e400c8472dd/awards/4cee881db18d4c12b5cead034f2748ec
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/227382e2f47f47ed9c32b49097b38e23/awards/1fd04507afcf4809afa88cdb29669452
 
 {
   "data": {
     "status": "pending",
+    "value": {
+      "amount": 475000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -70,6 +75,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/105daebdc6514586
           "postalCode": "21100",
           "countryName": "Україна"
         },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
         "scale": "micro",
         "signerInfo": {
           "name": "Test Testovich",
@@ -78,20 +88,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/105daebdc6514586
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        },
-        "contactPoint": {
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
         }
       }
     ],
-    "value": {
-      "amount": 475000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "id": "4cee881db18d4c12b5cead034f2748ec",
+    "id": "1fd04507afcf4809afa88cdb29669452",
     "date": "2027-01-01T00:00:00+02:00"
   }
 }

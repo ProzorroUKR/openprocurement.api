@@ -177,8 +177,7 @@ class Migration(PymongoCollectionMigration):
 
         key = urlparse(document["url"]).path.split("/")[-1]
 
-        post_document_obj = PostComplaintDocument(document)
-        post_document = post_document_obj.serialize()
+        post_document = PostComplaintDocument.validate_data(document)
 
         post_document["dateModified"] = document["dateModified"]
         post_document["datePublished"] = document["datePublished"]

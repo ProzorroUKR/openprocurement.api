@@ -1,9 +1,8 @@
 import dataclasses
 from dataclasses import dataclass
 
-from schematics.exceptions import ValidationError
-
 from openprocurement.api.procedure.context import get_tender
+from openprocurement.api.procedure.errors import ValidationError
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.tender.core.procedure.context import get_bid
 

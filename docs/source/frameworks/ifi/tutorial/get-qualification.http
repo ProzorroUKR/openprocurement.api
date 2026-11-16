@@ -8,8 +8,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "frameworkID": "cdf2c8387a964d0ea9fd3090a5f2ca27",
-    "submissionID": "565935ddad40407499971f153fd688e7",
+    "frameworkID": "94ba949d20d04517bbe706e50b297739",
+    "submissionID": "dfabfd5a40434a22a9bbef5d884efcb9",
     "qualificationType": "internationalFinancialInstitutions",
     "status": "pending",
     "date": "2027-01-17T00:00:00+02:00",

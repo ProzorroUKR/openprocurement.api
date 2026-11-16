@@ -1,31 +1,37 @@
+from typing import Literal
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
+from pydantic import Field, field_validator
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, validate_uniq_code
+from openprocurement.api.procedure.models.parameter import AgreementContractParameter
 from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.validation import validate_uniq_code
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.tender.cfaselectionua.procedure.models.organization import CFASelectionBusinessOrganization
 from openprocurement.tender.cfaselectionua.procedure.models.value import CFASelectionUnitPriceValue
-from openprocurement.tender.core.procedure.models.parameter import AgreementContractParameter
 
 
 class CFASelectionUnitPrice(Model):
-    relatedItem = StringType()
-    value = ModelType(CFASelectionUnitPriceValue)
+    relatedItem: str | None = None
+    value: CFASelectionUnitPriceValue | None = None
 
 
 class CFASelectionAgreementContract(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    parameters = ListType(
-        ModelType(AgreementContractParameter, required=True),
-        validators=[validate_uniq_code],
-    )
-    status = StringType(choices=["active", "unsuccessful"], default="active")
-    suppliers = ListType(ModelType(CFASelectionBusinessOrganization, required=True))
-    unitPrices = ListType(ModelType(CFASelectionUnitPrice, required=True))
-    awardID = StringType()
-    bidID = StringType()
-    date = IsoDateTimeType()
-    value = ModelType(Value)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    parameters: list[AgreementContractParameter] | None = None
+    status: Literal["active", "unsuccessful"] = "active"
+    suppliers: list[CFASelectionBusinessOrganization] | None = None
+    unitPrices: list[CFASelectionUnitPrice] | None = None
+    awardID: str | None = None
+    bidID: str | None = None
+    date: IsoDateTime | None = None
+    value: Value | None = None
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value

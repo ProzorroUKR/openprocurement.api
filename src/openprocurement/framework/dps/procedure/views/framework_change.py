@@ -1,14 +1,14 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.views.change import CoreChangeResource
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 @resource(
-    name=f"{DPS_TYPE}:Framework Change",
+    name=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM}:Framework Change",
     collection_path="/frameworks/{framework_id}/changes",
     path="/frameworks/{framework_id}/changes/{change_id}",
-    frameworkType=DPS_TYPE,
+    frameworkType=FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
     description="Framework related changes",
 )
 class FrameworkPeriodChangeResource(CoreChangeResource):

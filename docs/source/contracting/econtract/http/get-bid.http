@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/2563fd75900b43499138810b16db8181/bids/22e4d4a6f1d34c2ea283f76b694729de?acc_token=534d10cd1e9e4135a8382091dda51455 HTTP/1.0
+GET /api/2.5/tenders/a9805a126c8248ca9ccc72fed6a560b7/bids/7fb7b6c3cab944f7a409f013735f7617?acc_token=534d10cd1e9e4135a8382091dda51455 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,53 +8,6 @@ Content-Type: application/json
 
 {
   "data": {
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "820031d3d5394c3ba127426e870bdbbf",
-          "title": "Форма випуску"
-        },
-        "values": [
-          "Розчин для інфузій"
-        ],
-        "id": "b09f155c46bf41ccb560614428bf87e2",
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "1e7ced146e3f463185d4b8166569f8e1",
-          "title": "Доза діючої речовини"
-        },
-        "value": 5,
-        "id": "5c1fbeb5aced493995eb3bf5525eec00",
-        "unit": {
-          "code": "KGM",
-          "name": "кілограми"
-        },
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "61e37494cfc246d0991ff6eb72f2da0a",
-          "title": "Форма випуску 1"
-        },
-        "values": [
-          "Відповідь1",
-          "Відповідь2"
-        ],
-        "id": "7f10c29820e842979c9a72518c078ce3",
-        "classification": {
-          "scheme": "ESPD211",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      }
-    ],
     "items": [
       {
         "id": "29cbde01600848de837efe5448e726fb",
@@ -124,7 +77,54 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
-    "id": "22e4d4a6f1d34c2ea283f76b694729de",
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "00b94d54baa144efa4fcb68cb8e5cf85",
+          "title": "Форма випуску"
+        },
+        "values": [
+          "Розчин для інфузій"
+        ],
+        "id": "8b74d044808049df8ffe5b2d5cc6395c",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "01fbca3297314a4ba9bee5b13f159cee",
+          "title": "Доза діючої речовини"
+        },
+        "value": 5,
+        "id": "cef7ecb716ef422cbd53f22e1fc52983",
+        "unit": {
+          "name": "кілограми",
+          "code": "KGM"
+        },
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "1bd5ad17c6414e07aab2b01ba4000242",
+          "title": "Форма випуску 1"
+        },
+        "values": [
+          "Відповідь1",
+          "Відповідь2"
+        ],
+        "id": "fb94cb164d92438a9f2b5c7c19b51c75",
+        "classification": {
+          "scheme": "ESPD211",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      }
+    ],
+    "id": "7fb7b6c3cab944f7a409f013735f7617",
     "date": "2027-01-01T00:00:00+02:00",
     "submissionDate": "2027-01-01T00:00:00+02:00"
   }

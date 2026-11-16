@@ -1,5 +1,8 @@
-from schematics.types import StringType
+from typing import Literal
 
+from pydantic import field_validator
+
+from openprocurement.api.procedure.models.base import model_field_validator
 from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
@@ -10,14 +13,16 @@ from openprocurement.api.procedure.models.contact import (
 
 
 class ContactPoint(BaseContactPoint):
-    def validate_email(self, contact_point, email):
-        validate_email(contact_point, email)
+    @model_field_validator("email")
+    def validate_email(self, email):
+        validate_email(email, self.telephone)
 
-    def validate_telephone(self, _, telephone):
+    @field_validator("telephone")
+    @classmethod
+    def validate_telephone(cls, telephone):
         validate_telephone(telephone)
+        return telephone
 
 
 class ProcuringEntityContactPoint(ContactPoint):
-    # required with default "uk" in some procedures, see
-    # TenderDetailsState.procuring_entity_available_language_default
-    availableLanguage = StringType(choices=["uk", "en", "ru"])
+    availableLanguage: Literal["uk", "en", "ru"] | None = None

@@ -33,7 +33,7 @@
         },
         "awards": [
             {
-                "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
+                "bid_id": "c64866c45b5d4d19955fcb8cae558a15",
                 "complaintPeriod": {
                     "endDate": "2027-01-31T00:00:00+02:00",
                     "startDate": "2027-01-31T00:00:00+02:00"
@@ -49,14 +49,14 @@
                         "documentType": "notice",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "23f226442d9d42f892dccc1f8df81d16",
+                        "id": "4a0e5a4d6c77497fb7f010a165f0a1e9",
                         "language": "uk",
                         "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3299f029fac04e368056c8c69a976cf1?Signature=5CB2VsTxljhhk3Hn9JWDMP%2FksvlY1FHGS%2F4TJutJXjwVX36HQwr4%2FyGpBD3c%2Btl2DXG2YkZxt%2BxPyh%2Fz9dnvBw%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "eligible": true,
-                "id": "45661e84097445e784c31e2d96566832",
+                "id": "26c32dcc0481432ab81f10d84360abf4",
                 "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
                 "period": {
                     "endDate": "2027-02-06T00:00:00+02:00",
@@ -103,7 +103,7 @@
                 }
             },
             {
-                "bid_id": "4b2f22ec008b4f4e88f2f69ea174242c",
+                "bid_id": "c64866c45b5d4d19955fcb8cae558a15",
                 "complaintPeriod": {
                     "endDate": "2027-01-31T00:00:00+02:00",
                     "startDate": "2027-01-31T00:00:00+02:00"
@@ -119,15 +119,15 @@
                         "documentType": "notice",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "5a767248d80d4631938ca7a90952d99b",
+                        "id": "898be33f55db4e72957b027dc23a2269",
                         "language": "uk",
                         "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/07f3bd11885c4509a40cd7825f1dfa3b?Signature=dpZIKVDUyXkm%2FErxPhUZQKOaNTSfRVDax8zcIya%2FOelAgh8HHHfPwJktVk12K8KWI6mmFMz8PG%2FBt5OD7iUIAQ%3D%3D&KeyID=a8968c46"
                     }
                 ],
                 "eligible": true,
-                "id": "866d796c99b14e0991b5504bad98f827",
-                "lotID": "ffb255f57e054aaa9f45701dbce47420",
+                "id": "c97c119a86bf4f29883682546f89b63b",
+                "lotID": "3194f121981f430d8b33954c50021373",
                 "period": {
                     "endDate": "2027-02-06T00:00:00+02:00",
                     "startDate": "2027-01-31T00:00:00+02:00"
@@ -185,17 +185,17 @@
                         "documentType": "proposal",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "c4a5427de3d04afca7b9a450030a5f5f",
+                        "id": "7eba28a56b0d41bf8ab8aab74d9e6540",
                         "language": "uk",
                         "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/af1f946d1ab8441f9ec7d0324162df65?Signature=F6YBi36cIk2uuT0anhLNTkoCV0S2T3BFeuIsCr%2FjG6JMKyc%2BNUmTgPGxEvjT7N0nh71SyY0FvkUCHQs2mmLsAg%3D%3D&KeyID=a8968c46"
                     }
                 ],
-                "id": "4b2f22ec008b4f4e88f2f69ea174242c",
+                "id": "c64866c45b5d4d19955fcb8cae558a15",
                 "items": [
                     {
                         "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                        "id": "c5b0023de71046108dde1a721e00de87",
+                        "id": "2a71a02411a8486e82fbcebd22753eb4",
                         "quantity": 1.0,
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "unit": {
@@ -211,9 +211,9 @@
                     {
                         "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                         "description_en": "Services in school canteens",
-                        "id": "5cacba5cf95a40b580cedfb21df309ba",
+                        "id": "4b0f472add0f4cc8af5e25d25d189b80",
                         "quantity": 1.0,
-                        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                        "relatedLot": "3194f121981f430d8b33954c50021373",
                         "unit": {
                             "code": "KGM",
                             "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c",
@@ -249,7 +249,7 @@
                             "currency": "UAH",
                             "valueAddedTaxIncluded": false
                         },
-                        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                        "relatedLot": "3194f121981f430d8b33954c50021373",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u041e\u0440\u0444\u0435\u0439\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
                         "value": {
@@ -265,9 +265,9 @@
                             "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD",
                             "scheme": "LAW922"
                         },
-                        "id": "a73e68c22ed74753b7c1baadc0fecd45",
+                        "id": "1bad17127998410fbfd6efd939652ecd",
                         "requirement": {
-                            "id": "22cd239f9fe34a0682b8a33ad6d14f79",
+                            "id": "7e1371e08201429c8f5cf63b32bfcbfb",
                             "title": "\u0421\u0442\u0440\u043e\u043a \u0434\u0456\u0457 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457 \u0456\u0437 \u0434\u0430\u0442\u0438 \u043a\u0456\u043d\u0446\u0435\u0432\u043e\u0433\u043e \u0441\u0442\u0440\u043e\u043a\u0443 \u043f\u043e\u0434\u0430\u043d\u043d\u044f \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0438\u0445 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0439"
                         },
                         "unit": {
@@ -282,9 +282,9 @@
                             "scheme": "LAW922"
                         },
                         "dataSchema": "ISO 639-3",
-                        "id": "c58fbd6a237c4b68a57eb44414ebfa9e",
+                        "id": "5d1c12c2b38c44f38d079d9a9171ebd8",
                         "requirement": {
-                            "id": "03d61981028f4de3bafa7946a08b0da4",
+                            "id": "8ef2a75237154bc59972ade16e3a0815",
                             "title": "\u041c\u043e\u0432\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457"
                         },
                         "values": [
@@ -296,9 +296,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
                             "scheme": "LAW922"
                         },
-                        "id": "1e56295f42ad410e96e464f934c4013b",
+                        "id": "0cea9b730eb54d598f29f40a446104bf",
                         "requirement": {
-                            "id": "fc7ad4ed402740eb8dd96835a38eef28",
+                            "id": "0ca14db9e3134006b43e0d0d88311d9e",
                             "title": "\u0412\u0456\u0434\u043e\u043c\u043e\u0441\u0442\u0456 \u043f\u0440\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u043d\u0435\u0441\u0435\u043d\u043e \u0434\u043e \u0404\u0434\u0438\u043d\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u0440\u0435\u0454\u0441\u0442\u0440\u0443 \u043e\u0441\u0456\u0431, \u044f\u043a\u0456 \u0432\u0447\u0438\u043d\u0438\u043b\u0438 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0456 \u0430\u0431\u043e \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u0456 \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f"
                         },
                         "value": true
@@ -308,9 +308,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
                             "scheme": "LAW922"
                         },
-                        "id": "5ad1bea1e1564bd3b89e31785721c557",
+                        "id": "fce85bac93044db89442ec2de022f20b",
                         "requirement": {
-                            "id": "ccc629c76e6e4d54a4cc91a31d2144e6",
+                            "id": "56c04ba5ee2e4611bb70ca6dc5983c5a",
                             "title": "\u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0443 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0443) \u043e\u0441\u043e\u0431\u0443 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0443 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0442\u0438 \u0439\u043e\u0433\u043e \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0438 \u043f\u0456\u0434 \u0447\u0430\u0441 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0433\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e"
                         },
                         "value": true
@@ -320,9 +320,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
                             "scheme": "LAW922"
                         },
-                        "id": "a7c4fb2e51ef412cbc7c2cfbee53d6fe",
+                        "id": "0521fc97cf0b4b4abaf46981edcff34d",
                         "requirement": {
-                            "id": "f6de5ef1633c45789f1a0c4d07d8f6eb",
+                            "id": "90c0e3c682184c1892a0c41cd7d0dd93",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u043e\u0441\u0442\u0430\u043d\u043d\u0456\u0445 \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u043d\u0435 \u043f\u0440\u0438\u0442\u044f\u0433\u0443\u0432\u0430\u0432\u0441\u044f \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043d\u0438\u0445 \u0443\u0437\u0433\u043e\u0434\u0436\u0435\u043d\u0438\u0445 \u0434\u0456\u0439, \u0449\u043e \u0441\u0442\u043e\u0441\u0443\u044e\u0442\u044c\u0441\u044f \u0441\u043f\u043e\u0442\u0432\u043e\u0440\u0435\u043d\u043d\u044f \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0456\u0432 \u0442\u043e\u0440\u0433\u0456\u0432, \u0430\u0443\u043a\u0446\u0456\u043e\u043d\u0456\u0432, \u043a\u043e\u043d\u043a\u0443\u0440\u0441\u0456\u0432, \u0442\u0435\u043d\u0434\u0435\u0440\u0456\u0432"
                         },
                         "value": true
@@ -332,9 +332,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
                             "scheme": "LAW922"
                         },
-                        "id": "a57aeb6aff7440af8e7b02659ac1e920",
+                        "id": "ca087f0782434ae0bdd081a08785a27a",
                         "requirement": {
-                            "id": "2263ed49caa647d6a8a027d84a330f11",
+                            "id": "344a9aa4fe274db4ac4ca5d86a2156d1",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u0432 \u0437\u0430\u0441\u0443\u0434\u0436\u0435\u043d\u0438\u0439 \u0437\u0430 \u043a\u0440\u0438\u043c\u0456\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u0432\u0447\u0438\u043d\u0435\u043d\u0435 \u0437 \u043a\u043e\u0440\u0438\u0441\u043b\u0438\u0432\u0438\u0445 \u043c\u043e\u0442\u0438\u0432\u0456\u0432 (\u0437\u043e\u043a\u0440\u0435\u043c\u0430, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u0435 \u0437 \u0445\u0430\u0431\u0430\u0440\u043d\u0438\u0446\u0442\u0432\u043e\u043c \u0442\u0430 \u0432\u0456\u0434\u043c\u0438\u0432\u0430\u043d\u043d\u044f\u043c \u043a\u043e\u0448\u0442\u0456\u0432), \u0441\u0443\u0434\u0438\u043c\u0456\u0441\u0442\u044c \u0437 \u044f\u043a\u043e\u0457 \u0437\u043d\u044f\u0442\u043e \u0430\u0431\u043e \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043e \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443"
                         },
                         "value": true
@@ -344,9 +344,9 @@
                             "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
                             "scheme": "LAW922"
                         },
-                        "id": "dbec679d06d04a8b8075d216f7cbf9dd",
+                        "id": "525e9001fe3d4094a62aa3b855b402c8",
                         "requirement": {
-                            "id": "5a84575a56d14287807bd55143b9e5a9",
+                            "id": "1d1d3f3d21ea4d7b960f2a8329d8e60d",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u0438\u0437\u043d\u0430\u043d\u0438\u0439 \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443 \u0431\u0430\u043d\u043a\u0440\u0443\u0442\u043e\u043c \u0442\u0430 \u0441\u0442\u043e\u0441\u043e\u0432\u043d\u043e \u043d\u044c\u043e\u0433\u043e \u043d\u0435 \u0432\u0456\u0434\u043a\u0440\u0438\u0442\u0430 \u043b\u0456\u043a\u0432\u0456\u0434\u0430\u0446\u0456\u0439\u043d\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430"
                         },
                         "value": true
@@ -356,9 +356,9 @@
                             "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION",
                             "scheme": "LAW922"
                         },
-                        "id": "a3b4cdb65930402d9a9b42ea5afdfed1",
+                        "id": "8311398ac9ed43dba2871ab9c62fc34d",
                         "requirement": {
-                            "id": "a9f0ec05330e483095bb1f9d4c8248ef",
+                            "id": "3ce7a9a94b9449b4a55ec74c273adb4a",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043c\u0430\u0454 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0443 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0443 \u0447\u0438 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e\u0433\u043e \u0437 \u0440\u0435\u0430\u043b\u0456\u0437\u0430\u0446\u0456\u0457 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0457 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0438"
                         },
                         "value": true
@@ -368,9 +368,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
                             "scheme": "LAW922"
                         },
-                        "id": "21d599c038064bc6a2dbfde31133c047",
+                        "id": "e6f483e862014e53a8d0fe904e19fbcb",
                         "requirement": {
-                            "id": "36fcef69ead54963b21a735d65dfd301",
+                            "id": "05f0492c4f6d4a57a4ec64570b39abec",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0454 \u043e\u0441\u043e\u0431\u043e\u044e, \u0434\u043e \u044f\u043a\u043e\u0457 \u0437\u0430\u0441\u0442\u043e\u0441\u043e\u0432\u0430\u043d\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u044e \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0437\u0430\u0431\u043e\u0440\u043e\u043d\u0438 \u043d\u0430 \u0437\u0434\u0456\u0439\u0441\u043d\u0435\u043d\u043d\u044f \u0443 \u043d\u0435\u0457 \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0438\u0445 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u0435\u043b\u044c \u0442\u043e\u0432\u0430\u0440\u0456\u0432, \u0440\u043e\u0431\u0456\u0442 \u0456 \u043f\u043e\u0441\u043b\u0443\u0433 \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0417\u0430\u043a\u043e\u043d\u043e\u043c \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u0457\""
                         },
                         "value": true
@@ -380,9 +380,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
                             "scheme": "LAW922"
                         },
-                        "id": "382c8682f19d408db6216959656d3d58",
+                        "id": "bd83eb1bb71f4c1b8140072f6902ee34",
                         "requirement": {
-                            "id": "fd66a96a1d9b423d9fc56d59b4af70a8",
+                            "id": "95ea4a2e1fc340c8a2ce75ffc48a93d1",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u0432\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043d\u044f\u043c \u0434\u0438\u0442\u044f\u0447\u043e\u0457 \u043f\u0440\u0430\u0446\u0456 \u0447\u0438 \u0431\u0443\u0434\u044c-\u044f\u043a\u0438\u043c\u0438 \u0444\u043e\u0440\u043c\u0430\u043c\u0438 \u0442\u043e\u0440\u0433\u0456\u0432\u043b\u0456 \u043b\u044e\u0434\u044c\u043c\u0438"
                         },
                         "value": true
@@ -392,9 +392,9 @@
                             "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
                             "scheme": "LAW922"
                         },
-                        "id": "5ba4aac4866e426c968cd1beab200daa",
+                        "id": "4024289fe9754607bb7d58153dfe2382",
                         "requirement": {
-                            "id": "a427ef80c55f44e897e528f898bcfac9",
+                            "id": "a88f03fdce1b492ca54f5d4980904a38",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u043c\u0430\u0454 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456 \u0437\u0456 \u0441\u043f\u043b\u0430\u0442\u0438 \u043f\u043e\u0434\u0430\u0442\u043a\u0456\u0432 \u0456 \u0437\u0431\u043e\u0440\u0456\u0432 (\u043e\u0431\u043e\u0432'\u044f\u0437\u043a\u043e\u0432\u0438\u0445 \u043f\u043b\u0430\u0442\u0435\u0436\u0456\u0432)"
                         },
                         "value": true
@@ -404,9 +404,9 @@
                             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
                             "scheme": "LAW922"
                         },
-                        "id": "2ac4539f1e2d470191721a54e5689d15",
+                        "id": "9a28114a2c8d40fb8f52b66e01ca7039",
                         "requirement": {
-                            "id": "c0cf76062e234535b584049b4eb15cd7",
+                            "id": "1c273a02eb564c40a5a06bdc8633be0a",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u043c\u0430\u0432 \u0437 \u0446\u0438\u043c \u0441\u0430\u043c\u0438\u043c \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u043f\u0440\u043e \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u044e, \u044f\u043a\u0438\u0439 \u0431\u0443\u043b\u043e \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043e \u0447\u0435\u0440\u0435\u0437 \u043d\u0435\u0432\u0438\u043a\u043e\u043d\u0430\u043d\u043d\u044f \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u0441\u0432\u043e\u0457\u0445 \u0437\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u044c \u0456\u0437 \u0437\u0430\u0441\u0442\u043e\u0441\u0443\u0432\u0430\u043d\u043d\u044f\u043c \u0441\u0430\u043d\u043a\u0446\u0456\u0439 \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0448\u0442\u0440\u0430\u0444\u0456\u0432 \u0442\u0430/\u0430\u0431\u043e \u0432\u0456\u0434\u0448\u043a\u043e\u0434\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0431\u0438\u0442\u043a\u0456\u0432 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u0437 \u0434\u0430\u0442\u0438 \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e\u0433\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043d\u044f \u0442\u0430\u043a\u043e\u0433\u043e \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443"
                         },
                         "value": true
@@ -416,9 +416,9 @@
                             "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
                             "scheme": "LAW922"
                         },
-                        "id": "4300e342a0844941963f4c1bd797696d",
+                        "id": "526c4fe5f14041038c3ac04d7fe503a0",
                         "requirement": {
-                            "id": "243454c247a844ac92059a1a512a2505",
+                            "id": "00db64d269f34146b4e3aa511c21443f",
                             "title": "\u0423 \u0404\u0434\u0438\u043d\u043e\u043c\u0443 \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u043c\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0456 \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c \u043f\u0440\u0438\u0441\u0443\u0442\u043d\u044f \u0456\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0456\u044f, \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0430 \u043f\u0443\u043d\u043a\u0442\u043e\u043c 9 \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0434\u0440\u0443\u0433\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 9 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044e \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c\""
                         },
                         "value": true
@@ -428,9 +428,9 @@
                             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES",
                             "scheme": "LAW922"
                         },
-                        "id": "ed0fc1f00b1e46d3a05ffd53d73fa854",
+                        "id": "3f1ac847fb664260aab33e2b92cd5af3",
                         "requirement": {
-                            "id": "9895853717754ff2a2003bfc722bdcb9",
+                            "id": "3c72445d9315456ab23b75da82582ac9",
                             "title": "\u0422\u0435\u043a\u0441\u0442 \u0437\u0430\u043f\u043e\u0432\u043d\u0435\u043d\u0438\u0439 \u043a\u043e\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0435\u043c"
                         },
                         "value": true
@@ -440,9 +440,9 @@
                             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION",
                             "scheme": "LAW922"
                         },
-                        "id": "ad636a1def4044d1908ef38032851e56",
+                        "id": "71dd3389aaba488aafcf4411d89fbcef",
                         "requirement": {
-                            "id": "a541df630b9b4004adb9ebc0d8d136d8",
+                            "id": "f1599d9d678c475895b751f188d37f29",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0440\u0430\u0437\u043e\u043c \u0456\u0437 \u0437\u0430\u043b\u0443\u0447\u0435\u043d\u0438\u043c\u0438 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u044f\u043c\u0438 \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0430/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u044f (\u0437\u0430 \u043d\u0430\u044f\u0432\u043d\u043e\u0441\u0442\u0456), \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u0454 \u043a\u0432\u0430\u043b\u0456\u0444\u0456\u043a\u0430\u0446\u0456\u0439\u043d\u0438\u043c \u043a\u0440\u0438\u0442\u0435\u0440\u0456\u044f\u043c \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e \u0434\u043e \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0442\u0440\u0435\u0442\u044c\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 16 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \u0432\u0456\u0434 25.12.2015 \u2116 922-VIII \"\u041f\u0440\u043e \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456\""
                         },
                         "value": true
@@ -452,9 +452,9 @@
                             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT",
                             "scheme": "LAW922"
                         },
-                        "id": "a2be8c408042414293991fbad2fe957e",
+                        "id": "897f73f8f69444ae9b5fafa03beb0d04",
                         "requirement": {
-                            "id": "b8a724b4d04f426297031b78767328e1",
+                            "id": "7dbd2c7c70664a5bbfaa2d599307eab7",
                             "title": "\u0422\u0435\u043a\u0441\u0442 \u0437\u0430\u043f\u043e\u0432\u043d\u0435\u043d\u0438\u0439 \u043a\u043e\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0435\u043c"
                         },
                         "value": true
@@ -506,17 +506,17 @@
                         "documentType": "proposal",
                         "format": "application/pkcs7-signature",
                         "hash": "md5:00000000000000000000000000000000",
-                        "id": "3cf50cf789a440d295515c9528981a93",
+                        "id": "4aa63445e90e494aa37507f75add2217",
                         "language": "uk",
                         "title": "sign.p7s",
                         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/fb01413f75834ce39e130e160c2a5a11?Signature=hrrYEAaIVvCefHo0Jv2dLu9U0Hz90QYjsELNEL6NDEOVtqFY4XM%2FkTgAkq0bDtZe3rE%2BrNOs6Pisw85xABkzDw%3D%3D&KeyID=a8968c46"
                     }
                 ],
-                "id": "33aec5588bb84aecbaf28ee83b356bad",
+                "id": "c74131bf656f484fb3f55b400c9554db",
                 "items": [
                     {
                         "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                        "id": "c5b0023de71046108dde1a721e00de87",
+                        "id": "2a71a02411a8486e82fbcebd22753eb4",
                         "quantity": 1.0,
                         "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                         "unit": {
@@ -532,9 +532,9 @@
                     {
                         "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                         "description_en": "Services in school canteens",
-                        "id": "5cacba5cf95a40b580cedfb21df309ba",
+                        "id": "4b0f472add0f4cc8af5e25d25d189b80",
                         "quantity": 1.0,
-                        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                        "relatedLot": "3194f121981f430d8b33954c50021373",
                         "unit": {
                             "code": "KGM",
                             "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c",
@@ -570,7 +570,7 @@
                             "currency": "UAH",
                             "valueAddedTaxIncluded": false
                         },
-                        "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                        "relatedLot": "3194f121981f430d8b33954c50021373",
                         "status": "active",
                         "subcontractingDetails": "\u0414\u041a\u041f \u00ab\u0423\u043a\u0440 \u041f\u0440\u0456\u043d\u0442\u00bb, \u0423\u043a\u0440\u0430\u0457\u043d\u0430",
                         "value": {
@@ -586,9 +586,9 @@
                             "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD",
                             "scheme": "LAW922"
                         },
-                        "id": "d30e4b651c3e44cfbeda67bcb5a66997",
+                        "id": "79849754ddbb4f3cafb511415d3cb70e",
                         "requirement": {
-                            "id": "22cd239f9fe34a0682b8a33ad6d14f79",
+                            "id": "7e1371e08201429c8f5cf63b32bfcbfb",
                             "title": "\u0421\u0442\u0440\u043e\u043a \u0434\u0456\u0457 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457 \u0456\u0437 \u0434\u0430\u0442\u0438 \u043a\u0456\u043d\u0446\u0435\u0432\u043e\u0433\u043e \u0441\u0442\u0440\u043e\u043a\u0443 \u043f\u043e\u0434\u0430\u043d\u043d\u044f \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0438\u0445 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0439"
                         },
                         "unit": {
@@ -603,9 +603,9 @@
                             "scheme": "LAW922"
                         },
                         "dataSchema": "ISO 639-3",
-                        "id": "d5441e294eac4d4c8b007553d74355e7",
+                        "id": "cac445e937d745d8bd0e20db61b53206",
                         "requirement": {
-                            "id": "03d61981028f4de3bafa7946a08b0da4",
+                            "id": "8ef2a75237154bc59972ade16e3a0815",
                             "title": "\u041c\u043e\u0432\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457"
                         },
                         "values": [
@@ -617,9 +617,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
                             "scheme": "LAW922"
                         },
-                        "id": "bb010649ccbd4cb5842b4b60f0a5a17b",
+                        "id": "74ee713ad9504786a4b6215353e0fbd3",
                         "requirement": {
-                            "id": "fc7ad4ed402740eb8dd96835a38eef28",
+                            "id": "0ca14db9e3134006b43e0d0d88311d9e",
                             "title": "\u0412\u0456\u0434\u043e\u043c\u043e\u0441\u0442\u0456 \u043f\u0440\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u043d\u0435\u0441\u0435\u043d\u043e \u0434\u043e \u0404\u0434\u0438\u043d\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u0440\u0435\u0454\u0441\u0442\u0440\u0443 \u043e\u0441\u0456\u0431, \u044f\u043a\u0456 \u0432\u0447\u0438\u043d\u0438\u043b\u0438 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0456 \u0430\u0431\u043e \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u0456 \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f"
                         },
                         "value": true
@@ -629,9 +629,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION",
                             "scheme": "LAW922"
                         },
-                        "id": "b03779839a1b426e8738b387ddbb5efc",
+                        "id": "1072aaa490fc471ba0d7e2c83596788b",
                         "requirement": {
-                            "id": "ccc629c76e6e4d54a4cc91a31d2144e6",
+                            "id": "56c04ba5ee2e4611bb70ca6dc5983c5a",
                             "title": "\u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0443 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0443) \u043e\u0441\u043e\u0431\u0443 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0443 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0442\u0438 \u0439\u043e\u0433\u043e \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0438 \u043f\u0456\u0434 \u0447\u0430\u0441 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0433\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e"
                         },
                         "value": true
@@ -641,9 +641,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD",
                             "scheme": "LAW922"
                         },
-                        "id": "902e2ca675114590ad7e1bf5096e12e4",
+                        "id": "3f7b464fe13c4c769893beef8f8ebfde",
                         "requirement": {
-                            "id": "f6de5ef1633c45789f1a0c4d07d8f6eb",
+                            "id": "90c0e3c682184c1892a0c41cd7d0dd93",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u043e\u0441\u0442\u0430\u043d\u043d\u0456\u0445 \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u043d\u0435 \u043f\u0440\u0438\u0442\u044f\u0433\u0443\u0432\u0430\u0432\u0441\u044f \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043d\u0438\u0445 \u0443\u0437\u0433\u043e\u0434\u0436\u0435\u043d\u0438\u0445 \u0434\u0456\u0439, \u0449\u043e \u0441\u0442\u043e\u0441\u0443\u044e\u0442\u044c\u0441\u044f \u0441\u043f\u043e\u0442\u0432\u043e\u0440\u0435\u043d\u043d\u044f \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0456\u0432 \u0442\u043e\u0440\u0433\u0456\u0432, \u0430\u0443\u043a\u0446\u0456\u043e\u043d\u0456\u0432, \u043a\u043e\u043d\u043a\u0443\u0440\u0441\u0456\u0432, \u0442\u0435\u043d\u0434\u0435\u0440\u0456\u0432"
                         },
                         "value": true
@@ -653,9 +653,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION",
                             "scheme": "LAW922"
                         },
-                        "id": "1d379a44e1764768871e1e64b84b630a",
+                        "id": "64eebe76cd90423ca4ffcad26ef75aa5",
                         "requirement": {
-                            "id": "2263ed49caa647d6a8a027d84a330f11",
+                            "id": "344a9aa4fe274db4ac4ca5d86a2156d1",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u0432 \u0437\u0430\u0441\u0443\u0434\u0436\u0435\u043d\u0438\u0439 \u0437\u0430 \u043a\u0440\u0438\u043c\u0456\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u0432\u0447\u0438\u043d\u0435\u043d\u0435 \u0437 \u043a\u043e\u0440\u0438\u0441\u043b\u0438\u0432\u0438\u0445 \u043c\u043e\u0442\u0438\u0432\u0456\u0432 (\u0437\u043e\u043a\u0440\u0435\u043c\u0430, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u0435 \u0437 \u0445\u0430\u0431\u0430\u0440\u043d\u0438\u0446\u0442\u0432\u043e\u043c \u0442\u0430 \u0432\u0456\u0434\u043c\u0438\u0432\u0430\u043d\u043d\u044f\u043c \u043a\u043e\u0448\u0442\u0456\u0432), \u0441\u0443\u0434\u0438\u043c\u0456\u0441\u0442\u044c \u0437 \u044f\u043a\u043e\u0457 \u0437\u043d\u044f\u0442\u043e \u0430\u0431\u043e \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043e \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443"
                         },
                         "value": true
@@ -665,9 +665,9 @@
                             "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY",
                             "scheme": "LAW922"
                         },
-                        "id": "8381084a1e494c05b9b6b21da7bd5da7",
+                        "id": "42e71f2fe59d4124b18d11d163f404f6",
                         "requirement": {
-                            "id": "5a84575a56d14287807bd55143b9e5a9",
+                            "id": "1d1d3f3d21ea4d7b960f2a8329d8e60d",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u0438\u0437\u043d\u0430\u043d\u0438\u0439 \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443 \u0431\u0430\u043d\u043a\u0440\u0443\u0442\u043e\u043c \u0442\u0430 \u0441\u0442\u043e\u0441\u043e\u0432\u043d\u043e \u043d\u044c\u043e\u0433\u043e \u043d\u0435 \u0432\u0456\u0434\u043a\u0440\u0438\u0442\u0430 \u043b\u0456\u043a\u0432\u0456\u0434\u0430\u0446\u0456\u0439\u043d\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430"
                         },
                         "value": true
@@ -677,9 +677,9 @@
                             "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION",
                             "scheme": "LAW922"
                         },
-                        "id": "d863fd2b1cb249b29dccbe44f6d0acde",
+                        "id": "2e7869af32a14b7194e2dbfa20793e4e",
                         "requirement": {
-                            "id": "a9f0ec05330e483095bb1f9d4c8248ef",
+                            "id": "3ce7a9a94b9449b4a55ec74c273adb4a",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043c\u0430\u0454 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0443 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0443 \u0447\u0438 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e\u0433\u043e \u0437 \u0440\u0435\u0430\u043b\u0456\u0437\u0430\u0446\u0456\u0457 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0457 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0438"
                         },
                         "value": true
@@ -689,9 +689,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES",
                             "scheme": "LAW922"
                         },
-                        "id": "94ae35f852824ed59361f1c085c54017",
+                        "id": "5d0d05ee6c1841578c2f0abdba5eb2a0",
                         "requirement": {
-                            "id": "36fcef69ead54963b21a735d65dfd301",
+                            "id": "05f0492c4f6d4a57a4ec64570b39abec",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0454 \u043e\u0441\u043e\u0431\u043e\u044e, \u0434\u043e \u044f\u043a\u043e\u0457 \u0437\u0430\u0441\u0442\u043e\u0441\u043e\u0432\u0430\u043d\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u044e \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0437\u0430\u0431\u043e\u0440\u043e\u043d\u0438 \u043d\u0430 \u0437\u0434\u0456\u0439\u0441\u043d\u0435\u043d\u043d\u044f \u0443 \u043d\u0435\u0457 \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0438\u0445 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u0435\u043b\u044c \u0442\u043e\u0432\u0430\u0440\u0456\u0432, \u0440\u043e\u0431\u0456\u0442 \u0456 \u043f\u043e\u0441\u043b\u0443\u0433 \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0417\u0430\u043a\u043e\u043d\u043e\u043c \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u0457\""
                         },
                         "value": true
@@ -701,9 +701,9 @@
                             "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING",
                             "scheme": "LAW922"
                         },
-                        "id": "ccfbc3e18abe44f0aaadd4a37f22cfae",
+                        "id": "6d7acf89473f4cc89f23ea465ca2829a",
                         "requirement": {
-                            "id": "fd66a96a1d9b423d9fc56d59b4af70a8",
+                            "id": "95ea4a2e1fc340c8a2ce75ffc48a93d1",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u0432\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043d\u044f\u043c \u0434\u0438\u0442\u044f\u0447\u043e\u0457 \u043f\u0440\u0430\u0446\u0456 \u0447\u0438 \u0431\u0443\u0434\u044c-\u044f\u043a\u0438\u043c\u0438 \u0444\u043e\u0440\u043c\u0430\u043c\u0438 \u0442\u043e\u0440\u0433\u0456\u0432\u043b\u0456 \u043b\u044e\u0434\u044c\u043c\u0438"
                         },
                         "value": true
@@ -713,9 +713,9 @@
                             "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES",
                             "scheme": "LAW922"
                         },
-                        "id": "68985fa2e2a644d5bf869938ac340a16",
+                        "id": "4425fe1038fd42e9ab673bbb2ddd05da",
                         "requirement": {
-                            "id": "a427ef80c55f44e897e528f898bcfac9",
+                            "id": "a88f03fdce1b492ca54f5d4980904a38",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u043c\u0430\u0454 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456 \u0437\u0456 \u0441\u043f\u043b\u0430\u0442\u0438 \u043f\u043e\u0434\u0430\u0442\u043a\u0456\u0432 \u0456 \u0437\u0431\u043e\u0440\u0456\u0432 (\u043e\u0431\u043e\u0432'\u044f\u0437\u043a\u043e\u0432\u0438\u0445 \u043f\u043b\u0430\u0442\u0435\u0436\u0456\u0432)"
                         },
                         "value": true
@@ -725,9 +725,9 @@
                             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION",
                             "scheme": "LAW922"
                         },
-                        "id": "80913dfdcf1f4809bca7f5745a59d148",
+                        "id": "8368d8aa844a4cc2b3d39b1000c4653d",
                         "requirement": {
-                            "id": "c0cf76062e234535b584049b4eb15cd7",
+                            "id": "1c273a02eb564c40a5a06bdc8633be0a",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u043c\u0430\u0432 \u0437 \u0446\u0438\u043c \u0441\u0430\u043c\u0438\u043c \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u043f\u0440\u043e \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u044e, \u044f\u043a\u0438\u0439 \u0431\u0443\u043b\u043e \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043e \u0447\u0435\u0440\u0435\u0437 \u043d\u0435\u0432\u0438\u043a\u043e\u043d\u0430\u043d\u043d\u044f \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u0441\u0432\u043e\u0457\u0445 \u0437\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u044c \u0456\u0437 \u0437\u0430\u0441\u0442\u043e\u0441\u0443\u0432\u0430\u043d\u043d\u044f\u043c \u0441\u0430\u043d\u043a\u0446\u0456\u0439 \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0448\u0442\u0440\u0430\u0444\u0456\u0432 \u0442\u0430/\u0430\u0431\u043e \u0432\u0456\u0434\u0448\u043a\u043e\u0434\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0431\u0438\u0442\u043a\u0456\u0432 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u0437 \u0434\u0430\u0442\u0438 \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e\u0433\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043d\u044f \u0442\u0430\u043a\u043e\u0433\u043e \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443"
                         },
                         "value": true
@@ -737,9 +737,9 @@
                             "id": "CRITERION.EXCLUSION.NATIONAL.OTHER",
                             "scheme": "LAW922"
                         },
-                        "id": "53d5ac321b874b8cb1c0c0d4ed292b54",
+                        "id": "e0c03a451f954768ab6c8b5819a52dd6",
                         "requirement": {
-                            "id": "243454c247a844ac92059a1a512a2505",
+                            "id": "00db64d269f34146b4e3aa511c21443f",
                             "title": "\u0423 \u0404\u0434\u0438\u043d\u043e\u043c\u0443 \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u043c\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0456 \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c \u043f\u0440\u0438\u0441\u0443\u0442\u043d\u044f \u0456\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0456\u044f, \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0430 \u043f\u0443\u043d\u043a\u0442\u043e\u043c 9 \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0434\u0440\u0443\u0433\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 9 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044e \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c\""
                         },
                         "value": true
@@ -749,9 +749,9 @@
                             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.ENVIRONMENTAL_MANAGEMENT_MEASURES",
                             "scheme": "LAW922"
                         },
-                        "id": "d679b884ff104a49afdc5bf3f99cbdcf",
+                        "id": "78bda6ff40794f01a64b912b967ecf38",
                         "requirement": {
-                            "id": "9895853717754ff2a2003bfc722bdcb9",
+                            "id": "3c72445d9315456ab23b75da82582ac9",
                             "title": "\u0422\u0435\u043a\u0441\u0442 \u0437\u0430\u043f\u043e\u0432\u043d\u0435\u043d\u0438\u0439 \u043a\u043e\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0435\u043c"
                         },
                         "value": true
@@ -761,9 +761,9 @@
                             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION",
                             "scheme": "LAW922"
                         },
-                        "id": "1e2820bc51204e0cb5f4b6418551db4d",
+                        "id": "1fa4cc1ac0994686b8905ec6b54f9c56",
                         "requirement": {
-                            "id": "a541df630b9b4004adb9ebc0d8d136d8",
+                            "id": "f1599d9d678c475895b751f188d37f29",
                             "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0440\u0430\u0437\u043e\u043c \u0456\u0437 \u0437\u0430\u043b\u0443\u0447\u0435\u043d\u0438\u043c\u0438 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u044f\u043c\u0438 \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0430/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u044f (\u0437\u0430 \u043d\u0430\u044f\u0432\u043d\u043e\u0441\u0442\u0456), \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u0454 \u043a\u0432\u0430\u043b\u0456\u0444\u0456\u043a\u0430\u0446\u0456\u0439\u043d\u0438\u043c \u043a\u0440\u0438\u0442\u0435\u0440\u0456\u044f\u043c \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e \u0434\u043e \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0442\u0440\u0435\u0442\u044c\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 16 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \u0432\u0456\u0434 25.12.2015 \u2116 922-VIII \"\u041f\u0440\u043e \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456\""
                         },
                         "value": true
@@ -773,9 +773,9 @@
                             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT",
                             "scheme": "LAW922"
                         },
-                        "id": "8f41fe075571437a91d1ca552bc984fb",
+                        "id": "7ee5e0542657480c909389df8992a1a4",
                         "requirement": {
-                            "id": "b8a724b4d04f426297031b78767328e1",
+                            "id": "7dbd2c7c70664a5bbfaa2d599307eab7",
                             "title": "\u0422\u0435\u043a\u0441\u0442 \u0437\u0430\u043f\u043e\u0432\u043d\u0435\u043d\u0438\u0439 \u043a\u043e\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0435\u043c"
                         },
                         "value": true
@@ -945,7 +945,7 @@
         },
         "contracts": [
             {
-                "awardID": "45661e84097445e784c31e2d96566832",
+                "awardID": "26c32dcc0481432ab81f10d84360abf4",
                 "contractID": "UA-2027-01-01-000001-a-a1",
                 "date": "2027-01-31T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
@@ -960,7 +960,7 @@
                 }
             },
             {
-                "awardID": "866d796c99b14e0991b5504bad98f827",
+                "awardID": "c97c119a86bf4f29883682546f89b63b",
                 "contractID": "UA-2027-01-01-000001-a-a2",
                 "date": "2027-01-31T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
@@ -982,7 +982,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0421\u0442\u0440\u043e\u043a, \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u044f\u043a\u043e\u0433\u043e \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0456 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457 \u0432\u0432\u0430\u0436\u0430\u044e\u0442\u044c\u0441\u044f \u0434\u0456\u0439\u0441\u043d\u0438\u043c\u0438, \u0430\u043b\u0435 \u043d\u0435 \u043c\u0435\u043d\u0448\u0435 90 \u0434\u043d\u0456\u0432 \u0456\u0437 \u0434\u0430\u0442\u0438 \u043a\u0456\u043d\u0446\u0435\u0432\u043e\u0433\u043e \u0441\u0442\u0440\u043e\u043a\u0443 \u043f\u043e\u0434\u0430\u043d\u043d\u044f \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0438\u0445 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0439",
-                "id": "a3115169ef8442119cb766648a4a0862",
+                "id": "49e3cc34996d4432ab7962945eecb352",
                 "legislation": [
                     {
                         "article": "22.2.11",
@@ -999,12 +999,12 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "89ca0b90ba804316bab130370876a93e",
+                        "id": "90b6068e1f6b4be3a7599d03b3e98d30",
                         "requirements": [
                             {
                                 "dataType": "integer",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
-                                "id": "22cd239f9fe34a0682b8a33ad6d14f79",
+                                "id": "7e1371e08201429c8f5cf63b32bfcbfb",
                                 "minValue": 90,
                                 "status": "active",
                                 "title": "\u0421\u0442\u0440\u043e\u043a \u0434\u0456\u0457 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457 \u0456\u0437 \u0434\u0430\u0442\u0438 \u043a\u0456\u043d\u0446\u0435\u0432\u043e\u0433\u043e \u0441\u0442\u0440\u043e\u043a\u0443 \u043f\u043e\u0434\u0430\u043d\u043d\u044f \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0438\u0445 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0439",
@@ -1025,7 +1025,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0422\u0435\u043d\u0434\u0435\u0440\u043d\u0430 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044f \u0442\u0430 \u0443\u0441\u0456 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0438, \u044f\u043a\u0456 \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0456 \u0432\u0438\u043c\u043e\u0433\u0430\u043c\u0438 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0456\u0457 \u0456 \u0434\u043e\u0434\u0430\u0442\u043a\u0430\u043c\u0438 \u0434\u043e \u043d\u0435\u0457, \u0441\u043a\u043b\u0430\u0434\u0430\u044e\u0442\u044c\u0441\u044f \u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u043e\u044e \u043c\u043e\u0432\u043e\u044e.\n\u042f\u043a\u0449\u043e \u0432 \u0441\u043a\u043b\u0430\u0434\u0456 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457 \u043d\u0430\u0434\u0430\u0454\u0442\u044c\u0441\u044f \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442 \u043d\u0430 \u0456\u043d\u0448\u0456\u0439 \u043c\u043e\u0432\u0456, \u043d\u0456\u0436 \u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u0430, \u0443\u0447\u0430\u0441\u043d\u0438\u043a \u043d\u0430\u0434\u0430\u0454 \u0430\u0432\u0442\u0435\u043d\u0442\u0438\u0447\u043d\u0438\u0439 \u043f\u0435\u0440\u0435\u043a\u043b\u0430\u0434 \u0446\u044c\u043e\u0433\u043e \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430 \u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u043e\u044e \u043c\u043e\u0432\u043e\u044e. \u0412\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u0456\u0441\u0442\u044c \u0437\u0430 \u044f\u043a\u0456\u0441\u0442\u044c \u0442\u0430 \u0434\u043e\u0441\u0442\u043e\u0432\u0456\u0440\u043d\u0456\u0441\u0442\u044c \u043f\u0435\u0440\u0435\u043a\u043b\u0430\u0434\u0443 \u043d\u0435\u0441\u0435 \u0443\u0447\u0430\u0441\u043d\u0438\u043a. \u0422\u0435\u043a\u0441\u0442\u0438 \u043f\u043e\u0432\u0438\u043d\u043d\u0456 \u0431\u0443\u0442\u0438 \u0430\u0432\u0442\u0435\u043d\u0442\u0438\u0447\u043d\u0438\u043c\u0438, \u0432\u0438\u0437\u043d\u0430\u0447\u0430\u043b\u044c\u043d\u0438\u043c \u0454 \u0442\u0435\u043a\u0441\u0442 \u0432\u0438\u043a\u043b\u0430\u0434\u0435\u043d\u0438\u0439 \u0443\u043a\u0440\u0430\u0457\u043d\u0441\u044c\u043a\u043e\u044e \u043c\u043e\u0432\u043e\u044e.\n\u0414\u0430\u043d\u0430 \u0432\u0438\u043c\u043e\u0433\u0430 \u043d\u0435 \u0432\u0456\u0434\u043d\u043e\u0441\u0438\u0442\u044c\u0441\u044f \u0434\u043e \u0432\u043b\u0430\u0441\u043d\u0438\u0445 \u043d\u0430\u0437\u0432 \u0442\u0430/\u0430\u0431\u043e \u0437\u0430\u0433\u0430\u043b\u044c\u043d\u043e\u043f\u0440\u0438\u0439\u043d\u044f\u0442\u0438\u0445 \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u044c, \u0442\u0435\u0440\u043c\u0456\u043d\u0456\u0432, \u043c\u0430\u043b\u044e\u043d\u043a\u0456\u0432, \u043a\u0440\u0435\u0441\u043b\u0435\u043d\u044c \u0442\u043e\u0449\u043e",
-                "id": "e519f246a6d24575a6da81dc086ae462",
+                "id": "189bb7aecc2e42679a60d6acdb853a0b",
                 "legislation": [
                     {
                         "article": "22.2.13",
@@ -1042,7 +1042,7 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "6f6857af14494fc48ef92bdfcd578912",
+                        "id": "ebee3e97f198403e9f9e390dee18f9f5",
                         "requirements": [
                             {
                                 "dataSchema": "ISO 639-3",
@@ -1055,7 +1055,7 @@
                                     "fra",
                                     "spa"
                                 ],
-                                "id": "03d61981028f4de3bafa7946a08b0da4",
+                                "id": "8ef2a75237154bc59972ade16e3a0815",
                                 "status": "active",
                                 "title": "\u041c\u043e\u0432\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u0457"
                             }
@@ -1071,7 +1071,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0417\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u043c\u0430\u0454 \u043d\u0435\u0437\u0430\u043f\u0435\u0440\u0435\u0447\u043d\u0456 \u0434\u043e\u043a\u0430\u0437\u0438 \u0442\u043e\u0433\u043e, \u0449\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043f\u0440\u043e\u043f\u043e\u043d\u0443\u0454, \u0434\u0430\u0454 \u0430\u0431\u043e \u043f\u043e\u0433\u043e\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f \u0434\u0430\u0442\u0438 \u043f\u0440\u044f\u043c\u043e \u0447\u0438 \u043e\u043f\u043e\u0441\u0435\u0440\u0435\u0434\u043a\u043e\u0432\u0430\u043d\u043e \u0431\u0443\u0434\u044c-\u044f\u043a\u0456\u0439 \u0441\u043b\u0443\u0436\u0431\u043e\u0432\u0456\u0439 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0456\u0439) \u043e\u0441\u043e\u0431\u0456 \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u0430, \u0456\u043d\u0448\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u043e\u0440\u0433\u0430\u043d\u0443 \u0432\u0438\u043d\u0430\u0433\u043e\u0440\u043e\u0434\u0443 \u0432 \u0431\u0443\u0434\u044c-\u044f\u043a\u0456\u0439 \u0444\u043e\u0440\u043c\u0456 (\u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044f \u0449\u043e\u0434\u043e \u043d\u0430\u0439\u043c\u0443 \u043d\u0430 \u0440\u043e\u0431\u043e\u0442\u0443, \u0446\u0456\u043d\u043d\u0430 \u0440\u0456\u0447, \u043f\u043e\u0441\u043b\u0443\u0433\u0430 \u0442\u043e\u0449\u043e) \u0437 \u043c\u0435\u0442\u043e\u044e \u0432\u043f\u043b\u0438\u043d\u0443\u0442\u0438 \u043d\u0430 \u043f\u0440\u0438\u0439\u043d\u044f\u0442\u0442\u044f \u0440\u0456\u0448\u0435\u043d\u043d\u044f \u0449\u043e\u0434\u043e \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u043d\u044f \u043f\u0435\u0440\u0435\u043c\u043e\u0436\u0446\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0430\u0431\u043e \u0437\u0430\u0441\u0442\u043e\u0441\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c \u043f\u0435\u0432\u043d\u043e\u0457 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456",
-                "id": "6936e52c8fca4a15a514d2d5bc59d1e0",
+                "id": "f9e2949052164a0298fe7f334ba1042a",
                 "legislation": [
                     {
                         "article": "17.1.1",
@@ -1088,19 +1088,19 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "de05b200fb154c4f94517589e59f3f66",
+                        "id": "42b9d6afdc9948dda19430fb359397b7",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "8558cf5fb87046c99e6c8229b491770f",
+                                        "id": "f81947d717fc44b7a02e9ce697c2f433",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
-                                "id": "31e7d7941ac84595aca79af0b5eafcec",
+                                "id": "87752185e02d4c5d983e0a4f896669a1",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043f\u0440\u043e\u043f\u043e\u043d\u0443\u0454, \u0434\u0430\u0454 \u0430\u0431\u043e \u043f\u043e\u0433\u043e\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f \u0434\u0430\u0442\u0438 \u043f\u0440\u044f\u043c\u043e \u0447\u0438 \u043e\u043f\u043e\u0441\u0435\u0440\u0435\u0434\u043a\u043e\u0432\u0430\u043d\u043e \u0431\u0443\u0434\u044c-\u044f\u043a\u0456\u0439 \u0441\u043b\u0443\u0436\u0431\u043e\u0432\u0456\u0439 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0456\u0439) \u043e\u0441\u043e\u0431\u0456 \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u0430, \u0456\u043d\u0448\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u043e\u0440\u0433\u0430\u043d\u0443 \u0432\u0438\u043d\u0430\u0433\u043e\u0440\u043e\u0434\u0443 \u0432 \u0431\u0443\u0434\u044c-\u044f\u043a\u0456\u0439 \u0444\u043e\u0440\u043c\u0456 (\u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044f \u0449\u043e\u0434\u043e \u043d\u0430\u0439\u043c\u0443 \u043d\u0430 \u0440\u043e\u0431\u043e\u0442\u0443, \u0446\u0456\u043d\u043d\u0430 \u0440\u0456\u0447, \u043f\u043e\u0441\u043b\u0443\u0433\u0430 \u0442\u043e\u0449\u043e) \u0437 \u043c\u0435\u0442\u043e\u044e \u0432\u043f\u043b\u0438\u043d\u0443\u0442\u0438 \u043d\u0430 \u043f\u0440\u0438\u0439\u043d\u044f\u0442\u0442\u044f \u0440\u0456\u0448\u0435\u043d\u043d\u044f \u0449\u043e\u0434\u043e \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u043d\u044f \u043f\u0435\u0440\u0435\u043c\u043e\u0436\u0446\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0430\u0431\u043e \u0437\u0430\u0441\u0442\u043e\u0441\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c \u043f\u0435\u0432\u043d\u043e\u0457 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456"
                             }
@@ -1116,7 +1116,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0412\u0456\u0434\u043e\u043c\u043e\u0441\u0442\u0456 \u043f\u0440\u043e \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0443 \u043e\u0441\u043e\u0431\u0443, \u044f\u043a\u0430 \u0454 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0432\u043d\u0435\u0441\u0435\u043d\u043e \u0434\u043e \u0404\u0434\u0438\u043d\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u0440\u0435\u0454\u0441\u0442\u0440\u0443 \u043e\u0441\u0456\u0431, \u044f\u043a\u0456 \u0432\u0447\u0438\u043d\u0438\u043b\u0438 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0456 \u0430\u0431\u043e \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u0456 \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f; \u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0443 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0443) \u043e\u0441\u043e\u0431\u0443 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0443 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0442\u0438 \u0439\u043e\u0433\u043e \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0438 \u043f\u0456\u0434 \u0447\u0430\u0441 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0444\u0456\u0437\u0438\u0447\u043d\u0443 \u043e\u0441\u043e\u0431\u0443, \u044f\u043a\u0430 \u0454 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c, \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0433\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e",
-                "id": "1be3ca918e8247df807f84ca1113bda3",
+                "id": "00fefcb821b94f178c531e21e98fd017",
                 "legislation": [
                     {
                         "article": "17.1.2",
@@ -1143,20 +1143,20 @@
                 "requirementGroups": [
                     {
                         "description": "\u042e\u0440\u0438\u0434\u0438\u0447\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "2af78f499bc3483c8e715f52891b75d5",
+                        "id": "944d500a0a814784a7d56e5d0be0cb93",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "27319bc085a149669102f82cb63f7906",
+                                        "id": "e5174e1e08a141b984ac08376d12d4ca",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "fc7ad4ed402740eb8dd96835a38eef28",
+                                "id": "0ca14db9e3134006b43e0d0d88311d9e",
                                 "status": "active",
                                 "title": "\u0412\u0456\u0434\u043e\u043c\u043e\u0441\u0442\u0456 \u043f\u0440\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u043d\u0435\u0441\u0435\u043d\u043e \u0434\u043e \u0404\u0434\u0438\u043d\u043e\u0433\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u0433\u043e \u0440\u0435\u0454\u0441\u0442\u0440\u0443 \u043e\u0441\u0456\u0431, \u044f\u043a\u0456 \u0432\u0447\u0438\u043d\u0438\u043b\u0438 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0456 \u0430\u0431\u043e \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u0456 \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f"
                             },
@@ -1165,13 +1165,13 @@
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "6efc184fe8e049778d7dc6766dd68e80",
+                                        "id": "5c957d8c065a4219bf86adf8ea1c3ec2",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "ccc629c76e6e4d54a4cc91a31d2144e6",
+                                "id": "56c04ba5ee2e4611bb70ca6dc5983c5a",
                                 "status": "active",
                                 "title": "\u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0443 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0443) \u043e\u0441\u043e\u0431\u0443 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0443 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0442\u0438 \u0439\u043e\u0433\u043e \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0438 \u043f\u0456\u0434 \u0447\u0430\u0441 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0433\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e"
                             }
@@ -1179,20 +1179,20 @@
                     },
                     {
                         "description": "\u0424\u0456\u0437\u0438\u0447\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "76b7e79096674fef93a1db3783afda48",
+                        "id": "d67b8115b2b44919827e0b6f8ebe6718",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "dd56a8b7b04b45359ad11b1f3e6970d3",
+                                        "id": "68c4c950365b4167bafe80d4cc87877d",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "3b36564329554348b779da7bc6d94682",
+                                "id": "6508759a8540413cadc7ec2e8cf0c3c3",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0433\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0430\u0431\u043e \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0454\u044e"
                             }
@@ -1208,7 +1208,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "C\u0443\u0431\u2019\u0454\u043a\u0442 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u044e\u0432\u0430\u043d\u043d\u044f (\u0443\u0447\u0430\u0441\u043d\u0438\u043a) \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u043e\u0441\u0442\u0430\u043d\u043d\u0456\u0445 \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u043f\u0440\u0438\u0442\u044f\u0433\u0443\u0432\u0430\u0432\u0441\u044f \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0435 \u043f\u0443\u043d\u043a\u0442\u043e\u043c 4 \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0434\u0440\u0443\u0433\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 6, \u043f\u0443\u043d\u043a\u0442\u043e\u043c 1 \u0441\u0442\u0430\u0442\u0442\u0456 50 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0437\u0430\u0445\u0438\u0441\u0442 \u0435\u043a\u043e\u043d\u043e\u043c\u0456\u0447\u043d\u043e\u0457 \u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0446\u0456\u0457\", \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043d\u0438\u0445 \u0443\u0437\u0433\u043e\u0434\u0436\u0435\u043d\u0438\u0445 \u0434\u0456\u0439, \u0449\u043e \u0441\u0442\u043e\u0441\u0443\u044e\u0442\u044c\u0441\u044f \u0441\u043f\u043e\u0442\u0432\u043e\u0440\u0435\u043d\u043d\u044f \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0456\u0432 \u0442\u0435\u043d\u0434\u0435\u0440\u0456\u0432",
-                "id": "b915d3ff4efe422bacd17127c1ee396f",
+                "id": "140af3f8f1914b5fbef0e26230fc09c3",
                 "legislation": [
                     {
                         "article": "17.1.4",
@@ -1245,13 +1245,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "211936a096ee4c358fda11609002ab3f",
+                        "id": "d52f31ffb01742038df9e1885f445495",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "f6de5ef1633c45789f1a0c4d07d8f6eb",
+                                "id": "90c0e3c682184c1892a0c41cd7d0dd93",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u043e\u0441\u0442\u0430\u043d\u043d\u0456\u0445 \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u043d\u0435 \u043f\u0440\u0438\u0442\u044f\u0433\u0443\u0432\u0430\u0432\u0441\u044f \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u0430\u043d\u0442\u0438\u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043d\u0438\u0445 \u0443\u0437\u0433\u043e\u0434\u0436\u0435\u043d\u0438\u0445 \u0434\u0456\u0439, \u0449\u043e \u0441\u0442\u043e\u0441\u0443\u044e\u0442\u044c\u0441\u044f \u0441\u043f\u043e\u0442\u0432\u043e\u0440\u0435\u043d\u043d\u044f \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u0456\u0432 \u0442\u043e\u0440\u0433\u0456\u0432, \u0430\u0443\u043a\u0446\u0456\u043e\u043d\u0456\u0432, \u043a\u043e\u043d\u043a\u0443\u0440\u0441\u0456\u0432, \u0442\u0435\u043d\u0434\u0435\u0440\u0456\u0432"
                             }
@@ -1267,7 +1267,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0430 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0430) \u043e\u0441\u043e\u0431\u0430 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0430 \u043f\u0456\u0434\u043f\u0438\u0441\u0430\u043b\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0443 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044e (\u0430\u0431\u043e \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u0430 \u043d\u0430 \u043f\u0456\u0434\u043f\u0438\u0441\u0430\u043d\u043d\u044f \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u0432 \u0440\u0430\u0437\u0456 \u043f\u0435\u0440\u0435\u0433\u043e\u0432\u043e\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456) \u0430\u0431\u043e \u0444\u0456\u0437\u0438\u0447\u043d\u0430 \u043e\u0441\u043e\u0431\u0430, \u044f\u043a\u0430 \u0454 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0431\u0443\u043b\u0430 \u0437\u0430\u0441\u0443\u0434\u0436\u0435\u043d\u0430 \u0437\u0430 \u043a\u0440\u0438\u043c\u0456\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u0432\u0447\u0438\u043d\u0435\u043d\u0435 \u0437 \u043a\u043e\u0440\u0438\u0441\u043b\u0438\u0432\u0438\u0445 \u043c\u043e\u0442\u0438\u0432\u0456\u0432 (\u0437\u043e\u043a\u0440\u0435\u043c\u0430, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u0435 \u0437 \u0445\u0430\u0431\u0430\u0440\u043d\u0438\u0446\u0442\u0432\u043e\u043c, \u0448\u0430\u0445\u0440\u0430\u0439\u0441\u0442\u0432\u043e\u043c \u0442\u0430 \u0432\u0456\u0434\u043c\u0438\u0432\u0430\u043d\u043d\u044f\u043c \u043a\u043e\u0448\u0442\u0456\u0432), \u0441\u0443\u0434\u0438\u043c\u0456\u0441\u0442\u044c \u0437 \u044f\u043a\u043e\u0457 \u043d\u0435 \u0437\u043d\u044f\u0442\u043e \u0430\u0431\u043e \u043d\u0435 \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043e \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443",
-                "id": "30874cc25f434f159d93af657d4db00c",
+                "id": "423bcf6245fb453286d5524d650ab03c",
                 "legislation": [
                     {
                         "article": "17.1.5",
@@ -1294,20 +1294,20 @@
                 "requirementGroups": [
                     {
                         "description": "\u0424\u0456\u0437\u0438\u0447\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "c565052db94841c290e9f05a5ef9fcd3",
+                        "id": "baa5c212bae3426ea0a73470431fdd7a",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "1bca3d45dd4940ee99a9148ad40b7611",
+                                        "id": "29719afd548149b8a390bfb1dcc81bf5",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "2263ed49caa647d6a8a027d84a330f11",
+                                "id": "344a9aa4fe274db4ac4ca5d86a2156d1",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u0432 \u0437\u0430\u0441\u0443\u0434\u0436\u0435\u043d\u0438\u0439 \u0437\u0430 \u043a\u0440\u0438\u043c\u0456\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u0432\u0447\u0438\u043d\u0435\u043d\u0435 \u0437 \u043a\u043e\u0440\u0438\u0441\u043b\u0438\u0432\u0438\u0445 \u043c\u043e\u0442\u0438\u0432\u0456\u0432 (\u0437\u043e\u043a\u0440\u0435\u043c\u0430, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u0435 \u0437 \u0445\u0430\u0431\u0430\u0440\u043d\u0438\u0446\u0442\u0432\u043e\u043c \u0442\u0430 \u0432\u0456\u0434\u043c\u0438\u0432\u0430\u043d\u043d\u044f\u043c \u043a\u043e\u0448\u0442\u0456\u0432), \u0441\u0443\u0434\u0438\u043c\u0456\u0441\u0442\u044c \u0437 \u044f\u043a\u043e\u0457 \u0437\u043d\u044f\u0442\u043e \u0430\u0431\u043e \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043e \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443"
                             }
@@ -1315,20 +1315,20 @@
                     },
                     {
                         "description": "\u042e\u0440\u0438\u0434\u0438\u0447\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "3bbc1c5f17114cb2a9f4b8ed87324af8",
+                        "id": "e9eb1a860dc54486841c8ee9560e5dc9",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "c87481d0a49045d69cad3c7a483a727b",
+                                        "id": "b743c50a73fa42ca8662f2a04644c299",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "5afdaa6c66a447ffa8dbd606d139e9a7",
+                                "id": "f3a5720fd53b4ac1b004fda98c5d720c",
                                 "status": "active",
                                 "title": "\u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0430 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0430) \u043e\u0441\u043e\u0431\u0430 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0430 \u043f\u0456\u0434\u043f\u0438\u0441\u0430\u043b\u0430 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0443 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044e (\u0430\u0431\u043e \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u0430 \u043d\u0430 \u043f\u0456\u0434\u043f\u0438\u0441\u0430\u043d\u043d\u044f \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u0432 \u0440\u0430\u0437\u0456 \u043f\u0435\u0440\u0435\u0433\u043e\u0432\u043e\u0440\u043d\u043e\u0457 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456), \u043d\u0435 \u0431\u0443\u043b\u0430 \u0437\u0430\u0441\u0443\u0434\u0436\u0435\u043d\u0430 \u0437\u0430 \u043a\u0440\u0438\u043c\u0456\u043d\u0430\u043b\u044c\u043d\u0435 \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u0432\u0447\u0438\u043d\u0435\u043d\u0435 \u0437 \u043a\u043e\u0440\u0438\u0441\u043b\u0438\u0432\u0438\u0445 \u043c\u043e\u0442\u0438\u0432\u0456\u0432 (\u0437\u043e\u043a\u0440\u0435\u043c\u0430, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u0435 \u0437 \u0445\u0430\u0431\u0430\u0440\u043d\u0438\u0446\u0442\u0432\u043e\u043c, \u0448\u0430\u0445\u0440\u0430\u0439\u0441\u0442\u0432\u043e\u043c \u0442\u0430 \u0432\u0456\u0434\u043c\u0438\u0432\u0430\u043d\u043d\u044f\u043c \u043a\u043e\u0448\u0442\u0456\u0432), \u0441\u0443\u0434\u0438\u043c\u0456\u0441\u0442\u044c \u0437 \u044f\u043a\u043e\u0457 \u0437\u043d\u044f\u0442\u043e \u0430\u0431\u043e \u043f\u043e\u0433\u0430\u0448\u0435\u043d\u043e \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443"
                             }
@@ -1344,7 +1344,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0422\u0435\u043d\u0434\u0435\u0440\u043d\u0430 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044f \u043f\u043e\u0434\u0430\u043d\u0430 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043a\u043e\u043d\u043a\u0443\u0440\u0435\u043d\u0442\u043d\u043e\u0457 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0430\u0431\u043e \u0443\u0447\u0430\u0441\u0442\u044c \u0443 \u043f\u0435\u0440\u0435\u0433\u043e\u0432\u043e\u0440\u043d\u0456\u0439 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0456 \u0431\u0435\u0440\u0435 \u0443\u0447\u0430\u0441\u043d\u0438\u043a, \u044f\u043a\u0438\u0439 \u0454 \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u0437 \u0456\u043d\u0448\u0438\u043c\u0438 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430\u043c\u0438 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0442\u0430/\u0430\u0431\u043e \u0437 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e (\u043e\u0441\u043e\u0431\u0430\u043c\u0438), \u0442\u0430/\u0430\u0431\u043e \u0437 \u043a\u0435\u0440\u0456\u0432\u043d\u0438\u043a\u043e\u043c \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u0430",
-                "id": "99a3a51f395a4d74a97d59d60381067b",
+                "id": "b439370caae44a25bfb501502d2fd4db",
                 "legislation": [
                     {
                         "article": "17.1.7",
@@ -1361,19 +1361,19 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "4c05a192a5cb4d9ea70979431186f52d",
+                        "id": "a5e536a621eb46e68d49f49581660394",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "f0219a43a03d4a359092e385f06e6c6a",
+                                        "id": "5285dbe1dd574d058a57a24a95f673af",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
-                                "id": "3bf82130b2724041a7316655220859a2",
+                                "id": "07d8ecbcc268464eb068819a5ddd783e",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0454 \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u0437 \u0456\u043d\u0448\u0438\u043c\u0438 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430\u043c\u0438 \u0442\u0430/\u0430\u0431\u043e \u0437 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e (\u043e\u0441\u043e\u0431\u0430\u043c\u0438), \u0442\u0430/\u0430\u0431\u043e \u0437 \u043a\u0435\u0440\u0456\u0432\u043d\u0438\u043a\u043e\u043c \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u0430"
                             }
@@ -1389,7 +1389,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0432\u0438\u0437\u043d\u0430\u043d\u0438\u0439 \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443 \u0431\u0430\u043d\u043a\u0440\u0443\u0442\u043e\u043c \u0442\u0430 \u0441\u0442\u043e\u0441\u043e\u0432\u043d\u043e \u043d\u044c\u043e\u0433\u043e \u0432\u0456\u0434\u043a\u0440\u0438\u0442\u0430 \u043b\u0456\u043a\u0432\u0456\u0434\u0430\u0446\u0456\u0439\u043d\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430",
-                "id": "131ad11898e24d9cb3cbcca0a8eacb0b",
+                "id": "83795e28d0f348d2ae9d051ac35dbd5f",
                 "legislation": [
                     {
                         "article": "17.1.8",
@@ -1406,20 +1406,20 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "d6cec86d159645c7801a5bbc094503af",
+                        "id": "4e4ff2f16ab74bce99738d5380212d1f",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "462057b1d26f4936acc1e2099a07d1b2",
+                                        "id": "9fe277db50d14781b1e63ce1a2e39659",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "5a84575a56d14287807bd55143b9e5a9",
+                                "id": "1d1d3f3d21ea4d7b960f2a8329d8e60d",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u0438\u0437\u043d\u0430\u043d\u0438\u0439 \u0443 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043e\u043c\u0443 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u043f\u043e\u0440\u044f\u0434\u043a\u0443 \u0431\u0430\u043d\u043a\u0440\u0443\u0442\u043e\u043c \u0442\u0430 \u0441\u0442\u043e\u0441\u043e\u0432\u043d\u043e \u043d\u044c\u043e\u0433\u043e \u043d\u0435 \u0432\u0456\u0434\u043a\u0440\u0438\u0442\u0430 \u043b\u0456\u043a\u0432\u0456\u0434\u0430\u0446\u0456\u0439\u043d\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0430"
                             }
@@ -1435,7 +1435,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u042e\u0440\u0438\u0434\u0438\u0447\u043d\u0430 \u043e\u0441\u043e\u0431\u0430, \u044f\u043a\u0430 \u0454 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 (\u043a\u0440\u0456\u043c \u043d\u0435\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u0456\u0432), \u043d\u0435 \u043c\u0430\u0454 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0457 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0438 \u0447\u0438 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e\u0433\u043e \u0437 \u0440\u0435\u0430\u043b\u0456\u0437\u0430\u0446\u0456\u0457 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0457 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0438, \u044f\u043a\u0449\u043e \u0432\u0430\u0440\u0442\u0456\u0441\u0442\u044c \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0442\u043e\u0432\u0430\u0440\u0443 (\u0442\u043e\u0432\u0430\u0440\u0456\u0432), \u043f\u043e\u0441\u043b\u0443\u0433\u0438 (\u043f\u043e\u0441\u043b\u0443\u0433) \u0430\u0431\u043e \u0440\u043e\u0431\u0456\u0442 \u0434\u043e\u0440\u0456\u0432\u043d\u044e\u0454 \u0447\u0438 \u043f\u0435\u0440\u0435\u0432\u0438\u0449\u0443\u0454 20 \u043c\u0456\u043b\u044c\u0439\u043e\u043d\u0456\u0432 \u0433\u0440\u0438\u0432\u0435\u043d\u044c (\u0443 \u0442\u043e\u043c\u0443 \u0447\u0438\u0441\u043b\u0456 \u0437\u0430 \u043b\u043e\u0442\u043e\u043c)",
-                "id": "3d673292cd7246a0928c91e7acdc2716",
+                "id": "7d2ca404c59a4069b69b74fd13ddd6a7",
                 "legislation": [
                     {
                         "article": "17.1.10",
@@ -1452,13 +1452,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u0420\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u043e\u043c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "a8565b949af84da4b9e935c16707983b",
+                        "id": "ae5a5d176cb946529b52c5e169b529a2",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "a9f0ec05330e483095bb1f9d4c8248ef",
+                                "id": "3ce7a9a94b9449b4a55ec74c273adb4a",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043c\u0430\u0454 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u0443 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0443 \u0447\u0438 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e\u0433\u043e \u0437 \u0440\u0435\u0430\u043b\u0456\u0437\u0430\u0446\u0456\u0457 \u0430\u043d\u0442\u0438\u043a\u043e\u0440\u0443\u043f\u0446\u0456\u0439\u043d\u043e\u0457 \u043f\u0440\u043e\u0433\u0440\u0430\u043c\u0438"
                             }
@@ -1466,13 +1466,13 @@
                     },
                     {
                         "description": "\u041d\u0435\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u043e\u043c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "89b525ed1ec0439688784138a2c520ac",
+                        "id": "63b1ba3232dd4f419d508cb9907a6d37",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "a106c851d94347268d94cc9c7219070d",
+                                "id": "eda4067fd91b4e178dcbb04b7b9cc6f5",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0454 \u043d\u0435\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u043e\u043c"
                             }
@@ -1488,7 +1488,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0454 \u043e\u0441\u043e\u0431\u043e\u044e, \u0434\u043e \u044f\u043a\u043e\u0457 \u0437\u0430\u0441\u0442\u043e\u0441\u043e\u0432\u0430\u043d\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u044e \u0443 \u0432\u0438\u0434\u0456 \u0437\u0430\u0431\u043e\u0440\u043e\u043d\u0438 \u043d\u0430 \u0437\u0434\u0456\u0439\u0441\u043d\u0435\u043d\u043d\u044f \u0443 \u043d\u0435\u0457 \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0438\u0445 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u0435\u043b\u044c \u0442\u043e\u0432\u0430\u0440\u0456\u0432, \u0440\u043e\u0431\u0456\u0442 \u0456 \u043f\u043e\u0441\u043b\u0443\u0433 \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0417\u0430\u043a\u043e\u043d\u043e\u043c \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u0457\"",
-                "id": "2a863a5f6e89441da940ace7098c9966",
+                "id": "5c5571a1bc0e4dcb8954547c34cbbe61",
                 "legislation": [
                     {
                         "article": "17.1.11",
@@ -1514,13 +1514,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "ef6c053976444e8ba052bb4227043f7b",
+                        "id": "1e2d853402ba471ea796fdcd454468df",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "36fcef69ead54963b21a735d65dfd301",
+                                "id": "05f0492c4f6d4a57a4ec64570b39abec",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0454 \u043e\u0441\u043e\u0431\u043e\u044e, \u0434\u043e \u044f\u043a\u043e\u0457 \u0437\u0430\u0441\u0442\u043e\u0441\u043e\u0432\u0430\u043d\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u044e \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0437\u0430\u0431\u043e\u0440\u043e\u043d\u0438 \u043d\u0430 \u0437\u0434\u0456\u0439\u0441\u043d\u0435\u043d\u043d\u044f \u0443 \u043d\u0435\u0457 \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0438\u0445 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u0435\u043b\u044c \u0442\u043e\u0432\u0430\u0440\u0456\u0432, \u0440\u043e\u0431\u0456\u0442 \u0456 \u043f\u043e\u0441\u043b\u0443\u0433 \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0417\u0430\u043a\u043e\u043d\u043e\u043c \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u0457\""
                             }
@@ -1536,7 +1536,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "C\u043b\u0443\u0436\u0431\u043e\u0432\u0430 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0430) \u043e\u0441\u043e\u0431\u0430 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0443 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0442\u0438 \u0439\u043e\u0433\u043e \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0438 \u043f\u0456\u0434 \u0447\u0430\u0441 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0444\u0456\u0437\u0438\u0447\u043d\u0443 \u043e\u0441\u043e\u0431\u0443, \u044f\u043a\u0430 \u0454 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c, \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u0432\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043d\u044f\u043c \u0434\u0438\u0442\u044f\u0447\u043e\u0457 \u043f\u0440\u0430\u0446\u0456 \u0447\u0438 \u0431\u0443\u0434\u044c-\u044f\u043a\u0438\u043c\u0438 \u0444\u043e\u0440\u043c\u0430\u043c\u0438 \u0442\u043e\u0440\u0433\u0456\u0432\u043b\u0456 \u043b\u044e\u0434\u044c\u043c\u0438",
-                "id": "e6f1f3d12ad64cb5adcbfc7bfc71bd96",
+                "id": "af7416fc0abf4099bc718c1ae2b451ea",
                 "legislation": [
                     {
                         "article": "17.1.12",
@@ -1553,20 +1553,20 @@
                 "requirementGroups": [
                     {
                         "description": "\u0424\u0456\u0437\u0438\u0447\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "9cc22c22b5ae4e79bd7b943c4c4a1299",
+                        "id": "e3675af969884c908348e4268a8913c8",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "a8b1451b79ac4a1b91a048a361a93f45",
+                                        "id": "4826c8c504af4c6590d95bd2aef93680",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "fd66a96a1d9b423d9fc56d59b4af70a8",
+                                "id": "95ea4a2e1fc340c8a2ce75ffc48a93d1",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u0432\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043d\u044f\u043c \u0434\u0438\u0442\u044f\u0447\u043e\u0457 \u043f\u0440\u0430\u0446\u0456 \u0447\u0438 \u0431\u0443\u0434\u044c-\u044f\u043a\u0438\u043c\u0438 \u0444\u043e\u0440\u043c\u0430\u043c\u0438 \u0442\u043e\u0440\u0433\u0456\u0432\u043b\u0456 \u043b\u044e\u0434\u044c\u043c\u0438"
                             }
@@ -1574,20 +1574,20 @@
                     },
                     {
                         "description": "\u042e\u0440\u0438\u0434\u0438\u0447\u043d\u043e\u044e \u043e\u0441\u043e\u0431\u043e\u044e \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "584fefe0f16d46089af86992c753fe61",
+                        "id": "3671a06bbdca42089da9d5e2141884ba",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "958307ea5121402f81312e4ab826e6f3",
+                                        "id": "91b34014e99a412aae27745c27760032",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "64bd92ef46854e658834efa4f1db6168",
+                                "id": "c5672427cb3d44119a96113354753804",
                                 "status": "active",
                                 "title": "\u0421\u043b\u0443\u0436\u0431\u043e\u0432\u0430 (\u043f\u043e\u0441\u0430\u0434\u043e\u0432\u0430) \u043e\u0441\u043e\u0431\u0430 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u044f\u043a\u0443 \u0443\u043f\u043e\u0432\u043d\u043e\u0432\u0430\u0436\u0435\u043d\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u043f\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u043b\u044f\u0442\u0438 \u0439\u043e\u0433\u043e \u0456\u043d\u0442\u0435\u0440\u0435\u0441\u0438 \u043f\u0456\u0434 \u0447\u0430\u0441 \u043f\u0440\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0431\u0443\u043b\u043e \u043f\u0440\u0438\u0442\u044f\u0433\u043d\u0443\u0442\u043e \u0437\u0433\u0456\u0434\u043d\u043e \u0456\u0437 \u0437\u0430\u043a\u043e\u043d\u043e\u043c \u0434\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u0437\u0430 \u0432\u0447\u0438\u043d\u0435\u043d\u043d\u044f \u043f\u0440\u0430\u0432\u043e\u043f\u043e\u0440\u0443\u0448\u0435\u043d\u043d\u044f, \u043f\u043e\u0432'\u044f\u0437\u0430\u043d\u043e\u0433\u043e \u0437 \u0432\u0438\u043a\u043e\u0440\u0438\u0441\u0442\u0430\u043d\u043d\u044f\u043c \u0434\u0438\u0442\u044f\u0447\u043e\u0457 \u043f\u0440\u0430\u0446\u0456 \u0447\u0438 \u0431\u0443\u0434\u044c-\u044f\u043a\u0438\u043c\u0438 \u0444\u043e\u0440\u043c\u0430\u043c\u0438 \u0442\u043e\u0440\u0433\u0456\u0432\u043b\u0456 \u043b\u044e\u0434\u044c\u043c\u0438"
                             }
@@ -1603,7 +1603,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043c\u0430\u0454 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u0456\u0441\u0442\u044c \u0456\u0437 \u0441\u043f\u043b\u0430\u0442\u0438 \u043f\u043e\u0434\u0430\u0442\u043a\u0456\u0432 \u0456 \u0437\u0431\u043e\u0440\u0456\u0432 (\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u043a\u043e\u0432\u0438\u0445 \u043f\u043b\u0430\u0442\u0435\u0436\u0456\u0432), \u043a\u0440\u0456\u043c \u0432\u0438\u043f\u0430\u0434\u043a\u0443, \u044f\u043a\u0449\u043e \u0442\u0430\u043a\u0438\u0439 \u0443\u0447\u0430\u0441\u043d\u0438\u043a \u0437\u0434\u0456\u0439\u0441\u043d\u0438\u0432 \u0437\u0430\u0445\u043e\u0434\u0438 \u0449\u043e\u0434\u043e \u0440\u043e\u0437\u0441\u0442\u0440\u043e\u0447\u0435\u043d\u043d\u044f \u0456 \u0432\u0456\u0434\u0441\u0442\u0440\u043e\u0447\u0435\u043d\u043d\u044f \u0442\u0430\u043a\u043e\u0457 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456 \u0443 \u043f\u043e\u0440\u044f\u0434\u043a\u0443 \u0442\u0430 \u043d\u0430 \u0443\u043c\u043e\u0432\u0430\u0445, \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0445 \u0437\u0430\u043a\u043e\u043d\u043e\u0434\u0430\u0432\u0441\u0442\u0432\u043e\u043c \u043a\u0440\u0430\u0457\u043d\u0438 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457 \u0442\u0430\u043a\u043e\u0433\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430",
-                "id": "b7fedf7e2b0e4f9c896f11ebc53de1c7",
+                "id": "3c9ad75e4fb74ccb933c558b3a74458f",
                 "legislation": [
                     {
                         "article": "17.1.13",
@@ -1620,20 +1620,20 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0440\u0438 \u0432\u0456\u0434\u0441\u0443\u0442\u043d\u043e\u0441\u0442\u0456 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "be15884a109e4946be1113a2f258d88a",
+                        "id": "4045b4e8987c4990910acfc95c7d7580",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "8ccefdb1b63343cd83a3e1d22c258e10",
+                                        "id": "96f3e264e4354cda830018fcff01bbf4",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "a427ef80c55f44e897e528f898bcfac9",
+                                "id": "a88f03fdce1b492ca54f5d4980904a38",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u043c\u0430\u0454 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456 \u0437\u0456 \u0441\u043f\u043b\u0430\u0442\u0438 \u043f\u043e\u0434\u0430\u0442\u043a\u0456\u0432 \u0456 \u0437\u0431\u043e\u0440\u0456\u0432 (\u043e\u0431\u043e\u0432'\u044f\u0437\u043a\u043e\u0432\u0438\u0445 \u043f\u043b\u0430\u0442\u0435\u0436\u0456\u0432)"
                             }
@@ -1641,20 +1641,20 @@
                     },
                     {
                         "description": "\u041f\u0440\u0438 \u043d\u0430\u044f\u0432\u043d\u043e\u0441\u0442\u0456 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043d\u043e\u0441\u0442\u0456 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "12acf0ebf21e4948a962974276d7242c",
+                        "id": "17d99be11fa64b2e8bde144a9c2242e9",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "6abee29920b547cab6ed06cb335b18d3",
+                                        "id": "447d7f3ab96945f79f7f773dc7a9405d",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "37e54efaed674628beb479bcdb0b247a",
+                                "id": "88ab9351ee0c426fb48da147abec440b",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0437\u0434\u0456\u0439\u0441\u043d\u0438\u0432 \u0437\u0430\u0445\u043e\u0434\u0438 \u0449\u043e\u0434\u043e \u0440\u043e\u0437\u0441\u0442\u0440\u043e\u0447\u0435\u043d\u043d\u044f \u0456 \u0432\u0456\u0434\u0441\u0442\u0440\u043e\u0447\u0435\u043d\u043d\u044f \u0442\u0430\u043a\u043e\u0457 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456 \u0443 \u043f\u043e\u0440\u044f\u0434\u043a\u0443 \u0442\u0430 \u043d\u0430 \u0443\u043c\u043e\u0432\u0430\u0445, \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0445 \u0437\u0430\u043a\u043e\u043d\u043e\u0434\u0430\u0432\u0441\u0442\u0432\u043e\u043c \u043a\u0440\u0430\u0457\u043d\u0438 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u0457 \u0442\u0430\u043a\u043e\u0433\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430"
                             },
@@ -1668,14 +1668,14 @@
                                     "\u0410\u0434\u043c\u0456\u043d\u0456\u0441\u0442\u0440\u0430\u0442\u0438\u0432\u043d\u0456 \u0442\u0430 \u0442\u0435\u0445\u043d\u0456\u0447\u043d\u0456 \u043f\u0440\u0438\u0447\u0438\u043d\u0438",
                                     "\u041e\u0441\u043e\u0431\u043b\u0438\u0432\u043e\u0441\u0442\u0456 \u0434\u0456\u044f\u043b\u044c\u043d\u043e\u0441\u0442\u0456 \u043f\u0456\u0434 \u0447\u0430\u0441 \u0432\u043e\u0454\u043d\u043d\u043e\u0433\u043e \u0441\u0442\u0430\u043d\u0443"
                                 ],
-                                "id": "8bb9dbf580c44c8c9e1cae7e322f4310",
+                                "id": "9a1594e362b847dba07510d5e5d03863",
                                 "status": "active",
                                 "title": "\u0425\u0430\u0440\u0430\u043a\u0442\u0435\u0440 \u0442\u0430 \u043f\u0440\u0438\u0447\u0438\u043d\u0430 \u0456\u0441\u043d\u0443\u044e\u0447\u043e\u0457 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456"
                             },
                             {
                                 "dataType": "number",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
-                                "id": "5815dfbc93174758af3ea981eb1d4062",
+                                "id": "0aecb9631df343af9c45ebd5cd5c6dea",
                                 "minValue": 0.0,
                                 "status": "active",
                                 "title": "\u0421\u0443\u043c\u0430 \u0456\u0441\u043d\u0443\u044e\u0447\u043e\u0457 \u0437\u0430\u0431\u043e\u0440\u0433\u043e\u0432\u0430\u043d\u043e\u0441\u0442\u0456, \u0433\u0440\u043d.",
@@ -1696,7 +1696,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0417\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u043c\u043e\u0436\u0435 \u043f\u0440\u0438\u0439\u043d\u044f\u0442\u0438 \u0440\u0456\u0448\u0435\u043d\u043d\u044f \u043f\u0440\u043e \u0432\u0456\u0434\u043c\u043e\u0432\u0443 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0443 \u0432 \u0443\u0447\u0430\u0441\u0442\u0456 \u0443 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0442\u0430 \u043c\u043e\u0436\u0435 \u0432\u0456\u0434\u0445\u0438\u043b\u0438\u0442\u0438 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0443 \u043f\u0440\u043e\u043f\u043e\u0437\u0438\u0446\u0456\u044e \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u0432 \u0440\u0430\u0437\u0456, \u044f\u043a\u0449\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u0432\u0438\u043a\u043e\u043d\u0430\u0432 \u0441\u0432\u043e\u0457 \u0437\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u043d\u044f \u0437\u0430 \u0440\u0430\u043d\u0456\u0448\u0435 \u0443\u043a\u043b\u0430\u0434\u0435\u043d\u0438\u043c \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u043e\u043c \u043f\u0440\u043e \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u044e \u0437 \u0446\u0438\u043c \u0441\u0430\u043c\u0438\u043c \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c, \u0449\u043e \u043f\u0440\u0438\u0437\u0432\u0435\u043b\u043e \u0434\u043e \u0439\u043e\u0433\u043e \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e\u0433\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043d\u044f, \u0456 \u0431\u0443\u043b\u043e \u0437\u0430\u0441\u0442\u043e\u0441\u043e\u0432\u0430\u043d\u043e \u0441\u0430\u043d\u043a\u0446\u0456\u0457 \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0448\u0442\u0440\u0430\u0444\u0456\u0432 \u0442\u0430/\u0430\u0431\u043e \u0432\u0456\u0434\u0448\u043a\u043e\u0434\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0431\u0438\u0442\u043a\u0456\u0432 - \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u0437 \u0434\u0430\u0442\u0438 \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e\u0433\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043d\u044f \u0442\u0430\u043a\u043e\u0433\u043e \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443. \u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0449\u043e \u043f\u0435\u0440\u0435\u0431\u0443\u0432\u0430\u0454 \u0432 \u043e\u0431\u0441\u0442\u0430\u0432\u0438\u043d\u0430\u0445, \u0437\u0430\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0445 \u0443 \u0447\u0430\u0441\u0442\u0438\u043d\u0456 \u0434\u0440\u0443\u0433\u0456\u0439 \u0446\u0456\u0454\u0457 \u0441\u0442\u0430\u0442\u0442\u0456, \u043c\u043e\u0436\u0435 \u043d\u0430\u0434\u0430\u0442\u0438 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u0432\u0436\u0438\u0442\u0442\u044f \u0437\u0430\u0445\u043e\u0434\u0456\u0432 \u0434\u043b\u044f \u0434\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u0441\u0432\u043e\u0454\u0457 \u043d\u0430\u0434\u0456\u0439\u043d\u043e\u0441\u0442\u0456, \u043d\u0435\u0437\u0432\u0430\u0436\u0430\u044e\u0447\u0438 \u043d\u0430 \u043d\u0430\u044f\u0432\u043d\u0456\u0441\u0442\u044c \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e\u0457 \u043f\u0456\u0434\u0441\u0442\u0430\u0432\u0438 \u0434\u043b\u044f \u0432\u0456\u0434\u043c\u043e\u0432\u0438 \u0432 \u0443\u0447\u0430\u0441\u0442\u0456 \u0443 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456. \u0414\u043b\u044f \u0446\u044c\u043e\u0433\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a (\u0441\u0443\u0431\u2019\u0454\u043a\u0442 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u044e\u0432\u0430\u043d\u043d\u044f) \u043f\u043e\u0432\u0438\u043d\u0435\u043d \u0434\u043e\u0432\u0435\u0441\u0442\u0438, \u0449\u043e \u0432\u0456\u043d \u0441\u043f\u043b\u0430\u0442\u0438\u0432 \u0430\u0431\u043e \u0437\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u0430\u0432\u0441\u044f \u0441\u043f\u043b\u0430\u0442\u0438\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u0456 \u0437\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u043d\u044f \u0442\u0430 \u0432\u0456\u0434\u0448\u043a\u043e\u0434\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0430\u0432\u0434\u0430\u043d\u0438\u0445 \u0437\u0431\u0438\u0442\u043a\u0456\u0432. \u042f\u043a\u0449\u043e \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u0432\u0432\u0430\u0436\u0430\u0454 \u0442\u0430\u043a\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u0434\u043e\u0441\u0442\u0430\u0442\u043d\u0456\u043c, \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0443 \u043d\u0435 \u043c\u043e\u0436\u0435 \u0431\u0443\u0442\u0438 \u0432\u0456\u0434\u043c\u043e\u0432\u043b\u0435\u043d\u043e \u0432 \u0443\u0447\u0430\u0441\u0442\u0456 \u0432 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456",
-                "id": "63a1fdbc429e4ca9ac5d2fd15d8cff8b",
+                "id": "ea562de336024e6685a8b0f9110a2188",
                 "legislation": [
                     {
                         "article": "17.2",
@@ -1713,13 +1713,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0440\u0438 \u0432\u0456\u0434\u0441\u0443\u0442\u043d\u043e\u0441\u0442\u0456 \u043d\u0435 \u0432\u0438\u043a\u043e\u043d\u0430\u043d\u0438\u0445 \u0437\u043e\u0431\u043e\u0432'\u044f\u0437\u0430\u043d\u044c \u0437\u0430 \u0440\u0430\u043d\u0456\u0448\u0435 \u0443\u043a\u043b\u0430\u0434\u0435\u043d\u0438\u043c \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u043e\u043c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "7467180ec7934a5fa2dcecae68da7232",
+                        "id": "0aa2e849fdc545d2a636a654f33eff64",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "c0cf76062e234535b584049b4eb15cd7",
+                                "id": "1c273a02eb564c40a5a06bdc8633be0a",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043d\u0435 \u043c\u0430\u0432 \u0437 \u0446\u0438\u043c \u0441\u0430\u043c\u0438\u043c \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a\u043e\u043c \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u043f\u0440\u043e \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u044e, \u044f\u043a\u0438\u0439 \u0431\u0443\u043b\u043e \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043e \u0447\u0435\u0440\u0435\u0437 \u043d\u0435\u0432\u0438\u043a\u043e\u043d\u0430\u043d\u043d\u044f \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u043e\u043c \u0441\u0432\u043e\u0457\u0445 \u0437\u043e\u0431\u043e\u0432\u2019\u044f\u0437\u0430\u043d\u044c \u0456\u0437 \u0437\u0430\u0441\u0442\u043e\u0441\u0443\u0432\u0430\u043d\u043d\u044f\u043c \u0441\u0430\u043d\u043a\u0446\u0456\u0439 \u0443 \u0432\u0438\u0433\u043b\u044f\u0434\u0456 \u0448\u0442\u0440\u0430\u0444\u0456\u0432 \u0442\u0430/\u0430\u0431\u043e \u0432\u0456\u0434\u0448\u043a\u043e\u0434\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0431\u0438\u0442\u043a\u0456\u0432 \u043f\u0440\u043e\u0442\u044f\u0433\u043e\u043c \u0442\u0440\u044c\u043e\u0445 \u0440\u043e\u043a\u0456\u0432 \u0437 \u0434\u0430\u0442\u0438 \u0434\u043e\u0441\u0442\u0440\u043e\u043a\u043e\u0432\u043e\u0433\u043e \u0440\u043e\u0437\u0456\u0440\u0432\u0430\u043d\u043d\u044f \u0442\u0430\u043a\u043e\u0433\u043e \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443"
                             }
@@ -1727,20 +1727,20 @@
                     },
                     {
                         "description": "\u041f\u0440\u0438 \u043d\u0430\u044f\u0432\u043d\u043e\u0441\u0442\u0456 \u043d\u0435 \u0432\u0438\u043a\u043e\u043d\u0430\u043d\u0438\u0445 \u0437\u043e\u0431\u043e\u0432'\u044f\u0437\u0430\u043d\u044c \u0437\u0430 \u0440\u0430\u043d\u0456\u0448\u0435 \u0443\u043a\u043b\u0430\u0434\u0435\u043d\u0438\u043c \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u043e\u043c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "fbe4f1890eb84892ba6188c20d47f2df",
+                        "id": "e5ed7b80e4d343c19344ea57eb7bbd5c",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "475a7d406c584b5286d2db954ca061ef",
+                                        "id": "c31966cb399743bbb424683050ccc820",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "975796f0e291459d8371e2d98342b345",
+                                "id": "a51509d0253b4570948d684ed0bba547",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0432\u0436\u0438\u0432 \u0437\u0430\u0445\u043e\u0434\u0456\u0432 \u0434\u043b\u044f \u0434\u043e\u0432\u0435\u0434\u0435\u043d\u043d\u044f \u0441\u0432\u043e\u0454\u0457 \u043d\u0430\u0434\u0456\u0439\u043d\u043e\u0441\u0442\u0456, \u0430 \u0441\u0430\u043c\u0435: \u0441\u043f\u043b\u0430\u0442\u0438\u0432 \u0430\u0431\u043e \u0437\u043e\u0431\u043e\u0432\u02bc\u044f\u0437\u0430\u0432\u0441\u044f \u0441\u043f\u043b\u0430\u0442\u0438\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u0456 \u0437\u043e\u0431\u043e\u0432\u02bc\u044f\u0437\u0430\u043d\u043d\u044f \u0442\u0430 \u0432\u0456\u0434\u0448\u043a\u043e\u0434\u0443\u0432\u0430\u043d\u043d\u044f \u0437\u0430\u0432\u0434\u0430\u043d\u0438\u0445 \u0437\u0431\u0438\u0442\u043a\u0456\u0432"
                             }
@@ -1756,7 +1756,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0423 \u0404\u0434\u0438\u043d\u043e\u043c\u0443 \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u043c\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0456 \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c \u0432\u0456\u0434\u0441\u0443\u0442\u043d\u044f \u0456\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0456\u044f, \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0430 \u043f\u0443\u043d\u043a\u0442\u043e\u043c 9 \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0434\u0440\u0443\u0433\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 9 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044e \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c\" (\u043a\u0440\u0456\u043c \u043d\u0435\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u0456\u0432)",
-                "id": "40ac43cc479042c3a0fcdaf822d85276",
+                "id": "234d46319cc44e37a783337709b129bd",
                 "legislation": [
                     {
                         "article": "17.1.9",
@@ -1783,13 +1783,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u0420\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u043e\u043c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "d10f8233e24040a9b59fb451e5a78610",
+                        "id": "42c210db7cc94c4faf13cd36006b4c9e",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "243454c247a844ac92059a1a512a2505",
+                                "id": "00db64d269f34146b4e3aa511c21443f",
                                 "status": "active",
                                 "title": "\u0423 \u0404\u0434\u0438\u043d\u043e\u043c\u0443 \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u043e\u043c\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0456 \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c \u043f\u0440\u0438\u0441\u0443\u0442\u043d\u044f \u0456\u043d\u0444\u043e\u0440\u043c\u0430\u0446\u0456\u044f, \u043f\u0435\u0440\u0435\u0434\u0431\u0430\u0447\u0435\u043d\u0430 \u043f\u0443\u043d\u043a\u0442\u043e\u043c 9 \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0434\u0440\u0443\u0433\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 9 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \"\u041f\u0440\u043e \u0434\u0435\u0440\u0436\u0430\u0432\u043d\u0443 \u0440\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044e \u044e\u0440\u0438\u0434\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431, \u0444\u0456\u0437\u0438\u0447\u043d\u0438\u0445 \u043e\u0441\u0456\u0431 - \u043f\u0456\u0434\u043f\u0440\u0438\u0454\u043c\u0446\u0456\u0432 \u0442\u0430 \u0433\u0440\u043e\u043c\u0430\u0434\u0441\u044c\u043a\u0438\u0445 \u0444\u043e\u0440\u043c\u0443\u0432\u0430\u043d\u044c\""
                             }
@@ -1797,13 +1797,13 @@
                     },
                     {
                         "description": "\u041d\u0435\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u043e\u043c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "479661a50ec54af1b22203e941a312c9",
+                        "id": "fdf79d9b13974d95a23905cac389ed0c",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "64441f19c07e4c0e8ef37cedc5430e17",
+                                "id": "43f94a087fd54c96a1a974faf93e665e",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0454 \u043d\u0435\u0440\u0435\u0437\u0438\u0434\u0435\u043d\u0442\u043e\u043c"
                             }
@@ -1819,7 +1819,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0417\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u043c\u0430\u0454 \u043f\u0440\u0430\u0432\u043e \u0432\u0438\u043c\u0430\u0433\u0430\u0442\u0438 \u0432 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0456\u0432 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e\u0441\u0442\u0456 \u043f\u0440\u043e\u043f\u043e\u043d\u043e\u0432\u0430\u043d\u0438\u0445 \u043d\u0438\u043c\u0438 \u0442\u043e\u0432\u0430\u0440\u0456\u0432, \u043f\u043e\u0441\u043b\u0443\u0433 \u0447\u0438 \u0440\u043e\u0431\u0456\u0442 \u0435\u043a\u043e\u043b\u043e\u0433\u0456\u0447\u043d\u0438\u043c \u0442\u0430 \u0456\u043d\u0448\u0438\u043c \u0445\u0430\u0440\u0430\u043a\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043a\u0430\u043c, \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u043c \u0443 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0456\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0456\u0457. \u041f\u0440\u0438 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u043d\u0456 \u0442\u0430\u043a\u0438\u0445 \u0445\u0430\u0440\u0430\u043a\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043a \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u0437\u043e\u0431\u043e\u0432'\u044f\u0437\u0430\u043d\u0438\u0439 \u0437\u0430\u0437\u043d\u0430\u0447\u0438\u0442\u0438 \u0432 \u0442\u0435\u043d\u0434\u0435\u0440\u043d\u0456\u0439 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u0446\u0456\u0457 \u043f\u0435\u0440\u0435\u043b\u0456\u043a \u043c\u0430\u0440\u043a\u0443\u0432\u0430\u043d\u044c, \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u0456\u0432 \u0432\u0438\u043f\u0440\u043e\u0431\u0443\u0432\u0430\u043d\u044c, \u0434\u0435\u043a\u043b\u0430\u0440\u0430\u0446\u0456\u0439 \u0430\u0431\u043e \u0441\u0435\u0440\u0442\u0438\u0444\u0456\u043a\u0430\u0442\u0456\u0432, \u044f\u043a\u0456 \u043c\u043e\u0436\u0443\u0442\u044c \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u0456\u0441\u0442\u044c \u043f\u0440\u0435\u0434\u043c\u0435\u0442\u0430 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0432\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u043c \u0445\u0430\u0440\u0430\u043a\u0442\u0435\u0440\u0438\u0441\u0442\u0438\u043a\u0430\u043c. \u0423\u0441\u0456 \u043c\u0430\u0440\u043a\u0443\u0432\u0430\u043d\u043d\u044f, \u043f\u0440\u043e\u0442\u043e\u043a\u043e\u043b\u0438 \u0432\u0438\u043f\u0440\u043e\u0431\u0443\u0432\u0430\u043d\u044c \u0442\u0430 \u0441\u0435\u0440\u0442\u0438\u0444\u0456\u043a\u0430\u0442\u0438 \u043c\u0430\u044e\u0442\u044c \u0431\u0443\u0442\u0438 \u0432\u0438\u0434\u0430\u043d\u0456 \u043e\u0440\u0433\u0430\u043d\u0430\u043c\u0438 \u0437 \u043e\u0446\u0456\u043d\u043a\u0438 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e\u0441\u0442\u0456, \u043a\u043e\u043c\u043f\u0435\u0442\u0435\u043d\u0442\u043d\u0456\u0441\u0442\u044c \u044f\u043a\u0438\u0445 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u0430 \u0448\u043b\u044f\u0445\u043e\u043c \u0430\u043a\u0440\u0435\u0434\u0438\u0442\u0430\u0446\u0456\u0457 \u0430\u0431\u043e \u0456\u043d\u0448\u0438\u043c \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u043c \u0437\u0430\u043a\u043e\u043d\u043e\u0434\u0430\u0432\u0441\u0442\u0432\u043e\u043c \u0441\u043f\u043e\u0441\u043e\u0431\u043e\u043c",
-                "id": "0fc197c2e6af4e64911658928e5b3c31",
+                "id": "24eb8d11ea27422289d0c08717adc5f1",
                 "legislation": [
                     {
                         "article": "23.5",
@@ -1836,13 +1836,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "44b252f8e9a3455c918677281a373605",
+                        "id": "a6077951c7a341a181f7d04e517bfd4d",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "9895853717754ff2a2003bfc722bdcb9",
+                                "id": "3c72445d9315456ab23b75da82582ac9",
                                 "status": "active",
                                 "title": "\u0422\u0435\u043a\u0441\u0442 \u0437\u0430\u043f\u043e\u0432\u043d\u0435\u043d\u0438\u0439 \u043a\u043e\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0435\u043c"
                             }
@@ -1858,7 +1858,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u0423 \u0440\u0430\u0437\u0456 \u044f\u043a\u0449\u043e \u0443\u0447\u0430\u0441\u043d\u0438\u043a \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043c\u0430\u0454 \u043d\u0430\u043c\u0456\u0440 \u0437\u0430\u043b\u0443\u0447\u0438\u0442\u0438 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0456 \u0456\u043d\u0448\u0438\u0445 \u0441\u0443\u0431\u2019\u0454\u043a\u0442\u0456\u0432 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u044e\u0432\u0430\u043d\u043d\u044f \u044f\u043a \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0456\u0432/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u0456\u0432 \u0432 \u043e\u0431\u0441\u044f\u0437\u0456 \u043d\u0435 \u043c\u0435\u043d\u0448\u0435 \u043d\u0456\u0436 20 \u0432\u0456\u0434\u0441\u043e\u0442\u043a\u0456\u0432 \u0432\u0456\u0434 \u0432\u0430\u0440\u0442\u043e\u0441\u0442\u0456 \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u043f\u0440\u043e \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u044e \u0443 \u0432\u0438\u043f\u0430\u0434\u043a\u0443 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u0440\u043e\u0431\u0456\u0442 \u0430\u0431\u043e \u043f\u043e\u0441\u043b\u0443\u0433 \u0434\u043b\u044f \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u0439\u043e\u0433\u043e \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e\u0441\u0442\u0456 \u043a\u0432\u0430\u043b\u0456\u0444\u0456\u043a\u0430\u0446\u0456\u0439\u043d\u0438\u043c \u043a\u0440\u0438\u0442\u0435\u0440\u0456\u044f\u043c \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e \u0434\u043e \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0442\u0440\u0435\u0442\u044c\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 16 \u0446\u044c\u043e\u0433\u043e \u0417\u0430\u043a\u043e\u043d\u0443, \u0437\u0430\u043c\u043e\u0432\u043d\u0438\u043a \u043f\u0435\u0440\u0435\u0432\u0456\u0440\u044f\u0454 \u0442\u0430\u043a\u0438\u0445 \u0441\u0443\u0431\u2019\u0454\u043a\u0442\u0456\u0432 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u044e\u0432\u0430\u043d\u043d\u044f \u043d\u0430 \u0432\u0456\u0434\u0441\u0443\u0442\u043d\u0456\u0441\u0442\u044c \u043f\u0456\u0434\u0441\u0442\u0430\u0432, \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0445 \u0443 \u0447\u0430\u0441\u0442\u0438\u043d\u0456 \u043f\u0435\u0440\u0448\u0456\u0439 \u0446\u0456\u0454\u0457 \u0441\u0442\u0430\u0442\u0442\u0456",
-                "id": "1f39ee04c24d4a789ac4e1e29f1dc600",
+                "id": "e06e4031b94543f2942cf927c4dc6412",
                 "legislation": [
                     {
                         "article": "17.7",
@@ -1885,13 +1885,13 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0440\u0438 \u0432\u0456\u0434\u0441\u0443\u0442\u043d\u043e\u0441\u0442\u0456 \u0437\u0430\u043b\u0443\u0447\u0435\u043d\u0438\u0445 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0430/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u044f \u0430\u0431\u043e \u0432 \u043e\u0431\u0441\u044f\u0437\u0456 \u043d\u0435 \u0431\u0456\u043b\u044c\u0448\u0435 \u043d\u0456\u0436 20% \u0432\u0430\u0440\u0442\u043e\u0441\u0442\u0456 \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "9a2527a1dbbe407a9252411c54ec55a7",
+                        "id": "463b85685ea84ca5a008b5477030d871",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "expectedValue": true,
-                                "id": "a541df630b9b4004adb9ebc0d8d136d8",
+                                "id": "f1599d9d678c475895b751f188d37f29",
                                 "status": "active",
                                 "title": "\u0423\u0447\u0430\u0441\u043d\u0438\u043a \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456, \u0440\u0430\u0437\u043e\u043c \u0456\u0437 \u0437\u0430\u043b\u0443\u0447\u0435\u043d\u0438\u043c\u0438 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u044f\u043c\u0438 \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0430/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u044f (\u0437\u0430 \u043d\u0430\u044f\u0432\u043d\u043e\u0441\u0442\u0456), \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u0430\u0454 \u043a\u0432\u0430\u043b\u0456\u0444\u0456\u043a\u0430\u0446\u0456\u0439\u043d\u0438\u043c \u043a\u0440\u0438\u0442\u0435\u0440\u0456\u044f\u043c \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e \u0434\u043e \u0447\u0430\u0441\u0442\u0438\u043d\u0438 \u0442\u0440\u0435\u0442\u044c\u043e\u0457 \u0441\u0442\u0430\u0442\u0442\u0456 16 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \u0432\u0456\u0434 25.12.2015 \u2116 922-VIII \"\u041f\u0440\u043e \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456\""
                             }
@@ -1899,20 +1899,20 @@
                     },
                     {
                         "description": "\u041f\u0440\u0438 \u043d\u0430\u044f\u0432\u043d\u043e\u0441\u0442\u0456 \u0437\u0430\u043b\u0443\u0447\u0435\u043d\u0438\u0445 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0435\u0439 \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0430/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u044f \u0432 \u043e\u0431\u0441\u044f\u0437\u0456 \u043d\u0435 \u043c\u0435\u043d\u0448\u0435 \u043d\u0456\u0436 20% \u0432\u0430\u0440\u0442\u043e\u0441\u0442\u0456 \u0434\u043e\u0433\u043e\u0432\u043e\u0440\u0443 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "ed071a86c003425ab805850990d815bd",
+                        "id": "c8cc9fd23d1648debca058d0b6f459ab",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "5a614f935c794f649bebb236b61de7fc",
+                                        "id": "387d4a9f47bf4e809d7179a491034c29",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "6d601885600943ae965b827693107934",
+                                "id": "ebc897cca1154f1a9bc370152b51d696",
                                 "status": "active",
                                 "title": "\u0421\u0443\u0431\u02bc\u0454\u043a\u0442 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u044e\u0432\u0430\u043d\u043d\u044f, \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0456 \u044f\u043a\u043e\u0433\u043e \u0437\u0430\u043b\u0443\u0447\u0430\u044e\u0442\u044c\u0441\u044f \u0434\u043e \u0432\u0438\u043a\u043e\u043d\u0430\u043d\u043d\u044f \u0440\u043e\u0431\u0456\u0442 \u0442\u0430 \u043f\u043e\u0441\u043b\u0443\u0433 \u043d\u0435 \u043c\u0430\u0454 \u043f\u0456\u0434\u0441\u0442\u0430\u0432, \u0432\u0438\u0437\u043d\u0430\u0447\u0435\u043d\u0438\u0445 \u0443 \u0447\u0430\u0441\u0442\u0438\u043d\u0456 \u043f\u0435\u0440\u0448\u0456\u0439 \u0441\u0442\u0430\u0442\u0442\u0456 17 \u0417\u0430\u043a\u043e\u043d\u0443 \u0423\u043a\u0440\u0430\u0457\u043d\u0438 \u0432\u0456\u0434 25.12.2015 \u2116 922-VIII \"\u041f\u0440\u043e \u043f\u0443\u0431\u043b\u0456\u0447\u043d\u0456 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456\""
                             }
@@ -1928,7 +1928,7 @@
                     "scheme": "LAW922"
                 },
                 "description": "\u041d\u0430\u044f\u0432\u043d\u0456\u0441\u0442\u044c \u0432 \u0443\u0447\u0430\u0441\u043d\u0438\u043a\u0430 \u043f\u0440\u043e\u0446\u0435\u0434\u0443\u0440\u0438 \u0437\u0430\u043a\u0443\u043f\u0456\u0432\u043b\u0456 \u043e\u0431\u043b\u0430\u0434\u043d\u0430\u043d\u043d\u044f, \u043c\u0430\u0442\u0435\u0440\u0456\u0430\u043b\u044c\u043d\u043e-\u0442\u0435\u0445\u043d\u0456\u0447\u043d\u043e\u0457 \u0431\u0430\u0437\u0438 \u0442\u0430 \u0442\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0456\u0439. \u0423\u0447\u0430\u0441\u043d\u0438\u043a \u043c\u043e\u0436\u0435 \u0434\u043b\u044f \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f \u0441\u0432\u043e\u0454\u0457 \u0432\u0456\u0434\u043f\u043e\u0432\u0456\u0434\u043d\u043e\u0441\u0442\u0456 \u0442\u0430\u043a\u043e\u043c\u0443 \u043a\u0440\u0438\u0442\u0435\u0440\u0456\u044e \u0437\u0430\u043b\u0443\u0447\u0438\u0442\u0438 \u0441\u043f\u0440\u043e\u043c\u043e\u0436\u043d\u043e\u0441\u0442\u0456 \u0456\u043d\u0448\u0438\u0445 \u0441\u0443\u0431'\u0454\u043a\u0442\u0456\u0432 \u0433\u043e\u0441\u043f\u043e\u0434\u0430\u0440\u044e\u0432\u0430\u043d\u043d\u044f \u044f\u043a \u0441\u0443\u0431\u043f\u0456\u0434\u0440\u044f\u0434\u043d\u0438\u043a\u0456\u0432/\u0441\u043f\u0456\u0432\u0432\u0438\u043a\u043e\u043d\u0430\u0432\u0446\u0456\u0432",
-                "id": "7beee6b876684a1eaed5940443bd0a8c",
+                "id": "cc46faf01efe46838b032ed5b4d4a199",
                 "legislation": [
                     {
                         "article": "16.2.1",
@@ -1955,20 +1955,20 @@
                 "requirementGroups": [
                     {
                         "description": "\u041f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0443\u0454\u0442\u044c\u0441\u044f, \u0449\u043e",
-                        "id": "cb2fe71a8e0e41b6b3000303ca4e41b9",
+                        "id": "7664929f480e4085bd591007f33ae26b",
                         "requirements": [
                             {
                                 "dataType": "boolean",
                                 "datePublished": "2027-01-01T00:00:00+02:00",
                                 "eligibleEvidences": [
                                     {
-                                        "id": "43a615b168244231b7ddc489b273c6fd",
+                                        "id": "21cc67ad3a35475491d7c5b07701e7a9",
                                         "title": "\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u0435 \u043f\u0456\u0434\u0442\u0432\u0435\u0440\u0434\u0436\u0435\u043d\u043d\u044f",
                                         "type": "document"
                                     }
                                 ],
                                 "expectedValue": true,
-                                "id": "b8a724b4d04f426297031b78767328e1",
+                                "id": "7dbd2c7c70664a5bbfaa2d599307eab7",
                                 "status": "active",
                                 "title": "\u0422\u0435\u043a\u0441\u0442 \u0437\u0430\u043f\u043e\u0432\u043d\u0435\u043d\u0438\u0439 \u043a\u043e\u0440\u0438\u0441\u0442\u0443\u0432\u0430\u0447\u0435\u043c"
                             }
@@ -1992,7 +1992,7 @@
                 "documentType": "contractProforma",
                 "format": "application/msword",
                 "hash": "md5:00000000000000000000000000000000",
-                "id": "d36c85e688f540b4803d634f663b4dd0",
+                "id": "2d8475c1160145999d6324a2b81be487",
                 "language": "uk",
                 "title": "name.doc",
                 "url": "http://public-docs-sandbox.prozorro.gov.ua/get/857bf8327126450d82f8a82679f7c783?Signature=i6gtGGDKTmSVpdr%2BnhIf0IF%2FAoi2YJ0Sg3TzQFOfo67bb56mciRO4HjIF0IXu9pdn%2FTMaeASz30%2BgD9QUxiYAg%3D%3D&KeyID=a8968c46"
@@ -2006,7 +2006,7 @@
                 "documentType": "notice",
                 "format": "application/pkcs7-signature",
                 "hash": "md5:00000000000000000000000000000000",
-                "id": "e3899d998f4d4394bbac7d6e0df0dd38",
+                "id": "a3f212b7333e4cbf831ef671ac8395e4",
                 "language": "uk",
                 "title": "sign.p7s",
                 "url": "http://public-docs-sandbox.prozorro.gov.ua/get/b32f001d0dfb40c59d84b4e4154c4656?Signature=o0XKcwz%2BrCwhSIxZ5nFq6Ufw6hUpVCE2hsy0yIO3QYSiFYmuO2Tvx3aV8AcUxYJ%2BN%2Bc2%2FxLZyPo8gnIdSIBPCw%3D%3D&KeyID=a8968c46"
@@ -2018,7 +2018,7 @@
             "invalidationDate": "2027-01-01T00:00:00+02:00",
             "startDate": "2027-01-01T00:00:00+02:00"
         },
-        "id": "38bca89f7ba4477d97f553d576fd6994",
+        "id": "f5b264bbf8d9400290749cb89e5d1cb8",
         "items": [
             {
                 "additionalClassifications": [
@@ -2045,7 +2045,7 @@
                     "startDate": "2027-01-21T00:00:00+02:00"
                 },
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
-                "id": "c5b0023de71046108dde1a721e00de87",
+                "id": "2a71a02411a8486e82fbcebd22753eb4",
                 "quantity": 1.0,
                 "relatedLot": "d7afc0eb4f6d42549557d7b3226417e6",
                 "unit": {
@@ -2079,9 +2079,9 @@
                 },
                 "description": "\u041f\u043e\u0441\u043b\u0443\u0433\u0438 \u0448\u043a\u0456\u043b\u044c\u043d\u0438\u0445 \u0457\u0434\u0430\u043b\u0435\u043d\u044c",
                 "description_en": "Services in school canteens",
-                "id": "5cacba5cf95a40b580cedfb21df309ba",
+                "id": "4b0f472add0f4cc8af5e25d25d189b80",
                 "quantity": 1.0,
-                "relatedLot": "ffb255f57e054aaa9f45701dbce47420",
+                "relatedLot": "3194f121981f430d8b33954c50021373",
                 "unit": {
                     "code": "KGM",
                     "name": "\u043a\u0456\u043b\u043e\u0433\u0440\u0430\u043c"
@@ -2094,7 +2094,7 @@
                     "endDate": "2027-01-31T00:00:00+02:00",
                     "startDate": "2027-01-31T00:00:00+02:00"
                 },
-                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_d7afc0eb4f6d42549557d7b3226417e6",
+                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f5b264bbf8d9400290749cb89e5d1cb8_d7afc0eb4f6d42549557d7b3226417e6",
                 "date": "2027-01-31T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
                 "id": "d7afc0eb4f6d42549557d7b3226417e6",
@@ -2116,10 +2116,10 @@
                     "endDate": "2027-01-31T00:00:00+02:00",
                     "startDate": "2027-01-31T00:00:00+02:00"
                 },
-                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/38bca89f7ba4477d97f553d576fd6994_ffb255f57e054aaa9f45701dbce47420",
+                "auctionUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/f5b264bbf8d9400290749cb89e5d1cb8_3194f121981f430d8b33954c50021373",
                 "date": "2027-01-31T00:00:00+02:00",
                 "description": "\u041e\u043f\u0438\u0441 \u041b\u043e\u0442 \u21161",
-                "id": "ffb255f57e054aaa9f45701dbce47420",
+                "id": "3194f121981f430d8b33954c50021373",
                 "minimalStep": {
                     "amount": 5.0,
                     "currency": "UAH",

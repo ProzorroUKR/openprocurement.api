@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df?acc_token=7f29cbfc95b44762a0c2323e2e1af078 HTTP/1.0
+PATCH /api/2.5/tenders/390b8a0af38a48188324c8003466a26e?acc_token=7f29cbfc95b44762a0c2323e2e1af078 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -22,13 +22,58 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "active.tendering",
+    "title": "футляри до державних нагород",
+    "documents": [
+      {
+        "confidentiality": "public",
+        "title": "Notice.pdf",
+        "format": "application/pdf",
+        "language": "uk",
+        "id": "a46cd7b80b5a4cf4b9c70b202be1238f",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/652841daeeeb439495081421efd95a14?Signature=onoCq%2BYMN5fzxDPvr8QFC%2BWklp%2B1kruoNriH9RbaNdchfZOi6oUeQjjF52gWYtmfMt10r9B8W0oUiR0QSvtmAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "language": "uk",
+        "id": "ec830e38c4054677925ad32aea75e839",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d3b3e9515e024fcfab143be97a3e7ec9?Signature=S3gaEyYkDfE%2FA403aTywEgXN4TOT2OcgILWe0TCNHTskAqSuto8CK0npxcMfCdlus0xIEQ5aG5IIyCJuD4lCDQ%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "title": "AwardCriteria.pdf",
+        "format": "application/pdf",
+        "language": "uk",
+        "id": "ec830e38c4054677925ad32aea75e839",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/69070d50771a4daca7c07e2513280022?Signature=6bNBCmf80E3T7QRJqoZl6W1YU9gGYjZ2Fq3LE%2BgY8HZbTAvEMvvIAtaa%2Bx639b%2F%2B0SIPp8Its6EEmSRwllBYAw%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:01+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
     "questions": [
       {
-        "id": "f281a2bdac4b4c978d407f146e274caa",
+        "id": "a3ec33f9ef6a481581ad550fbcf6ac23",
         "author": {
           "hash": "2c7d8057c1b1d754f45073d505e86c57"
         },
@@ -40,52 +85,7 @@ Content-Type: application/json
         "dateAnswered": "2027-01-01T00:00:00+02:00"
       }
     ],
-    "documents": [
-      {
-        "confidentiality": "public",
-        "id": "d48b3a33c4574e5a840452dbc9c55be1",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "Notice.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/652841daeeeb439495081421efd95a14?Signature=onoCq%2BYMN5fzxDPvr8QFC%2BWklp%2B1kruoNriH9RbaNdchfZOi6oUeQjjF52gWYtmfMt10r9B8W0oUiR0QSvtmAw%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
-        "id": "6d2e86229ddd4704916c3604d196e7d6",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d3b3e9515e024fcfab143be97a3e7ec9?Signature=S3gaEyYkDfE%2FA403aTywEgXN4TOT2OcgILWe0TCNHTskAqSuto8CK0npxcMfCdlus0xIEQ5aG5IIyCJuD4lCDQ%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
-        "id": "6d2e86229ddd4704916c3604d196e7d6",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "AwardCriteria.pdf",
-        "format": "application/pdf",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/69070d50771a4daca7c07e2513280022?Signature=6bNBCmf80E3T7QRJqoZl6W1YU9gGYjZ2Fq3LE%2BgY8HZbTAvEMvvIAtaa%2Bx639b%2F%2B0SIPp8Its6EEmSRwllBYAw%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
-    "status": "active.tendering",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "open",
     "complaintPeriod": {
       "startDate": "2026-12-19T00:00:00+02:00",
       "endDate": "2027-01-07T00:00:00+02:00"
@@ -203,28 +203,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "guarantee": {
-      "amount": 8.0,
-      "currency": "USD"
-    },
-    "enquiryPeriod": {
-      "startDate": "2026-12-19T00:00:00+02:00",
-      "endDate": "2027-01-06T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00",
-      "invalidationDate": "2027-01-01T00:00:01+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2026-12-19T00:00:00+02:00",
-      "endDate": "2027-01-09T00:00:01+02:00"
-    },
-    "auctionPeriod": {
-      "startDate": "2027-01-11T12:29:40.230000+02:00",
-      "shouldStartAfter": "2027-01-10T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "59c9cef27f1c4c4690caa01ed079c58c",
+        "id": "da49154ed5344e74af4c7a38858e1b54",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -232,9 +213,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -256,6 +237,25 @@ Content-Type: application/json
         }
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2026-12-19T00:00:00+02:00",
+      "endDate": "2027-01-06T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00",
+      "invalidationDate": "2027-01-01T00:00:01+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2026-12-19T00:00:00+02:00",
+      "endDate": "2027-01-09T00:00:01+02:00"
+    },
+    "auctionPeriod": {
+      "startDate": "2027-01-11T12:29:40.230000+02:00",
+      "shouldStartAfter": "2027-01-10T00:00:00+02:00"
+    },
+    "guarantee": {
+      "amount": 8.0,
+      "currency": "USD"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "aboveThresholdUA.defense",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -289,16 +289,16 @@ Content-Type: application/json
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 501.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "minimalStep": {
-      "currency": "UAH",
       "amount": 5.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "id": "cafcd819d62040129cffcd9b3f3687df"
+    "id": "390b8a0af38a48188324c8003466a26e"
   },
   "config": {
     "hasAuction": true,

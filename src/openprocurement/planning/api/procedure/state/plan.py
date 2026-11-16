@@ -2,7 +2,6 @@ from copy import deepcopy
 from itertools import chain
 
 from dateorro import calc_working_datetime
-from schematics.types import BaseType
 
 from openprocurement.api.auth import AccreditationLevel
 from openprocurement.api.constants import (
@@ -11,6 +10,7 @@ from openprocurement.api.constants import (
     KPK_SCHEMES,
     KPKV_UK_SCHEME,
     TKPKMB_SCHEME,
+    ProcurementMethodType,
 )
 from openprocurement.api.constants_env import (
     BUDGET_BREAKDOWN_REQUIRED_FROM,
@@ -21,6 +21,7 @@ from openprocurement.api.constants_env import (
     UKRAINE_FACILITY_CLASSIFICATIONS_REQUIRED_FROM,
 )
 from openprocurement.api.context import get_request, get_request_now
+from openprocurement.api.procedure.errors import REQUIRED_MESSAGE
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import (
@@ -34,12 +35,13 @@ from openprocurement.api.procedure.validation import (
 from openprocurement.api.utils import error_handler, raise_operation_error
 from openprocurement.planning.api.constants import (
     CENTRAL_PROCUREMENT_IDENTIFIER_ID,
+    MILESTONE_ACTIVE_STATUSES,
     MULTI_YEAR_BUDGET_MAX_YEARS,
     MULTI_YEAR_BUDGET_PROCEDURES,
     PROCEDURES,
     PROCURING_ENTITY_STANDSTILL,
+    MilestoneStatus,
 )
-from openprocurement.planning.api.procedure.models.milestone import Milestone
 from openprocurement.planning.api.procedure.models.plan import PatchPlan, Plan, PostPlan
 from openprocurement.planning.api.procedure.models.tender import PreValidationTender
 from openprocurement.tender.core.constants import FIRST_STAGE_PROCUREMENT_TYPES
@@ -48,10 +50,6 @@ from openprocurement.tender.core.procedure.utils import dt_from_iso, tender_crea
 from openprocurement.tender.core.procedure.validation import (
     validate_procurement_method_type_allowed_by_law_4888,
 )
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.open.constants import BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL
-from openprocurement.tender.pricequotation.constants import PQ
 
 
 class PlanState(BaseState):
@@ -88,7 +86,7 @@ class PlanState(BaseState):
 
     def validate_plan_tender_post_request(self):
         # only the fields the plan rules need, the tender itself is validated by the tender view
-        self.validate_input_data(PreValidationTender, strict=False)
+        self.validate_input_data(PreValidationTender)
 
     # --- hooks ---
 
@@ -138,7 +136,12 @@ class PlanState(BaseState):
                 )
         elif status == "complete" and not plan.get("tender_id"):
             method = plan["tender"].get("procurementMethodType")
-            if method not in (BELOW_THRESHOLD, REQUEST_FOR_PROPOSAL, REPORTING, ""):
+            if method not in (
+                ProcurementMethodType.BELOW_THRESHOLD,
+                ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+                ProcurementMethodType.REPORTING,
+                "",
+            ):
                 raise_operation_error(
                     self.request,
                     ["Can't complete plan with '{}' tender.procurementMethodType".format(method)],
@@ -165,7 +168,7 @@ class PlanState(BaseState):
         """address and kind of the procuring entity / buyers are required for the plans created after the constant"""
         if not organization or not is_obj_const_active(plan, PLAN_ADDRESS_KIND_REQUIRED_FROM):
             return {}
-        return {field: [BaseType.MESSAGES["required"]] for field in ("address", "kind") if not organization.get(field)}
+        return {field: [REQUIRED_MESSAGE] for field in ("address", "kind") if not organization.get(field)}
 
     def validate_plan_tender(self, plan):
         tender = plan.get("tender") or {}
@@ -204,7 +207,7 @@ class PlanState(BaseState):
                     )
             elif end_date.year != start_date.year:
                 error("Period startDate and endDate must be within one year for {}.".format(method_type))
-        if method_type != ESCO and (breakdown := budget.get("breakdown")):
+        if method_type != ProcurementMethodType.ESCO and (breakdown := budget.get("breakdown")):
             amounts = [to_decimal(i["value"]["amount"]) for i in breakdown]
             if sum(amounts) > to_decimal(budget["amount"]):
                 error("Sum of the breakdown values amounts can't be greater than budget amount")
@@ -261,7 +264,7 @@ class PlanState(BaseState):
         src_identifier = before["procuringEntity"]["identifier"]
         identifier = after["procuringEntity"]["identifier"]
         if src_identifier["scheme"] != identifier["scheme"] or src_identifier["id"] != identifier["id"]:
-            if any(m["status"] in Milestone.ACTIVE_STATUSES for m in before.get("milestones", "")):
+            if any(m["status"] in MILESTONE_ACTIVE_STATUSES for m in before.get("milestones", "")):
                 standstill_end = calc_working_datetime(get_request_now(), PROCURING_ENTITY_STANDSTILL)
                 if standstill_end.isoformat() > after["tender"]["tenderPeriod"]["startDate"]:
                     raise_operation_error(
@@ -271,8 +274,8 @@ class PlanState(BaseState):
                     )
                 # invalidate active milestones and update milestone.dateModified
                 for m in after["milestones"]:
-                    if m["status"] in Milestone.ACTIVE_STATUSES:
-                        m["status"] = Milestone.STATUS_INVALID
+                    if m["status"] in MILESTONE_ACTIVE_STATUSES:
+                        m["status"] = MilestoneStatus.INVALID
                         m["dateModified"] = get_request_now().isoformat()
 
     def _switch_status(self, before, after):
@@ -284,9 +287,10 @@ class PlanState(BaseState):
     def _validate_plan_availability(self, data):
         procurement_method_type = data.get("tender", {}).get("procurementMethodType", "")
         now = get_request_now()
-        if (now >= RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "aboveThresholdUA.defense") or (
-            now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == "simple.defense"
-        ):
+        if (
+            now >= RELEASE_SIMPLE_DEFENSE_FROM
+            and procurement_method_type == ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE
+        ) or (now < RELEASE_SIMPLE_DEFENSE_FROM and procurement_method_type == ProcurementMethodType.SIMPLE_DEFENSE):
             raise_operation_error(
                 get_request(),
                 "procedure with procurementMethodType = {} is not available".format(
@@ -301,7 +305,9 @@ class PlanState(BaseState):
             procedures[""] = ("centralizedProcurement",)
         procurement_method_types = list(chain(*procedures.values()))
         procurement_method_types_without_above_threshold_ua_defense = list(
-            x for x in procurement_method_types if x not in ("aboveThresholdUA.defense", "simple.defense")
+            x
+            for x in procurement_method_types
+            if x not in (ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE, ProcurementMethodType.SIMPLE_DEFENSE)
         )
         kind_allows_procurement_method_type_mapping = {
             ProcuringEntityKind.DEFENSE: procurement_method_types,
@@ -310,7 +316,13 @@ class PlanState(BaseState):
             ProcuringEntityKind.CENTRAL: procurement_method_types_without_above_threshold_ua_defense,
             ProcuringEntityKind.AUTHORITY: procurement_method_types_without_above_threshold_ua_defense,
             ProcuringEntityKind.SOCIAL: procurement_method_types_without_above_threshold_ua_defense,
-            ProcuringEntityKind.OTHER: ["belowThreshold", "reporting", "priceQuotation", REQUEST_FOR_PROPOSAL, ESCO],
+            ProcuringEntityKind.OTHER: [
+                ProcurementMethodType.BELOW_THRESHOLD,
+                ProcurementMethodType.REPORTING,
+                ProcurementMethodType.PRICE_QUOTATION,
+                ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+                ProcurementMethodType.ESCO,
+            ],
         }
 
         kind = data.get("procuringEntity", {}).get("kind", "")
@@ -361,9 +373,9 @@ class PlanState(BaseState):
 
         if current_pmt != new_pmt and (
             now < RELEASE_SIMPLE_DEFENSE_FROM
-            and new_pmt == "simple.defense"
+            and new_pmt == ProcurementMethodType.SIMPLE_DEFENSE
             or now > RELEASE_SIMPLE_DEFENSE_FROM
-            and new_pmt == "aboveThresholdUA.defense"
+            and new_pmt == ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE
         ):
             request = get_request()
             request.errors.add(
@@ -443,7 +455,10 @@ class PlanState(BaseState):
         tender_type = tender.get("procurementMethodType")
         plan_type = plan["tender"]["procurementMethodType"]
         if plan_type not in (tender_type, "centralizedProcurement"):
-            if tender_type == PQ and plan_type == "belowThreshold":
+            if (
+                tender_type == ProcurementMethodType.PRICE_QUOTATION
+                and plan_type == ProcurementMethodType.BELOW_THRESHOLD
+            ):
                 return
             request = get_request()
             request.errors.add(

@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.qualification_claim import (
     QualificationClaimResource,
 )
@@ -19,7 +20,7 @@ from openprocurement.tender.esco.procedure.state.qualification_complaint import 
     name="esco:Tender Qualification Complaints Get",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["GET"],
     description="Tender EU qualification complaints get",
 )
@@ -31,7 +32,7 @@ class ESCOQualificationClaimAndComplaintGetResource(QualificationComplaintGetRes
     name="esco:Tender Qualification Claims",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Tender ESCO qualification claims",
@@ -44,7 +45,7 @@ class ESCOTenderQualificationClaimResource(QualificationClaimResource):
     name="esco:Tender Qualification Complaints",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender ESCO qualification complaints",

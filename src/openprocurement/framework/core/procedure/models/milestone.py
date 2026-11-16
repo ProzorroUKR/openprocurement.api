@@ -1,13 +1,16 @@
 from datetime import timedelta
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_framework
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
@@ -18,37 +21,34 @@ CONTRACT_BAN_DURATION = 90
 
 
 class PostMilestone(Model):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    type = StringType(required=True, choices=["activation", "ban"])
-    documents = ListType(ModelType(PostDocument, required=True), default=[])
-    status = StringType(choices=["scheduled"], default="scheduled")
+    type: Literal["activation", "ban"]
+    documents: list[PostDocument] = []
+    status: Literal["scheduled"] = "scheduled"
 
-    @serializable(serialized_name="dueDate", serialize_when_none=False)
-    def milestone_dueDate(self):
+    @computed_field
+    def dueDate(self) -> Any:
         if self.type == "ban":
             due_date = calculate_framework_full_date(
-                get_request_now(),
-                timedelta(days=CONTRACT_BAN_DURATION),
-                framework=get_framework(),
-                ceil=True,
+                get_request_now(), timedelta(days=CONTRACT_BAN_DURATION), framework=get_framework(), ceil=True
             )
             return due_date.isoformat()
         return None
 
 
 class PatchMilestone(Model):
-    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"])
-    documents = ListType(ModelType(PostDocument, required=True))
+    status: Literal["scheduled", "met", "notMet", "partiallyMet"] | None = None
+    documents: list[PostDocument] | None = None
 
 
 class Milestone(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    type = StringType(required=True, choices=["activation", "ban"])
-    status = StringType(choices=["scheduled", "met", "notMet", "partiallyMet"], default="scheduled")
-    dueDate = IsoDateTimeType()
-    documents = ListType(ModelType(Document, required=True), default=[])
-    dateModified = IsoDateTimeType(default=get_request_now)
-    dateMet = IsoDateTimeType()
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    type: Literal["activation", "ban"]
+    status: Literal["scheduled", "met", "notMet", "partiallyMet"] = "scheduled"
+    dueDate: IsoDateTime | None = None
+    documents: list[Document] = []
+    dateModified: IsoDateTime = Field(default_factory=get_request_now)
+    dateMet: IsoDateTime | None = None

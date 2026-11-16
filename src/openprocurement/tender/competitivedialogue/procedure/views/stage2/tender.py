@@ -1,7 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import ALL_PERMISSIONS, Allow, Everyone
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.tender_details import (
     CDStage2EUTenderDetailsState,
     CDStage2UATenderDetailsState,
@@ -23,11 +23,11 @@ def stage2_acl():
 
 
 @resource(
-    name=f"{STAGE_2_EU_TYPE}:Tenders",
+    name=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
-    description=f"{STAGE_2_EU_TYPE} tenders",
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+    description=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2} tenders",
     accept="application/json",
 )
 class TenderStage2UEResource(TendersResource):
@@ -42,11 +42,11 @@ class TenderStage2UEResource(TendersResource):
 
 
 @resource(
-    name=f"{STAGE_2_UA_TYPE}:Tenders",
+    name=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
-    description=f"{STAGE_2_UA_TYPE} tenders",
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    description=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2} tenders",
     accept="application/json",
 )
 class TenderStage2UAResource(TendersResource):

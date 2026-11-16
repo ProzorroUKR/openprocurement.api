@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2563fd75900b43499138810b16db8181/awards/f10947246ab44416ab8f1f75df484ded?acc_token=ba7ad50d20704549912fcc84528f439e HTTP/1.0
+PATCH /api/2.5/tenders/a9805a126c8248ca9ccc72fed6a560b7/awards/f10947246ab44416ab8f1f75df484ded?acc_token=ba7ad50d20704549912fcc84528f439e HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,7 +12,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2563fd75900b43499138810b16db8181/awards/eb74c3a872ed451abf7c6225c8918a7e
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a9805a126c8248ca9ccc72fed6a560b7/awards/4a61296fa8ff44fda533a319dcea4266
 
 {
   "data": {
@@ -55,21 +55,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/2563fd75900b4349
         "contract_owner": "broker6"
       }
     ],
-    "bid_id": "22e4d4a6f1d34c2ea283f76b694729de",
+    "bid_id": "7fb7b6c3cab944f7a409f013735f7617",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "b71341b0db364a90a52b8d9d4b08f109",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "9db99a1d3b6949828879ef6057ef66d6",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/86bc318502e343a59c58137933cd1af0?Signature=hsltR%2BvlMEkWC%2FYGw3BxRGC2fe9YODIu8lrnHVBW1hH6OIcxnEy6JCOCxu9p62rOUREo7qYfN8t2LtrPDngpDg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "qualified": true

@@ -3,9 +3,9 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.deprecated.cause_details import PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.serializers.cause import enrich_cause_details, get_cause_details_reference
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
@@ -27,7 +27,13 @@ class Migration(PymongoCollectionMigration):
 
     def get_filter(self):
         return {
-            "procurementMethodType": {"$in": [REPORTING, NEGOTIATION, NEGOTIATION_QUICK]},
+            "procurementMethodType": {
+                "$in": [
+                    ProcurementMethodType.REPORTING,
+                    ProcurementMethodType.NEGOTIATION,
+                    ProcurementMethodType.NEGOTIATION_QUICK,
+                ]
+            },
             "causeDetails": {"$exists": True},
             "causeDetails.uri": {"$exists": False},
         }

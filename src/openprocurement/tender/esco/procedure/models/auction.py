@@ -1,7 +1,11 @@
-from schematics.types import MD5Type
+from pydantic import Field
 
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType, StringDecimalType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+    StringDecimal,
+)
 from openprocurement.tender.core.procedure.models.auction import (
     AuctionLotResults,
     AuctionResults,
@@ -11,33 +15,33 @@ from openprocurement.tender.esco.procedure.models.value import ESCOContractDurat
 
 
 class ESCOValueResult(Model):
-    amount = StringDecimalType(min_value=0)  # this one is going to be
-    yearlyPaymentsPercentage = StringDecimalType(min_value=0)
-    contractDuration = ModelType(ESCOContractDuration)
+    amount: StringDecimal | None = Field(None, ge=0)
+    yearlyPaymentsPercentage: StringDecimal | None = Field(None, ge=0)
+    contractDuration: ESCOContractDuration | None = None
 
 
 class ESCOBidResult(Model):
-    id = MD5Type()
-    value = ModelType(ESCOValueResult)
-    weightedValue = ModelType(DecimalWeightedValueResult)
-    date = IsoDateTimeType()
+    id: MD5 | None = None
+    value: ESCOValueResult | None = None
+    weightedValue: DecimalWeightedValueResult | None = None
+    date: IsoDateTime | None = None
 
 
 class ESCOAuctionResults(AuctionResults):
-    bids = ListType(ModelType(ESCOBidResult, required=True))
+    bids: list[ESCOBidResult] | None = None
 
 
 class ESCOLotResult(Model):
-    relatedLot = MD5Type()
-    value = ModelType(ESCOValueResult)
-    weightedValue = ModelType(DecimalWeightedValueResult)
-    date = IsoDateTimeType()
+    relatedLot: MD5 | None = None
+    value: ESCOValueResult | None = None
+    weightedValue: DecimalWeightedValueResult | None = None
+    date: IsoDateTime | None = None
 
 
 class ESCOBidLotResult(Model):
-    id = MD5Type()
-    lotValues = ListType(ModelType(ESCOLotResult, required=True))
+    id: MD5 | None = None
+    lotValues: list[ESCOLotResult] | None = None
 
 
 class ESCOAuctionLotResults(AuctionLotResults):
-    bids = ListType(ModelType(ESCOBidLotResult, required=True), required=True)
+    bids: list[ESCOBidLotResult]

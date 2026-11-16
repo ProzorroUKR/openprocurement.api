@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/88931568088f426f904ce068a0ddb436/cancellations?acc_token=7237424e038245daa54b2314ed11748f HTTP/1.0
+POST /api/2.5/tenders/b8a06d349853499787d5787747e1b624/cancellations?acc_token=7237424e038245daa54b2314ed11748f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -14,14 +14,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/88931568088f426f904ce068a0ddb436/cancellations/502423358d1e4268877befdb0880d619
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/b8a06d349853499787d5787747e1b624/cancellations/a98f2ded915b405aac4ba6cbf7f090e6
 
 {
   "data": {
     "status": "draft",
     "reasonType": "noDemand",
     "reason": "cancellation reason",
-    "id": "502423358d1e4268877befdb0880d619",
+    "id": "a98f2ded915b405aac4ba6cbf7f090e6",
     "date": "2027-01-01T00:00:00+02:00",
     "cancellationOf": "tender"
   }

@@ -10,13 +10,13 @@ Content-Type: application/json
   "data": [
     {
       "dateModified": "2027-01-17T00:00:00+02:00",
-      "id": "73381353c4ae4d19819d0ec331c41e61"
+      "id": "be7d5cc0ab9e489b9aeddfcf6cf93a26"
     }
   ],
   "next_page": {
-    "offset": "1800136800.0.1.c3a922e4a0594acb910157cf4d8dbc73",
-    "path": "/api/2.5/submissions?offset=1800136800.0.1.c3a922e4a0594acb910157cf4d8dbc73",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.1.c3a922e4a0594acb910157cf4d8dbc73"
+    "offset": "1800136800.0.1.c25c6dd8115ac6a0b13061ad0e187ea7",
+    "path": "/api/2.5/submissions?offset=1800136800.0.1.c25c6dd8115ac6a0b13061ad0e187ea7",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.1.c25c6dd8115ac6a0b13061ad0e187ea7"
   }
 }
 

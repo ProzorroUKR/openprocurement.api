@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/d49405485fb04e66baf89bd0a5fd3b46/bids HTTP/1.0
+POST /api/2.5/tenders/abd1ff84bd1b48f69e51db7fe2f0f11e/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -44,7 +44,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "value": {
           "amount": 500
         },
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506"
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62"
       }
     ],
     "items": [
@@ -63,7 +63,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5.0,
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62",
         "product": "11111111111111111111111111111111"
       }
     ]
@@ -73,7 +73,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d49405485fb04e66baf89bd0a5fd3b46/bids/9562be9194304e51bdf03fc87826c38a
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/abd1ff84bd1b48f69e51db7fe2f0f11e/bids/f64b021b25cc4ac49eecaa409a26aab7
 
 {
   "data": {
@@ -93,11 +93,22 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d49405485fb04e66
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62",
         "product": "11111111111111111111111111111111"
       }
     ],
-    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 500.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -130,20 +141,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d49405485fb04e66
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 500.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "9562be9194304e51bdf03fc87826c38a",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "id": "f64b021b25cc4ac49eecaa409a26aab7",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

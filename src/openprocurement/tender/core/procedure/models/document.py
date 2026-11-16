@@ -1,88 +1,49 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field
 
 from openprocurement.api.context import get_request_now
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator
 from openprocurement.api.procedure.models.document import (
     ConfidentialDocumentMixin,
     ConfidentialityType,
     PostConfidentialDocumentMixin,
+    TenderDocumentType,
 )
-from openprocurement.api.procedure.types import HashType
-
-DOCUMENT_TYPES = (
-    "tenderNotice",
-    "awardNotice",
-    "contractNotice",
-    "notice",
-    "biddingDocuments",
-    "technicalSpecifications",
-    "evaluationCriteria",
-    "clarifications",
-    "shortlistedFirms",
-    "riskProvisions",
-    "billOfQuantity",
-    "bidders",
-    "conflictOfInterest",
-    "debarments",
-    "evaluationReports",
-    "winningBid",
-    "complaints",
-    "contractSigned",
-    "contractArrangements",
-    "contractSchedule",
-    "contractAnnexe",
-    "contractGuarantees",
-    "progressReport",
-    "subContract",
-    "eligibilityCriteria",
-    "contractProforma",
-    "commercialProposal",
-    "qualificationDocuments",
-    "eligibilityDocuments",
-    "registerExtract",
-    "registerUSR",
-    "registerFiscal",
-    "winningBid",
-    "evidence",
-    "register",
-    "proposal",
-    "extensionReport",
-    "deviationReport",
-    "cancellationReport",
-    "acceptanceReport",
+from openprocurement.api.procedure.types import (
+    MD5,
+    Hash,
 )
 
 
 class BaseDocument(Model):
-    documentType = StringType(choices=DOCUMENT_TYPES)
-    title = StringType()  # A title of the document.
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()  # A description of the document.
-    description_en = StringType()
-    description_ru = StringType()
-    format = StringType(regex=r"^[-\w]+/[-\.\w\+]+$")
-    language = StringType()
-    relatedItem = MD5Type()
+    documentType: TenderDocumentType | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    format: str | None = Field(None, pattern=r"^[-\w]+/[-\.\w\+]+$")
+    language: str | None = None
+    relatedItem: MD5 | None = None
 
 
-def validate_relatedItem(related_item, document_of):
+def validate_related_item(related_item, document_of):
     # the tender items / lots of relatedItem are checked by the state (TenderState.validate_documents_related_item)
     if not related_item and document_of in ("item", "lot"):
         raise ValidationError("This field is required.")
 
 
-def validate_tender_document_relations(data, documents):
+def validate_tender_document_relations(tender, documents):
     if documents:
-        lot_ids = {lot["id"] for lot in data.get("lots") or ""}
-        item_ids = {i["id"] for i in data.get("items") or ""}
+        lot_ids = {lot.id for lot in getattr(tender, "lots", None) or []}  # not fields of all the tenders
+        item_ids = {i.id for i in getattr(tender, "items", None) or []}
         for d in documents:
-            related_type = d.get("documentOf")
-            related_item = d.get("relatedItem")
+            related_type = d.documentOf
+            related_item = d.relatedItem
             if related_type == "lot":
                 if related_item not in lot_ids:
                     raise ValidationError([{"relatedItem": ["relatedItem should be one of lots"]}])
@@ -92,68 +53,61 @@ def validate_tender_document_relations(data, documents):
 
 
 class BasePostDocument(BaseDocument):
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(required=True, choices=["tender", "item", "lot"], default="tender")
-    language = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+    hash: Hash | None = None
+    title: str
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str
+    documentOf: Literal["tender", "item", "lot"] = "tender"
+    language: Literal["uk", "en", "ru"] = "uk"
 
-    def validate_relatedItem(self, data, related_item):
-        validate_relatedItem(related_item, data.get("documentOf"))
+    @model_field_validator("relatedItem")
+    def validate_related_item(self, related_item):
+        validate_related_item(related_item, self.documentOf)
 
 
 class PostDocument(BasePostDocument, PostConfidentialDocumentMixin):
-    # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
-
-    @serializable
-    def datePublished(self):
+    @computed_field
+    def datePublished(self) -> Any:
         return get_request_now().isoformat()
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> Any:
         return get_request_now().isoformat()
 
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
 
 
 class PostComplaintDocument(PostDocument):
-    documentOf = StringType(required=True, choices=["tender", "item", "lot", "post"], default="tender")
+    documentOf: Literal["tender", "item", "lot", "post"] = "tender"
 
 
 class Document(BaseDocument, ConfidentialDocumentMixin):
-    # "create": blacklist("id", "datePublished", "dateModified", "author", "download_url"),
-    id = MD5Type(required=True)
-    datePublished = StringType(required=True)
-    hash = HashType()
-    title = StringType(required=True)  # A title of the document.
-    format = StringType(required=True, regex=r"^[-\w]+/[-\.\w\+]+$")
-    url = StringType(required=True)  # Link to the document or attachment.
-    documentOf = StringType(required=True, choices=["tender", "item", "lot", "post"])
-    dateModified = StringType()
-    author = StringType()
-    language = StringType(choices=["uk", "en", "ru"])
+    id: MD5
+    datePublished: str
+    hash: Hash | None = None
+    title: str
+    format: str = Field(pattern=r"^[-\w]+/[-\.\w\+]+$")
+    url: str
+    documentOf: Literal["tender", "item", "lot", "post"]
+    dateModified: str | None = None
+    author: str | None = None
+    language: Literal["uk", "en", "ru"] | None = None
 
-    def validate_relatedItem(self, data, related_item):
-        validate_relatedItem(related_item, data.get("documentOf"))
+    @model_field_validator("relatedItem")
+    def validate_related_item(self, related_item):
+        validate_related_item(related_item, self.documentOf)
 
 
 class PatchDocument(BaseDocument):
-    # "edit": blacklist("id", "url", "datePublished", "dateModified", "author", "hash", "download_url"),
-    documentOf = StringType(choices=["tender", "item", "lot"])
-    language = StringType(choices=["uk", "en", "ru"])
-    confidentiality = StringType(
-        choices=[
-            ConfidentialityType.PUBLIC.value,
-            ConfidentialityType.BUYER_ONLY.value,
-        ]
-    )
-    confidentialityRationale = StringType()
+    documentOf: Literal["tender", "item", "lot"] | None = None
+    language: Literal["uk", "en", "ru"] | None = None
+    confidentiality: ConfidentialityType | None = None
+    confidentialityRationale: str | None = None
 
-    @serializable
-    def dateModified(self):
+    @computed_field
+    def dateModified(self) -> Any:
         return get_request_now().isoformat()
 
 
 class PatchComplaintDocument(PatchDocument):
-    documentOf = StringType(choices=["tender", "item", "lot", "post"])
+    documentOf: Literal["tender", "item", "lot", "post"] | None = None

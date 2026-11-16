@@ -8,7 +8,7 @@ from freezegun import freeze_time
 from openprocurement.api.constants import PERIOD_CHANGE_CAUSES, ROUTE_PREFIX
 from openprocurement.api.context import set_request_now
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KIND_CHOICES,
+    ProcuringEntityKind,
 )
 from openprocurement.api.tests.base import change_auth
 from openprocurement.api.utils import calculate_date, get_now
@@ -19,7 +19,6 @@ from openprocurement.framework.core.tests.base import (
     get_framework_unsuccessful_status_check_date,
     test_framework_item_data,
 )
-from openprocurement.framework.dps.procedure.models.framework import Framework
 
 
 def simple_add_framework(self):
@@ -543,7 +542,7 @@ def create_framework_draft_invalid_kind(self):
             {
                 "description": {
                     "kind": [
-                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                        "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                     ]
                 },
                 "location": "body",
@@ -637,7 +636,7 @@ def validate_procurement_entity_kind(self):
         "openprocurement.framework.core.procedure.state.framework.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
         get_now() - timedelta(days=1),
     ):
-        for kind in PROCURING_ENTITY_KIND_CHOICES:
+        for kind in ProcuringEntityKind:
             resp_status = 201 if kind in self.allowed_proc_entity_kinds else 422
             data["procuringEntity"]["kind"] = kind
             extra_config = {}
@@ -669,7 +668,7 @@ def validate_procurement_entity_kind_patch(self):
         "openprocurement.framework.core.procedure.state.framework.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
         get_now() - timedelta(days=1),
     ):
-        for kind in PROCURING_ENTITY_KIND_CHOICES:
+        for kind in ProcuringEntityKind:
             resp_status = 200 if kind in self.allowed_proc_entity_kinds else 422
             entity["kind"] = kind
             entity["name"] = f"new name for {kind}"
@@ -1652,9 +1651,9 @@ def unsuccessful_status(self):
 
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "active")
-    framework = Framework(response.json["data"])
+    framework_model = self.framework_class.model_validate(response.json["data"])
     date = get_framework_unsuccessful_status_check_date(
-        framework,
+        framework_model,
         self.min_submissions_number_days,
         self.min_submissions_number_working_days,
     )
@@ -1692,9 +1691,9 @@ def unsuccessful_status(self):
     self.assertEqual(response.status, "200 OK")
     self.assertEqual(response.content_type, "application/json")
 
-    framework = Framework(response.json["data"])
+    framework_model = self.framework_class.model_validate(response.json["data"])
     date = get_framework_unsuccessful_status_check_date(
-        framework,
+        framework_model,
         self.min_submissions_number_days,
         self.min_submissions_number_working_days,
     )
@@ -1730,8 +1729,8 @@ def complete_status(self):
     response = self.app.get("/frameworks/{}".format(self.framework_id))
     self.assertEqual(response.json["data"]["status"], "active")
 
-    framework = Framework(response.json["data"])
-    date = framework["qualificationPeriod"]["endDate"]
+    framework_model = self.framework_class.model_validate(response.json["data"])
+    date = framework_model.qualificationPeriod.endDate
     with freeze_time((date + timedelta(hours=1)).isoformat()):
         with mock.patch(
             "openprocurement.framework.core.procedure.state.chronograph.get_framework_number_of_submissions",
@@ -2021,9 +2020,9 @@ def modify_framework_period(self):
     self.assertNotEqual(changed_framework["dateModified"], framework_date_modified)
     self.assertEqual(len(changed_framework["changes"]), 1)
     self.assertEqual(changed_framework["dateModified"], changed_framework["changes"][0]["date"])
-    framework = Framework(changed_framework)
+    framework_model = self.framework_class.model_validate(changed_framework)
     date = get_framework_unsuccessful_status_check_date(
-        framework,
+        framework_model,
         self.min_submissions_number_days,
         self.min_submissions_number_working_days,
     )

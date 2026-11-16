@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/b188f43f95a746b28254fa08afa37134 HTTP/1.0
+PATCH /api/2.5/tenders/08312cd6d734432f88d7699c3ea75aa0/qualifications/fa3612c93a984e1ca3a6f2d1f6eea49d/complaints/7defccabc6014024a8b1ca067b859277 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,15 +15,21 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b188f43f95a746b28254fa08afa37134",
+    "id": "7defccabc6014024a8b1ca067b859277",
     "complaintID": "UA-2027-01-01-000001-a.a3",
     "date": "2027-01-01T00:00:01+02:00",
     "status": "declined",
     "type": "complaint",
-    "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-    "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+    "relatedLot": "43028010689345adbc070ce99067a14d",
+    "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -35,12 +41,6 @@ Content-Type: application/json
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -48,11 +48,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:01+02:00",
     "objections": [
       {
-        "id": "91439bdd114141889eee21b763758901",
+        "id": "13e1e67e5c7044dfa4877d86521c0227",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "qualification",
-        "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+        "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -60,14 +60,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "d2544d8eb7b54b2681e5cfe5a3e35388",
+            "id": "16bbbfa5d1a24115a7bd62917323b147",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "6c3653bbcd58497db18e5b7125ea4368",
+            "id": "0bba80dd9a9d4e8c9f71edcfc4df3723",
             "description": "test argument"
           }
         ],

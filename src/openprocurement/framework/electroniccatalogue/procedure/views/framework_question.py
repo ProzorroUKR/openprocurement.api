@@ -1,16 +1,14 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.views.question import CoreQuestionResource
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Framework Questions",
+    name=f"{FrameworkType.ELECTRONIC_CATALOGUE}:Framework Questions",
     collection_path="/frameworks/{framework_id}/questions",
     path="/frameworks/{framework_id}/questions/{question_id}",
-    frameworkType=ELECTRONIC_CATALOGUE_TYPE,
+    frameworkType=FrameworkType.ELECTRONIC_CATALOGUE,
     description="Framework related questions",
 )
 class FrameworkQuestionsResource(CoreQuestionResource):

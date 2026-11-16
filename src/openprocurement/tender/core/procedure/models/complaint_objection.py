@@ -1,9 +1,8 @@
 from enum import StrEnum
+from typing import Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import IntType, MD5Type, StringType
-from schematics.types.compound import ListType, ModelType
+from pydantic import Field, field_validator
 
 from openprocurement.api.constants import (
     AMCU,
@@ -13,8 +12,11 @@ from openprocurement.api.constants import (
     OTHER_CRITERIA,
     VIOLATION_AMCU,
 )
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.validation import validate_uniq_id
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator, validate_uniq_id
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 from openprocurement.tender.core.procedure.models.complaint_objection_argument import (
     Argument,
 )
@@ -42,77 +44,52 @@ OBJECTION_CRITERIA_CLASSIFICATIONS = {
 
 
 class Classification(Model):
-    scheme = StringType(
-        required=True,
-        choices=[
-            "article_16",
-            "article_17",
-            "other",
-            "violation_amcu",
-            "amcu",
-            "amcu_24",
-        ],
-    )
-    id = StringType(required=True)
-    description = StringType(required=True)
+    scheme: Literal["article_16", "article_17", "other", "violation_amcu", "amcu", "amcu_24"]
+    id: str
+    description: str
 
-    def validate_id(self, data, code):
-        scheme = data.get("scheme")
+    @model_field_validator("id")
+    def validate_id(self, code):
+        scheme = self.scheme
         if code not in OBJECTION_CRITERIA_CLASSIFICATIONS.get(scheme, []):
             raise ValidationError(f"Value must be one of {scheme} reasons")
 
 
 class Objection(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True)
-    description = StringType(serialize_when_none=True)
-    relatesTo = StringType(choices=[choice.value for choice in ObjectionRelatesTo], required=True)
-    relatedItem = StringType(required=True)
-    classification = ModelType(Classification, required=True)
-    requestedRemedies = ListType(
-        ModelType(RequestedRemedy, required=True),
-        min_size=1,
-        required=True,
-        validators=[validate_uniq_id],
-    )
-    arguments = ListType(
-        ModelType(Argument, required=True),
-        min_size=1,
-        required=True,
-        validators=[validate_uniq_id],
-    )
-    sequenceNumber = IntType(min_value=0, serialize_when_none=True)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    title: str
+    description: str | None = None
+    relatesTo: ObjectionRelatesTo
+    relatedItem: str
+    classification: Classification
+    requestedRemedies: list[RequestedRemedy] = Field(min_length=1)
+    arguments: list[Argument] = Field(min_length=1)
+    sequenceNumber: int | None = Field(None, ge=0)
+
+    @field_validator("requestedRemedies")
+    @classmethod
+    def validate_requested_remedies_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("arguments")
+    @classmethod
+    def validate_arguments_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class TenderComplaintObjection(Objection):
-    relatesTo = StringType(
-        choices=[obj.value for obj in (ObjectionRelatesTo.tender, ObjectionRelatesTo.lot)],
-        required=True,
-    )
+    relatesTo: Literal[ObjectionRelatesTo.tender, ObjectionRelatesTo.lot]
 
 
 class AwardComplaintObjection(Objection):
-    relatesTo = StringType(
-        choices=[
-            ObjectionRelatesTo.award.value,
-        ],
-        required=True,
-    )
+    relatesTo: Literal[ObjectionRelatesTo.award]
 
 
 class CancellationComplaintObjection(Objection):
-    relatesTo = StringType(
-        choices=[
-            ObjectionRelatesTo.cancellation.value,
-        ],
-        required=True,
-    )
+    relatesTo: Literal[ObjectionRelatesTo.cancellation]
 
 
 class QualificationComplaintObjection(Objection):
-    relatesTo = StringType(
-        choices=[
-            ObjectionRelatesTo.qualification.value,
-        ],
-        required=True,
-    )
+    relatesTo: Literal[ObjectionRelatesTo.qualification]

@@ -1,8 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.esco.constants import ESCO
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -15,7 +15,7 @@ def has_value_estimation_populator(tender):
     :return: False if value is ESCO, True otherwise
     """
     pmt = tender.get("procurementMethodType")
-    if pmt == ESCO:
+    if pmt == ProcurementMethodType.ESCO:
         return False
     return True
 

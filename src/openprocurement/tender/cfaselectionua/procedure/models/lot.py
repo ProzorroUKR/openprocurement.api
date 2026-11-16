@@ -1,20 +1,23 @@
-from schematics.types import BaseType, MD5Type, StringType, URLType
-from schematics.types.compound import ModelType
+from typing import Any, Literal
 
+from openprocurement.api.procedure.types import (
+    MD5,
+    Url,
+)
 from openprocurement.tender.core.procedure.models.lot import BaseLot, PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.value import BasicValue, EstimatedValue, Value
 
 
 class CFASelectionPostLot(PostBaseLot):
-    guarantee = ModelType(BasicValue)
+    guarantee: BasicValue | None = None
 
 
 class CFASelectionPatchLot(BaseLot):
-    title = StringType()
-    guarantee = ModelType(BasicValue)
-    minimalStep = ModelType(Value)
-    status = StringType(choices=["active"])
+    title: str | None = None
+    guarantee: BasicValue | None = None
+    minimalStep: Value | None = None
+    status: Literal["active"] | None = None
 
 
 class CFASelectionPostTenderLot(CFASelectionPostLot, TenderLotMixin):
@@ -22,17 +25,16 @@ class CFASelectionPostTenderLot(CFASelectionPostLot, TenderLotMixin):
 
 
 class CFASelectionPatchTenderLot(BaseLot, TenderLotMixin):
-    title = StringType()
-    guarantee = ModelType(BasicValue)
-    minimalStep = ModelType(Value)
+    title: str | None = None
+    guarantee: BasicValue | None = None
+    minimalStep: Value | None = None
 
 
 class CFASelectionLot(BaseLot, TenderLotMixin):
-    id = MD5Type(required=True)
-    value = ModelType(EstimatedValue)
-    minimalStep = ModelType(Value)
-    guarantee = ModelType(BasicValue)
-
-    auctionPeriod = ModelType(LotAuctionPeriod)
-    auctionUrl = URLType()
-    numberOfBids = BaseType()  # deprecated
+    id: MD5
+    value: EstimatedValue | None = None
+    minimalStep: Value | None = None
+    guarantee: BasicValue | None = None
+    auctionPeriod: LotAuctionPeriod | None = None
+    auctionUrl: Url | None = None
+    numberOfBids: Any = None

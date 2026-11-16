@@ -1,6 +1,4 @@
-from schematics.types import StringType
-
-from openprocurement.api.procedure.types import ModelType
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.models.framework import (
     Framework as BaseFramework,
 )
@@ -18,22 +16,22 @@ from openprocurement.framework.core.procedure.models.organization import (
     PatchProcuringEntity,
     ProcuringEntity,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.framework.dps.constants import DPSFrameworkType
 
 
 class PostFramework(BasePostFramework):
-    frameworkType = StringType(default=DPS_TYPE)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
+    frameworkType: DPSFrameworkType = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
+    procuringEntity: ProcuringEntity
 
 
 class PatchFramework(BasePatchFramework):
-    procuringEntity = ModelType(PatchProcuringEntity)
+    procuringEntity: PatchProcuringEntity | None = None
 
 
 class Framework(BaseFramework):
-    frameworkType = StringType(default=DPS_TYPE)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
+    frameworkType: DPSFrameworkType = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
+    procuringEntity: ProcuringEntity
 
 
 class PatchActiveFramework(BasePatchActiveFramework):
-    procuringEntity = ModelType(PatchActiveProcuringEntity)
+    procuringEntity: PatchActiveProcuringEntity | None = None

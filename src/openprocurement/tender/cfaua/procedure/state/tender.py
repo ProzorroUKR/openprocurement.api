@@ -112,5 +112,4 @@ class CFAUATenderState(CFAUATenderStateAwardingMixin, TenderState):
                     "status": "pending",
                     "milestones": tender.get("milestones", []),
                 }
-                agreement = CFAAgreement(data)
-                tender["agreements"].append(agreement.serialize())
+                tender["agreements"].append(CFAAgreement.validate_data(data))

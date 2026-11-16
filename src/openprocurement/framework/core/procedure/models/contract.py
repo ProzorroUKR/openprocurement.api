@@ -1,10 +1,14 @@
+from typing import Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import MD5Type, StringType
+from pydantic import Field, field_validator
 
+from openprocurement.api.procedure.errors import ValidationError
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.framework.core.procedure.models.milestone import Milestone
 from openprocurement.framework.core.procedure.models.organization import (
     ContractBusinessOrganization,
@@ -12,31 +16,29 @@ from openprocurement.framework.core.procedure.models.organization import (
 
 
 class PatchContract(Model):
-    suppliers = ListType(ModelType(ContractBusinessOrganization, required=True), min_size=1)
+    suppliers: list[ContractBusinessOrganization] | None = Field(None, min_length=1)
 
-    def validate_suppliers(self, data, suppliers):
+    @field_validator("suppliers")
+    @classmethod
+    def validate_suppliers(cls, suppliers):
         if suppliers and len(suppliers) != 1:
             raise ValidationError("Contract must have only one supplier")
+        return suppliers
 
 
 class Contract(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    qualificationID = StringType()
-    status = StringType(choices=["active", "suspended", "terminated"])
-    submissionID = StringType()
-    suppliers = ListType(
-        ModelType(ContractBusinessOrganization, required=True),
-        required=True,
-        min_size=1,
-    )
-    milestones = ListType(
-        ModelType(Milestone, required=True),
-        required=True,
-        min_size=1,
-    )
-    date = IsoDateTimeType()
-    dateModified = IsoDateTimeType()
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    qualificationID: str | None = None
+    status: Literal["active", "suspended", "terminated"] | None = None
+    submissionID: str | None = None
+    suppliers: list[ContractBusinessOrganization] = Field(min_length=1)
+    milestones: list[Milestone] = Field(min_length=1)
+    date: IsoDateTime | None = None
+    dateModified: IsoDateTime | None = None
 
-    def validate_suppliers(self, data, suppliers):
+    @field_validator("suppliers")
+    @classmethod
+    def validate_suppliers(cls, suppliers):
         if len(suppliers) != 1:
             raise ValidationError("Contract must have only one supplier")
+        return suppliers

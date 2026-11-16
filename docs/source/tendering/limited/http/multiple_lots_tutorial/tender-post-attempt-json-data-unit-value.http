@@ -222,17 +222,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af8c224fbe006b01e5
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3231afae3f2e4f578caa03956c304735
 
 {
   "data": {
     "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "procurementMethod": "limited",
-    "title": "Послуги шкільних їдалень",
-    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -276,7 +276,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
     ],
     "items": [
       {
-        "id": "35111c6ae5f14b0d9ca94f8b7bb19508",
+        "id": "2eeecefc14554599868fabe442c65950",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -288,10 +288,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -310,11 +311,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "85412ba2cbf342cabfe1c9386aeee93b"
+        }
       },
       {
-        "id": "8d903a30c6ac4d3a86e5c4887844a1af",
+        "id": "3da4fdaf6ae6464db11427975be79eee",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -326,10 +326,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
           "code": "KGM"
         },
         "quantity": 2.0,
+        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -348,8 +349,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "5de38758cc1b4ed981450ad5cc5b86bb"
+        }
       }
     ],
     "procurementMethodType": "negotiation",
@@ -398,25 +398,25 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
     },
     "lots": [
       {
+        "id": "85412ba2cbf342cabfe1c9386aeee93b",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "85412ba2cbf342cabfe1c9386aeee93b",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 300000.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "date": "2027-01-01T00:00:00+02:00"
       },
       {
+        "id": "5de38758cc1b4ed981450ad5cc5b86bb",
         "title": "Лот №2",
         "description": "Опис Лот №2",
-        "id": "5de38758cc1b4ed981450ad5cc5b86bb",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 200000.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "date": "2027-01-01T00:00:00+02:00"
@@ -549,7 +549,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/eed496e1d6fe45af
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "eed496e1d6fe45af8c224fbe006b01e5"
+    "id": "3231afae3f2e4f578caa03956c304735"
   },
   "config": {
     "hasAuction": false,

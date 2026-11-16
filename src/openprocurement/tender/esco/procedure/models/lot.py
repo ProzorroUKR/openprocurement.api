@@ -1,9 +1,12 @@
 from decimal import Decimal
+from typing import Annotated, Literal
 
-from schematics.types import StringType, URLType
-from schematics.types.compound import ModelType
+from pydantic import Field
 
-from openprocurement.api.procedure.types import DecimalType
+from openprocurement.api.procedure.types import (
+    DecimalOf,
+    Url,
+)
 from openprocurement.tender.core.procedure.models.lot import BaseLot, PostBaseLot, TenderLotMixin
 from openprocurement.tender.core.procedure.models.period import LotAuctionPeriod
 from openprocurement.tender.core.procedure.models.value import BasicValue, PostEstimatedValue
@@ -14,75 +17,63 @@ from openprocurement.tender.esco.procedure.constants import (
 
 
 class ESCOPostLot(PostBaseLot):
-    minimalStepPercentage = DecimalType(
-        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
-        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
-        precision=LotMinimalStepPercentageValues.PRECISION,
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(LotMinimalStepPercentageValues.PRECISION)] | None = Field(
+        None, ge=LotMinimalStepPercentageValues.MIN_VALUE, le=LotMinimalStepPercentageValues.MAX_VALUE
     )
-    guarantee = ModelType(BasicValue)
-    yearlyPaymentsPercentageRange = DecimalType(
-        default=Decimal("0.8"),
-        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
-        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
-        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
+    guarantee: BasicValue | None = None
+    yearlyPaymentsPercentageRange: Annotated[Decimal, DecimalOf(LotYearlyPaymentsPercentageRangeValues.PRECISION)] = (
+        Field(
+            Decimal("0.8"),
+            ge=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
+            le=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
+        )
     )
 
 
 class ESCOPatchLot(BaseLot):
-    title = StringType()
-    guarantee = ModelType(BasicValue)
-    minimalStepPercentage = DecimalType(
-        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
-        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
-        precision=LotMinimalStepPercentageValues.PRECISION,
+    title: str | None = None
+    guarantee: BasicValue | None = None
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(LotMinimalStepPercentageValues.PRECISION)] | None = Field(
+        None, ge=LotMinimalStepPercentageValues.MIN_VALUE, le=LotMinimalStepPercentageValues.MAX_VALUE
     )
-    yearlyPaymentsPercentageRange = DecimalType(
-        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
-        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
-        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
+    yearlyPaymentsPercentageRange: (
+        Annotated[Decimal, DecimalOf(LotYearlyPaymentsPercentageRangeValues.PRECISION)] | None
+    ) = Field(
+        None, ge=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE, le=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE
     )
-    status = StringType(choices=["active"])
+    status: Literal["active"] | None = None
 
 
 class ESCOPostTenderLot(ESCOPostLot, TenderLotMixin):
-    minValue = ModelType(  # TODO: probably this shouldn't be in this procedure type
-        PostEstimatedValue,
-        required=False,
-        default={"currency": "UAH", "valueAddedTaxIncluded": False},
-    )
-    fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
+    minValue: PostEstimatedValue = Field({"currency": "UAH", "valueAddedTaxIncluded": False}, validate_default=True)
+    fundingKind: Literal["budget", "other"] = "other"
 
 
 class ESCOPatchTenderLot(BaseLot, TenderLotMixin):
-    minValue = ModelType(PostEstimatedValue)
-    guarantee = ModelType(BasicValue)
-    fundingKind = StringType(choices=["budget", "other"])
-    minimalStepPercentage = DecimalType(
-        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
-        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
-        precision=LotMinimalStepPercentageValues.PRECISION,
+    minValue: PostEstimatedValue | None = None
+    guarantee: BasicValue | None = None
+    fundingKind: Literal["budget", "other"] | None = None
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(LotMinimalStepPercentageValues.PRECISION)] | None = Field(
+        None, ge=LotMinimalStepPercentageValues.MIN_VALUE, le=LotMinimalStepPercentageValues.MAX_VALUE
     )
-    yearlyPaymentsPercentageRange = DecimalType(
-        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
-        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
-        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
+    yearlyPaymentsPercentageRange: (
+        Annotated[Decimal, DecimalOf(LotYearlyPaymentsPercentageRangeValues.PRECISION)] | None
+    ) = Field(
+        None, ge=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE, le=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE
     )
 
 
 class ESCOLot(BaseLot, TenderLotMixin):
-    minValue = ModelType(PostEstimatedValue)
-    minimalStepPercentage = DecimalType(
-        min_value=LotMinimalStepPercentageValues.MIN_VALUE,
-        max_value=LotMinimalStepPercentageValues.MAX_VALUE,
-        precision=LotMinimalStepPercentageValues.PRECISION,
+    minValue: PostEstimatedValue | None = None
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(LotMinimalStepPercentageValues.PRECISION)] | None = Field(
+        None, ge=LotMinimalStepPercentageValues.MIN_VALUE, le=LotMinimalStepPercentageValues.MAX_VALUE
     )
-    guarantee = ModelType(BasicValue)
-    fundingKind = StringType(choices=["budget", "other"], required=True)
-    yearlyPaymentsPercentageRange = DecimalType(
-        min_value=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE,
-        max_value=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE,
-        precision=LotYearlyPaymentsPercentageRangeValues.PRECISION,
+    guarantee: BasicValue | None = None
+    fundingKind: Literal["budget", "other"]
+    yearlyPaymentsPercentageRange: (
+        Annotated[Decimal, DecimalOf(LotYearlyPaymentsPercentageRangeValues.PRECISION)] | None
+    ) = Field(
+        None, ge=LotYearlyPaymentsPercentageRangeValues.MIN_VALUE, le=LotYearlyPaymentsPercentageRangeValues.MAX_VALUE
     )
-
-    auctionPeriod = ModelType(LotAuctionPeriod)
-    auctionUrl = URLType()
+    auctionPeriod: LotAuctionPeriod | None = None
+    auctionUrl: Url | None = None

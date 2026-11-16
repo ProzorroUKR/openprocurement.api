@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/105daebdc651458683f67e400c8472dd/awards/4cee881db18d4c12b5cead034f2748ec?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
+PATCH /api/2.5/tenders/227382e2f47f47ed9c32b49097b38e23/awards/1fd04507afcf4809afa88cdb29669452?acc_token=e009ef418c6d41b5b724c1c76b7f352b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,14 +19,14 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "c65b40b11f0145eb91383cb59d9bc933",
+          "id": "4efb420a39b54757b79e54ffa5f06aa8",
           "title": "Ступінь локалізації виробництва товару, що є предметом закупівлі, перевищує або дорівнює ступеню локалізації виробництва, встановленому на відповідний рік"
         },
         "value": 35,
-        "id": "d9cd791b112946bbaf8384c0fe38f2bc",
+        "id": "c475e82b814d4b82bdb033b769a05364",
         "unit": {
-          "code": "P1",
-          "name": "відсоток"
+          "name": "відсоток",
+          "code": "P1"
         },
         "classification": {
           "scheme": "LAW922",
@@ -34,38 +34,14 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "4cee881db18d4c12b5cead034f2748ec",
+    "id": "1fd04507afcf4809afa88cdb29669452",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
-    "documents": [
-      {
-        "confidentiality": "public",
-        "id": "d4b5cb8f098e4e2a9999e96470099efe",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "award_first_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a150b81d16504ae88167cb5c3cec719f?Signature=VyqNcmitdo%2BX1ROzZI%2BCiQeLLKhcAI6HyxGzEY%2B8MLH1k%2FV6%2BGyLywy3C8rwBiRTWU2cJK8Csm4tIv7OkwMvCA%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      },
-      {
-        "confidentiality": "public",
-        "id": "b4c8ac1d60924e618c8cdbf5be42b87e",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
-        "title": "award_second_document.doc",
-        "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b2e689a0efb48e09297e8f0781145df?Signature=0K0looxslsU82Br8cYEXz%2BfTVToPT1EghT2hkvYmOjQEXndfnbeD%2BYMkV5jHBzmhrM9WTCuD%2BG5auL%2FLjydTAA%3D%3D&KeyID=a8968c46",
-        "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
-      }
-    ],
-    "qualified": true,
+    "value": {
+      "amount": 475000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -82,6 +58,11 @@ Content-Type: application/json
           "postalCode": "21100",
           "countryName": "Україна"
         },
+        "contactPoint": {
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
         "scale": "micro",
         "signerInfo": {
           "name": "Test Testovich",
@@ -90,19 +71,38 @@ Content-Type: application/json
           "iban": "111111111111111",
           "position": "Генеральний директор",
           "authorizedBy": "Статут компанії"
-        },
-        "contactPoint": {
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com",
-          "telephone": "+380432216930"
         }
       }
     ],
-    "value": {
-      "amount": 475000.0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    }
+    "documents": [
+      {
+        "confidentiality": "public",
+        "title": "award_first_document.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "fbe29d02e49443e9bf88ddc75573d30e",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a150b81d16504ae88167cb5c3cec719f?Signature=VyqNcmitdo%2BX1ROzZI%2BCiQeLLKhcAI6HyxGzEY%2B8MLH1k%2FV6%2BGyLywy3C8rwBiRTWU2cJK8Csm4tIv7OkwMvCA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      },
+      {
+        "confidentiality": "public",
+        "title": "award_second_document.doc",
+        "format": "application/msword",
+        "language": "uk",
+        "id": "b3fdd5286d874eb08b6838304e8ab340",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b2e689a0efb48e09297e8f0781145df?Signature=0K0looxslsU82Br8cYEXz%2BfTVToPT1EghT2hkvYmOjQEXndfnbeD%2BYMkV5jHBzmhrM9WTCuD%2BG5auL%2FLjydTAA%3D%3D&KeyID=a8968c46",
+        "documentOf": "tender",
+        "dateModified": "2027-01-01T00:00:00+02:00",
+        "author": "tender_owner"
+      }
+    ],
+    "qualified": true
   }
 }
 

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9c59ca33a88e4ef3b8c91de75769beff?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
+PATCH /api/2.5/tenders/6d8f33b813384dda9de6ce295c0e8832?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,18 +15,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "active",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
+    "procurementMethod": "limited",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "active",
     "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "limited",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -189,17 +189,18 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "48072595b6464cac88210666697d628c",
+        "id": "9a87c25d84f04870a6b0cbee6e75fb44",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "664a24a23b5749febc87ace248f16c71",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -218,8 +219,7 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "bcd8947ab93146f38e29c3a79e6d9cef"
+        }
       }
     ],
     "procurementMethodType": "negotiation",
@@ -268,19 +268,19 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "664a24a23b5749febc87ace248f16c71",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "bcd8947ab93146f38e29c3a79e6d9cef",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500000.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500000.0
+          "valueAddedTaxIncluded": false
         }
       }
     ],
-    "id": "9c59ca33a88e4ef3b8c91de75769beff"
+    "id": "6d8f33b813384dda9de6ce295c0e8832"
   },
   "config": {
     "hasAuction": false,

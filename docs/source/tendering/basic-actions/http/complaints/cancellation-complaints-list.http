@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/19a5d9d36c2143d8bfb8c1dfbabc14ef/cancellations/508bf010ec78469eb7980c819aa5e330/complaints HTTP/1.0
+GET /api/2.5/tenders/a2869580364445cbb2d044be16ea20ff/cancellations/fd98d335fb0f4b1fb8d8402b8948a27e/complaints HTTP/1.0
 Host: public-api-sandbox.prozorro.gov.ua
 
 
@@ -8,41 +8,47 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "3254f878888c442c9a7351491c0ec82f",
+      "id": "4e9e4685aeee459e9f0ce12f77e17bc1",
       "complaintID": "UA-2027-01-01-000001-a.a1",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "resolved",
       "documents": [
         {
           "confidentiality": "public",
-          "id": "4c988094fb1847c888708a166d99c334",
-          "datePublished": "2027-01-01T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "Complaint_Attachment.pdf",
           "format": "application/pdf",
+          "language": "uk",
+          "id": "c426e82f8b764ae2a910684f6e7c248c",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/db520f79fbb14d0fb576c9963db55fa5?Signature=y1xCpcvs5c0Ahh70AYhin5QAJk8xw40uz6OfQdQzRGiEudAKA8lnJiU7lo4capt3KFWG0wyOLw4WdE6bQR8NBg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:00:00+02:00",
-          "author": "complaint_owner",
-          "language": "uk"
+          "author": "complaint_owner"
         },
         {
           "confidentiality": "public",
-          "id": "3d25b8a9e47f46c3ac75b0ad038390af",
-          "datePublished": "2027-01-01T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "ComplaintResolution.pdf",
           "format": "application/pdf",
+          "language": "uk",
+          "id": "22a87184238b4200a2ada5110a8d63a6",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/322fd4d20227454eab0a224e75860448?Signature=Xdb5hL5KjGI8r7XTAw7ScV7ujouitZLOw3PwoOv1K814ZNF4D%2FRPNsqsl%2Fnp%2BQSOuzKRmJceSpiX389sCzvyBw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:00:00+02:00",
-          "author": "aboveThresholdReviewers",
-          "language": "uk"
+          "author": "aboveThresholdReviewers"
         }
       ],
       "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -54,12 +60,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -67,11 +67,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:00+02:00",
       "objections": [
         {
-          "id": "631fd6262f6644a4a47705b479b99d91",
+          "id": "218defd49edf4d829f5fd96346f9f9e0",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "cancellation",
-          "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+          "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -79,14 +79,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "c6554ba9ef7645a09801d13b6aac7378",
+              "id": "2bc7ea5f040c404380909edd1091f9d1",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "f96ef29790784a13aa1b6ed30610d8a3",
+              "id": "113a6a28502140e5862e94be5d6cfdd3",
               "description": "test argument"
             }
           ],
@@ -106,13 +106,19 @@ Content-Type: application/json
       "tendererActionDate": "2027-01-01T00:00:00+02:00"
     },
     {
-      "id": "cd1d97b38ac64035bd26193d431f6ab7",
+      "id": "b697dd3997f6419898d4982eff9ce5a7",
       "complaintID": "UA-2027-01-01-000001-a.a2",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "declined",
       "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -124,12 +130,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -137,11 +137,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:00+02:00",
       "objections": [
         {
-          "id": "7f4ba2e10f4146b0ad980acc4920b049",
+          "id": "b5b421aa4449425faf32aaa90fe586fd",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "cancellation",
-          "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+          "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -149,14 +149,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "fa75eac3b832434daf1a7941b837b6e6",
+              "id": "8a83085e1c0042b4949707673dcde1da",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "46666acf4dd844abbd5c2ba884e66e9f",
+              "id": "ec0015ebfe2e4c85a9b8ac3946412599",
               "description": "test argument"
             }
           ],
@@ -174,13 +174,19 @@ Content-Type: application/json
       "dateDecision": "2027-01-01T00:00:00+02:00"
     },
     {
-      "id": "b7f922cc112b4acdaf2c6c00407219f1",
+      "id": "f5e624c8e63448f6bf08ae5a78136f89",
       "complaintID": "UA-2027-01-01-000001-a.a3",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "invalid",
       "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -192,12 +198,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -205,11 +205,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:00+02:00",
       "objections": [
         {
-          "id": "ce23cec1eb704b77ac46b2312fe94387",
+          "id": "c302994ca83c4cd8bc47c73976aa8d30",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "cancellation",
-          "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+          "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -217,14 +217,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "89bb1506d8dd4dd6b74b92acf74ba1b5",
+              "id": "58caaf45c23b4e00bae03498ac9202fb",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "1ce4a40ea7704442a30dad2450f5bef7",
+              "id": "d1dad4bb695c427fa608203ae4179052",
               "description": "test argument"
             }
           ],
@@ -241,13 +241,19 @@ Content-Type: application/json
       "acceptance": false
     },
     {
-      "id": "2523dfb9b7b846ff8121a3b82db6a940",
+      "id": "1722c61520ed4d03827a1ab50ced69aa",
       "complaintID": "UA-2027-01-01-000001-a.a4",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "stopped",
       "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -259,12 +265,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -272,11 +272,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:00+02:00",
       "objections": [
         {
-          "id": "1eaf27c74f9847ceaafb0299f0a1963c",
+          "id": "2205070a4789423d8d03fa7c2bbaaad9",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "cancellation",
-          "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+          "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -284,14 +284,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "41f3048c36f64d3a8c7a081d89458245",
+              "id": "ee9833a8d5204d0983e56ddce11b5560",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "db061a39d49840bc8607e7fcf8e2da21",
+              "id": "38aa34de0b044e87878f4e88d76c0a75",
               "description": "test argument"
             }
           ],
@@ -312,13 +312,19 @@ Content-Type: application/json
       "dateCanceled": "2027-01-01T00:00:00+02:00"
     },
     {
-      "id": "29850e30101948638336551fe20febd6",
+      "id": "230490ea1de94b68ad67a31870c95684",
       "complaintID": "UA-2027-01-01-000001-a.a5",
       "date": "2027-01-01T00:00:00+02:00",
       "status": "stopped",
       "type": "complaint",
       "author": {
         "name": "ДКП «Школяр»",
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "legalName": "ДКП «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
+        },
         "address": {
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
@@ -330,12 +336,6 @@ Content-Type: application/json
           "name": "Сергій Олексюк",
           "email": "soleksuk@gmail.com",
           "telephone": "+380432216930"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "uri": "http://www.sc.gov.ua/",
-          "id": "00137256",
-          "legalName": "ДКП «Школяр»"
         }
       },
       "title": "Недостатньо інформації",
@@ -343,11 +343,11 @@ Content-Type: application/json
       "dateSubmitted": "2027-01-01T00:00:00+02:00",
       "objections": [
         {
-          "id": "0378b17f35534138837a906d4f43828a",
+          "id": "8f61984bfbb640f5b9121a7fd7a167cf",
           "title": "My objection",
           "description": "Test objection",
           "relatesTo": "cancellation",
-          "relatedItem": "508bf010ec78469eb7980c819aa5e330",
+          "relatedItem": "fd98d335fb0f4b1fb8d8402b8948a27e",
           "classification": {
             "scheme": "violation_amcu",
             "id": "corruptionDescription",
@@ -355,14 +355,14 @@ Content-Type: application/json
           },
           "requestedRemedies": [
             {
-              "id": "1e697ab733b44d99a2cc61425b884866",
+              "id": "61adfcfde316452ea0bc97a89492b8bf",
               "type": "setAsideAward",
               "description": "test"
             }
           ],
           "arguments": [
             {
-              "id": "1b8d59cee4664acfa2305ac815b2a7a9",
+              "id": "915c4423e7704f5c8bc1b017617cc5ac",
               "description": "test argument"
             }
           ],
@@ -383,8 +383,8 @@ Content-Type: application/json
         {
           "title": "Пояснення до скарги",
           "description": "Була така необхідність",
-          "relatedObjection": "0378b17f35534138837a906d4f43828a",
-          "id": "b1965e334db84fa4a1b3ee2449c6a82d",
+          "relatedObjection": "8f61984bfbb640f5b9121a7fd7a167cf",
+          "id": "a4644e16cf3e48b09faa79b82ff2aa4f",
           "datePublished": "2027-01-01T00:00:00+02:00",
           "author": "complaint_owner"
         }

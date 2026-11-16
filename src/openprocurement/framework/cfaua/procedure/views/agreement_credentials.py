@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import context_unpack, json_view
-from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.views.base import AgreementBaseResource
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.core.procedure.utils import set_ownership
 
 
 @resource(
-    name=f"{CFA_UA}:Agreement Credentials",
+    name=f"{AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA}:Agreement Credentials",
     path="/agreements/{agreement_id}/credentials",
-    agreementType=CFA_UA,
+    agreementType=AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Agreement Credentials",
 )
 class AgreementCredentialsResource(AgreementBaseResource):

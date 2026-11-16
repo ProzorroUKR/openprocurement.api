@@ -1,19 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.tender_document import TenderDocumentResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_PROCUREMENT_METHOD_TYPES,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 from openprocurement.tender.open.procedure.state.tender_document import (
     AboveThresholdTenderDocumentState,
     AboveThresholdUATenderDocumentState,
@@ -29,17 +18,17 @@ from openprocurement.tender.open.procedure.state.tender_document import (
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
     description="Tender related binary files (PDFs, etc.)",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenTenderDocumentResource(TenderDocumentResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdTenderDocumentState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUATenderDocumentState,
-        ABOVE_THRESHOLD_EU: AboveThresholdUATenderDocumentState,
-        OPEN_TENDERING: OpenTenderingTenderDocumentState,
-        ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdUATenderDocumentState,
-        SIMPLE_DEFENSE: AboveThresholdUATenderDocumentState,
-        COMPETITIVE_ORDERING: COTenderDocumentState,
-        BELOW_THRESHOLD: BelowThresholdTenderDocumentState,
-        REQUEST_FOR_PROPOSAL: RFPTenderDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdTenderDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUATenderDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdUATenderDocumentState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingTenderDocumentState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: AboveThresholdUATenderDocumentState,
+        ProcurementMethodType.SIMPLE_DEFENSE: AboveThresholdUATenderDocumentState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COTenderDocumentState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdTenderDocumentState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPTenderDocumentState,
     }

@@ -2,10 +2,8 @@ import logging
 from collections import defaultdict
 from decimal import Decimal
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType
-
 from openprocurement.api.auth import AccreditationLevel
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.constants_env import (
     BID_ITEMS_PRODUCT_REQUIRED_FROM,
     BID_UNIT_VALIDATION_FROM,
@@ -15,9 +13,11 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_object, get_tender
+from openprocurement.api.procedure.errors import REQUIRED_MESSAGE, ValidationError
 from openprocurement.api.procedure.state.base import BaseState
 from openprocurement.api.procedure.utils import to_decimal
 from openprocurement.api.procedure.validation import validate_field_change
+from openprocurement.api.procedure.value_types import TYPEMAP
 from openprocurement.api.utils import (
     error_handler,
     get_tender_product,
@@ -47,7 +47,6 @@ from openprocurement.tender.core.procedure.utils import (
     validate_allowed_field_change_in_list,
 )
 from openprocurement.tender.core.procedure.validation import (
-    TYPEMAP,
     validate_doc_type_quantity,
     validate_doc_type_required,
     validate_econtract_fields_bid,
@@ -882,7 +881,7 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
             return
 
         if tender_items and not bid_items:
-            self.raise_items_error(BaseType.MESSAGES["required"])
+            self.raise_items_error(REQUIRED_MESSAGE)
 
         item_required_fields = {
             "description": True,
@@ -892,7 +891,7 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
             },
             "quantity": True,
         }
-        if tender["procurementMethodType"] == "esco":
+        if tender["procurementMethodType"] == ProcurementMethodType.ESCO:
             item_required_fields = {
                 "description": True,
                 "unit": {
@@ -998,7 +997,7 @@ class BidState(BidRequirementResponsesRulesMixin, DocumentsRelatedItemRulesMixin
     def _rr_response_values(self, rr: dict, datatype) -> set:
         value = rr.get("value")
         raw = [value] if value is not None else (rr.get("values") or [])
-        return {datatype.to_native(v) for v in raw}
+        return {datatype(v) for v in raw}
 
     def _raise_rr_to_product_error(self, message: str) -> None:
         raise_operation_error(

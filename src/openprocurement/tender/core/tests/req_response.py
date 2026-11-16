@@ -1,6 +1,6 @@
 import unittest
 
-from schematics.exceptions import ValidationError
+from openprocurement.api.procedure.errors import ValidationError
 
 from openprocurement.tender.core.constants import (
     CRITERION_LOCALIZATION,
@@ -9,7 +9,7 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.state.req_response import (
     RequirementResponsesRulesMixin,
 )
-from openprocurement.tender.core.procedure.validation import TYPEMAP
+from openprocurement.api.procedure.value_types import TYPEMAP
 
 
 class TestExtraValuesAllowed(unittest.TestCase):
@@ -50,7 +50,7 @@ class TestExtraValuesAllowed(unittest.TestCase):
 
 
 class TestMatchExpectedValuesSubset(unittest.TestCase):
-    datatype = TYPEMAP["string"]
+    datatype = staticmethod(TYPEMAP["string"])
     requirement = {"id": "r1", "expectedValues": ["A", "B"], "expectedMinItems": 1}
 
     def _match(self, values, allow_extra_values, requirement=None):

@@ -1,12 +1,14 @@
-from schematics.types import IntType, StringType
-from schematics.types.compound import ModelType
+from pydantic import Field, field_validator
 
+from openprocurement.api.constants import ProcurementMethodType
+from openprocurement.api.procedure.models.base import model_field_validator, validate_uniq_code, validate_uniq_id
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import IsoDurationType, ListType
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.cfaua.constants import CFA_UA
+from openprocurement.api.procedure.types import (
+    IsoDuration,
+)
 from openprocurement.tender.cfaua.constants import CFA_UA_LOTS_MAX_SIZE as CFA_LOTS_MAX_SIZE
 from openprocurement.tender.cfaua.constants import CFA_UA_LOTS_MIN_SIZE as CFA_LOTS_MIN_SIZE
+from openprocurement.tender.cfaua.constants import CFAUAProcurementMethodType
 from openprocurement.tender.cfaua.procedure.models.feature import CFAFeature
 from openprocurement.tender.core.procedure.models.lot import Lot, PatchTenderLot, PostTenderLot
 from openprocurement.tender.core.procedure.models.tender import (
@@ -20,53 +22,105 @@ from openprocurement.tender.core.procedure.models.tender import (
 
 
 class CFAPostTender(PostTender):
-    procurementMethodType = StringType(choices=[CFA_UA], default=CFA_UA)
+    procurementMethodType: CFAUAProcurementMethodType = ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA
+    agreementDuration: IsoDuration
+    maxAwardsCount: int
+    lots: list[PostTenderLot] = Field(min_length=CFA_LOTS_MIN_SIZE, max_length=CFA_LOTS_MAX_SIZE)
+    features: list[CFAFeature] | None = None
 
-    agreementDuration = IsoDurationType(required=True, validators=[validate_cfa_max_agreement_duration_period])
-    maxAwardsCount = IntType(required=True, validators=[validate_cfa_max_awards_number])
+    @model_field_validator("features")
+    def validate_features(self, features):
+        validate_cfa_features(self, features)
 
-    lots = ListType(
-        ModelType(PostTenderLot, required=True),
-        required=True,
-        min_size=CFA_LOTS_MIN_SIZE,
-        max_size=CFA_LOTS_MAX_SIZE,
-        validators=[validate_uniq_id],
-    )
-    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
+    @field_validator("agreementDuration")
+    @classmethod
+    def validate_agreement_duration_items(cls, value):
+        validate_cfa_max_agreement_duration_period(value)
+        return value
 
-    def validate_features(self, data, features):
-        validate_cfa_features(data, features)
+    @field_validator("maxAwardsCount")
+    @classmethod
+    def validate_max_awards_count_items(cls, value):
+        validate_cfa_max_awards_number(value)
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFAPatchTender(PatchTender):
-    procurementMethodType = StringType(choices=[CFA_UA])
-    agreementDuration = IsoDurationType(validators=[validate_cfa_max_agreement_duration_period])
-    maxAwardsCount = IntType(validators=[validate_cfa_max_awards_number])
+    procurementMethodType: CFAUAProcurementMethodType | None = None
+    agreementDuration: IsoDuration | None = None
+    maxAwardsCount: int | None = None
+    lots: list[PatchTenderLot] | None = Field(None, min_length=CFA_LOTS_MIN_SIZE, max_length=CFA_LOTS_MAX_SIZE)
+    features: list[CFAFeature] | None = None
 
-    lots = ListType(
-        ModelType(PatchTenderLot, required=True),
-        min_size=CFA_LOTS_MIN_SIZE,
-        max_size=CFA_LOTS_MAX_SIZE,
-        validators=[validate_uniq_id],
-    )
-    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
+    @field_validator("agreementDuration")
+    @classmethod
+    def validate_agreement_duration_items(cls, value):
+        validate_cfa_max_agreement_duration_period(value)
+        return value
+
+    @field_validator("maxAwardsCount")
+    @classmethod
+    def validate_max_awards_count_items(cls, value):
+        validate_cfa_max_awards_number(value)
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFATender(Tender):
-    procurementMethodType = StringType(choices=[CFA_UA], required=True)
-    agreementDuration = IsoDurationType(required=True, validators=[validate_cfa_max_agreement_duration_period])
-    maxAwardsCount = IntType(required=True, validators=[validate_cfa_max_awards_number])
+    procurementMethodType: CFAUAProcurementMethodType
+    agreementDuration: IsoDuration
+    maxAwardsCount: int
+    lots: list[Lot] = Field(min_length=CFA_LOTS_MIN_SIZE, max_length=CFA_LOTS_MAX_SIZE)
+    features: list[CFAFeature] | None = None
+    auctionPeriod: Period | None = None
 
-    lots = ListType(
-        ModelType(Lot, required=True),
-        required=True,
-        min_size=CFA_LOTS_MIN_SIZE,
-        max_size=CFA_LOTS_MAX_SIZE,
-        validators=[validate_uniq_id],
-    )
-    features = ListType(ModelType(CFAFeature, required=True), validators=[validate_uniq_code])
+    @model_field_validator("features")
+    def validate_features(self, features):
+        validate_cfa_features(self, features)
 
-    auctionPeriod = ModelType(Period)
+    @field_validator("agreementDuration")
+    @classmethod
+    def validate_agreement_duration_items(cls, value):
+        validate_cfa_max_agreement_duration_period(value)
+        return value
 
-    def validate_features(self, data, features):
-        validate_cfa_features(data, features)
+    @field_validator("maxAwardsCount")
+    @classmethod
+    def validate_max_awards_count_items(cls, value):
+        validate_cfa_max_awards_number(value)
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value

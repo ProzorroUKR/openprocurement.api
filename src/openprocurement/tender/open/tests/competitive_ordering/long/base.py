@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -11,7 +12,6 @@ from openprocurement.tender.core.tests.base import (
     test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import set_tender_multi_buyers, set_tender_periods
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
     test_tender_below_base_organization,
@@ -26,7 +26,7 @@ from openprocurement.tender.open.tests.competitive_ordering.long.periods import 
 now = get_now()
 
 test_tender_co_long_data = test_tender_below_data.copy()
-test_tender_co_long_data["procurementMethodType"] = COMPETITIVE_ORDERING
+test_tender_co_long_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_ORDERING
 del test_tender_co_long_data["enquiryPeriod"]
 set_tender_periods(test_tender_co_long_data, start=now)
 test_tender_co_long_data["items"] = [
@@ -69,7 +69,7 @@ test_tender_co_long_three_bids.append(
 )
 
 test_tender_co_long_features_data = test_tender_below_features_data.copy()
-test_tender_co_long_features_data["procurementMethodType"] = COMPETITIVE_ORDERING
+test_tender_co_long_features_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_ORDERING
 del test_tender_co_long_features_data["enquiryPeriod"]
 set_tender_periods(test_tender_co_long_features_data, start=now)
 test_tender_co_long_features_data["items"][0]["deliveryDate"] = test_tender_co_long_data["items"][0]["deliveryDate"]

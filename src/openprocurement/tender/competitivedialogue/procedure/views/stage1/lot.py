@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.lot import (
     CDStage1EUTenderLotState,
     CDStage1UATenderLotState,
@@ -9,10 +9,10 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 
 @resource(
-    name="{}:Tender Lots".format(CD_EU_TYPE),
+    name="{}:Tender Lots".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     description="Competitive Dialogue EU lots",
 )
 class CompetitiveDialogueEULotResource(TenderLotResource):
@@ -20,10 +20,10 @@ class CompetitiveDialogueEULotResource(TenderLotResource):
 
 
 @resource(
-    name="{}:Tender Lots".format(CD_UA_TYPE),
+    name="{}:Tender Lots".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     description="Competitive Dialogue UA lots",
 )
 class CompetitiveDialogueUALotResource(TenderLotResource):

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4a370cddba9e4d9791dff10c6e02b9ee HTTP/1.0
+GET /api/2.5/tenders/f789f84ec0d64a2285f7dc2654685079 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "title_en": "Cases for state awards",
-    "title": "футляри до державних нагород",
     "status": "complete",
+    "title": "футляри до державних нагород",
+    "title_en": "Cases for state awards",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -38,13 +38,9 @@ Content-Type: application/json
         "sequenceNumber": 2
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2026-12-10T00:00:00+02:00",
-      "startDate": "2026-11-09T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
+        "id": "57a91685e3474a7285208c407f685f73",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -52,10 +48,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -74,10 +71,14 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
+        }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2026-12-10T00:00:00+02:00",
+      "startDate": "2026-11-09T00:00:00+02:00"
+    },
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "name": "Державне управління справами",
       "name_en": "State administration",
@@ -107,23 +108,20 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "procurementMethodType": "closeFrameworkAgreementUA",
-    "agreementDuration": "P3Y3M3D",
-    "maxAwardsCount": 4,
     "lots": [
       {
+        "id": "41d9357c4d24494186fe2da6c7e8ad7d",
         "title": "lot title",
         "description": "lot description",
-        "id": "41d9357c4d24494186fe2da6c7e8ad7d",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 500.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "minimalStep": {
-          "currency": "UAH",
           "amount": 15.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "date": "2027-01-01T00:00:00+02:00",
@@ -133,6 +131,8 @@ Content-Type: application/json
         }
       }
     ],
+    "agreementDuration": "P3Y3M3D",
+    "maxAwardsCount": 4,
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",
@@ -538,7 +538,7 @@ Content-Type: application/json
         "id": "8887db77f71c4a0496b39ac2c4eea78c",
         "items": [
           {
-            "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "id": "57a91685e3474a7285208c407f685f73",
             "description": "футляри до державних нагород",
             "description_en": "Cases for state awards",
             "unit": {
@@ -546,10 +546,11 @@ Content-Type: application/json
               "code": "KGM"
             },
             "quantity": 5.0,
+            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
             "classification": {
-              "description": "Cartons",
               "scheme": "ДК021",
-              "id": "44617100-9"
+              "id": "44617100-9",
+              "description": "Cartons"
             },
             "additionalClassifications": [
               {
@@ -568,8 +569,7 @@ Content-Type: application/json
               "region": "м. Київ",
               "postalCode": "79000",
               "countryName": "Україна"
-            },
-            "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
+            }
           }
         ],
         "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
@@ -607,7 +607,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+                "relatedItem": "57a91685e3474a7285208c407f685f73",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -649,7 +649,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+                "relatedItem": "57a91685e3474a7285208c407f685f73",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -691,7 +691,7 @@ Content-Type: application/json
             "date": "2027-01-01T00:00:00+02:00",
             "unitPrices": [
               {
-                "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+                "relatedItem": "57a91685e3474a7285208c407f685f73",
                 "value": {
                   "currency": "UAH",
                   "valueAddedTaxIncluded": false,
@@ -731,7 +731,7 @@ Content-Type: application/json
         ]
       }
     ],
-    "id": "4a370cddba9e4d9791dff10c6e02b9ee"
+    "id": "f789f84ec0d64a2285f7dc2654685079"
   },
   "config": {
     "hasAuction": true,

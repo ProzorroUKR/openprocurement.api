@@ -1,11 +1,9 @@
 from enum import StrEnum
 from logging import getLogger
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, IntType, MD5Type, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from pydantic import Field, field_serializer, field_validator, model_validator
 
 from openprocurement.api.constants import (
     COUNTRIES_MAP,
@@ -16,14 +14,19 @@ from openprocurement.api.constants_env import (
 )
 from openprocurement.api.context import get_json_data, get_request, get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.errors import FieldErrors, ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator, validate_object_id_uniq
 from openprocurement.api.procedure.models.item import (
     Classification as BaseClassification,
 )
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.reference import Reference
 from openprocurement.api.procedure.models.unit import Unit as BaseUnit
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
+from openprocurement.api.procedure.value_types import TYPEMAP
 from openprocurement.api.utils import get_first_revision_date
 from openprocurement.tender.core.constants import (
     ReqStatuses,
@@ -31,61 +34,52 @@ from openprocurement.tender.core.constants import (
 from openprocurement.tender.core.procedure.models.identifier import (
     LegislationIdentifier,
 )
-from openprocurement.tender.core.procedure.validation import (
-    TYPEMAP,
-    validate_object_id_uniq,
-    validate_value_type,
-)
 
 LOGGER = getLogger(__name__)
 
 
 class ValidateIdMixing(Model):
-    # md5 is checked by the state (TenderCriteriaRulesMixin.validate_criteria_object_id): legacy PQ ids are the profile ones
-    id = StringType(required=True, default=lambda: uuid4().hex)
+    id: str = Field(default_factory=lambda: uuid4().hex)
 
 
 class CriterionClassification(BaseClassification):
-    description = StringType()
+    description: str | None = None
 
 
 class LegislationItem(Model):
-    version = StringType()
-    identifier = ModelType(LegislationIdentifier, required=True)
-    type = StringType(choices=["NATIONAL_LEGISLATION"], default="NATIONAL_LEGISLATION")
-    article = StringType()
+    version: str | None = None
+    identifier: LegislationIdentifier
+    type: Literal["NATIONAL_LEGISLATION"] = "NATIONAL_LEGISLATION"
+    article: str | None = None
 
 
 class ExtendPeriod(Period):
-    maxExtendDate = IsoDateTimeType()
-    durationInDays = IntType()
-    duration = StringType()
+    maxExtendDate: IsoDateTime | None = None
+    durationInDays: int | None = None
+    duration: str | None = None
 
 
 class BaseEligibleEvidence(Model):
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    type = StringType(choices=["document", "statement"], default="statement")
-    relatedDocument = ModelType(Reference)
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    type: Literal["document", "statement"] = "statement"
+    relatedDocument: Reference | None = None
 
 
 class EligibleEvidence(BaseEligibleEvidence):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
 
 
 class PatchEligibleEvidence(BaseEligibleEvidence):
-    type = StringType(choices=["document", "statement"])
-
-
-# ---- Requirement
+    type: Literal["document", "statement"] | None = None
 
 
 class Unit(BaseUnit):
-    name = StringType(required=True)
+    name: str
 
 
 class DataSchema(StrEnum):
@@ -100,208 +94,165 @@ ISO_MAPPING = {
 
 
 class BaseRequirement(Model):
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    dataType = StringType(
-        required=True,
-        choices=["string", "number", "integer", "boolean", "date-time"],
-        default="boolean",
-    )
-    period = ModelType(ExtendPeriod)
-    eligibleEvidences = ListType(
-        ModelType(EligibleEvidence, required=True),
-        default=list,
-        validators=[validate_object_id_uniq],
-    )
-    relatedFeature = MD5Type()
-    status = StringType(
-        choices=[
-            ReqStatuses.ACTIVE,
-            ReqStatuses.CANCELLED,
-        ],
-        default=ReqStatuses.DEFAULT,
-    )
-    unit = ModelType(Unit)
-    dataSchema = StringType(
-        choices=[
-            DataSchema.ISO_639.value,
-            DataSchema.ISO_3166.value,
-        ],
-    )
+    title: str = Field(min_length=1)
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    dataType: Literal["string", "number", "integer", "boolean", "date-time"] = "boolean"
+    period: ExtendPeriod | None = None
+    eligibleEvidences: list[EligibleEvidence] = []
+    relatedFeature: MD5 | None = None
+    status: ReqStatuses = ReqStatuses.DEFAULT
+    unit: Unit | None = None
+    dataSchema: DataSchema | None = None
+    minValue: Any = None
+    maxValue: Any = None
+    expectedValue: Any = None
+    expectedValues: list[Any] | None = Field(None, min_length=1)
+    expectedMinItems: int | None = Field(None, ge=1)
+    expectedMaxItems: int | None = Field(None, ge=1)
 
-    minValue = BaseType()
-    maxValue = BaseType()
-    expectedValue = BaseType()
-
-    expectedValues = ListType(BaseType(required=True), min_size=1)
-    expectedMinItems = IntType(min_value=1)
-    expectedMaxItems = IntType(min_value=1)
+    @field_validator("eligibleEvidences")
+    @classmethod
+    def validate_eligible_evidences_items(cls, value):
+        validate_object_id_uniq(value)
+        return value
 
 
 class PostRequirement(ValidateIdMixing, BaseRequirement):
-    datePublished = IsoDateTimeType()
+    datePublished: IsoDateTime | None = None
 
-    @serializable(serialized_name="minValue", serialize_when_none=False)
-    def set_minValue(self):
-        return TYPEMAP[self.dataType](self.minValue) if self.minValue else None
+    @field_serializer("minValue")
+    def serialize_min_value(self, value: Any) -> Any:
+        return TYPEMAP[self.dataType](value) if value else value
 
-    @serializable(serialized_name="maxValue", serialize_when_none=False)
-    def set_maxValue(self):
-        return TYPEMAP[self.dataType](self.maxValue) if self.maxValue else None
+    @field_serializer("maxValue")
+    def serialize_max_value(self, value: Any) -> Any:
+        return TYPEMAP[self.dataType](value) if value else value
 
-    @serializable(serialized_name="expectedValue", serialize_when_none=False)
-    def set_expectedValue(self):
-        return TYPEMAP[self.dataType](self.expectedValue) if self.expectedValue else None
+    @field_serializer("expectedValue")
+    def serialize_expected_value(self, value: Any) -> Any:
+        return TYPEMAP[self.dataType](value) if value else value
 
-    @serializable(serialized_name="expectedValues", serialize_when_none=False)
-    def set_expectedValues(self):
-        return [TYPEMAP[self.dataType](value) for value in self.expectedValues] if self.expectedValues else None
+    @field_serializer("expectedValues")
+    def serialize_expected_values(self, value: Any) -> Any:
+        return [TYPEMAP[self.dataType](item) for item in value] if value else value
 
-    def validate_minValue(self, data, value):
+    @model_validator(mode="after")
+    def validate_values(self):
+        # all the value fields are checked, the errors are reported together
+        errors = {}
+        for field, check in (
+            ("minValue", self._check_min_max_value),
+            ("maxValue", self._check_min_max_value),
+            ("expectedValue", self._check_expected_value),
+            ("expectedValues", self._check_expected_values),
+        ):
+            try:
+                check(field, getattr(self, field))
+            except ValidationError as e:  # ConversionError of the value types as well
+                errors[field] = e.messages
+        if errors:
+            raise FieldErrors(errors)
+        return self
+
+    def _check_min_max_value(self, field: str, value: Any) -> None:
         if value:
-            if data["dataType"] not in ["integer", "number"]:
-                raise ValidationError("minValue must be integer or number")
-            validate_value_type(value, data["dataType"])
+            if self.dataType not in ["integer", "number"]:
+                raise ValidationError(f"{field} must be integer or number")
+            validate_value_type(value, self.dataType)
 
-    def validate_maxValue(self, data, value):
-        if value:
-            if data["dataType"] not in ["integer", "number"]:
-                raise ValidationError("maxValue must be integer or number")
-            validate_value_type(value, data["dataType"])
-
-    def validate_expectedValue(self, data, value):
+    def _check_expected_value(self, field: str, value: Any) -> None:
         if value:
             conflict_fields = ["minValue", "maxValue", "expectedValues"]
-            if any(data.get(i) is not None for i in conflict_fields):
+            if any(getattr(self, i) is not None for i in conflict_fields):
                 raise ValidationError(f"expectedValue conflicts with {conflict_fields}")
+            validate_value_type(value, self.dataType)
 
-            validate_value_type(value, data["dataType"])
-
-    def validate_expectedValues(self, data, values):
-        expected_min_items = data.get("expectedMinItems")
-        expected_max_items = data.get("expectedMaxItems")
-
+    def _check_expected_values(self, field: str, values: Any) -> None:
+        expected_min_items = self.expectedMinItems
+        expected_max_items = self.expectedMaxItems
         if values:
             if not isinstance(values, (list, tuple, set)):
                 raise ValidationError("Values should be list")
-
             conflict_fields = ["minValue", "maxValue", "expectedValue"]
-            if any(data.get(i) is not None for i in conflict_fields):
+            if any(getattr(self, i) is not None for i in conflict_fields):
                 raise ValidationError(f"expectedValues conflicts with {conflict_fields}")
-
             for value in values:
-                validate_value_type(value, data["dataType"])
-
+                validate_value_type(value, self.dataType)
             if expected_min_items and expected_max_items and expected_min_items > expected_max_items:
                 raise ValidationError("expectedMinItems couldn't be higher then expectedMaxItems")
-
             if expected_min_items and expected_min_items > len(values):
                 raise ValidationError("expectedMinItems couldn't be higher then count of items in expectedValues")
-
             if expected_max_items and expected_max_items > len(values):
                 raise ValidationError("expectedMaxItems couldn't be higher then count of items in expectedValues")
-
         elif expected_min_items or expected_max_items:
             raise ValidationError("expectedMinItems and expectedMaxItems couldn't exist without expectedValues")
 
-    @serializable(serialized_name="status", serialize_when_none=False)
-    def set_status(self):
-        tender = get_tender() or get_json_data()
-        if get_first_revision_date(tender, default=get_request_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
-            return
-        return self.status or ReqStatuses.DEFAULT
-
-    @serializable(serialized_name="datePublished", serialize_when_none=False)
-    def set_datePublished(self):
+    @field_serializer("datePublished")
+    def serialize_date_published(self, value: Any) -> Any:
         tender = get_tender() or get_json_data()
         request = get_request()
-
         if get_first_revision_date(tender, default=get_request_now()) < CRITERION_REQUIREMENT_STATUSES_FROM:
-            return
-
+            return value.isoformat() if value else None
         if request.method == "POST":
             return get_request_now().isoformat()
-
-        return self.datePublished.isoformat() if self.datePublished else get_request_now().isoformat()
+        return value.isoformat() if value else get_request_now().isoformat()
 
 
 class PatchRequirement(BaseRequirement):
-    title = StringType(min_length=1)
-    dataType = StringType(
-        choices=["string", "number", "integer", "boolean", "date-time"],
-    )
-    status = StringType(choices=[ReqStatuses.ACTIVE, ReqStatuses.CANCELLED])
+    title: str | None = Field(None, min_length=1)
+    dataType: Literal["string", "number", "integer", "boolean", "date-time"] | None = None
+    status: ReqStatuses | None = None
 
 
 class PatchExclusionLccRequirement(Model):
-    status = StringType(choices=[ReqStatuses.ACTIVE, ReqStatuses.CANCELLED])
-    eligibleEvidences = ListType(
-        ModelType(EligibleEvidence, required=True),
-        default=list,
-        validators=[validate_object_id_uniq],
-    )
+    status: ReqStatuses | None = None
+    eligibleEvidences: list[EligibleEvidence] = []
+
+    @field_validator("eligibleEvidences")
+    @classmethod
+    def validate_eligible_evidences_items(cls, value):
+        validate_object_id_uniq(value)
+        return value
 
 
 class PatchTechnicalFeatureRequirement(Model):
-    period = ModelType(ExtendPeriod)
-    eligibleEvidences = ListType(
-        ModelType(EligibleEvidence, required=True),
-    )
-    relatedFeature = MD5Type()
-    status = StringType(
-        choices=[
-            ReqStatuses.ACTIVE,
-            ReqStatuses.CANCELLED,
-        ],
-        default=ReqStatuses.DEFAULT,
-    )
-
-    minValue = BaseType()
-    maxValue = BaseType()
-    expectedValue = BaseType()
-
-    expectedValues = ListType(BaseType(required=True), min_size=1)
-    expectedMinItems = IntType(min_value=1)
-    expectedMaxItems = IntType(min_value=1)
+    period: ExtendPeriod | None = None
+    eligibleEvidences: list[EligibleEvidence] | None = None
+    relatedFeature: MD5 | None = None
+    status: ReqStatuses = ReqStatuses.DEFAULT
+    minValue: Any = None
+    maxValue: Any = None
+    expectedValue: Any = None
+    expectedValues: list[Any] | None = Field(None, min_length=1)
+    expectedMinItems: int | None = Field(None, ge=1)
+    expectedMaxItems: int | None = Field(None, ge=1)
 
 
 class PutRequirement(PatchRequirement):
-    status = StringType(choices=[ReqStatuses.ACTIVE, ReqStatuses.CANCELLED])
+    status: ReqStatuses | None = None
 
 
 class PutExclusionLccRequirement(PatchExclusionLccRequirement):
-    status = StringType(choices=[ReqStatuses.ACTIVE, ReqStatuses.CANCELLED])
+    status: ReqStatuses | None = None
 
 
 class RequirementForeign(PostRequirement):
-    dateModified = IsoDateTimeType()
+    dateModified: IsoDateTime | None = None
 
 
 class Requirement(RequirementForeign):
-    status = StringType(
-        choices=[
-            ReqStatuses.ACTIVE,
-            ReqStatuses.CANCELLED,
-        ]
-    )
+    status: ReqStatuses | None = None
 
 
-# ---- Requirement
-
-
-# ---- Requirement Group
 class BaseRequirementGroup(Model):
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    requirements = ListType(
-        ModelType(RequirementForeign, required=True),
-        min_size=1,
-    )
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    requirements: list[RequirementForeign] | None = Field(None, min_length=1)
 
 
 class RequirementGroup(ValidateIdMixing, BaseRequirementGroup):
@@ -312,49 +263,53 @@ class PatchRequirementGroup(BaseRequirementGroup):
     pass
 
 
-# Requirement Group ----
-
-
-# ---- Criterion
 class BaseCriterion(Model):
-    title = StringType(min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-
-    source = StringType(
-        choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"],
-        required=True,
-    )
-    relatesTo = StringType(choices=["tenderer", "item", "lot", "tender"])
-    relatedItem = MD5Type()
-    classification = ModelType(CriterionClassification, required=True)
+    title: str | None = Field(None, min_length=1)
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    source: Literal["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"]
+    relatesTo: Literal["tenderer", "item", "lot", "tender"] | None = None
+    relatedItem: MD5 | None = None
+    classification: CriterionClassification
 
 
 class Criterion(ValidateIdMixing, BaseCriterion):
-    title = StringType(required=True, min_length=1)
-    additionalClassifications = ListType(ModelType(BaseClassification, required=True))
-    legislation = ListType(ModelType(LegislationItem, required=True), min_size=1)
-    requirementGroups = ListType(
-        ModelType(RequirementGroup, required=True),
-        required=True,
-        min_size=1,
-        validators=[
-            validate_object_id_uniq,
-        ],
-    )
+    title: str = Field(min_length=1)
+    additionalClassifications: list[BaseClassification] | None = None
+    legislation: list[LegislationItem] | None = Field(None, min_length=1)
+    requirementGroups: list[RequirementGroup] = Field(min_length=1)
 
-    def validate_legislation(self, data, value):
-        if data.get("classification", {}).get("id") != "CRITERION.OTHER.CONTRACT.GUARANTEE":
+    @model_field_validator("legislation")
+    def validate_legislation(self, value):
+        if not self.classification or self.classification.id != "CRITERION.OTHER.CONTRACT.GUARANTEE":
             if not value:
                 raise ValidationError("This field is required.")
 
+    @field_validator("requirementGroups")
+    @classmethod
+    def validate_requirement_groups_items(cls, value):
+        validate_object_id_uniq(value)
+        return value
+
 
 class PatchCriterion(BaseCriterion):
-    source = StringType(choices=["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"])
-    classification = ModelType(CriterionClassification)
+    source: Literal["tenderer", "buyer", "procuringEntity", "ssrBot", "winner"] | None = None
+    classification: CriterionClassification | None = None
 
 
-# Criterion ----
+def validate_value_factory(type_map):
+    def validator(value, datatype):
+        if value is None:
+            return
+        type_ = type_map.get(datatype)
+        if not type_:
+            raise ValidationError("Type mismatch: value {} does not confront type {}".format(value, type_))
+        return type_(value)
+
+    return validator
+
+
+validate_value_type = validate_value_factory(TYPEMAP)

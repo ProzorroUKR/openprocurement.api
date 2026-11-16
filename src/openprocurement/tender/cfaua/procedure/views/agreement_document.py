@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaua.procedure.state.agreement_document import (
     CFAUAAgreementDocumentState,
 )
@@ -14,7 +15,7 @@ from openprocurement.tender.core.procedure.views.document import (
     name="closeFrameworkAgreementUA:Tender Agreement Documents",
     collection_path="/tenders/{tender_id}/agreements/{agreement_id}/documents",
     path="/tenders/{tender_id}/agreements/{agreement_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender agreement documents",
 )
 class CFAUATenderAgreementDocumentResource(BaseDocumentResource):

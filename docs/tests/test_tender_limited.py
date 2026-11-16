@@ -340,7 +340,7 @@ class TenderLimitedResourceTest(TenderLimitedResourceTestBase):
 
         with (
             patch_market_product(product_data),
-            open(TARGET_DIR + "tutorial/tender-award-approve.http", "w") as self.app.file_obj
+            open(TARGET_DIR + "tutorial/tender-award-approve.http", "w") as self.app.file_obj,
         ):
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, owner_token),
@@ -970,7 +970,7 @@ class TenderNegotiationLimitedResourceTest(TenderLimitedResourceTestBase):
         self.add_sign_doc(self.tender_id, owner_token, docs_url=f"/awards/{self.award_id}/documents")
         with (
             patch_market_product(product_data),
-            open(TARGET_DIR + "multiple_lots_tutorial/tender-award-approve.http", "w") as self.app.file_obj
+            open(TARGET_DIR + "multiple_lots_tutorial/tender-award-approve.http", "w") as self.app.file_obj,
         ):
             response = self.app.patch_json(
                 "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, self.award_id, owner_token),

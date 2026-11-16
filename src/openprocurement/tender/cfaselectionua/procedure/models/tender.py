@@ -1,13 +1,13 @@
-from schematics.types import StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from typing import Any
 
+from pydantic import Field, field_serializer, field_validator
+
+from openprocurement.api.constants import ProcurementMethodType
+from openprocurement.api.procedure.models.base import validate_uniq_code, validate_uniq_id
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.models.value import Value
-from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.models.value import BasicValue, Value
 from openprocurement.api.procedure.utils import to_decimal
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
+from openprocurement.tender.cfaselectionua.constants import CFASelectionUAProcurementMethodType
 from openprocurement.tender.cfaselectionua.procedure.models.agreement import CFASelectionAgreement
 from openprocurement.tender.cfaselectionua.procedure.models.feature import CFASelectionFeature
 from openprocurement.tender.cfaselectionua.procedure.models.lot import (
@@ -15,7 +15,7 @@ from openprocurement.tender.cfaselectionua.procedure.models.lot import (
     CFASelectionPatchTenderLot,
     CFASelectionPostTenderLot,
 )
-from openprocurement.tender.core.constants import AWARD_CRITERIA_CHOICES
+from openprocurement.tender.core.constants import AwardCriteria
 from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.tender import (
@@ -29,7 +29,6 @@ from openprocurement.tender.core.procedure.models.tender import (
     TenderSubmissionMixin,
 )
 from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PatchBaseTender, PostBaseTender
-from openprocurement.tender.core.procedure.models.value import BasicValue
 
 
 class CFASelectionPostTender(
@@ -40,44 +39,51 @@ class CFASelectionPostTender(
     TenderMilestonesMixin,
     PostBaseTender,
 ):
-    procurementMethodType = StringType(choices=[CFA_SELECTION], default=CFA_SELECTION)
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-
-    agreements = ListType(ModelType(AgreementUUID, required=True), required=True, min_size=1, max_size=1)
-    lots = ListType(
-        ModelType(CFASelectionPostTenderLot, required=True),
-        min_size=1,
-        max_size=1,
-        required=True,
-        validators=[validate_uniq_id],
+    procurementMethodType: CFASelectionUAProcurementMethodType = (
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA
     )
-    features = ListType(ModelType(CFASelectionFeature, required=True), validators=[validate_uniq_code])
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity
+    agreements: list[AgreementUUID] = Field(min_length=1, max_length=1)
+    lots: list[CFASelectionPostTenderLot] = Field(min_length=1, max_length=1)
+    features: list[CFASelectionFeature] | None = None
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFASelectionPatchTender(
-    TenderSubmissionMixin,
-    TenderGuaranteeMixin,
-    PatchTenderItemsMixin,
-    PatchTenderMilestonesMixin,
-    PatchBaseTender,
+    TenderSubmissionMixin, TenderGuaranteeMixin, PatchTenderItemsMixin, PatchTenderMilestonesMixin, PatchBaseTender
 ):
-    procurementMethodType = StringType(choices=[CFA_SELECTION])
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procuringEntity = ModelType(ProcuringEntity)
+    procurementMethodType: CFASelectionUAProcurementMethodType | None = None
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity | None = None
+    lots: list[CFASelectionPatchTenderLot] | None = Field(None, min_length=1, max_length=1)
+    features: list[CFASelectionFeature] | None = None
+    unsuccessfulReason: list[str] | None = None
+    tenderPeriod: PeriodEndRequired | None = None
+    minimalStep: Value | None = None
 
-    lots = ListType(
-        ModelType(CFASelectionPatchTenderLot, required=True),
-        min_size=1,
-        max_size=1,
-        validators=[validate_uniq_id],
-    )
-    features = ListType(ModelType(CFASelectionFeature, required=True), validators=[validate_uniq_code])
-    unsuccessfulReason = ListType(StringType, serialize_when_none=False)
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
-    tenderPeriod = ModelType(PeriodEndRequired)
-    # will be overwritten by serializable
-    minimalStep = ModelType(Value)
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFASelectionTender(
@@ -88,52 +94,41 @@ class CFASelectionTender(
     TenderMilestonesMixin,
     BaseTender,
 ):
-    procurementMethodType = StringType(choices=[CFA_SELECTION], required=True)
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES, required=True)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
+    procurementMethodType: CFASelectionUAProcurementMethodType
+    awardCriteria: AwardCriteria
+    procuringEntity: ProcuringEntity
+    agreements: list[CFASelectionAgreement] = Field(min_length=1, max_length=1)
+    lots: list[CFASelectionLot] = Field(min_length=1, max_length=1)
+    features: list[CFASelectionFeature] | None = None
+    unsuccessfulReason: list[str] | None = None
+    tenderPeriod: PeriodEndRequired | None = None
+    enquiryPeriod: PeriodEndRequired | None = None
+    minimalStep: Value | None = None
+    value: Value | None = None
 
-    agreements = ListType(ModelType(CFASelectionAgreement, required=True), required=True, min_size=1, max_size=1)
-    lots = ListType(
-        ModelType(CFASelectionLot, required=True),
-        min_size=1,
-        max_size=1,
-        required=True,
-        validators=[validate_uniq_id],
-    )
-    features = ListType(ModelType(CFASelectionFeature, required=True), validators=[validate_uniq_code])
-    unsuccessfulReason = ListType(StringType, serialize_when_none=False)
-    tenderPeriod = ModelType(PeriodEndRequired)
-    enquiryPeriod = ModelType(PeriodEndRequired)
-    # will be overwritten by serializable
-    minimalStep = ModelType(Value)
-    value = ModelType(Value)
-
-    # Non-required mainProcurementCategory
-    # Not required milestones
-    @serializable(
-        serialized_name="guarantee",
-        serialize_when_none=False,
-        type=ModelType(BasicValue),
-    )
-    def tender_guarantee(self):
+    @field_serializer("guarantee")
+    def serialize_guarantee(self, value: Any) -> Any:
         if self.lots:
             lots_amount = [i.guarantee.amount for i in self.lots if i.guarantee]
             if not lots_amount:
-                return self.guarantee
-            guarantee = {"amount": float(sum(to_decimal(i) for i in lots_amount))}
+                return value
+            guarantee = {"amount": float(sum((to_decimal(i) for i in lots_amount)))}
             lots_currency = [i.guarantee.currency for i in self.lots if i.guarantee]
             guarantee["currency"] = lots_currency[0] if lots_currency else None
-            if self.guarantee:
-                guarantee["currency"] = self.guarantee.currency
-            guarantee_class = self._fields["guarantee"]
-            return guarantee_class(guarantee)
+            if value:
+                guarantee["currency"] = value.currency
+            return BasicValue.model_validate(guarantee)
         else:
-            return self.guarantee
+            return value
 
-    @serializable(serialized_name="minimalStep", type=ModelType(Value, required=False))
-    def tender_minimalStep(self):
-        return self.minimalStep
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
-    @serializable(serialized_name="value", type=ModelType(Value))
-    def tender_value(self):
-        return self.value
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value

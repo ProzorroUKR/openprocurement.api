@@ -367,14 +367,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/34ea060f737748cb8ae1b341b56e4020
 
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "procurementMethod": "selective",
-    "title": "Комп’ютерне обладнання",
     "status": "draft",
+    "title": "Комп’ютерне обладнання",
+    "procurementMethod": "selective",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -423,9 +423,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -484,7 +484,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
     },
     "criteria": [
       {
-        "id": "93f5966614054410937bad21dd40f753",
+        "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
         "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
         "source": "tenderer",
         "relatesTo": "item",
@@ -493,7 +493,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "scheme": "LAW922",
           "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
         },
-        "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
+        "id": "2e17695e973d4adb94be5b069373a220",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -528,23 +528,21 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         ],
         "requirementGroups": [
           {
-            "id": "7ca53c692cc847369bf212a339dc7cf3",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "cd3098a6734143819ed0dd21558d49b4",
                 "title": "Діагональ екрану",
                 "dataType": "number",
                 "status": "active",
                 "unit": {
-                  "code": "INH",
-                  "name": "дюйм"
+                  "name": "дюйм",
+                  "code": "INH"
                 },
                 "minValue": 23.8,
+                "id": "e7dad8abb64840e3bc5528ccdda8741d",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "80a2a3705eb9482596e7017c1c90be32",
                 "title": "Роздільна здатність",
                 "dataType": "string",
                 "status": "active",
@@ -552,10 +550,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
                   "1920x1080"
                 ],
                 "expectedMinItems": 1,
+                "id": "17c9ce592586499fab7086a600951ace",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "cc24ef41a6c741ff9ab463452782cd48",
                 "title": "Співвідношення сторін",
                 "dataType": "string",
                 "status": "active",
@@ -563,23 +561,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
                   "16:9"
                 ],
                 "expectedMinItems": 1,
+                "id": "8c4e9b67d88249acb54b8f11eaea2399",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "01de3356f3d54b9a8fc6c5414f864725",
                 "title": "Яскравість дисплея",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "A24",
-                  "name": "кд/м²"
+                  "name": "кд/м²",
+                  "code": "A24"
                 },
                 "minValue": 0,
                 "maxValue": 250,
+                "id": "8afc11d451264563aaf40f9acdc9cd0e",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "54a9dbcb594e43f9824afb9ab81fd00f",
                 "title": "Контрастність (статична)",
                 "dataType": "string",
                 "status": "active",
@@ -587,34 +585,34 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
                   "1000:1"
                 ],
                 "expectedMinItems": 1,
+                "id": "86a55339ee714a4b9ce38d5ad4427587",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "7c50b4003ef54b1b8e3849076395a389",
                 "title": "Кількість портів HDMI",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "H87",
-                  "name": "штук"
+                  "name": "штук",
+                  "code": "H87"
                 },
                 "minValue": 1,
+                "id": "0d761db328ec46b7849750842ae406e9",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "4afb0e53b2964372affacca4d671127f",
                 "title": "Кількість портів D-sub",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "H87",
-                  "name": "штук"
+                  "name": "штук",
+                  "code": "H87"
                 },
                 "minValue": 1,
+                "id": "4439472e5d354221833fb67180fe2b2e",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "27436abc9343400faaf6a5b22dcece72",
                 "title": "Кабель для під’єднання",
                 "dataType": "string",
                 "status": "active",
@@ -622,26 +620,28 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
                   "HDMI"
                 ],
                 "expectedMinItems": 1,
+                "id": "4aa944ace2c041a0977198d89c58ce52",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               },
               {
-                "id": "86790fd44b524bba819009f5d5871835",
                 "title": "Гарантія",
                 "dataType": "integer",
                 "status": "active",
                 "unit": {
-                  "code": "MON",
-                  "name": "місяців"
+                  "name": "місяців",
+                  "code": "MON"
                 },
                 "minValue": 36,
+                "id": "dfbfb7b746354b488a050d0699a42935",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "7e5b173938ab468590129c26273c2a42"
           }
         ]
       },
       {
-        "id": "1779e42df848493cabea1792af0fba84",
+        "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
         "description": "Учасник процедури закупівлі є особою, до якої застосовано санкцію у виді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
         "source": "tenderer",
         "relatesTo": "tender",
@@ -649,7 +649,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
         },
-        "title": "Вчинення правопорушень, повʼязаних із застосуванням санкцій",
+        "id": "dd857bf37b9b4e02aa9668ea181b4344",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -673,23 +673,23 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         ],
         "requirementGroups": [
           {
-            "id": "8f7c288262904e2ca1209f008f463d7c",
             "description": "Підтверджується, що",
             "requirements": [
               {
-                "id": "700bb87aab844e68b78c153f290aa223",
                 "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\"",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "302c920d93b9460baf139d687dff79ff",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "820518fe226643ebaa6bf1c649ed5faf"
           }
         ]
       },
       {
-        "id": "e11a83701d5b4a73bfd5cb1c3ae7c09d",
+        "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
         "description": "Замовник може прийняти рішення про відмову учаснику в участі у процедурі закупівлі та може відхилити тендерну пропозицію учасника в разі, якщо учасник процедури закупівлі не виконав свої зобов’язання за раніше укладеним договором про закупівлю з цим самим замовником, що призвело до його дострокового розірвання, і було застосовано санкції у вигляді штрафів та/або відшкодування збитків - протягом трьох років з дати дострокового розірвання такого договору. Учасник процедури закупівлі, що перебуває в обставинах, зазначених у частині другій цієї статті, може надати підтвердження вжиття заходів для доведення своєї надійності, незважаючи на наявність відповідної підстави для відмови в участі у процедурі закупівлі. Для цього учасник (суб’єкт господарювання) повинен довести, що він сплатив або зобов’язався сплатити відповідні зобов’язання та відшкодування завданих збитків. Якщо замовник вважає таке підтвердження достатнім, учаснику не може бути відмовлено в участі в процедурі закупівлі",
         "source": "winner",
         "relatesTo": "tender",
@@ -697,7 +697,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
         },
-        "title": "Наявність не виконаних зобов'язань за раніше укладеним договором",
+        "id": "2eb4266263684dec8a710afe4587fdf9",
         "legislation": [
           {
             "version": "2025-10-31",
@@ -712,39 +712,39 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
         ],
         "requirementGroups": [
           {
-            "id": "896695d4481045818e65d2956606e0da",
             "description": "При відсутності не виконаних зобов'язань за раніше укладеним договором підтверджується, що",
             "requirements": [
               {
-                "id": "0a317f6a03ed45b6828153714a2bad08",
                 "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору",
                 "dataType": "boolean",
                 "status": "active",
                 "expectedValue": true,
+                "id": "a622201ed83a4d39a8fa92c16a2a286c",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "87658c1457ea4dafb3dd69a67e5ca75a"
           },
           {
-            "id": "985cd6584aab474f9338bc23c3ce7274",
             "description": "При наявності не виконаних зобов'язань за раніше укладеним договором підтверджується, що",
             "requirements": [
               {
-                "id": "ea6e931d618b4fc1b1f9645faa3fb4cf",
                 "title": "Учасник процедури закупівлі вжив заходів для доведення своєї надійності, а саме: сплатив або зобовʼязався сплатити відповідні зобовʼязання та відшкодування завданих збитків",
                 "dataType": "boolean",
                 "eligibleEvidences": [
                   {
                     "title": "Документальне підтвердження",
                     "type": "document",
-                    "id": "9a34cd1aa3ae4437bbb182c1d5491a5f"
+                    "id": "5e79dabd5fe0453f876abaa62e335b23"
                   }
                 ],
                 "status": "active",
                 "expectedValue": true,
+                "id": "f7a2bd902b4a4470a0a0488a0ffbe34c",
                 "datePublished": "2024-01-01T00:00:00+02:00"
               }
-            ]
+            ],
+            "id": "cf8578a75f6248008861830f9129b4b4"
           }
         ]
       }
@@ -877,7 +877,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
     },
     "dateCreated": "2024-01-01T00:00:00+02:00",
     "dateModified": "2024-01-01T00:00:00+02:00",
-    "id": "42d53276cbcc43ff9cf440a2191c1098"
+    "id": "34ea060f737748cb8ae1b341b56e4020"
   },
   "config": {
     "hasAuction": false,

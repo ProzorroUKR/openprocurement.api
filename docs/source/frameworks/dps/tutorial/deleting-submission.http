@@ -1,4 +1,4 @@
-PATCH /api/2.5/submissions/1ae38520e14043dca999bfa2085d2387?acc_token=c495172bd73f464e8d3b724b58bf84a8 HTTP/1.0
+PATCH /api/2.5/submissions/0082df6083f048e79f2044fc2bdac86c?acc_token=c495172bd73f464e8d3b724b58bf84a8 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,60 +18,60 @@ Content-Type: application/json
     "tenderers": [
       {
         "name": "НАЗВА",
-        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
-          "uri": "http://www.sc.gov.ua/",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "countryName": "Україна",
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
           "region": "Вінницька область",
-          "postalCode": "21100"
+          "postalCode": "21100",
+          "countryName": "Україна"
         },
         "contactPoint": {
           "name": "Сергій Олексюк",
-          "telephone": "+380432216930",
-          "email": "soleksuk@gmail.com"
-        }
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
       }
     ],
     "documents": [
       {
-        "id": "94fb06b244fa4303b408ec21988d1446",
-        "datePublished": "2027-01-17T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
+        "confidentiality": "public",
         "title": "submission_docs.doc",
         "format": "application/msword",
-        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/46a9cf8cd1034d57b7e550b1c7bb0339?Signature=CV6toqmVNh7aYzT8Sn0JjsdtsYR66FqDDLdqXszr49BvU7fkKFV59qITAmgwNxHwaNZ3mGH6rZH5LtzNFshCAQ%3D%3D&KeyID=a8968c46",
-        "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk",
-        "confidentiality": "public"
-      },
-      {
-        "documentType": "technicalSpecifications",
-        "id": "03cd3987a9ee43c2ab059a055646751e",
+        "id": "ee225ba16f724821a5ce1cbae097e2d5",
         "datePublished": "2027-01-17T00:00:00+02:00",
         "hash": "md5:00000000000000000000000000000000",
+        "url": "http://public-docs-sandbox.prozorro.gov.ua/get/46a9cf8cd1034d57b7e550b1c7bb0339?Signature=CV6toqmVNh7aYzT8Sn0JjsdtsYR66FqDDLdqXszr49BvU7fkKFV59qITAmgwNxHwaNZ3mGH6rZH5LtzNFshCAQ%3D%3D&KeyID=a8968c46",
+        "dateModified": "2027-01-17T00:00:00+02:00"
+      },
+      {
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати",
+        "documentType": "technicalSpecifications",
         "title": "specs.doc",
         "format": "application/msword",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/1ae38520e14043dca999bfa2085d2387/documents/03cd3987a9ee43c2ab059a055646751e?download=abddfc43e82f4085a26ecce77f495ef7",
-        "dateModified": "2027-01-17T00:00:00+02:00",
         "language": "uk",
-        "confidentiality": "buyerOnly",
-        "confidentialityRationale": "Дуже конфіденційний файл, треба приховати"
+        "id": "fe80b911e5764013b1bbfb9c25b563bd",
+        "datePublished": "2027-01-17T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/0082df6083f048e79f2044fc2bdac86c/documents/fe80b911e5764013b1bbfb9c25b563bd?download=abddfc43e82f4085a26ecce77f495ef7",
+        "dateModified": "2027-01-17T00:00:00+02:00"
       }
     ],
-    "frameworkID": "a7be11b733044b6eb74d7712f3c91ad2",
+    "frameworkID": "9530d2645fe54108ad6417065dc71e79",
     "status": "deleted",
     "dateModified": "2027-01-17T00:00:00+02:00",
     "date": "2027-01-17T00:00:00+02:00",
     "owner": "broker",
     "submissionType": "dynamicPurchasingSystem",
-    "id": "1ae38520e14043dca999bfa2085d2387"
+    "id": "0082df6083f048e79f2044fc2bdac86c"
   },
   "config": {
     "restricted": false

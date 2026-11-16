@@ -1,23 +1,20 @@
-from schematics.types.compound import ModelType
-
-from openprocurement.api.procedure.types import ListType
 from openprocurement.tender.arma.procedure.models.lot_value import ARMALotValue, ARMAPatchLotValue, ARMAPostLotValue
 from openprocurement.tender.core.procedure.models.bid import Bid, PatchBid, PostBid
 from openprocurement.tender.core.procedure.models.value import AmountPercentageWeightedValue
 
 
 class ARMAPatchBid(PatchBid):
-    lotValues = ListType(ModelType(ARMAPatchLotValue, required=True))
+    lotValues: list[ARMAPatchLotValue] | None = None
 
 
 class ARMAPatchQualificationBid(ARMAPatchBid):
-    lotValues = ListType(ModelType(ARMALotValue, required=True))
+    lotValues: list[ARMALotValue] | None = None
 
 
 class ARMAPostBid(PostBid):
-    lotValues = ListType(ModelType(ARMAPostLotValue, required=True))
+    lotValues: list[ARMAPostLotValue] | None = None
 
 
 class ARMABid(Bid):
-    lotValues = ListType(ModelType(ARMALotValue, required=True))
-    weightedValue = ModelType(AmountPercentageWeightedValue)
+    lotValues: list[ARMALotValue] | None = None
+    weightedValue: AmountPercentageWeightedValue | None = None

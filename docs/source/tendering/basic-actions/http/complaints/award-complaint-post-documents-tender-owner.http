@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60/complaints/8449e0c561af45a28e16c2ca0e89dad5/documents?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
+POST /api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/27e7db41dfe740b4bed1811ce9316df0/complaints/89354f45cfba4806aeadc025d42fa521/documents?acc_token=deea966239094a429ba35703e4e3ead0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -10,26 +10,26 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "hash": "md5:00000000000000000000000000000000",
     "format": "application/pdf",
     "documentOf": "post",
-    "relatedItem": "a322cc78d5ec4a298bc67bdbbee97b6c"
+    "relatedItem": "16cacd776c2543dba1dfd82a1bbde6a9"
   }
 }
 
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0d54cbd89469424aba8641fad61fadf4/awards/6fe0daff4b544550ac5f0dc10b5a3f60/complaints/8449e0c561af45a28e16c2ca0e89dad5/documents/52f07542887a4b82ad31766e7b8bd508
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/d284c7cc7c9f462e875b773bd7061bbf/awards/27e7db41dfe740b4bed1811ce9316df0/complaints/89354f45cfba4806aeadc025d42fa521/documents/da92639c6eb0455792cc4aa2ea4053b9
 
 {
   "data": {
     "confidentiality": "public",
-    "relatedItem": "a322cc78d5ec4a298bc67bdbbee97b6c",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "post_document_tender.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "52f07542887a4b82ad31766e7b8bd508",
+    "relatedItem": "16cacd776c2543dba1dfd82a1bbde6a9",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/7bceb3dcd0654ff78f3e340dcf560acd?Signature=ZXdIawKdRrq527SGraC6tfZnTHzMZJXce0DpWtcC0QrM8NpOiry9pITDrxvYGoUtgPn93228qwZcC9qy3O06Bg%3D%3D&KeyID=a8968c46",
     "documentOf": "post",
+    "id": "da92639c6eb0455792cc4aa2ea4053b9",
     "datePublished": "2027-01-01T00:00:03+02:00",
     "dateModified": "2027-01-01T00:00:03+02:00",
     "author": "tender_owner"

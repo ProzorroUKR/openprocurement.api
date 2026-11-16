@@ -13,7 +13,7 @@ from openprocurement.tender.cfaua.tests.base import test_tender_cfaua_agreement_
 
 def get_tender_agreement(self):
     agreement_raw = self.registry.mongodb.tenders.get(self.tender_id)["agreements"][0]
-    agreement = CFAAgreement(agreement_raw).serialize()
+    agreement = CFAAgreement.validate_data(agreement_raw)
 
     self.app.authorization = ("Basic", ("broker", ""))
     response = self.app.get("/tenders/{}/agreements/{}".format(self.tender_id, agreement["id"]))
@@ -296,7 +296,7 @@ def agreement_termination(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(
         response.json["errors"][0]["description"],
-        ["Value must be one of ['pending', 'active', 'cancelled', 'unsuccessful']."],
+        ["Value must be one of ['pending', 'active', 'unsuccessful', 'cancelled']."],
     )
 
 

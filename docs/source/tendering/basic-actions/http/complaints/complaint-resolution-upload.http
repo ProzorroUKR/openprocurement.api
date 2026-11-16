@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/ccde99fca34448c29d5ec045fd50b154/documents HTTP/1.0
+POST /api/2.5/tenders/a38cf6c8483d4f07b8af124726926110/complaints/b2f48517098646f3bda6994654539761/documents HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,18 +15,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/ccde99fca34448c29d5ec045fd50b154/documents/758cf7a3d336456ca1b675ef2edbbc28
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a38cf6c8483d4f07b8af124726926110/complaints/b2f48517098646f3bda6994654539761/documents/4784d4cc0963456996f0f88b5c7a3977
 
 {
   "data": {
     "confidentiality": "public",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "ComplaintResolution.pdf",
     "format": "application/pdf",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=y2nY0tzn8KyDwg9YuaulyZnCDfozZ7TRTStPKv8qORYijdkzr3rmXQjcF%2FJAzVO06VtH7e%2ByWVWFI1SODaOkAA%3D%3D&KeyID=a8968c46",
     "language": "uk",
-    "id": "758cf7a3d336456ca1b675ef2edbbc28",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e54de546b85a4d67b8d541c624ab6c36?Signature=y2nY0tzn8KyDwg9YuaulyZnCDfozZ7TRTStPKv8qORYijdkzr3rmXQjcF%2FJAzVO06VtH7e%2ByWVWFI1SODaOkAA%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
+    "id": "4784d4cc0963456996f0f88b5c7a3977",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "author": "aboveThresholdReviewers"

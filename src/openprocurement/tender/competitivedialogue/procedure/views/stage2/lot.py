@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.lot import (
     CDStage2EUTenderLotState,
     CDStage2UATenderLotState,
@@ -9,10 +9,10 @@ from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 
 
 @resource(
-    name="{}:Lots".format(STAGE_2_EU_TYPE),
+    name="{}:Lots".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Tender stage2 EU lots",
 )
 class TenderStage2EULotResource(TenderLotResource):
@@ -20,10 +20,10 @@ class TenderStage2EULotResource(TenderLotResource):
 
 
 @resource(
-    name="{}:Lots".format(STAGE_2_UA_TYPE),
+    name="{}:Lots".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Tender stage2 UA lots",
 )
 class TenderStage2UALotResource(TenderLotResource):

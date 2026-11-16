@@ -19,11 +19,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         {
           "id": "29cbde01600848de837efe5448e726fb",
           "description": "Комп’ютерне обладнання для біда",
-          "quantity": 10.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -32,6 +31,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 10.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -81,11 +81,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
         {
           "id": "24726f3002834ed287ec1c07b91606cf",
           "description": "Комп’ютерне обладнання",
-          "quantity": 5.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -94,6 +93,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 5.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -144,11 +144,10 @@ Content-Type: application/json
         {
           "id": "29cbde01600848de837efe5448e726fb",
           "description": "Комп’ютерне обладнання для біда",
-          "quantity": 10.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -157,6 +156,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 10.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -206,11 +206,10 @@ Content-Type: application/json
         {
           "id": "24726f3002834ed287ec1c07b91606cf",
           "description": "Комп’ютерне обладнання",
-          "quantity": 5.0,
           "classification": {
-            "description": "Cartons",
             "scheme": "ДК021",
-            "id": "44617100-9"
+            "id": "44617100-9",
+            "description": "Cartons"
           },
           "additionalClassifications": [
             {
@@ -219,6 +218,7 @@ Content-Type: application/json
               "description": "папір і картон гофровані, паперова й картонна тара"
             }
           ],
+          "quantity": 5.0,
           "unit": {
             "name": "кг",
             "value": {
@@ -244,19 +244,19 @@ Content-Type: application/json
         }
       ]
     },
-    "id": "90b71c660536469081b7b8283ed0fcc1",
+    "id": "b2f996f094e74aaf84a53485f70aa278",
     "status": "pending",
     "date": "2027-01-01T00:00:00+02:00",
     "author": "supplier",
     "documents": [
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "contract_change.pdf",
         "format": "application/pdf",
-        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/90b71c660536469081b7b8283ed0fcc1/documents/88962047c28144d99916ae75c9a2a38a?download=33830e473a1348d6a5a7e4eb3379672d",
         "documentOf": "change",
-        "id": "88962047c28144d99916ae75c9a2a38a",
+        "hash": "md5:00000000000000000000000000000000",
+        "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/changes/b2f996f094e74aaf84a53485f70aa278/documents/8c2217f581ac49e7b8f58f4a20dbd376?download=33830e473a1348d6a5a7e4eb3379672d",
+        "id": "8c2217f581ac49e7b8f58f4a20dbd376",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "dateModified": "2027-01-01T00:00:00+02:00",
         "documentType": "contractNotice"

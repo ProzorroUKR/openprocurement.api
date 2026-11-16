@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/e63e46e61afa46d090031bd68974d8e4/complaints/9feefd5fa4864e34bf3a20b4024eae4e HTTP/1.0
+PATCH /api/2.5/tenders/a38cf6c8483d4f07b8af124726926110/complaints/1b16d9fe0eec4803bccbfb2af2c8d180 HTTP/1.0
 Authorization: Bearer reviewer
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,13 +16,19 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "9feefd5fa4864e34bf3a20b4024eae4e",
+    "id": "1b16d9fe0eec4803bccbfb2af2c8d180",
     "complaintID": "UA-2027-01-01-000001-a.a7",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "invalid",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -34,12 +40,6 @@ Content-Type: application/json
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -47,11 +47,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "2e5759277ce14a399b144fb1e864c1cd",
+        "id": "856748ea97544dc4b162334996f3266b",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "e63e46e61afa46d090031bd68974d8e4",
+        "relatedItem": "a38cf6c8483d4f07b8af124726926110",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -59,14 +59,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "138623e69047467d805366b04fd1d207",
+            "id": "1f9035d33f2546b7a1af1ae957a87017",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "d4aced6074844e1cbdfcca5bbf419d1f",
+            "id": "0753d82e32854260880b991b38373a2c",
             "description": "test argument"
           }
         ],

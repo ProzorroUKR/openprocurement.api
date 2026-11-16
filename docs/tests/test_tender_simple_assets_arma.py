@@ -3,8 +3,8 @@ from copy import deepcopy
 from datetime import timedelta
 from uuid import uuid4
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.tests.base import (
     test_framework_arma_config,
     test_framework_arma_data,
@@ -62,7 +62,7 @@ class TenderResourceTest(
     relative_to = os.path.dirname(__file__)
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
-    framework_type = ARMA_TYPE
+    framework_type = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY
 
     def setUp(self):
         self.setUpMock()

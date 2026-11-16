@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.cancellation import (
     BaseCancellationResource,
 )
@@ -13,7 +14,7 @@ from openprocurement.tender.limited.procedure.state.cancellation import (
     name="reporting:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="reporting",
+    procurementMethodType=ProcurementMethodType.REPORTING,
     description="Tender cancellations",
 )
 class ReportingCancellationResource(BaseCancellationResource):
@@ -24,7 +25,7 @@ class ReportingCancellationResource(BaseCancellationResource):
     name="negotiation:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="Tender cancellations",
 )
 class NegotiationCancellationResource(BaseCancellationResource):
@@ -35,7 +36,7 @@ class NegotiationCancellationResource(BaseCancellationResource):
     name="negotiation.quick:Tender Cancellations",
     collection_path="/tenders/{tender_id}/cancellations",
     path="/tenders/{tender_id}/cancellations/{cancellation_id}",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="Tender cancellations",
 )
 class NegotiationQuickCancellationResource(NegotiationCancellationResource):

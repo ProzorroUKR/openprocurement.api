@@ -1,46 +1,45 @@
+from typing import Literal
 from uuid import uuid4
 
-from schematics.types import FloatType, StringType
-from schematics.types.compound import ModelType
-from schematics.validate import ValidationError
+from pydantic import Field, field_validator
 
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType
-from openprocurement.api.validation import validate_uniq_value
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, validate_uniq_value
 
 
 class FeatureValue(Model):
-    value = FloatType(required=True, min_value=0.0)  # max value is validated in state (features_max_weight)
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+    value: float = Field(ge=0.0)
+    title: str = Field(min_length=1)
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
 
 
 class Feature(Model):
-    code = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
-    featureOf = StringType(required=True, choices=["tenderer", "lot", "item"], default="tenderer")
-    relatedItem = StringType(min_length=1)
-    title = StringType(required=True, min_length=1)
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    enum = ListType(
-        ModelType(FeatureValue, required=True),
-        default=[],
-        min_size=1,
-        validators=[validate_uniq_value],
-    )
+    code: str = Field(default_factory=lambda: uuid4().hex, min_length=1)
+    featureOf: Literal["tenderer", "lot", "item"] = "tenderer"
+    relatedItem: str | None = Field(None, min_length=1)
+    title: str = Field(min_length=1)
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    enum: list[FeatureValue] = Field([], min_length=1)
+
+    @field_validator("enum")
+    @classmethod
+    def validate_enum_items(cls, value):
+        validate_uniq_value(value)
+        return value
 
 
-def validate_related_items(data, features):
+def validate_related_items(obj, features):
     if features:
-        item_ids = {i.id for i in data.get("items") or []}
-        lot_ids = {i.id for i in data.get("lots") or []}
+        item_ids = {i.id for i in getattr(obj, "items", None) or []}  # not fields of all the objects
+        lot_ids = {i.id for i in getattr(obj, "lots", None) or []}
 
         for f in features:
             related_item = f.relatedItem

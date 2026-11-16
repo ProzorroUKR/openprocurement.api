@@ -71,16 +71,15 @@ class BaseState:
             kind_central_levels=kind_central_levels,
         )(self.request)
 
-    def validate_input_data(self, model, allow_bulk=False, strict=True, none_means_remove=False):
+    def validate_input_data(self, model, allow_bulk=False, none_means_remove=False):
         return validate_input_data(
             model,
             allow_bulk=allow_bulk,
-            strict=strict,
             none_means_remove=none_means_remove,
         )(self.request)
 
-    def validate_patch_input_data(self, model, allow_bulk=False, strict=True):
-        return validate_patch_input_data(model, allow_bulk=allow_bulk, strict=strict)(self.request)
+    def validate_patch_input_data(self, model, allow_bulk=False):
+        return validate_patch_input_data(model, allow_bulk=allow_bulk)(self.request)
 
     def validate_patch_data(self, model, item_name):
         return validate_patch_data(model, item_name)(self.request)
@@ -88,8 +87,8 @@ class BaseState:
     def validate_patch_data_simple(self, model, item_name):
         return validate_patch_data_simple(model, item_name)(self.request)
 
-    def validate_data_model(self, model, strict=True):
-        return validate_data_model(model, strict=strict)(self.request)
+    def validate_data_model(self, model):
+        return validate_data_model(model)(self.request)
 
     def validate_config_data(self, default=None):
         return validate_config_data(default=default)(self.request)

@@ -1,13 +1,13 @@
-from schematics.types import StringType
-from schematics.types.compound import PolyModelType
-from schematics.types.serializable import serializable
+from typing import Annotated, Any, Literal
 
-from openprocurement.api.procedure.models.base import Model
+from pydantic import Field, computed_field, field_validator
+
+from openprocurement.api.constants import AgreementType
+from openprocurement.api.procedure.models.base import Model, validate_uniq_code, validate_uniq_id
+from openprocurement.api.procedure.models.milestone import Milestone
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.utils import get_change_class
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
-from openprocurement.framework.cfaua.constants import CFA_UA
+from openprocurement.api.procedure.types import IsoDateTime
+from openprocurement.framework.cfaua.constants import CFAUAAgreementType
 from openprocurement.framework.cfaua.procedure.models.change import (
     ChangeItemPriceVariation,
     ChangePartyWithdrawal,
@@ -37,92 +37,104 @@ from openprocurement.framework.core.procedure.models.agreement import (
 from openprocurement.framework.core.procedure.models.agreement import (
     PatchAgreement as BasePatchAgreement,
 )
-from openprocurement.tender.core.procedure.models.milestone import Milestone
 
 
 class Agreement(BaseAgreement):
-    agreementNumber = StringType()
-    agreementType = StringType(default=CFA_UA)
-    period = ModelType(Period)
-    dateSigned = IsoDateTimeType()
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    changes = ListType(
-        PolyModelType(
-            (
-                ChangeTaxRate,
-                ChangeItemPriceVariation,
-                ChangePartyWithdrawal,
-                ChangeThirdParty,
-            ),
-            claim_function=get_change_class,
-        ),
-        default=[],
-    )
-    documents = ListType(ModelType(Document, required=True), default=[])
-    contracts = ListType(ModelType(Contract, required=True), default=[])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(Item, required=True))
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    tender_token = StringType(required=True)
-    tender_id = StringType(required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+    agreementNumber: str | None = None
+    agreementType: CFAUAAgreementType = AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA
+    period: Period | None = None
+    dateSigned: IsoDateTime | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    changes: list[
+        Annotated[
+            ChangeTaxRate | ChangeItemPriceVariation | ChangePartyWithdrawal | ChangeThirdParty,
+            Field(discriminator="rationaleType"),
+        ]
+    ] = []
+    documents: list[Document] = []
+    contracts: list[Contract] = []
+    features: list[Feature] | None = None
+    items: list[Item] | None = None
+    procuringEntity: ProcuringEntity
+    tender_token: str
+    tender_id: str
+    milestones: list[Milestone] | None = None
 
-    @serializable
-    def numberOfContracts(self):
+    @computed_field
+    def numberOfContracts(self) -> Any:
         return len([c.id for c in self.contracts if c.status == "active"])
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class PostAgreement(BasePostAgreement):
-    agreementNumber = StringType()
-    agreementType = StringType(default=CFA_UA)
-    period = ModelType(Period)
-    dateSigned = IsoDateTimeType()
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    changes = ListType(
-        PolyModelType(
-            (
-                PostChangeTaxRate,
-                PostChangeItemPriceVariation,
-                PostChangePartyWithdrawal,
-                PostChangeThirdParty,
-            ),
-            claim_function=get_change_class,
-        ),
-        default=[],
-    )
-    documents = ListType(ModelType(PostDocument, required=True), default=[])
-    contracts = ListType(ModelType(Contract, required=True), default=[])
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
-    items = ListType(ModelType(Item, required=True))
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    tender_token = StringType(required=True)
-    tender_id = StringType(required=True)
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+    agreementNumber: str | None = None
+    agreementType: CFAUAAgreementType = AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA
+    period: Period | None = None
+    dateSigned: IsoDateTime | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    changes: list[
+        Annotated[
+            PostChangeTaxRate | PostChangeItemPriceVariation | PostChangePartyWithdrawal | PostChangeThirdParty,
+            Field(discriminator="rationaleType"),
+        ]
+    ] = []
+    documents: list[PostDocument] = []
+    contracts: list[Contract] = []
+    features: list[Feature] | None = None
+    items: list[Item] | None = None
+    procuringEntity: ProcuringEntity
+    tender_token: str
+    tender_id: str
+    milestones: list[Milestone] | None = None
 
-    @serializable(serialized_name="agreementType")
-    def _agreementType(self):
+    @field_validator("agreementType", mode="before")
+    @classmethod
+    def validate_agreement_type(cls, value: Any) -> str:
         # Override value sent by bridge
         # TODO: remove this after bridge is updated
         # TODO: or remove that bridge for the god's sake
-        return CFA_UA
+        return AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA
 
-    @serializable
-    def numberOfContracts(self):
+    @computed_field
+    def numberOfContracts(self) -> Any:
         return len([c.id for c in self.contracts if c.status == "active"])
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class PatchActiveAgreement(BasePatchAgreement):
-    documents = ListType(ModelType(PostDocument))
+    documents: list[PostDocument] | None = None
 
 
 class PatchTerminatedAgreement(Model):
@@ -130,6 +142,6 @@ class PatchTerminatedAgreement(Model):
 
 
 class PatchAgreementByAdministrator(BasePatchAgreement):
-    documents = ListType(ModelType(PostDocument))
-    procuringEntity = ModelType(ProcuringEntity)
-    mode = StringType(choices=["test"])
+    documents: list[PostDocument] | None = None
+    procuringEntity: ProcuringEntity | None = None
+    mode: Literal["test"] | None = None

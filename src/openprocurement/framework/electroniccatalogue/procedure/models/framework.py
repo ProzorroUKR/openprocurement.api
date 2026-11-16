@@ -1,6 +1,4 @@
-from schematics.types import StringType
-
-from openprocurement.api.procedure.types import ModelType
+from openprocurement.api.constants import FrameworkType
 from openprocurement.framework.core.procedure.models.framework import (
     Framework as BaseFramework,
 )
@@ -16,9 +14,7 @@ from openprocurement.framework.core.procedure.models.framework import (
 from openprocurement.framework.core.procedure.models.organization import (
     PatchActiveProcuringEntity as PatchActiveCentralProcuringEntity,
 )
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
+from openprocurement.framework.electroniccatalogue.constants import ElectronicCatalogueFrameworkType
 from openprocurement.framework.electroniccatalogue.procedure.models.organization import (
     CentralProcuringEntity,
     PatchCentralProcuringEntity,
@@ -26,18 +22,18 @@ from openprocurement.framework.electroniccatalogue.procedure.models.organization
 
 
 class PostFramework(BasePostFramework):
-    frameworkType = StringType(default=ELECTRONIC_CATALOGUE_TYPE)
-    procuringEntity = ModelType(CentralProcuringEntity, required=True)
+    frameworkType: ElectronicCatalogueFrameworkType = FrameworkType.ELECTRONIC_CATALOGUE
+    procuringEntity: CentralProcuringEntity
 
 
 class PatchFramework(BasePatchFramework):
-    procuringEntity = ModelType(PatchCentralProcuringEntity)
+    procuringEntity: PatchCentralProcuringEntity | None = None
 
 
 class Framework(BaseFramework):
-    frameworkType = StringType(default=ELECTRONIC_CATALOGUE_TYPE)
-    procuringEntity = ModelType(CentralProcuringEntity, required=True)
+    frameworkType: ElectronicCatalogueFrameworkType = FrameworkType.ELECTRONIC_CATALOGUE
+    procuringEntity: CentralProcuringEntity
 
 
 class PatchActiveFramework(BasePatchActiveFramework):
-    procuringEntity = ModelType(PatchActiveCentralProcuringEntity)
+    procuringEntity: PatchActiveCentralProcuringEntity | None = None

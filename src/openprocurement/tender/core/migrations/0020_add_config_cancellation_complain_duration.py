@@ -1,11 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.limited.constants import REPORTING
-from openprocurement.tender.open.constants import BELOW_THRESHOLD, COMPETITIVE_ORDERING
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -13,7 +10,13 @@ logger = logging.getLogger(__name__)
 
 def cancellation_complain_duration_populator(tender):
     pmt = tender.get("procurementMethodType")
-    _map = {BELOW_THRESHOLD: 0, COMPETITIVE_ORDERING: 0, REPORTING: 0, CFA_SELECTION: 0, PQ: 0}
+    _map = {
+        ProcurementMethodType.BELOW_THRESHOLD: 0,
+        ProcurementMethodType.COMPETITIVE_ORDERING: 0,
+        ProcurementMethodType.REPORTING: 0,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA: 0,
+        ProcurementMethodType.PRICE_QUOTATION: 0,
+    }
     return _map.get(pmt, 10)
 
 

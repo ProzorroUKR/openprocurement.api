@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001",
-    "frameworkID": "b836151a46564f33ace9d7feb2848323",
+    "frameworkID": "69da15e3d6c0413785b8146fb7f06fe1",
     "agreementType": "assetRecoveryManagementAgency",
     "status": "active",
     "period": {
@@ -21,27 +21,27 @@ Content-Type: application/json
       "identifier": {
         "scheme": "UA-EDR",
         "id": "21725150",
-        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\"",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\"",
+        "legalName_en": "The institution \"Secondary school I-III levels № 10 Vinnitsa City Council\""
       },
       "address": {
-        "countryName": "Україна",
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
-        "postalCode": "01220"
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
       },
       "kind": "authority"
     },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -54,30 +54,30 @@ Content-Type: application/json
       {
         "id": "455ea070c79341fc9167bb9f8481bfef",
         "qualificationID": "c1f18985df4649d1b145665f2207594a",
-        "submissionID": "ebfbe353ea6b4c638371a928762059e1",
+        "submissionID": "0eea5fd7d5644143bc1e7783f33b29e5",
         "status": "active",
         "suppliers": [
           {
             "name": "ДКП «Школяр»",
-            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137256",
-              "uri": "http://www.sc.gov.ua/",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+              "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "countryName": "Україна",
               "streetAddress": "вул. Островського, 33",
               "locality": "м. Вінниця",
               "region": "Вінницька область",
-              "postalCode": "21100"
+              "postalCode": "21100",
+              "countryName": "Україна"
             },
             "contactPoint": {
               "name": "Сергій Олексюк",
-              "telephone": "+380432216930",
-              "email": "soleksuk@gmail.com"
-            }
+              "email": "soleksuk@gmail.com",
+              "telephone": "+380432216930"
+            },
+            "scale": "micro"
           }
         ],
         "milestones": [
@@ -95,30 +95,30 @@ Content-Type: application/json
       {
         "id": "10872f2dc68c427b965dba4ec18e8cb5",
         "qualificationID": "f6258bc818dc476f8dcd9b5dd7a37655",
-        "submissionID": "d67cf6e6c5cb4f5b9ad8f2e6c8de149a",
+        "submissionID": "56ec2e97e0e445bcb1d9bcf0260c05e7",
         "status": "active",
         "suppliers": [
           {
             "name": "ДКП «Книга»",
-            "scale": "sme",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "00137226",
-              "uri": "http://www.sc.gov.ua/",
-              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»"
+              "legalName": "Державне комунальне підприємство громадського харчування «Школяр 2»",
+              "uri": "http://www.sc.gov.ua/"
             },
             "address": {
-              "countryName": "Україна",
               "streetAddress": "вул. Островського, 34",
               "locality": "м. Львів",
               "region": "Львівська область",
-              "postalCode": "79013"
+              "postalCode": "79013",
+              "countryName": "Україна"
             },
             "contactPoint": {
               "name": "Андрій Олексюк",
-              "telephone": "+380322916930",
-              "email": "aagt@gmail.com"
-            }
+              "email": "aagt@gmail.com",
+              "telephone": "+380322916930"
+            },
+            "scale": "sme"
           }
         ],
         "milestones": [

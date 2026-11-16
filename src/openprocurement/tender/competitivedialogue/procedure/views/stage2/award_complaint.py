@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.award_claim import (
     CDStage2EUAwardClaimState,
     CDStage2UAAwardClaimState,
@@ -17,10 +17,10 @@ from openprocurement.tender.core.procedure.views.award_complaint import (
 
 
 @resource(
-    name="{}:Tender Award Complaints Get".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Award Complaints Get".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     request_method=["GET"],
     description="Competitive Dialogue Stage 2 EU award complaints get",
 )
@@ -29,10 +29,10 @@ class CD2EUAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
 
 
 @resource(
-    name="{}:Tender Award Claims".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Award Claims".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Competitive Dialogue Stage 2 EU award claims",
@@ -42,10 +42,10 @@ class CD2EUTenderAwardClaimResource(AwardClaimResource):
 
 
 @resource(
-    name="{}:Tender Award Complaints".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Award Complaints".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Competitive Dialogue Stage 2 EU award complaints",
@@ -55,10 +55,10 @@ class CD2EUAwardComplaintWriteResource(AwardComplaintWriteResource):
 
 
 @resource(
-    name="{}:Tender Award Complaints Get".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Award Complaints Get".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     request_method=["GET"],
     description="Competitive Dialogue Stage 2 UA award complaints get",
 )
@@ -67,10 +67,10 @@ class CD2UAAwardClaimAndComplaintGetResource(AwardComplaintGetResource):
 
 
 @resource(
-    name="{}:Tender Award Claims".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Award Claims".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Competitive Dialogue Stage 2 UA award claims",
@@ -80,10 +80,10 @@ class CD2UATenderAwardClaimResource(AwardClaimResource):
 
 
 @resource(
-    name="{}:Tender Award Complaints".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Award Complaints".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Competitive Dialogue Stage 2 UA award complaints",

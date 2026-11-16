@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e/bids/b8d1d4e2494a4a30a99742a946a48fbe?acc_token=f1c2256e48ea4b2e9323bf119e129ce6 HTTP/1.0
+PATCH /api/2.5/tenders/1a31e5e3e76f4e2ab282c4c799652a42/bids/576f3a198afe4c60a9cf7d6d97a68c4f?acc_token=f1c2256e48ea4b2e9323bf119e129ce6 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,11 +7,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "lotValues": [
       {
-        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
+        "relatedLot": "35a540eab5bd43f3b377b3ab3a888f31"
       },
       {
         "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d"
+        "relatedLot": "84af06be16424029858664919608ee69"
       }
     ],
     "status": "pending"
@@ -26,7 +26,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "401574cc6ca74de4a2537a04a061e298",
+        "id": "1112119d27ae40bd9d2785c2f2dddd5a",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -34,10 +34,10 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a"
+        "relatedLot": "35a540eab5bd43f3b377b3ab3a888f31"
       },
       {
-        "id": "9e843f9862fe479bad8d40e86ceb43b1",
+        "id": "732d5d4b40114fff96636dfe29dd24ba",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -45,7 +45,20 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d"
+        "relatedLot": "84af06be16424029858664919608ee69"
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "35a540eab5bd43f3b377b3ab3a888f31",
+        "status": "pending",
+        "date": "2027-01-01T00:01:00+02:00"
+      },
+      {
+        "relatedLot": "84af06be16424029858664919608ee69",
+        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
+        "status": "pending",
+        "date": "2027-01-01T00:01:00+02:00"
       }
     ],
     "tenderers": [
@@ -81,49 +94,36 @@ Content-Type: application/json
       }
     ],
     "status": "pending",
-    "id": "b8d1d4e2494a4a30a99742a946a48fbe",
+    "id": "576f3a198afe4c60a9cf7d6d97a68c4f",
     "date": "2027-01-01T00:01:00+02:00",
     "submissionDate": "2027-01-01T00:01:00+02:00",
-    "lotValues": [
-      {
-        "relatedLot": "ff4f4f0485884f85b5326a1d023bdc8a",
-        "status": "pending",
-        "date": "2027-01-01T00:01:00+02:00"
-      },
-      {
-        "relatedLot": "2fc24d8e18f640418b99fa2501e5263d",
-        "subcontractingDetails": "ДКП «Укр Прінт», Україна",
-        "status": "pending",
-        "date": "2027-01-01T00:01:00+02:00"
-      }
-    ],
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "d6022573ec34485197344c3416938ab7",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "9f17b44b15f742d7a0e6ed6721baca10",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/5d1d76b0f8e3445e8a31e61f979f5573?Signature=E%2B5Iw8ryJ2jRjXPfJS8xzQxu55MCOlUOHWHlnqW1GrqI6U336XLU7%2F4AK2MTYW9FZQk%2BuH9z20shoiVWONzyAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk",
         "isDescriptionDecision": false
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "d6022573ec34485197344c3416938ab7",
-        "datePublished": "2027-01-01T00:01:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "9f17b44b15f742d7a0e6ed6721baca10",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9d78f7768a524fdbb67399d5f45f3f7d?Signature=%2FQ%2BpbvHU267Zu%2BQ6Eg3es4klQ5xVF5YQN5CK9KAwJdNmSYZNmAWiocqkemox3XmQ7RuhPe1KwFcuTHVldWuUAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:01:00+02:00",
-        "language": "uk",
         "isDescriptionDecision": false
       }
     ]

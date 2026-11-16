@@ -1,3 +1,5 @@
+from openprocurement.api.constants import ProcurementMethodType
+
 # Frozen causeDetails dictionaries from standards version 1.0.261
 # Otherwize standards dictionaries are used
 
@@ -605,7 +607,7 @@ FROZEN_CAUSE_DETAILS_REPORTING_ALL = {
 }
 
 PROCUREMENT_METHOD_TYPE_TO_FROZEN_CAUSE_DETAILS_MAPPING_ALL = {
-    "reporting": FROZEN_CAUSE_DETAILS_REPORTING_ALL,
-    "negotiation": FROZEN_CAUSE_DETAILS_NEGOTIATION_ALL,
-    "negotiation.quick": FROZEN_CAUSE_DETAILS_NEGOTIATION_QUICK_ALL,
+    ProcurementMethodType.REPORTING: FROZEN_CAUSE_DETAILS_REPORTING_ALL,
+    ProcurementMethodType.NEGOTIATION: FROZEN_CAUSE_DETAILS_NEGOTIATION_ALL,
+    ProcurementMethodType.NEGOTIATION_QUICK: FROZEN_CAUSE_DETAILS_NEGOTIATION_QUICK_ALL,
 }

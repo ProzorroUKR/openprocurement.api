@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import copy
 import os
 from datetime import timedelta
@@ -5,7 +6,6 @@ from datetime import timedelta
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.constants_env import RELEASE_ECRITERIA_ARTICLE_17
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
 from openprocurement.tender.arma.tests.complex_asset.periods import PERIODS
 from openprocurement.tender.core.tests.base import (
     get_criteria_by_ids,
@@ -124,7 +124,7 @@ test_tender_arma_data = {
             },
         }
     ],
-    "procurementMethodType": COMPLEX_ASSET_ARMA,
+    "procurementMethodType": ProcurementMethodType.COMPLEX_ASSET_ARMA,
 }
 set_tender_periods(test_tender_arma_data, start=now)
 if SANDBOX_MODE:

@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.claim import (
     CDStage1TenderClaimState,
 )
@@ -15,10 +15,10 @@ from openprocurement.tender.core.procedure.views.complaint import (
 
 
 @resource(
-    name="{}:Tender Complaints Get".format(CD_EU_TYPE),
+    name="{}:Tender Complaints Get".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     request_method=["GET"],
     description="Competitive Dialogue EU complaints get",
 )
@@ -27,10 +27,10 @@ class CDEUTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
 
 
 @resource(
-    name="{}:Tender Claims".format(CD_EU_TYPE),
+    name="{}:Tender Claims".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     request_method=["PATCH"],
     complaintType="claim",
     description="Competitive Dialogue EU claims",
@@ -40,10 +40,10 @@ class CDEUTenderClaimResource(TenderClaimResource):
 
 
 @resource(
-    name="{}:Tender Complaints".format(CD_EU_TYPE),
+    name="{}:Tender Complaints".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Competitive Dialogue EU complaints",
@@ -56,10 +56,10 @@ class CDEUTenderComplaintResource(TenderComplaintResource):
 
 
 @resource(
-    name="{}:Tender Complaints Get".format(CD_UA_TYPE),
+    name="{}:Tender Complaints Get".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     request_method=["GET"],
     description="Competitive Dialogue UA complaints get",
 )
@@ -68,10 +68,10 @@ class CDUATenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
 
 
 @resource(
-    name="{}:Tender Claims".format(CD_UA_TYPE),
+    name="{}:Tender Claims".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     request_method=["PATCH"],
     complaintType="claim",
     description="Competitive Dialogue UA claims",
@@ -81,10 +81,10 @@ class CDUATenderClaimResource(TenderClaimResource):
 
 
 @resource(
-    name="{}:Tender Complaints".format(CD_UA_TYPE),
+    name="{}:Tender Complaints".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Competitive Dialogue UA complaints",

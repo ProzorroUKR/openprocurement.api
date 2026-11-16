@@ -7,7 +7,7 @@
 # from decimal import Decimal
 #
 # from pyramid.httpexceptions import HTTPError
-# from schematics.exceptions import ModelValidationError
+# from openprocurement.api.procedure.models.base import DataValidationError
 #
 # from openprocurement.api.utils import get_now
 # from openprocurement.tender.core.validation import (

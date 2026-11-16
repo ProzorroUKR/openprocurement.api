@@ -1,14 +1,14 @@
-from schematics.types import BaseType, StringType
+from typing import Any
 
-from openprocurement.api.constants import ORA_CODES
+from openprocurement.api.constants import OraCode
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import URLType
+from openprocurement.api.procedure.types import Url
 
 
 class Identifier(Model):
-    scheme = StringType(choices=ORA_CODES, required=True)
-    id = BaseType(required=True)
-    legalName = StringType()
-    legalName_en = StringType()
-    legalName_ru = StringType()
-    uri = URLType()
+    scheme: OraCode
+    id: Any
+    legalName: str | None = None
+    legalName_en: str | None = None
+    legalName_ru: str | None = None
+    uri: Url | None = None

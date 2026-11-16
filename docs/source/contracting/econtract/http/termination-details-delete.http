@@ -13,8 +13,8 @@ Content-Type: application/json
     "amountPaid": {
       "amount": 200.0,
       "currency": "UAH",
-      "amountNet": 200.0,
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": false,
+      "amountNet": 200.0
     },
     "status": "draft",
     "dateCreated": "2027-01-01T00:00:00+02:00"

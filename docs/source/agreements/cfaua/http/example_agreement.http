@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/4a370cddba9e4d9791dff10c6e02b9ee/agreements/8887db77f71c4a0496b39ac2c4eea78c HTTP/1.0
+GET /api/2.5/tenders/f789f84ec0d64a2285f7dc2654685079/agreements/8887db77f71c4a0496b39ac2c4eea78c HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     "id": "8887db77f71c4a0496b39ac2c4eea78c",
     "items": [
       {
-        "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
+        "id": "57a91685e3474a7285208c407f685f73",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -19,10 +19,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -41,8 +42,7 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
+        }
       }
     ],
     "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
@@ -80,7 +80,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -122,7 +122,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,
@@ -164,7 +164,7 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00",
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
               "currency": "UAH",
               "valueAddedTaxIncluded": false,

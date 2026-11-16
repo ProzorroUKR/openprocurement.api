@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2575ed14dceb462d944015ff06ce6400?acc_token=9f1d4cdf82404f209b1e87365abe4ad7 HTTP/1.0
+PATCH /api/2.5/tenders/f7578a0f2ba1483eb537c17456a62655?acc_token=9f1d4cdf82404f209b1e87365abe4ad7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,18 +15,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "active",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
+    "procurementMethod": "limited",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "active",
     "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "limited",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -192,17 +192,18 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "e89e54d5598e4696a1a9fa6c0e81d491",
+        "id": "2ed74083b1d24e57b215e4783b460772",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -221,10 +222,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "2963a96f7cad41cdb25ec529ecad68d0"
+        }
       }
     ],
+    "procurementMethodType": "negotiation.quick",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "identifier": {
@@ -259,21 +260,6 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false,
       "amount": 500000.0
     },
-    "lots": [
-      {
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "status": "active",
-        "id": "2963a96f7cad41cdb25ec529ecad68d0",
-        "date": "2027-01-01T00:00:00+02:00",
-        "value": {
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500000.0
-        }
-      }
-    ],
-    "procurementMethodType": "negotiation.quick",
     "causeDetails": {
       "code": "tenderDecisionAppeal",
       "title": "Абзац 5 підпункту 3 пункту 13",
@@ -283,7 +269,21 @@ Content-Type: application/json
       "description_en": "An urgent need to make a purchase, in particular, but not limited to the following cases: appeals against the contracting authority’s decisions, actions, or inaction regarding open tenders that are ongoing after the review/evaluation of participants’ bids, in an amount not exceeding 20 percent of the expected value of the open tender, excluding value-added tax, which is being appealed",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "id": "2575ed14dceb462d944015ff06ce6400"
+    "lots": [
+      {
+        "id": "2963a96f7cad41cdb25ec529ecad68d0",
+        "date": "2027-01-01T00:00:00+02:00",
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "status": "active",
+        "value": {
+          "amount": 500000.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        }
+      }
+    ],
+    "id": "f7578a0f2ba1483eb537c17456a62655"
   },
   "config": {
     "hasAuction": false,

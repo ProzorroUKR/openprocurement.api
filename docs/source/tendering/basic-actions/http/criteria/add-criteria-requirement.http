@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/c47eb908d737465e8a509f1c7ef57071/criteria/2adf2b4aa45043d383e4f7aa15f8d154/requirement_groups/e33b17ae2a224b2aab606af748427630/requirements?acc_token=47032dab34dc479cbde6b06ab3939299 HTTP/1.0
+POST /api/2.5/tenders/8c4b3ac47fa54f0bb422fad810bce326/criteria/3ca1f15e9a6e430bbd5497491f1f0bf0/requirement_groups/7e0ef0e7c38142d9b817b2c6f0a6e1d9/requirements?acc_token=47032dab34dc479cbde6b06ab3939299 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -21,11 +21,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c47eb908d737465e8a509f1c7ef57071/criteria/2adf2b4aa45043d383e4f7aa15f8d154/requirement_groups/e33b17ae2a224b2aab606af748427630/requirements/539eebad6f434d5d88261003c1888c5b
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/8c4b3ac47fa54f0bb422fad810bce326/criteria/3ca1f15e9a6e430bbd5497491f1f0bf0/requirement_groups/7e0ef0e7c38142d9b817b2c6f0a6e1d9/requirements/a391c5a08d934cc09ad059f15b1ec863
 
 {
   "data": {
-    "id": "539eebad6f434d5d88261003c1888c5b",
     "title": "Another characteristic",
     "dataType": "boolean",
     "eligibleEvidences": [
@@ -33,11 +32,12 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/c47eb908d737465e
         "title": "Документальне підтвердження",
         "description": "Довідка в довільній формі",
         "type": "document",
-        "id": "44feddf728b14aa69e8c9f1f2d989448"
+        "id": "2d6228b737f14795b73fbdd5ac4e495f"
       }
     ],
     "status": "active",
     "expectedValue": true,
+    "id": "a391c5a08d934cc09ad059f15b1ec863",
     "datePublished": "2027-01-01T00:00:00+02:00"
   }
 }

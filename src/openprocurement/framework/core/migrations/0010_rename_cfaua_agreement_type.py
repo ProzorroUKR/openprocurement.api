@@ -3,8 +3,8 @@ from unittest.mock import ANY
 
 from pymongo import UpdateOne
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.migrations.base import PymongoCollectionMigration, migrate_collection
-from openprocurement.framework.cfaua.constants import CFA_UA
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class Migration(PymongoCollectionMigration):
         if doc["agreementType"] == "cfaua":
             doc["agreementType"] = "closeFrameworkAgreementUA"
 
-            assert doc["agreementType"] == CFA_UA
+            assert doc["agreementType"] == AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA
 
         return doc
 

@@ -3,9 +3,9 @@ import os
 from copy import deepcopy
 from uuid import uuid4
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.context import get_request_now, set_request_now
 from openprocurement.framework.core.tests.base import FrameworkActionsTestMixin
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -71,7 +71,7 @@ class TenderrCOShortResourceTest(
     relative_to = os.path.dirname(__file__)
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
-    framework_type = DPS_TYPE
+    framework_type = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
 
     def setUp(self):
         self.setUpMock()
@@ -556,7 +556,7 @@ class TenderrCOLongResourceTest(
     relative_to = os.path.dirname(__file__)
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
-    framework_type = DPS_TYPE
+    framework_type = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
 
     def setUp(self):
         self.setUpMock()

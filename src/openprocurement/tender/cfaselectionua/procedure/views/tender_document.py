@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.cfaselectionua.procedure.state.tender_document import (
     CFASelectionTenderDocumentState,
 )
@@ -12,7 +13,7 @@ from openprocurement.tender.core.procedure.views.tender_document import (
     name="closeFrameworkAgreementSelectionUA:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     description="Tender closeFrameworkAgreementSelectionUA related binary files (PDFs, etc.)",
 )
 class CFASelectionTenderDocumentResource(TenderDocumentResource):

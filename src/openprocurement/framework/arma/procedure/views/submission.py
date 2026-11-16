@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.procedure.state.framework import ARMAFrameworkState
 from openprocurement.framework.core.procedure.views.submission import (
     SubmissionsResource,
@@ -9,11 +9,11 @@ from openprocurement.framework.core.procedure.views.submission import (
 
 
 @resource(
-    name=f"{ARMA_TYPE}:Submissions",
+    name=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY}:Submissions",
     collection_path="/submissions",
     path="/submissions/{submission_id}",
-    description=f"{ARMA_TYPE} submissions",
-    submissionType=ARMA_TYPE,
+    description=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY} submissions",
+    submissionType=FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     accept="application/json",
 )
 class ARMASubmissionResource(SubmissionsResource):

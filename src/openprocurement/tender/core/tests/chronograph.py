@@ -64,7 +64,7 @@ def switch_tender_cancellation_complaints_draft(self):
     # first we post a cancellation
     tender = self.mongodb.tenders.get(self.tender_id)
     test_cancellation = deepcopy(test_tender_below_cancellation)
-    cancellation_data = PostCancellation(test_cancellation).serialize()
+    cancellation_data = PostCancellation.validate_data(test_cancellation)
     cancellation_data["status"] = "pending"
     cancellation_data["complaintPeriod"] = {
         "startDate": get_now().isoformat(),

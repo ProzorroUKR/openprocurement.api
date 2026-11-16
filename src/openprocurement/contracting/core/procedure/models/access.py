@@ -1,7 +1,5 @@
 from enum import StrEnum
 
-from schematics.types import StringType
-
 from openprocurement.api.procedure.models.base import Model
 
 
@@ -18,16 +16,7 @@ class AccessRole(StrEnum):
     CONTRACT = "contract"  # deprecated
 
 
-ACCESS_ROLE_CHOICES = [
-    AccessRole.BUYER.value,
-    AccessRole.SUPPLIER.value,
-    AccessRole.TENDER.value,
-    AccessRole.BID.value,
-    AccessRole.CONTRACT.value,
-]
-
-
 class AccessDetails(Model):
-    owner = StringType()
-    token = StringType()
-    role = StringType(choices=ACCESS_ROLE_CHOICES)
+    owner: str | None = None
+    token: str | None = None
+    role: AccessRole | None = None

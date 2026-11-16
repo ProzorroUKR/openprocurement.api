@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids?acc_token=adb38d0e81e8429eb97de989bbf0b077 HTTP/1.0
+GET /api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/bids?acc_token=adb38d0e81e8429eb97de989bbf0b077 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,186 +9,9 @@ Content-Type: application/json
 {
   "data": [
     {
-      "requirementResponses": [
-        {
-          "requirement": {
-            "id": "3217dbec51ef4c02b49d439542e37b83",
-            "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
-          },
-          "value": 90,
-          "id": "605650452f054b44be810e90cf7c9f39",
-          "unit": {
-            "code": "DAY",
-            "name": "день"
-          },
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
-          }
-        },
-        {
-          "requirement": {
-            "id": "b38a0d45871c41c5993071b7b895bdd4",
-            "title": "Мова тендерної пропозиції"
-          },
-          "values": [
-            "ukr"
-          ],
-          "id": "0be0c60579ee40beb74302e138877424",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.OTHER.BID.LANGUAGE"
-          },
-          "dataSchema": "ISO 639-3"
-        },
-        {
-          "requirement": {
-            "id": "895250bca80a4706911da6e60c045e7f",
-            "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
-          },
-          "value": true,
-          "id": "3aa0a6f5caa24b0fb335eec91ad678af",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
-          }
-        },
-        {
-          "requirement": {
-            "id": "b629c2e279fa4f73b8825818b29d2742",
-            "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
-          },
-          "value": true,
-          "id": "ef89483db3094cf2b51e77067d651c18",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
-          }
-        },
-        {
-          "requirement": {
-            "id": "2cc16f6e1d1a4ec69708167f376bc11c",
-            "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
-          },
-          "value": true,
-          "id": "118d25abd2a84a95b626a0fc1d5bfe12",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
-          }
-        },
-        {
-          "requirement": {
-            "id": "d7941c65af964baba1bca5fa089c883b",
-            "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
-          },
-          "value": true,
-          "id": "8a3b015b56684ad7b0f95a6b89e69848",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
-          }
-        },
-        {
-          "requirement": {
-            "id": "1d1bb5d836b94c29bbd8caac2a72280c",
-            "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
-          },
-          "value": true,
-          "id": "ec56006973ea47ed9ca94409d14bb68e",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
-          }
-        },
-        {
-          "requirement": {
-            "id": "c7bbfc5c70ae46eaa3b48d5944cc75aa",
-            "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
-          },
-          "value": true,
-          "id": "c1a3bbd099414683b930d7f065eb780f",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
-          }
-        },
-        {
-          "requirement": {
-            "id": "a03e99bb49eb458481f9be9af01f2377",
-            "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
-          },
-          "value": true,
-          "id": "330c5b930b2042f49880e35f816a91a4",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
-          }
-        },
-        {
-          "requirement": {
-            "id": "7a825d3266334c6197e6a0235be43dcf",
-            "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
-          },
-          "value": true,
-          "id": "95e4804835494363a12a15a4b5b42675",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
-          }
-        },
-        {
-          "requirement": {
-            "id": "a212f66068eb472c8a77bde2e7fcf488",
-            "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
-          },
-          "value": true,
-          "id": "9d152f5bb5a3430fb80eba3f176d5786",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
-          }
-        },
-        {
-          "requirement": {
-            "id": "2f482f1c2379451b830c79abdccda991",
-            "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
-          },
-          "value": true,
-          "id": "b704823f42d5436faa8a202fc83cb306",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
-          }
-        },
-        {
-          "requirement": {
-            "id": "a6673e9acc8e4bf7b2492ce7bc9492d0",
-            "title": "Учасник закупівлі, разом із залученими спроможностями субпідрядника/співвиконавця (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 16 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
-          },
-          "value": true,
-          "id": "bb58b077f53b45eebbd0c56e8991ff39",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
-          }
-        },
-        {
-          "requirement": {
-            "id": "70a3c84e189a472ebf26b4634d1e4145",
-            "title": "Текст заповнений користувачем"
-          },
-          "value": true,
-          "id": "a003f35d172048beb44f81b901066f1e",
-          "classification": {
-            "scheme": "LAW922",
-            "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
-          }
-        }
-      ],
       "items": [
         {
-          "id": "8fba10d170794a12a8ccd313990265ea",
+          "id": "31135bb40683462fbe2d2eeaef95cc15",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -196,10 +19,10 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 1.0,
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
         },
         {
-          "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
+          "id": "f488203f58694f2b9cf99308ca2cc950",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -207,7 +30,13 @@ Content-Type: application/json
             "code": "PK"
           },
           "quantity": 1.0,
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5",
+          "status": "active"
         }
       ],
       "tenderers": [
@@ -243,97 +72,17 @@ Content-Type: application/json
         }
       ],
       "status": "active",
-      "id": "9733f1729c454748bd5f1e43e9b5b28c",
-      "lotValues": [
-        {
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63",
-          "status": "active"
-        }
-      ],
-      "documents": [
-        {
-          "confidentiality": "public",
-          "documentType": "proposal",
-          "id": "11a5b58a3456413a963a692407a11d26",
-          "datePublished": "2027-01-01T00:00:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Proposal.p7s",
-          "format": "sign/p7s",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:00:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": false
-        },
-        {
-          "confidentiality": "public",
-          "documentType": "proposal",
-          "id": "11a5b58a3456413a963a692407a11d26",
-          "datePublished": "2027-01-01T00:01:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "sign.p7s",
-          "format": "sign/p7s",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8bc99af3284943cda1dcf1d362c36767?Signature=cdisunJhbJoADi9HRJLyrFEjfgKtlaXa6zLM3FyLWQkj3hskZssC%2BaYkpYcQ05FUee54Xy7JveLugXQME0rpAA%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:01:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": false
-        },
-        {
-          "confidentiality": "buyerOnly",
-          "id": "f221beeff02d4d1e94a7f40f1ec952b5",
-          "datePublished": "2027-01-01T00:01:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "DescriptiveProposal.pdf",
-          "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/9733f1729c454748bd5f1e43e9b5b28c/documents/f221beeff02d4d1e94a7f40f1ec952b5?download=8b781eec9f744181a275c6919de639dc",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:01:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": true
-        },
-        {
-          "confidentiality": "buyerOnly",
-          "confidentialityRationale": "Only our company sells badgers with pink hair.",
-          "id": "a5c08eac25bf4ee4bdb6660c747b5052",
-          "datePublished": "2027-01-01T00:01:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "Proposal_top_secrets.pdf",
-          "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/9733f1729c454748bd5f1e43e9b5b28c/documents/a5c08eac25bf4ee4bdb6660c747b5052?download=21c9ff3dd5e646208c8dd44b5853a9c0",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:01:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": false
-        },
-        {
-          "confidentiality": "public",
-          "documentType": "proposal",
-          "id": "11a5b58a3456413a963a692407a11d26",
-          "datePublished": "2027-01-01T00:03:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "sign.p7s",
-          "format": "sign/p7s",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0eab55a0c40b4b3a97e1db7f62a34a23?Signature=A5IWOVFgw1Zgo1CEoaoUIradWlwtZd6JW5BD32pcBsKExW45ZGqtruU6h2c%2FhikIPQypBak7fipOldRm7RDQAw%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:03:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": false
-        }
-      ]
-    },
-    {
       "requirementResponses": [
         {
           "requirement": {
-            "id": "3217dbec51ef4c02b49d439542e37b83",
+            "id": "60ec5127eb6e4f4d965285fcd8f94a9e",
             "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
           },
           "value": 90,
-          "id": "a9eb2e271dd245339c819aef847ce75d",
+          "id": "7f383084167a4f68956becc99ca1fdbf",
           "unit": {
-            "code": "DAY",
-            "name": "день"
+            "name": "день",
+            "code": "DAY"
           },
           "classification": {
             "scheme": "LAW922",
@@ -342,13 +91,13 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b38a0d45871c41c5993071b7b895bdd4",
+            "id": "06603e67205d487097885124cab4e328",
             "title": "Мова тендерної пропозиції"
           },
           "values": [
             "ukr"
           ],
-          "id": "b342376e1da242aaa99a99cb984872c4",
+          "id": "dc5bfc7405ff4407bbfa83e57e1cc351",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
@@ -357,11 +106,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "895250bca80a4706911da6e60c045e7f",
+            "id": "15f960199a9c4a1a9b398f70a2b25f08",
             "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
           },
           "value": true,
-          "id": "9e03b9506ddd44788356afeff75f0ccb",
+          "id": "c69ef4133c8a4ae8a6a69f9dc61c766c",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
@@ -369,11 +118,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b629c2e279fa4f73b8825818b29d2742",
+            "id": "e35517c75f584de6ac2b970926501075",
             "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
           },
           "value": true,
-          "id": "d9fa2b048c9a485dab116ebc02099f07",
+          "id": "73c871b1bcaa4dbeb22bfc29caf2a7d2",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
@@ -381,11 +130,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "2cc16f6e1d1a4ec69708167f376bc11c",
+            "id": "761f8e90014b450eac3b597a772e5887",
             "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
           },
           "value": true,
-          "id": "1d4185d0a17d4632a86e5c9dc9dcc658",
+          "id": "672c68df8fe74892b42ec6c1df8b40d4",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -393,11 +142,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "d7941c65af964baba1bca5fa089c883b",
+            "id": "b10c8f71fb1844a69cf9e3ddc6527c1c",
             "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
           },
           "value": true,
-          "id": "0bb3918910ef4e178ee4c28d5759056d",
+          "id": "80d16c9b2f054a40a2123298c4616499",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
@@ -405,11 +154,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "1d1bb5d836b94c29bbd8caac2a72280c",
+            "id": "df6f8d060cce4612b451f88ad579302f",
             "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
           },
           "value": true,
-          "id": "62f7b165c7d24950875b8fa2d61e0923",
+          "id": "4144102ea11342a6a731678b0d8286ec",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
@@ -417,11 +166,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "c7bbfc5c70ae46eaa3b48d5944cc75aa",
+            "id": "7ed91d598fdd42c59a7b552531e22acf",
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
-          "id": "b27e0cd4efc741d3a60852b1f7c0f01e",
+          "id": "c351685aa73e473d85bcbdd6228265cc",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -429,11 +178,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a03e99bb49eb458481f9be9af01f2377",
+            "id": "8b4f2cb6850f4fffb40b52e7d20ae464",
             "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
           },
           "value": true,
-          "id": "3e259f15436c4e98b27778a11bb945ef",
+          "id": "258126f0de6542b5850085a69694381b",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
@@ -441,11 +190,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "7a825d3266334c6197e6a0235be43dcf",
+            "id": "458f35465ca54a52a60def0444042ebb",
             "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
           },
           "value": true,
-          "id": "bbe07912a3dd4d6fbefaa1fa40368bea",
+          "id": "9e90255ce69648c68494105bd24c4ac5",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
@@ -453,11 +202,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a212f66068eb472c8a77bde2e7fcf488",
+            "id": "6c8219af91a6476d861ebe4fd4292c8b",
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
-          "id": "8dfc65369ddb41eeaeb9ea6431f912bb",
+          "id": "e7ace8643ce144a3aaf8087b33ebd87d",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -465,11 +214,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "2f482f1c2379451b830c79abdccda991",
+            "id": "143146a62abd4490b7479c2356014d08",
             "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
           },
           "value": true,
-          "id": "1645e1486ea440b38d8d434360205cca",
+          "id": "10f8bad869c84a2ab2638a7bd8bdb494",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
@@ -477,11 +226,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a6673e9acc8e4bf7b2492ce7bc9492d0",
+            "id": "17c28e86ec5845caa32d04e4d1367ca7",
             "title": "Учасник закупівлі, разом із залученими спроможностями субпідрядника/співвиконавця (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 16 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
           },
           "value": true,
-          "id": "ffec26ac625d435fb83330cbe53a253b",
+          "id": "cf9c576b78914b8aaaa240dee62de0ba",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
@@ -489,20 +238,94 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "70a3c84e189a472ebf26b4634d1e4145",
+            "id": "94e07f8686f54c26a98da7d089646d78",
             "title": "Текст заповнений користувачем"
           },
           "value": true,
-          "id": "1f9f944614c44d87b011fba312c72bcf",
+          "id": "71b89ecfc8f64868adbf5cac5cf11014",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
           }
         }
       ],
+      "id": "f277d5ffe93444c5abd21a8487084407",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "documentType": "proposal",
+          "title": "Proposal.p7s",
+          "format": "sign/p7s",
+          "language": "uk",
+          "id": "faa979e04c83440da0ce8785450de630",
+          "datePublished": "2027-01-01T00:00:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55cf7685594417eafcd6a81cf099e54?Signature=1lmwO8FdzkpNV7sfZM8iDPezssL9XWgJxVOAAHMp8fZ%2B%2BOWB2ZCmCQVfIZVSXG1uoVIBfqD8kb9feIK%2Bk6xXCg%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:00:00+02:00",
+          "isDescriptionDecision": false
+        },
+        {
+          "confidentiality": "public",
+          "documentType": "proposal",
+          "title": "sign.p7s",
+          "format": "sign/p7s",
+          "language": "uk",
+          "id": "faa979e04c83440da0ce8785450de630",
+          "datePublished": "2027-01-01T00:01:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/8bc99af3284943cda1dcf1d362c36767?Signature=cdisunJhbJoADi9HRJLyrFEjfgKtlaXa6zLM3FyLWQkj3hskZssC%2BaYkpYcQ05FUee54Xy7JveLugXQME0rpAA%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:01:00+02:00",
+          "isDescriptionDecision": false
+        },
+        {
+          "confidentiality": "buyerOnly",
+          "title": "DescriptiveProposal.pdf",
+          "format": "application/pdf",
+          "language": "uk",
+          "id": "70efd40ee0fc45078e0cf62159736a36",
+          "datePublished": "2027-01-01T00:01:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/bids/f277d5ffe93444c5abd21a8487084407/documents/70efd40ee0fc45078e0cf62159736a36?download=8b781eec9f744181a275c6919de639dc",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:01:00+02:00",
+          "isDescriptionDecision": true
+        },
+        {
+          "confidentiality": "buyerOnly",
+          "confidentialityRationale": "Only our company sells badgers with pink hair.",
+          "title": "Proposal_top_secrets.pdf",
+          "format": "application/pdf",
+          "language": "uk",
+          "id": "88e22b563f944d2daff6a5b5df428bff",
+          "datePublished": "2027-01-01T00:01:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/bids/f277d5ffe93444c5abd21a8487084407/documents/88e22b563f944d2daff6a5b5df428bff?download=21c9ff3dd5e646208c8dd44b5853a9c0",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:01:00+02:00",
+          "isDescriptionDecision": false
+        },
+        {
+          "confidentiality": "public",
+          "documentType": "proposal",
+          "title": "sign.p7s",
+          "format": "sign/p7s",
+          "language": "uk",
+          "id": "faa979e04c83440da0ce8785450de630",
+          "datePublished": "2027-01-01T00:03:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0eab55a0c40b4b3a97e1db7f62a34a23?Signature=A5IWOVFgw1Zgo1CEoaoUIradWlwtZd6JW5BD32pcBsKExW45ZGqtruU6h2c%2FhikIPQypBak7fipOldRm7RDQAw%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:03:00+02:00",
+          "isDescriptionDecision": false
+        }
+      ]
+    },
+    {
       "items": [
         {
-          "id": "8fba10d170794a12a8ccd313990265ea",
+          "id": "31135bb40683462fbe2d2eeaef95cc15",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -510,10 +333,10 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 1.0,
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
         },
         {
-          "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
+          "id": "f488203f58694f2b9cf99308ca2cc950",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -521,7 +344,13 @@ Content-Type: application/json
             "code": "PK"
           },
           "quantity": 1.0,
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5",
+          "status": "active"
         }
       ],
       "tenderers": [
@@ -557,42 +386,17 @@ Content-Type: application/json
         }
       ],
       "status": "active",
-      "id": "bac3f23e6a424321a4692d2ab590716c",
-      "lotValues": [
-        {
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63",
-          "status": "active"
-        }
-      ],
-      "documents": [
-        {
-          "confidentiality": "public",
-          "documentType": "proposal",
-          "id": "01cc7d9c98c34a4ea077b01e9ee7fff6",
-          "datePublished": "2027-01-01T00:03:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "sign.p7s",
-          "format": "application/pkcs7-signature",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55378d6d53f4db784507283c93b66ef?Signature=lh6r4eVv3bqMYCLHcw8pD4XLLnUzL5COThd9E9XQs9ccsg9yktIk%2BgYyr%2BC%2BZSQKH%2Fp67X3QHDpL5cJ9Cm5VDA%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:03:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": false
-        }
-      ]
-    },
-    {
       "requirementResponses": [
         {
           "requirement": {
-            "id": "3217dbec51ef4c02b49d439542e37b83",
+            "id": "60ec5127eb6e4f4d965285fcd8f94a9e",
             "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
           },
           "value": 90,
-          "id": "c037bef2229f4bf6bfc2b9bb697363ec",
+          "id": "e4cf7683666841fc9f4da5a919755161",
           "unit": {
-            "code": "DAY",
-            "name": "день"
+            "name": "день",
+            "code": "DAY"
           },
           "classification": {
             "scheme": "LAW922",
@@ -601,13 +405,13 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b38a0d45871c41c5993071b7b895bdd4",
+            "id": "06603e67205d487097885124cab4e328",
             "title": "Мова тендерної пропозиції"
           },
           "values": [
             "ukr"
           ],
-          "id": "362de4111208455a95770f722a3d77ac",
+          "id": "f5888facbbca42799d411120ea0ee6f7",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
@@ -616,11 +420,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "895250bca80a4706911da6e60c045e7f",
+            "id": "15f960199a9c4a1a9b398f70a2b25f08",
             "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
           },
           "value": true,
-          "id": "76dd6996e5f246af82fe6120a2a7fea5",
+          "id": "82f0378c426941c5897eef3665b5a0a6",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
@@ -628,11 +432,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b629c2e279fa4f73b8825818b29d2742",
+            "id": "e35517c75f584de6ac2b970926501075",
             "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
           },
           "value": true,
-          "id": "f6d04af1b4034c86a4a9492c5abd1d87",
+          "id": "6596e18e2a20476c898d9dd012bbef91",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
@@ -640,11 +444,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "2cc16f6e1d1a4ec69708167f376bc11c",
+            "id": "761f8e90014b450eac3b597a772e5887",
             "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
           },
           "value": true,
-          "id": "8324600bd09f47138f15ffd9e021e871",
+          "id": "11e8e2d56c0943bfa1e56b6ee59b4ff5",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -652,11 +456,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "d7941c65af964baba1bca5fa089c883b",
+            "id": "b10c8f71fb1844a69cf9e3ddc6527c1c",
             "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
           },
           "value": true,
-          "id": "39969ebc1d4a4d9db0586d99ae085ce7",
+          "id": "83e7cc96c6204f899a0a875cf371eb94",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
@@ -664,11 +468,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "1d1bb5d836b94c29bbd8caac2a72280c",
+            "id": "df6f8d060cce4612b451f88ad579302f",
             "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
           },
           "value": true,
-          "id": "46d0d46688b54d688f5ae546f77b8719",
+          "id": "587e2bcc9f1740118c93a06982ae7432",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
@@ -676,11 +480,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "c7bbfc5c70ae46eaa3b48d5944cc75aa",
+            "id": "7ed91d598fdd42c59a7b552531e22acf",
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
-          "id": "5e885f0272bc4feca9271cd9d1d2083c",
+          "id": "e41085af163f4550a6b47f081aa77a8f",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -688,11 +492,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a03e99bb49eb458481f9be9af01f2377",
+            "id": "8b4f2cb6850f4fffb40b52e7d20ae464",
             "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
           },
           "value": true,
-          "id": "06d436f92de34694afeee604074e7f10",
+          "id": "34efb64128e94555b2767684ab427a38",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
@@ -700,11 +504,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "7a825d3266334c6197e6a0235be43dcf",
+            "id": "458f35465ca54a52a60def0444042ebb",
             "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
           },
           "value": true,
-          "id": "87f8b1aa82044ac89da2d0df049b856c",
+          "id": "b899d115f9e540ec93b0bcee85c19e16",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
@@ -712,11 +516,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a212f66068eb472c8a77bde2e7fcf488",
+            "id": "6c8219af91a6476d861ebe4fd4292c8b",
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
-          "id": "2d557caec38b4a0bad51ae8d6f7099cf",
+          "id": "c6bcbef250d24d1fb327abbdee115843",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -724,11 +528,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "2f482f1c2379451b830c79abdccda991",
+            "id": "143146a62abd4490b7479c2356014d08",
             "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
           },
           "value": true,
-          "id": "41ed66cd3fed4c999e4887a4dfe80a2e",
+          "id": "a1104baaccb642079ed50343398e7a25",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
@@ -736,11 +540,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a6673e9acc8e4bf7b2492ce7bc9492d0",
+            "id": "17c28e86ec5845caa32d04e4d1367ca7",
             "title": "Учасник закупівлі, разом із залученими спроможностями субпідрядника/співвиконавця (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 16 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
           },
           "value": true,
-          "id": "6298f7c0eaad4608badb7c9215ca617e",
+          "id": "f99ac37a39f34a1cb657b902feab4ec5",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
@@ -748,15 +552,40 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "70a3c84e189a472ebf26b4634d1e4145",
+            "id": "94e07f8686f54c26a98da7d089646d78",
             "title": "Текст заповнений користувачем"
           },
           "value": true,
-          "id": "efd3e4c882eb43e781b2b6a452111db2",
+          "id": "e81e1e4f49df433e976b799cb91742d6",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
           }
+        }
+      ],
+      "id": "4854ce85f5d049118318d781e4447f79",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "documentType": "proposal",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk",
+          "id": "7c53b9222e81489faf531f13ac6e84c0",
+          "datePublished": "2027-01-01T00:03:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/d55378d6d53f4db784507283c93b66ef?Signature=lh6r4eVv3bqMYCLHcw8pD4XLLnUzL5COThd9E9XQs9ccsg9yktIk%2BgYyr%2BC%2BZSQKH%2Fp67X3QHDpL5cJ9Cm5VDA%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:03:00+02:00",
+          "isDescriptionDecision": false
+        }
+      ]
+    },
+    {
+      "lotValues": [
+        {
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5",
+          "status": "unsuccessful"
         }
       ],
       "tenderers": [
@@ -791,42 +620,17 @@ Content-Type: application/json
         }
       ],
       "status": "unsuccessful",
-      "id": "212ab974d7194298a0ab69b8aad9a0aa",
-      "lotValues": [
-        {
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63",
-          "status": "unsuccessful"
-        }
-      ],
-      "documents": [
-        {
-          "confidentiality": "public",
-          "documentType": "proposal",
-          "id": "7bc416423061481fa1c558d489469bc4",
-          "datePublished": "2027-01-01T00:03:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
-          "title": "sign.p7s",
-          "format": "application/pkcs7-signature",
-          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a8aa39601c1f48d6b0ff33dc99981c45?Signature=R%2BZLHd2fSgUDe9tpzi2pexnaGXpSbRQBMXX6tvAltgkwMkxgcPiOQEnZMNvrTLU1WNejkoLcltptb73XAENlCw%3D%3D&KeyID=a8968c46",
-          "documentOf": "tender",
-          "dateModified": "2027-01-01T00:03:00+02:00",
-          "language": "uk",
-          "isDescriptionDecision": false
-        }
-      ]
-    },
-    {
       "requirementResponses": [
         {
           "requirement": {
-            "id": "3217dbec51ef4c02b49d439542e37b83",
+            "id": "60ec5127eb6e4f4d965285fcd8f94a9e",
             "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
           },
           "value": 90,
-          "id": "0cbd4fcc62d34cc2b0acf21411c3dfec",
+          "id": "845b727c2acf413881616c82ba8114a6",
           "unit": {
-            "code": "DAY",
-            "name": "день"
+            "name": "день",
+            "code": "DAY"
           },
           "classification": {
             "scheme": "LAW922",
@@ -835,13 +639,13 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b38a0d45871c41c5993071b7b895bdd4",
+            "id": "06603e67205d487097885124cab4e328",
             "title": "Мова тендерної пропозиції"
           },
           "values": [
             "ukr"
           ],
-          "id": "25b0c7103e08427fa3c63ce608d60bc7",
+          "id": "826ca60129334ea6b7155904fe9bd771",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.OTHER.BID.LANGUAGE"
@@ -850,11 +654,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "895250bca80a4706911da6e60c045e7f",
+            "id": "15f960199a9c4a1a9b398f70a2b25f08",
             "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
           },
           "value": true,
-          "id": "2f172bc8a6d945349dffdee094dfd0c9",
+          "id": "f3da407138fe4c67a9f93c27b2b5cdc1",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
@@ -862,11 +666,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "b629c2e279fa4f73b8825818b29d2742",
+            "id": "e35517c75f584de6ac2b970926501075",
             "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
           },
           "value": true,
-          "id": "823d6f9495ce433094f6965534fb4326",
+          "id": "bb0593c7250d48b380ec07f534d4dffb",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
@@ -874,11 +678,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "2cc16f6e1d1a4ec69708167f376bc11c",
+            "id": "761f8e90014b450eac3b597a772e5887",
             "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
           },
           "value": true,
-          "id": "b4f6db4ab54246d29a6fe3b46445533d",
+          "id": "26751b82b43b4f4e86e20442648de22c",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
@@ -886,11 +690,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "d7941c65af964baba1bca5fa089c883b",
+            "id": "b10c8f71fb1844a69cf9e3ddc6527c1c",
             "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
           },
           "value": true,
-          "id": "e1dc34ca65df41c39f5da00c7cb188f2",
+          "id": "161753a193c74ef890f56c93fbc75f16",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
@@ -898,11 +702,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "1d1bb5d836b94c29bbd8caac2a72280c",
+            "id": "df6f8d060cce4612b451f88ad579302f",
             "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
           },
           "value": true,
-          "id": "ea4654f9667f47d78a81c60a69df4291",
+          "id": "3fb831b05b994e79868f71e453ad2190",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
@@ -910,11 +714,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "c7bbfc5c70ae46eaa3b48d5944cc75aa",
+            "id": "7ed91d598fdd42c59a7b552531e22acf",
             "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
           },
           "value": true,
-          "id": "c4065a57afac461689141a41987c0df8",
+          "id": "4bc2b793911040b2a9806d7c1a2c1123",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
@@ -922,11 +726,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a03e99bb49eb458481f9be9af01f2377",
+            "id": "8b4f2cb6850f4fffb40b52e7d20ae464",
             "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
           },
           "value": true,
-          "id": "e9cff8d568664b65ac237bc37d58ebae",
+          "id": "16e1fb867e894b9cb22187d5857ed4e5",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
@@ -934,11 +738,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "7a825d3266334c6197e6a0235be43dcf",
+            "id": "458f35465ca54a52a60def0444042ebb",
             "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
           },
           "value": true,
-          "id": "11f4e821e28f469ebe343db2fe0ae1e8",
+          "id": "a8384accb149455784ef62341d9bf679",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
@@ -946,11 +750,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a212f66068eb472c8a77bde2e7fcf488",
+            "id": "6c8219af91a6476d861ebe4fd4292c8b",
             "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
           },
           "value": true,
-          "id": "092bf0e2f8804dc09a4ece45c355cae9",
+          "id": "acc1c25f7d454cfface444dfa329364c",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
@@ -958,11 +762,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "2f482f1c2379451b830c79abdccda991",
+            "id": "143146a62abd4490b7479c2356014d08",
             "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
           },
           "value": true,
-          "id": "60c9505ba03547cb9e9169d8790c3589",
+          "id": "985f8b06d29c4f87905e5e5b16ccf8fc",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
@@ -970,11 +774,11 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "a6673e9acc8e4bf7b2492ce7bc9492d0",
+            "id": "17c28e86ec5845caa32d04e4d1367ca7",
             "title": "Учасник закупівлі, разом із залученими спроможностями субпідрядника/співвиконавця (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 16 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
           },
           "value": true,
-          "id": "8a71102742ab490a92b29ee0addb0e12",
+          "id": "c21e5d18e16c469f91a622b0807966be",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
@@ -982,20 +786,39 @@ Content-Type: application/json
         },
         {
           "requirement": {
-            "id": "70a3c84e189a472ebf26b4634d1e4145",
+            "id": "94e07f8686f54c26a98da7d089646d78",
             "title": "Текст заповнений користувачем"
           },
           "value": true,
-          "id": "65c469b1e58b4ac0a980de28deca48ff",
+          "id": "e3eb496af29b461a825533f8b5b26ab4",
           "classification": {
             "scheme": "LAW922",
             "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
           }
         }
       ],
+      "id": "602a3b50afc543af8de8ff7dc4fdafb0",
+      "documents": [
+        {
+          "confidentiality": "public",
+          "documentType": "proposal",
+          "title": "sign.p7s",
+          "format": "application/pkcs7-signature",
+          "language": "uk",
+          "id": "6a20556d28b241f28eb3e4b835fe14fe",
+          "datePublished": "2027-01-01T00:03:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-docs-sandbox.prozorro.gov.ua/get/a8aa39601c1f48d6b0ff33dc99981c45?Signature=R%2BZLHd2fSgUDe9tpzi2pexnaGXpSbRQBMXX6tvAltgkwMkxgcPiOQEnZMNvrTLU1WNejkoLcltptb73XAENlCw%3D%3D&KeyID=a8968c46",
+          "documentOf": "tender",
+          "dateModified": "2027-01-01T00:03:00+02:00",
+          "isDescriptionDecision": false
+        }
+      ]
+    },
+    {
       "items": [
         {
-          "id": "8fba10d170794a12a8ccd313990265ea",
+          "id": "31135bb40683462fbe2d2eeaef95cc15",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -1003,10 +826,10 @@ Content-Type: application/json
             "code": "KGM"
           },
           "quantity": 1.0,
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
         },
         {
-          "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
+          "id": "f488203f58694f2b9cf99308ca2cc950",
           "description": "Послуги шкільних їдалень",
           "description_en": "Services in school canteens",
           "unit": {
@@ -1014,7 +837,13 @@ Content-Type: application/json
             "code": "PK"
           },
           "quantity": 1.0,
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
+        }
+      ],
+      "lotValues": [
+        {
+          "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5",
+          "status": "active"
         }
       ],
       "tenderers": [
@@ -1049,53 +878,224 @@ Content-Type: application/json
         }
       ],
       "status": "active",
-      "id": "820d2621c77c4aa785279d983e846e51",
-      "lotValues": [
+      "requirementResponses": [
         {
-          "relatedLot": "aa7e372b99b24b5395149839bde29a63",
-          "status": "active"
+          "requirement": {
+            "id": "60ec5127eb6e4f4d965285fcd8f94a9e",
+            "title": "Строк дії тендерної пропозиції із дати кінцевого строку подання тендерних пропозицій"
+          },
+          "value": 90,
+          "id": "79bfe7c8f45946b68f2960d85c2fd6c1",
+          "unit": {
+            "name": "день",
+            "code": "DAY"
+          },
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.OTHER.BID.VALIDITY_PERIOD"
+          }
+        },
+        {
+          "requirement": {
+            "id": "06603e67205d487097885124cab4e328",
+            "title": "Мова тендерної пропозиції"
+          },
+          "values": [
+            "ukr"
+          ],
+          "id": "9ac4b24c67bb4b72a0a359849bcbbcf5",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.OTHER.BID.LANGUAGE"
+          },
+          "dataSchema": "ISO 639-3"
+        },
+        {
+          "requirement": {
+            "id": "15f960199a9c4a1a9b398f70a2b25f08",
+            "title": "Відомості про учасника процедури закупівлі не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
+          },
+          "value": true,
+          "id": "1670795759ac467f809b918b7dc966f3",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+          }
+        },
+        {
+          "requirement": {
+            "id": "e35517c75f584de6ac2b970926501075",
+            "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
+          },
+          "value": true,
+          "id": "9e77c418e6f9424496bfe238f15e1d20",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION"
+          }
+        },
+        {
+          "requirement": {
+            "id": "761f8e90014b450eac3b597a772e5887",
+            "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
+          },
+          "value": true,
+          "id": "7f5e981a00394992ac52b1ab48faf73b",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+          }
+        },
+        {
+          "requirement": {
+            "id": "b10c8f71fb1844a69cf9e3ddc6527c1c",
+            "title": "Учасник процедури закупівлі не був засуджений за кримінальне правопорушення, вчинене з корисливих мотивів (зокрема, пов’язане з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
+          },
+          "value": true,
+          "id": "ab8dd0db6c1d49bba938709fb73751d3",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION"
+          }
+        },
+        {
+          "requirement": {
+            "id": "df6f8d060cce4612b451f88ad579302f",
+            "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
+          },
+          "value": true,
+          "id": "a2d745720cad494dbcc6f05ca66a9acb",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.BUSINESS.BANKRUPTCY"
+          }
+        },
+        {
+          "requirement": {
+            "id": "7ed91d598fdd42c59a7b552531e22acf",
+            "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+          },
+          "value": true,
+          "id": "37ce254f19fe4cd88e6022c3554caa42",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+          }
+        },
+        {
+          "requirement": {
+            "id": "8b4f2cb6850f4fffb40b52e7d20ae464",
+            "title": "Учасника процедури закупівлі не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
+          },
+          "value": true,
+          "id": "a4a3cd1ef7e345e4b9864b24bef11766",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONVICTIONS.CHILD_LABOUR-HUMAN_TRAFFICKING"
+          }
+        },
+        {
+          "requirement": {
+            "id": "458f35465ca54a52a60def0444042ebb",
+            "title": "Учасник процедури закупівлі не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
+          },
+          "value": true,
+          "id": "c02dff5026b34eb9b7d16ab29d14a37a",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONTRIBUTIONS.PAYMENT_OF_TAXES"
+          }
+        },
+        {
+          "requirement": {
+            "id": "6c8219af91a6476d861ebe4fd4292c8b",
+            "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
+          },
+          "value": true,
+          "id": "ac070c3beba8401b95e23e1380ee30f9",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+          }
+        },
+        {
+          "requirement": {
+            "id": "143146a62abd4490b7479c2356014d08",
+            "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\""
+          },
+          "value": true,
+          "id": "68a5c83a3e3b4687b425a053e3aab943",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.EXCLUSION.NATIONAL.OTHER"
+          }
+        },
+        {
+          "requirement": {
+            "id": "17c28e86ec5845caa32d04e4d1367ca7",
+            "title": "Учасник закупівлі, разом із залученими спроможностями субпідрядника/співвиконавця (за наявності), відповідає кваліфікаційним критеріям відповідно до частини третьої статті 16 Закону України від 25.12.2015 № 922-VIII \"Про публічні закупівлі\""
+          },
+          "value": true,
+          "id": "edb7428c8ca5433791f4190fbeba9a4e",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.MANAGEMENT.SUBCONTRACTING_PROPORTION"
+          }
+        },
+        {
+          "requirement": {
+            "id": "94e07f8686f54c26a98da7d089646d78",
+            "title": "Текст заповнений користувачем"
+          },
+          "value": true,
+          "id": "d688b9d763484e5984799f973e1514ce",
+          "classification": {
+            "scheme": "LAW922",
+            "id": "CRITERION.SELECTION.TECHNICAL_PROFESSIONAL_ABILITY.TECHNICAL.EQUIPMENT"
+          }
         }
       ],
+      "id": "cde985b693eb44a4a0cd0332d212e67a",
       "documents": [
         {
           "confidentiality": "public",
-          "id": "c2b299bb3ae44ba394b55f944cc67d5a",
-          "datePublished": "2027-01-01T00:03:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part1.pdf",
           "format": "application/pdf",
+          "language": "uk",
+          "id": "863aec137427472ea8b529f61360695f",
+          "datePublished": "2027-01-01T00:03:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4b7b590b143b479e8961e0eb9f0efdf7?Signature=p0BVZZN0W8rahmse3aPqn8wLlrCsJY90g%2B%2BcEIRbWb9B1DN9E6QR4VWgrfjFTGYQ9ni%2FggCGIa%2BJSS%2BtzYhPDw%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:03:00+02:00",
-          "language": "uk",
           "isDescriptionDecision": false
         },
         {
           "confidentiality": "buyerOnly",
           "confidentialityRationale": "Only our company sells badgers with pink hair.",
-          "id": "045a4468bedb44ff9f88b2dd41fc5c9a",
-          "datePublished": "2027-01-01T00:03:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "Proposal_part2.pdf",
           "format": "application/pdf",
-          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/820d2621c77c4aa785279d983e846e51/documents/045a4468bedb44ff9f88b2dd41fc5c9a?download=c747987375f140cdba81d516b2dca242",
+          "language": "uk",
+          "id": "75b6589c1eeb4dea8e954b3b9c51ee35",
+          "datePublished": "2027-01-01T00:03:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
+          "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/bids/cde985b693eb44a4a0cd0332d212e67a/documents/75b6589c1eeb4dea8e954b3b9c51ee35?download=c747987375f140cdba81d516b2dca242",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:03:00+02:00",
-          "language": "uk",
           "isDescriptionDecision": false
         },
         {
           "confidentiality": "public",
           "documentType": "proposal",
-          "id": "fc937a93ccdd42a09fd8157f6dea69e8",
-          "datePublished": "2027-01-01T00:03:00+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
+          "language": "uk",
+          "id": "95bc709117ed4b86b5abaf2372708c62",
+          "datePublished": "2027-01-01T00:03:00+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/ad262c01c9a44bdaa8bb3502d7272a2d?Signature=WF7nWumV2MxfViL0qUBdh7XQGT9q4Nm9yYbFw3%2FDNdq5veRwFmljNVpSaD5bbEt2FLXeldOZEik44CMAhhkOBA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2027-01-01T00:03:00+02:00",
-          "language": "uk",
           "isDescriptionDecision": false
         }
       ]

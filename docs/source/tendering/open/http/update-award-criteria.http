@@ -1,4 +1,4 @@
-PUT /api/2.5/tenders/01138bc5e7e84ea188d95e681ade9584/documents/df8bfc9cc3a64224acfa80bd7861fe94?acc_token=b9c88c159830478b817a78182b04aad0 HTTP/1.0
+PUT /api/2.5/tenders/378e03dd07374ae1873c8537dbd7d29c/documents/174bed9833024beda972d55a77d01d03?acc_token=b9c88c159830478b817a78182b04aad0 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -19,16 +19,16 @@ Content-Type: application/json
 {
   "data": {
     "confidentiality": "public",
-    "id": "df8bfc9cc3a64224acfa80bd7861fe94",
-    "datePublished": "2027-01-01T00:00:00+02:00",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "AwardCriteria.pdf",
     "format": "application/pdf",
+    "language": "uk",
+    "id": "174bed9833024beda972d55a77d01d03",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "hash": "md5:00000000000000000000000000000000",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/e4153a6dcaf64e79b911002305341f6e?Signature=8JQQd35BZz9qGydenYE3Qy2%2F40eLQA5zi0P1NaaJlX6DAepqg4aNUJE9X8s6C%2FwIHkmV7bU6lXJnDSzzSIkFDw%3D%3D&KeyID=a8968c46",
     "documentOf": "tender",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "author": "tender_owner",
-    "language": "uk"
+    "author": "tender_owner"
   }
 }
 

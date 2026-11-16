@@ -1,8 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 def has_value_restriction_populator(tender):
     pmt = tender.get("procurementMethodType")
-    if pmt == ABOVE_THRESHOLD:
+    if pmt == ProcurementMethodType.ABOVE_THRESHOLD:
         return False
     return True
 

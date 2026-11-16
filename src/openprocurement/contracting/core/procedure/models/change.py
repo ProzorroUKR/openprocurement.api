@@ -1,31 +1,34 @@
-from schematics.types import BaseType, MD5Type, StringType
+from typing import Any, Literal
 
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.validation import validate_uniq
+from pydantic import Field, field_validator
+
+from openprocurement.api.procedure.models.base import Model, validate_uniq
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 
 
 class BaseChange(Model):
-    rationale = StringType(required=True, min_length=1)
-    rationale_en = StringType()
-    rationale_ru = StringType()
-    rationaleTypes = ListType(
-        StringType(
-            required=True,
-        ),
-        min_size=1,
-        required=True,
-        validators=[validate_uniq],
-    )
+    rationale: str = Field(min_length=1)
+    rationale_en: str | None = None
+    rationale_ru: str | None = None
+    rationaleTypes: list[str] = Field(min_length=1)
+
+    @field_validator("rationaleTypes")
+    @classmethod
+    def validate_rationale_types_items(cls, value):
+        validate_uniq(value)
+        return value
 
 
 class Change(BaseChange):
-    id = MD5Type(required=True)
-    status = StringType(choices=["pending", "active"])
-    date = IsoDateTimeType()
-    contractNumber = StringType()
-    dateSigned = IsoDateTimeType()
-    modifications = BaseType()
-    documents = BaseType()
-    cancellations = BaseType()
-    author = StringType()
+    id: MD5
+    status: Literal["pending", "active"] | None = None
+    date: IsoDateTime | None = None
+    contractNumber: str | None = None
+    dateSigned: IsoDateTime | None = None
+    modifications: Any = None
+    documents: Any = None
+    cancellations: Any = None
+    author: str | None = None

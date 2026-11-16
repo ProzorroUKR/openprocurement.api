@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/a90905bbe0c24a6387f3ecde4e87bcb4/complaints/3db50ebc52124424812681187e5ee06d?acc_token=7daa558cb4b042b3a1c9e4d6f7d2a8be HTTP/1.0
+GET /api/2.5/tenders/34c547447aa64723b92f4f6069cbe9d0/complaints/cc0d30bf371746bf81f15f8f5c2325bb?acc_token=7daa558cb4b042b3a1c9e4d6f7d2a8be HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -8,13 +8,19 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "3db50ebc52124424812681187e5ee06d",
+    "id": "cc0d30bf371746bf81f15f8f5c2325bb",
     "complaintID": "UA-2027-01-01-000001-a.a1",
     "date": "2027-01-01T00:00:00+02:00",
     "status": "satisfied",
     "type": "complaint",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -26,12 +32,6 @@ Content-Type: application/json
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
@@ -39,11 +39,11 @@ Content-Type: application/json
     "dateSubmitted": "2027-01-01T00:00:00+02:00",
     "objections": [
       {
-        "id": "dcf93dd326fa4ad0b5120d7859cd83ff",
+        "id": "f89af01b396945589d42dd4b3549af43",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "tender",
-        "relatedItem": "a90905bbe0c24a6387f3ecde4e87bcb4",
+        "relatedItem": "34c547447aa64723b92f4f6069cbe9d0",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -51,14 +51,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "db315e09065a482c86b8272e798609be",
+            "id": "f64370aa4dab40b0ac7d1e177966fc98",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "fdaeb63728c346cbb60069c75b0b005f",
+            "id": "419f884fa2cf414f80c0569c8ffa2197",
             "description": "test argument"
           }
         ],
@@ -76,21 +76,21 @@ Content-Type: application/json
     "dateDecision": "2027-01-01T00:00:00+02:00",
     "appeals": [
       {
-        "id": "857ebcc410d44368aa53f1c51ab2a748",
+        "id": "6bdf41a2d9124e8cb00f0f1364a74e5a",
         "description": "test",
         "documents": [
           {
             "confidentiality": "public",
-            "id": "ad9b247573e54576a42da6567b94be85",
-            "datePublished": "2027-01-01T00:00:00+02:00",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "name.doc",
             "format": "application/msword",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a90905bbe0c24a6387f3ecde4e87bcb4/complaints/3db50ebc52124424812681187e5ee06d/appeals/857ebcc410d44368aa53f1c51ab2a748/documents/ad9b247573e54576a42da6567b94be85?download=20514262a4564559910de135ff1f0d3e",
+            "language": "uk",
+            "id": "87fc796054494d1ebe53b82a7a367f14",
+            "datePublished": "2027-01-01T00:00:00+02:00",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/34c547447aa64723b92f4f6069cbe9d0/complaints/cc0d30bf371746bf81f15f8f5c2325bb/appeals/6bdf41a2d9124e8cb00f0f1364a74e5a/documents/87fc796054494d1ebe53b82a7a367f14?download=20514262a4564559910de135ff1f0d3e",
             "documentOf": "tender",
             "dateModified": "2027-01-01T00:00:00+02:00",
-            "author": "complaint_owner",
-            "language": "uk"
+            "author": "complaint_owner"
           }
         ],
         "proceeding": {
@@ -113,7 +113,7 @@ Content-Type: application/json
       },
       {
         "description": "Test appeal",
-        "id": "48cf8532081f42a79fd6eb54c29e29f0",
+        "id": "15dcf82ac5094e41a1c7ae1ee4c72145",
         "dateCreated": "2027-01-01T00:00:00+02:00",
         "datePublished": "2027-01-01T00:00:00+02:00",
         "legislation": {
@@ -130,13 +130,13 @@ Content-Type: application/json
         "documents": [
           {
             "confidentiality": "public",
-            "hash": "md5:00000000000000000000000000000000",
             "title": "sign.p7s",
             "format": "application/pkcs7-signature",
-            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a90905bbe0c24a6387f3ecde4e87bcb4/complaints/3db50ebc52124424812681187e5ee06d/appeals/48cf8532081f42a79fd6eb54c29e29f0/documents/4530e91182cb47959efaab81113a86ac?download=c66f59fb078741349f4858931c45b847",
-            "documentOf": "tender",
             "language": "uk",
-            "id": "4530e91182cb47959efaab81113a86ac",
+            "hash": "md5:00000000000000000000000000000000",
+            "url": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders/34c547447aa64723b92f4f6069cbe9d0/complaints/cc0d30bf371746bf81f15f8f5c2325bb/appeals/15dcf82ac5094e41a1c7ae1ee4c72145/documents/5d8e1dfa64554beeb658ebe4646a5dca?download=c66f59fb078741349f4858931c45b847",
+            "documentOf": "tender",
+            "id": "5d8e1dfa64554beeb658ebe4646a5dca",
             "datePublished": "2027-01-01T00:00:00+02:00",
             "dateModified": "2027-01-01T00:00:00+02:00",
             "author": "tender_owner"

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/d49405485fb04e66baf89bd0a5fd3b46/bids/981d8971d34a41dd9441e7137688f4c6?acc_token=5192b6a6756948bea06f91f28112895a HTTP/1.0
+PATCH /api/2.5/tenders/abd1ff84bd1b48f69e51db7fe2f0f11e/bids/c1673ad28cca45d09ca292c374e6f528?acc_token=5192b6a6756948bea06f91f28112895a HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -21,7 +21,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           }
         },
         "quantity": 5.0,
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62",
         "product": "22222222222222222222222222222222"
       }
     ]
@@ -50,19 +50,19 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62",
         "product": "22222222222222222222222222222222"
       }
     ],
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "79b2dfd1699b482082c096c0510ce506",
-        "status": "pending",
+        "relatedLot": "e27c57149aec47619df5f8c0aec68c62",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
@@ -100,7 +100,7 @@ Content-Type: application/json
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "981d8971d34a41dd9441e7137688f4c6",
+    "id": "c1673ad28cca45d09ca292c374e6f528",
     "date": "2027-01-01T00:00:00+02:00"
   }
 }

@@ -1,28 +1,26 @@
 from datetime import datetime
 from decimal import Decimal
+from typing import Literal
 
 from isodate import duration_isoformat
-from schematics.exceptions import ValidationError
-from schematics.types import StringType
-from schematics.types.compound import ModelType
+from pydantic import Field, field_validator
 
-from openprocurement.api.constants import TENDER_CAUSE
+from openprocurement.api.constants import TENDER_CAUSE, ProcurementMethodType
 from openprocurement.api.constants_env import (
     NEW_NEGOTIATION_CAUSES_FROM,
 )
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator, validate_uniq_code, validate_uniq_id
+from openprocurement.api.procedure.models.milestone import Milestone
 from openprocurement.api.procedure.models.period import Period, PeriodEndRequired
 from openprocurement.api.procedure.models.value import EstimatedValue
-from openprocurement.api.procedure.types import ListType
 from openprocurement.api.utils import get_first_revision_date
-from openprocurement.api.validation import validate_uniq_code, validate_uniq_id
 from openprocurement.tender.cfaua.constants import CFA_UA_MAX_AGREEMENT_PERIOD
 from openprocurement.tender.cfaua.constants import CFA_UA_MIN_BIDS_NUMBER as CFA_MIN_BIDS_NUMBER
 from openprocurement.tender.core.constants import (
-    AWARD_CRITERIA_CHOICES,
-    CORE_TENDER_PROCUREMENT_METHOD_TYPES,
+    AwardCriteria,
 )
 from openprocurement.tender.core.procedure.models.document import PostDocument
 from openprocurement.tender.core.procedure.models.feature import (
@@ -43,10 +41,7 @@ from openprocurement.tender.core.procedure.models.metric import (
     PostMetric,
     validate_observation_ids_uniq,
 )
-from openprocurement.tender.core.procedure.models.milestone import (
-    Milestone,
-    validate_milestones_lot,
-)
+from openprocurement.tender.core.procedure.models.milestone import validate_milestones_lot
 from openprocurement.tender.core.procedure.models.organization import (
     Organization,
     ProcuringEntity,
@@ -68,30 +63,37 @@ from openprocurement.tender.limited.constants import cause_choices as NEGOTIATIO
 from openprocurement.tender.limited.constants import cause_choices_new as NEGOTIATION_CAUSE_CHOICES_NEW
 from openprocurement.tender.limited.constants import cause_choices_quick as NEGOTIATION_QUICK_CAUSE_CHOICES
 from openprocurement.tender.limited.constants import cause_choices_quick_new as NEGOTIATION_QUICK_CAUSE_CHOICES_NEW
-from openprocurement.tender.open.constants import BELOW_THRESHOLD
+from openprocurement.tender.open.constants import OpenProcurementMethodType
 
 
-def validate_award_period(data, period):
+def validate_award_period(tender, period):
+    auction_period = getattr(tender, "auctionPeriod", None)  # not a field of all the tenders
     if (
         period
         and period.startDate
-        and data.get("auctionPeriod")
-        and data["auctionPeriod"].get("endDate")
-        and period.startDate < data["auctionPeriod"]["endDate"]
+        and auction_period
+        and auction_period.endDate
+        and period.startDate < auction_period.endDate
     ):
         raise ValidationError("period should begin after auctionPeriod")
     if (
         period
         and period.startDate
-        and data.get("tenderPeriod")
-        and data["tenderPeriod"].get("endDate")
-        and period.startDate < data["tenderPeriod"]["endDate"]
+        and tender.tenderPeriod
+        and tender.tenderPeriod.endDate
+        and period.startDate < tender.tenderPeriod.endDate
     ):
         raise ValidationError("period should begin after tenderPeriod")
 
 
 class PatchTenderMilestonesMixin(Model):
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+    milestones: list[Milestone] | None = None
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class TenderMilestonesMixin(Model):
@@ -100,90 +102,118 @@ class TenderMilestonesMixin(Model):
     is validated in TenderDetailsState (milestones_required, milestones_delivery_financing_required)
     """
 
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
+    milestones: list[Milestone] | None = None
 
-    def validate_milestones(self, data, value):
-        validate_milestones_lot(data, value)
+    @model_field_validator("milestones")
+    def validate_milestones(self, value):
+        validate_milestones_lot(self, value)
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class TenderSubmissionMixin(Model):
-    submissionMethod = StringType(choices=["electronicAuction"])
-    submissionMethodDetails = StringType()  # Any detailed or further information on the submission method.
-    submissionMethodDetails_en = StringType()
-    submissionMethodDetails_ru = StringType()
+    submissionMethod: Literal["electronicAuction"] | None = None
+    submissionMethodDetails: str | None = None
+    submissionMethodDetails_en: str | None = None
+    submissionMethodDetails_ru: str | None = None
 
 
 class TenderGuaranteeMixin(Model):
-    guarantee = ModelType(BasicValue)
+    guarantee: BasicValue | None = None
 
 
 class PostTenderPeriodsMixin(Model):
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodEndRequired, required=True)
-    awardPeriod = ModelType(Period)
-    auctionPeriod = ModelType(Period)
+    enquiryPeriod: EnquiryPeriod | None = None
+    tenderPeriod: PeriodEndRequired
+    awardPeriod: Period | None = None
+    auctionPeriod: Period | None = None
 
-    def validate_awardPeriod(self, data, period):
-        validate_award_period(data, period)
+    @model_field_validator("awardPeriod")
+    def validate_award_period(self, period):
+        validate_award_period(self, period)
 
 
 class PatchTenderPeriodsMixin(Model):
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodEndRequired)
-    awardPeriod = ModelType(Period)
+    enquiryPeriod: EnquiryPeriod | None = None
+    tenderPeriod: PeriodEndRequired | None = None
+    awardPeriod: Period | None = None
 
 
 class TenderPeriodsMixin(Model):
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodEndRequired, required=True)
-    awardPeriod = ModelType(Period)
-    auctionPeriod = ModelType(TenderAuctionPeriod)
+    enquiryPeriod: EnquiryPeriod | None = None
+    tenderPeriod: PeriodEndRequired
+    awardPeriod: Period | None = None
+    auctionPeriod: TenderAuctionPeriod | None = None
 
-    def validate_awardPeriod(self, data, period):
-        validate_award_period(data, period)
+    @model_field_validator("awardPeriod")
+    def validate_award_period(self, period):
+        validate_award_period(self, period)
 
 
 class PostTenderItemsMixin(Model):
-    # a draft tender may be created without items, they are required to activate it (TenderItemsRulesMixin)
-    items = ListType(
-        ModelType(Item, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
+    items: list[Item] | None = Field(None, min_length=1)
 
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
+    @model_field_validator("items")
+    def validate_items(self, items):
+        validate_related_buyer_in_items(self, items)
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class PatchTenderItemsMixin(Model):
-    items = ListType(
-        ModelType(Item, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
+    items: list[Item] | None = Field(None, min_length=1)
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class TenderItemsMixin(Model):
-    # a draft tender may be created without items, they are required to activate it (TenderItemsRulesMixin)
-    items = ListType(
-        ModelType(Item, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
+    items: list[Item] | None = Field(None, min_length=1)
 
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
+    @model_field_validator("items")
+    def validate_items(self, items):
+        validate_related_buyer_in_items(self, items)
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class PatchTenderFeaturesMixin(Model):
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    features: list[Feature] | None = None
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class TenderFeaturesMixin(Model):
-    features = ListType(ModelType(Feature, required=True), validators=[validate_uniq_code])
+    features: list[Feature] | None = None
 
-    def validate_features(self, data, features):
-        validate_related_items(data, features)
+    @model_field_validator("features")
+    def validate_features(self, features):
+        validate_related_items(self, features)
+
+    @field_validator("features")
+    @classmethod
+    def validate_features_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class PostTender(
@@ -195,21 +225,33 @@ class PostTender(
     TenderMilestonesMixin,
     PostBaseTender,
 ):
-    procurementMethodType = StringType(choices=CORE_TENDER_PROCUREMENT_METHOD_TYPES, default=BELOW_THRESHOLD)
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
+    procurementMethodType: OpenProcurementMethodType = ProcurementMethodType.BELOW_THRESHOLD
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity
+    value: PostEstimatedValue
+    minimalStep: PostEstimatedValue | None = None
+    lots: list[PostTenderLot] | None = None
+    targets: list[PostMetric] | None = None
 
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    value = ModelType(PostEstimatedValue, required=True)
-    minimalStep = ModelType(PostEstimatedValue)
-    lots = ListType(ModelType(PostTenderLot, required=True), validators=[validate_uniq_id])
-    targets = ListType(
-        ModelType(PostMetric),
-        validators=[validate_uniq_id, validate_observation_ids_uniq],
-    )
-
-    def validate_lots(self, data, value):
+    @field_validator("lots")
+    @classmethod
+    def validate_lots(cls, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("targets")
+    @classmethod
+    def validate_targets_items(cls, value):
+        validate_uniq_id(value)
+        validate_observation_ids_uniq(value)
+        return value
 
 
 class PatchTender(
@@ -221,19 +263,32 @@ class PatchTender(
     PatchTenderMilestonesMixin,
     PatchBaseTender,
 ):
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procuringEntity = ModelType(ProcuringEntity)
-    value = ModelType(PostEstimatedValue)
-    minimalStep = ModelType(PostEstimatedValue)
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
-    targets = ListType(
-        ModelType(Metric),
-        validators=[validate_uniq_id, validate_observation_ids_uniq],
-    )
+    awardCriteria: AwardCriteria | None = None
+    procuringEntity: ProcuringEntity | None = None
+    value: PostEstimatedValue | None = None
+    minimalStep: PostEstimatedValue | None = None
+    lots: list[PatchTenderLot] | None = None
+    targets: list[Metric] | None = None
 
-    def validate_lots(self, data, value):
+    @field_validator("lots")
+    @classmethod
+    def validate_lots(cls, value):
         if value and len({lot.guarantee.currency for lot in value if lot.guarantee}) > 1:
             raise ValidationError("lot guarantee currency should be identical to tender guarantee currency")
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("targets")
+    @classmethod
+    def validate_targets_items(cls, value):
+        validate_uniq_id(value)
+        validate_observation_ids_uniq(value)
+        return value
 
 
 class Tender(
@@ -245,21 +300,30 @@ class Tender(
     TenderMilestonesMixin,
     BaseTender,
 ):
-    procurementMethodType = StringType(choices=CORE_TENDER_PROCUREMENT_METHOD_TYPES, required=True)
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES, required=True)
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    value = ModelType(PostEstimatedValue, required=True)
-    minimalStep = ModelType(PostEstimatedValue)
-    lots = ListType(ModelType(Lot, required=True), validators=[validate_uniq_id])
+    procurementMethodType: OpenProcurementMethodType
+    awardCriteria: AwardCriteria
+    procuringEntity: ProcuringEntity
+    value: PostEstimatedValue
+    minimalStep: PostEstimatedValue | None = None
+    lots: list[Lot] | None = None
+    targets: list[Metric] | None = None
 
-    targets = ListType(
-        ModelType(Metric),
-        validators=[validate_uniq_id, validate_observation_ids_uniq],
-    )
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("targets")
+    @classmethod
+    def validate_targets_items(cls, value):
+        validate_uniq_id(value)
+        validate_observation_ids_uniq(value)
+        return value
 
 
 class PatchDraftTender(PatchTender):
-    inspector = ModelType(Organization)
+    inspector: Organization | None = None
 
 
 class PatchActiveTender(Model):
@@ -267,63 +331,68 @@ class PatchActiveTender(Model):
     Fields allowed to be changed in active.tendering (belowThreshold, requestForProposal)
     """
 
-    tenderPeriod = ModelType(PeriodEndRequired)
-    guarantee = ModelType(BasicValue)
-    value = ModelType(EstimatedValue)
-    milestones = ListType(
-        ModelType(Milestone, required=True),
-        validators=[validate_uniq_id],
-    )
-    items = ListType(
-        ModelType(Item, required=True),
-        min_size=1,
-        validators=[validate_uniq_id],
-    )
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    documents = ListType(ModelType(PostDocument, required=True))
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
-    mainProcurementCategory = StringType()  # choices are validated in state
-    lots = ListType(ModelType(PatchTenderLot, required=True), validators=[validate_uniq_id])
-    contractTemplateName = StringType()
+    tenderPeriod: PeriodEndRequired | None = None
+    guarantee: BasicValue | None = None
+    value: EstimatedValue | None = None
+    milestones: list[Milestone] | None = None
+    items: list[Item] | None = Field(None, min_length=1)
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    documents: list[PostDocument] | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    mainProcurementCategory: str | None = None
+    lots: list[PatchTenderLot] | None = None
+    contractTemplateName: str | None = None
+
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("items")
+    @classmethod
+    def validate_items_items(cls, value):
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
-# --- ESCO ---
-
-
-def validate_esco_yearly_payments_percentage_range(data, value):
+def validate_esco_yearly_payments_percentage_range(tender, value):
     if not value:  # for tender with lots this field is rogue in tender and can be empty
         return
-    if data["fundingKind"] == "other" and value != Decimal("0.8"):
+    if tender.fundingKind == "other" and value != Decimal("0.8"):
         raise ValidationError("when fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8")
-    if data["fundingKind"] == "budget" and (value > Decimal("0.8") or value < Decimal("0")):
+    if tender.fundingKind == "budget" and (value > Decimal("0.8") or value < Decimal("0")):
         raise ValidationError(
             "when fundingKind is budget, yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
         )
 
 
-def validate_esco_lots_yearly_payments_percentage_range(data, lots):
+def validate_esco_lots_yearly_payments_percentage_range(tender, lots):
     if lots:
-        if data["fundingKind"] == "other":
+        if tender.fundingKind == "other":
             for lot in lots:
-                if lot["yearlyPaymentsPercentageRange"] != Decimal("0.8"):
+                if lot.yearlyPaymentsPercentageRange != Decimal("0.8"):
                     raise ValidationError(
                         "when tender fundingKind is other, yearlyPaymentsPercentageRange should be equal 0.8"
                     )
-        elif data["fundingKind"] == "budget":
+        elif tender.fundingKind == "budget":
             for lot in lots:
-                value = lot["yearlyPaymentsPercentageRange"]
+                value = lot.yearlyPaymentsPercentageRange
                 if value > Decimal("0.8") or value < Decimal("0"):
                     raise ValidationError(
                         "when tender fundingKind is budget, "
                         "yearlyPaymentsPercentageRange should be less or equal 0.8, and more or equal 0"
                     )
-
-
-# --- CFA (closeFrameworkAgreementUA) ---
 
 
 def validate_cfa_features(data, features):
@@ -346,19 +415,10 @@ def validate_cfa_max_agreement_duration_period(value):
             "Agreement duration period is greater than {}".format(duration_isoformat(CFA_UA_MAX_AGREEMENT_PERIOD))
         )
 
-    # Non-required mainProcurementCategory
-    # Not required milestones
-
-
-# --- limited: reporting ---
-
 
 def validate_reporting_cause(value):
     if value is not None and value not in TENDER_CAUSE:
         raise ValidationError(f"Value must be one of ['{TENDER_CAUSE}'].")
-
-
-# --- limited: negotiation / negotiation.quick ---
 
 
 def validate_negotiation_cause(value):
@@ -376,12 +436,10 @@ def validate_negotiation_quick_cause(value):
             raise ValidationError("Value must be one of ['{}'].".format("', '".join(choices)))
 
 
-def validate_cd_shortlisted_firm_ids(data, firms):
-    lot_ids = {e["id"] for e in data.get("lots") or ""}
+def validate_cd_shortlisted_firm_ids(tender, firms):
+    lot_ids = {lot.id for lot in tender.lots or []}
     for f in firms:
-        for lot in f.get("lots") or "":
-            lot_id = lot.get("id")
+        for lot in f.lots or []:
+            lot_id = lot.id
             if lot_id and lot_id not in lot_ids:
                 raise ValidationError("id should be one of lots")
-
-    # Non-required mainProcurementCategory

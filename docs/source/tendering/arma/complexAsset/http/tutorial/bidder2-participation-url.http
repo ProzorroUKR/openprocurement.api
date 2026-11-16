@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/ee8464b688974d51b379fe16104cce62/bids/fbaf0f36b97b4a6e9db555c5569a795e?acc_token=e6ff6b6b167b4577b4751f0632a1b178 HTTP/1.0
+GET /api/2.5/tenders/44189e39611e4a73ba710562f4c4e9d1/bids/b8270ccf492f4e1c8243a4d90eb57db4?acc_token=e6ff6b6b167b4577b4751f0632a1b178 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,7 +10,7 @@ Content-Type: application/json
   "data": {
     "items": [
       {
-        "id": "67dea3c4aabb41469f3f500178762300",
+        "id": "d3a0a937a9aa4a29890c61f0a66e64d8",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -21,7 +21,7 @@ Content-Type: application/json
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
       },
       {
-        "id": "6a3a4ffcd8e64c0aa0208973a7c704c5",
+        "id": "3fb10441035a453b9e6e37e42a339bc5",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -30,6 +30,20 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "relatedLot": "d9c1c86a51294d9f9e128b780416b344"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "active",
+        "value": {
+          "amountPercentage": 50.0
+        },
+        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
+        "date": "2027-01-01T00:03:00+02:00",
+        "initialValue": {
+          "amountPercentage": 50.0
+        },
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/44189e39611e4a73ba710562f4c4e9d1_d9c1c86a51294d9f9e128b780416b344?key_for_bid=b8270ccf492f4e1c8243a4d90eb57db4"
       }
     ],
     "tenderers": [
@@ -57,35 +71,21 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "fbaf0f36b97b4a6e9db555c5569a795e",
+    "id": "b8270ccf492f4e1c8243a4d90eb57db4",
     "date": "2027-01-01T00:03:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "0a0222155d2544c5a66a0d336b9fded5",
-        "datePublished": "2027-01-01T00:03:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "9b90650d1f7149578a58a0b38c8e0a1a",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/73669a2c620c45d9912b60e02682b356?Signature=G1IfJGmwE2PH7pvnTcgNxDWGXWwqTOwQ0Uk9JdR3CoiSC%2FKVQiwMpqzCaWnIHPY%2FIYIqUpslikqaGQx98KgwAA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:03:00+02:00",
-        "language": "uk"
-      }
-    ],
-    "lotValues": [
-      {
-        "value": {
-          "amountPercentage": 50.0
-        },
-        "relatedLot": "d9c1c86a51294d9f9e128b780416b344",
-        "status": "active",
-        "date": "2027-01-01T00:03:00+02:00",
-        "initialValue": {
-          "amountPercentage": 50.0
-        },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/ee8464b688974d51b379fe16104cce62_d9c1c86a51294d9f9e128b780416b344?key_for_bid=fbaf0f36b97b4a6e9db555c5569a795e"
+        "dateModified": "2027-01-01T00:03:00+02:00"
       }
     ],
     "submissionDate": "2027-01-01T00:03:00+02:00"

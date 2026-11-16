@@ -1,12 +1,10 @@
 from datetime import timedelta
+from typing import Literal
 
-COMPLEX_ASSET_ARMA: str = "complexAsset.arma"
-SIMPLE_ASSET_ARMA: str = "simpleAsset.arma"
+from openprocurement.api.constants import ProcurementMethodType
 
-ARMA_PROCUREMENT_METHOD_TYPES = [
-    COMPLEX_ASSET_ARMA,
-    SIMPLE_ASSET_ARMA,
-]
+ARMAProcurementMethodType = Literal[ProcurementMethodType.COMPLEX_ASSET_ARMA, ProcurementMethodType.SIMPLE_ASSET_ARMA]  # type: ignore[valid-type]
+
 
 ARMA_ROUTE_PREFIX = "arma"
 

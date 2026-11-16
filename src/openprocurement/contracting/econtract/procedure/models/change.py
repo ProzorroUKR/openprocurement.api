@@ -1,15 +1,16 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, field_validator
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, validate_uniq_id
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import ContractValue
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.api.utils import get_now
-from openprocurement.api.validation import validate_uniq_id
 from openprocurement.contracting.core.procedure.models.change import BaseChange
 from openprocurement.contracting.core.procedure.models.item import Item
 from openprocurement.contracting.core.procedure.models.milestone import (
@@ -29,45 +30,48 @@ from openprocurement.contracting.econtract.procedure.models.signatory import Sig
 
 
 class Modifications(Model):
-    title = StringType()
-    title_en = StringType()
-    description = StringType()
-    description_en = StringType()
+    title: str | None = None
+    title_en: str | None = None
+    description: str | None = None
+    description_en: str | None = None
+    period: Period | None = None
+    value: ContractValue | None = None
+    items: list[Item] | None = None
+    contractNumber: str | None = None
+    buyer: Buyer | None = None
+    suppliers: list[Supplier] | None = Field(None, min_length=1, max_length=1)
+    milestones: list[ContractMilestone] | None = None
 
-    period = ModelType(Period)
-    value = ModelType(ContractValue)
-
-    items = ListType(ModelType(Item, required=True))
-    contractNumber = StringType()
-    buyer = ModelType(Buyer)
-    suppliers = ListType(ModelType(Supplier), min_size=1, max_size=1)
-    # amountPaid ???
-    milestones = ListType(ModelType(ContractMilestone, required=True), validators=[validate_uniq_id])
+    @field_validator("milestones")
+    @classmethod
+    def validate_milestones_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class PostChange(BaseChange):
-    modifications = ModelType(Modifications, required=True)
+    modifications: Modifications
 
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def status(self):
+    @computed_field
+    def status(self) -> Any:
         return "pending"
 
-    @serializable
-    def date(self):
+    @computed_field
+    def date(self) -> Any:
         return get_now().isoformat()
 
 
 class Change(BaseChange):
-    id = MD5Type(required=True)
-    status = StringType(choices=["pending", "active", "cancelled"])
-    date = IsoDateTimeType()
-    dateSigned = IsoDateTimeType()
-    modifications = ModelType(Modifications, required=True)
-    documents = ListType(ModelType(ChangeDocument, required=True))
-    cancellations = ListType(ModelType(Cancellation, required=True))
-    author = StringType()
-    signatories = ListType(ModelType(Signatory, required=True))
+    id: MD5
+    status: Literal["pending", "active", "cancelled"] | None = None
+    date: IsoDateTime | None = None
+    dateSigned: IsoDateTime | None = None
+    modifications: Modifications
+    documents: list[ChangeDocument] | None = None
+    cancellations: list[Cancellation] | None = None
+    author: str | None = None
+    signatories: list[Signatory] | None = None

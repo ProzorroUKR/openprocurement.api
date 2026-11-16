@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/90c9e8f5a88448a3999266904a459e9e/qualifications?acc_token=d93528d296ca414c8c1ed91b57a0a414 HTTP/1.0
+GET /api/2.5/tenders/1a31e5e3e76f4e2ab282c4c799652a42/qualifications?acc_token=d93528d296ca414c8c1ed91b57a0a414 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,58 +9,58 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "c78f038b5a7c4dc29bf750f702884c3f",
-      "bidID": "08476930c6764570968c02f1e47a7a06",
-      "lotID": "ff4f4f0485884f85b5326a1d023bdc8a",
       "status": "pending",
-      "date": "2027-01-01T00:01:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "8aced0b8c7e64866b61bc5b198e5261d",
+      "bidID": "0bf3149792074107af6ca907ec5ad642",
+      "lotID": "35a540eab5bd43f3b377b3ab3a888f31",
+      "date": "2027-01-01T00:01:00+02:00"
     },
     {
-      "id": "7c53b3bb5af34776ad687e076aafebb4",
-      "bidID": "b8d1d4e2494a4a30a99742a946a48fbe",
-      "lotID": "ff4f4f0485884f85b5326a1d023bdc8a",
       "status": "pending",
-      "date": "2027-01-01T00:01:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "70299f7c957f40c59dc805bf47512eef",
+      "bidID": "576f3a198afe4c60a9cf7d6d97a68c4f",
+      "lotID": "35a540eab5bd43f3b377b3ab3a888f31",
+      "date": "2027-01-01T00:01:00+02:00"
     },
     {
-      "id": "6ecdff1511a54a4182cb0edb47026f1f",
-      "bidID": "b8d1d4e2494a4a30a99742a946a48fbe",
-      "lotID": "2fc24d8e18f640418b99fa2501e5263d",
       "status": "pending",
-      "date": "2027-01-01T00:01:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "1c18ee407e334227a58198b883b8964f",
+      "bidID": "576f3a198afe4c60a9cf7d6d97a68c4f",
+      "lotID": "84af06be16424029858664919608ee69",
+      "date": "2027-01-01T00:01:00+02:00"
     },
     {
-      "id": "455696660eab4eb8ae27233295975477",
-      "bidID": "bc9b3b9e07184302ba4ad5372cfedfc0",
-      "lotID": "2fc24d8e18f640418b99fa2501e5263d",
       "status": "pending",
-      "date": "2027-01-01T00:01:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "5163a53aaf024764b182bfeb79e7c1ff",
+      "bidID": "f4142d256fca4057b43b55ac74494743",
+      "lotID": "84af06be16424029858664919608ee69",
+      "date": "2027-01-01T00:01:00+02:00"
     },
     {
-      "id": "b407d317f8d649eb8048697239f81486",
-      "bidID": "bc9b3b9e07184302ba4ad5372cfedfc0",
-      "lotID": "ff4f4f0485884f85b5326a1d023bdc8a",
       "status": "pending",
-      "date": "2027-01-01T00:01:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "dad1a8207cf64ff595682289b4462cc1",
+      "bidID": "f4142d256fca4057b43b55ac74494743",
+      "lotID": "35a540eab5bd43f3b377b3ab3a888f31",
+      "date": "2027-01-01T00:01:00+02:00"
     },
     {
-      "id": "aa5974d7117a420e8997eca59822f426",
-      "bidID": "379c442e895044688849d7e56427fcf9",
-      "lotID": "2fc24d8e18f640418b99fa2501e5263d",
       "status": "pending",
-      "date": "2027-01-01T00:01:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "1cafcd8cda67466d879fa6ca774b4104",
+      "bidID": "5c004caf6443496595fee0c1bd8e5b9a",
+      "lotID": "84af06be16424029858664919608ee69",
+      "date": "2027-01-01T00:01:00+02:00"
     }
   ]
 }

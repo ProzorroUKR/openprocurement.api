@@ -1,12 +1,14 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import BaseType, StringType
-from schematics.types.compound import DictType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field
 
-from openprocurement.api.procedure.models.base import Model, RootModel
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.types import (
+    IsoDateTime,
+)
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.procedure.models.base import FrameworkRootModel
 from openprocurement.framework.core.procedure.models.organization import (
     SubmissionBusinessOrganization,
 )
@@ -17,28 +19,24 @@ from openprocurement.framework.core.procedure.models.submission_document import 
 
 
 class PostSubmission(Model):
-    @serializable(serialized_name="_id")
-    def id(self):
+    @computed_field(alias="_id")
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def doc_type(self):
+    @computed_field
+    def doc_type(self) -> Any:
         return "Submission"
 
-    tenderers = ListType(
-        ModelType(SubmissionBusinessOrganization, required=True),
-        required=True,
-        min_size=1,
-    )
-    documents = ListType(ModelType(PostSubmissionDocument, required=True), default=[])
-    frameworkID = StringType(required=True)
-    status = StringType(choices=["draft"], default="draft")
+    tenderers: list[SubmissionBusinessOrganization] = Field(min_length=1)
+    documents: list[PostSubmissionDocument] = []
+    frameworkID: str
+    status: Literal["draft"] = "draft"
 
 
 class PatchSubmission(Model):
-    tenderers = ListType(ModelType(SubmissionBusinessOrganization, required=True), min_size=1)
-    frameworkID = StringType()
-    status = StringType(choices=["draft", "active", "deleted", "complete"])
+    tenderers: list[SubmissionBusinessOrganization] | None = Field(None, min_length=1)
+    frameworkID: str | None = None
+    status: Literal["draft", "active", "deleted", "complete"] | None = None
 
 
 class PatchActiveSubmission(Model):
@@ -46,39 +44,25 @@ class PatchActiveSubmission(Model):
 
 
 class BotPatchSubmission(Model):
-    qualificationID = StringType()
-    status = StringType(choices=["draft", "active", "deleted", "complete"])
+    qualificationID: str | None = None
+    status: Literal["draft", "active", "deleted", "complete"] | None = None
 
 
-class Submission(RootModel):
-    tenderers = ListType(
-        ModelType(SubmissionBusinessOrganization, required=True),
-        required=True,
-        min_size=1,
-    )
-    documents = ListType(ModelType(SubmissionDocument, required=True), default=[])
-    qualificationID = StringType()
-    frameworkID = StringType(required=True)
-    status = StringType(
-        choices=["draft", "active", "deleted", "complete"],
-        default="draft",
-    )
-
-    dateCreated = IsoDateTimeType()
-    dateModified = IsoDateTimeType()
-    date = IsoDateTimeType(default=get_now)
-    datePublished = IsoDateTimeType()
-
-    owner = StringType()
-    owner_token = StringType()
-
-    framework_owner = StringType()
-    framework_token = StringType()
-
-    transfer_token = StringType()
-
-    _attachments = DictType(DictType(BaseType), default=[])
-    revisions = BaseType(default=list)
-    config = BaseType()
-
-    mode = StringType(choices=["test"])
+class Submission(FrameworkRootModel):
+    tenderers: list[SubmissionBusinessOrganization] = Field(min_length=1)
+    documents: list[SubmissionDocument] = []
+    qualificationID: str | None = None
+    frameworkID: str
+    status: Literal["draft", "active", "deleted", "complete"] = "draft"
+    dateCreated: IsoDateTime | None = None
+    dateModified: IsoDateTime | None = None
+    date: IsoDateTime = Field(default_factory=get_now)
+    datePublished: IsoDateTime | None = None
+    owner: str | None = None
+    owner_token: str | None = None
+    framework_owner: str | None = None
+    framework_token: str | None = None
+    transfer_token: str | None = None
+    attachments_: dict[str, Any] = Field(default_factory=dict, alias="_attachments")
+    config: Any = None
+    mode: Literal["test"] | None = None

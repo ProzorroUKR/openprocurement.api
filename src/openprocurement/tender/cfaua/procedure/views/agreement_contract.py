@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.procedure.serializers.base import BaseSerializer
 from openprocurement.api.procedure.utils import get_items, set_item
 from openprocurement.api.utils import context_unpack, json_view
@@ -23,7 +24,7 @@ def resolve_agreement_contract(request):
     name="closeFrameworkAgreementUA:Tender Agreements Contract",
     collection_path="/tenders/{tender_id}/agreements/{agreement_id}/contracts",
     path="/tenders/{tender_id}/agreements/{agreement_id}/contracts/{contract_id}",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Tender CFAUA agreement contracts",
 )
 class CFAUAAgreementContractResource(TenderBaseResource):

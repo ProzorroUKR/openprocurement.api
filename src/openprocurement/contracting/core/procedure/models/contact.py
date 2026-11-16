@@ -1,5 +1,4 @@
-from schematics.types import StringType
-
+from openprocurement.api.procedure.models.base import model_field_validator
 from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
@@ -7,7 +6,8 @@ from openprocurement.api.procedure.models.contact import validate_email
 
 
 class ContactPoint(BaseContactPoint):
-    availableLanguage = StringType()
+    availableLanguage: str | None = None
 
-    def validate_email(self, contact_point, email):
-        validate_email(contact_point, email)
+    @model_field_validator("email")
+    def validate_email(self, email):
+        validate_email(email, self.telephone)

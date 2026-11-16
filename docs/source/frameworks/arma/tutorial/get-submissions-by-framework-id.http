@@ -1,4 +1,4 @@
-GET /api/2.5/frameworks/694d326a48af44acb0a8c77f9663fe35/submissions HTTP/1.0
+GET /api/2.5/frameworks/bc82b4008b7341fd87440bf1008f26b8/submissions HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -12,75 +12,75 @@ Content-Type: application/json
       "tenderers": [
         {
           "name": "ДКП «Школяр»",
-          "scale": "micro",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",
-            "uri": "http://www.sc.gov.ua/",
-            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
           },
           "address": {
-            "countryName": "Україна",
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
             "region": "Вінницька область",
-            "postalCode": "21100"
+            "postalCode": "21100",
+            "countryName": "Україна"
           },
           "contactPoint": {
             "name": "Сергій Олексюк",
-            "telephone": "+380432216930",
-            "email": "soleksuk@gmail.com"
-          }
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          },
+          "scale": "micro"
         }
       ],
-      "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
+      "frameworkID": "bc82b4008b7341fd87440bf1008f26b8",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "c2579ad5c86d4c5a8f56b1376c8bd1ae",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "9b5222e8bc6448cdb6d020a4cc87adee"
+      "id": "97d73136658f4755b2bddbea86cc0c29"
     },
     {
       "tenderers": [
         {
           "name": "ДКП «Школяр»",
-          "scale": "micro",
           "identifier": {
             "scheme": "UA-EDR",
             "id": "00137256",
-            "uri": "http://www.sc.gov.ua/",
-            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+            "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+            "uri": "http://www.sc.gov.ua/"
           },
           "address": {
-            "countryName": "Україна",
             "streetAddress": "вул. Островського, 33",
             "locality": "м. Вінниця",
             "region": "Вінницька область",
-            "postalCode": "21100"
+            "postalCode": "21100",
+            "countryName": "Україна"
           },
           "contactPoint": {
             "name": "Сергій Олексюк",
-            "telephone": "+380432216930",
-            "email": "soleksuk@gmail.com"
-          }
+            "email": "soleksuk@gmail.com",
+            "telephone": "+380432216930"
+          },
+          "scale": "micro"
         }
       ],
-      "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
+      "frameworkID": "bc82b4008b7341fd87440bf1008f26b8",
       "status": "complete",
       "dateCreated": "2027-01-17T00:00:00+02:00",
       "dateModified": "2027-01-17T00:00:00+02:00",
       "date": "2027-01-17T00:00:00+02:00",
       "qualificationID": "9c914725c97747e985a307738c228ced",
       "datePublished": "2027-01-17T00:00:00+02:00",
-      "id": "b545af91a7834ebf81901eecf74c9d07"
+      "id": "4f20e3ce814e4479a9fcc9170be8fb63"
     }
   ],
   "next_page": {
-    "offset": "1800136800.0.2.8b30f158fbb4c0387db93cfc8571946a",
-    "path": "/api/2.5/submissions?offset=1800136800.0.2.8b30f158fbb4c0387db93cfc8571946a",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.8b30f158fbb4c0387db93cfc8571946a"
+    "offset": "1800136800.0.2.55f4231d55deeef49de3e68bd5bad6bf",
+    "path": "/api/2.5/submissions?offset=1800136800.0.2.55f4231d55deeef49de3e68bd5bad6bf",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/submissions?offset=1800136800.0.2.55f4231d55deeef49de3e68bd5bad6bf"
   }
 }
 

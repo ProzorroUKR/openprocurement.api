@@ -5,7 +5,7 @@ from typing import Optional
 
 from barbecue import calculate_coeficient
 
-from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS
+from openprocurement.api.constants import CRITERION_LIFE_CYCLE_COST_IDS, ProcurementMethodType
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import context_unpack
@@ -25,7 +25,6 @@ from openprocurement.tender.core.utils import (
     ProcurementMethodTypePredicate,
     calculate_tender_full_date,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 
 LOGGER = getLogger(__name__)
 
@@ -210,7 +209,7 @@ class TenderStateAwardingMixin:
                         tender_id=tender["_id"],
                         award_id=tender["awards"][-1]["id"],
                     )
-                elif tender.get("procurementMethodType") == PQ:
+                elif tender.get("procurementMethodType") == ProcurementMethodType.PRICE_QUOTATION:
                     self.get_change_tender_status_handler("unsuccessful")(tender)
                     return
             self.recalculate_period_and_change_tender_status(
@@ -496,7 +495,9 @@ class TenderStateAwardingMixin:
 
         # append an "alp" milestone if it's the case, unless this bid/lot pair already went
         # through the ALP check on a previous (e.g. cancelled) award
-        if hasattr(self.award_class, "milestones") and not self.bid_already_passed_alp_check(tender, bid["id"], lot_id):
+        if "milestones" in self.award_class.model_fields and not self.bid_already_passed_alp_check(
+            tender, bid["id"], lot_id
+        ):
             milestones = self.prepare_award_milestones(tender, bid, all_bids, lot_id)
             if milestones:
                 award_data["milestones"] = milestones
@@ -504,8 +505,7 @@ class TenderStateAwardingMixin:
         if "awards" not in tender:
             tender["awards"] = []
 
-        award = self.award_class(award_data)
-        tender["awards"].append(award.serialize())
+        tender["awards"].append(self.award_class.validate_data(award_data))
 
     @classmethod
     def set_weighted_value(cls, weighted_value, value_container, value_amount):

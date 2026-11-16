@@ -1,5 +1,6 @@
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.utils import error_handler, raise_operation_error
+from openprocurement.planning.api.constants import MILESTONE_ACTIVE_STATUSES, MilestoneStatus
 from openprocurement.planning.api.procedure.context import get_plan
 from openprocurement.planning.api.procedure.models.milestone import (
     Milestone,
@@ -44,11 +45,11 @@ class MilestoneState(PlanState):
         assert before != after, "Statuses must be different"
 
         # Allowed status changes: scheduled -> met/notMet
-        if before == Milestone.STATUS_SCHEDULED and after in (
-            Milestone.STATUS_MET,
-            Milestone.STATUS_NOT_MET,
+        if before == MilestoneStatus.SCHEDULED and after in (
+            MilestoneStatus.MET,
+            MilestoneStatus.NOT_MET,
         ):
-            if after == Milestone.STATUS_MET:
+            if after == MilestoneStatus.MET:
                 data["dateMet"] = get_request_now().isoformat()
         else:
             raise_operation_error(
@@ -82,14 +83,14 @@ class MilestoneState(PlanState):
         if any(
             identifier(m["author"]) == identifier(data["author"])
             for m in plan.get("milestones") or []
-            if m["status"] in Milestone.ACTIVE_STATUSES
+            if m["status"] in MILESTONE_ACTIVE_STATUSES
         ):
             request.errors.add("body", "author", "An active milestone already exists for this author")
             request.errors.status = 422
             raise error_handler(request)
 
     def _validate_milestone_status_scheduled(self, data):
-        if data["status"] != Milestone.STATUS_SCHEDULED:
+        if data["status"] != MilestoneStatus.SCHEDULED:
             request = get_request()
             request.errors.add(
                 "body",
@@ -100,7 +101,7 @@ class MilestoneState(PlanState):
             raise error_handler(request)
 
     def _milestone_validate_due_date_change(self, before, after):
-        if before["dueDate"] != after["dueDate"] and before["status"] != Milestone.STATUS_SCHEDULED:
+        if before["dueDate"] != after["dueDate"] and before["status"] != MilestoneStatus.SCHEDULED:
             raise_operation_error(
                 self.request,
                 "Can't update dueDate at '{}' milestone status".format(before["status"]),
@@ -108,8 +109,8 @@ class MilestoneState(PlanState):
 
     def _milestone_validate_description_change(self, before, after):
         if before["description"] != after["description"] and before["status"] not in (
-            Milestone.STATUS_SCHEDULED,
-            Milestone.STATUS_MET,
+            MilestoneStatus.SCHEDULED,
+            MilestoneStatus.MET,
         ):
             raise_operation_error(
                 self.request,

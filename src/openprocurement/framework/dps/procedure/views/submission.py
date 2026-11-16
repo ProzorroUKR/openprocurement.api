@@ -1,19 +1,19 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.submission import (
     SubmissionsResource,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.procedure.state.framework import DPSFrameworkState
 
 
 @resource(
-    name=f"{DPS_TYPE}:Submissions",
+    name=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM}:Submissions",
     collection_path="/submissions",
     path="/submissions/{submission_id}",
-    description=f"{DPS_TYPE} submissions",
-    submissionType=DPS_TYPE,
+    description=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM} submissions",
+    submissionType=FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
     accept="application/json",
 )
 class DPSSubmissionResource(SubmissionsResource):

@@ -1,8 +1,9 @@
 from datetime import datetime, timedelta
+from typing import Literal
 
 from isodate import parse_duration
 
-from openprocurement.api.constants import TZ
+from openprocurement.api.constants import TZ, ProcurementMethodType
 
 CFA_UA_TENDERING_AUCTION = timedelta(days=35)
 
@@ -11,7 +12,10 @@ CFA_UA_MIN_BIDS_NUMBER = 3
 CFA_UA_TENDERING_EXTRA_PERIOD = timedelta(days=7)
 CFA_UA_CLARIFICATIONS_UNTIL_PERIOD = timedelta(days=5)
 CFA_UA_MAX_AGREEMENT_PERIOD = parse_duration("P4Y")
-CFA_UA = "closeFrameworkAgreementUA"
+
+
+CFAUAProcurementMethodType = Literal[ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA]  # type: ignore[valid-type]
+
 
 CFA_UA_WORKING_DAYS_CONFIG = {
     "minTenderingDuration": False,

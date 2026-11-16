@@ -1,31 +1,31 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import StringType
-from schematics.types.serializable import serializable
+from pydantic import computed_field
 
 from openprocurement.api.context import get_request, get_request_now
 from openprocurement.api.procedure.models.base import Model
 
 
 class CreateComplaintPost(Model):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def datePublished(self):
+    @computed_field
+    def datePublished(self) -> Any:
         return get_request_now().isoformat()
 
-    @serializable
-    def author(self):
+    @computed_field
+    def author(self) -> Any:
         return self.get_author()
 
     @staticmethod
     def get_author():
         return get_request().authenticated_role
 
-    title = StringType(required=True)
-    description = StringType(required=True)
-    recipient = StringType(choices=["complaint_owner", "tender_owner", "aboveThresholdReviewers"])
-    relatedPost = StringType()
-    relatedObjection = StringType(required=True)
+    title: str
+    description: str
+    recipient: Literal["complaint_owner", "tender_owner", "aboveThresholdReviewers"] | None = None
+    relatedPost: str | None = None
+    relatedObjection: str

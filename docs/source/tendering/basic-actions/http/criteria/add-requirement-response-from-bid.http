@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/c288dd2deb2a47c299b88973a7fcb839/bids/6bc5faf11d8247659cdc6e1802e29d00?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
+PATCH /api/2.5/tenders/f80731f27e254505bab424edce453068/bids/75c115e8e6ce4ee4bc327795ea1ea82c?acc_token=ab89da5ceb3844178725d4f35e3853a4 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,13 +8,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "9eb1d6a481d548db9bf82eb78193c734"
+          "id": "6524b59845de4ef79932f96d21883805"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
+              "id": "3a25dd58efd34e4eb4a704c0f9008c6e",
               "title": "name.doc"
             },
             "type": "document"
@@ -24,13 +24,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "81c451a1d7f94238970802a12e131525"
+          "id": "a9b3815744fd4cc79f75e024d77fb949"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
+              "id": "3a25dd58efd34e4eb4a704c0f9008c6e",
               "title": "name.doc"
             },
             "type": "document"
@@ -48,57 +48,9 @@ Content-Type: application/json
 
 {
   "data": {
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "9eb1d6a481d548db9bf82eb78193c734",
-          "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
-        },
-        "evidences": [
-          {
-            "title": "Requirement response",
-            "type": "document",
-            "relatedDocument": {
-              "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
-              "title": "name.doc"
-            },
-            "id": "f8b84e430da444e9ab2e4cd39c92700f"
-          }
-        ],
-        "value": true,
-        "id": "b6e9dd7d774b436fa018986457b54dd0",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
-        }
-      },
-      {
-        "requirement": {
-          "id": "81c451a1d7f94238970802a12e131525",
-          "title": "Учасник процедури закупівлі має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
-        },
-        "evidences": [
-          {
-            "title": "Requirement response",
-            "type": "document",
-            "relatedDocument": {
-              "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
-              "title": "name.doc"
-            },
-            "id": "527ced78e8374b2db45a845a8c1e06a7"
-          }
-        ],
-        "value": true,
-        "id": "9b1a191df04f4fdf8cae4943469ee47f",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
-        }
-      }
-    ],
     "items": [
       {
-        "id": "a3c4c2e580c244b6a95a1e561014cf80",
+        "id": "fe22acbfb4e7453fb231e51b75b0076c",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -111,10 +63,10 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "201f008a454b44a8a6079e1d437202c1"
+        "relatedLot": "402b680adfe84379b98c403379e227b5"
       },
       {
-        "id": "e7eabb702cfd4a01b1b4d363a94f26ad",
+        "id": "53cf52e65c9f4451a587ed5f7e061978",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -127,18 +79,18 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "201f008a454b44a8a6079e1d437202c1"
+        "relatedLot": "402b680adfe84379b98c403379e227b5"
       }
     ],
     "lotValues": [
       {
+        "status": "pending",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "201f008a454b44a8a6079e1d437202c1",
-        "status": "pending",
+        "relatedLot": "402b680adfe84379b98c403379e227b5",
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
@@ -176,20 +128,68 @@ Content-Type: application/json
     ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
-    "id": "6bc5faf11d8247659cdc6e1802e29d00",
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "6524b59845de4ef79932f96d21883805",
+          "title": "Учасник процедури закупівлі протягом останніх трьох років не притягувався до відповідальності за порушення у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів торгів, аукціонів, конкурсів, тендерів"
+        },
+        "evidences": [
+          {
+            "title": "Requirement response",
+            "type": "document",
+            "relatedDocument": {
+              "id": "3a25dd58efd34e4eb4a704c0f9008c6e",
+              "title": "name.doc"
+            },
+            "id": "03e11b14f2ee44a29896ace61b7568c4"
+          }
+        ],
+        "value": true,
+        "id": "b99d8abd23a04a7580a13f682d9cb5b1",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.FRAUD"
+        }
+      },
+      {
+        "requirement": {
+          "id": "a9b3815744fd4cc79f75e024d77fb949",
+          "title": "Учасник процедури закупівлі має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми"
+        },
+        "evidences": [
+          {
+            "title": "Requirement response",
+            "type": "document",
+            "relatedDocument": {
+              "id": "3a25dd58efd34e4eb4a704c0f9008c6e",
+              "title": "name.doc"
+            },
+            "id": "87ec21dc80b84283b1f41b1995ad5aae"
+          }
+        ],
+        "value": true,
+        "id": "301e507ce8f44866acd974037ed2ec69",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.EXCLUSION.NATIONAL.ANTI-CORRUPTION"
+        }
+      }
+    ],
+    "id": "75c115e8e6ce4ee4bc327795ea1ea82c",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "d32de3c0c99e45fcb71ec2cb2476a5b6",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "3a25dd58efd34e4eb4a704c0f9008c6e",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/eca1451a57d142f394808a9f0953822a?Signature=A5icXgC%2BjDHMUEXaX29uygDBZX9J6M9cqFFJ2zo16OfslBgPmX65qOyR9HdbASPCIYc%2Fgu5Rv6JBLxngz5v1Aw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-01T00:00:00+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-01T00:00:00+02:00"
       }
     ]
   }

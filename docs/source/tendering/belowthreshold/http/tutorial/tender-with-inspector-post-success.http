@@ -188,11 +188,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d45088661b24539750092
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/321cfb028d8b4877b1d445ccc567977b
 
 {
   "data": {
     "mainProcurementCategory": "goods",
+    "status": "draft",
+    "title": "футляри до державних нагород",
     "funders": [
       {
         "name": "Глобальний фонд",
@@ -217,8 +219,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d4508
         }
       }
     ],
-    "title": "футляри до державних нагород",
-    "status": "draft",
     "inspector": {
       "name": "Глобальний фонд",
       "identifier": {
@@ -279,15 +279,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d4508
         "sequenceNumber": 3
       }
     ],
-    "enquiryPeriod": {
-      "endDate": "2027-01-08T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -300,9 +291,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d4508
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -313,6 +304,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d4508
         ]
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
     "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -343,8 +343,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d4508
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -433,7 +433,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/65a98054143d4508
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "65a98054143d45088661b24539750092"
+    "id": "321cfb028d8b4877b1d445ccc567977b"
   },
   "config": {
     "hasAuction": true,

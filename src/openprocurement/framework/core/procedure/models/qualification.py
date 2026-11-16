@@ -1,10 +1,14 @@
-from schematics.types import BaseType, BooleanType, IntType, StringType
-from schematics.types.compound import DictType
+from typing import Any, Literal
 
-from openprocurement.api.procedure.models.base import Model, RootModel
+from pydantic import Field
+
+from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
+from openprocurement.api.procedure.types import (
+    IsoDateTime,
+)
 from openprocurement.api.utils import get_now
+from openprocurement.framework.core.procedure.models.base import FrameworkRootModel
 from openprocurement.framework.core.procedure.models.document import (
     Document,
     PostDocument,
@@ -12,38 +16,29 @@ from openprocurement.framework.core.procedure.models.document import (
 
 
 class PatchQualification(Model):
-    documents = ListType(ModelType(PostDocument, required=True))
-    status = StringType(choices=["pending", "active", "unsuccessful"])
+    documents: list[PostDocument] | None = None
+    status: Literal["pending", "active", "unsuccessful"] | None = None
 
 
-class Qualification(RootModel):
-    documents = ListType(ModelType(Document, required=True), default=[])
-    submissionID = StringType(required=True)
-    frameworkID = StringType(required=True)
-    status = StringType(
-        choices=["pending", "active", "unsuccessful"],
-        default="pending",
-    )
-
-    date = IsoDateTimeType(default=get_now)
-    dateCreated = IsoDateTimeType()
-    dateModified = IsoDateTimeType()
-
-    framework_owner = StringType()
-    framework_token = StringType()
-
-    submission_owner = StringType()
-    submission_token = StringType()
-
-    _attachments = DictType(DictType(BaseType), default={})
-    revisions = BaseType(default=list)
-    config = BaseType()
-    complaintPeriod = ModelType(Period)
-
-    mode = StringType(choices=["test"])
+class Qualification(FrameworkRootModel):
+    documents: list[Document] = []
+    submissionID: str
+    frameworkID: str
+    status: Literal["pending", "active", "unsuccessful"] = "pending"
+    date: IsoDateTime = Field(default_factory=get_now)
+    dateCreated: IsoDateTime | None = None
+    dateModified: IsoDateTime | None = None
+    framework_owner: str | None = None
+    framework_token: str | None = None
+    submission_owner: str | None = None
+    submission_token: str | None = None
+    attachments_: dict[str, Any] = Field(default_factory=dict, alias="_attachments")
+    config: Any = None
+    complaintPeriod: Period | None = None
+    mode: Literal["test"] | None = None
 
 
 class QualificationConfig(Model):
-    test = BooleanType()
-    restricted = BooleanType()
-    qualificationComplainDuration = IntType(min_value=0)
+    test: bool | None = None
+    restricted: bool | None = None
+    qualificationComplainDuration: int | None = Field(None, ge=0)

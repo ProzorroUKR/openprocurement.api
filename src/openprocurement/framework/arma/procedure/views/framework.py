@@ -1,17 +1,17 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.procedure.state.framework import ARMAFrameworkState
 from openprocurement.framework.core.procedure.views.framework import FrameworksResource
 
 
 @resource(
-    name=f"{ARMA_TYPE}:Frameworks",
+    name=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY}:Frameworks",
     collection_path="/frameworks",
     path="/frameworks/{framework_id}",
-    description=f"{ARMA_TYPE} frameworks",
-    frameworkType=ARMA_TYPE,
+    description=f"{FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY} frameworks",
+    frameworkType=FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     accept="application/json",
 )
 class ARMAFrameworkResource(FrameworksResource):

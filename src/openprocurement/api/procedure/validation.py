@@ -27,25 +27,32 @@ from openprocurement.tender.core.procedure.documents import (
 )
 
 
-def get_removed_fields(input_data):
+def restore_none_fields(input_data, valid_data) -> None:
     """
-    None passed on update (PATCH/PUT) means that the field value is deleted,
-    so it should be added to the result (validate_data drops None values)
-    IMPORTANT: input_data can contain more fields than are allowed to update
-    validate_data will raise Rogue field error then
-    NOTE: empty list does the same for list fields
-    On POST there is nothing to delete, so None values are just dropped
+    None (or an empty list) passed on update (PATCH/PUT) means that the field value is deleted,
+    but validate_data drops them: they are put back to the valid data, at any depth, so the patch applied
+    to the saved object deletes the field values. Whether a field can be deleted is checked by the validation
+    of the patched object against the full model.
+    The objects of a list go item by item (the valid list keeps the order of the input one).
+    On POST there is nothing to delete, so None values are just dropped.
     """
-    return {k: v for k, v in input_data.items() if v is None or isinstance(v, list) and len(v) == 0}
+    if isinstance(input_data, list) and isinstance(valid_data, list):
+        for input_item, valid_item in zip(input_data, valid_data):
+            restore_none_fields(input_item, valid_item)
+    elif isinstance(input_data, dict) and isinstance(valid_data, dict):
+        for key, value in input_data.items():
+            if value is None or isinstance(value, list) and not value:
+                valid_data[key] = value
+            elif key in valid_data:
+                restore_none_fields(value, valid_data[key])
 
 
-def validate_input_data(input_model, allow_bulk=False, strict=True, none_means_remove=False):
+def validate_input_data(input_model, allow_bulk=False, none_means_remove=False):
     """
     :param input_model: a model to validate data against
     :param allow_bulk: if True, request.validated["data"] will be a list of valid inputs
-    :param strict: if True, unknown fields will raise an error
     :param none_means_remove: if True, fields passed as None or empty list are kept in the result
-        (they mean the field value is deleted), otherwise they are dropped
+        (they mean the field value is deleted, at any depth: see restore_none_fields), otherwise they are dropped
     :return:
     """
 
@@ -58,12 +65,10 @@ def validate_input_data(input_model, allow_bulk=False, strict=True, none_means_r
 
         data = []
         for input_data in json_data:
-            result = {}
+            valid_data = validate_data(request, input_model, input_data) or {}
             if none_means_remove:
-                result.update(get_removed_fields(input_data))
-            valid_data = validate_data(request, input_model, input_data, strict=strict)
-            result.update(valid_data or {})
-            data.append(result)
+                restore_none_fields(input_data, valid_data)
+            data.append(valid_data)
 
         request.validated["data"] = data if allow_bulk else data[0]
         return request.validated["data"]
@@ -71,19 +76,16 @@ def validate_input_data(input_model, allow_bulk=False, strict=True, none_means_r
     return validate
 
 
-def validate_patch_input_data(input_model, allow_bulk=False, strict=True):
-    return validate_input_data(input_model, allow_bulk=allow_bulk, strict=strict, none_means_remove=True)
+def validate_patch_input_data(input_model, allow_bulk=False):
+    return validate_input_data(input_model, allow_bulk=allow_bulk, none_means_remove=True)
 
 
-def validate_data(request, model, data, strict=True):
+def validate_data(request, model, data):
     with handle_data_exceptions(request):
-        instance = model(data, strict=strict)
-        instance.validate()
-        data = instance.serialize()
-    return data
+        return model.validate_data(data)
 
 
-def validate_data_model(input_model, strict=True):
+def validate_data_model(input_model):
     """
     Simple way to validate data in request.validated["data"] against a provided model
     the result is put back in request.validated["data"]
@@ -93,7 +95,7 @@ def validate_data_model(input_model, strict=True):
 
     def validate(request, **_):
         data = request.validated["data"]
-        data = validate_data(request, input_model, data, strict=strict)
+        data = validate_data(request, input_model, data)
         request.validated["data"] = data
         return data
 

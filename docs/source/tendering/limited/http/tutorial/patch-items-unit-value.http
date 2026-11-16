@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/db1b04eb8ce84e7cac926d276cb1acb7?acc_token=0dbb85b39f3042b2994a32b25ee60c71 HTTP/1.0
+PATCH /api/2.5/tenders/59a4275771034adc96aecf54bbf5f67c?acc_token=0dbb85b39f3042b2994a32b25ee60c71 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "6648baee9a954c998e50d914596e7a1f",
+        "id": "a9da8ab5e7784683a43c8ffae6a59229",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -20,9 +20,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -53,18 +53,18 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
+    "procurementMethod": "limited",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000002-a",
-    "status": "draft",
     "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "limited",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Еxtension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -227,7 +227,7 @@ Content-Type: application/json
     ],
     "items": [
       {
-        "id": "6648baee9a954c998e50d914596e7a1f",
+        "id": "a9da8ab5e7784683a43c8ffae6a59229",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -240,9 +240,9 @@ Content-Type: application/json
         },
         "quantity": 5.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -307,7 +307,7 @@ Content-Type: application/json
       "description": "Здійснюється закупівля парових турбін, газопоршневих установок",
       "uri": "https://zakon.rada.gov.ua/laws/show/1178-2022-%D0%BF/ed20260901#n426"
     },
-    "id": "db1b04eb8ce84e7cac926d276cb1acb7"
+    "id": "59a4275771034adc96aecf54bbf5f67c"
   },
   "config": {
     "hasAuction": false,

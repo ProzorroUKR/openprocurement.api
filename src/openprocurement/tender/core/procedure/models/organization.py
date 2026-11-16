@@ -1,21 +1,23 @@
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
+from pydantic import Field
 
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.organization import (
-    ORGANIZATION_SCALE_CHOICES,
-    PROCURING_ENTITY_KIND_CHOICES,
-    CommonOrganization,
+    BusinessOrganization as BaseBusinessOrganization,
 )
 from openprocurement.api.procedure.models.organization import (
-    BusinessOrganization as BaseBusinessOrganization,
+    CommonOrganization,
+    OrganizationScale,
+    ProcuringEntityKind,
 )
 from openprocurement.api.procedure.models.organization import (
     Organization as BaseOrganization,
 )
 from openprocurement.api.procedure.models.signer_info import SignerInfo
-from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 from openprocurement.tender.core.procedure.models.contact import (
     ContactPoint,
     ProcuringEntityContactPoint,
@@ -23,39 +25,39 @@ from openprocurement.tender.core.procedure.models.contact import (
 
 
 class Organization(BaseOrganization):
-    address = ModelType(Address, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
+    address: Address
+    contactPoint: ContactPoint
+    additionalContactPoints: list[ContactPoint] | None = None
 
 
 class BusinessOrganization(BaseBusinessOrganization):
-    address = ModelType(Address, required=True)
-    contactPoint = ModelType(ContactPoint, required=True)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True))
-    scale = StringType(choices=ORGANIZATION_SCALE_CHOICES, required=True)
+    address: Address
+    contactPoint: ContactPoint
+    additionalContactPoints: list[ContactPoint] | None = None
+    scale: OrganizationScale
 
 
 class Buyer(CommonOrganization):
-    id = MD5Type(default=lambda: uuid4().hex)
-    address = ModelType(Address)
-    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
-    signerInfo = ModelType(SignerInfo)
-    contract_owner = StringType()
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    address: Address | None = None
+    kind: ProcuringEntityKind | None = None
+    signerInfo: SignerInfo | None = None
+    contract_owner: str | None = None
 
 
 class Supplier(BusinessOrganization):
-    signerInfo = ModelType(SignerInfo)
-    contract_owner = StringType()
+    signerInfo: SignerInfo | None = None
+    contract_owner: str | None = None
 
 
 class ContactLessSupplier(Supplier):
-    contactPoint = ModelType(ContactPoint)
+    contactPoint: ContactPoint | None = None
 
 
 class ProcuringEntity(Organization):
-    address = ModelType(Address, required=True)
-    contactPoint = ModelType(ProcuringEntityContactPoint)  # required in state (procuring_entity_required_fields)
-    additionalContactPoints = ListType(ModelType(ProcuringEntityContactPoint, required=True))
-    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES, required=True)
-    signerInfo = ModelType(SignerInfo)
-    contract_owner = StringType()
+    address: Address
+    contactPoint: ProcuringEntityContactPoint | None = None
+    additionalContactPoints: list[ProcuringEntityContactPoint] | None = None
+    kind: ProcuringEntityKind
+    signerInfo: SignerInfo | None = None
+    contract_owner: str | None = None

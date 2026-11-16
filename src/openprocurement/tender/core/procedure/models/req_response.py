@@ -1,53 +1,48 @@
 from logging import getLogger
+from typing import Any
 from uuid import uuid4
 
-from schematics.types import BaseType, IntType, MD5Type, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from pydantic import Field, field_serializer, field_validator
 
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import (
+    Model,
+    model_field_validator,
+    validate_list_uniq_factory,
+    validate_object_id_uniq,
+)
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.reference import (
     Reference,
     RequirementReference,
 )
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.api.validation import validate_list_uniq_factory
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
+from openprocurement.api.procedure.value_types import TYPEMAP
+from openprocurement.tender.core.procedure.models.criterion import validate_value_type
 from openprocurement.tender.core.procedure.models.evidence import Evidence
 from openprocurement.tender.core.procedure.utils import (
     get_requirement_obj,
-)
-from openprocurement.tender.core.procedure.validation import (
-    TYPEMAP,
-    validate_object_id_uniq,
-    validate_value_type,
 )
 
 LOGGER = getLogger(__name__)
 
 
 class ExtendPeriod(Period):
-    maxExtendDate = IsoDateTimeType()
-    durationInDays = IntType()
-    duration = StringType()
-
-
-# ECriteria
+    maxExtendDate: IsoDateTime | None = None
+    durationInDays: int | None = None
+    duration: str | None = None
 
 
 class BaseRequirementResponse(Model):
-    period = ModelType(ExtendPeriod)
-    requirement = ModelType(RequirementReference, required=True)
-    relatedTenderer = ModelType(Reference)
-    relatedItem = MD5Type()
-    evidences = ListType(
-        ModelType(Evidence, required=True),
-        default=[],
-        validators=[validate_object_id_uniq],
-    )
-
-    value = BaseType()
-    values = ListType(BaseType(required=True))
+    period: ExtendPeriod | None = None
+    requirement: RequirementReference
+    relatedTenderer: Reference | None = None
+    relatedItem: MD5 | None = None
+    evidences: list[Evidence] = []
+    value: Any = None
+    values: list[Any] | None = None
 
     def convert_value(self):
         if self.requirement:
@@ -63,54 +58,57 @@ class BaseRequirementResponse(Model):
                 return [TYPEMAP[requirement["dataType"]](value) for value in self.values] if self.values else None
         return self.values
 
-    @serializable(serialized_name="value", serialize_when_none=False)
-    def serialize_value(self):
-        return self.convert_value()
+    @field_serializer("value")
+    def serialize_value(self, value: Any) -> Any:
+        converted = self.convert_value()
+        return value if converted is None else converted
 
-    @serializable(serialized_name="values", serialize_when_none=False)
-    def serialize_values(self):
-        return self.convert_values()
+    @field_serializer("values")
+    def serialize_values(self, value: Any) -> Any:
+        converted = self.convert_values()
+        return value if converted is None else converted
 
-    def validate_value(self, data, value):
-        if value and data.get("requirement"):
-            requirement, *_ = get_requirement_obj(data["requirement"]["id"])
+    @model_field_validator("value")
+    def validate_value(self, value):
+        if value and self.requirement:
+            requirement, *_ = get_requirement_obj(self.requirement.id)
             if requirement:
                 validate_value_type(value, requirement["dataType"])
 
-    def validate_values(self, data, values):
-        if values and data.get("requirement"):
-            requirement, *_ = get_requirement_obj(data["requirement"]["id"])
+    @model_field_validator("values")
+    def validate_values(self, values):
+        if values and self.requirement:
+            requirement, *_ = get_requirement_obj(self.requirement.id)
             if requirement:
                 for value in values:
                     validate_value_type(value, requirement["dataType"])
 
+    @field_validator("evidences")
+    @classmethod
+    def validate_evidences_items(cls, value):
+        validate_object_id_uniq(value)
+        return value
+
 
 class PatchRequirementResponse(BaseRequirementResponse):
-    requirement = ModelType(RequirementReference)
+    requirement: RequirementReference | None = None
 
 
 class RequirementResponse(BaseRequirementResponse):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-
-
-# Validations ---
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
 
 
 validate_response_requirement_uniq = validate_list_uniq_factory("requirement.id", err_field="requirement")
 
 
-# --- Validations
-
-
-# Bid requirementResponses mixin ---
-
-
 class ObjResponseMixin(Model):
     """the responses are validated by the state of the bid / award / qualification (RequirementResponsesRulesMixin)"""
 
-    requirementResponses = ListType(
-        ModelType(RequirementResponse, required=True),
-        validators=[validate_object_id_uniq, validate_response_requirement_uniq],
-    )
+    requirementResponses: list[RequirementResponse] | None = None
 
-    # --- requirementResponses mixin
+    @field_validator("requirementResponses")
+    @classmethod
+    def validate_requirement_responses_items(cls, value):
+        validate_object_id_uniq(value)
+        validate_response_requirement_uniq(value)
+        return value

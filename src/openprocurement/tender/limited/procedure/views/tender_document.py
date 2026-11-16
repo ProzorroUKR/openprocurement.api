@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.tender_document import (
     TenderDocumentResource,
 )
@@ -10,7 +11,7 @@ from openprocurement.tender.limited.procedure.state.tender_document import Limit
     name="reporting:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="reporting",
+    procurementMethodType=ProcurementMethodType.REPORTING,
     description="Tender related binary files (PDFs, etc.)",
 )
 class ReportingTenderDocumentResource(TenderDocumentResource):
@@ -21,7 +22,7 @@ class ReportingTenderDocumentResource(TenderDocumentResource):
     name="negotiation:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="Tender related binary files (PDFs, etc.)",
 )
 class NegotiationTenderDocumentResource(ReportingTenderDocumentResource):
@@ -32,7 +33,7 @@ class NegotiationTenderDocumentResource(ReportingTenderDocumentResource):
     name="negotiation.quick:Tender Documents",
     collection_path="/tenders/{tender_id}/documents",
     path="/tenders/{tender_id}/documents/{document_id}",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="Tender related binary files (PDFs, etc.)",
 )
 class NegotiationQuickTenderDocumentResource(ReportingTenderDocumentResource):

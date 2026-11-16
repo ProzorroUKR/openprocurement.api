@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/qualifications HTTP/1.0
+GET /api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/qualifications HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,40 +9,40 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "c29fd0e4e9d3459a80c4581fdfa75ef6",
-      "bidID": "9733f1729c454748bd5f1e43e9b5b28c",
-      "lotID": "aa7e372b99b24b5395149839bde29a63",
       "status": "pending",
-      "date": "2027-01-01T00:03:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "ed75d1e7f73648c7a8f874dc0447cccc",
+      "bidID": "f277d5ffe93444c5abd21a8487084407",
+      "lotID": "b760610686644a66bdcc6ab3a5cc95b5",
+      "date": "2027-01-01T00:03:00+02:00"
     },
     {
-      "id": "f1c14917633d4811bc506954af4a91fc",
-      "bidID": "bac3f23e6a424321a4692d2ab590716c",
-      "lotID": "aa7e372b99b24b5395149839bde29a63",
       "status": "pending",
-      "date": "2027-01-01T00:03:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "d7f5ce745afa4f92b8cb759c10f51658",
+      "bidID": "4854ce85f5d049118318d781e4447f79",
+      "lotID": "b760610686644a66bdcc6ab3a5cc95b5",
+      "date": "2027-01-01T00:03:00+02:00"
     },
     {
-      "id": "292dbf0af55b43f3993d9fcf7278f29e",
-      "bidID": "212ab974d7194298a0ab69b8aad9a0aa",
-      "lotID": "aa7e372b99b24b5395149839bde29a63",
       "status": "pending",
-      "date": "2027-01-01T00:03:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "70f3c253be164a3383c8a2685f14c2b1",
+      "bidID": "602a3b50afc543af8de8ff7dc4fdafb0",
+      "lotID": "b760610686644a66bdcc6ab3a5cc95b5",
+      "date": "2027-01-01T00:03:00+02:00"
     },
     {
-      "id": "e7f05581f9e646a5a6e2e1117f4e33d6",
-      "bidID": "820d2621c77c4aa785279d983e846e51",
-      "lotID": "aa7e372b99b24b5395149839bde29a63",
       "status": "pending",
-      "date": "2027-01-01T00:03:00+02:00",
       "qualified": false,
-      "eligible": false
+      "eligible": false,
+      "id": "8c3bc1cdbbb54acfaca5bc8952a9ce80",
+      "bidID": "cde985b693eb44a4a0cd0332d212e67a",
+      "lotID": "b760610686644a66bdcc6ab3a5cc95b5",
+      "date": "2027-01-01T00:03:00+02:00"
     }
   ]
 }

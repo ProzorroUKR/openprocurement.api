@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/050de06197314bfcbc78653f63b89fc9 HTTP/1.0
+PATCH /api/2.5/tenders/08312cd6d734432f88d7699c3ea75aa0/qualifications/fa3612c93a984e1ca3a6f2d1f6eea49d/complaints/c97a8e6b19944f0d80fabbd0aacfd8b3 HTTP/1.0
 Authorization: Bearer bot
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,30 +15,36 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "050de06197314bfcbc78653f63b89fc9",
+    "id": "c97a8e6b19944f0d80fabbd0aacfd8b3",
     "complaintID": "UA-2027-01-01-000001-a.a1",
     "date": "2027-01-01T00:00:01+02:00",
     "status": "pending",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "774a1ac746644b04a1312ee77ab03af2",
-        "datePublished": "2027-01-01T00:00:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "id": "64543d73c56f4af5ae00f133419990f0",
+        "datePublished": "2027-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4f4338770f5d44ce84251ce3d6a8f0a4?Signature=EwzKj917ojXxFNkQ4ZSk5IMQEcXsDa%2BhfkjgF84WKomRiP0BG%2FRGPFaXLSJwZgB5cBbPK5WI219Npt6B0xY4CA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:01+02:00",
-        "author": "complaint_owner",
-        "language": "uk"
+        "author": "complaint_owner"
       }
     ],
     "type": "complaint",
-    "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-    "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+    "relatedLot": "43028010689345adbc070ce99067a14d",
+    "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
     "author": {
       "name": "ДКП «Школяр»",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00137256",
+        "legalName": "ДКП «Школяр»",
+        "uri": "http://www.sc.gov.ua/"
+      },
       "address": {
         "streetAddress": "вул. Островського, 33",
         "locality": "м. Вінниця",
@@ -50,23 +56,17 @@ Content-Type: application/json
         "name": "Сергій Олексюк",
         "email": "soleksuk@gmail.com",
         "telephone": "+380432216930"
-      },
-      "identifier": {
-        "scheme": "UA-EDR",
-        "uri": "http://www.sc.gov.ua/",
-        "id": "00137256",
-        "legalName": "ДКП «Школяр»"
       }
     },
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "objections": [
       {
-        "id": "5d4cf69b316d45969d654178eed1b7ec",
+        "id": "e04bbd6b2b7f4789a622a73521d93a8a",
         "title": "My objection",
         "description": "Test objection",
         "relatesTo": "qualification",
-        "relatedItem": "2d78f58e5c164ddf82bfdc25666fd652",
+        "relatedItem": "fa3612c93a984e1ca3a6f2d1f6eea49d",
         "classification": {
           "scheme": "violation_amcu",
           "id": "corruptionDescription",
@@ -74,14 +74,14 @@ Content-Type: application/json
         },
         "requestedRemedies": [
           {
-            "id": "0e57f427e8164c1ea37464b7fa275b8f",
+            "id": "1f41739376a94fea8faf2ec1ac3112ef",
             "type": "setAsideAward",
             "description": "test"
           }
         ],
         "arguments": [
           {
-            "id": "2268ce726cb44c06b8b0a6dcc2a48342",
+            "id": "4d2ff96c452b47fe89d645e3f14c862e",
             "description": "test argument"
           }
         ],

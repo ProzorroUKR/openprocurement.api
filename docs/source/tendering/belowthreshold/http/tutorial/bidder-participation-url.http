@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/39a36a1c01d8459faf619c1481e2d5b1/bids/2edc5dd7f4e545cb9eca36bc4d991b40?acc_token=b8e62cbf0dbb4c1cbb370a089a061b39 HTTP/1.0
+GET /api/2.5/tenders/09f40c1edf214c948ac5fcf3dadb62d4/bids/ae387f17c0d44ee1a554139757c07107?acc_token=b8e62cbf0dbb4c1cbb370a089a061b39 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -22,25 +22,25 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
-        "relatedLot": "c330ae93c18a48ae86738dfb367a290c"
+        "relatedLot": "5227f13a086749289688875271b008a3"
       }
     ],
     "lotValues": [
       {
+        "status": "active",
         "value": {
           "amount": 500.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "relatedLot": "c330ae93c18a48ae86738dfb367a290c",
-        "status": "active",
+        "relatedLot": "5227f13a086749289688875271b008a3",
         "date": "2027-01-07T00:15:06+02:00",
         "initialValue": {
           "amount": 500.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
-        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/39a36a1c01d8459faf619c1481e2d5b1_c330ae93c18a48ae86738dfb367a290c?key_for_bid=2edc5dd7f4e545cb9eca36bc4d991b40"
+        "participationUrl": "http://auction-sandbox.prozorro.gov.ua/tenders/09f40c1edf214c948ac5fcf3dadb62d4_5227f13a086749289688875271b008a3?key_for_bid=ae387f17c0d44ee1a554139757c07107"
       }
     ],
     "tenderers": [
@@ -76,35 +76,35 @@ Content-Type: application/json
       }
     ],
     "status": "active",
-    "id": "2edc5dd7f4e545cb9eca36bc4d991b40",
+    "id": "ae387f17c0d44ee1a554139757c07107",
     "date": "2027-01-07T00:15:06+02:00",
     "submissionDate": "2027-01-07T00:15:06+02:00",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "95bd28be87764822baa30b2c3b49cff1",
-        "datePublished": "2027-01-07T00:14:06+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.p7s",
         "format": "sign/p7s",
+        "language": "uk",
+        "id": "3ffd4695bb26489d97baf1383c168524",
+        "datePublished": "2027-01-07T00:14:06+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/836c459581154a94a5724e8a9d1bd2d7?Signature=aCHxPA7NTD6PoCedHE%2F0avor7ALdbQ8Q0%2FoMn0NwRLy2s7ejC%2Bg0BS%2FfkLolAchWSbcOuDNHVIAmCU2%2BzuNpCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-07T00:14:06+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-07T00:14:06+02:00"
       },
       {
         "confidentiality": "public",
         "documentType": "proposal",
-        "id": "95bd28be87764822baa30b2c3b49cff1",
-        "datePublished": "2027-01-07T00:15:06+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "sign/p7s",
+        "language": "uk",
+        "id": "3ffd4695bb26489d97baf1383c168524",
+        "datePublished": "2027-01-07T00:15:06+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/42496aef39ac4c0f85dd05300ae523c5?Signature=PPjVDHBA8WK6QW7DdktuvRx3qdWylfULTA5AiQNaYNGJJJPDBZ0pv4Qj%2FVCHw%2BqQEGd%2F9lF4ugL9wnp87tWVCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "dateModified": "2027-01-07T00:15:06+02:00",
-        "language": "uk"
+        "dateModified": "2027-01-07T00:15:06+02:00"
       }
     ]
   }

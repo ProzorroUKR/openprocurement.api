@@ -1,18 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.chronograph import (
     TenderChronographResource,
 )
-from openprocurement.tender.pricequotation.constants import PQ
 from openprocurement.tender.pricequotation.procedure.state.tender import (
     PQTenderState,
 )
 
 
 @resource(
-    name=f"{PQ}:Tender Chronograph",
+    name=f"{ProcurementMethodType.PRICE_QUOTATION}:Tender Chronograph",
     path="/tenders/{tender_id}/chronograph",
-    procurementMethodType="priceQuotation",
+    procurementMethodType=ProcurementMethodType.PRICE_QUOTATION,
     description="Tender chronograph",
 )
 class PQChronographResource(TenderChronographResource):

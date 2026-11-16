@@ -252,11 +252,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975ab23702f35861021
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0abf9f1726ec49f6acfb084ffbbd843a
 
 {
   "data": {
     "mainProcurementCategory": "services",
+    "status": "draft",
     "buyers": [
       {
         "name": "ДУС",
@@ -310,7 +311,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
       }
     ],
     "title": "футляри до державних нагород",
-    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -349,13 +349,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:15+02:00"
-    },
     "items": [
       {
-        "id": "b74eda4746944695a7c717ab864d27de",
+        "id": "528c9225d0604dfc8a048977b4ac0aa1",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -363,9 +359,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         },
         "quantity": 1000.0,
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -387,7 +383,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "6b3a006208ca417e82cbbed6187618eb",
+        "id": "dc0a8b63220d4b378cec84c851779303",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -395,9 +391,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         },
         "quantity": 2000.0,
         "classification": {
-          "description": "Sunflower seeds",
           "scheme": "ДК021",
-          "id": "03111300-5"
+          "id": "03111300-5",
+          "description": "Sunflower seeds"
         },
         "additionalClassifications": [
           {
@@ -419,7 +415,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         "relatedBuyer": "3e32f23699ea4ac0b8e105e7babd2c86"
       },
       {
-        "id": "e20bc696f8ff498a805242621fb5cbdf",
+        "id": "1af50e3fa9464d8284581900a9b0cb02",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -427,9 +423,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         },
         "quantity": 3000.0,
         "classification": {
-          "description": "Cotton seeds",
           "scheme": "ДК021",
-          "id": "03111400-6"
+          "id": "03111400-6",
+          "description": "Cotton seeds"
         },
         "additionalClassifications": [
           {
@@ -451,6 +447,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
         "relatedBuyer": "88c051728aae432ca2d39a0215d63fcd"
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:15+02:00"
+    },
     "procurementMethodType": "aboveThresholdUA",
     "procuringEntity": {
       "name": "ЦЗО №1",
@@ -473,8 +473,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
       "kind": "central"
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -572,7 +572,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/ef1bc8253a974975
     },
     "dateCreated": "2027-01-01T00:00:15+02:00",
     "dateModified": "2027-01-01T00:00:15+02:00",
-    "id": "ef1bc8253a974975ab23702f35861021"
+    "id": "0abf9f1726ec49f6acfb084ffbbd843a"
   },
   "config": {
     "hasAuction": true,

@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 from copy import deepcopy
 from datetime import timedelta
 from unittest.mock import Mock, patch
@@ -23,7 +24,6 @@ from openprocurement.tender.core.tests.base import (
 from openprocurement.tender.core.tests.criteria_utils import add_criteria
 from openprocurement.tender.core.tests.mock import patch_market
 from openprocurement.tender.core.tests.utils import set_tender_criteria
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.pricequotation.tests.data import (
     test_tender_pq_category,
     test_tender_pq_short_profile,
@@ -33,7 +33,11 @@ from openprocurement.tender.pricequotation.tests.data import (
 def create_tender_criteria_valid(self):
     request_path = "/tenders/{}/criteria?acc_token={}".format(self.tender_id, self.tender_token)
     criteria = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in criteria:
             criterion["source"] = "procuringEntity"
 
@@ -116,7 +120,11 @@ def create_tender_criteria_valid(self):
         self.assertIn("requirements", requirementGroup)
 
     lang_criterion = deepcopy(test_language_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in lang_criterion:
             criterion["source"] = "procuringEntity"
     response = self.app.post_json(request_path, {"data": lang_criterion})
@@ -144,7 +152,11 @@ def create_tender_criteria_valid(self):
     # Try to create criterion without legislation
 
     invalid_criteria = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in invalid_criteria:
             criterion["source"] = "procuringEntity"
     legislation = invalid_criteria[0].pop("legislation")
@@ -160,7 +172,11 @@ def create_tender_criteria_valid(self):
 
 def create_tender_criteria_invalid(self):
     invalid_criteria = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in invalid_criteria:
             criterion["source"] = "procuringEntity"
     invalid_criteria[0]["relatesTo"] = "lot"
@@ -184,7 +200,11 @@ def create_tender_criteria_invalid(self):
     )
 
     invalid_id_criteria = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in invalid_id_criteria:
             criterion["source"] = "procuringEntity"
     invalid_id_criteria[0]["id"] = "abc"
@@ -322,7 +342,11 @@ def create_tender_criteria_invalid(self):
     )
 
     lang_criterion = deepcopy(test_language_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in lang_criterion:
             criterion["source"] = "procuringEntity"
     lang_criterion[0]["requirementGroups"][0]["requirements"][0]["eligibleEvidences"] = [
@@ -347,7 +371,11 @@ def create_tender_criteria_invalid(self):
     )
 
     lang_criterion = deepcopy(test_language_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in lang_criterion:
             criterion["source"] = "procuringEntity"
     del lang_criterion[0]["relatesTo"]
@@ -363,7 +391,11 @@ def create_tender_criteria_invalid(self):
 
 def patch_tender_criteria_valid(self):
     criteria_data = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in criteria_data:
             criterion["source"] = "procuringEntity"
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
@@ -414,7 +446,11 @@ def patch_tender_criteria_valid(self):
 
 def patch_tender_criteria_invalid(self):
     criteria_data = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in criteria_data:
             criterion["source"] = "procuringEntity"
     criteria_data[0]["classification"]["id"] = "CRITERION.OTHER.BID.VALIDITY_PERIOD"
@@ -511,7 +547,11 @@ def patch_tender_criteria_invalid(self):
 
 def get_tender_criteria(self):
     criteria = deepcopy(test_exclusion_criteria)
-    if self.initial_data["procurementMethodType"] in (REPORTING, NEGOTIATION, NEGOTIATION_QUICK):
+    if self.initial_data["procurementMethodType"] in (
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
+    ):
         for criterion in criteria:
             criterion["source"] = "procuringEntity"
     response = self.app.post_json(
@@ -1277,17 +1317,11 @@ def validate_rg_requirement_strict_rules(self):
             ],
         )
 
-        requirement_data["expectedValues"] = 10
+        requirement_data["expectedValues"] = 10  # not a list
         response = self.app.post_json(request_path, {"data": requirement_data}, status=422)
         self.assertEqual(
             response.json["errors"],
-            [
-                {
-                    "location": "body",
-                    "name": "requirements",
-                    "description": "expectedValues is allowed only for dataType string",
-                }
-            ],
+            [{"location": "body", "name": "expectedValues", "description": ["Input should be a valid list"]}],
         )
 
         del requirement_data["expectedValues"]

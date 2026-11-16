@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import unittest
 from copy import deepcopy
 from datetime import timedelta
@@ -11,7 +12,6 @@ from openprocurement.tender.open.tests.below_threshold.base import (
     test_tender_below_author,
     test_tender_below_complaint,
 )
-from openprocurement.tender.open.constants import COMPETITIVE_ORDERING
 from openprocurement.tender.core.tests.utils import change_auth
 
 
@@ -81,7 +81,7 @@ def switch_to_unsuccessful_lot(self):
         award_id = [i["id"] for i in response.json["data"] if i["status"] == "pending"][0]
         self.add_sign_doc(self.tender_id, self.tender_token, docs_url=f"/awards/{award_id}/documents")
         unsuccessful_data = {"status": "unsuccessful", "qualified": False}
-        if self.initial_data["procurementMethodType"] != COMPETITIVE_ORDERING:
+        if self.initial_data["procurementMethodType"] != ProcurementMethodType.COMPETITIVE_ORDERING:
             unsuccessful_data.update({"eligible": False})
         self.app.patch_json(
             "/tenders/{}/awards/{}?acc_token={}".format(self.tender_id, award_id, self.tender_token),

@@ -1,20 +1,8 @@
 import logging
 import os
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.cfaselectionua.constants import CFA_SELECTION
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    SIMPLE_DEFENSE,
-)
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -23,23 +11,23 @@ logger = logging.getLogger(__name__)
 def min_bids_number_populator(tender):
     pmt = tender.get("procurementMethodType")
     if pmt in (
-        ABOVE_THRESHOLD,
-        BELOW_THRESHOLD,
-        SIMPLE_DEFENSE,
-        CFA_SELECTION,
-        PQ,
-        ABOVE_THRESHOLD_UA_DEFENSE,
-        REPORTING,
-        NEGOTIATION,
-        NEGOTIATION_QUICK,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
+        ProcurementMethodType.PRICE_QUOTATION,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
+        ProcurementMethodType.REPORTING,
+        ProcurementMethodType.NEGOTIATION,
+        ProcurementMethodType.NEGOTIATION_QUICK,
     ):
         return 1
     elif pmt in (
-        ABOVE_THRESHOLD_EU,
-        ABOVE_THRESHOLD_UA,
-        STAGE_2_UA_TYPE,
-        STAGE_2_EU_TYPE,
-        ESCO,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+        ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+        ProcurementMethodType.ESCO,
     ):
         return 2
     return 3

@@ -1,12 +1,15 @@
 from decimal import Decimal
+from typing import Annotated, Literal
 
-from schematics.types import StringType
-from schematics.types.compound import ModelType
+from pydantic import Field, field_validator
 
+from openprocurement.api.constants import ProcurementMethodType
+from openprocurement.api.procedure.models.base import model_field_validator, validate_uniq_id
 from openprocurement.api.procedure.models.period import PeriodEndRequired
-from openprocurement.api.procedure.types import DecimalType, ListType
-from openprocurement.api.validation import validate_uniq_id
-from openprocurement.tender.core.constants import AWARD_CRITERIA_CHOICES
+from openprocurement.api.procedure.types import (
+    DecimalOf,
+)
+from openprocurement.tender.core.constants import AwardCriteria
 from openprocurement.tender.core.procedure.models.organization import ProcuringEntity
 from openprocurement.tender.core.procedure.models.period import EnquiryPeriod
 from openprocurement.tender.core.procedure.models.tender import (
@@ -26,7 +29,7 @@ from openprocurement.tender.core.procedure.models.tender import (
 )
 from openprocurement.tender.core.procedure.models.tender_base import BaseTender, PatchBaseTender, PostBaseTender
 from openprocurement.tender.core.procedure.models.value import PostEstimatedValue
-from openprocurement.tender.esco.constants import ESCO
+from openprocurement.tender.esco.constants import ESCOProcurementMethodType
 from openprocurement.tender.esco.procedure.models.lot import ESCOLot, ESCOPatchTenderLot, ESCOPostTenderLot
 
 
@@ -39,26 +42,33 @@ class ESCOPostTender(
     TenderMilestonesMixin,
     PostBaseTender,
 ):
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procurementMethodType = StringType(choices=[ESCO], default=ESCO)
-    minValue = ModelType(PostEstimatedValue, default={"currency": "UAH", "valueAddedTaxIncluded": False})
-    minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
-    yearlyPaymentsPercentageRange = DecimalType(
-        min_value=Decimal("0"),
-        max_value=Decimal("1"),
-        precision=-5,
+    awardCriteria: AwardCriteria | None = None
+    procurementMethodType: ESCOProcurementMethodType = ProcurementMethodType.ESCO
+    minValue: PostEstimatedValue = Field({"currency": "UAH", "valueAddedTaxIncluded": False}, validate_default=True)
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(-5)] | None = Field(
+        None, ge=Decimal("0.005"), le=Decimal("0.03")
     )
-    NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
-    fundingKind = StringType(choices=["budget", "other"], required=True, default="other")
+    yearlyPaymentsPercentageRange: Annotated[Decimal, DecimalOf(-5)] | None = Field(
+        None, ge=Decimal("0"), le=Decimal("1")
+    )
+    NBUdiscountRate: Annotated[Decimal, DecimalOf(-5)] = Field(ge=Decimal("0"), le=Decimal("0.99"))
+    fundingKind: Literal["budget", "other"] = "other"
+    procuringEntity: ProcuringEntity
+    lots: list[ESCOPostTenderLot] | None = None
 
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(ESCOPostTenderLot, required=True), validators=[validate_uniq_id])
+    @model_field_validator("yearlyPaymentsPercentageRange")
+    def validate_yearly_payments_percentage_range(self, value):
+        validate_esco_yearly_payments_percentage_range(self, value)
 
-    def validate_yearlyPaymentsPercentageRange(self, data, value):
-        validate_esco_yearly_payments_percentage_range(data, value)
+    @model_field_validator("lots")
+    def validate_lots(self, lots):
+        validate_esco_lots_yearly_payments_percentage_range(self, lots)
 
-    def validate_lots(self, data, lots):
-        validate_esco_lots_yearly_payments_percentage_range(data, lots)
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class ESCOPatchTender(
@@ -69,17 +79,26 @@ class ESCOPatchTender(
     PatchTenderMilestonesMixin,
     PatchBaseTender,
 ):
-    enquiryPeriod = ModelType(EnquiryPeriod)
-    tenderPeriod = ModelType(PeriodEndRequired)
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES)
-    procurementMethodType = StringType(choices=[ESCO])
-    minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
-    yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
-    NBUdiscountRate = DecimalType(min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
-    fundingKind = StringType(choices=["budget", "other"])
+    enquiryPeriod: EnquiryPeriod | None = None
+    tenderPeriod: PeriodEndRequired | None = None
+    awardCriteria: AwardCriteria | None = None
+    procurementMethodType: ESCOProcurementMethodType | None = None
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(-5)] | None = Field(
+        None, ge=Decimal("0.005"), le=Decimal("0.03")
+    )
+    yearlyPaymentsPercentageRange: Annotated[Decimal, DecimalOf(-5)] | None = Field(
+        None, ge=Decimal("0"), le=Decimal("1")
+    )
+    NBUdiscountRate: Annotated[Decimal, DecimalOf(-5)] | None = Field(None, ge=Decimal("0"), le=Decimal("0.99"))
+    fundingKind: Literal["budget", "other"] | None = None
+    procuringEntity: ProcuringEntity | None = None
+    lots: list[ESCOPatchTenderLot] | None = None
 
-    procuringEntity = ModelType(ProcuringEntity)
-    lots = ListType(ModelType(ESCOPatchTenderLot, required=True), validators=[validate_uniq_id])
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value
 
 
 class ESCOTender(
@@ -91,19 +110,30 @@ class ESCOTender(
     TenderMilestonesMixin,
     BaseTender,
 ):
-    awardCriteria = StringType(choices=AWARD_CRITERIA_CHOICES, required=True)
-    procurementMethodType = StringType(choices=[ESCO], required=True)
-    minimalStepPercentage = DecimalType(min_value=Decimal("0.005"), max_value=Decimal("0.03"), precision=-5)
-    minValue = ModelType(PostEstimatedValue)
-    yearlyPaymentsPercentageRange = DecimalType(min_value=Decimal("0"), max_value=Decimal("1"), precision=-5)
-    NBUdiscountRate = DecimalType(required=True, min_value=Decimal("0"), max_value=Decimal("0.99"), precision=-5)
-    fundingKind = StringType(choices=["budget", "other"], required=True)
+    awardCriteria: AwardCriteria
+    procurementMethodType: ESCOProcurementMethodType
+    minimalStepPercentage: Annotated[Decimal, DecimalOf(-5)] | None = Field(
+        None, ge=Decimal("0.005"), le=Decimal("0.03")
+    )
+    minValue: PostEstimatedValue | None = None
+    yearlyPaymentsPercentageRange: Annotated[Decimal, DecimalOf(-5)] | None = Field(
+        None, ge=Decimal("0"), le=Decimal("1")
+    )
+    NBUdiscountRate: Annotated[Decimal, DecimalOf(-5)] = Field(ge=Decimal("0"), le=Decimal("0.99"))
+    fundingKind: Literal["budget", "other"]
+    procuringEntity: ProcuringEntity
+    lots: list[ESCOLot] | None = None
 
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    lots = ListType(ModelType(ESCOLot, required=True), validators=[validate_uniq_id])
+    @model_field_validator("yearlyPaymentsPercentageRange")
+    def validate_yearly_payments_percentage_range(self, value):
+        validate_esco_yearly_payments_percentage_range(self, value)
 
-    def validate_yearlyPaymentsPercentageRange(self, data, value):
-        validate_esco_yearly_payments_percentage_range(data, value)
+    @model_field_validator("lots")
+    def validate_lots(self, lots):
+        validate_esco_lots_yearly_payments_percentage_range(self, lots)
 
-    def validate_lots(self, data, lots):
-        validate_esco_lots_yearly_payments_percentage_range(data, lots)
+    @field_validator("lots")
+    @classmethod
+    def validate_lots_items(cls, value):
+        validate_uniq_id(value)
+        return value

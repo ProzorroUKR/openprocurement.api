@@ -1,6 +1,5 @@
-from schematics.types import StringType
-
-from openprocurement.framework.arma.constants import ARMA_TYPE
+from openprocurement.api.constants import FrameworkType
+from openprocurement.framework.arma.constants import ARMAFrameworkType
 from openprocurement.framework.core.procedure.models.submission import (
     PostSubmission as BasePostSubmission,
 )
@@ -10,8 +9,8 @@ from openprocurement.framework.core.procedure.models.submission import (
 
 
 class PostSubmission(BasePostSubmission):
-    submissionType = StringType(default=ARMA_TYPE)
+    submissionType: ARMAFrameworkType = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY
 
 
 class Submission(BaseSubmission):
-    submissionType = StringType(default=ARMA_TYPE)
+    submissionType: ARMAFrameworkType = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY

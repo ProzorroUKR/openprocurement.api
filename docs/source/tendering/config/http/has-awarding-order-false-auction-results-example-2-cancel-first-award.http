@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards/45661e84097445e784c31e2d96566832?acc_token=2672dd6712284300b2af487b1f9d0ac1 HTTP/1.0
+PATCH /api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8/awards/26c32dcc0481432ab81f10d84360abf4?acc_token=2672dd6712284300b2af487b1f9d0ac1 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -12,11 +12,11 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 200 OK
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994/awards/d03dc7cdd195486ba0f0fd8351c0c9ad
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8/awards/b45af19fee5e40f3bd813c03bf7ccea7
 
 {
   "data": {
-    "id": "45661e84097445e784c31e2d96566832",
+    "id": "26c32dcc0481432ab81f10d84360abf4",
     "status": "cancelled",
     "date": "2027-01-01T00:00:00+02:00",
     "value": {
@@ -56,7 +56,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         }
       }
     ],
-    "bid_id": "d1c44e2996c3401ab8953b4d8372969b",
+    "bid_id": "de7423af077e47f69bb0b01179f35335",
     "lotID": "d7afc0eb4f6d42549557d7b3226417e6",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
@@ -66,16 +66,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "23f226442d9d42f892dccc1f8df81d16",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "4a0e5a4d6c77497fb7f010a165f0a1e9",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f1e5b2d67aa74652b72646f1fa9f07cd?Signature=rmNnA0vuXPvYfh9NlL0zJ6om2M5nO1DVEayL3acG6y%2FIYCAtaTLL%2Fy21LPXUeKS04SZkiQuQxibZDehHBMM9Bg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

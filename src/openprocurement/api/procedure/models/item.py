@@ -1,8 +1,8 @@
+from enum import StrEnum
+from typing import Any, ClassVar
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, FloatType, StringType
-from schematics.types.compound import ModelType
+from pydantic import Field, model_validator
 
 from openprocurement.api.constants import (
     ADDITIONAL_CLASSIFICATIONS_SCHEMES,
@@ -22,61 +22,77 @@ from openprocurement.api.constants import (
     UA_ROAD,
     UA_ROAD_SCHEME,
 )
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import ListType, URLType
+from openprocurement.api.procedure.errors import FieldError, FieldErrors, ValidationError
+from openprocurement.api.procedure.models.base import Model, model_field_validator
+from openprocurement.api.procedure.types import Url
+
+
+class CPVScheme(StrEnum):
+    CPV = "CPV"
+    DK021 = "ДК021"
+
+
+ADDITIONAL_CLASSIFICATIONS: dict[str, dict] = {
+    UA_ROAD_SCHEME: UA_ROAD,
+    GMDN_2019_SCHEME: GMDN_2019,
+    GMDN_2023_SCHEME: GMDN_2023,
+    CCCE_UA_SCHEME: CCCE_UA,
+    KPKV_UK_SCHEME: KPKV_UK,
+    KEKV_UK_SCHEME: KEKV_UK,
+}
 
 
 class Classification(Model):
-    scheme = StringType(required=True)  # The classification scheme for the goods
-    id = StringType(required=True)  # The classification ID from the Scheme used
-    description = StringType(required=True)  # A description of the goods, services to be provided.
-    description_en = StringType()
-    description_ru = StringType()
-    uri = URLType()
+    scheme: str  # The classification scheme for the goods
+    id: str  # The classification ID from the Scheme used
+    description: str  # A description of the goods, services to be provided.
+    description_en: str | None = None
+    description_ru: str | None = None
+    uri: Url | None = None
 
 
 class CPVClassification(Classification):
-    scheme = StringType(required=True, default="CPV", choices=["CPV", "ДК021"])
-    id = StringType(required=True)
+    # only ДК021 is allowed, the CPV scheme stays in the choices for the old objects
+    dk021_scheme_required: ClassVar[bool] = True
 
-    def validate_id(self, data, code):
-        if data.get("scheme") == "CPV" and code not in CPV_CODES:
-            raise ValidationError("Value must be one of CPV codes")
-        elif data.get("scheme") == "ДК021" and code not in DK_CODES:
-            raise ValidationError("Value must be one of ДК021 codes")
+    scheme: CPVScheme = CPVScheme.CPV
+    id: str
 
-    def validate_scheme(self, data, scheme):
-        if scheme != "ДК021":
-            raise ValidationError(BaseType.MESSAGES["choices"].format(["ДК021"]))
+    @model_validator(mode="after")
+    def validate_cpv(self):
+        errors = {}
+        if self.scheme == CPVScheme.CPV and self.id not in CPV_CODES:
+            errors["id"] = "Value must be one of CPV codes"
+        elif self.scheme == CPVScheme.DK021 and self.id not in DK_CODES:
+            errors["id"] = f"Value must be one of {CPVScheme.DK021} codes"
+        if self.dk021_scheme_required and self.scheme != CPVScheme.DK021:  # the default one is not allowed as well
+            errors["scheme"] = f"Value must be one of {[CPVScheme.DK021.value]}."
+        if errors:
+            raise FieldErrors(errors)
+        return self
 
 
 class AdditionalClassification(Classification):
-    def validate_id(self, data, value):
-        if data["scheme"] == UA_ROAD_SCHEME and value not in UA_ROAD:
-            raise ValidationError(f"{UA_ROAD_SCHEME} id not found in standards")
-        if data["scheme"] == GMDN_2019_SCHEME and value not in GMDN_2019:
-            raise ValidationError(f"{GMDN_2019_SCHEME} id not found in standards")
-        if data["scheme"] == GMDN_2023_SCHEME and value not in GMDN_2023:
-            raise ValidationError(f"{GMDN_2023_SCHEME} id not found in standards")
-        if data["scheme"] == CCCE_UA_SCHEME and value not in CCCE_UA:
-            raise ValidationError(f"{CCCE_UA_SCHEME} id not found in standards")
-        if data["scheme"] == KPKV_UK_SCHEME and value not in KPKV_UK:
-            raise ValidationError(f"{KPKV_UK_SCHEME} id not found in standards")
-        if data["scheme"] == KEKV_UK_SCHEME and value not in KEKV_UK:
-            raise ValidationError(f"{KEKV_UK_SCHEME} id not found in standards")
+    @model_field_validator("id")
+    def validate_id(self, value):
+        if self.scheme in ADDITIONAL_CLASSIFICATIONS and value not in ADDITIONAL_CLASSIFICATIONS[self.scheme]:
+            raise ValueError(f"{self.scheme} id not found in standards")
 
-    def validate_description(self, data, value):
-        if data["scheme"] == UA_ROAD_SCHEME and UA_ROAD.get(data["id"]) != value:
-            raise ValidationError("{} description invalid".format(UA_ROAD_SCHEME))
+    @model_field_validator("description")
+    def validate_description(self, value):
+        if self.scheme == UA_ROAD_SCHEME and UA_ROAD.get(self.id) != value:
+            raise ValueError(f"{UA_ROAD_SCHEME} description invalid")
 
 
-def validate_additional_classifications(data, items):
+def validate_additional_classifications(classification: Any, items: list | None) -> None:
+    """`classification` is the main (CPV) classification of the object the additional classifications belong to"""
     if (
-        data["classification"]["id"] == CPV_NOT_CPV
+        classification
+        and classification.id == CPV_NOT_CPV
         and items
-        and not any(i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items or [])
+        and not any(i.scheme in ADDITIONAL_CLASSIFICATIONS_SCHEMES for i in items)
     ):
-        raise ValidationError(
+        raise ValueError(
             "One of additional classifications should be one of [{}].".format(
                 ", ".join(ADDITIONAL_CLASSIFICATIONS_SCHEMES)
             )
@@ -84,29 +100,38 @@ def validate_additional_classifications(data, items):
 
 
 class Location(Model):
-    latitude = BaseType(required=True)
-    longitude = BaseType(required=True)
-    elevation = BaseType()
+    latitude: Any
+    longitude: Any
+    elevation: Any = None
 
 
 class Item(Model):
     """A good, service, or work to be contracted."""
 
-    id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
-    description = StringType(required=True)  # A description of the goods, services to be provided.
-    description_en = StringType()
-    description_ru = StringType()
-    classification = ModelType(CPVClassification)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
-    quantity = FloatType(min_value=0)  # The number of units required
-    deliveryLocation = ModelType(Location)
+    id: str = Field(min_length=1, default_factory=lambda: uuid4().hex)
+    description: str  # A description of the goods, services to be provided.
+    description_en: str | None = None
+    description_ru: str | None = None
+    classification: CPVClassification | None = None
+    additionalClassifications: list[AdditionalClassification] = []
+    quantity: float | None = Field(None, ge=0)  # The number of units required
+    deliveryLocation: Location | None = None
 
 
 class TechFeatureItemMixin(Model):
-    profile = StringType()
-    category = StringType()
+    profile: str | None = None
+    category: str | None = None
 
-    def validate_profile(self, data, value):
-        category = data.get("category")
-        if value and not category:
-            raise ValidationError("profile should be provided together only with category")
+    @model_validator(mode="after")
+    def validate_profile(self):
+        if self.profile and not self.category:
+            raise FieldError("profile", "profile should be provided together only with category")
+        return self
+
+
+def validate_ccce_ua(additional_classifications):
+    ccce_count = sum(1 for i in additional_classifications if i.scheme == CCCE_UA_SCHEME)
+    if ccce_count > 1:
+        raise ValidationError(
+            f"Object shouldn't have more than 1 additionalClassification with scheme {CCCE_UA_SCHEME}"
+        )

@@ -1,8 +1,7 @@
+from enum import StrEnum
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, FloatType, IntType, MD5Type, StringType
-from schematics.types.compound import ModelType
+from pydantic import Field, field_validator, model_validator
 
 from openprocurement.api.constants import (
     FUNDER_PROGRAM_SCHEME,
@@ -14,136 +13,153 @@ from openprocurement.api.constants import (
     TKPKMB_SCHEME,
 )
 from openprocurement.api.constants_env import BUDGET_PERIOD_FROM
+from openprocurement.api.enums import enum_members
+from openprocurement.api.procedure.errors import REQUIRED_MESSAGE, FieldError, FieldErrors
 from openprocurement.api.procedure.models.address import Address
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, model_field_validator, validate_uniq_id
 from openprocurement.api.procedure.models.item import Classification
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.value import BasicValue
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.types import MD5, IsoDateTime
 from openprocurement.api.procedure.utils import is_const_active
-from openprocurement.api.validation import validate_uniq_id
-from openprocurement.planning.api.constants import BREAKDOWN_OTHER, BREAKDOWN_TITLES
+from openprocurement.planning.api.constants import BreakdownTitle
 
 _BUDGET_PROJECT_CLASSIFIERS: dict[str, tuple[dict, str]] = {
     FUNDER_PROGRAM_SCHEME: (FUNDER_PROGRAMS, "name_uk"),
     PLAN_OF_UKRAINE_SCHEME: (PLAN_OF_UKRAINE, "name_uk"),
 }
-BUDGET_PROJECT_SCHEMES: tuple[str, ...] = tuple(_BUDGET_PROJECT_CLASSIFIERS)
 
 
-def _budget_project_classifier_entry(
-    data: dict,
-) -> tuple[str | None, dict | None, str | None]:
-    scheme = data.get("scheme")
+class BudgetProjectScheme(StrEnum):
+    FUNDER_PROGRAM = FUNDER_PROGRAM_SCHEME
+    PLAN_OF_UKRAINE = PLAN_OF_UKRAINE_SCHEME
 
-    if scheme is None and data.get("id") in PLAN_OF_UKRAINE:
-        scheme = PLAN_OF_UKRAINE_SCHEME
 
-    if scheme not in _BUDGET_PROJECT_CLASSIFIERS:
-        return None, None, None
-
-    classifier, name_key = _BUDGET_PROJECT_CLASSIFIERS[scheme]
-
-    return scheme, classifier.get(data.get("id")), name_key
+BudgetClassificationScheme = StrEnum(  # type: ignore[misc]
+    "BudgetClassificationScheme", enum_members([*KPK.keys(), TKPKMB_SCHEME])
+)
 
 
 class BudgetProject(Model):
-    id = StringType(required=True)
-    name = StringType(required=True)
-    name_en = StringType()
-    name_ru = StringType()
-    scheme = StringType(choices=BUDGET_PROJECT_SCHEMES)
+    id: str
+    name: str
+    name_en: str | None = None
+    name_ru: str | None = None
+    scheme: BudgetProjectScheme | None = None
 
-    def validate_id(self, data: dict, value: str) -> None:
-        scheme = data.get("scheme")
-        if not scheme:
+    def _classifier_entry(self) -> tuple[str | None, dict | None, str | None]:
+        scheme = self.scheme
+
+        if scheme is None and self.id in PLAN_OF_UKRAINE:
+            scheme = PLAN_OF_UKRAINE_SCHEME
+
+        if scheme not in _BUDGET_PROJECT_CLASSIFIERS:
+            return None, None, None
+
+        classifier, name_key = _BUDGET_PROJECT_CLASSIFIERS[scheme]
+
+        return scheme, classifier.get(self.id), name_key
+
+    @model_validator(mode="after")
+    def validate_id(self):
+        if not self.scheme:
             # scheme is mandatory once the id refers to a known program dictionary,
             # so that a donor programme can't be smuggled in without its scheme.
-            if value in FUNDER_PROGRAMS or value in PLAN_OF_UKRAINE:
-                raise ValidationError("scheme is required for a known budget project id")
-            return
-        entry = _BUDGET_PROJECT_CLASSIFIERS[scheme][0].get(value)
+            if self.id in FUNDER_PROGRAMS or self.id in PLAN_OF_UKRAINE:
+                raise FieldError("id", "scheme is required for a known budget project id")
+            return self
+        entry = _BUDGET_PROJECT_CLASSIFIERS[self.scheme][0].get(self.id)
         if entry is None:
-            raise ValidationError(f"{scheme} id not found in standards")
+            raise FieldError("id", f"{self.scheme} id not found in standards")
         if entry.get("archive"):
-            raise ValidationError(f"{scheme} program is archived")
+            raise FieldError("id", f"{self.scheme} program is archived")
+        return self
 
-    def validate_name(self, data: dict, value: str) -> None:
-        scheme, entry, name_key = _budget_project_classifier_entry(data)
-        if entry and value != entry[name_key]:
-            raise ValidationError(f"Value should be from {scheme} dictionary for {data['id']}")
-
-    def validate_name_en(self, data: dict, value: str) -> None:
-        scheme, entry, _ = _budget_project_classifier_entry(data)
-        if entry and value != entry["name_en"]:
-            raise ValidationError(f"Value should be from {scheme} dictionary for {data['id']}")
+    @model_validator(mode="after")
+    def validate_names(self):
+        scheme, entry, name_key = self._classifier_entry()
+        if entry:
+            message = f"Value should be from {scheme} dictionary for {self.id}"
+            errors = {}
+            if self.name != entry[name_key]:
+                errors["name"] = message
+            if self.name_en != entry["name_en"]:
+                errors["name_en"] = message
+            if errors:
+                raise FieldErrors(errors)
+        return self
 
 
 class BudgetPeriod(Period):
-    startDate = IsoDateTimeType(required=True)
-    endDate = IsoDateTimeType(required=True)
+    startDate: IsoDateTime
+    endDate: IsoDateTime
 
 
 class BudgetClassification(Classification):
-    scheme = StringType(
-        required=True,
-        choices=[
-            *KPK.keys(),
-            TKPKMB_SCHEME,
-        ],
-    )
+    scheme: BudgetClassificationScheme
 
-    def validate_id(self, data, value):
-        for kpk_scheme, kpk_dict in KPK.items():
-            if data["scheme"] == kpk_scheme and value not in kpk_dict:
-                raise ValidationError(f"{kpk_scheme} id not found in standards")
-        if data["scheme"] == TKPKMB_SCHEME and value not in TKPKMB:
-            raise ValidationError(f"{TKPKMB_SCHEME} id not found in standards")
+    @model_field_validator("id")
+    def validate_id(self, value):
+        if self.scheme in KPK and value not in KPK[self.scheme]:
+            raise ValueError(f"{self.scheme} id not found in standards")
+        if self.scheme == TKPKMB_SCHEME and value not in TKPKMB:
+            raise ValueError(f"{TKPKMB_SCHEME} id not found in standards")
 
 
 class BudgetBreakdownItem(Model):
-    id = MD5Type(required=True, default=lambda: uuid4().hex)
-    title = StringType(required=True, choices=BREAKDOWN_TITLES)
-    description = StringType(max_length=500)
-    description_en = StringType(max_length=500)
-    description_ru = StringType(max_length=500)
-    value = ModelType(BasicValue, required=True)
-    address = ModelType(Address)
-    classification = ModelType(BudgetClassification)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    title: BreakdownTitle
+    description: str | None = Field(None, max_length=500)
+    description_en: str | None = Field(None, max_length=500)
+    description_ru: str | None = Field(None, max_length=500)
+    value: BasicValue
+    address: Address | None = None
+    classification: BudgetClassification | None = None
 
-    def validate_description(self, data, value):
-        if data.get("title", None) == BREAKDOWN_OTHER and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
+    @model_validator(mode="after")
+    def validate_description(self):
+        if self.title == BreakdownTitle.OTHER and not self.description:
+            raise FieldError("description", REQUIRED_MESSAGE)
+        return self
 
 
 class Budget(Model):
-    id = StringType(required=True)
-    description = StringType(required=True)
-    description_en = StringType()
-    description_ru = StringType()
-    amount = FloatType(required=True)
-    currency = StringType(
-        required=False, default="UAH", max_length=3, min_length=3
-    )  # The currency in 3-letter ISO 4217 format.
-    amountNet = FloatType()
-    project = ModelType(BudgetProject)
-    period = ModelType(BudgetPeriod)
-    year = IntType(min_value=2000)
-    notes = StringType()
-    breakdown = ListType(ModelType(BudgetBreakdownItem, required=True), validators=[validate_uniq_id])
+    id: str
+    description: str
+    description_en: str | None = None
+    description_ru: str | None = None
+    amount: float
+    currency: str = Field("UAH", max_length=3, min_length=3)  # The currency in 3-letter ISO 4217 format.
+    amountNet: float | None = None
+    project: BudgetProject | None = None
+    period: BudgetPeriod | None = None
+    year: int | None = Field(None, ge=2000)
+    notes: str | None = None
+    breakdown: list[BudgetBreakdownItem] | None = None
 
-    def validate_period(self, budget, period):
+    @field_validator("period")
+    @classmethod
+    def validate_period(cls, period: BudgetPeriod) -> BudgetPeriod:
         if period and not is_const_active(BUDGET_PERIOD_FROM):
-            raise ValidationError("Can't use period field, use year field instead")
+            raise ValueError("Can't use period field, use year field instead")
+        return period
 
-    def validate_year(self, budget, year):
+    @field_validator("year")
+    @classmethod
+    def validate_year(cls, year: int) -> int:
         if year and is_const_active(BUDGET_PERIOD_FROM):
-            raise ValidationError("Can't use year field, use period field instead")
+            raise ValueError("Can't use year field, use period field instead")
+        return year
 
-    def validate_breakdown(self, budget, breakdown):
+    @field_validator("breakdown")
+    @classmethod
+    def validate_breakdown_items(cls, breakdown: list[BudgetBreakdownItem]) -> list:
+        validate_uniq_id(breakdown)
+        return breakdown
+
+    @model_field_validator("breakdown")
+    def validate_breakdown(self, breakdown):
         if breakdown:
-            currencies = [i["value"]["currency"] for i in breakdown]
-            if "currency" in budget:
-                currencies.append(budget["currency"])
-            if len(set(currencies)) > 1:
-                raise ValidationError("Currency should be identical for all budget breakdown values and budget")
+            currencies = {item.value.currency for item in breakdown} | {self.currency}
+            if len(currencies) > 1:
+                raise ValueError("Currency should be identical for all budget breakdown values and budget")

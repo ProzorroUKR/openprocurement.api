@@ -955,7 +955,7 @@ def create_plan_invalid_procuring_entity(self):
             {
                 "description": {
                     "kind": [
-                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                        "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                     ]
                 },
                 "location": "body",
@@ -1298,7 +1298,7 @@ def create_plan_invalid_buyers(self):
                 "description": [
                     {
                         "kind": [
-                            "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                            "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                         ]
                     }
                 ],
@@ -1410,16 +1410,11 @@ def create_plan_invalid_buyers(self):
 
 def create_plan_generated(self):
     data = self.initial_data.copy()
-    data.update({"id": "hash", "doc_id": "hash2", "planID": "hash3"})
+    data.update({"id": "hash", "doc_id": "hash2", "planID": "hash3"})  # planID is generated, the passed one is ignored
     response = self.app.post_json("/plans", {"data": data}, status=422)
-    self.assertEqual(len(response.json["errors"]), 2)
-    self.assertIn(
-        {"description": "Rogue field", "location": "body", "name": "doc_id"},
+    self.assertEqual(
         response.json["errors"],
-    )
-    self.assertIn(
-        {"description": "Rogue field", "location": "body", "name": "planID"},
-        response.json["errors"],
+        [{"description": "Rogue field", "location": "body", "name": "doc_id"}],
     )
 
     data = self.initial_data.copy()

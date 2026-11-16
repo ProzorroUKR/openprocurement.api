@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.complaint_appeal import (
     BaseTenderComplaintAppealResource,
 )
 
 
 @resource(
-    name="{}:Tender Complaint Appeals".format(CD_EU_TYPE),
+    name="{}:Tender Complaint Appeals".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU),
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/appeals",
     path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}",
-    procurementMethodType=CD_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
     description="Tender complaint appeals",
 )
 class CDEUComplaintAppealResource(BaseTenderComplaintAppealResource):
@@ -18,10 +18,10 @@ class CDEUComplaintAppealResource(BaseTenderComplaintAppealResource):
 
 
 @resource(
-    name="{}:Tender Complaint Appeals".format(CD_UA_TYPE),
+    name="{}:Tender Complaint Appeals".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA),
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/appeals",
     path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}",
-    procurementMethodType=CD_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
     description="Tender complaint posts",
 )
 class CDUAComplaintAppealResource(BaseTenderComplaintAppealResource):

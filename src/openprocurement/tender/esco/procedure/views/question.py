@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.question import TenderQuestionResource
 from openprocurement.tender.esco.procedure.state.question import ESCOTenderQuestionState
 
@@ -8,7 +9,7 @@ from openprocurement.tender.esco.procedure.state.question import ESCOTenderQuest
     name="esco:Tender Questions",
     collection_path="/tenders/{tender_id}/questions",
     path="/tenders/{tender_id}/questions/{question_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender questions",
 )
 class ESCOTenderQuestionResource(TenderQuestionResource):

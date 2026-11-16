@@ -1,3 +1,4 @@
+from openprocurement.api.constants import FrameworkType
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -5,7 +6,6 @@ from datetime import timedelta
 from openprocurement.api.procedure.utils import apply_data_patch
 from openprocurement.api.tests.base import BaseWebTest, change_auth
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.framework.arma.procedure.models.framework import Framework
 from openprocurement.framework.arma.tests.periods import PERIODS
 from openprocurement.framework.core.tests.base import (
@@ -17,7 +17,7 @@ from openprocurement.framework.core.tests.base import (
 now = get_now()
 
 test_framework_arma_data = {
-    "frameworkType": ARMA_TYPE,
+    "frameworkType": FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
     "procuringEntity": {
         "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000", "email": "aa@aa.com"},
         "identifier": {"scheme": "UA-EDR", "id": "00037256", "legalName": "Назва організації"},
@@ -49,7 +49,7 @@ test_framework_arma_config = {
 
 test_submission_data = {
     "tenderers": [tenderer],
-    "submissionType": ARMA_TYPE,
+    "submissionType": FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY,
 }
 
 
@@ -63,7 +63,7 @@ class BaseFrameworkWebTest(BaseFrameworkCoreWebTest):
     initial_data = test_framework_arma_data
     initial_config = test_framework_arma_config
     framework_class = Framework
-    framework_type = ARMA_TYPE
+    framework_type = FrameworkType.ASSET_RECOVERY_MANAGEMENT_AGENCY
     periods = PERIODS
 
     def save_changes(self):

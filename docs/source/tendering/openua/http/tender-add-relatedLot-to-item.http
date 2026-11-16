@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
+PATCH /api/2.5/tenders/81a4035ab3d944e39a8044366f96e622?acc_token=0a7070152a044608bc2bafe9dd5c9c6d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
+        "id": "e8d9b57dc30f4a27b4b19c1838043e07",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -15,9 +15,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -49,15 +49,15 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "футляри до державних нагород",
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "draft",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "open",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-28T00:00:00+02:00"
@@ -174,29 +174,20 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-22T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-02-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
+        "id": "e8d9b57dc30f4a27b4b19c1838043e07",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -215,10 +206,19 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
+        }
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-22T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-27T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-02-01T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "aboveThresholdUA",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -257,20 +257,20 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "ac6a3f9689df4f6eba8d8bd3377618e0",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "ac6a3f9689df4f6eba8d8bd3377618e0",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
+          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "startDate": "2027-02-01T12:22:15.236000+02:00",
@@ -278,7 +278,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "cfe5c8353224465681cea90b38b3ba5d"
+    "id": "81a4035ab3d944e39a8044366f96e622"
   },
   "config": {
     "hasAuction": true,

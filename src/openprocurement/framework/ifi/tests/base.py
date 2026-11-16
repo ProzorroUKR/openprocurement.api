@@ -1,3 +1,4 @@
+from openprocurement.api.constants import FrameworkType
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -11,14 +12,13 @@ from openprocurement.framework.core.tests.base import (
     test_submission_config,
 )
 from openprocurement.framework.core.utils import calculate_framework_full_date
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.procedure.models.framework import Framework
 from openprocurement.framework.ifi.tests.periods import PERIODS
 
 now = get_now()
 
 test_framework_ifi_data = {
-    "frameworkType": IFI_TYPE,
+    "frameworkType": FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS,
     "procuringEntity": {
         "contactPoint": {"name": "Державне управління справами", "telephone": "+0440000000", "email": "aa@aa.com"},
         "identifier": {"scheme": "UA-EDR", "id": "00037256", "legalName": "Назва організації"},
@@ -52,7 +52,7 @@ test_framework_ifi_config = {
 
 test_submission_data = {
     "tenderers": [tenderer],
-    "submissionType": IFI_TYPE,
+    "submissionType": FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS,
 }
 
 
@@ -66,7 +66,7 @@ class BaseFrameworkWebTest(BaseFrameworkCoreWebTest):
     initial_data = test_framework_ifi_data
     initial_config = test_framework_ifi_config
     framework_class = Framework
-    framework_type = IFI_TYPE
+    framework_type = FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS
     periods = PERIODS
 
     def save_changes(self):

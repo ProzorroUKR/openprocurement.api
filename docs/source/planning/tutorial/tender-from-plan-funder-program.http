@@ -1,4 +1,4 @@
-POST /api/2.5/plans/ce360589f33546849778bcbbae9f15d3/tenders HTTP/1.0
+POST /api/2.5/plans/ea32fda77331466da96d1075a6cf78fb/tenders HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -235,11 +235,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e99a4bfce80cd8ba39
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/48e05361f3cd453eb4824f57962eaecd
 
 {
   "data": {
     "mainProcurementCategory": "goods",
+    "status": "draft",
+    "title": "Насіння",
     "funders": [
       {
         "name": "Aгентство США з Міжнародного Розвитку",
@@ -266,8 +268,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         }
       }
     ],
-    "title": "Насіння",
-    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -306,18 +306,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         "sequenceNumber": 3
       }
     ],
-    "enquiryPeriod": {
-      "endDate": "2027-01-08T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "af6b231782884bb39f6651cbf7200081",
+        "id": "729790be5b7d4909842a58c543aa1f00",
         "description": "Насіння гірчиці",
         "unit": {
           "name": "кг",
@@ -325,9 +316,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         },
         "quantity": 1000.0,
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -348,7 +339,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         }
       },
       {
-        "id": "43b2d38ede754630aefd2b4d9bbf61c4",
+        "id": "fdba21e65229474a9e84d263effa4c65",
         "description": "Насіння соняшнику",
         "unit": {
           "name": "кг",
@@ -356,9 +347,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         },
         "quantity": 2000.0,
         "classification": {
-          "description": "Sunflower seeds",
           "scheme": "ДК021",
-          "id": "03111300-5"
+          "id": "03111300-5",
+          "description": "Sunflower seeds"
         },
         "additionalClassifications": [
           {
@@ -379,7 +370,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         }
       },
       {
-        "id": "98aa29513eb74c50bc9bbd92b9161476",
+        "id": "42e74805569e4c6ea038aeedccf86cb8",
         "description": "Насіння бавовнику",
         "unit": {
           "name": "кг",
@@ -387,9 +378,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         },
         "quantity": 3000.0,
         "classification": {
-          "description": "Cotton seeds",
           "scheme": "ДК021",
-          "id": "03111400-6"
+          "id": "03111400-6",
+          "description": "Cotton seeds"
         },
         "additionalClassifications": [
           {
@@ -410,6 +401,15 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
         }
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
     "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -440,8 +440,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000002-a",
@@ -530,10 +530,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/0839356ddf0f42e9
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "0839356ddf0f42e99a4bfce80cd8ba39",
+    "id": "48e05361f3cd453eb4824f57962eaecd",
     "plans": [
       {
-        "id": "ce360589f33546849778bcbbae9f15d3"
+        "id": "ea32fda77331466da96d1075a6cf78fb"
       }
     ]
   },

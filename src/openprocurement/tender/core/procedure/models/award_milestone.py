@@ -1,9 +1,8 @@
 from enum import StrEnum
+from typing import Literal
 
-from schematics.exceptions import ValidationError
-from schematics.types import StringType
-
-from openprocurement.api.procedure.types import ListType, ModelType
+from openprocurement.api.procedure.errors import ValidationError
+from openprocurement.api.procedure.models.base import model_field_validator
 from openprocurement.tender.core.procedure.models.milestone import (
     QualificationMilestone,
     QualificationMilestoneListMixin,
@@ -20,30 +19,21 @@ class AwardMilestoneCode(StrEnum):
 
 
 class PostAwardMilestone(PostQualificationMilestone):
-    code = StringType(
-        required=True,
-        choices=[
-            AwardMilestoneCode.CODE_24_HOURS.value,
-            AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,
-            # AwardMilestoneCode.CODE_LOW_PRICE.value,  # this one cannot be posted
-        ],
-    )
+    code: Literal[AwardMilestoneCode.CODE_24_HOURS, AwardMilestoneCode.CODE_EXTENSION_PERIOD]
 
-    def validate_description(self, data, value):
-        if data["code"] == AwardMilestoneCode.CODE_EXTENSION_PERIOD.value and value is None:
+    @model_field_validator("description")
+    def validate_description(self, value):
+        if self.code == AwardMilestoneCode.CODE_EXTENSION_PERIOD.value and value is None:
             raise ValidationError("This field is required.")
 
 
 class AwardMilestone(QualificationMilestone):
-    code = StringType(
-        required=True,
-        choices=[
-            AwardMilestoneCode.CODE_24_HOURS.value,
-            AwardMilestoneCode.CODE_LOW_PRICE.value,
-            AwardMilestoneCode.CODE_EXTENSION_PERIOD.value,
-        ],
-    )
+    code: Literal[
+        AwardMilestoneCode.CODE_24_HOURS,
+        AwardMilestoneCode.CODE_LOW_PRICE,
+        AwardMilestoneCode.CODE_EXTENSION_PERIOD,
+    ]
 
 
 class AwardMilestoneListMixin(QualificationMilestoneListMixin):
-    milestones = ListType(ModelType(AwardMilestone, required=True))
+    milestones: list[AwardMilestone] | None = None

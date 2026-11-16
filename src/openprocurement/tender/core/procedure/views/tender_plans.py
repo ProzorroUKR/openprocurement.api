@@ -2,9 +2,9 @@ from copy import deepcopy
 from logging import getLogger
 
 from cornice.resource import resource
-from schematics.exceptions import ModelValidationError, ValidationError
 
 from openprocurement.api.database import atomic_transaction
+from openprocurement.api.procedure.errors import DataValidationError, ValidationError
 from openprocurement.api.utils import error_handler, handle_data_exceptions, json_view
 from openprocurement.planning.api.procedure.state.plan import PlanState
 from openprocurement.planning.api.procedure.utils import save_plan
@@ -65,9 +65,12 @@ class TenderPlansResource(TenderBaseResource):
         with handle_data_exceptions(self.request):
             # TODO: refactor this
             try:
-                validate_plans(tender, tender["plans"])
+                validate_plans(
+                    [plan["id"] for plan in tender["plans"]],
+                    tender.get("procuringEntity", {}).get("kind"),
+                )
             except ValidationError as e:
-                raise ModelValidationError({"plans": e})
+                raise DataValidationError({"plans": e})
 
         # save
         with atomic_transaction():

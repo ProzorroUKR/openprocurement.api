@@ -1,6 +1,6 @@
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.constants_env import ARMA_MIN_EXPECTED_INCOME_FROM
 from openprocurement.api.utils import raise_operation_error
-from openprocurement.framework.arma.constants import ARMA_TYPE
 from openprocurement.tender.arma.constants import ARMA_TENDERING_EXTRA_PERIOD, ARMA_WORKING_DAYS_CONFIG
 from openprocurement.tender.arma.procedure.models.tender import (
     ARMAPatchTender,
@@ -14,7 +14,7 @@ from openprocurement.tender.arma.procedure.state.tender import (
     ComplexAssetTenderState,
     SimpleAssetTenderState,
 )
-from openprocurement.tender.core.constants import AWARD_CRITERIA_RATED_CRITERIA
+from openprocurement.tender.core.constants import AwardCriteria
 from openprocurement.tender.core.procedure.state.tender_details import TenderDetailsMixin
 from openprocurement.tender.core.procedure.utils import tender_created_before
 
@@ -24,8 +24,8 @@ class ARMATenderDetailsMixin(TenderDetailsMixin):
     contract_template_name_allowed = False
     milestones_required = False
     milestones_delivery_financing_required = False
-    award_criteria_choices = (AWARD_CRITERIA_RATED_CRITERIA,)
-    award_criteria_default = AWARD_CRITERIA_RATED_CRITERIA
+    award_criteria_choices = (AwardCriteria.RATED_CRITERIA,)
+    award_criteria_default = AwardCriteria.RATED_CRITERIA
     tender_period_extra = ARMA_TENDERING_EXTRA_PERIOD
     vat_not_included_check = False
     working_days_config = ARMA_WORKING_DAYS_CONFIG
@@ -123,6 +123,6 @@ class SimpleAssetTenderDetailsState(ARMATenderDetailsMixin, SimpleAssetTenderSta
     data_model = SimpleAssetTender
 
     agreement_field = "agreement"
-    agreement_allowed_types = [ARMA_TYPE]
+    agreement_allowed_types = [AgreementType.ASSET_RECOVERY_MANAGEMENT_AGENCY]
     agreement_min_active_contracts = 2
     patch_status_choices = ("draft", "active.tendering")

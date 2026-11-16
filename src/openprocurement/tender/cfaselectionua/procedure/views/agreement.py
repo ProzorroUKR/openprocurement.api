@@ -1,6 +1,7 @@
 from cornice.resource import resource
 from pyramid.security import Allow, Everyone
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaselectionua.procedure.state.agreement import (
     CFASelectionAgreementState,
@@ -14,7 +15,7 @@ from openprocurement.tender.core.procedure.views.agreement import (
     name="closeFrameworkAgreementSelectionUA:Tender Agreements",
     collection_path="/tenders/{tender_id}/agreements",
     path="/tenders/{tender_id}/agreements/{agreement_id}",
-    procurementMethodType="closeFrameworkAgreementSelectionUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_SELECTION_UA,
     description="Tender EU agreements",
 )
 class CFASelectionTenderAgreementResource(TenderAgreementResource):

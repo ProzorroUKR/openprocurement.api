@@ -1,6 +1,3 @@
-from schematics.types import StringType
-from schematics.types.compound import ModelType
-
 from openprocurement.tender.core.procedure.models.lot import (
     BaseLot,
     PatchLot,
@@ -12,12 +9,12 @@ from openprocurement.tender.core.procedure.models.value import EstimatedValue, P
 
 
 class LimitedPostLot(PostBaseLot):
-    value = ModelType(PostEstimatedValue, required=True)
+    value: PostEstimatedValue
 
 
 class LimitedPatchLot(PatchLot):
-    title = StringType()
-    value = ModelType(EstimatedValue)
+    title: str | None = None
+    value: EstimatedValue | None = None
 
 
 class LimitedPostTenderLot(LimitedPostLot, TenderLotMixin):
@@ -25,8 +22,8 @@ class LimitedPostTenderLot(LimitedPostLot, TenderLotMixin):
 
 
 class LimitedPatchTenderLot(PatchTenderLot, TenderLotMixin):
-    value = ModelType(EstimatedValue, required=True)
+    value: EstimatedValue
 
 
 class LimitedLot(BaseLot, TenderLotMixin):
-    value = ModelType(EstimatedValue, required=True)
+    value: EstimatedValue

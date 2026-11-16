@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
+PATCH /api/2.5/tenders/c3d8d95364384682aa7b64bf8b90b743?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "986fe60dd1744bae9e0db008b0839458",
+        "id": "5485e03ef061455f91002df53d56c3e4",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -16,9 +16,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -41,7 +41,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
       },
       {
-        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "id": "20712f87973b4abd9359caa862cb5142",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -50,9 +50,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -84,15 +84,15 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "Послуги шкільних їдалень",
+    "procurementMethod": "selective",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000002-a",
-    "status": "draft",
     "owner": "broker",
-    "title": "Послуги шкільних їдалень",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "selective",
     "contractChangeRationaleTypes": {
       "durationExtension": {
         "description_en": "Extension of the period of the procurement contract duration and the term of obligations fulfilment regarding the transfer of goods, implementation of works and provision of services in case of documented objective circumstances that led to such extension, including circumstances of force majeure, delays in funding of procuring entitys expenditures, provided that such changes will not increase the sum of money specified in the procurement contract",
@@ -167,14 +167,9 @@ Content-Type: application/json
         "scheme": "LAW922"
       }
     },
-    "submissionMethod": "electronicAuction",
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-30T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "986fe60dd1744bae9e0db008b0839458",
+        "id": "5485e03ef061455f91002df53d56c3e4",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -182,10 +177,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d",
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -204,11 +200,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+        }
       },
       {
-        "id": "a6dfce64a54e45feab18eb2a8333750e",
+        "id": "20712f87973b4abd9359caa862cb5142",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -216,10 +211,11 @@ Content-Type: application/json
           "code": "PK"
         },
         "quantity": 1.0,
+        "relatedLot": "e213c834ada84d04a1da0e74dd81125d",
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -238,10 +234,14 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "e213c834ada84d04a1da0e74dd81125d"
+        }
       }
     ],
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-30T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "awardCriteria": "ratedCriteria",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -270,11 +270,11 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "e213c834ada84d04a1da0e74dd81125d",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "e213c834ada84d04a1da0e74dd81125d",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
           "amountPercentage": 50.0
         },
@@ -296,7 +296,7 @@ Content-Type: application/json
     "agreement": {
       "id": "0bb343f347124a3dbe08e138e0629852"
     },
-    "id": "2e677bc840cc4d20b3d892d352d9fb77"
+    "id": "c3d8d95364384682aa7b64bf8b90b743"
   },
   "config": {
     "hasAuction": true,

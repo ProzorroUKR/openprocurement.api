@@ -6,7 +6,7 @@ from uuid import uuid4
 from openprocurement.api.utils import get_now
 from openprocurement.planning.api.constants import (
     MILESTONE_APPROVAL_DESCRIPTION,
-    MILESTONE_APPROVAL_TITLE,
+    MilestoneTitle,
 )
 from openprocurement.planning.api.tests.base import BasePlanWebTest
 from openprocurement.tender.open.tests.above_threshold_ua.base import test_tender_openua_config
@@ -92,7 +92,7 @@ class PlanResourceTest(BasePlanWebTest, MockWebTestMixin):
                 "/plans/{}/milestones".format(_plan["id"]),
                 {
                     "data": {
-                        "title": MILESTONE_APPROVAL_TITLE,
+                        "title": MilestoneTitle.APPROVAL,
                         "description": MILESTONE_APPROVAL_DESCRIPTION,
                         "type": "approval",
                         "author": central_entity,

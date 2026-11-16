@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import json
 import os
 from base64 import b64encode
@@ -29,7 +30,6 @@ from openprocurement.tender.core.tests.utils import (
     set_tender_periods,
 )
 from openprocurement.tender.core.utils import calculate_tender_date
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD, COMPETITIVE_ORDERING
 
 now = datetime.now()
 
@@ -510,8 +510,8 @@ class BaseCoreWebTest(BaseWebTest):
             ],
         }
         if tender["procurementMethodType"] in (
-            ABOVE_THRESHOLD,
-            COMPETITIVE_ORDERING,
+            ProcurementMethodType.ABOVE_THRESHOLD,
+            ProcurementMethodType.COMPETITIVE_ORDERING,
             "aboveThresholdUA",
             "aboveThresholdUA.defense",
             "simple.defense",

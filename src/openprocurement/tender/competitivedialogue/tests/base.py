@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import os
 from copy import deepcopy
 from hashlib import sha512
@@ -7,12 +8,6 @@ from uuid import uuid4
 from openprocurement.api.constants import SANDBOX_MODE
 from openprocurement.api.tests.base import BaseWebTest
 from openprocurement.api.utils import get_now
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
 from openprocurement.tender.competitivedialogue.tests.periods import (
     PERIODS,
     PERIODS_UA_STAGE_2,
@@ -53,24 +48,24 @@ for b in test_tender_cd_stage1_bids:
 now = get_now()
 
 test_tender_cdeu_data = deepcopy(test_tender_openeu_data)
-test_tender_cdeu_data["procurementMethodType"] = CD_EU_TYPE
+test_tender_cdeu_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_EU
 test_tender_cdeu_data["mainProcurementCategory"] = "services"
 
 test_tender_cdua_data = deepcopy(test_tender_cdeu_data)
 del test_tender_cdua_data["title_en"]
-test_tender_cdua_data["procurementMethodType"] = CD_UA_TYPE
+test_tender_cdua_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_UA
 set_tender_periods(test_tender_cdua_data, start=now)
 
 
 # stage 2
 test_tender_cdeu_stage2_data = deepcopy(test_tender_cdeu_data)
 test_tender_cdeu_stage2_data["tenderID"] = "bla bla bla this iis stage 2 eu"
-test_tender_cdeu_stage2_data["procurementMethodType"] = STAGE_2_EU_TYPE
+test_tender_cdeu_stage2_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2
 test_tender_cdeu_stage2_data["procurementMethod"] = "selective"
 
 test_tender_cdua_stage2_data = deepcopy(test_tender_openua_data)
 test_tender_cdua_stage2_data["tenderID"] = "bla bla bla this iis stage 2 ua"
-test_tender_cdua_stage2_data["procurementMethodType"] = STAGE_2_UA_TYPE
+test_tender_cdua_stage2_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2
 test_tender_cdua_stage2_data["procurementMethod"] = "selective"
 test_tender_cdua_stage2_data["mainProcurementCategory"] = "services"
 
@@ -124,7 +119,7 @@ test_tender_cd_lots = [
 ]
 
 test_tender_cdeu_features_data = deepcopy(test_tender_openeu_features_data)
-test_tender_cdeu_features_data["procurementMethodType"] = CD_EU_TYPE
+test_tender_cdeu_features_data["procurementMethodType"] = ProcurementMethodType.COMPETITIVE_DIALOGUE_EU
 test_tender_cdeu_features_data["mainProcurementCategory"] = "services"
 
 test_tender_cd_tenderer = deepcopy(test_tender_cd_bids[0]["tenderers"][0])

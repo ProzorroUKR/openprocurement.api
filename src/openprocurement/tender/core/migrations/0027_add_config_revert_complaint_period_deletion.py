@@ -4,10 +4,10 @@ from datetime import timedelta
 
 import pymongo
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.tender.core.procedure.utils import dt_from_iso
 from openprocurement.tender.core.utils import calculate_tender_full_date
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD_UA_DEFENSE, SIMPLE_DEFENSE
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -15,8 +15,8 @@ logger = logging.getLogger(__name__)
 
 def get_working_days(tender):
     return tender["procurementMethodType"] in (
-        SIMPLE_DEFENSE,
-        ABOVE_THRESHOLD_UA_DEFENSE,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
     )
 
 

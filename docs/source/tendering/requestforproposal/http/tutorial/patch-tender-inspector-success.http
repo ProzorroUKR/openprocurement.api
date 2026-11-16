@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f207d4d08ef846c0b06c02db703949e2?acc_token=2f59a090d84c471c91ab4005dcdb2995 HTTP/1.0
+PATCH /api/2.5/tenders/97647846add149749fe5a46795539de2?acc_token=2f59a090d84c471c91ab4005dcdb2995 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -37,6 +37,9 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "goods",
+    "status": "active.enquiries",
+    "title": "футляри до державних нагород",
     "funders": [
       {
         "name": "Глобальний фонд",
@@ -61,14 +64,12 @@ Content-Type: application/json
         }
       }
     ],
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "active.enquiries",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "goods",
     "inspector": {
       "name": "Компанія Контролер",
       "identifier": {
@@ -91,7 +92,6 @@ Content-Type: application/json
         "url": "https://www.theglobalfund.org/en/"
       }
     },
-    "procurementMethod": "open",
     "noticePublicationDate": "2027-01-01T00:00:00+02:00",
     "contractChangeRationaleTypes": {
       "durationExtension": {
@@ -205,16 +205,6 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-08T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
     "items": [
       {
         "id": "ffffffffffffffffffffffffffffffff",
@@ -226,10 +216,11 @@ Content-Type: application/json
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "4b6a892178ae43f49d397b98ae430dd6",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -237,10 +228,19 @@ Content-Type: application/json
             "id": "17.21.1",
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
-        ],
-        "relatedLot": "15677e4da5c94ad984a33d1d2c03c2d7"
+        ]
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-12T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "requestForProposal",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -278,20 +278,20 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "4b6a892178ae43f49d397b98ae430dd6",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "lot title",
         "description": "lot description",
         "status": "active",
-        "id": "15677e4da5c94ad984a33d1d2c03c2d7",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
+          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "startDate": "2027-01-15T12:22:15.236000+02:00",
@@ -299,7 +299,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "f207d4d08ef846c0b06c02db703949e2"
+    "id": "97647846add149749fe5a46795539de2"
   },
   "config": {
     "hasAuction": true,

@@ -1,55 +1,41 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import computed_field
 
 from openprocurement.api.context import get_request_now
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 
 
 class PostCancellation(Model):
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def dateCreated(self):
+    @computed_field
+    def dateCreated(self) -> Any:
         return get_request_now().isoformat()
 
-    @serializable
-    def status(self):
+    @computed_field
+    def status(self) -> Any:
         return "pending"
 
-    reason = StringType(required=True)
-    reasonType = StringType(
-        required=True,
-        choices=[
-            "requiresChanges",
-        ],
-    )
+    reason: str
+    reasonType: Literal["requiresChanges"]
 
 
 class PostContractCancellation(PostCancellation):
-    reasonType = StringType(
-        required=True,
-        choices=[
-            "requiresChanges",
-            "signingRefusal",
-        ],
-    )
+    reasonType: Literal["requiresChanges", "signingRefusal"]
 
 
 class Cancellation(Model):
-    id = MD5Type(required=True)
-    status = StringType(required=True, choices=["pending", "active"])
-    reason = StringType(required=True)
-    reasonType = StringType(
-        required=True,
-        choices=[
-            "requiresChanges",
-            "signingRefusal",
-        ],
-    )
-    dateCreated = IsoDateTimeType(required=True)
-    author = StringType()
+    id: MD5
+    status: Literal["pending", "active"]
+    reason: str
+    reasonType: Literal["requiresChanges", "signingRefusal"]
+    dateCreated: IsoDateTime
+    author: str | None = None

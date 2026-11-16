@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/2a393b43207c4f9591546b7721cdb017?acc_token=5e3db2d4c32a4444b731e134e16e9f07 HTTP/1.0
+GET /api/2.5/tenders/390b8a0af38a48188324c8003466a26e/bids/13ade3ab6164490da3fe43e74bdd31a2?acc_token=5e3db2d4c32a4444b731e134e16e9f07 HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -13,7 +13,6 @@ Content-Type: application/json
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -47,19 +46,20 @@ Content-Type: application/json
       }
     ],
     "status": "draft",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfEligible": true,
-    "id": "2a393b43207c4f9591546b7721cdb017",
+    "id": "13ade3ab6164490da3fe43e74bdd31a2",
     "date": "2027-01-01T00:00:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Proposal.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/3be837e3115f465aa712df8bcef14439?Signature=MI9PnY2SNEsdQCyz7pxKIZAs3mXQJ0Hz%2BZLPkgbTlgq2QhPIBWeixbkL1BjXHfmZh37uwWqvQ3BdV8J6DmLyAg%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
-        "language": "uk",
-        "id": "ee6a1c5ce78c41e297b381875ea8618a",
+        "id": "d72e7d888ddd4546bca4f3c30a1806c3",
         "datePublished": "2027-01-01T00:00:01+02:00",
         "dateModified": "2027-01-01T00:00:01+02:00"
       }

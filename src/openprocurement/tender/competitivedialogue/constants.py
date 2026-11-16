@@ -1,10 +1,16 @@
 from datetime import timedelta
+from typing import Literal
+
+from openprocurement.api.constants import ProcurementMethodType
 
 # constants for procurementMethodtype
-CD_UA_TYPE = "competitiveDialogueUA"
-CD_EU_TYPE = "competitiveDialogueEU"
-STAGE_2_EU_TYPE = "competitiveDialogueEU.stage2"
-STAGE_2_UA_TYPE = "competitiveDialogueUA.stage2"
+CompetitiveDialogueProcurementMethodType = Literal[  # type: ignore[valid-type]
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
+]
+
 
 CD_STAGE2_STATUS = "draft.stage2"
 

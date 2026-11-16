@@ -1,4 +1,4 @@
-PATCH /api/2.5/plans/b5611a5d614e41dcab385c6e015ee969?acc_token=30368ad474d5471da86098c510f4193f HTTP/1.0
+PATCH /api/2.5/plans/9a34005ede3847c5ae9ee30e406f935a?acc_token=30368ad474d5471da86098c510f4193f HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,7 +17,7 @@ Content-Type: application/json
   "data": {
     "status": "scheduled",
     "procuringEntity": {
-      "id": "2f9ee16abced4fab8cf094558e6f091f",
+      "id": "85ec623979b24630b72217b1885b9ec3",
       "name": "ЦЗО №1",
       "identifier": {
         "scheme": "UA-EDR",
@@ -56,7 +56,7 @@ Content-Type: application/json
       },
       "breakdown": [
         {
-          "id": "f22c03c20c0f436890186ee40ea59715",
+          "id": "c9d21749068e44b2a8835bdcfbe4bd59",
           "title": "other",
           "description": "Breakdown other description.",
           "value": {
@@ -67,9 +67,9 @@ Content-Type: application/json
       ]
     },
     "classification": {
-      "description": "Seeds",
       "scheme": "ДК021",
-      "id": "03111000-2"
+      "id": "03111000-2",
+      "description": "Seeds"
     },
     "additionalClassifications": [
       {
@@ -81,11 +81,11 @@ Content-Type: application/json
     "planID": "UA-P-2027-01-01-000001-a",
     "items": [
       {
-        "id": "93953952601d4f299708b6dc7acfce41",
+        "id": "f6b5104a5e0d473c9242006488fe8e88",
         "classification": {
-          "description": "Mustard seeds",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Mustard seeds"
         },
         "additionalClassifications": [
           {
@@ -114,7 +114,7 @@ Content-Type: application/json
     ],
     "buyers": [
       {
-        "id": "7b3c0e8edc6141669e80c9feae84fee0",
+        "id": "83d2c25294cb404ebd02d5cc42776837",
         "name": "ДУС",
         "identifier": {
           "scheme": "UA-EDR",
@@ -151,7 +151,7 @@ Content-Type: application/json
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:01+02:00",
     "datePublished": "2027-01-01T00:00:00+02:00",
-    "id": "b5611a5d614e41dcab385c6e015ee969"
+    "id": "9a34005ede3847c5ae9ee30e406f935a"
   }
 }
 

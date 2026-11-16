@@ -3,9 +3,9 @@ import os
 
 from pymongo.errors import OperationFailure
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.migrations.base import BaseMigration, migrate
 from openprocurement.api.utils import get_now
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -32,7 +32,7 @@ def run(env, args):
     framework_ids = []
 
     cursor = collection.find(
-        {"frameworkType": DPS_TYPE},
+        {"frameworkType": FrameworkType.DYNAMIC_PURCHASING_SYSTEM},
         {"procuringEntity": 1, "revisions": 1},
         no_cursor_timeout=True,
     )

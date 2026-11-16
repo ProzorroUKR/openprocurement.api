@@ -1,24 +1,26 @@
-from schematics.types import MD5Type, StringType
-from schematics.types.compound import ModelType
+from typing import Literal
 
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.value import AmountPercentageValue
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 from openprocurement.tender.core.procedure.models.value import AmountPercentageWeightedValue
 
 
 class ARMAPostLotValue(Model):
-    status = StringType(choices=["pending"], default="pending", required=True)
-    value = ModelType(AmountPercentageValue, required=True)
-    relatedLot = MD5Type(required=True)
-    subcontractingDetails = StringType()
+    status: Literal["pending"] = "pending"
+    value: AmountPercentageValue
+    relatedLot: MD5
+    subcontractingDetails: str | None = None
 
 
 class ARMAPatchLotValue(ARMAPostLotValue):
-    weightedValue = ModelType(AmountPercentageWeightedValue)
-    status = StringType(choices=["pending", "active", "unsuccessful"], default="pending")
-    date = StringType()
+    weightedValue: AmountPercentageWeightedValue | None = None
+    status: Literal["pending", "active", "unsuccessful"] = "pending"
+    date: str | None = None
 
 
 class ARMALotValue(ARMAPatchLotValue):
-    initialValue = ModelType(AmountPercentageValue)  # field added by chronograph
-    participationUrl = StringType()  # field added after auction
+    initialValue: AmountPercentageValue | None = None
+    participationUrl: str | None = None

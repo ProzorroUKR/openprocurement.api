@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/9c59ca33a88e4ef3b8c91de75769beff/awards/6485474eb1734d0e9a673f763d21b83f?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
+PATCH /api/2.5/tenders/6d8f33b813384dda9de6ce295c0e8832/awards/da045ceacda84d69bae24c67ff4632de?acc_token=c03daed53a5348e38c5e1fa70b9f3230 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,9 +16,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "6485474eb1734d0e9a673f763d21b83f",
+    "id": "da045ceacda84d69bae24c67ff4632de",
     "status": "active",
     "date": "2027-01-01T00:00:00+02:00",
+    "value": {
+      "amount": 475000.0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false
+    },
     "suppliers": [
       {
         "name": "ДКП «Школяр»",
@@ -51,29 +56,24 @@ Content-Type: application/json
         }
       }
     ],
-    "lotID": "bcd8947ab93146f38e29c3a79e6d9cef",
+    "lotID": "664a24a23b5749febc87ace248f16c71",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "4fc32f0afa3945a7be67055e0a032a89",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "e5a05dea642f45b98a102aa8bce675c9",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/482ec4d90451402893a0e7671a1091bd?Signature=96E4J8eDwp%2Be2IPAEhMjmqB%2BcmTebVULnZ356BF4sUdJF88p53sshoOP1P2lKOEiOSXAuYQPITbQsmRDLE8DAw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "qualified": true,
-    "value": {
-      "amount": 475000.0,
-      "valueAddedTaxIncluded": false,
-      "currency": "UAH"
-    },
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-06T00:00:00+02:00"

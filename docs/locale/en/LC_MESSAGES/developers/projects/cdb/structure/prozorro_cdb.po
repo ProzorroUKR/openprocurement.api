@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: openprocurement.api 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-07 11:23+0300\n"
+"POT-Creation-Date: 2026-11-11 01:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -163,7 +163,7 @@ msgstr ""
 msgid "PydanticView замість Pyramid"
 msgstr ""
 
-msgid "``procedure/models/`` (schematics)"
+msgid "``procedure/models/`` (pydantic)"
 msgstr ""
 
 msgid "``database/schema/`` + ``handlers/schema/`` (pydantic)"
@@ -224,5 +224,8 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "async/motor"
+#~ msgstr ""
+
+#~ msgid "``procedure/models/`` (schematics)"
 #~ msgstr ""
 

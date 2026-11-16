@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/awards HTTP/1.0
+GET /api/2.5/tenders/34ea060f737748cb8ae1b341b56e4020/awards HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,7 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "94539816caae4134ab9d9377361a1885",
+      "id": "2c1287cd6624442cb1e4302bacb29496",
       "status": "cancelled",
       "date": "2024-01-01T00:00:01+02:00",
       "value": {
@@ -39,21 +39,21 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "ccd56b1b9745435780c45e7836d90970",
+      "bid_id": "a6eff1105a6042eea24b2ad2f17a5763",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "6cf4aeb7b06f43de9eda56f1497ae91e",
-          "datePublished": "2024-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
+          "language": "uk",
+          "id": "6f0f01e6469c407e9d7965b96a05cd49",
+          "datePublished": "2024-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4c6c19b850ce42f1bb4b8179665e9e71?Signature=2tI48fv3B5n4pSbtYE8NMPGxLSNFDEdJMtwplMcl%2F%2FM2vzwbF1pWGkvofUFmhcDeUJfY8dAf%2BrsaJTli76EYBA%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2024-01-01T00:00:01+02:00",
-          "author": "tender_owner",
-          "language": "uk"
+          "author": "tender_owner"
         }
       ],
       "period": {
@@ -63,7 +63,7 @@ Content-Type: application/json
       "qualified": true
     },
     {
-      "id": "6cdc0cc5440f4bc29cd082c8395be48f",
+      "id": "cf40665a16fc49fba0fd48faa8fcdddc",
       "status": "unsuccessful",
       "date": "2024-01-01T00:00:01+02:00",
       "value": {
@@ -93,21 +93,21 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "ccd56b1b9745435780c45e7836d90970",
+      "bid_id": "a6eff1105a6042eea24b2ad2f17a5763",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "72f8eb1921d34086a79bf34e1d45f898",
-          "datePublished": "2024-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
+          "language": "uk",
+          "id": "2f2461a8ad684fa48285ab66b954c556",
+          "datePublished": "2024-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/de2bd28069d547d885030e230b3b3361?Signature=TlNcmIFUHXdwZ7cuMfQi7RKpseLgvhsPScbKUzZc6j1i%2BBjE1zY335HXMaeCXqFbeKjWvHT291%2BEakaUhcj1Dg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2024-01-01T00:00:01+02:00",
-          "author": "tender_owner",
-          "language": "uk"
+          "author": "tender_owner"
         }
       ],
       "period": {
@@ -117,7 +117,7 @@ Content-Type: application/json
       "qualified": false
     },
     {
-      "id": "ede593a078214f9aac9bcf6fde3047c1",
+      "id": "c4bbed3fb1134783985bf83da7004b72",
       "status": "active",
       "date": "2024-01-01T00:00:01+02:00",
       "value": {
@@ -147,21 +147,21 @@ Content-Type: application/json
           "scale": "micro"
         }
       ],
-      "bid_id": "01bccf0ce44043548dacb501e5dff3b1",
+      "bid_id": "9b7aaa0cb5444f7b975b8503eaf47d3b",
       "documents": [
         {
           "confidentiality": "public",
           "documentType": "notice",
-          "id": "2eb90ae722544d4493f3f468e373673b",
-          "datePublished": "2024-01-01T00:00:01+02:00",
-          "hash": "md5:00000000000000000000000000000000",
           "title": "sign.p7s",
           "format": "application/pkcs7-signature",
+          "language": "uk",
+          "id": "33e5d84139434d7ba9d76c6f004341d4",
+          "datePublished": "2024-01-01T00:00:01+02:00",
+          "hash": "md5:00000000000000000000000000000000",
           "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6d35ae62882445019e500ad2f9a4bff2?Signature=Y2UpbXGtFrSn1DXklKvkD9yMq%2FrFvMNPMMhA8YkQgmXY5y6Sk3uIoln36MuplKESXA3DC0Ty0QjTG8%2F65rcWAg%3D%3D&KeyID=a8968c46",
           "documentOf": "tender",
           "dateModified": "2024-01-01T00:00:01+02:00",
-          "author": "tender_owner",
-          "language": "uk"
+          "author": "tender_owner"
         }
       ],
       "period": {

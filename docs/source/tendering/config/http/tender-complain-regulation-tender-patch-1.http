@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
+PATCH /api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8?acc_token=6670a4933d854a00afa53a2979728a6d HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -7,7 +7,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
   "data": {
     "items": [
       {
-        "id": "c5b0023de71046108dde1a721e00de87",
+        "id": "2a71a02411a8486e82fbcebd22753eb4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -15,9 +15,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -37,10 +37,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "postalCode": "79000",
           "countryName": "Україна"
         },
-        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
+        "relatedLot": "3194f121981f430d8b33954c50021373"
       },
       {
-        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "id": "4b0f472add0f4cc8af5e25d25d189b80",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -49,9 +49,9 @@ Host: lb-api-sandbox.prozorro.gov.ua
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -82,15 +82,15 @@ Content-Type: application/json
 
 {
   "data": {
+    "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "футляри до державних нагород",
+    "procurementMethod": "open",
     "date": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "tenderID": "UA-2027-01-01-000001-a",
-    "status": "draft",
     "owner": "broker",
-    "title": "футляри до державних нагород",
-    "mainProcurementCategory": "services",
-    "procurementMethod": "open",
     "complaintPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-13T00:00:00+02:00"
@@ -255,29 +255,20 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "submissionMethod": "electronicAuction",
-    "enquiryPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-13T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-16T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "endDate": "2027-01-16T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "c5b0023de71046108dde1a721e00de87",
+        "id": "2a71a02411a8486e82fbcebd22753eb4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "3194f121981f430d8b33954c50021373",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -296,11 +287,10 @@ Content-Type: application/json
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "13e393636d614660a90f07fa8b4feea6"
+        }
       },
       {
-        "id": "5cacba5cf95a40b580cedfb21df309ba",
+        "id": "4b0f472add0f4cc8af5e25d25d189b80",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -309,9 +299,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -333,6 +323,16 @@ Content-Type: application/json
         }
       }
     ],
+    "enquiryPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-13T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-16T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "endDate": "2027-01-16T00:00:00+02:00"
+    },
+    "submissionMethod": "electronicAuction",
     "procurementMethodType": "aboveThreshold",
     "awardCriteria": "lowestCost",
     "procuringEntity": {
@@ -371,20 +371,20 @@ Content-Type: application/json
     },
     "lots": [
       {
+        "id": "3194f121981f430d8b33954c50021373",
+        "date": "2027-01-01T00:00:00+02:00",
         "title": "Лот №1",
         "description": "Опис Лот №1",
         "status": "active",
-        "id": "13e393636d614660a90f07fa8b4feea6",
-        "date": "2027-01-01T00:00:00+02:00",
         "value": {
+          "amount": 500.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 500.0
+          "valueAddedTaxIncluded": false
         },
         "minimalStep": {
+          "amount": 15.0,
           "currency": "UAH",
-          "valueAddedTaxIncluded": false,
-          "amount": 15.0
+          "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
           "startDate": "2027-01-18T12:22:15.236000+02:00",
@@ -392,7 +392,7 @@ Content-Type: application/json
         }
       }
     ],
-    "id": "38bca89f7ba4477d97f553d576fd6994"
+    "id": "f5b264bbf8d9400290749cb89e5d1cb8"
   },
   "config": {
     "hasAuction": true,

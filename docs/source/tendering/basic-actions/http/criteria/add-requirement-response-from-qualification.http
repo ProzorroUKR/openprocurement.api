@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/1158eaead7a846c1b308370b8555aa38/qualifications/73f63504520247fa9b86d1bd8882cd4c?acc_token=1842bda96c574b0db7f8f2285d8443db HTTP/1.0
+PATCH /api/2.5/tenders/494d6fabdcce436a8816b44c669d8ee1/qualifications/ec7a6ac402714af390c725dd5d341eea?acc_token=1842bda96c574b0db7f8f2285d8443db HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -8,13 +8,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "23506e4b57914862aea741fab67c2064"
+          "id": "5a9d3746d6484733b6431d50406dd516"
         },
         "evidences": [
           {
             "title": "Requirement response",
             "relatedDocument": {
-              "id": "4a99ac0650b14844ba389bdf4971cc85",
+              "id": "02271a835049440ab49672bffd3bfc9a",
               "title": "name.doc"
             },
             "type": "document"
@@ -35,7 +35,7 @@ Content-Type: application/json
     "requirementResponses": [
       {
         "requirement": {
-          "id": "23506e4b57914862aea741fab67c2064",
+          "id": "5a9d3746d6484733b6431d50406dd516",
           "title": "Учасник процедури закупівлі пропонує, дає або погоджується дати прямо чи опосередковано будь-якій службовій (посадовій) особі замовника, іншого державного органу винагороду в будь-якій формі (пропозиція щодо найму на роботу, цінна річ, послуга тощо) з метою вплинути на прийняття рішення щодо визначення переможця процедури закупівлі або застосування замовником певної процедури закупівлі"
         },
         "evidences": [
@@ -43,42 +43,42 @@ Content-Type: application/json
             "title": "Requirement response",
             "type": "document",
             "relatedDocument": {
-              "id": "4a99ac0650b14844ba389bdf4971cc85",
+              "id": "02271a835049440ab49672bffd3bfc9a",
               "title": "name.doc"
             },
-            "id": "bdf856764f27428fa4fa84a4a07b756e"
+            "id": "ce59db91082d4fd89f61c8ce790919c5"
           }
         ],
         "value": true,
-        "id": "8215240b712146b0a0d4dee6fa6dcfac",
+        "id": "c2128a2de3fb4d04bd90bb5e25845369",
         "classification": {
           "scheme": "LAW922",
           "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION"
         }
       }
     ],
-    "id": "73f63504520247fa9b86d1bd8882cd4c",
-    "bidID": "5ed535dcbe0246a9be3ef8310a8c9a12",
-    "lotID": "5a7e4a52f4e0425e9b830f109a9648e1",
     "status": "pending",
+    "qualified": false,
+    "eligible": false,
+    "id": "ec7a6ac402714af390c725dd5d341eea",
+    "bidID": "f36ee20fd60246988ac57329205d0614",
+    "lotID": "890365611e004ef0b3ee52d9b8f67d4e",
     "date": "2027-01-01T00:00:00+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "4a99ac0650b14844ba389bdf4971cc85",
-        "datePublished": "2027-01-01T00:00:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "name.doc",
         "format": "application/msword",
+        "language": "uk",
+        "id": "02271a835049440ab49672bffd3bfc9a",
+        "datePublished": "2027-01-01T00:00:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/c0e9ce2d85214717a9a8c36a8b8ead0e?Signature=wvbBm%2F5ovppg8BizL%2FmRQ1N5zsdTrC4p1vL%2FbZ5gGWdUSvfpnyw3jbH1FpYdqAEonMC%2FFLjWUPSi5dLPNvbcAQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
-    ],
-    "qualified": false,
-    "eligible": false
+    ]
   }
 }
 

@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.criterion_rg_requirement_evidence import (
     CDStage2EUEligibleEvidenceState,
     CDStage2UAEligibleEvidenceState,
@@ -15,12 +15,12 @@ class BaseStage2EligibleEvidenceResource(BaseEligibleEvidenceResource):
 
 
 @resource(
-    name="{}:Requirement Eligible Evidence".format(STAGE_2_EU_TYPE),
+    name="{}:Requirement Eligible Evidence".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
 class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
@@ -28,12 +28,12 @@ class Stage2EUEUEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):
 
 
 @resource(
-    name="{}:Requirement Eligible Evidence".format(STAGE_2_UA_TYPE),
+    name="{}:Requirement Eligible Evidence".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}/evidences/{evidence_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Competitive Dialogue Stage 2 EU requirement evidence",
 )
 class Stage2UAEligibleEvidenceResource(BaseStage2EligibleEvidenceResource):

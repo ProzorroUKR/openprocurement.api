@@ -1,18 +1,14 @@
 import unittest
 from copy import deepcopy
 from datetime import timedelta
+from types import SimpleNamespace
 from unittest.mock import MagicMock, patch
 
 from cornice.errors import Errors
-from schematics.exceptions import ModelValidationError
-from schematics.types.compound import ListType, ModelType
 
 from openprocurement.api.context import set_request, set_request_now
+from openprocurement.api.procedure.errors import DataValidationError as ModelValidationError
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.tender.open.tests.below_threshold.base import (
-    test_tender_below_data,
-    test_tender_below_lots,
-)
 from openprocurement.tender.core.constants import TenderMilestoneType
 from openprocurement.tender.core.procedure.models.lot import Lot
 from openprocurement.tender.core.procedure.models.tender import PostTender, Tender
@@ -20,6 +16,10 @@ from openprocurement.tender.core.procedure.validation import (
     validate_tender_milestones_required,
 )
 from openprocurement.tender.core.tests.utils import set_tender_lots
+from openprocurement.tender.open.tests.below_threshold.base import (
+    test_tender_below_data,
+    test_tender_below_lots,
+)
 
 test_tender_data = deepcopy(test_tender_below_data)
 del test_tender_data["procurementMethodType"]
@@ -38,10 +38,14 @@ def create_tender_instance(model, data):
     request.registry.mongodb.get_next_sequence_value.return_value = 1
     set_request(request)
     set_request_now(get_now())
-    tender_data = PostTender(data).serialize()
-    tender = model(tender_data)
-    request.validated = {"tender": tender_data}
-    return tender
+    request.validated = {"tender": data}
+
+    def validate():
+        tender_data = PostTender.validate_data(data)
+        request.validated = {"tender": tender_data}
+        return model.validate_data(tender_data)
+
+    return SimpleNamespace(validate=validate)
 
 
 class MilestonesValidationError(Exception):
@@ -57,7 +61,7 @@ def check_milestones_required(data, required=True, delivery_financing=True):
     request.registry.mongodb.get_next_sequence_value.return_value = 1
     set_request(request)
     set_request_now(get_now())
-    tender_data = PostTender(data).serialize()
+    tender_data = PostTender.validate_data(data)
     request.validated = {"tender": tender_data}
     with patch(
         "openprocurement.api.utils.error_handler",
@@ -302,7 +306,7 @@ class TestMultiLotTenderMilestones(unittest.TestCase):
     initial_tender_data = test_tender_data_with_lots
 
     class MultiLotTender(Tender):
-        lots = ListType(ModelType(Lot, required=True))
+        lots: list[Lot] | None = None
 
     def test_validate_related_lot_not_required(self):
         initial_data = deepcopy(self.initial_tender_data)

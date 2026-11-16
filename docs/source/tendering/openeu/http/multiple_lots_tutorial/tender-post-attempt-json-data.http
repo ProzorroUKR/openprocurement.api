@@ -184,14 +184,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11b40a51939ebb318f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/272120ac6b1841b99b1cd1548dc1d910
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title_en": "Services in school canteens",
-    "title": "Послуги шкільних їдалень",
     "status": "draft",
+    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -230,13 +230,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "cc9713d2b33f4f0f9e3c19388e11d1c6",
+        "id": "7e858e3ce05a45e08d71047bab55d2f2",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -245,9 +241,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -269,7 +265,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
         }
       },
       {
-        "id": "50ea6c99511447bcb963fb6d6c1fc441",
+        "id": "2964a404a3364df79de99792a9a676f1",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -278,9 +274,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -302,6 +298,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "aboveThresholdEU",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -337,8 +337,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -440,7 +440,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/a5da18c74cea4c11
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "a5da18c74cea4c11b40a51939ebb318f"
+    "id": "272120ac6b1841b99b1cd1548dc1d910"
   },
   "config": {
     "hasAuction": true,

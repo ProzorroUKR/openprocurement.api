@@ -1,7 +1,7 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.utils import json_view
-from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.state.document import (
     AgreementDocumentState,
 )
@@ -13,10 +13,10 @@ from openprocurement.tender.core.procedure.serializers.document import (
 
 
 @resource(
-    name=f"{CFA_UA}:Agreement Documents",
+    name=f"{AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA}:Agreement Documents",
     collection_path="/agreements/{agreement_id}/documents",
     path="/agreements/{agreement_id}/documents/{document_id}",
-    agreementType=CFA_UA,
+    agreementType=AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA,
     description="Agreement Documents",
 )
 class AgreementDocumentsResource(AgreementBaseResource, BaseDocumentResource):

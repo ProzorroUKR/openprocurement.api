@@ -183,14 +183,14 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b998cebc007dcd9a71f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/1a7d51312dc14819b08cd100f828fec0
 
 {
   "data": {
     "mainProcurementCategory": "goods",
-    "title_en": "Cases for state awards",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
+    "title_en": "Cases for state awards",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -217,13 +217,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
         "sequenceNumber": 2
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "fc82244e20cd47cf985e40b362a78cc7",
+        "id": "c2f538bf23ba43bb95b5fc64fd15f4ff",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -231,10 +227,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
           "code": "KGM"
         },
         "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -253,11 +250,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "1045105100a341998426114b17a5c1ff"
+        }
       },
       {
-        "id": "7cb44f6498334186a6ce95698d970c67",
+        "id": "90fdc3c9845a49e199885b178e01cb2c",
         "description": "футляри до державних нагород",
         "description_en": "Cases for state awards",
         "unit": {
@@ -265,10 +261,11 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
           "code": "GRM"
         },
         "quantity": 5.0,
+        "relatedLot": "1045105100a341998426114b17a5c1ff",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -287,10 +284,14 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "1045105100a341998426114b17a5c1ff"
+        }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "name": "Державне управління справами",
       "name_en": "State administration",
@@ -320,23 +321,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
       "valueAddedTaxIncluded": false,
       "amount": 500.0
     },
-    "procurementMethodType": "closeFrameworkAgreementUA",
-    "agreementDuration": "P3Y3M3D",
-    "maxAwardsCount": 4,
     "lots": [
       {
+        "id": "1045105100a341998426114b17a5c1ff",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "1045105100a341998426114b17a5c1ff",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 500.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "minimalStep": {
-          "currency": "UAH",
           "amount": 15.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "date": "2027-01-01T00:00:00+02:00",
@@ -346,6 +344,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
         }
       }
     ],
+    "agreementDuration": "P3Y3M3D",
+    "maxAwardsCount": 4,
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",
@@ -441,7 +441,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9cabee37d7454b99
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "9cabee37d7454b998cebc007dcd9a71f"
+    "id": "1a7d51312dc14819b08cd100f828fec0"
   },
   "config": {
     "hasAuction": true,

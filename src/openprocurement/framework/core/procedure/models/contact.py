@@ -1,5 +1,6 @@
-from schematics.types import EmailType, StringType
+from pydantic import field_validator
 
+from openprocurement.api.procedure.models.base import model_field_validator
 from openprocurement.api.procedure.models.contact import (
     ContactPoint as BaseContactPoint,
 )
@@ -7,20 +8,27 @@ from openprocurement.api.procedure.models.contact import (
     validate_email,
     validate_telephone,
 )
+from openprocurement.api.procedure.types import (
+    Email,
+)
 
 
 class CommonContactPoint(BaseContactPoint):
-    def validate_email(self, contact_point, email):
-        validate_email(contact_point, email)
+    @model_field_validator("email")
+    def validate_email(self, email):
+        validate_email(email, self.telephone)
 
-    def validate_telephone(self, _, telephone):
+    @field_validator("telephone")
+    @classmethod
+    def validate_telephone(cls, telephone):
         validate_telephone(telephone)
+        return telephone
 
 
 class ContactPoint(CommonContactPoint):
-    email = EmailType(required=True)
+    email: Email
 
 
 class PatchContactPoint(ContactPoint):
-    name = StringType()
-    email = EmailType()
+    name: str | None = None
+    email: Email | None = None

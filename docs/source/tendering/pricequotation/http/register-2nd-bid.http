@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/bids HTTP/1.0
+POST /api/2.5/tenders/34ea060f737748cb8ae1b341b56e4020/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -36,13 +36,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "requirementResponses": [
       {
         "requirement": {
-          "id": "cd3098a6734143819ed0dd21558d49b4"
+          "id": "e7dad8abb64840e3bc5528ccdda8741d"
         },
         "value": 23.8
       },
       {
         "requirement": {
-          "id": "80a2a3705eb9482596e7017c1c90be32"
+          "id": "17c9ce592586499fab7086a600951ace"
         },
         "values": [
           "1920x1080"
@@ -50,7 +50,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "cc24ef41a6c741ff9ab463452782cd48"
+          "id": "8c4e9b67d88249acb54b8f11eaea2399"
         },
         "values": [
           "16:9"
@@ -58,13 +58,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "01de3356f3d54b9a8fc6c5414f864725"
+          "id": "8afc11d451264563aaf40f9acdc9cd0e"
         },
         "value": 0
       },
       {
         "requirement": {
-          "id": "54a9dbcb594e43f9824afb9ab81fd00f"
+          "id": "86a55339ee714a4b9ce38d5ad4427587"
         },
         "values": [
           "1000:1"
@@ -72,19 +72,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "7c50b4003ef54b1b8e3849076395a389"
+          "id": "0d761db328ec46b7849750842ae406e9"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "4afb0e53b2964372affacca4d671127f"
+          "id": "4439472e5d354221833fb67180fe2b2e"
         },
         "value": 1
       },
       {
         "requirement": {
-          "id": "27436abc9343400faaf6a5b22dcece72"
+          "id": "4aa944ace2c041a0977198d89c58ce52"
         },
         "values": [
           "HDMI"
@@ -92,19 +92,19 @@ Host: lb-api-sandbox.prozorro.gov.ua
       },
       {
         "requirement": {
-          "id": "86790fd44b524bba819009f5d5871835"
+          "id": "dfbfb7b746354b488a050d0699a42935"
         },
         "value": 36
       },
       {
         "requirement": {
-          "id": "700bb87aab844e68b78c153f290aa223"
+          "id": "302c920d93b9460baf139d687dff79ff"
         },
         "value": true
       },
       {
         "requirement": {
-          "id": "0a317f6a03ed45b6828153714a2bad08"
+          "id": "a622201ed83a4d39a8fa92c16a2a286c"
         },
         "value": true
       }
@@ -132,172 +132,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/bids/40a02371705b41059441df49961b08ce
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/34ea060f737748cb8ae1b341b56e4020/bids/f87a480ce1c84a5b864e1dbeb71856a4
 
 {
   "data": {
-    "requirementResponses": [
-      {
-        "requirement": {
-          "id": "cd3098a6734143819ed0dd21558d49b4",
-          "title": "Діагональ екрану"
-        },
-        "value": 23.8,
-        "id": "72e5f568db934da1985aa3efebe89900",
-        "unit": {
-          "code": "INH",
-          "name": "дюйм"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "80a2a3705eb9482596e7017c1c90be32",
-          "title": "Роздільна здатність"
-        },
-        "values": [
-          "1920x1080"
-        ],
-        "id": "ced6a2e0c7364e7c98e83aecdb4c3ac5",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "cc24ef41a6c741ff9ab463452782cd48",
-          "title": "Співвідношення сторін"
-        },
-        "values": [
-          "16:9"
-        ],
-        "id": "592c884ca6fe43679b10d8205a41f583",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "01de3356f3d54b9a8fc6c5414f864725",
-          "title": "Яскравість дисплея"
-        },
-        "value": 0,
-        "id": "731d8779a2cd4ebe8c7b031942e718cd",
-        "unit": {
-          "code": "A24",
-          "name": "кд/м²"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "54a9dbcb594e43f9824afb9ab81fd00f",
-          "title": "Контрастність (статична)"
-        },
-        "values": [
-          "1000:1"
-        ],
-        "id": "1fbb2429d5c44e2a898e2beaff5ac5f1",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "7c50b4003ef54b1b8e3849076395a389",
-          "title": "Кількість портів HDMI"
-        },
-        "value": 1,
-        "id": "2268ab15a4d44e62ae3e4bfb8546f140",
-        "unit": {
-          "code": "H87",
-          "name": "штук"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "4afb0e53b2964372affacca4d671127f",
-          "title": "Кількість портів D-sub"
-        },
-        "value": 1,
-        "id": "94723dbc33454ac894d41c771912eae6",
-        "unit": {
-          "code": "H87",
-          "name": "штук"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "27436abc9343400faaf6a5b22dcece72",
-          "title": "Кабель для під’єднання"
-        },
-        "values": [
-          "HDMI"
-        ],
-        "id": "da20245cb93547af9cc3f13c4977fa73",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "86790fd44b524bba819009f5d5871835",
-          "title": "Гарантія"
-        },
-        "value": 36,
-        "id": "6e6290062df142638c9dd7883277f2ef",
-        "unit": {
-          "code": "MON",
-          "name": "місяців"
-        },
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "700bb87aab844e68b78c153f290aa223",
-          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
-        },
-        "value": true,
-        "id": "db70b3d1c98f4af8a89a7a81e3a95fa2",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
-        }
-      },
-      {
-        "requirement": {
-          "id": "0a317f6a03ed45b6828153714a2bad08",
-          "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
-        },
-        "value": true,
-        "id": "b6ec5ed95feb42d9a25a66d7e483eb4e",
-        "classification": {
-          "scheme": "LAW922",
-          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
-        }
-      }
-    ],
     "items": [
       {
         "id": "30c4edcb5705460a9ca5fd7985bfe56c",
@@ -343,7 +181,169 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/42d53276cbcc43ff
       }
     ],
     "status": "draft",
-    "id": "40a02371705b41059441df49961b08ce",
+    "requirementResponses": [
+      {
+        "requirement": {
+          "id": "e7dad8abb64840e3bc5528ccdda8741d",
+          "title": "Діагональ екрану"
+        },
+        "value": 23.8,
+        "id": "c025112ebf1048ca8e18241137d26750",
+        "unit": {
+          "name": "дюйм",
+          "code": "INH"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "17c9ce592586499fab7086a600951ace",
+          "title": "Роздільна здатність"
+        },
+        "values": [
+          "1920x1080"
+        ],
+        "id": "0ace91251577445f8c14c1d784084ba3",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "8c4e9b67d88249acb54b8f11eaea2399",
+          "title": "Співвідношення сторін"
+        },
+        "values": [
+          "16:9"
+        ],
+        "id": "9467cda4b76d42a1b2469222563c7447",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "8afc11d451264563aaf40f9acdc9cd0e",
+          "title": "Яскравість дисплея"
+        },
+        "value": 0,
+        "id": "689a8d72ca4a4c8988cfb9d5dd5d03cf",
+        "unit": {
+          "name": "кд/м²",
+          "code": "A24"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "86a55339ee714a4b9ce38d5ad4427587",
+          "title": "Контрастність (статична)"
+        },
+        "values": [
+          "1000:1"
+        ],
+        "id": "44a3d512d35c480db39ab7fefbc97a34",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "0d761db328ec46b7849750842ae406e9",
+          "title": "Кількість портів HDMI"
+        },
+        "value": 1,
+        "id": "9f5413b456674e55aadd1f4ece9fd8e9",
+        "unit": {
+          "name": "штук",
+          "code": "H87"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "4439472e5d354221833fb67180fe2b2e",
+          "title": "Кількість портів D-sub"
+        },
+        "value": 1,
+        "id": "80dc0575afb74ba19eb429f897279edc",
+        "unit": {
+          "name": "штук",
+          "code": "H87"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "4aa944ace2c041a0977198d89c58ce52",
+          "title": "Кабель для під’єднання"
+        },
+        "values": [
+          "HDMI"
+        ],
+        "id": "c1e5133b9d5f45a3877c56ad494a8232",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "dfbfb7b746354b488a050d0699a42935",
+          "title": "Гарантія"
+        },
+        "value": 36,
+        "id": "dc9c85a063274a56a0dd102408903a4c",
+        "unit": {
+          "name": "місяців",
+          "code": "MON"
+        },
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "302c920d93b9460baf139d687dff79ff",
+          "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
+        },
+        "value": true,
+        "id": "59ad9e2a2e514ba583aa1757cc4ad964",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.EXCLUSION.CONVICTIONS.TERRORIST_OFFENCES"
+        }
+      },
+      {
+        "requirement": {
+          "id": "a622201ed83a4d39a8fa92c16a2a286c",
+          "title": "Учасник процедури закупівлі не мав з цим самим замовником договору про закупівлю, який було достроково розірвано через невиконання учасником своїх зобов’язань із застосуванням санкцій у вигляді штрафів та/або відшкодування збитків протягом трьох років з дати дострокового розірвання такого договору"
+        },
+        "value": true,
+        "id": "5b12e9bbbe084eaaa114d20818e77c4f",
+        "classification": {
+          "scheme": "LAW922",
+          "id": "CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.EARLY_TERMINATION"
+        }
+      }
+    ],
+    "id": "f87a480ce1c84a5b864e1dbeb71856a4",
     "date": "2024-01-01T00:00:01+02:00"
   },
   "access": {

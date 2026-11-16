@@ -1,37 +1,35 @@
-from schematics.types import BooleanType, FloatType
+from decimal import Decimal
+from typing import Annotated
+
+from pydantic import Field
 
 from openprocurement.api.procedure.models.value import AmountPercentageValue, BasicValue
 from openprocurement.api.procedure.types import (
-    DecimalType,
-    NormalizedDecimalType,
+    DecimalOf,
+    NormalizedDecimalOf,
 )
 
 
 class Value(BasicValue):
-    valueAddedTaxIncluded = BooleanType(required=True)
+    valueAddedTaxIncluded: bool
 
 
 class EstimatedValue(Value):
-    amount = FloatType(required=False, min_value=0)
+    amount: float | None = Field(None, ge=0)
 
 
 class PostEstimatedValue(EstimatedValue):
-    valueAddedTaxIncluded = BooleanType(required=True, default=False)
+    valueAddedTaxIncluded: bool = False
 
 
 class WeightedValue(BasicValue):
-    amount = DecimalType(required=True, precision=-2)
-    denominator = FloatType()
-    addition = DecimalType(precision=-2)
-
-    # Keep for backward compatibility
-    # For now we have this filed in old data
-    # It's not decided yet to remove it or not by migration
-    # In case of migration we will remove this field
-    valueAddedTaxIncluded = BooleanType()
+    amount: Annotated[Decimal, DecimalOf(-2)]
+    denominator: float | None = None
+    addition: Annotated[Decimal, DecimalOf(-2)] | None = None
+    valueAddedTaxIncluded: bool | None = None
 
 
 class AmountPercentageWeightedValue(AmountPercentageValue):
-    amountPercentage = NormalizedDecimalType(required=True)
-    denominator = FloatType()
-    addition = DecimalType(precision=-2)
+    amountPercentage: Annotated[Decimal, NormalizedDecimalOf(-3)]
+    denominator: float | None = None
+    addition: Annotated[Decimal, DecimalOf(-2)] | None = None

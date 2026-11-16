@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage2.criterion import (
     CDStage2EUCriterionState,
     CDStage2UACriterionState,
@@ -13,10 +13,10 @@ class BaseStage2CriterionResource(BaseCriterionResource):
 
 
 @resource(
-    name="{}:Tender Criteria".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Criteria".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Competitive Dialogue Stage 2 EU criteria",
 )
 class Stage2EUCriterionResource(BaseStage2CriterionResource):
@@ -24,10 +24,10 @@ class Stage2EUCriterionResource(BaseStage2CriterionResource):
 
 
 @resource(
-    name="{}:Tender Criteria".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Criteria".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/criteria",
     path="/tenders/{tender_id}/criteria/{criterion_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Competitive Dialogue Stage 2 UA criteria",
 )
 class Stage2UACriterionResource(BaseStage2CriterionResource):

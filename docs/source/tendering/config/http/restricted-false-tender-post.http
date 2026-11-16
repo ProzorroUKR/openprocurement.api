@@ -171,13 +171,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title": "футляри до державних нагород",
     "status": "draft",
+    "title": "футляри до державних нагород",
     "agreements": [
       {
         "id": "120e2d279ef84f8db8c5a993a4e58137"
@@ -224,23 +224,20 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         "relatedLot": "2b1b594948f547af9eff49515789e928"
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-01-16T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "c5b0023de71046108dde1a721e00de87",
+        "id": "2a71a02411a8486e82fbcebd22753eb4",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
           "code": "KGM"
         },
         "quantity": 1.0,
+        "relatedLot": "2b1b594948f547af9eff49515789e928",
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "03111600-8"
+          "id": "03111600-8",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -259,10 +256,13 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "region": "м. Київ",
           "postalCode": "79000",
           "countryName": "Україна"
-        },
-        "relatedLot": "2b1b594948f547af9eff49515789e928"
+        }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-01-16T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
     "procurementMethodType": "competitiveOrdering",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
@@ -300,18 +300,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "lots": [
       {
+        "id": "2b1b594948f547af9eff49515789e928",
         "title": "Лот №1",
         "description": "Опис Лот №1",
-        "id": "2b1b594948f547af9eff49515789e928",
         "status": "active",
         "value": {
-          "currency": "UAH",
           "amount": 500.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "minimalStep": {
-          "currency": "UAH",
           "amount": 15.0,
+          "currency": "UAH",
           "valueAddedTaxIncluded": false
         },
         "auctionPeriod": {
@@ -412,7 +412,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "38bca89f7ba4477d97f553d576fd6994"
+    "id": "f5b264bbf8d9400290749cb89e5d1cb8"
   },
   "config": {
     "hasAuction": true,

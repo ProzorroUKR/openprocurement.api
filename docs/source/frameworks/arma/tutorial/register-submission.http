@@ -29,7 +29,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
         "scale": "micro"
       }
     ],
-    "frameworkID": "694d326a48af44acb0a8c77f9663fe35"
+    "frameworkID": "bc82b4008b7341fd87440bf1008f26b8"
   },
   "config": {
     "restricted": false
@@ -39,41 +39,41 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/8c615538188b443e90ad63788fda2f5f
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/submissions/2ce146e3fc564ed88e0d668ffdd0e2a1
 
 {
   "data": {
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
-        "scale": "micro",
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
-          "uri": "http://www.sc.gov.ua/",
-          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»"
+          "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
+          "uri": "http://www.sc.gov.ua/"
         },
         "address": {
-          "countryName": "Україна",
           "streetAddress": "вул. Островського, 33",
           "locality": "м. Вінниця",
           "region": "Вінницька область",
-          "postalCode": "21100"
+          "postalCode": "21100",
+          "countryName": "Україна"
         },
         "contactPoint": {
           "name": "Сергій Олексюк",
-          "telephone": "+380432216930",
-          "email": "soleksuk@gmail.com"
-        }
+          "email": "soleksuk@gmail.com",
+          "telephone": "+380432216930"
+        },
+        "scale": "micro"
       }
     ],
-    "frameworkID": "694d326a48af44acb0a8c77f9663fe35",
+    "frameworkID": "bc82b4008b7341fd87440bf1008f26b8",
     "status": "draft",
     "submissionType": "assetRecoveryManagementAgency",
     "owner": "broker",
     "date": "2027-01-17T00:00:00+02:00",
     "dateModified": "2027-01-17T00:00:00+02:00",
-    "id": "8c615538188b443e90ad63788fda2f5f"
+    "id": "2ce146e3fc564ed88e0d668ffdd0e2a1"
   },
   "access": {
     "token": "816862aad01045b6990c5d92fa43a83d",

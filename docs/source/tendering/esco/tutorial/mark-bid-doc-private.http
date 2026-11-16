@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/fa1ef73f12454707b5abadf523211a4f/documents/97d351f5df024930a1a14ce57f276037?acc_token=f9c83851a3614d86873ce2ac65218f2b HTTP/1.0
+PATCH /api/2.5/tenders/85d2da9d49a34309a974e0cb03d9d47c/bids/669f0d0c425b4fbeb8081aa736e0de28/documents/2bb4244a8fe94321838246799a1014a4?acc_token=f9c83851a3614d86873ce2ac65218f2b HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,15 +18,15 @@ Content-Type: application/json
   "data": {
     "confidentiality": "buyerOnly",
     "confidentialityRationale": "Only our company sells badgers with pink hair.",
-    "id": "97d351f5df024930a1a14ce57f276037",
-    "datePublished": "2027-01-01T00:00:00+02:00",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "Proposal_top_secrets.pdf",
     "format": "application/pdf",
-    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/fa1ef73f12454707b5abadf523211a4f/documents/97d351f5df024930a1a14ce57f276037?download=4751b232227f4b73bc130f096dd47076",
+    "language": "uk",
+    "id": "2bb4244a8fe94321838246799a1014a4",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/85d2da9d49a34309a974e0cb03d9d47c/bids/669f0d0c425b4fbeb8081aa736e0de28/documents/2bb4244a8fe94321838246799a1014a4?download=4751b232227f4b73bc130f096dd47076",
     "documentOf": "tender",
-    "dateModified": "2027-01-01T00:00:00+02:00",
-    "language": "uk"
+    "dateModified": "2027-01-01T00:00:00+02:00"
   }
 }
 

@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import json_view
 from openprocurement.tender.cfaua.procedure.serializers.tender import (
     CFAUATenderSerializer,
@@ -15,7 +16,7 @@ from openprocurement.tender.core.utils import context_view
     collection_path="/tenders/{tender_id}/awards",
     path="/tenders/{tender_id}/awards/{award_id}",
     description="Tender EU awards",
-    procurementMethodType="closeFrameworkAgreementUA",
+    procurementMethodType=ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
 )
 class UATenderAwardResource(TenderAwardResource):
     state_class = CFAUAAwardState

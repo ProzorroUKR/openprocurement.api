@@ -1,10 +1,10 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.utils import raise_operation_error
 from openprocurement.tender.core.procedure.views.criterion_rg_requirement import (
     BaseRequirementResource,
 )
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
 from openprocurement.tender.limited.procedure.state.criterion_rg_requirement import (
     NegotiationQuickRequirementState,
     NegotiationRequirementState,
@@ -13,12 +13,12 @@ from openprocurement.tender.limited.procedure.state.criterion_rg_requirement imp
 
 
 @resource(
-    name=f"{REPORTING}:Requirement Group Requirement",
+    name=f"{ProcurementMethodType.REPORTING}:Requirement Group Requirement",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
-    procurementMethodType=f"{REPORTING}",
+    procurementMethodType=f"{ProcurementMethodType.REPORTING}",
     description="Tender requirement group requirement",
 )
 class ReportingRequirementResource(BaseRequirementResource):
@@ -29,12 +29,12 @@ class ReportingRequirementResource(BaseRequirementResource):
 
 
 @resource(
-    name=f"{NEGOTIATION}:Requirement Group Requirement",
+    name=f"{ProcurementMethodType.NEGOTIATION}:Requirement Group Requirement",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
-    procurementMethodType=f"{NEGOTIATION}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION}",
     description="Tender requirement group requirement",
 )
 class NegotiationRequirementResource(ReportingRequirementResource):
@@ -42,12 +42,12 @@ class NegotiationRequirementResource(ReportingRequirementResource):
 
 
 @resource(
-    name=f"{NEGOTIATION_QUICK}:Requirement Group Requirement",
+    name=f"{ProcurementMethodType.NEGOTIATION_QUICK}:Requirement Group Requirement",
     collection_path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements",
     path="/tenders/{tender_id}/criteria/{criterion_id}/"
     "requirement_groups/{requirement_group_id}/requirements/{requirement_id}",
-    procurementMethodType=f"{NEGOTIATION_QUICK}",
+    procurementMethodType=f"{ProcurementMethodType.NEGOTIATION_QUICK}",
     description="Tender requirement group requirement",
 )
 class NegotiationQuickRequirementResource(ReportingRequirementResource):

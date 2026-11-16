@@ -154,17 +154,17 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c59ca33a88e4ef3b8c91de75769beff
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/6d8f33b813384dda9de6ce295c0e8832
 
 {
   "data": {
     "mainProcurementCategory": "services",
+    "status": "draft",
+    "title": "Послуги шкільних їдалень",
     "title_en": "Services in school canteens",
     "description_en": "Services in school canteens",
     "description_ru": "Услуги школьных столовых",
     "procurementMethod": "limited",
-    "title": "Послуги шкільних їдалень",
-    "status": "draft",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -205,7 +205,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c59ca33a88e4ef3
     ],
     "items": [
       {
-        "id": "48072595b6464cac88210666697d628c",
+        "id": "9a87c25d84f04870a6b0cbee6e75fb44",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -213,9 +213,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c59ca33a88e4ef3
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Послуги з харчування у школах",
           "scheme": "ДК021",
-          "id": "55523100-3"
+          "id": "55523100-3",
+          "description": "Послуги з харчування у школах"
         },
         "additionalClassifications": [
           {
@@ -408,7 +408,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/9c59ca33a88e4ef3
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "9c59ca33a88e4ef3b8c91de75769beff"
+    "id": "6d8f33b813384dda9de6ce295c0e8832"
   },
   "config": {
     "hasAuction": false,

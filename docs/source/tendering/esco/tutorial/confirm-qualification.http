@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/awards/6dd2bc99b49f40ff82d31221dbe36587?acc_token=0f883e2ec1a5435f884f057009b67294 HTTP/1.0
+PATCH /api/2.5/tenders/85d2da9d49a34309a974e0cb03d9d47c/awards/6195c41864b945d0bdebe6a088ef8756?acc_token=0f883e2ec1a5435f884f057009b67294 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,9 +17,43 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "6dd2bc99b49f40ff82d31221dbe36587",
+    "id": "6195c41864b945d0bdebe6a088ef8756",
     "status": "active",
     "date": "2027-01-01T00:02:01+02:00",
+    "value": {
+      "amount": 8734.93,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": false,
+      "amountPerformance": 801.01,
+      "yearlyPaymentsPercentage": 0.9,
+      "annualCostsReduction": [
+        500,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000,
+        1000
+      ],
+      "contractDuration": {
+        "years": 10,
+        "days": 74
+      }
+    },
     "suppliers": [
       {
         "name": "Школяр",
@@ -52,22 +86,22 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "fa1ef73f12454707b5abadf523211a4f",
+    "bid_id": "669f0d0c425b4fbeb8081aa736e0de28",
     "lotID": "79dac9e70d9b4e33a6a22ac6d8c28ae3",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "c29ec9efe4c141e69eacf41b91a7f861",
-        "datePublished": "2027-01-01T00:02:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "04aefa7cbc584b46b1d70086b7e86037",
+        "datePublished": "2027-01-01T00:02:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/648fa69612304d0194794528b84e5083?Signature=KJ1ClmcjmDJZCBplxMmtihSwgcdnV3iN%2Brq2I%2FxzO93vAcp0fzHdMzGNCQjSDzGK%2FHLc2kAM%2B9Swii5nXgJMDQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:02:01+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {
@@ -76,40 +110,6 @@ Content-Type: application/json
     },
     "qualified": true,
     "eligible": true,
-    "value": {
-      "currency": "UAH",
-      "amount": 8734.93,
-      "valueAddedTaxIncluded": false,
-      "amountPerformance": 801.01,
-      "yearlyPaymentsPercentage": 0.9,
-      "annualCostsReduction": [
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000
-      ],
-      "contractDuration": {
-        "years": 10,
-        "days": 74
-      }
-    },
     "complaintPeriod": {
       "startDate": "2027-01-01T00:02:01+02:00",
       "endDate": "2027-01-12T00:00:00+02:00"

@@ -1,10 +1,10 @@
 from copy import deepcopy
 from hashlib import sha512
 
+from openprocurement.api.constants import AgreementType
 from openprocurement.api.context import get_request
 from openprocurement.api.procedure.context import get_tender
 from openprocurement.api.utils import request_init_agreement
-from openprocurement.framework.cfaua.constants import CFA_UA
 from openprocurement.framework.cfaua.procedure.models.agreement import PostAgreement
 from openprocurement.framework.core.procedure.utils import save_object
 from openprocurement.tender.cfaua.procedure.serializers.agreement import (
@@ -15,7 +15,7 @@ from openprocurement.tender.cfaua.procedure.serializers.agreement import (
 def get_additional_agreements_data(tender: dict, tender_agreement: dict) -> dict:
     active_contracts = [c for c in tender_agreement["contracts"] if c["status"] == "active"]
     return {
-        "agreementType": CFA_UA,
+        "agreementType": AgreementType.CLOSE_FRAMEWORK_AGREEMENT_UA,
         "tender_id": tender["_id"],
         "tender_token": sha512(tender["owner_token"].encode("utf-8")).hexdigest(),
         "owner": tender["owner"],
@@ -36,7 +36,7 @@ def save_agreements_agreement(tender_agreement: dict) -> None:
     agreement_data.update(get_additional_agreements_data(tender, tender_agreement))
     agreement_data = clean_agreement(agreement_data)
 
-    agreement = PostAgreement(agreement_data).serialize()
+    agreement = PostAgreement.model_validate(agreement_data).serialize()
     agreement["config"] = {
         "restricted": tender["config"]["restricted"],
     }

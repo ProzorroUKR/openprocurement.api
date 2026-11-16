@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/2e677bc840cc4d20b3d892d352d9fb77/awards/454579430d5641b28f3a76fdfbc3a835?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
+PATCH /api/2.5/tenders/c3d8d95364384682aa7b64bf8b90b743/awards/1446e0f758f0476e963701d025d5dad0?acc_token=dfcc0af5edd24b37bd23f7ae15267808 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -17,9 +17,12 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "454579430d5641b28f3a76fdfbc3a835",
+    "id": "1446e0f758f0476e963701d025d5dad0",
     "status": "active",
     "date": "2027-01-01T00:03:00+02:00",
+    "value": {
+      "amountPercentage": 50.0
+    },
     "suppliers": [
       {
         "name": "Школяр",
@@ -44,22 +47,22 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "bid_id": "53c4c76e1c544f9fa8eac758472a75e1",
+    "bid_id": "ac382537a8e4467a85e6ed134b320469",
     "lotID": "e213c834ada84d04a1da0e74dd81125d",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "0b4c45463cb24218b033b9f81a04b4bf",
-        "datePublished": "2027-01-01T00:03:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "7ab278cc0e6f46ce9081674415129869",
+        "datePublished": "2027-01-01T00:03:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/db141727478d48cd846f737ce7078695?Signature=dKIp9tb2aIP5tL0iBVEWtOSPmN1gVHJ5Dy3mPDr3eKHi%2Bq6bTaalTnyXCI8F0ctrulRFCcBFDFMgBnnWdQt3CA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:03:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {
@@ -67,10 +70,7 @@ Content-Type: application/json
       "endDate": "2027-01-09T00:00:00+02:00"
     },
     "qualified": true,
-    "eligible": true,
-    "value": {
-      "amountPercentage": 50.0
-    }
+    "eligible": true
   }
 }
 

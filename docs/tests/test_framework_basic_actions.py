@@ -2,12 +2,12 @@ import os
 from copy import deepcopy
 from datetime import timedelta
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.framework.core.tests.base import (
     BaseFrameworkCoreWebTest,
     test_question_data,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 from openprocurement.framework.dps.tests.base import (
     test_framework_dps_config,
     test_framework_dps_data,
@@ -26,7 +26,7 @@ class QuestionsFrameworkOpenResourceTest(BaseFrameworkCoreWebTest, MockWebTestMi
     relative_to = os.path.dirname(__file__)
     initial_data = test_framework_dps_data
     initial_config = test_framework_dps_config
-    framework_type = DPS_TYPE
+    framework_type = FrameworkType.DYNAMIC_PURCHASING_SYSTEM
     freezing_datetime = "2023-01-01T00:00:00+02:00"
     docservice_url = DOCS_URL
 

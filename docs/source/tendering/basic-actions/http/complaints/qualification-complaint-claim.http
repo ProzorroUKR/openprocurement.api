@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/f5ad0e5f677645ba9b8a94bc11be4fe1/qualifications/2d78f58e5c164ddf82bfdc25666fd652/complaints/7151c922cb654fe6b6dbe210d81d9445?acc_token=2737818eacd74116b3f66af7395784f7 HTTP/1.0
+PATCH /api/2.5/tenders/08312cd6d734432f88d7699c3ea75aa0/qualifications/fa3612c93a984e1ca3a6f2d1f6eea49d/complaints/21cea7981abb4a83878befd72ee704a8?acc_token=2737818eacd74116b3f66af7395784f7 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -15,30 +15,30 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "7151c922cb654fe6b6dbe210d81d9445",
+    "id": "21cea7981abb4a83878befd72ee704a8",
     "complaintID": "UA-2027-01-01-000001-a.a9",
     "date": "2027-01-01T00:00:01+02:00",
     "documents": [
       {
         "confidentiality": "public",
-        "id": "0e2a733e38df4f06acaea4d3a38b24fb",
-        "datePublished": "2027-01-01T00:00:01+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "Complaint_Attachment.pdf",
         "format": "application/pdf",
+        "language": "uk",
+        "id": "822dd6f05dfa489bbf35b5a47e516f75",
+        "datePublished": "2027-01-01T00:00:01+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/4ea69ce019cf43a2927f2fb24b82a8cb?Signature=%2FwfXwZM%2FboF0fBgZ0TDAL9gbjis5dDFs1a3lnMi2rTGvnzcbLUz22Mpstmjf9yN6OnPUru5zRBuk6SSNyZOdCw%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:00:01+02:00",
-        "author": "complaint_owner",
-        "language": "uk"
+        "author": "complaint_owner"
       }
     ],
     "title": "Недостатньо інформації",
     "description": "Умови виставлені замовником не містять достатньо інформації, щоб заявка мала сенс.",
     "status": "claim",
     "type": "claim",
-    "relatedLot": "5395b459908140bba8ed9266a17b40b4",
-    "bid_id": "1cf91e91ef3d49d9868a2dbea482ccd3",
+    "relatedLot": "43028010689345adbc070ce99067a14d",
+    "bid_id": "e59b196d34244d779ad5f7d2c6f9c32a",
     "dateSubmitted": "2027-01-01T00:00:01+02:00"
   }
 }

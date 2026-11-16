@@ -92,7 +92,7 @@
    * - ``procedure/views/``
      - ``handlers/``
      - PydanticView замість Pyramid
-   * - ``procedure/models/`` (schematics)
+   * - ``procedure/models/`` (pydantic)
      - ``database/schema/`` + ``handlers/schema/`` (pydantic)
      - розділені DB-схема і API-схема
    * - ``procedure/state/``

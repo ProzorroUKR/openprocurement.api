@@ -1,12 +1,12 @@
+from typing import ClassVar
+
 from openprocurement.api.procedure.models.item import CPVClassification
-from openprocurement.api.procedure.types import ModelType
 from openprocurement.tender.core.procedure.models.item import Item
 
 
 class CDCPVClassification(CPVClassification):
-    def validate_scheme(self, data, scheme):
-        pass
+    dk021_scheme_required: ClassVar[bool] = False
 
 
 class CDItem(Item):
-    classification = ModelType(CDCPVClassification, required=True)
+    classification: CDCPVClassification

@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids HTTP/1.0
+POST /api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -41,12 +41,12 @@ Host: lb-api-sandbox.prozorro.gov.ua
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "lotValues": [
       {
-        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+        "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
       }
     ],
     "items": [
       {
-        "id": "8fba10d170794a12a8ccd313990265ea",
+        "id": "31135bb40683462fbe2d2eeaef95cc15",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -54,10 +54,10 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+        "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
       },
       {
-        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
+        "id": "f488203f58694f2b9cf99308ca2cc950",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -65,7 +65,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+        "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
       }
     ]
   }
@@ -74,13 +74,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1/bids/9733f1729c454748bd5f1e43e9b5b28c
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f/bids/f277d5ffe93444c5abd21a8487084407
 
 {
   "data": {
     "items": [
       {
-        "id": "8fba10d170794a12a8ccd313990265ea",
+        "id": "31135bb40683462fbe2d2eeaef95cc15",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -88,10 +88,10 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454c
           "code": "KGM"
         },
         "quantity": 1.0,
-        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+        "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
       },
       {
-        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
+        "id": "f488203f58694f2b9cf99308ca2cc950",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -99,10 +99,16 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454c
           "code": "PK"
         },
         "quantity": 1.0,
-        "relatedLot": "aa7e372b99b24b5395149839bde29a63"
+        "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5"
       }
     ],
-    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "lotValues": [
+      {
+        "relatedLot": "b760610686644a66bdcc6ab3a5cc95b5",
+        "status": "pending",
+        "date": "2027-01-01T00:00:00+02:00"
+      }
+    ],
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -136,14 +142,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/e94eaa64aef8454c
       }
     ],
     "status": "draft",
-    "lotValues": [
-      {
-        "relatedLot": "aa7e372b99b24b5395149839bde29a63",
-        "status": "pending",
-        "date": "2027-01-01T00:00:00+02:00"
-      }
-    ],
-    "id": "9733f1729c454748bd5f1e43e9b5b28c",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
+    "id": "f277d5ffe93444c5abd21a8487084407",
     "date": "2027-01-01T00:00:00+02:00"
   },
   "access": {

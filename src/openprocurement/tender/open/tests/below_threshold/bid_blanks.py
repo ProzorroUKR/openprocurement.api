@@ -300,15 +300,16 @@ def create_tender_bid(self):
     self.assertIn("id", bid)
     self.assertIn(bid["id"], response.headers["Location"])
 
-    bid_data["tenderers"] = test_tender_below_supplier  # not a list, will be converted to list
+    bid_data["tenderers"] = test_tender_below_supplier  # not a list
     response = self.app.post_json(
         "/tenders/{}/bids".format(self.tender_id),
         {"data": bid_data},
+        status=422,
     )
-    self.assertEqual(response.status, "201 Created")
-    self.assertEqual(response.content_type, "application/json")
-    bid = response.json["data"]
-    self.assertEqual(bid["tenderers"][0]["name"], test_tender_below_supplier["name"])
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "tenderers", "description": ["Input should be a valid list"]}],
+    )
 
     self.assertEqual(self.mongodb.tenders.get(self.tender_id).get("dateModified"), dateModified)
 

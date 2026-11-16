@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_complaint_document import (
     AwardComplaintDocumentResource,
 )
@@ -12,7 +13,7 @@ from openprocurement.tender.limited.procedure.state.award_complaint_document imp
     name="negotiation:Tender Award Complaint Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="Tender negotiation award complaint documents",
 )
 class NegotiationAwardComplaintDocumentResource(AwardComplaintDocumentResource):
@@ -23,7 +24,7 @@ class NegotiationAwardComplaintDocumentResource(AwardComplaintDocumentResource):
     name="negotiation.quick:Tender Award Complaint Documents",
     collection_path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents",
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}/documents/{document_id}",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="Tender negotiation.quick award complaint documents",
 )
 class NegotiationQuickAwardComplaintDocumentResource(AwardComplaintDocumentResource):

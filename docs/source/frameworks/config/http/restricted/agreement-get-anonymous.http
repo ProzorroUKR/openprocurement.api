@@ -8,7 +8,7 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001",
-    "frameworkID": "65734280ef5b48d1b980d2dcf5225050",
+    "frameworkID": "6a0de779fb1441439fb25258425707a7",
     "agreementType": "dynamicPurchasingSystem",
     "status": "active",
     "period": {
@@ -23,23 +23,23 @@ Content-Type: application/json
         "legalName": "Назва організації"
       },
       "address": {
-        "countryName": "Україна",
         "streetAddress": "вул. Банкова, 11, корпус 1",
         "locality": "м. Київ",
         "region": "м. Київ",
-        "postalCode": "01220"
+        "postalCode": "01220",
+        "countryName": "Україна"
       },
       "contactPoint": {
         "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
       },
       "kind": "defense"
     },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -52,30 +52,30 @@ Content-Type: application/json
       {
         "id": "98ef4c690e3242c9a78962b45048318c",
         "qualificationID": "8e3a5dc35d454c998240d46d1abc2579",
-        "submissionID": "812aebc38be347a7ad739278ca6291f9",
+        "submissionID": "7214c8a11f164206bfcb6020ead1410d",
         "status": "active",
         "suppliers": [
           {
             "name": "Приховано",
-            "scale": "micro",
             "identifier": {
               "scheme": "UA-EDR",
               "id": "Приховано",
-              "uri": "Приховано",
-              "legalName": "Приховано"
+              "legalName": "Приховано",
+              "uri": "Приховано"
             },
             "address": {
-              "countryName": "Приховано",
               "streetAddress": "Приховано",
               "locality": "Приховано",
               "region": "Приховано",
-              "postalCode": "Приховано"
+              "postalCode": "Приховано",
+              "countryName": "Приховано"
             },
             "contactPoint": {
               "name": "Приховано",
-              "telephone": "Приховано",
-              "email": "Приховано"
-            }
+              "email": "Приховано",
+              "telephone": "Приховано"
+            },
+            "scale": "micro"
           }
         ],
         "milestones": [

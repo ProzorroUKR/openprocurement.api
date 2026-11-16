@@ -61,7 +61,7 @@ class BaseSerializer(AbstractSerializer[dict[str, Any]]):
 
     def serialize(self, data: Optional[dict[str, Any]], **kwargs) -> dict[str, Any]:
         # pre-serialize
-        # data can be None, because pydantic dumps nones, while schematics doesn't
+        # data can be None: an empty nested object
         items = [] if data is None else list(data.items())
         if self.private_fields:
             disabled_optional_fields = self.optional_fields - self.get_optional_fields()

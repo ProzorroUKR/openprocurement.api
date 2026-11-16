@@ -382,7 +382,7 @@ def create_tender_invalid(self):
                 "name": "procuringEntity",
                 "description": {
                     "kind": [
-                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                        "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                     ]
                 },
             }

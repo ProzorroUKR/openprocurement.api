@@ -436,7 +436,7 @@ def create_tender_invalid(self):
                 "name": "procuringEntity",
                 "description": {
                     "kind": [
-                        "Value must be one of ('authority', 'central', 'defense', 'general', 'other', 'social', 'special')."
+                        "Value must be one of ['authority', 'central', 'defense', 'general', 'other', 'social', 'special']."
                     ]
                 },
             }
@@ -844,7 +844,16 @@ def create_tender_from_agreement_with_invalid_changes(self):
     self.assertEqual(response.status, "422 Unprocessable Entity")
     self.assertEqual(response.content_type, "application/json")
     self.assertEqual(
-        {"location": "body", "name": "changes", "description": ["Input for polymorphic field did not match any model"]},
+        {
+            "location": "body",
+            "name": "changes",
+            "description": [
+                [
+                    "Input tag 'InvalidRationalType' found using 'rationaleType' does not match any of the expected "
+                    "tags: 'taxRate', 'itemPriceVariation', 'partyWithdrawal', 'thirdParty'"
+                ]
+            ],
+        },
         response.json["errors"][0],
     )
 

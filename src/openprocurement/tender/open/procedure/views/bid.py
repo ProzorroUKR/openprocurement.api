@@ -1,19 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.bid import TenderBidResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_PROCUREMENT_METHOD_TYPES,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 from openprocurement.tender.open.procedure.state.bid import (
     AboveThresholdBidState,
     AboveThresholdEUBidState,
@@ -32,17 +21,17 @@ from openprocurement.tender.open.procedure.state.bid import (
     collection_path="/tenders/{tender_id}/bids",
     path="/tenders/{tender_id}/bids/{bid_id}",
     description="Tender bids",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenTenderBidResource(TenderBidResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdBidState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUABidState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUBidState,
-        OPEN_TENDERING: OpenTenderingBidState,
-        ABOVE_THRESHOLD_UA_DEFENSE: DefenseBidState,
-        SIMPLE_DEFENSE: SimpleDefenseBidState,
-        COMPETITIVE_ORDERING: COBidState,
-        BELOW_THRESHOLD: BelowThresholdBidState,
-        REQUEST_FOR_PROPOSAL: RFPBidState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdBidState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUABidState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUBidState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingBidState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: DefenseBidState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseBidState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COBidState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdBidState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPBidState,
     }

@@ -5,9 +5,8 @@ from unittest import mock
 from ciso8601 import parse_datetime
 from freezegun import freeze_time
 
-from openprocurement.api.procedure.models.organization import PROCURING_ENTITY_KIND_CHOICES
+from openprocurement.api.procedure.models.organization import ProcuringEntityKind
 from openprocurement.api.utils import calculate_date, get_now
-from openprocurement.framework.arma.procedure.models.framework import Framework
 from openprocurement.framework.core.tests.base import get_framework_unsuccessful_status_check_date
 from openprocurement.framework.core.utils import calculate_framework_full_date
 
@@ -118,7 +117,7 @@ def arma_successful_status_without_submissions(self):
     )
     self.assertEqual(response.status, "200 OK")
 
-    framework = Framework(response.json["data"])
+    framework = self.framework_class.model_validate(response.json["data"])
     date = get_framework_unsuccessful_status_check_date(
         framework,
         self.min_submissions_number_days,
@@ -158,7 +157,7 @@ def arma_validate_procurement_entity_kind(self):
         "openprocurement.framework.core.procedure.state.framework.PROCUREMENT_ENTITY_KIND_VALIDATION_FROM",
         get_now() - timedelta(days=1),
     ):
-        for kind in PROCURING_ENTITY_KIND_CHOICES:
+        for kind in ProcuringEntityKind:
             resp_status = 201 if kind in self.allowed_proc_entity_kinds else 422
             data["procuringEntity"]["kind"] = kind
 

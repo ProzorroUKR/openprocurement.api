@@ -1,31 +1,31 @@
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
+from pydantic import Field
 
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.base import Model
 from openprocurement.api.procedure.models.contact import ContactPoint
 from openprocurement.api.procedure.models.identifier import Identifier
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KIND_CHOICES,
+    ProcuringEntityKind,
 )
 from openprocurement.api.procedure.models.signer_info import SignerInfo
-from openprocurement.api.procedure.types import ModelType
+from openprocurement.api.procedure.types import MD5
 
 
 class BaseOrganization(Model):
-    id = MD5Type(default=lambda: uuid4().hex)
-    name = StringType(required=True)
-    name_en = StringType()
-    name_ru = StringType()
-    identifier = ModelType(Identifier, required=True)
-    address = ModelType(Address)
-    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
+    id: MD5 = Field(default_factory=lambda: uuid4().hex)
+    name: str
+    name_en: str | None = None
+    name_ru: str | None = None
+    identifier: Identifier
+    address: Address | None = None
+    kind: ProcuringEntityKind | None = None
 
 
 class ProcuringEntity(BaseOrganization):
-    signerInfo = ModelType(SignerInfo)
+    signerInfo: SignerInfo | None = None
 
 
 class BuyerOrganization(ProcuringEntity):
-    contactPoint = ModelType(ContactPoint)
+    contactPoint: ContactPoint | None = None

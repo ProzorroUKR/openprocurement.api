@@ -8,9 +8,32 @@ Content-Type: application/json
 {
   "data": {
     "agreementID": "UA-2027-01-01-000001-a-ea4a5ba075dd404db964b580ae32918c1",
-    "status": "active",
-    "owner": "broker",
     "agreementType": "closeFrameworkAgreementUA",
+    "status": "active",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-IPN",
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "name_en": "State administration",
+        "telephone": "+0440000000",
+        "availableLanguage": "uk"
+      },
+      "kind": "general"
+    },
     "contracts": [
       {
         "id": "633a51fd12d44a77ab03e65ccd808aa7",
@@ -42,11 +65,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -84,11 +107,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -126,11 +149,11 @@ Content-Type: application/json
         ],
         "unitPrices": [
           {
-            "relatedItem": "1dec43e2ca1b4b8ea0abd024b9931a47",
+            "relatedItem": "57a91685e3474a7285208c407f685f73",
             "value": {
+              "amount": 93,
               "currency": "UAH",
-              "valueAddedTaxIncluded": false,
-              "amount": 93
+              "valueAddedTaxIncluded": false
             }
           }
         ],
@@ -139,15 +162,16 @@ Content-Type: application/json
         "date": "2027-01-01T00:00:00+02:00"
       }
     ],
+    "owner": "broker",
     "items": [
       {
-        "id": "1dec43e2ca1b4b8ea0abd024b9931a47",
+        "id": "57a91685e3474a7285208c407f685f73",
         "description": "футляри до державних нагород",
-        "quantity": 5.0,
+        "description_en": "Cases for state awards",
         "classification": {
-          "description": "Cartons",
           "scheme": "ДК021",
-          "id": "44617100-9"
+          "id": "44617100-9",
+          "description": "Cartons"
         },
         "additionalClassifications": [
           {
@@ -156,6 +180,7 @@ Content-Type: application/json
             "description": "папір і картон гофровані, паперова й картонна тара"
           }
         ],
+        "quantity": 5.0,
         "deliveryDate": {
           "startDate": "2018-06-27T13:39:09.362837+03:00",
           "endDate": "2018-06-30T13:39:09.362837+03:00"
@@ -171,35 +196,10 @@ Content-Type: application/json
           "name": "item",
           "code": "KGM"
         },
-        "description_en": "Cases for state awards",
         "relatedLot": "41d9357c4d24494186fe2da6c7e8ad7d"
       }
     ],
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "name_en": "State administration",
-      "identifier": {
-        "scheme": "UA-IPN",
-        "id": "00037256",
-        "legalName_en": "dus.gov.ua",
-        "uri": "http://www.dus.gov.ua/"
-      },
-      "kind": "general",
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "name_en": "State administration",
-        "telephone": "+0440000000",
-        "availableLanguage": "uk"
-      },
-      "address": {
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220",
-        "countryName": "Україна"
-      }
-    },
-    "tender_id": "4a370cddba9e4d9791dff10c6e02b9ee",
+    "tender_id": "f789f84ec0d64a2285f7dc2654685079",
     "milestones": [
       {
         "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",

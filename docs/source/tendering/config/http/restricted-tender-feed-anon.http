@@ -38,7 +38,7 @@ Content-Type: application/json
           "authorizedBy": "Статут компанії"
         }
       },
-      "id": "38bca89f7ba4477d97f553d576fd6994"
+      "id": "f5b264bbf8d9400290749cb89e5d1cb8"
     },
     {
       "dateModified": "2027-01-01T00:00:00+02:00",
@@ -71,13 +71,13 @@ Content-Type: application/json
           "authorizedBy": "Статут компанії"
         }
       },
-      "id": "2b5eb9efd396490d8e3e662b7153c1ff"
+      "id": "f5e6a56428364271a817fe1c50c88b99"
     }
   ],
   "next_page": {
-    "offset": "1798754400.0.2.c9e589b703dacf9b5ed4833357465084",
-    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1798754400.0.2.c9e589b703dacf9b5ed4833357465084",
-    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1798754400.0.2.c9e589b703dacf9b5ed4833357465084"
+    "offset": "1798754400.0.2.879bbd3ce5412e154835ab390a7c91fd",
+    "path": "/api/2.5/tenders?opt_fields=procuringEntity&offset=1798754400.0.2.879bbd3ce5412e154835ab390a7c91fd",
+    "uri": "http://public-api-sandbox.prozorro.gov.ua/api/2.5/tenders?opt_fields=procuringEntity&offset=1798754400.0.2.879bbd3ce5412e154835ab390a7c91fd"
   }
 }
 

@@ -1,19 +1,17 @@
-from schematics.types.compound import ModelType
-
 from openprocurement.tender.core.procedure.models.lot_value import LotValue, PatchLotValue, PostLotValue
 from openprocurement.tender.esco.procedure.models.value import ESCODynamicValue, ESCOWeightedValue
 
 
 class ESCOPostLotValue(PostLotValue):
-    value = ModelType(ESCODynamicValue, required=True)
+    value: ESCODynamicValue
 
 
 class ESCOPatchLotValue(PatchLotValue):
-    value = ModelType(ESCODynamicValue, required=True)
-    weightedValue = ModelType(ESCOWeightedValue)
+    value: ESCODynamicValue
+    weightedValue: ESCOWeightedValue | None = None
 
 
 class ESCOLotValue(LotValue):
-    value = ModelType(ESCODynamicValue, required=True)
-    initialValue = ModelType(ESCODynamicValue)  # field added by chronograph
-    weightedValue = ModelType(ESCOWeightedValue)
+    value: ESCODynamicValue
+    initialValue: ESCODynamicValue | None = None
+    weightedValue: ESCOWeightedValue | None = None

@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/3eed1dac730f4b268ef8a2a9186faaba/bids/fa1ef73f12454707b5abadf523211a4f/financial_documents?acc_token=f9c83851a3614d86873ce2ac65218f2b HTTP/1.0
+GET /api/2.5/tenders/85d2da9d49a34309a974e0cb03d9d47c/bids/669f0d0c425b4fbeb8081aa736e0de28/financial_documents?acc_token=f9c83851a3614d86873ce2ac65218f2b HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -10,25 +10,25 @@ Content-Type: application/json
   "data": [
     {
       "confidentiality": "public",
-      "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc.pdf",
       "format": "application/pdf",
+      "language": "uk",
+      "hash": "md5:00000000000000000000000000000000",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f92632a5c1ab489db6deba5d2d313753?Signature=ngE4pkDIsSVDd4FtpLl6wtym9yJA7ryCZ6klMuLE2OmW1GlaU20TfS94LAsLawJb%2BG0SRv3GxdnWg07AowB8Bw%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "language": "uk",
-      "id": "1d6ec3727a7e4e3b80a82149ef248418",
+      "id": "fd3eebe6985749e3a729340c14e0feb8",
       "datePublished": "2027-01-01T00:00:00+02:00",
       "dateModified": "2027-01-01T00:00:00+02:00"
     },
     {
       "confidentiality": "public",
-      "hash": "md5:00000000000000000000000000000000",
       "title": "financial_doc2.pdf",
       "format": "application/pdf",
+      "language": "uk",
+      "hash": "md5:00000000000000000000000000000000",
       "url": "http://public-docs-sandbox.prozorro.gov.ua/get/6213288a9dc8448e9d55b5684ce9c0f2?Signature=VagGJ5qPJ4mU6iGXxVClHZk60pm18WTzdvlJjdBxWRPA1TrZP5d0WDipfHusVAXkb%2BbD7U0G5rYz2wDyz1A7BQ%3D%3D&KeyID=a8968c46",
       "documentOf": "tender",
-      "language": "uk",
-      "id": "5de00809a40844eb8dded9d200ba82fc",
+      "id": "5c93c7486a0844b8982614322fd99af9",
       "datePublished": "2027-01-01T00:00:00+02:00",
       "dateModified": "2027-01-01T00:00:00+02:00"
     }

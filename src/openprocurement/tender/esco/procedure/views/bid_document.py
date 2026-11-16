@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.bid_document import (
     BaseTenderBidDocumentResource,
     BaseTenderBidEligibilityDocumentResource,
@@ -12,7 +13,7 @@ from openprocurement.tender.core.procedure.views.bid_document import (
     name="esco:Tender Bid Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/documents",
     path="/tenders/{tender_id}/bids/{bid_id}/documents/{document_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender bidder documents",
 )
 class TenderBidDocumentResource(BaseTenderBidDocumentResource):
@@ -23,7 +24,7 @@ class TenderBidDocumentResource(BaseTenderBidDocumentResource):
     name="esco:Tender Bid Eligibility Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/eligibility_documents/{document_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender bidder eligibility documents",
 )
 class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResource):
@@ -34,7 +35,7 @@ class TenderBidEligibilityDocumentResource(BaseTenderBidEligibilityDocumentResou
     name="esco:Tender Bid Financial Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/financial_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/financial_documents/{document_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender bidder financial documents",
 )
 class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource):
@@ -45,7 +46,7 @@ class TenderBidFinancialDocumentResource(BaseTenderBidFinancialDocumentResource)
     name="esco:Tender Bid Qualification Documents",
     collection_path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents",
     path="/tenders/{tender_id}/bids/{bid_id}/qualification_documents/{document_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="Tender bidder qualification documents",
 )
 class TenderBidQualificationDocumentResource(BaseTenderBidQualificationDocumentResource):

@@ -1,7 +1,6 @@
-from schematics.types.compound import ModelType
+from pydantic import field_validator
 
-from openprocurement.api.procedure.types import ListType
-from openprocurement.api.validation import validate_uniq_code
+from openprocurement.api.procedure.models.base import validate_uniq_code
 from openprocurement.tender.cfaselectionua.procedure.models.parameter import (
     CFASelectionParameter,
     CFASelectionPatchParameter,
@@ -10,16 +9,40 @@ from openprocurement.tender.core.procedure.models.bid import Bid, PatchBid, Patc
 
 
 class CFASelectionPatchBid(PatchBid):
-    parameters = ListType(ModelType(CFASelectionPatchParameter, required=True), validators=[validate_uniq_code])
+    parameters: list[CFASelectionPatchParameter] | None = None
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFASelectionPatchQualificationBid(PatchQualificationBid):
-    parameters = ListType(ModelType(CFASelectionPatchParameter, required=True), validators=[validate_uniq_code])
+    parameters: list[CFASelectionPatchParameter] | None = None
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFASelectionPostBid(PostBid):
-    parameters = ListType(ModelType(CFASelectionParameter, required=True), validators=[validate_uniq_code])
+    parameters: list[CFASelectionParameter] | None = None
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value
 
 
 class CFASelectionBid(Bid):
-    parameters = ListType(ModelType(CFASelectionParameter, required=True), validators=[validate_uniq_code])
+    parameters: list[CFASelectionParameter] | None = None
+
+    @field_validator("parameters")
+    @classmethod
+    def validate_parameters_items(cls, value):
+        validate_uniq_code(value)
+        return value

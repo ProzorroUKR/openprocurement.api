@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/e94eaa64aef8454cbe03535ec53ac9e1 HTTP/1.0
+GET /api/2.5/tenders/fe636ec203e1482a9ff3c6852d95eb9f HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,9 +9,9 @@ Content-Type: application/json
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title_en": "Services in school canteens",
-    "title": "Послуги шкільних їдалень",
     "status": "draft",
+    "title": "Послуги шкільних їдалень",
+    "title_en": "Services in school canteens",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -50,13 +50,9 @@ Content-Type: application/json
         "sequenceNumber": 3
       }
     ],
-    "tenderPeriod": {
-      "endDate": "2027-02-01T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00"
-    },
     "items": [
       {
-        "id": "8fba10d170794a12a8ccd313990265ea",
+        "id": "31135bb40683462fbe2d2eeaef95cc15",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -65,9 +61,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -89,7 +85,7 @@ Content-Type: application/json
         }
       },
       {
-        "id": "0cdb5f2ec3e24db4aeadbae3f863056e",
+        "id": "f488203f58694f2b9cf99308ca2cc950",
         "description": "Послуги шкільних їдалень",
         "description_en": "Services in school canteens",
         "unit": {
@@ -98,9 +94,9 @@ Content-Type: application/json
         },
         "quantity": 1.0,
         "classification": {
-          "description": "Test",
           "scheme": "ДК021",
-          "id": "37810000-9"
+          "id": "37810000-9",
+          "description": "Test"
         },
         "additionalClassifications": [
           {
@@ -122,6 +118,11 @@ Content-Type: application/json
         }
       }
     ],
+    "tenderPeriod": {
+      "endDate": "2027-02-01T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00"
+    },
+    "procurementMethodType": "competitiveDialogueEU",
     "procuringEntity": {
       "name": "ЗОСШ #10 м.Вінниці",
       "name_en": "School #10 of Vinnytsia",
@@ -156,11 +157,10 @@ Content-Type: application/json
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "procurementMethodType": "competitiveDialogueEU",
     "tenderID": "UA-2027-01-01-000001-a",
     "owner": "broker",
     "awardCriteria": "lowestCost",
@@ -255,7 +255,7 @@ Content-Type: application/json
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "e94eaa64aef8454cbe03535ec53ac9e1"
+    "id": "fe636ec203e1482a9ff3c6852d95eb9f"
   },
   "config": {
     "hasAuction": false,

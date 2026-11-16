@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/529089515689411f84e10eb418118905/awards/b0776013ac4c4f27a5c5f1ee311e9a96?acc_token=824e314dadea45d7ac8e49e0ff8477b9 HTTP/1.0
+PATCH /api/2.5/tenders/4e7591689c2f4791924d9c8ae340523a/awards/3d2e666c085544dca43485456b57bedf?acc_token=824e314dadea45d7ac8e49e0ff8477b9 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "b0776013ac4c4f27a5c5f1ee311e9a96",
+    "id": "3d2e666c085544dca43485456b57bedf",
     "status": "active",
     "date": "2027-01-01T00:01:00+02:00",
     "value": {
@@ -25,8 +25,8 @@ Content-Type: application/json
       "valueAddedTaxIncluded": false
     },
     "weightedValue": {
-      "currency": "UAH",
       "amount": 388.11,
+      "currency": "UAH",
       "denominator": 1.2857142857142858
     },
     "suppliers": [
@@ -51,22 +51,22 @@ Content-Type: application/json
         "scale": "micro"
       }
     ],
-    "bid_id": "cce8eace70544ef99eb910e43a6d70f4",
+    "bid_id": "36b40ee4d22941e48473e8511ea5a097",
     "lotID": "66bd7aa82b7d403cb3626390997acbaf",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "3ec21e4475b348118d981b0a89145e06",
-        "datePublished": "2027-01-01T00:01:00+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "7116bbaeb60248a7a0c2c3073b930216",
+        "datePublished": "2027-01-01T00:01:00+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/1cde1d1230724f8b85f3f49389aa119a?Signature=GIsI0QCfzUVpFAdXWyMtbIP4Neq%2BQVkRLlQJov1Se%2FfOubFnSa%2F7F7IDgBSkc%2FN52hlhyEZD6tHTbffHj2S3BQ%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-01T00:01:00+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

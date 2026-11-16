@@ -1,18 +1,18 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.document import (
     CoreQualificationDocumentResource,
 )
-from openprocurement.framework.dps.constants import DPS_TYPE
 
 
 @resource(
-    name=f"{DPS_TYPE}:Qualification Documents",
+    name=f"{FrameworkType.DYNAMIC_PURCHASING_SYSTEM}:Qualification Documents",
     collection_path="/qualifications/{qualification_id}/documents",
     path="/qualifications/{qualification_id}/documents/{document_id}",
     description="Qualification related binary files (PDFs, etc.)",
-    qualificationType=DPS_TYPE,
+    qualificationType=FrameworkType.DYNAMIC_PURCHASING_SYSTEM,
 )
 class QualificationDocumentResource(CoreQualificationDocumentResource):
     @json_view(permission="view_framework")

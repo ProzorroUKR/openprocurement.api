@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids HTTP/1.0
+POST /api/2.5/tenders/81a4035ab3d944e39a8044366f96e622/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -48,7 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
     ],
     "items": [
       {
-        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
+        "id": "e8d9b57dc30f4a27b4b19c1838043e07",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -69,13 +69,13 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c8353224465681cea90b38b3ba5d/bids/bae3a1f8f1884aae9656b06c3c3c2dd0
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/81a4035ab3d944e39a8044366f96e622/bids/86e1575e12eb476ba7d314dba5ad8e0c
 
 {
   "data": {
     "items": [
       {
-        "id": "5508f1b1a19c4f2aa48fa7c4487df51b",
+        "id": "e8d9b57dc30f4a27b4b19c1838043e07",
         "description": "Послуги шкільних їдалень",
         "unit": {
           "name": "папір",
@@ -88,6 +88,18 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c83532244656
         },
         "quantity": 1.0,
         "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0"
+      }
+    ],
+    "lotValues": [
+      {
+        "status": "pending",
+        "value": {
+          "amount": 499.0,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": false
+        },
+        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0",
+        "date": "2027-01-01T00:02:01+02:00"
       }
     ],
     "tenderers": [
@@ -122,20 +134,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cfe5c83532244656
         }
       }
     ],
-    "lotValues": [
-      {
-        "status": "pending",
-        "value": {
-          "amount": 499.0,
-          "currency": "UAH",
-          "valueAddedTaxIncluded": false
-        },
-        "relatedLot": "ac6a3f9689df4f6eba8d8bd3377618e0",
-        "date": "2027-01-01T00:02:01+02:00"
-      }
-    ],
     "status": "draft",
-    "id": "bae3a1f8f1884aae9656b06c3c3c2dd0",
+    "id": "86e1575e12eb476ba7d314dba5ad8e0c",
     "date": "2027-01-01T00:02:01+02:00"
   },
   "access": {

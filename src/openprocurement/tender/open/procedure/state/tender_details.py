@@ -1,12 +1,9 @@
 from openprocurement.api.auth import AccreditationLevel
-from openprocurement.api.constants import WORKING_DAYS_WITH_WORKING_WEEKENDS
-from openprocurement.framework.dps.constants import DPS_TYPE
+from openprocurement.api.constants import WORKING_DAYS_WITH_WORKING_WEEKENDS, AgreementType, ProcurementMethodType
 from openprocurement.tender.core.constants import (
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
-    AWARD_CRITERIA_LOWEST_COST,
-    AWARD_CRITERIA_RATED_CRITERIA,
     CALENDAR_DAYS_CONFIG,
     EU_REQUIRED_MULTILINGUAL_FIELDS,
+    AwardCriteria,
 )
 from openprocurement.tender.core.procedure.models.award import Award
 from openprocurement.tender.core.procedure.models.tender import PatchActiveTender, PatchDraftTender
@@ -111,13 +108,13 @@ class SimpleDefenseTenderDetailsState(TenderDetailsMixin, TenderState):
 
 class COTenderDetailsState(TenderDetailsMixin, COTenderState):
     agreement_procuring_entity_match_except_defense = True
-    agreement_allowed_types = [DPS_TYPE]
+    agreement_allowed_types = [AgreementType.DYNAMIC_PURCHASING_SYSTEM]
     contract_template_required = True
     working_days_config = CALENDAR_DAYS_CONFIG
 
 
 class COTenderConfigMixin:
-    extra_config_schema_name = "competitiveOrdering"
+    extra_config_schema_name = ProcurementMethodType.COMPETITIVE_ORDERING
 
 
 class COShortTenderDetailsState(COTenderConfigMixin, COTenderDetailsState):
@@ -223,9 +220,9 @@ class RFPTenderDetailsMixin(TenderDetailsMixin):
     requirement_put_allowed_tender_statuses = ["active.enquiries"]
     requirement_models_by_classification = False
     award_criteria_choices = (
-        AWARD_CRITERIA_LOWEST_COST,
-        AWARD_CRITERIA_LIFE_CYCLE_COST,
-        AWARD_CRITERIA_RATED_CRITERIA,
+        AwardCriteria.LOWEST_COST,
+        AwardCriteria.LIFE_CYCLE_COST,
+        AwardCriteria.RATED_CRITERIA,
     )
 
 

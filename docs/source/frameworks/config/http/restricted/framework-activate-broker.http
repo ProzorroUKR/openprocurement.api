@@ -1,4 +1,4 @@
-PATCH /api/2.5/frameworks/65734280ef5b48d1b980d2dcf5225050?acc_token=e8b68517319b4d4699c42692c138e6a0 HTTP/1.0
+PATCH /api/2.5/frameworks/6a0de779fb1441439fb25258425707a7?acc_token=e8b68517319b4d4699c42692c138e6a0 HTTP/1.0
 Authorization: Bearer brokerr
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,11 +18,33 @@ Content-Type: application/json
     "prettyID": "UA-F-2027-01-01-000001",
     "title": "Узагальнена назва закупівлі",
     "description": "Назва предмета закупівлі",
+    "frameworkType": "dynamicPurchasingSystem",
     "status": "active",
+    "procuringEntity": {
+      "name": "Державне управління справами",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "legalName": "Назва організації"
+      },
+      "address": {
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ",
+        "region": "м. Київ",
+        "postalCode": "01220",
+        "countryName": "Україна"
+      },
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "email": "aa@aa.com",
+        "telephone": "+0440000000"
+      },
+      "kind": "defense"
+    },
     "classification": {
-      "description": "Mustard seeds",
       "scheme": "ДК021",
-      "id": "03111600-8"
+      "id": "03111600-8",
+      "description": "Mustard seeds"
     },
     "additionalClassifications": [
       {
@@ -39,28 +61,6 @@ Content-Type: application/json
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2028-02-05T00:00:00+02:00"
     },
-    "frameworkType": "dynamicPurchasingSystem",
-    "procuringEntity": {
-      "name": "Державне управління справами",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "id": "00037256",
-        "legalName": "Назва організації"
-      },
-      "address": {
-        "countryName": "Україна",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
-        "locality": "м. Київ",
-        "region": "м. Київ",
-        "postalCode": "01220"
-      },
-      "contactPoint": {
-        "name": "Державне управління справами",
-        "telephone": "+0440000000",
-        "email": "aa@aa.com"
-      },
-      "kind": "defense"
-    },
     "enquiryPeriod": {
       "startDate": "2027-01-01T00:00:00+02:00",
       "endDate": "2027-01-15T00:00:00+02:00",
@@ -71,7 +71,7 @@ Content-Type: application/json
       "endDate": "2028-01-06T00:00:00+02:00"
     },
     "next_check": "2027-01-16T00:00:00+02:00",
-    "id": "65734280ef5b48d1b980d2dcf5225050"
+    "id": "6a0de779fb1441439fb25258425707a7"
   },
   "config": {
     "restrictedDerivatives": true,

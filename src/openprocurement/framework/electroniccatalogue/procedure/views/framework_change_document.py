@@ -1,19 +1,17 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import json_view
 from openprocurement.framework.core.procedure.views.document import (
     CoreFrameworkChangeDocumentResource,
 )
-from openprocurement.framework.electroniccatalogue.constants import (
-    ELECTRONIC_CATALOGUE_TYPE,
-)
 
 
 @resource(
-    name=f"{ELECTRONIC_CATALOGUE_TYPE}:Framework Change Documents",
+    name=f"{FrameworkType.ELECTRONIC_CATALOGUE}:Framework Change Documents",
     collection_path="/frameworks/{framework_id}/changes/{change_id}/documents",
     path="/frameworks/{framework_id}/changes/{change_id}/documents/{document_id}",
-    frameworkType=ELECTRONIC_CATALOGUE_TYPE,
+    frameworkType=FrameworkType.ELECTRONIC_CATALOGUE,
     description="Framework change related binary files (PDFs, etc.)",
 )
 class FrameworkChangeDocumentResource(CoreFrameworkChangeDocumentResource):

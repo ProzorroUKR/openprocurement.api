@@ -1,23 +1,12 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.award_claim import AwardClaimResource
 from openprocurement.tender.core.procedure.views.award_complaint import (
     AwardComplaintGetResource,
     AwardComplaintWriteResource,
 )
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_PROCUREMENT_METHOD_TYPES,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX, OpenProcurementMethodType
 from openprocurement.tender.open.procedure.state.award_claim import (
     AboveThresholdAwardClaimState,
     AboveThresholdEUAwardClaimState,
@@ -44,7 +33,7 @@ from openprocurement.tender.open.procedure.state.award_complaint import (
     path="/tenders/{tender_id}/awards/{award_id}/complaints/{complaint_id}",
     request_method=["GET"],
     description="Tender award complaints get",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenAwardComplaintGetResource(AwardComplaintGetResource):
     pass
@@ -57,19 +46,19 @@ class OpenAwardComplaintGetResource(AwardComplaintGetResource):
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Tender award claims",
-    procurementMethodType=OPEN_PROCUREMENT_METHOD_TYPES,
+    procurementMethodType=OpenProcurementMethodType,
 )
 class OpenAwardClaimResource(AwardClaimResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdAwardClaimState,
-        ABOVE_THRESHOLD_UA: AboveThresholdAwardClaimState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUAwardClaimState,
-        OPEN_TENDERING: OpenTenderingAwardClaimState,
-        ABOVE_THRESHOLD_UA_DEFENSE: DefenseAwardClaimState,
-        SIMPLE_DEFENSE: SimpleDefenseAwardClaimState,
-        COMPETITIVE_ORDERING: COAwardClaimState,
-        BELOW_THRESHOLD: BelowThresholdAwardClaimState,
-        REQUEST_FOR_PROPOSAL: RFPAwardClaimState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdAwardClaimState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdAwardClaimState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUAwardClaimState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingAwardClaimState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: DefenseAwardClaimState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseAwardClaimState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COAwardClaimState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdAwardClaimState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPAwardClaimState,
     }
 
 
@@ -81,22 +70,22 @@ class OpenAwardClaimResource(AwardClaimResource):
     complaintType="complaint",
     description="Tender award complaints",
     procurementMethodType=[
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_UA,
-        ABOVE_THRESHOLD_EU,
-        OPEN_TENDERING,
-        ABOVE_THRESHOLD_UA_DEFENSE,
-        SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.OPEN_TENDERING,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
     ],
 )
 class OpenAwardComplaintWriteResource(AwardComplaintWriteResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdAwardComplaintState,
-        ABOVE_THRESHOLD_UA: AboveThresholdAwardComplaintState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUAwardComplaintState,
-        OPEN_TENDERING: OpenTenderingAwardComplaintState,
-        ABOVE_THRESHOLD_UA_DEFENSE: DefenseAwardComplaintState,
-        SIMPLE_DEFENSE: SimpleDefenseAwardComplaintState,
-        COMPETITIVE_ORDERING: COAwardComplaintState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdAwardComplaintState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdAwardComplaintState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUAwardComplaintState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingAwardComplaintState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE: DefenseAwardComplaintState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseAwardComplaintState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COAwardComplaintState,
     }

@@ -1,19 +1,21 @@
 from openprocurement.api.procedure.models.period import Period
-from openprocurement.api.procedure.types import IsoDateTimeType
+from openprocurement.api.procedure.types import (
+    IsoDateTime,
+)
 
 
 class QualificationPeriod(Period):
-    reportingDatePublication = IsoDateTimeType()
+    reportingDatePublication: IsoDateTime | None = None
 
 
 class EnquiryPeriod(Period):
-    clarificationsUntil = IsoDateTimeType()
-    invalidationDate = IsoDateTimeType()
+    clarificationsUntil: IsoDateTime | None = None
+    invalidationDate: IsoDateTime | None = None
 
 
 class LotAuctionPeriod(Period):
-    shouldStartAfter = IsoDateTimeType()
+    shouldStartAfter: IsoDateTime | None = None
 
 
 class TenderAuctionPeriod(Period):
-    shouldStartAfter = IsoDateTimeType()
+    shouldStartAfter: IsoDateTime | None = None

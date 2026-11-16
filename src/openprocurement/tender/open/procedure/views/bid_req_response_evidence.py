@@ -1,17 +1,8 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.bid_req_response_evidence import BidReqResponseEvidenceResource
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_ROUTE_PREFIX,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
+from openprocurement.tender.open.constants import OPEN_ROUTE_PREFIX
 from openprocurement.tender.open.procedure.state.bid_req_response_evidence import (
     AboveThresholdBidReqResponseEvidenceState,
     AboveThresholdEUBidReqResponseEvidenceState,
@@ -30,24 +21,24 @@ from openprocurement.tender.open.procedure.state.bid_req_response_evidence impor
     path="/tenders/{tender_id}/bids/{bid_id}/requirement_responses/{requirement_response_id}/evidences/{evidence_id}",
     description="Tender UA bidder evidences",
     procurementMethodType=[
-        ABOVE_THRESHOLD,
-        ABOVE_THRESHOLD_UA,
-        ABOVE_THRESHOLD_EU,
-        OPEN_TENDERING,
-        SIMPLE_DEFENSE,
-        COMPETITIVE_ORDERING,
-        BELOW_THRESHOLD,
-        REQUEST_FOR_PROPOSAL,
+        ProcurementMethodType.ABOVE_THRESHOLD,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU,
+        ProcurementMethodType.OPEN_TENDERING,
+        ProcurementMethodType.SIMPLE_DEFENSE,
+        ProcurementMethodType.COMPETITIVE_ORDERING,
+        ProcurementMethodType.BELOW_THRESHOLD,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL,
     ],
 )
 class OpenBidReqResponseEvidenceResource(BidReqResponseEvidenceResource):
     state_classes = {
-        ABOVE_THRESHOLD: AboveThresholdBidReqResponseEvidenceState,
-        ABOVE_THRESHOLD_UA: AboveThresholdUABidReqResponseEvidenceState,
-        ABOVE_THRESHOLD_EU: AboveThresholdEUBidReqResponseEvidenceState,
-        OPEN_TENDERING: OpenTenderingBidReqResponseEvidenceState,
-        SIMPLE_DEFENSE: SimpleDefenseBidReqResponseEvidenceState,
-        COMPETITIVE_ORDERING: COBidReqResponseEvidenceState,
-        BELOW_THRESHOLD: BelowThresholdBidReqResponseEvidenceState,
-        REQUEST_FOR_PROPOSAL: RFPBidReqResponseEvidenceState,
+        ProcurementMethodType.ABOVE_THRESHOLD: AboveThresholdBidReqResponseEvidenceState,
+        ProcurementMethodType.ABOVE_THRESHOLD_UA: AboveThresholdUABidReqResponseEvidenceState,
+        ProcurementMethodType.ABOVE_THRESHOLD_EU: AboveThresholdEUBidReqResponseEvidenceState,
+        ProcurementMethodType.OPEN_TENDERING: OpenTenderingBidReqResponseEvidenceState,
+        ProcurementMethodType.SIMPLE_DEFENSE: SimpleDefenseBidReqResponseEvidenceState,
+        ProcurementMethodType.COMPETITIVE_ORDERING: COBidReqResponseEvidenceState,
+        ProcurementMethodType.BELOW_THRESHOLD: BelowThresholdBidReqResponseEvidenceState,
+        ProcurementMethodType.REQUEST_FOR_PROPOSAL: RFPBidReqResponseEvidenceState,
     }

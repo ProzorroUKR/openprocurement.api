@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/c47eb908d737465e8a509f1c7ef57071/criteria/2adf2b4aa45043d383e4f7aa15f8d154/requirement_groups/e33b17ae2a224b2aab606af748427630/requirements HTTP/1.0
+GET /api/2.5/tenders/8c4b3ac47fa54f0bb422fad810bce326/criteria/3ca1f15e9a6e430bbd5497491f1f0bf0/requirement_groups/7e0ef0e7c38142d9b817b2c6f0a6e1d9/requirements HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -9,7 +9,6 @@ Content-Type: application/json
 {
   "data": [
     {
-      "id": "27ffd4badc514b27be9dc622f99b40de",
       "title": "Updated title",
       "dataType": "boolean",
       "eligibleEvidences": [
@@ -17,15 +16,15 @@ Content-Type: application/json
           "title": "Документальне підтвердження",
           "description": "Довідка в довільній формі",
           "type": "document",
-          "id": "2a709680edfc42ffbd875f6c165126fb"
+          "id": "cf618086427d460c9c0c82d1c6c7ca0b"
         }
       ],
+      "status": "active",
       "expectedValue": true,
-      "datePublished": "2027-01-01T00:00:00+02:00",
-      "status": "active"
+      "id": "92b73a6d82334347b3c2ee196d6cbdcf",
+      "datePublished": "2027-01-01T00:00:00+02:00"
     },
     {
-      "id": "539eebad6f434d5d88261003c1888c5b",
       "title": "Another characteristic",
       "dataType": "boolean",
       "eligibleEvidences": [
@@ -33,11 +32,12 @@ Content-Type: application/json
           "title": "Документальне підтвердження",
           "description": "Довідка в довільній формі",
           "type": "document",
-          "id": "44feddf728b14aa69e8c9f1f2d989448"
+          "id": "2d6228b737f14795b73fbdd5ac4e495f"
         }
       ],
       "status": "active",
       "expectedValue": true,
+      "id": "a391c5a08d934cc09ad059f15b1ec863",
       "datePublished": "2027-01-01T00:00:00+02:00"
     }
   ]

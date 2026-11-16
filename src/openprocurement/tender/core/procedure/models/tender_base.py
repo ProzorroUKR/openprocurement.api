@@ -1,16 +1,18 @@
 from enum import StrEnum
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, field_validator
 
-from openprocurement.api.constants import SANDBOX_MODE, TENDER_PROCEDURE_JSONSCHEMAS
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.constants import FUNDERS, SANDBOX_MODE, TENDER_PROCEDURE_JSONSCHEMAS
+from openprocurement.api.procedure.errors import ConversionError, ValidationError
+from openprocurement.api.procedure.models.base import Model, RootModel, model_field_validator, validate_object_id_uniq
 from openprocurement.api.procedure.models.organization import ProcuringEntityKind
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
-from openprocurement.tender.core.constants import PROCUREMENT_METHODS
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
+from openprocurement.tender.core.constants import ProcurementMethod
 from openprocurement.tender.core.procedure.context import get_request
 from openprocurement.tender.core.procedure.models.agreement import AgreementUUID
 from openprocurement.tender.core.procedure.models.criterion import (
@@ -37,10 +39,6 @@ from openprocurement.tender.core.procedure.models.review_request import ReviewRe
 from openprocurement.tender.core.procedure.utils import (
     generate_tender_id,
 )
-from openprocurement.tender.core.procedure.validation import (
-    validate_funders_ids,
-    validate_object_id_uniq,
-)
 
 
 class MainProcurementCategory(StrEnum):
@@ -56,56 +54,15 @@ MAIN_PROCUREMENT_CATEGORY_CHOICES = [
 ]
 
 
-TENDER_PATCH_STATUSES = [
-    "draft",
-    "draft.pending",
-    "draft.unsuccessful",
-    "active",
-    "active.enquiries",
-    "active.tendering",
-    "active.pre-qualification",
-    "active.pre-qualification.stand-still",
-    "active.auction",
-    "active.qualification",
-    "active.qualification.stand-still",
-    "active.awarded",
-    "active.stage2.waiting",
-    "complete",
-    "cancelled",
-    "unsuccessful",
-]
-
-TENDER_STATUSES = [
-    "draft",
-    "draft.pending",
-    "draft.unsuccessful",
-    "draft.stage2",
-    "active",
-    "active.enquiries",
-    "active.tendering",
-    "active.pre-qualification",
-    "active.pre-qualification.stand-still",
-    "active.auction",
-    "active.qualification",
-    "active.qualification.stand-still",
-    "active.awarded",
-    "active.stage2.pending",
-    "active.stage2.waiting",
-    "complete",
-    "cancelled",
-    "unsuccessful",
-]
-
-
 class PlanRelation(Model):
-    id = MD5Type(required=True)
+    id: MD5
 
 
-def validate_plans(data, value):
-    if value:
-        if len({i["id"] for i in value}) < len(value):
+def validate_plans(plan_ids, procuring_entity_kind):
+    if plan_ids:
+        if len(set(plan_ids)) < len(plan_ids):
             raise ValidationError("The list should not contain duplicates")
-        if len(value) > 1 and data.get("procuringEntity", {}).get("kind", "") != ProcuringEntityKind.CENTRAL:
+        if len(plan_ids) > 1 and procuring_entity_kind != ProcuringEntityKind.CENTRAL:
             raise ValidationError(
                 "Linking more than one plan is allowed only if procuringEntity.kind is '{}'".format(
                     ProcuringEntityKind.CENTRAL
@@ -113,173 +70,215 @@ def validate_plans(data, value):
             )
 
 
-def validate_inspector(data, value):
+def validate_inspector(tender, value):
     if value:
-        if not data.get("funders"):
+        if not tender.funders:
             raise ValidationError("Inspector couldn't exist without funders")
 
 
 class CommonBaseTender(Model):
-    mainProcurementCategory = StringType()  # choices are validated in state
-    awardCriteriaDetails = StringType()  # Any detailed or further information on the selection criteria.
-    awardCriteriaDetails_en = StringType()
-    awardCriteriaDetails_ru = StringType()
-    eligibilityCriteria = StringType()  # A description of any eligibility criteria for potential suppliers.
-    eligibilityCriteria_en = StringType()
-    eligibilityCriteria_ru = StringType()
-    # union of statuses a tender owner may set in any procedure;
-    # per-procedure sets live in TenderDetailsState.patch_status_choices
-    status = StringType(choices=TENDER_PATCH_STATUSES)
-    buyers = ListType(ModelType(Buyer, required=True))
+    mainProcurementCategory: str | None = None
+    awardCriteriaDetails: str | None = None
+    awardCriteriaDetails_en: str | None = None
+    awardCriteriaDetails_ru: str | None = None
+    eligibilityCriteria: str | None = None
+    eligibilityCriteria_en: str | None = None
+    eligibilityCriteria_ru: str | None = None
+    status: (
+        Literal[
+            "draft",
+            "draft.pending",
+            "draft.unsuccessful",
+            "active",
+            "active.enquiries",
+            "active.tendering",
+            "active.pre-qualification",
+            "active.pre-qualification.stand-still",
+            "active.auction",
+            "active.qualification",
+            "active.qualification.stand-still",
+            "active.awarded",
+            "active.stage2.waiting",
+            "complete",
+            "cancelled",
+            "unsuccessful",
+        ]
+        | None
+    ) = None
+    buyers: list[Buyer] | None = None
+    title: str | None = None
+    title_en: str | None = None
+    title_ru: str | None = None
+    documents: list[PostDocument] | None = None
+    description: str | None = None
+    description_en: str | None = None
+    description_ru: str | None = None
+    procurementMethodRationale: str | None = None
+    procurementMethodRationale_en: str | None = None
+    procurementMethodRationale_ru: str | None = None
+    funders: list[Organization] | None = None
+    is_masked: bool | None = None
+    procurementMethod: ProcurementMethod | None = None
+    contractTemplateName: str | None = None
 
-    title = StringType()
-    title_en = StringType()
-    title_ru = StringType()
-    documents = ListType(ModelType(PostDocument, required=True))  # All documents and attachments related to the tender.
-    description = StringType()
-    description_en = StringType()
-    description_ru = StringType()
+    procurementMethodDetails: str | None = None  # the sandbox mode only
 
-    procurementMethodRationale = StringType()
-    procurementMethodRationale_en = StringType()
-    procurementMethodRationale_ru = StringType()
-    funders = ListType(
-        ModelType(Organization, required=True),
-        validators=[validate_funders_ids],
-    )
-    is_masked = BooleanType()
+    @field_validator("procurementMethodDetails")
+    @classmethod
+    def validate_procurement_method_details(cls, value):
+        if value and not SANDBOX_MODE:
+            raise ConversionError("Rogue field")
+        return value
 
-    procurementMethod = StringType(choices=PROCUREMENT_METHODS)
-    contractTemplateName = StringType()
-
-    if SANDBOX_MODE:
-        procurementMethodDetails = StringType()
+    @field_validator("funders")
+    @classmethod
+    def validate_funders_items(cls, value):
+        validate_funders_ids(value)
+        return value
 
 
 class PatchBaseTender(CommonBaseTender):
-    criteria = ListType(
-        ModelType(Criterion, required=True),
-        validators=[validate_object_id_uniq],
-    )
+    criteria: list[Criterion] | None = None
+
+    @field_validator("criteria")
+    @classmethod
+    def validate_criteria_items(cls, value):
+        validate_object_id_uniq(value)
+        return value
 
 
 class PostBaseTender(CommonBaseTender):
-    @serializable(serialized_name="_id")
-    def id(self):
+    @computed_field(alias="_id")
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable(serialized_name="tenderID")
-    def serialize_tender_id(self):
+    @computed_field
+    def tenderID(self) -> Any:
         return generate_tender_id(get_request())
 
-    @serializable
-    def doc_type(self):
+    @computed_field
+    def doc_type(self) -> Any:
         return "Tender"
 
-    title = StringType(required=True)
-    mode = StringType(choices=["test"])
+    title: str
+    mode: Literal["test"] | None = None
 
-    if SANDBOX_MODE:
-        procurementMethodDetails = StringType()
+    status: Literal["draft"] = "draft"
+    agreements: list[AgreementUUID] | None = Field(None, min_length=1, max_length=1)
+    inspector: Organization | None = None
+    plans: list[PlanRelation] | None = None
+    procedure: Any = None
 
-    status = StringType(choices=["draft"], default="draft")
-    agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
-    inspector = ModelType(Organization)
-    plans = ListType(ModelType(PlanRelation, required=True))
-    # the procedure specific fields: set only at the creation, the structure is validated by the state
-    procedure = BaseType()
-
-    def validate_buyers(self, data, value):
-        procuring_entity_kind = data.get("procuringEntity", {}).get("kind", "")
-        if procuring_entity_kind == ProcuringEntityKind.CENTRAL and not value:
-            raise ValidationError(BaseType.MESSAGES["required"])
+    @model_field_validator("buyers")
+    def validate_buyers(self, value):
+        procuring_entity = getattr(self, "procuringEntity", None)  # not a field of PostBaseTender itself
+        procuring_entity_kind = procuring_entity.kind if procuring_entity else None
+        if procuring_entity_kind == ProcuringEntityKind.CENTRAL and (not value):
+            raise ValidationError("This field is required.")
         elif procuring_entity_kind != ProcuringEntityKind.CENTRAL and value:
             raise ValidationError("Rogue field.")
 
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
+    @model_field_validator("items")
+    def validate_items(self, items):
+        validate_related_buyer_in_items(self, items)
 
-    def validate_procurementMethodDetails(self, data, value):
-        if not SANDBOX_MODE and value and data.get("mode") != "test":
-            raise ValidationError("procurementMethodDetails should be used with mode test")
+    @model_field_validator("inspector")
+    def validate_inspector(self, value):
+        validate_inspector(self, value)
 
-    def validate_inspector(self, data, value):
-        validate_inspector(data, value)
+    @model_field_validator("plans")
+    def validate_plans(self, value):
+        procuring_entity = getattr(self, "procuringEntity", None)
+        validate_plans([plan.id for plan in value or []], procuring_entity.kind if procuring_entity else None)
 
-    def validate_plans(self, data, value):
-        validate_plans(data, value)
-
-    def validate_procedure(self, data, value):
-        # allowed (and required) only for the procedures that have procedureExtensionScheme in standards
-        if TENDER_PROCEDURE_JSONSCHEMAS.get(data.get("procurementMethodType")) is None:
+    @model_field_validator("procedure")
+    def validate_procedure(self, value):
+        if TENDER_PROCEDURE_JSONSCHEMAS.get(getattr(self, "procurementMethodType", None)) is None:
             if value is not None:
                 raise ValidationError("Rogue field.")
         elif value is None:
-            raise ValidationError(BaseType.MESSAGES["required"])
+            raise ValidationError("This field is required.")
 
 
-class BaseTender(PatchBaseTender):
-    _id = StringType(deserialize_from=["id", "doc_id"])
-    _rev = StringType()
-    doc_type = StringType()
-    public_modified = BaseType()
-    public_ts = BaseType()
+class BaseTender(PatchBaseTender, RootModel):
+    date: IsoDateTime | None = None
+    dateModified: IsoDateTime | None = None
+    dateCreated: IsoDateTime | None = None
+    tenderID: str | None = None
+    bids: Any = None
+    questions: list[Question] | None = None
+    documents: list[Document] | None = None
+    status: Literal[
+        "draft",
+        "draft.pending",
+        "draft.unsuccessful",
+        "draft.stage2",
+        "active",
+        "active.enquiries",
+        "active.tendering",
+        "active.pre-qualification",
+        "active.pre-qualification.stand-still",
+        "active.auction",
+        "active.qualification",
+        "active.qualification.stand-still",
+        "active.awarded",
+        "active.stage2.pending",
+        "active.stage2.waiting",
+        "complete",
+        "cancelled",
+        "unsuccessful",
+    ]
+    owner: str | None = None
+    owner_token: str | None = None
+    transfer_token: str | None = None
+    title: str
+    mode: Literal["test"] | None = None
+    mainProcurementCategory: str | None = None
+    buyers: list[Buyer] | None = None
+    agreements: list[AgreementUUID] | None = Field(None, min_length=1, max_length=1)
+    inspector: Organization | None = None
+    reviewRequests: list[ReviewRequest] | None = None
+    procurementMethod: ProcurementMethod
+    noticePublicationDate: IsoDateTime | None = None
+    plans: list[PlanRelation] | None = None
+    procedure: Any = None
 
-    date = IsoDateTimeType()
-    dateModified = IsoDateTimeType()
-    dateCreated = IsoDateTimeType()
-    tenderID = StringType()
-    revisions = BaseType()
-    bids = BaseType()
-    questions = ListType(ModelType(Question, required=True))
-    documents = ListType(ModelType(Document, required=True))
-    status = StringType(choices=TENDER_STATUSES, required=True)
-    owner = StringType()
-    owner_token = StringType()
-    transfer_token = StringType()
-    title = StringType(required=True)
-    mode = StringType(choices=["test"])
-    mainProcurementCategory = StringType()  # choices are validated in state
-    buyers = ListType(ModelType(Buyer, required=True))
-    agreements = ListType(ModelType(AgreementUUID, required=True), min_size=1, max_size=1)
-    inspector = ModelType(Organization)
-    reviewRequests = ListType(ModelType(ReviewRequest, required=True))
+    complaints: Any = None
+    awards: Any = None
+    contracts: Any = None
+    cancellations: Any = None
+    qualifications: Any = None
+    qualificationPeriod: QualificationPeriod | None = None
+    complaintPeriod: Any = None
+    next_check: Any = None
+    contractChangeRationaleTypes: Any = None
+    config: Any = None
+    numberOfBids: Any = None
+    attachments_: Any = Field(None, alias="_attachments")
 
-    procurementMethod = StringType(choices=PROCUREMENT_METHODS, required=True)
-    noticePublicationDate = IsoDateTimeType()
-    plans = ListType(ModelType(PlanRelation, required=True))
-    procedure = BaseType()
+    @model_field_validator("items")
+    def validate_items(self, items):
+        validate_related_buyer_in_items(self, items)
 
-    if SANDBOX_MODE:
-        procurementMethodDetails = StringType()
+    @model_field_validator("documents")
+    def validate_documents(self, documents):
+        validate_tender_document_relations(self, documents)
 
-    complaints = BaseType()
-    awards = BaseType()
-    contracts = BaseType()
-    cancellations = BaseType()
-    qualifications = BaseType()
-    qualificationPeriod = ModelType(QualificationPeriod)
-    complaintPeriod = BaseType()
-    next_check = BaseType()
+    @model_field_validator("questions")
+    def validate_questions(self, questions):
+        validate_questions_related_items(self, questions)
 
-    contractChangeRationaleTypes = BaseType()
+    @model_field_validator("inspector")
+    def validate_inspector(self, value):
+        validate_inspector(self, value)
 
-    config = BaseType()
+    @model_field_validator("plans")
+    def validate_plans(self, value):
+        procuring_entity = getattr(self, "procuringEntity", None)
+        validate_plans([plan.id for plan in value or []], procuring_entity.kind if procuring_entity else None)
 
-    numberOfBids = BaseType()  # deprecated
-    _attachments = BaseType()  # deprecated
 
-    def validate_items(self, data, items):
-        validate_related_buyer_in_items(data, items)
-
-    def validate_documents(self, data, documents):
-        validate_tender_document_relations(data, documents)
-
-    def validate_questions(self, data, questions):
-        validate_questions_related_items(data, questions)
-
-    def validate_inspector(self, data, value):
-        validate_inspector(data, value)
-
-    def validate_plans(self, data, value):
-        validate_plans(data, value)
+def validate_funders_ids(funders, *args):
+    for funder in funders:
+        if funder.identifier and (funder.identifier.scheme, funder.identifier.id) not in FUNDERS:
+            raise ValidationError("Funder identifier should be one of the values allowed")

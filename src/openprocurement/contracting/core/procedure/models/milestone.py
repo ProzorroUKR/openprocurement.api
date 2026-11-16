@@ -1,14 +1,10 @@
-from schematics.types import StringType
+from typing import Literal
 
-from openprocurement.api.procedure.types import IsoDateTimeType
-from openprocurement.tender.core.procedure.models.milestone import Milestone
+from openprocurement.api.procedure.models.milestone import BaseMilestone
+from openprocurement.api.procedure.types import IsoDateTime
 
 
-class ContractMilestone(Milestone):
+class ContractMilestone(BaseMilestone):
     # todo: add later logic for updating milestone's status with met/unMet
-    status = StringType(choices=["scheduled"], default="scheduled")
-    dateMet = IsoDateTimeType()
-    relatedLot = None
-
-
-ContractMilestone._fields.pop("relatedLot", None)
+    status: Literal["scheduled"] = "scheduled"
+    dateMet: IsoDateTime | None = None

@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.arma.constants import COMPLEX_ASSET_ARMA
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.arma.procedure.state.qualification_claim import (
     ARMAQualificationClaimState,
 )
@@ -19,10 +19,10 @@ from openprocurement.tender.core.procedure.views.qualification_complaint import 
 
 
 @resource(
-    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Complaints Get",
+    name=f"{ProcurementMethodType.COMPLEX_ASSET_ARMA}:Tender Qualification Complaints Get",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType=COMPLEX_ASSET_ARMA,
+    procurementMethodType=ProcurementMethodType.COMPLEX_ASSET_ARMA,
     request_method=["GET"],
     description="Tender qualification complaints get",
 )
@@ -31,10 +31,10 @@ class QualificationClaimAndComplaintGetResource(QualificationComplaintGetResourc
 
 
 @resource(
-    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Claims",
+    name=f"{ProcurementMethodType.COMPLEX_ASSET_ARMA}:Tender Qualification Claims",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType=COMPLEX_ASSET_ARMA,
+    procurementMethodType=ProcurementMethodType.COMPLEX_ASSET_ARMA,
     request_method=["POST", "PATCH"],
     complaintType="claim",
     description="Tender qualification claims",
@@ -44,10 +44,10 @@ class QualificationClaimResource(BaseQualificationClaimResource):
 
 
 @resource(
-    name=f"{COMPLEX_ASSET_ARMA}:Tender Qualification Complaints",
+    name=f"{ProcurementMethodType.COMPLEX_ASSET_ARMA}:Tender Qualification Complaints",
     collection_path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints",
     path="/tenders/{tender_id}/qualifications/{qualification_id}/complaints/{complaint_id}",
-    procurementMethodType=COMPLEX_ASSET_ARMA,
+    procurementMethodType=ProcurementMethodType.COMPLEX_ASSET_ARMA,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender qualification complaints",

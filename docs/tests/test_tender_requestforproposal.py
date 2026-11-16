@@ -5,13 +5,13 @@ from uuid import uuid4
 
 from dateutil.parser import parse
 
+from openprocurement.api.constants import FrameworkType
 from openprocurement.api.utils import calculate_date, get_now
 from openprocurement.contracting.core.tests.data import test_signer_info
 from openprocurement.framework.core.tests.base import (
     FrameworkActionsTestMixin,
     test_submission_config,
 )
-from openprocurement.framework.ifi.constants import IFI_TYPE
 from openprocurement.framework.ifi.tests.base import (
     test_framework_ifi_config,
     test_framework_ifi_data,
@@ -65,7 +65,7 @@ class TenderResourceTest(
     initial_bids = test_tender_rfp_bids
     docservice_url = DOCS_URL
     auctions_url = AUCTIONS_URL
-    framework_type = IFI_TYPE
+    framework_type = FrameworkType.INTERNATIONAL_FINANCIAL_INSTITUTIONS
 
     def setUp(self):
         self.setUpMock()

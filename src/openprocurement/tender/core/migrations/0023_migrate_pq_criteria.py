@@ -3,8 +3,8 @@ import os
 
 from bson.decimal128 import Decimal128
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.api.migrations.base import BaseMigration, migrate
-from openprocurement.tender.pricequotation.constants import PQ
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 logger = logging.getLogger(__name__)
@@ -85,7 +85,7 @@ def run(env, args):
 
     cursor = collection.find(
         {
-            "procurementMethodType": PQ,
+            "procurementMethodType": ProcurementMethodType.PRICE_QUOTATION,
             "criteria": {"$exists": True},
         },
         {"criteria": 1},

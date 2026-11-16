@@ -1,16 +1,16 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import STAGE_2_EU_TYPE, STAGE_2_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.complaint_appeal_document import (
     BaseTenderComplaintAppealDocumentResource,
 )
 
 
 @resource(
-    name="{}:Tender Complaint Appeal Documents".format(STAGE_2_EU_TYPE),
+    name="{}:Tender Complaint Appeal Documents".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2),
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}/documents",
     path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_EU_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
     description="Tender complaint appeal documents",
 )
 class CD2EUComplaintAppealDocumentResource(BaseTenderComplaintAppealDocumentResource):
@@ -18,10 +18,10 @@ class CD2EUComplaintAppealDocumentResource(BaseTenderComplaintAppealDocumentReso
 
 
 @resource(
-    name="{}:Tender Complaint Appeal Documents".format(STAGE_2_UA_TYPE),
+    name="{}:Tender Complaint Appeal Documents".format(ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2),
     collection_path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}/documents",
     path="/tenders/{tender_id}/complaints/{complaint_id}/appeals/{appeal_id}/documents/{document_id}",
-    procurementMethodType=STAGE_2_UA_TYPE,
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
     description="Tender complaint appeal documents",
 )
 class CD2UAComplaintAppealDocumentResource(BaseTenderComplaintAppealDocumentResource):

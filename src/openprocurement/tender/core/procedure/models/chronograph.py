@@ -1,19 +1,17 @@
-from schematics.types import MD5Type
-from schematics.types.compound import ModelType
-
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.models.base import DocumentIdMixin, Model
+from openprocurement.api.procedure.types import (
+    IsoDateTime,
+)
 
 
 class AuctionPeriod(Model):
-    startDate = IsoDateTimeType()
+    startDate: IsoDateTime | None = None
 
 
 class LotData(Model):
-    auctionPeriod = ModelType(AuctionPeriod, serialize_when_none=True)
+    auctionPeriod: AuctionPeriod | None = None
 
 
-class TenderChronographData(Model):
-    _id = MD5Type(deserialize_from=["id"])
-    auctionPeriod = ModelType(AuctionPeriod)
-    lots = ListType(ModelType(LotData))
+class TenderChronographData(DocumentIdMixin):
+    auctionPeriod: AuctionPeriod | None = None
+    lots: list[LotData] | None = None

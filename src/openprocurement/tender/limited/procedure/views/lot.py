@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.lot import TenderLotResource
 from openprocurement.tender.limited.procedure.state.lot import NegotiationLotState
 
@@ -8,7 +9,7 @@ from openprocurement.tender.limited.procedure.state.lot import NegotiationLotSta
     name="negotiation.quick:Tender Lots",
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="negotiation.quick",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION_QUICK,
     description="Tender limited negotiation quick lots",
 )
 class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
@@ -19,7 +20,7 @@ class TenderLimitedNegotiationQuickLotResource(TenderLotResource):
     name="negotiation:Tender Lots",
     collection_path="/tenders/{tender_id}/lots",
     path="/tenders/{tender_id}/lots/{lot_id}",
-    procurementMethodType="negotiation",
+    procurementMethodType=ProcurementMethodType.NEGOTIATION,
     description="Tender limited negotiation lots",
 )
 class TenderLimitedNegotiationLotResource(TenderLimitedNegotiationQuickLotResource):

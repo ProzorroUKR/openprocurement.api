@@ -183,15 +183,15 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d97f553d576fd6994
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/f5b264bbf8d9400290749cb89e5d1cb8
 
 {
   "data": {
     "mainProcurementCategory": "services",
-    "title_en": "[TESTING] Cases with state awards",
-    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
-    "mode": "test",
     "status": "draft",
+    "title": "[ТЕСТУВАННЯ] футляри до державних нагород",
+    "title_en": "[TESTING] Cases with state awards",
+    "mode": "test",
     "milestones": [
       {
         "id": "cccccccccccccccccccccccccccccccc",
@@ -228,40 +228,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
           "type": "calendar"
         },
         "sequenceNumber": 3
-      }
-    ],
-    "enquiryPeriod": {
-      "endDate": "2027-01-08T00:00:00+02:00",
-      "startDate": "2027-01-01T00:00:00+02:00",
-      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
-    },
-    "tenderPeriod": {
-      "startDate": "2027-01-08T00:00:00+02:00",
-      "endDate": "2027-01-15T00:00:00+02:00"
-    },
-    "items": [
-      {
-        "id": "ffffffffffffffffffffffffffffffff",
-        "description": "футляри до державних нагород",
-        "description_en": "Cases with state awards",
-        "description_ru": "футляры к государственным наградам",
-        "unit": {
-          "name": "кілограм",
-          "code": "KGM"
-        },
-        "quantity": 5.0,
-        "classification": {
-          "description": "Cartons",
-          "scheme": "ДК021",
-          "id": "44617100-9"
-        },
-        "additionalClassifications": [
-          {
-            "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
-          }
-        ]
       }
     ],
     "features": [
@@ -305,6 +271,40 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
         ]
       }
     ],
+    "items": [
+      {
+        "id": "ffffffffffffffffffffffffffffffff",
+        "description": "футляри до державних нагород",
+        "description_en": "Cases with state awards",
+        "description_ru": "футляры к государственным наградам",
+        "unit": {
+          "name": "кілограм",
+          "code": "KGM"
+        },
+        "quantity": 5.0,
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ]
+      }
+    ],
+    "enquiryPeriod": {
+      "endDate": "2027-01-08T00:00:00+02:00",
+      "startDate": "2027-01-01T00:00:00+02:00",
+      "clarificationsUntil": "2027-01-09T00:00:00+02:00"
+    },
+    "tenderPeriod": {
+      "startDate": "2027-01-08T00:00:00+02:00",
+      "endDate": "2027-01-15T00:00:00+02:00"
+    },
     "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "name": "Державне управління справами",
@@ -335,8 +335,8 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
       }
     },
     "value": {
-      "currency": "UAH",
       "amount": 500.0,
+      "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
     "tenderID": "UA-2027-01-01-000001-a",
@@ -425,7 +425,7 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/38bca89f7ba4477d
     },
     "dateCreated": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
-    "id": "38bca89f7ba4477d97f553d576fd6994"
+    "id": "f5b264bbf8d9400290749cb89e5d1cb8"
   },
   "config": {
     "hasAuction": true,

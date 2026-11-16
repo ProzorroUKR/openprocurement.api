@@ -1,15 +1,13 @@
+from typing import Literal
 from uuid import uuid4
 
-from schematics.exceptions import ValidationError
-from schematics.types import BaseType, BooleanType, MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, field_validator
 
 from openprocurement.api.constants import UKTZED_SCHEME
 from openprocurement.api.context import get_request
-from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.models.item import AdditionalClassification
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType, ModelType
-from openprocurement.api.validation import validate_uniq_id
+from openprocurement.api.procedure.models.base import Model, RootModel, validate_uniq_id
+from openprocurement.api.procedure.models.item import AdditionalClassification, CPVClassification, validate_ccce_ua
+from openprocurement.api.procedure.types import MD5, IsoDateTime
 from openprocurement.planning.api.procedure.models.budget import Budget
 from openprocurement.planning.api.procedure.models.cancellation import (
     Cancellation,
@@ -20,7 +18,7 @@ from openprocurement.planning.api.procedure.models.document import (
     Document,
     PostDocument,
 )
-from openprocurement.planning.api.procedure.models.item import CPVClassification, Item
+from openprocurement.planning.api.procedure.models.item import Item
 from openprocurement.planning.api.procedure.models.milestone import (
     Milestone,
     PatchMilestone,
@@ -33,102 +31,114 @@ from openprocurement.planning.api.procedure.models.project import Project
 from openprocurement.planning.api.procedure.models.rationale import RationaleObject
 from openprocurement.planning.api.procedure.models.tender import PlanTender
 from openprocurement.planning.api.utils import generate_plan_id
-from openprocurement.tender.core.procedure.validation import validate_ccce_ua
+
+
+def validate_plan_additional_classifications(classifications: list[AdditionalClassification]) -> None:
+    validate_ccce_ua(classifications)
+    if any(classification.scheme == UKTZED_SCHEME for classification in classifications):
+        raise ValueError(f"Forbidden to add {UKTZED_SCHEME}. Should be added in items.additionalClassifications.")
 
 
 class PostPlan(Model):
-    @serializable(serialized_name="_id")
-    def id(self):
+    @computed_field(alias="_id")
+    def id(self) -> str:
         return uuid4().hex
 
-    @serializable(serialized_name="planID")
-    def plan_id(self):
+    @computed_field
+    def planID(self) -> str:
         return generate_plan_id(get_request())
 
-    @serializable
-    def doc_type(self):
+    @computed_field
+    def doc_type(self) -> str:
         return "Plan"
 
-    status = StringType(choices=["draft", "scheduled", "cancelled", "complete"], default="scheduled")
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    tender = ModelType(PlanTender, required=True)
-    budget = ModelType(Budget)
-    classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
-    tender_id = MD5Type()
-    mode = StringType(choices=["test"])
-    items = ListType(ModelType(Item, required=True), validators=[validate_uniq_id])
-    buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
-    cancellation = ModelType(PostCancellation)
-    documents = ListType(ModelType(PostDocument, required=True))
-    rationale = ModelType(RationaleObject)
-    project = ModelType(Project)
+    status: Literal["draft", "scheduled", "cancelled", "complete"] = "scheduled"
+    procuringEntity: ProcuringEntity
+    tender: PlanTender
+    budget: Budget | None = None
+    classification: CPVClassification
+    additionalClassifications: list[AdditionalClassification] | None = None
+    tender_id: MD5 | None = None
+    mode: Literal["test"] | None = None
+    items: list[Item] | None = None
+    buyers: list[BuyerOrganization] | None = Field(None, min_length=1, max_length=1)
+    cancellation: PostCancellation | None = None
+    documents: list[PostDocument] | None = None
+    rationale: RationaleObject | None = None
+    project: Project | None = None
 
-    def validate_additionalClassifications(self, plan, classifications):
-        if classifications is not None:
-            validate_ccce_ua(classifications)
-            validate_uktzed_forbidden(classifications)
+    @field_validator("items")
+    @classmethod
+    def validate_uniq_ids(cls, value: list) -> list:
+        validate_uniq_id(value)
+        return value
+
+    @field_validator("additionalClassifications")
+    @classmethod
+    def validate_additional_classifications(cls, value: list) -> list:
+        validate_plan_additional_classifications(value)
+        return value
 
 
 class PatchPlan(Model):
-    status = StringType(choices=["draft", "scheduled", "cancelled", "complete"])
-    procuringEntity = ModelType(ProcuringEntity)
-    tender = ModelType(PlanTender)
-    budget = ModelType(Budget)
-    classification = ModelType(CPVClassification)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True))
-    tender_id = MD5Type()
-    mode = StringType(choices=["test"])
-    items = ListType(ModelType(Item, required=True), validators=[validate_uniq_id])
-    buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
-    cancellation = ModelType(PatchCancellation)
-    milestones = ListType(ModelType(PatchMilestone, required=True), validators=[validate_uniq_id])
-    rationale = ModelType(RationaleObject)
-    project = ModelType(Project)
+    status: Literal["draft", "scheduled", "cancelled", "complete"] | None = None
+    procuringEntity: ProcuringEntity | None = None
+    tender: PlanTender | None = None
+    budget: Budget | None = None
+    classification: CPVClassification | None = None
+    additionalClassifications: list[AdditionalClassification] | None = None
+    tender_id: MD5 | None = None
+    mode: Literal["test"] | None = None
+    items: list[Item] | None = None
+    buyers: list[BuyerOrganization] | None = Field(None, min_length=1, max_length=1)
+    cancellation: PatchCancellation | None = None
+    milestones: list[PatchMilestone] | None = None
+    rationale: RationaleObject | None = None
+    project: Project | None = None
+
+    @field_validator("items", "milestones")
+    @classmethod
+    def validate_uniq_ids(cls, value: list) -> list:
+        validate_uniq_id(value)
+        return value
 
 
-class Plan(Model):
-    _id = StringType(deserialize_from=["id", "doc_id"])
-    _rev = StringType()
-    doc_type = StringType()
-    public_modified = BaseType()
-    public_ts = BaseType()
+class Plan(RootModel):
+    status: Literal["draft", "scheduled", "cancelled", "complete"] | None = None
+    procuringEntity: ProcuringEntity
+    tender: PlanTender
+    budget: Budget | None = None
+    classification: CPVClassification
+    additionalClassifications: list[AdditionalClassification] | None = None
+    tender_id: MD5 | None = None
+    planID: str | None = None
+    mode: Literal["test"] | None = None
+    items: list[Item] | None = None
+    buyers: list[BuyerOrganization] | None = Field(None, min_length=1, max_length=1)
+    cancellation: Cancellation | None = None
+    documents: list[Document] | None = None
+    milestones: list[Milestone] | None = None
+    rationale: RationaleObject | None = None
+    project: Project | None = None
 
-    status = StringType(choices=["draft", "scheduled", "cancelled", "complete"])
-    procuringEntity = ModelType(ProcuringEntity, required=True)
-    tender = ModelType(PlanTender, required=True)
-    budget = ModelType(Budget)
-    classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification))
-    tender_id = MD5Type()
-    planID = StringType()
-    mode = StringType(choices=["test"])
-    items = ListType(ModelType(Item, required=True), validators=[validate_uniq_id])
-    buyers = ListType(ModelType(BuyerOrganization, required=True), min_size=1, max_size=1)
-    cancellation = ModelType(Cancellation)
-    documents = ListType(ModelType(Document, required=True))
-    milestones = ListType(ModelType(Milestone, required=True), validators=[validate_uniq_id])
-    rationale = ModelType(RationaleObject)
-    project = ModelType(Project, serialize_when_none=True)
+    owner: str | None = None
+    owner_token: str | None = None
+    transfer_token: str | None = None
 
-    owner = StringType()
-    owner_token = StringType()
-    transfer_token = StringType()
+    dateCreated: IsoDateTime | None = None
+    dateModified: IsoDateTime | None = None
+    datePublished: IsoDateTime | None = None
 
-    dateCreated = IsoDateTimeType()
-    dateModified = IsoDateTimeType()
-    datePublished = IsoDateTimeType()
+    is_masked: bool | None = None
 
-    is_masked = BooleanType()
+    @field_validator("items", "milestones")
+    @classmethod
+    def validate_uniq_ids(cls, value: list) -> list:
+        validate_uniq_id(value)
+        return value
 
-    revisions = BaseType()
-
-    def validate_additionalClassifications(self, plan, classifications):
-        if classifications is not None:
-            validate_ccce_ua(classifications)
-            validate_uktzed_forbidden(classifications)
-
-
-def validate_uktzed_forbidden(classifications):
-    if any(classification["scheme"] == UKTZED_SCHEME for classification in classifications):
-        raise ValidationError(f"Forbidden to add {UKTZED_SCHEME}. Should be added in items.additionalClassifications.")
+    @field_validator("additionalClassifications")
+    @classmethod
+    def validate_additional_classifications(cls, value: list) -> list:
+        validate_plan_additional_classifications(value)
+        return value

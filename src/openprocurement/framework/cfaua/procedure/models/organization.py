@@ -1,27 +1,30 @@
-from schematics.types import StringType
+from typing import Literal
+
+from pydantic import field_validator
 
 from openprocurement.api.procedure.models.address import Address
 from openprocurement.api.procedure.models.organization import (
-    PROCURING_ENTITY_KIND_CHOICES,
     Organization,
+    ProcuringEntityKind,
 )
-from openprocurement.api.procedure.types import ListType, ModelType
 from openprocurement.framework.core.procedure.models.contact import (
     CommonContactPoint as BaseContactPoint,
 )
 
 
 class ContactPoint(BaseContactPoint):
-    availableLanguage = StringType(required=True, choices=["uk", "en", "ru"], default="uk")
+    availableLanguage: Literal["uk", "en", "ru"] = "uk"
 
-    def validate_telephone(self, data, value):
-        pass
+    @field_validator("telephone")
+    @classmethod
+    def validate_telephone(cls, value):
+        return value
 
 
 class ProcuringEntity(Organization):
     """An organization."""
 
-    kind = StringType(choices=PROCURING_ENTITY_KIND_CHOICES)
-    contactPoint = ModelType(ContactPoint, required=True)
-    additionalContactPoints = ListType(ModelType(ContactPoint, required=True), required=False)
-    address = ModelType(Address, required=True)
+    kind: ProcuringEntityKind | None = None
+    contactPoint: ContactPoint
+    additionalContactPoints: list[ContactPoint] | None = None
+    address: Address

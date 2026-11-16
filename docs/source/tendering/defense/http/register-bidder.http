@@ -1,4 +1,4 @@
-POST /api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids HTTP/1.0
+POST /api/2.5/tenders/390b8a0af38a48188324c8003466a26e/bids HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -48,7 +48,7 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cafcd819d62040129cffcd9b3f3687df/bids/2a393b43207c4f9591546b7721cdb017
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/390b8a0af38a48188324c8003466a26e/bids/13ade3ab6164490da3fe43e74bdd31a2
 
 {
   "data": {
@@ -57,7 +57,6 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cafcd819d6204012
       "currency": "UAH",
       "valueAddedTaxIncluded": false
     },
-    "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
       {
         "name": "ДКП «Школяр»",
@@ -91,8 +90,9 @@ Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/tenders/cafcd819d6204012
       }
     ],
     "status": "draft",
+    "subcontractingDetails": "ДКП «Орфей», Україна",
     "selfEligible": true,
-    "id": "2a393b43207c4f9591546b7721cdb017",
+    "id": "13ade3ab6164490da3fe43e74bdd31a2",
     "date": "2027-01-01T00:00:01+02:00"
   },
   "access": {

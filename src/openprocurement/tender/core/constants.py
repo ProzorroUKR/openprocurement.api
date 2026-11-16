@@ -2,31 +2,10 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 from enum import StrEnum
 
-from openprocurement.api.constants import TZ
-from openprocurement.tender.cfaua.constants import CFA_UA
-from openprocurement.tender.competitivedialogue.constants import (
-    CD_EU_TYPE,
-    CD_UA_TYPE,
-    STAGE_2_EU_TYPE,
-    STAGE_2_UA_TYPE,
-)
-from openprocurement.tender.esco.constants import ESCO
-from openprocurement.tender.limited.constants import NEGOTIATION, NEGOTIATION_QUICK, REPORTING
-from openprocurement.tender.open.constants import (
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    BELOW_THRESHOLD,
-    COMPETITIVE_ORDERING,
-    OPEN_TENDERING,
-    REQUEST_FOR_PROPOSAL,
-    SIMPLE_DEFENSE,
-)
-from openprocurement.tender.pricequotation.constants import PQ as PRICEQUOTATION
+from openprocurement.api.constants import TZ, ProcurementMethodType
 
 
-class ReqStatuses:
+class ReqStatuses(StrEnum):
     ACTIVE = "active"
     CANCELLED = "cancelled"
     DEFAULT = ACTIVE
@@ -37,42 +16,19 @@ class TenderMilestoneType(StrEnum):
     DELIVERY = "delivery"
 
 
-# procurementMethodTypes that share the core Tender models (tender/core/procedure/models/tender.py)
-CORE_TENDER_PROCUREMENT_METHOD_TYPES = [
-    BELOW_THRESHOLD,
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    SIMPLE_DEFENSE,
-    COMPETITIVE_ORDERING,
-    REQUEST_FOR_PROPOSAL,
-    OPEN_TENDERING,
-]
+class ProcurementMethod(StrEnum):
+    OPEN = "open"
+    SELECTIVE = "selective"
+    LIMITED = "limited"
 
-PROCUREMENT_METHOD_SELECTIVE = "selective"
-PROCUREMENT_METHOD_OPEN = "open"
-PROCUREMENT_METHOD_LIMITED = "limited"
-
-PROCUREMENT_METHODS = [
-    PROCUREMENT_METHOD_OPEN,
-    PROCUREMENT_METHOD_SELECTIVE,
-    PROCUREMENT_METHOD_LIMITED,
-]
-
-LIMITED_PROCUREMENT_METHOD_TYPES = [
-    REPORTING,
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-]
 
 SELECTIVE_PROCUREMENT_METHOD_TYPES = [
-    STAGE_2_UA_TYPE,
-    STAGE_2_EU_TYPE,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA_STAGE2,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU_STAGE2,
 ]
 
 LAW_4888_PROCUREMENT_METHOD_TYPES_ENABLED = [
-    OPEN_TENDERING,
+    ProcurementMethodType.OPEN_TENDERING,
 ]
 
 LAW_4888_PROCUREMENT_METHOD_TYPES_DISABLED = []
@@ -88,23 +44,23 @@ BID_LOTVALUES_VALIDATION_FROM = datetime(2016, 10, 21, tzinfo=TZ)
 AMOUNT_NET_COEF = Decimal("1.2")
 
 FIRST_STAGE_PROCUREMENT_TYPES = {
-    BELOW_THRESHOLD,
-    CFA_UA,
-    ESCO,
-    CD_UA_TYPE,
-    CD_EU_TYPE,
-    REPORTING,
-    NEGOTIATION,
-    NEGOTIATION_QUICK,
-    ABOVE_THRESHOLD_EU,
-    ABOVE_THRESHOLD,
-    ABOVE_THRESHOLD_UA,
-    ABOVE_THRESHOLD_UA_DEFENSE,
-    SIMPLE_DEFENSE,
-    PRICEQUOTATION,
-    REQUEST_FOR_PROPOSAL,
-    COMPETITIVE_ORDERING,
-    OPEN_TENDERING,
+    ProcurementMethodType.BELOW_THRESHOLD,
+    ProcurementMethodType.CLOSE_FRAMEWORK_AGREEMENT_UA,
+    ProcurementMethodType.ESCO,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+    ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+    ProcurementMethodType.REPORTING,
+    ProcurementMethodType.NEGOTIATION,
+    ProcurementMethodType.NEGOTIATION_QUICK,
+    ProcurementMethodType.ABOVE_THRESHOLD_EU,
+    ProcurementMethodType.ABOVE_THRESHOLD,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA,
+    ProcurementMethodType.ABOVE_THRESHOLD_UA_DEFENSE,
+    ProcurementMethodType.SIMPLE_DEFENSE,
+    ProcurementMethodType.PRICE_QUOTATION,
+    ProcurementMethodType.REQUEST_FOR_PROPOSAL,
+    ProcurementMethodType.COMPETITIVE_ORDERING,
+    ProcurementMethodType.OPEN_TENDERING,
 }
 
 CRITERION_TECHNICAL_FEATURES = "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
@@ -131,14 +87,12 @@ ARMA_ALP_MILESTONE_REASONS = (
     ALP_MILESTONE_REASONS[1],
 )
 
-AWARD_CRITERIA_LOWEST_COST = "lowestCost"
-AWARD_CRITERIA_LIFE_CYCLE_COST = "lifeCycleCost"
-AWARD_CRITERIA_RATED_CRITERIA = "ratedCriteria"
-AWARD_CRITERIA_CHOICES = [
-    AWARD_CRITERIA_LOWEST_COST,
-    AWARD_CRITERIA_LIFE_CYCLE_COST,
-    AWARD_CRITERIA_RATED_CRITERIA,
-]
+
+class AwardCriteria(StrEnum):
+    LOWEST_COST = "lowestCost"
+    LIFE_CYCLE_COST = "lifeCycleCost"
+    RATED_CRITERIA = "ratedCriteria"
+
 
 # Agreement errors
 AGREEMENT_NOT_FOUND_MESSAGE = "Agreement not found"

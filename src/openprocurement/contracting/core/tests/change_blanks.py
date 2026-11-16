@@ -328,14 +328,17 @@ def patch_change(self):
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
-        {"data": {"rationaleTypes": "fiscalYearExtension"}},
+        {"data": {"rationaleTypes": "fiscalYearExtension"}},  # not a list
+        status=422,
     )
-    self.assertEqual(response.status, "200 OK")
-    self.assertEqual(response.json["data"]["rationaleTypes"], ["fiscalYearExtension"])
+    self.assertEqual(
+        response.json["errors"],
+        [{"location": "body", "name": "rationaleTypes", "description": ["Input should be a valid list"]}],
+    )
 
     response = self.app.patch_json(
         f"/contracts/{self.contract['id']}/changes/{change['id']}?acc_token={self.contract_token}",
-        {"data": {"rationaleTypes": "fiscalYearExtension, volumeCuts"}},
+        {"data": {"rationaleTypes": ["fiscalYearExtension, volumeCuts"]}},
         status=422,
     )
     self.assertEqual(response.status, "422 Unprocessable Entity")

@@ -16,18 +16,18 @@ Host: lb-api-sandbox.prozorro.gov.ua
 
 HTTP/1.0 201 Created
 Content-Type: application/json
-Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/bedb884095c8436d87d47674ed9e0acf
+Location: http://lb-api-sandbox.prozorro.gov.ua/api/2.5/contracts/9747554b71504755b07fbc4dc78d9010/documents/ff487a5be3ec41a1a78078e891c4e9dd
 
 {
   "data": {
     "confidentiality": "public",
-    "hash": "md5:00000000000000000000000000000000",
+    "documentType": "contractSignature",
     "title": "sign.p7s",
     "format": "application/pkcs7-signature",
-    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9dc6bfe4683b4e63a799bbe366ba9376?Signature=%2BLgh9VhF5n7wmuNcFF6T%2Bjmx3ZE5OebUfgBYsTIQUnvJGC2XVvYlyijyC8iAq83srktGfhtCKMK8bky9f%2BnXCg%3D%3D&KeyID=a8968c46",
     "documentOf": "contract",
-    "documentType": "contractSignature",
-    "id": "bedb884095c8436d87d47674ed9e0acf",
+    "hash": "md5:00000000000000000000000000000000",
+    "url": "http://public-docs-sandbox.prozorro.gov.ua/get/9dc6bfe4683b4e63a799bbe366ba9376?Signature=%2BLgh9VhF5n7wmuNcFF6T%2Bjmx3ZE5OebUfgBYsTIQUnvJGC2XVvYlyijyC8iAq83srktGfhtCKMK8bky9f%2BnXCg%3D%3D&KeyID=a8968c46",
+    "id": "ff487a5be3ec41a1a78078e891c4e9dd",
     "datePublished": "2027-01-01T00:00:00+02:00",
     "dateModified": "2027-01-01T00:00:00+02:00",
     "author": "buyer"

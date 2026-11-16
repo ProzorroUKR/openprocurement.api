@@ -1,18 +1,15 @@
-from schematics.exceptions import ValidationError
-from schematics.types import FloatType, StringType
-
+from openprocurement.api.procedure.errors import ValidationError
 from openprocurement.api.procedure.models.base import Model
-from openprocurement.api.procedure.types import DecimalType
 
 
 class Parameter(Model):
-    code = StringType(required=True)
-    value = FloatType(required=True)
+    code: str
+    value: float
 
 
 class PatchParameter(Parameter):
-    code = StringType()
-    value = FloatType()
+    code: str | None = None
+    value: float | None = None
 
 
 def validate_cfa_selection_parameter_contracts(features, contracts):
@@ -24,8 +21,3 @@ def validate_cfa_selection_parameter_contracts(features, contracts):
 
             if param.value not in options[param.code]:
                 raise ValidationError("value should be one of feature value.")
-
-
-class AgreementContractParameter(Model):
-    code = StringType(required=True)
-    value = DecimalType(required=True)

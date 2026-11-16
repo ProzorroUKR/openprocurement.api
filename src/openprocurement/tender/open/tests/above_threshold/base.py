@@ -1,3 +1,4 @@
+from openprocurement.api.constants import ProcurementMethodType
 import os
 from copy import deepcopy
 from datetime import timedelta
@@ -13,7 +14,6 @@ from openprocurement.tender.core.tests.base import (
     test_criteria_all,
 )
 from openprocurement.tender.core.tests.utils import set_tender_multi_buyers, set_tender_periods
-from openprocurement.tender.open.constants import ABOVE_THRESHOLD
 from openprocurement.tender.open.tests.above_threshold.periods import PERIODS
 from openprocurement.tender.open.tests.below_threshold.base import (
     BaseTenderWebTest,
@@ -27,7 +27,7 @@ from openprocurement.tender.open.tests.below_threshold.base import (
 now = get_now()
 
 test_tender_open_data = test_tender_below_data.copy()
-test_tender_open_data["procurementMethodType"] = ABOVE_THRESHOLD
+test_tender_open_data["procurementMethodType"] = ProcurementMethodType.ABOVE_THRESHOLD
 del test_tender_open_data["enquiryPeriod"]
 set_tender_periods(test_tender_open_data, start=now)
 test_tender_open_data["items"] = [
@@ -72,7 +72,7 @@ test_tender_open_three_bids.append(
 )
 
 test_tender_open_features_data = test_tender_below_features_data.copy()
-test_tender_open_features_data["procurementMethodType"] = ABOVE_THRESHOLD
+test_tender_open_features_data["procurementMethodType"] = ProcurementMethodType.ABOVE_THRESHOLD
 del test_tender_open_features_data["enquiryPeriod"]
 set_tender_periods(test_tender_open_features_data, start=now)
 test_tender_open_features_data["items"][0]["deliveryDate"] = test_tender_open_data["items"][0]["deliveryDate"]

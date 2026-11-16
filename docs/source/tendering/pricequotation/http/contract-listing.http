@@ -1,4 +1,4 @@
-GET /api/2.5/tenders/42d53276cbcc43ff9cf440a2191c1098/contracts HTTP/1.0
+GET /api/2.5/tenders/34ea060f737748cb8ae1b341b56e4020/contracts HTTP/1.0
 Authorization: Bearer broker
 Host: public-api-sandbox.prozorro.gov.ua
 
@@ -11,7 +11,7 @@ Content-Type: application/json
     {
       "id": "5d45bc257244451d952d666428ef1d3a",
       "status": "cancelled",
-      "awardID": "94539816caae4134ab9d9377361a1885",
+      "awardID": "2c1287cd6624442cb1e4302bacb29496",
       "date": "2024-01-01T00:00:01+02:00",
       "contractID": "UA-2024-01-01-000001-a-a1",
       "title": "Комп’ютерне обладнання",
@@ -25,7 +25,7 @@ Content-Type: application/json
     {
       "id": "56e619a41051446d8daabae2da11fd1f",
       "status": "pending",
-      "awardID": "ede593a078214f9aac9bcf6fde3047c1",
+      "awardID": "c4bbed3fb1134783985bf83da7004b72",
       "date": "2024-01-01T00:00:01+02:00",
       "contractID": "UA-2024-01-01-000001-a-a2",
       "title": "Комп’ютерне обладнання",

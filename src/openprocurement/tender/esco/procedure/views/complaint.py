@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.claim import TenderClaimResource
 from openprocurement.tender.core.procedure.views.complaint import (
     BaseTenderComplaintGetResource,
@@ -13,7 +14,7 @@ from openprocurement.tender.esco.procedure.state.complaint import ESCOComplaintS
     name="esco:Tender Complaints Get",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["GET"],
     description="Tender ESCO complaints get",
 )
@@ -25,7 +26,7 @@ class ESCOTenderClaimAndComplaintGetResource(BaseTenderComplaintGetResource):
     name="esco:Tender Claims",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["PATCH"],
     complaintType="claim",
     description="Tender ESCO Claims",
@@ -38,7 +39,7 @@ class ESCOTenderClaimResource(TenderClaimResource):
     name="esco:Tender Complaints",
     collection_path="/tenders/{tender_id}/complaints",
     path="/tenders/{tender_id}/complaints/{complaint_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     request_method=["POST", "PATCH"],
     complaintType="complaint",
     description="Tender ESCO Complaints",

@@ -1,4 +1,4 @@
-PUT /api/2.5/frameworks/85ae6daa569a4dfcb59731aedee2628e/documents/1ee5de8639ec469c8abff45e8652d6e2?acc_token=9572f49b75ef46ed864c472ca9eff903 HTTP/1.0
+PUT /api/2.5/frameworks/ddff31e7a2224dd384c0edf28d1edb87/documents/f818657a967b478da63c13ec980f80d0?acc_token=9572f49b75ef46ed864c472ca9eff903 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -18,14 +18,14 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "1ee5de8639ec469c8abff45e8652d6e2",
-    "datePublished": "2027-01-01T00:00:00+02:00",
-    "hash": "md5:00000000000000000000000000000000",
     "title": "framework_additional_docs.doc",
     "format": "application/msword",
+    "language": "uk",
+    "id": "f818657a967b478da63c13ec980f80d0",
+    "datePublished": "2027-01-01T00:00:00+02:00",
+    "hash": "md5:00000000000000000000000000000000",
     "url": "http://public-docs-sandbox.prozorro.gov.ua/get/0f4300d9a1594cfc800f2ea11c9a38d1?Signature=%2FEIDl4zhMc%2FQIlBBsuAcBovf0l1hIzOWn0E%2BS7E45QoXJ0ZAOOPKXmO2jUWxMhgObJloZ9%2FVLIiar4eop2K7Dg%3D%3D&KeyID=a8968c46",
-    "dateModified": "2027-01-01T00:00:00+02:00",
-    "language": "uk"
+    "dateModified": "2027-01-01T00:00:00+02:00"
   }
 }
 

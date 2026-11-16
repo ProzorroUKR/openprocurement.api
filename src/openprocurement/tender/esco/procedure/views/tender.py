@@ -1,5 +1,6 @@
 from cornice.resource import resource
 
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.core.procedure.views.tender import TendersResource
 from openprocurement.tender.esco.procedure.serializers.tender import (
     ESCOTenderSerializer,
@@ -13,7 +14,7 @@ from openprocurement.tender.esco.procedure.state.tender_details import (
     name="esco:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType="esco",
+    procurementMethodType=ProcurementMethodType.ESCO,
     description="esco tenders",
     accept="application/json",
 )

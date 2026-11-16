@@ -1,6 +1,6 @@
 from cornice.resource import resource
 
-from openprocurement.tender.competitivedialogue.constants import CD_EU_TYPE, CD_UA_TYPE
+from openprocurement.api.constants import ProcurementMethodType
 from openprocurement.tender.competitivedialogue.procedure.state.stage1.tender_details import (
     CDStage1EUTenderDetailsState,
     CDStage1UATenderDetailsState,
@@ -9,11 +9,11 @@ from openprocurement.tender.core.procedure.views.tender import TendersResource
 
 
 @resource(
-    name=f"{CD_EU_TYPE}:Tenders",
+    name=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_EU}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=CD_EU_TYPE,
-    description=f"{CD_EU_TYPE} tenders",
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_EU,
+    description=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_EU} tenders",
     accept="application/json",
 )
 class CDEUTenderResource(TendersResource):
@@ -24,11 +24,11 @@ class CDEUTenderResource(TendersResource):
 
 
 @resource(
-    name=f"{CD_UA_TYPE}:Tenders",
+    name=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_UA}:Tenders",
     collection_path="/tenders",
     path="/tenders/{tender_id}",
-    procurementMethodType=CD_UA_TYPE,
-    description=f"{CD_UA_TYPE} tenders",
+    procurementMethodType=ProcurementMethodType.COMPETITIVE_DIALOGUE_UA,
+    description=f"{ProcurementMethodType.COMPETITIVE_DIALOGUE_UA} tenders",
     accept="application/json",
 )
 class CDUATenderResource(TendersResource):

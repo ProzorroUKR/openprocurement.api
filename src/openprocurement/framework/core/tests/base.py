@@ -287,7 +287,7 @@ class BaseFrameworkCoreWebTest(BaseWebTest, FrameworkActionsTestMixin):
                     ).isoformat()
 
     def calculate_period_date(self, date, period, startend, status):
-        framework = self.framework_class(self.framework_document)
+        framework = self.framework_class.model_validate(self.framework_document)
         period_date_item = self.periods[status][startend][period][date]
         return calculate_framework_full_date(
             self.now,
@@ -328,7 +328,7 @@ def get_framework_unsuccessful_status_check_date(framework, days, working_days):
         return calculate_framework_full_date(
             framework.period.startDate,
             timedelta(days=days),
-            framework=framework,
+            framework=framework.model_dump(by_alias=True),  # the data of a framework (a state works with dicts)
             working_days=working_days,
             ceil=True,
         )

@@ -1,4 +1,4 @@
-PATCH /api/2.5/tenders/39a36a1c01d8459faf619c1481e2d5b1/awards/65b4d8b07758437faa1f0925fcf00665?acc_token=dda5133c46f348d58e3c1c395dc20e37 HTTP/1.0
+PATCH /api/2.5/tenders/09f40c1edf214c948ac5fcf3dadb62d4/awards/29ed57bbe0794fbeacb5e9f59cca2c84?acc_token=dda5133c46f348d58e3c1c395dc20e37 HTTP/1.0
 Authorization: Bearer broker
 Content-Type: application/json
 Host: lb-api-sandbox.prozorro.gov.ua
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "id": "65b4d8b07758437faa1f0925fcf00665",
+    "id": "29ed57bbe0794fbeacb5e9f59cca2c84",
     "status": "active",
     "date": "2027-01-07T00:15:06+02:00",
     "value": {
@@ -56,22 +56,22 @@ Content-Type: application/json
         }
       }
     ],
-    "bid_id": "2edc5dd7f4e545cb9eca36bc4d991b40",
-    "lotID": "c330ae93c18a48ae86738dfb367a290c",
+    "bid_id": "ae387f17c0d44ee1a554139757c07107",
+    "lotID": "5227f13a086749289688875271b008a3",
     "documents": [
       {
         "confidentiality": "public",
         "documentType": "notice",
-        "id": "a6ee254234664b6eba9934d1bd1c65a2",
-        "datePublished": "2027-01-07T00:15:06+02:00",
-        "hash": "md5:00000000000000000000000000000000",
         "title": "sign.p7s",
         "format": "application/pkcs7-signature",
+        "language": "uk",
+        "id": "732e1cc090944145af6bccf8a1946397",
+        "datePublished": "2027-01-07T00:15:06+02:00",
+        "hash": "md5:00000000000000000000000000000000",
         "url": "http://public-docs-sandbox.prozorro.gov.ua/get/f8ccd50adb714a6a83d8989d9c73144e?Signature=7aB7pCLKXxwYP9WARAU1W9yAk5mMknIXJBkgTEQs71N4tKhIFXT%2BDEFItcfJmUq3Ry0k0OitQuVjLE4mDiL%2FCA%3D%3D&KeyID=a8968c46",
         "documentOf": "tender",
         "dateModified": "2027-01-07T00:15:06+02:00",
-        "author": "tender_owner",
-        "language": "uk"
+        "author": "tender_owner"
       }
     ],
     "period": {

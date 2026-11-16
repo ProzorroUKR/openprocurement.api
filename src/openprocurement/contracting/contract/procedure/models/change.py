@@ -1,48 +1,51 @@
+from typing import Any, Literal
 from uuid import uuid4
 
-from schematics.types import MD5Type, StringType
-from schematics.types.serializable import serializable
+from pydantic import Field, computed_field, field_validator
 
-from openprocurement.api.procedure.types import IsoDateTimeType, ListType
+from openprocurement.api.procedure.models.base import validate_uniq
+from openprocurement.api.procedure.types import (
+    MD5,
+    IsoDateTime,
+)
 from openprocurement.api.utils import get_now
-from openprocurement.api.validation import validate_uniq
 from openprocurement.contracting.core.procedure.models.change import BaseChange
 
 
 class PostChange(BaseChange):
-    contractNumber = StringType()
-    dateSigned = IsoDateTimeType()
+    contractNumber: str | None = None
+    dateSigned: IsoDateTime | None = None
 
-    @serializable
-    def id(self):
+    @computed_field
+    def id(self) -> Any:
         return uuid4().hex
 
-    @serializable
-    def status(self):
+    @computed_field
+    def status(self) -> Any:
         return "pending"
 
-    @serializable
-    def date(self):
+    @computed_field
+    def date(self) -> Any:
         return get_now().isoformat()
 
 
 class PatchChange(BaseChange):
-    status = StringType(choices=["pending", "active"])
-    rationale = StringType(min_length=1)
-    rationaleTypes = ListType(
-        StringType(
-            required=True,
-        ),
-        min_size=1,
-        validators=[validate_uniq],
-    )
-    contractNumber = StringType()
-    dateSigned = IsoDateTimeType()
+    status: Literal["pending", "active"] | None = None
+    rationale: str | None = Field(None, min_length=1)
+    rationaleTypes: list[str] | None = Field(None, min_length=1)
+    contractNumber: str | None = None
+    dateSigned: IsoDateTime | None = None
+
+    @field_validator("rationaleTypes")
+    @classmethod
+    def validate_rationale_types_items(cls, value):
+        validate_uniq(value)
+        return value
 
 
 class Change(BaseChange):
-    id = MD5Type(required=True)
-    status = StringType(choices=["pending", "active"])
-    date = IsoDateTimeType()
-    contractNumber = StringType()
-    dateSigned = IsoDateTimeType()
+    id: MD5
+    status: Literal["pending", "active"] | None = None
+    date: IsoDateTime | None = None
+    contractNumber: str | None = None
+    dateSigned: IsoDateTime | None = None

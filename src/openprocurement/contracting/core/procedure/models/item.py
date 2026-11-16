@@ -1,9 +1,9 @@
-from schematics.types import BaseType, MD5Type, StringType
-from schematics.types.compound import ModelType
-from schematics.types.serializable import serializable
+from typing import Any, ClassVar
+
+from pydantic import field_serializer
 
 from openprocurement.api.procedure.models.address import Address
-from openprocurement.api.procedure.models.base import Model
+from openprocurement.api.procedure.models.base import Model, model_field_validator
 from openprocurement.api.procedure.models.item import (
     AdditionalClassification as BaseAdditionalClassification,
 )
@@ -13,60 +13,50 @@ from openprocurement.api.procedure.models.item import (
 from openprocurement.api.procedure.models.item import Item as BaseItem
 from openprocurement.api.procedure.models.period import Period
 from openprocurement.api.procedure.models.unit import Unit
-from openprocurement.api.procedure.types import ListType
+from openprocurement.api.procedure.types import (
+    MD5,
+)
 from openprocurement.api.procedure.utils import to_decimal
 
 
 class CPVClassification(BaseCPVClassification):
-    def validate_scheme(self, data, scheme):
-        pass
+    dk021_scheme_required: ClassVar[bool] = False
 
 
 class AdditionalClassification(BaseAdditionalClassification):
-    def validate_id(self, data, code):
-        pass
+    @model_field_validator("id")
+    def validate_id(self, value):
+        pass  # the ids of the dictionaries aren't checked
 
 
 class Attribute(Model):
-    name = StringType(required=True)
-    unit = ModelType(Unit)
-    values = ListType(BaseType(required=True))
-    value = BaseType()
-    dataSchema = StringType()
+    name: str
+    unit: Unit | None = None
+    values: list[Any] | None = None
+    value: Any = None
+    dataSchema: str | None = None
 
-    def convert_value(self):
-        if self.value and isinstance(self.value, float):
-            return to_decimal(self.value)
-        return self.value
+    @field_serializer("value")
+    def serialize_value(self, value: Any) -> Any:
+        if value and isinstance(value, float):
+            return to_decimal(value)
+        return value
 
-    def convert_values(self):
-        if self.values:
-            normalized_values = []
-            for value in self.values:
-                if isinstance(value, float):
-                    normalized_values.append(to_decimal(value))
-                else:
-                    normalized_values.append(value)
-            return normalized_values
-        return self.values
-
-    @serializable(serialized_name="value", serialize_when_none=False)
-    def serialize_value(self):
-        return self.convert_value()
-
-    @serializable(serialized_name="values", serialize_when_none=False)
-    def serialize_values(self):
-        return self.convert_values()
+    @field_serializer("values")
+    def serialize_values(self, values: list | None) -> Any:
+        if values:
+            return [to_decimal(value) if isinstance(value, float) else value for value in values]
+        return values
 
 
 class Item(BaseItem):
-    classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(AdditionalClassification, required=True), default=[])
-    unit = ModelType(Unit)
-    deliveryAddress = ModelType(Address)
-    deliveryDate = ModelType(Period)
-    relatedLot = MD5Type()
-    relatedBuyer = MD5Type()
-    attributes = ListType(ModelType(Attribute, required=True))
-    product = StringType()
-    category = StringType()
+    classification: CPVClassification
+    additionalClassifications: list[AdditionalClassification] = []
+    unit: Unit | None = None
+    deliveryAddress: Address | None = None
+    deliveryDate: Period | None = None
+    relatedLot: MD5 | None = None
+    relatedBuyer: MD5 | None = None
+    attributes: list[Attribute] | None = None
+    product: str | None = None
+    category: str | None = None
